@@ -31,6 +31,8 @@ type SchemasPlanPopulatedResponse struct {
 	Time int32 `json:"time"`
 	UpdatedAt string `json:"updatedAt"`
 	Uuid string `json:"uuid"`
+	WayName string `json:"wayName"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _SchemasPlanPopulatedResponse SchemasPlanPopulatedResponse
@@ -39,7 +41,7 @@ type _SchemasPlanPopulatedResponse SchemasPlanPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasPlanPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string) *SchemasPlanPopulatedResponse {
+func NewSchemasPlanPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasPlanPopulatedResponse {
 	this := SchemasPlanPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.DayReportUuid = dayReportUuid
@@ -51,6 +53,8 @@ func NewSchemasPlanPopulatedResponse(createdAt string, dayReportUuid string, des
 	this.Time = time
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
+	this.WayName = wayName
+	this.WayUuid = wayUuid
 	return &this
 }
 
@@ -302,6 +306,54 @@ func (o *SchemasPlanPopulatedResponse) SetUuid(v string) {
 	o.Uuid = v
 }
 
+// GetWayName returns the WayName field value
+func (o *SchemasPlanPopulatedResponse) GetWayName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayName
+}
+
+// GetWayNameOk returns a tuple with the WayName field value
+// and a boolean to check if the value has been set.
+func (o *SchemasPlanPopulatedResponse) GetWayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayName, true
+}
+
+// SetWayName sets field value
+func (o *SchemasPlanPopulatedResponse) SetWayName(v string) {
+	o.WayName = v
+}
+
+// GetWayUuid returns the WayUuid field value
+func (o *SchemasPlanPopulatedResponse) GetWayUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayUuid
+}
+
+// GetWayUuidOk returns a tuple with the WayUuid field value
+// and a boolean to check if the value has been set.
+func (o *SchemasPlanPopulatedResponse) GetWayUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayUuid, true
+}
+
+// SetWayUuid sets field value
+func (o *SchemasPlanPopulatedResponse) SetWayUuid(v string) {
+	o.WayUuid = v
+}
+
 func (o SchemasPlanPopulatedResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -322,6 +374,8 @@ func (o SchemasPlanPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["time"] = o.Time
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
+	toSerialize["wayName"] = o.WayName
+	toSerialize["wayUuid"] = o.WayUuid
 	return toSerialize, nil
 }
 
@@ -340,6 +394,8 @@ func (o *SchemasPlanPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 		"time",
 		"updatedAt",
 		"uuid",
+		"wayName",
+		"wayUuid",
 	}
 
 	allProperties := make(map[string]interface{})

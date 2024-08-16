@@ -18,7 +18,6 @@ import type {
   SchemasCreateDayReportPayload,
   SchemasDayReportPopulatedResponse,
   SchemasListDayReportsResponse,
-  SchemasUpdateDayReportPayload,
 } from '../models/index';
 import {
     SchemasCreateDayReportPayloadFromJSON,
@@ -27,8 +26,6 @@ import {
     SchemasDayReportPopulatedResponseToJSON,
     SchemasListDayReportsResponseFromJSON,
     SchemasListDayReportsResponseToJSON,
-    SchemasUpdateDayReportPayloadFromJSON,
-    SchemasUpdateDayReportPayloadToJSON,
 } from '../models/index';
 
 export interface CreateDayReportRequest {
@@ -39,11 +36,6 @@ export interface GetDayReportsRequest {
     wayId: string;
     page?: number;
     limit?: number;
-}
-
-export interface UpdateDayReportRequest {
-    dayReportId: string;
-    request: SchemasUpdateDayReportPayload;
 }
 
 /**
@@ -119,43 +111,6 @@ export class DayReportApi extends runtime.BaseAPI {
      */
     async getDayReports(requestParameters: GetDayReportsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasListDayReportsResponse> {
         const response = await this.getDayReportsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Update dayReport by UUID
-     */
-    async updateDayReportRaw(requestParameters: UpdateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasDayReportPopulatedResponse>> {
-        if (requestParameters.dayReportId === null || requestParameters.dayReportId === undefined) {
-            throw new runtime.RequiredError('dayReportId','Required parameter requestParameters.dayReportId was null or undefined when calling updateDayReport.');
-        }
-
-        if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling updateDayReport.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/dayReports/{dayReportId}`.replace(`{${"dayReportId"}}`, encodeURIComponent(String(requestParameters.dayReportId))),
-            method: 'PATCH',
-            headers: headerParameters,
-            query: queryParameters,
-            body: SchemasUpdateDayReportPayloadToJSON(requestParameters.request),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasDayReportPopulatedResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Update dayReport by UUID
-     */
-    async updateDayReport(requestParameters: UpdateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasDayReportPopulatedResponse> {
-        const response = await this.updateDayReportRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

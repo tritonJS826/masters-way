@@ -5,8 +5,7 @@ import (
 )
 
 type CreateDayReportPayload struct {
-	WayUuid  uuid.UUID `json:"wayUuid" validate:"required"`
-	IsDayOff bool      `json:"isDayOff" validate:"required"`
+	WayUuid uuid.UUID `json:"wayUuid" validate:"required"`
 }
 
 type DayReportPopulatedResponse struct {

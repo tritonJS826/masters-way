@@ -15,34 +15,26 @@ const createDayReport = `-- name: CreateDayReport :one
 INSERT INTO day_reports(
     way_uuid,
     created_at,
-    updated_at,
-    is_day_off
+    updated_at
 ) VALUES (
-    $1, $2, $3, $4
-) RETURNING uuid, way_uuid, created_at, updated_at, is_day_off
+    $1, $2, $3
+) RETURNING uuid, way_uuid, created_at, updated_at
 `
 
 type CreateDayReportParams struct {
 	WayUuid   pgtype.UUID      `json:"way_uuid"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 	UpdatedAt pgtype.Timestamp `json:"updated_at"`
-	IsDayOff  bool             `json:"is_day_off"`
 }
 
 func (q *Queries) CreateDayReport(ctx context.Context, arg CreateDayReportParams) (DayReport, error) {
-	row := q.db.QueryRow(ctx, createDayReport,
-		arg.WayUuid,
-		arg.CreatedAt,
-		arg.UpdatedAt,
-		arg.IsDayOff,
-	)
+	row := q.db.QueryRow(ctx, createDayReport, arg.WayUuid, arg.CreatedAt, arg.UpdatedAt)
 	var i DayReport
 	err := row.Scan(
 		&i.Uuid,
 		&i.WayUuid,
 		&i.CreatedAt,
 		&i.UpdatedAt,
-		&i.IsDayOff,
 	)
 	return i, err
 }
@@ -50,8 +42,8 @@ func (q *Queries) CreateDayReport(ctx context.Context, arg CreateDayReportParams
 const getDayReportsByRankRange = `-- name: GetDayReportsByRankRange :many
 WITH ranked_reports AS (
     SELECT
-        dense_rank() OVER (ORDER BY day_reports.created_at ASC) AS rank,
-        day_reports.uuid, day_reports.way_uuid, day_reports.created_at, day_reports.updated_at, day_reports.is_day_off,
+        dense_rank() OVER (ORDER BY day_reports.created_at DESC) AS rank,
+        day_reports.uuid, day_reports.way_uuid, day_reports.created_at, day_reports.updated_at,
         ways.name AS way_name
     FROM day_reports
 	INNER JOIN ways ON day_reports.way_uuid = ways.uuid
@@ -62,7 +54,7 @@ max_rank_cte AS (
         COALESCE(MAX(rank), 0)::INTEGER AS max_rank
     FROM ranked_reports
 )
-SELECT ranked_reports.rank, ranked_reports.uuid, ranked_reports.way_uuid, ranked_reports.created_at, ranked_reports.updated_at, ranked_reports.is_day_off, ranked_reports.way_name, max_rank_cte.max_rank
+SELECT ranked_reports.rank, ranked_reports.uuid, ranked_reports.way_uuid, ranked_reports.created_at, ranked_reports.updated_at, ranked_reports.way_name, max_rank_cte.max_rank
 FROM ranked_reports, max_rank_cte
 WHERE rank BETWEEN ($1::INTEGER) AND ($2::INTEGER)
 ORDER BY rank
@@ -80,7 +72,6 @@ type GetDayReportsByRankRangeRow struct {
 	WayUuid   pgtype.UUID      `json:"way_uuid"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 	UpdatedAt pgtype.Timestamp `json:"updated_at"`
-	IsDayOff  bool             `json:"is_day_off"`
 	WayName   string           `json:"way_name"`
 	MaxRank   int32            `json:"max_rank"`
 }
@@ -100,7 +91,6 @@ func (q *Queries) GetDayReportsByRankRange(ctx context.Context, arg GetDayReport
 			&i.WayUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
-			&i.IsDayOff,
 			&i.WayName,
 			&i.MaxRank,
 		); err != nil {
@@ -129,7 +119,7 @@ func (q *Queries) GetDayReportsCountByWayId(ctx context.Context, wayUuid pgtype.
 }
 
 const getListDayReportsByWayUuid = `-- name: GetListDayReportsByWayUuid :many
-SELECT uuid, way_uuid, created_at, updated_at, is_day_off
+SELECT uuid, way_uuid, created_at, updated_at
 FROM day_reports
 WHERE day_reports.way_uuid = $1
 ORDER BY day_reports.created_at DESC
@@ -157,7 +147,6 @@ func (q *Queries) GetListDayReportsByWayUuid(ctx context.Context, arg GetListDay
 			&i.WayUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
-			&i.IsDayOff,
 		); err != nil {
 			return nil, err
 		}

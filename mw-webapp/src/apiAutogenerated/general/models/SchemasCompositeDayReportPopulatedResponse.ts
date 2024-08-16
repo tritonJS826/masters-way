@@ -19,6 +19,12 @@ import {
     SchemasCommentPopulatedResponseFromJSONTyped,
     SchemasCommentPopulatedResponseToJSON,
 } from './SchemasCommentPopulatedResponse';
+import type { SchemasDayReportsCompositionParticipants } from './SchemasDayReportsCompositionParticipants';
+import {
+    SchemasDayReportsCompositionParticipantsFromJSON,
+    SchemasDayReportsCompositionParticipantsFromJSONTyped,
+    SchemasDayReportsCompositionParticipantsToJSON,
+} from './SchemasDayReportsCompositionParticipants';
 import type { SchemasJobDonePopulatedResponse } from './SchemasJobDonePopulatedResponse';
 import {
     SchemasJobDonePopulatedResponseFromJSON,
@@ -41,104 +47,104 @@ import {
 /**
  * 
  * @export
- * @interface SchemasDayReportPopulatedResponse
+ * @interface SchemasCompositeDayReportPopulatedResponse
  */
-export interface SchemasDayReportPopulatedResponse {
+export interface SchemasCompositeDayReportPopulatedResponse {
     /**
      * 
      * @type {Array<SchemasCommentPopulatedResponse>}
-     * @memberof SchemasDayReportPopulatedResponse
+     * @memberof SchemasCompositeDayReportPopulatedResponse
      */
     comments: Array<SchemasCommentPopulatedResponse>;
     /**
      * 
+     * @type {Array<SchemasDayReportsCompositionParticipants>}
+     * @memberof SchemasCompositeDayReportPopulatedResponse
+     */
+    compositionParticipants: Array<SchemasDayReportsCompositionParticipants>;
+    /**
+     * Calculated by - just date
      * @type {string}
-     * @memberof SchemasDayReportPopulatedResponse
+     * @memberof SchemasCompositeDayReportPopulatedResponse
      */
     createdAt: string;
     /**
      * 
      * @type {Array<SchemasJobDonePopulatedResponse>}
-     * @memberof SchemasDayReportPopulatedResponse
+     * @memberof SchemasCompositeDayReportPopulatedResponse
      */
     jobsDone: Array<SchemasJobDonePopulatedResponse>;
     /**
      * 
      * @type {Array<SchemasPlanPopulatedResponse>}
-     * @memberof SchemasDayReportPopulatedResponse
+     * @memberof SchemasCompositeDayReportPopulatedResponse
      */
     plans: Array<SchemasPlanPopulatedResponse>;
     /**
      * 
      * @type {Array<SchemasProblemPopulatedResponse>}
-     * @memberof SchemasDayReportPopulatedResponse
+     * @memberof SchemasCompositeDayReportPopulatedResponse
      */
     problems: Array<SchemasProblemPopulatedResponse>;
     /**
-     * 
+     * Calculated by - just last date
      * @type {string}
-     * @memberof SchemasDayReportPopulatedResponse
+     * @memberof SchemasCompositeDayReportPopulatedResponse
      */
     updatedAt: string;
     /**
-     * 
+     * Always generated
      * @type {string}
-     * @memberof SchemasDayReportPopulatedResponse
+     * @memberof SchemasCompositeDayReportPopulatedResponse
      */
     uuid: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasDayReportPopulatedResponse
-     */
-    wayUuid: string;
 }
 
 /**
- * Check if a given object implements the SchemasDayReportPopulatedResponse interface.
+ * Check if a given object implements the SchemasCompositeDayReportPopulatedResponse interface.
  */
-export function instanceOfSchemasDayReportPopulatedResponse(
+export function instanceOfSchemasCompositeDayReportPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "comments" in value;
+    isInstance = isInstance && "compositionParticipants" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "jobsDone" in value;
     isInstance = isInstance && "plans" in value;
     isInstance = isInstance && "problems" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
-    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
 
-export function SchemasDayReportPopulatedResponseFromJSON(json: any): SchemasDayReportPopulatedResponse {
-    return SchemasDayReportPopulatedResponseFromJSONTyped(json, false);
+export function SchemasCompositeDayReportPopulatedResponseFromJSON(json: any): SchemasCompositeDayReportPopulatedResponse {
+    return SchemasCompositeDayReportPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function SchemasDayReportPopulatedResponseFromJSONTyped(
+export function SchemasCompositeDayReportPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): SchemasDayReportPopulatedResponse {
+): SchemasCompositeDayReportPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'comments': ((json['comments'] as Array<any>).map(SchemasCommentPopulatedResponseFromJSON)),
+        'compositionParticipants': ((json['compositionParticipants'] as Array<any>).map(SchemasDayReportsCompositionParticipantsFromJSON)),
         'createdAt': json['createdAt'],
         'jobsDone': ((json['jobsDone'] as Array<any>).map(SchemasJobDonePopulatedResponseFromJSON)),
         'plans': ((json['plans'] as Array<any>).map(SchemasPlanPopulatedResponseFromJSON)),
         'problems': ((json['problems'] as Array<any>).map(SchemasProblemPopulatedResponseFromJSON)),
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
-        'wayUuid': json['wayUuid'],
     };
 }
 
 
-export function SchemasDayReportPopulatedResponseToJSON(value?: SchemasDayReportPopulatedResponse | null): any {
+export function SchemasCompositeDayReportPopulatedResponseToJSON(value?: SchemasCompositeDayReportPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -148,13 +154,13 @@ export function SchemasDayReportPopulatedResponseToJSON(value?: SchemasDayReport
     return {
         
         'comments': ((value.comments as Array<any>).map(SchemasCommentPopulatedResponseToJSON)),
+        'compositionParticipants': ((value.compositionParticipants as Array<any>).map(SchemasDayReportsCompositionParticipantsToJSON)),
         'createdAt': value.createdAt,
         'jobsDone': ((value.jobsDone as Array<any>).map(SchemasJobDonePopulatedResponseToJSON)),
         'plans': ((value.plans as Array<any>).map(SchemasPlanPopulatedResponseToJSON)),
         'problems': ((value.problems as Array<any>).map(SchemasProblemPopulatedResponseToJSON)),
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
-        'wayUuid': value.wayUuid,
     };
 }
 

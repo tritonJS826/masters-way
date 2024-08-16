@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DayReports** | [**[]SchemasDayReportPopulatedResponse**](SchemasDayReportPopulatedResponse.md) |  | 
+**DayReports** | [**[]SchemasCompositeDayReportPopulatedResponse**](SchemasCompositeDayReportPopulatedResponse.md) |  | 
 **Size** | **int32** |  | 
 
 ## Methods
 
 ### NewSchemasListDayReportsResponse
 
-`func NewSchemasListDayReportsResponse(dayReports []SchemasDayReportPopulatedResponse, size int32, ) *SchemasListDayReportsResponse`
+`func NewSchemasListDayReportsResponse(dayReports []SchemasCompositeDayReportPopulatedResponse, size int32, ) *SchemasListDayReportsResponse`
 
 NewSchemasListDayReportsResponse instantiates a new SchemasListDayReportsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetDayReports
 
-`func (o *SchemasListDayReportsResponse) GetDayReports() []SchemasDayReportPopulatedResponse`
+`func (o *SchemasListDayReportsResponse) GetDayReports() []SchemasCompositeDayReportPopulatedResponse`
 
 GetDayReports returns the DayReports field if non-nil, zero value otherwise.
 
 ### GetDayReportsOk
 
-`func (o *SchemasListDayReportsResponse) GetDayReportsOk() (*[]SchemasDayReportPopulatedResponse, bool)`
+`func (o *SchemasListDayReportsResponse) GetDayReportsOk() (*[]SchemasCompositeDayReportPopulatedResponse, bool)`
 
 GetDayReportsOk returns a tuple with the DayReports field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDayReports
 
-`func (o *SchemasListDayReportsResponse) SetDayReports(v []SchemasDayReportPopulatedResponse)`
+`func (o *SchemasListDayReportsResponse) SetDayReports(v []SchemasCompositeDayReportPopulatedResponse)`
 
 SetDayReports sets DayReports field to given value.
 

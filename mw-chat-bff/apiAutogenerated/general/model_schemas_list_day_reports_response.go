@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasListDayReportsResponse{}
 
 // SchemasListDayReportsResponse struct for SchemasListDayReportsResponse
 type SchemasListDayReportsResponse struct {
-	DayReports []SchemasDayReportPopulatedResponse `json:"dayReports"`
+	DayReports []SchemasCompositeDayReportPopulatedResponse `json:"dayReports"`
 	Size int32 `json:"size"`
 }
 
@@ -31,7 +31,7 @@ type _SchemasListDayReportsResponse SchemasListDayReportsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasListDayReportsResponse(dayReports []SchemasDayReportPopulatedResponse, size int32) *SchemasListDayReportsResponse {
+func NewSchemasListDayReportsResponse(dayReports []SchemasCompositeDayReportPopulatedResponse, size int32) *SchemasListDayReportsResponse {
 	this := SchemasListDayReportsResponse{}
 	this.DayReports = dayReports
 	this.Size = size
@@ -47,9 +47,9 @@ func NewSchemasListDayReportsResponseWithDefaults() *SchemasListDayReportsRespon
 }
 
 // GetDayReports returns the DayReports field value
-func (o *SchemasListDayReportsResponse) GetDayReports() []SchemasDayReportPopulatedResponse {
+func (o *SchemasListDayReportsResponse) GetDayReports() []SchemasCompositeDayReportPopulatedResponse {
 	if o == nil {
-		var ret []SchemasDayReportPopulatedResponse
+		var ret []SchemasCompositeDayReportPopulatedResponse
 		return ret
 	}
 
@@ -58,7 +58,7 @@ func (o *SchemasListDayReportsResponse) GetDayReports() []SchemasDayReportPopula
 
 // GetDayReportsOk returns a tuple with the DayReports field value
 // and a boolean to check if the value has been set.
-func (o *SchemasListDayReportsResponse) GetDayReportsOk() ([]SchemasDayReportPopulatedResponse, bool) {
+func (o *SchemasListDayReportsResponse) GetDayReportsOk() ([]SchemasCompositeDayReportPopulatedResponse, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -66,7 +66,7 @@ func (o *SchemasListDayReportsResponse) GetDayReportsOk() ([]SchemasDayReportPop
 }
 
 // SetDayReports sets field value
-func (o *SchemasListDayReportsResponse) SetDayReports(v []SchemasDayReportPopulatedResponse) {
+func (o *SchemasListDayReportsResponse) SetDayReports(v []SchemasCompositeDayReportPopulatedResponse) {
 	o.DayReports = v
 }
 

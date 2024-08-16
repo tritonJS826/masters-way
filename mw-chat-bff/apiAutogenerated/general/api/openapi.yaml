@@ -228,34 +228,6 @@ paths:
       tags:
       - dayReport
       x-codegen-request-body-name: request
-  /dayReports/{dayReportId}:
-    patch:
-      operationId: update-dayReport
-      parameters:
-      - description: dayReport ID
-        in: path
-        name: dayReportId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.UpdateDayReportPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
-          description: OK
-      summary: Update dayReport by UUID
-      tags:
-      - dayReport
-      x-codegen-request-body-name: request
   /dayReports/{wayId}:
     get:
       operationId: get-day-reports
@@ -827,47 +799,6 @@ paths:
       tags:
       - plan
       x-codegen-request-body-name: request
-  /problemJobTags:
-    post:
-      operationId: create-problemJobTag
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.CreateProblemJobTagPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content: {}
-          description: OK
-      summary: Create a new problemJobTag
-      tags:
-      - problemJobTag
-      x-codegen-request-body-name: request
-  /problemJobTags/{jobTagId}/{problemId}:
-    delete:
-      operationId: delete-problemJobTag
-      parameters:
-      - description: problem ID
-        in: path
-        name: problemId
-        required: true
-        schema:
-          type: string
-      - description: jobTag ID
-        in: path
-        name: jobTagId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content: {}
-          description: OK
-      summary: Delete problemJobTag by UUID
-      tags:
-      - problemJobTag
   /problems:
     post:
       operationId: create-problem
@@ -1449,7 +1380,9 @@ components:
       example:
         createdAt: createdAt
         ownerUuid: ownerUuid
+        wayName: wayName
         ownerName: ownerName
+        wayUuid: wayUuid
         description: description
         dayReportUuid: dayReportUuid
         uuid: uuid
@@ -1469,12 +1402,190 @@ components:
           type: string
         uuid:
           type: string
+        wayName:
+          type: string
+        wayUuid:
+          type: string
       required:
       - createdAt
       - dayReportUuid
       - description
       - ownerName
       - ownerUuid
+      - updatedAt
+      - uuid
+      - wayName
+      - wayUuid
+      type: object
+    schemas.CompositeDayReportPopulatedResponse:
+      example:
+        createdAt: createdAt
+        comments:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          updatedAt: updatedAt
+        plans:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 6
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 6
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        jobsDone:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 0
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 0
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        compositionParticipants:
+        - wayId: wayId
+          dayReportId: dayReportId
+          wayName: wayName
+        - wayId: wayId
+          dayReportId: dayReportId
+          wayName: wayName
+        uuid: uuid
+        problems:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          updatedAt: updatedAt
+        updatedAt: updatedAt
+      properties:
+        comments:
+          items:
+            $ref: '#/components/schemas/schemas.CommentPopulatedResponse'
+          type: array
+        compositionParticipants:
+          items:
+            $ref: '#/components/schemas/schemas.DayReportsCompositionParticipants'
+          type: array
+        createdAt:
+          description: Calculated by - just date
+          type: string
+        jobsDone:
+          items:
+            $ref: '#/components/schemas/schemas.JobDonePopulatedResponse'
+          type: array
+        plans:
+          items:
+            $ref: '#/components/schemas/schemas.PlanPopulatedResponse'
+          type: array
+        problems:
+          items:
+            $ref: '#/components/schemas/schemas.ProblemPopulatedResponse'
+          type: array
+        updatedAt:
+          description: Calculated by - just last date
+          type: string
+        uuid:
+          description: Always generated
+          type: string
+      required:
+      - comments
+      - compositionParticipants
+      - createdAt
+      - jobsDone
+      - plans
+      - problems
       - updatedAt
       - uuid
       type: object
@@ -1506,12 +1617,9 @@ components:
       type: object
     schemas.CreateDayReportPayload:
       properties:
-        isDayOff:
-          type: boolean
         wayUuid:
           type: string
       required:
-      - isDayOff
       - wayUuid
       type: object
     schemas.CreateFavoriteUserPayload:
@@ -1649,16 +1757,6 @@ components:
       - ownerUuid
       - time
       type: object
-    schemas.CreateProblemJobTagPayload:
-      properties:
-        jobTagUuid:
-          type: string
-        problemUuid:
-          type: string
-      required:
-      - jobTagUuid
-      - problemUuid
-      type: object
     schemas.CreateProblemPayload:
       properties:
         dayReportUuid:
@@ -1757,14 +1855,18 @@ components:
         comments:
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           dayReportUuid: dayReportUuid
           uuid: uuid
           updatedAt: updatedAt
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           dayReportUuid: dayReportUuid
           uuid: uuid
@@ -1772,7 +1874,9 @@ components:
         plans:
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           time: 6
           dayReportUuid: dayReportUuid
@@ -1790,7 +1894,9 @@ components:
           updatedAt: updatedAt
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           time: 6
           dayReportUuid: dayReportUuid
@@ -1806,10 +1912,13 @@ components:
             description: description
             uuid: uuid
           updatedAt: updatedAt
+        wayUuid: wayUuid
         jobsDone:
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           time: 0
           dayReportUuid: dayReportUuid
@@ -1826,7 +1935,9 @@ components:
           updatedAt: updatedAt
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           time: 0
           dayReportUuid: dayReportUuid
@@ -1841,42 +1952,27 @@ components:
             description: description
             uuid: uuid
           updatedAt: updatedAt
-        isDayOff: true
         uuid: uuid
         problems:
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           dayReportUuid: dayReportUuid
           isDone: true
           uuid: uuid
-          tags:
-          - color: color
-            name: name
-            description: description
-            uuid: uuid
-          - color: color
-            name: name
-            description: description
-            uuid: uuid
           updatedAt: updatedAt
         - createdAt: createdAt
           ownerUuid: ownerUuid
+          wayName: wayName
           ownerName: ownerName
+          wayUuid: wayUuid
           description: description
           dayReportUuid: dayReportUuid
           isDone: true
           uuid: uuid
-          tags:
-          - color: color
-            name: name
-            description: description
-            uuid: uuid
-          - color: color
-            name: name
-            description: description
-            uuid: uuid
           updatedAt: updatedAt
         updatedAt: updatedAt
       properties:
@@ -1886,8 +1982,6 @@ components:
           type: array
         createdAt:
           type: string
-        isDayOff:
-          type: boolean
         jobsDone:
           items:
             $ref: '#/components/schemas/schemas.JobDonePopulatedResponse'
@@ -1904,15 +1998,34 @@ components:
           type: string
         uuid:
           type: string
+        wayUuid:
+          type: string
       required:
       - comments
       - createdAt
-      - isDayOff
       - jobsDone
       - plans
       - problems
       - updatedAt
       - uuid
+      - wayUuid
+      type: object
+    schemas.DayReportsCompositionParticipants:
+      example:
+        wayId: wayId
+        dayReportId: dayReportId
+        wayName: wayName
+      properties:
+        dayReportId:
+          type: string
+        wayId:
+          type: string
+        wayName:
+          type: string
+      required:
+      - dayReportId
+      - wayId
+      - wayName
       type: object
     schemas.DefaultWayCollections:
       example:
@@ -2412,7 +2525,9 @@ components:
       example:
         createdAt: createdAt
         ownerUuid: ownerUuid
+        wayName: wayName
         ownerName: ownerName
+        wayUuid: wayUuid
         description: description
         time: 0
         dayReportUuid: dayReportUuid
@@ -2448,6 +2563,10 @@ components:
           type: string
         uuid:
           type: string
+        wayName:
+          type: string
+        wayUuid:
+          type: string
       required:
       - createdAt
       - dayReportUuid
@@ -2458,6 +2577,8 @@ components:
       - time
       - updatedAt
       - uuid
+      - wayName
+      - wayUuid
       type: object
     schemas.JobTagResponse:
       example:
@@ -2566,14 +2687,18 @@ components:
           comments:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             uuid: uuid
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             uuid: uuid
@@ -2581,7 +2706,9 @@ components:
           plans:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 6
             dayReportUuid: dayReportUuid
@@ -2599,7 +2726,9 @@ components:
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 6
             dayReportUuid: dayReportUuid
@@ -2618,7 +2747,9 @@ components:
           jobsDone:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 0
             dayReportUuid: dayReportUuid
@@ -2635,7 +2766,9 @@ components:
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 0
             dayReportUuid: dayReportUuid
@@ -2650,56 +2783,52 @@ components:
               description: description
               uuid: uuid
             updatedAt: updatedAt
-          isDayOff: true
+          compositionParticipants:
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
           uuid: uuid
           problems:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             isDone: true
             uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             isDone: true
             uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
             updatedAt: updatedAt
           updatedAt: updatedAt
         - createdAt: createdAt
           comments:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             uuid: uuid
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             uuid: uuid
@@ -2707,7 +2836,9 @@ components:
           plans:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 6
             dayReportUuid: dayReportUuid
@@ -2725,7 +2856,9 @@ components:
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 6
             dayReportUuid: dayReportUuid
@@ -2744,7 +2877,9 @@ components:
           jobsDone:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 0
             dayReportUuid: dayReportUuid
@@ -2761,7 +2896,9 @@ components:
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             time: 0
             dayReportUuid: dayReportUuid
@@ -2776,49 +2913,41 @@ components:
               description: description
               uuid: uuid
             updatedAt: updatedAt
-          isDayOff: true
+          compositionParticipants:
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
           uuid: uuid
           problems:
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             isDone: true
             uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
             updatedAt: updatedAt
           - createdAt: createdAt
             ownerUuid: ownerUuid
+            wayName: wayName
             ownerName: ownerName
+            wayUuid: wayUuid
             description: description
             dayReportUuid: dayReportUuid
             isDone: true
             uuid: uuid
-            tags:
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
-            - color: color
-              name: name
-              description: description
-              uuid: uuid
             updatedAt: updatedAt
           updatedAt: updatedAt
         size: 0
       properties:
         dayReports:
           items:
-            $ref: '#/components/schemas/schemas.DayReportPopulatedResponse'
+            $ref: '#/components/schemas/schemas.CompositeDayReportPopulatedResponse'
           type: array
         size:
           type: integer
@@ -2885,7 +3014,9 @@ components:
       example:
         createdAt: createdAt
         ownerUuid: ownerUuid
+        wayName: wayName
         ownerName: ownerName
+        wayUuid: wayUuid
         description: description
         time: 6
         dayReportUuid: dayReportUuid
@@ -2924,6 +3055,10 @@ components:
           type: string
         uuid:
           type: string
+        wayName:
+          type: string
+        wayUuid:
+          type: string
       required:
       - createdAt
       - dayReportUuid
@@ -2935,25 +3070,20 @@ components:
       - time
       - updatedAt
       - uuid
+      - wayName
+      - wayUuid
       type: object
     schemas.ProblemPopulatedResponse:
       example:
         createdAt: createdAt
         ownerUuid: ownerUuid
+        wayName: wayName
         ownerName: ownerName
+        wayUuid: wayUuid
         description: description
         dayReportUuid: dayReportUuid
         isDone: true
         uuid: uuid
-        tags:
-        - color: color
-          name: name
-          description: description
-          uuid: uuid
-        - color: color
-          name: name
-          description: description
-          uuid: uuid
         updatedAt: updatedAt
       properties:
         createdAt:
@@ -2968,13 +3098,13 @@ components:
           type: string
         ownerUuid:
           type: string
-        tags:
-          items:
-            $ref: '#/components/schemas/schemas.JobTagResponse'
-          type: array
         updatedAt:
           type: string
         uuid:
+          type: string
+        wayName:
+          type: string
+        wayUuid:
           type: string
       required:
       - createdAt
@@ -2983,9 +3113,10 @@ components:
       - isDone
       - ownerName
       - ownerUuid
-      - tags
       - updatedAt
       - uuid
+      - wayName
+      - wayUuid
       type: object
     schemas.TimeSpentByDayPoint:
       example:
@@ -3004,11 +3135,6 @@ components:
       properties:
         description:
           type: string
-      type: object
-    schemas.UpdateDayReportPayload:
-      properties:
-        isDayOff:
-          type: boolean
       type: object
     schemas.UpdateJobDone:
       properties:

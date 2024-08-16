@@ -129,12 +129,9 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 
 	dbProblems, _ := db.GetProblemsByDayReportUuids(ctx, dayReportPgUUIDs)
 	problemsMap := make(map[string][]schemas.ProblemPopulatedResponse)
-	lo.ForEach(dbProblems, func(problem dbb.GetProblemsByDayReportUuidsRow, i int) {
+	lo.ForEach(dbProblems, func(problem dbb.Problem, i int) {
 		problemOwnerUUIDString := util.ConvertPgUUIDToUUID(problem.OwnerUuid).String()
 		problemOwner := allWayRelatedUsersMap[problemOwnerUUIDString]
-		tags := lo.Map(problem.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
-			return jobTagsMap[tagUuid]
-		})
 		dayReportUUIDString := util.ConvertPgUUIDToUUID(problem.DayReportUuid).String()
 		problemsMap[dayReportUUIDString] = append(
 			problemsMap[dayReportUUIDString],
@@ -148,7 +145,6 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				DayReportUuid: dayReportUUIDString,
 				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
 				WayName:       wayMap[dayReportUUIDString].WayName,
-				Tags:          tags,
 				IsDone:        problem.IsDone,
 			},
 		)
@@ -177,10 +173,11 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 	})
 
 	dayReports := make([]schemas.CompositeDayReportPopulatedResponse, 0, params.ReqLimit)
-	rank := dayReportsRaw[0].Rank
+	firstDayReportRaw := dayReportsRaw[0]
+	rank := firstDayReportRaw.Rank
 
-	firstDayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].Uuid).String()
-	firstWayUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].WayUuid).String()
+	firstDayReportUUIDString := util.ConvertPgUUIDToUUID(firstDayReportRaw.Uuid).String()
+	firstWayUUIDString := util.ConvertPgUUIDToUUID(firstDayReportRaw.WayUuid).String()
 
 	jobDonesSlice := []schemas.JobDonePopulatedResponse{}
 	jobDones, jobDonesExists := jobDonesMap[firstDayReportUUIDString]
@@ -206,16 +203,16 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 		commentsSlice = comments
 	}
 
-	newUUID, _ := uuid.NewRandom()
+	firstNewUUID, _ := uuid.NewRandom()
 	currentDayReport := schemas.CompositeDayReportPopulatedResponse{
-		UUID:      newUUID.String(),
-		CreatedAt: dayReportsRaw[0].CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt: dayReportsRaw[0].UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+		UUID:      firstNewUUID.String(),
+		CreatedAt: firstDayReportRaw.CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: firstDayReportRaw.UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
 		CompositionParticipants: []schemas.DayReportsCompositionParticipants{
 			{
 				DayReportID: firstDayReportUUIDString,
 				WayID:       firstWayUUIDString,
-				WayName:     dayReportsRaw[0].WayName,
+				WayName:     firstDayReportRaw.WayName,
 			},
 		},
 		JobsDone: jobDonesSlice,
@@ -225,10 +222,11 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 	}
 
 	for i := 1; i < len(dayReportsRaw); i++ {
-		currentDayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[i].Uuid).String()
-		currentWayUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[i].WayUuid).String()
+		currentDayReportRaw := dayReportsRaw[i]
+		currentDayReportUUIDString := util.ConvertPgUUIDToUUID(currentDayReportRaw.Uuid).String()
+		currentWayUUIDString := util.ConvertPgUUIDToUUID(currentDayReportRaw.WayUuid).String()
 
-		if dayReportsRaw[i].Rank == rank {
+		if currentDayReportRaw.Rank == rank {
 			currentDayReport.JobsDone = append(currentDayReport.JobsDone, jobDonesMap[currentDayReportUUIDString]...)
 			currentDayReport.Plans = append(currentDayReport.Plans, plansMap[currentDayReportUUIDString]...)
 			currentDayReport.Problems = append(currentDayReport.Problems, problemsMap[currentDayReportUUIDString]...)
@@ -236,12 +234,12 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 			currentDayReport.CompositionParticipants = append(currentDayReport.CompositionParticipants, schemas.DayReportsCompositionParticipants{
 				DayReportID: currentDayReportUUIDString,
 				WayID:       currentWayUUIDString,
-				WayName:     dayReportsRaw[i].WayName,
+				WayName:     currentDayReportRaw.WayName,
 			})
 		} else {
 			dayReports = append(dayReports, currentDayReport)
 
-			rank = dayReportsRaw[i].Rank
+			rank = currentDayReportRaw.Rank
 
 			currentJobDonesSlice := []schemas.JobDonePopulatedResponse{}
 			jobDones, jobDonesExists := jobDonesMap[firstDayReportUUIDString]
@@ -270,13 +268,13 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 			currentNewUUID, _ := uuid.NewRandom()
 			currentDayReport = schemas.CompositeDayReportPopulatedResponse{
 				UUID:      currentNewUUID.String(),
-				CreatedAt: dayReportsRaw[i].CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt: dayReportsRaw[i].UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+				CreatedAt: currentDayReportRaw.CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt: currentDayReportRaw.UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
 				CompositionParticipants: []schemas.DayReportsCompositionParticipants{
 					{
 						DayReportID: currentDayReportUUIDString,
 						WayID:       currentWayUUIDString,
-						WayName:     dayReportsRaw[i].WayName,
+						WayName:     currentDayReportRaw.WayName,
 					},
 				},
 				JobsDone: currentJobDonesSlice,
@@ -289,12 +287,10 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 
 	dayReports = append(dayReports, currentDayReport)
 
-	response := &schemas.ListDayReportsResponse{
+	return &schemas.ListDayReportsResponse{
 		DayReports: dayReports,
-		Size:       int(dayReportsRaw[0].MaxRank),
-	}
-
-	return response, nil
+		Size:       int(firstDayReportRaw.MaxRank),
+	}, nil
 }
 
 type GetLastDayReportDateResponse struct {

@@ -2,10 +2,9 @@
 INSERT INTO day_reports(
     way_uuid,
     created_at,
-    updated_at,
-    is_day_off
+    updated_at
 ) VALUES (
-    @way_uuid, @created_at, @updated_at, @is_day_off
+    @way_uuid, @created_at, @updated_at
 ) RETURNING *;
 
 -- name: GetListDayReportsByWayUuid :many
@@ -25,7 +24,7 @@ WHERE way_uuid = @way_uuid;
 -- name: GetDayReportsByRankRange :many
 WITH ranked_reports AS (
     SELECT
-        dense_rank() OVER (ORDER BY day_reports.created_at ASC) AS rank,
+        dense_rank() OVER (ORDER BY day_reports.created_at DESC) AS rank,
         day_reports.*,
         ways.name AS way_name
     FROM day_reports

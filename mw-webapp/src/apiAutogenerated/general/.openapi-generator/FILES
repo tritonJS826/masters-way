@@ -16,7 +16,6 @@ apis/MetricApi.ts
 apis/PlanApi.ts
 apis/PlanJobTagApi.ts
 apis/ProblemApi.ts
-apis/ProblemJobTagApi.ts
 apis/ToUserMentoringRequestApi.ts
 apis/UserApi.ts
 apis/UserTagApi.ts
@@ -28,6 +27,7 @@ apis/index.ts
 index.ts
 models/SchemasAddWayToCompositeWayPayload.ts
 models/SchemasCommentPopulatedResponse.ts
+models/SchemasCompositeDayReportPopulatedResponse.ts
 models/SchemasCompositeWayRelation.ts
 models/SchemasCreateCommentPayload.ts
 models/SchemasCreateDayReportPayload.ts
@@ -41,7 +41,6 @@ models/SchemasCreateMentorUserWayPayload.ts
 models/SchemasCreateMetricPayload.ts
 models/SchemasCreatePlanJobTagPayload.ts
 models/SchemasCreatePlanPayload.ts
-models/SchemasCreateProblemJobTagPayload.ts
 models/SchemasCreateProblemPayload.ts
 models/SchemasCreateUserMentoringRequestPayload.ts
 models/SchemasCreateUserTagPayload.ts
@@ -50,6 +49,7 @@ models/SchemasCreateWayCollectionWay.ts
 models/SchemasCreateWayPayload.ts
 models/SchemasCreateWayTagPayload.ts
 models/SchemasDayReportPopulatedResponse.ts
+models/SchemasDayReportsCompositionParticipants.ts
 models/SchemasDefaultWayCollections.ts
 models/SchemasDeleteMentorUserWayPayload.ts
 models/SchemasGenerateMetricsPayload.ts
@@ -68,7 +68,6 @@ models/SchemasPlanPopulatedResponse.ts
 models/SchemasProblemPopulatedResponse.ts
 models/SchemasTimeSpentByDayPoint.ts
 models/SchemasUpdateCommentPayload.ts
-models/SchemasUpdateDayReportPayload.ts
 models/SchemasUpdateJobDone.ts
 models/SchemasUpdateJobTagPayload.ts
 models/SchemasUpdateMetricPayload.ts

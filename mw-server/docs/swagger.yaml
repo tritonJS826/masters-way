@@ -107,12 +107,9 @@ definitions:
     type: object
   schemas.CreateDayReportPayload:
     properties:
-      isDayOff:
-        type: boolean
       wayUuid:
         type: string
     required:
-    - isDayOff
     - wayUuid
     type: object
   schemas.CreateFavoriteUserPayload:
@@ -249,16 +246,6 @@ definitions:
     - isDone
     - ownerUuid
     - time
-    type: object
-  schemas.CreateProblemJobTagPayload:
-    properties:
-      jobTagUuid:
-        type: string
-      problemUuid:
-        type: string
-    required:
-    - jobTagUuid
-    - problemUuid
     type: object
   schemas.CreateProblemPayload:
     properties:
@@ -685,10 +672,6 @@ definitions:
         type: string
       ownerUuid:
         type: string
-      tags:
-        items:
-          $ref: '#/definitions/schemas.JobTagResponse'
-        type: array
       updatedAt:
         type: string
       uuid:
@@ -704,7 +687,6 @@ definitions:
     - isDone
     - ownerName
     - ownerUuid
-    - tags
     - updatedAt
     - uuid
     - wayName
@@ -1983,50 +1965,6 @@ paths:
       summary: Update plan by UUID
       tags:
       - plan
-  /problemJobTags:
-    post:
-      consumes:
-      - application/json
-      operationId: create-problemJobTag
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateProblemJobTagPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-      summary: Create a new problemJobTag
-      tags:
-      - problemJobTag
-  /problemJobTags/{jobTagId}/{problemId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-problemJobTag
-      parameters:
-      - description: problem ID
-        in: path
-        name: problemId
-        required: true
-        type: string
-      - description: jobTag ID
-        in: path
-        name: jobTagId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-      summary: Delete problemJobTag by UUID
-      tags:
-      - problemJobTag
   /problems:
     post:
       consumes:

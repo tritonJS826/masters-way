@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasDayReportPopulatedResponse } from './SchemasDayReportPopulatedResponse';
+import type { SchemasCompositeDayReportPopulatedResponse } from './SchemasCompositeDayReportPopulatedResponse';
 import {
-    SchemasDayReportPopulatedResponseFromJSON,
-    SchemasDayReportPopulatedResponseFromJSONTyped,
-    SchemasDayReportPopulatedResponseToJSON,
-} from './SchemasDayReportPopulatedResponse';
+    SchemasCompositeDayReportPopulatedResponseFromJSON,
+    SchemasCompositeDayReportPopulatedResponseFromJSONTyped,
+    SchemasCompositeDayReportPopulatedResponseToJSON,
+} from './SchemasCompositeDayReportPopulatedResponse';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface SchemasListDayReportsResponse {
     /**
      * 
-     * @type {Array<SchemasDayReportPopulatedResponse>}
+     * @type {Array<SchemasCompositeDayReportPopulatedResponse>}
      * @memberof SchemasListDayReportsResponse
      */
-    dayReports: Array<SchemasDayReportPopulatedResponse>;
+    dayReports: Array<SchemasCompositeDayReportPopulatedResponse>;
     /**
      * 
      * @type {number}
@@ -66,7 +66,7 @@ export function SchemasListDayReportsResponseFromJSONTyped(
     }
     return {
         
-        'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPopulatedResponseFromJSON)),
+        'dayReports': ((json['dayReports'] as Array<any>).map(SchemasCompositeDayReportPopulatedResponseFromJSON)),
         'size': json['size'],
     };
 }
@@ -81,7 +81,7 @@ export function SchemasListDayReportsResponseToJSON(value?: SchemasListDayReport
     }
     return {
         
-        'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPopulatedResponseToJSON)),
+        'dayReports': ((value.dayReports as Array<any>).map(SchemasCompositeDayReportPopulatedResponseToJSON)),
         'size': value.size,
     };
 }

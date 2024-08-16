@@ -1283,73 +1283,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/problemJobTags": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "problemJobTag"
-                ],
-                "summary": "Create a new problemJobTag",
-                "operationId": "create-problemJobTag",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateProblemJobTagPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "/problemJobTags/{jobTagId}/{problemId}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "problemJobTag"
-                ],
-                "summary": "Delete problemJobTag by UUID",
-                "operationId": "delete-problemJobTag",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "problem ID",
-                        "name": "problemId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "jobTag ID",
-                        "name": "jobTagId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
         "/problems": {
             "post": {
                 "consumes": [
@@ -2381,13 +2314,9 @@ const docTemplate = `{
         "schemas.CreateDayReportPayload": {
             "type": "object",
             "required": [
-                "isDayOff",
                 "wayUuid"
             ],
             "properties": {
-                "isDayOff": {
-                    "type": "boolean"
-                },
                 "wayUuid": {
                     "type": "string"
                 }
@@ -2587,21 +2516,6 @@ const docTemplate = `{
                 },
                 "time": {
                     "type": "integer"
-                }
-            }
-        },
-        "schemas.CreateProblemJobTagPayload": {
-            "type": "object",
-            "required": [
-                "jobTagUuid",
-                "problemUuid"
-            ],
-            "properties": {
-                "jobTagUuid": {
-                    "type": "string"
-                },
-                "problemUuid": {
-                    "type": "string"
                 }
             }
         },
@@ -3205,7 +3119,6 @@ const docTemplate = `{
                 "isDone",
                 "ownerName",
                 "ownerUuid",
-                "tags",
                 "updatedAt",
                 "uuid",
                 "wayName",
@@ -3229,12 +3142,6 @@ const docTemplate = `{
                 },
                 "ownerUuid": {
                     "type": "string"
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
-                    }
                 },
                 "updatedAt": {
                     "type": "string"

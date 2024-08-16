@@ -106,7 +106,6 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		WayUuid:   pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
 		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
-		IsDayOff:  payload.IsDayOff,
 	}
 
 	dbDayReport, err := cc.db.CreateDayReport(ctx, args)

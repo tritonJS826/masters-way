@@ -80,6 +80,18 @@ export interface SchemasJobDonePopulatedResponse {
      * @memberof SchemasJobDonePopulatedResponse
      */
     uuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasJobDonePopulatedResponse
+     */
+    wayName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasJobDonePopulatedResponse
+     */
+    wayUuid: string;
 }
 
 /**
@@ -98,6 +110,8 @@ export function instanceOfSchemasJobDonePopulatedResponse(
     isInstance = isInstance && "time" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayName" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -124,6 +138,8 @@ export function SchemasJobDonePopulatedResponseFromJSONTyped(
         'time': json['time'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
+        'wayName': json['wayName'],
+        'wayUuid': json['wayUuid'],
     };
 }
 
@@ -146,6 +162,8 @@ export function SchemasJobDonePopulatedResponseToJSON(value?: SchemasJobDonePopu
         'time': value.time,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
+        'wayName': value.wayName,
+        'wayUuid': value.wayUuid,
     };
 }
 

@@ -86,6 +86,18 @@ export interface SchemasPlanPopulatedResponse {
      * @memberof SchemasPlanPopulatedResponse
      */
     uuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasPlanPopulatedResponse
+     */
+    wayName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasPlanPopulatedResponse
+     */
+    wayUuid: string;
 }
 
 /**
@@ -105,6 +117,8 @@ export function instanceOfSchemasPlanPopulatedResponse(
     isInstance = isInstance && "time" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayName" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -132,6 +146,8 @@ export function SchemasPlanPopulatedResponseFromJSONTyped(
         'time': json['time'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
+        'wayName': json['wayName'],
+        'wayUuid': json['wayUuid'],
     };
 }
 
@@ -155,6 +171,8 @@ export function SchemasPlanPopulatedResponseToJSON(value?: SchemasPlanPopulatedR
         'time': value.time,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
+        'wayName': value.wayName,
+        'wayUuid': value.wayUuid,
     };
 }
 

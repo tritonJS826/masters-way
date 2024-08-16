@@ -74,7 +74,6 @@ CREATE TABLE "day_reports"(
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "is_day_off" BOOLEAN NOT NULL,
     CONSTRAINT "day_reports_pkey" PRIMARY KEY("uuid")
 );
 

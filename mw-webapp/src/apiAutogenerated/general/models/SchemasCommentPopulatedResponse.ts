@@ -61,6 +61,18 @@ export interface SchemasCommentPopulatedResponse {
      * @memberof SchemasCommentPopulatedResponse
      */
     uuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasCommentPopulatedResponse
+     */
+    wayName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasCommentPopulatedResponse
+     */
+    wayUuid: string;
 }
 
 /**
@@ -77,6 +89,8 @@ export function instanceOfSchemasCommentPopulatedResponse(
     isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayName" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -101,6 +115,8 @@ export function SchemasCommentPopulatedResponseFromJSONTyped(
         'ownerUuid': json['ownerUuid'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
+        'wayName': json['wayName'],
+        'wayUuid': json['wayUuid'],
     };
 }
 
@@ -121,6 +137,8 @@ export function SchemasCommentPopulatedResponseToJSON(value?: SchemasCommentPopu
         'ownerUuid': value.ownerUuid,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
+        'wayName': value.wayName,
+        'wayUuid': value.wayUuid,
     };
 }
 
