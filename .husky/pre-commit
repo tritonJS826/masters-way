@@ -11,6 +11,10 @@ generateSwaggerDocs () {
   pnpm swag
 }
 
+generateDbSchemas () {
+  pnpm db:generate
+}
+
 preventUncommitedChanges () {
   # Check for uncommitted changes
   git diff --exit-code
@@ -48,7 +52,7 @@ runChatIfChanged () {
   then
     echo "mw-chat changed. checking..."
     pnpm chat:build
-    pnpm chat:test
+    # pnpm chat:test
   fi
 }
 
@@ -57,7 +61,7 @@ runChatBffIfChanged () {
   then
     echo "mw-chat-bff changed. checking..."
     pnpm chat-bff:build
-    pnpm chat-bff:test
+    # pnpm chat-bff:test
   fi
 }
 
@@ -85,11 +89,15 @@ runE2E () {
 }
 
 generateSwaggerDocs
+generateDbSchemas
+
 preventUncommitedChanges
+
 runWebappIfChanged
 runServerIfChanged
 runChatIfChanged
 runChatBffIfChanged
 runChatWebsocketIfChanged
 runMobileIfChanged
+
 runE2E

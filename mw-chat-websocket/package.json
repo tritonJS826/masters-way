@@ -8,7 +8,6 @@
     "test": "make test",
     "installDependencies": "make install",
     "swag": "make swag",
-    "db-run": "make db-run",
     "help": "make help"
   },
   "keywords": [],

@@ -2,18 +2,6 @@
 
 [Deploy service "qovery"](https://www.qovery.com/pricing/)
 
-Requrements
-
-- Docker 24.0.7
-- Docker-compose 1.29.2
-- golang 1.22.4
-
-make golang packages visible in cli (or add this line to .bashrc in the home directory):
-
-```
-    export PATH=$PATH:$(go env GOPATH)/bin
-```
-
 ### Start database
 
 1. run postgres container

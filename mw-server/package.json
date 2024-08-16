@@ -8,7 +8,8 @@
     "test": "make test",
     "installDependencies": "make install",
     "swag": "make swag",
-    "db-run": "make db-run",
+    "db:run": "make db-run",
+    "db:generate": "make db-schema",
     "help": "make help"
   },
   "keywords": [],

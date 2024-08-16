@@ -29,7 +29,8 @@
     "prepare": "husky install",
     "swag": "pnpm --recursive swag",
     "test": "pnpm --recursive test",
-    "api:generate": "pnpm --recursive api:generate"
+    "api:generate": "pnpm --recursive api:generate",
+    "db:generate": "pnpm --recursive db:generate"
   },
   "keywords": [],
   "author": "",
