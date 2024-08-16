@@ -26,6 +26,10 @@ definitions:
         type: string
       uuid:
         type: string
+      wayName:
+        type: string
+      wayUuid:
+        type: string
     required:
     - createdAt
     - dayReportUuid
@@ -34,6 +38,8 @@ definitions:
     - ownerUuid
     - updatedAt
     - uuid
+    - wayName
+    - wayUuid
     type: object
   schemas.CompositeDayReportPopulatedResponse:
     properties:
@@ -492,6 +498,10 @@ definitions:
         type: string
       uuid:
         type: string
+      wayName:
+        type: string
+      wayUuid:
+        type: string
     required:
     - createdAt
     - dayReportUuid
@@ -502,6 +512,8 @@ definitions:
     - time
     - updatedAt
     - uuid
+    - wayName
+    - wayUuid
     type: object
   schemas.JobTagResponse:
     properties:
@@ -641,6 +653,10 @@ definitions:
         type: string
       uuid:
         type: string
+      wayName:
+        type: string
+      wayUuid:
+        type: string
     required:
     - createdAt
     - dayReportUuid
@@ -652,6 +668,8 @@ definitions:
     - time
     - updatedAt
     - uuid
+    - wayName
+    - wayUuid
     type: object
   schemas.ProblemPopulatedResponse:
     properties:
@@ -675,6 +693,10 @@ definitions:
         type: string
       uuid:
         type: string
+      wayName:
+        type: string
+      wayUuid:
+        type: string
     required:
     - createdAt
     - dayReportUuid
@@ -685,6 +707,8 @@ definitions:
     - tags
     - updatedAt
     - uuid
+    - wayName
+    - wayUuid
     type: object
   schemas.TimeSpentByDayPoint:
     properties:
@@ -700,11 +724,6 @@ definitions:
     properties:
       description:
         type: string
-    type: object
-  schemas.UpdateDayReportPayload:
-    properties:
-      isDayOff:
-        type: boolean
     type: object
   schemas.UpdateJobDone:
     properties:
@@ -1362,33 +1381,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.DayReportPopulatedResponse'
       summary: Create a new dayReport
-      tags:
-      - dayReport
-  /dayReports/{dayReportId}:
-    patch:
-      consumes:
-      - application/json
-      operationId: update-dayReport
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.UpdateDayReportPayload'
-      - description: dayReport ID
-        in: path
-        name: dayReportId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.DayReportPopulatedResponse'
-      summary: Update dayReport by UUID
       tags:
       - dayReport
   /dayReports/{wayId}:

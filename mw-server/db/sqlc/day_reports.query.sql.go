@@ -168,31 +168,3 @@ func (q *Queries) GetListDayReportsByWayUuid(ctx context.Context, arg GetListDay
 	}
 	return items, nil
 }
-
-const updateDayReport = `-- name: UpdateDayReport :one
-UPDATE day_reports
-SET
-updated_at = coalesce($1, updated_at),
-is_day_off = coalesce($2, is_day_off)
-WHERE uuid = $3
-RETURNING uuid, way_uuid, created_at, updated_at, is_day_off
-`
-
-type UpdateDayReportParams struct {
-	UpdatedAt pgtype.Timestamp `json:"updated_at"`
-	IsDayOff  pgtype.Bool      `json:"is_day_off"`
-	Uuid      pgtype.UUID      `json:"uuid"`
-}
-
-func (q *Queries) UpdateDayReport(ctx context.Context, arg UpdateDayReportParams) (DayReport, error) {
-	row := q.db.QueryRow(ctx, updateDayReport, arg.UpdatedAt, arg.IsDayOff, arg.Uuid)
-	var i DayReport
-	err := row.Scan(
-		&i.Uuid,
-		&i.WayUuid,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.IsDayOff,
-	)
-	return i, err
-}

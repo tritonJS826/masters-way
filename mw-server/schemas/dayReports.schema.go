@@ -9,10 +9,6 @@ type CreateDayReportPayload struct {
 	IsDayOff bool      `json:"isDayOff" validate:"required"`
 }
 
-type UpdateDayReportPayload struct {
-	IsDayOff bool `json:"isDayOff"`
-}
-
 type DayReportPopulatedResponse struct {
 	Uuid      string                     `json:"uuid" validate:"required"`
 	WayUuid   string                     `json:"wayUuid" validate:"required"`
@@ -30,10 +26,6 @@ type DayReportsCompositionParticipants struct {
 	WayName     string `json:"wayName" validate:"required"`
 }
 
-// CompositDayReport schema
-// Job -> add wayId, wayName
-// tag -> label
-// remove isDayOff (from db)
 type CompositeDayReportPopulatedResponse struct {
 	// Always generated
 	UUID string `json:"uuid" validate:"required"`

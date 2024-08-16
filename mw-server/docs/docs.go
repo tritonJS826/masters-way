@@ -371,47 +371,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/dayReports/{dayReportId}": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "dayReport"
-                ],
-                "summary": "Update dayReport by UUID",
-                "operationId": "update-dayReport",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UpdateDayReportPayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "dayReport ID",
-                        "name": "dayReportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/dayReports/{wayId}": {
             "get": {
                 "consumes": [
@@ -2294,7 +2253,9 @@ const docTemplate = `{
                 "ownerName",
                 "ownerUuid",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -2316,6 +2277,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
                     "type": "string"
                 }
             }
@@ -2964,7 +2931,9 @@ const docTemplate = `{
                 "tags",
                 "time",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -2995,6 +2964,12 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
                     "type": "string"
                 }
             }
@@ -3175,7 +3150,9 @@ const docTemplate = `{
                 "tags",
                 "time",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -3210,6 +3187,12 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },
@@ -3224,7 +3207,9 @@ const docTemplate = `{
                 "ownerUuid",
                 "tags",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -3256,6 +3241,12 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },
@@ -3279,14 +3270,6 @@ const docTemplate = `{
             "properties": {
                 "description": {
                     "type": "string"
-                }
-            }
-        },
-        "schemas.UpdateDayReportPayload": {
-            "type": "object",
-            "properties": {
-                "isDayOff": {
-                    "type": "boolean"
                 }
             }
         },

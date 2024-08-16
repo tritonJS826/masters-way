@@ -22,14 +22,6 @@ SELECT
 FROM day_reports
 WHERE way_uuid = @way_uuid;
 
--- name: UpdateDayReport :one
-UPDATE day_reports
-SET
-updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
-is_day_off = coalesce(sqlc.narg('is_day_off'), is_day_off)
-WHERE uuid = sqlc.arg('uuid')
-RETURNING *;
-
 -- name: GetDayReportsByRankRange :many
 WITH ranked_reports AS (
     SELECT

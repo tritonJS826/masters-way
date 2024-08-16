@@ -117,51 +117,26 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	_, err = cc.db.UpdateWay(ctx, *updateWayArgs)
+	way, err := cc.db.UpdateWay(ctx, *updateWayArgs)
 	util.HandleErrorGin(ctx, err)
 
-	response := schemas.DayReportPopulatedResponse{
-		Uuid:      util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(),
-		CreatedAt: dbDayReport.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt: dbDayReport.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		JobsDone:  make([]schemas.JobDonePopulatedResponse, 0),
-		Plans:     make([]schemas.PlanPopulatedResponse, 0),
-		Problems:  make([]schemas.ProblemPopulatedResponse, 0),
-		Comments:  make([]schemas.CommentPopulatedResponse, 0),
+	newUUID, _ := uuid.NewRandom()
+	response := schemas.CompositeDayReportPopulatedResponse{
+		UUID:      newUUID.String(),
+		CreatedAt: dbDayReport.CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: dbDayReport.UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+		CompositionParticipants: []schemas.DayReportsCompositionParticipants{
+			{
+				DayReportID: util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(),
+				WayID:       util.ConvertPgUUIDToUUID(way.Uuid).String(),
+				WayName:     way.Name,
+			},
+		},
+		JobsDone: make([]schemas.JobDonePopulatedResponse, 0),
+		Plans:    make([]schemas.PlanPopulatedResponse, 0),
+		Problems: make([]schemas.ProblemPopulatedResponse, 0),
+		Comments: make([]schemas.CommentPopulatedResponse, 0),
 	}
 
 	ctx.JSON(http.StatusOK, response)
-}
-
-// Update day report handler
-// @Summary Update dayReport by UUID
-// @Description
-// @Tags dayReport
-// @ID update-dayReport
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.UpdateDayReportPayload true "query params"
-// @Param dayReportId path string true "dayReport ID"
-// @Success 200 {object} schemas.DayReportPopulatedResponse
-// @Router /dayReports/{dayReportId} [patch]
-func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
-	var payload *schemas.UpdateDayReportPayload
-	dayReportId := ctx.Param("dayReportId")
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-		return
-	}
-
-	now := time.Now()
-	args := &db.UpdateDayReportParams{
-		Uuid:      pgtype.UUID{Bytes: uuid.MustParse(dayReportId), Valid: true},
-		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
-		IsDayOff:  pgtype.Bool{Bool: payload.IsDayOff, Valid: true},
-	}
-
-	dayReport, err := cc.db.UpdateDayReport(ctx, *args)
-	util.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, dayReport)
 }

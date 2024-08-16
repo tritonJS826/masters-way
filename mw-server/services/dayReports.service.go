@@ -182,8 +182,6 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 	firstDayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].Uuid).String()
 	firstWayUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].WayUuid).String()
 
-	newUUID, _ := uuid.NewRandom()
-
 	jobDonesSlice := []schemas.JobDonePopulatedResponse{}
 	jobDones, jobDonesExists := jobDonesMap[firstDayReportUUIDString]
 	if jobDonesExists {
@@ -208,10 +206,11 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 		commentsSlice = comments
 	}
 
+	newUUID, _ := uuid.NewRandom()
 	currentDayReport := schemas.CompositeDayReportPopulatedResponse{
 		UUID:      newUUID.String(),
-		CreatedAt: dayReportsRaw[0].CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt: dayReportsRaw[0].UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt: dayReportsRaw[0].CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: dayReportsRaw[0].UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
 		CompositionParticipants: []schemas.DayReportsCompositionParticipants{
 			{
 				DayReportID: firstDayReportUUIDString,
@@ -271,8 +270,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 			currentNewUUID, _ := uuid.NewRandom()
 			currentDayReport = schemas.CompositeDayReportPopulatedResponse{
 				UUID:      currentNewUUID.String(),
-				CreatedAt: dayReportsRaw[i].CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-				UpdatedAt: dayReportsRaw[i].UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+				CreatedAt: dayReportsRaw[i].CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt: dayReportsRaw[i].UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
 				CompositionParticipants: []schemas.DayReportsCompositionParticipants{
 					{
 						DayReportID: currentDayReportUUIDString,

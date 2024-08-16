@@ -363,47 +363,6 @@
                 }
             }
         },
-        "/dayReports/{dayReportId}": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "dayReport"
-                ],
-                "summary": "Update dayReport by UUID",
-                "operationId": "update-dayReport",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UpdateDayReportPayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "dayReport ID",
-                        "name": "dayReportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/dayReports/{wayId}": {
             "get": {
                 "consumes": [
@@ -2286,7 +2245,9 @@
                 "ownerName",
                 "ownerUuid",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -2308,6 +2269,12 @@
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
                     "type": "string"
                 }
             }
@@ -2956,7 +2923,9 @@
                 "tags",
                 "time",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -2987,6 +2956,12 @@
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
                     "type": "string"
                 }
             }
@@ -3167,7 +3142,9 @@
                 "tags",
                 "time",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -3202,6 +3179,12 @@
                 },
                 "uuid": {
                     "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },
@@ -3216,7 +3199,9 @@
                 "ownerUuid",
                 "tags",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -3248,6 +3233,12 @@
                 },
                 "uuid": {
                     "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },
@@ -3271,14 +3262,6 @@
             "properties": {
                 "description": {
                     "type": "string"
-                }
-            }
-        },
-        "schemas.UpdateDayReportPayload": {
-            "type": "object",
-            "properties": {
-                "isDayOff": {
-                    "type": "boolean"
                 }
             }
         },
