@@ -116,6 +116,40 @@ func (q *Queries) GetListProblemsByDayReportId(ctx context.Context, dayReportUui
 	return items, nil
 }
 
+const getProblemsByDayReportUuids = `-- name: GetProblemsByDayReportUuids :many
+SELECT uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid
+FROM problems
+WHERE problems.day_report_uuid = ANY($1::UUID[])
+`
+
+func (q *Queries) GetProblemsByDayReportUuids(ctx context.Context, dollar_1 []pgtype.UUID) ([]Problem, error) {
+	rows, err := q.db.Query(ctx, getProblemsByDayReportUuids, dollar_1)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Problem{}
+	for rows.Next() {
+		var i Problem
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Description,
+			&i.IsDone,
+			&i.OwnerUuid,
+			&i.DayReportUuid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateProblem = `-- name: UpdateProblem :one
 UPDATE problems
 SET

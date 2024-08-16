@@ -32,3 +32,8 @@ RETURNING *, (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS 
 -- name: DeleteProblem :exec
 DELETE FROM problems
 WHERE uuid = @problem_uuid;
+
+-- name: GetProblemsByDayReportUuids :many
+SELECT *
+FROM problems
+WHERE problems.day_report_uuid = ANY($1::UUID[]);

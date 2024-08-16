@@ -12,7 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/samber/lo"
 )
 
 type ProblemController struct {
@@ -55,15 +54,6 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	problem, err := cc.db.CreateProblem(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	tags := lo.Map(problem.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
-		tag, _ := cc.db.GetJobTagByUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(tagUuidStringified), Valid: true})
-		return schemas.JobTagResponse{
-			Uuid:        util.ConvertPgUUIDToUUID(tag.Uuid).String(),
-			Name:        tag.Name,
-			Description: tag.Description,
-			Color:       tag.Color,
-		}
-	})
 	response := schemas.ProblemPopulatedResponse{
 		Uuid:          util.ConvertPgUUIDToUUID(problem.Uuid).String(),
 		CreatedAt:     problem.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -73,7 +63,6 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
-		Tags:          tags,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -118,19 +107,6 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	problem, err := cc.db.UpdateProblem(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	tagUuids := lo.Map(problem.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
-		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
-	})
-	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
-	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
-			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
-			Name:        dbTag.Name,
-			Description: dbTag.Description,
-			Color:       dbTag.Color,
-		}
-	})
-
 	response := schemas.ProblemPopulatedResponse{
 		Uuid:          util.ConvertPgUUIDToUUID(problem.Uuid).String(),
 		CreatedAt:     problem.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -140,7 +116,6 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
-		Tags:          tags,
 	}
 
 	ctx.JSON(http.StatusOK, response)

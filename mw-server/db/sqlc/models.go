@@ -73,7 +73,6 @@ type DayReport struct {
 	WayUuid   pgtype.UUID      `json:"way_uuid"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 	UpdatedAt pgtype.Timestamp `json:"updated_at"`
-	IsDayOff  bool             `json:"is_day_off"`
 }
 
 type FavoriteUser struct {
