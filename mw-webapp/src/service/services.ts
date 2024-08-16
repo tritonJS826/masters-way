@@ -20,7 +20,6 @@ import {
   PlanApi,
   PlanJobTagApi,
   ProblemApi,
-  ProblemJobTagApi,
   RequestContext,
   ResponseContext,
   ToUserMentoringRequestApi,
@@ -95,7 +94,6 @@ export const wayTagService = new WayTagApi(generalConfiguration);
 export const wayCollectionWayService = new WayCollectionWayApi(generalConfiguration);
 export const wayService = new WayApi(generalConfiguration);
 export const toUserMentoringRequestService = new ToUserMentoringRequestApi(generalConfiguration);
-export const problemJobTagService = new ProblemJobTagApi(generalConfiguration);
 export const planJobTagService = new PlanJobTagApi(generalConfiguration);
 export const jobDoneJobTagService = new JobDoneJobTagApi(generalConfiguration);
 export const jobTagService = new JobTagApi(generalConfiguration);

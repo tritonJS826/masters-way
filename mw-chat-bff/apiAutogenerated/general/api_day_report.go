@@ -35,7 +35,7 @@ func (r ApiCreateDayReportRequest) Request(request SchemasCreateDayReportPayload
 	return r
 }
 
-func (r ApiCreateDayReportRequest) Execute() (*SchemasDayReportPopulatedResponse, *http.Response, error) {
+func (r ApiCreateDayReportRequest) Execute() (*SchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateDayReportExecute(r)
 }
 
@@ -53,13 +53,13 @@ func (a *DayReportAPIService) CreateDayReport(ctx context.Context) ApiCreateDayR
 }
 
 // Execute executes the request
-//  @return SchemasDayReportPopulatedResponse
-func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest) (*SchemasDayReportPopulatedResponse, *http.Response, error) {
+//  @return SchemasCompositeDayReportPopulatedResponse
+func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest) (*SchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasDayReportPopulatedResponse
+		localVarReturnValue  *SchemasCompositeDayReportPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.CreateDayReport")

@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AuthApi.ts
 apis/CommentApi.ts
 apis/CompositeWayApi.ts
@@ -49,7 +48,6 @@ models/SchemasCreateWayCollectionPayload.ts
 models/SchemasCreateWayCollectionWay.ts
 models/SchemasCreateWayPayload.ts
 models/SchemasCreateWayTagPayload.ts
-models/SchemasDayReportPopulatedResponse.ts
 models/SchemasDayReportsCompositionParticipants.ts
 models/SchemasDefaultWayCollections.ts
 models/SchemasDeleteMentorUserWayPayload.ts

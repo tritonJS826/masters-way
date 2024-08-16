@@ -39,7 +39,7 @@ type _SchemasProblemPopulatedResponse SchemasProblemPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasProblemPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasProblemPopulatedResponse {
+func NewSchemasProblemPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasProblemPopulatedResponse {
 	this := SchemasProblemPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.DayReportUuid = dayReportUuid

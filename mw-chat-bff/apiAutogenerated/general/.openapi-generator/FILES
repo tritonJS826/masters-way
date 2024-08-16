@@ -70,7 +70,6 @@ docs/SchemasCreateWayCollectionPayload.md
 docs/SchemasCreateWayCollectionWay.md
 docs/SchemasCreateWayPayload.md
 docs/SchemasCreateWayTagPayload.md
-docs/SchemasDayReportPopulatedResponse.md
 docs/SchemasDayReportsCompositionParticipants.md
 docs/SchemasDefaultWayCollections.md
 docs/SchemasDeleteMentorUserWayPayload.md
@@ -143,7 +142,6 @@ model_schemas_create_way_collection_payload.go
 model_schemas_create_way_collection_way.go
 model_schemas_create_way_payload.go
 model_schemas_create_way_tag_payload.go
-model_schemas_day_report_populated_response.go
 model_schemas_day_reports_composition_participants.go
 model_schemas_default_way_collections.go
 model_schemas_delete_mentor_user_way_payload.go

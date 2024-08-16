@@ -23,7 +23,6 @@ export * from './SchemasCreateWayCollectionPayload';
 export * from './SchemasCreateWayCollectionWay';
 export * from './SchemasCreateWayPayload';
 export * from './SchemasCreateWayTagPayload';
-export * from './SchemasDayReportPopulatedResponse';
 export * from './SchemasDayReportsCompositionParticipants';
 export * from './SchemasDefaultWayCollections';
 export * from './SchemasDeleteMentorUserWayPayload';

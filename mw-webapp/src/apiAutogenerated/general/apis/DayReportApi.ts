@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
+  SchemasCompositeDayReportPopulatedResponse,
   SchemasCreateDayReportPayload,
-  SchemasDayReportPopulatedResponse,
   SchemasListDayReportsResponse,
 } from '../models/index';
 import {
+    SchemasCompositeDayReportPopulatedResponseFromJSON,
+    SchemasCompositeDayReportPopulatedResponseToJSON,
     SchemasCreateDayReportPayloadFromJSON,
     SchemasCreateDayReportPayloadToJSON,
-    SchemasDayReportPopulatedResponseFromJSON,
-    SchemasDayReportPopulatedResponseToJSON,
     SchemasListDayReportsResponseFromJSON,
     SchemasListDayReportsResponseToJSON,
 } from '../models/index';
@@ -46,7 +46,7 @@ export class DayReportApi extends runtime.BaseAPI {
     /**
      * Create a new dayReport
      */
-    async createDayReportRaw(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasDayReportPopulatedResponse>> {
+    async createDayReportRaw(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCompositeDayReportPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createDayReport.');
         }
@@ -65,13 +65,13 @@ export class DayReportApi extends runtime.BaseAPI {
             body: SchemasCreateDayReportPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasDayReportPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCompositeDayReportPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new dayReport
      */
-    async createDayReport(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasDayReportPopulatedResponse> {
+    async createDayReport(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCompositeDayReportPopulatedResponse> {
         const response = await this.createDayReportRaw(requestParameters, initOverrides);
         return await response.value();
     }

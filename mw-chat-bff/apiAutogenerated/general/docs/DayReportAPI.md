@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateDayReport
 
-> SchemasDayReportPopulatedResponse CreateDayReport(ctx).Request(request).Execute()
+> SchemasCompositeDayReportPopulatedResponse CreateDayReport(ctx).Request(request).Execute()
 
 Create a new dayReport
 
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.CreateDayReport``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateDayReport`: SchemasDayReportPopulatedResponse
+	// response from `CreateDayReport`: SchemasCompositeDayReportPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.CreateDayReport`: %v\n", resp)
 }
 ```
@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasDayReportPopulatedResponse**](SchemasDayReportPopulatedResponse.md)
+[**SchemasCompositeDayReportPopulatedResponse**](SchemasCompositeDayReportPopulatedResponse.md)
 
 ### Authorization
 

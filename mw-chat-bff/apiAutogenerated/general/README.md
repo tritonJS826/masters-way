@@ -168,7 +168,6 @@ Class | Method | HTTP request | Description
  - [SchemasCreateWayCollectionWay](docs/SchemasCreateWayCollectionWay.md)
  - [SchemasCreateWayPayload](docs/SchemasCreateWayPayload.md)
  - [SchemasCreateWayTagPayload](docs/SchemasCreateWayTagPayload.md)
- - [SchemasDayReportPopulatedResponse](docs/SchemasDayReportPopulatedResponse.md)
  - [SchemasDayReportsCompositionParticipants](docs/SchemasDayReportsCompositionParticipants.md)
  - [SchemasDefaultWayCollections](docs/SchemasDefaultWayCollections.md)
  - [SchemasDeleteMentorUserWayPayload](docs/SchemasDeleteMentorUserWayPayload.md)
