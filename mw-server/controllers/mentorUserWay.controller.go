@@ -43,7 +43,7 @@ func (cc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 	}
 
 	userID := uuid.MustParse(payload.UserUuid)
-	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxMentoringsWays,
 		UserID:    userID,
 	})

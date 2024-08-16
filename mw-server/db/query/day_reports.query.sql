@@ -29,3 +29,21 @@ updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 is_day_off = coalesce(sqlc.narg('is_day_off'), is_day_off)
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
+
+-- name: GetDayReportsByRankRange :many
+WITH ranked_reports AS (
+    SELECT
+        dense_rank() OVER (ORDER BY created_at ASC) AS rank,
+        day_reports.*
+    FROM day_reports
+    WHERE way_uuid = ANY (@way_uuids::UUID[])
+),
+max_rank_cte AS (
+    SELECT
+        COALESCE(MAX(rank), 0)::INTEGER AS max_rank
+    FROM ranked_reports
+)
+SELECT ranked_reports.*, max_rank_cte.max_rank
+FROM ranked_reports, max_rank_cte
+WHERE rank BETWEEN (@start_rank_range::INTEGER) AND (@end_rank_range::INTEGER)
+ORDER BY rank;

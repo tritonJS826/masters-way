@@ -47,7 +47,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		return
 	}
 
-	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxOwnWays,
 		UserID:    payload.OwnerUuid,
 	})
@@ -142,7 +142,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 
 	var isPrivate pgtype.Bool
 	if payload.IsPrivate != nil && *payload.IsPrivate {
-		err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		err := cc.ls.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 			LimitName: services.MaxPrivateWays,
 			UserID:    userID,
 		})

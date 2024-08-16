@@ -96,7 +96,9 @@ INSERT INTO "ways" ("uuid", "name", "goal_description", "estimation_time", "owne
 VALUES
     ('9972552a-c0b3-41f3-b464-284d36a36964', 'ronnie stanton way', 'ronnie stanton goal', 40404040, 'd63d2f89-6412-4324-8587-7061bf02dca4', false, false, '2024-07-09 00:00:00'),
     ('550e8400-e29b-41d4-a716-446655440000', 'john doe way', 'john doe goal', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-09 00:00:00'),
-    ('d689c31b-167f-4745-bfbd-c1461cb28be8', 'john doe way 1', 'john doe goal 1', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-09 00:00:00'),
+    ('54910bd4-ad28-44f4-a669-f233861cf816', 'john doe way 1', 'john doe goal 1', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-09 00:00:00'),
+    ('d6d46085-8ce6-4df1-8463-3e469c240076', 'john doe composite way 1', 'john doe composite way', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-09 00:00:00'),
+    ('a73c4484-0a44-4e57-8183-aea93a4ccbbb', 'john doe composite way', 'john doe composite way', 10101010, '7cdb041b-4574-4f7b-a500-c53e74c72e94', false, false, '2024-07-09 00:00:00'),
     ('9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'jane smith way', 'jane smith goal', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', true, false, '2024-07-09 00:00:00'),
     ('dce03ca6-f626-4c33-a44b-5a1b4ff62aa7', 'jane smith way 1', 'jane smith goal 1', 20202020, '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', false, false, '2024-07-09 00:00:00'),
     ('1d922e8a-5d58-4b82-9a3d-83e2e73b3f91', 'alice johnson', 'alice johnson goal', 30303030, '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, true, '2024-07-09 00:00:00'),
@@ -112,15 +114,20 @@ VALUES
 
 INSERT INTO "composite_ways" ("child_uuid", "parent_uuid")
 VALUES
-    ('550e8400-e29b-41d4-a716-446655440000', '9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b');
+    ('550e8400-e29b-41d4-a716-446655440000', '9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b'),
+    ('550e8400-e29b-41d4-a716-446655440000', 'd6d46085-8ce6-4df1-8463-3e469c240076'),
+    ('54910bd4-ad28-44f4-a669-f233861cf816', 'd6d46085-8ce6-4df1-8463-3e469c240076');
+
 
 INSERT INTO "former_mentors_ways" ("former_mentor_uuid", "way_uuid")
 VALUES
+    ('45bf9107-83fd-4fc4-8173-a13b8a100f2a', '550e8400-e29b-41d4-a716-446655440000'),
     ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '1d922e8a-5d58-4b82-9a3d-83e2e73b3f91');
 
 INSERT INTO "mentor_users_ways" ("user_uuid", "way_uuid")
 VALUES
     ('8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', '77482c3f-cae6-494d-be1d-d06c1e84450b'),
+    ('d63d2f89-6412-4324-8587-7061bf02dca4', '550e8400-e29b-41d4-a716-446655440000'),
     ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '77482c3f-cae6-494d-be1d-d06c1e84450b'),
     ('8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b', 'dce03ca6-f626-4c33-a44b-5a1b4ff62aa7'),
     ('3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', '9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b');
@@ -140,6 +147,7 @@ VALUES
 INSERT INTO "day_reports" ("uuid", "way_uuid", "is_day_off", "created_at", "updated_at")
 VALUES
     ('25ceb64e-7a57-4ce0-a4fd-45982d9fce38', '1d922e8a-5d58-4b82-9a3d-83e2e73b3f91', true, '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
+
     ('8a3c9946-0933-4444-a456-0972adc2a25b', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
     ('3df20f1b-f3af-40f5-9b69-d879cd1a6896', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-03 00:00:00', '2024-08-03 00:00:00'),
     ('3aef1def-af0c-48dc-9428-0777a5523f9a', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-05 00:00:00', '2024-08-05 00:00:00'),
@@ -147,7 +155,12 @@ VALUES
     ('47284e2a-23aa-4c1e-955f-eeeb5353bbb7', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-09 00:00:00', '2024-08-09 00:00:00'),
     ('1f6ac00e-80e9-4108-b707-d62259b9f07f', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-11 00:00:00', '2024-08-11 00:00:00'),
     ('9c184a1c-0287-4fec-a5cf-9d13d6215a29', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-13 00:00:00', '2024-08-13 00:00:00'),
-    ('0c592a97-998b-48cb-a693-592373ac70de', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-15 00:00:00', '2024-08-15 00:00:00');
+    ('0c592a97-998b-48cb-a693-592373ac70de', '550e8400-e29b-41d4-a716-446655440000', true, '2024-08-15 00:00:00', '2024-08-15 00:00:00'),
+
+    ('9b8ef40c-6907-43de-84eb-789ee87789a7', '54910bd4-ad28-44f4-a669-f233861cf816', true, '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
+    ('aaeb7ef1-5a23-4be3-8df7-0f1357329879', '54910bd4-ad28-44f4-a669-f233861cf816', true, '2024-08-03 00:00:00', '2024-08-03 00:00:00'),
+    ('a3a4f61b-2f96-403e-8f66-bfa83e66aad6', '54910bd4-ad28-44f4-a669-f233861cf816', true, '2024-08-05 00:00:00', '2024-08-05 00:00:00');
+
 
 
 INSERT INTO "job_tags" ("uuid", "name", "description", "color", "way_uuid")
@@ -159,25 +172,31 @@ VALUES
     ('60e7860d-58d9-4035-93d0-9bb825fe734c', 'meeting 1:1', 'this is not my tag', 'red', '550e8400-e29b-41d4-a716-446655440000'),
     ('2461357d-f2f0-43a7-9f1d-79fd1eaa64f5', 'general meeting', 'this is not my tag', 'yellow', '550e8400-e29b-41d4-a716-446655440000');
 
-INSERT INTO "plans" ("uuid", "description", "time", "owner_uuid", "is_done", "day_report_uuid")
+INSERT INTO "plans" ("uuid", "description", "time", "owner_uuid", "is_done", "day_report_uuid", "created_at", "updated_at")
 VALUES
-    ('18cbbee6-5071-4608-b349-ffad514711cb', 'i want to eat', 400, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, '25ceb64e-7a57-4ce0-a4fd-45982d9fce38');
+    ('18cbbee6-5071-4608-b349-ffad514711cb', 'i want to eat', 400, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, '25ceb64e-7a57-4ce0-a4fd-45982d9fce38', '2024-08-01 00:00:00', '2024-08-01 00:00:00');
 
 INSERT INTO "plans_job_tags" ("plan_uuid", "job_tag_uuid")
 VALUES
     ('18cbbee6-5071-4608-b349-ffad514711cb', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2');
 
-INSERT INTO "job_dones" ("uuid", "description", "time", "owner_uuid", "day_report_uuid")
+INSERT INTO "job_dones" ("uuid", "description", "time", "owner_uuid", "day_report_uuid", "created_at", "updated_at")
 VALUES
-    ('8563a330-eedb-4e71-9abc-4db6fbabd13b', 'this is finished job description', 1000, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38'),
-    ('425888ef-074b-4635-adba-371a63e28da8', 'job description', 10, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '8a3c9946-0933-4444-a456-0972adc2a25b'),
-    ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3df20f1b-f3af-40f5-9b69-d879cd1a6896'),
-    ('08b968fd-c11c-4b6b-bd23-b45b67ee4c39', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3df20f1b-f3af-40f5-9b69-d879cd1a6896'),
-    ('a16427ef-5630-48c4-b27c-5306e36bc2a0', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3aef1def-af0c-48dc-9428-0777a5523f9a'),
-    ('c2cf2c6d-679a-4894-8225-b173947120bc', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '32b1209e-aa60-493c-b7d2-ccfbca1ff065'),
-    ('783b3458-e1a7-4e8d-8ae6-5af345c6d3b2', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '47284e2a-23aa-4c1e-955f-eeeb5353bbb7'),
-    ('500d82ca-6982-4aab-b5da-1d80784dbb77', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '1f6ac00e-80e9-4108-b707-d62259b9f07f'),
-    ('bf21446f-9f1f-4544-a9f0-155b67b89228', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '9c184a1c-0287-4fec-a5cf-9d13d6215a29');
+    ('8563a330-eedb-4e71-9abc-4db6fbabd13b', 'this is finished job description', 1000, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38', '2024-08-01 12:40:00','2024-08-01 12:40:00'),
+
+    ('425888ef-074b-4635-adba-371a63e28da8', 'job description', 10, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '8a3c9946-0933-4444-a456-0972adc2a25b', '2024-08-01 14:20:00', '2024-08-01 14:20:00'),
+    ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3df20f1b-f3af-40f5-9b69-d879cd1a6896', '2024-08-03 08:10:00', '2024-08-03 08:10:00'),
+    ('08b968fd-c11c-4b6b-bd23-b45b67ee4c39', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3df20f1b-f3af-40f5-9b69-d879cd1a6896', '2024-08-03 08:50:00', '2024-08-03 08:50:00'),
+    ('a16427ef-5630-48c4-b27c-5306e36bc2a0', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '3aef1def-af0c-48dc-9428-0777a5523f9a', '2024-08-05 09:00:00', '2024-08-05 09:00:00'),
+    ('c2cf2c6d-679a-4894-8225-b173947120bc', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '32b1209e-aa60-493c-b7d2-ccfbca1ff065', '2024-08-07 03:15:00', '2024-08-07 03:15:00'),
+    ('783b3458-e1a7-4e8d-8ae6-5af345c6d3b2', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '47284e2a-23aa-4c1e-955f-eeeb5353bbb7', '2024-08-09 20:30:00', '2024-08-09 20:30:00'),
+    ('500d82ca-6982-4aab-b5da-1d80784dbb77', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '1f6ac00e-80e9-4108-b707-d62259b9f07f', '2024-08-11 08:40:00', '2024-08-11 08:40:00'),
+    ('bf21446f-9f1f-4544-a9f0-155b67b89228', 'job description', 60, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '9c184a1c-0287-4fec-a5cf-9d13d6215a29', '2024-08-13 23:10:00', '2024-08-13 23:10:00'),
+
+    ('9d1b8491-e9d2-4815-9927-afea88c6d3e7', 'job description', 20, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '9b8ef40c-6907-43de-84eb-789ee87789a7', '2024-08-01 00:55:00', '2024-08-01 04:15:00'),
+    ('42c8cc00-8de9-45bb-854e-598c88697cd6', 'job description', 30, '7cdb041b-4574-4f7b-a500-c53e74c72e94', 'aaeb7ef1-5a23-4be3-8df7-0f1357329879', '2024-08-03 03:10:00', '2024-08-03 21:30:00'),
+    ('284b8c55-0048-44f6-9d06-4db078df25a3', 'job description', 40, '7cdb041b-4574-4f7b-a500-c53e74c72e94', 'a3a4f61b-2f96-403e-8f66-bfa83e66aad6', '2024-08-05 17:02:00', '2024-08-05 18:40:00');
+
 
 INSERT INTO "job_dones_job_tags" ("job_done_uuid", "job_tag_uuid")
 VALUES
@@ -190,17 +209,17 @@ VALUES
     ('500d82ca-6982-4aab-b5da-1d80784dbb77', 'c73ff20b-e64e-4e5f-b270-1a40ba1bd81b'),
     ('bf21446f-9f1f-4544-a9f0-155b67b89228', '60e7860d-58d9-4035-93d0-9bb825fe734c');
 
-INSERT INTO "problems" ("uuid", "description", "is_done", "owner_uuid", "day_report_uuid")
+INSERT INTO "problems" ("uuid", "description", "is_done", "owner_uuid", "day_report_uuid", "created_at", "updated_at")
 VALUES
-    ('47ff13e9-aedc-47aa-9dad-d219fb92b694', 'this is the biggest problem we have faced so far', false, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38');
+    ('47ff13e9-aedc-47aa-9dad-d219fb92b694', 'this is the biggest problem we have faced so far', false, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38', '2024-08-01 00:00:00', '2024-08-01 00:00:00');
 
 INSERT INTO "problems_job_tags" ("problem_uuid", "job_tag_uuid")
 VALUES
     ('47ff13e9-aedc-47aa-9dad-d219fb92b694', 'c73ff20b-e64e-4e5f-b270-1a40ba1bd81b');
 
-INSERT INTO "comments" ("uuid", "description", "owner_uuid", "day_report_uuid")
+INSERT INTO "comments" ("uuid", "description", "owner_uuid", "day_report_uuid", "created_at", "updated_at")
 VALUES
-    ('f6334156-b08b-434b-b983-f8b11e422804', 'this is amazing!!', '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38');
+    ('f6334156-b08b-434b-b983-f8b11e422804', 'this is amazing!!', '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '25ceb64e-7a57-4ce0-a4fd-45982d9fce38', '2024-08-01 00:00:00', '2024-08-01 00:00:00');
 
 INSERT INTO "way_collections" ("uuid", "owner_uuid", "name", "type")
 VALUES

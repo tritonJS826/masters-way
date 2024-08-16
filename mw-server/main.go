@@ -137,7 +137,7 @@ func init() {
 		AllowCredentials: true,
 	}))
 
-	LimitService = *services.NewLimitService(db, ctx)
+	LimitService = *services.NewLimitService(db)
 
 	AuthController = *controllers.NewAuthController(db, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)

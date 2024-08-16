@@ -18,9 +18,13 @@ import (
 )
 
 type DayReportController struct {
-	db  *db.Queries
-	ctx context.Context
-	ls  *services.LimitService
+	db           *db.Queries
+	ctx          context.Context
+	limitService *services.LimitService
+}
+
+func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
+	return &DayReportController{db, ctx, ls}
 }
 
 // Get a list of day reports for specific way
@@ -35,31 +39,38 @@ type DayReportController struct {
 // @Param limit query integer false "Number of items per page"
 // @Success 200 {object} schemas.ListDayReportsResponse
 // @Router /dayReports/{wayId} [get]
-func (cc *DayReportController) GetDayReports(ctx *gin.Context) {
-	wayUuidRaw := ctx.Param("wayId")
+func (dayReportController *DayReportController) GetDayReports(ctx *gin.Context) {
+	wayIDRaw := ctx.Param("wayId")
 	page := ctx.DefaultQuery("page", "1")
 	limit := ctx.DefaultQuery("limit", "7")
 
-	wayUuid := uuid.MustParse(wayUuidRaw)
+	wayID := uuid.MustParse(wayIDRaw)
 	reqPage, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPage - 1) * reqLimit
 
+	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// fmt.Println("userIDRaw: ", userIDRaw)
+	// userID := uuid.MustParse(userIDRaw.(string))
+
+	// maxDepth, err := dayReportController.limitService.GetMaxCompositeWayDepthByUserID(ctx, userID)
+	// util.HandleErrorGin(ctx, err)
+
+	childrenWays, err := services.GetChildrenWayIDs(dayReportController.db, ctx, wayID, 2)
+	util.HandleErrorGin(ctx, err)
+
 	args := &services.GetDayReportsByWayIdParams{
-		WayUuid:  wayUuid,
-		ReqLimit: reqLimit,
-		Offset:   offset,
+		ParentWayID:    wayID,
+		ChildrenWayIDs: childrenWays,
+		ReqLimit:       reqLimit,
+		Offset:         offset,
 	}
 
 	// TODO: remove info that already exist in the way (user names etc.) - should be rendered on the frontend
-	response, err := services.GetDayReportsByWayId(cc.db, ctx, args)
+	response, err := services.GetDayReportsByWayID(dayReportController.db, ctx, args)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
-}
-
-func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
-	return &DayReportController{db, ctx, ls}
 }
 
 // Create day report  handler
@@ -83,7 +94,7 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := uuid.MustParse(userIDRaw.(string))
 
-	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+	err := cc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxDayReports,
 		UserID:    userID,
 		WayID:     &payload.WayUuid,
@@ -113,7 +124,6 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		Uuid:      util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(),
 		CreatedAt: dbDayReport.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		UpdatedAt: dbDayReport.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		IsDayOff:  dbDayReport.IsDayOff,
 		JobsDone:  make([]schemas.JobDonePopulatedResponse, 0),
 		Plans:     make([]schemas.PlanPopulatedResponse, 0),
 		Problems:  make([]schemas.ProblemPopulatedResponse, 0),

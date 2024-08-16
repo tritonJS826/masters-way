@@ -215,25 +215,6 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 	return response, err
 }
 
-type GetLastDayReportDateResponse struct {
-	TotalStartDate time.Time
-	EndDate        time.Time
-}
-
-func GetLastDayReportDate(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (*GetLastDayReportDateResponse, error) {
-	wayPgUUID := pgtype.UUID{Bytes: wayUuid, Valid: true}
-
-	response, err := db.GetLastDayReportDate(ctx, wayPgUUID)
-	if err != nil {
-		return nil, err
-	}
-
-	return &GetLastDayReportDateResponse{
-		TotalStartDate: response.TotalStartDate.Time,
-		EndDate:        response.EndDate.Time,
-	}, nil
-}
-
 type GetWayStatisticsTriplePeriodParams struct {
 	WayUUID        uuid.UUID
 	TotalStartDate time.Time
@@ -391,4 +372,39 @@ func GetLabelStatistics(db *dbb.Queries, ctx context.Context, params *GetWayStat
 	})
 
 	return &schemas.LabelStatistics{Labels: labelsInfo}, nil
+}
+
+func GetChildrenWayIDs(db *dbb.Queries, ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {
+	wayPgUUID := pgtype.UUID{Bytes: wayID, Valid: true}
+	waysRaw, err := GetNestedWayIDs(db, ctx, wayPgUUID, 0, maxDepth)
+	if err != nil {
+		return nil, err
+	}
+
+	ways := lo.Map(waysRaw, func(way pgtype.UUID, _ int) uuid.UUID {
+		return util.ConvertPgUUIDToUUID(way)
+	})
+
+	return ways, nil
+}
+
+func GetNestedWayIDs(db *dbb.Queries, ctx context.Context, parentWayUUID pgtype.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error) {
+	if currentDepth >= maxDepth {
+		return nil, nil
+	}
+
+	children, err := db.GetWayChildren(ctx, parentWayUUID)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, wayUUID := range children {
+		child, err := GetNestedWayIDs(db, ctx, wayUUID, currentDepth+1, maxDepth)
+		if err != nil {
+			return nil, err
+		}
+		children = append(children, child...)
+	}
+
+	return children, nil
 }

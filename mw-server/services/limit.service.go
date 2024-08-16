@@ -66,51 +66,59 @@ type LimitReachedParams struct {
 }
 
 type LimitService struct {
-	db  *db.Queries
-	ctx context.Context
+	db *db.Queries
 }
 
-func NewLimitService(db *db.Queries, ctx context.Context) *LimitService {
-	return &LimitService{db, ctx}
+func NewLimitService(db *db.Queries) *LimitService {
+	return &LimitService{db}
 }
 
-func (ls *LimitService) CheckIsLimitReachedByPricingPlan(lrp *LimitReachedParams) error {
+func (limitService *LimitService) CheckIsLimitReachedByPricingPlan(ctx context.Context, params *LimitReachedParams) error {
 	var count int64
 	var err error
 
-	switch lrp.LimitName {
+	switch params.LimitName {
 	case MaxOwnWays:
-		count, err = ls.db.GetOwnWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
+		count, err = limitService.db.GetOwnWaysCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
 	case MaxPrivateWays:
-		count, err = ls.db.GetPrivateWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
+		count, err = limitService.db.GetPrivateWaysCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
 	case MaxMentoringsWays:
-		count, err = ls.db.GetMentoringWaysCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
+		count, err = limitService.db.GetMentoringWaysCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
 	case MaxUserTags:
-		count, err = ls.db.GetTagsCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
+		count, err = limitService.db.GetTagsCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
 	case MaxCustomCollections:
-		count, err = ls.db.GetWayCollectionsCountByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
+		count, err = limitService.db.GetWayCollectionsCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
 	case MaxDayReports:
-		count, err = ls.db.GetDayReportsCountByWayId(ls.ctx, pgtype.UUID{Bytes: *lrp.WayID, Valid: true})
+		count, err = limitService.db.GetDayReportsCountByWayId(ctx, pgtype.UUID{Bytes: *params.WayID, Valid: true})
 	default:
-		return fmt.Errorf("invalid limit name: %s", lrp.LimitName)
+		return fmt.Errorf("invalid limit name: %s", params.LimitName)
 	}
 	if err != nil {
-		return fmt.Errorf("failed to get count for %s: %w", lrp.LimitName, err)
+		return fmt.Errorf("failed to get count for %s: %w", params.LimitName, err)
 	}
 
-	userPricingPlan, err := ls.db.GetPricingPlanByUserId(ls.ctx, pgtype.UUID{Bytes: lrp.UserID, Valid: true})
+	userPricingPlan, err := limitService.db.GetPricingPlanByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
 	if err != nil {
 		return fmt.Errorf("failed to get pricing plan for userID: %w", err)
 	}
 
-	limit, ok := limitMap[lrp.LimitName][userPricingPlan]
+	limit, ok := limitMap[params.LimitName][userPricingPlan]
 	if !ok {
-		return fmt.Errorf("limit not defined for %s in pricing plan %s", lrp.LimitName, userPricingPlan)
+		return fmt.Errorf("limit not defined for %s in pricing plan %s", params.LimitName, userPricingPlan)
 	}
 
 	if limit > uint16(count) {
 		return nil
 	}
 
-	return fmt.Errorf("user has reached the limit for %s", lrp.LimitName)
+	return fmt.Errorf("user has reached the limit for %s", params.LimitName)
+}
+
+func (limitService *LimitService) GetMaxCompositeWayDepthByUserID(ctx context.Context, userID uuid.UUID) (int, error) {
+	userPricingPlan, err := limitService.db.GetPricingPlanByUserId(ctx, pgtype.UUID{Bytes: userID, Valid: true})
+	if err != nil {
+		return 0, fmt.Errorf("failed to get pricing plan for userID: %w", err)
+	}
+
+	return int(limitMap[MaxCompositeWayDeps][userPricingPlan]), nil
 }
