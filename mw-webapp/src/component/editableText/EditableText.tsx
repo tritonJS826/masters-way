@@ -120,9 +120,10 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
     if (!props.validators) {
       setValue(updatedValue);
     } else {
-      const error = validateValue({value: updatedValue.toString(), validators: props.validators});
-
-      error ? displayValidationError?.(error) : setValue(updatedValue);
+      if (typeof updatedValue === "string") {
+        const error = validateValue({value: updatedValue, validators: props.validators});
+        error ? displayValidationError?.(error) : setValue(updatedValue);
+      }
     }
   };
 
