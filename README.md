@@ -51,19 +51,15 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 `pnpm i`
 
-3. Create .env file inside all modules folder with variables from .env.example (ask Ekaterina for values)
+3. Create .env file inside all modules with variables from .env.example (ask Ekaterina for values)
 
-4. You can run all modules locally (don't forget about database, you should up them manualy)  
+4. You can run all modules locally (don't forget about database, you should up them manually)  
 
 `pnpm run start`
 
 ### Run build locally
 
 `pnpm run build`
-
-### Check locally that production build is ok
-
-`pnpm run serve`
 
 ### Run all modules locally
 

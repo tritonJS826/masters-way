@@ -5,7 +5,7 @@
   "scripts": {
     "installDependencies": "flutter pub get",
     "build": "flutter build",
-    "start": "flutter run",
+    "start": "echo 'flutter run'",
     "test": "echo 'not implemented'"
   },
   "keywords": [],
