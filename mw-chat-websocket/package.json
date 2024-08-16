@@ -6,7 +6,7 @@
     "build": "make build",
     "start": "make start",
     "test": "make test",
-    "installDependencies": "make install",
+    "install": "make install",
     "swag": "make swag",
     "help": "make help"
   },
