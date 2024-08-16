@@ -53,7 +53,11 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 3. Create .env file inside all modules with variables from .env.example (ask Ekaterina for values)
 
-4. You can run all modules locally (don't forget about database, you should up them manually)  
+4. Run databases and nginx in containers (check local.ngnix.conf for right addresses):
+
+`docker-compose -f local.docker.docker-compose.yml up`
+
+5. You can run all modules locally (don't forget about database, you should up them manually)  
 
 `pnpm run start`
 
