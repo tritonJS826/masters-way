@@ -37,6 +37,10 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 		return nil, err
 	}
 
+	wayMap := lo.SliceToMap(dayReportsRaw, func(dbDayReport dbb.GetDayReportsByRankRangeRow) (string, dbb.GetDayReportsByRankRangeRow) {
+		return util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(), dbDayReport
+	})
+
 	dayReportPgUUIDs := lo.Map(dayReportsRaw, func(dbDayReport dbb.GetDayReportsByRankRangeRow, _ int) pgtype.UUID {
 		return dbDayReport.Uuid
 	})
@@ -71,9 +75,11 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 	lo.ForEach(dbJobDones, func(dbJobDone dbb.GetJobDonesByDayReportUuidsRow, i int) {
 		jobDoneOwnerUUIDString := util.ConvertPgUUIDToUUID(dbJobDone.OwnerUuid).String()
 		jobDoneOwner := allWayRelatedUsersMap[jobDoneOwnerUUIDString]
+
 		tags := lo.Map(dbJobDone.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
 			return jobTagsMap[tagUuid]
 		})
+
 		dayReportUUIDString := util.ConvertPgUUIDToUUID(dbJobDone.DayReportUuid).String()
 		jobDonesMap[dayReportUUIDString] = append(
 			jobDonesMap[dayReportUUIDString],
@@ -86,6 +92,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     jobDoneOwnerUUIDString,
 				OwnerName:     jobDoneOwner.Name,
 				DayReportUuid: dayReportUUIDString,
+				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
+				WayName:       wayMap[dayReportUUIDString].WayName,
 				Tags:          tags,
 			},
 		)
@@ -111,6 +119,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
 				OwnerName:     planOwner.Name,
 				DayReportUuid: dayReportUUIDString,
+				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
+				WayName:       wayMap[dayReportUUIDString].WayName,
 				Tags:          tags,
 				IsDone:        plan.IsDone,
 			},
@@ -136,6 +146,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 				OwnerName:     problemOwner.Name,
 				DayReportUuid: dayReportUUIDString,
+				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
+				WayName:       wayMap[dayReportUUIDString].WayName,
 				Tags:          tags,
 				IsDone:        problem.IsDone,
 			},
@@ -158,68 +170,80 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     commentOwner.Uuid,
 				OwnerName:     commentOwner.Name,
 				DayReportUuid: dayReportUUIDString,
+				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
+				WayName:       wayMap[dayReportUUIDString].WayName,
 			},
 		)
 	})
 
-	// dayReports := make([]schemas.CompositeDayReportPopulatedResponse, 0, params.ReqLimit)
-	// rank := dayReportsRaw[0].Rank
+	dayReports := make([]schemas.CompositeDayReportPopulatedResponse, 0, params.ReqLimit)
+	rank := dayReportsRaw[0].Rank
 
-	// dayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].Uuid).String()
+	firstDayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].Uuid).String()
+	firstWayUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[0].WayUuid).String()
 
-	// dayReportPgUUIDs := lo.Map(dayReportsRaw, func(dbDayReport dbb.GetDayReportsByRankRangeRow, _ int) pgtype.UUID {
-	// 	return dbDayReport.Uuid
-	// })
+	newUUID, _ := uuid.NewRandom()
+	currentDayReport := schemas.CompositeDayReportPopulatedResponse{
+		UUID:      newUUID.String(),
+		CreatedAt: dayReportsRaw[0].CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: dayReportsRaw[0].UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		CompositionParticipants: []schemas.DayReportsCompositionParticipants{
+			{
+				DayReportID: firstDayReportUUIDString,
+				WayID:       firstWayUUIDString,
+				WayName:     dayReportsRaw[0].WayName,
+			},
+		},
+		JobsDone: jobDonesMap[firstDayReportUUIDString],
+		Plans:    plansMap[firstDayReportUUIDString],
+		Problems: problemsMap[firstDayReportUUIDString],
+		Comments: commentsMap[firstDayReportUUIDString],
+	}
 
-	// schemas.DayReportsCompositionParticipants{
-	// 	DayReportID: dayReportUUIDString,
-	// 	WayID:       "",
-	// 	WayName:     "",
-	// }
+	for i := 1; i < len(dayReportsRaw); i++ {
+		currentDayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[i].Uuid).String()
+		currentWayUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[i].WayUuid).String()
 
-	// currentDayReport := schemas.CompositeDayReportPopulatedResponse{
-	// 	// Uuid:      util.ConvertPgUUIDToUUID(dayReportsRaw[0].Uuid).String(),
-	// 	WayUuid:   util.ConvertPgUUIDToUUID(dayReportsRaw[0].WayUuid).String(),
-	// 	CreatedAt: dayReportsRaw[0].CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-	// 	UpdatedAt: dayReportsRaw[0].UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-	// 	JobsDone:  jobDonesMap[dayReportUUIDString],
-	// 	Plans:     plansMap[dayReportUUIDString],
-	// 	Problems:  problemsMap[dayReportUUIDString],
-	// 	Comments:  commentsMap[dayReportUUIDString],
-	// }
+		if dayReportsRaw[i].Rank == rank {
+			currentDayReport.JobsDone = append(currentDayReport.JobsDone, jobDonesMap[currentDayReportUUIDString]...)
+			currentDayReport.Plans = append(currentDayReport.Plans, plansMap[currentDayReportUUIDString]...)
+			currentDayReport.Problems = append(currentDayReport.Problems, problemsMap[currentDayReportUUIDString]...)
+			currentDayReport.Comments = append(currentDayReport.Comments, commentsMap[currentDayReportUUIDString]...)
+			currentDayReport.CompositionParticipants = append(currentDayReport.CompositionParticipants, schemas.DayReportsCompositionParticipants{
+				DayReportID: currentDayReportUUIDString,
+				WayID:       currentWayUUIDString,
+				WayName:     dayReportsRaw[i].WayName,
+			})
+		} else {
+			dayReports = append(dayReports, currentDayReport)
 
-	// for i := 1; i < len(dayReportsRaw); i++ {
-	// 	dayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportsRaw[i].Uuid).String()
-	// 	fmt.Println("dayReportUUIDString: ", dayReportUUIDString)
+			rank = dayReportsRaw[i].Rank
 
-	// 	if dayReportsRaw[i].Rank == rank {
-	// 		currentDayReport.JobsDone = append(currentDayReport.JobsDone, jobDonesMap[dayReportUUIDString]...)
-	// 		currentDayReport.Plans = append(currentDayReport.Plans, plansMap[dayReportUUIDString]...)
-	// 		currentDayReport.Problems = append(currentDayReport.Problems, problemsMap[dayReportUUIDString]...)
-	// 		currentDayReport.Comments = append(currentDayReport.Comments, commentsMap[dayReportUUIDString]...)
-	// 	} else {
-	// 		dayReports = append(dayReports, currentDayReport)
+			currentNewUUID, _ := uuid.NewRandom()
+			currentDayReport = schemas.CompositeDayReportPopulatedResponse{
+				UUID:      currentNewUUID.String(),
+				CreatedAt: dayReportsRaw[i].CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+				UpdatedAt: dayReportsRaw[i].UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+				CompositionParticipants: []schemas.DayReportsCompositionParticipants{
+					{
+						DayReportID: currentDayReportUUIDString,
+						WayID:       currentWayUUIDString,
+						WayName:     dayReportsRaw[i].WayName,
+					},
+				},
+				JobsDone: jobDonesMap[currentDayReportUUIDString],
+				Plans:    plansMap[currentDayReportUUIDString],
+				Problems: problemsMap[currentDayReportUUIDString],
+				Comments: commentsMap[currentDayReportUUIDString],
+			}
+		}
+	}
 
-	// 		rank = dayReportsRaw[i].Rank
-
-	// 		currentDayReport = schemas.DayReportPopulatedResponse{
-	// 			// Uuid:      util.ConvertPgUUIDToUUID(dayReportsRaw[i].Uuid).String(),
-	// 			WayUuid:   util.ConvertPgUUIDToUUID(dayReportsRaw[i].WayUuid).String(),
-	// 			CreatedAt: dayReportsRaw[i].CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-	// 			UpdatedAt: dayReportsRaw[i].UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-	// 			JobsDone:  jobDonesMap[dayReportUUIDString],
-	// 			Plans:     plansMap[dayReportUUIDString],
-	// 			Problems:  problemsMap[dayReportUUIDString],
-	// 			Comments:  commentsMap[dayReportUUIDString],
-	// 		}
-	// 	}
-	// }
-
-	// dayReports = append(dayReports, currentDayReport)
+	dayReports = append(dayReports, currentDayReport)
 
 	response := &schemas.ListDayReportsResponse{
-		// DayReports: dayReports,
-		Size: int(dayReportsRaw[0].MaxRank),
+		DayReports: dayReports,
+		Size:       int(dayReportsRaw[0].MaxRank),
 	}
 
 	return response, nil
@@ -243,35 +267,3 @@ func GetLastDayReportDate(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUI
 		EndDate:        response.EndDate.Time,
 	}, nil
 }
-
-// for _, dayReportRaw := range dayReportsRaw {
-
-// 		dayReportEntry, exists := dayReportRankMap[int32(dayReportRaw.Rank)]
-// 		if exists {
-// 			dayReportUUIDString := util.ConvertPgUUIDToUUID(dayReportRaw.Uuid).String()
-
-// 			jobDones := jobDonesMap[dayReportUUIDString]
-// 			plans := plansMap[dayReportUUIDString]
-// 			problems := problemsMap[dayReportUUIDString]
-// 			comments := commentsMap[dayReportUUIDString]
-
-// 			dayReportEntry.JobsDone = append(dayReportEntry.JobsDone, jobDones...)
-// 			dayReportEntry.Plans = append(dayReportEntry.Plans, plans...)
-// 			dayReportEntry.Problems = append(dayReportEntry.Problems, problems...)
-// 			dayReportEntry.Comments = append(dayReportEntry.Comments, comments...)
-
-// 			dayReportRankMap[int32(dayReportRaw.Rank)] = dayReportEntry
-// 		} else {
-// 			dayReportRankMap[int32(dayReportRaw.Rank)] = schemas.DayReportPopulatedResponse{
-// 				Uuid:      string(dayReportRaw.Rank),
-// 				WayUuid:   params.ParentWayID.String(),
-// 				CreatedAt: dayReportRaw.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-// 				UpdatedAt: dayReportRaw.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-// 				IsDayOff:  false,
-// 				JobsDone:  []schemas.JobDonePopulatedResponse{},
-// 				Plans:     []schemas.PlanPopulatedResponse{},
-// 				Problems:  []schemas.ProblemPopulatedResponse{},
-// 				Comments:  []schemas.CommentPopulatedResponse{},
-// 			}
-// 		}
-// 	}

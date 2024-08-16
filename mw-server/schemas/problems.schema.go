@@ -21,5 +21,7 @@ type ProblemPopulatedResponse struct {
 	OwnerUuid     string           `json:"ownerUuid" validate:"required"`
 	OwnerName     string           `json:"ownerName" validate:"required"`
 	DayReportUuid string           `json:"dayReportUuid" validate:"required"`
+	WayUUID       string           `json:"wayUuid" validate:"required"`
+	WayName       string           `json:"wayName" validate:"required"`
 	Tags          []JobTagResponse `json:"tags" validate:"required"`
 }

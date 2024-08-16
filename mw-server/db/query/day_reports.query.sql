@@ -33,10 +33,12 @@ RETURNING *;
 -- name: GetDayReportsByRankRange :many
 WITH ranked_reports AS (
     SELECT
-        dense_rank() OVER (ORDER BY created_at ASC) AS rank,
-        day_reports.*
+        dense_rank() OVER (ORDER BY day_reports.created_at ASC) AS rank,
+        day_reports.*,
+        ways.name AS way_name
     FROM day_reports
-    WHERE way_uuid = ANY (@way_uuids::UUID[])
+	INNER JOIN ways ON day_reports.way_uuid = ways.uuid
+    WHERE ways.uuid = ANY (@way_uuids::UUID[])
 ),
 max_rank_cte AS (
     SELECT
