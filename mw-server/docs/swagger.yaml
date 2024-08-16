@@ -339,42 +339,6 @@ definitions:
     - name
     - wayUuid
     type: object
-  schemas.DayReportPopulatedResponse:
-    properties:
-      comments:
-        items:
-          $ref: '#/definitions/schemas.CommentPopulatedResponse'
-        type: array
-      createdAt:
-        type: string
-      jobsDone:
-        items:
-          $ref: '#/definitions/schemas.JobDonePopulatedResponse'
-        type: array
-      plans:
-        items:
-          $ref: '#/definitions/schemas.PlanPopulatedResponse'
-        type: array
-      problems:
-        items:
-          $ref: '#/definitions/schemas.ProblemPopulatedResponse'
-        type: array
-      updatedAt:
-        type: string
-      uuid:
-        type: string
-      wayUuid:
-        type: string
-    required:
-    - comments
-    - createdAt
-    - jobsDone
-    - plans
-    - problems
-    - updatedAt
-    - uuid
-    - wayUuid
-    type: object
   schemas.DayReportsCompositionParticipants:
     properties:
       dayReportId:
@@ -1361,7 +1325,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.DayReportPopulatedResponse'
+            $ref: '#/definitions/schemas.CompositeDayReportPopulatedResponse'
       summary: Create a new dayReport
       tags:
       - dayReport

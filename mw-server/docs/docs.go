@@ -365,7 +365,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
+                            "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
                         }
                     }
                 }
@@ -2646,57 +2646,6 @@ const docTemplate = `{
             ],
             "properties": {
                 "name": {
-                    "type": "string"
-                },
-                "wayUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.DayReportPopulatedResponse": {
-            "type": "object",
-            "required": [
-                "comments",
-                "createdAt",
-                "jobsDone",
-                "plans",
-                "problems",
-                "updatedAt",
-                "uuid",
-                "wayUuid"
-            ],
-            "properties": {
-                "comments": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.CommentPopulatedResponse"
-                    }
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "jobsDone": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
-                    }
-                },
-                "plans": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.PlanPopulatedResponse"
-                    }
-                },
-                "problems": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
-                    }
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "uuid": {
                     "type": "string"
                 },
                 "wayUuid": {

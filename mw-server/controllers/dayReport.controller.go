@@ -81,7 +81,7 @@ func (dayReportController *DayReportController) GetDayReports(ctx *gin.Context) 
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateDayReportPayload true "query params"
-// @Success 200 {object} schemas.DayReportPopulatedResponse
+// @Success 200 {object} schemas.CompositeDayReportPopulatedResponse
 // @Router /dayReports [post]
 func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	var payload *schemas.CreateDayReportPayload
