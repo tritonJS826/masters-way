@@ -40,8 +40,8 @@ type CompositeDayReportPopulatedResponse struct {
 	// Calculated by - just date
 	CreatedAt string `json:"createdAt" validate:"required"`
 	// Calculated by - just last date
-	UpdatedAt               string `json:"updatedAt" validate:"required"`
-	CompositionParticipants []DayReportsCompositionParticipants
+	UpdatedAt               string                              `json:"updatedAt" validate:"required"`
+	CompositionParticipants []DayReportsCompositionParticipants `json:"compositionParticipants" validate:"required"`
 
 	JobsDone []JobDonePopulatedResponse `json:"jobsDone" validate:"required"`
 	Plans    []PlanPopulatedResponse    `json:"plans" validate:"required"`

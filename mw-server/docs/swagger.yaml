@@ -68,6 +68,7 @@ definitions:
         type: string
     required:
     - comments
+    - compositionParticipants
     - createdAt
     - jobsDone
     - plans

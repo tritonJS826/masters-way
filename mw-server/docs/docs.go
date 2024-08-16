@@ -2324,6 +2324,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "comments",
+                "compositionParticipants",
                 "createdAt",
                 "jobsDone",
                 "plans",
