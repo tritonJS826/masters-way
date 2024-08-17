@@ -51,6 +51,8 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	}
 
 	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	util.HandleErrorGin(ctx, err)
+
 	if !userPermission.IsPermissionGiven.Bool {
 		err := &util.NotWayOwnerError{
 			WayUUID: util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
