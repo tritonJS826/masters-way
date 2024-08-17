@@ -250,25 +250,25 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 			rank = currentDayReportRaw.Rank
 
 			currentJobDonesSlice := []schemas.JobDonePopulatedResponse{}
-			jobDones, jobDonesExists := jobDonesMap[firstDayReportUUIDString]
+			jobDones, jobDonesExists := jobDonesMap[currentDayReportUUIDString]
 			if jobDonesExists {
 				currentJobDonesSlice = jobDones
 			}
 
 			currentPlansSlice := []schemas.PlanPopulatedResponse{}
-			plans, plansExists := plansMap[firstDayReportUUIDString]
+			plans, plansExists := plansMap[currentDayReportUUIDString]
 			if plansExists {
 				currentPlansSlice = plans
 			}
 
 			currentProblemsSlice := []schemas.ProblemPopulatedResponse{}
-			problems, problemsExists := problemsMap[firstDayReportUUIDString]
+			problems, problemsExists := problemsMap[currentDayReportUUIDString]
 			if problemsExists {
 				currentProblemsSlice = problems
 			}
 
 			currentCommentsSlice := []schemas.CommentPopulatedResponse{}
-			comments, commentsExists := commentsMap[firstDayReportUUIDString]
+			comments, commentsExists := commentsMap[currentDayReportUUIDString]
 			if commentsExists {
 				currentCommentsSlice = comments
 			}
