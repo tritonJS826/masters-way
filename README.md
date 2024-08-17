@@ -51,9 +51,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 `pnpm i`
 
-3. Create .env file inside all modules with variables from .env.example (ask Ekaterina for values)
+3. Create .env file inside all modules with variables from .env.local.example (ask Kate for values)
 
-4. Run databases and nginx in containers (check local.ngnix.conf for right addresses):
+4. Run databases and nginx in containers (check local.nginx.conf for right addresses):
 
 `docker-compose -f local.docker.docker-compose.yml up`
 
@@ -61,13 +61,12 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 `pnpm run start`
 
-### Run build locally
+### Run all modules locally with docker
 
-`pnpm run build`
+1. Create .env file inside all modules with variables from .env.local.docker.example (ask Kate for values)
 
-### Run all modules locally
 
-`docker-compose -f local.docker-compose.yml up`
+2. `docker-compose -f local.docker.docker-compose.yml up --build`
 
 
 ### Clean up all docker images and volumes
