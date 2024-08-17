@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -33,6 +34,7 @@ func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneControlle
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
 // @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create job done."
 // @Router /jobDones [post]
 func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
@@ -42,11 +44,13 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	ownerUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true}
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
 	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
-		UserUuid:      ownerUUID,
+		UserUuid:      userUUID,
 		DayReportUuid: dayReportUUID,
 	}
 
@@ -54,16 +58,14 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
-		err := &util.NotWayOwnerError{
-			WayUUID: util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		}
+		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
 		util.HandleErrorGin(ctx, err)
 	}
 
 	now := time.Now()
 	args := &db.CreateJobDoneParams{
 		Description:   payload.Description,
-		OwnerUuid:     ownerUUID,
+		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		DayReportUuid: dayReportUUID,
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},

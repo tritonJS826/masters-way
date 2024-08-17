@@ -195,6 +195,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.CommentPopulatedResponse"
                         }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create comment.",
+                        "schema": {
+                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             }
@@ -809,6 +815,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
                         }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create job done.",
+                        "schema": {
+                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             }
@@ -1243,6 +1255,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.PlanPopulatedResponse"
                         }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create plan.",
+                        "schema": {
+                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             }
@@ -1344,6 +1362,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create problem.",
+                        "schema": {
+                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -3780,6 +3804,21 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "util.NoRightToChangeDayReportError": {
+            "type": "object",
+            "required": [
+                "error",
+                "errorId"
+            ],
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "errorId": {
                     "type": "string"
                 }
             }

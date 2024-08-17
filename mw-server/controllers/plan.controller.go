@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -33,6 +34,7 @@ func NewPlanController(db *db.Queries, ctx context.Context) *PlanController {
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
 // @Success 200 {object} schemas.PlanPopulatedResponse
+// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create plan."
 // @Router /plans [post]
 func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	var payload *schemas.CreatePlanPayload
@@ -42,11 +44,13 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 		return
 	}
 
-	ownerUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true}
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
 	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
-		UserUuid:      ownerUUID,
+		UserUuid:      userUUID,
 		DayReportUuid: dayReportUUID,
 	}
 
@@ -54,9 +58,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
-		err := &util.NotWayOwnerError{
-			WayUUID: util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		}
+		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
 		util.HandleErrorGin(ctx, err)
 	}
 
@@ -64,7 +66,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	args := db.CreatePlanParams{
 		Description:   payload.Description,
 		Time:          int32(payload.Time),
-		OwnerUuid:     ownerUUID,
+		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		IsDone:        payload.IsDone,
 		DayReportUuid: dayReportUUID,
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},

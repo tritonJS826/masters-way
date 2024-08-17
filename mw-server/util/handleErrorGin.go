@@ -10,28 +10,38 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type NotWayOwnerError struct {
-	WayUUID string
+type NoRightToChangeDayReportError struct {
+	Err   string `json:"error" validate:"required"`
+	ErrID string `json:"errorId" validate:"required"`
 }
 
-func (e *NotWayOwnerError) Error() string {
-	return fmt.Sprintf("Not enough rights! You can request editing rights on the way %s.", e.WayUUID)
+func MakeNoRightToChangeDayReportError(wayID string) *NoRightToChangeDayReportError {
+	return &NoRightToChangeDayReportError{
+		Err:   fmt.Sprintf("Not enough rights! You can request editing rights on the way %s.", wayID),
+		ErrID: "no-access-rights",
+	}
+}
+
+func (err *NoRightToChangeDayReportError) Error() string {
+	return err.Err
 }
 
 func HandleErrorGin(c *gin.Context, err error) {
-	if err != nil {
-		if err == sql.ErrNoRows {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error(), "message": "Failed to retrieve entity with this ID"})
-			log.Panic(err)
-		}
+	if err == nil {
+		return
+	}
 
-		var notWayOwnerError *NotWayOwnerError
-		if errors.As(err, &notWayOwnerError) {
-			c.JSON(http.StatusForbidden, gin.H{"error": err.Error()})
-			log.Panic(err)
-		}
-
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	if err == sql.ErrNoRows {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error(), "message": "Failed to retrieve entity with this ID"})
 		log.Panic(err)
 	}
+
+	var notWayOwnerError *NoRightToChangeDayReportError
+	if errors.As(err, &notWayOwnerError) {
+		c.AbortWithStatusJSON(http.StatusForbidden, err)
+		log.Panic(err)
+	}
+
+	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	log.Panic(err)
 }

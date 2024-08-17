@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -32,6 +33,7 @@ func NewProblemController(db *db.Queries, ctx context.Context) *ProblemControlle
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
 // @Success 200 {object} schemas.ProblemPopulatedResponse
+// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create problem."
 // @Router /problems [post]
 func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	var payload *schemas.CreateProblemPayload
@@ -41,11 +43,13 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		return
 	}
 
-	ownerUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true}
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
 	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
-		UserUuid:      ownerUUID,
+		UserUuid:      userUUID,
 		DayReportUuid: dayReportUUID,
 	}
 
@@ -53,9 +57,7 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
-		err := &util.NotWayOwnerError{
-			WayUUID: util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		}
+		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
 		util.HandleErrorGin(ctx, err)
 	}
 
@@ -65,7 +67,7 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		Description:   payload.Description,
 		IsDone:        payload.IsDone,
-		OwnerUuid:     ownerUUID,
+		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		DayReportUuid: dayReportUUID,
 	}
 
