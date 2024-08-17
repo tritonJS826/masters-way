@@ -45,7 +45,7 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 		}, nil
 	}
 
-	wayMap := lo.SliceToMap(dayReportsRaw, func(dbDayReport dbb.GetDayReportsByRankRangeRow) (string, dbb.GetDayReportsByRankRangeRow) {
+	dayReportMap := lo.SliceToMap(dayReportsRaw, func(dbDayReport dbb.GetDayReportsByRankRangeRow) (string, dbb.GetDayReportsByRankRangeRow) {
 		return util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(), dbDayReport
 	})
 
@@ -100,8 +100,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     jobDoneOwnerUUIDString,
 				OwnerName:     jobDoneOwner.Name,
 				DayReportUuid: dayReportUUIDString,
-				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
-				WayName:       wayMap[dayReportUUIDString].WayName,
+				WayUUID:       util.ConvertPgUUIDToUUID(dayReportMap[dayReportUUIDString].WayUuid).String(),
+				WayName:       dayReportMap[dayReportUUIDString].WayName,
 				Tags:          tags,
 			},
 		)
@@ -127,8 +127,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
 				OwnerName:     planOwner.Name,
 				DayReportUuid: dayReportUUIDString,
-				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
-				WayName:       wayMap[dayReportUUIDString].WayName,
+				WayUUID:       util.ConvertPgUUIDToUUID(dayReportMap[dayReportUUIDString].WayUuid).String(),
+				WayName:       dayReportMap[dayReportUUIDString].WayName,
 				Tags:          tags,
 				IsDone:        plan.IsDone,
 			},
@@ -151,8 +151,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 				OwnerName:     problemOwner.Name,
 				DayReportUuid: dayReportUUIDString,
-				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
-				WayName:       wayMap[dayReportUUIDString].WayName,
+				WayUUID:       util.ConvertPgUUIDToUUID(dayReportMap[dayReportUUIDString].WayUuid).String(),
+				WayName:       dayReportMap[dayReportUUIDString].WayName,
 				IsDone:        problem.IsDone,
 			},
 		)
@@ -174,8 +174,8 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 				OwnerUuid:     commentOwner.Uuid,
 				OwnerName:     commentOwner.Name,
 				DayReportUuid: dayReportUUIDString,
-				WayUUID:       util.ConvertPgUUIDToUUID(wayMap[dayReportUUIDString].Uuid).String(),
-				WayName:       wayMap[dayReportUUIDString].WayName,
+				WayUUID:       util.ConvertPgUUIDToUUID(dayReportMap[dayReportUUIDString].WayUuid).String(),
+				WayName:       dayReportMap[dayReportUUIDString].WayName,
 			},
 		)
 	})

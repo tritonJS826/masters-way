@@ -2443,7 +2443,8 @@ const docTemplate = `{
                 "description",
                 "jobTagUuids",
                 "ownerUuid",
-                "time"
+                "time",
+                "wayUuid"
             ],
             "properties": {
                 "dayReportUuid": {
@@ -2463,6 +2464,9 @@ const docTemplate = `{
                 },
                 "time": {
                     "type": "integer"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },
