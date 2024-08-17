@@ -25,6 +25,8 @@ apis/WayCollectionWayApi.ts
 apis/WayTagApi.ts
 apis/index.ts
 index.ts
+models/SchemasAIChatPayload.ts
+models/SchemasAIChatResponse.ts
 models/SchemasAddWayToCompositeWayPayload.ts
 models/SchemasCommentPopulatedResponse.ts
 models/SchemasCompositeDayReportPopulatedResponse.ts
@@ -52,6 +54,7 @@ models/SchemasDayReportsCompositionParticipants.ts
 models/SchemasDefaultWayCollections.ts
 models/SchemasDeleteMentorUserWayPayload.ts
 models/SchemasGenerateMetricsPayload.ts
+models/SchemasGenerateMetricsResponse.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
 models/SchemasGetUsersByIDsResponse.ts

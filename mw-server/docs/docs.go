@@ -616,6 +616,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/just-chat": {
+            "post": {
+                "description": "This endpoint for talks with AI language model.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Just chat with AI",
+                "operationId": "ai-chat",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIChatPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIChatResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/metrics": {
             "post": {
                 "description": "This endpoint uses Gemini to generate metrics by analyzing the provided goals.",
@@ -643,12 +678,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of generated metrics",
+                        "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/schemas.GenerateMetricsResponse"
                         }
                     }
                 }
@@ -2162,6 +2194,28 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "schemas.AIChatPayload": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIChatResponse": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
@@ -2725,6 +2779,20 @@ const docTemplate = `{
                 },
                 "wayName": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.GenerateMetricsResponse": {
+            "type": "object",
+            "required": [
+                "metrics"
+            ],
+            "properties": {
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

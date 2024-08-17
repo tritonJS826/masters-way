@@ -1,5 +1,7 @@
 // @ts-nocheck
 /* eslint-disable */
+export * from './SchemasAIChatPayload';
+export * from './SchemasAIChatResponse';
 export * from './SchemasAddWayToCompositeWayPayload';
 export * from './SchemasCommentPopulatedResponse';
 export * from './SchemasCompositeDayReportPopulatedResponse';
@@ -27,6 +29,7 @@ export * from './SchemasDayReportsCompositionParticipants';
 export * from './SchemasDefaultWayCollections';
 export * from './SchemasDeleteMentorUserWayPayload';
 export * from './SchemasGenerateMetricsPayload';
+export * from './SchemasGenerateMetricsResponse';
 export * from './SchemasGetAllUsersResponse';
 export * from './SchemasGetAllWaysResponse';
 export * from './SchemasGetUsersByIDsResponse';

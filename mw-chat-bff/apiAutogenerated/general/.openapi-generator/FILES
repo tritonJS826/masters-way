@@ -47,6 +47,8 @@ docs/MetricAPI.md
 docs/PlanAPI.md
 docs/PlanJobTagAPI.md
 docs/ProblemAPI.md
+docs/SchemasAIChatPayload.md
+docs/SchemasAIChatResponse.md
 docs/SchemasAddWayToCompositeWayPayload.md
 docs/SchemasCommentPopulatedResponse.md
 docs/SchemasCompositeDayReportPopulatedResponse.md
@@ -74,6 +76,7 @@ docs/SchemasDayReportsCompositionParticipants.md
 docs/SchemasDefaultWayCollections.md
 docs/SchemasDeleteMentorUserWayPayload.md
 docs/SchemasGenerateMetricsPayload.md
+docs/SchemasGenerateMetricsResponse.md
 docs/SchemasGetAllUsersResponse.md
 docs/SchemasGetAllWaysResponse.md
 docs/SchemasGetUsersByIDsResponse.md
@@ -120,6 +123,8 @@ git_push.sh
 go.mod
 go.sum
 model_schemas_add_way_to_composite_way_payload.go
+model_schemas_ai_chat_payload.go
+model_schemas_ai_chat_response.go
 model_schemas_comment_populated_response.go
 model_schemas_composite_day_report_populated_response.go
 model_schemas_composite_way_relation.go
@@ -146,6 +151,7 @@ model_schemas_day_reports_composition_participants.go
 model_schemas_default_way_collections.go
 model_schemas_delete_mentor_user_way_payload.go
 model_schemas_generate_metrics_payload.go
+model_schemas_generate_metrics_response.go
 model_schemas_get_all_users_response.go
 model_schemas_get_all_ways_response.go
 model_schemas_get_users_by_ids_response.go

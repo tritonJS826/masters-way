@@ -1,5 +1,19 @@
 basePath: /api
 definitions:
+  schemas.AIChatPayload:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+  schemas.AIChatResponse:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
   schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -389,6 +403,15 @@ definitions:
     - goalDescription
     - metrics
     - wayName
+    type: object
+  schemas.GenerateMetricsResponse:
+    properties:
+      metrics:
+        items:
+          type: string
+        type: array
+    required:
+    - metrics
     type: object
   schemas.GetAllUsersResponse:
     properties:
@@ -1490,6 +1513,29 @@ paths:
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
+  /gemini/just-chat:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint for talks with AI language model.
+      operationId: ai-chat
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AIChatPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AIChatResponse'
+      summary: Just chat with AI
+      tags:
+      - gemini
   /gemini/metrics:
     post:
       consumes:
@@ -1508,11 +1554,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: List of generated metrics
+          description: OK
           schema:
-            items:
-              type: string
-            type: array
+            $ref: '#/definitions/schemas.GenerateMetricsResponse'
       summary: Generate metrics using Gemini
       tags:
       - gemini

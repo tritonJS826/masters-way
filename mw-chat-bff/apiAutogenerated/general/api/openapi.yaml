@@ -381,6 +381,28 @@ paths:
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
+  /gemini/just-chat:
+    post:
+      description: This endpoint for talks with AI language model.
+      operationId: ai-chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AIChatPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AIChatResponse'
+          description: OK
+      summary: Just chat with AI
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/metrics:
     post:
       description: This endpoint uses Gemini to generate metrics by analyzing the
@@ -398,10 +420,8 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  type: string
-                type: array
-          description: List of generated metrics
+                $ref: '#/components/schemas/schemas.GenerateMetricsResponse'
+          description: OK
       summary: Generate metrics using Gemini
       tags:
       - gemini
@@ -1366,6 +1386,22 @@ paths:
       - way
 components:
   schemas:
+    schemas.AIChatPayload:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    schemas.AIChatResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
     schemas.AddWayToCompositeWayPayload:
       properties:
         childWayUuid:
@@ -2192,6 +2228,19 @@ components:
       - goalDescription
       - metrics
       - wayName
+      type: object
+    schemas.GenerateMetricsResponse:
+      example:
+        metrics:
+        - metrics
+        - metrics
+      properties:
+        metrics:
+          items:
+            type: string
+          type: array
+      required:
+      - metrics
       type: object
     schemas.GetAllUsersResponse:
       example:

@@ -15,12 +15,25 @@
 
 import * as runtime from '../runtime';
 import type {
+  SchemasAIChatPayload,
+  SchemasAIChatResponse,
   SchemasGenerateMetricsPayload,
+  SchemasGenerateMetricsResponse,
 } from '../models/index';
 import {
+    SchemasAIChatPayloadFromJSON,
+    SchemasAIChatPayloadToJSON,
+    SchemasAIChatResponseFromJSON,
+    SchemasAIChatResponseToJSON,
     SchemasGenerateMetricsPayloadFromJSON,
     SchemasGenerateMetricsPayloadToJSON,
+    SchemasGenerateMetricsResponseFromJSON,
+    SchemasGenerateMetricsResponseToJSON,
 } from '../models/index';
+
+export interface AiChatRequest {
+    request: SchemasAIChatPayload;
+}
 
 export interface GenerateMetricsRequest {
     request: SchemasGenerateMetricsPayload;
@@ -32,10 +45,45 @@ export interface GenerateMetricsRequest {
 export class GeminiApi extends runtime.BaseAPI {
 
     /**
+     * This endpoint for talks with AI language model.
+     * Just chat with AI
+     */
+    async aiChatRaw(requestParameters: AiChatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIChatResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiChat.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/just-chat`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasAIChatPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIChatResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint for talks with AI language model.
+     * Just chat with AI
+     */
+    async aiChat(requestParameters: AiChatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIChatResponse> {
+        const response = await this.aiChatRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * This endpoint uses Gemini to generate metrics by analyzing the provided goals.
      * Generate metrics using Gemini
      */
-    async generateMetricsRaw(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+    async generateMetricsRaw(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGenerateMetricsResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling generateMetrics.');
         }
@@ -54,14 +102,14 @@ export class GeminiApi extends runtime.BaseAPI {
             body: SchemasGenerateMetricsPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGenerateMetricsResponseFromJSON(jsonValue));
     }
 
     /**
      * This endpoint uses Gemini to generate metrics by analyzing the provided goals.
      * Generate metrics using Gemini
      */
-    async generateMetrics(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+    async generateMetrics(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGenerateMetricsResponse> {
         const response = await this.generateMetricsRaw(requestParameters, initOverrides);
         return await response.value();
     }
