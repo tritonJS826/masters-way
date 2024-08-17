@@ -40,3 +40,16 @@ SELECT ranked_reports.*, max_rank_cte.max_rank
 FROM ranked_reports, max_rank_cte
 WHERE rank BETWEEN (@start_rank_range::INTEGER) AND (@end_rank_range::INTEGER)
 ORDER BY rank;
+
+-- name: GetIsUserHavingPermissionsForDayReport :one
+SELECT
+    ways.uuid as way_uuid,
+    EXISTS (
+        SELECT 1
+        FROM mentor_users_ways
+        WHERE mentor_users_ways.way_uuid = ways.uuid
+        AND mentor_users_ways.user_uuid = @user_uuid
+    ) OR ways.owner_uuid = @user_uuid AS is_permission_given
+FROM ways
+INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
+WHERE day_reports.uuid = @day_report_uuid;

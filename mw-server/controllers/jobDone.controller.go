@@ -42,11 +42,27 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		return
 	}
 
+	ownerUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true}
+	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
+
+	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+		UserUuid:      ownerUUID,
+		DayReportUuid: dayReportUUID,
+	}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	if !userPermission.IsPermissionGiven.Bool {
+		err := &util.NotWayOwnerError{
+			WayUUID: util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		}
+		util.HandleErrorGin(ctx, err)
+	}
+
 	now := time.Now()
 	args := &db.CreateJobDoneParams{
 		Description:   payload.Description,
-		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
-		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		OwnerUuid:     ownerUUID,
+		DayReportUuid: dayReportUUID,
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		Time:          int32(payload.Time),

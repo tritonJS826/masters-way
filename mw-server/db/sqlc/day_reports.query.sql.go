@@ -118,6 +118,37 @@ func (q *Queries) GetDayReportsCountByWayId(ctx context.Context, wayUuid pgtype.
 	return day_reports_count, err
 }
 
+const getIsUserHavingPermissionsForDayReport = `-- name: GetIsUserHavingPermissionsForDayReport :one
+SELECT
+    ways.uuid as way_uuid,
+    EXISTS (
+        SELECT 1
+        FROM mentor_users_ways
+        WHERE mentor_users_ways.way_uuid = ways.uuid
+        AND mentor_users_ways.user_uuid = $1
+    ) OR ways.owner_uuid = $1 AS is_permission_given
+FROM ways
+INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
+WHERE day_reports.uuid = $2
+`
+
+type GetIsUserHavingPermissionsForDayReportParams struct {
+	UserUuid      pgtype.UUID `json:"user_uuid"`
+	DayReportUuid pgtype.UUID `json:"day_report_uuid"`
+}
+
+type GetIsUserHavingPermissionsForDayReportRow struct {
+	WayUuid           pgtype.UUID `json:"way_uuid"`
+	IsPermissionGiven pgtype.Bool `json:"is_permission_given"`
+}
+
+func (q *Queries) GetIsUserHavingPermissionsForDayReport(ctx context.Context, arg GetIsUserHavingPermissionsForDayReportParams) (GetIsUserHavingPermissionsForDayReportRow, error) {
+	row := q.db.QueryRow(ctx, getIsUserHavingPermissionsForDayReport, arg.UserUuid, arg.DayReportUuid)
+	var i GetIsUserHavingPermissionsForDayReportRow
+	err := row.Scan(&i.WayUuid, &i.IsPermissionGiven)
+	return i, err
+}
+
 const getListDayReportsByWayUuid = `-- name: GetListDayReportsByWayUuid :many
 SELECT uuid, way_uuid, created_at, updated_at
 FROM day_reports

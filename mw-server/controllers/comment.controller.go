@@ -41,11 +41,29 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		return
 	}
 
+	ownerUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true}
+	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
+
+	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+		UserUuid:      ownerUUID,
+		DayReportUuid: dayReportUUID,
+	}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := &util.NotWayOwnerError{
+			WayUUID: util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		}
+		util.HandleErrorGin(ctx, err)
+	}
+
 	now := time.Now()
 	args := &db.CreateCommentParams{
 		Description:   payload.Description,
-		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
-		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		OwnerUuid:     ownerUUID,
+		DayReportUuid: dayReportUUID,
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}

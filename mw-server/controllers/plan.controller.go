@@ -42,13 +42,31 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 		return
 	}
 
+	ownerUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true}
+	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
+
+	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+		UserUuid:      ownerUUID,
+		DayReportUuid: dayReportUUID,
+	}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := &util.NotWayOwnerError{
+			WayUUID: util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		}
+		util.HandleErrorGin(ctx, err)
+	}
+
 	now := time.Now()
 	args := db.CreatePlanParams{
 		Description:   payload.Description,
 		Time:          int32(payload.Time),
-		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
+		OwnerUuid:     ownerUUID,
 		IsDone:        payload.IsDone,
-		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		DayReportUuid: dayReportUUID,
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}
