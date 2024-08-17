@@ -210,6 +210,7 @@ Class | Method | HTTP request | Description
  - [SchemasWayStatistics](docs/SchemasWayStatistics.md)
  - [SchemasWayStatisticsTriplePeriod](docs/SchemasWayStatisticsTriplePeriod.md)
  - [SchemasWayTagResponse](docs/SchemasWayTagResponse.md)
+ - [UtilNoRightToChangeDayReportError](docs/UtilNoRightToChangeDayReportError.md)
  - [UtilResponseStatusString](docs/UtilResponseStatusString.md)
 
 

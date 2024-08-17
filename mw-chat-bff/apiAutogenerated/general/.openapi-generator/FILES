@@ -114,6 +114,7 @@ docs/SchemasWayTagResponse.md
 docs/ToUserMentoringRequestAPI.md
 docs/UserAPI.md
 docs/UserTagAPI.md
+docs/UtilNoRightToChangeDayReportError.md
 docs/UtilResponseStatusString.md
 docs/WayAPI.md
 docs/WayCollectionAPI.md
@@ -186,6 +187,7 @@ model_schemas_way_populated_response.go
 model_schemas_way_statistics.go
 model_schemas_way_statistics_triple_period.go
 model_schemas_way_tag_response.go
+model_util_no_right_to_change_day_report_error.go
 model_util_response_status_string.go
 response.go
 utils.go

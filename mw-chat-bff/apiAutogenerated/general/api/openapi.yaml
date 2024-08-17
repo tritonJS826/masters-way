@@ -115,6 +115,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.CommentPopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create comment.
       summary: Create a new comment
       tags:
       - comment
@@ -499,6 +505,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.JobDonePopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create job done.
       summary: Create a new jobDone
       tags:
       - jobDone
@@ -771,6 +783,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.PlanPopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create plan.
       summary: Create a new plan
       tags:
       - plan
@@ -836,6 +854,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.ProblemPopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create problem.
       summary: Create a new problem
       tags:
       - problem
@@ -4435,6 +4459,19 @@ components:
       required:
       - name
       - uuid
+      type: object
+    util.NoRightToChangeDayReportError:
+      example:
+        errorId: errorId
+        error: error
+      properties:
+        error:
+          type: string
+        errorId:
+          type: string
+      required:
+      - error
+      - errorId
       type: object
     util.ResponseStatusString:
       example:
