@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -16,6 +17,7 @@ import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -23,6 +25,7 @@ import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, 
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Label} from "src/model/businessModel/Label";
 import {User, UserPlain} from "src/model/businessModel/User";
@@ -95,6 +98,27 @@ interface ReportsTableJobsDoneCellProps {
 export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCellProps) => {
   const {language} = languageStore;
 
+  const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
+
+  if (accessErrorStore.dayReportParticipant) {
+    return (
+      <Modal
+        isOpen={true}
+        trigger={<></>}
+        content={
+          <>
+            <p>
+              {LanguageService.error.noAccessRight[language]}
+            </p>
+            <Link path={pages.way.getPath({uuid: accessErrorStore.dayReportParticipant?.wayId})}>
+              {accessErrorStore.dayReportParticipant?.wayName}
+            </Link>
+          </>
+        }
+      />
+    );
+  }
+
   /**
    * Load way statistics
    */
@@ -107,20 +131,22 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
   /**
    * Create jobDone
    */
-  const createJobDone = async (userUuid?: string) => {
+  const createJobDone = async (compositionParticipant: DayReportCompositionParticipant, userUuid?: string) => {
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-    const jobDone = await JobDoneDAL.createJobDone({
-      dayReportUuid: props.dayReport.uuid,
-      ownerUuid: userUuid,
-      wayName: props.wayName,
-      wayUuid: props.wayUuid,
-    });
-    props.dayReport.addJob(jobDone);
+    try {
+      const jobDone = await JobDoneDAL.createJobDone({
+        dayReportUuid: compositionParticipant.dayReportId,
+        ownerUuid: userUuid,
+      });
+      props.dayReport.addJob(jobDone);
 
-    const updatedStatistics = await loadWayStatistics();
-    props.setWayStatisticsTriple(updatedStatistics);
+      const updatedStatistics = await loadWayStatistics();
+      props.setWayStatisticsTriple(updatedStatistics);
+    } catch (error) {
+      accessErrorStore.setAccessErrorStore(compositionParticipant);
+    }
   };
 
   /**
@@ -248,11 +274,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                         uuid: jobDone.uuid,
                         time: getValidatedTime(Number(time)),
                       };
-                      await JobDoneDAL.updateJobDone({
-                        jobDone: jobDoneToUpdate,
-                        wayName: props.wayName,
-                        wayUuid: props.wayUuid,
-                      });
+                      await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
                       jobDone.updateTime(getValidatedTime(Number(time)));
 
                       const updatedStatistics = await loadWayStatistics();
@@ -315,11 +337,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   uuid: jobDone.uuid,
                   description,
                 };
-                await JobDoneDAL.updateJobDone({
-                  jobDone: jobDoneToUpdate,
-                  wayName: props.wayName,
-                  wayUuid: props.wayUuid,
-                });
+                await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
                 jobDone.updateDescription(description);
               }}
               isEditable={props.isEditable}
@@ -332,10 +350,13 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
         ))}
       </ol>
       <SummarySection
+        wayId={props.wayUuid}
+        compositionParticipants={props.dayReport.compositionParticipants}
         isEditable={props.isEditable}
         tooltipContent={LanguageService.way.reportsTable.columnTooltip.addJob[language]}
         tooltipPosition={PositionTooltip.RIGHT}
-        onClick={() => createJobDone(props.user?.uuid)}
+        onClick={(compositionParticipant: DayReportCompositionParticipant) =>
+          createJobDone(compositionParticipant, props.user?.uuid)}
         total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
           ${props.dayReport.jobsDone.reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
         }

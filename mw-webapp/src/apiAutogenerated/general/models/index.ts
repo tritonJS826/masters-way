@@ -64,4 +64,5 @@ export * from './SchemasWayPopulatedResponse';
 export * from './SchemasWayStatistics';
 export * from './SchemasWayStatisticsTriplePeriod';
 export * from './SchemasWayTagResponse';
+export * from './UtilNoRightToChangeDayReportError';
 export * from './UtilResponseStatusString';

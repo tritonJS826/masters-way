@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {Checkbox} from "src/component/checkbox/Checkbox";
@@ -17,6 +18,7 @@ import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -26,6 +28,7 @@ copyPlanToJobDoneModalContent/CopyPlanToJobDoneModalContent";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
 import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
 import {User, UserPlain} from "src/model/businessModel/User";
@@ -84,20 +87,43 @@ interface ReportsTablePlansCellProps {
 export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps) => {
   const {language} = languageStore;
 
+  const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
+
+  if (accessErrorStore.dayReportParticipant) {
+    return (
+      <Modal
+        isOpen={true}
+        trigger={<></>}
+        content={
+          <>
+            <p>
+              {LanguageService.error.noAccessRight[language]}
+            </p>
+            <Link path={pages.way.getPath({uuid: accessErrorStore.dayReportParticipant?.wayId})}>
+              {accessErrorStore.dayReportParticipant?.wayName}
+            </Link>
+          </>
+        }
+      />
+    );
+  }
+
   /**
    * Create Plan
    */
-  const createPlan = async (userUuid?: string) => {
+  const createPlan = async (compositionParticipant: DayReportCompositionParticipant, userUuid?: string) => {
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-    const plan = await PlanDAL.createPlan({
-      dayReportUuid: props.dayReport.uuid,
-      ownerUuid: userUuid,
-      wayName: props.way.name,
-      wayUuid: props.way.uuid,
-    });
-    props.dayReport.addPlan(plan);
+    try {
+      const plan = await PlanDAL.createPlan({
+        dayReportUuid: compositionParticipant.dayReportId,
+        ownerUuid: userUuid,
+      });
+      props.dayReport.addPlan(plan);
+    } catch (error) {
+      accessErrorStore.setAccessErrorStore(compositionParticipant);
+    }
   };
 
   /**
@@ -119,8 +145,6 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     const jobDone = await JobDoneDAL.createJobDone({
       dayReportUuid: report.uuid,
       ownerUuid,
-      wayName: props.way.name,
-      wayUuid: props.way.uuid,
       plan,
     });
     report.addJob(jobDone);
@@ -252,11 +276,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                         uuid: plan.uuid,
                         time: getValidatedTime(Number(time)),
                       };
-                      await PlanDAL.updatePlan({
-                        plan: planToUpdate,
-                        wayName: props.way.name,
-                        wayUuid: props.way.uuid,
-                      });
+                      await PlanDAL.updatePlan({plan: planToUpdate});
                       plan.updateTime(getValidatedTime(Number(time)));
                     }}
                     className={styles.editableTime}
@@ -290,11 +310,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                           plan={plan}
                           updatePlan={async (planToUpdate) => {
                             plan.updateIsDone(planToUpdate.isDone);
-                            await PlanDAL.updatePlan({
-                              plan: planToUpdate,
-                              wayName: props.way.name,
-                              wayUuid: props.way.uuid,
-                            });
+                            await PlanDAL.updatePlan({plan: planToUpdate});
                           }}
                         />
                       }
@@ -355,11 +371,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   description,
                 };
                 plan.updateDescription(description);
-                await PlanDAL.updatePlan({
-                  plan: planToUpdate,
-                  wayName: props.way.name,
-                  wayUuid: props.way.uuid,
-                });
+                await PlanDAL.updatePlan({plan: planToUpdate});
               }}
               isEditable={plan.ownerUuid === props.user?.uuid}
               placeholder={props.isEditable
@@ -371,10 +383,13 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
         ))}
       </ol>
       <SummarySection
+        wayId={props.way.uuid}
+        compositionParticipants={props.dayReport.compositionParticipants}
         isEditable={props.isEditable}
         tooltipContent={LanguageService.way.reportsTable.columnTooltip.addPlan[language]}
         tooltipPosition={PositionTooltip.RIGHT}
-        onClick={() => createPlan(props.user?.uuid)}
+        onClick={(compositionParticipant: DayReportCompositionParticipant) =>
+          createPlan(compositionParticipant, props.user?.uuid)}
         total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
           ${props.dayReport.plans.reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
         }
