@@ -1,11 +1,11 @@
-name: Deploy mw-chat-bff to Server
+name: Deploy mw-chat-websocket to Server
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'mw-chat-bff/**'
+      - 'mw-chat-websocket/**'
   # workflow_dispatch:
 
 jobs:
@@ -33,8 +33,8 @@ jobs:
 
       # - name: Build and push Docker image
       #   run: |
-      #     IMAGE_NAME=victorveretennikov58/masters-way:mw-chat-bff.${{ env.COMMIT_HASH }}.${{ env.COMMIT_DATE }}
-      #     docker build -t $IMAGE_NAME -f mw-chat-bff/Dockerfile mw-chat-bff
+      #     IMAGE_NAME=victorveretennikov58/masters-way:mw-chat.${{ env.COMMIT_HASH }}.${{ env.COMMIT_DATE }}
+      #     docker build -t $IMAGE_NAME -f mw-chat/Dockerfile mw-chat
       #     docker push $IMAGE_NAME
 
   deploy:
@@ -62,14 +62,14 @@ jobs:
         #   COMMIT_DATE: ${{ env.COMMIT_DATE }}
         #   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         #   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-        #   ENV_FILE_PATH_CHAT_BFF: ${{ secrets.ENV_FILE_PATH_CHAT_BFF }}
+        #   ENV_FILE_PATH_CHAT: ${{ secrets.ENV_FILE_PATH_CHAT }}
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.USER_SERVER }}@${{ secrets.IP_SERVER }} << EOF
             cd ~/masters-way
             git pull
-            sudo docker-compose build mw-chat-bff
-            sudo docker-compose stop mw-chat-bff
-            sudo docker-compose up -d mw-chat-bff
+            sudo docker-compose build mw-chat-websocket
+            sudo docker-compose stop mw-chat-websocket
+            sudo docker-compose up -d mw-chat-websocket
           EOF
 
 
@@ -85,7 +85,7 @@ jobs:
   #         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   #       run: |
   #         STATUS=${{ job.status }}
-  #         MESSAGE="GitHub Action completed with status: $STATUS. Deployment of mw-chat-bff with tag mw-chat-bff"
+  #         MESSAGE="GitHub Action completed with status: $STATUS. Deployment of mw-chat with tag mw-chat"
   #         curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
   #         -d chat_id="${TELEGRAM_CHAT_ID}" \
   #         -d text="$MESSAGE"
