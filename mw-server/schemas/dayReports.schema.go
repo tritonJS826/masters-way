@@ -8,17 +8,6 @@ type CreateDayReportPayload struct {
 	WayUuid uuid.UUID `json:"wayUuid" validate:"required"`
 }
 
-type DayReportPopulatedResponse struct {
-	Uuid      string                     `json:"uuid" validate:"required"`
-	WayUuid   string                     `json:"wayUuid" validate:"required"`
-	CreatedAt string                     `json:"createdAt" validate:"required"`
-	UpdatedAt string                     `json:"updatedAt" validate:"required"`
-	JobsDone  []JobDonePopulatedResponse `json:"jobsDone" validate:"required"`
-	Plans     []PlanPopulatedResponse    `json:"plans" validate:"required"`
-	Problems  []ProblemPopulatedResponse `json:"problems" validate:"required"`
-	Comments  []CommentPopulatedResponse `json:"comments" validate:"required"`
-}
-
 type DayReportsCompositionParticipants struct {
 	DayReportID string `json:"dayReportId" validate:"required"`
 	WayID       string `json:"wayId" validate:"required"`
