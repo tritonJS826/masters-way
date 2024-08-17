@@ -180,15 +180,12 @@ definitions:
         type: string
       time:
         type: integer
-      wayUuid:
-        type: string
     required:
     - dayReportUuid
     - description
     - jobTagUuids
     - ownerUuid
     - time
-    - wayUuid
     type: object
   schemas.CreateJobTagPayload:
     properties:

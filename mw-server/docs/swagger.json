@@ -2435,8 +2435,7 @@
                 "description",
                 "jobTagUuids",
                 "ownerUuid",
-                "time",
-                "wayUuid"
+                "time"
             ],
             "properties": {
                 "dayReportUuid": {
@@ -2456,9 +2455,6 @@
                 },
                 "time": {
                     "type": "integer"
-                },
-                "wayUuid": {
-                    "type": "string"
                 }
             }
         },

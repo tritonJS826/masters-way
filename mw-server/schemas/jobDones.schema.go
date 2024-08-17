@@ -5,7 +5,6 @@ type CreateJobDonePayload struct {
 	Time          int32    `json:"time" validate:"required"`
 	DayReportUuid string   `json:"dayReportUuid" validate:"required"`
 	OwnerUuid     string   `json:"ownerUuid" validate:"required"`
-	WayUUID       string   `json:"wayUuid" validate:"required"`
 	JobTagUuids   []string `json:"jobTagUuids" validate:"required"`
 }
 
