@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -103,16 +104,16 @@ export const SummarySection = (props: SummarySectionProps) => {
 
                   {props.compositionParticipants.map((item) => {
                     return (
-                      <>
+                      <HorizontalContainer key={item.wayId}>
                         <Checkbox onChange={(isChosenWay) => isChosenWay
                           ? setChosenWays([...chosenWays, item])
                           : setChosenWays(chosenWays.filter((chosenWay) => chosenWay.wayId !== item.wayId))
                         }
                         />
-                        <div key={item.wayId}>
+                        <div>
                           {item.wayName}
                         </div>
-                      </>
+                      </HorizontalContainer>
                     );
                   })
                   }

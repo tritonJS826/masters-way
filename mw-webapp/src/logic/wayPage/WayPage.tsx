@@ -313,7 +313,9 @@ export const WayPage = observer((props: WayPageProps) => {
   const isEmptyWay = way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
   const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(way.dayReports[0].createdAt);
-  const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
+  const isLastReportExistInWay = !isEmptyWay &&
+    !!(way.dayReports[0].compositionParticipants.find((item) => item.wayId === way.uuid));
+  const isReportForTodayAlreadyCreated = isLastReportExistInWay && lastReportDate === currentDate;
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isUserOwnerOrMentor && isReportForTodayIsNotCreated;
 
