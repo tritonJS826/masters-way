@@ -36,7 +36,7 @@ export const minValueValidator = (minValue: number, errorMessage: string): Valid
 /**
  * Validator checks if a value has a maximum value.
  */
-export const manValueValidator = (maxValue: number, errorMessage: string): ValidatorValue => {
+export const maxValueValidator = (maxValue: number, errorMessage: string): ValidatorValue => {
   return (value: string | number) => {
     const numValue = typeof value === "string" ? parseFloat(value) : value;
 
