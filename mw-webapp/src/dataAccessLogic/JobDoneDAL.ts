@@ -1,3 +1,4 @@
+import {jobDoneDTOToJobDone} from "src/dataAccessLogic/DTOToPreviewConverter/jobDoneDTOToJobDone";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
@@ -58,12 +59,7 @@ export class JobDoneDAL {
       },
     });
 
-    const jobDone = new JobDone({
-      ...jobDoneDTO,
-      createdAt: new Date(jobDoneDTO.createdAt),
-      updatedAt: new Date(jobDoneDTO.updatedAt),
-      tags: jobDoneDTO.tags.map((label) => new Label(label)),
-    });
+    const jobDone = jobDoneDTOToJobDone(jobDoneDTO);
 
     return jobDone;
   }

@@ -30,6 +30,7 @@ import {JobDone} from "src/model/businessModel/JobDone";
 import {Label} from "src/model/businessModel/Label";
 import {User, UserPlain} from "src/model/businessModel/User";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
+import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {Symbols} from "src/utils/Symbols";
@@ -90,6 +91,11 @@ interface ReportsTableJobsDoneCellProps {
    */
   setWayStatisticsTriple: (wayStatisticsTriple: WayStatisticsTriple) => void;
 
+  /**
+   * Sdf
+   */
+  labelsMap: SafeMap<string, WayWithoutDayReports>;
+
 }
 
 /**
@@ -141,7 +147,6 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
         ownerUuid: userUuid,
       });
       props.dayReport.addJob(jobDone);
-
       const updatedStatistics = await loadWayStatistics();
       props.setWayStatisticsTriple(updatedStatistics);
     } catch (error) {
@@ -313,7 +318,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.jobTags}
+                      labels={props.labelsMap.getValue(jobDone.wayUuid).jobTags}
                       labelsDone={jobDone.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: string[]) => updateLabelsInJobDone({

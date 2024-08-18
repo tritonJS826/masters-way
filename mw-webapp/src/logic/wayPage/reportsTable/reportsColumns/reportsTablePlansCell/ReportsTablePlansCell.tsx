@@ -33,6 +33,7 @@ import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
 import {User, UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
@@ -78,6 +79,11 @@ interface ReportsTablePlansCellProps {
    * Way's participants
    */
   wayParticipantsMap: SafeMap<string, UserPlain>;
+
+  /**
+   * Sdf
+   */
+  labelsMap: SafeMap<string, WayWithoutDayReports>;
 
 }
 
@@ -346,7 +352,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.jobTags}
+                      labels={props.labelsMap.getValue(plan.wayUuid).jobTags}
                       labelsDone={plan.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: string[]) => updateLabelsInPlan({
