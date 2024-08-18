@@ -15,6 +15,20 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/messages/{messageId}/message-status": {
             "patch": {
                 "description": "Update message status by message Id",
@@ -50,20 +64,6 @@ const docTemplate = `{
                 "responses": {
                     "204": {
                         "description": "No Content"
-                    }
-                }
-            }
-        },
-        "/reset-db": {
-            "get": {
-                "description": "resets db",
-                "tags": [
-                    "dev"
-                ],
-                "summary": "resets db",
-                "responses": {
-                    "200": {
-                        "description": "OK"
                     }
                 }
             }

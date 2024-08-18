@@ -44,6 +44,7 @@ ORDER BY rank;
 -- name: GetIsUserHavingPermissionsForDayReport :one
 SELECT
     ways.uuid as way_uuid,
+    ways.name as way_name,
     EXISTS (
         SELECT 1
         FROM mentor_users_ways

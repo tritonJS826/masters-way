@@ -94,6 +94,7 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 			Color:       tag.Color,
 		}
 	})
+
 	response := schemas.JobDonePopulatedResponse{
 		Uuid:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
 		CreatedAt:     jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -103,6 +104,8 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
 		OwnerName:     jobDone.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 		Tags:          tags,
 	}
 

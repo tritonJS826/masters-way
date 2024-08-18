@@ -83,14 +83,14 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		originalWay, err := services.GetPopulatedWayById(cc.db, ctx, args1)
 		util.HandleErrorGin(ctx, err)
 
-		// copy wayTags
+		// copy wayTags from the copied way
 		lo.ForEach(originalWay.WayTags, func(wayTag schemas.WayTagResponse, i int) {
 			cc.db.CreateWaysWayTag(ctx, db.CreateWaysWayTagParams{
 				WayUuid:    way.Uuid,
 				WayTagUuid: pgtype.UUID{Bytes: uuid.MustParse(wayTag.Uuid), Valid: true},
 			})
 		})
-		// copy labels
+		// copying labels from the copied way
 		lo.ForEach(originalWay.JobTags, func(jobTag schemas.JobTagResponse, i int) {
 			cc.db.CreateJobTag(ctx, db.CreateJobTagParams{
 				WayUuid:     way.Uuid,
@@ -99,7 +99,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 				Color:       jobTag.Color,
 			})
 		})
-		// copy metrics
+		// copy metrics from the copied way
 		lo.ForEach(originalWay.Metrics, func(metric schemas.MetricResponse, i int) {
 			cc.db.CreateMetric(ctx, db.CreateMetricParams{
 				UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},

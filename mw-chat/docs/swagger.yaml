@@ -147,6 +147,15 @@ definitions:
 info:
   contact: {}
 paths:
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "200":
+          description: OK
+      summary: resets db
+      tags:
+      - dev
   /messages/{messageId}/message-status:
     patch:
       consumes:
@@ -173,15 +182,6 @@ paths:
       summary: Update message status
       tags:
       - message
-  /reset-db:
-    get:
-      description: resets db
-      responses:
-        "200":
-          description: OK
-      summary: resets db
-      tags:
-      - dev
   /rooms:
     post:
       consumes:

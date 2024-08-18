@@ -81,6 +81,8 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		CreatedAt:     comment.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		UpdatedAt:     comment.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		DayReportUuid: util.ConvertPgUUIDToUUID(comment.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 	}
 
 	ctx.JSON(http.StatusOK, response)

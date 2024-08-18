@@ -83,6 +83,8 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 	}
 
 	ctx.JSON(http.StatusOK, response)

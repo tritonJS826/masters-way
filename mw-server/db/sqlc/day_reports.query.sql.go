@@ -121,6 +121,7 @@ func (q *Queries) GetDayReportsCountByWayId(ctx context.Context, wayUuid pgtype.
 const getIsUserHavingPermissionsForDayReport = `-- name: GetIsUserHavingPermissionsForDayReport :one
 SELECT
     ways.uuid as way_uuid,
+    ways.name as way_name,
     EXISTS (
         SELECT 1
         FROM mentor_users_ways
@@ -139,13 +140,14 @@ type GetIsUserHavingPermissionsForDayReportParams struct {
 
 type GetIsUserHavingPermissionsForDayReportRow struct {
 	WayUuid           pgtype.UUID `json:"way_uuid"`
+	WayName           string      `json:"way_name"`
 	IsPermissionGiven pgtype.Bool `json:"is_permission_given"`
 }
 
 func (q *Queries) GetIsUserHavingPermissionsForDayReport(ctx context.Context, arg GetIsUserHavingPermissionsForDayReportParams) (GetIsUserHavingPermissionsForDayReportRow, error) {
 	row := q.db.QueryRow(ctx, getIsUserHavingPermissionsForDayReport, arg.UserUuid, arg.DayReportUuid)
 	var i GetIsUserHavingPermissionsForDayReportRow
-	err := row.Scan(&i.WayUuid, &i.IsPermissionGiven)
+	err := row.Scan(&i.WayUuid, &i.WayName, &i.IsPermissionGiven)
 	return i, err
 }
 

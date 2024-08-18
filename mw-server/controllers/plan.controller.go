@@ -86,6 +86,8 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 		OwnerName:     plan.OwnerName,
 		IsDone:        plan.IsDone,
 		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 		Tags:          make([]schemas.JobTagResponse, 0),
 	}
 
