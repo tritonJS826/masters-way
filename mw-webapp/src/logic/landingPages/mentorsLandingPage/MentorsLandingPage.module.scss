@@ -1,0 +1,81 @@
+@import "src/styles/variables";
+
+.container {
+  background-color: #fff;
+}
+
+.mainBlock {
+  align-items: center;
+  gap: 64px;
+  padding: 96px 0 60px 0;
+  margin: 0 auto;
+}
+
+.titleBlock {
+  max-width: 780px;
+  gap: $gapLarge;
+}
+
+.title {
+  text-align: center;
+}
+
+.titleDescription {
+  text-align: center;
+}
+
+.mainBlockImage {
+  width: 80%;
+  margin: 0 auto;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
+}
+
+.advantagesBlock, 
+.problemsBlock,
+.questionsBlock,
+.triesBlock {
+  padding: 96px 0;
+  align-items: center;
+  margin: 0 auto;
+  max-width: $maxWidthContainer;
+  gap: $gapExtraLarge
+}
+
+.responseBlock {
+  background-color: var(--primaryBgColor);
+  margin: 0 auto;
+  max-width: $maxWidthContainer;
+}
+
+.advantages {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gapLarge;
+}
+
+.problems {
+  gap: $gapLarge;
+}
+
+.problemsItem {
+}
+
+.problemImageContainer {
+  flex: 0 0 50%;
+}
+
+.problemImage {
+  max-width: 100%;
+}
+
+.problemContentBlock {
+  flex: 0 0 50%;
+  align-items: center;
+  justify-content: center;
+  gap: $gapBig;
+  padding: 0 100px;
+  background-color: var(--primaryBgColor);
+}

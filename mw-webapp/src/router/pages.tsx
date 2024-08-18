@@ -77,6 +77,16 @@ const Page404Lazy = React.lazy(() => import("src/logic/page404/Page404")
 const Page404 = () => (<>
   <Page404Lazy />
 </>);
+const MentorsLandingPageLazy = React.lazy(() => import("src/logic/landingPages/mentorsLandingPage/MentorsLandingPage")
+  .then((module) => ({default: module.MentorsLandingPage})));
+const MentorsLandingPage = () => (<>
+  <MentorsLandingPageLazy />
+</>);
+const LandingLayoutLazy = React.lazy(() => import("src/logic/landingPages/LandingLayout")
+  .then((module) => ({default: module.LandingLayout})));
+const LandingLayout = () => (<>
+  <LandingLayoutLazy />
+</>);
 
 /**
  * Pages meta data
@@ -120,6 +130,16 @@ export const pages = {
   page404: {
     getPath: () => "*",
     getPageComponent: () => suspended(<Page404 />),
+    urlParams: {},
+  } as PageParams,
+  landing: {
+    getPath: () => "/land",
+    getPageComponent: () => suspended(<LandingLayout />),
+    urlParams: {},
+  } as PageParams,
+  landingMentors: {
+    getPath: () => "/land/mentors",
+    getPageComponent: () => suspended(<MentorsLandingPage />),
     urlParams: {},
   } as PageParams,
 };

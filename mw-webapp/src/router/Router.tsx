@@ -62,6 +62,18 @@ export const router = createBrowserRouter(
           errorElement={pages.page404.getPageComponent({})}
         />
       </Route>
+
+      <Route
+        path={pages.home.getPath({})}
+        element={<WithValidatedParams paramsSchema={pages.landing} />}
+        errorElement={pages.page404.getPageComponent({})}
+      >
+        <Route
+          path={pages.landingMentors.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingMentors} />}
+          errorElement={pages.page404.getPageComponent({})}
+        />
+      </Route>
     </>,
   ),
 );

@@ -1,0 +1,17 @@
+@import "src/styles/variables";
+
+.header {
+  display: flex;
+  width: 100%;
+  max-width: $maxWidthContainer;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: $paddingBig $paddingMedium;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+.logo {
+  cursor: pointer;
+}

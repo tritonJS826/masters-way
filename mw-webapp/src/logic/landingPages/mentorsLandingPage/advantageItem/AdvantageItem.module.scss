@@ -1,0 +1,23 @@
+@import "src/styles/variables";
+
+.goalItem {
+  width: 30%;
+  min-width: $minWidthBlock;
+  align-items: center;
+  gap: $gapMedium;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.goalTitle {
+  font-size: $fontSizeTitleSmall;
+  text-align: center;
+}
+
+.goalDescription {
+  text-align: center;
+}
+
+.icon {
+  stroke: var(--primaryStrokeColor);
+}
