@@ -59,7 +59,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 5. You can run all modules locally (don't forget about database, you should up them manually)  
 
-`pnpm run start`
+* `pnpm run start` - if you want to have live reloading for all modules
+
+* `pnpm run serve` - if you don't want to have live reloading modules (could speed up tests)
 
 ### Run all modules locally with docker
 

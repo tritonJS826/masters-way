@@ -5,6 +5,7 @@
   "scripts": {
     "build": "make build",
     "start": "nodemon --watch . --exec 'make start' --signal SIGTERM --ext go,json,yaml,sql,env,sh",
+    "serve": "make start",
     "test": "make test",
     "install": "make install",
     "swag": "make swag",

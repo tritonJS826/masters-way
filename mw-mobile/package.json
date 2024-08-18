@@ -6,6 +6,7 @@
     "installDependencies": "flutter pub get",
     "build": "flutter build",
     "start": "echo 'flutter run'",
+    "serve": "echo 'flutter serve'",
     "test": "echo 'not implemented'"
   },
   "keywords": [],
