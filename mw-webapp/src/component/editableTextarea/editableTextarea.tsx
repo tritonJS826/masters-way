@@ -3,8 +3,7 @@ import clsx from "clsx";
 import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
 import {KeySymbols} from "src/utils/KeySymbols";
-import {displayValidationError} from "src/utils/validatorsValue/displayValidationError";
-import {validateValue} from "src/utils/validatorsValue/validateValue";
+import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
@@ -102,16 +101,14 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
-   * Func onChangeInput
+   * OnChangeInput
    */
   const onChangeInput = (value: string) => {
-    if (!props.validators) {
-      setText(value);
-    } else {
-      const error = validateValue({value, validators: props.validators});
-
-      error ? displayValidationError?.(error) : setText(value);
-    }
+    updateValueWithValidatorsHandler({
+      updatedValue: value,
+      validators: props.validators,
+      setValue: setText,
+    });
   };
 
   /**

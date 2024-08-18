@@ -8,7 +8,7 @@ interface ValidateOptions {
   /**
    * The value to be validated
    */
-  value: string;
+  value: string | number;
 
   /**
    * Array of validator functions to be applied to the value

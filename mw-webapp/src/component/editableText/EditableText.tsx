@@ -4,8 +4,7 @@ import {getFormattedValue} from "src/component/editableText/getFormattedValue";
 import {Input} from "src/component/input/Input";
 import {Text} from "src/component/text/Text";
 import {KeySymbols} from "src/utils/KeySymbols";
-import {displayValidationError} from "src/utils/validatorsValue/displayValidationError";
-import {validateValue} from "src/utils/validatorsValue/validateValue";
+import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/editableText/EditableText.module.scss";
 
@@ -117,14 +116,11 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Update value
    */
   const updateValue = (updatedValue: T) => {
-    if (!props.validators) {
-      setValue(updatedValue);
-    } else {
-      if (typeof updatedValue === "string") {
-        const error = validateValue({value: updatedValue, validators: props.validators});
-        error ? displayValidationError?.(error) : setValue(updatedValue);
-      }
-    }
+    updateValueWithValidatorsHandler({
+      updatedValue,
+      validators: props.validators,
+      setValue,
+    });
   };
 
   /**

@@ -3,8 +3,7 @@ import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
-import {displayValidationError} from "src/utils/validatorsValue/displayValidationError";
-import {validateValue} from "src/utils/validatorsValue/validateValue";
+import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/title/Title.module.scss";
 
@@ -36,8 +35,6 @@ interface Cy {
   dataCyTitleContainer?: string;
 
 }
-
-export type Validator = (value: string) => string | null;
 
 /**
  * Title props
@@ -132,13 +129,11 @@ export const Title = (props: TitleProps) => {
    * OnChangeInput
    */
   const onChangeInput = (value: string) => {
-    if (!props.validators) {
-      setText(value);
-    } else {
-      const error = validateValue({value, validators: props.validators});
-
-      error ? displayValidationError?.(error) : setText(value);
-    }
+    updateValueWithValidatorsHandler({
+      updatedValue: value,
+      validators: props.validators,
+      setValue: setText,
+    });
   };
 
   return (
