@@ -42,11 +42,11 @@ func (q *Queries) CreateDayReport(ctx context.Context, arg CreateDayReportParams
 const getDayReportsByRankRange = `-- name: GetDayReportsByRankRange :many
 WITH ranked_reports AS (
     SELECT
-        dense_rank() OVER (ORDER BY day_reports.created_at DESC) AS rank,
+        dense_rank() OVER (ORDER BY date(day_reports.created_at) DESC) AS rank,
         day_reports.uuid, day_reports.way_uuid, day_reports.created_at, day_reports.updated_at,
         ways.name AS way_name
     FROM day_reports
-	INNER JOIN ways ON day_reports.way_uuid = ways.uuid
+    INNER JOIN ways ON day_reports.way_uuid = ways.uuid
     WHERE ways.uuid = ANY ($3::UUID[])
 ),
 max_rank_cte AS (

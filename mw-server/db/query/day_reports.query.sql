@@ -24,11 +24,11 @@ WHERE way_uuid = @way_uuid;
 -- name: GetDayReportsByRankRange :many
 WITH ranked_reports AS (
     SELECT
-        dense_rank() OVER (ORDER BY day_reports.created_at DESC) AS rank,
-        day_reports.*,
+        dense_rank() OVER (ORDER BY date(day_reports.created_at) DESC) AS rank,
+        day_reports.uuid, day_reports.way_uuid, day_reports.created_at, day_reports.updated_at,
         ways.name AS way_name
     FROM day_reports
-	INNER JOIN ways ON day_reports.way_uuid = ways.uuid
+    INNER JOIN ways ON day_reports.way_uuid = ways.uuid
     WHERE ways.uuid = ANY (@way_uuids::UUID[])
 ),
 max_rank_cte AS (
@@ -36,7 +36,7 @@ max_rank_cte AS (
         COALESCE(MAX(rank), 0)::INTEGER AS max_rank
     FROM ranked_reports
 )
-SELECT ranked_reports.*, max_rank_cte.max_rank
+SELECT ranked_reports.rank, ranked_reports.uuid, ranked_reports.way_uuid, ranked_reports.created_at, ranked_reports.updated_at, ranked_reports.way_name, max_rank_cte.max_rank
 FROM ranked_reports, max_rank_cte
 WHERE rank BETWEEN (@start_rank_range::INTEGER) AND (@end_rank_range::INTEGER)
 ORDER BY rank;
