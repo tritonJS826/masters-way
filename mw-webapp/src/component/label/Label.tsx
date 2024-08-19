@@ -2,10 +2,8 @@ import clsx from "clsx";
 import {EditableText} from "src/component/editableText/EditableText";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Label as LabelModel} from "src/model/businessModel/Label";
+import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/label/Label.module.scss";
-
-const MAX_LENGTH_LABEL = 30;
-const MIN_LENGTH_LABEL = 1;
 
 /**
  * Label props
@@ -38,6 +36,11 @@ interface LabelProps {
    * Callback triggered on change label
    */
   onChangeValue?: (value: string) => void;
+
+  /**
+   * Array of validator functions to be applied to the value
+   */
+    validators?: ValidatorValue[];
 }
 
 /**
@@ -56,8 +59,7 @@ export const Label = (props: LabelProps) => {
           isEditable={props.isEditable}
           placeholder=""
           className={styles.editableText}
-          minLength={MIN_LENGTH_LABEL}
-          maxLength={MAX_LENGTH_LABEL}
+          validators={props.validators}
         />
       </div>
     </Tooltip>

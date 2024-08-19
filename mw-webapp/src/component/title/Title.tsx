@@ -2,8 +2,9 @@ import {useEffect, useState} from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
 import {Input} from "src/component/input/Input";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {KeySymbols} from "src/utils/KeySymbols";
+import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
+import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/title/Title.module.scss";
 
 /**
@@ -87,9 +88,9 @@ interface TitleProps {
   placeholder: string;
 
   /**
-   * Minimum symbols amount for title
+   * Array of validator functions to be applied to the value
    */
-  minLength?: number;
+  validators?: ValidatorValue[];
 }
 
 /**
@@ -110,6 +111,7 @@ export const Title = (props: TitleProps) => {
     if (!props.onChangeFinish) {
       throw Error("Unavailable edit title");
     }
+
     props.onChangeFinish(text);
     setIsEditing(false);
   };
@@ -124,15 +126,14 @@ export const Title = (props: TitleProps) => {
   };
 
   /**
-   * Check is value valid or not according min length
+   * OnChangeInput
    */
-  const getValidValue = (value: string) => {
-    props.minLength && value.length < props.minLength
-      ? displayNotification({
-        text: "Name should include at least one character",
-        type: NotificationType.INFO,
-      })
-      : setText(value);
+  const onChangeInput = (value: string) => {
+    updateValueWithValidatorsHandler({
+      updatedValue: value,
+      validators: props.validators,
+      setValue: setText,
+    });
   };
 
   return (
@@ -151,7 +152,7 @@ export const Title = (props: TitleProps) => {
             type="text"
             value={text}
             autoFocus={true}
-            onChange={getValidValue}
+            onChange={onChangeInput}
             dataCy={props.cy?.dataCyInput}
           />
         )
