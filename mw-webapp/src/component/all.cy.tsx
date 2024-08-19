@@ -32,6 +32,7 @@ import "/src/component/viewSwitcher/ViewSwitcher.cy.tsx";
 import "/src/component/wayCard/WayCard.cy.tsx";
 import "/src/component/icon/Icon.cy.tsx";
 import "/src/component/text/Text.cy.tsx";
+import "src/component/reviewCard/ReviewCard.cy.tsx";
 
 /**
  * Count all cy.tsx files to check all specs imported here
