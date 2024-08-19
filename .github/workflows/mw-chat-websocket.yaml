@@ -51,26 +51,26 @@ jobs:
       #     echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
       #     echo "COMMIT_DATE=$(date -u +%Y%m%d)" >> $GITHUB_ENV
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # - name: Set up SSH
+      #   uses: webfactory/ssh-agent@v0.5.3
+      #   with:
+      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Deploy to Server
+      # - name: Deploy to Server
         # env:
         #   COMMIT_HASH: ${{ env.COMMIT_HASH }}
         #   COMMIT_DATE: ${{ env.COMMIT_DATE }}
         #   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         #   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
         #   ENV_FILE_PATH_CHAT: ${{ secrets.ENV_FILE_PATH_CHAT }}
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.USER_SERVER }}@${{ secrets.IP_SERVER }} << EOF
-            cd ~/masters-way
-            git pull
-            sudo docker-compose build mw-chat-websocket
-            sudo docker-compose stop mw-chat-websocket
-            sudo docker-compose up -d mw-chat-websocket
-          EOF
+        # run: |
+        #   ssh -o StrictHostKeyChecking=no ${{ secrets.USER_SERVER }}@${{ secrets.IP_SERVER }} << EOF
+        #     cd ~/masters-way
+        #     git pull
+        #     sudo docker-compose build mw-chat-websocket
+        #     sudo docker-compose stop mw-chat-websocket
+        #     sudo docker-compose up -d mw-chat-websocket
+        #   EOF
 
 
   # notify:
