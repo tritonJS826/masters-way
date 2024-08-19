@@ -49,7 +49,7 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 2. Install all dependencies in the root directory
 
-`pnpm i`
+`pnpm run install:all`
 
 3. Create .env file inside all modules with variables from .env.local.example (ask Kate for values)
 

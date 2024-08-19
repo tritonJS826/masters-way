@@ -90,7 +90,7 @@ services:
       - mw-server
       - mw-chat
       - mw-chat-bff
-      - mw-chat-webscoket
+      - mw-chat-websocket
     networks:
       - app-network
 

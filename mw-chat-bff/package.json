@@ -7,7 +7,7 @@
     "start": "nodemon --watch . --exec 'make start' --signal SIGTERM --ext go,json,yaml,sql,env,sh",
     "serve": "make start",
     "test": "make test",
-    "install": "make install",
+    "installAll": "make install",
     "swag": "make swag",
     "help": "make help",
     "api:generate": "pnpm concurrently \"pnpm run api:generate:general\" \"pnpm run api:generate:chat\" \"pnpm run api:generate:mw-chat-websocket\"",

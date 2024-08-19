@@ -30,7 +30,8 @@
     "api:generate": "pnpm --stream --recursive api:generate",
     "db:generate": "pnpm --stream --recursive db:generate",
     "start": "pnpm  --stream --recursive --workspace-concurrency 100 start",
-    "serve": "pnpm --stream --recursive --workspace-concurrency 100 serve"
+    "serve": "pnpm --stream --recursive --workspace-concurrency 100 serve",
+    "install:all": "pnpm --stream --recursive --workspace-concurrency 100 installAll"
   },
   "keywords": [],
   "author": "",
