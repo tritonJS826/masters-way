@@ -178,24 +178,21 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     /**
      * New updated list of tags
      */
-    updatedTags: string[];
+    updatedTags: Label[];
   }) => {
 
-    const oldLabels = params.jobDone.tags.map(label => label.uuid);
-    const labelUuidsToAdd: string[] = params.updatedTags
-      .filter(labelUuid => !oldLabels.includes(labelUuid));
-    const labelUuidsToDelete: string[] = oldLabels
-      .filter(
-        labelUuid => !params.updatedTags.includes(labelUuid),
-      );
+    const labelsToAdd: Label[] = params.updatedTags
+      .filter(label => !params.jobDone.tags.includes(label));
+    const labelsToDelete: Label[] = params.jobDone.tags
+      .filter(label => !params.updatedTags.includes(label));
 
-    const addPromises = labelUuidsToAdd.map(labelUuid => JobDoneJobTagDAL.createJobDoneJobTag({
+    const addPromises = labelsToAdd.map(label => JobDoneJobTagDAL.createJobDoneJobTag({
       jobDoneUuid: params.jobDone.uuid,
-      jobTagUuid: labelUuid,
+      jobTagUuid: label.uuid,
     }));
-    const deletePromises = labelUuidsToDelete.map(labelUuid => JobDoneJobTagDAL.deleteJobDoneJobTag({
+    const deletePromises = labelsToDelete.map(label => JobDoneJobTagDAL.deleteJobDoneJobTag({
       jobDoneUuid: params.jobDone.uuid,
-      jobTagUuid: labelUuid,
+      jobTagUuid: label.uuid,
     }));
 
     await Promise.all([
@@ -203,21 +200,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
       ...deletePromises,
     ]);
 
-    const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
-      const labelsForWay = props.labelsMap.getValue(params.jobDone.wayUuid).jobTags;
-      const newLabel = labelsForWay.find(tag => tag.uuid === labelUuidToAdd);
-      if (!newLabel) {
-        throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
-      }
-
-      return newLabel;
-    });
-
-    const updatedTags = params.jobDone.tags
-      .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
-      .concat(newLabels);
-
-    params.jobDone.updateLabels(updatedTags);
+    params.jobDone.updateLabels(params.updatedTags);
 
     const updatedStatistics = await loadWayStatistics();
     props.setWayStatisticsTriple(updatedStatistics);
@@ -318,7 +301,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                       labels={props.labelsMap.getValue(jobDone.wayUuid).jobTags}
                       labelsDone={jobDone.tags}
                       isEditable={props.isEditable}
-                      updateLabels={(labelsToUpdate: string[]) => updateLabelsInJobDone({
+                      updateLabels={(labelsToUpdate: Label[]) => updateLabelsInJobDone({
                         jobDone,
                         updatedTags: labelsToUpdate,
                       })}

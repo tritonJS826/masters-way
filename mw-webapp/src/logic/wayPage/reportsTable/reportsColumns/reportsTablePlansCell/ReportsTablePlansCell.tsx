@@ -169,28 +169,21 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     /**
      * New updated list of tags
      */
-    updatedTags: string[];
+    updatedTags: Label[];
   }) => {
 
-    const oldPlan = props.dayReport.plans.find(plan => params.plan.uuid === plan.uuid);
-    if (!oldPlan) {
-      throw new Error(`No such plan with ${params.plan.uuid} uuid`);
-    }
-    const oldLabels = oldPlan.tags.map(label => label.uuid);
-    const labelUuidsToAdd: string[] = params.updatedTags
-      .filter(labelUuid => !oldLabels.includes(labelUuid));
-    const labelUuidsToDelete: string[] = oldLabels
-      .filter(
-        labelUuid => !params.updatedTags.includes(labelUuid),
-      );
+    const labelsToAdd: Label[] = params.updatedTags
+      .filter(label => !params.plan.tags.includes(label));
+    const labelsToDelete: Label[] = params.plan.tags
+      .filter(label => !params.updatedTags.includes(label));
 
-    const addPromises = labelUuidsToAdd.map(labelUuid => PlanJobTagDAL.createPlanJobTag({
+    const addPromises = labelsToAdd.map(label => PlanJobTagDAL.createPlanJobTag({
       planUuid: params.plan.uuid,
-      jobTagUuid: labelUuid,
+      jobTagUuid: label.uuid,
     }));
-    const deletePromises = labelUuidsToDelete.map(labelUuid => PlanJobTagDAL.deletePlanJobTag({
+    const deletePromises = labelsToDelete.map(label => PlanJobTagDAL.deletePlanJobTag({
       planUuid: params.plan.uuid,
-      jobTagUuid: labelUuid,
+      jobTagUuid: label.uuid,
     }));
 
     await Promise.all([
@@ -198,20 +191,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
       ...deletePromises,
     ]);
 
-    const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
-      const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
-      if (!newLabel) {
-        throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
-      }
-
-      return newLabel;
-    });
-
-    const updatedTags = params.plan.tags
-      .filter(oldLabel => !labelUuidsToDelete.includes(oldLabel.uuid))
-      .concat(newLabels);
-
-    params.plan.updateLabels(updatedTags);
+    params.plan.updateLabels(params.updatedTags);
 
   };
 
@@ -355,7 +335,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                       labels={props.labelsMap.getValue(plan.wayUuid).jobTags}
                       labelsDone={plan.tags}
                       isEditable={props.isEditable}
-                      updateLabels={(labelsToUpdate: string[]) => updateLabelsInPlan({
+                      updateLabels={(labelsToUpdate: Label[]) => updateLabelsInPlan({
                         plan,
                         updatedTags: labelsToUpdate,
                       })}
