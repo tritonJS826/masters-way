@@ -32,7 +32,6 @@ configuration.go
 docs/AuthAPI.md
 docs/CommentAPI.md
 docs/CompositeWayAPI.md
-docs/CustomErrorsNoRightToChangeDayReportError.md
 docs/DayReportAPI.md
 docs/DevAPI.md
 docs/FavoriteUserAPI.md
@@ -115,6 +114,7 @@ docs/SchemasWayTagResponse.md
 docs/ToUserMentoringRequestAPI.md
 docs/UserAPI.md
 docs/UserTagAPI.md
+docs/UtilNoRightToChangeDayReportError.md
 docs/UtilResponseStatusString.md
 docs/WayAPI.md
 docs/WayCollectionAPI.md
@@ -123,7 +123,6 @@ docs/WayTagAPI.md
 git_push.sh
 go.mod
 go.sum
-model_custom_errors_no_right_to_change_day_report_error.go
 model_schemas_add_way_to_composite_way_payload.go
 model_schemas_ai_chat_payload.go
 model_schemas_ai_chat_response.go
@@ -188,6 +187,7 @@ model_schemas_way_populated_response.go
 model_schemas_way_statistics.go
 model_schemas_way_statistics_triple_period.go
 model_schemas_way_tag_response.go
+model_util_no_right_to_change_day_report_error.go
 model_util_response_status_string.go
 response.go
 utils.go

@@ -119,7 +119,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
           description: User doesn't have rights to create comment.
       summary: Create a new comment
       tags:
@@ -509,7 +509,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
           description: User doesn't have rights to create job done.
       summary: Create a new jobDone
       tags:
@@ -787,7 +787,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
           description: User doesn't have rights to create plan.
       summary: Create a new plan
       tags:
@@ -858,7 +858,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+                $ref: '#/components/schemas/util.NoRightToChangeDayReportError'
           description: User doesn't have rights to create problem.
       summary: Create a new problem
       tags:
@@ -1410,19 +1410,6 @@ paths:
       - way
 components:
   schemas:
-    customErrors.NoRightToChangeDayReportError:
-      example:
-        errorId: errorId
-        error: error
-      properties:
-        error:
-          type: string
-        errorId:
-          type: string
-      required:
-      - error
-      - errorId
-      type: object
     schemas.AIChatPayload:
       properties:
         message:
@@ -4472,6 +4459,19 @@ components:
       required:
       - name
       - uuid
+      type: object
+    util.NoRightToChangeDayReportError:
+      example:
+        errorId: errorId
+        error: error
+      properties:
+        error:
+          type: string
+        errorId:
+          type: string
+      required:
+      - error
+      - errorId
       type: object
     util.ResponseStatusString:
       example:
