@@ -18,4 +18,6 @@ type CommentPopulatedResponse struct {
 	CreatedAt     string `json:"createdAt" validate:"required"`
 	UpdatedAt     string `json:"updatedAt" validate:"required"`
 	DayReportUuid string `json:"dayReportUuid" validate:"required"`
+	WayUUID       string `json:"wayUuid" validate:"required"`
+	WayName       string `json:"wayName" validate:"required"`
 }

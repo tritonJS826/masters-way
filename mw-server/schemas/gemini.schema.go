@@ -5,3 +5,15 @@ type GenerateMetricsPayload struct {
 	GoalDescription string   `json:"goalDescription" validate:"required"`
 	Metrics         []string `json:"metrics" validate:"required"`
 }
+
+type GenerateMetricsResponse struct {
+	Metrics *[]string `json:"metrics" validate:"required"`
+}
+
+type AIChatPayload struct {
+	Message string `json:"message" validate:"required"`
+}
+
+type AIChatResponse struct {
+	Message string `json:"message" validate:"required"`
+}

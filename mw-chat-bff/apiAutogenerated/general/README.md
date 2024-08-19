@@ -89,8 +89,7 @@ Class | Method | HTTP request | Description
 *CompositeWayAPI* | [**CreateCompositeWay**](docs/CompositeWayAPI.md#createcompositeway) | **Post** /compositeWay | Add a way to composite way
 *CompositeWayAPI* | [**DeleteCompositeWayRelation**](docs/CompositeWayAPI.md#deletecompositewayrelation) | **Delete** /compositeWay/{parentWayId}/{childWayId} | Delete composite way relation
 *DayReportAPI* | [**CreateDayReport**](docs/DayReportAPI.md#createdayreport) | **Post** /dayReports | Create a new dayReport
-*DayReportAPI* | [**GetDayReportsByWayUuid**](docs/DayReportAPI.md#getdayreportsbywayuuid) | **Get** /dayReports/{wayId} | Get all dayReports by Way UUID
-*DayReportAPI* | [**UpdateDayReport**](docs/DayReportAPI.md#updatedayreport) | **Patch** /dayReports/{dayReportId} | Update dayReport by UUID
+*DayReportAPI* | [**GetDayReports**](docs/DayReportAPI.md#getdayreports) | **Get** /dayReports/{wayId} | Get list of day reports by way UUID
 *DevAPI* | [**ResetDbPost**](docs/DevAPI.md#resetdbpost) | **Post** /reset-db | resets db
 *FavoriteUserAPI* | [**CreateFavoriteUser**](docs/FavoriteUserAPI.md#createfavoriteuser) | **Post** /favoriteUsers | Create a new favorite user
 *FavoriteUserAPI* | [**DeleteFavoriteUser**](docs/FavoriteUserAPI.md#deletefavoriteuser) | **Delete** /favoriteUsers/{donorUserUuid}/{acceptorUserUuid} | Delete favoriteUser by UUID
@@ -98,6 +97,7 @@ Class | Method | HTTP request | Description
 *FavoriteUserWayAPI* | [**DeleteFavoriteUserWay**](docs/FavoriteUserWayAPI.md#deletefavoriteuserway) | **Delete** /favoriteUserWays/{userUuid}/{wayUuid} | Delete favoriteUserWay by UUID
 *FromUserMentoringRequestAPI* | [**CreateFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#createfromusermentoringrequest) | **Post** /fromUserMentoringRequests | Create a new fromUserMentoringRequest
 *FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
+*GeminiAPI* | [**AiChat**](docs/GeminiAPI.md#aichat) | **Post** /gemini/just-chat | Just chat with AI
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
@@ -121,8 +121,6 @@ Class | Method | HTTP request | Description
 *ProblemAPI* | [**CreateProblem**](docs/ProblemAPI.md#createproblem) | **Post** /problems | Create a new problem
 *ProblemAPI* | [**DeleteProblem**](docs/ProblemAPI.md#deleteproblem) | **Delete** /problems/{problemId} | Delete problem by UUID
 *ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
-*ProblemJobTagAPI* | [**CreateProblemJobTag**](docs/ProblemJobTagAPI.md#createproblemjobtag) | **Post** /problemJobTags | Create a new problemJobTag
-*ProblemJobTagAPI* | [**DeleteProblemJobTag**](docs/ProblemJobTagAPI.md#deleteproblemjobtag) | **Delete** /problemJobTags/{jobTagId}/{problemId} | Delete problemJobTag by UUID
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
@@ -135,6 +133,7 @@ Class | Method | HTTP request | Description
 *WayAPI* | [**DeleteWay**](docs/WayAPI.md#deleteway) | **Delete** /ways/{wayId} | Delete way by UUID
 *WayAPI* | [**GetAllWays**](docs/WayAPI.md#getallways) | **Get** /ways | Get all ways
 *WayAPI* | [**GetWayByUuid**](docs/WayAPI.md#getwaybyuuid) | **Get** /ways/{wayId} | Get way by UUID
+*WayAPI* | [**GetWayStatisticsByUuid**](docs/WayAPI.md#getwaystatisticsbyuuid) | **Get** /ways/{wayId}/statistics | Get way statistics by UUID
 *WayAPI* | [**UpdateWay**](docs/WayAPI.md#updateway) | **Patch** /ways/{wayId} | Update way by UUID
 *WayCollectionAPI* | [**CreateWayCollection**](docs/WayCollectionAPI.md#createwaycollection) | **Post** /wayCollections | Create a new wayCollection
 *WayCollectionAPI* | [**DeleteWayCollection**](docs/WayCollectionAPI.md#deletewaycollection) | **Delete** /wayCollections/{wayCollectionId} | Delete wayCollection by UUID
@@ -147,8 +146,11 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [SchemasAIChatPayload](docs/SchemasAIChatPayload.md)
+ - [SchemasAIChatResponse](docs/SchemasAIChatResponse.md)
  - [SchemasAddWayToCompositeWayPayload](docs/SchemasAddWayToCompositeWayPayload.md)
  - [SchemasCommentPopulatedResponse](docs/SchemasCommentPopulatedResponse.md)
+ - [SchemasCompositeDayReportPopulatedResponse](docs/SchemasCompositeDayReportPopulatedResponse.md)
  - [SchemasCompositeWayRelation](docs/SchemasCompositeWayRelation.md)
  - [SchemasCreateCommentPayload](docs/SchemasCreateCommentPayload.md)
  - [SchemasCreateDayReportPayload](docs/SchemasCreateDayReportPayload.md)
@@ -162,7 +164,6 @@ Class | Method | HTTP request | Description
  - [SchemasCreateMetricPayload](docs/SchemasCreateMetricPayload.md)
  - [SchemasCreatePlanJobTagPayload](docs/SchemasCreatePlanJobTagPayload.md)
  - [SchemasCreatePlanPayload](docs/SchemasCreatePlanPayload.md)
- - [SchemasCreateProblemJobTagPayload](docs/SchemasCreateProblemJobTagPayload.md)
  - [SchemasCreateProblemPayload](docs/SchemasCreateProblemPayload.md)
  - [SchemasCreateUserMentoringRequestPayload](docs/SchemasCreateUserMentoringRequestPayload.md)
  - [SchemasCreateUserTagPayload](docs/SchemasCreateUserTagPayload.md)
@@ -170,20 +171,26 @@ Class | Method | HTTP request | Description
  - [SchemasCreateWayCollectionWay](docs/SchemasCreateWayCollectionWay.md)
  - [SchemasCreateWayPayload](docs/SchemasCreateWayPayload.md)
  - [SchemasCreateWayTagPayload](docs/SchemasCreateWayTagPayload.md)
- - [SchemasDayReportPopulatedResponse](docs/SchemasDayReportPopulatedResponse.md)
+ - [SchemasDayReportsCompositionParticipants](docs/SchemasDayReportsCompositionParticipants.md)
  - [SchemasDefaultWayCollections](docs/SchemasDefaultWayCollections.md)
  - [SchemasDeleteMentorUserWayPayload](docs/SchemasDeleteMentorUserWayPayload.md)
  - [SchemasGenerateMetricsPayload](docs/SchemasGenerateMetricsPayload.md)
+ - [SchemasGenerateMetricsResponse](docs/SchemasGenerateMetricsResponse.md)
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
  - [SchemasGetAllWaysResponse](docs/SchemasGetAllWaysResponse.md)
  - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
  - [SchemasJobTagResponse](docs/SchemasJobTagResponse.md)
+ - [SchemasLabel](docs/SchemasLabel.md)
+ - [SchemasLabelInfo](docs/SchemasLabelInfo.md)
+ - [SchemasLabelStatistics](docs/SchemasLabelStatistics.md)
+ - [SchemasListDayReportsResponse](docs/SchemasListDayReportsResponse.md)
  - [SchemasMetricResponse](docs/SchemasMetricResponse.md)
+ - [SchemasOverallInformation](docs/SchemasOverallInformation.md)
  - [SchemasPlanPopulatedResponse](docs/SchemasPlanPopulatedResponse.md)
  - [SchemasProblemPopulatedResponse](docs/SchemasProblemPopulatedResponse.md)
+ - [SchemasTimeSpentByDayPoint](docs/SchemasTimeSpentByDayPoint.md)
  - [SchemasUpdateCommentPayload](docs/SchemasUpdateCommentPayload.md)
- - [SchemasUpdateDayReportPayload](docs/SchemasUpdateDayReportPayload.md)
  - [SchemasUpdateJobDone](docs/SchemasUpdateJobDone.md)
  - [SchemasUpdateJobTagPayload](docs/SchemasUpdateJobTagPayload.md)
  - [SchemasUpdateMetricPayload](docs/SchemasUpdateMetricPayload.md)
@@ -200,7 +207,10 @@ Class | Method | HTTP request | Description
  - [SchemasWayCollectionPopulatedResponse](docs/SchemasWayCollectionPopulatedResponse.md)
  - [SchemasWayPlainResponse](docs/SchemasWayPlainResponse.md)
  - [SchemasWayPopulatedResponse](docs/SchemasWayPopulatedResponse.md)
+ - [SchemasWayStatistics](docs/SchemasWayStatistics.md)
+ - [SchemasWayStatisticsTriplePeriod](docs/SchemasWayStatisticsTriplePeriod.md)
  - [SchemasWayTagResponse](docs/SchemasWayTagResponse.md)
+ - [UtilNoRightToChangeDayReportError](docs/UtilNoRightToChangeDayReportError.md)
  - [UtilResponseStatusString](docs/UtilResponseStatusString.md)
 
 

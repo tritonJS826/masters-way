@@ -1,5 +1,19 @@
 basePath: /api
 definitions:
+  schemas.AIChatPayload:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+  schemas.AIChatResponse:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
   schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -26,12 +40,59 @@ definitions:
         type: string
       uuid:
         type: string
+      wayName:
+        type: string
+      wayUuid:
+        type: string
     required:
     - createdAt
     - dayReportUuid
     - description
     - ownerName
     - ownerUuid
+    - updatedAt
+    - uuid
+    - wayName
+    - wayUuid
+    type: object
+  schemas.CompositeDayReportPopulatedResponse:
+    properties:
+      comments:
+        items:
+          $ref: '#/definitions/schemas.CommentPopulatedResponse'
+        type: array
+      compositionParticipants:
+        items:
+          $ref: '#/definitions/schemas.DayReportsCompositionParticipants'
+        type: array
+      createdAt:
+        description: Calculated by - just date
+        type: string
+      jobsDone:
+        items:
+          $ref: '#/definitions/schemas.JobDonePopulatedResponse'
+        type: array
+      plans:
+        items:
+          $ref: '#/definitions/schemas.PlanPopulatedResponse'
+        type: array
+      problems:
+        items:
+          $ref: '#/definitions/schemas.ProblemPopulatedResponse'
+        type: array
+      updatedAt:
+        description: Calculated by - just last date
+        type: string
+      uuid:
+        description: Always generated
+        type: string
+    required:
+    - comments
+    - compositionParticipants
+    - createdAt
+    - jobsDone
+    - plans
+    - problems
     - updatedAt
     - uuid
     type: object
@@ -60,12 +121,9 @@ definitions:
     type: object
   schemas.CreateDayReportPayload:
     properties:
-      isDayOff:
-        type: boolean
       wayUuid:
         type: string
     required:
-    - isDayOff
     - wayUuid
     type: object
   schemas.CreateFavoriteUserPayload:
@@ -203,16 +261,6 @@ definitions:
     - ownerUuid
     - time
     type: object
-  schemas.CreateProblemJobTagPayload:
-    properties:
-      jobTagUuid:
-        type: string
-      problemUuid:
-        type: string
-    required:
-    - jobTagUuid
-    - problemUuid
-    type: object
   schemas.CreateProblemPayload:
     properties:
       dayReportUuid:
@@ -305,41 +353,18 @@ definitions:
     - name
     - wayUuid
     type: object
-  schemas.DayReportPopulatedResponse:
+  schemas.DayReportsCompositionParticipants:
     properties:
-      comments:
-        items:
-          $ref: '#/definitions/schemas.CommentPopulatedResponse'
-        type: array
-      createdAt:
+      dayReportId:
         type: string
-      isDayOff:
-        type: boolean
-      jobsDone:
-        items:
-          $ref: '#/definitions/schemas.JobDonePopulatedResponse'
-        type: array
-      plans:
-        items:
-          $ref: '#/definitions/schemas.PlanPopulatedResponse'
-        type: array
-      problems:
-        items:
-          $ref: '#/definitions/schemas.ProblemPopulatedResponse'
-        type: array
-      updatedAt:
+      wayId:
         type: string
-      uuid:
+      wayName:
         type: string
     required:
-    - comments
-    - createdAt
-    - isDayOff
-    - jobsDone
-    - plans
-    - problems
-    - updatedAt
-    - uuid
+    - dayReportId
+    - wayId
+    - wayName
     type: object
   schemas.DefaultWayCollections:
     properties:
@@ -378,6 +403,15 @@ definitions:
     - goalDescription
     - metrics
     - wayName
+    type: object
+  schemas.GenerateMetricsResponse:
+    properties:
+      metrics:
+        items:
+          type: string
+        type: array
+    required:
+    - metrics
     type: object
   schemas.GetAllUsersResponse:
     properties:
@@ -438,6 +472,10 @@ definitions:
         type: string
       uuid:
         type: string
+      wayName:
+        type: string
+      wayUuid:
+        type: string
     required:
     - createdAt
     - dayReportUuid
@@ -448,6 +486,8 @@ definitions:
     - time
     - updatedAt
     - uuid
+    - wayName
+    - wayUuid
     type: object
   schemas.JobTagResponse:
     properties:
@@ -464,6 +504,62 @@ definitions:
     - description
     - name
     - uuid
+    type: object
+  schemas.Label:
+    properties:
+      color:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      uuid:
+        type: string
+    required:
+    - color
+    - description
+    - name
+    - uuid
+    type: object
+  schemas.LabelInfo:
+    properties:
+      jobsAmount:
+        type: integer
+      jobsAmountPercentage:
+        type: integer
+      label:
+        $ref: '#/definitions/schemas.Label'
+      time:
+        type: integer
+      timePercentage:
+        type: integer
+    required:
+    - jobsAmount
+    - jobsAmountPercentage
+    - label
+    - time
+    - timePercentage
+    type: object
+  schemas.LabelStatistics:
+    properties:
+      labels:
+        items:
+          $ref: '#/definitions/schemas.LabelInfo'
+        type: array
+    required:
+    - labels
+    type: object
+  schemas.ListDayReportsResponse:
+    properties:
+      dayReports:
+        items:
+          $ref: '#/definitions/schemas.CompositeDayReportPopulatedResponse'
+        type: array
+      size:
+        type: integer
+    required:
+    - dayReports
+    - size
     type: object
   schemas.MetricResponse:
     properties:
@@ -484,6 +580,28 @@ definitions:
     - estimationTime
     - isDone
     - uuid
+    type: object
+  schemas.OverallInformation:
+    properties:
+      averageJobTime:
+        type: integer
+      averageTimePerCalendarDay:
+        type: integer
+      averageTimePerWorkingDay:
+        type: integer
+      finishedJobs:
+        type: integer
+      totalReports:
+        type: integer
+      totalTime:
+        type: integer
+    required:
+    - averageJobTime
+    - averageTimePerCalendarDay
+    - averageTimePerWorkingDay
+    - finishedJobs
+    - totalReports
+    - totalTime
     type: object
   schemas.PlanPopulatedResponse:
     properties:
@@ -509,6 +627,10 @@ definitions:
         type: string
       uuid:
         type: string
+      wayName:
+        type: string
+      wayUuid:
+        type: string
     required:
     - createdAt
     - dayReportUuid
@@ -520,6 +642,8 @@ definitions:
     - time
     - updatedAt
     - uuid
+    - wayName
+    - wayUuid
     type: object
   schemas.ProblemPopulatedResponse:
     properties:
@@ -535,13 +659,13 @@ definitions:
         type: string
       ownerUuid:
         type: string
-      tags:
-        items:
-          $ref: '#/definitions/schemas.JobTagResponse'
-        type: array
       updatedAt:
         type: string
       uuid:
+        type: string
+      wayName:
+        type: string
+      wayUuid:
         type: string
     required:
     - createdAt
@@ -550,19 +674,25 @@ definitions:
     - isDone
     - ownerName
     - ownerUuid
-    - tags
     - updatedAt
     - uuid
+    - wayName
+    - wayUuid
+    type: object
+  schemas.TimeSpentByDayPoint:
+    properties:
+      date:
+        type: string
+      value:
+        type: integer
+    required:
+    - date
+    - value
     type: object
   schemas.UpdateCommentPayload:
     properties:
       description:
         type: string
-    type: object
-  schemas.UpdateDayReportPayload:
-    properties:
-      isDayOff:
-        type: boolean
     type: object
   schemas.UpdateJobDone:
     properties:
@@ -876,10 +1006,6 @@ definitions:
         x-nullable: true
       createdAt:
         type: string
-      dayReports:
-        items:
-          $ref: '#/definitions/schemas.DayReportPopulatedResponse'
-        type: array
       estimationTime:
         type: integer
       favoriteForUsersAmount:
@@ -926,7 +1052,6 @@ definitions:
     - children
     - copiedFromWayUuid
     - createdAt
-    - dayReports
     - estimationTime
     - favoriteForUsersAmount
     - formerMentors
@@ -943,6 +1068,34 @@ definitions:
     - uuid
     - wayTags
     type: object
+  schemas.WayStatistics:
+    properties:
+      labelStatistics:
+        $ref: '#/definitions/schemas.LabelStatistics'
+      overallInformation:
+        $ref: '#/definitions/schemas.OverallInformation'
+      timeSpentByDayChart:
+        items:
+          $ref: '#/definitions/schemas.TimeSpentByDayPoint'
+        type: array
+    required:
+    - labelStatistics
+    - overallInformation
+    - timeSpentByDayChart
+    type: object
+  schemas.WayStatisticsTriplePeriod:
+    properties:
+      lastMonth:
+        $ref: '#/definitions/schemas.WayStatistics'
+      lastWeek:
+        $ref: '#/definitions/schemas.WayStatistics'
+      totalTime:
+        $ref: '#/definitions/schemas.WayStatistics'
+    required:
+    - lastMonth
+    - lastWeek
+    - totalTime
+    type: object
   schemas.WayTagResponse:
     properties:
       name:
@@ -952,6 +1105,16 @@ definitions:
     required:
     - name
     - uuid
+    type: object
+  util.NoRightToChangeDayReportError:
+    properties:
+      error:
+        type: string
+      errorId:
+        type: string
+    required:
+    - error
+    - errorId
     type: object
   util.ResponseStatusString:
     properties:
@@ -1083,6 +1246,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.CommentPopulatedResponse'
+        "403":
+          description: User doesn't have rights to create comment.
+          schema:
+            $ref: '#/definitions/util.NoRightToChangeDayReportError'
       summary: Create a new comment
       tags:
       - comment
@@ -1195,58 +1362,37 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.DayReportPopulatedResponse'
+            $ref: '#/definitions/schemas.CompositeDayReportPopulatedResponse'
       summary: Create a new dayReport
-      tags:
-      - dayReport
-  /dayReports/{dayReportId}:
-    patch:
-      consumes:
-      - application/json
-      operationId: update-dayReport
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.UpdateDayReportPayload'
-      - description: dayReport ID
-        in: path
-        name: dayReportId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.DayReportPopulatedResponse'
-      summary: Update dayReport by UUID
       tags:
       - dayReport
   /dayReports/{wayId}:
     get:
       consumes:
       - application/json
-      operationId: get-dayReports-by-Way-uuid
+      operationId: get-day-reports
       parameters:
       - description: way ID
         in: path
         name: wayId
         required: true
         type: string
+      - description: Page number for pagination
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        type: integer
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/schemas.DayReportPopulatedResponse'
-            type: array
-      summary: Get all dayReports by Way UUID
+            $ref: '#/definitions/schemas.ListDayReportsResponse'
+      summary: Get list of day reports by way UUID
       tags:
       - dayReport
   /favoriteUserWays:
@@ -1381,6 +1527,29 @@ paths:
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
+  /gemini/just-chat:
+    post:
+      consumes:
+      - application/json
+      description: This endpoint for talks with AI language model.
+      operationId: ai-chat
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AIChatPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AIChatResponse'
+      summary: Just chat with AI
+      tags:
+      - gemini
   /gemini/metrics:
     post:
       consumes:
@@ -1399,11 +1568,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: List of generated metrics
+          description: OK
           schema:
-            items:
-              type: string
-            type: array
+            $ref: '#/definitions/schemas.GenerateMetricsResponse'
       summary: Generate metrics using Gemini
       tags:
       - gemini
@@ -1487,6 +1654,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.JobDonePopulatedResponse'
+        "403":
+          description: User doesn't have rights to create job done.
+          schema:
+            $ref: '#/definitions/util.NoRightToChangeDayReportError'
       summary: Create a new jobDone
       tags:
       - jobDone
@@ -1772,6 +1943,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.PlanPopulatedResponse'
+        "403":
+          description: User doesn't have rights to create plan.
+          schema:
+            $ref: '#/definitions/util.NoRightToChangeDayReportError'
       summary: Create a new plan
       tags:
       - plan
@@ -1820,50 +1995,6 @@ paths:
       summary: Update plan by UUID
       tags:
       - plan
-  /problemJobTags:
-    post:
-      consumes:
-      - application/json
-      operationId: create-problemJobTag
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateProblemJobTagPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-      summary: Create a new problemJobTag
-      tags:
-      - problemJobTag
-  /problemJobTags/{jobTagId}/{problemId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-problemJobTag
-      parameters:
-      - description: problem ID
-        in: path
-        name: problemId
-        required: true
-        type: string
-      - description: jobTag ID
-        in: path
-        name: jobTagId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-      summary: Delete problemJobTag by UUID
-      tags:
-      - problemJobTag
   /problems:
     post:
       consumes:
@@ -1883,6 +2014,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.ProblemPopulatedResponse'
+        "403":
+          description: User doesn't have rights to create problem.
+          schema:
+            $ref: '#/definitions/util.NoRightToChangeDayReportError'
       summary: Create a new problem
       tags:
       - problem
@@ -2418,6 +2553,27 @@ paths:
           schema:
             $ref: '#/definitions/schemas.WayPlainResponse'
       summary: Update way by UUID
+      tags:
+      - way
+  /ways/{wayId}/statistics:
+    get:
+      consumes:
+      - application/json
+      operationId: get-way-statistics-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.WayStatisticsTriplePeriod'
+      summary: Get way statistics by UUID
       tags:
       - way
 swagger: "2.0"

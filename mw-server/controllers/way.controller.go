@@ -14,6 +14,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/samber/lo"
 )
@@ -46,7 +47,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		return
 	}
 
-	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxOwnWays,
 		UserID:    payload.OwnerUuid,
 	})
@@ -82,14 +83,14 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 		originalWay, err := services.GetPopulatedWayById(cc.db, ctx, args1)
 		util.HandleErrorGin(ctx, err)
 
-		// copy wayTags
+		// copy wayTags from the copied way
 		lo.ForEach(originalWay.WayTags, func(wayTag schemas.WayTagResponse, i int) {
 			cc.db.CreateWaysWayTag(ctx, db.CreateWaysWayTagParams{
 				WayUuid:    way.Uuid,
 				WayTagUuid: pgtype.UUID{Bytes: uuid.MustParse(wayTag.Uuid), Valid: true},
 			})
 		})
-		// copy labels
+		// copying labels from the copied way
 		lo.ForEach(originalWay.JobTags, func(jobTag schemas.JobTagResponse, i int) {
 			cc.db.CreateJobTag(ctx, db.CreateJobTagParams{
 				WayUuid:     way.Uuid,
@@ -98,7 +99,7 @@ func (cc *WayController) CreateWay(ctx *gin.Context) {
 				Color:       jobTag.Color,
 			})
 		})
-		// copy metrics
+		// copy metrics from the copied way
 		lo.ForEach(originalWay.Metrics, func(metric schemas.MetricResponse, i int) {
 			cc.db.CreateMetric(ctx, db.CreateMetricParams{
 				UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
@@ -141,7 +142,7 @@ func (cc *WayController) UpdateWay(ctx *gin.Context) {
 
 	var isPrivate pgtype.Bool
 	if payload.IsPrivate != nil && *payload.IsPrivate {
-		err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+		err := cc.ls.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 			LimitName: services.MaxPrivateWays,
 			UserID:    userID,
 		})
@@ -216,10 +217,10 @@ func (cc *WayController) GetAllWays(ctx *gin.Context) {
 	// status = "inProgress" | "completed" | "all" | "abandoned"
 	status := ctx.DefaultQuery("status", "all")
 
-	reqPageID, _ := strconv.Atoi(page)
+	reqPage, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
 	reqMinDayReportsAmount, _ := strconv.Atoi(minDayReportsAmount)
-	offset := (reqPageID - 1) * reqLimit
+	offset := (reqPage - 1) * reqLimit
 	currentDate := time.Now()
 
 	waySizeArgs := db.CountWaysByTypeParams{
@@ -270,4 +271,55 @@ func (cc *WayController) DeleteWayById(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
 
+}
+
+// Get way statistics
+// @Summary Get way statistics by UUID
+// @Description
+// @Tags way
+// @ID get-way-statistics-by-uuid
+// @Accept  json
+// @Produce  json
+// @Param wayId path string true "way ID"
+// @Success 200 {object} schemas.WayStatisticsTriplePeriod
+// @Router /ways/{wayId}/statistics [get]
+func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
+	wayUUIDRaw := ctx.Param("wayId")
+	wayUUID := uuid.MustParse(wayUUIDRaw)
+
+	dates, err := services.GetLastDayReportDate(cc.db, ctx, wayUUID)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			ctx.JSON(http.StatusOK, &schemas.WayStatisticsTriplePeriod{
+				TotalTime: schemas.WayStatistics{
+					LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+					OverallInformation:  schemas.OverallInformation{},
+				},
+				LastMonth: schemas.WayStatistics{
+					LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+					OverallInformation:  schemas.OverallInformation{},
+				},
+				LastWeek: schemas.WayStatistics{
+					LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
+					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
+					OverallInformation:  schemas.OverallInformation{},
+				},
+			})
+			return
+		} else {
+			util.HandleErrorGin(ctx, err)
+		}
+	}
+
+	params := &services.GetWayStatisticsTriplePeriodParams{
+		WayUUID:        wayUUID,
+		TotalStartDate: dates.TotalStartDate,
+		EndDate:        dates.EndDate,
+	}
+	response, err := services.GetWayStatisticsTriplePeriod(cc.db, ctx, params)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
 }

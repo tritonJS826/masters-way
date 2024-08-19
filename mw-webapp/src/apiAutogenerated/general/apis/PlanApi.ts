@@ -18,6 +18,7 @@ import type {
   SchemasCreatePlanPayload,
   SchemasPlanPopulatedResponse,
   SchemasUpdatePlanPayload,
+  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
     SchemasCreatePlanPayloadFromJSON,
@@ -26,6 +27,8 @@ import {
     SchemasPlanPopulatedResponseToJSON,
     SchemasUpdatePlanPayloadFromJSON,
     SchemasUpdatePlanPayloadToJSON,
+    UtilNoRightToChangeDayReportErrorFromJSON,
+    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreatePlanRequest {

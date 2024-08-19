@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -33,6 +34,7 @@ func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneControlle
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
 // @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create job done."
 // @Router /jobDones [post]
 func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
@@ -42,11 +44,29 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		return
 	}
 
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+
+	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
+
+	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+		UserUuid:      userUUID,
+		DayReportUuid: dayReportUUID,
+	}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
 	now := time.Now()
 	args := &db.CreateJobDoneParams{
 		Description:   payload.Description,
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
-		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		DayReportUuid: dayReportUUID,
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		Time:          int32(payload.Time),
@@ -74,6 +94,7 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 			Color:       tag.Color,
 		}
 	})
+
 	response := schemas.JobDonePopulatedResponse{
 		Uuid:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
 		CreatedAt:     jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -83,6 +104,8 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
 		OwnerName:     jobDone.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 		Tags:          tags,
 	}
 

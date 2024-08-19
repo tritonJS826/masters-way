@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Message** | **string** |  | 
+**MessageId** | **string** |  | 
 **MessageReaders** | [**[]SchemasMessageReader**](SchemasMessageReader.md) |  | 
 **OwnerId** | **string** |  | 
 **OwnerImageUrl** | **string** |  | 
@@ -15,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasMessageResponse
 
-`func NewSchemasMessageResponse(message string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName string, roomId string, ) *SchemasMessageResponse`
+`func NewSchemasMessageResponse(message string, messageId string, messageReaders []SchemasMessageReader, ownerId string, ownerImageUrl string, ownerName string, roomId string, ) *SchemasMessageResponse`
 
 NewSchemasMessageResponse instantiates a new SchemasMessageResponse object
 This constructor will assign default values to properties that have it defined,
@@ -48,6 +49,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasMessageResponse) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
+
+
+### GetMessageId
+
+`func (o *SchemasMessageResponse) GetMessageId() string`
+
+GetMessageId returns the MessageId field if non-nil, zero value otherwise.
+
+### GetMessageIdOk
+
+`func (o *SchemasMessageResponse) GetMessageIdOk() (*string, bool)`
+
+GetMessageIdOk returns a tuple with the MessageId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMessageId
+
+`func (o *SchemasMessageResponse) SetMessageId(v string)`
+
+SetMessageId sets MessageId field to given value.
 
 
 ### GetMessageReaders

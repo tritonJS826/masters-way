@@ -12,6 +12,7 @@ type Config struct {
 	WebappBaseURL    string `mapstructure:"WEBAPP_BASE_URL"`
 	EnvType          string `mapstructure:"ENV_TYPE"`
 	DBSource         string `mapstructure:"DB_SOURCE"`
+	ChatAPIHost      string `mapstructure:"CHAT_API_HOST"`
 	ChatBaseURL      string `mapstructure:"CHAT_BASE_URL"`
 	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
 }

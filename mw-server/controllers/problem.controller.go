@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -12,7 +13,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/samber/lo"
 )
 
 type ProblemController struct {
@@ -33,6 +33,7 @@ func NewProblemController(db *db.Queries, ctx context.Context) *ProblemControlle
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
 // @Success 200 {object} schemas.ProblemPopulatedResponse
+// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create problem."
 // @Router /problems [post]
 func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	var payload *schemas.CreateProblemPayload
@@ -42,6 +43,24 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		return
 	}
 
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+
+	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
+
+	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+		UserUuid:      userUUID,
+		DayReportUuid: dayReportUUID,
+	}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
 	now := time.Now()
 	args := db.CreateProblemParams{
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
@@ -49,21 +68,12 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		Description:   payload.Description,
 		IsDone:        payload.IsDone,
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
-		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		DayReportUuid: dayReportUUID,
 	}
 
 	problem, err := cc.db.CreateProblem(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	tags := lo.Map(problem.TagUuids, func(tagUuidStringified string, i int) schemas.JobTagResponse {
-		tag, _ := cc.db.GetJobTagByUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(tagUuidStringified), Valid: true})
-		return schemas.JobTagResponse{
-			Uuid:        util.ConvertPgUUIDToUUID(tag.Uuid).String(),
-			Name:        tag.Name,
-			Description: tag.Description,
-			Color:       tag.Color,
-		}
-	})
 	response := schemas.ProblemPopulatedResponse{
 		Uuid:          util.ConvertPgUUIDToUUID(problem.Uuid).String(),
 		CreatedAt:     problem.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -73,7 +83,8 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
-		Tags:          tags,
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -118,19 +129,6 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	problem, err := cc.db.UpdateProblem(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	tagUuids := lo.Map(problem.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
-		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
-	})
-	dbTags, _ := cc.db.GetListLabelsByLabelUuids(ctx, tagUuids)
-	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
-			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
-			Name:        dbTag.Name,
-			Description: dbTag.Description,
-			Color:       dbTag.Color,
-		}
-	})
-
 	response := schemas.ProblemPopulatedResponse{
 		Uuid:          util.ConvertPgUUIDToUUID(problem.Uuid).String(),
 		CreatedAt:     problem.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -140,7 +138,6 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
-		Tags:          tags,
 	}
 
 	ctx.JSON(http.StatusOK, response)

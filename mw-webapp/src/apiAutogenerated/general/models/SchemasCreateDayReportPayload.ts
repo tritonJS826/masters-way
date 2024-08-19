@@ -21,12 +21,6 @@ import { exists, mapValues } from '../runtime';
 export interface SchemasCreateDayReportPayload {
     /**
      * 
-     * @type {boolean}
-     * @memberof SchemasCreateDayReportPayload
-     */
-    isDayOff: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof SchemasCreateDayReportPayload
      */
@@ -40,7 +34,6 @@ export function instanceOfSchemasCreateDayReportPayload(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "isDayOff" in value;
     isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
@@ -59,7 +52,6 @@ export function SchemasCreateDayReportPayloadFromJSONTyped(
     }
     return {
         
-        'isDayOff': json['isDayOff'],
         'wayUuid': json['wayUuid'],
     };
 }
@@ -74,7 +66,6 @@ export function SchemasCreateDayReportPayloadToJSON(value?: SchemasCreateDayRepo
     }
     return {
         
-        'isDayOff': value.isDayOff,
         'wayUuid': value.wayUuid,
     };
 }

@@ -14,12 +14,14 @@ Name | Type | Description | Notes
 **Time** | **int32** |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
+**WayName** | **string** |  | 
+**WayUuid** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasPlanPopulatedResponse
 
-`func NewSchemasPlanPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string, ) *SchemasPlanPopulatedResponse`
+`func NewSchemasPlanPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasPlanPopulatedResponse`
 
 NewSchemasPlanPopulatedResponse instantiates a new SchemasPlanPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -232,6 +234,46 @@ and a boolean to check if the value has been set.
 `func (o *SchemasPlanPopulatedResponse) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
+
+
+### GetWayName
+
+`func (o *SchemasPlanPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasPlanPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasPlanPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+
+### GetWayUuid
+
+`func (o *SchemasPlanPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasPlanPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasPlanPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
 
 
 

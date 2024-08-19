@@ -135,6 +135,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "message",
+                "messageId",
                 "messageReaders",
                 "ownerId",
                 "ownerImageUrl",
@@ -143,6 +144,9 @@ const docTemplate = `{
             ],
             "properties": {
                 "message": {
+                    "type": "string"
+                },
+                "messageId": {
                     "type": "string"
                 },
                 "messageReaders": {

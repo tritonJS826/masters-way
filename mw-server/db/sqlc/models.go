@@ -73,7 +73,6 @@ type DayReport struct {
 	WayUuid   pgtype.UUID      `json:"way_uuid"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
 	UpdatedAt pgtype.Timestamp `json:"updated_at"`
-	IsDayOff  bool             `json:"is_day_off"`
 }
 
 type FavoriteUser struct {
@@ -159,11 +158,6 @@ type Problem struct {
 	IsDone        bool             `json:"is_done"`
 	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
 	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
-}
-
-type ProblemsJobTag struct {
-	ProblemUuid pgtype.UUID `json:"problem_uuid"`
-	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
 }
 
 type ProfileSetting struct {

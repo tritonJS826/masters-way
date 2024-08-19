@@ -13,12 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasDayReportPopulatedResponse } from './SchemasDayReportPopulatedResponse';
-import {
-    SchemasDayReportPopulatedResponseFromJSON,
-    SchemasDayReportPopulatedResponseFromJSONTyped,
-    SchemasDayReportPopulatedResponseToJSON,
-} from './SchemasDayReportPopulatedResponse';
 import type { SchemasJobTagResponse } from './SchemasJobTagResponse';
 import {
     SchemasJobTagResponseFromJSON,
@@ -68,12 +62,6 @@ export interface SchemasWayPopulatedResponse {
      * @memberof SchemasWayPopulatedResponse
      */
     createdAt: string;
-    /**
-     * 
-     * @type {Array<SchemasDayReportPopulatedResponse>}
-     * @memberof SchemasWayPopulatedResponse
-     */
-    dayReports: Array<SchemasDayReportPopulatedResponse>;
     /**
      * 
      * @type {number}
@@ -176,7 +164,6 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "children" in value;
     isInstance = isInstance && "copiedFromWayUuid" in value;
     isInstance = isInstance && "createdAt" in value;
-    isInstance = isInstance && "dayReports" in value;
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "favoriteForUsersAmount" in value;
     isInstance = isInstance && "formerMentors" in value;
@@ -212,7 +199,6 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'children': ((json['children'] as Array<any>).map(SchemasWayPopulatedResponseFromJSON)),
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
-        'dayReports': ((json['dayReports'] as Array<any>).map(SchemasDayReportPopulatedResponseFromJSON)),
         'estimationTime': json['estimationTime'],
         'favoriteForUsersAmount': json['favoriteForUsersAmount'],
         'formerMentors': ((json['formerMentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
@@ -244,7 +230,6 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'children': ((value.children as Array<any>).map(SchemasWayPopulatedResponseToJSON)),
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
-        'dayReports': ((value.dayReports as Array<any>).map(SchemasDayReportPopulatedResponseToJSON)),
         'estimationTime': value.estimationTime,
         'favoriteForUsersAmount': value.favoriteForUsersAmount,
         'formerMentors': ((value.formerMentors as Array<any>).map(SchemasUserPlainResponseToJSON)),

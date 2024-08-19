@@ -1,3 +1,4 @@
+import {jobDoneDTOToJobDone} from "src/dataAccessLogic/DTOToPreviewConverter/jobDoneDTOToJobDone";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Label} from "src/model/businessModel/Label";
 import {Plan} from "src/model/businessModel/Plan";
@@ -20,16 +21,6 @@ interface CreateJobParams {
   dayReportUuid: string;
 
   /**
-   * Way's UUID
-   */
-  wayUuid: string;
-
-  /**
-   * Way's name
-   */
-  wayName: string;
-
-  /**
    * Plan info to create job
    */
   plan?: Plan;
@@ -46,15 +37,6 @@ interface UpdateJobParams {
    */
   jobDone: PartialWithUuid<JobDone>;
 
-  /**
-   * Way's UUID
-   */
-  wayUuid: string;
-
-  /**
-   * Way's name
-   */
-  wayName: string;
 }
 
 /**
@@ -66,6 +48,7 @@ export class JobDoneDAL {
    * Create jobDone
    */
   public static async createJobDone(params: CreateJobParams): Promise<JobDone> {
+
     const jobDoneDTO = await JobDoneService.createJobDone({
       request: {
         dayReportUuid: params.dayReportUuid,
@@ -76,14 +59,7 @@ export class JobDoneDAL {
       },
     });
 
-    const jobDone = new JobDone({
-      ...jobDoneDTO,
-      createdAt: new Date(jobDoneDTO.createdAt),
-      updatedAt: new Date(jobDoneDTO.updatedAt),
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
-      tags: jobDoneDTO.tags.map((label) => new Label(label)),
-    });
+    const jobDone = jobDoneDTOToJobDone(jobDoneDTO);
 
     return jobDone;
   }
@@ -101,8 +77,6 @@ export class JobDoneDAL {
       ...updatedJobDoneDTO,
       createdAt: new Date(updatedJobDoneDTO.createdAt),
       updatedAt: new Date(updatedJobDoneDTO.updatedAt),
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
       tags: updatedJobDoneDTO.tags.map((label) => new Label(label)),
     });
 

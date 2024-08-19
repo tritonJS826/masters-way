@@ -26,7 +26,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {wayToWayPreview} from "src/dataAccessLogic/BusinessToBusinessPreviewConverter/wayToWayPreview";
 import {CompositeWayDAL} from "src/dataAccessLogic/CompositeWayDAL";
-import {CreateDayReportParams, DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
+import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {FavoriteUserWayDAL} from "src/dataAccessLogic/FavoriteUserWayDAL";
 import {MentorRequestDAL} from "src/dataAccessLogic/MentorRequestDAL";
 import {WayCollectionWayDAL} from "src/dataAccessLogic/WayCollectionWayDAL";
@@ -47,7 +47,7 @@ import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
-import {MILLISECONDS_IN_DAY, SMALL_CORRECTION_MILLISECONDS, WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
+import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Label} from "src/model/businessModel/Label";
@@ -57,7 +57,7 @@ import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {DateUtils} from "src/utils/DateUtils";
+import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -139,7 +139,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
   const {language} = languageStore;
   const {theme} = themeStore;
-  const {way} = wayPageStore;
+  const {way, setWayStatisticsTriple} = wayPageStore;
   const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
 
   if (!wayPageSettings || !wayPageStore.isInitialized) {
@@ -317,18 +317,17 @@ export const WayPage = observer((props: WayPageProps) => {
   const isEmptyWay = way.dayReports.length === 0;
   const currentDate = DateUtils.getShortISODateValue(new Date());
   const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(way.dayReports[0].createdAt);
-  const isReportForTodayAlreadyCreated = lastReportDate === currentDate;
+  const isLastReportExistInWay = !isEmptyWay &&
+    !!(way.dayReports[0].compositionParticipants.find((item) => item.wayId === way.uuid));
+  const isReportForTodayAlreadyCreated = isLastReportExistInWay && lastReportDate === currentDate;
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isUserOwnerOrMentor && isReportForTodayIsNotCreated;
 
   /**
    * Create day report
    */
-  const createDayReport = async (params: CreateDayReportParams): Promise<DayReport> => {
-    const newDayReport = await DayReportDAL.createDayReport({
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
-    });
+  const createDayReport = async (wayUuid: string): Promise<DayReport> => {
+    const newDayReport = await DayReportDAL.createDayReport(wayUuid);
     way.addDayReport(newDayReport);
 
     return newDayReport;
@@ -339,7 +338,7 @@ export const WayPage = observer((props: WayPageProps) => {
   const minimumDateTimestamp = Math.min(...allDatesTimestamps);
 
   const totalDaysOnWay = allDatesTimestamps.length
-    ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / MILLISECONDS_IN_DAY)
+    ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / DAY_MILLISECONDS)
     : 0;
 
   const compositeWayOwnersParticipant = way.children.map((child) => child.owner).concat(way.owner);
@@ -529,7 +528,7 @@ export const WayPage = observer((props: WayPageProps) => {
                       /**
                        * Download way as pdf
                        */
-                      onClick: () => downloadWayPdf(way),
+                      onClick: () => downloadWayPdf(way, wayPageStore.wayStatisticsTriple),
                     },
                     ...renderAddToCustomCollectionDropdownItems,
                     ...renderAddToCompositeWayDropdownItems,
@@ -904,18 +903,14 @@ export const WayPage = observer((props: WayPageProps) => {
               contentClassName={styles.statisticsModal}
               content={
                 <WayStatistic
-                  dayReports={way.dayReports}
-                  wayCreatedAt={way.createdAt}
+                  wayStatisticsTriple={wayPageStore.wayStatisticsTriple}
                   isVisible={wayPageSettings.isStatisticsVisible}
-                  labels={way.jobTags}
                 />
               }
             />
           </HorizontalContainer>
           <WayActiveStatistic
-            dayReports={way.dayReports}
-            labels={way.jobTags}
-            wayCreatedAt={way.createdAt}
+            wayStatistics={wayPageStore.wayStatisticsTriple}
             isVisible={wayPageSettings.isStatisticsVisible}
           />
         </VerticalContainer>
@@ -928,11 +923,10 @@ export const WayPage = observer((props: WayPageProps) => {
             {isPossibleCreateDayReport &&
               <Button
                 value={LanguageService.way.filterBlock.createNewDayReport[language]}
-                onClick={() => {
-                  createDayReport({
-                    wayName: way.name,
-                    wayUuid: way.uuid,
-                  });
+                onClick={async () => {
+                  createDayReport(way.uuid);
+                  const updatedStatistics = await WayDAL.getWayStatisticTripleById(way.uuid);
+                  wayPageStore.setWayStatisticsTriple(updatedStatistics);
                 }}
                 buttonType={ButtonType.PRIMARY}
               />
@@ -963,6 +957,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
       <DayReportsTable
         way={way}
+        setWayStatisticsTriple={setWayStatisticsTriple}
         createDayReport={createDayReport}
         compositeWayParticipant={compositeWayParticipants}
       />

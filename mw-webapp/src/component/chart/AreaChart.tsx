@@ -64,27 +64,30 @@ const getOptions = () => {
   return options;
 };
 
+export type ChartAreaPoint = {
+
+  /**
+   * Point date
+   */
+  date: Date;
+
+  /**
+   * Point value
+   */
+  value: number;
+}
+
 /**
  * Chart props
  */
 interface AreaChartProps {
 
   /**
-   * Start date
-   */
-  startDate: Date;
-
-  /**
-   * Last date
-   */
-  lastDate: Date;
-
-  /**
    * All dates in the way with JobTotalTime
    * @key date
    * @value job done total time per day
    */
-  datesWithJobTotalTime: Map<string, number>;
+  points: ChartAreaPoint[];
 
   /**
    * Data attribute for cypress testing
@@ -100,25 +103,16 @@ export const AreaChart = observer((props: AreaChartProps) => {
   const {theme} = themeStore;
   const {language} = languageStore;
 
-  const dateList = DateUtils.getDatesBetween(props.startDate, props.lastDate);
-  const labels = dateList.map(DateUtils.getShortISODateValue);
-
-  const dateWithJobTotalTime: Map<string, number> = new Map(labels.map((date) => {
-    const jobDoneTotal = props.datesWithJobTotalTime.get(date) ?? 0;
-
-    return [date, jobDoneTotal];
-  }));
-
-  const dataJob = Array.from(dateWithJobTotalTime.values());
+  const axisX = props.points.map((point) => DateUtils.getShortISODateValue(point.date));
 
   const data = {
-    labels,
+    labels: axisX,
     datasets: [
       {
         fill: true,
         lineTension: 0.4,
         label: LanguageService.way.statisticsBlock.totalTimeLabel[language],
-        data: dataJob,
+        data: props.points.map((point) => point.value),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
@@ -129,8 +123,7 @@ export const AreaChart = observer((props: AreaChartProps) => {
    * Now it works even without Memo because of global context.
    * After migration to some state manager this line will help us to avoid bugs
    */
-  const optionsMemoized = useMemo(() =>
-    getOptions(), [theme, language]);
+  const optionsMemoized = useMemo(() => getOptions(), [theme, language]);
 
   return (
     <Line

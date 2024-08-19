@@ -8,7 +8,7 @@ import styles from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags.modul
 interface JobDoneTagsProps {
 
   /**
-   * Job done tags
+   * Job done labels in the item
    */
   jobDoneTags: LabelModel[];
 

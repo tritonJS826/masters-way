@@ -27,9 +27,10 @@ type SchemasProblemPopulatedResponse struct {
 	IsDone bool `json:"isDone"`
 	OwnerName string `json:"ownerName"`
 	OwnerUuid string `json:"ownerUuid"`
-	Tags []SchemasJobTagResponse `json:"tags"`
 	UpdatedAt string `json:"updatedAt"`
 	Uuid string `json:"uuid"`
+	WayName string `json:"wayName"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _SchemasProblemPopulatedResponse SchemasProblemPopulatedResponse
@@ -38,7 +39,7 @@ type _SchemasProblemPopulatedResponse SchemasProblemPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasProblemPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, updatedAt string, uuid string) *SchemasProblemPopulatedResponse {
+func NewSchemasProblemPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasProblemPopulatedResponse {
 	this := SchemasProblemPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.DayReportUuid = dayReportUuid
@@ -46,9 +47,10 @@ func NewSchemasProblemPopulatedResponse(createdAt string, dayReportUuid string, 
 	this.IsDone = isDone
 	this.OwnerName = ownerName
 	this.OwnerUuid = ownerUuid
-	this.Tags = tags
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
+	this.WayName = wayName
+	this.WayUuid = wayUuid
 	return &this
 }
 
@@ -204,30 +206,6 @@ func (o *SchemasProblemPopulatedResponse) SetOwnerUuid(v string) {
 	o.OwnerUuid = v
 }
 
-// GetTags returns the Tags field value
-func (o *SchemasProblemPopulatedResponse) GetTags() []SchemasJobTagResponse {
-	if o == nil {
-		var ret []SchemasJobTagResponse
-		return ret
-	}
-
-	return o.Tags
-}
-
-// GetTagsOk returns a tuple with the Tags field value
-// and a boolean to check if the value has been set.
-func (o *SchemasProblemPopulatedResponse) GetTagsOk() ([]SchemasJobTagResponse, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Tags, true
-}
-
-// SetTags sets field value
-func (o *SchemasProblemPopulatedResponse) SetTags(v []SchemasJobTagResponse) {
-	o.Tags = v
-}
-
 // GetUpdatedAt returns the UpdatedAt field value
 func (o *SchemasProblemPopulatedResponse) GetUpdatedAt() string {
 	if o == nil {
@@ -276,6 +254,54 @@ func (o *SchemasProblemPopulatedResponse) SetUuid(v string) {
 	o.Uuid = v
 }
 
+// GetWayName returns the WayName field value
+func (o *SchemasProblemPopulatedResponse) GetWayName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayName
+}
+
+// GetWayNameOk returns a tuple with the WayName field value
+// and a boolean to check if the value has been set.
+func (o *SchemasProblemPopulatedResponse) GetWayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayName, true
+}
+
+// SetWayName sets field value
+func (o *SchemasProblemPopulatedResponse) SetWayName(v string) {
+	o.WayName = v
+}
+
+// GetWayUuid returns the WayUuid field value
+func (o *SchemasProblemPopulatedResponse) GetWayUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayUuid
+}
+
+// GetWayUuidOk returns a tuple with the WayUuid field value
+// and a boolean to check if the value has been set.
+func (o *SchemasProblemPopulatedResponse) GetWayUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayUuid, true
+}
+
+// SetWayUuid sets field value
+func (o *SchemasProblemPopulatedResponse) SetWayUuid(v string) {
+	o.WayUuid = v
+}
+
 func (o SchemasProblemPopulatedResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -292,9 +318,10 @@ func (o SchemasProblemPopulatedResponse) ToMap() (map[string]interface{}, error)
 	toSerialize["isDone"] = o.IsDone
 	toSerialize["ownerName"] = o.OwnerName
 	toSerialize["ownerUuid"] = o.OwnerUuid
-	toSerialize["tags"] = o.Tags
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
+	toSerialize["wayName"] = o.WayName
+	toSerialize["wayUuid"] = o.WayUuid
 	return toSerialize, nil
 }
 
@@ -309,9 +336,10 @@ func (o *SchemasProblemPopulatedResponse) UnmarshalJSON(data []byte) (err error)
 		"isDone",
 		"ownerName",
 		"ownerUuid",
-		"tags",
 		"updatedAt",
 		"uuid",
+		"wayName",
+		"wayUuid",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -21,7 +21,6 @@ var _ MappedNullable = &SchemasCreateDayReportPayload{}
 
 // SchemasCreateDayReportPayload struct for SchemasCreateDayReportPayload
 type SchemasCreateDayReportPayload struct {
-	IsDayOff bool `json:"isDayOff"`
 	WayUuid string `json:"wayUuid"`
 }
 
@@ -31,9 +30,8 @@ type _SchemasCreateDayReportPayload SchemasCreateDayReportPayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasCreateDayReportPayload(isDayOff bool, wayUuid string) *SchemasCreateDayReportPayload {
+func NewSchemasCreateDayReportPayload(wayUuid string) *SchemasCreateDayReportPayload {
 	this := SchemasCreateDayReportPayload{}
-	this.IsDayOff = isDayOff
 	this.WayUuid = wayUuid
 	return &this
 }
@@ -44,30 +42,6 @@ func NewSchemasCreateDayReportPayload(isDayOff bool, wayUuid string) *SchemasCre
 func NewSchemasCreateDayReportPayloadWithDefaults() *SchemasCreateDayReportPayload {
 	this := SchemasCreateDayReportPayload{}
 	return &this
-}
-
-// GetIsDayOff returns the IsDayOff field value
-func (o *SchemasCreateDayReportPayload) GetIsDayOff() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.IsDayOff
-}
-
-// GetIsDayOffOk returns a tuple with the IsDayOff field value
-// and a boolean to check if the value has been set.
-func (o *SchemasCreateDayReportPayload) GetIsDayOffOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.IsDayOff, true
-}
-
-// SetIsDayOff sets field value
-func (o *SchemasCreateDayReportPayload) SetIsDayOff(v bool) {
-	o.IsDayOff = v
 }
 
 // GetWayUuid returns the WayUuid field value
@@ -104,7 +78,6 @@ func (o SchemasCreateDayReportPayload) MarshalJSON() ([]byte, error) {
 
 func (o SchemasCreateDayReportPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["isDayOff"] = o.IsDayOff
 	toSerialize["wayUuid"] = o.WayUuid
 	return toSerialize, nil
 }
@@ -114,7 +87,6 @@ func (o *SchemasCreateDayReportPayload) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"isDayOff",
 		"wayUuid",
 	}
 

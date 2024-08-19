@@ -1,4 +1,4 @@
-mw-chat
+# mw-chat
 
 
 - reset db

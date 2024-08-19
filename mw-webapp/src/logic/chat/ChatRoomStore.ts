@@ -40,22 +40,5 @@ export class ActiveChatStore {
     this.message = message;
   };
 
-  // /**
-  //  * Remove all active chat data
-  //  */
-  // public clearActiveChat = () => {
-  //   this.activeChat = null;
-  // };
-
-  // /**
-  //  * Load data
-  //  */
-  // public static loadActiveChat = async (chatRoomUuid: string): Promise<Room> => {
-  //   const fetchedActiveChat = await ChatDAL.getRoomById(chatRoomUuid);
-
-  //   return fetchedActiveChat;
-  // };
-
 }
 
-// Export const chatRoomStore = new ChatRoomStore();

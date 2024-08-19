@@ -18,6 +18,7 @@ import type {
   SchemasCommentPopulatedResponse,
   SchemasCreateCommentPayload,
   SchemasUpdateCommentPayload,
+  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
     SchemasCommentPopulatedResponseFromJSON,
@@ -26,6 +27,8 @@ import {
     SchemasCreateCommentPayloadToJSON,
     SchemasUpdateCommentPayloadFromJSON,
     SchemasUpdateCommentPayloadToJSON,
+    UtilNoRightToChangeDayReportErrorFromJSON,
+    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreateCommentRequest {

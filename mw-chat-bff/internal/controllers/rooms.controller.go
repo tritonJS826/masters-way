@@ -37,7 +37,7 @@ func NewRoomsController(
 // @Summary Get chat preview
 // @Description
 // @Tags room
-// @ID get-chat preview
+// @ID get-chat-preview
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} schemas.GetRoomPreviewResponse

@@ -4,13 +4,17 @@
   "type": "module",
   "scripts": {
     "build": "make build",
-    "start": "make start",
+    "start": "nodemon --watch . --exec 'make start' --signal SIGTERM --ext go,json,yaml,sql,env,sh",
+    "serve": "make start",
     "test": "make test",
-    "installDependencies": "make install",
-    "db-run": "make db-run",
+    "install": "make install",
+    "swag": "make swag",
     "help": "make help"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "3.1.4"
+  }
 }

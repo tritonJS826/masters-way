@@ -213,10 +213,10 @@ WHERE ways.is_private = false
         OR (@status = 'all')
     )
     AND ((
-        SELECT COUNT(*) 
-        FROM day_reports 
+        SELECT COUNT(*)
+        FROM day_reports
         WHERE day_reports.way_uuid = ways.uuid
-    ) >= @min_day_reports_amount::integer) 
+    ) >= @min_day_reports_amount::integer)
     AND (LOWER(ways.name) LIKE '%' || LOWER(@way_name) || '%' OR @way_name = '')
 ORDER BY ways.created_at DESC
 LIMIT @request_limit
@@ -225,7 +225,7 @@ OFFSET @request_offset;
 
 -- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
-WHERE ways.is_private = false 
+WHERE ways.is_private = false
     AND (
         (@way_status = 'inProgress'
             AND ways.is_completed = false
@@ -238,8 +238,8 @@ WHERE ways.is_private = false
         OR (@way_status = 'all')
     )
     AND (
-        (SELECT COUNT(day_reports.uuid) 
-            FROM day_reports 
+        (SELECT COUNT(day_reports.uuid)
+            FROM day_reports
             WHERE day_reports.way_uuid = ways.uuid
         ) >= @min_day_reports_amount::integer
     ) AND (LOWER(ways.name) LIKE '%' || LOWER(@way_name) || '%' OR @way_name = '');
@@ -272,3 +272,86 @@ RETURNING *,
 -- name: DeleteWay :exec
 DELETE FROM ways
 WHERE uuid = @way_uuid;
+
+-- name: GetOverallInformation :one
+SELECT
+    COALESCE(SUM(job_dones.time), 0)::INTEGER AS total_time,
+    COUNT(DISTINCT day_reports.uuid) AS total_reports,
+    COUNT(job_dones.uuid) AS finished_jobs,
+    COALESCE(
+        SUM(job_dones.time) /
+        NULLIF(EXTRACT(day FROM (INTERVAL '1 day' + (@end_date)::timestamp - (@start_date)::timestamp)), 0)
+    , 0)::INTEGER AS average_time_per_calendar_day,
+    COALESCE(
+        SUM(job_dones.time) /
+        NULLIF(COUNT(DISTINCT day_reports.uuid), 0)
+    , 0)::INTEGER AS average_time_per_working_day,
+    COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
+FROM day_reports
+LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+WHERE day_reports.way_uuid = @way_uuid
+  AND day_reports.created_at BETWEEN @start_date AND @end_date;
+
+-- name: GetTimeSpentByDayChart :many
+SELECT
+	day_reports.created_at as point_date,
+	COALESCE(SUM(job_dones.time), 0)::INTEGER AS point_value
+FROM day_reports
+LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+WHERE day_reports.way_uuid = @way_uuid AND day_reports.created_at BETWEEN @start_date AND @end_date
+GROUP BY point_date;
+
+-- name: GetLabelStatistics :many
+WITH job_done_data AS (
+    SELECT
+        job_dones.*,
+        job_dones_job_tags.job_tag_uuid,
+        job_tags.uuid AS label_uuid,
+        job_tags.name AS label_name,
+        job_tags.color AS label_color,
+        job_tags.description AS label_description
+    FROM day_reports
+    LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+    INNER JOIN job_dones_job_tags ON job_dones.uuid = job_dones_job_tags.job_done_uuid
+    INNER JOIN job_tags ON job_tags.uuid = job_dones_job_tags.job_tag_uuid
+    WHERE day_reports.way_uuid = @way_uuid AND day_reports.created_at BETWEEN @start_date AND @end_date
+)
+SELECT
+    label_uuid,
+    label_name,
+    label_color,
+    label_description,
+    COUNT(*) AS jobs_amount,
+    COALESCE(COUNT(*) * 100 / NULLIF((SELECT COUNT(*) FROM job_done_data), 0), 0)::INTEGER AS jobs_amount_percentage,
+    COALESCE(SUM(time), 0)::INTEGER AS jobs_time,
+    COALESCE(SUM(time) * 100 / NULLIF((SELECT SUM(time) FROM job_done_data), 0), 0)::INTEGER AS jobs_time_percentage
+FROM job_done_data
+GROUP BY label_uuid, label_name, label_color, label_description;
+
+-- name: GetLastDayReportDate :one
+SELECT
+    ways.created_at AS total_start_date,
+    day_reports.created_at AS end_date
+FROM day_reports
+    INNER JOIN ways ON ways.uuid = day_reports.way_uuid
+WHERE day_reports.created_at = (
+    SELECT MAX(created_at)
+    FROM day_reports
+    WHERE day_reports.way_uuid = @way_uuid
+) AND day_reports.way_uuid = @way_uuid;
+
+-- name: GetWayChildren :many
+SELECT composite_ways.child_uuid
+FROM composite_ways
+WHERE composite_ways.parent_uuid = @way_uuid;
+
+-- name: GetWayRelatedUsers :many
+SELECT
+    users.*
+FROM ways
+JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid
+JOIN users ON users.uuid = mentor_users_ways.user_uuid
+	OR users.uuid = former_mentors_ways.former_mentor_uuid
+	OR users.uuid = ways.owner_uuid
+WHERE ways.uuid = ANY(@way_uuids::UUID[]);

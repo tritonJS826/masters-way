@@ -4,7 +4,7 @@ import {Separator} from "src/component/separator/Separator";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
+import {LabelStat} from "src/logic/wayPage/wayStatistics/LabelStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/statisticLabels/statisticLine/StatisticLine";
 import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
@@ -18,7 +18,7 @@ interface TagStatsProps {
   /**
    * Tags stats
    */
-  stats: JobTagStat[];
+  stats: LabelStat[];
 
   /**
    * All labels
@@ -56,14 +56,14 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
       </HorizontalGridContainer>
 
       {props.stats.map((tagStat) => (
-        <VerticalContainer key={tagStat.jobTag.uuid}>
+        <VerticalContainer key={tagStat.label.uuid}>
           <StatisticLine
-            name={tagStat.jobTag.name}
-            color={props.labels.find(label => label.uuid === tagStat.jobTag.uuid)?.color ?? tagStat.jobTag.color}
-            amount={tagStat.totalAmount}
-            time={tagStat.totalTime}
-            amountPercentage={tagStat.totalAmountPercentage}
-            timePercentage={tagStat.totalTimePercentage}
+            name={tagStat.label.name}
+            color={props.labels.find(label => label.uuid === tagStat.label.uuid)?.color ?? tagStat.label.color}
+            amount={tagStat.jobsAmount}
+            time={tagStat.time}
+            amountPercentage={tagStat.jobsAmountPercentage}
+            timePercentage={tagStat.timePercentage}
           />
           <Separator />
         </VerticalContainer>

@@ -340,11 +340,6 @@
       "en": "Metrics",
       "ua": "Метрики"
     },
-    "overallInformationTitle": {
-      "ru": "Общая информация",
-      "en": "Overall information",
-      "ua": "Загальна інформація"
-    },
     "labelsStatisticTitle": {
       "ru": "Статистика лейблов",
       "en": "Labels statistic",
@@ -365,45 +360,52 @@
       "en": "Total",
       "ua": "Весь період"
     },
+    "overAllInformation": {
+      "overallInformationTitle": {
+        "ru": "Общая информация",
+        "en": "Overall information",
+        "ua": "Загальна інформація"
+      },
+      "totalTime": {
+        "ru": "Общее время",
+        "en": "Total time",
+        "ua": "Загальний час"
+      },
+      "totalReports": {
+        "ru": "Всего отчетов",
+        "en": "Total reports",
+        "ua": "Всього звітів"
+      },
+      "totalFinishedJobs": {
+        "ru": "Выполненных работ",
+        "en": "Finished jobs",
+        "ua": "Виконаних робіт"
+      },
+      "averageTimePerCalendarDay": {
+        "ru": "Ср. время за календ. день",
+        "en": "Avg. time per calendar day",
+        "ua": "Сер. час за календ. день"
+      },
+      "averageWorkingTimePerWorkingDay": {
+        "ru": "Ср. время за рабочий день",
+        "en": "Avg. time per working day",
+        "ua": "Сер. час за робочий день"
+      },
+      "averageJobTime": {
+        "ru": "Ср. время работы",
+        "en": "Average job time",
+        "ua": "Сер. час роботи"
+      }
+    },
     "daysFromStart": {
       "ru": "Дней от начала пути",
       "en": "Days from start",
       "ua": "Днів з початку шляху"
     },
-    "totalRecords": {
-      "ru": "Всего отчетов",
-      "en": "Total records",
-      "ua": "Всього звітів"
-    },
-    "totalTime": {
-      "ru": "Общее время",
-      "en": "Total time",
-      "ua": "Загальний час"
-    },
-    "averageTimePerCalendarDay": {
-      "ru": "Ср. время за календ. день",
-      "en": "Avg. time per calendar day",
-      "ua": "Сер. час за календ. день"
-    },
-    "averageWorkingTimePerWorkingDay": {
-      "ru": "Ср. время за рабочий день",
-      "en": "Avg. time per working day",
-      "ua": "Сер. час за робочий день"
-    },
-    "totalFinishedJobs": {
-      "ru": "Выполненных работ",
-      "en": "Finished jobs",
-      "ua": "Виконаних робіт"
-    },
     "showsLevelOfTaskDecomposition": {
       "ru": "Показывает уровень декомпозиции задачи",
       "en": "Shows level of task decomposition",
       "ua": "Показує рівень декомпозиції задачі"
-    },
-    "averageJobTime": {
-      "ru": "Ср. время работы",
-      "en": "Average job time",
-      "ua": "Сер. час роботи"
     },
     "labelsName": {
       "ru": "Название лейбла",

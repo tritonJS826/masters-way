@@ -82,6 +82,8 @@ components:
       properties:
         message:
           type: string
+        messageId:
+          type: string
         messageReaders:
           items:
             $ref: '#/components/schemas/schemas.MessageReader'
@@ -96,6 +98,7 @@ components:
           type: string
       required:
       - message
+      - messageId
       - messageReaders
       - ownerId
       - ownerImageUrl

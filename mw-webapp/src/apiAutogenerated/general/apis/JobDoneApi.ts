@@ -18,6 +18,7 @@ import type {
   SchemasCreateJobDonePayload,
   SchemasJobDonePopulatedResponse,
   SchemasUpdateJobDone,
+  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
     SchemasCreateJobDonePayloadFromJSON,
@@ -26,6 +27,8 @@ import {
     SchemasJobDonePopulatedResponseToJSON,
     SchemasUpdateJobDoneFromJSON,
     SchemasUpdateJobDoneToJSON,
+    UtilNoRightToChangeDayReportErrorFromJSON,
+    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreateJobDoneRequest {

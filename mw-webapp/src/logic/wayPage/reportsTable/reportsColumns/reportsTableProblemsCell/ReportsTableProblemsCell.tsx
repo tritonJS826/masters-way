@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {Checkbox} from "src/component/checkbox/Checkbox";
@@ -5,6 +6,7 @@ import {EditableTextarea} from "src/component/editableTextarea/editableTextarea"
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
+import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -13,10 +15,12 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
+import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
 import {User, UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
@@ -61,20 +65,43 @@ interface ReportsTableProblemsCellProps {
 export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCellProps) => {
   const {language} = languageStore;
 
+  const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
+
+  if (accessErrorStore.dayReportParticipant) {
+    return (
+      <Modal
+        isOpen={true}
+        trigger={<></>}
+        content={
+          <>
+            <p>
+              {LanguageService.error.noAccessRight[language]}
+            </p>
+            <Link path={pages.way.getPath({uuid: accessErrorStore.dayReportParticipant?.wayId})}>
+              {accessErrorStore.dayReportParticipant?.wayName}
+            </Link>
+          </>
+        }
+      />
+    );
+  }
+
   /**
    * Create Problem
    */
-  const createProblem = async (userUuid?: string) => {
+  const createProblem = async (compositionParticipant: DayReportCompositionParticipant, userUuid?: string) => {
     if (!userUuid) {
       throw new Error("User uuid is not exist");
     }
-    const problem = await ProblemDAL.createProblem({
-      dayReportUuid: props.dayReport.uuid,
-      ownerUuid: userUuid,
-      wayName: props.way.name,
-      wayUuid: props.way.uuid,
-    });
-    props.dayReport.addProblem(problem);
+    try {
+      const problem = await ProblemDAL.createProblem({
+        dayReportUuid: compositionParticipant.dayReportId,
+        ownerUuid: userUuid,
+      });
+      props.dayReport.addProblem(problem);
+    } catch (error) {
+      accessErrorStore.setAccessErrorStore(compositionParticipant);
+    }
   };
 
   /**
@@ -135,11 +162,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                         isDone: !problem.isDone,
                       };
                       problem.updateIsDone(!problem.isDone);
-                      await ProblemDAL.updateProblem({
-                        problem: problemToUpdate,
-                        wayName: props.way.name,
-                        wayUuid: props.way.uuid,
-                      });
+                      await ProblemDAL.updateProblem({problem: problemToUpdate});
                     }}
                     className={styles.checkbox}
                   />
@@ -165,11 +188,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                   description,
                 };
                 problem.updateDescription(description);
-                await ProblemDAL.updateProblem({
-                  problem: problemToUpdate,
-                  wayName: props.way.name,
-                  wayUuid: props.way.uuid,
-                });
+                await ProblemDAL.updateProblem({problem: problemToUpdate});
               }}
               isEditable={problem.ownerUuid === props.user?.uuid}
               placeholder={props.isEditable
@@ -182,10 +201,13 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
         ))}
       </ol>
       <SummarySection
+        wayId={props.way.uuid}
+        compositionParticipants={props.dayReport.compositionParticipants}
         isEditable={props.isEditable}
         tooltipContent={LanguageService.way.reportsTable.columnTooltip.addProblem[language]}
         tooltipPosition={PositionTooltip.RIGHT}
-        onClick={() => createProblem(props.user?.uuid)}
+        onClick={(compositionParticipant: DayReportCompositionParticipant) =>
+          createProblem(compositionParticipant, props.user?.uuid)}
       />
     </VerticalContainer>
   );

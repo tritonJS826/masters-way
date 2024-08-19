@@ -44,7 +44,7 @@ func (cc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	}
 
 	userID := uuid.MustParse(payload.OwnerUuid)
-	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+	err := cc.ls.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxCustomCollections,
 		UserID:    userID,
 	})

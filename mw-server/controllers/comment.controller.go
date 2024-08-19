@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -32,6 +33,7 @@ func NewCommentController(db *db.Queries, ctx context.Context) *CommentControlle
 // @Produce  json
 // @Param request body schemas.CreateCommentPayload true "query params"
 // @Success 200 {object} schemas.CommentPopulatedResponse
+// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create comment."
 // @Router /comments [post]
 func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	var payload *schemas.CreateCommentPayload
@@ -41,11 +43,29 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		return
 	}
 
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+
+	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
+
+	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+		UserUuid:      userUUID,
+		DayReportUuid: dayReportUUID,
+	}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
 	now := time.Now()
 	args := &db.CreateCommentParams{
 		Description:   payload.Description,
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
-		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		DayReportUuid: dayReportUUID,
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}
@@ -61,6 +81,8 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		CreatedAt:     comment.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		UpdatedAt:     comment.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		DayReportUuid: util.ConvertPgUUIDToUUID(comment.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 	}
 
 	ctx.JSON(http.StatusOK, response)

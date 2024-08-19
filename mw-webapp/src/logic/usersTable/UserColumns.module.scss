@@ -1,6 +1,7 @@
 @import "src/styles/variables";
 
 .cellWrapper {
+  height: 100%;
   padding: $paddingSmall;
 }
 
@@ -11,4 +12,8 @@
 .userBlock {
   align-items: center;
   gap: $gapSmall;
+}
+
+.mentor {
+  background-color: var(--attentionColor);
 }

@@ -38,7 +38,7 @@ interface ModalContentLabelsProps {
   /**
    * Callback to update labels done
    */
-  updateLabels: (newLabel: string[]) => Promise<void>;
+  updateLabels: (newLabel: LabelModel[]) => Promise<void>;
 
 }
 
@@ -47,9 +47,9 @@ interface ModalContentLabelsProps {
  */
 export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
   const {language} = languageStore;
-  const labelsDoneUuids = props.labelsDone.map(item => item.uuid);
+  // Const labelsDoneUuids = props.labelsDone.map(item => item.uuid);
 
-  const [labelsUpdated, setLabelsUpdated] = useState<string[]>(labelsDoneUuids);
+  const [labelsUpdated, setLabelsUpdated] = useState<LabelModel[]>(props.labelsDone);
 
   const filteredLabels = Array.from(new Set(labelsUpdated));
 
@@ -57,7 +57,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
    * Remove label from labels done
    */
   const removeLabelFromLabelsDone = (labelToRemove: string) => {
-    const updatedLabels = labelsUpdated.filter((label) => label !== labelToRemove);
+    const updatedLabels = labelsUpdated.filter((label) => label.uuid !== labelToRemove);
     setLabelsUpdated(updatedLabels);
   };
 
@@ -65,7 +65,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
    * Add label to labels done
    */
   const addLabelFromLabelsDone = (labelToAdd: LabelModel) => {
-    const updatedLabels = labelsUpdated.concat(labelToAdd.uuid);
+    const updatedLabels = labelsUpdated.concat(labelToAdd);
     setLabelsUpdated(updatedLabels);
   };
 
@@ -92,7 +92,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
               <div
                 key={label.uuid}
                 className={styles.labels}
-                onClick={() => labelsUpdated.includes(label.uuid)
+                onClick={() => labelsUpdated.includes(label)
                   ? removeLabelFromLabelsDone(label.uuid)
                   : addLabelFromLabelsDone(label)}
               >
@@ -109,7 +109,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
                     text={label.description || LanguageService.modals.labelsModal.description[language]}
                   />
                   <Checkbox
-                    isDefaultChecked={labelsUpdated.includes(label.uuid)}
+                    isDefaultChecked={labelsUpdated.includes(label)}
                     onChange={() => { }}
                     className={styles.checkbox}
                   />

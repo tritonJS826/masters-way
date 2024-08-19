@@ -17,4 +17,5 @@ func NewRouteGemini(geminiController controllers.GeminiController) GeminiRoutes 
 func (gr *GeminiRoutes) GeminiRoute(rg *gin.RouterGroup) {
 	router := rg.Group("gemini")
 	router.POST("/metrics", gr.geminiController.GenerateMetrics)
+	router.POST("/just-chat", gr.geminiController.AIChat)
 }

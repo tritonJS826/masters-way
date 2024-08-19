@@ -85,8 +85,6 @@ type APIClient struct {
 
 	ProblemAPI *ProblemAPIService
 
-	ProblemJobTagAPI *ProblemJobTagAPIService
-
 	ToUserMentoringRequestAPI *ToUserMentoringRequestAPIService
 
 	UserAPI *UserAPIService
@@ -136,7 +134,6 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.PlanAPI = (*PlanAPIService)(&c.common)
 	c.PlanJobTagAPI = (*PlanJobTagAPIService)(&c.common)
 	c.ProblemAPI = (*ProblemAPIService)(&c.common)
-	c.ProblemJobTagAPI = (*ProblemJobTagAPIService)(&c.common)
 	c.ToUserMentoringRequestAPI = (*ToUserMentoringRequestAPIService)(&c.common)
 	c.UserAPI = (*UserAPIService)(&c.common)
 	c.UserTagAPI = (*UserTagAPIService)(&c.common)

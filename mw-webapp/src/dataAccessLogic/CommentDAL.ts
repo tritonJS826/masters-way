@@ -17,16 +17,6 @@ interface CreateCommentParams {
    */
   dayReportUuid: string;
 
-  /**
-   * Way's UUID
-   */
-  wayUuid: string;
-
-  /**
-   * Way's name
-   */
-  wayName: string;
-
 }
 
 /**
@@ -39,15 +29,6 @@ interface UpdateCommentParams {
    */
   comment: PartialWithUuid<Comment>;
 
-  /**
-   * Way's UUID
-   */
-  wayUuid: string;
-
-  /**
-   * Way's name
-   */
-  wayName: string;
 }
 
 /**
@@ -72,8 +53,6 @@ export class CommentDAL {
       createdAt: new Date(commentDTO.createdAt),
       updatedAt: new Date(commentDTO.updatedAt),
       dayReportUuid: commentDTO.dayReportUuid,
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
     });
 
     return comment;
@@ -92,8 +71,6 @@ export class CommentDAL {
       ...updatedCommentDTO,
       createdAt: new Date(updatedCommentDTO.createdAt),
       updatedAt: new Date(updatedCommentDTO.updatedAt),
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
     });
 
     return updatedComment;

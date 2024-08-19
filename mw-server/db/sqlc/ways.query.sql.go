@@ -13,7 +13,7 @@ import (
 
 const countWaysByType = `-- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
-WHERE ways.is_private = false 
+WHERE ways.is_private = false
     AND (
         ($1 = 'inProgress'
             AND ways.is_completed = false
@@ -26,8 +26,8 @@ WHERE ways.is_private = false
         OR ($1 = 'all')
     )
     AND (
-        (SELECT COUNT(day_reports.uuid) 
-            FROM day_reports 
+        (SELECT COUNT(day_reports.uuid)
+            FROM day_reports
             WHERE day_reports.way_uuid = ways.uuid
         ) >= $3::integer
     ) AND (LOWER(ways.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
@@ -240,6 +240,105 @@ func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid pgtype.U
 	return items, nil
 }
 
+const getLabelStatistics = `-- name: GetLabelStatistics :many
+WITH job_done_data AS (
+    SELECT
+        job_dones.uuid, job_dones.created_at, job_dones.updated_at, job_dones.description, job_dones.time, job_dones.owner_uuid, job_dones.day_report_uuid,
+        job_dones_job_tags.job_tag_uuid,
+        job_tags.uuid AS label_uuid,
+        job_tags.name AS label_name,
+        job_tags.color AS label_color,
+        job_tags.description AS label_description
+    FROM day_reports
+    LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+    INNER JOIN job_dones_job_tags ON job_dones.uuid = job_dones_job_tags.job_done_uuid
+    INNER JOIN job_tags ON job_tags.uuid = job_dones_job_tags.job_tag_uuid
+    WHERE day_reports.way_uuid = $1 AND day_reports.created_at BETWEEN $2 AND $3
+)
+SELECT
+    label_uuid,
+    label_name,
+    label_color,
+    label_description,
+    COUNT(*) AS jobs_amount,
+    COALESCE(COUNT(*) * 100 / NULLIF((SELECT COUNT(*) FROM job_done_data), 0), 0)::INTEGER AS jobs_amount_percentage,
+    COALESCE(SUM(time), 0)::INTEGER AS jobs_time,
+    COALESCE(SUM(time) * 100 / NULLIF((SELECT SUM(time) FROM job_done_data), 0), 0)::INTEGER AS jobs_time_percentage
+FROM job_done_data
+GROUP BY label_uuid, label_name, label_color, label_description
+`
+
+type GetLabelStatisticsParams struct {
+	WayUuid   pgtype.UUID      `json:"way_uuid"`
+	StartDate pgtype.Timestamp `json:"start_date"`
+	EndDate   pgtype.Timestamp `json:"end_date"`
+}
+
+type GetLabelStatisticsRow struct {
+	LabelUuid            pgtype.UUID `json:"label_uuid"`
+	LabelName            string      `json:"label_name"`
+	LabelColor           string      `json:"label_color"`
+	LabelDescription     string      `json:"label_description"`
+	JobsAmount           int64       `json:"jobs_amount"`
+	JobsAmountPercentage int32       `json:"jobs_amount_percentage"`
+	JobsTime             int32       `json:"jobs_time"`
+	JobsTimePercentage   int32       `json:"jobs_time_percentage"`
+}
+
+func (q *Queries) GetLabelStatistics(ctx context.Context, arg GetLabelStatisticsParams) ([]GetLabelStatisticsRow, error) {
+	rows, err := q.db.Query(ctx, getLabelStatistics, arg.WayUuid, arg.StartDate, arg.EndDate)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetLabelStatisticsRow{}
+	for rows.Next() {
+		var i GetLabelStatisticsRow
+		if err := rows.Scan(
+			&i.LabelUuid,
+			&i.LabelName,
+			&i.LabelColor,
+			&i.LabelDescription,
+			&i.JobsAmount,
+			&i.JobsAmountPercentage,
+			&i.JobsTime,
+			&i.JobsTimePercentage,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getLastDayReportDate = `-- name: GetLastDayReportDate :one
+SELECT
+    ways.created_at AS total_start_date,
+    day_reports.created_at AS end_date
+FROM day_reports
+    INNER JOIN ways ON ways.uuid = day_reports.way_uuid
+WHERE day_reports.created_at = (
+    SELECT MAX(created_at)
+    FROM day_reports
+    WHERE day_reports.way_uuid = $1
+) AND day_reports.way_uuid = $1
+`
+
+type GetLastDayReportDateRow struct {
+	TotalStartDate pgtype.Timestamp `json:"total_start_date"`
+	EndDate        pgtype.Timestamp `json:"end_date"`
+}
+
+func (q *Queries) GetLastDayReportDate(ctx context.Context, wayUuid pgtype.UUID) (GetLastDayReportDateRow, error) {
+	row := q.db.QueryRow(ctx, getLastDayReportDate, wayUuid)
+	var i GetLastDayReportDateRow
+	err := row.Scan(&i.TotalStartDate, &i.EndDate)
+	return i, err
+}
+
 const getMentoringWaysByMentorId = `-- name: GetMentoringWaysByMentorId :many
 SELECT
     ways.uuid,
@@ -322,6 +421,55 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtyp
 		return nil, err
 	}
 	return items, nil
+}
+
+const getOverallInformation = `-- name: GetOverallInformation :one
+SELECT
+    COALESCE(SUM(job_dones.time), 0)::INTEGER AS total_time,
+    COUNT(DISTINCT day_reports.uuid) AS total_reports,
+    COUNT(job_dones.uuid) AS finished_jobs,
+    COALESCE(
+        SUM(job_dones.time) /
+        NULLIF(EXTRACT(day FROM (INTERVAL '1 day' + ($1)::timestamp - ($2)::timestamp)), 0)
+    , 0)::INTEGER AS average_time_per_calendar_day,
+    COALESCE(
+        SUM(job_dones.time) /
+        NULLIF(COUNT(DISTINCT day_reports.uuid), 0)
+    , 0)::INTEGER AS average_time_per_working_day,
+    COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
+FROM day_reports
+LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+WHERE day_reports.way_uuid = $3
+  AND day_reports.created_at BETWEEN $2 AND $1
+`
+
+type GetOverallInformationParams struct {
+	EndDate   pgtype.Timestamp `json:"end_date"`
+	StartDate pgtype.Timestamp `json:"start_date"`
+	WayUuid   pgtype.UUID      `json:"way_uuid"`
+}
+
+type GetOverallInformationRow struct {
+	TotalTime                 int32 `json:"total_time"`
+	TotalReports              int64 `json:"total_reports"`
+	FinishedJobs              int64 `json:"finished_jobs"`
+	AverageTimePerCalendarDay int32 `json:"average_time_per_calendar_day"`
+	AverageTimePerWorkingDay  int32 `json:"average_time_per_working_day"`
+	AverageJobTime            int32 `json:"average_job_time"`
+}
+
+func (q *Queries) GetOverallInformation(ctx context.Context, arg GetOverallInformationParams) (GetOverallInformationRow, error) {
+	row := q.db.QueryRow(ctx, getOverallInformation, arg.EndDate, arg.StartDate, arg.WayUuid)
+	var i GetOverallInformationRow
+	err := row.Scan(
+		&i.TotalTime,
+		&i.TotalReports,
+		&i.FinishedJobs,
+		&i.AverageTimePerCalendarDay,
+		&i.AverageTimePerWorkingDay,
+		&i.AverageJobTime,
+	)
+	return i, err
 }
 
 const getOwnWaysByUserId = `-- name: GetOwnWaysByUserId :many
@@ -435,6 +583,47 @@ func (q *Queries) GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgty
 	return private_ways_count, err
 }
 
+const getTimeSpentByDayChart = `-- name: GetTimeSpentByDayChart :many
+SELECT
+	day_reports.created_at as point_date,
+	COALESCE(SUM(job_dones.time), 0)::INTEGER AS point_value
+FROM day_reports
+LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+WHERE day_reports.way_uuid = $1 AND day_reports.created_at BETWEEN $2 AND $3
+GROUP BY point_date
+`
+
+type GetTimeSpentByDayChartParams struct {
+	WayUuid   pgtype.UUID      `json:"way_uuid"`
+	StartDate pgtype.Timestamp `json:"start_date"`
+	EndDate   pgtype.Timestamp `json:"end_date"`
+}
+
+type GetTimeSpentByDayChartRow struct {
+	PointDate  pgtype.Timestamp `json:"point_date"`
+	PointValue int32            `json:"point_value"`
+}
+
+func (q *Queries) GetTimeSpentByDayChart(ctx context.Context, arg GetTimeSpentByDayChartParams) ([]GetTimeSpentByDayChartRow, error) {
+	rows, err := q.db.Query(ctx, getTimeSpentByDayChart, arg.WayUuid, arg.StartDate, arg.EndDate)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetTimeSpentByDayChartRow{}
+	for rows.Next() {
+		var i GetTimeSpentByDayChartRow
+		if err := rows.Scan(&i.PointDate, &i.PointValue); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getWayById = `-- name: GetWayById :one
 SELECT
     ways.uuid,
@@ -522,6 +711,72 @@ func (q *Queries) GetWayById(ctx context.Context, wayUuid pgtype.UUID) (GetWayBy
 		&i.WayDayReportsAmount,
 	)
 	return i, err
+}
+
+const getWayChildren = `-- name: GetWayChildren :many
+SELECT composite_ways.child_uuid
+FROM composite_ways
+WHERE composite_ways.parent_uuid = $1
+`
+
+func (q *Queries) GetWayChildren(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error) {
+	rows, err := q.db.Query(ctx, getWayChildren, wayUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []pgtype.UUID{}
+	for rows.Next() {
+		var child_uuid pgtype.UUID
+		if err := rows.Scan(&child_uuid); err != nil {
+			return nil, err
+		}
+		items = append(items, child_uuid)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getWayRelatedUsers = `-- name: GetWayRelatedUsers :many
+SELECT
+    users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
+FROM ways
+JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid
+JOIN users ON users.uuid = mentor_users_ways.user_uuid
+	OR users.uuid = former_mentors_ways.former_mentor_uuid
+	OR users.uuid = ways.owner_uuid
+WHERE ways.uuid = ANY($1::UUID[])
+`
+
+func (q *Queries) GetWayRelatedUsers(ctx context.Context, wayUuids []pgtype.UUID) ([]User, error) {
+	rows, err := q.db.Query(ctx, getWayRelatedUsers, wayUuids)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []User{}
+	for rows.Next() {
+		var i User
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Email,
+			&i.Description,
+			&i.CreatedAt,
+			&i.ImageUrl,
+			&i.IsMentor,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getWaysByCollectionId = `-- name: GetWaysByCollectionId :many
@@ -632,10 +887,10 @@ WHERE ways.is_private = false
         OR ($1 = 'all')
     )
     AND ((
-        SELECT COUNT(*) 
-        FROM day_reports 
+        SELECT COUNT(*)
+        FROM day_reports
         WHERE day_reports.way_uuid = ways.uuid
-    ) >= $3::integer) 
+    ) >= $3::integer)
     AND (LOWER(ways.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
 ORDER BY ways.created_at DESC
 LIMIT $6

@@ -18,16 +18,6 @@ interface CreatePlanParams {
    */
   dayReportUuid: string;
 
-  /**
-   * Way's UUID
-   */
-  wayUuid: string;
-
-  /**
-   * Way's name
-   */
-  wayName: string;
-
 }
 
 /**
@@ -40,15 +30,6 @@ interface UpdatePlanParams {
    */
   plan: PartialWithUuid<Plan>;
 
-  /**
-   * Way's UUID
-   */
-  wayUuid: string;
-
-  /**
-   * Way's name
-   */
-  wayName: string;
 }
 
 /**
@@ -74,8 +55,6 @@ export class PlanDAL {
       ...planDTO,
       updatedAt: new Date(planDTO.updatedAt),
       createdAt: new Date(planDTO.createdAt),
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
       tags: planDTO.tags.map((label) => new Label(label)),
     });
 
@@ -95,8 +74,6 @@ export class PlanDAL {
       ...updatedPlanDTO,
       updatedAt: new Date(updatedPlanDTO.updatedAt),
       createdAt: new Date(updatedPlanDTO.createdAt),
-      wayName: params.wayName,
-      wayUuid: params.wayUuid,
       tags: updatedPlanDTO.tags.map((label) => new Label(label)),
     });
 

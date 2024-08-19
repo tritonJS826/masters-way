@@ -9,5 +9,7 @@ export const messageDTOToMessage = (messageDTO: SchemasMessageResponse): Message
   return new Message({
     ...messageDTO,
     messageReaders: messageDTO.messageReaders.map(messageReaderDTOToMessageReader),
+    uuid: "",
+
   });
 };

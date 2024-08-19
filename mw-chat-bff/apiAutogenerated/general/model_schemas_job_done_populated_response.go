@@ -30,6 +30,8 @@ type SchemasJobDonePopulatedResponse struct {
 	Time int32 `json:"time"`
 	UpdatedAt string `json:"updatedAt"`
 	Uuid string `json:"uuid"`
+	WayName string `json:"wayName"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _SchemasJobDonePopulatedResponse SchemasJobDonePopulatedResponse
@@ -38,7 +40,7 @@ type _SchemasJobDonePopulatedResponse SchemasJobDonePopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasJobDonePopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string) *SchemasJobDonePopulatedResponse {
+func NewSchemasJobDonePopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasJobDonePopulatedResponse {
 	this := SchemasJobDonePopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.DayReportUuid = dayReportUuid
@@ -49,6 +51,8 @@ func NewSchemasJobDonePopulatedResponse(createdAt string, dayReportUuid string, 
 	this.Time = time
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
+	this.WayName = wayName
+	this.WayUuid = wayUuid
 	return &this
 }
 
@@ -276,6 +280,54 @@ func (o *SchemasJobDonePopulatedResponse) SetUuid(v string) {
 	o.Uuid = v
 }
 
+// GetWayName returns the WayName field value
+func (o *SchemasJobDonePopulatedResponse) GetWayName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayName
+}
+
+// GetWayNameOk returns a tuple with the WayName field value
+// and a boolean to check if the value has been set.
+func (o *SchemasJobDonePopulatedResponse) GetWayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayName, true
+}
+
+// SetWayName sets field value
+func (o *SchemasJobDonePopulatedResponse) SetWayName(v string) {
+	o.WayName = v
+}
+
+// GetWayUuid returns the WayUuid field value
+func (o *SchemasJobDonePopulatedResponse) GetWayUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayUuid
+}
+
+// GetWayUuidOk returns a tuple with the WayUuid field value
+// and a boolean to check if the value has been set.
+func (o *SchemasJobDonePopulatedResponse) GetWayUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayUuid, true
+}
+
+// SetWayUuid sets field value
+func (o *SchemasJobDonePopulatedResponse) SetWayUuid(v string) {
+	o.WayUuid = v
+}
+
 func (o SchemasJobDonePopulatedResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -295,6 +347,8 @@ func (o SchemasJobDonePopulatedResponse) ToMap() (map[string]interface{}, error)
 	toSerialize["time"] = o.Time
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
+	toSerialize["wayName"] = o.WayName
+	toSerialize["wayUuid"] = o.WayUuid
 	return toSerialize, nil
 }
 
@@ -312,6 +366,8 @@ func (o *SchemasJobDonePopulatedResponse) UnmarshalJSON(data []byte) (err error)
 		"time",
 		"updatedAt",
 		"uuid",
+		"wayName",
+		"wayUuid",
 	}
 
 	allProperties := make(map[string]interface{})
