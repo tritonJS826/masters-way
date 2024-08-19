@@ -181,11 +181,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     updatedTags: string[];
   }) => {
 
-    const oldJob = props.dayReport.jobsDone.find(job => params.jobDone.uuid === job.uuid);
-    if (!oldJob) {
-      throw new Error(`No such job with ${params.jobDone.uuid} uuid`);
-    }
-    const oldLabels = oldJob.tags.map(label => label.uuid);
+    const oldLabels = params.jobDone.tags.map(label => label.uuid);
     const labelUuidsToAdd: string[] = params.updatedTags
       .filter(labelUuid => !oldLabels.includes(labelUuid));
     const labelUuidsToDelete: string[] = oldLabels
@@ -208,7 +204,8 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     ]);
 
     const newLabels = labelUuidsToAdd.map(labelUuidToAdd => {
-      const newLabel = props.jobTags.find(tag => tag.uuid === labelUuidToAdd);
+      const labelsForWay = props.labelsMap.getValue(params.jobDone.wayUuid).jobTags;
+      const newLabel = labelsForWay.find(tag => tag.uuid === labelUuidToAdd);
       if (!newLabel) {
         throw new Error(`Label with uuid ${labelUuidToAdd} is not defined`);
       }
