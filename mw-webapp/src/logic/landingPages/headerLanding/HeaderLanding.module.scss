@@ -9,9 +9,19 @@
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;
   margin: 0 auto;
-  background-color: #fff;
 }
 
 .logo {
   cursor: pointer;
+}
+
+.headerThemeBlock {
+  align-items: center;
+  gap: $gapBig;
+  @media (max-width: $mediaWidthTablet) {
+    gap: $gapMedium;
+  }
+  @media (max-width: $mediaWidthMobileBig) {
+    gap: $gapSmall;
+  }
 }

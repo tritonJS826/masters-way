@@ -1,11 +1,11 @@
 import {observer} from "mobx-react-lite";
-import propblemImage from "src/assets/problems-images/problem.jpg";
-import {Button, ButtonType} from "src/component/button/Button";
+import {Button} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Image} from "src/component/image/Image";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {AdvantageItem} from "src/logic/landingPages/mentorsLandingPage/advantageItem/AdvantageItem";
+import {ProblemItem} from "src/logic/landingPages/mentorsLandingPage/problemItem/ProblemItem";
 import styles from "src/logic/landingPages/mentorsLandingPage/MentorsLandingPage.module.scss";
 
 /**
@@ -30,7 +30,6 @@ export const MentorsLandingPage = observer(() => {
           </VerticalContainer>
           <Button
             value="Кнопка призыва"
-            buttonType={ButtonType.PRIMARY}
             onClick={() => {}}
           />
           <Image
@@ -43,11 +42,15 @@ export const MentorsLandingPage = observer(() => {
         <VerticalContainer className={styles.advantagesBlock}>
           <Title
             className={styles.title}
-            level={HeadingLevel.h1}
+            level={HeadingLevel.h2}
             text="Наши преимущества"
             placeholder=""
           />
           <HorizontalContainer className={styles.advantages}>
+            <AdvantageItem
+              title="Подзаголовок"
+              description="Используйте 1 предложение в 1-3 строчки "
+            />
             <AdvantageItem
               title="Подзаголовок"
               description="Используйте 1 предложение в 1-3 строчки "
@@ -67,7 +70,7 @@ export const MentorsLandingPage = observer(() => {
           <VerticalContainer className={styles.titleBlock}>
             <Title
               className={styles.title}
-              level={HeadingLevel.h1}
+              level={HeadingLevel.h2}
               text="Проблемы, которые мы можем помочь решить менторам"
               placeholder=""
             />
@@ -76,33 +79,30 @@ export const MentorsLandingPage = observer(() => {
             </p>
           </VerticalContainer>
           <VerticalContainer className={styles.problems}>
-            <HorizontalContainer className={styles.problemsItem}>
-              <VerticalContainer className={styles.problemContentBlock}>
-                <Title
-                  className={styles.problemTitle}
-                  level={HeadingLevel.h2}
-                  text="Проблемы, которые мы можем помочь решить менторам"
-                  placeholder=""
-                />
-                <p className={styles.propblemTitleDescription}>
-                  Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки
-                </p>
-              </VerticalContainer>
-              <div className={styles.problemImageContainer}>
-                <Image
-                  alt="problemImage"
-                  src={propblemImage}
-                  className={styles.problemImage}
-                />
-              </div>
-            </HorizontalContainer>
+
+            <ProblemItem
+              title="Проблемы, которые мы можем помочь решить менторам"
+              description="Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки"
+              imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w1000"
+            />
+            <ProblemItem
+              title="Проблемы, которые мы можем помочь решить менторам"
+              description="Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки"
+              imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w1000"
+              isReversed
+            />
+            <ProblemItem
+              title="Проблемы, которые мы можем помочь решить менторам"
+              description="Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки"
+              imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000"
+            />
           </VerticalContainer>
         </VerticalContainer>
 
         <VerticalContainer className={styles.responseBlock}>
           <Title
             className={styles.title}
-            level={HeadingLevel.h1}
+            level={HeadingLevel.h2}
             text="Отзывы менторов, которые используют наше приложение"
             placeholder=""
           />
@@ -115,7 +115,7 @@ export const MentorsLandingPage = observer(() => {
           <VerticalContainer className={styles.titleBlock}>
             <Title
               className={styles.title}
-              level={HeadingLevel.h1}
+              level={HeadingLevel.h2}
               text="Часто задаваемые вопросы"
               placeholder=""
             />
@@ -131,7 +131,7 @@ export const MentorsLandingPage = observer(() => {
         <HorizontalContainer className={styles.triesBlock}>
           <Title
             className={styles.title}
-            level={HeadingLevel.h1}
+            level={HeadingLevel.h2}
             text="Вы должны попробовать наше приложение"
             placeholder=""
           />

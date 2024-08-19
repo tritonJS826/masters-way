@@ -1,0 +1,45 @@
+@import "src/styles/variables";
+
+
+.problemItem {
+  gap: $gapExtraLarge;
+
+  @media (max-width: $mediaWidthTablet){
+    flex-direction: column;
+}
+}
+
+.problemImageContainer {
+  flex: 0 1 34%;
+}
+
+.problemImage {
+  max-width: 100%;
+}
+
+.problemContentBlock {
+  display: flex;
+  flex: 0 1 66%;
+  align-items: flex-end;
+  justify-content: center;
+  gap: $gapBig;
+  // padding: 0 100px;
+  background-color: var(--primaryBgColor);
+}
+
+.problemContentBlockReversed {
+  align-items: flex-start;
+}
+
+.propblemTitleDescription,
+.problemTitle  {
+  width: 50%;
+
+  @media (max-width: $mediaWidthTabletBig){
+      width: 80%;
+  }
+}
+
+.reversed {
+  flex-direction: row-reverse;
+}

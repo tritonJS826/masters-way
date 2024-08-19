@@ -1,14 +1,6 @@
 @import "src/styles/variables";
 
 .container {
-  background-color: #fff;
-}
-
-.mainBlock {
-  align-items: center;
-  gap: 64px;
-  padding: 96px 0 60px 0;
-  margin: 0 auto;
 }
 
 .titleBlock {
@@ -18,10 +10,16 @@
 
 .title {
   text-align: center;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
 }
 
 .titleDescription {
   text-align: center;
+
+
 }
 
 .mainBlockImage {
@@ -36,12 +34,17 @@
 .advantagesBlock, 
 .problemsBlock,
 .questionsBlock,
-.triesBlock {
-  padding: 96px 0;
+.triesBlock,
+.mainBlock {
+  padding: $paddingVerticalBlockBig $paddingMedium;
   align-items: center;
   margin: 0 auto;
   max-width: $maxWidthContainer;
-  gap: $gapExtraLarge
+  gap: $gapExtraLarge;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingExtraMedium;
+  }
 }
 
 .responseBlock {
@@ -58,24 +61,5 @@
 
 .problems {
   gap: $gapLarge;
-}
-
-.problemsItem {
-}
-
-.problemImageContainer {
-  flex: 0 0 50%;
-}
-
-.problemImage {
-  max-width: 100%;
-}
-
-.problemContentBlock {
-  flex: 0 0 50%;
-  align-items: center;
-  justify-content: center;
-  gap: $gapBig;
-  padding: 0 100px;
-  background-color: var(--primaryBgColor);
+  width: 100%;
 }
