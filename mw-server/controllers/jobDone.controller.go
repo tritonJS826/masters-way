@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"mwserver/auth"
+	customErrors "mwserver/customErrors"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -34,7 +35,7 @@ func NewJobDoneController(db *db.Queries, ctx context.Context) *JobDoneControlle
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
 // @Success 200 {object} schemas.JobDonePopulatedResponse
-// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create job done."
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create job done."
 // @Router /jobDones [post]
 func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
@@ -58,7 +59,7 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
-		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
 		util.HandleErrorGin(ctx, err)
 	}
 

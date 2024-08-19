@@ -3,28 +3,12 @@ package util
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"log"
+	customErrors "mwserver/customErrors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-type NoRightToChangeDayReportError struct {
-	Err   string `json:"error" validate:"required"`
-	ErrID string `json:"errorId" validate:"required"`
-}
-
-func MakeNoRightToChangeDayReportError(wayID string) *NoRightToChangeDayReportError {
-	return &NoRightToChangeDayReportError{
-		Err:   fmt.Sprintf("Not enough rights! You can request editing rights on the way %s.", wayID),
-		ErrID: "no-access-rights",
-	}
-}
-
-func (err *NoRightToChangeDayReportError) Error() string {
-	return err.Err
-}
 
 func HandleErrorGin(c *gin.Context, err error) {
 	if err == nil {
@@ -36,7 +20,7 @@ func HandleErrorGin(c *gin.Context, err error) {
 		log.Panic(err)
 	}
 
-	var notWayOwnerError *NoRightToChangeDayReportError
+	var notWayOwnerError *customErrors.NoRightToChangeDayReportError
 	if errors.As(err, &notWayOwnerError) {
 		c.AbortWithStatusJSON(http.StatusForbidden, err)
 		log.Panic(err)

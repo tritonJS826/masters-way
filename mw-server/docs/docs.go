@@ -199,7 +199,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to create comment.",
                         "schema": {
-                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -819,7 +819,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to create job done.",
                         "schema": {
-                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1259,7 +1259,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to create plan.",
                         "schema": {
-                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1367,7 +1367,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to create problem.",
                         "schema": {
-                            "$ref": "#/definitions/util.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -2218,6 +2218,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "customErrors.NoRightToChangeDayReportError": {
+            "type": "object",
+            "required": [
+                "error",
+                "errorId"
+            ],
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "errorId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.AIChatPayload": {
             "type": "object",
             "required": [
@@ -3804,21 +3819,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "util.NoRightToChangeDayReportError": {
-            "type": "object",
-            "required": [
-                "error",
-                "errorId"
-            ],
-            "properties": {
-                "error": {
-                    "type": "string"
-                },
-                "errorId": {
                     "type": "string"
                 }
             }

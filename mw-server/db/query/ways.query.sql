@@ -289,7 +289,7 @@ SELECT
     COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
 FROM day_reports
 LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
-WHERE day_reports.way_uuid = @way_uuid
+WHERE day_reports.way_uuid = ANY(@way_uuids::UUID[])
   AND day_reports.created_at BETWEEN @start_date AND @end_date;
 
 -- name: GetTimeSpentByDayChart :many
@@ -298,7 +298,7 @@ SELECT
 	COALESCE(SUM(job_dones.time), 0)::INTEGER AS point_value
 FROM day_reports
 LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
-WHERE day_reports.way_uuid = @way_uuid AND day_reports.created_at BETWEEN @start_date AND @end_date
+WHERE day_reports.way_uuid = ANY(@way_uuids::UUID[]) AND day_reports.created_at BETWEEN @start_date AND @end_date
 GROUP BY point_date;
 
 -- name: GetLabelStatistics :many
@@ -314,7 +314,7 @@ WITH job_done_data AS (
     LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
     INNER JOIN job_dones_job_tags ON job_dones.uuid = job_dones_job_tags.job_done_uuid
     INNER JOIN job_tags ON job_tags.uuid = job_dones_job_tags.job_tag_uuid
-    WHERE day_reports.way_uuid = @way_uuid AND day_reports.created_at BETWEEN @start_date AND @end_date
+    WHERE day_reports.way_uuid = ANY(@way_uuids::UUID[]) AND day_reports.created_at BETWEEN @start_date AND @end_date
 )
 SELECT
     label_uuid,
@@ -329,16 +329,24 @@ FROM job_done_data
 GROUP BY label_uuid, label_name, label_color, label_description;
 
 -- name: GetLastDayReportDate :one
-SELECT
-    ways.created_at AS total_start_date,
-    day_reports.created_at AS end_date
-FROM day_reports
-    INNER JOIN ways ON ways.uuid = day_reports.way_uuid
-WHERE day_reports.created_at = (
-    SELECT MAX(created_at)
+WITH way_min_date AS (
+    SELECT
+        MIN(created_at) AS oldest_way_date
+    FROM ways
+    WHERE uuid = ANY(@way_uuids::UUID[])
+),
+way_max_report AS (
+    SELECT
+        MAX(created_at) AS youngest_report_date
     FROM day_reports
-    WHERE day_reports.way_uuid = @way_uuid
-) AND day_reports.way_uuid = @way_uuid;
+    WHERE way_uuid = ANY(@way_uuids::UUID[])
+)
+SELECT
+    (way_max_report.youngest_report_date IS NOT NULL)::BOOLEAN AS is_valid,
+    way_min_date.oldest_way_date::TIMESTAMP AS total_start_date,
+    way_max_report.youngest_report_date::TIMESTAMP AS end_date
+FROM way_min_date
+CROSS JOIN way_max_report;
 
 -- name: GetWayChildren :many
 SELECT composite_ways.child_uuid

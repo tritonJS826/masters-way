@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	customErrors "mwserver/customErrors"
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -306,12 +307,18 @@ type GetLastDayReportDateResponse struct {
 	EndDate        time.Time
 }
 
-func GetLastDayReportDate(db *dbb.Queries, ctx context.Context, wayUuid uuid.UUID) (*GetLastDayReportDateResponse, error) {
-	wayPgUUID := pgtype.UUID{Bytes: wayUuid, Valid: true}
+func GetLastDayReportDate(db *dbb.Queries, ctx context.Context, wayUUIDs []uuid.UUID) (*GetLastDayReportDateResponse, error) {
+	wayPgUUIDs := lo.Map(wayUUIDs, func(wayUUID uuid.UUID, _ int) pgtype.UUID {
+		return pgtype.UUID{Bytes: wayUUID, Valid: true}
+	})
 
-	response, err := db.GetLastDayReportDate(ctx, wayPgUUID)
+	response, err := db.GetLastDayReportDate(ctx, wayPgUUIDs)
 	if err != nil {
 		return nil, err
+	}
+
+	if !response.IsValid {
+		return nil, customErrors.MakeLastDayReportDateError()
 	}
 
 	return &GetLastDayReportDateResponse{

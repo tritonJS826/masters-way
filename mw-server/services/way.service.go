@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -216,17 +217,19 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 }
 
 type GetWayStatisticsTriplePeriodParams struct {
-	WayUUID        uuid.UUID
+	WayUUIDs       []uuid.UUID
 	TotalStartDate time.Time
 	EndDate        time.Time
 }
 
 func GetWayStatisticsTriplePeriod(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
-	wayPgUUID := pgtype.UUID{Bytes: params.WayUUID, Valid: true}
+	wayPgUUIDs := lo.Map(params.WayUUIDs, func(wayUUID uuid.UUID, _ int) pgtype.UUID {
+		return pgtype.UUID{Bytes: wayUUID, Valid: true}
+	})
 	endDatePgTimestamp := pgtype.Timestamp{Time: params.EndDate, Valid: true}
 
 	totalTimeStatisticsParams := &GetWayStatisticsParams{
-		WayPgUUID:            wayPgUUID,
+		WayPgUUIDs:           wayPgUUIDs,
 		StartDatePgTimestamp: pgtype.Timestamp{Time: params.TotalStartDate, Valid: true},
 		EndDatePgTimestamp:   endDatePgTimestamp,
 	}
@@ -236,7 +239,7 @@ func GetWayStatisticsTriplePeriod(db *dbb.Queries, ctx context.Context, params *
 	}
 
 	lastMonthStatisticsParams := &GetWayStatisticsParams{
-		WayPgUUID:            wayPgUUID,
+		WayPgUUIDs:           wayPgUUIDs,
 		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, -1, 0), Valid: true},
 		EndDatePgTimestamp:   endDatePgTimestamp,
 	}
@@ -246,7 +249,7 @@ func GetWayStatisticsTriplePeriod(db *dbb.Queries, ctx context.Context, params *
 	}
 
 	lastWeekStatisticsParams := &GetWayStatisticsParams{
-		WayPgUUID:            wayPgUUID,
+		WayPgUUIDs:           wayPgUUIDs,
 		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, 0, -6), Valid: true},
 		EndDatePgTimestamp:   endDatePgTimestamp,
 	}
@@ -263,7 +266,7 @@ func GetWayStatisticsTriplePeriod(db *dbb.Queries, ctx context.Context, params *
 }
 
 type GetWayStatisticsParams struct {
-	WayPgUUID            pgtype.UUID
+	WayPgUUIDs           []pgtype.UUID
 	StartDatePgTimestamp pgtype.Timestamp
 	EndDatePgTimestamp   pgtype.Timestamp
 }
@@ -293,7 +296,7 @@ func GetWayStatistics(db *dbb.Queries, ctx context.Context, params *GetWayStatis
 
 func GetTimeSpentByDayChart(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
 	timeSpentByDayChartParams := dbb.GetTimeSpentByDayChartParams{
-		WayUuid:   params.WayPgUUID,
+		WayUuids:  params.WayPgUUIDs,
 		StartDate: params.StartDatePgTimestamp,
 		EndDate:   params.EndDatePgTimestamp,
 	}
@@ -302,8 +305,12 @@ func GetTimeSpentByDayChart(db *dbb.Queries, ctx context.Context, params *GetWay
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println("params.StartDatePgTimestamp: ", params.StartDatePgTimestamp)
+	fmt.Println("params.EndDatePgTimestamp: ", params.EndDatePgTimestamp)
+	fmt.Println("params.WayPgUUIDs: ", params.WayPgUUIDs)
 
 	daysCount := int(params.EndDatePgTimestamp.Time.Sub(params.StartDatePgTimestamp.Time).Hours()/24) + 1
+	fmt.Println("daysCount: ", daysCount)
 	timeSpentByDayChart := make([]schemas.TimeSpentByDayPoint, 0, daysCount)
 
 	timeSpentByDayMap := lo.SliceToMap(timeSpentByDayChartRaw, func(timeSpentByDay dbb.GetTimeSpentByDayChartRow) (time.Time, int) {
@@ -324,7 +331,7 @@ func GetTimeSpentByDayChart(db *dbb.Queries, ctx context.Context, params *GetWay
 
 func GetOverallInformation(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
 	overallInformationParams := dbb.GetOverallInformationParams{
-		WayUuid:   params.WayPgUUID,
+		WayUuids:  params.WayPgUUIDs,
 		StartDate: params.StartDatePgTimestamp,
 		EndDate:   params.EndDatePgTimestamp,
 	}
@@ -346,7 +353,7 @@ func GetOverallInformation(db *dbb.Queries, ctx context.Context, params *GetWayS
 
 func GetLabelStatistics(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
 	labelStatisticsParams := dbb.GetLabelStatisticsParams{
-		WayUuid:   params.WayPgUUID,
+		WayUuids:  params.WayPgUUIDs,
 		StartDate: params.StartDatePgTimestamp,
 		EndDate:   params.EndDatePgTimestamp,
 	}
