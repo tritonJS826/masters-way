@@ -1,4 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -72,6 +73,7 @@ export const MentorsSection = observer((props: MentorsSectionProps) => {
           level={HeadingLevel.h3}
           text={LanguageService.way.peopleBlock.mentors[language]}
           placeholder=""
+          cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.mentorOfWayText}}
         />
       </HorizontalContainer>
       {mentors.map((mentor) => (
@@ -103,6 +105,7 @@ export const MentorsSection = observer((props: MentorsSectionProps) => {
           <Link
             key={mentor.uuid}
             path={pages.user.getPath({uuid: mentor.uuid})}
+            dataCy={wayDescriptionAccessIds.peopleBlock.wayMentorLink}
           >
             {mentor.name}
           </Link>

@@ -18,8 +18,7 @@ afterEach(() => {
 describe('Chat tests', () => {
 
     it('Scenario_AnyLoggedinUser_SendMessageInChat', () => {
-        headerSelectors.getBurgerMenu().click();
-        navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
+        cy.openAllUsersPage();
 
         allUsersSelectors.card.getCardLink(testUserData.users.Jane.userName).click();
         userPersonalSelectors.getConnectButton().click();
@@ -34,8 +33,7 @@ describe('Chat tests', () => {
     it('Scenario_AnyLoggedinUser_ReciveMessageInChat', () => {
         cy.logout();
         cy.login(testUserData.testUsers.studentJonh.loginLink); 
-        headerSelectors.getBurgerMenu().click();
-        navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
+        cy.openAllUsersPage();
 
         allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
         userPersonalSelectors.getConnectButton().click();

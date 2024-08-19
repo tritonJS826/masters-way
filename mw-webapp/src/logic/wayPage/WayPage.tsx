@@ -833,6 +833,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 level={HeadingLevel.h3}
                 text={LanguageService.way.peopleBlock.mentorPendingRequest[language]}
                 placeholder=""
+                cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.mentorOfWayText}}
               />
             }
             {isEligibleToSendRequest && (
@@ -854,6 +855,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   });
                   await MentorRequestDAL.createMentorRequest(user.uuid, way.uuid);
                 }}
+                dataCy={wayDescriptionAccessIds.peopleBlock.applyAsMentorButton}
               />
             )}
           </VerticalContainer>

@@ -1,4 +1,5 @@
 import {DialogClose} from "@radix-ui/react-dialog";
+import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {Button} from "src/component/button/Button";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -75,7 +76,10 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
             key={userPreview.uuid}
             className={styles.mentorRequestsItem}
           >
-            <Link path={pages.user.getPath({uuid: userPreview.uuid})}>
+            <Link
+              path={pages.user.getPath({uuid: userPreview.uuid})}
+              dataCy={wayDescriptionAccessIds.mentorRequestDialog.mentorNameLink}
+            >
               {userPreview.name}
             </Link>
             <DialogClose asChild>
@@ -85,6 +89,7 @@ export const MentorRequestsSection = (props: MentorRequestsSectionProps) => {
                   addMentorToWay(props.way, props.acceptMentorRequest, userPreview);
                 }
                 }
+                dataCy={wayDescriptionAccessIds.mentorRequestDialog.acceptButton}
               />
             </DialogClose>
             <DialogClose asChild>

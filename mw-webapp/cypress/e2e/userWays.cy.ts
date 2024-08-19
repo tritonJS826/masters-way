@@ -30,8 +30,7 @@ describe("NoAuth User's ways scope tests", () => {
     beforeEach(() => {
         cy.resetDb();
         cy.visit('/');
-        headerSelectors.getBurgerMenu().click();
-        navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
+        cy.openAllUsersPage();
     });
 
     const expectedCollectionButtonColor = hexToRgb(themedVariables.primaryBgBtnActiveColor[Theme.DARK]);
