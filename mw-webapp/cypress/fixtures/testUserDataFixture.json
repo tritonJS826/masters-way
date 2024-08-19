@@ -3,17 +3,19 @@
 
     "testUsers": {
       "studentJonh": {
-        "name": "test.studentJonh@gmail.com",
-        "email": "test.studentJonh@gmail.com",
-        "loginLink": "http://localhost:8000/api/auth/login/local/test.studentJonh@gmail.com",
+        "name": "studentJonh@gmail.com",
+        "email": "studentJonh@gmail.com",
+        "loginLink": "http://localhost:8000/api/auth/login/local/studentJonh@gmail.com",
         "editedName": "John Perry Student",
         "aboutMeDescription": "I'm a student learning JavaScript with a focus on React and Node.js. I'm eager to enhance my skills and seeking a mentor to guide me in becoming a proficient front-end developer. Let's connect!",
-        "skill": "JS"
+        "skill": "JS",
+        "wayTitle": "Way of studentJonh@gmail.com"
       },
       "mentorMax": {
-        "name": "test.mentorMax@gmail.com",
-        "email": "test.mentorMax@gmail.com",
-        "loginLink": "http://localhost:8000/api/auth/login/local/test.mentorMax@gmail.com"
+        "name": "mentorMax@gmail.com",
+        "email": "mentorMax@gmail.com",
+        "loginLink": "http://localhost:8000/api/auth/login/local/mentorMax@gmail.com",
+        "mentoringWaysNumberCollectionButton": "1 Ways"
       }
     },
 

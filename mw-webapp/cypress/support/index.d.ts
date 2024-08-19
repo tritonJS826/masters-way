@@ -11,5 +11,7 @@ declare namespace Cypress {
       logout(): void
       resetDb(): void
       getFirstLetters(str: string): Chainable<any>
+      openAllUsersPage(): void
+      openAllWaysPage(): void
     }  
 }
