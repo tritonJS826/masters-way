@@ -29,6 +29,11 @@ interface ReviewCardProps {
    */
   reviewerImageUrl: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
+
 }
 
 /**
@@ -39,7 +44,10 @@ export const ReviewCard = (props: ReviewCardProps) => {
   const gradeAmountArray = [...Array(props.gradeAmount).keys()].map(i => i++);
 
   return (
-    <VerticalContainer className={styles.reviewCard}>
+    <VerticalContainer
+      className={styles.reviewCard}
+      dataCy={props.dataCy}
+    >
       <HorizontalContainer className={styles.gradeBlock}>
         {gradeAmountArray.map((gradeItem) => (
           <Icon
