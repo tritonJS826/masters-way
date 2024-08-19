@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"mwserver/auth"
+	customErrors "mwserver/customErrors"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -34,7 +35,7 @@ func NewPlanController(db *db.Queries, ctx context.Context) *PlanController {
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
 // @Success 200 {object} schemas.PlanPopulatedResponse
-// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create plan."
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create plan."
 // @Router /plans [post]
 func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	var payload *schemas.CreatePlanPayload
@@ -58,7 +59,7 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
-		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
 		util.HandleErrorGin(ctx, err)
 	}
 

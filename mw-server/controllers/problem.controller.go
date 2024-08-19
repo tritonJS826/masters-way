@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"mwserver/auth"
+	customErrors "mwserver/customErrors"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -33,7 +34,7 @@ func NewProblemController(db *db.Queries, ctx context.Context) *ProblemControlle
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
 // @Success 200 {object} schemas.ProblemPopulatedResponse
-// @Failure 403 {object} util.NoRightToChangeDayReportError "User doesn't have rights to create problem."
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create problem."
 // @Router /problems [post]
 func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	var payload *schemas.CreateProblemPayload
@@ -57,7 +58,7 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
-		err := util.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
 		util.HandleErrorGin(ctx, err)
 	}
 

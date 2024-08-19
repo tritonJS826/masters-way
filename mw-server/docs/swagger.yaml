@@ -1,5 +1,15 @@
 basePath: /api
 definitions:
+  customErrors.NoRightToChangeDayReportError:
+    properties:
+      error:
+        type: string
+      errorId:
+        type: string
+    required:
+    - error
+    - errorId
+    type: object
   schemas.AIChatPayload:
     properties:
       message:
@@ -1106,16 +1116,6 @@ definitions:
     - name
     - uuid
     type: object
-  util.NoRightToChangeDayReportError:
-    properties:
-      error:
-        type: string
-      errorId:
-        type: string
-    required:
-    - error
-    - errorId
-    type: object
   util.ResponseStatusString:
     properties:
       status:
@@ -1249,7 +1249,7 @@ paths:
         "403":
           description: User doesn't have rights to create comment.
           schema:
-            $ref: '#/definitions/util.NoRightToChangeDayReportError'
+            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
       summary: Create a new comment
       tags:
       - comment
@@ -1657,7 +1657,7 @@ paths:
         "403":
           description: User doesn't have rights to create job done.
           schema:
-            $ref: '#/definitions/util.NoRightToChangeDayReportError'
+            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
       summary: Create a new jobDone
       tags:
       - jobDone
@@ -1946,7 +1946,7 @@ paths:
         "403":
           description: User doesn't have rights to create plan.
           schema:
-            $ref: '#/definitions/util.NoRightToChangeDayReportError'
+            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
       summary: Create a new plan
       tags:
       - plan
@@ -2017,7 +2017,7 @@ paths:
         "403":
           description: User doesn't have rights to create problem.
           schema:
-            $ref: '#/definitions/util.NoRightToChangeDayReportError'
+            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
       summary: Create a new problem
       tags:
       - problem

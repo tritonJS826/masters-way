@@ -253,7 +253,7 @@ WITH job_done_data AS (
     LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
     INNER JOIN job_dones_job_tags ON job_dones.uuid = job_dones_job_tags.job_done_uuid
     INNER JOIN job_tags ON job_tags.uuid = job_dones_job_tags.job_tag_uuid
-    WHERE day_reports.way_uuid = $1 AND day_reports.created_at BETWEEN $2 AND $3
+    WHERE day_reports.way_uuid = ANY($1::UUID[]) AND day_reports.created_at BETWEEN $2 AND $3
 )
 SELECT
     label_uuid,
@@ -269,7 +269,7 @@ GROUP BY label_uuid, label_name, label_color, label_description
 `
 
 type GetLabelStatisticsParams struct {
-	WayUuid   pgtype.UUID      `json:"way_uuid"`
+	WayUuids  []pgtype.UUID    `json:"way_uuids"`
 	StartDate pgtype.Timestamp `json:"start_date"`
 	EndDate   pgtype.Timestamp `json:"end_date"`
 }
@@ -286,7 +286,7 @@ type GetLabelStatisticsRow struct {
 }
 
 func (q *Queries) GetLabelStatistics(ctx context.Context, arg GetLabelStatisticsParams) ([]GetLabelStatisticsRow, error) {
-	rows, err := q.db.Query(ctx, getLabelStatistics, arg.WayUuid, arg.StartDate, arg.EndDate)
+	rows, err := q.db.Query(ctx, getLabelStatistics, arg.WayUuids, arg.StartDate, arg.EndDate)
 	if err != nil {
 		return nil, err
 	}
@@ -315,27 +315,36 @@ func (q *Queries) GetLabelStatistics(ctx context.Context, arg GetLabelStatistics
 }
 
 const getLastDayReportDate = `-- name: GetLastDayReportDate :one
-SELECT
-    ways.created_at AS total_start_date,
-    day_reports.created_at AS end_date
-FROM day_reports
-    INNER JOIN ways ON ways.uuid = day_reports.way_uuid
-WHERE day_reports.created_at = (
-    SELECT MAX(created_at)
+WITH way_min_date AS (
+    SELECT
+        MIN(created_at) AS oldest_way_date
+    FROM ways
+    WHERE uuid = ANY($1::UUID[])
+),
+way_max_report AS (
+    SELECT
+        MAX(created_at) AS youngest_report_date
     FROM day_reports
-    WHERE day_reports.way_uuid = $1
-) AND day_reports.way_uuid = $1
+    WHERE way_uuid = ANY($1::UUID[])
+)
+SELECT
+    (way_max_report.youngest_report_date IS NOT NULL)::BOOLEAN AS is_valid,
+    way_min_date.oldest_way_date::TIMESTAMP AS total_start_date,
+    way_max_report.youngest_report_date::TIMESTAMP AS end_date
+FROM way_min_date
+CROSS JOIN way_max_report
 `
 
 type GetLastDayReportDateRow struct {
+	IsValid        bool             `json:"is_valid"`
 	TotalStartDate pgtype.Timestamp `json:"total_start_date"`
 	EndDate        pgtype.Timestamp `json:"end_date"`
 }
 
-func (q *Queries) GetLastDayReportDate(ctx context.Context, wayUuid pgtype.UUID) (GetLastDayReportDateRow, error) {
-	row := q.db.QueryRow(ctx, getLastDayReportDate, wayUuid)
+func (q *Queries) GetLastDayReportDate(ctx context.Context, wayUuids []pgtype.UUID) (GetLastDayReportDateRow, error) {
+	row := q.db.QueryRow(ctx, getLastDayReportDate, wayUuids)
 	var i GetLastDayReportDateRow
-	err := row.Scan(&i.TotalStartDate, &i.EndDate)
+	err := row.Scan(&i.IsValid, &i.TotalStartDate, &i.EndDate)
 	return i, err
 }
 
@@ -439,14 +448,14 @@ SELECT
     COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
 FROM day_reports
 LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
-WHERE day_reports.way_uuid = $3
+WHERE day_reports.way_uuid = ANY($3::UUID[])
   AND day_reports.created_at BETWEEN $2 AND $1
 `
 
 type GetOverallInformationParams struct {
 	EndDate   pgtype.Timestamp `json:"end_date"`
 	StartDate pgtype.Timestamp `json:"start_date"`
-	WayUuid   pgtype.UUID      `json:"way_uuid"`
+	WayUuids  []pgtype.UUID    `json:"way_uuids"`
 }
 
 type GetOverallInformationRow struct {
@@ -459,7 +468,7 @@ type GetOverallInformationRow struct {
 }
 
 func (q *Queries) GetOverallInformation(ctx context.Context, arg GetOverallInformationParams) (GetOverallInformationRow, error) {
-	row := q.db.QueryRow(ctx, getOverallInformation, arg.EndDate, arg.StartDate, arg.WayUuid)
+	row := q.db.QueryRow(ctx, getOverallInformation, arg.EndDate, arg.StartDate, arg.WayUuids)
 	var i GetOverallInformationRow
 	err := row.Scan(
 		&i.TotalTime,
@@ -589,12 +598,12 @@ SELECT
 	COALESCE(SUM(job_dones.time), 0)::INTEGER AS point_value
 FROM day_reports
 LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
-WHERE day_reports.way_uuid = $1 AND day_reports.created_at BETWEEN $2 AND $3
+WHERE day_reports.way_uuid = ANY($1::UUID[]) AND day_reports.created_at BETWEEN $2 AND $3
 GROUP BY point_date
 `
 
 type GetTimeSpentByDayChartParams struct {
-	WayUuid   pgtype.UUID      `json:"way_uuid"`
+	WayUuids  []pgtype.UUID    `json:"way_uuids"`
 	StartDate pgtype.Timestamp `json:"start_date"`
 	EndDate   pgtype.Timestamp `json:"end_date"`
 }
@@ -605,7 +614,7 @@ type GetTimeSpentByDayChartRow struct {
 }
 
 func (q *Queries) GetTimeSpentByDayChart(ctx context.Context, arg GetTimeSpentByDayChartParams) ([]GetTimeSpentByDayChartRow, error) {
-	rows, err := q.db.Query(ctx, getTimeSpentByDayChart, arg.WayUuid, arg.StartDate, arg.EndDate)
+	rows, err := q.db.Query(ctx, getTimeSpentByDayChart, arg.WayUuids, arg.StartDate, arg.EndDate)
 	if err != nil {
 		return nil, err
 	}

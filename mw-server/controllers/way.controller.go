@@ -6,7 +6,9 @@ import (
 	"strconv"
 	"time"
 
+	"errors"
 	"mwserver/auth"
+	customErrors "mwserver/customErrors"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/services"
@@ -284,13 +286,21 @@ func (cc *WayController) DeleteWayById(ctx *gin.Context) {
 // @Success 200 {object} schemas.WayStatisticsTriplePeriod
 // @Router /ways/{wayId}/statistics [get]
 func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
-	wayUUIDRaw := ctx.Param("wayId")
-	wayUUID := uuid.MustParse(wayUUIDRaw)
+	wayIDRaw := ctx.Param("wayId")
+	wayID := uuid.MustParse(wayIDRaw)
 
-	dates, err := services.GetLastDayReportDate(cc.db, ctx, wayUUID)
+	childrenWays, err := services.GetChildrenWayIDs(cc.db, ctx, wayID, 2)
+	util.HandleErrorGin(ctx, err)
+
+	ways := make([]uuid.UUID, 0, len(childrenWays)+1)
+	ways = append(ways, wayID)
+	ways = append(ways, childrenWays...)
+
+	dates, err := services.GetLastDayReportDate(cc.db, ctx, ways)
 	if err != nil {
-		if err == pgx.ErrNoRows {
-			ctx.JSON(http.StatusOK, &schemas.WayStatisticsTriplePeriod{
+		var lastDayReportDateError *customErrors.LastDayReportDateError
+		if err == pgx.ErrNoRows || errors.As(err, &lastDayReportDateError) {
+			response := &schemas.WayStatisticsTriplePeriod{
 				TotalTime: schemas.WayStatistics{
 					LabelStatistics:     schemas.LabelStatistics{Labels: make([]schemas.LabelInfo, 0)},
 					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
@@ -306,15 +316,15 @@ func (cc *WayController) GetWayStatisticsById(ctx *gin.Context) {
 					TimeSpentByDayChart: make([]schemas.TimeSpentByDayPoint, 0),
 					OverallInformation:  schemas.OverallInformation{},
 				},
-			})
+			}
+			ctx.JSON(http.StatusOK, response)
 			return
-		} else {
-			util.HandleErrorGin(ctx, err)
 		}
+		util.HandleErrorGin(ctx, err)
 	}
 
 	params := &services.GetWayStatisticsTriplePeriodParams{
-		WayUUID:        wayUUID,
+		WayUUIDs:       ways,
 		TotalStartDate: dates.TotalStartDate,
 		EndDate:        dates.EndDate,
 	}
