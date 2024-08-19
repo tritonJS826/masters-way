@@ -118,7 +118,7 @@ func (a *JobDoneAPIService) CreateJobDoneExecute(r ApiCreateJobDoneRequest) (*Sc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v UtilNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
