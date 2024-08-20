@@ -57,3 +57,18 @@ RETURNING *,
 -- name: DeletePlan :exec
 DELETE FROM plans
 WHERE uuid = @plan_uuid;
+
+-- name: GetIsUserHavingPermissionsForPlan :one
+SELECT
+    ways.uuid as way_uuid,
+    ways.name as way_name,
+    EXISTS (
+        SELECT 1
+        FROM mentor_users_ways
+        WHERE mentor_users_ways.way_uuid = ways.uuid
+        AND mentor_users_ways.user_uuid = @user_uuid
+    ) OR ways.owner_uuid = @user_uuid AS is_permission_given
+FROM ways
+INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
+INNER JOIN plans ON plans.day_report_uuid = day_reports.uuid
+WHERE plans.uuid = @plan_uuid;

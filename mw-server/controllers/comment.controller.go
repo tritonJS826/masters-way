@@ -49,12 +49,10 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
-	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, db.GetIsUserHavingPermissionsForDayReportParams{
 		UserUuid:      userUUID,
 		DayReportUuid: dayReportUUID,
-	}
-
-	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	})
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
@@ -99,6 +97,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 // @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param commentId path string true "comment ID"
 // @Success 200 {object} schemas.CommentPopulatedResponse
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update comment."
 // @Router /comments/{commentId} [patch]
 func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	var payload *schemas.UpdateCommentPayload
@@ -109,13 +108,29 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 		return
 	}
 
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	commentUUID := pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForPlan(ctx, db.GetIsUserHavingPermissionsForPlanParams{
+		UserUuid: userUUID,
+		PlanUuid: commentUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
 	var descriptionPg pgtype.Text
 	if payload.Description != nil {
 		descriptionPg = pgtype.Text{String: *payload.Description, Valid: true}
 	}
 	now := time.Now()
 	args := &db.UpdateCommentParams{
-		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true},
+		Uuid:        commentUUID,
 		Description: descriptionPg,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
@@ -123,7 +138,19 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	comment, err := cc.db.UpdateComment(ctx, *args)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, comment)
+	response := schemas.CommentPopulatedResponse{
+		Uuid:          util.ConvertPgUUIDToUUID(comment.Uuid).String(),
+		Description:   comment.Description,
+		OwnerUuid:     util.ConvertPgUUIDToUUID(comment.OwnerUuid).String(),
+		OwnerName:     comment.OwnerName,
+		CreatedAt:     comment.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:     comment.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		DayReportUuid: util.ConvertPgUUIDToUUID(comment.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting Comment handlers
@@ -135,13 +162,29 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 // @Produce  json
 // @Param commentId path string true "comment ID"
 // @Success 200
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete comment."
 // @Router /comments/{commentId} [delete]
 func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	commentId := ctx.Param("commentId")
 
-	err := cc.db.DeleteComment(ctx, pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true})
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	commentUUID := pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForComment(ctx, db.GetIsUserHavingPermissionsForCommentParams{
+		UserUuid:    userUUID,
+		CommentUuid: commentUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
+	err = cc.db.DeleteComment(ctx, commentUUID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
-
 }

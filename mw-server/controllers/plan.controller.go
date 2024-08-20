@@ -46,16 +46,14 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	}
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
 
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
-	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, db.GetIsUserHavingPermissionsForDayReportParams{
 		UserUuid:      userUUID,
 		DayReportUuid: dayReportUUID,
-	}
-
-	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	})
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
@@ -105,14 +103,31 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 // @Param request body schemas.UpdatePlanPayload true "query params"
 // @Param planId path string true "plan UUID"
 // @Success 200 {object} schemas.PlanPopulatedResponse
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update plan."
 // @Router /plans/{planId} [patch]
 func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	var payload *schemas.UpdatePlanPayload
-	PlanId := ctx.Param("planId")
+	planId := ctx.Param("planId")
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
+	}
+
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	planUUID := pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForPlan(ctx, db.GetIsUserHavingPermissionsForPlanParams{
+		UserUuid: userUUID,
+		PlanUuid: planUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
 	}
 
 	var descriptionPg pgtype.Text
@@ -129,7 +144,7 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 	}
 	now := time.Now()
 	args := db.UpdatePlanParams{
-		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(PlanId), Valid: true},
+		Uuid:        planUUID,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		Description: descriptionPg,
 		Time:        timePg,
@@ -164,6 +179,8 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 		OwnerName:     plan.OwnerName,
 		IsDone:        plan.IsDone,
 		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 		Tags:          tags,
 	}
 
@@ -179,13 +196,29 @@ func (cc *PlanController) UpdatePlan(ctx *gin.Context) {
 // @Produce  json
 // @Param planId path string true "plan ID"
 // @Success 200
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete plan."
 // @Router /plans/{planId} [delete]
 func (cc *PlanController) DeletePlanById(ctx *gin.Context) {
 	planId := ctx.Param("planId")
 
-	err := cc.db.DeletePlan(ctx, pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true})
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	planUUID := pgtype.UUID{Bytes: uuid.MustParse(planId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForPlan(ctx, db.GetIsUserHavingPermissionsForPlanParams{
+		UserUuid: userUUID,
+		PlanUuid: planUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
+	err = cc.db.DeletePlan(ctx, planUUID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
-
 }

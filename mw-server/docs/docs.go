@@ -230,6 +230,12 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to delete comment.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             },
@@ -268,6 +274,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to update comment.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -850,6 +862,12 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to delete job done.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             },
@@ -888,6 +906,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to update job done.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1290,6 +1314,12 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to delete plan.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             },
@@ -1328,6 +1358,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to update plan.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1398,6 +1434,12 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to delete problem.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             },
@@ -1436,6 +1478,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to update problem.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }

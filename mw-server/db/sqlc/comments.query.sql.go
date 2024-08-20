@@ -74,6 +74,40 @@ func (q *Queries) DeleteComment(ctx context.Context, commentUuid pgtype.UUID) er
 	return err
 }
 
+const getIsUserHavingPermissionsForComment = `-- name: GetIsUserHavingPermissionsForComment :one
+SELECT
+    ways.uuid as way_uuid,
+    ways.name as way_name,
+    EXISTS (
+        SELECT 1
+        FROM mentor_users_ways
+        WHERE mentor_users_ways.way_uuid = ways.uuid
+        AND mentor_users_ways.user_uuid = $1
+    ) OR ways.owner_uuid = $1 AS is_permission_given
+FROM ways
+INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
+INNER JOIN comments ON comments.day_report_uuid = day_reports.uuid
+WHERE comments.uuid = $2
+`
+
+type GetIsUserHavingPermissionsForCommentParams struct {
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+	CommentUuid pgtype.UUID `json:"comment_uuid"`
+}
+
+type GetIsUserHavingPermissionsForCommentRow struct {
+	WayUuid           pgtype.UUID `json:"way_uuid"`
+	WayName           string      `json:"way_name"`
+	IsPermissionGiven pgtype.Bool `json:"is_permission_given"`
+}
+
+func (q *Queries) GetIsUserHavingPermissionsForComment(ctx context.Context, arg GetIsUserHavingPermissionsForCommentParams) (GetIsUserHavingPermissionsForCommentRow, error) {
+	row := q.db.QueryRow(ctx, getIsUserHavingPermissionsForComment, arg.UserUuid, arg.CommentUuid)
+	var i GetIsUserHavingPermissionsForCommentRow
+	err := row.Scan(&i.WayUuid, &i.WayName, &i.IsPermissionGiven)
+	return i, err
+}
+
 const getListCommentsByDayReportUuids = `-- name: GetListCommentsByDayReportUuids :many
 SELECT
     comments.uuid, comments.created_at, comments.updated_at, comments.description, comments.owner_uuid, comments.day_report_uuid
@@ -115,19 +149,35 @@ UPDATE comments
 SET
 updated_at = coalesce($1, updated_at),
 description = coalesce($2, description)
-WHERE uuid = $3
-RETURNING uuid, created_at, updated_at, description, owner_uuid, day_report_uuid
+WHERE comments.uuid = $3
+RETURNING uuid, created_at, updated_at, description, owner_uuid, day_report_uuid, (SELECT name FROM users WHERE comments.owner_uuid = $4) AS owner_name
 `
 
 type UpdateCommentParams struct {
 	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
 	Description pgtype.Text      `json:"description"`
 	Uuid        pgtype.UUID      `json:"uuid"`
+	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
 }
 
-func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (Comment, error) {
-	row := q.db.QueryRow(ctx, updateComment, arg.UpdatedAt, arg.Description, arg.Uuid)
-	var i Comment
+type UpdateCommentRow struct {
+	Uuid          pgtype.UUID      `json:"uuid"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+	Description   string           `json:"description"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
+	OwnerName     string           `json:"owner_name"`
+}
+
+func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error) {
+	row := q.db.QueryRow(ctx, updateComment,
+		arg.UpdatedAt,
+		arg.Description,
+		arg.Uuid,
+		arg.OwnerUuid,
+	)
+	var i UpdateCommentRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,
@@ -135,6 +185,7 @@ func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (C
 		&i.Description,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
+		&i.OwnerName,
 	)
 	return i, err
 }
