@@ -25,6 +25,7 @@ apis/WayCollectionWayApi.ts
 apis/WayTagApi.ts
 apis/index.ts
 index.ts
+models/CustomErrorsNoRightToChangeDayReportError.ts
 models/SchemasAIChatPayload.ts
 models/SchemasAIChatResponse.ts
 models/SchemasAddWayToCompositeWayPayload.ts
@@ -89,7 +90,6 @@ models/SchemasWayPopulatedResponse.ts
 models/SchemasWayStatistics.ts
 models/SchemasWayStatisticsTriplePeriod.ts
 models/SchemasWayTagResponse.ts
-models/UtilNoRightToChangeDayReportError.ts
 models/UtilResponseStatusString.ts
 models/index.ts
 runtime.ts
