@@ -1,5 +1,6 @@
 // @ts-nocheck
 /* eslint-disable */
+export * from './CustomErrorsNoRightToChangeDayReportError';
 export * from './SchemasAIChatPayload';
 export * from './SchemasAIChatResponse';
 export * from './SchemasAddWayToCompositeWayPayload';
@@ -64,5 +65,4 @@ export * from './SchemasWayPopulatedResponse';
 export * from './SchemasWayStatistics';
 export * from './SchemasWayStatisticsTriplePeriod';
 export * from './SchemasWayTagResponse';
-export * from './UtilNoRightToChangeDayReportError';
 export * from './UtilResponseStatusString';

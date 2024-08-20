@@ -146,6 +146,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [CustomErrorsNoRightToChangeDayReportError](docs/CustomErrorsNoRightToChangeDayReportError.md)
  - [SchemasAIChatPayload](docs/SchemasAIChatPayload.md)
  - [SchemasAIChatResponse](docs/SchemasAIChatResponse.md)
  - [SchemasAddWayToCompositeWayPayload](docs/SchemasAddWayToCompositeWayPayload.md)
@@ -210,7 +211,6 @@ Class | Method | HTTP request | Description
  - [SchemasWayStatistics](docs/SchemasWayStatistics.md)
  - [SchemasWayStatisticsTriplePeriod](docs/SchemasWayStatisticsTriplePeriod.md)
  - [SchemasWayTagResponse](docs/SchemasWayTagResponse.md)
- - [UtilNoRightToChangeDayReportError](docs/UtilNoRightToChangeDayReportError.md)
  - [UtilResponseStatusString](docs/UtilResponseStatusString.md)
 
 

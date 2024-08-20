@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
+  CustomErrorsNoRightToChangeDayReportError,
   SchemasCreateJobDonePayload,
   SchemasJobDonePopulatedResponse,
   SchemasUpdateJobDone,
-  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
+    CustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    CustomErrorsNoRightToChangeDayReportErrorToJSON,
     SchemasCreateJobDonePayloadFromJSON,
     SchemasCreateJobDonePayloadToJSON,
     SchemasJobDonePopulatedResponseFromJSON,
     SchemasJobDonePopulatedResponseToJSON,
     SchemasUpdateJobDoneFromJSON,
     SchemasUpdateJobDoneToJSON,
-    UtilNoRightToChangeDayReportErrorFromJSON,
-    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreateJobDoneRequest {
