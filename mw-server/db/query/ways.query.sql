@@ -357,9 +357,9 @@ WHERE composite_ways.parent_uuid = @way_uuid;
 SELECT
     users.*
 FROM ways
-JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
-JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid
-JOIN users ON users.uuid = mentor_users_ways.user_uuid
+LEFT JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+LEFT JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid
+LEFT JOIN users ON users.uuid = mentor_users_ways.user_uuid
 	OR users.uuid = former_mentors_ways.former_mentor_uuid
 	OR users.uuid = ways.owner_uuid
 WHERE ways.uuid = ANY(@way_uuids::UUID[]);

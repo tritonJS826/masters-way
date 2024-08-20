@@ -139,6 +139,12 @@ paths:
         "200":
           content: {}
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete comment.
       summary: Delete comment by UUID
       tags:
       - comment
@@ -165,6 +171,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.CommentPopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update comment.
       summary: Update comment by UUID
       tags:
       - comment
@@ -529,6 +541,12 @@ paths:
         "200":
           content: {}
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete job done.
       summary: Delete jobDone by UUID
       tags:
       - jobDone
@@ -555,6 +573,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.JobDonePopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update job done.
       summary: Update jobDone by UUID
       tags:
       - jobDone
@@ -807,6 +831,12 @@ paths:
         "200":
           content: {}
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete plan.
       summary: Delete plan by UUID
       tags:
       - plan
@@ -833,6 +863,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.PlanPopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update plan.
       summary: Update plan by UUID
       tags:
       - plan
@@ -878,6 +914,12 @@ paths:
         "200":
           content: {}
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete problem.
       summary: Delete problem by UUID
       tags:
       - problem
@@ -904,6 +946,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.ProblemPopulatedResponse'
           description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update problem.
       summary: Update problem by UUID
       tags:
       - problem

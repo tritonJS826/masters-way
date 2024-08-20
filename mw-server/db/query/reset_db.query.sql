@@ -152,6 +152,10 @@ VALUES
     ('8079ab4b-23eb-4af6-9be5-d8565b9403b1', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-07-19 10:10:00', '2024-07-19 10:10:00'),
     ('bad7eb6a-74ee-4362-b9f3-98ea85088879', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-07-20 18:50:00', '2024-07-20 18:50:00'),
     ('87df94c2-a6f3-483d-9170-61eee19d4bfa', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-07-21 19:05:00', '2024-07-21 19:05:00'),
+    ('9b8ef40c-6907-43de-84eb-789ee87789a7', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
+    ('aaeb7ef1-5a23-4be3-8df7-0f1357329879', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-03 00:00:00', '2024-08-03 00:00:00'),
+    ('a3a4f61b-2f96-403e-8f66-bfa83e66aad6', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-05 00:00:00', '2024-08-05 00:00:00'),
+    ('5fe76d7d-5954-4f2d-bce8-4b3839c26832', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-16 00:00:00', '2024-08-16 00:00:00'),
 
     ('8a3c9946-0933-4444-a456-0972adc2a25b', '550e8400-e29b-41d4-a716-446655440000', '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
     ('3df20f1b-f3af-40f5-9b69-d879cd1a6896', '550e8400-e29b-41d4-a716-446655440000', '2024-08-03 00:00:00', '2024-08-03 00:00:00'),
@@ -162,21 +166,24 @@ VALUES
     ('9c184a1c-0287-4fec-a5cf-9d13d6215a29', '550e8400-e29b-41d4-a716-446655440000', '2024-08-13 00:00:00', '2024-08-13 00:00:00'),
     ('0c592a97-998b-48cb-a693-592373ac70de', '550e8400-e29b-41d4-a716-446655440000', '2024-08-15 00:00:00', '2024-08-15 00:00:00'),
 
-    ('9b8ef40c-6907-43de-84eb-789ee87789a7', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-01 00:00:00', '2024-08-01 00:00:00'),
-    ('aaeb7ef1-5a23-4be3-8df7-0f1357329879', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-03 00:00:00', '2024-08-03 00:00:00'),
-    ('a3a4f61b-2f96-403e-8f66-bfa83e66aad6', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-05 00:00:00', '2024-08-05 00:00:00'),
-
-    ('1c4b7914-a249-4397-82e6-5099d0ff6454', 'd6d46085-8ce6-4df1-8463-3e469c240076', '2024-08-16 00:00:00', '2024-08-16 00:00:00'),
-    ('5fe76d7d-5954-4f2d-bce8-4b3839c26832', '54910bd4-ad28-44f4-a669-f233861cf816', '2024-08-16 00:00:00', '2024-08-16 00:00:00');
+    ('1c4b7914-a249-4397-82e6-5099d0ff6454', 'd6d46085-8ce6-4df1-8463-3e469c240076', '2024-08-16 00:00:00', '2024-08-16 00:00:00');
 
 INSERT INTO "job_tags" ("uuid", "name", "description", "color", "way_uuid")
 VALUES
     ('d569aa06-452c-4602-a788-2ffca4c959a8', 'super tag', 'this is my testing tag','black', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
     ('bf63a158-c3d9-40aa-bc0f-e6686e96de2c', 'super puper tag', 'this is not my testing tag', 'orange', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
-    ('32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', 'database', 'this is not my tag', 'green', '550e8400-e29b-41d4-a716-446655440000'),
+
+    ('e593e6ed-c078-4a36-a1fa-721d8a0c7829', 'sql', 'this is not my tag', 'green', '54910bd4-ad28-44f4-a669-f233861cf816'),
+    ('04fc3f3d-b6ce-40e6-8d94-d6f2bf275eff', 'coding time', 'this is not my tag', 'blue', '54910bd4-ad28-44f4-a669-f233861cf816'),
+    ('a541719a-153e-44cf-88ff-f21a4e8d081b', 'meeting', 'this is not my tag', 'red', '54910bd4-ad28-44f4-a669-f233861cf816'),
+    ('5f7b8084-e8b3-4963-bfa2-491d5ee07f5a', 'group meeting', 'this is not my tag', 'yellow', '54910bd4-ad28-44f4-a669-f233861cf816'),
+
+    ('5ebb8d43-b685-4090-8453-ceaa7aad2095', 'database', 'this is not my tag', 'green', '550e8400-e29b-41d4-a716-446655440000'),
     ('c73ff20b-e64e-4e5f-b270-1a40ba1bd81b', 'coding', 'this is not my tag', 'blue', '550e8400-e29b-41d4-a716-446655440000'),
     ('60e7860d-58d9-4035-93d0-9bb825fe734c', 'meeting 1:1', 'this is not my tag', 'red', '550e8400-e29b-41d4-a716-446655440000'),
-    ('2461357d-f2f0-43a7-9f1d-79fd1eaa64f5', 'general meeting', 'this is not my tag', 'yellow', '550e8400-e29b-41d4-a716-446655440000');
+    ('2461357d-f2f0-43a7-9f1d-79fd1eaa64f5', 'general meeting', 'this is not my tag', 'yellow', '550e8400-e29b-41d4-a716-446655440000'),
+
+    ('b65b5720-4011-49ab-bf1f-ca8e2b87d88c', 'test label 1', 'this is not my tag', 'red', 'd6d46085-8ce6-4df1-8463-3e469c240076');
 
 INSERT INTO "plans" ("uuid", "description", "time", "owner_uuid", "is_done", "day_report_uuid", "created_at", "updated_at")
 VALUES
@@ -184,7 +191,7 @@ VALUES
 
 INSERT INTO "plans_job_tags" ("plan_uuid", "job_tag_uuid")
 VALUES
-    ('18cbbee6-5071-4608-b349-ffad514711cb', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2');
+    ('18cbbee6-5071-4608-b349-ffad514711cb', '5ebb8d43-b685-4090-8453-ceaa7aad2095');
 
 INSERT INTO "job_dones" ("uuid", "description", "time", "owner_uuid", "day_report_uuid", "created_at", "updated_at")
 VALUES
@@ -213,23 +220,23 @@ VALUES
 
 INSERT INTO "job_dones_job_tags" ("job_done_uuid", "job_tag_uuid")
 VALUES
-    ('425888ef-074b-4635-adba-371a63e28da8', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
-    ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
+    ('425888ef-074b-4635-adba-371a63e28da8', '5ebb8d43-b685-4090-8453-ceaa7aad2095'),
+    ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', '5ebb8d43-b685-4090-8453-ceaa7aad2095'),
     ('08b968fd-c11c-4b6b-bd23-b45b67ee4c39', 'c73ff20b-e64e-4e5f-b270-1a40ba1bd81b'),
     ('a16427ef-5630-48c4-b27c-5306e36bc2a0', '60e7860d-58d9-4035-93d0-9bb825fe734c'),
     ('c2cf2c6d-679a-4894-8225-b173947120bc', '2461357d-f2f0-43a7-9f1d-79fd1eaa64f5'),
-    ('783b3458-e1a7-4e8d-8ae6-5af345c6d3b2', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
+    ('783b3458-e1a7-4e8d-8ae6-5af345c6d3b2', '5ebb8d43-b685-4090-8453-ceaa7aad2095'),
     ('500d82ca-6982-4aab-b5da-1d80784dbb77', 'c73ff20b-e64e-4e5f-b270-1a40ba1bd81b'),
     ('bf21446f-9f1f-4544-a9f0-155b67b89228', '60e7860d-58d9-4035-93d0-9bb825fe734c'),
-    ('9d1b8491-e9d2-4815-9927-afea88c6d3e7', '60e7860d-58d9-4035-93d0-9bb825fe734c'),
-    ('42c8cc00-8de9-45bb-854e-598c88697cd6', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
-    ('284b8c55-0048-44f6-9d06-4db078df25a3', 'c73ff20b-e64e-4e5f-b270-1a40ba1bd81b'),
-    ('b83a7146-5692-4c67-a5ce-9499ce47b4af', '2461357d-f2f0-43a7-9f1d-79fd1eaa64f5'),
-    ('e9a84956-27c4-4ca3-9c58-805b8b564238', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
-    ('2ccc9ae0-c765-4d5a-9cea-697edbb515d6', 'c73ff20b-e64e-4e5f-b270-1a40ba1bd81b'),
-    ('a03250c7-7525-4f82-a747-32f981f678f2', '60e7860d-58d9-4035-93d0-9bb825fe734c'),
-    ('83d9fddb-c52f-4144-9f14-15d699554423', '60e7860d-58d9-4035-93d0-9bb825fe734c'),
-    ('127bcdce-8c4e-496e-af6c-7329857af687', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2');
+    ('9d1b8491-e9d2-4815-9927-afea88c6d3e7', 'a541719a-153e-44cf-88ff-f21a4e8d081b'),
+    ('42c8cc00-8de9-45bb-854e-598c88697cd6', '04fc3f3d-b6ce-40e6-8d94-d6f2bf275eff'),
+    ('284b8c55-0048-44f6-9d06-4db078df25a3', '04fc3f3d-b6ce-40e6-8d94-d6f2bf275eff'),
+    ('b83a7146-5692-4c67-a5ce-9499ce47b4af', 'b65b5720-4011-49ab-bf1f-ca8e2b87d88c'),
+    ('e9a84956-27c4-4ca3-9c58-805b8b564238', '5f7b8084-e8b3-4963-bfa2-491d5ee07f5a'),
+    ('2ccc9ae0-c765-4d5a-9cea-697edbb515d6', 'e593e6ed-c078-4a36-a1fa-721d8a0c7829'),
+    ('a03250c7-7525-4f82-a747-32f981f678f2', '04fc3f3d-b6ce-40e6-8d94-d6f2bf275eff'),
+    ('83d9fddb-c52f-4144-9f14-15d699554423', 'a541719a-153e-44cf-88ff-f21a4e8d081b'),
+    ('127bcdce-8c4e-496e-af6c-7329857af687', 'e593e6ed-c078-4a36-a1fa-721d8a0c7829');
 
 INSERT INTO "problems" ("uuid", "description", "is_done", "owner_uuid", "day_report_uuid", "created_at", "updated_at")
 VALUES

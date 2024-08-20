@@ -82,6 +82,40 @@ func (q *Queries) DeleteProblem(ctx context.Context, problemUuid pgtype.UUID) er
 	return err
 }
 
+const getIsUserHavingPermissionsForProblem = `-- name: GetIsUserHavingPermissionsForProblem :one
+SELECT
+    ways.uuid as way_uuid,
+    ways.name as way_name,
+    EXISTS (
+        SELECT 1
+        FROM mentor_users_ways
+        WHERE mentor_users_ways.way_uuid = ways.uuid
+        AND mentor_users_ways.user_uuid = $1
+    ) OR ways.owner_uuid = $1 AS is_permission_given
+FROM ways
+INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
+INNER JOIN problems ON problems.day_report_uuid = day_reports.uuid
+WHERE problems.uuid = $2
+`
+
+type GetIsUserHavingPermissionsForProblemParams struct {
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+	ProblemUuid pgtype.UUID `json:"problem_uuid"`
+}
+
+type GetIsUserHavingPermissionsForProblemRow struct {
+	WayUuid           pgtype.UUID `json:"way_uuid"`
+	WayName           string      `json:"way_name"`
+	IsPermissionGiven pgtype.Bool `json:"is_permission_given"`
+}
+
+func (q *Queries) GetIsUserHavingPermissionsForProblem(ctx context.Context, arg GetIsUserHavingPermissionsForProblemParams) (GetIsUserHavingPermissionsForProblemRow, error) {
+	row := q.db.QueryRow(ctx, getIsUserHavingPermissionsForProblem, arg.UserUuid, arg.ProblemUuid)
+	var i GetIsUserHavingPermissionsForProblemRow
+	err := row.Scan(&i.WayUuid, &i.WayName, &i.IsPermissionGiven)
+	return i, err
+}
+
 const getListProblemsByDayReportId = `-- name: GetListProblemsByDayReportId :many
 SELECT uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid FROM problems
 WHERE problems.day_report_uuid = $1

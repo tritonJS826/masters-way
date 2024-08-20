@@ -46,16 +46,14 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	}
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
 
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
-	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, db.GetIsUserHavingPermissionsForDayReportParams{
 		UserUuid:      userUUID,
 		DayReportUuid: dayReportUUID,
-	}
-
-	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	})
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
@@ -123,6 +121,7 @@ func (cc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 // @Param request body schemas.UpdateJobDone true "query params"
 // @Param jobDoneId path string true "jobDone UUID"
 // @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update job done."
 // @Router /jobDones/{jobDoneId} [patch]
 func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	var payload *schemas.UpdateJobDone
@@ -131,6 +130,22 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
+	}
+
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	jobDoneUUID := pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForJobDone(ctx, db.GetIsUserHavingPermissionsForJobDoneParams{
+		UserUuid:     userUUID,
+		JobDonesUuid: jobDoneUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
 	}
 
 	now := time.Now()
@@ -143,7 +158,7 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 		timePg = pgtype.Int4{Int32: *payload.Time, Valid: true}
 	}
 	args := db.UpdateJobDoneParams{
-		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true},
+		Uuid:        jobDoneUUID,
 		Description: descriptionPg,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		Time:        timePg,
@@ -173,6 +188,8 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
 		OwnerName:     jobDone.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 		Tags:          tags,
 	}
 
@@ -188,13 +205,29 @@ func (cc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 // @Produce  json
 // @Param jobDoneId path string true "jobDone ID"
 // @Success 200
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete job done."
 // @Router /jobDones/{jobDoneId} [delete]
 func (cc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	jobDoneId := ctx.Param("jobDoneId")
 
-	err := cc.db.DeleteJobDone(ctx, pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true})
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	jobDoneUUID := pgtype.UUID{Bytes: uuid.MustParse(jobDoneId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForJobDone(ctx, db.GetIsUserHavingPermissionsForJobDoneParams{
+		UserUuid:     userUUID,
+		JobDonesUuid: jobDoneUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
+	err = cc.db.DeleteJobDone(ctx, jobDoneUUID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
-
 }

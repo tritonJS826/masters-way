@@ -752,23 +752,33 @@ const getWayRelatedUsers = `-- name: GetWayRelatedUsers :many
 SELECT
     users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor
 FROM ways
-JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
-JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid
-JOIN users ON users.uuid = mentor_users_ways.user_uuid
+LEFT JOIN mentor_users_ways ON mentor_users_ways.way_uuid = ways.uuid
+LEFT JOIN former_mentors_ways ON former_mentors_ways.way_uuid = ways.uuid
+LEFT JOIN users ON users.uuid = mentor_users_ways.user_uuid
 	OR users.uuid = former_mentors_ways.former_mentor_uuid
 	OR users.uuid = ways.owner_uuid
 WHERE ways.uuid = ANY($1::UUID[])
 `
 
-func (q *Queries) GetWayRelatedUsers(ctx context.Context, wayUuids []pgtype.UUID) ([]User, error) {
+type GetWayRelatedUsersRow struct {
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        pgtype.Text      `json:"name"`
+	Email       pgtype.Text      `json:"email"`
+	Description pgtype.Text      `json:"description"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	ImageUrl    pgtype.Text      `json:"image_url"`
+	IsMentor    pgtype.Bool      `json:"is_mentor"`
+}
+
+func (q *Queries) GetWayRelatedUsers(ctx context.Context, wayUuids []pgtype.UUID) ([]GetWayRelatedUsersRow, error) {
 	rows, err := q.db.Query(ctx, getWayRelatedUsers, wayUuids)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []User{}
+	items := []GetWayRelatedUsersRow{}
 	for rows.Next() {
-		var i User
+		var i GetWayRelatedUsersRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
