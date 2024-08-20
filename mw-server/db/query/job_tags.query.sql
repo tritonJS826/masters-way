@@ -23,8 +23,7 @@ ORDER BY uuid;
 
 -- name: GetListJobTagsByWayUuids :many
 SELECT * FROM job_tags
-WHERE way_uuid = ANY(@way_uuids::UUID[])
-ORDER BY uuid;
+WHERE way_uuid = ANY(@way_uuids::UUID[]);
 
 -- name: GetJobTagByUuid :one
 SELECT * FROM job_tags

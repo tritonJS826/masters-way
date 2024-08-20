@@ -113,7 +113,6 @@ func (q *Queries) GetListJobTagsByWayUuid(ctx context.Context, wayUuid pgtype.UU
 const getListJobTagsByWayUuids = `-- name: GetListJobTagsByWayUuids :many
 SELECT uuid, name, description, color, way_uuid FROM job_tags
 WHERE way_uuid = ANY($1::UUID[])
-ORDER BY uuid
 `
 
 func (q *Queries) GetListJobTagsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]JobTag, error) {
