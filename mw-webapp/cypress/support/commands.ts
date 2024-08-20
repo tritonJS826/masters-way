@@ -92,4 +92,24 @@ Cypress.Commands.add('resetDb', () => {
   cy.request('GET', `${apiUrl}/dev/reset-db`);
 });
 
+Cypress.Commands.add("getFirstLetters", (str: any) => {
+  const words = str.trim().split(/\s+/);
+  
+  if (words.length === 1) {
+      return words[0].slice(0, 2).toUpperCase();
+  } else {
+      return words[0].charAt(0).toUpperCase() + words[1].charAt(0).toUpperCase();
+  }
+});
+
+Cypress.Commands.add('openAllUsersPage', () => {
+  headerSelectors.getBurgerMenu().click({force: true});
+  navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
+});
+
+Cypress.Commands.add('openAllWaysPage', () => {
+  headerSelectors.getBurgerMenu().click({force: true});
+  navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
+});
+
 export {};

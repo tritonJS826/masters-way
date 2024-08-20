@@ -5,6 +5,7 @@ import {Room} from "src/model/businessModel/Chat";
 import {Message} from "src/model/businessModel/Message";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {ChatService} from "src/service/ChatService";
+import {MessageService} from "src/service/MessageService";
 
 /**
  * Room type
@@ -178,6 +179,16 @@ export class ChatDAL {
     const message = messageDTOToMessage(messageDTO);
 
     return message;
+  }
+
+  /**
+   * Update message's status
+   */
+  public static async updateMessageStatus(messageId: string, isRead: boolean): Promise<void> {
+    await MessageService.updateMessageStatus({
+      messageId,
+      request: {isRead},
+    });
   }
 
   /**

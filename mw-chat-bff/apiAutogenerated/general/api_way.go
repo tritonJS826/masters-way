@@ -227,6 +227,8 @@ type ApiGetAllWaysRequest struct {
 	ApiService *WayAPIService
 	page *int32
 	limit *int32
+	minDayReportsAmount *int32
+	wayName *string
 	status *string
 }
 
@@ -239,6 +241,18 @@ func (r ApiGetAllWaysRequest) Page(page int32) ApiGetAllWaysRequest {
 // Number of items per page
 func (r ApiGetAllWaysRequest) Limit(limit int32) ApiGetAllWaysRequest {
 	r.limit = &limit
+	return r
+}
+
+// Min day reports amount
+func (r ApiGetAllWaysRequest) MinDayReportsAmount(minDayReportsAmount int32) ApiGetAllWaysRequest {
+	r.minDayReportsAmount = &minDayReportsAmount
+	return r
+}
+
+// Way name
+func (r ApiGetAllWaysRequest) WayName(wayName string) ApiGetAllWaysRequest {
+	r.wayName = &wayName
 	return r
 }
 
@@ -293,6 +307,12 @@ func (a *WayAPIService) GetAllWaysExecute(r ApiGetAllWaysRequest) (*SchemasGetAl
 	}
 	if r.limit != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+	}
+	if r.minDayReportsAmount != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "minDayReportsAmount", r.minDayReportsAmount, "")
+	}
+	if r.wayName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "wayName", r.wayName, "")
 	}
 	if r.status != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "")
@@ -392,6 +412,107 @@ func (a *WayAPIService) GetWayByUuidExecute(r ApiGetWayByUuidRequest) (*SchemasW
 	}
 
 	localVarPath := localBasePath + "/ways/{wayId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"wayId"+"}", url.PathEscape(parameterValueToString(r.wayId, "wayId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetWayStatisticsByUuidRequest struct {
+	ctx context.Context
+	ApiService *WayAPIService
+	wayId string
+}
+
+func (r ApiGetWayStatisticsByUuidRequest) Execute() (*SchemasWayStatisticsTriplePeriod, *http.Response, error) {
+	return r.ApiService.GetWayStatisticsByUuidExecute(r)
+}
+
+/*
+GetWayStatisticsByUuid Get way statistics by UUID
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param wayId way ID
+ @return ApiGetWayStatisticsByUuidRequest
+*/
+func (a *WayAPIService) GetWayStatisticsByUuid(ctx context.Context, wayId string) ApiGetWayStatisticsByUuidRequest {
+	return ApiGetWayStatisticsByUuidRequest{
+		ApiService: a,
+		ctx: ctx,
+		wayId: wayId,
+	}
+}
+
+// Execute executes the request
+//  @return SchemasWayStatisticsTriplePeriod
+func (a *WayAPIService) GetWayStatisticsByUuidExecute(r ApiGetWayStatisticsByUuidRequest) (*SchemasWayStatisticsTriplePeriod, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SchemasWayStatisticsTriplePeriod
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetWayStatisticsByUuid")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/ways/{wayId}/statistics"
 	localVarPath = strings.Replace(localVarPath, "{"+"wayId"+"}", url.PathEscape(parameterValueToString(r.wayId, "wayId")), -1)
 
 	localVarHeaderParams := make(map[string]string)

@@ -8,6 +8,7 @@ type MessageReader struct {
 }
 
 type MessageResponse struct {
+	MessageID     string          `json:"messageId" validate:"required"`
 	OwnerID       string          `json:"ownerId" validate:"required"`
 	OwnerName     string          `json:"ownerName" validate:"required"`
 	OwnerImageURL string          `json:"ownerImageUrl" validate:"required"`

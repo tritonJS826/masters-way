@@ -5,6 +5,7 @@ import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayTag} from "src/model/businessModelPreview/WayTag";
+import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 
 /**
  * Way props
@@ -25,6 +26,11 @@ interface WayProps {
    * Day reports
    */
   dayReports: DayReport[];
+
+  /**
+   * Day reports amount
+   */
+  dayReportsAmount: number;
 
   /**
    * Way's owner
@@ -109,7 +115,7 @@ interface WayProps {
   /**
    * If Way has children then this way is Composite
    */
-  children: Way[];
+  children: WayWithoutDayReports[];
 }
 
 /**
@@ -131,6 +137,11 @@ export class Way {
    * Day reports
    */
   public dayReports: DayReport[];
+
+  /**
+   * Day reports amount
+   */
+  public dayReportsAmount: number;
 
   /**
    * Way's owner
@@ -215,13 +226,14 @@ export class Way {
   /**
    * If Way has children then this way is Composite
    */
-  public children: Way[];
+  public children: WayWithoutDayReports[];
 
   constructor(wayData: WayProps) {
     makeAutoObservable(this);
     this.uuid = wayData.uuid;
     this.name = wayData.name;
     this.dayReports = wayData.dayReports.map(report => new DayReport(report));
+    this.dayReportsAmount = wayData.dayReportsAmount;
     this.owner = new UserPlain(wayData.owner);
     this.mentors = new Map<string, UserPlain>(wayData.mentors);
     this.mentorRequests = wayData.mentorRequests.map(mentorRequest => new UserPlain(mentorRequest));
@@ -237,7 +249,7 @@ export class Way {
     this.estimationTime = wayData.estimationTime;
     this.metrics = wayData.metrics.map(metric => new Metric(metric));
     this.isPrivate = wayData.isPrivate;
-    this.children = wayData.children.map(child => new Way(child));
+    this.children = wayData.children.map(child => new WayWithoutDayReports(child));
   }
 
   /**
@@ -352,7 +364,7 @@ export class Way {
    * Add dayReport
    */
   public updateDayReports(dayReports: DayReport[]): void {
-    this.dayReports = dayReports;
+    this.dayReports = [...this.dayReports, ...dayReports];
   }
 
 }

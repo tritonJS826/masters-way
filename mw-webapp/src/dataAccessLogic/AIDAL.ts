@@ -42,7 +42,7 @@ export class AIDAL {
       },
     });
 
-    return metricsDTO;
+    return metricsDTO.metrics;
   }
 
 }

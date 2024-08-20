@@ -11,7 +11,8 @@ enum HomeLabel {
   START_FOR_FREE_FIRST_SCREEN_CLICKED = "START_FOR_FREE_FIRST_SCREEN_CLICKED",
   START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED = "START_FOR_FREE_WHO_WE_ARE_BLOCK_CLICKED",
   TRY_NOW_CLICKED = "TRY_NOW_CLICKED",
-  READ_MANIFESTO_CLICKED = "READ_MANIFESTO_CLICKED"
+  READ_MANIFESTO_CLICKED = "READ_MANIFESTO_CLICKED",
+  VIEW_ALL_WAYS_CLICKED = "VIEW_ALL_WAYS_CLICKED"
 }
 
 /**
@@ -49,6 +50,13 @@ export class TrackHomePage {
    */
   public static startForFreeFirstBlockClicked = () => {
     trackHome(HomeLabel.START_FOR_FREE_FIRST_SCREEN_CLICKED);
+  };
+
+  /**
+   * Track home view allWays button click
+   */
+  public static viewAllWaysClicked = () => {
+    trackHome(HomeLabel.VIEW_ALL_WAYS_CLICKED);
   };
 
   /**

@@ -1,3 +1,4 @@
+apis/MessageApi.ts
 apis/RoomApi.ts
 apis/index.ts
 index.ts
@@ -9,6 +10,7 @@ models/SchemasMessageReader.ts
 models/SchemasMessageResponse.ts
 models/SchemasRoomPopulatedResponse.ts
 models/SchemasRoomPreviewResponse.ts
+models/SchemasUpdateMessageStatusPayload.ts
 models/SchemasUserResponse.ts
 models/index.ts
 runtime.ts

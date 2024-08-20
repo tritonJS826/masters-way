@@ -83,7 +83,8 @@
   gap: $gapMedium;
 }
 
-.skillsTitleBlock {
+.skillsTitleBlock,
+.supportTitleBlock {
   align-items: center;
   gap: $gapMedium;
 }
@@ -134,4 +135,5 @@
 
 .supportBlock {
   flex-wrap: wrap;
+  // justify-content: flex-end;
 }

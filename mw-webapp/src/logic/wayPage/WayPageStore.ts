@@ -1,8 +1,23 @@
 import {makeAutoObservable} from "mobx";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {load} from "src/hooks/useLoad";
+import {DayReport} from "src/model/businessModel/DayReport";
 import {Way} from "src/model/businessModel/Way";
-import {createCompositeWay} from "src/utils/createCompositeWay";
+import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
+
+type WayPageFirstLoad = {
+
+  /**
+   * Way
+   */
+  way: Way;
+
+  /**
+   * Way statistics
+   */
+  wayStatistics: WayStatisticsTriple;
+
+}
 
 /**
  * WayPageStore related methods
@@ -11,8 +26,15 @@ export class WayPageStore {
 
   /**
    * Way value
+   * Should be initialized!
    */
   public way!: Way;
+
+  /**
+   * Way statistics
+   * Should be initialized!
+   */
+  public wayStatisticsTriple!: WayStatisticsTriple;
 
   /**
    * If it is false - store is not initialized and can't be used safely
@@ -25,17 +47,32 @@ export class WayPageStore {
   }
 
   /**
+   * Set way statistics triple
+   */
+  public setWayStatisticsTriple = (wayStatistics: WayStatisticsTriple) => {
+    this.wayStatisticsTriple = wayStatistics;
+  };
+
+  /**
+   * Update day reports
+   */
+  public updateDayReports = (dayReports: DayReport[]) => {
+    this.way.dayReports = [...dayReports, ...this.way.dayReports];
+  };
+
+  /**
    * Set way
    */
-  public setWay = (way: Way) => {
-    this.way = createCompositeWay(way);
+  private setLoadedData = (loadedData: WayPageFirstLoad) => {
+    this.way = loadedData.way;
+    this.wayStatisticsTriple = loadedData.wayStatistics;
   };
 
   /**
    * Initialize
    */
   private async initialize(wayUuid: string) {
-    await load<Way>({
+    await load<WayPageFirstLoad>({
 
       /**
        * Load data
@@ -43,7 +80,7 @@ export class WayPageStore {
       loadData: () => this.loadData(wayUuid),
       validateData: this.validateData,
       onError: this.onError,
-      onSuccess: this.setWay,
+      onSuccess: this.setLoadedData,
     });
 
     this.isInitialized = true;
@@ -53,17 +90,20 @@ export class WayPageStore {
   /**
    * Load data
    */
-  private loadData = async (wayUuid: string): Promise<Way> => {
-    const fetchedWay = await WayDAL.getWay(wayUuid);
+  private loadData = async (wayUuid: string): Promise<WayPageFirstLoad> => {
+    const wayPromise = WayDAL.getWay(wayUuid);
+    const wayStatisticsPromise = WayDAL.getWayStatisticTripleById(wayUuid);
 
-    return fetchedWay;
+    const [way, wayStatistics] = await Promise.all([wayPromise, wayStatisticsPromise]);
+
+    return {way, wayStatistics};
   };
 
   /**
    * Validate data
    */
-  private validateData = (data: Way) => {
-    return !!data;
+  private validateData = (data: WayPageFirstLoad) => {
+    return !!data.way && !!data.wayStatistics;
   };
 
   /**

@@ -3,13 +3,15 @@ package controllers
 import "mwchat/internal/services"
 
 type Controller struct {
-	RoomsController *RoomsController
-	DevController   *DevController
+	RoomsController    *RoomsController
+	MessagesController *MessagesController
+	DevController      *DevController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		RoomsController: NewRoomsController(services.RoomService),
-		DevController:   NewDevController(services.DevService),
+		RoomsController:    NewRoomsController(services.IRoomsService),
+		MessagesController: NewMessagesController(services.IMessagesService),
+		DevController:      NewDevController(services.IDevService),
 	}
 }

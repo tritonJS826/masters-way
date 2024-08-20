@@ -195,6 +195,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.CommentPopulatedResponse"
                         }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create comment.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             }
@@ -365,48 +371,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/dayReports/{dayReportId}": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "dayReport"
-                ],
-                "summary": "Update dayReport by UUID",
-                "operationId": "update-dayReport",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UpdateDayReportPayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "dayReport ID",
-                        "name": "dayReportId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
+                            "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
                         }
                     }
                 }
@@ -423,8 +388,8 @@ const docTemplate = `{
                 "tags": [
                     "dayReport"
                 ],
-                "summary": "Get all dayReports by Way UUID",
-                "operationId": "get-dayReports-by-Way-uuid",
+                "summary": "Get list of day reports by way UUID",
+                "operationId": "get-day-reports",
                 "parameters": [
                     {
                         "type": "string",
@@ -432,16 +397,25 @@ const docTemplate = `{
                         "name": "wayId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "limit",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
-                            }
+                            "$ref": "#/definitions/schemas.ListDayReportsResponse"
                         }
                     }
                 }
@@ -648,6 +622,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/just-chat": {
+            "post": {
+                "description": "This endpoint for talks with AI language model.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Just chat with AI",
+                "operationId": "ai-chat",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIChatPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIChatResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/metrics": {
             "post": {
                 "description": "This endpoint uses Gemini to generate metrics by analyzing the provided goals.",
@@ -675,12 +684,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of generated metrics",
+                        "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/schemas.GenerateMetricsResponse"
                         }
                     }
                 }
@@ -808,6 +814,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create job done.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1243,6 +1255,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.PlanPopulatedResponse"
                         }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create plan.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                        }
                     }
                 }
             }
@@ -1315,73 +1333,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/problemJobTags": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "problemJobTag"
-                ],
-                "summary": "Create a new problemJobTag",
-                "operationId": "create-problemJobTag",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateProblemJobTagPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "/problemJobTags/{jobTagId}/{problemId}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "problemJobTag"
-                ],
-                "summary": "Delete problemJobTag by UUID",
-                "operationId": "delete-problemJobTag",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "problem ID",
-                        "name": "problemId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "jobTag ID",
-                        "name": "jobTagId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
         "/problems": {
             "post": {
                 "consumes": [
@@ -1411,6 +1362,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create problem.",
+                        "schema": {
+                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -2226,9 +2183,78 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/ways/{wayId}/statistics": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Get way statistics by UUID",
+                "operationId": "get-way-statistics-by-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayStatisticsTriplePeriod"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "customErrors.NoRightToChangeDayReportError": {
+            "type": "object",
+            "required": [
+                "error",
+                "errorId"
+            ],
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "errorId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIChatPayload": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIChatResponse": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
@@ -2253,7 +2279,9 @@ const docTemplate = `{
                 "ownerName",
                 "ownerUuid",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -2275,6 +2303,69 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CompositeDayReportPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "comments",
+                "compositionParticipants",
+                "createdAt",
+                "jobsDone",
+                "plans",
+                "problems",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                    }
+                },
+                "compositionParticipants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.DayReportsCompositionParticipants"
+                    }
+                },
+                "createdAt": {
+                    "description": "Calculated by - just date",
+                    "type": "string"
+                },
+                "jobsDone": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                    }
+                },
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                    }
+                },
+                "problems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                    }
+                },
+                "updatedAt": {
+                    "description": "Calculated by - just last date",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Always generated",
                     "type": "string"
                 }
             }
@@ -2316,13 +2407,9 @@ const docTemplate = `{
         "schemas.CreateDayReportPayload": {
             "type": "object",
             "required": [
-                "isDayOff",
                 "wayUuid"
             ],
             "properties": {
-                "isDayOff": {
-                    "type": "boolean"
-                },
                 "wayUuid": {
                     "type": "string"
                 }
@@ -2525,21 +2612,6 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateProblemJobTagPayload": {
-            "type": "object",
-            "required": [
-                "jobTagUuid",
-                "problemUuid"
-            ],
-            "properties": {
-                "jobTagUuid": {
-                    "type": "string"
-                },
-                "problemUuid": {
-                    "type": "string"
-                }
-            }
-        },
         "schemas.CreateProblemPayload": {
             "type": "object",
             "required": [
@@ -2674,53 +2746,21 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.DayReportPopulatedResponse": {
+        "schemas.DayReportsCompositionParticipants": {
             "type": "object",
             "required": [
-                "comments",
-                "createdAt",
-                "isDayOff",
-                "jobsDone",
-                "plans",
-                "problems",
-                "updatedAt",
-                "uuid"
+                "dayReportId",
+                "wayId",
+                "wayName"
             ],
             "properties": {
-                "comments": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.CommentPopulatedResponse"
-                    }
-                },
-                "createdAt": {
+                "dayReportId": {
                     "type": "string"
                 },
-                "isDayOff": {
-                    "type": "boolean"
-                },
-                "jobsDone": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
-                    }
-                },
-                "plans": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.PlanPopulatedResponse"
-                    }
-                },
-                "problems": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
-                    }
-                },
-                "updatedAt": {
+                "wayId": {
                     "type": "string"
                 },
-                "uuid": {
+                "wayName": {
                     "type": "string"
                 }
             }
@@ -2778,6 +2818,20 @@ const docTemplate = `{
                 },
                 "wayName": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.GenerateMetricsResponse": {
+            "type": "object",
+            "required": [
+                "metrics"
+            ],
+            "properties": {
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -2847,7 +2901,9 @@ const docTemplate = `{
                 "tags",
                 "time",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -2879,6 +2935,12 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },
@@ -2902,6 +2964,88 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.Label": {
+            "type": "object",
+            "required": [
+                "color",
+                "description",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.LabelInfo": {
+            "type": "object",
+            "required": [
+                "jobsAmount",
+                "jobsAmountPercentage",
+                "label",
+                "time",
+                "timePercentage"
+            ],
+            "properties": {
+                "jobsAmount": {
+                    "type": "integer"
+                },
+                "jobsAmountPercentage": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/schemas.Label"
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "timePercentage": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.LabelStatistics": {
+            "type": "object",
+            "required": [
+                "labels"
+            ],
+            "properties": {
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.LabelInfo"
+                    }
+                }
+            }
+        },
+        "schemas.ListDayReportsResponse": {
+            "type": "object",
+            "required": [
+                "dayReports",
+                "size"
+            ],
+            "properties": {
+                "dayReports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
+                    }
+                },
+                "size": {
+                    "type": "integer"
                 }
             }
         },
@@ -2933,6 +3077,37 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.OverallInformation": {
+            "type": "object",
+            "required": [
+                "averageJobTime",
+                "averageTimePerCalendarDay",
+                "averageTimePerWorkingDay",
+                "finishedJobs",
+                "totalReports",
+                "totalTime"
+            ],
+            "properties": {
+                "averageJobTime": {
+                    "type": "integer"
+                },
+                "averageTimePerCalendarDay": {
+                    "type": "integer"
+                },
+                "averageTimePerWorkingDay": {
+                    "type": "integer"
+                },
+                "finishedJobs": {
+                    "type": "integer"
+                },
+                "totalReports": {
+                    "type": "integer"
+                },
+                "totalTime": {
+                    "type": "integer"
+                }
+            }
+        },
         "schemas.PlanPopulatedResponse": {
             "type": "object",
             "required": [
@@ -2945,7 +3120,9 @@ const docTemplate = `{
                 "tags",
                 "time",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -2980,6 +3157,12 @@ const docTemplate = `{
                 },
                 "uuid": {
                     "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
                 }
             }
         },
@@ -2992,9 +3175,10 @@ const docTemplate = `{
                 "isDone",
                 "ownerName",
                 "ownerUuid",
-                "tags",
                 "updatedAt",
-                "uuid"
+                "uuid",
+                "wayName",
+                "wayUuid"
             ],
             "properties": {
                 "createdAt": {
@@ -3015,17 +3199,32 @@ const docTemplate = `{
                 "ownerUuid": {
                     "type": "string"
                 },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
-                    }
-                },
                 "updatedAt": {
                     "type": "string"
                 },
                 "uuid": {
                     "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.TimeSpentByDayPoint": {
+            "type": "object",
+            "required": [
+                "date",
+                "value"
+            ],
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
                 }
             }
         },
@@ -3034,14 +3233,6 @@ const docTemplate = `{
             "properties": {
                 "description": {
                     "type": "string"
-                }
-            }
-        },
-        "schemas.UpdateDayReportPayload": {
-            "type": "object",
-            "properties": {
-                "isDayOff": {
-                    "type": "boolean"
                 }
             }
         },
@@ -3481,7 +3672,6 @@ const docTemplate = `{
                 "children",
                 "copiedFromWayUuid",
                 "createdAt",
-                "dayReports",
                 "estimationTime",
                 "favoriteForUsersAmount",
                 "formerMentors",
@@ -3511,12 +3701,6 @@ const docTemplate = `{
                 },
                 "createdAt": {
                     "type": "string"
-                },
-                "dayReports": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.DayReportPopulatedResponse"
-                    }
                 },
                 "estimationTime": {
                     "type": "integer"
@@ -3580,6 +3764,47 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/schemas.WayTagResponse"
                     }
+                }
+            }
+        },
+        "schemas.WayStatistics": {
+            "type": "object",
+            "required": [
+                "labelStatistics",
+                "overallInformation",
+                "timeSpentByDayChart"
+            ],
+            "properties": {
+                "labelStatistics": {
+                    "$ref": "#/definitions/schemas.LabelStatistics"
+                },
+                "overallInformation": {
+                    "$ref": "#/definitions/schemas.OverallInformation"
+                },
+                "timeSpentByDayChart": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.TimeSpentByDayPoint"
+                    }
+                }
+            }
+        },
+        "schemas.WayStatisticsTriplePeriod": {
+            "type": "object",
+            "required": [
+                "lastMonth",
+                "lastWeek",
+                "totalTime"
+            ],
+            "properties": {
+                "lastMonth": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
+                },
+                "lastWeek": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
+                },
+                "totalTime": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
                 }
             }
         },

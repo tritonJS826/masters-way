@@ -41,7 +41,11 @@ import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
+import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/userPage/UserPage.module.scss";
+
+const MAX_LENGTH_USERNAME = 50;
+const MIN_LENGTH_USERNAME = 1;
 
 /**
  * Get all collections
@@ -357,8 +361,12 @@ export const UserPage = observer((props: UserPageProps) => {
                       },
                     })}
                     isEditable={isPageOwner}
-                    minLength={1}
+                    validators={[
+                      minLengthValidator(MIN_LENGTH_USERNAME, LanguageService.user.notifications.userNameMinLength[language]),
+                      maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
+                    ]}
                     className={styles.ownerName}
+
                   />
                 </HorizontalContainer>
 
@@ -377,7 +385,6 @@ export const UserPage = observer((props: UserPageProps) => {
                       if (!user) {
                         return;
                       }
-
                       if (getIsUserInFavorites(user, userPageOwner)) {
                         FavoriteUserDAL.deleteFavoriteUser({
                           donorUserUuid: user.uuid,
@@ -572,7 +579,7 @@ export const UserPage = observer((props: UserPageProps) => {
               ))}
               {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
             </HorizontalContainer>
-            <HorizontalContainer className={styles.skillsTitleBlock}>
+            <HorizontalContainer className={styles.supportTitleBlock}>
               <HorizontalContainer>
                 <Infotip content={LanguageService.user.infotip.support[language]} />
                 <Title

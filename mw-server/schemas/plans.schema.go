@@ -24,5 +24,7 @@ type PlanPopulatedResponse struct {
 	OwnerName     string           `json:"ownerName" validate:"required"`
 	IsDone        bool             `json:"isDone" validate:"required"`
 	DayReportUuid string           `json:"dayReportUuid" validate:"required"`
+	WayUUID       string           `json:"wayUuid" validate:"required"`
+	WayName       string           `json:"wayName" validate:"required"`
 	Tags          []JobTagResponse `json:"tags" validate:"required"`
 }

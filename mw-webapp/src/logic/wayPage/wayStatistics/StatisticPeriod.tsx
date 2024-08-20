@@ -4,12 +4,11 @@ import {BarChart} from "src/component/chart/blockChart/BarChart";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
 import {StatisticBlock, StatisticBlockType} from "src/logic/wayPage/wayStatistics/statisticBlock/StatisticBlock";
 import {StatisticItem} from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem";
 import {StatisticLabels} from "src/logic/wayPage/wayStatistics/statisticLabels/StatisticLabels";
 import {StatisticWidget} from "src/logic/wayPage/wayStatistics/statisticWidget/StatisticWidget";
-import {Label} from "src/model/businessModel/Label";
+import {WayStatistics} from "src/model/businessModel/WayStatistics";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/wayStatistics/StatisticPeriod.module.scss";
 
@@ -24,39 +23,14 @@ interface StatisticPeriodProps {
   title: string;
 
   /**
-   * Total way time
-   */
-  totalWayTime: number;
-
-  /**
-   * Start date of period
-   */
-  startDate: Date;
-
-  /**
-   * Last date of period
-   */
-  lastDate: Date;
-
-  /**
-   * Dated with job total time
-   */
-  datesWithJobTotalTime: Map<string, number>;
-
-  /**
    * Total statistic items primary
    */
-  totalStatisticItemsPrimary?: StatisticItem[];
+  totalStatisticItemsPrimary: StatisticItem[];
 
   /**
    * Total statistic items secondary
    */
-  totalStatisticItemsSecondary?: StatisticItem[];
-
-  /**
-   * Akk tags
-   */
-  allTagStats: JobTagStat[];
+  totalStatisticItemsSecondary: StatisticItem[];
 
   /**
    * If isEditable then checkbox near is shown
@@ -64,9 +38,9 @@ interface StatisticPeriodProps {
   isCheckboxShown: boolean;
 
   /**
-   * All labels
+   * Way statistics
    */
-  labels: Label[];
+  wayStatistics: WayStatistics;
 
 }
 
@@ -83,54 +57,43 @@ export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
         text={props.title}
         placeholder=""
       />
-      {!!props.totalWayTime &&
       <StatisticWidget
         title={LanguageService.way.statisticsBlock.timeSpentByDay[language]}
         isEditable={props.isCheckboxShown}
       >
-        <AreaChart
-          datesWithJobTotalTime={props.datesWithJobTotalTime}
-          startDate={props.startDate}
-          lastDate={props.lastDate}
+        <AreaChart points={props.wayStatistics.timeSpentByDayChart.map((point) => ({
+          date: point.date,
+          value: point.value,
+        }))}
         />
       </StatisticWidget>
-      }
       <StatisticWidget
-        title={LanguageService.way.statisticsBlock.overallInformationTitle[language]}
+        title={LanguageService.way.statisticsBlock.overAllInformation.overallInformationTitle[language]}
         isEditable={props.isCheckboxShown}
       >
-        {props.totalStatisticItemsPrimary &&
         <StatisticBlock
           statisticItems={props.totalStatisticItemsPrimary}
           type={StatisticBlockType.PRIMARY}
         />
-        }
-        {props.totalStatisticItemsSecondary &&
         <StatisticBlock
           statisticItems={props.totalStatisticItemsSecondary}
           type={StatisticBlockType.SECONDARY}
         />
-        }
       </StatisticWidget>
 
-      {props.allTagStats.length !== 0 &&
       <StatisticWidget
         title={LanguageService.way.statisticsBlock.labelsStatisticTitle[language]}
         isEditable={props.isCheckboxShown}
       >
-        {!!props.totalWayTime &&
         <BarChart
-          itemStats={props.allTagStats}
-          labels={props.labels}
-          label="Total time"
+          itemStats={props.wayStatistics.labelStatistics.labels}
+          title="Total time"
         />
-        }
         <StatisticLabels
-          stats={props.allTagStats}
-          labels={props.labels}
+          stats={props.wayStatistics.labelStatistics.labels}
+          labels={props.wayStatistics.labelStatistics.labels.map(stat => stat.label)}
         />
       </StatisticWidget>
-      }
 
     </VerticalContainer>
   );

@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasJobTagResponse } from './SchemasJobTagResponse';
-import {
-    SchemasJobTagResponseFromJSON,
-    SchemasJobTagResponseFromJSONTyped,
-    SchemasJobTagResponseToJSON,
-} from './SchemasJobTagResponse';
-
 /**
  * 
  * @export
@@ -64,12 +57,6 @@ export interface SchemasProblemPopulatedResponse {
     ownerUuid: string;
     /**
      * 
-     * @type {Array<SchemasJobTagResponse>}
-     * @memberof SchemasProblemPopulatedResponse
-     */
-    tags: Array<SchemasJobTagResponse>;
-    /**
-     * 
      * @type {string}
      * @memberof SchemasProblemPopulatedResponse
      */
@@ -80,6 +67,18 @@ export interface SchemasProblemPopulatedResponse {
      * @memberof SchemasProblemPopulatedResponse
      */
     uuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasProblemPopulatedResponse
+     */
+    wayName: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasProblemPopulatedResponse
+     */
+    wayUuid: string;
 }
 
 /**
@@ -95,9 +94,10 @@ export function instanceOfSchemasProblemPopulatedResponse(
     isInstance = isInstance && "isDone" in value;
     isInstance = isInstance && "ownerName" in value;
     isInstance = isInstance && "ownerUuid" in value;
-    isInstance = isInstance && "tags" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayName" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -121,9 +121,10 @@ export function SchemasProblemPopulatedResponseFromJSONTyped(
         'isDone': json['isDone'],
         'ownerName': json['ownerName'],
         'ownerUuid': json['ownerUuid'],
-        'tags': ((json['tags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
+        'wayName': json['wayName'],
+        'wayUuid': json['wayUuid'],
     };
 }
 
@@ -143,9 +144,10 @@ export function SchemasProblemPopulatedResponseToJSON(value?: SchemasProblemPopu
         'isDone': value.isDone,
         'ownerName': value.ownerName,
         'ownerUuid': value.ownerUuid,
-        'tags': ((value.tags as Array<any>).map(SchemasJobTagResponseToJSON)),
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
+        'wayName': value.wayName,
+        'wayUuid': value.wayUuid,
     };
 }
 

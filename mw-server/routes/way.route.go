@@ -19,6 +19,7 @@ func (cr *WayRoutes) WayRoute(rg *gin.RouterGroup) {
 	router := rg.Group("ways")
 	router.GET("", cr.wayController.GetAllWays)
 	router.GET("/:wayId", cr.wayController.GetWayById)
+	router.GET("/:wayId/statistics", cr.wayController.GetWayStatisticsById)
 	router.POST("", auth.AuthMiddleware(), cr.wayController.CreateWay)
 	router.PATCH("/:wayId", auth.AuthMiddleware(), cr.wayController.UpdateWay)
 	router.DELETE("/:wayId", auth.AuthMiddleware(), cr.wayController.DeleteWayById)

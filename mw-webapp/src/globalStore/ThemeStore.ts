@@ -143,6 +143,10 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.DARK]: "#F18E8E",
     [Theme.LIGHT]: "#F18E8E",
   },
+  favoriteActiveIconColor: {
+    [Theme.DARK]: "#FAFF0B",
+    [Theme.LIGHT]: "#FAFF0B",
+  },
 };
 
 export const DEFAULT_THEME = Theme.DARK;

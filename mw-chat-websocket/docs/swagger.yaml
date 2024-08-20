@@ -19,6 +19,8 @@ definitions:
     properties:
       message:
         type: string
+      messageId:
+        type: string
       messageReaders:
         items:
           $ref: '#/definitions/schemas.MessageReader'
@@ -33,6 +35,7 @@ definitions:
         type: string
     required:
     - message
+    - messageId
     - messageReaders
     - ownerId
     - ownerImageUrl

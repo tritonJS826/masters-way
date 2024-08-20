@@ -86,11 +86,11 @@ services:
       - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
       - ../server.key:/etc/nginx/server.key
       - ../server.crt:/etc/nginx/server.crt
-    #depends_on:
-      #- mw-server
-      #- mw-chat
-      #- mw-chat-bff
-      #- mw-chat-webscoket
+    depends_on:
+      - mw-server
+      - mw-chat
+      - mw-chat-bff
+      - mw-chat-websocket
     networks:
       - app-network
 

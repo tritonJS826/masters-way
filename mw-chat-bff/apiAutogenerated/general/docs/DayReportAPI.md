@@ -5,14 +5,13 @@ All URIs are relative to */api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateDayReport**](DayReportAPI.md#CreateDayReport) | **Post** /dayReports | Create a new dayReport
-[**GetDayReportsByWayUuid**](DayReportAPI.md#GetDayReportsByWayUuid) | **Get** /dayReports/{wayId} | Get all dayReports by Way UUID
-[**UpdateDayReport**](DayReportAPI.md#UpdateDayReport) | **Patch** /dayReports/{dayReportId} | Update dayReport by UUID
+[**GetDayReports**](DayReportAPI.md#GetDayReports) | **Get** /dayReports/{wayId} | Get list of day reports by way UUID
 
 
 
 ## CreateDayReport
 
-> SchemasDayReportPopulatedResponse CreateDayReport(ctx).Request(request).Execute()
+> SchemasCompositeDayReportPopulatedResponse CreateDayReport(ctx).Request(request).Execute()
 
 Create a new dayReport
 
@@ -29,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateDayReportPayload(false, "WayUuid_example") // SchemasCreateDayReportPayload | query params
+	request := *openapiclient.NewSchemasCreateDayReportPayload("WayUuid_example") // SchemasCreateDayReportPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.CreateDayReport``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateDayReport`: SchemasDayReportPopulatedResponse
+	// response from `CreateDayReport`: SchemasCompositeDayReportPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.CreateDayReport`: %v\n", resp)
 }
 ```
@@ -58,7 +57,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasDayReportPopulatedResponse**](SchemasDayReportPopulatedResponse.md)
+[**SchemasCompositeDayReportPopulatedResponse**](SchemasCompositeDayReportPopulatedResponse.md)
 
 ### Authorization
 
@@ -74,11 +73,11 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## GetDayReportsByWayUuid
+## GetDayReports
 
-> []SchemasDayReportPopulatedResponse GetDayReportsByWayUuid(ctx, wayId).Execute()
+> SchemasListDayReportsResponse GetDayReports(ctx, wayId).Page(page).Limit(limit).Execute()
 
-Get all dayReports by Way UUID
+Get list of day reports by way UUID
 
 ### Example
 
@@ -94,16 +93,18 @@ import (
 
 func main() {
 	wayId := "wayId_example" // string | way ID
+	page := int32(56) // int32 | Page number for pagination (optional)
+	limit := int32(56) // int32 | Number of items per page (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DayReportAPI.GetDayReportsByWayUuid(context.Background(), wayId).Execute()
+	resp, r, err := apiClient.DayReportAPI.GetDayReports(context.Background(), wayId).Page(page).Limit(limit).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.GetDayReportsByWayUuid``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.GetDayReports``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetDayReportsByWayUuid`: []SchemasDayReportPopulatedResponse
-	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.GetDayReportsByWayUuid`: %v\n", resp)
+	// response from `GetDayReports`: SchemasListDayReportsResponse
+	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.GetDayReports`: %v\n", resp)
 }
 ```
 
@@ -117,16 +118,18 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetDayReportsByWayUuidRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetDayReportsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **page** | **int32** | Page number for pagination | 
+ **limit** | **int32** | Number of items per page | 
 
 ### Return type
 
-[**[]SchemasDayReportPopulatedResponse**](SchemasDayReportPopulatedResponse.md)
+[**SchemasListDayReportsResponse**](SchemasListDayReportsResponse.md)
 
 ### Authorization
 
@@ -135,76 +138,6 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## UpdateDayReport
-
-> SchemasDayReportPopulatedResponse UpdateDayReport(ctx, dayReportId).Request(request).Execute()
-
-Update dayReport by UUID
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	dayReportId := "dayReportId_example" // string | dayReport ID
-	request := *openapiclient.NewSchemasUpdateDayReportPayload() // SchemasUpdateDayReportPayload | query params
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DayReportAPI.UpdateDayReport(context.Background(), dayReportId).Request(request).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.UpdateDayReport``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `UpdateDayReport`: SchemasDayReportPopulatedResponse
-	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.UpdateDayReport`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**dayReportId** | **string** | dayReport ID | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiUpdateDayReportRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **request** | [**SchemasUpdateDayReportPayload**](SchemasUpdateDayReportPayload.md) | query params | 
-
-### Return type
-
-[**SchemasDayReportPopulatedResponse**](SchemasDayReportPopulatedResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

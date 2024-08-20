@@ -162,11 +162,11 @@ $modal-animation-time: 150ms;
 }
 
 .onlineIndicator {
-  background-color: green;
+  background-color: var(--activeColor);
 }
 
 .offlineIndicator {
-  background-color: red;
+  background-color: var(--dangerColor);
   .wayActionsIcon {
     z-index: $chatActionButton;
   }

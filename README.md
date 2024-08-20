@@ -26,12 +26,15 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 [CC BY-NC-ND 4.0 Deed](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
-### Technologies
+### Requirements
 
-- React
-- TypeScript
-- Vite
-- SCSS modules
+- golang 1.23.0 (we recommendd to use [gvm](https://github.com/moovweb/gvm), exist in snap) 
+- node 22.5.1 (we recommend to use "nvm" or "n" package for installation)
+- pnpm 8.15.2 (https://pnpm.io)
+- sqlc v1.27.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
+- swag v1.16.3 ([golang package](https://github.com/swaggo/swag))
+- docker 24.0.7
+- docker-compose 1.29.2
 
 ### Modules
 
@@ -44,27 +47,28 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 1. Download repository
 
-2. Install all dependencies in the mw-webapp directory
+2. Install all dependencies in the root directory
 
-`pnpm i`
+`pnpm run install:all`
 
-3. Create .env file inside mw-webapp folder with variables from .env.example (ask Ekaterina for values)
+3. Create .env file inside all modules with variables from .env.local.example (ask Kate for values)
 
-4. Run application
+4. Run databases and nginx in containers (check local.nginx.conf for right addresses):
 
-`pnpm run start`
+`docker-compose -f local.docker.docker-compose.yml up`
 
-### Run build locally
+5. You can run all modules locally (don't forget about database, you should up them manually)  
 
-`pnpm run build`
+* `pnpm run start` - if you want to have live reloading for all modules
 
-### Check locally that production build is ok
+* `pnpm run serve` - if you don't want to have live reloading modules (could speed up tests)
 
-`pnpm run serve`
+### Run all modules locally with docker
 
-### Run all modules locally
+1. Create .env file inside all modules with variables from .env.local.docker.example (ask Kate for values)
 
-`docker-compose -f local.docker-compose.yml up`
+
+2. `docker-compose -f local.docker.docker-compose.yml up --build`
 
 
 ### Clean up all docker images and volumes

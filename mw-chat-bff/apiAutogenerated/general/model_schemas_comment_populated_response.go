@@ -28,6 +28,8 @@ type SchemasCommentPopulatedResponse struct {
 	OwnerUuid string `json:"ownerUuid"`
 	UpdatedAt string `json:"updatedAt"`
 	Uuid string `json:"uuid"`
+	WayName string `json:"wayName"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _SchemasCommentPopulatedResponse SchemasCommentPopulatedResponse
@@ -36,7 +38,7 @@ type _SchemasCommentPopulatedResponse SchemasCommentPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasCommentPopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, updatedAt string, uuid string) *SchemasCommentPopulatedResponse {
+func NewSchemasCommentPopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasCommentPopulatedResponse {
 	this := SchemasCommentPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.DayReportUuid = dayReportUuid
@@ -45,6 +47,8 @@ func NewSchemasCommentPopulatedResponse(createdAt string, dayReportUuid string, 
 	this.OwnerUuid = ownerUuid
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
+	this.WayName = wayName
+	this.WayUuid = wayUuid
 	return &this
 }
 
@@ -224,6 +228,54 @@ func (o *SchemasCommentPopulatedResponse) SetUuid(v string) {
 	o.Uuid = v
 }
 
+// GetWayName returns the WayName field value
+func (o *SchemasCommentPopulatedResponse) GetWayName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayName
+}
+
+// GetWayNameOk returns a tuple with the WayName field value
+// and a boolean to check if the value has been set.
+func (o *SchemasCommentPopulatedResponse) GetWayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayName, true
+}
+
+// SetWayName sets field value
+func (o *SchemasCommentPopulatedResponse) SetWayName(v string) {
+	o.WayName = v
+}
+
+// GetWayUuid returns the WayUuid field value
+func (o *SchemasCommentPopulatedResponse) GetWayUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayUuid
+}
+
+// GetWayUuidOk returns a tuple with the WayUuid field value
+// and a boolean to check if the value has been set.
+func (o *SchemasCommentPopulatedResponse) GetWayUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayUuid, true
+}
+
+// SetWayUuid sets field value
+func (o *SchemasCommentPopulatedResponse) SetWayUuid(v string) {
+	o.WayUuid = v
+}
+
 func (o SchemasCommentPopulatedResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -241,6 +293,8 @@ func (o SchemasCommentPopulatedResponse) ToMap() (map[string]interface{}, error)
 	toSerialize["ownerUuid"] = o.OwnerUuid
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
+	toSerialize["wayName"] = o.WayName
+	toSerialize["wayUuid"] = o.WayUuid
 	return toSerialize, nil
 }
 
@@ -256,6 +310,8 @@ func (o *SchemasCommentPopulatedResponse) UnmarshalJSON(data []byte) (err error)
 		"ownerUuid",
 		"updatedAt",
 		"uuid",
+		"wayName",
+		"wayUuid",
 	}
 
 	allProperties := make(map[string]interface{})

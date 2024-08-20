@@ -1,0 +1,26 @@
+@import "src/styles/variables";
+
+.reviewCard {
+  max-width: $maxWidthBlock;
+  align-items: center;
+  padding: $paddingExtraBig;
+  gap: $gapBig;
+}
+
+.gradeBlock {
+  gap: $gapSmall;
+}
+
+.gradeItem {
+  fill: var(--favoriteActiveIconColor);
+  stroke: var(--favoriteActiveIconColor);
+}
+
+.review {
+  text-align: center;
+}
+
+.reviewerBlock {
+  align-items: center;
+  gap: $gapMedium;
+}

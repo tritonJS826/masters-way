@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"mwserver/auth"
+	customErrors "mwserver/customErrors"
 	db "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -33,6 +35,7 @@ func NewPlanController(db *db.Queries, ctx context.Context) *PlanController {
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
 // @Success 200 {object} schemas.PlanPopulatedResponse
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create plan."
 // @Router /plans [post]
 func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 	var payload *schemas.CreatePlanPayload
@@ -42,13 +45,31 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 		return
 	}
 
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+
+	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
+
+	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+		UserUuid:      userUUID,
+		DayReportUuid: dayReportUUID,
+	}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
 	now := time.Now()
 	args := db.CreatePlanParams{
 		Description:   payload.Description,
 		Time:          int32(payload.Time),
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		IsDone:        payload.IsDone,
-		DayReportUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true},
+		DayReportUuid: dayReportUUID,
 		CreatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 		UpdatedAt:     pgtype.Timestamp{Time: now, Valid: true},
 	}
@@ -66,6 +87,8 @@ func (cc *PlanController) CreatePlan(ctx *gin.Context) {
 		OwnerName:     plan.OwnerName,
 		IsDone:        plan.IsDone,
 		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 		Tags:          make([]schemas.JobTagResponse, 0),
 	}
 

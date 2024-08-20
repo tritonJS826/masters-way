@@ -58,12 +58,6 @@ export interface SchemasDayReportPopulatedResponse {
     createdAt: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof SchemasDayReportPopulatedResponse
-     */
-    isDayOff: boolean;
-    /**
-     * 
      * @type {Array<SchemasJobDonePopulatedResponse>}
      * @memberof SchemasDayReportPopulatedResponse
      */
@@ -92,6 +86,12 @@ export interface SchemasDayReportPopulatedResponse {
      * @memberof SchemasDayReportPopulatedResponse
      */
     uuid: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasDayReportPopulatedResponse
+     */
+    wayUuid: string;
 }
 
 /**
@@ -103,12 +103,12 @@ export function instanceOfSchemasDayReportPopulatedResponse(
     let isInstance = true;
     isInstance = isInstance && "comments" in value;
     isInstance = isInstance && "createdAt" in value;
-    isInstance = isInstance && "isDayOff" in value;
     isInstance = isInstance && "jobsDone" in value;
     isInstance = isInstance && "plans" in value;
     isInstance = isInstance && "problems" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
+    isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
 }
@@ -128,12 +128,12 @@ export function SchemasDayReportPopulatedResponseFromJSONTyped(
         
         'comments': ((json['comments'] as Array<any>).map(SchemasCommentPopulatedResponseFromJSON)),
         'createdAt': json['createdAt'],
-        'isDayOff': json['isDayOff'],
         'jobsDone': ((json['jobsDone'] as Array<any>).map(SchemasJobDonePopulatedResponseFromJSON)),
         'plans': ((json['plans'] as Array<any>).map(SchemasPlanPopulatedResponseFromJSON)),
         'problems': ((json['problems'] as Array<any>).map(SchemasProblemPopulatedResponseFromJSON)),
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
+        'wayUuid': json['wayUuid'],
     };
 }
 
@@ -149,12 +149,12 @@ export function SchemasDayReportPopulatedResponseToJSON(value?: SchemasDayReport
         
         'comments': ((value.comments as Array<any>).map(SchemasCommentPopulatedResponseToJSON)),
         'createdAt': value.createdAt,
-        'isDayOff': value.isDayOff,
         'jobsDone': ((value.jobsDone as Array<any>).map(SchemasJobDonePopulatedResponseToJSON)),
         'plans': ((value.plans as Array<any>).map(SchemasPlanPopulatedResponseToJSON)),
         'problems': ((value.problems as Array<any>).map(SchemasProblemPopulatedResponseToJSON)),
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
+        'wayUuid': value.wayUuid,
     };
 }
 

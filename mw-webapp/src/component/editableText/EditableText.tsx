@@ -2,9 +2,10 @@ import {HTMLInputTypeAttribute, useState} from "react";
 import clsx from "clsx";
 import {getFormattedValue} from "src/component/editableText/getFormattedValue";
 import {Input} from "src/component/input/Input";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Text} from "src/component/text/Text";
 import {KeySymbols} from "src/utils/KeySymbols";
+import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
+import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/editableText/EditableText.module.scss";
 
 /**
@@ -81,15 +82,9 @@ interface EditableTextProps<T> {
   placeholder: string;
 
   /**
-   * Minimum symbols amount for text
+   * Array of validator functions to be applied to the value
    */
-  minLength?: number;
-
-  /**
-   * Maximum symbols amount for text
-   */
-  maxLength?: number;
-
+  validators?: ValidatorValue[];
 }
 
 /**
@@ -121,24 +116,11 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
    * Update value
    */
   const updateValue = (updatedValue: T) => {
-    const isExceedingMinLength = typeof updatedValue === "string" &&
-    props.minLength && updatedValue.length < props.minLength;
-
-    const isExceedingMaxLength = typeof updatedValue === "string" &&
-    props.maxLength && updatedValue.length > props.maxLength;
-
-    const isInvalidTextLength = isExceedingMinLength || isExceedingMaxLength;
-
-    const notificationText = isExceedingMinLength
-      ? "Label should include at least one character"
-      : "Label should not exceed 30 characters";
-
-    isInvalidTextLength
-      ? displayNotification({
-        text: notificationText,
-        type: NotificationType.INFO,
-      })
-      : setValue(updatedValue);
+    updateValueWithValidatorsHandler({
+      updatedValue,
+      validators: props.validators,
+      setValue,
+    });
   };
 
   /**

@@ -59,7 +59,8 @@ SELECT
     ),
     '{}'
 )::VARCHAR[] AS tag_uuids
-FROM job_dones WHERE job_dones.day_report_uuid = ANY($1::UUID[])
+FROM job_dones
+WHERE job_dones.day_report_uuid = ANY($1::UUID[])
 `
 
 type GetJobDonesByDayReportUuidsRow struct {

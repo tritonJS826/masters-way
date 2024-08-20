@@ -88,9 +88,6 @@ var (
 	ProblemController controllers.ProblemController
 	ProblemRoutes     routes.ProblemRoutes
 
-	ProblemJobTagController controllers.ProblemJobTagController
-	ProblemJobTagRoutes     routes.ProblemJobTagRoutes
-
 	ToUserMentoringRequestController controllers.ToUserMentoringRequestController
 	ToUserMentoringRequestRoutes     routes.ToUserMentoringRequestRoutes
 
@@ -137,7 +134,7 @@ func init() {
 		AllowCredentials: true,
 	}))
 
-	LimitService = *services.NewLimitService(db, ctx)
+	LimitService = *services.NewLimitService(db)
 
 	AuthController = *controllers.NewAuthController(db, ctx)
 	AuthRoutes = routes.NewRouteAuth(AuthController)
@@ -186,9 +183,6 @@ func init() {
 
 	ProblemController = *controllers.NewProblemController(db, ctx)
 	ProblemRoutes = routes.NewRouteProblem(ProblemController)
-
-	ProblemJobTagController = *controllers.NewProblemJobTagController(db, ctx)
-	ProblemJobTagRoutes = routes.NewRouteProblemJobTag(ProblemJobTagController)
 
 	ToUserMentoringRequestController = *controllers.NewToUserMentoringRequestController(db, ctx)
 	ToUserMentoringRequestRoutes = routes.NewRouteToUserMentoringRequest(ToUserMentoringRequestController)
@@ -264,7 +258,6 @@ func main() {
 	PlanRoutes.PlanRoute(router)
 	PlanJobTagRoutes.PlanJobTagRoute(router)
 	ProblemRoutes.ProblemRoute(router)
-	ProblemJobTagRoutes.ProblemJobTagRoute(router)
 	ToUserMentoringRequestRoutes.ToUserMentoringRequestRoute(router)
 	UserTagRoutes.UserTagRoute(router)
 	WayCollectionWayRoutes.WayCollectionWayRoute(router)
@@ -279,9 +272,9 @@ func main() {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
 	})
 
-	if config.Env.EnvType == "prod" {
-		log.Fatal(server.RunTLS(":"+config.Env.ServerAddress, "./server.crt", "./server.key"))
-	} else {
-		log.Fatal(server.Run(":" + config.Env.ServerAddress))
-	}
+	// if config.Env.EnvType == "prod" {
+	// 	log.Fatal(server.RunTLS(":"+config.Env.ServerAddress, "../server.crt", "../server.key"))
+	// } else {
+	log.Fatal(server.Run(":" + config.Env.ServerAddress))
+	// }
 }

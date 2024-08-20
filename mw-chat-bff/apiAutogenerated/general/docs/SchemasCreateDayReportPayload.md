@@ -4,14 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**IsDayOff** | **bool** |  | 
 **WayUuid** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasCreateDayReportPayload
 
-`func NewSchemasCreateDayReportPayload(isDayOff bool, wayUuid string, ) *SchemasCreateDayReportPayload`
+`func NewSchemasCreateDayReportPayload(wayUuid string, ) *SchemasCreateDayReportPayload`
 
 NewSchemasCreateDayReportPayload instantiates a new SchemasCreateDayReportPayload object
 This constructor will assign default values to properties that have it defined,
@@ -25,26 +24,6 @@ will change when the set of required properties is changed
 NewSchemasCreateDayReportPayloadWithDefaults instantiates a new SchemasCreateDayReportPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetIsDayOff
-
-`func (o *SchemasCreateDayReportPayload) GetIsDayOff() bool`
-
-GetIsDayOff returns the IsDayOff field if non-nil, zero value otherwise.
-
-### GetIsDayOffOk
-
-`func (o *SchemasCreateDayReportPayload) GetIsDayOffOk() (*bool, bool)`
-
-GetIsDayOffOk returns a tuple with the IsDayOff field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIsDayOff
-
-`func (o *SchemasCreateDayReportPayload) SetIsDayOff(v bool)`
-
-SetIsDayOff sets IsDayOff field to given value.
-
 
 ### GetWayUuid
 

@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"net/http"
+	"strconv"
 	"time"
 
 	"mwserver/auth"
@@ -17,13 +18,59 @@ import (
 )
 
 type DayReportController struct {
-	db  *db.Queries
-	ctx context.Context
-	ls  *services.LimitService
+	db           *db.Queries
+	ctx          context.Context
+	limitService *services.LimitService
 }
 
 func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.LimitService) *DayReportController {
 	return &DayReportController{db, ctx, ls}
+}
+
+// Get a list of day reports for specific way
+// @Summary Get list of day reports by way UUID
+// @Description
+// @Tags dayReport
+// @ID get-day-reports
+// @Accept  json
+// @Produce  json
+// @Param wayId path string true "way ID"
+// @Param page query integer false "Page number for pagination"
+// @Param limit query integer false "Number of items per page"
+// @Success 200 {object} schemas.ListDayReportsResponse
+// @Router /dayReports/{wayId} [get]
+func (dayReportController *DayReportController) GetDayReports(ctx *gin.Context) {
+	wayIDRaw := ctx.Param("wayId")
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "7")
+
+	wayID := uuid.MustParse(wayIDRaw)
+	reqPage, _ := strconv.Atoi(page)
+	reqLimit, _ := strconv.Atoi(limit)
+	offset := (reqPage - 1) * reqLimit
+
+	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// fmt.Println("userIDRaw: ", userIDRaw)
+	// userID := uuid.MustParse(userIDRaw.(string))
+
+	// maxDepth, err := dayReportController.limitService.GetMaxCompositeWayDepthByUserID(ctx, userID)
+	// util.HandleErrorGin(ctx, err)
+
+	childrenWays, err := services.GetChildrenWayIDs(dayReportController.db, ctx, wayID, 2)
+	util.HandleErrorGin(ctx, err)
+
+	args := &services.GetDayReportsByWayIdParams{
+		ParentWayID:    wayID,
+		ChildrenWayIDs: childrenWays,
+		ReqLimit:       reqLimit,
+		Offset:         offset,
+	}
+
+	// TODO: remove info that already exist in the way (user names etc.) - should be rendered on the frontend
+	response, err := services.GetDayReportsByWayID(dayReportController.db, ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Create day report  handler
@@ -34,7 +81,7 @@ func NewDayReportController(db *db.Queries, ctx context.Context, ls *services.Li
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateDayReportPayload true "query params"
-// @Success 200 {object} schemas.DayReportPopulatedResponse
+// @Success 200 {object} schemas.CompositeDayReportPopulatedResponse
 // @Router /dayReports [post]
 func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	var payload *schemas.CreateDayReportPayload
@@ -47,7 +94,7 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := uuid.MustParse(userIDRaw.(string))
 
-	err := cc.ls.CheckIsLimitReachedByPricingPlan(&services.LimitReachedParams{
+	err := cc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxDayReports,
 		UserID:    userID,
 		WayID:     &payload.WayUuid,
@@ -59,7 +106,6 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		WayUuid:   pgtype.UUID{Bytes: payload.WayUuid, Valid: true},
 		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
-		IsDayOff:  payload.IsDayOff,
 	}
 
 	dbDayReport, err := cc.db.CreateDayReport(ctx, args)
@@ -70,75 +116,26 @@ func (cc *DayReportController) CreateDayReport(ctx *gin.Context) {
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	_, err = cc.db.UpdateWay(ctx, *updateWayArgs)
+	way, err := cc.db.UpdateWay(ctx, *updateWayArgs)
 	util.HandleErrorGin(ctx, err)
 
-	response := schemas.DayReportPopulatedResponse{
-		Uuid:      util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(),
-		CreatedAt: dbDayReport.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt: dbDayReport.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		IsDayOff:  dbDayReport.IsDayOff,
-		JobsDone:  make([]schemas.JobDonePopulatedResponse, 0),
-		Plans:     make([]schemas.PlanPopulatedResponse, 0),
-		Problems:  make([]schemas.ProblemPopulatedResponse, 0),
-		Comments:  make([]schemas.CommentPopulatedResponse, 0),
+	newUUID, _ := uuid.NewRandom()
+	response := schemas.CompositeDayReportPopulatedResponse{
+		UUID:      newUUID.String(),
+		CreatedAt: dbDayReport.CreatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt: dbDayReport.UpdatedAt.Time.Truncate(24 * time.Hour).Format(util.DEFAULT_STRING_LAYOUT),
+		CompositionParticipants: []schemas.DayReportsCompositionParticipants{
+			{
+				DayReportID: util.ConvertPgUUIDToUUID(dbDayReport.Uuid).String(),
+				WayID:       util.ConvertPgUUIDToUUID(way.Uuid).String(),
+				WayName:     way.Name,
+			},
+		},
+		JobsDone: make([]schemas.JobDonePopulatedResponse, 0),
+		Plans:    make([]schemas.PlanPopulatedResponse, 0),
+		Problems: make([]schemas.ProblemPopulatedResponse, 0),
+		Comments: make([]schemas.CommentPopulatedResponse, 0),
 	}
 
 	ctx.JSON(http.StatusOK, response)
-}
-
-// Update day report handler
-// @Summary Update dayReport by UUID
-// @Description
-// @Tags dayReport
-// @ID update-dayReport
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.UpdateDayReportPayload true "query params"
-// @Param dayReportId path string true "dayReport ID"
-// @Success 200 {object} schemas.DayReportPopulatedResponse
-// @Router /dayReports/{dayReportId} [patch]
-func (cc *DayReportController) UpdateDayReport(ctx *gin.Context) {
-	var payload *schemas.UpdateDayReportPayload
-	dayReportId := ctx.Param("dayReportId")
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-		return
-	}
-
-	now := time.Now()
-	args := &db.UpdateDayReportParams{
-		Uuid:      pgtype.UUID{Bytes: uuid.MustParse(dayReportId), Valid: true},
-		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
-		IsDayOff:  pgtype.Bool{Bool: payload.IsDayOff, Valid: true},
-	}
-
-	dayReport, err := cc.db.UpdateDayReport(ctx, *args)
-	util.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, dayReport)
-}
-
-// Retrieve all records handlers
-// @Summary Get all dayReports by Way UUID
-// @Description
-// @Tags dayReport
-// @ID get-dayReports-by-Way-uuid
-// @Accept  json
-// @Produce  json
-// @Param wayId path string true "way ID"
-// @Success 200 {array} schemas.DayReportPopulatedResponse
-// @Router /dayReports/{wayId} [get]
-func (cc *DayReportController) GetAllDayReports(ctx *gin.Context) {
-	wayId := ctx.Param("wayId")
-
-	dayReports, err := cc.db.GetListDayReportsByWayUuid(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayId), Valid: true})
-	util.HandleErrorGin(ctx, err)
-
-	if len(dayReports) == 0 {
-		dayReports = []db.DayReport{}
-	}
-
-	ctx.JSON(http.StatusOK, dayReports)
 }

@@ -1,5 +1,4 @@
 import {makeAutoObservable} from "mobx";
-import {Label} from "src/model/businessModel/Label";
 
 /**
  * Problem's props
@@ -25,11 +24,6 @@ interface ProblemProps {
      * Owner or mentor's uuid @User.uuid
      */
     ownerUuid: string;
-
-    /**
-     * CurrentProblem's tags
-     */
-    tags: Label[];
 
     /**
      * Created at
@@ -84,11 +78,6 @@ export class Problem {
   public ownerUuid: string;
 
   /**
-   * CurrentProblem's tags
-   */
-  public tags: Label[];
-
-  /**
    * Created at
    */
   public createdAt: Date;
@@ -119,7 +108,6 @@ export class Problem {
     this.description = problemData.description;
     this.isDone = problemData.isDone;
     this.ownerUuid = problemData.ownerUuid;
-    this.tags = problemData.tags.map(tag => new Label(tag));
     this.createdAt = problemData.createdAt;
     this.dayReportUuid = problemData.dayReportUuid;
     this.updatedAt = problemData.updatedAt;

@@ -23,12 +23,12 @@ var _ MappedNullable = &SchemasDayReportPopulatedResponse{}
 type SchemasDayReportPopulatedResponse struct {
 	Comments []SchemasCommentPopulatedResponse `json:"comments"`
 	CreatedAt string `json:"createdAt"`
-	IsDayOff bool `json:"isDayOff"`
 	JobsDone []SchemasJobDonePopulatedResponse `json:"jobsDone"`
 	Plans []SchemasPlanPopulatedResponse `json:"plans"`
 	Problems []SchemasProblemPopulatedResponse `json:"problems"`
 	UpdatedAt string `json:"updatedAt"`
 	Uuid string `json:"uuid"`
+	WayUuid string `json:"wayUuid"`
 }
 
 type _SchemasDayReportPopulatedResponse SchemasDayReportPopulatedResponse
@@ -37,16 +37,16 @@ type _SchemasDayReportPopulatedResponse SchemasDayReportPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasDayReportPopulatedResponse(comments []SchemasCommentPopulatedResponse, createdAt string, isDayOff bool, jobsDone []SchemasJobDonePopulatedResponse, plans []SchemasPlanPopulatedResponse, problems []SchemasProblemPopulatedResponse, updatedAt string, uuid string) *SchemasDayReportPopulatedResponse {
+func NewSchemasDayReportPopulatedResponse(comments []SchemasCommentPopulatedResponse, createdAt string, jobsDone []SchemasJobDonePopulatedResponse, plans []SchemasPlanPopulatedResponse, problems []SchemasProblemPopulatedResponse, updatedAt string, uuid string, wayUuid string) *SchemasDayReportPopulatedResponse {
 	this := SchemasDayReportPopulatedResponse{}
 	this.Comments = comments
 	this.CreatedAt = createdAt
-	this.IsDayOff = isDayOff
 	this.JobsDone = jobsDone
 	this.Plans = plans
 	this.Problems = problems
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
+	this.WayUuid = wayUuid
 	return &this
 }
 
@@ -104,30 +104,6 @@ func (o *SchemasDayReportPopulatedResponse) GetCreatedAtOk() (*string, bool) {
 // SetCreatedAt sets field value
 func (o *SchemasDayReportPopulatedResponse) SetCreatedAt(v string) {
 	o.CreatedAt = v
-}
-
-// GetIsDayOff returns the IsDayOff field value
-func (o *SchemasDayReportPopulatedResponse) GetIsDayOff() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.IsDayOff
-}
-
-// GetIsDayOffOk returns a tuple with the IsDayOff field value
-// and a boolean to check if the value has been set.
-func (o *SchemasDayReportPopulatedResponse) GetIsDayOffOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.IsDayOff, true
-}
-
-// SetIsDayOff sets field value
-func (o *SchemasDayReportPopulatedResponse) SetIsDayOff(v bool) {
-	o.IsDayOff = v
 }
 
 // GetJobsDone returns the JobsDone field value
@@ -250,6 +226,30 @@ func (o *SchemasDayReportPopulatedResponse) SetUuid(v string) {
 	o.Uuid = v
 }
 
+// GetWayUuid returns the WayUuid field value
+func (o *SchemasDayReportPopulatedResponse) GetWayUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.WayUuid
+}
+
+// GetWayUuidOk returns a tuple with the WayUuid field value
+// and a boolean to check if the value has been set.
+func (o *SchemasDayReportPopulatedResponse) GetWayUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.WayUuid, true
+}
+
+// SetWayUuid sets field value
+func (o *SchemasDayReportPopulatedResponse) SetWayUuid(v string) {
+	o.WayUuid = v
+}
+
 func (o SchemasDayReportPopulatedResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -262,12 +262,12 @@ func (o SchemasDayReportPopulatedResponse) ToMap() (map[string]interface{}, erro
 	toSerialize := map[string]interface{}{}
 	toSerialize["comments"] = o.Comments
 	toSerialize["createdAt"] = o.CreatedAt
-	toSerialize["isDayOff"] = o.IsDayOff
 	toSerialize["jobsDone"] = o.JobsDone
 	toSerialize["plans"] = o.Plans
 	toSerialize["problems"] = o.Problems
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
+	toSerialize["wayUuid"] = o.WayUuid
 	return toSerialize, nil
 }
 
@@ -278,12 +278,12 @@ func (o *SchemasDayReportPopulatedResponse) UnmarshalJSON(data []byte) (err erro
 	requiredProperties := []string{
 		"comments",
 		"createdAt",
-		"isDayOff",
 		"jobsDone",
 		"plans",
 		"problems",
 		"updatedAt",
 		"uuid",
+		"wayUuid",
 	}
 
 	allProperties := make(map[string]interface{})

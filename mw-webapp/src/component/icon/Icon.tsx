@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import {AppStoreIcon} from "src/assets/icons/AppStoreIcon";
+import {ArrowRightIcon} from "src/assets/icons/ArrowRight";
 import {BookIcon} from "src/assets/icons/BookIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
 import {ChevronIcon} from "src/assets/icons/ChevronIcon";
@@ -179,6 +180,11 @@ export const IconDictionary = {
    * AppStore icon
    */
   AppStoreIcon: (params: IconProps) => <AppStoreIcon {...params} />,
+
+  /**
+   * Arrow right icon
+   */
+  ArrowRightIcon: (params: IconProps) => <ArrowRightIcon {...params} />,
 };
 
 /**

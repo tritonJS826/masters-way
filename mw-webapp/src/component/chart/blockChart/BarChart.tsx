@@ -9,8 +9,7 @@ import {
   Tooltip,
 } from "chart.js";
 import {observer} from "mobx-react-lite";
-import {JobTagStat} from "src/logic/wayPage/wayStatistics/JobTagStat";
-import {Label} from "src/model/businessModel/Label";
+import {LabelStat} from "src/logic/wayPage/wayStatistics/LabelStat";
 import styles from "src/component/chart/blockChart/BarChart.module.scss";
 
 ChartJS.register(
@@ -28,20 +27,14 @@ ChartJS.register(
 interface BarChartProps {
 
   /**
-   * Label inside section description
+   * Title inside section description
    */
-  label: string;
+  title: string;
 
   /**
    * All items data
    */
-  itemStats: JobTagStat[];
-
-  /**
-   * All labels
-   */
-  labels: Label[];
-
+  itemStats: LabelStat[];
 }
 
 /**
@@ -51,10 +44,10 @@ export const BarChart = observer((props: BarChartProps) => {
 
   const dataSet = props.itemStats.map((itemStat) => {
     return {
-      label: itemStat.jobTag.name,
-      data: [itemStat.totalTime],
-      borderColor: props.labels.find(label => label.uuid === itemStat.jobTag.uuid)?.color ?? itemStat.jobTag.color,
-      backgroundColor: props.labels.find(label => label.uuid === itemStat.jobTag.uuid)?.color ?? itemStat.jobTag.color,
+      label: itemStat.label.name,
+      data: [itemStat.time],
+      borderColor: itemStat.label.color,
+      backgroundColor: itemStat.label.color,
     };
   });
 

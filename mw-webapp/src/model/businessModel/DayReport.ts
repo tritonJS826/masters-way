@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {Comment} from "src/model/businessModel/Comment";
+import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
 import {JobDone} from "src/model/businessModel/JobDone";
 import {Plan} from "src/model/businessModel/Plan";
 import {Problem} from "src/model/businessModel/Problem";
@@ -9,45 +10,46 @@ import {Problem} from "src/model/businessModel/Problem";
  */
 interface DayReportProps {
 
-    /**
-     * Day report's UUID
-     */
-    uuid: string;
+  /**
+   * Day report's UUID
+   */
+  uuid: string;
 
-    /**
-     * Report's created date
-     */
-    createdAt: Date;
+  /**
+   * Report's created date
+   */
+  createdAt: Date;
 
-    /**
-     * Report's updated date
-     */
-    updatedAt: Date;
+  /**
+   * Report's updated date
+   */
+  updatedAt: Date;
 
-    /**
-     * Job done per day
-     */
-    jobsDone: JobDone[];
+  /**
+   * Job done per day
+   */
+  jobsDone: JobDone[];
 
-    /**
-     * Plans for next period (for tomorrow)
-     */
-    plans: Plan[];
+  /**
+   * Plans for next period (for tomorrow)
+   */
+  plans: Plan[];
 
-    /**
-     * Problems for this period (today)
-     */
-    problems: Problem[];
+  /**
+   * Problems for this period (today)
+   */
+  problems: Problem[];
 
-    /**
-     * Mentor's and way owner's comments uuids
-     */
-    comments: Comment[];
+  /**
+   * Mentor's and way owner's comments uuids
+   */
+  comments: Comment[];
 
-    /**
-     * Return true if day is off and false if it is work day
-     */
-    isDayOff: boolean;
+  /**
+   * Day reports with the same date but existing in the other ways in composite way
+   */
+  compositionParticipants: DayReportCompositionParticipant[];
+
 }
 
 /**
@@ -91,9 +93,9 @@ export class DayReport {
   public comments: Comment[];
 
   /**
-   * Return true if day is off and false if it is work day
+   * Day reports with the same date but existing in the other ways in composite way
    */
-  public isDayOff: boolean;
+  public compositionParticipants: DayReportCompositionParticipant[];
 
   constructor(dayReportData: DayReportProps) {
     makeAutoObservable(this);
@@ -104,7 +106,8 @@ export class DayReport {
     this.plans = dayReportData.plans.map(plan => new Plan(plan));
     this.problems = dayReportData.problems.map(problem => new Problem(problem));
     this.comments = dayReportData.comments.map(comment => new Comment(comment));
-    this.isDayOff = dayReportData.isDayOff;
+    this.compositionParticipants = dayReportData.compositionParticipants
+      .map((participant) => new DayReportCompositionParticipant(participant));
   }
 
   /**

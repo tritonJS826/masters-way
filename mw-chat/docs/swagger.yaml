@@ -64,6 +64,8 @@ definitions:
     properties:
       message:
         type: string
+      messageId:
+        type: string
       messageReaders:
         items:
           $ref: '#/definitions/schemas.MessageReader'
@@ -72,6 +74,7 @@ definitions:
         type: string
     required:
     - message
+    - messageId
     - messageReaders
     - ownerId
     type: object
@@ -124,6 +127,13 @@ definitions:
     - roomType
     - users
     type: object
+  schemas.UpdateMessageStatusPayload:
+    properties:
+      isRead:
+        type: boolean
+    required:
+    - isRead
+    type: object
   schemas.UserResponse:
     properties:
       role:
@@ -137,7 +147,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /reset-db:
+  /dev/reset-db:
     get:
       description: resets db
       responses:
@@ -146,6 +156,32 @@ paths:
       summary: resets db
       tags:
       - dev
+  /messages/{messageId}/message-status:
+    patch:
+      consumes:
+      - application/json
+      description: Update message status by message Id
+      operationId: update-message-status
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UpdateMessageStatusPayload'
+      - description: message Id
+        in: path
+        name: messageId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Update message status
+      tags:
+      - message
   /rooms:
     post:
       consumes:

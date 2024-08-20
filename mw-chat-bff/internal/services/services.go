@@ -19,6 +19,10 @@ type IRoomsService interface {
 	DeleteUserFromRoom(ctx *gin.Context, roomId string, userId string) error
 }
 
+type IMessagesService interface {
+	UpdateMessageStatus(ctx *gin.Context, messageID string, isRead bool) error
+}
+
 type IUsersService interface {
 	GetPopulatedUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error)
 }
@@ -31,6 +35,7 @@ type IMWChatWebSocketService interface {
 type Service struct {
 	IRoomsService
 	IUsersService
+	IMessagesService
 	IMWChatWebSocketService
 }
 
@@ -43,6 +48,7 @@ func NewService(configuration *config.Config) *Service {
 		IRoomsService:           NewRoomsService(chatApi),
 		IUsersService:           NewUsersService(generalApi),
 		IMWChatWebSocketService: NewMWChatSocketService(mwChatWebSocketApi),
+		IMessagesService:        NewMessagesService(chatApi),
 	}
 }
 

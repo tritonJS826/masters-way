@@ -39,7 +39,11 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <HorizontalContainer
-        className={clsx(styles.cellWrapper, styles.userBlock)}
+        className={clsx(
+          styles.cellWrapper,
+          styles.userBlock,
+          !!row.original.isMentor && styles.mentor,
+        )}
         dataCy={allUsersAccessIds.allUsersTable.userName}
       >
         <Avatar
@@ -77,7 +81,10 @@ export const getUsersColumns = (language: Language) => [
      */
     cell: ({row}) => (
       <div
-        className={styles.cellWrapper}
+        className={clsx(
+          styles.cellWrapper,
+          !!row.original.isMentor && styles.mentor,
+        )}
         data-cy={allUsersAccessIds.allUsersTable.userContact}
       >
         <Tooltip
@@ -107,7 +114,11 @@ export const getUsersColumns = (language: Language) => [
      * Cell with user's own ways
      */
     cell: ({row}) => (
-      <div className={clsx(styles.cellWrapper, styles.number)}>
+      <div className={clsx(styles.cellWrapper,
+        styles.number,
+        !!row.original.isMentor && styles.mentor,
+      )}
+      >
         {row.original.ownWays.toString()}
       </div>
     ),
@@ -132,7 +143,11 @@ export const getUsersColumns = (language: Language) => [
      * Cell with user's favorite ways
      */
     cell: ({row}) => (
-      <div className={clsx(styles.cellWrapper, styles.number)}>
+      <div className={clsx(styles.cellWrapper,
+        styles.number,
+        !!row.original.isMentor && styles.mentor,
+      )}
+      >
         {row.original.favoriteWays}
       </div>
     ),
@@ -157,7 +172,11 @@ export const getUsersColumns = (language: Language) => [
      * Cell with user's mentoring ways
      */
     cell: ({row}) => (
-      <div className={clsx(styles.cellWrapper, styles.number)}>
+      <div className={clsx(styles.cellWrapper,
+        styles.number,
+        !!row.original.isMentor && styles.mentor,
+      )}
+      >
         {row.original.mentoringWays.toString()}
       </div>
     ),
@@ -178,7 +197,11 @@ export const getUsersColumns = (language: Language) => [
      * Cell with amount of favorite for user uuids
      */
     cell: ({row}) => (
-      <div className={clsx(styles.cellWrapper, styles.number)}>
+      <div className={clsx(styles.cellWrapper,
+        styles.number,
+        !!row.original.isMentor && styles.mentor,
+      )}
+      >
         {row.original.favoriteForUsers}
       </div>
     ),

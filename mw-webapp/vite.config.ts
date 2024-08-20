@@ -10,7 +10,11 @@ export default defineConfig(() => {
   const validatedEnvs = cleanEnv(env, envSchema);
 
   return {
-    build: {target: "esnext", outDir: "build"},
+    build: {
+      target: "esnext",
+      outDir: "build",
+      cache: true
+    },
     plugins: [
       react(),
       eslint(

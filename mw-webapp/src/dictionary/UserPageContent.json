@@ -121,6 +121,16 @@
       "ru": "Пользователь добавлен в избранные",
       "en": "User added to favorites",
       "ua": "Користувач додано до обраних"
+    },
+    "userNameMaxLength": {
+      "ru": "Имя не должно превышать 50 символов",
+      "en": "Name should not exceed 50 characters",
+      "ua": "Ім'я не повинно перевищувати 50 символів"
+    },
+    "userNameMinLength": {
+      "ru": "Имя должно содержать хотя бы один символ",
+      "en": "Name should include at least one character",
+      "ua": "Ім'я повинно містити принаймні один символ"
     }
   },
   "collections": {

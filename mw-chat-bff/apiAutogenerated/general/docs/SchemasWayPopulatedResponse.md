@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 **Children** | [**[]SchemasWayPopulatedResponse**](SchemasWayPopulatedResponse.md) |  | 
 **CopiedFromWayUuid** | **NullableString** |  | 
 **CreatedAt** | **string** |  | 
-**DayReports** | [**[]SchemasDayReportPopulatedResponse**](SchemasDayReportPopulatedResponse.md) |  | 
 **EstimationTime** | **int32** |  | 
 **FavoriteForUsersAmount** | **int32** |  | 
 **FormerMentors** | [**[]SchemasUserPlainResponse**](SchemasUserPlainResponse.md) |  | 
@@ -28,7 +27,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasWayPopulatedResponse
 
-`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, dayReports []SchemasDayReportPopulatedResponse, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
+`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
 
 NewSchemasWayPopulatedResponse instantiates a new SchemasWayPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -111,26 +110,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasWayPopulatedResponse) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
-
-
-### GetDayReports
-
-`func (o *SchemasWayPopulatedResponse) GetDayReports() []SchemasDayReportPopulatedResponse`
-
-GetDayReports returns the DayReports field if non-nil, zero value otherwise.
-
-### GetDayReportsOk
-
-`func (o *SchemasWayPopulatedResponse) GetDayReportsOk() (*[]SchemasDayReportPopulatedResponse, bool)`
-
-GetDayReportsOk returns a tuple with the DayReports field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDayReports
-
-`func (o *SchemasWayPopulatedResponse) SetDayReports(v []SchemasDayReportPopulatedResponse)`
-
-SetDayReports sets DayReports field to given value.
 
 
 ### GetEstimationTime

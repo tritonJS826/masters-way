@@ -75,7 +75,6 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	sessionPool[userID].Connections[connectionID] = conn
 
 	fmt.Println("Current amount of users: ", len(sessionPool))
-	fmt.Println("Current user session amount: ", len(sessionPool[userID].Connections))
 
 	totalConnections := 0
 	for _, session := range sessionPool {
@@ -90,7 +89,6 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 			delete(sessionPool[userID].Connections, connectionID)
 
 			fmt.Println("Current user session amount: ", len(sessionPool[userID].Connections))
-			// Delete userID from map if there are no connections
 			if len(sessionPool[userID].Connections) == 0 {
 				delete(sessionPool, userID)
 			}

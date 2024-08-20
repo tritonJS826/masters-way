@@ -7,18 +7,12 @@ start: ## Run the project
 
 test: ## Run all tests
 	go test ./...
-
-db-run: ## Start the database using Docker
-	docker-compose -f chatPostgres.docker-compose.yaml up
-
+	
 install: ## Install dependencies
 	go mod tidy
 
 swag: ##  Generate swagger specification
 	swag init -g cmd/chat-bff/main.go
-
-db-schema: ## Generate db schema
-	sqlc generate
 
 help: ## Display help message
 	@echo "Available targets:"

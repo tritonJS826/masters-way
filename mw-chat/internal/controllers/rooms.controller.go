@@ -12,11 +12,11 @@ import (
 )
 
 type RoomsController struct {
-	roomService services.RoomService
+	roomService services.IRoomsService
 }
 
-func NewRoomsController(roomService services.RoomService) *RoomsController {
-	return &RoomsController{roomService: roomService}
+func NewRoomsController(roomService services.IRoomsService) *RoomsController {
+	return &RoomsController{roomService}
 }
 
 // @Summary Get chat preview
@@ -152,41 +152,6 @@ func (pc *RoomsController) UpdateRoom(ctx *gin.Context) {
 
 	// ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request: all parameters are null."})
 	return
-}
-
-// @Summary Create message in room
-// @Description
-// @Tags room
-// @ID create-message-in-room
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.CreateMessagePayload true "query params"
-// @Param roomId path string true "room Id"
-// @Success 200 {object} schemas.CreateMessageResponse
-// @Router /rooms/{roomId}/messages [post]
-func (pc *RoomsController) CreateMessage(ctx *gin.Context) {
-	var payload *schemas.CreateMessagePayload
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	roomId := ctx.Param("roomId")
-	roomUUID := uuid.MustParse(roomId)
-
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userIDRaw.(string))
-
-	params := &services.RoomMessageParams{
-		OwnerUUID: userUUID,
-		RoomUUID:  roomUUID,
-		Text:      payload.Message,
-	}
-	message, err := pc.roomService.CreateMessage(ctx, params)
-	utils.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, message)
 }
 
 // @Summary Add user to room

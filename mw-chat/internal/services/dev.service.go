@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"os"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -25,21 +26,20 @@ func NewDevService(pool *pgxpool.Pool, roomsRepository DevRepository) *DevDBServ
 }
 
 func (roomsService *DevDBService) ResetDB(ctx context.Context) error {
-	// migration, err := os.ReadFile("internal/db/migration/000001_init_schema.up.sql")
-	// if err != nil {
-	// 	return err
-	// }
-
-	err := roomsService.devRepository.RemoveEverything(ctx)
+	migration, err := os.ReadFile("internal/db/migration/000001_init_schema.up.sql")
 	if err != nil {
 		return err
 	}
 
-	// // migrate schemas according to migrations file
-	// _, err = roomsService.pool.Exec(ctx, string(migration))
-	// if err != nil {
-	// 	return err
-	// }
+	err = roomsService.devRepository.RemoveEverything(ctx)
+	if err != nil {
+		return err
+	}
+
+	_, err = roomsService.pool.Exec(ctx, string(migration))
+	if err != nil {
+		return err
+	}
 
 	err = roomsService.devRepository.RegenerateDbData(ctx)
 	if err != nil {

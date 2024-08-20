@@ -38,6 +38,13 @@ class ChatStore {
     this.unreadMessagesAmount = unreadMessages;
   };
 
+  /**
+   * Add one unread message to amount
+   */
+  public addUnreadMessageToAmount = () => {
+    this.unreadMessagesAmount++;
+  };
+
 }
 
 export const chatStore = new ChatStore();

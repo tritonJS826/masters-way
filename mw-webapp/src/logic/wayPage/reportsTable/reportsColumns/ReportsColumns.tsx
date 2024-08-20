@@ -1,7 +1,6 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Infotip} from "src/component/infotip/Infotip";
-import {CreateDayReportParams} from "src/dataAccessLogic/DayReportDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -16,7 +15,9 @@ import {ReportsTableProblemsCell}
 import {DayReport} from "src/model/businessModel/DayReport";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
+import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {LanguageService} from "src/service/LanguageService";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
 
@@ -55,6 +56,11 @@ interface ColumnsProps {
   way: Way;
 
   /**
+   * Callback triggered to update way statistics triple
+   */
+  setWayStatisticsTriple: (wayStatisticsTriple: WayStatisticsTriple) => void;
+
+  /**
    * Way's participants
    */
   wayParticipantsMap: Map<string, UserPlain>;
@@ -62,7 +68,7 @@ interface ColumnsProps {
   /**
    * Create new day report
    */
-  createDayReport: (dayReportParams: CreateDayReportParams, dayReportUuids: DayReport[]) => Promise<DayReport>;
+  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
 }
 
 /**
@@ -79,6 +85,13 @@ export const Columns = (props: ColumnsProps) => {
   const isWayComposite = props.way.children.length !== 0;
 
   const participantsSafeMap = new SafeMap(props.wayParticipantsMap);
+
+  const participantWaysLabelsMap =
+    arrayToHashMap({keyField: "uuid", list: props.way.children.concat(props.way)});
+
+  // Props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)
+
+  const participantWaysLabelsSafeMap = new SafeMap(participantWaysLabelsMap);
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -118,10 +131,12 @@ export const Columns = (props: ColumnsProps) => {
           user={user}
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          jobTags={props.way.jobTags}
+          jobTags={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
+          labelsMap={participantWaysLabelsSafeMap}
+          labels={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
           wayUuid={props.way.uuid}
           wayName={props.way.name}
-          labels={props.way.jobTags}
+          setWayStatisticsTriple={props.setWayStatisticsTriple}
           isWayComposite={isWayComposite}
           wayParticipantsMap={participantsSafeMap}
         />
@@ -146,7 +161,8 @@ export const Columns = (props: ColumnsProps) => {
         <ReportsTablePlansCell
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          jobTags={props.way.jobTags}
+          jobTags={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
+          labelsMap={participantWaysLabelsSafeMap}
           way={props.way}
           createDayReport={props.createDayReport}
           user={user}

@@ -3,6 +3,8 @@ import clsx from "clsx";
 import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
 import {KeySymbols} from "src/utils/KeySymbols";
+import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
+import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/editableTextarea/editableTextarea.module.scss";
 
 /**
@@ -63,7 +65,11 @@ interface EditableTextareaProps {
    */
   cy?: CyEditableTextarea;
 
-}
+  /**
+   * Array of validator functions to be applied to the value
+   */
+    validators?: ValidatorValue[];
+  }
 
 /**
  * EditableTextarea component
@@ -95,13 +101,24 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
+   * OnChangeInput
+   */
+  const onChangeInput = (value: string) => {
+    updateValueWithValidatorsHandler({
+      updatedValue: value,
+      validators: props.validators,
+      setValue: setText,
+    });
+  };
+
+  /**
    * Render Textarea
    */
   const renderTextarea = () => (
     <Textarea
       cy={props.cy?.textArea}
       defaultValue={text}
-      onChange={setText}
+      onChange={onChangeInput}
       placeholder={props.placeholder}
       rows={props.rows}
       isAutofocus

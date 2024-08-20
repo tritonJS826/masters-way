@@ -24,7 +24,6 @@ type SchemasWayPopulatedResponse struct {
 	Children []SchemasWayPopulatedResponse `json:"children"`
 	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
 	CreatedAt string `json:"createdAt"`
-	DayReports []SchemasDayReportPopulatedResponse `json:"dayReports"`
 	EstimationTime int32 `json:"estimationTime"`
 	FavoriteForUsersAmount int32 `json:"favoriteForUsersAmount"`
 	FormerMentors []SchemasUserPlainResponse `json:"formerMentors"`
@@ -48,12 +47,11 @@ type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, dayReports []SchemasDayReportPopulatedResponse, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
+func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
 	this := SchemasWayPopulatedResponse{}
 	this.Children = children
 	this.CopiedFromWayUuid = copiedFromWayUuid
 	this.CreatedAt = createdAt
-	this.DayReports = dayReports
 	this.EstimationTime = estimationTime
 	this.FavoriteForUsersAmount = favoriteForUsersAmount
 	this.FormerMentors = formerMentors
@@ -152,30 +150,6 @@ func (o *SchemasWayPopulatedResponse) GetCreatedAtOk() (*string, bool) {
 // SetCreatedAt sets field value
 func (o *SchemasWayPopulatedResponse) SetCreatedAt(v string) {
 	o.CreatedAt = v
-}
-
-// GetDayReports returns the DayReports field value
-func (o *SchemasWayPopulatedResponse) GetDayReports() []SchemasDayReportPopulatedResponse {
-	if o == nil {
-		var ret []SchemasDayReportPopulatedResponse
-		return ret
-	}
-
-	return o.DayReports
-}
-
-// GetDayReportsOk returns a tuple with the DayReports field value
-// and a boolean to check if the value has been set.
-func (o *SchemasWayPopulatedResponse) GetDayReportsOk() ([]SchemasDayReportPopulatedResponse, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.DayReports, true
-}
-
-// SetDayReports sets field value
-func (o *SchemasWayPopulatedResponse) SetDayReports(v []SchemasDayReportPopulatedResponse) {
-	o.DayReports = v
 }
 
 // GetEstimationTime returns the EstimationTime field value
@@ -551,7 +525,6 @@ func (o SchemasWayPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["children"] = o.Children
 	toSerialize["copiedFromWayUuid"] = o.CopiedFromWayUuid.Get()
 	toSerialize["createdAt"] = o.CreatedAt
-	toSerialize["dayReports"] = o.DayReports
 	toSerialize["estimationTime"] = o.EstimationTime
 	toSerialize["favoriteForUsersAmount"] = o.FavoriteForUsersAmount
 	toSerialize["formerMentors"] = o.FormerMentors
@@ -578,7 +551,6 @@ func (o *SchemasWayPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 		"children",
 		"copiedFromWayUuid",
 		"createdAt",
-		"dayReports",
 		"estimationTime",
 		"favoriteForUsersAmount",
 		"formerMentors",

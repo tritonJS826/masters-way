@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine
+FROM golang:1.23-alpine
 WORKDIR /mw-chat-bff
 COPY . .
 RUN apk add --no-cache make

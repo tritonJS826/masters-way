@@ -11,12 +11,14 @@ Name | Type | Description | Notes
 **OwnerUuid** | **string** |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
+**WayName** | **string** |  | 
+**WayUuid** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasCommentPopulatedResponse
 
-`func NewSchemasCommentPopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, updatedAt string, uuid string, ) *SchemasCommentPopulatedResponse`
+`func NewSchemasCommentPopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasCommentPopulatedResponse`
 
 NewSchemasCommentPopulatedResponse instantiates a new SchemasCommentPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -169,6 +171,46 @@ and a boolean to check if the value has been set.
 `func (o *SchemasCommentPopulatedResponse) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
+
+
+### GetWayName
+
+`func (o *SchemasCommentPopulatedResponse) GetWayName() string`
+
+GetWayName returns the WayName field if non-nil, zero value otherwise.
+
+### GetWayNameOk
+
+`func (o *SchemasCommentPopulatedResponse) GetWayNameOk() (*string, bool)`
+
+GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayName
+
+`func (o *SchemasCommentPopulatedResponse) SetWayName(v string)`
+
+SetWayName sets WayName field to given value.
+
+
+### GetWayUuid
+
+`func (o *SchemasCommentPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasCommentPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasCommentPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
 
 
 

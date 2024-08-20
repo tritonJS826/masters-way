@@ -6,18 +6,18 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Comments** | [**[]SchemasCommentPopulatedResponse**](SchemasCommentPopulatedResponse.md) |  | 
 **CreatedAt** | **string** |  | 
-**IsDayOff** | **bool** |  | 
 **JobsDone** | [**[]SchemasJobDonePopulatedResponse**](SchemasJobDonePopulatedResponse.md) |  | 
 **Plans** | [**[]SchemasPlanPopulatedResponse**](SchemasPlanPopulatedResponse.md) |  | 
 **Problems** | [**[]SchemasProblemPopulatedResponse**](SchemasProblemPopulatedResponse.md) |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
+**WayUuid** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasDayReportPopulatedResponse
 
-`func NewSchemasDayReportPopulatedResponse(comments []SchemasCommentPopulatedResponse, createdAt string, isDayOff bool, jobsDone []SchemasJobDonePopulatedResponse, plans []SchemasPlanPopulatedResponse, problems []SchemasProblemPopulatedResponse, updatedAt string, uuid string, ) *SchemasDayReportPopulatedResponse`
+`func NewSchemasDayReportPopulatedResponse(comments []SchemasCommentPopulatedResponse, createdAt string, jobsDone []SchemasJobDonePopulatedResponse, plans []SchemasPlanPopulatedResponse, problems []SchemasProblemPopulatedResponse, updatedAt string, uuid string, wayUuid string, ) *SchemasDayReportPopulatedResponse`
 
 NewSchemasDayReportPopulatedResponse instantiates a new SchemasDayReportPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -70,26 +70,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasDayReportPopulatedResponse) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
-
-
-### GetIsDayOff
-
-`func (o *SchemasDayReportPopulatedResponse) GetIsDayOff() bool`
-
-GetIsDayOff returns the IsDayOff field if non-nil, zero value otherwise.
-
-### GetIsDayOffOk
-
-`func (o *SchemasDayReportPopulatedResponse) GetIsDayOffOk() (*bool, bool)`
-
-GetIsDayOffOk returns a tuple with the IsDayOff field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIsDayOff
-
-`func (o *SchemasDayReportPopulatedResponse) SetIsDayOff(v bool)`
-
-SetIsDayOff sets IsDayOff field to given value.
 
 
 ### GetJobsDone
@@ -190,6 +170,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasDayReportPopulatedResponse) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
+
+
+### GetWayUuid
+
+`func (o *SchemasDayReportPopulatedResponse) GetWayUuid() string`
+
+GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
+
+### GetWayUuidOk
+
+`func (o *SchemasDayReportPopulatedResponse) GetWayUuidOk() (*string, bool)`
+
+GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWayUuid
+
+`func (o *SchemasDayReportPopulatedResponse) SetWayUuid(v string)`
+
+SetWayUuid sets WayUuid field to given value.
 
 
 

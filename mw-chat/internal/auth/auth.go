@@ -10,6 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const HeaderKeyAuthorization = "Authorization"
+
+const ContextKeyAuthorization = "ContextKeyAuthorization"
 const ContextKeyUserID = "userID"
 
 type Claims struct {

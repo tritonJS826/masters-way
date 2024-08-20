@@ -18,6 +18,7 @@ import type {
   SchemasCreateProblemPayload,
   SchemasProblemPopulatedResponse,
   SchemasUpdateProblemPayload,
+  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
     SchemasCreateProblemPayloadFromJSON,
@@ -26,6 +27,8 @@ import {
     SchemasProblemPopulatedResponseToJSON,
     SchemasUpdateProblemPayloadFromJSON,
     SchemasUpdateProblemPayloadToJSON,
+    UtilNoRightToChangeDayReportErrorFromJSON,
+    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreateProblemRequest {

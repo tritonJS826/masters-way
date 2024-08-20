@@ -88,3 +88,24 @@ func (geminiService *GeminiService) GetMetricsByGoal(ctx context.Context, payloa
 
 	return metrics, nil
 }
+
+func (geminiService *GeminiService) AIChat(ctx context.Context, payload *schemas.AIChatPayload) (*schemas.AIChatResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if config.Env.EnvType != "prod" {
+		return &schemas.AIChatResponse{Message: "Hi! It's a stub message from AI Chat for developing"}, nil
+	}
+
+	model := geminiService.geminiClient.GenerativeModel(config.Env.GeminiModel)
+
+	var payloadMessage = payload.Message + " \n Give me answer with max 300 symbols"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	return &schemas.AIChatResponse{Message: responseText}, nil
+}

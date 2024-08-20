@@ -35,7 +35,7 @@ func (r ApiCreateDayReportRequest) Request(request SchemasCreateDayReportPayload
 	return r
 }
 
-func (r ApiCreateDayReportRequest) Execute() (*SchemasDayReportPopulatedResponse, *http.Response, error) {
+func (r ApiCreateDayReportRequest) Execute() (*SchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateDayReportExecute(r)
 }
 
@@ -53,13 +53,13 @@ func (a *DayReportAPIService) CreateDayReport(ctx context.Context) ApiCreateDayR
 }
 
 // Execute executes the request
-//  @return SchemasDayReportPopulatedResponse
-func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest) (*SchemasDayReportPopulatedResponse, *http.Response, error) {
+//  @return SchemasCompositeDayReportPopulatedResponse
+func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest) (*SchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasDayReportPopulatedResponse
+		localVarReturnValue  *SchemasCompositeDayReportPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.CreateDayReport")
@@ -132,25 +132,39 @@ func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetDayReportsByWayUuidRequest struct {
+type ApiGetDayReportsRequest struct {
 	ctx context.Context
 	ApiService *DayReportAPIService
 	wayId string
+	page *int32
+	limit *int32
 }
 
-func (r ApiGetDayReportsByWayUuidRequest) Execute() ([]SchemasDayReportPopulatedResponse, *http.Response, error) {
-	return r.ApiService.GetDayReportsByWayUuidExecute(r)
+// Page number for pagination
+func (r ApiGetDayReportsRequest) Page(page int32) ApiGetDayReportsRequest {
+	r.page = &page
+	return r
+}
+
+// Number of items per page
+func (r ApiGetDayReportsRequest) Limit(limit int32) ApiGetDayReportsRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiGetDayReportsRequest) Execute() (*SchemasListDayReportsResponse, *http.Response, error) {
+	return r.ApiService.GetDayReportsExecute(r)
 }
 
 /*
-GetDayReportsByWayUuid Get all dayReports by Way UUID
+GetDayReports Get list of day reports by way UUID
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param wayId way ID
- @return ApiGetDayReportsByWayUuidRequest
+ @return ApiGetDayReportsRequest
 */
-func (a *DayReportAPIService) GetDayReportsByWayUuid(ctx context.Context, wayId string) ApiGetDayReportsByWayUuidRequest {
-	return ApiGetDayReportsByWayUuidRequest{
+func (a *DayReportAPIService) GetDayReports(ctx context.Context, wayId string) ApiGetDayReportsRequest {
+	return ApiGetDayReportsRequest{
 		ApiService: a,
 		ctx: ctx,
 		wayId: wayId,
@@ -158,16 +172,16 @@ func (a *DayReportAPIService) GetDayReportsByWayUuid(ctx context.Context, wayId 
 }
 
 // Execute executes the request
-//  @return []SchemasDayReportPopulatedResponse
-func (a *DayReportAPIService) GetDayReportsByWayUuidExecute(r ApiGetDayReportsByWayUuidRequest) ([]SchemasDayReportPopulatedResponse, *http.Response, error) {
+//  @return SchemasListDayReportsResponse
+func (a *DayReportAPIService) GetDayReportsExecute(r ApiGetDayReportsRequest) (*SchemasListDayReportsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []SchemasDayReportPopulatedResponse
+		localVarReturnValue  *SchemasListDayReportsResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.GetDayReportsByWayUuid")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.GetDayReports")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -179,6 +193,12 @@ func (a *DayReportAPIService) GetDayReportsByWayUuidExecute(r ApiGetDayReportsBy
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -196,119 +216,6 @@ func (a *DayReportAPIService) GetDayReportsByWayUuidExecute(r ApiGetDayReportsBy
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiUpdateDayReportRequest struct {
-	ctx context.Context
-	ApiService *DayReportAPIService
-	dayReportId string
-	request *SchemasUpdateDayReportPayload
-}
-
-// query params
-func (r ApiUpdateDayReportRequest) Request(request SchemasUpdateDayReportPayload) ApiUpdateDayReportRequest {
-	r.request = &request
-	return r
-}
-
-func (r ApiUpdateDayReportRequest) Execute() (*SchemasDayReportPopulatedResponse, *http.Response, error) {
-	return r.ApiService.UpdateDayReportExecute(r)
-}
-
-/*
-UpdateDayReport Update dayReport by UUID
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param dayReportId dayReport ID
- @return ApiUpdateDayReportRequest
-*/
-func (a *DayReportAPIService) UpdateDayReport(ctx context.Context, dayReportId string) ApiUpdateDayReportRequest {
-	return ApiUpdateDayReportRequest{
-		ApiService: a,
-		ctx: ctx,
-		dayReportId: dayReportId,
-	}
-}
-
-// Execute executes the request
-//  @return SchemasDayReportPopulatedResponse
-func (a *DayReportAPIService) UpdateDayReportExecute(r ApiUpdateDayReportRequest) (*SchemasDayReportPopulatedResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SchemasDayReportPopulatedResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.UpdateDayReport")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/dayReports/{dayReportId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"dayReportId"+"}", url.PathEscape(parameterValueToString(r.dayReportId, "dayReportId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.request == nil {
-		return localVarReturnValue, nil, reportError("request is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

@@ -51,19 +51,24 @@ func NewServer(cfg *config.Config) *Server {
 func (server *Server) SetRoutes(controller *controllers.Controller) {
 	chat := server.GinServer.Group("/chat")
 	{
-		rooms := chat.Group("/rooms")
+		messages := chat.Group("/messages", auth.AuthMiddleware())
 		{
-			rooms.GET("/preview", auth.AuthMiddleware(), controller.RoomsController.GetChatPreview)
+			messages.PATCH("/:messageId/message-status", controller.MessagesController.UpdateMessageStatus)
+		}
 
-			rooms.GET("/list/:roomType", auth.AuthMiddleware(), controller.RoomsController.GetRooms)
-			rooms.GET("/:roomId", auth.AuthMiddleware(), controller.RoomsController.GetRoomById)
-			rooms.POST("", auth.AuthMiddleware(), controller.RoomsController.CreateRoom)
-			rooms.PATCH("/:roomId", auth.AuthMiddleware(), controller.RoomsController.UpdateRoom)
+		rooms := chat.Group("/rooms", auth.AuthMiddleware())
+		{
+			rooms.GET("/preview", controller.RoomsController.GetChatPreview)
 
-			rooms.POST("/:roomId/messages", auth.AuthMiddleware(), controller.RoomsController.CreateMessage)
+			rooms.GET("/list/:roomType", controller.RoomsController.GetRooms)
+			rooms.GET("/:roomId", controller.RoomsController.GetRoomById)
+			rooms.POST("", controller.RoomsController.CreateRoom)
+			rooms.PATCH("/:roomId", controller.RoomsController.UpdateRoom)
 
-			rooms.POST("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.AddUserToRoom)
-			rooms.DELETE("/:roomId/users/:userId", auth.AuthMiddleware(), controller.RoomsController.DeleteUserFromRoom)
+			rooms.POST("/:roomId/messages", controller.MessagesController.CreateMessage)
+
+			rooms.POST("/:roomId/users/:userId", controller.RoomsController.AddUserToRoom)
+			rooms.DELETE("/:roomId/users/:userId", controller.RoomsController.DeleteUserFromRoom)
 		}
 
 		if server.cfg.EnvType != "prod" {

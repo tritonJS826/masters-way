@@ -27,9 +27,9 @@ func main() {
 	newServer := server.NewServer(&newConfig)
 	newServer.SetRoutes(newController)
 
-	if newConfig.EnvType == "prod" {
-		log.Fatal(newServer.GinServer.RunTLS(":"+newConfig.ServerPort, "./server.crt", "./server.key"))
-	} else {
-		log.Fatal(newServer.GinServer.Run(":" + newConfig.ServerPort))
-	}
+	// if newConfig.EnvType == "prod" {
+	// 	log.Fatal(newServer.GinServer.RunTLS(":"+newConfig.ServerPort, "../server.crt", "../server.key"))
+	// } else {
+	log.Fatal(newServer.GinServer.Run(":" + newConfig.ServerPort))
+	// }
 }
