@@ -55,16 +55,16 @@ func GetDayReportsByWayID(db *dbb.Queries, ctx context.Context, params *GetDayRe
 	})
 
 	wayRelatedUsersRaw, _ := db.GetWayRelatedUsers(ctx, wayPgUUIDs)
-	allWayRelatedUsersMap := lo.SliceToMap(wayRelatedUsersRaw, func(relatedUser dbb.User) (string, schemas.UserPlainResponse) {
+	allWayRelatedUsersMap := lo.SliceToMap(wayRelatedUsersRaw, func(relatedUser dbb.GetWayRelatedUsersRow) (string, schemas.UserPlainResponse) {
 		userUUID := util.ConvertPgUUIDToUUID(relatedUser.Uuid).String()
 		return userUUID, schemas.UserPlainResponse{
 			Uuid:        userUUID,
-			Name:        relatedUser.Name,
-			Email:       relatedUser.Email,
-			Description: relatedUser.Description,
+			Name:        relatedUser.Name.String,
+			Email:       relatedUser.Email.String,
+			Description: relatedUser.Description.String,
 			CreatedAt:   relatedUser.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-			ImageUrl:    relatedUser.ImageUrl,
-			IsMentor:    relatedUser.IsMentor,
+			ImageUrl:    relatedUser.ImageUrl.String,
+			IsMentor:    relatedUser.IsMentor.Bool,
 		}
 	})
 
