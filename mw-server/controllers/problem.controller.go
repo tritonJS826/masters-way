@@ -45,16 +45,14 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 	}
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
 
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
-	getIsUserHavingPermissionsForDayReportParams := db.GetIsUserHavingPermissionsForDayReportParams{
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, db.GetIsUserHavingPermissionsForDayReportParams{
 		UserUuid:      userUUID,
 		DayReportUuid: dayReportUUID,
-	}
-
-	userPermission, err := cc.db.GetIsUserHavingPermissionsForDayReport(ctx, getIsUserHavingPermissionsForDayReportParams)
+	})
 	util.HandleErrorGin(ctx, err)
 
 	if !userPermission.IsPermissionGiven.Bool {
@@ -101,6 +99,7 @@ func (cc *ProblemController) CreateProblem(ctx *gin.Context) {
 // @Param request body schemas.UpdateProblemPayload true "query params"
 // @Param problemId path string true "problem ID"
 // @Success 200 {object} schemas.ProblemPopulatedResponse
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update problem."
 // @Router /problems/{problemId} [patch]
 func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	var payload *schemas.UpdateProblemPayload
@@ -109,6 +108,22 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
+	}
+
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	problemUUID := pgtype.UUID{Bytes: uuid.MustParse(problemId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForProblem(ctx, db.GetIsUserHavingPermissionsForProblemParams{
+		UserUuid:    userUUID,
+		ProblemUuid: problemUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
 	}
 
 	var descriptionPg pgtype.Text
@@ -121,7 +136,7 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	}
 	now := time.Now()
 	args := db.UpdateProblemParams{
-		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(problemId), Valid: true},
+		Uuid:        problemUUID,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		IsDone:      isDonePg,
 		Description: descriptionPg,
@@ -139,6 +154,8 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
+		WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
+		WayName:       userPermission.WayName,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -153,13 +170,29 @@ func (cc *ProblemController) UpdateProblem(ctx *gin.Context) {
 // @Produce  json
 // @Param problemId path string true "problem ID"
 // @Success 200
+// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete problem."
 // @Router /problems/{problemId} [delete]
 func (cc *ProblemController) DeleteProblemById(ctx *gin.Context) {
 	problemId := ctx.Param("problemId")
 
-	err := cc.db.DeleteProblem(ctx, pgtype.UUID{Bytes: uuid.MustParse(problemId), Valid: true})
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+
+	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
+	problemUUID := pgtype.UUID{Bytes: uuid.MustParse(problemId), Valid: true}
+
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForProblem(ctx, db.GetIsUserHavingPermissionsForProblemParams{
+		UserUuid:    userUUID,
+		ProblemUuid: problemUUID,
+	})
+	util.HandleErrorGin(ctx, err)
+
+	if !userPermission.IsPermissionGiven.Bool {
+		err := customErrors.MakeNoRightToChangeDayReportError(util.ConvertPgUUIDToUUID(userPermission.WayUuid).String())
+		util.HandleErrorGin(ctx, err)
+	}
+
+	err = cc.db.DeleteProblem(ctx, problemUUID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
-
 }
