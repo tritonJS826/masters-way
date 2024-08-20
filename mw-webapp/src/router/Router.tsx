@@ -4,6 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import {HeaderType} from "src/component/header/Header";
+import {LandingLayout} from "src/logic/landingPages/LandingLayout";
 import {Layout} from "src/logic/Layout";
 import {pages} from "src/router/pages";
 import {WithValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";
@@ -65,9 +66,14 @@ export const router = createBrowserRouter(
 
       <Route
         path={pages.home.getPath({})}
-        element={<WithValidatedParams paramsSchema={pages.landing} />}
+        element={<LandingLayout />}
         errorElement={pages.page404.getPageComponent({})}
       >
+        <Route
+          path={pages.landing.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landing} />}
+          errorElement={pages.page404.getPageComponent({})}
+        />
         <Route
           path={pages.landingMentors.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.landingMentors} />}

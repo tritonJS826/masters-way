@@ -3,10 +3,10 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Image} from "src/component/image/Image";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import styles from "src/logic/landingPages/mentorsLandingPage/problemItem/ProplemItem.module.scss";
+import styles from "src/logic/landingPages/mentorsLandingPage/problemItem/ProblemItem.module.scss";
 
 /**
- * Problemitem props
+ * ProblemItem props
  */
 interface ProblemItemProps {
 
@@ -27,6 +27,7 @@ interface ProblemItemProps {
 
   /**
    * Is block reversed
+   * @default false
    */
   isReversed?: boolean;
 }
@@ -52,7 +53,7 @@ export const ProblemItem = (props: ProblemItemProps) => {
           text={props.title}
           placeholder=""
         />
-        <p className={styles.propblemTitleDescription}>
+        <p className={styles.problemTitleDescription}>
           {props.description}
         </p>
       </VerticalContainer>

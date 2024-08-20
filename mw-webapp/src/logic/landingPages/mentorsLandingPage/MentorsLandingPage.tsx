@@ -1,17 +1,30 @@
+import clsx from "clsx";
 import {observer} from "mobx-react-lite";
-import {Button} from "src/component/button/Button";
+import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
+import {ReviewCard} from "src/component/reviewCard/ReviewCard";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {languageStore} from "src/globalStore/LanguageStore";
 import {AdvantageItem} from "src/logic/landingPages/mentorsLandingPage/advantageItem/AdvantageItem";
 import {ProblemItem} from "src/logic/landingPages/mentorsLandingPage/problemItem/ProblemItem";
+import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/landingPages/mentorsLandingPage/MentorsLandingPage.module.scss";
 
 /**
  * Mentors landing page
  */
 export const MentorsLandingPage = observer(() => {
+  const {language} = languageStore;
+
+  const accordionItems = LanguageService.aboutProject.accordion.map((data) => ({
+    trigger: {child: data.header[language]},
+    content: {child: renderMarkdown(data.description[language])},
+  }));
 
   return (
     <>
@@ -29,7 +42,15 @@ export const MentorsLandingPage = observer(() => {
             </p>
           </VerticalContainer>
           <Button
+            buttonType={ButtonType.PRIMARY}
             value="Кнопка призыва"
+            icon={
+              <Icon
+                size={IconSize.SMALL}
+                name="ArrowRightIcon"
+                className={styles.icon}
+              />
+            }
             onClick={() => {}}
           />
           <Image
@@ -79,7 +100,6 @@ export const MentorsLandingPage = observer(() => {
             </p>
           </VerticalContainer>
           <VerticalContainer className={styles.problems}>
-
             <ProblemItem
               title="Проблемы, которые мы можем помочь решить менторам"
               description="Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки"
@@ -99,16 +119,35 @@ export const MentorsLandingPage = observer(() => {
           </VerticalContainer>
         </VerticalContainer>
 
-        <VerticalContainer className={styles.responseBlock}>
-          <Title
-            className={styles.title}
-            level={HeadingLevel.h2}
-            text="Отзывы менторов, которые используют наше приложение"
-            placeholder=""
-          />
-          <div className={styles.responseContentBlock}>
-            Slider
+        <VerticalContainer className={styles.reviewBlock}>
+          <div className={styles.titleBlock}>
+            <Title
+              className={styles.title}
+              level={HeadingLevel.h2}
+              text="Отзывы менторов, которые используют наше приложение"
+              placeholder=""
+            />
           </div>
+          <HorizontalContainer className={styles.reviewList}>
+            <ReviewCard
+              gradeAmount={5}
+              review="Это самый замечательный отзыв о нашем приложении, который может быть"
+              reviewerImageUrl="src/assets/storybook-images/kittens.jpg"
+              reviewerName="John"
+            />
+            <ReviewCard
+              gradeAmount={5}
+              review="Это самый замечательный отзыв о нашем приложении, который может быть"
+              reviewerImageUrl="src/assets/storybook-images/kittens.jpg"
+              reviewerName="Anna"
+            />
+            <ReviewCard
+              gradeAmount={5}
+              review="Это самый замечательный отзыв о нашем приложении, который может быть"
+              reviewerImageUrl="src/assets/storybook-images/kittens.jpg"
+              reviewerName="Anna"
+            />
+          </HorizontalContainer>
         </VerticalContainer>
 
         <VerticalContainer className={styles.questionsBlock}>
@@ -123,21 +162,41 @@ export const MentorsLandingPage = observer(() => {
               Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки
             </p>
           </VerticalContainer>
-          <div className={styles.questionsContentBlock}>
-            Acordeon
-          </div>
+          <Accordion
+            items={accordionItems}
+            type={accordionTypes.multiple}
+            className={styles.accordion}
+          />
         </VerticalContainer>
 
         <HorizontalContainer className={styles.triesBlock}>
-          <Title
-            className={styles.title}
-            level={HeadingLevel.h2}
-            text="Вы должны попробовать наше приложение"
-            placeholder=""
-          />
-          <div className={styles.triesContentBlock}>
-            ...
-          </div>
+          <HorizontalContainer className={styles.triesContainer}>
+            <Title
+              className={clsx(styles.titleBlock, styles.title, styles.titleYouShouldBlock)}
+              level={HeadingLevel.h2}
+              text="Вы должны попробовать наше приложение"
+              placeholder=""
+            />
+            <VerticalContainer className={styles.triesContentBlock}>
+              <p>
+                Попробуйте наше веб-приложение бесплатно и убедитесь, как оно может помочь вам увеличить доход,
+                эффективность и удовлетворение от работы
+              </p>
+              <Button
+                buttonType={ButtonType.PRIMARY}
+                value="Кнопка призыва"
+                icon={
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="ArrowRightIcon"
+                    className={styles.icon}
+                  />
+                }
+                onClick={() => { }}
+                className={styles.triesActionButton}
+              />
+            </VerticalContainer>
+          </HorizontalContainer>
         </HorizontalContainer>
 
       </div>

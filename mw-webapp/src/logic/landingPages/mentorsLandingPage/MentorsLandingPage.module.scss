@@ -1,7 +1,6 @@
 @import "src/styles/variables";
 
-.container {
-}
+$accordionMaxWidth: 1032px;
 
 .titleBlock {
   max-width: 780px;
@@ -16,10 +15,16 @@
   }
 }
 
+.titleYouShouldBlock {
+  text-align: left;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
+}
+
 .titleDescription {
   text-align: center;
-
-
 }
 
 .mainBlockImage {
@@ -31,15 +36,17 @@
   }
 }
 
-.advantagesBlock, 
+.advantagesBlock,
 .problemsBlock,
+.reviewBlock,
 .questionsBlock,
 .triesBlock,
 .mainBlock {
-  padding: $paddingVerticalBlockBig $paddingMedium;
-  align-items: center;
-  margin: 0 auto;
   max-width: $maxWidthContainer;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  margin: 0 auto;
+  background-color: var(--secondaryBgColor);
   gap: $gapExtraLarge;
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {
@@ -47,10 +54,13 @@
   }
 }
 
-.responseBlock {
+.questionsBlock,
+.reviewBlock {
   background-color: var(--primaryBgColor);
-  margin: 0 auto;
-  max-width: $maxWidthContainer;
+}
+
+.reviewList {
+  justify-content: center;
 }
 
 .advantages {
@@ -60,6 +70,29 @@
 }
 
 .problems {
-  gap: $gapLarge;
   width: 100%;
+  gap: $gapLarge;
+}
+
+.accordion {
+  width: 100%;
+  max-width: calc($accordionMaxWidth + 2 * $paddingMedium);
+  padding: 0 $paddingMedium;
+}
+
+.triesContainer {
+  padding: $paddingLarge;
+  gap: $gapLarge;
+}
+
+.triesContentBlock {
+  gap: $gapBig;
+}
+
+.triesActionButton {
+  max-width: max-content;
+}
+
+.icon {
+  stroke: var(--secondaryStrokeColor);
 }

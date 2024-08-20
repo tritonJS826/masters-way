@@ -1,11 +1,12 @@
 import {TrackHeader} from "src/analytics/headerAnalytics";
 import logo from "src/assets/mastersWayLogo.svg";
+import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
-import {languageOptions} from "src/component/header/Header";
+import {languageOptions, LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {Select} from "src/component/select/Select";
+import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
@@ -18,25 +19,25 @@ import styles from "src/logic/landingPages/headerLanding/HeaderLanding.module.sc
  */
 interface HeaderLandingProps {
 
-   /**
-    * Current language
-    */
-   language: Language;
+  /**
+   * Current language
+   */
+  language: Language;
 
-   /**
-    * Callback to set language
-    */
-   setLanguage: (language: Language) => void;
+  /**
+   * Callback to set language
+   */
+  setLanguage: (language: Language) => void;
 
-   /**
-    * Current theme
-    */
-   theme: Theme;
+  /**
+   * Current theme
+   */
+  theme: Theme;
 
-   /**
-    * Callback to set theme
-    */
-   setTheme: (theme: Theme) => void;
+  /**
+   * Callback to set theme
+   */
+  setTheme: (theme: Theme) => void;
 
 }
 
@@ -52,13 +53,17 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
         path={pages.home.getPath({})}
         onClick={TrackHeader.trackLogoClick}
       >
-        <Image
-          alt="Logo image"
-          src={logo}
+        <ThemedImage
           className={styles.logo}
+          sources={getMapThemeSources({
+            [Theme.DARK]: logoLight,
+            [Theme.LIGHT]: logo,
+          })}
+          theme={props.theme}
+          name={LOGO_TEXT}
         />
       </Link>
-      <HorizontalContainer>
+      <HorizontalContainer className={styles.navBlock}>
         <div>
           Block
         </div>
@@ -100,8 +105,8 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
         />
 
         <Button
-          value={LanguageService.header.logoutButton[props.language]}
           buttonType={ButtonType.PRIMARY}
+          value={LanguageService.header.logoutButton[props.language]}
           onClick={() => {}}
         />
       </HorizontalContainer>
