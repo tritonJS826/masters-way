@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
+  CustomErrorsNoRightToChangeDayReportError,
   SchemasCreateProblemPayload,
   SchemasProblemPopulatedResponse,
   SchemasUpdateProblemPayload,
-  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
+    CustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    CustomErrorsNoRightToChangeDayReportErrorToJSON,
     SchemasCreateProblemPayloadFromJSON,
     SchemasCreateProblemPayloadToJSON,
     SchemasProblemPopulatedResponseFromJSON,
     SchemasProblemPopulatedResponseToJSON,
     SchemasUpdateProblemPayloadFromJSON,
     SchemasUpdateProblemPayloadToJSON,
-    UtilNoRightToChangeDayReportErrorFromJSON,
-    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreateProblemRequest {

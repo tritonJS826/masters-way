@@ -333,13 +333,8 @@ export const WayPage = observer((props: WayPageProps) => {
     return newDayReport;
   };
 
-  const allDatesTimestamps = way.dayReports.map(report => report.createdAt.getTime());
-  const maximumDateTimestamp = Math.max(...allDatesTimestamps);
-  const minimumDateTimestamp = Math.min(...allDatesTimestamps);
-
-  const totalDaysOnWay = allDatesTimestamps.length
-    ? Math.ceil((maximumDateTimestamp - minimumDateTimestamp + SMALL_CORRECTION_MILLISECONDS) / DAY_MILLISECONDS)
-    : 0;
+  const daysFromStart = Math.ceil((new Date(currentDate).getTime() -
+    way.createdAt.getTime() + SMALL_CORRECTION_MILLISECONDS) / DAY_MILLISECONDS);
 
   const compositeWayOwnersParticipant = way.children.map((child) => child.owner).concat(way.owner);
 
@@ -559,7 +554,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
             <Title
               level={HeadingLevel.h5}
-              text={`${totalDaysOnWay} ${LanguageService.way.wayInfo.daysFromStart[language]}`}
+              text={`${daysFromStart} ${LanguageService.way.wayInfo.daysFromStart[language]}`}
               placeholder=""
             />
 

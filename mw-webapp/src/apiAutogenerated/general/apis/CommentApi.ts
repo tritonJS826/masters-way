@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
+  CustomErrorsNoRightToChangeDayReportError,
   SchemasCommentPopulatedResponse,
   SchemasCreateCommentPayload,
   SchemasUpdateCommentPayload,
-  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
+    CustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    CustomErrorsNoRightToChangeDayReportErrorToJSON,
     SchemasCommentPopulatedResponseFromJSON,
     SchemasCommentPopulatedResponseToJSON,
     SchemasCreateCommentPayloadFromJSON,
     SchemasCreateCommentPayloadToJSON,
     SchemasUpdateCommentPayloadFromJSON,
     SchemasUpdateCommentPayloadToJSON,
-    UtilNoRightToChangeDayReportErrorFromJSON,
-    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreateCommentRequest {

@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
+  CustomErrorsNoRightToChangeDayReportError,
   SchemasCreatePlanPayload,
   SchemasPlanPopulatedResponse,
   SchemasUpdatePlanPayload,
-  UtilNoRightToChangeDayReportError,
 } from '../models/index';
 import {
+    CustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    CustomErrorsNoRightToChangeDayReportErrorToJSON,
     SchemasCreatePlanPayloadFromJSON,
     SchemasCreatePlanPayloadToJSON,
     SchemasPlanPopulatedResponseFromJSON,
     SchemasPlanPopulatedResponseToJSON,
     SchemasUpdatePlanPayloadFromJSON,
     SchemasUpdatePlanPayloadToJSON,
-    UtilNoRightToChangeDayReportErrorFromJSON,
-    UtilNoRightToChangeDayReportErrorToJSON,
 } from '../models/index';
 
 export interface CreatePlanRequest {
