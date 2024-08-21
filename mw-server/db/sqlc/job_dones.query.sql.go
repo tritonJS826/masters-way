@@ -165,7 +165,7 @@ description = coalesce($2, description),
 time = coalesce($3, time)
 WHERE job_dones.uuid = $4
 RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid,
-    (SELECT name FROM users WHERE job_dones.owner_uuid = users.uuid) AS owner_name,
+    (SELECT name FROM users WHERE users.uuid = job_dones.owner_uuid) AS owner_name,
     -- get tag uuids
     COALESCE(
         ARRAY(

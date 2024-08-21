@@ -113,9 +113,9 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	userUUID := pgtype.UUID{Bytes: uuid.MustParse(userIDRaw.(string)), Valid: true}
 	commentUUID := pgtype.UUID{Bytes: uuid.MustParse(commentId), Valid: true}
 
-	userPermission, err := cc.db.GetIsUserHavingPermissionsForPlan(ctx, db.GetIsUserHavingPermissionsForPlanParams{
-		UserUuid: userUUID,
-		PlanUuid: commentUUID,
+	userPermission, err := cc.db.GetIsUserHavingPermissionsForComment(ctx, db.GetIsUserHavingPermissionsForCommentParams{
+		UserUuid:    userUUID,
+		CommentUuid: commentUUID,
 	})
 	util.HandleErrorGin(ctx, err)
 

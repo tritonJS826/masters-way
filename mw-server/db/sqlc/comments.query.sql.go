@@ -150,14 +150,13 @@ SET
 updated_at = coalesce($1, updated_at),
 description = coalesce($2, description)
 WHERE comments.uuid = $3
-RETURNING uuid, created_at, updated_at, description, owner_uuid, day_report_uuid, (SELECT name FROM users WHERE comments.owner_uuid = $4) AS owner_name
+RETURNING uuid, created_at, updated_at, description, owner_uuid, day_report_uuid, (SELECT name FROM users WHERE users.uuid = comments.owner_uuid) AS owner_name
 `
 
 type UpdateCommentParams struct {
 	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
 	Description pgtype.Text      `json:"description"`
 	Uuid        pgtype.UUID      `json:"uuid"`
-	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
 }
 
 type UpdateCommentRow struct {
@@ -171,12 +170,7 @@ type UpdateCommentRow struct {
 }
 
 func (q *Queries) UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error) {
-	row := q.db.QueryRow(ctx, updateComment,
-		arg.UpdatedAt,
-		arg.Description,
-		arg.Uuid,
-		arg.OwnerUuid,
-	)
+	row := q.db.QueryRow(ctx, updateComment, arg.UpdatedAt, arg.Description, arg.Uuid)
 	var i UpdateCommentRow
 	err := row.Scan(
 		&i.Uuid,
