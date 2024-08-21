@@ -35,11 +35,22 @@ func Test_openapi_SocketAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test SocketAPIService SendMessageToSocket", func(t *testing.T) {
+	t.Run("Test SocketAPIService SendMessageEvent", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		httpRes, err := apiClient.SocketAPI.SendMessageToSocket(context.Background()).Execute()
+		httpRes, err := apiClient.SocketAPI.SendMessageEvent(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test SocketAPIService SendRoomEvent", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		httpRes, err := apiClient.SocketAPI.SendRoomEvent(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

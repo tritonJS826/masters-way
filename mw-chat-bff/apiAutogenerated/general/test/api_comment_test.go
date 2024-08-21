@@ -1,5 +1,5 @@
 /*
-Masters way API
+Masters way general API
 
 Testing CommentAPIService
 

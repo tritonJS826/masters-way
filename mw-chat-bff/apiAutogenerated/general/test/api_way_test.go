@@ -1,5 +1,5 @@
 /*
-Masters way API
+Masters way general API
 
 Testing WayAPIService
 
@@ -66,6 +66,20 @@ func Test_openapi_WayAPIService(t *testing.T) {
 		var wayId string
 
 		resp, httpRes, err := apiClient.WayAPI.GetWayByUuid(context.Background(), wayId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test WayAPIService GetWayStatisticsByUuid", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var wayId string
+
+		resp, httpRes, err := apiClient.WayAPI.GetWayStatisticsByUuid(context.Background(), wayId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

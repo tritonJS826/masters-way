@@ -43,7 +43,7 @@ time = coalesce(sqlc.narg('time'), time),
 is_done = coalesce(sqlc.narg('is_done'), is_done)
 WHERE plans.uuid = sqlc.arg('uuid')
 RETURNING *,
-    (SELECT name FROM users WHERE plans.owner_uuid = users.uuid) AS owner_name,
+    (SELECT name FROM users WHERE users.uuid = plans.owner_uuid) AS owner_name,
     -- get tag uuids
     COALESCE(
         ARRAY(
