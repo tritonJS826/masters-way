@@ -1,20 +1,20 @@
 @import "src/styles/variables";
 
-.goalItem {
+.advantageItem {
   width: 20%;
   min-width: $minWidthBlock;
   align-items: center;
-  gap: $gapMedium;
   justify-content: center;
   margin: 0 auto;
+  gap: $gapMedium;
 }
 
-.goalTitle {
+.advantageTitle {
   font-size: $fontSizeTitleSmall;
   text-align: center;
 }
 
-.goalDescription {
+.advantageDescription {
   text-align: center;
 }
 

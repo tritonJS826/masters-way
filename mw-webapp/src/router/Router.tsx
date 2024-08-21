@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import {HeaderType} from "src/component/header/Header";
-import {LandingLayout} from "src/logic/landingPages/LandingLayout";
+import {LandingLayout} from "src/land/LandingLayout";
 import {Layout} from "src/logic/Layout";
 import {pages} from "src/router/pages";
 import {WithValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";

@@ -3,7 +3,7 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {pages} from "src/router/pages";
-import styles from "src/logic/landingPages/landingPage/LandingPage.module.scss";
+import styles from "src/land/landingPage/LandingPage.module.scss";
 
 /**
  * Main landing page

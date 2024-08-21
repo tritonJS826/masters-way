@@ -1,6 +1,7 @@
 import {TrackHeader} from "src/analytics/headerAnalytics";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
+import {AnchorLink} from "src/component/anchorLink/AnchorLink";
 import {Button, ButtonType} from "src/component/button/Button";
 import {languageOptions, LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -12,7 +13,23 @@ import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import styles from "src/logic/landingPages/headerLanding/HeaderLanding.module.scss";
+import styles from "src/land/headerLanding/HeaderLanding.module.scss";
+
+/**
+ * AnchorLink props
+ */
+export interface NavLink {
+
+  /**
+   * Should be unique and be equal of id element to which need link
+   */
+  path: string;
+
+  /**
+   * Value of anchor link
+   */
+  value: string;
+}
 
 /**
  *Header landing props
@@ -39,6 +56,11 @@ interface HeaderLandingProps {
    */
   setTheme: (theme: Theme) => void;
 
+  /**
+   * Navigation list of anchor links
+   */
+  navList: NavLink[];
+
 }
 
 /**
@@ -64,21 +86,14 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
         />
       </Link>
       <HorizontalContainer className={styles.navBlock}>
-        <div>
-          Block
-        </div>
-        <div>
-          Block
-        </div>
-        <div>
-          Block
-        </div>
-        <div>
-          Block
-        </div>
-        <div>
-          Block
-        </div>
+        {props.navList.map((navLink) => (
+          <AnchorLink
+            path={navLink.path}
+            key={navLink.value}
+          >
+            {navLink.value}
+          </AnchorLink>
+        ))}
       </HorizontalContainer>
 
       <HorizontalContainer className={styles.headerThemeBlock}>

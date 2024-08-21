@@ -77,13 +77,13 @@ const Page404Lazy = React.lazy(() => import("src/logic/page404/Page404")
 const Page404 = () => (<>
   <Page404Lazy />
 </>);
-const MentorsLandingPageLazy = React.lazy(() => import("src/logic/landingPages/mentorsLandingPage/MentorsLandingPage")
+const MentorsLandingPageLazy = React.lazy(() => import("src/land/mentorsLandingPage/MentorsLandingPage")
   .then((module) => ({default: module.MentorsLandingPage})));
 const MentorsLandingPage = () => (<>
   <MentorsLandingPageLazy />
 </>);
 
-const LandingPageLazy = React.lazy(() => import("src/logic/landingPages/landingPage/LandingPage")
+const LandingPageLazy = React.lazy(() => import("src/land/landingPage/LandingPage")
   .then((module) => ({default: module.LandingPage})));
 const LandingPage = () => (<>
   <LandingPage />

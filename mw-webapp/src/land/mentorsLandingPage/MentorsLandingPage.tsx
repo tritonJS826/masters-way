@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {AdvantageItem} from "src/component/advantageItem/AdvantageItem";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -9,17 +10,38 @@ import {ReviewCard} from "src/component/reviewCard/ReviewCard";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {AdvantageItem} from "src/logic/landingPages/mentorsLandingPage/advantageItem/AdvantageItem";
-import {ProblemItem} from "src/logic/landingPages/mentorsLandingPage/problemItem/ProblemItem";
+import {themeStore} from "src/globalStore/ThemeStore";
+import {HeaderLanding, NavLink} from "src/land/headerLanding/HeaderLanding";
+import {ProblemItem} from "src/land/mentorsLandingPage/problemItem/ProblemItem";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import styles from "src/logic/landingPages/mentorsLandingPage/MentorsLandingPage.module.scss";
+import styles from "src/land/mentorsLandingPage/MentorsLandingPage.module.scss";
+
+const navList: NavLink[] = [
+  {
+    path: "advantages",
+    value: "Advantages",
+  },
+  {
+    path: "problems",
+    value: "Problems",
+  },
+  {
+    path: "reviews",
+    value: "Reviews",
+  },
+  {
+    path: "questions",
+    value: "Questions",
+  },
+];
 
 /**
  * Mentors landing page
  */
 export const MentorsLandingPage = observer(() => {
-  const {language} = languageStore;
+  const {language, setLanguage} = languageStore;
+  const {theme, setTheme} = themeStore;
 
   const accordionItems = LanguageService.aboutProject.accordion.map((data) => ({
     trigger: {child: data.header[language]},
@@ -29,6 +51,13 @@ export const MentorsLandingPage = observer(() => {
   return (
     <>
       <div className={styles.container}>
+        <HeaderLanding
+          language={language}
+          setLanguage={setLanguage}
+          theme={theme}
+          setTheme={setTheme}
+          navList={navList}
+        />
         <VerticalContainer className={styles.mainBlock}>
           <VerticalContainer className={styles.titleBlock}>
             <Title
@@ -60,7 +89,11 @@ export const MentorsLandingPage = observer(() => {
           />
         </VerticalContainer>
 
-        <VerticalContainer className={styles.advantagesBlock}>
+        {/* Can't use VErticalContainer because anchor links don't works */}
+        <div
+          className={styles.advantagesBlock}
+          id="advantages"
+        >
           <Title
             className={styles.title}
             level={HeadingLevel.h2}
@@ -85,9 +118,12 @@ export const MentorsLandingPage = observer(() => {
               description="Используйте 1 предложение в 1-3 строчки "
             />
           </HorizontalContainer>
-        </VerticalContainer>
+        </div>
 
-        <VerticalContainer className={styles.problemsBlock}>
+        <div
+          className={styles.problemsBlock}
+          id="problems"
+        >
           <VerticalContainer className={styles.titleBlock}>
             <Title
               className={styles.title}
@@ -117,9 +153,12 @@ export const MentorsLandingPage = observer(() => {
               imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000"
             />
           </VerticalContainer>
-        </VerticalContainer>
+        </div>
 
-        <VerticalContainer className={styles.reviewBlock}>
+        <div
+          className={styles.reviewBlock}
+          id="reviews"
+        >
           <div className={styles.titleBlock}>
             <Title
               className={styles.title}
@@ -148,9 +187,12 @@ export const MentorsLandingPage = observer(() => {
               reviewerName="Anna"
             />
           </HorizontalContainer>
-        </VerticalContainer>
+        </div>
 
-        <VerticalContainer className={styles.questionsBlock}>
+        <div
+          className={styles.questionsBlock}
+          id="questions"
+        >
           <VerticalContainer className={styles.titleBlock}>
             <Title
               className={styles.title}
@@ -167,7 +209,7 @@ export const MentorsLandingPage = observer(() => {
             type={accordionTypes.multiple}
             className={styles.accordion}
           />
-        </VerticalContainer>
+        </div>
 
         <HorizontalContainer className={styles.triesBlock}>
           <HorizontalContainer className={styles.triesContainer}>

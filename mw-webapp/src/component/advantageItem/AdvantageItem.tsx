@@ -1,7 +1,7 @@
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import styles from "src/logic/landingPages/mentorsLandingPage/advantageItem/AdvantageItem.module.scss";
+import styles from "src/component/advantageItem/AdvantageItem.module.scss";
 
 /**
  * Advantage item props
@@ -24,7 +24,7 @@ interface AdvantageItemProps {
  */
 export const AdvantageItem = (props: AdvantageItemProps) => {
   return (
-    <VerticalContainer className={styles.goalItem}>
+    <VerticalContainer className={styles.advantageItem}>
       <Icon
         name="WayIcon"
         size={IconSize.MEDIUM}
@@ -33,11 +33,11 @@ export const AdvantageItem = (props: AdvantageItemProps) => {
       <Title
         level={HeadingLevel.h3}
         text={props.title}
-        className={styles.goalTitle}
-        classNameHeading={styles.goalTitle}
+        className={styles.advantageTitle}
+        classNameHeading={styles.advantageTitle}
         placeholder=""
       />
-      <p className={styles.goalDescription}>
+      <p className={styles.advantageDescription}>
         {props.description}
       </p>
     </VerticalContainer>

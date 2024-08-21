@@ -1,7 +1,6 @@
 @import "src/styles/variables";
 
 .problemItem {
-  // gap: $gapExtraLarge;
   gap: 0;
 
   @media (max-width: $mediaWidthTablet) {

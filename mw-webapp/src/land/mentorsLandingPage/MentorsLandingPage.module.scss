@@ -1,9 +1,10 @@
 @import "src/styles/variables";
 
 $accordionMaxWidth: 1032px;
+$maxWidthTitleBlock: 780px;
 
 .titleBlock {
-  max-width: 780px;
+  max-width: $maxWidthTitleBlock;
   gap: $gapLarge;
 }
 
@@ -42,7 +43,9 @@ $accordionMaxWidth: 1032px;
 .questionsBlock,
 .triesBlock,
 .mainBlock {
+  display: flex;
   max-width: $maxWidthContainer;
+  flex-direction: column;
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
   margin: 0 auto;
@@ -52,6 +55,18 @@ $accordionMaxWidth: 1032px;
   @media only screen and (max-width: $mediaWidthMobileMedium) {
     padding: $paddingExtraMedium;
   }
+}
+
+.advantagesBlock,
+.problemsBlock,
+.reviewBlock,
+.questionsBlock {
+  // Workaround for smooth anchor link earlier then block  for don't hide under header https://misha.agency/css/ssyilki-yakori.html
+  border-top: 55px solid transparent;
+  margin-top: -55px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
 }
 
 .questionsBlock,
@@ -76,7 +91,7 @@ $accordionMaxWidth: 1032px;
 
 .accordion {
   width: 100%;
-  max-width: calc($accordionMaxWidth + 2 * $paddingMedium);
+  // max-width: calc($accordionMaxWidth + 2 * $paddingMedium);
   padding: 0 $paddingMedium;
 }
 
