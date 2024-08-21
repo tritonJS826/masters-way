@@ -103,5 +103,3 @@ func LoadConfig(path string) (config Config, err error) {
 
 	return
 }
-
-var Env, _ = LoadConfig(".")

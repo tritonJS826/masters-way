@@ -113,7 +113,7 @@ var (
 func init() {
 	ctx = context.TODO()
 
-	pgxPool, err := pgxpool.New(ctx, config.Env.DbSource)
+	pgxPool, err := pgxpool.New(ctx, config.Env.DBSource)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
 		os.Exit(1)
