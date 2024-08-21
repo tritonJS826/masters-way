@@ -1,5 +1,5 @@
 /*
-Masters way API
+Masters way general API
 
 Testing DayReportAPIService
 
@@ -34,27 +34,13 @@ func Test_openapi_DayReportAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test DayReportAPIService GetDayReportsByWayUuid", func(t *testing.T) {
+	t.Run("Test DayReportAPIService GetDayReports", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var wayId string
 
-		resp, httpRes, err := apiClient.DayReportAPI.GetDayReportsByWayUuid(context.Background(), wayId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
-	t.Run("Test DayReportAPIService UpdateDayReport", func(t *testing.T) {
-
-		t.Skip("skip test")  // remove to run test
-
-		var dayReportId string
-
-		resp, httpRes, err := apiClient.DayReportAPI.UpdateDayReport(context.Background(), dayReportId).Execute()
+		resp, httpRes, err := apiClient.DayReportAPI.GetDayReports(context.Background(), wayId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
