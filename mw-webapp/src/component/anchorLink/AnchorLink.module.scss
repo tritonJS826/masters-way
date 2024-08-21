@@ -1,0 +1,11 @@
+@import "src/styles/variables";
+
+.link {
+  color: var(--primaryTextColor);
+  font-size: $fontSizeMedium;
+  transition-duration: $elementHoverTransition;
+
+  &:active {
+    text-decoration: none;
+  }
+}

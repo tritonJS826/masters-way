@@ -10,7 +10,7 @@ $accordionMinHeight: 60px;
 
 .icon {
   flex-shrink: 0;
-  stroke: var(--secondaryStrokeColor);
+  stroke: var(--primaryStrokeColor);
 }
 
 .accordionTrigger {
@@ -21,7 +21,7 @@ $accordionMinHeight: 60px;
   padding: $paddingSmall 0;
   border: none;
   background-color: transparent;
-  color: var(--secondaryTextColor);
+  color: var(--primaryTextColor);
   cursor: pointer;
   font-family: inherit;
   font-size: $fontSizeBig;

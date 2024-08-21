@@ -1,0 +1,39 @@
+@import "src/styles/variables";
+
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  width: 100%;
+  max-width: $maxWidthContainer;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: $paddingBig $paddingMedium;
+  border-bottom: $primaryBorder solid var(--generalPrimaryColor);
+  margin: 0 auto;
+  background-color: var(--primaryBgColor);
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.navBlock {
+  gap: $gapLarge;
+}
+
+.headerThemeBlock {
+  align-items: center;
+  gap: $gapBig;
+  @media (max-width: $mediaWidthTablet) {
+    gap: $gapMedium;
+  }
+  @media (max-width: $mediaWidthMobileBig) {
+    gap: $gapSmall;
+  }
+}
+
+.icon {
+  stroke: var(--secondaryStrokeColor);
+}

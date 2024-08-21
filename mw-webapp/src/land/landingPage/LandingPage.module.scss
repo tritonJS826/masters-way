@@ -1,0 +1,9 @@
+@import "src/styles/variables";
+
+.landingList {
+  max-width: $maxWidthContainer;
+  flex: 1 0 0;
+  padding: 0 $paddingMedium;
+  margin: 0 auto;
+  gap: $gapSmall;
+}

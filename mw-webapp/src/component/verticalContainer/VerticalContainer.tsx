@@ -16,6 +16,11 @@ interface VerticalContainerProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * Property need for the anchor links
+   */
+  id?: string;
 }
 
 /**
