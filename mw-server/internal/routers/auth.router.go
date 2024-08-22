@@ -8,21 +8,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type AuthRoutes struct {
+type AuthRouter struct {
 	authController controllers.IAuthController
 }
 
-func NewRouteAuth(authController controllers.IAuthController) *AuthRoutes {
-	return &AuthRoutes{authController}
+func NewAuthRouter(authController controllers.IAuthController) *AuthRouter {
+	return &AuthRouter{authController}
 }
 
-func (cr *AuthRoutes) SetAuthRoutes(rg *gin.RouterGroup) {
+func (ar *AuthRouter) SetAuthRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("auth")
-	router.GET("/:provider/callback", cr.authController.GetAuthCallbackFunction)
-	router.GET("/:provider", cr.authController.BeginAuth)
-	router.GET("/current", auth.AuthMiddleware(), cr.authController.GetCurrentAuthorizedUserByToken)
-	router.GET("/logout/:provider", auth.AuthMiddleware(), cr.authController.Logout)
+	router.GET("/:provider/callback", ar.authController.GetAuthCallbackFunction)
+	router.GET("/:provider", ar.authController.BeginAuth)
+	router.GET("/current", auth.AuthMiddleware(), ar.authController.GetCurrentAuthorizedUserByToken)
+	router.GET("/logout/:provider", auth.AuthMiddleware(), ar.authController.Logout)
 	if config.Env.EnvType != "prod" {
-		router.GET("/login/local/:userEmail", cr.authController.GetUserTokenByEmail)
+		router.GET("/login/local/:userEmail", ar.authController.GetUserTokenByEmail)
 	}
 }

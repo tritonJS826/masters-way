@@ -12,9 +12,15 @@ type IAuthRouter interface {
 	SetAuthRoutes(rg *gin.RouterGroup)
 }
 
+type ICommentRouter interface {
+	SetCommentRoutes(rg *gin.RouterGroup)
+}
+
 type Router struct {
 	Gin *gin.Engine
+
 	IAuthRouter
+	ICommentRouter
 }
 
 func NewRouter(controller *controllers.Controller) *Router {
@@ -25,8 +31,9 @@ func NewRouter(controller *controllers.Controller) *Router {
 	})
 
 	return &Router{
-		Gin:         ginRouter,
-		IAuthRouter: NewRouteAuth(controller.IAuthController),
+		Gin:            ginRouter,
+		IAuthRouter:    NewAuthRouter(controller.IAuthController),
+		ICommentRouter: NewCommentRouter(controller.ICommentController),
 	}
 }
 

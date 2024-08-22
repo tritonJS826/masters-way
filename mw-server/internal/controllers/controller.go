@@ -14,12 +14,20 @@ type IAuthController interface {
 	Logout(ctx *gin.Context)
 }
 
+type ICommentController interface {
+	CreateComment(ctx *gin.Context)
+	UpdateComment(ctx *gin.Context)
+	DeleteCommentById(ctx *gin.Context)
+}
+
 type Controller struct {
 	IAuthController
+	ICommentController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		IAuthController: NewAuthController(),
+		IAuthController:    NewAuthController(),
+		ICommentController: NewCommentController(),
 	}
 }

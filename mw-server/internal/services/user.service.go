@@ -46,18 +46,18 @@ type CreateUserParams struct {
 	IsMentor    bool
 }
 
-func (userService *UserService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
-	user, err := userService.IUserRepository.GetUserByEmail(ctx, params.Email)
+func (us *UserService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
+	user, err := us.IUserRepository.GetUserByEmail(ctx, params.Email)
 
 	var userUUID uuid.UUID
 	if err == nil {
 		userUUID = user.Uuid.Bytes
 	} else {
-		dbUser, _ := userService.CreateUser(ctx, params)
+		dbUser, _ := us.CreateUser(ctx, params)
 		userUUID = uuid.MustParse(dbUser.Uuid)
 	}
 
-	populatedUser, err := userService.GetPopulatedUserById(ctx, userUUID)
+	populatedUser, err := us.GetPopulatedUserById(ctx, userUUID)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (userService *UserService) FindOrCreateUserByEmail(ctx context.Context, par
 	return populatedUser, nil
 }
 
-func (userService *UserService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
+func (us *UserService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
 	args := db.CreateUserParams{
 		Name:        params.Name,
 		Email:       params.Email,
@@ -75,7 +75,7 @@ func (userService *UserService) CreateUser(ctx context.Context, params *CreateUs
 		IsMentor:    params.IsMentor,
 	}
 
-	user, err := userService.IUserRepository.CreateUser(ctx, args)
+	user, err := us.IUserRepository.CreateUser(ctx, args)
 	if err != nil {
 		return nil, err
 	}
@@ -109,9 +109,9 @@ type dbWay struct {
 	ChildrenUuids       []string
 }
 
-func (userService *UserService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
+func (us *UserService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
 	ways := lo.Map(dbWays, func(dbWay dbWay, i int) schemas.WayPlainResponse {
-		dbOwner, _ := userService.IUserRepository.GetUserById(ctx, dbWay.OwnerUuid)
+		dbOwner, _ := us.IUserRepository.GetUserById(ctx, dbWay.OwnerUuid)
 		owner := schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbWay.OwnerUuid).String(),
 			Name:        dbOwner.Name,
@@ -122,7 +122,7 @@ func (userService *UserService) convertDbWaysToPlainWays(ctx context.Context, db
 			IsMentor:    dbOwner.IsMentor,
 		}
 
-		dbMentors, _ := userService.IUserRepository.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+		dbMentors, _ := us.IUserRepository.GetMentorUsersByWayId(ctx, dbWay.Uuid)
 		mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
 			return schemas.UserPlainResponse{
 				Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
@@ -135,7 +135,7 @@ func (userService *UserService) convertDbWaysToPlainWays(ctx context.Context, db
 			}
 		})
 
-		dbWayTags, _ := userService.IUserRepository.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+		dbWayTags, _ := us.IUserRepository.GetListWayTagsByWayId(ctx, dbWay.Uuid)
 		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
 			return schemas.WayTagResponse{
 				Uuid: util.ConvertPgUUIDToUUID(dbWayTag.Uuid).String(),
@@ -167,7 +167,7 @@ func (userService *UserService) convertDbWaysToPlainWays(ctx context.Context, db
 	return ways
 }
 
-func (userService *UserService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {
+func (us *UserService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {
 	return lo.Map(rawWay, func(dbWayRaw db.GetWaysByCollectionIdRow, i int) dbWay {
 		return dbWay{
 			Uuid:                dbWayRaw.Uuid,
@@ -211,7 +211,7 @@ func (userService *UserService) dbOwnWaysToDbWays(rawWay []db.GetOwnWaysByUserId
 	})
 }
 
-func (userService *UserService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {
+func (us *UserService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {
 	return lo.Map(rawWay, func(dbWayRaw db.GetMentoringWaysByMentorIdRow, i int) dbWay {
 		return dbWay{
 			Uuid:                dbWayRaw.Uuid,
@@ -233,7 +233,7 @@ func (userService *UserService) dbMentoringWaysToDbWays(rawWay []db.GetMentoring
 	})
 }
 
-func (userService *UserService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {
+func (us *UserService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {
 	return lo.Map(rawWay, func(dbWayRaw db.GetFavoriteWaysByUserIdRow, i int) dbWay {
 		return dbWay{
 			Uuid:                dbWayRaw.Uuid,
@@ -255,19 +255,19 @@ func (userService *UserService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWa
 	})
 }
 
-func (userService *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
+func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
 	userPgUUID := pgtype.UUID{Bytes: userUuid, Valid: true}
-	user, err := userService.IUserRepository.GetUserById(ctx, userPgUUID)
+	user, err := us.IUserRepository.GetUserById(ctx, userPgUUID)
 	if err != nil {
 		return nil, err
 	}
 
-	dbOwnWays, _ := userService.IUserRepository.GetOwnWaysByUserId(ctx, user.Uuid)
-	ownWays := userService.convertDbWaysToPlainWays(ctx, userService.dbOwnWaysToDbWays(dbOwnWays))
-	dbMentoringWays, _ := userService.IUserRepository.GetMentoringWaysByMentorId(ctx, user.Uuid)
-	mentoringWays := userService.convertDbWaysToPlainWays(ctx, userService.dbMentoringWaysToDbWays(dbMentoringWays))
-	dbFavoriteWays, _ := userService.IUserRepository.GetFavoriteWaysByUserId(ctx, user.Uuid)
-	favoriteWays := userService.convertDbWaysToPlainWays(ctx, userService.dbFavoriteWaysToDbWays(dbFavoriteWays))
+	dbOwnWays, _ := us.IUserRepository.GetOwnWaysByUserId(ctx, user.Uuid)
+	ownWays := us.convertDbWaysToPlainWays(ctx, us.dbOwnWaysToDbWays(dbOwnWays))
+	dbMentoringWays, _ := us.IUserRepository.GetMentoringWaysByMentorId(ctx, user.Uuid)
+	mentoringWays := us.convertDbWaysToPlainWays(ctx, us.dbMentoringWaysToDbWays(dbMentoringWays))
+	dbFavoriteWays, _ := us.IUserRepository.GetFavoriteWaysByUserId(ctx, user.Uuid)
+	favoriteWays := us.convertDbWaysToPlainWays(ctx, us.dbFavoriteWaysToDbWays(dbFavoriteWays))
 
 	defaultCollections := schemas.DefaultWayCollections{
 		Own: schemas.WayCollectionPopulatedResponse{
@@ -299,12 +299,12 @@ func (userService *UserService) GetPopulatedUserById(ctx context.Context, userUu
 		},
 	}
 
-	dbWayCollections, _ := userService.IUserRepository.GetWayCollectionsByUserId(ctx, user.Uuid)
+	dbWayCollections, _ := us.IUserRepository.GetWayCollectionsByUserId(ctx, user.Uuid)
 	wayCollections := lo.Map(dbWayCollections, func(collection db.WayCollection, i int) schemas.WayCollectionPopulatedResponse {
-		dbCollectionWays, _ := userService.IUserRepository.GetWaysByCollectionId(ctx, collection.Uuid)
-		dbCollectionWaysPrepared := userService.dbCollectionWaysToDbWays(dbCollectionWays)
+		dbCollectionWays, _ := us.IUserRepository.GetWaysByCollectionId(ctx, collection.Uuid)
+		dbCollectionWaysPrepared := us.dbCollectionWaysToDbWays(dbCollectionWays)
 
-		ways := userService.convertDbWaysToPlainWays(ctx, dbCollectionWaysPrepared)
+		ways := us.convertDbWaysToPlainWays(ctx, dbCollectionWaysPrepared)
 
 		wayCollection := schemas.WayCollectionPopulatedResponse{
 			Uuid:      util.ConvertPgUUIDToUUID(collection.Uuid).String(),
@@ -318,7 +318,7 @@ func (userService *UserService) GetPopulatedUserById(ctx context.Context, userUu
 		return wayCollection
 	})
 
-	tagsRaw, _ := userService.IUserRepository.GetListUserTagsByUserId(ctx, user.Uuid)
+	tagsRaw, _ := us.IUserRepository.GetListUserTagsByUserId(ctx, user.Uuid)
 	tags := lo.Map(tagsRaw, func(dbUserTag db.UserTag, i int) schemas.UserTagResponse {
 		return schemas.UserTagResponse{
 			Name: dbUserTag.Name,
@@ -326,16 +326,16 @@ func (userService *UserService) GetPopulatedUserById(ctx context.Context, userUu
 		}
 	})
 
-	wayRequestsRaw, _ := userService.IUserRepository.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
+	wayRequestsRaw, _ := us.IUserRepository.GetFromUserMentoringRequestWaysByUserId(ctx, user.Uuid)
 	wayRequests := lo.Map(wayRequestsRaw, func(dbWay db.GetFromUserMentoringRequestWaysByUserIdRow, i int) schemas.WayPlainResponse {
-		dbWayTags, _ := userService.IUserRepository.GetListWayTagsByWayId(ctx, dbWay.Uuid)
+		dbWayTags, _ := us.IUserRepository.GetListWayTagsByWayId(ctx, dbWay.Uuid)
 		wayTags := lo.Map(dbWayTags, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
 			return schemas.WayTagResponse{
 				Uuid: util.ConvertPgUUIDToUUID(dbWayTag.Uuid).String(),
 				Name: dbWayTag.Name,
 			}
 		})
-		dbMentors, _ := userService.IUserRepository.GetMentorUsersByWayId(ctx, dbWay.Uuid)
+		dbMentors, _ := us.IUserRepository.GetMentorUsersByWayId(ctx, dbWay.Uuid)
 		mentors := lo.Map(dbMentors, func(dbMentor db.User, i int) schemas.UserPlainResponse {
 			return schemas.UserPlainResponse{
 				Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
@@ -347,7 +347,7 @@ func (userService *UserService) GetPopulatedUserById(ctx context.Context, userUu
 				IsMentor:    dbMentor.IsMentor,
 			}
 		})
-		dbOwner, _ := userService.IUserRepository.GetUserById(ctx, dbWay.Uuid)
+		dbOwner, _ := us.IUserRepository.GetUserById(ctx, dbWay.Uuid)
 		owner := schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbOwner.Uuid).String(),
 			Name:        dbOwner.Name,
@@ -378,12 +378,12 @@ func (userService *UserService) GetPopulatedUserById(ctx context.Context, userUu
 		}
 	})
 
-	favoriteForUsersUuidRaw, _ := userService.IUserRepository.GetFavoriteUserUuidsByAcceptorUserId(ctx, user.Uuid)
+	favoriteForUsersUuidRaw, _ := us.IUserRepository.GetFavoriteUserUuidsByAcceptorUserId(ctx, user.Uuid)
 	favoriteForUsersUuid := lo.Map(favoriteForUsersUuidRaw, func(uuid pgtype.UUID, i int) string {
 		return util.ConvertPgUUIDToUUID(uuid).String()
 	})
 
-	favoriteUsersRaw, _ := userService.IUserRepository.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
+	favoriteUsersRaw, _ := us.IUserRepository.GetFavoriteUserByDonorUserId(ctx, user.Uuid)
 	favoriteUsers := lo.Map(favoriteUsersRaw, func(dbUser db.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),

@@ -21,13 +21,21 @@ type IUserService interface {
 	GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error)
 }
 
+type ICommentService interface {
+	CreateComment(ctx context.Context, params *CreateCommentParams) (*schemas.CommentPopulatedResponse, error)
+	UpdateComment(ctx context.Context, params *UpdateCommentParams) (*schemas.CommentPopulatedResponse, error)
+	DeleteCommentById(ctx context.Context, userID, commentID string) error
+}
+
 type Service struct {
 	IUserService
+	ICommentService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 	return &Service{
 		IUserService: NewUserService(queries),
+		// ICommentService
 	}
 }
