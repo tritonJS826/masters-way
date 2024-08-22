@@ -37,6 +37,7 @@ describe('NoAuth Header scope tests', () => {
         cy.visit(`/${allWayData.endpoint}`);
         headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
+        headerSelectors.settings.getThemeSwitcher().click();
 
         cy.checkThemeColors(Theme.DARK);
     });

@@ -18,7 +18,7 @@ $wayCardAdditionalHeight: 118px;
 .mainInfo {
   height: $wayCardMainHeight;
   padding: $paddingBig $paddingMedium $paddingMedium;
-  background-color: var(--generalPrimaryColor);
+  background-color: var(--mainInfoCardColor);
   gap: $gapMedium;
 }
 

@@ -16,7 +16,7 @@ import {Modal} from "src/component/modal/Modal";
 import {Select, SelectItemType} from "src/component/select/Select";
 import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
-import {getNextSwitchTheme, ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
+import {ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -217,6 +217,7 @@ export const Header = observer((props: HeaderProps) => {
               sources={getMapThemeSources({
                 [Theme.DARK]: logoLight,
                 [Theme.LIGHT]: logo,
+                [Theme.OBSIDIAN]: logoLight,
               })}
               theme={props.theme}
               name={LOGO_TEXT}
@@ -383,7 +384,7 @@ export const Header = observer((props: HeaderProps) => {
                     {LanguageService.sidebar.nightMode[props.language]}
                   </HorizontalContainer>
                   <Toggle
-                    onChange={() => props.setTheme(getNextSwitchTheme(props.theme))}
+                    onChange={() => props.setTheme(DEFAULT_THEME === props.theme ? Theme.LIGHT : DEFAULT_THEME)}
                     isDefaultChecked={DEFAULT_THEME === props.theme}
                     dataCy={navigationMenuIds.nightMode.slider}
                   />

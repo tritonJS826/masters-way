@@ -8,14 +8,19 @@ import {Theme} from "src/globalStore/ThemeStore";
 interface ThemeSourcesMap {
 
   /**
-   * Theme source
+   * Theme dark source
    */
   [Theme.DARK]: string;
 
   /**
-   * Theme source
+   * Theme light source
    */
   [Theme.LIGHT]: string;
+
+    /**
+     * Theme obsidian source
+     */
+    [Theme.OBSIDIAN]: string;
 }
 
 /**
@@ -25,6 +30,7 @@ export const getMapThemeSources = (sources: ThemeSourcesMap): Map<Theme, string>
   return new Map([
     [Theme.DARK, sources[Theme.DARK]],
     [Theme.LIGHT, sources[Theme.LIGHT]],
+    [Theme.OBSIDIAN, sources[Theme.OBSIDIAN]],
   ]);
 };
 

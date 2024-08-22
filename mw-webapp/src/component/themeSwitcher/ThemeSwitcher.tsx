@@ -11,7 +11,12 @@ import styles from "src/component/themeSwitcher/ThemeSwitcher.module.scss";
  * Calculate next switch theme
  */
 export const getNextSwitchTheme = (theme: Theme) => {
-  return theme === Theme.DARK ? Theme.LIGHT : Theme.DARK;
+
+  return theme === Theme.DARK
+    ? Theme.LIGHT
+    : theme === Theme.LIGHT
+      ? Theme.OBSIDIAN
+      : Theme.DARK;
 };
 
 /**
@@ -23,7 +28,11 @@ const getDescriptionForTheme = (theme: Theme, language: Language): string =>
 /**
  * Get icon for theme
  */
-const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK ? "SunIcon" : "MoonIcon";
+const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK
+  ? "SunIcon"
+  : theme === Theme.LIGHT
+    ? "GiftIcon"
+    : "MoonIcon";
 
 /**
  * ThemeSwitcher props

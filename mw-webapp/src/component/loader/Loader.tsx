@@ -42,6 +42,7 @@ export const Loader = (props: LoaderProps) => {
           sources={getMapThemeSources({
             [Theme.DARK]: logoLight,
             [Theme.LIGHT]: logo,
+            [Theme.OBSIDIAN]: logoLight,
           })}
           theme={props.theme}
           name={LOGO_TEXT}
@@ -54,6 +55,7 @@ export const Loader = (props: LoaderProps) => {
         sources={getMapThemeSources({
           [Theme.DARK]: logoLight,
           [Theme.LIGHT]: logo,
+          [Theme.OBSIDIAN]: logoLight,
         })}
         theme={props.theme}
         name={LOGO_TEXT}

@@ -33,7 +33,7 @@ describe("NoAuth User's ways scope tests", () => {
         cy.openAllUsersPage();
     });
 
-    const expectedCollectionButtonColor = hexToRgb(themedVariables.primaryBgBtnActiveColor[Theme.DARK]);
+    const expectedCollectionButtonColor = hexToRgb(themedVariables.wayCollectionCardActiveColor[Theme.DARK]);
 
     it('NoAuth_UserWay_OwnWaysCollectionButton', () => {
         allUsersSelectors.card.getCardLink(userWaysData.users.Alice.userName).click();
