@@ -27,15 +27,22 @@ type ICommentService interface {
 	DeleteCommentById(ctx context.Context, userID, commentID string) error
 }
 
+type IWayTagService interface {
+	AddWayTagToWay(ctx context.Context, name string, wayID string) (*schemas.WayTagResponse, error)
+	DeleteWayTagFromWayByTagID(ctx context.Context, wayTagID string, wayID string) error
+}
+
 type Service struct {
 	IUserService
 	ICommentService
+	IWayTagService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 	return &Service{
 		IUserService: NewUserService(queries),
-		// ICommentService
+		ICommentService: NewCommentService(queries),
+		IWayTagService: NewWayTagService(queries),
 	}
 }

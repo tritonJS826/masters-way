@@ -20,14 +20,21 @@ type ICommentController interface {
 	DeleteCommentById(ctx *gin.Context)
 }
 
+type IWayTagController interface {
+	AddWayTagToWay(ctx *gin.Context)
+	DeleteWayTagFromWayByTagId(ctx *gin.Context)
+}
+
 type Controller struct {
 	IAuthController
 	ICommentController
+	IWayTagController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
 		IAuthController:    NewAuthController(),
 		ICommentController: NewCommentController(),
+		IWayTagController: NewWayTagController(),
 	}
 }
