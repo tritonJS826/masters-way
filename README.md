@@ -28,7 +28,8 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 ### Requirements
 
-- golang 1.23.0 (we recommendd to use [gvm](https://github.com/moovweb/gvm), exist in snap) 
+- make 4.3 (GNU make) 
+- golang 1.23.0 (we recommendo to use [gvm](https://github.com/moovweb/gvm), exist in snap) 
 - node 22.5.1 (we recommend to use "nvm" or "n" package for installation)
 - pnpm 8.15.2 (https://pnpm.io)
 - sqlc v1.27.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
