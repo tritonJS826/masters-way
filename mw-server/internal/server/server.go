@@ -2,7 +2,7 @@ package server
 
 import (
 	"mwserver/internal/config"
-	"mwserver/internal/router"
+	"mwserver/internal/routers"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
@@ -11,10 +11,10 @@ import (
 type Server struct {
 	cfg        *config.Config
 	httpServer *http.Server
-	router     *router.Router
+	router     *routers.Router
 }
 
-func NewServer(cfg *config.Config, router *router.Router) *Server {
+func NewServer(cfg *config.Config, router *routers.Router) *Server {
 	// Apply CORS middleware with custom options
 	router.Gin.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{cfg.WebappBaseUrl},

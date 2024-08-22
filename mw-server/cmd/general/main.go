@@ -5,7 +5,7 @@ import (
 
 	"mwserver/internal/config"
 	"mwserver/internal/controllers"
-	"mwserver/internal/router"
+	"mwserver/internal/routers"
 	"mwserver/internal/server"
 	"mwserver/internal/services"
 	"mwserver/pkg/database"
@@ -32,7 +32,7 @@ func main() {
 	newService := services.NewService(newPool)
 	newController := controllers.NewController(newService)
 
-	newRouter := router.NewRouter(newController)
+	newRouter := routers.NewRouter(newController)
 	newRouter.SetRoutes()
 
 	newServer := server.NewServer(&newConfig, newRouter)
