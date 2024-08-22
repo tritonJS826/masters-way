@@ -4,8 +4,10 @@ import (
 	"log"
 
 	"mwserver/internal/config"
+	"mwserver/internal/controllers"
 	"mwserver/internal/router"
 	"mwserver/internal/server"
+	"mwserver/internal/services"
 	"mwserver/pkg/database"
 )
 
@@ -25,8 +27,14 @@ func main() {
 	// if err != nil {
 	// 	log.Fatalf("Failed to create client: %v", err)
 	// }
+	// defer geminiClient.Close()
 
-	newRouter := router.NewRouter()
+	newService := services.NewService(newPool)
+	newController := controllers.NewController(newService)
+
+	newRouter := router.NewRouter(newController)
+	newRouter.SetRoutes()
+
 	newServer := server.NewServer(&newConfig, newRouter)
 
 	log.Fatal(newServer.Run())
