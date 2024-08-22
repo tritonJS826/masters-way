@@ -8,10 +8,10 @@ import (
 )
 
 type WayTagRouter struct {
-	wayTagController controllers.IWayTagController
+	wayTagController *controllers.WayTagController
 }
 
-func NewRouteWayTag(wayTagController controllers.IWayTagController) *WayTagRouter {
+func NewWayTagRouter(wayTagController *controllers.WayTagController) *WayTagRouter {
 	return &WayTagRouter{wayTagController}
 }
 

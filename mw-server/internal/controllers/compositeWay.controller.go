@@ -1,24 +1,20 @@
 package controllers
 
 import (
-	"context"
 	"net/http"
 
-	db "mwserver/db/sqlc"
 	"mwserver/internal/services"
 	"mwserver/schemas"
 	"mwserver/util"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type CompositeWayController struct {
 	compositeWayService services.ICompositeWayService
 }
 
-func NewCompositeWayController(	compositeWayService services.ICompositeWayService) *CompositeWayController {
+func NewCompositeWayController(compositeWayService services.ICompositeWayService) *CompositeWayController {
 	return &CompositeWayController{compositeWayService}
 }
 
@@ -40,7 +36,7 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.compositeWayService.AddWayToCompositeWay(ctx, services.AddWayToCompositeWayParams{
+	response, err := cc.compositeWayService.AddWayToCompositeWay(ctx, &services.AddWayToCompositeWayParams{
 		ChildWayID:  payload.ChildWayUuid,
 		ParentWayID: payload.ParentWayUuid,
 	})
@@ -60,17 +56,12 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 // @Param childWayId path string true "childWay ID"
 // @Success 200
 // @Router /compositeWay/{parentWayId}/{childWayId} [delete]
-func (cc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) {
-	parentWayId := ctx.Param("parentWayId")
-	childWayId := ctx.Param("childWayId")
+func (cwc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) {
+	parentWayID := ctx.Param("parentWayId")
+	childWayID := ctx.Param("childWayId")
 
-	args := db.DeleteWayFromCompositeWayParams{
-		ParentUuid: pgtype.UUID{Bytes: uuid.MustParse(parentWayId), Valid: true},
-		ChildUuid:  pgtype.UUID{Bytes: uuid.MustParse(childWayId), Valid: true},
-	}
-	err := cc.db.DeleteWayFromCompositeWay(ctx, args)
+	err := cwc.compositeWayService.DeleteCompositeWayRelation(ctx, parentWayID, childWayID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
-
 }

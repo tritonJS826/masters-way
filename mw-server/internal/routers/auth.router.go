@@ -9,10 +9,10 @@ import (
 )
 
 type AuthRouter struct {
-	authController controllers.IAuthController
+	authController *controllers.AuthController
 }
 
-func NewAuthRouter(authController controllers.IAuthController) *AuthRouter {
+func NewAuthRouter(authController *controllers.AuthController) *AuthRouter {
 	return &AuthRouter{authController}
 }
 

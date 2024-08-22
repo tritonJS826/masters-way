@@ -19,8 +19,8 @@ type AuthController struct {
 	authService services.IUserService
 }
 
-func NewAuthController() *AuthController {
-	return &AuthController{}
+func NewAuthController(authService services.IUserService) *AuthController {
+	return &AuthController{authService}
 }
 
 // Log in with google oAuth

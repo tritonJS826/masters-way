@@ -8,10 +8,10 @@ import (
 )
 
 type CommentRouter struct {
-	commentController controllers.ICommentController
+	commentController *controllers.CommentController
 }
 
-func NewCommentRouter(commentController controllers.ICommentController) *CommentRouter {
+func NewCommentRouter(commentController *controllers.CommentController) *CommentRouter {
 	return &CommentRouter{commentController}
 }
 

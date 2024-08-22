@@ -7,6 +7,7 @@ import (
 	"mwserver/schemas"
 
 	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -33,20 +34,44 @@ type IWayTagService interface {
 }
 
 type ICompositeWayService interface {
-	AddWayToCompositeWay(ctx context.Context, params AddWayToCompositeWayParams) (*schemas.CompositeWayRelation, error)
+	AddWayToCompositeWay(ctx context.Context, params *AddWayToCompositeWayParams) (*schemas.CompositeWayRelation, error)
+	DeleteCompositeWayRelation(ctx context.Context, parentWayID, childWayID string) error
+}
+
+type IDayReportService interface {
+	CreateDayReport(ctx context.Context, wayID uuid.UUID) (*schemas.CompositeDayReportPopulatedResponse, error)
+	GetDayReportsByWayID(ctx context.Context, params *GetDayReportsByWayIdParams) (*schemas.ListDayReportsResponse, error)
+}
+
+type ILimitService interface {
+	CheckIsLimitReachedByPricingPlan(ctx context.Context, params *LimitReachedParams) error
+	GetMaxCompositeWayDepthByUserID(ctx context.Context, userID uuid.UUID) (int, error)
+}
+
+type IWayService interface {
+	GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error)
+	GetNestedWayIDs(ctx context.Context, parentWayUUID pgtype.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error)
 }
 
 type Service struct {
 	IUserService
 	ICommentService
 	IWayTagService
+	ICompositeWayService
+	IDayReportService
+	ILimitService
+	IWayService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
+
 	return &Service{
-		IUserService: NewUserService(queries),
-		ICommentService: NewCommentService(queries),
-		IWayTagService: NewWayTagService(queries),
+		IUserService:         NewUserService(queries),
+		ICommentService:      NewCommentService(queries),
+		IWayTagService:       NewWayTagService(queries),
+		ICompositeWayService: NewCompositeWayService(queries),
+		ILimitService:        NewLimitService(queries),
+		IDayReportService:    NewDayReportService(queries),
 	}
 }

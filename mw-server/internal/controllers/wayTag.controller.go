@@ -3,7 +3,6 @@ package controllers
 import (
 	"net/http"
 
-	"mwserver/auth"
 	"mwserver/internal/services"
 	"mwserver/schemas"
 	"mwserver/util"
@@ -12,11 +11,11 @@ import (
 )
 
 type WayTagController struct {
-	wayService services.IWayTagService
+	wayTagService services.IWayTagService
 }
 
-func NewWayTagController() *WayTagController {
-	return &WayTagController{}
+func NewWayTagController(wayTagService services.IWayTagService) *WayTagController {
+	return &WayTagController{wayTagService}
 }
 
 // Create wayTagRoute handler
@@ -36,8 +35,8 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
-	
-	response, err := cc.wayService.AddWayTagToWay(ctx, payload.Name, payload.WayUuid)
+
+	response, err := cc.wayTagService.AddWayTagToWay(ctx, payload.Name, payload.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -58,7 +57,7 @@ func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	wayTagID := ctx.Param("wayTagId")
 	wayID := ctx.Param("wayId")
 
-	err := cc.wayService.DeleteWayTagFromWayByTagID(ctx, wayTagID, wayID)
+	err := cc.wayTagService.DeleteWayTagFromWayByTagID(ctx, wayTagID, wayID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})

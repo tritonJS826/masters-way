@@ -15,8 +15,8 @@ type CommentController struct {
 	commentService services.ICommentService
 }
 
-func NewCommentController() *CommentController {
-	return &CommentController{}
+func NewCommentController(commentService services.ICommentService) *CommentController {
+	return &CommentController{commentService}
 }
 
 // Create Comment  handler

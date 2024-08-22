@@ -8,19 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type IAuthRouter interface {
-	SetAuthRoutes(rg *gin.RouterGroup)
-}
-
-type ICommentRouter interface {
-	SetCommentRoutes(rg *gin.RouterGroup)
-}
-
 type Router struct {
 	Gin *gin.Engine
 
-	IAuthRouter
-	ICommentRouter
+	authRouter         *AuthRouter
+	commentRouter      *CommentRouter
+	compositeWayRouter *CompositeWayRouter
+	dayReportRouter    *DayReportRouter
+	wayTagRouter       *WayTagRouter
 }
 
 func NewRouter(controller *controllers.Controller) *Router {
@@ -31,9 +26,12 @@ func NewRouter(controller *controllers.Controller) *Router {
 	})
 
 	return &Router{
-		Gin:            ginRouter,
-		IAuthRouter:    NewAuthRouter(controller.IAuthController),
-		ICommentRouter: NewCommentRouter(controller.ICommentController),
+		Gin:                ginRouter,
+		authRouter:         NewAuthRouter(controller.AuthController),
+		commentRouter:      NewCommentRouter(controller.CommentController),
+		compositeWayRouter: NewCompositeWayRouter(controller.CompositeWayController),
+		dayReportRouter:    NewDayReportRouter(controller.DayReportController),
+		wayTagRouter:       NewWayTagRouter(controller.WayTagController),
 	}
 }
 
@@ -47,5 +45,9 @@ func (router *Router) SetRoutes() {
 		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
 	})
 
-	router.IAuthRouter.SetAuthRoutes(api)
+	router.authRouter.SetAuthRoutes(api)
+	router.commentRouter.SetCommentRoutes(api)
+	router.compositeWayRouter.SetCompositeWayRoutes(api)
+	router.dayReportRouter.SetDayReportRoutes(api)
+	router.wayTagRouter.SetWayTagRoutes(api)
 }
