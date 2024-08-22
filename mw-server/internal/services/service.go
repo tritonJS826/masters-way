@@ -32,6 +32,10 @@ type IWayTagService interface {
 	DeleteWayTagFromWayByTagID(ctx context.Context, wayTagID string, wayID string) error
 }
 
+type ICompositeWayService interface {
+	AddWayToCompositeWay(ctx context.Context, params AddWayToCompositeWayParams) (*schemas.CompositeWayRelation, error)
+}
+
 type Service struct {
 	IUserService
 	ICommentService
