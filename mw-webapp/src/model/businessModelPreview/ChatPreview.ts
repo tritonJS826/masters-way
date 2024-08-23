@@ -22,6 +22,11 @@ interface ChatPreviewProps {
    * Chat room's image
    */
   imageUrl: string | null;
+
+  /**
+   * Participants users IDs
+   */
+  participantIds: string[];
 }
 
 /**
@@ -44,10 +49,16 @@ export class ChatPreview {
    */
   public imageUrl: string | null;
 
+  /**
+   * Participants users IDs
+   */
+  public participantIds: string[];
+
   constructor(chatGroupData: ChatPreviewProps) {
     this.roomId = chatGroupData.roomId;
     this.name = chatGroupData.name;
     this.imageUrl = chatGroupData.imageUrl;
+    this.participantIds = chatGroupData.participantIds;
   }
 
 }

@@ -31,6 +31,7 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
+import {chatListStore} from "src/logic/chat/ChatListStore";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -156,6 +157,7 @@ interface UserPageSettingsValidatorParams {
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
   const {setIsChatOpen} = chatStore;
+  const {chatList} = chatListStore;
 
   const userPageStore = useStore<
   new (userPageOwnerUuid: string) => UserPageStore,
@@ -318,6 +320,11 @@ export const UserPage = observer((props: UserPageProps) => {
               {!isPageOwner &&
               <Button
                 onClick={async () => {
+                  const chatParticipantsIds = chatList.flatMap((chatPreview) =>
+                    chatPreview.participantIds);
+
+                  const isUserConnected = !!chatParticipantsIds.includes(userPageOwner.uuid);
+                  !isUserConnected &&
                   await ChatDAL.createRoom({
                     roomType: RoomType.PRIVATE,
                     userId: userPageOwner.uuid,

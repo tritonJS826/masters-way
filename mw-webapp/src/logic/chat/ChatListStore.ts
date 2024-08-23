@@ -59,3 +59,4 @@ export class ChatListStore {
 
 }
 
+export const chatListStore = new ChatListStore();
