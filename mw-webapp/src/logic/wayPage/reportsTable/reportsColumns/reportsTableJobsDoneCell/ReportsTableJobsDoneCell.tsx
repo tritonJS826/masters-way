@@ -94,7 +94,7 @@ interface ReportsTableJobsDoneCellProps {
   /**
    * Sdf
    */
-  labelsMap: SafeMap<string, WayWithoutDayReports>;
+  waysMap: SafeMap<string, WayWithoutDayReports>;
 
 }
 
@@ -298,7 +298,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.labelsMap.getValue(jobDone.wayUuid).jobTags}
+                      labels={props.waysMap.getValue(jobDone.wayUuid).jobTags}
                       labelsDone={jobDone.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: Label[]) => updateLabelsInJobDone({
