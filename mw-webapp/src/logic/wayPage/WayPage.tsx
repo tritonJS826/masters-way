@@ -55,12 +55,15 @@ import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {ArrayUtils} from "src/utils/ArrayUtils";
 import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
+import {TreeUtils} from "src/utils/TreeUtils";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
@@ -336,17 +339,16 @@ export const WayPage = observer((props: WayPageProps) => {
   const daysFromStart = Math.ceil((new Date(currentDate).getTime() -
     way.createdAt.getTime() + SMALL_CORRECTION_MILLISECONDS) / DAY_MILLISECONDS);
 
-  const compositeWayOwnersParticipant = way.children.map((child) => child.owner).concat(way.owner);
-
-  const compositeWayMentorsParticipant = way.children.reduce((acc: UserPlain[], child) =>
-    acc.concat(Array.from(child.mentors.values())), Array.from(way.mentors.values()));
-
-  const compositeWayFormerMentorsParticipant = way.children.reduce((acc: UserPlain[], child) =>
-    acc.concat(Array.from(child.formerMentors.values())), Array.from(way.formerMentors.values()));
-
-  const compositeWayParticipants = compositeWayOwnersParticipant
-    .concat(compositeWayMentorsParticipant)
-    .concat(compositeWayFormerMentorsParticipant);
+  const compositeWayParticipantsRaw: UserPlain[] = [];
+  TreeUtils.forEach<WayWithoutDayReports>(way, (node) => {
+    // Add all owners from way tree
+    compositeWayParticipantsRaw.push(node.owner);
+    // Add mentors from way tree
+    compositeWayParticipantsRaw.push(...Array.from(node.mentors.values()));
+    // Add former mentors from way tree
+    compositeWayParticipantsRaw.push(...Array.from(node.formerMentors.values()));
+  });
+  const compositeWayParticipants = ArrayUtils.removeDuplicatesByField(compositeWayParticipantsRaw, "uuid");
 
   const favoriteTooltipTextForLoggedUser = isWayInFavorites
     ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]

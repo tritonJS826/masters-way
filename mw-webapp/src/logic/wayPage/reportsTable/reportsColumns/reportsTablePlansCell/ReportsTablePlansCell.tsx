@@ -83,7 +83,7 @@ interface ReportsTablePlansCellProps {
   /**
    * Sdf
    */
-  labelsMap: SafeMap<string, WayWithoutDayReports>;
+  waysMap: SafeMap<string, WayWithoutDayReports>;
 
 }
 
@@ -332,7 +332,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.labelsMap.getValue(plan.wayUuid).jobTags}
+                      labels={props.waysMap.getValue(plan.wayUuid).jobTags}
                       labelsDone={plan.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: Label[]) => updateLabelsInPlan({
