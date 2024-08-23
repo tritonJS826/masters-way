@@ -15,7 +15,7 @@ func NewCompositeWayRouter(compositeWayController *controllers.CompositeWayContr
 	return &CompositeWayRouter{compositeWayController}
 }
 
-func (cr *CompositeWayRouter) SetCompositeWayRoutes(rg *gin.RouterGroup) {
+func (cr *CompositeWayRouter) setCompositeWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("compositeWay")
 	router.POST("", auth.AuthMiddleware(), cr.compositeWayController.AddWayToCompositeWay)
 	router.DELETE("/:parentWayId/:childWayId", auth.AuthMiddleware(), cr.compositeWayController.DeleteCompositeWayRelation)

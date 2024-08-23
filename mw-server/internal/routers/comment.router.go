@@ -15,7 +15,7 @@ func NewCommentRouter(commentController *controllers.CommentController) *Comment
 	return &CommentRouter{commentController}
 }
 
-func (cr *CommentRouter) SetCommentRoutes(rg *gin.RouterGroup) {
+func (cr *CommentRouter) setCommentRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("comments")
 	router.POST("", auth.AuthMiddleware(), cr.commentController.CreateComment)
 	router.PATCH("/:commentId", auth.AuthMiddleware(), cr.commentController.UpdateComment)

@@ -15,7 +15,7 @@ func NewDayReportRouter(dayReportController *controllers.DayReportController) *D
 	return &DayReportRouter{dayReportController}
 }
 
-func (drr *DayReportRouter) SetDayReportRoutes(rg *gin.RouterGroup) {
+func (drr *DayReportRouter) setDayReportRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("dayReports")
 	router.POST("", auth.AuthMiddleware(), drr.dayReportController.CreateDayReport)
 	router.GET("/:wayId", drr.dayReportController.GetDayReports)

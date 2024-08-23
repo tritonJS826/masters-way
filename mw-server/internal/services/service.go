@@ -53,6 +53,20 @@ type IWayService interface {
 	GetNestedWayIDs(ctx context.Context, parentWayUUID pgtype.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error)
 }
 
+type IDevService interface {
+	ResetDb(ctx context.Context) error
+}
+
+type IFavoriteUserService interface {
+	CreateFavoriteUser(ctx context.Context, donorUserUuid, acceptorUserUuid uuid.UUID) (*db.FavoriteUser, error)
+	DeleteFavoriteUserById(ctx context.Context, donorUserUuid, acceptorUserUuid string) error
+}
+
+type IFavoriteUserWayService interface {
+	CreateFavoriteUserWay(ctx context.Context, userUUID, wayUUID uuid.UUID) (db.FavoriteUsersWay, error)
+	DeleteFavoriteUserWayById(ctx context.Context, userID, wayID string) error
+}
+
 type Service struct {
 	IUserService
 	ICommentService
@@ -61,17 +75,23 @@ type Service struct {
 	IDayReportService
 	ILimitService
 	IWayService
+	IDevService
+	IFavoriteUserService
+	IFavoriteUserWayService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 
 	return &Service{
-		IUserService:         NewUserService(queries),
-		ICommentService:      NewCommentService(queries),
-		IWayTagService:       NewWayTagService(queries),
-		ICompositeWayService: NewCompositeWayService(queries),
-		ILimitService:        NewLimitService(queries),
-		IDayReportService:    NewDayReportService(queries),
+		IUserService:            NewUserService(queries),
+		ICommentService:         NewCommentService(queries),
+		IWayTagService:          NewWayTagService(queries),
+		ICompositeWayService:    NewCompositeWayService(queries),
+		ILimitService:           NewLimitService(queries),
+		IDayReportService:       NewDayReportService(queries),
+		IDevService:             NewDevService(queries, pool),
+		IFavoriteUserService:    NewFavoriteUserService(queries),
+		IFavoriteUserWayService: NewFavoriteUserWayService(queries),
 	}
 }

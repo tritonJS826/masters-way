@@ -11,11 +11,14 @@ import (
 type Router struct {
 	Gin *gin.Engine
 
-	authRouter         *AuthRouter
-	commentRouter      *CommentRouter
-	compositeWayRouter *CompositeWayRouter
-	dayReportRouter    *DayReportRouter
-	wayTagRouter       *WayTagRouter
+	authRouter            *AuthRouter
+	commentRouter         *CommentRouter
+	compositeWayRouter    *CompositeWayRouter
+	dayReportRouter       *DayReportRouter
+	wayTagRouter          *WayTagRouter
+	devRouter             *DevRouter
+	favoriteUserRouter    *FavoriteUserRouter
+	favoriteUserWayRouter *FavoriteUserWayRouter
 }
 
 func NewRouter(controller *controllers.Controller) *Router {
@@ -26,18 +29,21 @@ func NewRouter(controller *controllers.Controller) *Router {
 	})
 
 	return &Router{
-		Gin:                ginRouter,
-		authRouter:         NewAuthRouter(controller.AuthController),
-		commentRouter:      NewCommentRouter(controller.CommentController),
-		compositeWayRouter: NewCompositeWayRouter(controller.CompositeWayController),
-		dayReportRouter:    NewDayReportRouter(controller.DayReportController),
-		wayTagRouter:       NewWayTagRouter(controller.WayTagController),
+		Gin:                   ginRouter,
+		authRouter:            NewAuthRouter(controller.AuthController),
+		commentRouter:         NewCommentRouter(controller.CommentController),
+		compositeWayRouter:    NewCompositeWayRouter(controller.CompositeWayController),
+		dayReportRouter:       NewDayReportRouter(controller.DayReportController),
+		wayTagRouter:          NewWayTagRouter(controller.WayTagController),
+		devRouter:             NewDevRouter(controller.DevController),
+		favoriteUserRouter:    NewFavoriteUserRouter(controller.FavoriteUserController),
+		favoriteUserWayRouter: NewFavoriteUserWayRouter(controller.FavoriteUserWayController),
 	}
 }
 
 // @title     Masters way chat API
 // @version 1.0
-// @BasePath  /chat
+// @BasePath  /api
 func (router *Router) SetRoutes() {
 	api := router.Gin.Group("/api")
 
@@ -45,9 +51,12 @@ func (router *Router) SetRoutes() {
 		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
 	})
 
-	router.authRouter.SetAuthRoutes(api)
-	router.commentRouter.SetCommentRoutes(api)
-	router.compositeWayRouter.SetCompositeWayRoutes(api)
-	router.dayReportRouter.SetDayReportRoutes(api)
-	router.wayTagRouter.SetWayTagRoutes(api)
+	router.authRouter.setAuthRoutes(api)
+	router.commentRouter.setCommentRoutes(api)
+	router.compositeWayRouter.setCompositeWayRoutes(api)
+	router.dayReportRouter.setDayReportRoutes(api)
+	router.wayTagRouter.setWayTagRoutes(api)
+	router.devRouter.setDevRoutes(api)
+	router.favoriteUserRouter.setFavoriteUserRoutes(api)
+	router.favoriteUserWayRouter.setFavoriteUserWayRoutes(api)
 }

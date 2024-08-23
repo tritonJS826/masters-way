@@ -49,14 +49,13 @@ func (drc *DayReportController) GetDayReports(ctx *gin.Context) {
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPage - 1) * reqLimit
 
-	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	// fmt.Println("userIDRaw: ", userIDRaw)
-	// userID := uuid.MustParse(userIDRaw.(string))
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := uuid.MustParse(userIDRaw.(string))
 
-	// maxDepth, err := dayReportController.limitService.GetMaxCompositeWayDepthByUserID(ctx, userID)
-	// util.HandleErrorGin(ctx, err)
+	maxDepth, err := drc.limitService.GetMaxCompositeWayDepthByUserID(ctx, userID)
+	util.HandleErrorGin(ctx, err)
 
-	childrenWays, err := drc.wayService.GetChildrenWayIDs(ctx, wayID, 2)
+	childrenWays, err := drc.wayService.GetChildrenWayIDs(ctx, wayID, maxDepth)
 	util.HandleErrorGin(ctx, err)
 
 	args := &services.GetDayReportsByWayIdParams{
