@@ -19,7 +19,7 @@ import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
-import {ChatListStore} from "src/logic/chat/ChatListStore";
+import {chatListStore} from "src/logic/chat/ChatListStore";
 import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
@@ -38,7 +38,7 @@ export const ChatContent = observer(() => {
   const {isChatOpen, addUnreadMessageToAmount} = chatStore;
 
   const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(null);
-  const [chatListStore] = useState<ChatListStore>(new ChatListStore());
+  const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -48,9 +48,9 @@ export const ChatContent = observer(() => {
   const createGroupRoom = async () => {
     const room = await ChatDAL.createRoom({
       roomType: RoomType.GROUP,
-      name: chatListStore.groupChatName,
+      name: groupChatName,
     });
-    chatListStore.setGroupChatName("");
+    setGroupChatName("");
     setActiveChatStore(new ActiveChatStore(room));
   };
 
@@ -121,13 +121,20 @@ export const ChatContent = observer(() => {
   /**
    * Load chat list
    */
-  const loadChatList = () => {
-    chatListStore.loadChatList();
+  const loadChatPreviewList = () => {
+    loadChatList();
   };
 
   useEffect(() => {
-    loadChatList();
+    loadChatPreviewList();
   }, []);
+
+  useEffect(() => {
+    if (!isChatOpen && roomType !== RoomType.PRIVATE) {
+      setRoomType(RoomType.PRIVATE);
+      loadChatPreviewList();
+    }
+  }, [isChatOpen]);
 
   /**
    * Initialize active chat store
@@ -144,15 +151,16 @@ export const ChatContent = observer(() => {
       name: payload.name,
       roomId: payload.roomId,
       imageUrl: payload.imageUrl,
+      participantIds: payload.users.map((participant) => participant.userId),
     });
 
-    const isGroupChatOpenAndNewChatIsGroup = chatListStore.roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
-    const isPrivateChatOpenAndNewChatIsPrivate = chatListStore.roomType === RoomType.PRIVATE
+    const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
+    const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
     const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
 
     if (isShouldUpdateChatList) {
-      chatListStore?.addChatToChatList(newChatInRoomList);
+      addChatToChatList(newChatInRoomList);
     }
 
     displayNotification({
@@ -175,8 +183,8 @@ export const ChatContent = observer(() => {
             <HorizontalContainer>
               <Button
                 onClick={() => {
-                  chatListStore.setRoomType(RoomType.PRIVATE);
-                  chatListStore.loadChatList();
+                  setRoomType(RoomType.PRIVATE);
+                  loadChatList();
                   setActiveChatStore(null);
                 }}
                 buttonType={ButtonType.SECONDARY}
@@ -184,8 +192,8 @@ export const ChatContent = observer(() => {
               />
               <Button
                 onClick={() => {
-                  chatListStore.setRoomType(RoomType.GROUP);
-                  chatListStore.loadChatList();
+                  setRoomType(RoomType.GROUP);
+                  loadChatList();
                   setActiveChatStore(null);
                 }}
                 buttonType={ButtonType.SECONDARY}
@@ -216,11 +224,11 @@ export const ChatContent = observer(() => {
               activeChatStore && styles.chatListHide,
             )}
             >
-              {chatListStore.roomType === RoomType.GROUP &&
+              {roomType === RoomType.GROUP &&
               <>
                 <Input
-                  value={chatListStore.groupChatName}
-                  onChange={chatListStore.setGroupChatName}
+                  value={groupChatName}
+                  onChange={setGroupChatName}
                   placeholder={LanguageService.common.chat.groupChatPlaceholder[language]}
                   typeInput={InputType.Border}
                   onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
@@ -236,8 +244,8 @@ export const ChatContent = observer(() => {
                 />
               </>
               }
-              {chatListStore && chatListStore?.chatList.length > 0
-                ? chatListStore.chatList.map((chatItem) => (
+              {chatList.length > 0
+                ? chatList.map((chatItem) => (
                   <ChatItem
                     key={chatItem.roomId}
                     name={chatItem.name}
