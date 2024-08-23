@@ -28,7 +28,6 @@ export const SystemItem = (props: SystemItemProps) => {
       <Icon
         name="WayIcon"
         size={IconSize.MEDIUM}
-        className={styles.icon}
       />
       <Title
         level={HeadingLevel.h3}

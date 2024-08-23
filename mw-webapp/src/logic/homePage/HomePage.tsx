@@ -3,6 +3,7 @@ import {NavigateFunction, useNavigate} from "react-router-dom";
 import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 import {observer} from "mobx-react-lite";
 import {TrackHomePage} from "src/analytics/homeAnalytics";
+import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
@@ -11,10 +12,12 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
+import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {AdvantageItem} from "src/logic/homePage/advantageItem/AdvantageItem";
 import {SystemItem} from "src/logic/homePage/systemItem/SystemItem";
@@ -40,6 +43,7 @@ const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
 export const HomePage = observer(() => {
   const {user} = userStore;
   const {language} = languageStore;
+  const {theme} = themeStore;
   const navigate = useNavigate();
 
   const [videoUrl, setVideoUrl] = useState<string>(VIDEO_FOR_STUDENT_URL);
@@ -65,7 +69,7 @@ export const HomePage = observer(() => {
                   TrackHomePage.startForFreeFirstBlockClicked();
                   getStarted(navigate, user?.uuid);
                 }}
-                buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+                buttonType={ButtonType.PRIMARY}
                 value={LanguageService.home.startForFreeButton[language]}
                 className={styles.getStartedButton}
                 dataCy={homeAccessIds.welcomeBlock.startButton}
@@ -90,8 +94,8 @@ export const HomePage = observer(() => {
                   setVideoUrl(VIDEO_FOR_STUDENT_URL);
                 }}
                 buttonType={videoUrl === VIDEO_FOR_STUDENT_URL
-                  ? ButtonType.SECONDARY
-                  : ButtonType.PRIMARY
+                  ? ButtonType.PRIMARY
+                  : ButtonType.SECONDARY
                 }
                 value={LanguageService.home.videoForStudent[language]}
               />
@@ -101,8 +105,8 @@ export const HomePage = observer(() => {
                   setVideoUrl(VIDEO_FOR_MENTOR_URL);
                 }}
                 buttonType={videoUrl === VIDEO_FOR_MENTOR_URL
-                  ? ButtonType.SECONDARY
-                  : ButtonType.PRIMARY
+                  ? ButtonType.PRIMARY
+                  : ButtonType.SECONDARY
                 }
                 value={LanguageService.home.videoForMentor[language]}
               />
@@ -162,7 +166,7 @@ export const HomePage = observer(() => {
             TrackHomePage.startForFreeWhoWeAreBlockClicked();
             getStarted(navigate, user?.uuid);
           }}
-          buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+          buttonType={ButtonType.PRIMARY}
           value={LanguageService.home.getStartedButton[language]}
           className={styles.getStartedButton}
         />
@@ -209,10 +213,15 @@ export const HomePage = observer(() => {
           placeholder=""
         />
         <HorizontalContainer className={styles.aboutProjectItems}>
-          <Image
-            alt={LOGO_TEXT}
-            src={logoLight}
+          <ThemedImage
             className={styles.aboutProjectImage}
+            sources={getMapThemeSources({
+              [Theme.DARK]: logoLight,
+              [Theme.LIGHT]: logo,
+              [Theme.OBSIDIAN]: logoLight,
+            })}
+            theme={theme}
+            name={LOGO_TEXT}
           />
           <VerticalContainer className={styles.aboutProjectDescription}>
 
@@ -226,7 +235,7 @@ export const HomePage = observer(() => {
                   TrackHomePage.tryNowClicked();
                   getStarted(navigate, user?.uuid);
                 }}
-                buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+                buttonType={ButtonType.PRIMARY}
                 value={LanguageService.home.getStartedButton[language]}
                 className={styles.aboutAppGetStartedButton}
               />

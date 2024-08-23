@@ -97,28 +97,3 @@ $superSpecialBeautifulButton: 18px;
     color: var(--generalPrimaryColor);
   }
 }
-
-.superSpecialBeautifulButton {
-  min-width: $superSpecialBeautifulButtonMinWidth;
-  padding: $superSpecialBeautifulButton $paddingExtraBig;
-  border: none;
-  border-radius: $superSpecialBeautifulButtonBorderRadius;
-  background-color: var(--homeBgButtonColor);
-  color: var(--generalPrimaryColor);
-  font-size: $fontSizeLarge;
-
-  &:hover:enabled {
-    background-color: var(--homeHoverBgButtonColor);
-  }
-}
-
-.extraOrdinaryButton {
-  padding: $buttonBlockPadding $paddingExtraBig;
-  border: none;
-  background-color: var(--homeBgButtonColor);
-  color: var(--generalPrimaryColor);
-
-  &:hover:enabled {
-    background-color: var(--homeHoverBgButtonColor);
-  }
-}

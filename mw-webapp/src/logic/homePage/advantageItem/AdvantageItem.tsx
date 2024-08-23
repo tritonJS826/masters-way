@@ -28,7 +28,6 @@ export const AdvantageItem = (props: AdvantageItemProps) => {
       <Icon
         name="WayIcon"
         size={IconSize.MEDIUM}
-        className={styles.icon}
       />
       <Title
         level={HeadingLevel.h3}

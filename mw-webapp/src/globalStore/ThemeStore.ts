@@ -130,22 +130,6 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "#482E8C",
     [Theme.OBSIDIAN]: "#482E8C",
   },
-  homeBgButtonColor: {
-    [Theme.DARK]: "#FCFBFE",
-    [Theme.LIGHT]: "#FCFBFE",
-    [Theme.OBSIDIAN]: "#FCFBFE",
-  },
-  homeHoverBgButtonColor: {
-    [Theme.DARK]: "#F2EFF9",
-    [Theme.LIGHT]: "#F2EFF9",
-    [Theme.OBSIDIAN]: "#F2EFF9",
-  },
-  // Doesn't exist on maket, but maybe we will use border with opacity fo statistic separate
-  primaryBorderSeparator: {
-    [Theme.DARK]: "#FFFFFF3E",
-    [Theme.LIGHT]: "#784DEA3E",
-    [Theme.OBSIDIAN]: "#FFFFFF3E",
-  },
   primaryToggleBgColor: {
     [Theme.DARK]: "#281E51",
     [Theme.LIGHT]: "#686085",
@@ -154,7 +138,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   secondaryToggleBgColor: {
     [Theme.DARK]: "#784DEA",
     [Theme.LIGHT]: "#F4F3FF",
-    [Theme.OBSIDIAN]: "#784DEA",
+    [Theme.OBSIDIAN]: "#F4F3FF",
   },
   dropdownStrokeColor: {
     [Theme.DARK]: "#8B85A1",

@@ -1,14 +1,16 @@
 import {aboutProjectAccessIds} from "cypress/accessIds/aboutProjectAccessIds";
 import {observer} from "mobx-react-lite";
+import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {Footer} from "src/component/footer/Footer";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Image} from "src/component/image/Image";
+import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import {TeamMember} from "src/logic/aboutProjectPage/TeamMember/TeamMember";
 import {teamMembers} from "src/logic/aboutProjectPage/TeamMember/teamMembers";
 import {LanguageService} from "src/service/LanguageService";
@@ -20,6 +22,7 @@ import styles from "src/logic/aboutProjectPage/AboutProjectPage.module.scss";
  */
 export const AboutProjectPage = observer(() => {
   const {language} = languageStore;
+  const {theme} = themeStore;
 
   const accordionItems = LanguageService.aboutProject.accordion.map((data) => ({
     trigger: {child: data.header[language]},
@@ -58,10 +61,15 @@ export const AboutProjectPage = observer(() => {
               )}
             </div>
           </VerticalContainer>
-          <Image
-            alt={LOGO_TEXT}
-            src={logoLight}
+          <ThemedImage
             className={styles.logoAbout}
+            sources={getMapThemeSources({
+              [Theme.DARK]: logoLight,
+              [Theme.LIGHT]: logo,
+              [Theme.OBSIDIAN]: logoLight,
+            })}
+            theme={theme}
+            name={LOGO_TEXT}
           />
         </HorizontalContainer>
       </VerticalContainer>
