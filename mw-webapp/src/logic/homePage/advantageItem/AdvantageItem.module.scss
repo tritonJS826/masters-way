@@ -8,17 +8,11 @@
 }
 
 .goalTitle {
-  color: var(--secondaryTextColor);
   font-size: $fontSizeTitleSmall;
   text-align: left;
 }
 
 .goalDescription {
-  color: var(--secondaryTextColor);
   line-height: $lineHeightPrimary;
   text-align: left;
-}
-
-.icon {
-  stroke: var(--secondaryStrokeColor);
 }

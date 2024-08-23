@@ -1,9 +1,5 @@
 @import "src/styles/variables";
 
-// Temporal bottom padding while wave block is not exist
-$aboutBlockPadding: 230px 0;
-$accordionMaxWidth: 1032px;
-
 .title {
   text-align: center;
 }
@@ -15,12 +11,8 @@ $accordionMaxWidth: 1032px;
 
 .aboutBlock {
   align-items: center;
-  padding: $aboutBlockPadding;
-  margin-top: $mainImageMarginTop;
-  background-image: url("https://drive.google.com/thumbnail?id=11wbqfxD6TDVneqyj7xidGIW4QPRSpMBt&sz=w1000");
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: var(--secondaryTextColor);
+  padding: $paddingVerticalBlockBig;
+  background-color: var(--secondaryBgColor);
   gap: $gapExtraSmall;
 }
 
@@ -49,8 +41,6 @@ $accordionMaxWidth: 1032px;
 .ourTeamBlock {
   width: 100%;
   padding: $paddingExtraMedium $paddingSmall;
-  background-color: var(--secondaryBgColor);
-  color: var(--primaryTextColor);
   gap: $gapLarge;
   text-align: center;
 }
@@ -64,12 +54,11 @@ $accordionMaxWidth: 1032px;
 .accordionSection {
   align-items: center;
   padding: $paddingExtraMedium $paddingSmall;
-  color: var(--secondaryTextColor);
+  background-color: var(--tertiaryBgColor);
   gap: $gapBig;
 }
 
 .accordion {
   width: 100%;
-  max-width: calc($accordionMaxWidth + 2 * $paddingMedium);
   padding: 0 $paddingMedium;
 }

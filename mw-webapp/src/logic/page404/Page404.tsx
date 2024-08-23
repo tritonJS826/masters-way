@@ -1,5 +1,5 @@
 import {isRouteErrorResponse, useRouteError} from "react-router-dom";
-import {Header, HeaderType} from "src/component/header/Header";
+import {Header} from "src/component/header/Header";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -27,7 +27,6 @@ export const Page404 = () => {
           setLanguage={setLanguage}
           theme={theme}
           setTheme={setTheme}
-          type={HeaderType.PRIMARY}
         />
         <ErrorComponent
           text={`${error.status} ${error.statusText}`}

@@ -1,20 +1,14 @@
 @import "src/styles/variables";
 
-$homeBorderRadius: 20px;
-$homeGapBig: 96px;
-$homePaddingBlock: 80px;
-$homePaddingBigBlock: 128px;
-
 .container {
   justify-content: center;
-  margin-top: $mainImageMarginTop;
-  background-color: var(--generalPrimaryColor);
+  background-color: var(--secondaryBgColor);
 }
 
 .welcomeBlock {
   max-width: $maxWidthContainer;
   align-items: end;
-  padding: 103px $paddingMedium $homePaddingBigBlock;
+  padding: $paddingVerticalBlockBig $paddingMedium;
   margin: 0 auto;
   gap: $gapLarge;
   grid-template-columns: repeat(auto-fit, minmax($mediumWidthBlock, 1fr));
@@ -32,11 +26,6 @@ $homePaddingBigBlock: 128px;
   }
 }
 
-.welcomeImageBlock {
-  //temporal while we don't have the video
-  max-height: 75%;
-}
-
 .buildSystemImageBlock {
   width: 80%;
   margin: 0 auto;
@@ -47,16 +36,12 @@ $homePaddingBigBlock: 128px;
 }
 
 .title {
-  margin-top: 152px;
-  color: var(--secondaryTextColor);
-
   @media (max-width: $mediaWidthMobileBig) {
     text-align: center;
   }
 }
 
 .titleDescription {
-  color: var(--secondaryTextColor);
   font-weight: $fontWeightSemibold;
 
   @media (max-width: $mediaWidthMobileBig) {
@@ -64,14 +49,9 @@ $homePaddingBigBlock: 128px;
   }
 }
 
-.getStartedButton {
-  width: fit-content;
-  margin-top: $marginBig;
-}
-
+.getStartedButton,
 .viewAllWaysButton {
   width: fit-content;
-  border-radius: $homeBorderRadius;
   margin-top: $marginBig;
 }
 
@@ -79,14 +59,21 @@ $homePaddingBigBlock: 128px;
 .buildSystemBlock,
 .aboutProjectBlock {
   align-items: center;
-  padding: 0 $paddingMedium $homePaddingBigBlock;
+  padding: $paddingVerticalBlockBig $paddingMedium;
   margin: 0 auto;
-  background-color: var(--generalPrimaryColor);
   gap: $gapBig;
 
   @media (max-width: $mediaWidthMobileBig) {
     justify-content: center;
   }
+}
+
+.advantagesBlock {
+  background-color: var(--tertiaryBgColor);
+}
+
+.aboutProjectBlock {
+  background-color: var(--secondaryBgColor);
 }
 
 .aboutProjectBlock {
@@ -110,7 +97,6 @@ $homePaddingBigBlock: 128px;
 .advantagesTitle,
 .systemBlockTitle,
 .aboutAppBlockTitle {
-  color: var(--secondaryTextColor);
   text-align: center;
 
   & h2 {
@@ -125,7 +111,6 @@ $homePaddingBigBlock: 128px;
 .advantagesDescription,
 .systemBlockDescription {
   max-width: $maxWidthBlock;
-  color: var(--secondaryTextColor);
   font-size: $fontSizeBig;
   line-height: $lineHeightPrimary;
   text-align: center;
@@ -144,7 +129,7 @@ $homePaddingBigBlock: 128px;
 
 .aboutProjectDescription {
   flex: 1;
-  color: var(--secondaryTextColor);
+  color: var(--primaryTextColor);
   gap: $gapLarge;
 }
 
@@ -169,7 +154,6 @@ $homePaddingBigBlock: 128px;
 }
 
 .manifestoLink {
-  color: var(--secondaryTextColor);
   font-size: $fontSizeTitleSmall;
 }
 

@@ -9,17 +9,11 @@
 }
 
 .title {
-  color: var(--secondaryTextColor);
   font-size: $fontSizeTitleSmall;
   text-align: center;
 }
 
 .description {
-  color: var(--secondaryTextColor);
   line-height: $lineHeightPrimary;
   text-align: center;
-}
-
-.icon {
-  stroke: var(--secondaryStrokeColor);
 }
