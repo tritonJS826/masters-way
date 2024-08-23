@@ -26,6 +26,13 @@
   }
 }
 
+.welcomeBlockButton {
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
 .buildSystemImageBlock {
   width: 80%;
   margin: 0 auto;

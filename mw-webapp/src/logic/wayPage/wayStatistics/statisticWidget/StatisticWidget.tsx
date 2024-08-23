@@ -38,7 +38,10 @@ export const StatisticWidget = (props: PropsWithChildren<StatisticLabelsProps>) 
         />
         }
         {props.isEditable &&
-        <Checkbox onChange={() => {}} />
+        <Checkbox
+          onChange={() => {}}
+          className={styles.checkbox}
+        />
         }
       </HorizontalContainer>
       {props.children}

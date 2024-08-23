@@ -1,3 +1,4 @@
+import {TrackFooter} from "src/analytics/footerAnalytics";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -78,23 +79,31 @@ export const Footer = (props: FooterProps) => {
               />
               <HorizontalContainer className={styles.socialMediaIcons}>
                 <Modal
-                  trigger={<div className={styles.iconWrapper}>
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="GooglePlayIcon"
-                      className={styles.socialMediaIcon}
-                    />
-                  </div>}
+                  trigger={
+                    <div
+                      className={styles.iconWrapper}
+                      onClick={TrackFooter.trackPlayMarketIconClick}
+                    >
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="GooglePlayIcon"
+                        className={styles.socialMediaIcon}
+                      />
+                    </div>}
                   content={appStoresModalContent()}
                 />
                 <Modal
-                  trigger={<div className={styles.iconWrapper}>
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="AppStoreIcon"
-                      className={styles.socialMediaIcon}
-                    />
-                  </div>}
+                  trigger={
+                    <div
+                      className={styles.iconWrapper}
+                      onClick={TrackFooter.trackAppStoreIconClick}
+                    >
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="AppStoreIcon"
+                        className={styles.socialMediaIcon}
+                      />
+                    </div>}
                   content={appStoresModalContent()}
                 />
               </HorizontalContainer>

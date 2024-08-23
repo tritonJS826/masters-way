@@ -329,6 +329,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     roomType: RoomType.PRIVATE,
                     userId: userPageOwner.uuid,
                   });
+
                   setIsChatOpen(true);
                 }}
                 buttonType={ButtonType.SECONDARY}

@@ -11,3 +11,8 @@
   width: 100%;
   justify-content: space-between;
 }
+
+.checkbox {
+  position: relative;
+  z-index: $statisticCheckbox;
+}
