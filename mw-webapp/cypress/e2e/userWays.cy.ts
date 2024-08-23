@@ -1,7 +1,5 @@
 import userWaysData from "cypress/fixtures/userWaysFixture.json";
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
-import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
-import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {Theme, themedVariables} from "src/globalStore/ThemeStore";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";

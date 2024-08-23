@@ -6,11 +6,19 @@ export const wayDescriptionAccessIds = {
     peopleBlock: {
         applyAsMentorButton: 'applyAsMentorButton',
         mentorOfWayText: 'mentorOfWayText',
-        wayMentorLink: 'wayMentorLink'
+        wayMentorLink: 'wayMentorLink',
+        childWaysTitle: "childWaysTitle",
+        childLink: (name: string) => `childLink_${name}`
     },
 
     mentorRequestDialog: {
         mentorNameLink: 'mentorName',
         acceptButton: 'acceptButton'
+    },
+
+    wayActionMenu: {
+        wayActionButton: 'wayActionButton',
+        wayActionMenuList: "wayActionMenuList",
+        wayMenuItem: 'wayMenuItem'
     }
 };

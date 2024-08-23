@@ -467,9 +467,15 @@ export const WayPage = observer((props: WayPageProps) => {
                             name={"MoreVertical"}
                           />
                         }
+                        dataCy={wayDescriptionAccessIds.wayActionMenu.wayActionButton}
                       />
                     </Tooltip>
                   )}
+                  cy={{
+                    dataCyContent: wayDescriptionAccessIds.wayActionMenu.wayMenuItem,
+                    dataCyContentList: wayDescriptionAccessIds.wayActionMenu.wayActionMenuList,
+                  }}
+
                   dropdownMenuItems={[
                     {
                       id: "Make the way private/public",
@@ -720,6 +726,7 @@ export const WayPage = observer((props: WayPageProps) => {
                     level={HeadingLevel.h3}
                     text={LanguageService.way.peopleBlock.childWays[language]}
                     placeholder=""
+                    cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.childWaysTitle}}
                   />
                 </HorizontalContainer>
 
@@ -743,12 +750,14 @@ export const WayPage = observer((props: WayPageProps) => {
                             <Link
                               path={pages.way.getPath({uuid: child.uuid})}
                               className={styles.participantWay}
+                              dataCy={wayDescriptionAccessIds.peopleBlock.childLink(child.name)}
                             >
                               {child.name}
                             </Link>
                             <Link
                               path={pages.user.getPath({uuid: child.owner.uuid})}
                               className={styles.participantWay}
+                              dataCy={wayDescriptionAccessIds.peopleBlock.childLink(child.owner.name)}
                             >
                               {child.owner.name}
                             </Link>
