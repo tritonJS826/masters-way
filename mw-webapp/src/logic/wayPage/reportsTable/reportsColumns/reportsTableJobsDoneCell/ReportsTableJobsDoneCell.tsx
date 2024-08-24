@@ -42,11 +42,6 @@ import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJo
 interface ReportsTableJobsDoneCellProps {
 
   /**
-   * All jobDone tags in the way
-   */
-  jobTags: Label[];
-
-  /**
    * Day report's uuid for update
    */
   dayReport: DayReport;

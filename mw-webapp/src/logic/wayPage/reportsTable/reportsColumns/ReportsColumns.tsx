@@ -19,6 +19,7 @@ import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {LanguageService} from "src/service/LanguageService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
+import {ArrayUtils} from "src/utils/ArrayUtils";
 import {Symbols} from "src/utils/Symbols";
 import {TreeUtils} from "src/utils/TreeUtils";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
@@ -134,9 +135,11 @@ export const Columns = (props: ColumnsProps) => {
           user={user}
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          jobTags={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
           waysMap={waysSafeMap}
-          labels={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
+          labels={ArrayUtils.removeDuplicatesByField(
+            TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+            "uuid",
+          )}
           wayUuid={props.way.uuid}
           wayName={props.way.name}
           setWayStatisticsTriple={props.setWayStatisticsTriple}
