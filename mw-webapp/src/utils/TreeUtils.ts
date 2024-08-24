@@ -25,4 +25,25 @@ export class TreeUtils {
     }
   }
 
+  /**
+   * Make a flat array of nodes
+   */
+  public static flattenTree<T extends TreeNode<T>>(root: T): T[] {
+    const result: T[] = [];
+
+    /**
+     * Helper for flatten tree
+     */
+    function traverse(node: TreeNode<T>) {
+      result.push(node as T);
+      if (node.children) {
+        node.children.forEach(traverse);
+      }
+    }
+
+    traverse(root);
+
+    return result;
+  }
+
 }
