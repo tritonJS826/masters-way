@@ -53,6 +53,7 @@ interface WayCollectionProps {
 
   /**
    * If a card editable and removable
+   * @default false
    */
   isEditable?: boolean;
 
