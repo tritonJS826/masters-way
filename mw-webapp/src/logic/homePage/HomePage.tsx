@@ -63,7 +63,7 @@ export const HomePage = observer(() => {
             <p className={styles.titleDescription}>
               {LanguageService.home.description[language]}
             </p>
-            <HorizontalContainer>
+            <HorizontalContainer className={styles.welcomeBlockButton}>
               <Button
                 onClick={() => {
                   TrackHomePage.startForFreeFirstBlockClicked();

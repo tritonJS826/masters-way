@@ -1,7 +1,6 @@
 @import "src/styles/_variables";
 
 $sidebar-animation-time: 350ms;
-$sidebar-padding: 25px;
 $sidebar-width: 300px;
 $sidebar-button-size: 20px;
 $closeButtonRight: 35px;
@@ -19,10 +18,10 @@ $closeButtonRight: 35px;
   position: fixed;
   z-index: $sidebarZIndex;
   top: 0;
-  left: -$sidebar-width;
+  right: -$sidebar-width;
   width: $sidebar-width;
   height: 100%;
-  padding: $sidebar-padding;
+  padding: $paddingBig;
   animation: contentShow $sidebar-animation-time linear;
   background-color: var(--primaryBgColor);
 
@@ -31,7 +30,7 @@ $closeButtonRight: 35px;
   }
 
   &[data-state="open"] {
-    left: 0;
+    right: 0;
   }
 }
 
@@ -66,7 +65,7 @@ $closeButtonRight: 35px;
 @keyframes contentShow {
   from {
     opacity: 0;
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
 
   to {

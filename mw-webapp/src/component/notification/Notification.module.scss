@@ -3,8 +3,9 @@
 .toastify {
   position: fixed;
   z-index: $notificationZIndex;
-  display: inline-block;
+  display: flex;
   max-width: $minWidthBlock;
+  align-items: baseline;
   padding: $paddingMedium $paddingExtraMedium;
   border-radius: $quaternaryBorderRadius;
   color: var(--secondaryTextColor);
