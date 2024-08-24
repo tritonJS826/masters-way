@@ -261,26 +261,12 @@ export const UserPage = observer((props: UserPageProps) => {
    * Update custom way collectionsUserPreview
    */
   const updateCustomWayCollection = async (wayCollectionToUpdate: PartialWithId<WayCollection>) => {
-    if (!user) {
-      throw new Error("User is not defined");
-    }
-
-    const updatedCustomWayCollections = user.customWayCollections
-      .map(collection => {
-        if (collection.uuid === wayCollectionToUpdate.id) {
-          return new WayCollection({...collection, ...wayCollectionToUpdate});
-        } else {
-          return collection;
-        }
-      });
 
     await WayCollectionDAL.updateWayCollection({
       ownerUuid: userPageOwner.uuid,
       collectionUuid: wayCollectionToUpdate.id,
       collectionName: wayCollectionToUpdate.name ?? "",
     });
-    user.updateCollection(updatedCustomWayCollections);
-    userPageOwner.updateCollection(updatedCustomWayCollections);
 
     setOpenedTabId(wayCollectionToUpdate.id);
   };
@@ -695,8 +681,11 @@ export const UserPage = observer((props: UserPageProps) => {
                 collectionWaysAmount={collection.ways.length}
                 onClick={() => setOpenedTabId(collection.uuid)}
                 language={language}
-                isEditable={true}
-                onTitleEdit={(name) => updateCustomWayCollection({id: openedTabId, name})}
+                isEditable={isPageOwner}
+                onTitleEdit={(name) => {
+                  collection.updateWayCollectionName(name);
+                  updateCustomWayCollection({id: openedTabId, name});
+                }}
                 onDelete={() => deleteCustomWayCollections(currentCollection.uuid)}
               />
             ))}

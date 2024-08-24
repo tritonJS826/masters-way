@@ -60,7 +60,7 @@ export interface DropdownProps {
   cy?: Cy;
 
   /**
-   * If false we can scroll dropdownItems and interract with page elements, if true then we can't
+   * If false we can scroll dropdownItems and interact with page elements, if true then we can't
    * @default false
    */
   isModalBehavior?: boolean;

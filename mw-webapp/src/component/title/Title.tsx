@@ -112,8 +112,14 @@ export const Title = (props: TitleProps) => {
       throw Error("Unavailable edit title");
     }
 
-    props.onChangeFinish(text);
-    setIsEditing(false);
+    const iValidatedValue = updateValueWithValidatorsHandler({
+      updatedValue: text.trim(),
+      validators: props.validators,
+      setValue: setText,
+    });
+
+    iValidatedValue && props.onChangeFinish(text.trim());
+    iValidatedValue && setIsEditing(false);
   };
 
   /**
@@ -129,11 +135,7 @@ export const Title = (props: TitleProps) => {
    * OnChangeInput
    */
   const onChangeInput = (value: string) => {
-    updateValueWithValidatorsHandler({
-      updatedValue: value,
-      validators: props.validators,
-      setValue: setText,
-    });
+    setText(value);
   };
 
   return (
