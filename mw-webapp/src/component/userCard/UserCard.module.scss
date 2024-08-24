@@ -20,7 +20,7 @@ $flagMenorRightOffset: 24px;
 .mainInfo {
   height: $userCardMainHeight;
   padding: $paddingMedium;
-  background-color: var(--generalPrimaryColor);
+  background-color: var(--mainInfoCardColor);
   gap: $gapSmall;
 }
 

@@ -42,11 +42,6 @@ import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJo
 interface ReportsTableJobsDoneCellProps {
 
   /**
-   * All jobDone tags in the way
-   */
-  jobTags: Label[];
-
-  /**
    * Day report's uuid for update
    */
   dayReport: DayReport;
@@ -94,7 +89,7 @@ interface ReportsTableJobsDoneCellProps {
   /**
    * Sdf
    */
-  labelsMap: SafeMap<string, WayWithoutDayReports>;
+  waysMap: SafeMap<string, WayWithoutDayReports>;
 
 }
 
@@ -298,7 +293,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.labelsMap.getValue(jobDone.wayUuid).jobTags}
+                      labels={props.waysMap.getValue(jobDone.wayUuid).jobTags}
                       labelsDone={jobDone.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: Label[]) => updateLabelsInJobDone({

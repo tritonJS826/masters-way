@@ -191,7 +191,7 @@ updated_at = coalesce($1, updated_at),
 description = coalesce($2, description),
 is_done = coalesce($3, is_done)
 WHERE problems.uuid = $4
-RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid, (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name
+RETURNING uuid, created_at, updated_at, description, is_done, owner_uuid, day_report_uuid, (SELECT name FROM users WHERE users.uuid = problems.owner_uuid) AS owner_name
 `
 
 type UpdateProblemParams struct {

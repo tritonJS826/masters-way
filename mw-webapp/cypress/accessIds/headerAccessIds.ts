@@ -11,8 +11,7 @@ export const headerAccessIds = {
             select: 'headerLanguageSelect',
             ruItem: 'ruItem',
             enItem: 'enItem',
-            uaItem: 'uaItem',
-            kaItem: 'kaItem'
+            uaItem: 'uaItem'
         },
     },
 

@@ -27,7 +27,7 @@ SET
 updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 description = coalesce(sqlc.narg('description'), description)
 WHERE comments.uuid = sqlc.arg('uuid')
-RETURNING *, (SELECT name FROM users WHERE comments.owner_uuid = @owner_uuid) AS owner_name;
+RETURNING *, (SELECT name FROM users WHERE users.uuid = comments.owner_uuid) AS owner_name;
 
 -- name: DeleteComment :exec
 DELETE FROM comments

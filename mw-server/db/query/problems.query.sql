@@ -27,7 +27,7 @@ updated_at = coalesce(sqlc.narg('updated_at'), updated_at),
 description = coalesce(sqlc.narg('description'), description),
 is_done = coalesce(sqlc.narg('is_done'), is_done)
 WHERE problems.uuid = sqlc.arg('uuid')
-RETURNING *, (SELECT name FROM users WHERE problems.owner_uuid = users.uuid) AS owner_name;
+RETURNING *, (SELECT name FROM users WHERE users.uuid = problems.owner_uuid) AS owner_name;
 
 -- name: DeleteProblem :exec
 DELETE FROM problems

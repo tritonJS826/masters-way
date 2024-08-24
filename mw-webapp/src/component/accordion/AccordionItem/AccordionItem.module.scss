@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
 .accordionItem {
-  border-bottom: $primaryBorder solid var(--secondaryStrokeColor);
-  color: var(--secondaryTextColor);
+  border-bottom: $primaryBorder solid var(--generalPrimaryColor);
+  color: var(--primaryTextColor);
 }

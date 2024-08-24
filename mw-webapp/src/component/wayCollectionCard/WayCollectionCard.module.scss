@@ -20,7 +20,7 @@ $titleWithBurgerBlockHeight: 32px;
 .mainInfo {
   height: $wayCollectionCardMainHeight;
   padding: $paddingMedium;
-  background-color: var(--generalPrimaryColor);
+  background-color: var(--mainInfoCardColor);
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
   gap: $gapSmall;
@@ -68,5 +68,5 @@ $titleWithBurgerBlockHeight: 32px;
 }
 
 .active {
-  background-color: var(--primaryBgBtnActiveColor);
+  background-color: var(--wayCollectionCardActiveColor);
 }

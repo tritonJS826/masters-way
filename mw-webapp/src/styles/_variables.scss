@@ -37,6 +37,7 @@ $elementHoverTransition: 650ms;
 $tertiaryTransitionDuration: 500ms;
 
 // z-index
+$statisticCheckbox: 120;
 $sidebarZIndex: 100;
 $tooltipZIndex: 130;
 $chatZIndex: 100;
@@ -46,14 +47,11 @@ $notificationZIndex: 130;
 $chatActionButton: 140;
 $progressIndicatorZIndex: -1;
 
-// Margins, paddings, gaps
-// Height of header. Need for add background under the header
-$mainImageMarginTop: -106px;
 $marginBig: 24px;
 $marginMedium: 10px;
 $marginSmall: 4px;
 
-$paddingVerticalBlockBig: 128px; //top, bottom between inside blocks on the pages
+$paddingVerticalBlockBig: 48px; //top, bottom between inside blocks on the pages
 $paddingExtraSmall: 4px; // doesn't exist on figma, need to delete after redesign
 $paddingSmall: 8px;
 $paddingMedium: 16px;

@@ -1,0 +1,42 @@
+@import "src/styles/variables";
+
+.problemItem {
+  gap: 0;
+
+  @media (max-width: $mediaWidthTablet) {
+    flex-direction: column;
+  }
+}
+
+.problemImageContainer {
+  flex: 1;
+}
+
+.problemImage {
+  max-width: 100%;
+}
+
+.problemContentBlock {
+  flex: 2;
+  justify-content: center;
+  padding: calc($paddingLarge * 2);
+  background-color: var(--primaryBgColor);
+  gap: $gapBig;
+}
+
+.problemContentBlockReversed {
+  align-items: flex-end;
+}
+
+.problemTitleDescription,
+.problemTitle {
+  width: 50%;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    width: 80%;
+  }
+}
+
+.reversed {
+  flex-direction: row-reverse;
+}

@@ -15,7 +15,8 @@
         "name": "mentorMax@gmail.com",
         "email": "mentorMax@gmail.com",
         "loginLink": "http://localhost:8000/api/auth/login/local/mentorMax@gmail.com",
-        "mentoringWaysNumberCollectionButton": "1 Ways"
+        "mentoringWaysNumberCollectionButton": "1 Ways",
+        "wayTitle": "Way of mentorMax@gmail.com"
       }
     },
 
@@ -35,6 +36,17 @@
       "Jane": {
         "userId": "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
         "userName": "Jane Smith"
+      },
+      "Dana": {
+        "userName": "Dana Evans",
+        "way": {
+          "wayTitle": "dana evans way 3",
+          "wayReport1": "job description 1",
+          "wayReport2": "job description 2",
+          "wayReport1Time": 10,
+          "wayReport2Time": 60
+        }
+
       }
     },
 

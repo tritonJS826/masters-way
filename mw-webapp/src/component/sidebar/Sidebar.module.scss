@@ -1,7 +1,5 @@
 @import "src/styles/variables";
 
-$paddingSidebar: $paddingExtraMedium 40px;
-
 .navSidebarContent {
   display: flex;
   flex-direction: column;
@@ -16,7 +14,7 @@ $paddingSidebar: $paddingExtraMedium 40px;
 .menuItemLink {
   display: flex;
   align-items: center;
-  padding: 10px 10px 10px 0;
+  padding: $paddingSmall $paddingSmall $paddingSmall 0;
   color: var(--secondaryTextColor);
   font-size: $fontSizeBig;
   gap: $gapSmall;
@@ -38,7 +36,7 @@ $paddingSidebar: $paddingExtraMedium 40px;
   width: $sidebarWidth;
   flex-direction: column;
   justify-content: space-between;
-  padding: $paddingSidebar;
+  padding: $paddingExtraMedium $paddingLarge;
   background-color: var(--quaternaryBgColor);
   overflow-y: auto;
 }

@@ -61,15 +61,6 @@ $labelMaxWidthBlock: 650px;
   align-items: baseline;
 }
 
-.participantWay {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-}
-
 .mentors {
   display: flex;
   font-size: $fontSizeBig;
@@ -197,14 +188,4 @@ $labelMaxWidthBlock: 650px;
 
 .childWaysBlock {
   gap: $gapExtraSmall;
-}
-
-.childWay {
-  align-items: center;
-  justify-content: space-between;
-}
-
-.abandonedWay {
-  // Need create a new token for composite way background
-  color: var(--dangerColor);
 }

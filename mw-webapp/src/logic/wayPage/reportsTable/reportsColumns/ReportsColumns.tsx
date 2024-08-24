@@ -16,9 +16,12 @@ import {DayReport} from "src/model/businessModel/DayReport";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
+import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {LanguageService} from "src/service/LanguageService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
+import {ArrayUtils} from "src/utils/ArrayUtils";
 import {Symbols} from "src/utils/Symbols";
+import {TreeUtils} from "src/utils/TreeUtils";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns.module.scss";
 
 export const DEFAULT_SUMMARY_TIME = 0;
@@ -86,12 +89,13 @@ export const Columns = (props: ColumnsProps) => {
 
   const participantsSafeMap = new SafeMap(props.wayParticipantsMap);
 
-  const participantWaysLabelsMap =
-    arrayToHashMap({keyField: "uuid", list: props.way.children.concat(props.way)});
-
-  // Props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)
-
-  const participantWaysLabelsSafeMap = new SafeMap(participantWaysLabelsMap);
+  const allParticipants: WayWithoutDayReports[] = [];
+  TreeUtils.forEach(props.way, (node) => {
+    allParticipants.push(node);
+  });
+  const waysMapRaw =
+    arrayToHashMap({keyField: "uuid", list: allParticipants});
+  const waysSafeMap = new SafeMap(waysMapRaw);
 
   const columns = [
     columnHelper.accessor("createdAt", {
@@ -131,9 +135,11 @@ export const Columns = (props: ColumnsProps) => {
           user={user}
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          jobTags={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
-          labelsMap={participantWaysLabelsSafeMap}
-          labels={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
+          waysMap={waysSafeMap}
+          labels={ArrayUtils.removeDuplicatesByField(
+            TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+            "uuid",
+          )}
           wayUuid={props.way.uuid}
           wayName={props.way.name}
           setWayStatisticsTriple={props.setWayStatisticsTriple}
@@ -162,7 +168,7 @@ export const Columns = (props: ColumnsProps) => {
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
           jobTags={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
-          labelsMap={participantWaysLabelsSafeMap}
+          waysMap={waysSafeMap}
           way={props.way}
           createDayReport={props.createDayReport}
           user={user}

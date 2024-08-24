@@ -3,7 +3,6 @@ import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
-import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
@@ -18,7 +17,6 @@ import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {ErrorComponent} from "src/component/privateRecourse/PrivateRecourse";
-import {Separator} from "src/component/separator/Separator";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -45,22 +43,25 @@ import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
+import {WayChildrenList} from "src/logic/wayPage/WayChildrenList/WayChildrenList";
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
 import {WayStatistic} from "src/logic/wayPage/wayStatistics/WayStatistic";
-import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {Label} from "src/model/businessModel/Label";
 import {Metric} from "src/model/businessModel/Metric";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
+import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {ArrayUtils} from "src/utils/ArrayUtils";
 import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
+import {TreeUtils} from "src/utils/TreeUtils";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
@@ -336,17 +337,16 @@ export const WayPage = observer((props: WayPageProps) => {
   const daysFromStart = Math.ceil((new Date(currentDate).getTime() -
     way.createdAt.getTime() + SMALL_CORRECTION_MILLISECONDS) / DAY_MILLISECONDS);
 
-  const compositeWayOwnersParticipant = way.children.map((child) => child.owner).concat(way.owner);
-
-  const compositeWayMentorsParticipant = way.children.reduce((acc: UserPlain[], child) =>
-    acc.concat(Array.from(child.mentors.values())), Array.from(way.mentors.values()));
-
-  const compositeWayFormerMentorsParticipant = way.children.reduce((acc: UserPlain[], child) =>
-    acc.concat(Array.from(child.formerMentors.values())), Array.from(way.formerMentors.values()));
-
-  const compositeWayParticipants = compositeWayOwnersParticipant
-    .concat(compositeWayMentorsParticipant)
-    .concat(compositeWayFormerMentorsParticipant);
+  const compositeWayParticipantsRaw: UserPlain[] = [];
+  TreeUtils.forEach<WayWithoutDayReports>(way, (node) => {
+    // Add all owners from way tree
+    compositeWayParticipantsRaw.push(node.owner);
+    // Add mentors from way tree
+    compositeWayParticipantsRaw.push(...Array.from(node.mentors.values()));
+    // Add former mentors from way tree
+    compositeWayParticipantsRaw.push(...Array.from(node.formerMentors.values()));
+  });
+  const compositeWayParticipants = ArrayUtils.removeDuplicatesByField(compositeWayParticipantsRaw, "uuid");
 
   const favoriteTooltipTextForLoggedUser = isWayInFavorites
     ? LanguageService.way.wayInfo.deleteFromFavoritesTooltip[language]
@@ -465,9 +465,15 @@ export const WayPage = observer((props: WayPageProps) => {
                             name={"MoreVertical"}
                           />
                         }
+                        dataCy={wayDescriptionAccessIds.wayActionMenu.wayActionButton}
                       />
                     </Tooltip>
                   )}
+                  cy={{
+                    dataCyContent: wayDescriptionAccessIds.wayActionMenu.wayMenuItem,
+                    dataCyContentList: wayDescriptionAccessIds.wayActionMenu.wayActionMenuList,
+                  }}
+
                   dropdownMenuItems={[
                     {
                       id: "Make the way private/public",
@@ -718,75 +724,14 @@ export const WayPage = observer((props: WayPageProps) => {
                     level={HeadingLevel.h3}
                     text={LanguageService.way.peopleBlock.childWays[language]}
                     placeholder=""
+                    cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.childWaysTitle}}
                   />
                 </HorizontalContainer>
 
-                {way.children.map((child) => {
-                  const isAbandoned = child.status === WayStatus.abandoned;
-
-                  return (
-                    <>
-                      <HorizontalContainer
-                        key={child.uuid}
-                        className={styles.childWay}
-                      >
-                        <HorizontalContainer>
-                          <Avatar
-                            alt={child.owner.name}
-                            src={child.owner.imageUrl}
-                            size={AvatarSize.SMALL}
-                            className={styles.avatar}
-                          />
-                          <VerticalContainer className={clsx(isAbandoned && styles.abandonedWay)}>
-                            <Link
-                              path={pages.way.getPath({uuid: child.uuid})}
-                              className={styles.participantWay}
-                            >
-                              {child.name}
-                            </Link>
-                            <Link
-                              path={pages.user.getPath({uuid: child.owner.uuid})}
-                              className={styles.participantWay}
-                            >
-                              {child.owner.name}
-                            </Link>
-                            {child.status}
-                          </VerticalContainer>
-                        </HorizontalContainer>
-
-                        <Confirm
-                          trigger={
-                            <Tooltip content={LanguageService.way.peopleBlock.deleteFromComposite[language]}>
-                              <Button
-                                className={styles.removeButton}
-                                onClick={() => {}}
-                                buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                                value={
-                                  <Icon
-                                    size={IconSize.SMALL}
-                                    name="RemoveIcon"
-                                    className={styles.removeIcon}
-                                  />}
-                              />
-                            </Tooltip>
-                          }
-                          content={<p>
-                            {LanguageService.way.peopleBlock.deleteWayFromCompositeModalContent[language]
-                              .replace("$participant", `"${child.name}"`)}
-                          </p>}
-                          onOk={async () => {
-                            await CompositeWayDAL.deleteWayFromComposite({childWayUuid: child.uuid, parentWayUuid: way.uuid});
-                            way.deleteChildWay(child.uuid);
-                          }}
-                          okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                          cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                        />
-                      </HorizontalContainer>
-                      <Separator />
-                    </>
-                  );
-                })
-                }
+                <WayChildrenList
+                  way={way}
+                  level={0}
+                />
               </VerticalContainer>
             }
 

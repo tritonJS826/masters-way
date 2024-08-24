@@ -1,5 +1,5 @@
 /*
-Masters way API
+Masters way general API
 
 Testing GeminiAPIService
 
@@ -21,6 +21,18 @@ func Test_openapi_GeminiAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
+
+	t.Run("Test GeminiAPIService AiChat", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.GeminiAPI.AiChat(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
 
 	t.Run("Test GeminiAPIService GenerateMetrics", func(t *testing.T) {
 

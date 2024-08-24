@@ -5,5 +5,8 @@ import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
  * Convert {@link chatPreviewDTO} to {@link ChatPreview}
  */
 export const chatPreviewDTOToChatPreview = (chatPreviewDTO: SchemasRoomPreviewResponse): ChatPreview => {
-  return new ChatPreview({...chatPreviewDTO});
+  return new ChatPreview({
+    ...chatPreviewDTO,
+    participantIds: chatPreviewDTO.users.map((user) => user.userId),
+  });
 };

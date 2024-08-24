@@ -6,7 +6,6 @@ import {Theme} from "src/globalStore/ThemeStore";
 import sideBarContent from "src/dictionary/Sidebar.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
-import allWayData from "cypress/fixtures/allWaysFixture.json";
 
 describe('NoAuth Header scope tests', () => {
 
@@ -27,18 +26,27 @@ describe('NoAuth Header scope tests', () => {
     });
 
   it('NoAuth_Header_LightThemeSwitchIcon', () => {
-        cy.visit(`/${allWayData.endpoint}`);
+        cy.openAllWaysPage();
         headerSelectors.settings.getThemeSwitcher().click();
 
         cy.checkThemeColors(Theme.LIGHT);
     });
 
-  it('NoAuth_Header_DarkThemeSwitchIcon', () => {
-        cy.visit(`/${allWayData.endpoint}`);
+    it('NoAuth_Header_DarkThemeSwitchIcon', () => {
+        cy.openAllWaysPage();
+        headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
 
         cy.checkThemeColors(Theme.DARK);
+    });
+
+    it('NoAuth_Header_ObsidianThemeSwitchIcon', () => {
+        cy.openAllWaysPage();
+        headerSelectors.settings.getThemeSwitcher().click();
+        headerSelectors.settings.getThemeSwitcher().click();
+
+        cy.checkThemeColors(Theme.OBSIDIAN);
     });
   
     it('NoAuth_Header_LanguageSelect', () => {
