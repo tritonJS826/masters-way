@@ -25,7 +25,9 @@
     "cypress:component:run": "cypress run --component --spec ./src/component/all.cy.tsx",
     "cypress:e2e:open": "cypress open",
     "cypress:e2e:run": "cypress run",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "test:module": "concurrently \"pnpm cypress:component:run\" \"pnpm test\"",
+    "test:integration": "pnpm cypress:e2e:run"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "2.10.0",
