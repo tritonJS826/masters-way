@@ -12,11 +12,12 @@ import (
 )
 
 type CommentController struct {
-	commentService services.ICommentService
+	permissionService *services.PermissionService
+	commentService    *services.CommentService
 }
 
-func NewCommentController(commentService services.ICommentService) *CommentController {
-	return &CommentController{commentService}
+func NewCommentController(permissionService *services.PermissionService, commentService *services.CommentService) *CommentController {
+	return &CommentController{permissionService, commentService}
 }
 
 // Create Comment  handler
@@ -41,12 +42,10 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	response, err := cc.commentService.CreateComment(ctx, &services.CreateCommentParams{
-		UserID:      userID,
-		Description: payload.Description,
-		OwnerID:     payload.OwnerUuid,
-		DayReportID: payload.DayReportUuid,
-	})
+	err := cc.permissionService.CheckIsUserHavingPermissionsForDayReport(ctx, userID, payload.DayReportUuid)
+	util.HandleErrorGin(ctx, err)
+
+	response, err := cc.commentService.CreateComment(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -76,8 +75,10 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
+	err := cc.permissionService.CheckIsUserHavingPermissionsForComment(ctx, userID, commentID)
+	util.HandleErrorGin(ctx, err)
+
 	response, err := cc.commentService.UpdateComment(ctx, &services.UpdateCommentParams{
-		UserID:      userID,
 		CommentID:   commentID,
 		Description: payload.Description,
 	})
@@ -102,7 +103,10 @@ func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	err := cc.commentService.DeleteCommentById(ctx, userID, commentID)
+	err := cc.permissionService.CheckIsUserHavingPermissionsForComment(ctx, userID, commentID)
+	util.HandleErrorGin(ctx, err)
+
+	err = cc.commentService.DeleteCommentById(ctx, commentID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})

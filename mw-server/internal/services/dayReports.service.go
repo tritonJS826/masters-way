@@ -19,6 +19,7 @@ type IDayReportRepository interface {
 	GetListJobTagsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]db.JobTag, error)
 	GetJobDonesByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]db.GetJobDonesByDayReportUuidsRow, error)
 	GetPlansByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]db.GetPlansByDayReportUuidsRow, error)
+	GetLastDayReportDate(ctx context.Context, wayUuids []pgtype.UUID) (db.GetLastDayReportDateRow, error)
 	GetProblemsByDayReportUuids(ctx context.Context, dollar_1 []pgtype.UUID) ([]db.Problem, error)
 	GetListCommentsByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]db.Comment, error)
 	CreateDayReport(ctx context.Context, arg db.CreateDayReportParams) (db.DayReport, error)
@@ -327,12 +328,12 @@ type GetLastDayReportDateResponse struct {
 	EndDate        time.Time
 }
 
-func GetLastDayReportDate(db *db.Queries, ctx context.Context, wayUUIDs []uuid.UUID) (*GetLastDayReportDateResponse, error) {
+func (ds *DayReportService) GetLastDayReportDate(ctx context.Context, wayUUIDs []uuid.UUID) (*GetLastDayReportDateResponse, error) {
 	wayPgUUIDs := lo.Map(wayUUIDs, func(wayUUID uuid.UUID, _ int) pgtype.UUID {
 		return pgtype.UUID{Bytes: wayUUID, Valid: true}
 	})
 
-	response, err := db.GetLastDayReportDate(ctx, wayPgUUIDs)
+	response, err := ds.dayReportRepository.GetLastDayReportDate(ctx, wayPgUUIDs)
 	if err != nil {
 		return nil, err
 	}

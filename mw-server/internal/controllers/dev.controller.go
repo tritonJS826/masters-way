@@ -9,10 +9,10 @@ import (
 )
 
 type DevController struct {
-	devService services.IDevService
+	devService *services.DevService
 }
 
-func NewDevController(devService services.IDevService) *DevController {
+func NewDevController(devService *services.DevService) *DevController {
 	return &DevController{devService}
 }
 

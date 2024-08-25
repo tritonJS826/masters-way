@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 
 	"mwserver/internal/config"
@@ -9,6 +10,9 @@ import (
 	"mwserver/internal/server"
 	"mwserver/internal/services"
 	"mwserver/pkg/database"
+
+	"github.com/google/generative-ai-go/genai"
+	"google.golang.org/api/option"
 )
 
 func main() {
@@ -23,13 +27,13 @@ func main() {
 	}
 	defer newPool.Close()
 
-	// geminiClient, err = genai.NewClient(context.Background(), option.WithAPIKey(newConfig.GeminiApiKey))
-	// if err != nil {
-	// 	log.Fatalf("Failed to create client: %v", err)
-	// }
-	// defer geminiClient.Close()
+	geminiClient, err := genai.NewClient(context.Background(), option.WithAPIKey(newConfig.GeminiApiKey))
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer geminiClient.Close()
 
-	newService := services.NewService(newPool)
+	newService := services.NewService(newPool, geminiClient)
 	newController := controllers.NewController(newService)
 
 	newRouter := routers.NewRouter(newController)

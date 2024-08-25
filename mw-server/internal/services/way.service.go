@@ -2,19 +2,38 @@ package services
 
 import (
 	"context"
-	"fmt"
+	db "mwserver/db/sqlc"
 	dbb "mwserver/db/sqlc"
 	"mwserver/schemas"
 	"mwserver/util"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/samber/lo"
 )
 
 type IWayRepository interface {
+	CountWaysByType(ctx context.Context, arg db.CountWaysByTypeParams) (int64, error)
+	CreateJobTag(ctx context.Context, arg db.CreateJobTagParams) (db.JobTag, error)
+	CreateMetric(ctx context.Context, arg db.CreateMetricParams) (db.Metric, error)
+	CreateWay(ctx context.Context, arg db.CreateWayParams) (db.CreateWayRow, error)
+	CreateWaysWayTag(ctx context.Context, arg db.CreateWaysWayTagParams) (db.WaysWayTag, error)
+	DeleteWay(ctx context.Context, wayUuid pgtype.UUID) error
+	GetFavoriteForUserUuidsByWayId(ctx context.Context, wayUuid pgtype.UUID) (int64, error)
+	GetFormerMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
+	GetFromUserMentoringRequestWaysByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
+	GetListJobTagsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.JobTag, error)
+	GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.Metric, error)
+	GetListWayTagsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.WayTag, error)
+	GetMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
+	GetUserById(ctx context.Context, userUuid pgtype.UUID) (db.User, error)
+	GetWayById(ctx context.Context, wayUuid pgtype.UUID) (db.GetWayByIdRow, error)
 	GetWayChildren(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
+	ListWays(ctx context.Context, arg db.ListWaysParams) ([]db.ListWaysRow, error)
+	UpdateWay(ctx context.Context, arg db.UpdateWayParams) (db.UpdateWayRow, error)
+	IsAllMetricsDone(ctx context.Context, wayUuid pgtype.UUID) (bool, error)
 }
 
 type WayService struct {
@@ -30,11 +49,11 @@ type GetPopulatedWayByIdParams struct {
 	CurrentChildrenDepth int
 }
 
-func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulatedWayByIdParams) (schemas.WayPopulatedResponse, error) {
+func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulatedWayByIdParams) (*schemas.WayPopulatedResponse, error) {
 	wayPgUUID := pgtype.UUID{Bytes: params.WayUuid, Valid: true}
-	way, err := db.GetWayById(ctx, wayPgUUID)
+	way, err := ws.wayRepository.GetWayById(ctx, wayPgUUID)
 	if err != nil {
-		return schemas.WayPopulatedResponse{}, err
+		return nil, err
 	}
 
 	wayOwner := schemas.UserPlainResponse{
@@ -47,7 +66,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		IsMentor:    way.OwnerIsMentor,
 	}
 
-	jobTagsRaw, _ := db.GetListJobTagsByWayUuid(ctx, wayPgUUID)
+	jobTagsRaw, _ := ws.wayRepository.GetListJobTagsByWayUuid(ctx, wayPgUUID)
 	jobTags := lo.Map(jobTagsRaw, func(dbJobTag dbb.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbJobTag.Uuid).String(),
@@ -57,8 +76,8 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		}
 	})
 
-	favoriteForUserAmount, _ := db.GetFavoriteForUserUuidsByWayId(ctx, wayPgUUID)
-	fromUserMentoringRequestsRaw, _ := db.GetFromUserMentoringRequestWaysByWayId(ctx, wayPgUUID)
+	favoriteForUserAmount, _ := ws.wayRepository.GetFavoriteForUserUuidsByWayId(ctx, wayPgUUID)
+	fromUserMentoringRequestsRaw, _ := ws.wayRepository.GetFromUserMentoringRequestWaysByWayId(ctx, wayPgUUID)
 	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(fromUser.Uuid).String(),
@@ -71,7 +90,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		}
 	})
 
-	formerMentorsRaw, _ := db.GetFormerMentorUsersByWayId(ctx, wayPgUUID)
+	formerMentorsRaw, _ := ws.wayRepository.GetFormerMentorUsersByWayId(ctx, wayPgUUID)
 	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbFormerMentor.Uuid).String(),
@@ -84,7 +103,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		}
 	})
 
-	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, wayPgUUID)
+	mentorsRaw, _ := ws.wayRepository.GetMentorUsersByWayId(ctx, wayPgUUID)
 	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
@@ -97,7 +116,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		}
 	})
 
-	metricsRaw, _ := db.GetListMetricsByWayUuid(ctx, wayPgUUID)
+	metricsRaw, _ := ws.wayRepository.GetListMetricsByWayUuid(ctx, wayPgUUID)
 	metrics := lo.Map(metricsRaw, func(dbMetric dbb.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             util.ConvertPgUUIDToUUID(dbMetric.Uuid).String(),
@@ -108,7 +127,7 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 		}
 	})
 
-	wayTagsRaw, _ := db.GetListWayTagsByWayId(ctx, wayPgUUID)
+	wayTagsRaw, _ := ws.wayRepository.GetListWayTagsByWayId(ctx, wayPgUUID)
 	wayTags := lo.Map(wayTagsRaw, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
 			Uuid: util.ConvertPgUUIDToUUID(dbWayTag.Uuid).String(),
@@ -123,15 +142,15 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 				WayUuid:              uuid.MustParse(childUuid),
 				CurrentChildrenDepth: params.CurrentChildrenDepth + 1,
 			}
-			child, _ := GetPopulatedWayById(db, ctx, args)
+			child, _ := ws.GetPopulatedWayById(ctx, args)
 
-			return child
+			return *child
 		})
 	} else {
 		children = []schemas.WayPopulatedResponse{}
 	}
 
-	response := schemas.WayPopulatedResponse{
+	response := &schemas.WayPopulatedResponse{
 		Uuid:                   util.ConvertPgUUIDToUUID(way.Uuid).String(),
 		Name:                   way.Name,
 		GoalDescription:        way.GoalDescription,
@@ -155,26 +174,37 @@ func GetPopulatedWayById(db *dbb.Queries, ctx context.Context, params GetPopulat
 	return response, nil
 }
 
-func UpdateWayIsCompletedStatus(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) error {
+func (ws *WayService) UpdateWayIsCompletedStatus(ctx context.Context, wayID string) error {
+	wayPgUUID := pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true}
 
-	isCompleted, err := db.IsAllMetricsDone(ctx, wayUuid)
+	isCompleted, err := ws.wayRepository.IsAllMetricsDone(ctx, wayPgUUID)
+	if err != nil {
+		return err
+	}
 
 	now := time.Now()
 	args := dbb.UpdateWayParams{
-		Uuid:        wayUuid,
+		Uuid:        wayPgUUID,
 		IsCompleted: pgtype.Bool{Bool: isCompleted, Valid: true},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
 
-	db.UpdateWay(ctx, args)
+	_, err = ws.wayRepository.UpdateWay(ctx, args)
+	if err != nil {
+		return err
+	}
 
-	return err
+	return nil
 }
 
-func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) (schemas.WayPlainResponse, error) {
-	way, err := db.GetWayById(ctx, wayUuid)
+func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainResponse, error) {
+	wayPgUUID := pgtype.UUID{Bytes: wayUUID, Valid: true}
+	way, err := ws.wayRepository.GetWayById(ctx, wayPgUUID)
+	if err != nil {
+		return nil, err
+	}
 
-	mentorsRaw, _ := db.GetMentorUsersByWayId(ctx, way.Uuid)
+	mentorsRaw, _ := ws.wayRepository.GetMentorUsersByWayId(ctx, way.Uuid)
 
 	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
@@ -188,7 +218,7 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 		}
 	})
 
-	dbOwner, _ := db.GetUserById(ctx, way.OwnerUuid)
+	dbOwner, _ := ws.wayRepository.GetUserById(ctx, way.OwnerUuid)
 	owner := schemas.UserPlainResponse{
 		Uuid:        util.ConvertPgUUIDToUUID(dbOwner.Uuid).String(),
 		Name:        dbOwner.Name,
@@ -198,14 +228,15 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 		ImageUrl:    dbOwner.ImageUrl,
 		IsMentor:    dbOwner.IsMentor,
 	}
-	dbTags, _ := db.GetListWayTagsByWayId(ctx, way.Uuid)
+	dbTags, _ := ws.wayRepository.GetListWayTagsByWayId(ctx, way.Uuid)
 	wayTags := lo.Map(dbTags, func(dbTag dbb.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
 			Uuid: util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name: dbTag.Name,
 		}
 	})
-	response := schemas.WayPlainResponse{
+
+	return &schemas.WayPlainResponse{
 		Uuid:              util.ConvertPgUUIDToUUID(way.Uuid).String(),
 		Name:              way.Name,
 		GoalDescription:   way.GoalDescription,
@@ -223,174 +254,177 @@ func GetPlainWayById(db *dbb.Queries, ctx context.Context, wayUuid pgtype.UUID) 
 		MetricsTotal:      int32(way.WayMetricsTotal),
 		WayTags:           wayTags,
 		ChildrenUuids:     way.ChildrenUuids,
-	}
-
-	return response, err
-}
-
-type GetWayStatisticsTriplePeriodParams struct {
-	WayUUIDs       []uuid.UUID
-	TotalStartDate time.Time
-	EndDate        time.Time
-}
-
-func GetWayStatisticsTriplePeriod(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
-	wayPgUUIDs := lo.Map(params.WayUUIDs, func(wayUUID uuid.UUID, _ int) pgtype.UUID {
-		return pgtype.UUID{Bytes: wayUUID, Valid: true}
-	})
-	endDatePgTimestamp := pgtype.Timestamp{Time: params.EndDate, Valid: true}
-
-	totalTimeStatisticsParams := &GetWayStatisticsParams{
-		WayPgUUIDs:           wayPgUUIDs,
-		StartDatePgTimestamp: pgtype.Timestamp{Time: params.TotalStartDate, Valid: true},
-		EndDatePgTimestamp:   endDatePgTimestamp,
-	}
-	totalTimeStatistics, err := GetWayStatistics(db, ctx, totalTimeStatisticsParams)
-	if err != nil {
-		return nil, err
-	}
-
-	lastMonthStatisticsParams := &GetWayStatisticsParams{
-		WayPgUUIDs:           wayPgUUIDs,
-		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, -1, 0), Valid: true},
-		EndDatePgTimestamp:   endDatePgTimestamp,
-	}
-	lastMonthStatistics, err := GetWayStatistics(db, ctx, lastMonthStatisticsParams)
-	if err != nil {
-		return nil, err
-	}
-
-	lastWeekStatisticsParams := &GetWayStatisticsParams{
-		WayPgUUIDs:           wayPgUUIDs,
-		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, 0, -6), Valid: true},
-		EndDatePgTimestamp:   endDatePgTimestamp,
-	}
-	lastWeekStatistics, err := GetWayStatistics(db, ctx, lastWeekStatisticsParams)
-	if err != nil {
-		return nil, err
-	}
-
-	return &schemas.WayStatisticsTriplePeriod{
-		TotalTime: *totalTimeStatistics,
-		LastMonth: *lastMonthStatistics,
-		LastWeek:  *lastWeekStatistics,
 	}, nil
 }
 
-type GetWayStatisticsParams struct {
-	WayPgUUIDs           []pgtype.UUID
-	StartDatePgTimestamp pgtype.Timestamp
-	EndDatePgTimestamp   pgtype.Timestamp
-}
+func (ws *WayService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
+	now := time.Now()
 
-func GetWayStatistics(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.WayStatistics, error) {
-	timeSpentByDayChart, err := GetTimeSpentByDayChart(db, ctx, params)
+	var copiedFromWayPg pgtype.UUID
+	if payload.CopiedFromWayUuid != nil {
+		copiedFromWayPg = pgtype.UUID{Bytes: uuid.MustParse(*payload.CopiedFromWayUuid), Valid: true}
+	}
+	args := db.CreateWayParams{
+		Name:              payload.Name,
+		GoalDescription:   payload.GoalDescription,
+		EstimationTime:    payload.EstimationTime,
+		OwnerUuid:         pgtype.UUID{Bytes: payload.OwnerUuid, Valid: true},
+		IsCompleted:       payload.IsCompleted,
+		IsPrivate:         false,
+		CopiedFromWayUuid: copiedFromWayPg,
+		UpdatedAt:         pgtype.Timestamp{Time: now, Valid: true},
+		CreatedAt:         pgtype.Timestamp{Time: now, Valid: true},
+	}
+
+	way, err := ws.wayRepository.CreateWay(ctx, args)
 	if err != nil {
 		return nil, err
 	}
 
-	overallInformation, err := GetOverallInformation(db, ctx, params)
-	if err != nil {
-		return nil, err
-	}
-
-	getLabelStatistics, err := GetLabelStatistics(db, ctx, params)
-	if err != nil {
-		return nil, err
-	}
-
-	return &schemas.WayStatistics{
-		TimeSpentByDayChart: timeSpentByDayChart,
-		LabelStatistics:     *getLabelStatistics,
-		OverallInformation:  *overallInformation,
-	}, nil
-}
-
-func GetTimeSpentByDayChart(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
-	timeSpentByDayChartParams := dbb.GetTimeSpentByDayChartParams{
-		WayUuids:  params.WayPgUUIDs,
-		StartDate: params.StartDatePgTimestamp,
-		EndDate:   params.EndDatePgTimestamp,
-	}
-
-	timeSpentByDayChartRaw, err := db.GetTimeSpentByDayChart(ctx, timeSpentByDayChartParams)
-	if err != nil {
-		return nil, err
-	}
-	fmt.Println("params.StartDatePgTimestamp: ", params.StartDatePgTimestamp)
-	fmt.Println("params.EndDatePgTimestamp: ", params.EndDatePgTimestamp)
-	fmt.Println("params.WayPgUUIDs: ", params.WayPgUUIDs)
-
-	daysCount := int(params.EndDatePgTimestamp.Time.Sub(params.StartDatePgTimestamp.Time).Hours()/24) + 1
-	fmt.Println("daysCount: ", daysCount)
-	timeSpentByDayChart := make([]schemas.TimeSpentByDayPoint, 0, daysCount)
-
-	timeSpentByDayMap := lo.SliceToMap(timeSpentByDayChartRaw, func(timeSpentByDay dbb.GetTimeSpentByDayChartRow) (time.Time, int) {
-		return timeSpentByDay.PointDate.Time.Truncate(24 * time.Hour), int(timeSpentByDay.PointValue)
-	})
-
-	for date := params.StartDatePgTimestamp.Time; !date.After(params.EndDatePgTimestamp.Time); date = date.AddDate(0, 0, 1) {
-		truncatedDate := date.Truncate(24 * time.Hour)
-		value := timeSpentByDayMap[truncatedDate]
-
-		timeSpentByDayChart = append(timeSpentByDayChart, schemas.TimeSpentByDayPoint{
-			Value: value,
-			Date:  truncatedDate.Format(util.DEFAULT_STRING_LAYOUT),
-		})
-	}
-	return timeSpentByDayChart, nil
-}
-
-func GetOverallInformation(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
-	overallInformationParams := dbb.GetOverallInformationParams{
-		WayUuids:  params.WayPgUUIDs,
-		StartDate: params.StartDatePgTimestamp,
-		EndDate:   params.EndDatePgTimestamp,
-	}
-
-	overallInformationRaw, err := db.GetOverallInformation(ctx, overallInformationParams)
-	if err != nil {
-		return nil, err
-	}
-
-	return &schemas.OverallInformation{
-		TotalTime:                 int(overallInformationRaw.TotalTime),
-		TotalReports:              int(overallInformationRaw.TotalReports),
-		FinishedJobs:              int(overallInformationRaw.FinishedJobs),
-		AverageTimePerCalendarDay: int(overallInformationRaw.AverageTimePerCalendarDay),
-		AverageTimePerWorkingDay:  int(overallInformationRaw.AverageTimePerWorkingDay),
-		AverageJobTime:            int(overallInformationRaw.AverageJobTime),
-	}, nil
-}
-
-func GetLabelStatistics(db *dbb.Queries, ctx context.Context, params *GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
-	labelStatisticsParams := dbb.GetLabelStatisticsParams{
-		WayUuids:  params.WayPgUUIDs,
-		StartDate: params.StartDatePgTimestamp,
-		EndDate:   params.EndDatePgTimestamp,
-	}
-
-	labelStatisticsRaw, err := db.GetLabelStatistics(ctx, labelStatisticsParams)
-	if err != nil {
-		return nil, err
-	}
-
-	labelsInfo := lo.Map(labelStatisticsRaw, func(dbLabel dbb.GetLabelStatisticsRow, _ int) schemas.LabelInfo {
-		return schemas.LabelInfo{
-			Label: schemas.Label{
-				ID:          util.ConvertPgUUIDToUUID(dbLabel.LabelUuid).String(),
-				Name:        dbLabel.LabelName,
-				Color:       dbLabel.LabelColor,
-				Description: dbLabel.LabelDescription,
-			},
-			JobsAmount:           int(dbLabel.JobsAmount),
-			JobsAmountPercentage: int(dbLabel.JobsAmountPercentage),
-			Time:                 int(dbLabel.JobsTime),
-			TimePercentage:       int(dbLabel.JobsTimePercentage),
+	if copiedFromWayPg.Valid {
+		err := ws.CopyWay(ctx, way.CopiedFromWayUuid.Bytes, way.Uuid.Bytes)
+		if err != nil {
+			return nil, err
 		}
+	}
+
+	wayPlain, err := ws.GetPlainWayById(ctx, way.Uuid.Bytes)
+	if err != nil {
+		return nil, err
+	}
+
+	return wayPlain, nil
+}
+
+func (ws *WayService) CopyWay(ctx context.Context, fromWayUUID, toWayUUID uuid.UUID) error {
+	toWayPgUUID := pgtype.UUID{Bytes: toWayUUID, Valid: true}
+
+	now := time.Now()
+	args := GetPopulatedWayByIdParams{
+		WayUuid:              fromWayUUID,
+		CurrentChildrenDepth: 1,
+	}
+
+	originalWay, err := ws.GetPopulatedWayById(ctx, args)
+	if err != nil {
+		return err
+	}
+
+	// copy wayTags from the copied way
+	lo.ForEach(originalWay.WayTags, func(wayTag schemas.WayTagResponse, i int) {
+		ws.wayRepository.CreateWaysWayTag(ctx, db.CreateWaysWayTagParams{
+			WayUuid:    toWayPgUUID,
+			WayTagUuid: pgtype.UUID{Bytes: uuid.MustParse(wayTag.Uuid), Valid: true},
+		})
+	})
+	// copying labels from the copied way
+	lo.ForEach(originalWay.JobTags, func(jobTag schemas.JobTagResponse, i int) {
+		ws.wayRepository.CreateJobTag(ctx, db.CreateJobTagParams{
+			WayUuid:     toWayPgUUID,
+			Name:        jobTag.Name,
+			Description: jobTag.Description,
+			Color:       jobTag.Color,
+		})
+	})
+	// copy metrics from the copied way
+	lo.ForEach(originalWay.Metrics, func(metric schemas.MetricResponse, i int) {
+		ws.wayRepository.CreateMetric(ctx, db.CreateMetricParams{
+			UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
+			Description:      metric.Description,
+			IsDone:           false,
+			MetricEstimation: metric.MetricEstimation,
+			WayUuid:          toWayPgUUID,
+		})
 	})
 
-	return &schemas.LabelStatistics{Labels: labelsInfo}, nil
+	return nil
+}
+
+type UpdateWayParams struct {
+	WayID           string
+	Name            string
+	GoalDescription string
+	EstimationTime  int32
+	IsPrivate       *bool
+	IsCompleted     bool
+}
+
+func (ws *WayService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*schemas.WayPlainResponse, error) {
+	var isPrivate pgtype.Bool
+	if params.IsPrivate != nil {
+		isPrivate = pgtype.Bool{Bool: *params.IsPrivate, Valid: true}
+	}
+
+	now := time.Now()
+	args := db.UpdateWayParams{
+		Uuid:            pgtype.UUID{Bytes: uuid.MustParse(params.WayID), Valid: true},
+		Name:            pgtype.Text{String: params.Name, Valid: params.Name != ""},
+		GoalDescription: pgtype.Text{String: params.GoalDescription, Valid: params.GoalDescription != ""},
+		EstimationTime:  pgtype.Int4{Int32: params.EstimationTime, Valid: params.EstimationTime != 0},
+		IsCompleted:     pgtype.Bool{Bool: params.IsCompleted, Valid: true},
+		IsPrivate:       isPrivate,
+		UpdatedAt:       pgtype.Timestamp{Time: now, Valid: true},
+	}
+
+	way, err := ws.wayRepository.UpdateWay(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+
+	wayPlain, err := ws.GetPlainWayById(ctx, way.Uuid.Bytes)
+	if err != nil {
+		return nil, err
+	}
+
+	return wayPlain, nil
+}
+
+type GetAllWaysParams struct {
+	Status                 string
+	WayName                string
+	Offset                 int
+	ReqMinDayReportsAmount int
+	ReqLimit               int
+}
+
+func (ws *WayService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*schemas.GetAllWaysResponse, error) {
+	currentDate := time.Now()
+
+	waySizeArgs := db.CountWaysByTypeParams{
+		WayStatus:           params.Status,
+		Date:                pgtype.Timestamp{Time: currentDate, Valid: true},
+		MinDayReportsAmount: int32(params.ReqMinDayReportsAmount),
+		WayName:             params.WayName,
+	}
+	waysSize, _ := ws.wayRepository.CountWaysByType(ctx, waySizeArgs)
+
+	listWaysArgs := db.ListWaysParams{
+		Date:                pgtype.Timestamp{Time: currentDate, Valid: true},
+		Status:              params.Status,
+		MinDayReportsAmount: int32(params.ReqMinDayReportsAmount),
+		RequestOffset:       int32(params.Offset),
+		RequestLimit:        int32(params.ReqLimit),
+		WayName:             params.WayName,
+	}
+
+	ways, err := ws.wayRepository.ListWays(ctx, listWaysArgs)
+	if err != nil {
+		return nil, err
+	}
+
+	response := lo.Map(ways, func(way db.ListWaysRow, i int) schemas.WayPlainResponse {
+		wayPlain, _ := ws.GetPlainWayById(ctx, way.Uuid.Bytes)
+		return *wayPlain
+	})
+
+	return &schemas.GetAllWaysResponse{
+		Size: int32(waysSize),
+		Ways: response,
+	}, nil
+}
+
+func (ws *WayService) DeleteWayById(ctx *gin.Context, wayID string) error {
+	return ws.wayRepository.DeleteWay(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true})
 }
 
 func (ws *WayService) GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {

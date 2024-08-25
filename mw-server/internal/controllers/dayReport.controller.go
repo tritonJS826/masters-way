@@ -14,15 +14,15 @@ import (
 )
 
 type DayReportController struct {
-	dayReportService services.IDayReportService
-	limitService     services.ILimitService
-	wayService       services.IWayService
+	dayReportService *services.DayReportService
+	limitService     *services.LimitService
+	wayService       *services.WayService
 }
 
 func NewDayReportController(
-	dayReportService services.IDayReportService,
-	limitService services.ILimitService,
-	wayService services.IWayService,
+	dayReportService *services.DayReportService,
+	limitService *services.LimitService,
+	wayService *services.WayService,
 ) *DayReportController {
 	return &DayReportController{dayReportService, limitService, wayService}
 }

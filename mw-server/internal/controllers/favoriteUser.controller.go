@@ -11,10 +11,10 @@ import (
 )
 
 type FavoriteUserController struct {
-	favoriteUserService services.IFavoriteUserService
+	favoriteUserService *services.FavoriteUserService
 }
 
-func NewFavoriteUserController(favoriteUserService services.IFavoriteUserService) *FavoriteUserController {
+func NewFavoriteUserController(favoriteUserService *services.FavoriteUserService) *FavoriteUserController {
 	return &FavoriteUserController{favoriteUserService}
 }
 

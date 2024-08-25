@@ -11,10 +11,10 @@ import (
 )
 
 type CompositeWayController struct {
-	compositeWayService services.ICompositeWayService
+	compositeWayService *services.CompositeWayService
 }
 
-func NewCompositeWayController(compositeWayService services.ICompositeWayService) *CompositeWayController {
+func NewCompositeWayController(compositeWayService *services.CompositeWayService) *CompositeWayController {
 	return &CompositeWayController{compositeWayService}
 }
 

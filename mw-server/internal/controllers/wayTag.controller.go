@@ -11,10 +11,10 @@ import (
 )
 
 type WayTagController struct {
-	wayTagService services.IWayTagService
+	wayTagService *services.WayTagService
 }
 
-func NewWayTagController(wayTagService services.IWayTagService) *WayTagController {
+func NewWayTagController(wayTagService *services.WayTagService) *WayTagController {
 	return &WayTagController{wayTagService}
 }
 

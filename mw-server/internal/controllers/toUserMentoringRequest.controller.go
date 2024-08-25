@@ -1,0 +1,64 @@
+package controllers
+
+import (
+	"net/http"
+
+	"mwserver/internal/services"
+	"mwserver/schemas"
+	"mwserver/util"
+
+	"github.com/gin-gonic/gin"
+)
+
+type ToUserMentoringRequestController struct {
+	toUserMentoringRequestService *services.ToUserMentoringRequestService
+}
+
+func NewToUserMentoringRequestController(toUserMentoringRequestService *services.ToUserMentoringRequestService) *ToUserMentoringRequestController {
+	return &ToUserMentoringRequestController{toUserMentoringRequestService}
+}
+
+// Create userMentoringRequest handler
+// @Summary Create a new userMentoringRequest
+// @Description
+// @Tags toUserMentoringRequest
+// @ID create-userMentoringRequest
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.CreateUserMentoringRequestPayload true "query params"
+// @Success 200
+// @Router /toUserMentoringRequests [post]
+func (tc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gin.Context) {
+	var payload *schemas.CreateUserMentoringRequestPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	ToUserMentoringRequest, err := tc.toUserMentoringRequestService.CreateToUserMentoringRequest(ctx, payload)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, ToUserMentoringRequest)
+}
+
+// Deleting ToUserMentoringRequest handlers
+// @Summary Delete toUserMentoringReques by UUID
+// @Description
+// @Tags toUserMentoringRequest
+// @ID delete-toUserMentoringRequest
+// @Accept  json
+// @Produce  json
+// @Param userUuid path string true "user UUID"
+// @Param wayUuid path string true "way UUID"
+// @Success 200
+// @Router /toUserMentoringRequests/{userUuid}/{wayUuid} [delete]
+func (tc *ToUserMentoringRequestController) DeleteToUserMentoringRequestById(ctx *gin.Context) {
+	userID := ctx.Param("userUuid")
+	wayID := ctx.Param("wayUuid")
+
+	err := tc.toUserMentoringRequestService.DeleteToUserMentoringRequestById(ctx, userID, wayID)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+}
