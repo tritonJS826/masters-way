@@ -2,10 +2,9 @@ package services
 
 import (
 	"context"
-	db "mwserver/db/sqlc"
-	dbb "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -67,7 +66,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	}
 
 	jobTagsRaw, _ := ws.wayRepository.GetListJobTagsByWayUuid(ctx, wayPgUUID)
-	jobTags := lo.Map(jobTagsRaw, func(dbJobTag dbb.JobTag, i int) schemas.JobTagResponse {
+	jobTags := lo.Map(jobTagsRaw, func(dbJobTag db.JobTag, i int) schemas.JobTagResponse {
 		return schemas.JobTagResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbJobTag.Uuid).String(),
 			Name:        dbJobTag.Name,
@@ -78,7 +77,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 
 	favoriteForUserAmount, _ := ws.wayRepository.GetFavoriteForUserUuidsByWayId(ctx, wayPgUUID)
 	fromUserMentoringRequestsRaw, _ := ws.wayRepository.GetFromUserMentoringRequestWaysByWayId(ctx, wayPgUUID)
-	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser dbb.User, i int) schemas.UserPlainResponse {
+	fromUserMentoringRequests := lo.Map(fromUserMentoringRequestsRaw, func(fromUser db.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(fromUser.Uuid).String(),
 			Name:        fromUser.Name,
@@ -91,7 +90,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	})
 
 	formerMentorsRaw, _ := ws.wayRepository.GetFormerMentorUsersByWayId(ctx, wayPgUUID)
-	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor dbb.User, i int) schemas.UserPlainResponse {
+	formerMentors := lo.Map(formerMentorsRaw, func(dbFormerMentor db.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbFormerMentor.Uuid).String(),
 			Name:        dbFormerMentor.Name,
@@ -104,7 +103,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	})
 
 	mentorsRaw, _ := ws.wayRepository.GetMentorUsersByWayId(ctx, wayPgUUID)
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
+	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
 			Name:        dbMentor.Name,
@@ -117,7 +116,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	})
 
 	metricsRaw, _ := ws.wayRepository.GetListMetricsByWayUuid(ctx, wayPgUUID)
-	metrics := lo.Map(metricsRaw, func(dbMetric dbb.Metric, i int) schemas.MetricResponse {
+	metrics := lo.Map(metricsRaw, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             util.ConvertPgUUIDToUUID(dbMetric.Uuid).String(),
 			Description:      dbMetric.Description,
@@ -128,7 +127,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	})
 
 	wayTagsRaw, _ := ws.wayRepository.GetListWayTagsByWayId(ctx, wayPgUUID)
-	wayTags := lo.Map(wayTagsRaw, func(dbWayTag dbb.WayTag, i int) schemas.WayTagResponse {
+	wayTags := lo.Map(wayTagsRaw, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
 			Uuid: util.ConvertPgUUIDToUUID(dbWayTag.Uuid).String(),
 			Name: dbWayTag.Name,
@@ -136,7 +135,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	})
 
 	var children []schemas.WayPopulatedResponse
-	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][dbb.PricingPlanTypeStarter]) {
+	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][db.PricingPlanTypeStarter]) {
 		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
 			args := GetPopulatedWayByIdParams{
 				WayUuid:              uuid.MustParse(childUuid),
@@ -183,8 +182,8 @@ func (ws *WayService) UpdateWayIsCompletedStatus(ctx context.Context, wayID stri
 	}
 
 	now := time.Now()
-	args := dbb.UpdateWayParams{
-		Uuid:        wayPgUUID,
+	args := db.UpdateWayParams{
+		WayUuid:     wayPgUUID,
 		IsCompleted: pgtype.Bool{Bool: isCompleted, Valid: true},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	}
@@ -206,7 +205,7 @@ func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*
 
 	mentorsRaw, _ := ws.wayRepository.GetMentorUsersByWayId(ctx, way.Uuid)
 
-	mentors := lo.Map(mentorsRaw, func(dbMentor dbb.User, i int) schemas.UserPlainResponse {
+	mentors := lo.Map(mentorsRaw, func(dbMentor db.User, i int) schemas.UserPlainResponse {
 		return schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbMentor.Uuid).String(),
 			Name:        dbMentor.Name,
@@ -229,7 +228,7 @@ func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*
 		IsMentor:    dbOwner.IsMentor,
 	}
 	dbTags, _ := ws.wayRepository.GetListWayTagsByWayId(ctx, way.Uuid)
-	wayTags := lo.Map(dbTags, func(dbTag dbb.WayTag, i int) schemas.WayTagResponse {
+	wayTags := lo.Map(dbTags, func(dbTag db.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
 			Uuid: util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name: dbTag.Name,
@@ -357,7 +356,7 @@ func (ws *WayService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*
 
 	now := time.Now()
 	args := db.UpdateWayParams{
-		Uuid:            pgtype.UUID{Bytes: uuid.MustParse(params.WayID), Valid: true},
+		WayUuid:         pgtype.UUID{Bytes: uuid.MustParse(params.WayID), Valid: true},
 		Name:            pgtype.Text{String: params.Name, Valid: params.Name != ""},
 		GoalDescription: pgtype.Text{String: params.GoalDescription, Valid: params.GoalDescription != ""},
 		EstimationTime:  pgtype.Int4{Int32: params.EstimationTime, Valid: params.EstimationTime != 0},

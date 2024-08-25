@@ -3,9 +3,9 @@ package services
 import (
 	"context"
 	"fmt"
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
 
 	"github.com/google/uuid"
@@ -116,9 +116,6 @@ func (ws *WayStatisticsService) GetTimeSpentByDayChart(ctx context.Context, para
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("params.StartDatePgTimestamp: ", params.StartDatePgTimestamp)
-	fmt.Println("params.EndDatePgTimestamp: ", params.EndDatePgTimestamp)
-	fmt.Println("params.WayPgUUIDs: ", params.WayPgUUIDs)
 
 	daysCount := int(params.EndDatePgTimestamp.Time.Sub(params.StartDatePgTimestamp.Time).Hours()/24) + 1
 	fmt.Println("daysCount: ", daysCount)

@@ -1,22 +1,24 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type JobDoneJobTagRouter struct {
+type jobDoneJobTagRouter struct {
 	jobDoneJobTagController *controllers.JobDoneJobTagController
+	config                  *config.Config
 }
 
-func NewJobDoneJobTagRouter(jobDoneJobTagController *controllers.JobDoneJobTagController) *JobDoneJobTagRouter {
-	return &JobDoneJobTagRouter{jobDoneJobTagController}
+func newJobDoneJobTagRouter(jobDoneJobTagController *controllers.JobDoneJobTagController, config *config.Config) *jobDoneJobTagRouter {
+	return &jobDoneJobTagRouter{jobDoneJobTagController, config}
 }
 
-func (jr *JobDoneJobTagRouter) setJobDoneJobTagRoutes(rg *gin.RouterGroup) {
+func (jr *jobDoneJobTagRouter) setJobDoneJobTagRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("jobDoneJobTags")
-	router.POST("", auth.AuthMiddleware(), jr.jobDoneJobTagController.CreateJobDoneJobTag)
-	router.DELETE("/:jobTagId/:jobDoneId", auth.AuthMiddleware(), jr.jobDoneJobTagController.DeleteJobDoneJobTagById)
+	router.POST("", auth.AuthMiddleware(jr.config), jr.jobDoneJobTagController.CreateJobDoneJobTag)
+	router.DELETE("/:jobTagId/:jobDoneId", auth.AuthMiddleware(jr.config), jr.jobDoneJobTagController.DeleteJobDoneJobTagById)
 }

@@ -59,8 +59,7 @@ var devRequiredVariables = [14]string{
 }
 
 func LoadConfig(path string) (config Config, err error) {
-	viper.AddConfigPath(path)
-	viper.SetConfigFile(".env")
+	viper.SetConfigFile(path + ".env")
 
 	viper.AutomaticEnv()
 

@@ -3,10 +3,9 @@ package controllers
 import (
 	"net/http"
 
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
-	"mwserver/schemas"
-
-	"mwserver/util"
+	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"

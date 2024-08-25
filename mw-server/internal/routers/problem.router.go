@@ -1,23 +1,25 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type ProblemRouter struct {
+type problemRouter struct {
 	problemController *controllers.ProblemController
+	config            *config.Config
 }
 
-func NewProblemRouter(problemController *controllers.ProblemController) *ProblemRouter {
-	return &ProblemRouter{problemController}
+func newProblemRouter(problemController *controllers.ProblemController, config *config.Config) *problemRouter {
+	return &problemRouter{problemController, config}
 }
 
-func (pr *ProblemRouter) setProblemRoutes(rg *gin.RouterGroup) {
+func (pr *problemRouter) setProblemRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("problems")
-	router.POST("", auth.AuthMiddleware(), pr.problemController.CreateProblem)
-	router.PATCH("/:problemId", auth.AuthMiddleware(), pr.problemController.UpdateProblem)
-	router.DELETE("/:problemId", auth.AuthMiddleware(), pr.problemController.DeleteProblemById)
+	router.POST("", auth.AuthMiddleware(pr.config), pr.problemController.CreateProblem)
+	router.PATCH("/:problemId", auth.AuthMiddleware(pr.config), pr.problemController.UpdateProblem)
+	router.DELETE("/:problemId", auth.AuthMiddleware(pr.config), pr.problemController.DeleteProblemById)
 }

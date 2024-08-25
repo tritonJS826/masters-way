@@ -3,7 +3,7 @@ build: ## Build the project
 	go build -o main main.go
 
 start: ## Run the project
-	go run main.go
+	go run cmd/general/main.go
 
 test: ## Run all tests
 	go test ./...
@@ -22,4 +22,4 @@ db-schema: ## Generate db schema
 
 help: ## Display help message
 	@echo "Available targets:"
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' Makefile 
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' Makefile

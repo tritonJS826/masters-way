@@ -1,22 +1,24 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type FavoriteUserWayRouter struct {
+type favoriteUserWayRouter struct {
 	favoriteUserWayController *controllers.FavoriteUserWayController
+	config                    *config.Config
 }
 
-func NewFavoriteUserWayRouter(favoriteUserWayController *controllers.FavoriteUserWayController) *FavoriteUserWayRouter {
-	return &FavoriteUserWayRouter{favoriteUserWayController}
+func newFavoriteUserWayRouter(favoriteUserWayController *controllers.FavoriteUserWayController, config *config.Config) *favoriteUserWayRouter {
+	return &favoriteUserWayRouter{favoriteUserWayController, config}
 }
 
-func (fuwr *FavoriteUserWayRouter) setFavoriteUserWayRoutes(rg *gin.RouterGroup) {
+func (fr *favoriteUserWayRouter) setFavoriteUserWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("favoriteUserWays")
-	router.POST("", auth.AuthMiddleware(), fuwr.favoriteUserWayController.CreateFavoriteUserWay)
-	router.DELETE("/:userUuid/:wayUuid", auth.AuthMiddleware(), fuwr.favoriteUserWayController.DeleteFavoriteUserWayById)
+	router.POST("", auth.AuthMiddleware(fr.config), fr.favoriteUserWayController.CreateFavoriteUserWay)
+	router.DELETE("/:userUuid/:wayUuid", auth.AuthMiddleware(fr.config), fr.favoriteUserWayController.DeleteFavoriteUserWayById)
 }

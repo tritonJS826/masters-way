@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
-	db "mwserver/db/sqlc"
+	db "mwserver/internal/db/sqlc"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"

@@ -2,9 +2,10 @@ package services
 
 import (
 	"context"
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
+
 	"time"
 
 	"github.com/google/uuid"
@@ -48,8 +49,8 @@ func (cs *CommentService) CreateComment(ctx context.Context, payload *schemas.Cr
 		CreatedAt:     comment.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		UpdatedAt:     comment.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		DayReportUuid: util.ConvertPgUUIDToUUID(comment.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
+		WayUUID:       util.ConvertPgUUIDToUUID(comment.WayUuid).String(),
+		WayName:       comment.WayName,
 	}, nil
 }
 
@@ -66,7 +67,7 @@ func (cs *CommentService) UpdateComment(ctx context.Context, params *UpdateComme
 
 	now := time.Now()
 	comment, err := cs.ICommentRepository.UpdateComment(ctx, db.UpdateCommentParams{
-		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(params.CommentID), Valid: true},
+		CommentUuid: pgtype.UUID{Bytes: uuid.MustParse(params.CommentID), Valid: true},
 		Description: descriptionPg,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 	})
@@ -82,8 +83,8 @@ func (cs *CommentService) UpdateComment(ctx context.Context, params *UpdateComme
 		CreatedAt:     comment.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		UpdatedAt:     comment.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 		DayReportUuid: util.ConvertPgUUIDToUUID(comment.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
+		WayUUID:       util.ConvertPgUUIDToUUID(comment.WayUuid).String(),
+		WayName:       comment.WayName,
 	}, nil
 }
 

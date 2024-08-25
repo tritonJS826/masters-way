@@ -2,9 +2,9 @@ package services
 
 import (
 	"context"
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -27,7 +27,6 @@ func NewWayTagService(wayTagRepository IWayTagRepository) *WayTagService {
 
 func (wts *WayTagService) AddWayTagToWay(ctx context.Context, name string, wayID string) (*schemas.WayTagResponse, error) {
 	wayTag, err := wts.IWayTagRepository.GetWayTagByName(ctx, name)
-
 	if err != nil {
 		newWayTag, _ := wts.IWayTagRepository.CreateWayTag(ctx, name)
 		wayTag = newWayTag
@@ -35,7 +34,7 @@ func (wts *WayTagService) AddWayTagToWay(ctx context.Context, name string, wayID
 
 	args := &db.CreateWaysWayTagParams{
 		WayTagUuid: wayTag.Uuid,
-		WayUuid:    pgtype.UUID{Bytes: uuid.MustParse(name), Valid: true},
+		WayUuid:    pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true},
 	}
 	_, err = wts.IWayTagRepository.CreateWaysWayTag(ctx, *args)
 	if err != nil {

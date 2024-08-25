@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"mwserver/internal/config"
 	"mwserver/internal/services"
 )
 
@@ -31,9 +32,9 @@ type Controller struct {
 	WayCollectionWayController         *WayCollectionWayController
 }
 
-func NewController(services *services.Service) *Controller {
+func NewController(services *services.Service, config *config.Config) *Controller {
 	return &Controller{
-		AuthController:                     NewAuthController(services.UserService),
+		AuthController:                     NewAuthController(services.AuthService, services.UserService, config),
 		CommentController:                  NewCommentController(services.PermissionService, services.CommentService),
 		CompositeWayController:             NewCompositeWayController(services.CompositeWayService),
 		DayReportController:                NewDayReportController(services.DayReportService, services.LimitService, services.WayService),

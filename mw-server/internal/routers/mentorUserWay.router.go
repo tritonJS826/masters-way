@@ -1,22 +1,24 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type MentorUserWayRouter struct {
+type mentorUserWayRouter struct {
 	mentorUserWayController *controllers.MentorUserWayController
+	config                  *config.Config
 }
 
-func NewMentorUserWayRouter(mentorUserWayController *controllers.MentorUserWayController) *MentorUserWayRouter {
-	return &MentorUserWayRouter{mentorUserWayController}
+func newMentorUserWayRouter(mentorUserWayController *controllers.MentorUserWayController, config *config.Config) *mentorUserWayRouter {
+	return &mentorUserWayRouter{mentorUserWayController, config}
 }
 
-func (mr *MentorUserWayRouter) setMentorUserWayRoutes(rg *gin.RouterGroup) {
+func (mr *mentorUserWayRouter) setMentorUserWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("mentorUserWays")
-	router.POST("", auth.AuthMiddleware(), mr.mentorUserWayController.AddMentorUserWay)
-	router.DELETE("", auth.AuthMiddleware(), mr.mentorUserWayController.DeleteMentorUserWay)
+	router.POST("", auth.AuthMiddleware(mr.config), mr.mentorUserWayController.AddMentorUserWay)
+	router.DELETE("", auth.AuthMiddleware(mr.config), mr.mentorUserWayController.DeleteMentorUserWay)
 }

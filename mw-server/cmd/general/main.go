@@ -27,16 +27,19 @@ func main() {
 	}
 	defer newPool.Close()
 
-	geminiClient, err := genai.NewClient(context.Background(), option.WithAPIKey(newConfig.GeminiApiKey))
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
+	var geminiClient *genai.Client
+	if newConfig.EnvType == "prod" {
+		geminiClient, err = genai.NewClient(context.Background(), option.WithAPIKey(newConfig.GeminiApiKey))
+		if err != nil {
+			log.Fatalf("Failed to create client: %v", err)
+		}
+		defer geminiClient.Close()
 	}
-	defer geminiClient.Close()
 
-	newService := services.NewService(newPool, geminiClient)
-	newController := controllers.NewController(newService)
+	newService := services.NewService(newPool, geminiClient, &newConfig)
+	newController := controllers.NewController(newService, &newConfig)
 
-	newRouter := routers.NewRouter(newController)
+	newRouter := routers.NewRouter(&newConfig, newController)
 	newRouter.SetRoutes()
 
 	newServer := server.NewServer(&newConfig, newRouter)

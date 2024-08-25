@@ -6,11 +6,9 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/cors v1.7.0
 	github.com/gin-gonic/gin v1.9.1
-	github.com/go-playground/assert/v2 v2.2.0
 	github.com/google/generative-ai-go v0.16.0
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.6.0
-	github.com/lib/pq v1.10.9
 	github.com/markbates/goth v1.79.0
 	github.com/samber/lo v1.39.0
 	github.com/spf13/viper v1.18.2

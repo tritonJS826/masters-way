@@ -1,13 +1,15 @@
 package services
 
 import (
-	db "mwserver/db/sqlc"
+	"mwserver/internal/config"
+	db "mwserver/internal/db/sqlc"
 
 	"github.com/google/generative-ai-go/genai"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Service struct {
+	AuthService                     *AuthService
 	CommentService                  *CommentService
 	CompositeWayService             *CompositeWayService
 	DayReportService                *DayReportService
@@ -36,7 +38,7 @@ type Service struct {
 	WayCollectionWayService         *WayCollectionWayService
 }
 
-func NewService(pool *pgxpool.Pool, geminiClient *genai.Client) *Service {
+func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.Config) *Service {
 	queries := db.New(pool)
 
 	return &Service{
@@ -47,7 +49,7 @@ func NewService(pool *pgxpool.Pool, geminiClient *genai.Client) *Service {
 		FavoriteUserService:             NewFavoriteUserService(queries),
 		FavoriteUserWayService:          NewFavoriteUserWayService(queries),
 		FromUserMentoringRequestService: NewFromUserMentoringRequestService(queries),
-		GeminiService:                   NewGeminiService(geminiClient),
+		GeminiService:                   NewGeminiService(geminiClient, config),
 		PermissionService:               NewPermissionService(queries),
 		JobDoneService:                  NewJobDoneService(queries),
 		JobDoneJobTagService:            NewJobDoneJobTagService(queries),

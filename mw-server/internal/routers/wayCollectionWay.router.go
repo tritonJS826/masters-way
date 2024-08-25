@@ -1,22 +1,24 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type WayCollectionWayRouter struct {
+type wayCollectionWayRouter struct {
 	wayCollectionWayController *controllers.WayCollectionWayController
+	config                     *config.Config
 }
 
-func NewWayCollectionWayRouter(wayCollectionWayController *controllers.WayCollectionWayController) *WayCollectionWayRouter {
-	return &WayCollectionWayRouter{wayCollectionWayController}
+func newWayCollectionWayRouter(wayCollectionWayController *controllers.WayCollectionWayController, config *config.Config) *wayCollectionWayRouter {
+	return &wayCollectionWayRouter{wayCollectionWayController, config}
 }
 
-func (wr *WayCollectionWayRouter) setWayCollectionWayRoutes(rg *gin.RouterGroup) {
+func (wr *wayCollectionWayRouter) setWayCollectionWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("wayCollectionWays")
-	router.POST("", auth.AuthMiddleware(), wr.wayCollectionWayController.CreateWayCollectionWay)
-	router.DELETE("/:wayId/:wayCollectionId", auth.AuthMiddleware(), wr.wayCollectionWayController.DeleteWayCollectionWayById)
+	router.POST("", auth.AuthMiddleware(wr.config), wr.wayCollectionWayController.CreateWayCollectionWay)
+	router.DELETE("/:wayId/:wayCollectionId", auth.AuthMiddleware(wr.config), wr.wayCollectionWayController.DeleteWayCollectionWayById)
 }

@@ -6,15 +6,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type DevRouter struct {
+type devRouter struct {
 	devController *controllers.DevController
 }
 
-func NewDevRouter(devController *controllers.DevController) *DevRouter {
-	return &DevRouter{devController}
+func newDevRouter(devController *controllers.DevController) *devRouter {
+	return &devRouter{devController}
 }
 
-func (cr *DevRouter) setDevRoutes(rg *gin.RouterGroup) {
+func (cr *devRouter) setDevRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("dev")
 	router.GET("reset-db", cr.devController.ResetDb)
 }

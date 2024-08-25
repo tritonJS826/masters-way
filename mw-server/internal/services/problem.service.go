@@ -2,11 +2,10 @@ package services
 
 import (
 	"context"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
-
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -51,13 +50,13 @@ func (ps *ProblemService) CreateProblem(ctx context.Context, payload *schemas.Cr
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
+		WayUUID:       util.ConvertPgUUIDToUUID(problem.WayUuid).String(),
+		WayName:       problem.WayName,
 	}, nil
 }
 
 type UpdateProblemParams struct {
-	problemID   string
+	ProblemID   string
 	Description *string
 	IsDone      *bool
 }
@@ -73,7 +72,7 @@ func (ps *ProblemService) UpdateProblem(ctx context.Context, params *UpdateProbl
 	}
 	now := time.Now()
 	args := db.UpdateProblemParams{
-		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(params.problemID), Valid: true},
+		ProblemUuid: pgtype.UUID{Bytes: uuid.MustParse(params.ProblemID), Valid: true},
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		IsDone:      isDonePg,
 		Description: descriptionPg,
@@ -93,8 +92,8 @@ func (ps *ProblemService) UpdateProblem(ctx context.Context, params *UpdateProbl
 		OwnerUuid:     util.ConvertPgUUIDToUUID(problem.OwnerUuid).String(),
 		OwnerName:     problem.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(problem.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
+		WayUUID:       util.ConvertPgUUIDToUUID(problem.WayUuid).String(),
+		WayName:       problem.WayName,
 	}, nil
 }
 

@@ -1,22 +1,24 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type DayReportRouter struct {
+type dayReportRouter struct {
 	dayReportController *controllers.DayReportController
+	config              *config.Config
 }
 
-func NewDayReportRouter(dayReportController *controllers.DayReportController) *DayReportRouter {
-	return &DayReportRouter{dayReportController}
+func newDayReportRouter(dayReportController *controllers.DayReportController, config *config.Config) *dayReportRouter {
+	return &dayReportRouter{dayReportController, config}
 }
 
-func (drr *DayReportRouter) setDayReportRoutes(rg *gin.RouterGroup) {
+func (dr *dayReportRouter) setDayReportRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("dayReports")
-	router.POST("", auth.AuthMiddleware(), drr.dayReportController.CreateDayReport)
-	router.GET("/:wayId", drr.dayReportController.GetDayReports)
+	router.POST("", auth.AuthMiddleware(dr.config), dr.dayReportController.CreateDayReport)
+	router.GET("/:wayId", dr.dayReportController.GetDayReports)
 }

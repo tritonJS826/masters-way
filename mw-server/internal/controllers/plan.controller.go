@@ -3,10 +3,10 @@ package controllers
 import (
 	"net/http"
 
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
-	"mwserver/schemas"
-	"mwserver/util"
+	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
@@ -75,7 +75,7 @@ func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	err := pc.permissionService.CheckIsUserHavingPermissionsForDayReport(ctx, userID, planID)
+	err := pc.permissionService.CheckIsUserHavingPermissionsForPlan(ctx, userID, planID)
 	util.HandleErrorGin(ctx, err)
 
 	plan, err := pc.planService.UpdatePlan(ctx, &services.UpdatePlanParams{
@@ -106,7 +106,7 @@ func (pc *PlanController) DeletePlanById(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	err := pc.permissionService.CheckIsUserHavingPermissionsForDayReport(ctx, userID, planID)
+	err := pc.permissionService.CheckIsUserHavingPermissionsForPlan(ctx, userID, planID)
 	util.HandleErrorGin(ctx, err)
 
 	err = pc.planService.DeletePlanById(ctx, planID)

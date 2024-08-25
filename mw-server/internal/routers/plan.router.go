@@ -1,23 +1,25 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type PlanRouter struct {
+type planRouter struct {
 	planController *controllers.PlanController
+	config         *config.Config
 }
 
-func NewPlanRouter(planController *controllers.PlanController) *PlanRouter {
-	return &PlanRouter{planController}
+func newPlanRouter(planController *controllers.PlanController, config *config.Config) *planRouter {
+	return &planRouter{planController, config}
 }
 
-func (pr *PlanRouter) setPlanRoutes(rg *gin.RouterGroup) {
+func (pr *planRouter) setPlanRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("plans")
-	router.POST("", auth.AuthMiddleware(), pr.planController.CreatePlan)
-	router.PATCH("/:planId", auth.AuthMiddleware(), pr.planController.UpdatePlan)
-	router.DELETE("/:planId", auth.AuthMiddleware(), pr.planController.DeletePlanById)
+	router.POST("", auth.AuthMiddleware(pr.config), pr.planController.CreatePlan)
+	router.PATCH("/:planId", auth.AuthMiddleware(pr.config), pr.planController.UpdatePlan)
+	router.DELETE("/:planId", auth.AuthMiddleware(pr.config), pr.planController.DeletePlanById)
 }

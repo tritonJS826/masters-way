@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
-	"mwserver/schemas"
-	"mwserver/util"
+	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -49,11 +49,14 @@ func (drc *DayReportController) GetDayReports(ctx *gin.Context) {
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPage - 1) * reqLimit
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := uuid.MustParse(userIDRaw.(string))
-
-	maxDepth, err := drc.limitService.GetMaxCompositeWayDepthByUserID(ctx, userID)
-	util.HandleErrorGin(ctx, err)
+	var maxDepth int = 2
+	userIDRaw, exists := ctx.Get(auth.ContextKeyUserID)
+	if exists {
+		userID := uuid.MustParse(userIDRaw.(string))
+		var err error
+		maxDepth, err = drc.limitService.GetMaxCompositeWayDepthByUserID(ctx, userID)
+		util.HandleErrorGin(ctx, err)
+	}
 
 	childrenWays, err := drc.wayService.GetChildrenWayIDs(ctx, wayID, maxDepth)
 	util.HandleErrorGin(ctx, err)

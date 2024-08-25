@@ -2,43 +2,58 @@ package routers
 
 import (
 	"fmt"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 	"net/http"
 
+	_ "mwserver/docs"
+
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Router struct {
-	Gin *gin.Engine
-
-	authRouter                     *AuthRouter
-	commentRouter                  *CommentRouter
-	compositeWayRouter             *CompositeWayRouter
-	dayReportRouter                *DayReportRouter
-	wayTagRouter                   *WayTagRouter
-	devRouter                      *DevRouter
-	favoriteUserRouter             *FavoriteUserRouter
-	favoriteUserWayRouter          *FavoriteUserWayRouter
-	fromUserMentoringRequestRouter *FromUserMentoringRequestRouter
-	geminiRouter                   *GeminiRouter
-	jobDoneRouter                  *JobDoneRouter
-	jobDoneJobTagRouter            *JobDoneJobTagRouter
-	jobTagRouter                   *JobTagRouter
-	mentorUserWayRouter            *MentorUserWayRouter
-	metricRouter                   *MetricRouter
-	planRouter                     *PlanRouter
-	planJobTagRouter               *PlanJobTagRouter
-	problemRouter                  *ProblemRouter
-	wayRouter                      *WayRouter
-	toUserMentoringRequestRouter   *ToUserMentoringRequestRouter
-	userRouter                     *UserRouter
-	userTagRouter                  *UserTagRouter
-	wayCollectionRouter            *WayCollectionRouter
-	wayCollectionWayRouter         *WayCollectionWayRouter
+	Gin                            *gin.Engine
+	config                         *config.Config
+	authRouter                     *authRouter
+	commentRouter                  *commentRouter
+	compositeWayRouter             *compositeWayRouter
+	dayReportRouter                *dayReportRouter
+	wayTagRouter                   *wayTagRouter
+	devRouter                      *devRouter
+	favoriteUserRouter             *favoriteUserRouter
+	favoriteUserWayRouter          *favoriteUserWayRouter
+	fromUserMentoringRequestRouter *fromUserMentoringRequestRouter
+	geminiRouter                   *geminiRouter
+	jobDoneRouter                  *jobDoneRouter
+	jobDoneJobTagRouter            *jobDoneJobTagRouter
+	jobTagRouter                   *jobTagRouter
+	mentorUserWayRouter            *mentorUserWayRouter
+	metricRouter                   *metricRouter
+	planRouter                     *planRouter
+	planJobTagRouter               *planJobTagRouter
+	problemRouter                  *problemRouter
+	wayRouter                      *wayRouter
+	toUserMentoringRequestRouter   *toUserMentoringRequestRouter
+	userRouter                     *userRouter
+	userTagRouter                  *userTagRouter
+	wayCollectionRouter            *wayCollectionRouter
+	wayCollectionWayRouter         *wayCollectionWayRouter
 }
 
-func NewRouter(controller *controllers.Controller) *Router {
+func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
 	ginRouter := gin.Default()
+
+	// Apply CORS middleware with custom options
+	ginRouter.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{config.WebappBaseUrl},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 
 	ginRouter.NoRoute(func(ctx *gin.Context) {
 		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
@@ -46,30 +61,31 @@ func NewRouter(controller *controllers.Controller) *Router {
 
 	return &Router{
 		Gin:                            ginRouter,
-		authRouter:                     NewAuthRouter(controller.AuthController),
-		commentRouter:                  NewCommentRouter(controller.CommentController),
-		compositeWayRouter:             NewCompositeWayRouter(controller.CompositeWayController),
-		dayReportRouter:                NewDayReportRouter(controller.DayReportController),
-		devRouter:                      NewDevRouter(controller.DevController),
-		favoriteUserRouter:             NewFavoriteUserRouter(controller.FavoriteUserController),
-		favoriteUserWayRouter:          NewFavoriteUserWayRouter(controller.FavoriteUserWayController),
-		fromUserMentoringRequestRouter: NewFromUserMentoringRequestRouter(controller.FromUserMentoringRequestController),
-		geminiRouter:                   NewGeminiRouter(controller.GeminiController),
-		jobDoneRouter:                  NewJobDoneRouter(controller.JobDoneController),
-		jobDoneJobTagRouter:            NewJobDoneJobTagRouter(controller.JobDoneJobTagController),
-		jobTagRouter:                   NewJobTagRouter(controller.JobTagController),
-		mentorUserWayRouter:            NewMentorUserWayRouter(controller.MentorUserWayController),
-		metricRouter:                   NewMetricRouter(controller.MetricController),
-		planRouter:                     NewPlanRouter(controller.PlanController),
-		planJobTagRouter:               NewRoutePlanJobTag(controller.PlanJobTagController),
-		problemRouter:                  NewProblemRouter(controller.ProblemController),
-		wayRouter:                      NewWayRouter(controller.WayController),
-		wayTagRouter:                   NewWayTagRouter(controller.WayTagController),
-		toUserMentoringRequestRouter:   NewToUserMentoringRequestRouter(controller.ToUserMentoringRequestController),
-		userRouter:                     NewUserRouter(controller.UserController),
-		userTagRouter:                  NewUserTagRouter(controller.UserTagController),
-		wayCollectionRouter:            NewWayCollectionRouter(controller.WayCollectionController),
-		wayCollectionWayRouter:         NewWayCollectionWayRouter(controller.WayCollectionWayController),
+		config:                         config,
+		authRouter:                     newAuthRouter(controller.AuthController, config),
+		commentRouter:                  newCommentRouter(controller.CommentController, config),
+		compositeWayRouter:             newCompositeWayRouter(controller.CompositeWayController, config),
+		dayReportRouter:                newDayReportRouter(controller.DayReportController, config),
+		devRouter:                      newDevRouter(controller.DevController),
+		favoriteUserRouter:             newFavoriteUserRouter(controller.FavoriteUserController, config),
+		favoriteUserWayRouter:          newFavoriteUserWayRouter(controller.FavoriteUserWayController, config),
+		fromUserMentoringRequestRouter: newFromUserMentoringRequestRouter(controller.FromUserMentoringRequestController, config),
+		geminiRouter:                   newGeminiRouter(controller.GeminiController),
+		jobDoneRouter:                  newJobDoneRouter(controller.JobDoneController, config),
+		jobDoneJobTagRouter:            newJobDoneJobTagRouter(controller.JobDoneJobTagController, config),
+		jobTagRouter:                   newJobTagRouter(controller.JobTagController, config),
+		mentorUserWayRouter:            newMentorUserWayRouter(controller.MentorUserWayController, config),
+		metricRouter:                   newMetricRouter(controller.MetricController, config),
+		planRouter:                     newPlanRouter(controller.PlanController, config),
+		planJobTagRouter:               newPlanJobTagRouter(controller.PlanJobTagController, config),
+		problemRouter:                  newProblemRouter(controller.ProblemController, config),
+		wayRouter:                      newWayRouter(controller.WayController, config),
+		wayTagRouter:                   newWayTagRouter(controller.WayTagController, config),
+		toUserMentoringRequestRouter:   newToUserMentoringRequestRouter(controller.ToUserMentoringRequestController, config),
+		userRouter:                     newUserRouter(controller.UserController, config),
+		userTagRouter:                  newUserTagRouter(controller.UserTagController, config),
+		wayCollectionRouter:            newWayCollectionRouter(controller.WayCollectionController, config),
+		wayCollectionWayRouter:         newWayCollectionWayRouter(controller.WayCollectionWayController, config),
 	}
 }
 
@@ -87,18 +103,16 @@ func (r *Router) SetRoutes() {
 	r.commentRouter.setCommentRoutes(api)
 	r.compositeWayRouter.setCompositeWayRoutes(api)
 	r.dayReportRouter.setDayReportRoutes(api)
-	r.devRouter.setDevRoutes(api)
 	r.favoriteUserRouter.setFavoriteUserRoutes(api)
 	r.favoriteUserWayRouter.setFavoriteUserWayRoutes(api)
 	r.fromUserMentoringRequestRouter.setFromUserMentoringRequestRoutes(api)
-	r.geminiRouter.setGeminiRoutes(api)
 	r.jobDoneRouter.setJobDoneRoutes(api)
 	r.jobDoneJobTagRouter.setJobDoneJobTagRoutes(api)
 	r.jobTagRouter.setJobTagRoutes(api)
 	r.mentorUserWayRouter.setMentorUserWayRoutes(api)
 	r.metricRouter.setMetricRouter(api)
 	r.planRouter.setPlanRoutes(api)
-	r.planJobTagRouter.setPlanJobTagRoute(api)
+	r.planJobTagRouter.setPlanJobTagRoutes(api)
 	r.problemRouter.setProblemRoutes(api)
 	r.wayRouter.setWayRoutes(api)
 	r.toUserMentoringRequestRouter.setToUserMentoringRequestRoutes(api)
@@ -107,4 +121,11 @@ func (r *Router) SetRoutes() {
 	r.wayCollectionRouter.setWayCollectionRoutes(api)
 	r.wayCollectionWayRouter.setWayCollectionWayRoutes(api)
 	r.wayTagRouter.setWayTagRoutes(api)
+
+	if r.config.EnvType == "prod" {
+		r.geminiRouter.setGeminiRoutes(api)
+	} else {
+		r.devRouter.setDevRoutes(api)
+		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 }

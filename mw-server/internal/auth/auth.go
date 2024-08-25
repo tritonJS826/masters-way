@@ -2,7 +2,7 @@ package auth
 
 import (
 	"errors"
-	"mwserver/config"
+	"mwserver/internal/config"
 	"net/http"
 	"time"
 
@@ -12,14 +12,16 @@ import (
 	"golang.org/x/oauth2"
 )
 
-var GoogleOAuthConfig = &oauth2.Config{
-	RedirectURL:  config.Env.ApiBaseUrl + "/api/auth/google/callback",
-	ClientID:     config.Env.GooglClientId,
-	ClientSecret: config.Env.GooglClientSecret,
-	Scopes: []string{
-		"https://www.googleapis.com/auth/userinfo.email",
-		"https://www.googleapis.com/auth/userinfo.profile"},
-	Endpoint: google.Endpoint,
+func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
+	return &oauth2.Config{
+		RedirectURL:  cfg.ApiBaseUrl + "/api/auth/google/callback",
+		ClientID:     cfg.GooglClientId,
+		ClientSecret: cfg.GooglClientSecret,
+		Scopes: []string{
+			"https://www.googleapis.com/auth/userinfo.email",
+			"https://www.googleapis.com/auth/userinfo.profile"},
+		Endpoint: google.Endpoint,
+	}
 }
 
 const (
@@ -29,14 +31,12 @@ const (
 	ContextKeyUserID = "userID"
 )
 
-var jwtKey = []byte(config.Env.SecretSessionKey)
-
 type Claims struct {
 	UserID string `json:"userID"`
 	jwt.StandardClaims
 }
 
-func GenerateJWT(userID string) (string, error) {
+func GenerateJWT(userID string, secretSessionKey string) (string, error) {
 	expirationTime := time.Now().Add(MaxAge)
 	claims := &Claims{
 		UserID: userID,
@@ -46,13 +46,13 @@ func GenerateJWT(userID string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
+	return token.SignedString([]byte(secretSessionKey))
 }
 
-func ValidateJWT(tokenString string) (*Claims, error) {
+func ValidateJWT(tokenString string, secretSessionKey string) (*Claims, error) {
 	claims := &Claims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-		return jwtKey, nil
+		return []byte(secretSessionKey), nil
 	})
 	if err != nil {
 		return nil, err
@@ -63,7 +63,7 @@ func ValidateJWT(tokenString string) (*Claims, error) {
 	return claims, nil
 }
 
-func AuthMiddleware() gin.HandlerFunc {
+func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := ctx.GetHeader("Authorization")
 		if authHeader == "" {
@@ -72,7 +72,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		tokenString := authHeader[len("Bearer "):]
-		claims, err := ValidateJWT(tokenString)
+		claims, err := ValidateJWT(tokenString, cfg.SecretSessionKey)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return

@@ -1,22 +1,24 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type WayTagRouter struct {
+type wayTagRouter struct {
 	wayTagController *controllers.WayTagController
+	config           *config.Config
 }
 
-func NewWayTagRouter(wayTagController *controllers.WayTagController) *WayTagRouter {
-	return &WayTagRouter{wayTagController}
+func newWayTagRouter(wayTagController *controllers.WayTagController, config *config.Config) *wayTagRouter {
+	return &wayTagRouter{wayTagController, config}
 }
 
-func (wtr *WayTagRouter) setWayTagRoutes(rg *gin.RouterGroup) {
+func (wr *wayTagRouter) setWayTagRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("wayTags")
-	router.POST("", auth.AuthMiddleware(), wtr.wayTagController.AddWayTagToWay)
-	router.DELETE("/:wayTagId/:wayId", auth.AuthMiddleware(), wtr.wayTagController.DeleteWayTagFromWayByTagId)
+	router.POST("", auth.AuthMiddleware(wr.config), wr.wayTagController.AddWayTagToWay)
+	router.DELETE("/:wayTagId/:wayId", auth.AuthMiddleware(wr.config), wr.wayTagController.DeleteWayTagFromWayByTagId)
 }

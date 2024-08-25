@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"mwserver/config"
-	"mwserver/schemas"
+	"mwserver/internal/config"
+	"mwserver/internal/schemas"
 	"strings"
 
 	"github.com/google/generative-ai-go/genai"
@@ -13,10 +13,11 @@ import (
 
 type GeminiService struct {
 	geminiClient *genai.Client
+	config       *config.Config
 }
 
-func NewGeminiService(geminiClient *genai.Client) *GeminiService {
-	return &GeminiService{geminiClient}
+func NewGeminiService(geminiClient *genai.Client, config *config.Config) *GeminiService {
+	return &GeminiService{geminiClient, config}
 }
 
 func (geminiService *GeminiService) createMetricsPrompt(payload *schemas.GenerateMetricsPayload) (string, error) {
@@ -35,9 +36,9 @@ func (geminiService *GeminiService) createMetricsPrompt(payload *schemas.Generat
 	return prompt, nil
 }
 
-func (geminiService *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
+func (gs *GeminiService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
-	if config.Env.EnvType != "prod" {
+	if gs.config.EnvType != "prod" {
 		return []string{
 			"Stub metric 1",
 			"Stub metric 2",
@@ -48,7 +49,7 @@ func (geminiService *GeminiService) GetMetricsByGoal(ctx context.Context, payloa
 		}, nil
 	}
 
-	prompt, err := geminiService.createMetricsPrompt(payload)
+	prompt, err := gs.createMetricsPrompt(payload)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create metrics prompt: %w", err)
 	}
@@ -60,7 +61,7 @@ func (geminiService *GeminiService) GetMetricsByGoal(ctx context.Context, payloa
 
 	// Parts: The segments or parts of the generated text. This can be useful if the text is divided into logical parts or paragraphs.
 
-	model := geminiService.geminiClient.GenerativeModel(config.Env.GeminiModel)
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
 	response, err := model.GenerateContent(ctx, genai.Text(prompt))
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate content: %w", err)
@@ -88,13 +89,13 @@ func (geminiService *GeminiService) GetMetricsByGoal(ctx context.Context, payloa
 	return metrics, nil
 }
 
-func (geminiService *GeminiService) AIChat(ctx context.Context, payload *schemas.AIChatPayload) (*schemas.AIChatResponse, error) {
+func (gs *GeminiService) AIChat(ctx context.Context, payload *schemas.AIChatPayload) (*schemas.AIChatResponse, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
-	if config.Env.EnvType != "prod" {
+	if gs.config.EnvType != "prod" {
 		return &schemas.AIChatResponse{Message: "Hi! It's a stub message from AI Chat for developing"}, nil
 	}
 
-	model := geminiService.geminiClient.GenerativeModel(config.Env.GeminiModel)
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
 
 	var payloadMessage = payload.Message + " \n Give me answer with max 300 symbols"
 	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))

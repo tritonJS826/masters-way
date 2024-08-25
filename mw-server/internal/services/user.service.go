@@ -3,9 +3,9 @@ package services
 import (
 	"context"
 	"fmt"
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
 
 	"github.com/google/uuid"

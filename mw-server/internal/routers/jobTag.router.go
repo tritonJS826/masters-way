@@ -1,23 +1,25 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type JobTagRouter struct {
+type jobTagRouter struct {
 	jobTagController *controllers.JobTagController
+	config           *config.Config
 }
 
-func NewJobTagRouter(jobTagController *controllers.JobTagController) *JobTagRouter {
-	return &JobTagRouter{jobTagController}
+func newJobTagRouter(jobTagController *controllers.JobTagController, config *config.Config) *jobTagRouter {
+	return &jobTagRouter{jobTagController, config}
 }
 
-func (jr *JobTagRouter) setJobTagRoutes(rg *gin.RouterGroup) {
+func (jr *jobTagRouter) setJobTagRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("jobTags")
-	router.POST("", auth.AuthMiddleware(), jr.jobTagController.CreateJobTag)
-	router.PATCH("/:jobTagId", auth.AuthMiddleware(), jr.jobTagController.UpdateJobTag)
-	router.DELETE("/:jobTagId", auth.AuthMiddleware(), jr.jobTagController.DeleteJobTagById)
+	router.POST("", auth.AuthMiddleware(jr.config), jr.jobTagController.CreateJobTag)
+	router.PATCH("/:jobTagId", auth.AuthMiddleware(jr.config), jr.jobTagController.UpdateJobTag)
+	router.DELETE("/:jobTagId", auth.AuthMiddleware(jr.config), jr.jobTagController.DeleteJobTagById)
 }

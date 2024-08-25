@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"errors"
-	"mwserver/auth"
-	customErrors "mwserver/customErrors"
+	"mwserver/internal/auth"
+	"mwserver/internal/customErrors"
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
-	"mwserver/schemas"
-	"mwserver/util"
+	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"

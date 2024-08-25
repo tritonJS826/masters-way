@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"mwserver/internal/services"
-	"mwserver/util"
+	"mwserver/pkg/util"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

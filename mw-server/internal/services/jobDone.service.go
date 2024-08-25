@@ -2,11 +2,10 @@ package services
 
 import (
 	"context"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
-
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -53,9 +52,9 @@ func (jds *JobDoneService) CreateJobDone(ctx context.Context, payload *schemas.C
 		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
 		OwnerName:     jobDone.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
-		Tags: []schemas.JobTagResponse{},
+		WayUUID:       util.ConvertPgUUIDToUUID(jobDone.WayUuid).String(),
+		WayName:       jobDone.WayName,
+		Tags:          []schemas.JobTagResponse{},
 	}, nil
 }
 
@@ -77,7 +76,7 @@ func (jds *JobDoneService) UpdateJobDone(ctx context.Context, params *UpdateJobD
 	}
 
 	args := db.UpdateJobDoneParams{
-		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(params.JobDoneID), Valid: true},
+		JobDoneUuid: pgtype.UUID{Bytes: uuid.MustParse(params.JobDoneID), Valid: true},
 		Description: descriptionPg,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		Time:        timePg,

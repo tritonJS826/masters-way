@@ -2,11 +2,10 @@ package services
 
 import (
 	"context"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
-
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -26,7 +25,12 @@ func NewMetricService(metricRepository IMetricRepository) *MetricService {
 	return &MetricService{metricRepository}
 }
 
-func (ms *MetricService) CreateMetric(ctx context.Context, payload *schemas.CreateMetricPayload) (*schemas.MetricResponse, error) {
+type MetricResult struct {
+	MetricResponse *schemas.MetricResponse
+	WayID          string
+}
+
+func (ms *MetricService) CreateMetric(ctx context.Context, payload *schemas.CreateMetricPayload) (*MetricResult, error) {
 	now := time.Now()
 	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
 	args := db.CreateMetricParams{
@@ -43,12 +47,15 @@ func (ms *MetricService) CreateMetric(ctx context.Context, payload *schemas.Crea
 		return nil, err
 	}
 
-	return &schemas.MetricResponse{
-		Uuid:             util.ConvertPgUUIDToUUID(metric.Uuid).String(),
-		Description:      metric.Description,
-		IsDone:           metric.IsDone,
-		DoneDate:         util.MarshalPgTimestamp(metric.DoneDate),
-		MetricEstimation: metric.MetricEstimation,
+	return &MetricResult{
+		MetricResponse: &schemas.MetricResponse{
+			Uuid:             util.ConvertPgUUIDToUUID(metric.Uuid).String(),
+			Description:      metric.Description,
+			IsDone:           metric.IsDone,
+			DoneDate:         util.MarshalPgTimestamp(metric.DoneDate),
+			MetricEstimation: metric.MetricEstimation,
+		},
+		WayID: util.ConvertPgUUIDToUUID(metric.WayUuid).String(),
 	}, nil
 }
 
@@ -59,7 +66,7 @@ type UpdateMetricParams struct {
 	MetricEstimation *int32
 }
 
-func (ms *MetricService) UpdateMetric(ctx context.Context, params *UpdateMetricParams) (*schemas.MetricResponse, error) {
+func (ms *MetricService) UpdateMetric(ctx context.Context, params *UpdateMetricParams) (*MetricResult, error) {
 	now := time.Now()
 
 	var isDonePg pgtype.Bool
@@ -93,20 +100,23 @@ func (ms *MetricService) UpdateMetric(ctx context.Context, params *UpdateMetricP
 		return nil, err
 	}
 
-	return &schemas.MetricResponse{
-		Uuid:             util.ConvertPgUUIDToUUID(metric.Uuid).String(),
-		Description:      metric.Description,
-		IsDone:           metric.IsDone,
-		DoneDate:         util.MarshalPgTimestamp(metric.DoneDate),
-		MetricEstimation: metric.MetricEstimation,
+	return &MetricResult{
+		MetricResponse: &schemas.MetricResponse{
+			Uuid:             util.ConvertPgUUIDToUUID(metric.Uuid).String(),
+			Description:      metric.Description,
+			IsDone:           metric.IsDone,
+			DoneDate:         util.MarshalPgTimestamp(metric.DoneDate),
+			MetricEstimation: metric.MetricEstimation,
+		},
+		WayID: util.ConvertPgUUIDToUUID(metric.WayUuid).String(),
 	}, nil
 }
 
-func (ms *MetricService) DeleteMetricById(ctx context.Context, metricID string) (*string, error) {
+func (ms *MetricService) DeleteMetricById(ctx context.Context, metricID string) (string, error) {
 	removedMetric, err := ms.metricRepository.DeleteMetric(ctx, pgtype.UUID{Bytes: uuid.MustParse(metricID), Valid: true})
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
-	return util.MarshalPgUUID(removedMetric.Uuid), nil
+	return util.ConvertPgUUIDToUUID(removedMetric.WayUuid).String(), nil
 }

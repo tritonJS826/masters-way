@@ -3,9 +3,9 @@ package controllers
 import (
 	"net/http"
 
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
-	"mwserver/schemas"
-	"mwserver/util"
+	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,7 +40,7 @@ func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 	metric, err := mc.metricService.CreateMetric(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
-	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, metric.Uuid)
+	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, metric)
@@ -74,10 +74,10 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 	})
 	util.HandleErrorGin(ctx, err)
 
-	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, metric.Uuid)
+	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, metric)
+	ctx.JSON(http.StatusOK, metric.MetricResponse)
 }
 
 // Deleting Metric handlers
@@ -93,10 +93,10 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 func (mc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricID := ctx.Param("metricId")
 
-	removedMetricID, err := mc.metricService.DeleteMetricById(ctx, metricID)
+	wayID, err := mc.metricService.DeleteMetricById(ctx, metricID)
 	util.HandleErrorGin(ctx, err)
 
-	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, *removedMetricID)
+	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, wayID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})

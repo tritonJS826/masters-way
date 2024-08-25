@@ -1,22 +1,24 @@
 package routers
 
 import (
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
-type FromUserMentoringRequestRouter struct {
+type fromUserMentoringRequestRouter struct {
 	fromUserMentoringRequestController *controllers.FromUserMentoringRequestController
+	config                             *config.Config
 }
 
-func NewFromUserMentoringRequestRouter(fromUserMentoringRequestController *controllers.FromUserMentoringRequestController) *FromUserMentoringRequestRouter {
-	return &FromUserMentoringRequestRouter{fromUserMentoringRequestController}
+func newFromUserMentoringRequestRouter(fromUserMentoringRequestController *controllers.FromUserMentoringRequestController, config *config.Config) *fromUserMentoringRequestRouter {
+	return &fromUserMentoringRequestRouter{fromUserMentoringRequestController, config}
 }
 
-func (cr *FromUserMentoringRequestRouter) setFromUserMentoringRequestRoutes(rg *gin.RouterGroup) {
+func (cr *fromUserMentoringRequestRouter) setFromUserMentoringRequestRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("fromUserMentoringRequests")
-	router.POST("", auth.AuthMiddleware(), cr.fromUserMentoringRequestController.CreateFromUserMentoringRequest)
-	router.DELETE("/:userUuid/:wayUuid", auth.AuthMiddleware(), cr.fromUserMentoringRequestController.DeleteFromUserMentoringRequestById)
+	router.POST("", auth.AuthMiddleware(cr.config), cr.fromUserMentoringRequestController.CreateFromUserMentoringRequest)
+	router.DELETE("/:userUuid/:wayUuid", auth.AuthMiddleware(cr.config), cr.fromUserMentoringRequestController.DeleteFromUserMentoringRequestById)
 }

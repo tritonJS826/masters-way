@@ -2,11 +2,10 @@ package services
 
 import (
 	"context"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
-
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -55,9 +54,9 @@ func (ps *PlanService) CreatePlan(ctx context.Context, payload *schemas.CreatePl
 		OwnerName:     plan.OwnerName,
 		IsDone:        plan.IsDone,
 		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
-		Tags: make([]schemas.JobTagResponse, 0),
+		WayUUID:       util.ConvertPgUUIDToUUID(plan.WayUuid).String(),
+		WayName:       plan.WayName,
+		Tags:          make([]schemas.JobTagResponse, 0),
 	}, nil
 }
 
@@ -85,7 +84,7 @@ func (ps *PlanService) UpdatePlan(ctx context.Context, params *UpdatePlanParams)
 	}
 	now := time.Now()
 	args := db.UpdatePlanParams{
-		Uuid:        planUUID,
+		PlanUuid:    planUUID,
 		UpdatedAt:   pgtype.Timestamp{Time: now, Valid: true},
 		Description: descriptionPg,
 		Time:        timePg,
@@ -125,9 +124,9 @@ func (ps *PlanService) UpdatePlan(ctx context.Context, params *UpdatePlanParams)
 		OwnerName:     plan.OwnerName,
 		IsDone:        plan.IsDone,
 		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
-		Tags: tags,
+		WayUUID:       util.ConvertPgUUIDToUUID(plan.WayUuid).String(),
+		WayName:       plan.WayName,
+		Tags:          tags,
 	}, nil
 }
 

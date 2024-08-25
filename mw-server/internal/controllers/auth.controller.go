@@ -1,26 +1,25 @@
 package controllers
 
 import (
-	"mwserver/auth"
-	"mwserver/config"
+	"mwserver/internal/auth"
+	"mwserver/internal/config"
 	"mwserver/internal/services"
-	"mwserver/util"
+	"mwserver/pkg/util"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"golang.org/x/oauth2"
-	oauthGoogle "google.golang.org/api/oauth2/v2"
-	"google.golang.org/api/option"
 )
 
 type AuthController struct {
-	authService *services.UserService
+	authService *services.AuthService
+	userService *services.UserService
+	config      *config.Config
 }
 
-func NewAuthController(authService *services.UserService) *AuthController {
-	return &AuthController{authService}
+func NewAuthController(authService *services.AuthService, userService *services.UserService, config *config.Config) *AuthController {
+	return &AuthController{authService, userService, config}
 }
 
 // Log in with google oAuth
@@ -34,22 +33,15 @@ func NewAuthController(authService *services.UserService) *AuthController {
 // @Param provider path string true "google"
 // @Success 200
 // @Router /auth/{provider}/callback [post]
-func (authController *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
+func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
+	code := ctx.Query("code")
 	state := ctx.Query("state")
 	if state != auth.OauthStateString {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "invalid oauth state"})
 		return
 	}
 
-	code := ctx.Query("code")
-	token, err := auth.GoogleOAuthConfig.Exchange(ctx, code)
-	util.HandleErrorGin(ctx, err)
-
-	client := auth.GoogleOAuthConfig.Client(ctx, token)
-	oauth2Service, err := oauthGoogle.NewService(ctx, option.WithHTTPClient(client))
-	util.HandleErrorGin(ctx, err)
-
-	userInfo, err := oauth2Service.Userinfo.Get().Do()
+	userInfo, err := ac.authService.AuthenticateGoogleUser(ctx, code, state)
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
@@ -62,13 +54,13 @@ func (authController *AuthController) GetAuthCallbackFunction(ctx *gin.Context) 
 		IsMentor:    false,
 	}
 
-	populatedUser, err := authController.authService.FindOrCreateUserByEmail(ctx, args)
+	populatedUser, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
+	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl+"?token="+jwtToken)
+	ctx.Redirect(http.StatusFound, ac.config.WebappBaseUrl+"?token="+jwtToken)
 }
 
 // Begin auth handler
@@ -81,8 +73,8 @@ func (authController *AuthController) GetAuthCallbackFunction(ctx *gin.Context) 
 // @Param provider path string true "google"
 // @Success 200 "ok"
 // @Router /auth/{provider} [get]
-func (cc *AuthController) BeginAuth(ctx *gin.Context) {
-	url := auth.GoogleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
+func (ac *AuthController) BeginAuth(ctx *gin.Context) {
+	url := ac.authService.GetGoogleAuthURL()
 	ctx.Redirect(http.StatusTemporaryRedirect, url)
 
 	ctx.JSON(http.StatusOK, "ok")
@@ -96,11 +88,11 @@ func (cc *AuthController) BeginAuth(ctx *gin.Context) {
 // @Produce  json
 // @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /auth/current [get]
-func (authController *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
+func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userId := userIDRaw.(string)
 
-	populatedUser, err := authController.authService.GetPopulatedUserById(ctx, uuid.MustParse(userId))
+	populatedUser, err := ac.userService.GetPopulatedUserById(ctx, uuid.MustParse(userId))
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
@@ -116,7 +108,7 @@ func (authController *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.C
 // @Param userEmail path string true "email"
 // @Success 304 "redirect"
 // @Router /auth/login/local/{userEmail} [get]
-func (authController *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
+func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	userEmail := ctx.Param("userEmail")
 
 	now := time.Now()
@@ -129,13 +121,13 @@ func (authController *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 		IsMentor:    false,
 	}
 
-	populatedUser, err := authController.authService.FindOrCreateUserByEmail(ctx, args)
+	populatedUser, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid)
+	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, config.Env.WebappBaseUrl+"?token="+jwtToken)
+	ctx.Redirect(http.StatusFound, ac.config.WebappBaseUrl+"?token="+jwtToken)
 }
 
 // @Summary Logout current authorized user
@@ -147,9 +139,9 @@ func (authController *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 // @Param provider path string true "google"
 // @Success 200 {object} util.ResponseStatusString
 // @Router /auth/logout/{provider} [get]
-func (cc *AuthController) Logout(ctx *gin.Context) {
+func (ac *AuthController) Logout(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userId := userIDRaw.(string)
+	userID := userIDRaw.(string)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Ok" + userId})
+	ctx.JSON(http.StatusOK, gin.H{"status": "Ok" + userID})
 }

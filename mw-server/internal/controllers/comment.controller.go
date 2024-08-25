@@ -3,10 +3,10 @@ package controllers
 import (
 	"net/http"
 
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
-	"mwserver/schemas"
-	"mwserver/util"
+	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
@@ -109,5 +109,5 @@ func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	err = cc.commentService.DeleteCommentById(ctx, commentID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
+	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
 }

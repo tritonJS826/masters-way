@@ -2,10 +2,10 @@ package services
 
 import (
 	"context"
-	customErrors "mwserver/customErrors"
-	db "mwserver/db/sqlc"
-	"mwserver/schemas"
-	"mwserver/util"
+	"mwserver/internal/customErrors"
+	db "mwserver/internal/db/sqlc"
+	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 	"time"
 
 	"github.com/google/uuid"
@@ -360,7 +360,7 @@ func (drs *DayReportService) CreateDayReport(ctx context.Context, wayUUID uuid.U
 	}
 
 	way, err := drs.dayReportRepository.UpdateWay(ctx, db.UpdateWayParams{
-		Uuid:      pgtype.UUID{Bytes: wayUUID, Valid: true},
+		WayUuid:   pgtype.UUID{Bytes: wayUUID, Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	})
 	if err != nil {

@@ -3,10 +3,10 @@ package controllers
 import (
 	"net/http"
 
-	"mwserver/auth"
+	"mwserver/internal/auth"
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
-	"mwserver/schemas"
-	"mwserver/util"
+	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
@@ -79,6 +79,7 @@ func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	util.HandleErrorGin(ctx, err)
 
 	problem, err := pc.problemService.UpdateProblem(ctx, &services.UpdateProblemParams{
+		ProblemID:   problemID,
 		Description: payload.Description,
 		IsDone:      payload.IsDone,
 	})
