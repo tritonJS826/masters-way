@@ -35,7 +35,7 @@ export const updateValueWithValidatorsHandler = <T extends string | number>({
   if (!validators) {
     setValue(updatedValue);
 
-    return;
+    return true;
   }
 
   const error = validateValue({value: updatedValue, validators});
@@ -44,7 +44,11 @@ export const updateValueWithValidatorsHandler = <T extends string | number>({
       text: error,
       type: NotificationType.INFO,
     });
+
+    return false;
   } else {
     setValue(updatedValue);
+
+    return true;
   }
 };

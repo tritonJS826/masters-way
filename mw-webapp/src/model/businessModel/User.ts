@@ -140,6 +140,13 @@ export class WayCollection {
     this.ways = updatedWays;
   }
 
+  /**
+   * Update way collection name
+   */
+  public updateWayCollectionName(name: string) {
+    this.name = name;
+  }
+
 }
 
 /**
@@ -404,13 +411,6 @@ export class User {
    */
   public addCollection(newCollection: WayCollection): void {
     this.customWayCollections.push(newCollection);
-  }
-
-  /**
-   * Update collection
-   */
-  public updateCollection(updatedCustomWayCollections: WayCollection[]): void {
-    this.customWayCollections = updatedCustomWayCollections;
   }
 
   /**
