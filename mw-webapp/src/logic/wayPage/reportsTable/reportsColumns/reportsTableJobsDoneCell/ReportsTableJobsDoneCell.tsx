@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -217,7 +218,10 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   src={props.wayParticipantsMap.getValue(jobDone.ownerUuid).imageUrl}
                 />
                 <div className={styles.ownerName}>
-                  <Link path={pages.user.getPath({uuid: jobDone.ownerUuid})}>
+                  <Link
+                    path={pages.user.getPath({uuid: jobDone.ownerUuid})}
+                    dataCy={dayReportsAccessIds.dayReportsContent.jobDone.reporterName}
+                  >
                     {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
                   </Link>
                 </div>
@@ -263,6 +267,13 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                     className={styles.editableTime}
                     isEditable={props.isEditable}
                     placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                    cy={
+                      {
+                        trigger: dayReportsAccessIds.dayReportsContent.jobDone.timeSpentOnJob,
+                        placeholder: "",
+                        inputCy: "",
+                      }
+                    }
                   />
                 </Tooltip>
                 {props.isEditable &&
@@ -324,6 +335,12 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]
                 : LanguageService.common.emptyMarkdown[language]}
+              cy={
+                {
+                  textArea: "",
+                  trigger: dayReportsAccessIds.dayReportsContent.jobDone.jobDoneDescription,
+                }
+              }
             />
             <Separator />
           </li>
