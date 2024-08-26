@@ -73,26 +73,7 @@ interface WayCollectionProps {
  */
 export const WayCollectionCard = (props: WayCollectionProps) => {
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
-  const editModal = (
-    <Modal
-      isOpen={isRenameCollectionModalOpen}
-      content={
-        <PromptModalContent
-          defaultValue={props.collectionTitle}
-          placeholder="Collection name"
-          close={() => setIsRenameCollectionModalOpen(false)}
-          onOk={(name: string) => {
-            props.onTitleEdit && props.onTitleEdit(name);
-            setIsRenameCollectionModalOpen(false);
-          }}
-          okButtonValue={LanguageService.modals.promptModal.okButton[props.language]}
-          cancelButtonValue={LanguageService.modals.promptModal.cancelButton[props.language]}
-        />
-      }
-      trigger={<>
-        {LanguageService.user.collections.renameCollection[props.language]}
-      </>}
-    />);
+
   const deleteConfirm = (
     <Confirm
       trigger={<>
@@ -124,6 +105,27 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                 className={styles.title}
                 placeholder=""
               />
+              {isRenameCollectionModalOpen &&
+              <Modal
+                close={() => setIsRenameCollectionModalOpen(false)}
+                isOpen={isRenameCollectionModalOpen}
+                content={
+                  <PromptModalContent
+                    defaultValue={props.collectionTitle}
+                    placeholder="Collection name"
+                    close={() => setIsRenameCollectionModalOpen(false)}
+                    onOk={(name: string) => {
+                      props.onTitleEdit && props.onTitleEdit(name);
+                      setIsRenameCollectionModalOpen(false);
+                    }}
+                    okButtonValue={LanguageService.modals.promptModal.okButton[props.language]}
+                    cancelButtonValue={LanguageService.modals.promptModal.cancelButton[props.language]}
+                  />
+                }
+                trigger={<></>}
+              />
+              }
+
               {props.isEditable &&
                 <Dropdown
                   trigger={(
@@ -146,11 +148,18 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                   dropdownMenuItems={[
                     {
                       id: "Edit",
-                      value: editModal,
+                      value: LanguageService.user.collections.renameCollection[props.language],
+                      isPreventDefaultUsed: false,
+
+                      /**
+                       * Open rename collection modal
+                       */
+                      onClick: () => setIsRenameCollectionModalOpen(true),
                     },
                     {
                       id: "Delete",
                       value: deleteConfirm,
+                      isPreventDefaultUsed: true,
                     },
                   ]}
                 />

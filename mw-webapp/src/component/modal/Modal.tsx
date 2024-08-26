@@ -79,6 +79,11 @@ interface ModalProps {
    */
   cy?: Cy;
 
+  /**
+   * Callback to close modal
+   */
+  close?: () => void;
+
 }
 
 /**
@@ -101,6 +106,7 @@ export const Modal = (props: ModalProps) => {
       <ModalContent
         dataCyContent={props.cy?.dataCyContent}
         className={props.contentClassName}
+        close={props.close}
       >
         {props.content}
       </ModalContent>

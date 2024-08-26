@@ -261,6 +261,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
       return {
         id: ownWay.uuid,
+        isPreventDefaultUsed: false,
         value: isWayInComposite
           ? `${LanguageService.way.wayActions.deleteFromCompositeWay[language]} ${ownWay.name}`
           : `${LanguageService.way.wayActions.addToCompositeWay[language]} ${ownWay.name}`,
@@ -278,6 +279,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
       return {
         id: userCollection.uuid,
+        isPreventDefaultUsed: false,
         value: isWayInUserCollection
           ? `${LanguageService.way.wayActions.deleteFrom[language]} ${userCollection.name}`
           : `${LanguageService.way.wayActions.addTo[language]} ${userCollection.name}`,
@@ -477,6 +479,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   dropdownMenuItems={[
                     {
                       id: "Make the way private/public",
+                      isPreventDefaultUsed: false,
                       isVisible: isOwner,
                       value: way.isPrivate
                         ? LanguageService.way.peopleBlock.makePublicButton[language]
@@ -499,6 +502,7 @@ export const WayPage = observer((props: WayPageProps) => {
                     },
                     {
                       id: "Repeat the way",
+                      isPreventDefaultUsed: false,
                       value: LanguageService.way.wayActions.repeatWay[language],
 
                       /**
@@ -509,6 +513,7 @@ export const WayPage = observer((props: WayPageProps) => {
                     },
                     {
                       id: "Copy url to clipboard",
+                      isPreventDefaultUsed: false,
                       value: LanguageService.way.wayActions.copyUrlToClipboard[language],
 
                       /**
@@ -524,6 +529,7 @@ export const WayPage = observer((props: WayPageProps) => {
                     },
                     {
                       id: "Download as pdf",
+                      isPreventDefaultUsed: false,
                       value: LanguageService.way.wayActions.downloadAsPdf[language],
 
                       /**
@@ -535,6 +541,7 @@ export const WayPage = observer((props: WayPageProps) => {
                     ...renderAddToCompositeWayDropdownItems,
                     {
                       id: "Go to original way",
+                      isPreventDefaultUsed: false,
                       value: LanguageService.way.wayActions.goToOriginal[language],
                       isVisible: !!way.copiedFromWayUuid,
 
@@ -550,6 +557,7 @@ export const WayPage = observer((props: WayPageProps) => {
                     },
                     {
                       id: "Delete the way",
+                      isPreventDefaultUsed: true,
                       value: renderDeleteWayDropdownItem,
                       isVisible: isOwner,
                     },

@@ -25,6 +25,11 @@ interface ModalContentProps {
    */
   className?: string;
 
+  /**
+   * Callback to close modal
+   */
+  close?: () => void;
+
 }
 
 /**
@@ -40,13 +45,17 @@ export const ModalContent = (props: PropsWithChildren<ModalContentProps>) => {
       <DialogContent
         data-cy={props.dataCyContent?.dataCyContent}
         className={clsx(styles.dialogContent, props.className)}
+        onInteractOutside={props.close}
       >
         {props.children}
         <DialogClose
           data-cy={props.dataCyContent?.dataCyClose}
           asChild
         >
-          <button className={styles.closeButton}>
+          <button
+            className={styles.closeButton}
+            onClick={props.close}
+          >
             <Cross2Icon />
           </button>
         </DialogClose>

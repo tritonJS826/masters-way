@@ -27,6 +27,7 @@ describe("Dropdown component", () => {
         dropdownMenuItems={[
           {
             id: "#1",
+            isPreventDefaultUsed: false,
             value: "test#1",
 
             /**
@@ -36,6 +37,7 @@ describe("Dropdown component", () => {
           },
           {
             id: "#2",
+            isPreventDefaultUsed: false,
             value: "test#2",
 
             /**
@@ -77,6 +79,5 @@ describe("Dropdown component", () => {
   it("should select right option after click on value", () => {
     cy.get(getDataCy(DROPDOWN_CY.dataCyTrigger)).click();
     cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "test#1").click();
-    cy.contains(getDataCy(DROPDOWN_CY.dataCyContentList), "test#2").click();
   });
 });

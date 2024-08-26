@@ -81,6 +81,7 @@ export const Dropdown = (props: DropdownProps) => {
           value={item.value}
           onClick={item.onClick ?? (() => { })}
           dataCyContent={props.cy?.dataCyContent}
+          isPreventDefaultUsed={item.isPreventDefaultUsed}
         />
       );
 
