@@ -1810,7 +1810,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayCollectionWayResponse"
+                        }
                     }
                 }
             }
@@ -3256,14 +3259,14 @@ const docTemplate = `{
         "schemas.ToUserMentoringRequestResponse": {
             "type": "object",
             "required": [
-                "userID",
-                "wayID"
+                "userId",
+                "wayId"
             ],
             "properties": {
-                "userID": {
+                "userId": {
                     "type": "string"
                 },
-                "wayID": {
+                "wayId": {
                     "type": "string"
                 }
             }
@@ -3618,6 +3621,21 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "schemas.WayCollectionWayResponse": {
+            "type": "object",
+            "required": [
+                "wayCollectionId",
+                "wayId"
+            ],
+            "properties": {
+                "wayCollectionId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
                 }
             }
         },

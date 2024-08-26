@@ -6,6 +6,6 @@ type CreateToUserMentoringRequestPayload struct {
 }
 
 type ToUserMentoringRequestResponse struct {
-	UserID string `json:"userID" validate:"required"`
-	WayID  string `json:"wayID" validate:"required"`
+	UserID string `json:"userId" validate:"required"`
+	WayID  string `json:"wayId" validate:"required"`
 }

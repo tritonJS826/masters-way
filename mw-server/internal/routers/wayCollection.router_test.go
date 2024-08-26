@@ -115,7 +115,7 @@ func TestDeleteWayCollectionById(t *testing.T) {
 		t.Fatalf("Failed to reset db: %v", err)
 	}
 
-	currentUserID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
+	currentUserID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
 	wayCollectionID := "30dbf616-b055-4d65-8c0c-e6a913fc119a"
 
 	t.Run("should delete a custom collection by id successfully", func(t *testing.T) {
@@ -144,6 +144,11 @@ func TestDeleteWayCollectionById(t *testing.T) {
 
 		assert.Equal(t, userResponse.StatusCode, userResponse.StatusCode)
 		assert.Equal(t, expectedData.Uuid, user.Uuid)
-		assert.Equal(t, len(expectedData.CustomWayCollections), len(user.CustomWayCollections))
+		for _, customWayCollections := range user.CustomWayCollections {
+			// Search needed WayCollection by id, to make sure that it was deleted
+			if customWayCollections.Uuid == wayCollectionID {
+				t.Fatalf("WayCollectionID %s wasn't removed", wayCollectionID)
+			}
+		}
 	})
 }

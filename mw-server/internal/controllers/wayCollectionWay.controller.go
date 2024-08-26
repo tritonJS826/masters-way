@@ -26,7 +26,7 @@ func NewWayCollectionWayController(wayCollectionWayService *services.WayCollecti
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayCollectionWay true "query params"
-// @Success 200
+// @Success 200 {object} schemas.WayCollectionWayResponse
 // @Router /wayCollectionWays [post]
 func (wc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 	var payload *schemas.CreateWayCollectionWay

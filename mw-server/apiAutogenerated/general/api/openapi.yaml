@@ -1163,7 +1163,10 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.WayCollectionWayResponse'
           description: OK
       summary: Create a new wayCollectionWay
       tags:
@@ -3094,16 +3097,16 @@ components:
       type: object
     schemas.ToUserMentoringRequestResponse:
       example:
-        wayID: wayID
-        userID: userID
+        wayId: wayId
+        userId: userId
       properties:
-        userID:
+        userId:
           type: string
-        wayID:
+        wayId:
           type: string
       required:
-      - userID
-      - wayID
+      - userId
+      - wayId
       type: object
     schemas.UpdateCommentPayload:
       properties:
@@ -4075,6 +4078,19 @@ components:
       - updatedAt
       - uuid
       - ways
+      type: object
+    schemas.WayCollectionWayResponse:
+      example:
+        wayId: wayId
+        wayCollectionId: wayCollectionId
+      properties:
+        wayCollectionId:
+          type: string
+        wayId:
+          type: string
+      required:
+      - wayCollectionId
+      - wayId
       type: object
     schemas.WayPlainResponse:
       example:

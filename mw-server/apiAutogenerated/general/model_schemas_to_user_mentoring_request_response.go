@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasToUserMentoringRequestResponse{}
 
 // SchemasToUserMentoringRequestResponse struct for SchemasToUserMentoringRequestResponse
 type SchemasToUserMentoringRequestResponse struct {
-	UserID string `json:"userID"`
-	WayID string `json:"wayID"`
+	UserId string `json:"userId"`
+	WayId string `json:"wayId"`
 }
 
 type _SchemasToUserMentoringRequestResponse SchemasToUserMentoringRequestResponse
@@ -31,10 +31,10 @@ type _SchemasToUserMentoringRequestResponse SchemasToUserMentoringRequestRespons
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasToUserMentoringRequestResponse(userID string, wayID string) *SchemasToUserMentoringRequestResponse {
+func NewSchemasToUserMentoringRequestResponse(userId string, wayId string) *SchemasToUserMentoringRequestResponse {
 	this := SchemasToUserMentoringRequestResponse{}
-	this.UserID = userID
-	this.WayID = wayID
+	this.UserId = userId
+	this.WayId = wayId
 	return &this
 }
 
@@ -46,52 +46,52 @@ func NewSchemasToUserMentoringRequestResponseWithDefaults() *SchemasToUserMentor
 	return &this
 }
 
-// GetUserID returns the UserID field value
-func (o *SchemasToUserMentoringRequestResponse) GetUserID() string {
+// GetUserId returns the UserId field value
+func (o *SchemasToUserMentoringRequestResponse) GetUserId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.UserID
+	return o.UserId
 }
 
-// GetUserIDOk returns a tuple with the UserID field value
+// GetUserIdOk returns a tuple with the UserId field value
 // and a boolean to check if the value has been set.
-func (o *SchemasToUserMentoringRequestResponse) GetUserIDOk() (*string, bool) {
+func (o *SchemasToUserMentoringRequestResponse) GetUserIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.UserID, true
+	return &o.UserId, true
 }
 
-// SetUserID sets field value
-func (o *SchemasToUserMentoringRequestResponse) SetUserID(v string) {
-	o.UserID = v
+// SetUserId sets field value
+func (o *SchemasToUserMentoringRequestResponse) SetUserId(v string) {
+	o.UserId = v
 }
 
-// GetWayID returns the WayID field value
-func (o *SchemasToUserMentoringRequestResponse) GetWayID() string {
+// GetWayId returns the WayId field value
+func (o *SchemasToUserMentoringRequestResponse) GetWayId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.WayID
+	return o.WayId
 }
 
-// GetWayIDOk returns a tuple with the WayID field value
+// GetWayIdOk returns a tuple with the WayId field value
 // and a boolean to check if the value has been set.
-func (o *SchemasToUserMentoringRequestResponse) GetWayIDOk() (*string, bool) {
+func (o *SchemasToUserMentoringRequestResponse) GetWayIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.WayID, true
+	return &o.WayId, true
 }
 
-// SetWayID sets field value
-func (o *SchemasToUserMentoringRequestResponse) SetWayID(v string) {
-	o.WayID = v
+// SetWayId sets field value
+func (o *SchemasToUserMentoringRequestResponse) SetWayId(v string) {
+	o.WayId = v
 }
 
 func (o SchemasToUserMentoringRequestResponse) MarshalJSON() ([]byte, error) {
@@ -104,8 +104,8 @@ func (o SchemasToUserMentoringRequestResponse) MarshalJSON() ([]byte, error) {
 
 func (o SchemasToUserMentoringRequestResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["userID"] = o.UserID
-	toSerialize["wayID"] = o.WayID
+	toSerialize["userId"] = o.UserId
+	toSerialize["wayId"] = o.WayId
 	return toSerialize, nil
 }
 
@@ -114,8 +114,8 @@ func (o *SchemasToUserMentoringRequestResponse) UnmarshalJSON(data []byte) (err 
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"userID",
-		"wayID",
+		"userId",
+		"wayId",
 	}
 
 	allProperties := make(map[string]interface{})

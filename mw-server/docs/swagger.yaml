@@ -700,13 +700,13 @@ definitions:
     type: object
   schemas.ToUserMentoringRequestResponse:
     properties:
-      userID:
+      userId:
         type: string
-      wayID:
+      wayId:
         type: string
     required:
-    - userID
-    - wayID
+    - userId
+    - wayId
     type: object
   schemas.UpdateCommentPayload:
     properties:
@@ -951,6 +951,16 @@ definitions:
     - updatedAt
     - uuid
     - ways
+    type: object
+  schemas.WayCollectionWayResponse:
+    properties:
+      wayCollectionId:
+        type: string
+      wayId:
+        type: string
+    required:
+    - wayCollectionId
+    - wayId
     type: object
   schemas.WayPlainResponse:
     properties:
@@ -2316,6 +2326,8 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/schemas.WayCollectionWayResponse'
       summary: Create a new wayCollectionWay
       tags:
       - wayCollectionWay

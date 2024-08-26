@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UserID** | **string** |  | 
-**WayID** | **string** |  | 
+**UserId** | **string** |  | 
+**WayId** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasToUserMentoringRequestResponse
 
-`func NewSchemasToUserMentoringRequestResponse(userID string, wayID string, ) *SchemasToUserMentoringRequestResponse`
+`func NewSchemasToUserMentoringRequestResponse(userId string, wayId string, ) *SchemasToUserMentoringRequestResponse`
 
 NewSchemasToUserMentoringRequestResponse instantiates a new SchemasToUserMentoringRequestResponse object
 This constructor will assign default values to properties that have it defined,
@@ -26,44 +26,44 @@ NewSchemasToUserMentoringRequestResponseWithDefaults instantiates a new SchemasT
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetUserID
+### GetUserId
 
-`func (o *SchemasToUserMentoringRequestResponse) GetUserID() string`
+`func (o *SchemasToUserMentoringRequestResponse) GetUserId() string`
 
-GetUserID returns the UserID field if non-nil, zero value otherwise.
+GetUserId returns the UserId field if non-nil, zero value otherwise.
 
-### GetUserIDOk
+### GetUserIdOk
 
-`func (o *SchemasToUserMentoringRequestResponse) GetUserIDOk() (*string, bool)`
+`func (o *SchemasToUserMentoringRequestResponse) GetUserIdOk() (*string, bool)`
 
-GetUserIDOk returns a tuple with the UserID field if it's non-nil, zero value otherwise
+GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUserID
+### SetUserId
 
-`func (o *SchemasToUserMentoringRequestResponse) SetUserID(v string)`
+`func (o *SchemasToUserMentoringRequestResponse) SetUserId(v string)`
 
-SetUserID sets UserID field to given value.
+SetUserId sets UserId field to given value.
 
 
-### GetWayID
+### GetWayId
 
-`func (o *SchemasToUserMentoringRequestResponse) GetWayID() string`
+`func (o *SchemasToUserMentoringRequestResponse) GetWayId() string`
 
-GetWayID returns the WayID field if non-nil, zero value otherwise.
+GetWayId returns the WayId field if non-nil, zero value otherwise.
 
-### GetWayIDOk
+### GetWayIdOk
 
-`func (o *SchemasToUserMentoringRequestResponse) GetWayIDOk() (*string, bool)`
+`func (o *SchemasToUserMentoringRequestResponse) GetWayIdOk() (*string, bool)`
 
-GetWayIDOk returns a tuple with the WayID field if it's non-nil, zero value otherwise
+GetWayIdOk returns a tuple with the WayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetWayID
+### SetWayId
 
-`func (o *SchemasToUserMentoringRequestResponse) SetWayID(v string)`
+`func (o *SchemasToUserMentoringRequestResponse) SetWayId(v string)`
 
-SetWayID sets WayID field to given value.
+SetWayId sets WayId field to given value.
 
 
 

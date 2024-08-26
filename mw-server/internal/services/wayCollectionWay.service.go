@@ -4,6 +4,7 @@ import (
 	"context"
 	db "mwserver/internal/db/sqlc"
 	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -22,7 +23,7 @@ func NewWayCollectionWayService(wayCollectionWayRepository IWayCollectionWayRepo
 	return &WayCollectionWayService{wayCollectionWayRepository}
 }
 
-func (ws *WayCollectionWayService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*db.WayCollectionsWay, error) {
+func (ws *WayCollectionWayService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*schemas.WayCollectionWayResponse, error) {
 	args := db.CreateWayCollectionsWaysParams{
 		WayCollectionUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.WayCollectionUuid), Valid: true},
 		WayUuid:           pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
@@ -33,7 +34,10 @@ func (ws *WayCollectionWayService) CreateWayCollectionWay(ctx context.Context, p
 		return nil, err
 	}
 
-	return &wayCollectionWay, nil
+	return &schemas.WayCollectionWayResponse{
+		WayCollectionID: util.ConvertPgUUIDToUUID(wayCollectionWay.WayCollectionUuid).String(),
+		WayID:           util.ConvertPgUUIDToUUID(wayCollectionWay.WayUuid).String(),
+	}, nil
 }
 
 func (ws *WayCollectionWayService) DeleteWayCollectionWayById(ctx context.Context, wayID, wayCollectionID string) error {

@@ -206,6 +206,7 @@ Class | Method | HTTP request | Description
  - [SchemasUserTagResponse](docs/SchemasUserTagResponse.md)
  - [SchemasWayCollectionPlainResponse](docs/SchemasWayCollectionPlainResponse.md)
  - [SchemasWayCollectionPopulatedResponse](docs/SchemasWayCollectionPopulatedResponse.md)
+ - [SchemasWayCollectionWayResponse](docs/SchemasWayCollectionWayResponse.md)
  - [SchemasWayPlainResponse](docs/SchemasWayPlainResponse.md)
  - [SchemasWayPopulatedResponse](docs/SchemasWayPopulatedResponse.md)
  - [SchemasWayStatistics](docs/SchemasWayStatistics.md)

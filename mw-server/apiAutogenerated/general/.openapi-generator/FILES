@@ -106,6 +106,7 @@ docs/SchemasUserPopulatedResponse.md
 docs/SchemasUserTagResponse.md
 docs/SchemasWayCollectionPlainResponse.md
 docs/SchemasWayCollectionPopulatedResponse.md
+docs/SchemasWayCollectionWayResponse.md
 docs/SchemasWayPlainResponse.md
 docs/SchemasWayPopulatedResponse.md
 docs/SchemasWayStatistics.md
@@ -183,6 +184,7 @@ model_schemas_user_populated_response.go
 model_schemas_user_tag_response.go
 model_schemas_way_collection_plain_response.go
 model_schemas_way_collection_populated_response.go
+model_schemas_way_collection_way_response.go
 model_schemas_way_plain_response.go
 model_schemas_way_populated_response.go
 model_schemas_way_statistics.go
