@@ -10,8 +10,8 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {serviceWorkerStore} from "src/globalStore/ServiceWorkerStore";
 import {LanguageService} from "src/service/LanguageService";
-import {OSNotification} from "src/utils/notifications/OSNotification";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
 /**
@@ -74,7 +74,12 @@ export const SettingsPage = observer(() => {
             <Button
               value={LanguageService.settings.testNotification[language]}
               onClick={() => {
-                OSNotification.addDeferredNotification("21:00");
+                // OSNotification.addDeferredNotification("21:00");
+                serviceWorkerStore.serviceWorker?.showNotification("data.title", {
+                  body: "data.body",
+                  icon: "/logo192x192.png",
+                  tag: "test-notification-tag",
+                });
               }}
             />
           </Tooltip>
