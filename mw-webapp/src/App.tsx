@@ -11,6 +11,7 @@ import {
 } from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {serviceWorkerStore} from "src/globalStore/ServiceWorkerStore";
+import {INDEPENDENT_ROUTES} from "src/router/pages";
 import {router} from "src/router/Router";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/App.module.scss";
@@ -40,7 +41,9 @@ export const App = () => {
     serviceWorkerStore.register();
   }, []);
 
-  if (!isApiWorking) {
+  const isIndependentRoute = INDEPENDENT_ROUTES.includes(location.pathname);
+
+  if (!isApiWorking && !isIndependentRoute) {
     return (
       <Modal
         isOpen={!isApiWorking}
