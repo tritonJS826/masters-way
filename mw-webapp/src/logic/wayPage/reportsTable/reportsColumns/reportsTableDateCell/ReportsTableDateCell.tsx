@@ -1,3 +1,4 @@
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableDateCell/ReportsTableDateCell.module.scss";
@@ -18,7 +19,10 @@ interface ReportsTableDateCellProps {
  */
 export const ReportsTableDateCell = (props: ReportsTableDateCellProps) => {
   return (
-    <VerticalContainer className={styles.dateCell}>
+    <VerticalContainer
+      className={styles.dateCell}
+      dataCy={dayReportsAccessIds.dayReportsContent.reportDate}
+    >
       {DateUtils.getShortISODateValue(props.date)}
     </VerticalContainer>
   );
