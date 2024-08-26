@@ -53,7 +53,7 @@ func (ws *WayCollectionService) CreateWayCollection(ctx context.Context, payload
 	}, nil
 }
 
-func (cc *WayCollectionService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*db.WayCollection, error) {
+func (cc *WayCollectionService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*schemas.WayCollectionPlainResponse, error) {
 	now := time.Now()
 	// TODO: If payload.Name is empty, we should not perform an update in the database
 	args := db.UpdateWayCollectionParams{
@@ -67,7 +67,10 @@ func (cc *WayCollectionService) UpdateWayCollection(ctx context.Context, wayColl
 		return nil, err
 	}
 
-	return &wayCollection, nil
+	return &schemas.WayCollectionPlainResponse{
+		Uuid: util.ConvertPgUUIDToUUID(wayCollection.Uuid).String(),
+		Name: wayCollection.Name,
+	}, nil
 }
 
 func (ws *WayCollectionService) DeleteWayCollectionById(ctx context.Context, wayCollectionID string) error {

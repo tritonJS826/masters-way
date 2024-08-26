@@ -4,6 +4,7 @@ import (
 	"context"
 	db "mwserver/internal/db/sqlc"
 	"mwserver/internal/schemas"
+	"mwserver/pkg/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -22,7 +23,7 @@ func NewToUserMentoringRequestService(toUserMentoringRequestRepository IToUserMe
 	return &ToUserMentoringRequestService{toUserMentoringRequestRepository}
 }
 
-func (ts *ToUserMentoringRequestService) CreateToUserMentoringRequest(ctx context.Context, payload *schemas.CreateUserMentoringRequestPayload) (*db.ToUserMentoringRequest, error) {
+func (ts *ToUserMentoringRequestService) CreateToUserMentoringRequest(ctx context.Context, payload *schemas.CreateToUserMentoringRequestPayload) (*schemas.ToUserMentoringRequestResponse, error) {
 	args := db.CreateToUserMentoringRequestParams{
 		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(payload.UserUuid), Valid: true},
 		WayUuid:  pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
@@ -33,7 +34,10 @@ func (ts *ToUserMentoringRequestService) CreateToUserMentoringRequest(ctx contex
 		return nil, err
 	}
 
-	return &toUserMentoringRequest, nil
+	return &schemas.ToUserMentoringRequestResponse{
+		UserID: util.ConvertPgUUIDToUUID(toUserMentoringRequest.UserUuid).String(),
+		WayID:  util.ConvertPgUUIDToUUID(toUserMentoringRequest.WayUuid).String(),
+	}, nil
 }
 
 func (ts *ToUserMentoringRequestService) DeleteToUserMentoringRequestById(ctx context.Context, userID, wayID string) error {

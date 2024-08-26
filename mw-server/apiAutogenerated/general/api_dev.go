@@ -22,44 +22,44 @@ import (
 // DevAPIService DevAPI service
 type DevAPIService service
 
-type ApiResetDbPostRequest struct {
+type ApiDevResetDbGetRequest struct {
 	ctx context.Context
 	ApiService *DevAPIService
 }
 
-func (r ApiResetDbPostRequest) Execute() (*http.Response, error) {
-	return r.ApiService.ResetDbPostExecute(r)
+func (r ApiDevResetDbGetRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DevResetDbGetExecute(r)
 }
 
 /*
-ResetDbPost resets db
+DevResetDbGet resets db
 
 resets db
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiResetDbPostRequest
+ @return ApiDevResetDbGetRequest
 */
-func (a *DevAPIService) ResetDbPost(ctx context.Context) ApiResetDbPostRequest {
-	return ApiResetDbPostRequest{
+func (a *DevAPIService) DevResetDbGet(ctx context.Context) ApiDevResetDbGetRequest {
+	return ApiDevResetDbGetRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-func (a *DevAPIService) ResetDbPostExecute(r ApiResetDbPostRequest) (*http.Response, error) {
+func (a *DevAPIService) DevResetDbGetExecute(r ApiDevResetDbGetRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DevAPIService.ResetDbPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DevAPIService.DevResetDbGet")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/reset-db"
+	localVarPath := localBasePath + "/dev/reset-db"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

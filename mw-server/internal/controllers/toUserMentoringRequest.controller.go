@@ -25,21 +25,21 @@ func NewToUserMentoringRequestController(toUserMentoringRequestService *services
 // @ID create-userMentoringRequest
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.CreateUserMentoringRequestPayload true "query params"
-// @Success 200
+// @Param request body schemas.CreateToUserMentoringRequestPayload true "query params"
+// @Success 200 {object} schemas.ToUserMentoringRequestResponse
 // @Router /toUserMentoringRequests [post]
 func (tc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gin.Context) {
-	var payload *schemas.CreateUserMentoringRequestPayload
+	var payload *schemas.CreateToUserMentoringRequestPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
 
-	ToUserMentoringRequest, err := tc.toUserMentoringRequestService.CreateToUserMentoringRequest(ctx, payload)
+	toUserMentoringRequest, err := tc.toUserMentoringRequestService.CreateToUserMentoringRequest(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, ToUserMentoringRequest)
+	ctx.JSON(http.StatusOK, toUserMentoringRequest)
 }
 
 // Deleting ToUserMentoringRequest handlers

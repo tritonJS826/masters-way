@@ -276,6 +276,16 @@ paths:
       summary: Get list of day reports by way UUID
       tags:
       - dayReport
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: resets db
+      tags:
+      - dev
   /favoriteUserWays:
     post:
       operationId: create-favoriteUserWay
@@ -941,16 +951,6 @@ paths:
       tags:
       - problem
       x-codegen-request-body-name: request
-  /reset-db:
-    post:
-      description: resets db
-      responses:
-        "200":
-          content: {}
-          description: OK
-      summary: resets db
-      tags:
-      - dev
   /toUserMentoringRequests:
     post:
       operationId: create-userMentoringRequest
@@ -958,12 +958,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.CreateUserMentoringRequestPayload'
+              $ref: '#/components/schemas/schemas.CreateToUserMentoringRequestPayload'
         description: query params
         required: true
       responses:
         "200":
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.ToUserMentoringRequestResponse'
           description: OK
       summary: Create a new userMentoringRequest
       tags:
@@ -1879,7 +1882,7 @@ components:
       - isDone
       - ownerUuid
       type: object
-    schemas.CreateUserMentoringRequestPayload:
+    schemas.CreateToUserMentoringRequestPayload:
       properties:
         userUuid:
           type: string
@@ -3088,6 +3091,19 @@ components:
       required:
       - date
       - value
+      type: object
+    schemas.ToUserMentoringRequestResponse:
+      example:
+        wayID: wayID
+        userID: userID
+      properties:
+        userID:
+          type: string
+        wayID:
+          type: string
+      required:
+      - userID
+      - wayID
       type: object
     schemas.UpdateCommentPayload:
       properties:

@@ -433,6 +433,20 @@ const docTemplate = `{
                 }
             }
         },
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/favoriteUserWays": {
             "post": {
                 "consumes": [
@@ -1463,20 +1477,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/reset-db": {
-            "post": {
-                "description": "resets db",
-                "tags": [
-                    "dev"
-                ],
-                "summary": "resets db",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
         "/toUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -1497,13 +1497,16 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserMentoringRequestPayload"
+                            "$ref": "#/definitions/schemas.CreateToUserMentoringRequestPayload"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ToUserMentoringRequestResponse"
+                        }
                     }
                 }
             }
@@ -2657,7 +2660,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateUserMentoringRequestPayload": {
+        "schemas.CreateToUserMentoringRequestPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -3247,6 +3250,21 @@ const docTemplate = `{
                 },
                 "value": {
                     "type": "integer"
+                }
+            }
+        },
+        "schemas.ToUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userID",
+                "wayID"
+            ],
+            "properties": {
+                "userID": {
+                    "type": "string"
+                },
+                "wayID": {
+                    "type": "string"
                 }
             }
         },

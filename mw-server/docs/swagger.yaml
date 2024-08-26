@@ -286,7 +286,7 @@ definitions:
     - isDone
     - ownerUuid
     type: object
-  schemas.CreateUserMentoringRequestPayload:
+  schemas.CreateToUserMentoringRequestPayload:
     properties:
       userUuid:
         type: string
@@ -697,6 +697,16 @@ definitions:
     required:
     - date
     - value
+    type: object
+  schemas.ToUserMentoringRequestResponse:
+    properties:
+      userID:
+        type: string
+      wayID:
+        type: string
+    required:
+    - userID
+    - wayID
     type: object
   schemas.UpdateCommentPayload:
     properties:
@@ -1400,6 +1410,15 @@ paths:
       summary: Get list of day reports by way UUID
       tags:
       - dayReport
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "200":
+          description: OK
+      summary: resets db
+      tags:
+      - dev
   /favoriteUserWays:
     post:
       consumes:
@@ -2078,15 +2097,6 @@ paths:
       summary: Update problem by UUID
       tags:
       - problem
-  /reset-db:
-    post:
-      description: resets db
-      responses:
-        "200":
-          description: OK
-      summary: resets db
-      tags:
-      - dev
   /toUserMentoringRequests:
     post:
       consumes:
@@ -2098,12 +2108,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateUserMentoringRequestPayload'
+          $ref: '#/definitions/schemas.CreateToUserMentoringRequestPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/schemas.ToUserMentoringRequestResponse'
       summary: Create a new userMentoringRequest
       tags:
       - toUserMentoringRequest
