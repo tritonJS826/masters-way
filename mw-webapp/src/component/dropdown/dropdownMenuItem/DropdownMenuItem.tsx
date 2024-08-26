@@ -27,6 +27,13 @@ export interface DropdownMenuItemType {
    * @default true
    */
   isVisible?: boolean;
+
+  /**
+   * If true then dropdown will not close automatically after choose the item. Need for don't conflict with opening modals
+   * @default false
+   */
+  isPreventDefaultUsed: boolean;
+
 }
 
 /**
@@ -49,6 +56,12 @@ interface DropdownMenuItemProps {
    */
   dataCyContent?: string;
 
+  /**
+   * If true then onSelect will prevent default behavior
+   * @default false
+   */
+  isPreventDefaultUsed: boolean;
+
 }
 
 /**
@@ -59,7 +72,7 @@ export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
     <Item
       className={styles.dropdownMenuItem}
       onClick={props.onClick ?? (() => { })}
-      onSelect={(event) => event.preventDefault()}
+      onSelect={(event) => props.isPreventDefaultUsed && event.preventDefault()}
       data-cy={props.dataCyContent}
     >
       {props.value}
