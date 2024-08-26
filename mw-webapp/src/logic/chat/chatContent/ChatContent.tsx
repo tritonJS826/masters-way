@@ -296,6 +296,7 @@ export const ChatContent = observer(() => {
                   dropdownMenuItems={[
                     {
                       id: "Close chat",
+                      isPreventDefaultUsed: false,
                       value: LanguageService.common.chat.closeChat[language],
 
                       /**
