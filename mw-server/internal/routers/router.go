@@ -106,6 +106,7 @@ func (r *Router) SetRoutes() {
 	r.favoriteUserRouter.setFavoriteUserRoutes(api)
 	r.favoriteUserWayRouter.setFavoriteUserWayRoutes(api)
 	r.fromUserMentoringRequestRouter.setFromUserMentoringRequestRoutes(api)
+	r.geminiRouter.setGeminiRoutes(api)
 	r.jobDoneRouter.setJobDoneRoutes(api)
 	r.jobDoneJobTagRouter.setJobDoneJobTagRoutes(api)
 	r.jobTagRouter.setJobTagRoutes(api)
@@ -122,10 +123,8 @@ func (r *Router) SetRoutes() {
 	r.wayCollectionWayRouter.setWayCollectionWayRoutes(api)
 	r.wayTagRouter.setWayTagRoutes(api)
 
-	if r.config.EnvType == "prod" {
-		r.geminiRouter.setGeminiRoutes(api)
-	} else {
+	if r.config.EnvType != "prod" {
 		r.devRouter.setDevRoutes(api)
-		api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		r.Gin.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 }

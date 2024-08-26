@@ -22,6 +22,8 @@ type Config struct {
 	Domain            string `mapstructure:"WEBAPP_DOMAIN"`
 	GeminiApiKey      string `mapstructure:"GEMINI_API_KEY"`
 	GeminiModel       string `mapstructure:"GEMINI_MODEL"`
+	GeneralAPIHost    string `mapstructure:"GENERAL_API_HOST"`
+	GeneralBaseURL    string `mapstructure:"GENERAL_BASE_URL"`
 }
 
 var prodRequiredVariables = [14]string{

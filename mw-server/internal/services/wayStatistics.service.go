@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 	db "mwserver/internal/db/sqlc"
 	"mwserver/internal/schemas"
 	"mwserver/pkg/util"
@@ -118,7 +117,6 @@ func (ws *WayStatisticsService) GetTimeSpentByDayChart(ctx context.Context, para
 	}
 
 	daysCount := int(params.EndDatePgTimestamp.Time.Sub(params.StartDatePgTimestamp.Time).Hours()/24) + 1
-	fmt.Println("daysCount: ", daysCount)
 	timeSpentByDayChart := make([]schemas.TimeSpentByDayPoint, 0, daysCount)
 
 	timeSpentByDayMap := lo.SliceToMap(timeSpentByDayChartRaw, func(timeSpentByDay db.GetTimeSpentByDayChartRow) (time.Time, int) {

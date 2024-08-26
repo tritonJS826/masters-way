@@ -28,7 +28,11 @@ const (
 	// 30 days
 	MaxAge           = 24 * time.Hour * 30
 	OauthStateString = "auth-state-string"
-	ContextKeyUserID = "userID"
+
+	HeaderKeyAuthorization = "Authorization"
+
+	ContextKeyUserID        = "userID"
+	ContextKeyAuthorization = "ContextKeyAuthorization"
 )
 
 type Claims struct {
@@ -65,7 +69,7 @@ func ValidateJWT(tokenString string, secretSessionKey string) (*Claims, error) {
 
 func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		authHeader := ctx.GetHeader("Authorization")
+		authHeader := ctx.GetHeader(HeaderKeyAuthorization)
 		if authHeader == "" {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
 			return

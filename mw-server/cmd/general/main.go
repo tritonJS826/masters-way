@@ -2,12 +2,17 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"mwserver/internal/config"
 	"mwserver/internal/controllers"
 	"mwserver/internal/routers"
-	"mwserver/internal/server"
 	"mwserver/internal/services"
 	"mwserver/pkg/database"
 
@@ -18,12 +23,14 @@ import (
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {
-		log.Fatal("cannot load config:", err)
+		fmt.Fprintf(os.Stderr, "cannot load config: %v\n", err)
+		os.Exit(1)
 	}
 
 	newPool, err := database.NewPostgresDB(&newConfig)
 	if err != nil {
-		log.Fatal("cannot load config:", err)
+		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+		os.Exit(1)
 	}
 	defer newPool.Close()
 
@@ -31,7 +38,8 @@ func main() {
 	if newConfig.EnvType == "prod" {
 		geminiClient, err = genai.NewClient(context.Background(), option.WithAPIKey(newConfig.GeminiApiKey))
 		if err != nil {
-			log.Fatalf("Failed to create client: %v", err)
+			fmt.Fprintf(os.Stderr, "Unable to create gemini client: %v\n", err)
+			os.Exit(1)
 		}
 		defer geminiClient.Close()
 	}
@@ -42,7 +50,40 @@ func main() {
 	newRouter := routers.NewRouter(&newConfig, newController)
 	newRouter.SetRoutes()
 
-	newServer := server.NewServer(&newConfig, newRouter)
+	newServer := &http.Server{
+		Addr:    ":" + newConfig.ServerAddress,
+		Handler: newRouter.Gin,
+	}
 
-	log.Fatal(newServer.Run())
+	// Start the server in a separate goroutine
+	go func() {
+		if err := newServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Server start failed: %s\n", err)
+		}
+	}()
+	log.Println("Server started successfully")
+
+	// Set up signal catching
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutdown initiated...")
+
+	// Context for graceful shutdown with a timeout of 3 seconds
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	// Attempt to gracefully shutdown the server
+	if err := newServer.Shutdown(ctx); err != nil {
+		log.Printf("Server Shutdown Error: %v", err)
+	}
+
+	// Waiting for the shutdown context to be done or timeout
+	select {
+	case <-ctx.Done():
+		log.Println("Server shutdown completed or timed out")
+	}
+
+	log.Println("Server exiting")
+	os.Exit(0)
 }

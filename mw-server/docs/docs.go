@@ -704,32 +704,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/healthcheck": {
-            "get": {
-                "description": "Get the health status of the API",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Health"
-                ],
-                "summary": "Health Check",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/jobDoneJobTags": {
             "post": {
                 "consumes": [
@@ -3887,11 +3861,11 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "",
 	Host:             "",
-	BasePath:         "/api",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Masters way general API",
+	Title:            "",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

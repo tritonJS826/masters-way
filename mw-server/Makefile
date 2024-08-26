@@ -1,6 +1,6 @@
 build: ## Build the project
 	@echo "Building the project..."
-	go build -o main main.go
+	go build -o main cmd/general/main.go
 
 start: ## Run the project
 	go run cmd/general/main.go
@@ -15,7 +15,7 @@ install: ## Install dependencies
 	go mod tidy
 
 swag: ##  Generate swagger specification
-	swag init
+	swag init -g cmd/general/main.go
 
 db-schema: ## Generate db schema
 	sqlc generate

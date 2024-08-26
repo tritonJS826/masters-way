@@ -1,11 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Masters way general API",
-        "contact": {},
-        "version": "1.0"
+        "contact": {}
     },
-    "basePath": "/api",
     "paths": {
         "/auth/current": {
             "get": {
@@ -691,32 +688,6 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.GenerateMetricsResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/healthcheck": {
-            "get": {
-                "description": "Get the health status of the API",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Health"
-                ],
-                "summary": "Health Check",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
                         }
                     }
                 }
