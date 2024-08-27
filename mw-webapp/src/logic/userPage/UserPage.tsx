@@ -658,6 +658,7 @@ export const UserPage = observer((props: UserPageProps) => {
               collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
               onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
               language={language}
+              dataCy={userWaysAccessIds.wayCollectionButtonsBlock.favoriteWayCollectionButton}
             />
           </HorizontalContainer>
         </VerticalContainer>

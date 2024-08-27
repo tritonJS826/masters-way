@@ -7,9 +7,10 @@ export const userWaysAccessIds = {
         wayLink: (wayTitle: string) => `wayLink_${wayTitle}`,
 
         ownWayCollectionButton: "ownWayCollectionButton",
-        wayCollectionButtonMainInfo: "wayCollectionButtonMainInfo",
-
         mentoringWayCollectionButton: "mentoringWayCollectionButton",
+        favoriteWayCollectionButton: "favoriteWayCollectionButton",
+
+        wayCollectionButtonMainInfo: "wayCollectionButtonMainInfo",
     },
 
     createNewWayButton: "createNewWayButton"
