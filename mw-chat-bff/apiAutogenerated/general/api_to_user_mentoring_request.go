@@ -26,16 +26,16 @@ type ToUserMentoringRequestAPIService service
 type ApiCreateUserMentoringRequestRequest struct {
 	ctx context.Context
 	ApiService *ToUserMentoringRequestAPIService
-	request *SchemasCreateUserMentoringRequestPayload
+	request *SchemasCreateToUserMentoringRequestPayload
 }
 
 // query params
-func (r ApiCreateUserMentoringRequestRequest) Request(request SchemasCreateUserMentoringRequestPayload) ApiCreateUserMentoringRequestRequest {
+func (r ApiCreateUserMentoringRequestRequest) Request(request SchemasCreateToUserMentoringRequestPayload) ApiCreateUserMentoringRequestRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateUserMentoringRequestRequest) Execute() (*http.Response, error) {
+func (r ApiCreateUserMentoringRequestRequest) Execute() (*SchemasToUserMentoringRequestResponse, *http.Response, error) {
 	return r.ApiService.CreateUserMentoringRequestExecute(r)
 }
 
@@ -53,16 +53,18 @@ func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequest(ctx contex
 }
 
 // Execute executes the request
-func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r ApiCreateUserMentoringRequestRequest) (*http.Response, error) {
+//  @return SchemasToUserMentoringRequestResponse
+func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r ApiCreateUserMentoringRequestRequest) (*SchemasToUserMentoringRequestResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *SchemasToUserMentoringRequestResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ToUserMentoringRequestAPIService.CreateUserMentoringRequest")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/toUserMentoringRequests"
@@ -71,7 +73,7 @@ func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r A
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.request == nil {
-		return nil, reportError("request is required and must be specified")
+		return localVarReturnValue, nil, reportError("request is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -84,7 +86,7 @@ func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r A
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -95,19 +97,19 @@ func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r A
 	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -115,10 +117,19 @@ func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r A
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiDeleteToUserMentoringRequestRequest struct {

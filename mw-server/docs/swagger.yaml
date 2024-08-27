@@ -1,3 +1,4 @@
+basePath: /api
 definitions:
   customErrors.NoRightToChangeDayReportError:
     properties:
@@ -397,6 +398,16 @@ definitions:
     required:
     - userUuid
     - wayUuid
+    type: object
+  schemas.FromUserMentoringRequestResponse:
+    properties:
+      userId:
+        type: string
+      wayId:
+        type: string
+    required:
+    - userId
+    - wayId
     type: object
   schemas.GenerateMetricsPayload:
     properties:
@@ -1144,6 +1155,8 @@ definitions:
     type: object
 info:
   contact: {}
+  title: Masters way general API
+  version: "1.0"
 paths:
   /auth/{provider}:
     get:
@@ -1534,6 +1547,8 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/schemas.FromUserMentoringRequestResponse'
       summary: Create a new fromUserMentoringRequest
       tags:
       - fromUserMentoringRequest
@@ -1608,6 +1623,23 @@ paths:
       summary: Generate metrics using Gemini
       tags:
       - gemini
+  /healthcheck:
+    get:
+      consumes:
+      - application/json
+      description: Get the health status of the API
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Health Check
+      tags:
+      - Health
   /jobDoneJobTags:
     post:
       consumes:

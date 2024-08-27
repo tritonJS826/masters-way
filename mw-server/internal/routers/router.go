@@ -41,6 +41,7 @@ type Router struct {
 	userTagRouter                  *userTagRouter
 	wayCollectionRouter            *wayCollectionRouter
 	wayCollectionWayRouter         *wayCollectionWayRouter
+	healthCheckRouter              *healthCheckRouter
 }
 
 func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
@@ -86,18 +87,12 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		userTagRouter:                  newUserTagRouter(controller.UserTagController, config),
 		wayCollectionRouter:            newWayCollectionRouter(controller.WayCollectionController, config),
 		wayCollectionWayRouter:         newWayCollectionWayRouter(controller.WayCollectionWayController, config),
+		healthCheckRouter:              newHealthCheckRouter(controller.HealthCheckController),
 	}
 }
 
-// @title     Masters way chat API
-// @version 1.0
-// @BasePath  /api
 func (r *Router) SetRoutes() {
 	api := r.Gin.Group("/api")
-
-	api.GET("/healthcheck", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
-	})
 
 	r.authRouter.setAuthRoutes(api)
 	r.commentRouter.setCommentRoutes(api)
@@ -122,6 +117,7 @@ func (r *Router) SetRoutes() {
 	r.wayCollectionRouter.setWayCollectionRoutes(api)
 	r.wayCollectionWayRouter.setWayCollectionWayRoutes(api)
 	r.wayTagRouter.setWayTagRoutes(api)
+	r.healthCheckRouter.setHealthCheckRoutes(api)
 
 	if r.config.EnvType != "prod" {
 		r.devRouter.setDevRoutes(api)

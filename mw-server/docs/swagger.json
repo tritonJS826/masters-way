@@ -1,8 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "title": "Masters way general API",
+        "contact": {},
+        "version": "1.0"
     },
+    "basePath": "/api",
     "paths": {
         "/auth/current": {
             "get": {
@@ -596,7 +599,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.FromUserMentoringRequestResponse"
+                        }
                     }
                 }
             }
@@ -702,6 +708,32 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.GenerateMetricsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/healthcheck": {
+            "get": {
+                "description": "Get the health status of the API",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health Check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -2812,6 +2844,21 @@
                     "type": "string"
                 },
                 "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.FromUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
                     "type": "string"
                 }
             }

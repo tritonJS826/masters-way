@@ -26,9 +26,9 @@ func NewFromUserMentoringRequestController(fromUserMentoringRequestService *serv
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateFromUserMentoringRequestPayload true "query params"
-// @Success 200
+// @Success 200 {object} schemas.FromUserMentoringRequestResponse
 // @Router /fromUserMentoringRequests [post]
-func (fumrc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx *gin.Context) {
+func (fc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx *gin.Context) {
 	var payload *schemas.CreateFromUserMentoringRequestPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -36,7 +36,7 @@ func (fumrc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(
 		return
 	}
 
-	fromUserMentoringRequest, err := fumrc.fromUserMentoringRequestService.CreateFromUserMentoringRequest(ctx, payload.UserUuid, payload.WayUuid)
+	fromUserMentoringRequest, err := fc.fromUserMentoringRequestService.CreateFromUserMentoringRequest(ctx, payload.UserUuid, payload.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, fromUserMentoringRequest)

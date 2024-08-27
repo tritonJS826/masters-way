@@ -67,7 +67,7 @@ docs/SchemasCreateMetricPayload.md
 docs/SchemasCreatePlanJobTagPayload.md
 docs/SchemasCreatePlanPayload.md
 docs/SchemasCreateProblemPayload.md
-docs/SchemasCreateUserMentoringRequestPayload.md
+docs/SchemasCreateToUserMentoringRequestPayload.md
 docs/SchemasCreateUserTagPayload.md
 docs/SchemasCreateWayCollectionPayload.md
 docs/SchemasCreateWayCollectionWay.md
@@ -76,6 +76,7 @@ docs/SchemasCreateWayTagPayload.md
 docs/SchemasDayReportsCompositionParticipants.md
 docs/SchemasDefaultWayCollections.md
 docs/SchemasDeleteMentorUserWayPayload.md
+docs/SchemasFromUserMentoringRequestResponse.md
 docs/SchemasGenerateMetricsPayload.md
 docs/SchemasGenerateMetricsResponse.md
 docs/SchemasGetAllUsersResponse.md
@@ -92,6 +93,7 @@ docs/SchemasOverallInformation.md
 docs/SchemasPlanPopulatedResponse.md
 docs/SchemasProblemPopulatedResponse.md
 docs/SchemasTimeSpentByDayPoint.md
+docs/SchemasToUserMentoringRequestResponse.md
 docs/SchemasUpdateCommentPayload.md
 docs/SchemasUpdateJobDone.md
 docs/SchemasUpdateJobTagPayload.md
@@ -107,6 +109,7 @@ docs/SchemasUserPopulatedResponse.md
 docs/SchemasUserTagResponse.md
 docs/SchemasWayCollectionPlainResponse.md
 docs/SchemasWayCollectionPopulatedResponse.md
+docs/SchemasWayCollectionWayResponse.md
 docs/SchemasWayPlainResponse.md
 docs/SchemasWayPopulatedResponse.md
 docs/SchemasWayStatistics.md
@@ -143,7 +146,7 @@ model_schemas_create_metric_payload.go
 model_schemas_create_plan_job_tag_payload.go
 model_schemas_create_plan_payload.go
 model_schemas_create_problem_payload.go
-model_schemas_create_user_mentoring_request_payload.go
+model_schemas_create_to_user_mentoring_request_payload.go
 model_schemas_create_user_tag_payload.go
 model_schemas_create_way_collection_payload.go
 model_schemas_create_way_collection_way.go
@@ -152,6 +155,7 @@ model_schemas_create_way_tag_payload.go
 model_schemas_day_reports_composition_participants.go
 model_schemas_default_way_collections.go
 model_schemas_delete_mentor_user_way_payload.go
+model_schemas_from_user_mentoring_request_response.go
 model_schemas_generate_metrics_payload.go
 model_schemas_generate_metrics_response.go
 model_schemas_get_all_users_response.go
@@ -168,6 +172,7 @@ model_schemas_overall_information.go
 model_schemas_plan_populated_response.go
 model_schemas_problem_populated_response.go
 model_schemas_time_spent_by_day_point.go
+model_schemas_to_user_mentoring_request_response.go
 model_schemas_update_comment_payload.go
 model_schemas_update_job_done.go
 model_schemas_update_job_tag_payload.go
@@ -183,6 +188,7 @@ model_schemas_user_populated_response.go
 model_schemas_user_tag_response.go
 model_schemas_way_collection_plain_response.go
 model_schemas_way_collection_populated_response.go
+model_schemas_way_collection_way_response.go
 model_schemas_way_plain_response.go
 model_schemas_way_populated_response.go
 model_schemas_way_statistics.go

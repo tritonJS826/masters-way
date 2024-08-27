@@ -90,7 +90,7 @@ Class | Method | HTTP request | Description
 *CompositeWayAPI* | [**DeleteCompositeWayRelation**](docs/CompositeWayAPI.md#deletecompositewayrelation) | **Delete** /compositeWay/{parentWayId}/{childWayId} | Delete composite way relation
 *DayReportAPI* | [**CreateDayReport**](docs/DayReportAPI.md#createdayreport) | **Post** /dayReports | Create a new dayReport
 *DayReportAPI* | [**GetDayReports**](docs/DayReportAPI.md#getdayreports) | **Get** /dayReports/{wayId} | Get list of day reports by way UUID
-*DevAPI* | [**ResetDbPost**](docs/DevAPI.md#resetdbpost) | **Post** /reset-db | resets db
+*DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
 *FavoriteUserAPI* | [**CreateFavoriteUser**](docs/FavoriteUserAPI.md#createfavoriteuser) | **Post** /favoriteUsers | Create a new favorite user
 *FavoriteUserAPI* | [**DeleteFavoriteUser**](docs/FavoriteUserAPI.md#deletefavoriteuser) | **Delete** /favoriteUsers/{donorUserUuid}/{acceptorUserUuid} | Delete favoriteUser by UUID
 *FavoriteUserWayAPI* | [**CreateFavoriteUserWay**](docs/FavoriteUserWayAPI.md#createfavoriteuserway) | **Post** /favoriteUserWays | Create a new favoriteUserWay
@@ -166,7 +166,7 @@ Class | Method | HTTP request | Description
  - [SchemasCreatePlanJobTagPayload](docs/SchemasCreatePlanJobTagPayload.md)
  - [SchemasCreatePlanPayload](docs/SchemasCreatePlanPayload.md)
  - [SchemasCreateProblemPayload](docs/SchemasCreateProblemPayload.md)
- - [SchemasCreateUserMentoringRequestPayload](docs/SchemasCreateUserMentoringRequestPayload.md)
+ - [SchemasCreateToUserMentoringRequestPayload](docs/SchemasCreateToUserMentoringRequestPayload.md)
  - [SchemasCreateUserTagPayload](docs/SchemasCreateUserTagPayload.md)
  - [SchemasCreateWayCollectionPayload](docs/SchemasCreateWayCollectionPayload.md)
  - [SchemasCreateWayCollectionWay](docs/SchemasCreateWayCollectionWay.md)
@@ -175,6 +175,7 @@ Class | Method | HTTP request | Description
  - [SchemasDayReportsCompositionParticipants](docs/SchemasDayReportsCompositionParticipants.md)
  - [SchemasDefaultWayCollections](docs/SchemasDefaultWayCollections.md)
  - [SchemasDeleteMentorUserWayPayload](docs/SchemasDeleteMentorUserWayPayload.md)
+ - [SchemasFromUserMentoringRequestResponse](docs/SchemasFromUserMentoringRequestResponse.md)
  - [SchemasGenerateMetricsPayload](docs/SchemasGenerateMetricsPayload.md)
  - [SchemasGenerateMetricsResponse](docs/SchemasGenerateMetricsResponse.md)
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
@@ -191,6 +192,7 @@ Class | Method | HTTP request | Description
  - [SchemasPlanPopulatedResponse](docs/SchemasPlanPopulatedResponse.md)
  - [SchemasProblemPopulatedResponse](docs/SchemasProblemPopulatedResponse.md)
  - [SchemasTimeSpentByDayPoint](docs/SchemasTimeSpentByDayPoint.md)
+ - [SchemasToUserMentoringRequestResponse](docs/SchemasToUserMentoringRequestResponse.md)
  - [SchemasUpdateCommentPayload](docs/SchemasUpdateCommentPayload.md)
  - [SchemasUpdateJobDone](docs/SchemasUpdateJobDone.md)
  - [SchemasUpdateJobTagPayload](docs/SchemasUpdateJobTagPayload.md)
@@ -206,6 +208,7 @@ Class | Method | HTTP request | Description
  - [SchemasUserTagResponse](docs/SchemasUserTagResponse.md)
  - [SchemasWayCollectionPlainResponse](docs/SchemasWayCollectionPlainResponse.md)
  - [SchemasWayCollectionPopulatedResponse](docs/SchemasWayCollectionPopulatedResponse.md)
+ - [SchemasWayCollectionWayResponse](docs/SchemasWayCollectionWayResponse.md)
  - [SchemasWayPlainResponse](docs/SchemasWayPlainResponse.md)
  - [SchemasWayPopulatedResponse](docs/SchemasWayPopulatedResponse.md)
  - [SchemasWayStatistics](docs/SchemasWayStatistics.md)

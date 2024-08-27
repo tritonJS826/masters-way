@@ -380,7 +380,10 @@ paths:
         required: true
       responses:
         "200":
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.FromUserMentoringRequestResponse'
           description: OK
       summary: Create a new fromUserMentoringRequest
       tags:
@@ -454,6 +457,21 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /healthcheck:
+    get:
+      description: Get the health status of the API
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                additionalProperties:
+                  type: string
+                type: object
+          description: OK
+      summary: Health Check
+      tags:
+      - Health
   /jobDoneJobTags:
     post:
       operationId: create-jobDoneJobTag
@@ -2289,6 +2307,19 @@ components:
       required:
       - userUuid
       - wayUuid
+      type: object
+    schemas.FromUserMentoringRequestResponse:
+      example:
+        wayId: wayId
+        userId: userId
+      properties:
+        userId:
+          type: string
+        wayId:
+          type: string
+      required:
+      - userId
+      - wayId
       type: object
     schemas.GenerateMetricsPayload:
       properties:

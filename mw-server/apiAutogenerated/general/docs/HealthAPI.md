@@ -1,18 +1,18 @@
-# \DevAPI
+# \HealthAPI
 
-All URIs are relative to */api*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DevResetDbGet**](DevAPI.md#DevResetDbGet) | **Get** /dev/reset-db | resets db
+[**HealthcheckGet**](HealthAPI.md#HealthcheckGet) | **Get** /healthcheck | Health Check
 
 
 
-## DevResetDbGet
+## HealthcheckGet
 
-> DevResetDbGet(ctx).Execute()
+> map[string]string HealthcheckGet(ctx).Execute()
 
-resets db
+Health Check
 
 
 
@@ -32,11 +32,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.DevAPI.DevResetDbGet(context.Background()).Execute()
+	resp, r, err := apiClient.HealthAPI.HealthcheckGet(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `DevAPI.DevResetDbGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthcheckGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `HealthcheckGet`: map[string]string
+	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthcheckGet`: %v\n", resp)
 }
 ```
 
@@ -46,12 +48,12 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDevResetDbGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiHealthcheckGetRequest struct via the builder pattern
 
 
 ### Return type
 
- (empty response body)
+**map[string]string**
 
 ### Authorization
 
@@ -60,7 +62,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

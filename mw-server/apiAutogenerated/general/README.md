@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
 *GeminiAPI* | [**AiChat**](docs/GeminiAPI.md#aichat) | **Post** /gemini/just-chat | Just chat with AI
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
+*HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
 *JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
 *JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
@@ -174,6 +175,7 @@ Class | Method | HTTP request | Description
  - [SchemasDayReportsCompositionParticipants](docs/SchemasDayReportsCompositionParticipants.md)
  - [SchemasDefaultWayCollections](docs/SchemasDefaultWayCollections.md)
  - [SchemasDeleteMentorUserWayPayload](docs/SchemasDeleteMentorUserWayPayload.md)
+ - [SchemasFromUserMentoringRequestResponse](docs/SchemasFromUserMentoringRequestResponse.md)
  - [SchemasGenerateMetricsPayload](docs/SchemasGenerateMetricsPayload.md)
  - [SchemasGenerateMetricsResponse](docs/SchemasGenerateMetricsResponse.md)
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)

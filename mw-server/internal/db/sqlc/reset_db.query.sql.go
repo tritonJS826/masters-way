@@ -83,7 +83,7 @@ VALUES
 
 INSERT INTO "from_user_mentoring_requests" ("user_uuid", "way_uuid")
 VALUES
-    ('3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', '9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b');
+    ('3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2');
 
 INSERT INTO "day_reports" ("uuid", "way_uuid", "created_at", "updated_at")
 VALUES
@@ -161,7 +161,7 @@ VALUES
 
     ('b83a7146-5692-4c67-a5ce-9499ce47b4af', 'job description', 50, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '1c4b7914-a249-4397-82e6-5099d0ff6454', '2024-08-16 03:10:00', '2024-08-16 21:30:00'),
     ('e9a84956-27c4-4ca3-9c58-805b8b564238', 'job description', 50, '7cdb041b-4574-4f7b-a500-c53e74c72e94', '5fe76d7d-5954-4f2d-bce8-4b3839c26832', '2024-08-16 17:02:00', '2024-08-16 18:40:00'),
-    
+
     ('18631c62-7bd6-41e7-b965-27371e052922', 'job description 1', 10, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', 'e48a661a-b5ce-4117-b70a-9cdd5a840fc5', '2024-08-11 00:00:02', '2024-08-11 00:00:02'),
     ('40a1d6c8-2932-46bd-8e29-f6886ec171f4', 'job description 2', 50, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '7d563ccb-15fc-4d5a-b0cb-27ec86e052ab', '2024-08-14 00:00:01', '2024-08-14 00:00:01');
 

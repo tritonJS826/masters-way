@@ -607,7 +607,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.FromUserMentoringRequestResponse"
+                        }
                     }
                 }
             }
@@ -713,6 +716,32 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/schemas.GenerateMetricsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/healthcheck": {
+            "get": {
+                "description": "Get the health status of the API",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health Check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -2827,6 +2856,21 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.FromUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.GenerateMetricsPayload": {
             "type": "object",
             "required": [
@@ -3897,11 +3941,11 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/api",
 	Schemes:          []string{},
-	Title:            "",
+	Title:            "Masters way general API",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

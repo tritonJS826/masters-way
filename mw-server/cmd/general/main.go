@@ -20,6 +20,9 @@ import (
 	"google.golang.org/api/option"
 )
 
+// @title Masters way general API
+// @version 1.0
+// @BasePath /api
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {

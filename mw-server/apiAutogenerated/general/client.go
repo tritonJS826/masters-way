@@ -67,6 +67,8 @@ type APIClient struct {
 
 	GeminiAPI *GeminiAPIService
 
+	HealthAPI *HealthAPIService
+
 	JobDoneAPI *JobDoneAPIService
 
 	JobDoneJobTagAPI *JobDoneJobTagAPIService
@@ -123,6 +125,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.FavoriteUserWayAPI = (*FavoriteUserWayAPIService)(&c.common)
 	c.FromUserMentoringRequestAPI = (*FromUserMentoringRequestAPIService)(&c.common)
 	c.GeminiAPI = (*GeminiAPIService)(&c.common)
+	c.HealthAPI = (*HealthAPIService)(&c.common)
 	c.JobDoneAPI = (*JobDoneAPIService)(&c.common)
 	c.JobDoneJobTagAPI = (*JobDoneJobTagAPIService)(&c.common)
 	c.JobTagAPI = (*JobTagAPIService)(&c.common)
