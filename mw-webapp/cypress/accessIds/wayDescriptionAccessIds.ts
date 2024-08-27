@@ -8,7 +8,11 @@ export const wayDescriptionAccessIds = {
         mentorOfWayText: 'mentorOfWayText',
         wayMentorLink: 'wayMentorLink',
         childWaysTitle: "childWaysTitle",
-        childLink: (name: string) => `childLink_${name}`
+        childLink: (name: string) => `childLink_${name}`,
+        deleteFromCompositeWayButton: (name: string) => `deleteFromCompositeWayButton_${name}`,
+        dialogContent: {
+            deleteButton: 'deleteButton'
+        }
     },
 
     mentorRequestDialog: {
