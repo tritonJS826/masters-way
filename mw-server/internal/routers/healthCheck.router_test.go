@@ -22,7 +22,7 @@ func TestGetAPIHealthStatus(t *testing.T) {
 		t.Fatalf("Failed to reset db: %v", err)
 	}
 
-	t.Run("should create FromUserMentoringRequest and return it successfully", func(t *testing.T) {
+	t.Run("should return a successful health check status and validate the response message", func(t *testing.T) {
 		healthCheckStatus, response, err := generalApi.HealthAPI.HealthcheckGet(context.Background()).Execute()
 		if err != nil {
 			t.Fatalf("Failed to create FromUserMentoringRequest: %v", err)
