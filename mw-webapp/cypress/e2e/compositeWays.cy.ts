@@ -38,6 +38,8 @@ describe('IsAuth Composite ways scope tests', () => {
         wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
+        cy.logout();
+
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).first().click();
 
@@ -65,6 +67,44 @@ describe('IsAuth Composite ways scope tests', () => {
         dayReportsSelectors.dayReportsContent.jobDone.getReporterName().eq(1).should('have.text', danaEvansNameForReports);
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().eq(1).should('have.text', testUserData.users.Dana.way.jobDescription1);
         dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).should('have.text', testUserData.users.Dana.way.timeSpentOnJob1);
+    });
+
+    it('IsAuth_CompositeWay_DeleteWay', () => {
+        const danaEvansNameForReports = testUserData.users.Dana.userName.split(" ")[0];
+
+        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userWaysSelectors.getCreateNewWayButton().click();
+        cy.logout();
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
+        userWaysSelectors.getCreateNewWayButton().click();
+
+        cy.openAllWaysPage();
+        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
+        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+        allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem()
+            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+            .click();
+        cy.openAllWaysPage();
+        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({force: true});
+        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem()
+            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+            .click();
+
+        cy.openAllWaysPage();
+        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).first().click();
+        wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.testUsers.studentJonh.wayTitle).click();
+        wayDescriptionSelectors.peopleBlock.dialogContent.getDeleteButton().click();
+        wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.users.Dana.way.wayTitle).click();
+        wayDescriptionSelectors.peopleBlock.dialogContent.getDeleteButton().click();
+
+        wayDescriptionSelectors.peopleBlock.childWaysTitle().should('not.exist');
+        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.users.Dana.userName).should('not.exist');
+        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
+        dayReportsSelectors.dayReportsContent.getReportDate().should('not.exist');
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('not.exist');
     });
 
 });

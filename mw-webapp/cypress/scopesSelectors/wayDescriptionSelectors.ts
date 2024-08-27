@@ -12,6 +12,10 @@ export const wayDescriptionSelectors = {
         getWayMentorLink: () => cy.get(getDataCy(wayDescriptionAccessIds.peopleBlock.wayMentorLink)),
         childWaysTitle: () => cy.get(getDataCy(wayDescriptionAccessIds.peopleBlock.childWaysTitle)),
         getChildLink: (name: string) => cy.get(getDataCy(wayDescriptionAccessIds.peopleBlock.childLink(name))),
+        getDeleteFromCompositeWay: (name: string) => cy.get(getDataCy(wayDescriptionAccessIds.peopleBlock.deleteFromCompositeWayButton(name))),
+        dialogContent: {
+            getDeleteButton: () => cy.get(getDataCy(wayDescriptionAccessIds.peopleBlock.dialogContent.deleteButton)),
+        }
     },
     mentorRequestDialog: {
         getMentorNameLink: () => cy.get(getDataCy(wayDescriptionAccessIds.mentorRequestDialog.mentorNameLink)),

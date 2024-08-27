@@ -92,6 +92,7 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                         name="RemoveIcon"
                       // ClassName={styles.removeIcon}
                       />}
+                    dataCy={wayDescriptionAccessIds.peopleBlock.deleteFromCompositeWayButton(child.name)}
                   />
                 </Tooltip>
               }
@@ -105,6 +106,7 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
               }}
               okText={LanguageService.modals.confirmModal.deleteButton[language]}
               cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+              cy={{onOk: wayDescriptionAccessIds.peopleBlock.dialogContent.deleteButton}}
             />
           </HorizontalContainer>
           <Separator />
