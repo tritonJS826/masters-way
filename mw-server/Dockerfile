@@ -1,9 +1,19 @@
-FROM golang:1.23-alpine
-WORKDIR /mw-server
-COPY . .
+# Stage 1: build
+FROM golang:1.23-alpine AS build
+WORKDIR /app
 RUN apk add --no-cache make
+COPY . .
 RUN go mod download
 RUN make build
+
+# Stage 2: production
+FROM alpine:3.18
+WORKDIR /app
+COPY --from=build /app/main ./
+COPY --from=build /app/entrypoint.sh ./
+COPY --from=build /app/.env ./
+# required for reset-db
+COPY --from=build /app/db/migration ./db/migration
 EXPOSE 8000
 RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
