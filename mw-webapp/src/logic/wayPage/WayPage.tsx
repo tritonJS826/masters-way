@@ -739,6 +739,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 <WayChildrenList
                   way={way}
                   level={0}
+                  isOwner={isOwner}
                 />
               </VerticalContainer>
             }
