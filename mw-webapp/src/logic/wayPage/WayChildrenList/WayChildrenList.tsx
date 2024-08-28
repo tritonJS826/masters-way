@@ -63,7 +63,6 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                 alt={child.owner.name}
                 src={child.owner.imageUrl}
                 size={AvatarSize.SMALL}
-              // ClassName={styles.avatar}
               />
               <VerticalContainer className={clsx(isAbandoned && styles.abandonedWay)}>
                 <Link
@@ -89,14 +88,12 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                 trigger={
                   <Tooltip content={LanguageService.way.peopleBlock.deleteFromComposite[language]}>
                     <Button
-                    // ClassName={styles.removeButton}
                       onClick={() => {}}
                       buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                       value={
                         <Icon
                           size={IconSize.SMALL}
                           name="RemoveIcon"
-                        // ClassName={styles.removeIcon}
                         />}
                       dataCy={wayDescriptionAccessIds.peopleBlock.deleteFromCompositeWayButton(child.name)}
                     />
