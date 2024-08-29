@@ -20,14 +20,26 @@
     "ua": "Отримувати важливі сповіщення"
   },
   "notification": {
-    "ru": "Включить напоминания в",
-    "en": "Enable notifications at",
-    "ua": "Увімкнути нагадування о"
-  },
-  "testNotification": {
-    "ru": "Протестировать уведомление",
-    "en": "Test notification",
-    "ua": "Тестувати повідомлення"
+    "notificationLabel": {
+      "ru": "Включить напоминания в",
+      "en": "Enable notifications at",
+      "ua": "Увімкнути нагадування о"
+    },
+    "enableSystemNotificationsButton": {
+      "ru": "Включить",
+      "en": "Enable ",
+      "ua": "Увімкнути"
+    },
+    "enableSystemNotificationsTitle": {
+      "ru": "Masters way",
+      "en": "Masters way",
+      "ua": "Masters way"
+    },
+    "enableSystemNotificationsText": {
+      "ru": "Нотификации включены",
+      "en": "Notifications enabled",
+      "ua": "Сповіщення увімкнено"
+    }
   },
   "comingSoon": {
     "ru": "В разработке!",

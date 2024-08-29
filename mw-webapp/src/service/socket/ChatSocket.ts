@@ -11,6 +11,7 @@ import {
   makeChatMessageReceivedEvent,
   makeChatRoomCreatedEvent,
 } from "src/eventBus/events/chat/ChatEvents";
+import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {env} from "src/utils/env/env";
@@ -63,6 +64,11 @@ export const connectChatSocket = () => {
     switch (event.type) {
       case "mw-chat-websocket:message-received":
         emitEvent(makeChatMessageReceivedEvent(event.payload as ChatMessageReceivedPayload));
+        serviceWorkerStore.systemNotification({
+          title: "New message!",
+          text: (event.payload as ChatMessageReceivedPayload).message,
+          tag: SystemNotificationTag.TEST,
+        });
         break;
       case "mw-chat-websocket:room-created":
         emitEvent(makeChatRoomCreatedEvent(event.payload as ChatRoomCreatedPayload));
