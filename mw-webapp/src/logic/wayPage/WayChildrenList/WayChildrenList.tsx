@@ -39,17 +39,6 @@ interface WayChildrenListProps {
 
 }
 
-/**
- * WayWithoutDayReports + child level
- */
-interface WayWithLevel extends WayWithoutDayReports {
-
-  /**
-   * Child level
-   */
-  level: number;
-}
-
 const LEVEL_INCREMENT = 1;
 
 /**
@@ -59,25 +48,27 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
   const {language} = languageStore;
 
   /**
-   * Get all children item
+   * Sort way children
    */
-  const getAllChildrenItem = (way: WayWithoutDayReports, level: number): WayWithLevel[] => {
-    let childrenItem: WayWithLevel[] = [];
-    if (way.children) {
-      way.children.forEach(child => {
-        const childWithLevel = {...child, level} as WayWithLevel;
-        childrenItem.push(childWithLevel);
-        childrenItem = childrenItem.concat(getAllChildrenItem(child, level + LEVEL_INCREMENT));
-      });
-    }
+  const sortWayChildren = (children: WayWithoutDayReports[]): WayWithoutDayReports[] => {
+    const sortedChildrenItem = children
+      .map(child => {
+        const updatedChild = {
+          ...child,
+          children: child.children ? sortWayChildren(child.children) : [],
+        } as WayWithoutDayReports;
 
-    return childrenItem;
+        return updatedChild;
+      })
+      .sort((a, b) => new Date(b.lastUpdate).getTime() - new Date(a.lastUpdate).getTime());
+
+    return sortedChildrenItem;
   };
 
   /**
-   * Render children item
+   * ChildrenItem
    */
-  const renderChildrenItem = (child: WayWithLevel) => {
+  const renderChildrenItem = (child: WayWithoutDayReports) => {
     const isAbandoned = child.status === WayStatus.abandoned;
 
     return (
@@ -85,7 +76,7 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
         <VerticalContainer>
           <HorizontalContainer className={styles.childWay}>
             <HorizontalContainer>
-              {"*".repeat(child.level)}
+              {"*".repeat(props.level)}
               <Avatar
                 alt={child.owner.name}
                 src={child.owner.imageUrl}
@@ -95,14 +86,14 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                 <Link
                   path={pages.way.getPath({uuid: child.uuid})}
                   className={styles.participantWay}
-                  data-cy={wayDescriptionAccessIds.peopleBlock.childLink(child.name)}
+                  dataCy={wayDescriptionAccessIds.peopleBlock.childLink(child.name)}
                 >
                   {child.name}
                 </Link>
                 <Link
                   path={pages.user.getPath({uuid: child.owner.uuid})}
                   className={styles.participantWay}
-                  data-cy={wayDescriptionAccessIds.peopleBlock.childLink(child.owner.name)}
+                  dataCy={wayDescriptionAccessIds.peopleBlock.childLink(child.owner.name)}
                 >
                   {child.owner.name}
                 </Link>
@@ -121,18 +112,15 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                         <Icon
                           size={IconSize.SMALL}
                           name="RemoveIcon"
-                        />
-                      }
-                      data-cy={wayDescriptionAccessIds.peopleBlock.deleteFromCompositeWayButton(child.name)}
+                        />}
+                      dataCy={wayDescriptionAccessIds.peopleBlock.deleteFromCompositeWayButton(child.name)}
                     />
                   </Tooltip>
                 }
-                content={
-                  <p>
-                    {LanguageService.way.peopleBlock.deleteWayFromCompositeModalContent[language]
-                      .replace("$participant", child.name)}
-                  </p>
-                }
+                content={<p>
+                  {LanguageService.way.peopleBlock.deleteWayFromCompositeModalContent[language]
+                    .replace("$participant", child.name)}
+                </p>}
                 onOk={async () => {
                   await CompositeWayDAL.deleteWayFromComposite({childWayUuid: child.uuid, parentWayUuid: props.way.uuid});
                   props.way.deleteChildWay(child.uuid);
@@ -144,14 +132,22 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
             )}
           </HorizontalContainer>
           <Separator />
+
+          {child.children && child.children.length > 0 && (
+            <WayChildrenList
+              way={child}
+              level={props.level + LEVEL_INCREMENT}
+              isOwner={props.isOwner}
+            />
+          )}
         </VerticalContainer>
       </div>
     );
   };
 
-  const childrenSortedList = getAllChildrenItem(props.way, props.level)
-    .sort((a, b) => new Date(b.lastUpdate).getTime() - new Date(a.lastUpdate).getTime())
-    .map(renderChildrenItem);
+  const sortedChildren = sortWayChildren(props.way.children);
 
-  return childrenSortedList;
+  const childrenList = sortedChildren.map(renderChildrenItem);
+
+  return childrenList;
 };
