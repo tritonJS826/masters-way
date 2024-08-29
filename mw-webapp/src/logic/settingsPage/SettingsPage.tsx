@@ -10,7 +10,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {serviceWorkerStore} from "src/globalStore/ServiceWorkerStore";
+import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
@@ -61,7 +61,7 @@ export const SettingsPage = observer(() => {
         </HorizontalContainer>
 
         <HorizontalContainer className={styles.line}>
-          {LanguageService.settings.notification[language]}
+          {LanguageService.settings.notification.notificationLabel[language]}
 
           {" "}
           {notification.isEnabled}
@@ -72,13 +72,13 @@ export const SettingsPage = observer(() => {
             content={LanguageService.settings.comingSoon[language]}
           >
             <Button
-              value={LanguageService.settings.testNotification[language]}
+              value={LanguageService.settings.notification.enableSystemNotificationsButton[language]}
               onClick={() => {
-                // OSNotification.addDeferredNotification("21:00");
-                serviceWorkerStore.serviceWorker?.showNotification("data.title", {
-                  body: "data.body",
-                  icon: "/logo192x192.png",
-                  tag: "test-notification-tag",
+                serviceWorkerStore.requestPermission();
+                serviceWorkerStore.systemNotification({
+                  title: LanguageService.settings.notification.enableSystemNotificationsTitle[language],
+                  text: LanguageService.settings.notification.enableSystemNotificationsText[language],
+                  tag: SystemNotificationTag.TEST,
                 });
               }}
             />

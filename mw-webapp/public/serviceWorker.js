@@ -12,7 +12,7 @@ self.addEventListener('push', function(event) {
     body: data.body,
     icon: '/icon.png',
     badge: '/badge.png',
-    tag: 'notification-tag',
+    tag: data.tag,
   };
 
   event.waitUntil(
