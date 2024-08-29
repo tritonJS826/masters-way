@@ -1,4 +1,4 @@
-import {Icon, IconSize} from "src/component/icon/Icon";
+import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import styles from "src/component/advantageItem/AdvantageItem.module.scss";
@@ -17,6 +17,12 @@ interface AdvantageItemProps {
    * Title description
    */
   description: string;
+
+  /**
+   * Icon name
+   */
+  iconName: keyof typeof IconDictionary;
+
 }
 
 /**
@@ -25,11 +31,13 @@ interface AdvantageItemProps {
 export const AdvantageItem = (props: AdvantageItemProps) => {
   return (
     <VerticalContainer className={styles.advantageItem}>
-      <Icon
-        name="WayIcon"
-        size={IconSize.MEDIUM}
-        className={styles.icon}
-      />
+      <div className={styles.iconWrapper}>
+        <Icon
+          name={props.iconName}
+          size={IconSize.BIG}
+          className={styles.icon}
+        />
+      </div>
       <Title
         level={HeadingLevel.h3}
         text={props.title}

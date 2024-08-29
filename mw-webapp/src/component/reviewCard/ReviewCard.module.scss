@@ -2,8 +2,15 @@
 
 .reviewCard {
   max-width: $maxWidthBlock;
+  flex: 1;
   align-items: center;
-  padding: $paddingExtraBig;
+  justify-content: space-between;
+  padding: $paddingBig;
+  gap: $gapBig;
+}
+
+.gradeAndReview {
+  align-items: center;
   gap: $gapBig;
 }
 
@@ -22,5 +29,6 @@
 
 .reviewerBlock {
   align-items: center;
+  justify-content: space-between;
   gap: $gapMedium;
 }

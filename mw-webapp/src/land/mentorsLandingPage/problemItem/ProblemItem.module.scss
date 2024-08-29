@@ -21,11 +21,17 @@
   justify-content: center;
   padding: calc($paddingLarge * 2);
   background-color: var(--primaryBgColor);
+  border-bottom-left-radius: $primaryBorderRadius;
+  border-top-left-radius: $primaryBorderRadius;
   gap: $gapBig;
 }
 
 .problemContentBlockReversed {
   align-items: flex-end;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: $primaryBorderRadius;
+  border-top-left-radius: 0;
+  border-top-right-radius: $primaryBorderRadius;
 }
 
 .problemTitleDescription,

@@ -9,11 +9,16 @@ $maxWidthTitleBlock: 780px;
 }
 
 .title {
+  display: inline;
   text-align: center;
 
   & h2 {
     font-size: $fontSizeTitleBig;
   }
+}
+
+.mw {
+  color: var(--generalPrimaryColor);
 }
 
 .titleYouShouldBlock {
@@ -26,6 +31,7 @@ $maxWidthTitleBlock: 780px;
 
 .titleDescription {
   text-align: center;
+  white-space: pre-wrap;
 }
 
 .mainBlockImage {
@@ -80,8 +86,9 @@ $maxWidthTitleBlock: 780px;
 
 .advantages {
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   gap: $gapLarge;
+  white-space: pre-wrap;
 }
 
 .problems {
@@ -91,12 +98,13 @@ $maxWidthTitleBlock: 780px;
 
 .accordion {
   width: 100%;
-  // max-width: calc($accordionMaxWidth + 2 * $paddingMedium);
   padding: 0 $paddingMedium;
 }
 
 .triesContainer {
   padding: $paddingLarge;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--primaryBgColor);
   gap: $gapLarge;
 }
 

@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import {TrackHeader} from "src/analytics/headerAnalytics";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
@@ -67,6 +68,7 @@ interface HeaderLandingProps {
  * Header landing
  */
 export const HeaderLanding = (props: HeaderLandingProps) => {
+  const navigate = useNavigate();
 
   return (
     <header className={styles.header}>
@@ -122,8 +124,8 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
 
         <Button
           buttonType={ButtonType.PRIMARY}
-          value={LanguageService.header.logoutButton[props.language]}
-          onClick={() => {}}
+          value={LanguageService.mentorsLanding.callToActionButton[props.language]}
+          onClick={() => navigate(pages.home.getPath({}))}
         />
       </HorizontalContainer>
     </header>

@@ -18,6 +18,16 @@
   text-align: center;
 }
 
+.iconWrapper {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--primaryBgColor);
+}
+
 .icon {
-  stroke: var(--primaryStrokeColor);
+  stroke: var(--generalPrimaryColor);
 }

@@ -5,6 +5,7 @@ import common from "src/dictionary/CommonContent.json";
 import errorContent from "src/dictionary/ErrorContent.json";
 import headerContent from "src/dictionary/Header.json";
 import homePageContent from "src/dictionary/HomePageContent.json";
+import mentorsLanding from "src/dictionary/landing/MentorsContent.json";
 import modals from "src/dictionary/Modals.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
@@ -91,6 +92,13 @@ export class LanguageService {
    */
   public static get common() {
     return common;
+  }
+
+  /**
+   * Mentor's landing content
+   */
+  public static get mentorsLanding() {
+    return mentorsLanding;
   }
 
   /**
