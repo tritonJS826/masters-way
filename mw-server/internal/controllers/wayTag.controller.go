@@ -51,7 +51,7 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 // @Produce  json
 // @Param wayTagId path string true "wayTag ID"
 // @Param wayId path string true "way ID"
-// @Success 200
+// @Success 204
 // @Router /wayTags/{wayTagId}/{wayId} [delete]
 func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	wayTagID := ctx.Param("wayTagId")
@@ -60,5 +60,5 @@ func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	err := cc.wayTagService.DeleteWayTagFromWayByTagID(ctx, wayTagID, wayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfuly deleted"})
+	ctx.Status(http.StatusNoContent)
 }

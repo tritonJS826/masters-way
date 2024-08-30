@@ -26,7 +26,7 @@ func NewPlanJobTagController(planJobTagService *services.PlanJobTagService) *Pla
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreatePlanJobTagPayload true "query params"
-// @Success 200
+// @Success 204
 // @Router /planJobTags [post]
 func (pc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 	var payload *schemas.CreatePlanJobTagPayload
@@ -36,10 +36,10 @@ func (pc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 		return
 	}
 
-	planJobTag, err := pc.planJobTagService.CreatePlanJobTag(ctx, payload)
+	_, err := pc.planJobTagService.CreatePlanJobTag(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, planJobTag)
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting PlanJobTag handlers
@@ -51,7 +51,7 @@ func (pc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 // @Produce  json
 // @Param jobTagId path string true "jobTag ID"
 // @Param planId path string true "plan ID"
-// @Success 200
+// @Success 204
 // @Router /planJobTags/{jobTagId}/{planId} [delete]
 func (pc *PlanJobTagController) DeletePlanJobTagById(ctx *gin.Context) {
 	planID := ctx.Param("planId")
@@ -60,5 +60,5 @@ func (pc *PlanJobTagController) DeletePlanJobTagById(ctx *gin.Context) {
 	err := pc.planJobTagService.DeletePlanJobTagById(ctx, planID, jobTagID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

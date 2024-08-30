@@ -25,7 +25,7 @@ func NewJobDoneJobTagController(jobDoneJobTagService *services.JobDoneJobTagServ
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateJobDoneJobTagPayload true "query params"
-// @Success 200
+// @Success 204
 // @Router /jobDoneJobTags [post]
 func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 	var payload *schemas.CreateJobDoneJobTagPayload
@@ -35,10 +35,10 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 		return
 	}
 
-	jobDoneJobTag, err := cc.jobDoneJobTagService.CreateJobDoneJobTag(ctx, payload)
+	_, err := cc.jobDoneJobTagService.CreateJobDoneJobTag(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, jobDoneJobTag)
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting JobDoneJobTag handlers
@@ -50,7 +50,7 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 // @Produce  json
 // @Param jobDoneId path string true "jobDone ID"
 // @Param jobTagId path string true "jobTag UUID"
-// @Success 200
+// @Success 204
 // @Router /jobDoneJobTags/{jobTagId}/{jobDoneId} [delete]
 func (jc *JobDoneJobTagController) DeleteJobDoneJobTagById(ctx *gin.Context) {
 	jobTagID := ctx.Param("jobTagId")
@@ -59,5 +59,5 @@ func (jc *JobDoneJobTagController) DeleteJobDoneJobTagById(ctx *gin.Context) {
 	err := jc.jobDoneJobTagService.DeleteJobDoneJobTagById(ctx, jobDoneID, jobTagID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

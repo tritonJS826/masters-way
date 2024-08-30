@@ -49,12 +49,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/util.ResponseStatusString'
-          description: OK
+        "204":
+          content: {}
+          description: No Content
       summary: Logout current authorized user
       tags:
       - auth
@@ -69,9 +66,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "307":
           content: {}
-          description: ok
+          description: Temporary Redirect
       summary: Begin oauth
       tags:
       - auth
@@ -92,9 +89,12 @@ paths:
         schema:
           type: string
       responses:
-        "200":
-          content: {}
-          description: OK
+        "302":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Redirect to frontend with JWT token
       summary: Log in with google oAuth
       tags:
       - auth
@@ -280,9 +280,9 @@ paths:
     get:
       description: resets db
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: resets db
       tags:
       - dev
@@ -297,9 +297,9 @@ paths:
         description: query params
         required: true
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Create a new favoriteUserWay
       tags:
       - favoriteUserWay
@@ -321,9 +321,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete favoriteUserWay by UUID
       tags:
       - favoriteUserWay
@@ -338,9 +338,9 @@ paths:
         description: query params
         required: true
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Create a new favorite user
       tags:
       - favoriteUser
@@ -362,9 +362,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete favoriteUser by UUID
       tags:
       - favoriteUser
@@ -462,12 +462,7 @@ paths:
       description: Get the health status of the API
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                additionalProperties:
-                  type: string
-                type: object
+          content: {}
           description: OK
       summary: Health Check
       tags:
@@ -483,9 +478,9 @@ paths:
         description: query params
         required: true
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Create a new jobDoneJobTag
       tags:
       - jobDoneJobTag
@@ -507,9 +502,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete jobDoneJobTag by UUID
       tags:
       - jobDoneJobTag
@@ -551,9 +546,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
         "403":
           content:
             application/json:
@@ -628,9 +623,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete jobTag by UUID
       tags:
       - jobTag
@@ -672,9 +667,9 @@ paths:
         description: query params
         required: true
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete mentorUserWay by UUID
       tags:
       - mentorUserWay
@@ -690,9 +685,9 @@ paths:
         description: query params
         required: true
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Create a new mentorUserWay
       tags:
       - mentorUserWay
@@ -729,9 +724,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete metric by UUID
       tags:
       - metric
@@ -773,9 +768,9 @@ paths:
         description: query params
         required: true
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Create a new planJobTag
       tags:
       - planJobTag
@@ -797,9 +792,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete planJobTag by UUID
       tags:
       - planJobTag
@@ -841,9 +836,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
         "403":
           content:
             application/json:
@@ -924,9 +919,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
         "403":
           content:
             application/json:
@@ -1007,9 +1002,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete toUserMentoringReques by UUID
       tags:
       - toUserMentoringRequest
@@ -1051,9 +1046,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete userTag by UUID
       tags:
       - userTag
@@ -1207,9 +1202,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete wayCollectionWay by UUID
       tags:
       - wayCollectionWay
@@ -1245,9 +1240,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete wayCollection by UUID
       tags:
       - wayCollection
@@ -1316,9 +1311,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete wayTag by UUID
       tags:
       - wayTag
@@ -1393,9 +1388,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete way by UUID
       tags:
       - way
@@ -4568,14 +4563,5 @@ components:
       required:
       - name
       - uuid
-      type: object
-    util.ResponseStatusString:
-      example:
-        status: status
-      properties:
-        status:
-          type: string
-      required:
-      - status
       type: object
 x-original-swagger-version: "2.0"

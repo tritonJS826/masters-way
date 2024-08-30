@@ -27,7 +27,7 @@ func NewMentorUserWayController(limitService *services.LimitService, mentorUserW
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateMentorUserWayPayload true "query params"
-// @Success 200
+// @Success 204
 // @Router /mentorUserWays [post]
 func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 	var payload *schemas.CreateMentorUserWayPayload
@@ -46,7 +46,7 @@ func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 	err = mc.mentorUserWayService.AddMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully added"})
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting mentorUserWay handlers
@@ -57,7 +57,7 @@ func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.DeleteMentorUserWayPayload true "query params"
-// @Success 200
+// @Success 204
 // @Router /mentorUserWays [delete]
 func (mc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 	var payload *schemas.DeleteMentorUserWayPayload
@@ -70,5 +70,5 @@ func (mc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 	err := mc.mentorUserWayService.DeleteMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

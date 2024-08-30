@@ -60,7 +60,7 @@ func (uc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 // @Produce  json
 // @Param userTagId path string true "userTag ID"
 // @Param userId path string true "user ID"
-// @Success 200
+// @Success 204
 // @Router /userTags/{userTagId}/{userId} [delete]
 func (uc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	userID := ctx.Param("userId")
@@ -69,5 +69,5 @@ func (uc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	err := uc.userTagService.DeleteUserTagByFromUserByTag(ctx, userID, userTagID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

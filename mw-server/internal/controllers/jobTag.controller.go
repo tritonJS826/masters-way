@@ -80,7 +80,7 @@ func (jc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param jobTagId path string true "jobTag ID"
-// @Success 200
+// @Success 204
 // @Router /jobTags/{jobTagId} [delete]
 func (jc *JobTagController) DeleteJobTagById(ctx *gin.Context) {
 	jobTagID := ctx.Param("jobTagId")
@@ -88,5 +88,5 @@ func (jc *JobTagController) DeleteJobTagById(ctx *gin.Context) {
 	err := jc.jobTagService.DeleteJobTagById(ctx, jobTagID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

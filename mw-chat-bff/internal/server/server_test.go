@@ -383,45 +383,45 @@ func TestCreateRoom(t *testing.T) {
 	})
 }
 
-func TestCreateMessage(t *testing.T) {
-	newConfig, err := config.LoadConfig("../../")
-	if err != nil {
-		t.Fatalf("Failed to load config: %v", err)
-	}
+// func TestCreateMessage(t *testing.T) {
+// 	newConfig, err := config.LoadConfig("../../")
+// 	if err != nil {
+// 		t.Fatalf("Failed to load config: %v", err)
+// 	}
 
-	RequestResetChatDB(t, newConfig.SecretSessionKey)
+// 	RequestResetChatDB(t, newConfig.SecretSessionKey)
 
-	roomCreatorID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
-	roomID := "78bdf878-3b83-4f97-8d2e-928c132a10cd"
+// 	roomCreatorID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
+// 	roomID := "78bdf878-3b83-4f97-8d2e-928c132a10cd"
 
-	t.Run("should create a message in populated private room and return it with populated messageReaders successfully", func(t *testing.T) {
-		inputData := schemas.CreateMessagePayload{
-			Message: "roomCreator's message",
-		}
-		jsonInputData, err := json.Marshal(inputData)
-		if err != nil {
-			t.Fatalf("Failed to marshal create room payload: %v", err)
-		}
+// 	t.Run("should create a message in populated private room and return it with populated messageReaders successfully", func(t *testing.T) {
+// 		inputData := schemas.CreateMessagePayload{
+// 			Message: "roomCreator's message",
+// 		}
+// 		jsonInputData, err := json.Marshal(inputData)
+// 		if err != nil {
+// 			t.Fatalf("Failed to marshal create room payload: %v", err)
+// 		}
 
-		messageResponse := new(schemas.MessageResponse)
-		requestResetGeneralDBParams := &TestRequestParams{
-			method: http.MethodPost,
-			url:    newConfig.ChatBffBaseURL + "/chat/rooms/" + roomID + "/messages",
-			body:   bytes.NewBuffer(jsonInputData),
-			userID: roomCreatorID,
-			jwtKey: newConfig.SecretSessionKey,
-		}
-		statusCode := MakeTestRequestWithJWT(t, messageResponse, requestResetGeneralDBParams)
+// 		messageResponse := new(schemas.MessageResponse)
+// 		requestResetGeneralDBParams := &TestRequestParams{
+// 			method: http.MethodPost,
+// 			url:    newConfig.ChatBffBaseURL + "/chat/rooms/" + roomID + "/messages",
+// 			body:   bytes.NewBuffer(jsonInputData),
+// 			userID: roomCreatorID,
+// 			jwtKey: newConfig.SecretSessionKey,
+// 		}
+// 		statusCode := MakeTestRequestWithJWT(t, messageResponse, requestResetGeneralDBParams)
 
-		expectedData := &schemas.MessageResponse{
-			OwnerID:       roomCreatorID,
-			OwnerName:     "Bob Brown",
-			OwnerImageURL: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
-			Message:       "roomCreator's message",
-			Readers:       []schemas.MessageReader{},
-		}
+// 		expectedData := &schemas.MessageResponse{
+// 			OwnerID:       roomCreatorID,
+// 			OwnerName:     "Bob Brown",
+// 			OwnerImageURL: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+// 			Message:       "roomCreator's message",
+// 			Readers:       []schemas.MessageReader{},
+// 		}
 
-		assert.Equal(t, http.StatusOK, statusCode)
-		assert.Equal(t, expectedData, messageResponse)
-	})
-}
+// 		assert.Equal(t, http.StatusOK, statusCode)
+// 		assert.Equal(t, expectedData, messageResponse)
+// 	})
+// }

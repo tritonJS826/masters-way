@@ -51,7 +51,7 @@ func (fc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 // @Produce  json
 // @Param userUuid path string true "user UUID"
 // @Param wayUuid path string true "way UUID"
-// @Success 200
+// @Success 204
 // @Router /fromUserMentoringRequests/{userUuid}/{wayUuid} [delete]
 func (fumrc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestById(ctx *gin.Context) {
 	userID := ctx.Param("userUuid")
@@ -60,5 +60,5 @@ func (fumrc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestB
 	err := fumrc.fromUserMentoringRequestService.DeleteFromUserMentoringRequestById(ctx, userID, wayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

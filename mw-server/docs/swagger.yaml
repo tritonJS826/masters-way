@@ -1146,13 +1146,6 @@ definitions:
     - name
     - uuid
     type: object
-  util.ResponseStatusString:
-    properties:
-      status:
-        type: string
-    required:
-    - status
-    type: object
 info:
   contact: {}
   title: Masters way general API
@@ -1172,8 +1165,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: ok
+        "307":
+          description: Temporary Redirect
       summary: Begin oauth
       tags:
       - auth
@@ -1196,8 +1189,10 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "302":
+          description: Redirect to frontend with JWT token
+          schema:
+            type: string
       summary: Log in with google oAuth
       tags:
       - auth
@@ -1250,10 +1245,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/util.ResponseStatusString'
+        "204":
+          description: No Content
       summary: Logout current authorized user
       tags:
       - auth
@@ -1437,8 +1430,8 @@ paths:
     get:
       description: resets db
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: resets db
       tags:
       - dev
@@ -1457,8 +1450,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Create a new favoriteUserWay
       tags:
       - favoriteUserWay
@@ -1481,8 +1474,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete favoriteUserWay by UUID
       tags:
       - favoriteUserWay
@@ -1501,8 +1494,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Create a new favorite user
       tags:
       - favoriteUser
@@ -1525,8 +1518,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete favoriteUser by UUID
       tags:
       - favoriteUser
@@ -1633,10 +1626,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       summary: Health Check
       tags:
       - Health
@@ -1655,8 +1644,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Create a new jobDoneJobTag
       tags:
       - jobDoneJobTag
@@ -1679,8 +1668,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete jobDoneJobTag by UUID
       tags:
       - jobDoneJobTag
@@ -1724,8 +1713,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
         "403":
           description: User doesn't have rights to delete job done.
           schema:
@@ -1799,8 +1788,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete jobTag by UUID
       tags:
       - jobTag
@@ -1845,8 +1834,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete mentorUserWay by UUID
       tags:
       - mentorUserWay
@@ -1865,8 +1854,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Create a new mentorUserWay
       tags:
       - mentorUserWay
@@ -1906,8 +1895,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete metric by UUID
       tags:
       - metric
@@ -1952,8 +1941,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Create a new planJobTag
       tags:
       - planJobTag
@@ -1976,8 +1965,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete planJobTag by UUID
       tags:
       - planJobTag
@@ -2021,8 +2010,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
         "403":
           description: User doesn't have rights to delete plan.
           schema:
@@ -2100,8 +2089,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
         "403":
           description: User doesn't have rights to delete problem.
           schema:
@@ -2180,8 +2169,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete toUserMentoringReques by UUID
       tags:
       - toUserMentoringRequest
@@ -2226,8 +2215,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete userTag by UUID
       tags:
       - userTag
@@ -2382,8 +2371,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete wayCollectionWay by UUID
       tags:
       - wayCollectionWay
@@ -2423,8 +2412,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete wayCollection by UUID
       tags:
       - wayCollection
@@ -2495,8 +2484,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete wayTag by UUID
       tags:
       - wayTag
@@ -2572,8 +2561,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete way by UUID
       tags:
       - way

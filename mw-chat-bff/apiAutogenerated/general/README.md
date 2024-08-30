@@ -214,7 +214,6 @@ Class | Method | HTTP request | Description
  - [SchemasWayStatistics](docs/SchemasWayStatistics.md)
  - [SchemasWayStatisticsTriplePeriod](docs/SchemasWayStatisticsTriplePeriod.md)
  - [SchemasWayTagResponse](docs/SchemasWayTagResponse.md)
- - [UtilResponseStatusString](docs/UtilResponseStatusString.md)
 
 
 ## Documentation For Authorization

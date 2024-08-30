@@ -18,8 +18,8 @@ func NewHealthCheckController() *HealthCheckController {
 // @Tags Health
 // @Accept json
 // @Produce json
-// @Success 200 {object} map[string]string
+// @Success 204
 // @Router /healthcheck [get]
 func (cc *HealthCheckController) GetAPIHealthStatus(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"message": "The way APi is working fine"})
+	ctx.Status(http.StatusNoContent)
 }

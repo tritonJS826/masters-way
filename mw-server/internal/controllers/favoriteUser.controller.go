@@ -26,7 +26,7 @@ func NewFavoriteUserController(favoriteUserService *services.FavoriteUserService
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateFavoriteUserPayload true "query params"
-// @Success 200
+// @Success 204
 // @Router /favoriteUsers [post]
 func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 	var payload *schemas.CreateFavoriteUserPayload
@@ -36,10 +36,10 @@ func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		return
 	}
 
-	favoriteUser, err := fuc.favoriteUserService.CreateFavoriteUser(ctx, payload.DonorUserUuid, payload.AcceptorUserUuid)
+	_, err := fuc.favoriteUserService.CreateFavoriteUser(ctx, payload.DonorUserUuid, payload.AcceptorUserUuid)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, favoriteUser)
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting favorite user handlers
@@ -51,7 +51,7 @@ func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 // @Produce  json
 // @Param donorUserUuid path string true "donorUser UUID"
 // @Param acceptorUserUuid path string true "acceptorUser UUID"
-// @Success 200
+// @Success 204
 // @Router /favoriteUsers/{donorUserUuid}/{acceptorUserUuid} [delete]
 func (fuc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 	donorUserUuid := ctx.Param("donorUserUuid")
@@ -60,5 +60,5 @@ func (fuc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 	err := fuc.favoriteUserService.DeleteFavoriteUserById(ctx, donorUserUuid, acceptorUserUuid)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

@@ -93,6 +93,5 @@ models/SchemasWayPopulatedResponse.ts
 models/SchemasWayStatistics.ts
 models/SchemasWayStatisticsTriplePeriod.ts
 models/SchemasWayTagResponse.ts
-models/UtilResponseStatusString.ts
 models/index.ts
 runtime.ts

@@ -97,7 +97,7 @@ func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param planId path string true "plan ID"
-// @Success 200
+// @Success 204
 // @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete plan."
 // @Router /plans/{planId} [delete]
 func (pc *PlanController) DeletePlanById(ctx *gin.Context) {
@@ -112,5 +112,5 @@ func (pc *PlanController) DeletePlanById(ctx *gin.Context) {
 	err = pc.planService.DeletePlanById(ctx, planID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

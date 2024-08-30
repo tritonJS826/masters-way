@@ -95,7 +95,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param commentId path string true "comment ID"
-// @Success 200
+// @Success 204
 // @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete comment."
 // @Router /comments/{commentId} [delete]
 func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {

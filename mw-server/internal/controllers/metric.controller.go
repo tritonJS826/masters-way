@@ -88,7 +88,7 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param metricId path string true "metric ID"
-// @Success 200
+// @Success 204
 // @Router /metrics/{metricId} [delete]
 func (mc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricID := ctx.Param("metricId")
@@ -99,5 +99,5 @@ func (mc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, wayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

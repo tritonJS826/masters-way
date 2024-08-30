@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"mwserver/internal/auth"
 	"mwserver/internal/config"
 	"mwserver/internal/services"
@@ -31,7 +32,7 @@ func NewAuthController(authService *services.AuthService, userService *services.
 // @Produce  json
 // @Param state query string true "state parameter"
 // @Param provider path string true "google"
-// @Success 200
+// @Success 302 {string} string "Redirect to frontend with JWT token"
 // @Router /auth/{provider}/callback [post]
 func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	code := ctx.Query("code")
@@ -71,13 +72,11 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param provider path string true "google"
-// @Success 200 "ok"
+// @Success 307
 // @Router /auth/{provider} [get]
 func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 	url := ac.authService.GetGoogleAuthURL()
 	ctx.Redirect(http.StatusTemporaryRedirect, url)
-
-	ctx.JSON(http.StatusOK, "ok")
 }
 
 // @Summary Get current authorized user
@@ -137,11 +136,11 @@ func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param provider path string true "google"
-// @Success 200 {object} util.ResponseStatusString
+// @Success 204
 // @Router /auth/logout/{provider} [get]
 func (ac *AuthController) Logout(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
+	fmt.Println(userIDRaw.(string))
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "Ok" + userID})
+	ctx.Status(http.StatusNoContent)
 }

@@ -84,7 +84,7 @@ func (wc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayCollectionId path string true "wayCollection ID"
-// @Success 200
+// @Success 204
 // @Router /wayCollections/{wayCollectionId} [delete]
 func (wc *WayCollectionController) DeleteWayCollectionById(ctx *gin.Context) {
 	wayCollectionID := ctx.Param("wayCollectionId")
@@ -92,5 +92,5 @@ func (wc *WayCollectionController) DeleteWayCollectionById(ctx *gin.Context) {
 	err := wc.wayCollectionService.DeleteWayCollectionById(ctx, wayCollectionID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

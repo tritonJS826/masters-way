@@ -96,7 +96,7 @@ func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param problemId path string true "problem ID"
-// @Success 200
+// @Success 204
 // @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete problem."
 // @Router /problems/{problemId} [delete]
 func (pc *ProblemController) DeleteProblemById(ctx *gin.Context) {
@@ -111,5 +111,5 @@ func (pc *ProblemController) DeleteProblemById(ctx *gin.Context) {
 	err = pc.problemService.DeleteProblemById(ctx, problemID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

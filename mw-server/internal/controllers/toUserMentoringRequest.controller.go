@@ -51,7 +51,7 @@ func (tc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gi
 // @Produce  json
 // @Param userUuid path string true "user UUID"
 // @Param wayUuid path string true "way UUID"
-// @Success 200
+// @Success 204
 // @Router /toUserMentoringRequests/{userUuid}/{wayUuid} [delete]
 func (tc *ToUserMentoringRequestController) DeleteToUserMentoringRequestById(ctx *gin.Context) {
 	userID := ctx.Param("userUuid")
@@ -60,5 +60,5 @@ func (tc *ToUserMentoringRequestController) DeleteToUserMentoringRequestById(ctx
 	err := tc.toUserMentoringRequestService.DeleteToUserMentoringRequestById(ctx, userID, wayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

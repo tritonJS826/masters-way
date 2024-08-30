@@ -177,7 +177,7 @@ func (wc *WayController) GetAllWays(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayId path string true "way ID"
-// @Success 200
+// @Success 204
 // @Router /ways/{wayId} [delete]
 func (wc *WayController) DeleteWayById(ctx *gin.Context) {
 	wayID := ctx.Param("wayId")
@@ -185,7 +185,7 @@ func (wc *WayController) DeleteWayById(ctx *gin.Context) {
 	err := wc.wayService.DeleteWayById(ctx, wayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfuly deleted"})
+	ctx.Status(http.StatusNoContent)
 }
 
 // Get way statistics

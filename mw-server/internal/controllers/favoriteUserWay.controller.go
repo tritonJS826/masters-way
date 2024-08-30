@@ -26,7 +26,7 @@ func NewFavoriteUserWayController(favoriteUserWayService *services.FavoriteUserW
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateFavoriteUserWayPayload true "query params"
-// @Success 200
+// @Success 204
 // @Router /favoriteUserWays [post]
 func (fuwc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 	var payload *schemas.CreateFavoriteUserWayPayload
@@ -36,10 +36,10 @@ func (fuwc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 		return
 	}
 
-	favoriteUserWay, err := fuwc.favoriteUserWayService.CreateFavoriteUserWay(ctx, payload.UserUuid, payload.WayUuid)
+	_, err := fuwc.favoriteUserWayService.CreateFavoriteUserWay(ctx, payload.UserUuid, payload.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, favoriteUserWay)
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting favoriteUserWay handlers
@@ -51,7 +51,7 @@ func (fuwc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 // @Produce  json
 // @Param userUuid path string true "user UUID"
 // @Param wayUuid path string true "way ID"
-// @Success 200
+// @Success 204
 // @Router /favoriteUserWays/{userUuid}/{wayUuid} [delete]
 func (fuwc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Context) {
 	userID := ctx.Param("userUuid")
@@ -60,5 +60,5 @@ func (fuwc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Contex
 	err := fuwc.favoriteUserWayService.DeleteFavoriteUserWayById(ctx, userID, wayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

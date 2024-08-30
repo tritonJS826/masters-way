@@ -54,7 +54,7 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 // @Produce  json
 // @Param parentWayId path string true "parentWay ID"
 // @Param childWayId path string true "childWay ID"
-// @Success 200
+// @Success 204
 // @Router /compositeWay/{parentWayId}/{childWayId} [delete]
 func (cwc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) {
 	parentWayID := ctx.Param("parentWayId")
@@ -63,5 +63,5 @@ func (cwc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) 
 	err := cwc.compositeWayService.DeleteCompositeWayRelation(ctx, parentWayID, childWayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }

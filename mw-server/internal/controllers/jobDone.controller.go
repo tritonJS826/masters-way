@@ -95,7 +95,7 @@ func (jdc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param jobDoneId path string true "jobDone ID"
-// @Success 200
+// @Success 204
 // @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete job done."
 // @Router /jobDones/{jobDoneId} [delete]
 func (jdc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
@@ -110,5 +110,5 @@ func (jdc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	err = jdc.jobDoneService.DeleteJobDoneById(ctx, jobDoneID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
+	ctx.Status(http.StatusNoContent)
 }
