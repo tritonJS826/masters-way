@@ -70,7 +70,7 @@ runChatWebsocketIfChanged () {
   then
     echo "mw-chat-websocket changed. checking..."
     pnpm chat-websocket:build
-    # pnpm server:test
+    pnpm server:test
   fi
 }
 
