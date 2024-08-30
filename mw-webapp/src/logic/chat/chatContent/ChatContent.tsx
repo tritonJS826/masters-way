@@ -354,8 +354,8 @@ export const ChatContent = observer(() => {
             />
             <Button
               value={LanguageService.common.chat.sendButton[language]}
-              onClick={() => {
-                sendMessage({
+              onClick={async () => {
+                await sendMessage({
                   message: activeChatStore.message,
                   roomId: activeChatStore.activeChat.roomId,
                 });
