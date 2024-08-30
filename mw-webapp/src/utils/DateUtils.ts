@@ -88,4 +88,11 @@ export class DateUtils {
     return a.getTime() - b.getTime();
   }
 
+  /**
+   * Dates ascendant sorter
+   */
+  public static datesDESCSorter(a: Date, b: Date) {
+    return b.getTime() - a.getTime();
+  }
+
 }

@@ -15,6 +15,7 @@ import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/WayChildrenList/WayChildrenList.module.scss";
 
 /**
@@ -42,28 +43,28 @@ interface WayChildrenListProps {
 const LEVEL_INCREMENT = 1;
 
 /**
+ * Recursively sorts an array of WayWithoutDayReports objects by their lastUpdate date
+ */
+const sortWayChildren = (children: WayWithoutDayReports[]): WayWithoutDayReports[] => {
+  const sortedChildrenItem = children
+    .map(child => {
+      const updatedChild = {
+        ...child,
+        children: child.children ? sortWayChildren(child.children) : [],
+      } as WayWithoutDayReports;
+
+      return updatedChild;
+    })
+    .sort((a, b) => DateUtils.datesDESCSorter(a.lastUpdate, b.lastUpdate));
+
+  return sortedChildrenItem;
+};
+
+/**
  * Item for way children list
  */
 export const WayChildrenList = (props: WayChildrenListProps) => {
   const {language} = languageStore;
-
-  /**
-   * Sort way children
-   */
-  const sortWayChildren = (children: WayWithoutDayReports[]): WayWithoutDayReports[] => {
-    const sortedChildrenItem = children
-      .map(child => {
-        const updatedChild = {
-          ...child,
-          children: child.children ? sortWayChildren(child.children) : [],
-        } as WayWithoutDayReports;
-
-        return updatedChild;
-      })
-      .sort((a, b) => new Date(b.lastUpdate).getTime() - new Date(a.lastUpdate).getTime());
-
-    return sortedChildrenItem;
-  };
 
   /**
    * ChildrenItem
@@ -133,13 +134,11 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
           </HorizontalContainer>
           <Separator />
 
-          {child.children && child.children.length > 0 && (
-            <WayChildrenList
-              way={child}
-              level={props.level + LEVEL_INCREMENT}
-              isOwner={props.isOwner}
-            />
-          )}
+          <WayChildrenList
+            way={child}
+            level={props.level + LEVEL_INCREMENT}
+            isOwner={props.isOwner}
+          />
         </VerticalContainer>
       </div>
     );
