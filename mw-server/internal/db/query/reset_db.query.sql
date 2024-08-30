@@ -185,7 +185,9 @@ VALUES
     ('60e7860d-58d9-4035-93d0-9bb825fe734c', 'meeting 1:1', 'this is not my tag', 'red', '550e8400-e29b-41d4-a716-446655440000'),
     ('2461357d-f2f0-43a7-9f1d-79fd1eaa64f5', 'general meeting', 'this is not my tag', 'yellow', '550e8400-e29b-41d4-a716-446655440000'),
 
-    ('b65b5720-4011-49ab-bf1f-ca8e2b87d88c', 'test label 1', 'this is not my tag', 'red', 'd6d46085-8ce6-4df1-8463-3e469c240076');
+    ('b65b5720-4011-49ab-bf1f-ca8e2b87d88c', 'test label 1', 'this is not my tag', 'red', 'd6d46085-8ce6-4df1-8463-3e469c240076'),
+    
+    ('60c1d2ff-37ea-4a30-978b-c3d633317370', 'test label 2', 'this is not my tag', 'green', '1d922e8a-5d58-4b82-9a3d-83e2e73b3f91');
 
 INSERT INTO "plans" ("uuid", "description", "time", "owner_uuid", "is_done", "day_report_uuid", "created_at", "updated_at")
 VALUES
@@ -193,7 +195,7 @@ VALUES
 
 INSERT INTO "plans_job_tags" ("plan_uuid", "job_tag_uuid")
 VALUES
-    ('18cbbee6-5071-4608-b349-ffad514711cb', '5ebb8d43-b685-4090-8453-ceaa7aad2095');
+    ('18cbbee6-5071-4608-b349-ffad514711cb', '60c1d2ff-37ea-4a30-978b-c3d633317370');
 
 INSERT INTO "job_dones" ("uuid", "description", "time", "owner_uuid", "day_report_uuid", "created_at", "updated_at")
 VALUES

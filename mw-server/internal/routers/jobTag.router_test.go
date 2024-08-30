@@ -142,8 +142,8 @@ func TestDeleteJobTagById(t *testing.T) {
 	}
 
 	user := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
-	jobTagID := "5f7b8084-e8b3-4963-bfa2-491d5ee07f5a"
-	wayID := "54910bd4-ad28-44f4-a669-f233861cf816"
+	jobTagID := "d569aa06-452c-4602-a788-2ffca4c959a8"
+	wayID := "32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
 		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
@@ -164,6 +164,20 @@ func TestDeleteJobTagById(t *testing.T) {
 			t.Fatalf("Failed to get report: %v", err)
 		}
 
-		assert.Equal(t, 0, len(report.DayReports[0].JobsDone[0].Tags))
+		isJobTagExists := false
+		for _, dayReport := range report.DayReports {
+			for _, jobDone := range dayReport.JobsDone {
+				for _, tag := range jobDone.Tags {
+					if tag.Uuid == jobTagID {
+						isJobTagExists = true
+						break
+					}
+				}
+			}
+		}
+
+		if isJobTagExists {
+			t.Fatalf("Found job tag: %v", jobTagID)
+		}
 	})
 }

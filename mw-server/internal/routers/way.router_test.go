@@ -148,7 +148,7 @@ func TestGetAllWays(t *testing.T) {
 						CreatedAt:   "2024-07-08T05:10:00.000Z",
 						Description: "A brief description about Alice.",
 						Email:       "alice.johnson@example.com",
-						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
+						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
 						IsMentor:    true,
 						Name:        "Alice Johnson",
 						Uuid:        "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
@@ -175,13 +175,89 @@ func TestGetAllWays(t *testing.T) {
 						CreatedAt:   "2024-07-08T05:10:00.000Z",
 						Description: "A brief description about Alice.",
 						Email:       "alice.johnson@example.com",
-						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
+						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
 						IsMentor:    true,
 						Name:        "Alice Johnson",
 						Uuid:        "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
 					},
 					UpdatedAt: "2024-07-22T00:00:00.000Z",
 					Uuid:      "78f86c77-2018-4511-90dc-d96df77f496a",
+					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+				},
+				{
+					ChildrenUuids: []string{
+						"550e8400-e29b-41d4-a716-446655440000",
+					},
+					CopiedFromWayUuid: copiedFromWayUuid,
+					CreatedAt:         "2024-07-09T00:00:00.000Z",
+					DayReportsAmount:  0,
+					EstimationTime:    20202020,
+					FavoriteForUsers:  1,
+					GoalDescription:   "jane smith goal",
+					IsCompleted:       true,
+					IsPrivate:         false,
+					Mentors: []openapiGeneral.SchemasUserPlainResponse{
+						{
+							CreatedAt:   "2024-07-08T05:10:00.000Z",
+							Description: "A brief description about Alice.",
+							Email:       "alice.johnson@example.com",
+							ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+							IsMentor:    true,
+							Name:        "Alice Johnson",
+							Uuid:        "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
+						},
+					},
+					MetricsDone:  0,
+					MetricsTotal: 0,
+					Name:         "jane smith way",
+					Owner: openapiGeneral.SchemasUserPlainResponse{
+						CreatedAt:   "2024-07-08T05:50:00.000Z",
+						Description: "A brief description about Jane.",
+						Email:       "jane.smith@example.com",
+						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+						IsMentor:    true,
+						Name:        "Jane Smith",
+						Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
+					},
+					UpdatedAt: "2024-07-09T00:00:00.000Z",
+					Uuid:      "9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
+					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+				},
+				{
+					ChildrenUuids:     []string{},
+					CopiedFromWayUuid: copiedFromWayUuid,
+					CreatedAt:         "2024-07-09T00:00:00.000Z",
+					DayReportsAmount:  0,
+					EstimationTime:    20202020,
+					FavoriteForUsers:  0,
+					GoalDescription:   "jane smith goal 1",
+					IsCompleted:       false,
+					IsPrivate:         false,
+					Mentors: []openapiGeneral.SchemasUserPlainResponse{
+						{
+							CreatedAt:   "2024-07-08T05:50:00.000Z",
+							Description: "A brief description about Jane.",
+							Email:       "jane.smith@example.com",
+							ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+							IsMentor:    true,
+							Name:        "Jane Smith",
+							Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
+						},
+					},
+					MetricsDone:  0,
+					MetricsTotal: 0,
+					Name:         "jane smith way 1",
+					Owner: openapiGeneral.SchemasUserPlainResponse{
+						CreatedAt:   "2024-07-08T05:50:00.000Z",
+						Description: "A brief description about Jane.",
+						Email:       "jane.smith@example.com",
+						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+						IsMentor:    true,
+						Name:        "Jane Smith",
+						Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
+					},
+					UpdatedAt: "2024-07-09T00:00:00.000Z",
+					Uuid:      "dce03ca6-f626-4c33-a44b-5a1b4ff62aa7",
 					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
 				},
 				{
@@ -202,7 +278,7 @@ func TestGetAllWays(t *testing.T) {
 						CreatedAt:   "2024-07-06T10:00:00.000Z",
 						Description: "A brief description about Ronnie.",
 						Email:       "ronnie.stanton@example.com",
-						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
+						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAN",
 						IsMentor:    false,
 						Name:        "Ronnie Stanton",
 						Uuid:        "d63d2f89-6412-4324-8587-7061bf02dca4",
@@ -216,80 +292,6 @@ func TestGetAllWays(t *testing.T) {
 					CopiedFromWayUuid: copiedFromWayUuid,
 					CreatedAt:         "2024-07-09T00:00:00.000Z",
 					DayReportsAmount:  0,
-					EstimationTime:    20202020,
-					FavoriteForUsers:  0,
-					GoalDescription:   "jane smith goal",
-					IsCompleted:       true,
-					IsPrivate:         false,
-					Mentors: []openapiGeneral.SchemasUserPlainResponse{
-						{
-							CreatedAt:   "2024-07-08T05:10:00.000Z",
-							Description: "A brief description about Alice.",
-							Email:       "alice.johnson@example.com",
-							ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
-							IsMentor:    true,
-							Name:        "Alice Johnson",
-							Uuid:        "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
-						},
-					},
-					MetricsDone:  0,
-					MetricsTotal: 0,
-					Name:         "jane smith way",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
-						CreatedAt:   "2024-07-08T05:50:00.000Z",
-						Description: "A brief description about Jane.",
-						Email:       "jane.smith@example.com",
-						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
-						IsMentor:    true,
-						Name:        "Jane Smith",
-						Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
-					},
-					UpdatedAt: "2024-07-09T00:00:00.000Z",
-					Uuid:      "9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
-				},
-				{
-					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
-					CreatedAt:         "2024-07-09T00:00:00.000Z",
-					DayReportsAmount:  1,
-					EstimationTime:    20202020,
-					FavoriteForUsers:  0,
-					GoalDescription:   "jane smith goal 1",
-					IsCompleted:       false,
-					IsPrivate:         false,
-					Mentors: []openapiGeneral.SchemasUserPlainResponse{
-						{
-							CreatedAt:   "2024-07-08T05:50:00.000Z",
-							Description: "A brief description about Jane.",
-							Email:       "jane.smith@example.com",
-							ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
-							IsMentor:    true,
-							Name:        "Jane Smith",
-							Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
-						},
-					},
-					MetricsDone:  0,
-					MetricsTotal: 0,
-					Name:         "jane smith way 1",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
-						CreatedAt:   "2024-07-08T05:50:00.000Z",
-						Description: "A brief description about Jane.",
-						Email:       "jane.smith@example.com",
-						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
-						IsMentor:    true,
-						Name:        "Jane Smith",
-						Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
-					},
-					UpdatedAt: "2024-07-09T00:00:00.000Z",
-					Uuid:      "dce03ca6-f626-4c33-a44b-5a1b4ff62aa7",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
-				},
-				{
-					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
-					CreatedAt:         "2024-07-09T00:00:00.000Z",
-					DayReportsAmount:  2,
 					EstimationTime:    40404040,
 					FavoriteForUsers:  0,
 					GoalDescription:   "bob brown goal 2",
@@ -303,7 +305,7 @@ func TestGetAllWays(t *testing.T) {
 						CreatedAt:   "2024-07-07T00:40:00.000Z",
 						Description: "A brief description about Bob.",
 						Email:       "bob.brown@example.com",
-						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
+						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
 						IsMentor:    false,
 						Name:        "Bob Brown",
 						Uuid:        "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
@@ -316,21 +318,40 @@ func TestGetAllWays(t *testing.T) {
 					ChildrenUuids:     []string{},
 					CopiedFromWayUuid: copiedFromWayUuid,
 					CreatedAt:         "2024-07-09T00:00:00.000Z",
-					DayReportsAmount:  2,
+					DayReportsAmount:  0,
 					EstimationTime:    40404040,
 					FavoriteForUsers:  0,
-					GoalDescription:   "bob brown goal 2",
+					GoalDescription:   "bob brown goal 1",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
-					MetricsDone:       0,
-					MetricsTotal:      0,
-					Name:              "bob brown way 1",
+					Mentors: []openapiGeneral.SchemasUserPlainResponse{
+						{
+							CreatedAt:   "2024-07-08T05:50:00.000Z",
+							Description: "A brief description about Jane.",
+							Email:       "jane.smith@example.com",
+							ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+							IsMentor:    true,
+							Name:        "Jane Smith",
+							Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
+						},
+						{
+							CreatedAt:   "2024-07-06T05:00:00.000Z",
+							Description: "A brief description about Dana.",
+							Email:       "dana.evans@example.com",
+							ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+							IsMentor:    true,
+							Name:        "Dana Evans",
+							Uuid:        "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
+						},
+					},
+					MetricsDone:  0,
+					MetricsTotal: 0,
+					Name:         "bob brown way 1",
 					Owner: openapiGeneral.SchemasUserPlainResponse{
 						CreatedAt:   "2024-07-07T00:40:00.000Z",
 						Description: "A brief description about Bob.",
 						Email:       "bob.brown@example.com",
-						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
+						ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
 						IsMentor:    false,
 						Name:        "Bob Brown",
 						Uuid:        "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
@@ -344,7 +365,7 @@ func TestGetAllWays(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		assert.Equal(t, expectedData.Size, ways.Size)
-		assert.Equal(t, []openapiGeneral.SchemasWayPlainResponse{expectedData.Ways[0]}, []openapiGeneral.SchemasWayPlainResponse{ways.Ways[0]})
+		assert.ElementsMatch(t, expectedData.Ways, ways.Ways)
 	})
 }
 
@@ -447,7 +468,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 			t.Fatalf("Failed to get way statistics: %v", err)
 		}
 
-		expectedData := openapiGeneral.SchemasWayStatisticsTriplePeriod{
+		expectedData := &openapiGeneral.SchemasWayStatisticsTriplePeriod{
 			TotalTime: openapiGeneral.SchemasWayStatistics{
 				TimeSpentByDayChart: []openapiGeneral.SchemasTimeSpentByDayPoint{
 					{Date: "2024-07-09T00:00:00.000Z", Value: 0},
@@ -708,7 +729,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.ElementsMatch(t, []openapiGeneral.SchemasWayStatisticsTriplePeriod{expectedData}, []openapiGeneral.SchemasWayStatisticsTriplePeriod{*wayStatistics})
+		assert.Equal(t, expectedData, wayStatistics)
 	})
 }
 

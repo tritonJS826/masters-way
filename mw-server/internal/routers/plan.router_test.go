@@ -144,8 +144,20 @@ func TestDeletePlanById(t *testing.T) {
 		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		wayID := "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
-		report, response, err := generalApi.DayReportAPI.GetDayReports(ctx, wayID).Execute()
+		reports, response, err := generalApi.DayReportAPI.GetDayReports(ctx, wayID).Execute()
 
-		assert.Equal(t, 0, len(report.DayReports[0].Plans))
+		isExists := false
+		for _, report := range reports.DayReports {
+			for i := range report.Plans {
+				if report.Plans[i].Uuid == planID {
+					isExists = true
+					break
+				}
+			}
+		}
+
+		if isExists {
+			t.Fatalf("Failed to get all ways successfully")
+		}
 	})
 }

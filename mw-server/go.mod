@@ -9,6 +9,7 @@ require (
 	github.com/gin-contrib/cors v1.7.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/generative-ai-go v0.16.0
+	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/markbates/goth v1.79.0

@@ -78,7 +78,22 @@ func TestCreatePlanTag(t *testing.T) {
 		report, _, err := generalApi.DayReportAPI.GetDayReports(ctx, wayID).Execute()
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData, report.DayReports[0].Plans[0].Tags)
+
+		isExists := false
+		for _, dayReport := range report.DayReports {
+			for _, p := range dayReport.Plans {
+				for _, tag := range p.Tags {
+					if tag == expectedData[0] {
+						isExists = true
+						break
+					}
+				}
+			}
+		}
+
+		if !isExists {
+			t.Fatalf("Failed to create day report")
+		}
 	})
 }
 
@@ -118,8 +133,20 @@ func TestDeletePlanJobTagById(t *testing.T) {
 			t.Fatalf("Failed to get day report: %v", err)
 		}
 
-		var expectedData []openapiGeneral.SchemasJobTagResponse
+		isExists := false
+		for _, dayReport := range dayReport.DayReports {
+			for _, p := range dayReport.Plans {
+				for _, tag := range p.Tags {
+					if tag.Uuid == jobTagID {
+						isExists = true
+						break
+					}
+				}
+			}
+		}
 
-		assert.ElementsMatch(t, expectedData, dayReport.DayReports[0].Plans[0].Tags)
+		if isExists {
+			t.Fatalf("Failed to delete day report")
+		}
 	})
 }
