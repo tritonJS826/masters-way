@@ -19,7 +19,8 @@ export const Default: Story = {
     review: "Отзыв клиента. Используйте 1–2 предложения в 2–4 строчки, так как здесь используется центральное выравнивание. \
       При большем количестве текста используйте другой тип выравнивания контента",
     reviewerImageUrl: "src/assets/storybook-images/kittens.jpg",
-    reviewerName: "Mentor",
+    reviewerName: "Vasya",
+    reviewerProfession: "React, TS mentor",
   },
   render: (args) => (
     <BrowserRouter>

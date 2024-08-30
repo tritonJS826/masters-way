@@ -30,7 +30,7 @@ export const Default: Story = {args: {items: itemsExample}};
 
 export const MultipleMode: Story = {
   args: {
-    type: accordionTypes.multiple,
+    type: accordionTypes.MULTIPLE,
     className: "accordion-example",
     items: itemsExample,
   },
@@ -38,7 +38,7 @@ export const MultipleMode: Story = {
 
 export const SingleItem: Story = {
   args: {
-    type: accordionTypes.multiple,
+    type: accordionTypes.MULTIPLE,
     className: "accordion-example",
     items: [
       {

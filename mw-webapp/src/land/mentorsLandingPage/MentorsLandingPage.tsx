@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
@@ -13,28 +14,10 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {HeaderLanding, NavLink} from "src/land/headerLanding/HeaderLanding";
 import {ProblemItem} from "src/land/mentorsLandingPage/problemItem/ProblemItem";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/land/mentorsLandingPage/MentorsLandingPage.module.scss";
-
-const navList: NavLink[] = [
-  {
-    path: "advantages",
-    value: "Advantages",
-  },
-  {
-    path: "problems",
-    value: "Problems",
-  },
-  {
-    path: "reviews",
-    value: "Reviews",
-  },
-  {
-    path: "questions",
-    value: "Questions",
-  },
-];
 
 /**
  * Mentors landing page
@@ -43,9 +26,30 @@ export const MentorsLandingPage = observer(() => {
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
 
-  const accordionItems = LanguageService.aboutProject.accordion.map((data) => ({
-    trigger: {child: data.header[language]},
-    content: {child: renderMarkdown(data.description[language])},
+  const navigate = useNavigate();
+
+  const navList: NavLink[] = [
+    {
+      path: "advantages",
+      value: LanguageService.mentorsLanding.navigation.advantages[language],
+    },
+    {
+      path: "problems",
+      value: LanguageService.mentorsLanding.navigation.solutions[language],
+    },
+    {
+      path: "reviews",
+      value: LanguageService.mentorsLanding.navigation.reviews[language],
+    },
+    {
+      path: "questions",
+      value: LanguageService.mentorsLanding.navigation.questions[language],
+    },
+  ];
+
+  const accordionItems = LanguageService.mentorsLanding.questions.accordion.map((data) => ({
+    trigger: {child: data.question[language]},
+    content: {child: renderMarkdown(data.answer[language])},
   }));
 
   return (
@@ -60,19 +64,27 @@ export const MentorsLandingPage = observer(() => {
         />
         <VerticalContainer className={styles.mainBlock}>
           <VerticalContainer className={styles.titleBlock}>
-            <Title
+
+            {/* Workaround for colorized part of title */}
+            <h1 className={styles.title}>
+              {`${LanguageService.mentorsLanding.main.title[language]}`}
+              <h1 className={clsx(styles.title, styles.mw)}>
+                {`${LanguageService.mentorsLanding.main.mastersWay[language]}`}
+              </h1>
+            </h1>
+            {/* <Title
               className={styles.title}
               level={HeadingLevel.h1}
-              text="Заголовок – основная суть приложения для менторов"
+              text={LanguageService.mentorsLanding.main.title[language]}
               placeholder=""
-            />
+            /> */}
             <p className={styles.titleDescription}>
-              Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки
+              {LanguageService.mentorsLanding.main.description[language]}
             </p>
           </VerticalContainer>
           <Button
             buttonType={ButtonType.PRIMARY}
-            value="Кнопка призыва"
+            value={LanguageService.mentorsLanding.callToActionButton[language]}
             icon={
               <Icon
                 size={IconSize.SMALL}
@@ -80,7 +92,7 @@ export const MentorsLandingPage = observer(() => {
                 className={styles.icon}
               />
             }
-            onClick={() => {}}
+            onClick={() => navigate(pages.home.getPath({}))}
           />
           <Image
             alt="desktopImage"
@@ -97,25 +109,29 @@ export const MentorsLandingPage = observer(() => {
           <Title
             className={styles.title}
             level={HeadingLevel.h2}
-            text="Наши преимущества"
+            text={LanguageService.mentorsLanding.advantages.title[language]}
             placeholder=""
           />
           <HorizontalContainer className={styles.advantages}>
             <AdvantageItem
-              title="Подзаголовок"
-              description="Используйте 1 предложение в 1-3 строчки "
+              iconName="ClockIcon"
+              title={LanguageService.mentorsLanding.advantages.asynchronousInteraction.title[language]}
+              description={LanguageService.mentorsLanding.advantages.asynchronousInteraction.description[language]}
             />
             <AdvantageItem
-              title="Подзаголовок"
-              description="Используйте 1 предложение в 1-3 строчки "
+              iconName="TrendingUpIcon"
+              title={LanguageService.mentorsLanding.advantages.speedingUpProcesses.title[language]}
+              description={LanguageService.mentorsLanding.advantages.speedingUpProcesses.description[language]}
             />
             <AdvantageItem
-              title="Подзаголовок"
-              description="Используйте 1 предложение в 1-3 строчки "
+              iconName="ActivityIcon"
+              title={LanguageService.mentorsLanding.advantages.monitoringAchievements.title[language]}
+              description={LanguageService.mentorsLanding.advantages.monitoringAchievements.description[language]}
             />
             <AdvantageItem
-              title="Подзаголовок"
-              description="Используйте 1 предложение в 1-3 строчки "
+              iconName="BoxIcon"
+              title={LanguageService.mentorsLanding.advantages.smartLearningManagement.title[language]}
+              description={LanguageService.mentorsLanding.advantages.smartLearningManagement.description[language]}
             />
           </HorizontalContainer>
         </div>
@@ -128,28 +144,28 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text="Проблемы, которые мы можем помочь решить менторам"
+              text={LanguageService.mentorsLanding.solutions.title[language]}
               placeholder=""
             />
             <p className={styles.titleDescription}>
-              Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки
+              {LanguageService.mentorsLanding.solutions.description[language]}
             </p>
           </VerticalContainer>
           <VerticalContainer className={styles.problems}>
             <ProblemItem
-              title="Проблемы, которые мы можем помочь решить менторам"
-              description="Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки"
+              title={LanguageService.mentorsLanding.solutions.timeSaving.title[language]}
+              description={LanguageService.mentorsLanding.solutions.timeSaving.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w1000"
             />
             <ProblemItem
-              title="Проблемы, которые мы можем помочь решить менторам"
-              description="Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки"
+              title={LanguageService.mentorsLanding.solutions.progressMonitoring.title[language]}
+              description={LanguageService.mentorsLanding.solutions.progressMonitoring.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w1000"
               isReversed
             />
             <ProblemItem
-              title="Проблемы, которые мы можем помочь решить менторам"
-              description="Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки"
+              title={LanguageService.mentorsLanding.solutions.focusOnResults.title[language]}
+              description={LanguageService.mentorsLanding.solutions.focusOnResults.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000"
             />
           </VerticalContainer>
@@ -163,30 +179,46 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text="Отзывы менторов, которые используют наше приложение"
+              text={LanguageService.mentorsLanding.reviews.title[language]}
               placeholder=""
             />
           </div>
           <HorizontalContainer className={styles.reviewList}>
             <ReviewCard
               gradeAmount={5}
-              review="Это самый замечательный отзыв о нашем приложении, который может быть"
-              reviewerImageUrl="src/assets/storybook-images/kittens.jpg"
-              reviewerName="John"
+              review={LanguageService.mentorsLanding.reviews.kirillReview.review[language]}
+              reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
+              reviewerName={LanguageService.mentorsLanding.reviews.kirillReview.mentorName[language]}
+              reviewerProfession={LanguageService.mentorsLanding.reviews.kirillReview.mentorProfession[language]}
             />
             <ReviewCard
               gradeAmount={5}
-              review="Это самый замечательный отзыв о нашем приложении, который может быть"
-              reviewerImageUrl="src/assets/storybook-images/kittens.jpg"
-              reviewerName="Anna"
+              review={LanguageService.mentorsLanding.reviews.viktarReview.review[language]}
+              reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
+              reviewerName={LanguageService.mentorsLanding.reviews.viktarReview.mentorName[language]}
+              reviewerProfession={LanguageService.mentorsLanding.reviews.viktarReview.mentorProfession[language]}
             />
             <ReviewCard
               gradeAmount={5}
-              review="Это самый замечательный отзыв о нашем приложении, который может быть"
-              reviewerImageUrl="src/assets/storybook-images/kittens.jpg"
-              reviewerName="Anna"
+              review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
+              reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+              reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
+              reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
             />
           </HorizontalContainer>
+          <Button
+            buttonType={ButtonType.PRIMARY}
+            value={LanguageService.mentorsLanding.callToActionButton[language]}
+            icon={
+              <Icon
+                size={IconSize.SMALL}
+                name="ArrowRightIcon"
+                className={styles.icon}
+              />
+            }
+            onClick={() => navigate(pages.home.getPath({}))}
+            className={styles.triesActionButton}
+          />
         </div>
 
         <div
@@ -197,16 +229,13 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text="Часто задаваемые вопросы"
+              text={LanguageService.mentorsLanding.questions.title[language]}
               placeholder=""
             />
-            <p className={styles.titleDescription}>
-              Описание – краткая расшифровка основного предложения. Используйте 1-2 предложения в 1-3 строчки
-            </p>
           </VerticalContainer>
           <Accordion
             items={accordionItems}
-            type={accordionTypes.multiple}
+            type={accordionTypes.MULTIPLE}
             className={styles.accordion}
           />
         </div>
@@ -216,17 +245,19 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={clsx(styles.titleBlock, styles.title, styles.titleYouShouldBlock)}
               level={HeadingLevel.h2}
-              text="Вы должны попробовать наше приложение"
+              text={LanguageService.mentorsLanding.aboutApp.title[language]}
               placeholder=""
             />
             <VerticalContainer className={styles.triesContentBlock}>
               <p>
-                Попробуйте наше веб-приложение бесплатно и убедитесь, как оно может помочь вам увеличить доход,
-                эффективность и удовлетворение от работы
+                {LanguageService.mentorsLanding.aboutApp.tryOurApp[language]}
+              </p>
+              <p>
+                {LanguageService.mentorsLanding.aboutApp.ourAppIs[language]}
               </p>
               <Button
                 buttonType={ButtonType.PRIMARY}
-                value="Кнопка призыва"
+                value={LanguageService.mentorsLanding.callToActionButton[language]}
                 icon={
                   <Icon
                     size={IconSize.SMALL}
@@ -234,7 +265,7 @@ export const MentorsLandingPage = observer(() => {
                     className={styles.icon}
                   />
                 }
-                onClick={() => { }}
+                onClick={() => navigate(pages.home.getPath({}))}
                 className={styles.triesActionButton}
               />
             </VerticalContainer>

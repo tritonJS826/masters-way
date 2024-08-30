@@ -55,20 +55,22 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
         />
       </HorizontalGridContainer>
 
-      {props.stats.map((tagStat) => (
-        <VerticalContainer key={tagStat.label.uuid}>
-          <StatisticLine
-            name={tagStat.label.name}
-            color={props.labels.find(label => label.uuid === tagStat.label.uuid)?.color ?? tagStat.label.color}
-            amount={tagStat.jobsAmount}
-            time={tagStat.time}
-            amountPercentage={tagStat.jobsAmountPercentage}
-            timePercentage={tagStat.timePercentage}
-          />
-          <Separator />
-        </VerticalContainer>
-      ))
-      }
+      <VerticalContainer className={styles.statisticLabelsBlock}>
+        {props.stats.map((tagStat) => (
+          <VerticalContainer key={tagStat.label.uuid}>
+            <StatisticLine
+              name={tagStat.label.name}
+              color={props.labels.find(label => label.uuid === tagStat.label.uuid)?.color ?? tagStat.label.color}
+              amount={tagStat.jobsAmount}
+              time={tagStat.time}
+              amountPercentage={tagStat.jobsAmountPercentage}
+              timePercentage={tagStat.timePercentage}
+            />
+            <Separator />
+          </VerticalContainer>
+        ))
+        }
+      </VerticalContainer>
     </>
   );
 

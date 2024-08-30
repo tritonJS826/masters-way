@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import {convertMinutesToHours} from "src/utils/convertMinutesToHours";
 import styles from "src/logic/wayPage/wayStatistics/statisticBlock/statisticItem/StatisticItem.module.scss";
 
@@ -60,13 +62,16 @@ interface StatisticItemProps {
  * StatisticItem
  */
 export const StatisticItem = (props: StatisticItemProps) => {
+  const {language} = languageStore;
 
   /**
    * Get formatted statistic value
    */
   const getFormattedStatisticValue = (): string => {
     if (props.type === StatisticItemType.SECONDARY || props.convertToHours) {
-      return `${convertMinutesToHours(props.statisticItem.value)}h`;
+      const convertedMinutes = convertMinutesToHours(props.statisticItem.value);
+
+      return `${convertedMinutes}${LanguageService.way.statisticsBlock.unitOfMeasurement[language]}`;
     }
 
     return props.statisticItem.value.toString();

@@ -5,6 +5,7 @@ const REVIEW_CARD_CY = "review-card";
 const REVIEW = "Haha";
 const REVIEWER_IMAGE_URL = "src/assets/storybook-images/kittens.jpg";
 const REVIEWER_NAME = "John";
+const REVIEWER_PROFESSION = "React, TS mentor";
 
 describe("ReviewCard component", () => {
   beforeEach(() => {
@@ -14,6 +15,7 @@ describe("ReviewCard component", () => {
         review={REVIEW}
         reviewerImageUrl={REVIEWER_IMAGE_URL}
         reviewerName={REVIEWER_NAME}
+        reviewerProfession={REVIEWER_PROFESSION}
         dataCy={REVIEW_CARD_CY}
       />,
     );
@@ -22,6 +24,7 @@ describe("ReviewCard component", () => {
   it("should display the correct content elements", () => {
     cy.get(getDataCy(REVIEW_CARD_CY)).contains(REVIEW);
     cy.get(getDataCy(REVIEW_CARD_CY)).contains(REVIEWER_NAME);
+    cy.get(getDataCy(REVIEW_CARD_CY)).contains(REVIEWER_PROFESSION);
   });
 
 });

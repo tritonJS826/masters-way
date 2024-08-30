@@ -101,7 +101,7 @@ export const AboutProjectPage = observer(() => {
 
         <Accordion
           items={accordionItems}
-          type={accordionTypes.multiple}
+          type={accordionTypes.MULTIPLE}
           className={styles.accordion}
         />
       </VerticalContainer>

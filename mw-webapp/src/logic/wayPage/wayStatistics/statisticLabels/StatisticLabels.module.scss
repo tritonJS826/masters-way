@@ -1,7 +1,9 @@
 @import "src/styles/variables";
 
 .statisticLabelsBlock {
-  gap: $gapSmall;
+  max-height: $minHeightBlock;
+  gap: $gapExtraSmall;
+  overflow-y: auto;
 }
 
 .titleLine {
