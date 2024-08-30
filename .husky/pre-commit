@@ -43,7 +43,7 @@ runServerIfChanged () {
   then
     echo "mw-server changed. checking..."
     pnpm server:build
-    # pnpm server:test
+    pnpm server:test
   fi
 }
 

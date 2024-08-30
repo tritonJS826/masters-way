@@ -39,7 +39,7 @@ func (cws *CompositeWayService) AddWayToCompositeWay(ctx context.Context, params
 
 	return &schemas.CompositeWayRelation{
 		ChildWayUuid:  util.ConvertPgUUIDToUUID(compositeWayRelationDb.ChildUuid).String(),
-		ParentWayUuid: util.ConvertPgUUIDToUUID(compositeWayRelationDb.ChildUuid).String(),
+		ParentWayUuid: util.ConvertPgUUIDToUUID(compositeWayRelationDb.ParentUuid).String(),
 	}, nil
 }
 

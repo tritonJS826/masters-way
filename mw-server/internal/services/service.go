@@ -45,7 +45,7 @@ func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.C
 		CommentService:                  NewCommentService(queries),
 		CompositeWayService:             NewCompositeWayService(queries),
 		DayReportService:                NewDayReportService(queries),
-		DevService:                      NewDevService(queries, pool),
+		DevService:                      NewDevService(queries, config, pool),
 		FavoriteUserService:             NewFavoriteUserService(queries),
 		FavoriteUserWayService:          NewFavoriteUserWayService(queries),
 		FromUserMentoringRequestService: NewFromUserMentoringRequestService(queries),

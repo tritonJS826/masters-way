@@ -69,5 +69,5 @@ func (uc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	err := uc.userTagService.DeleteUserTagByFromUserByTag(ctx, userID, userTagID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
+	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
 }

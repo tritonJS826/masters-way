@@ -43,7 +43,7 @@ func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, metric)
+	ctx.JSON(http.StatusOK, metric.MetricResponse)
 }
 
 // Update Metric handler

@@ -120,7 +120,6 @@ type Querier interface {
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUsersRow, error)
 	ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error)
 	RegenerateDbData(ctx context.Context) error
-	RemoveEverything(ctx context.Context) error
 	UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error)
 	UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error)
 	UpdateJobTag(ctx context.Context, arg UpdateJobTagParams) (JobTag, error)
