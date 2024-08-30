@@ -110,9 +110,9 @@ func (jds *JobDoneService) UpdateJobDone(ctx context.Context, params *UpdateJobD
 		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
 		OwnerName:     jobDone.OwnerName,
 		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
-		// WayUUID:       util.ConvertPgUUIDToUUID(userPermission.WayUuid).String(),
-		// WayName:       userPermission.WayName,
-		Tags: tags,
+		WayUUID:       util.ConvertPgUUIDToUUID(jobDone.WayUuid).String(),
+		WayName:       jobDone.WayName,
+		Tags:          tags,
 	}, nil
 }
 

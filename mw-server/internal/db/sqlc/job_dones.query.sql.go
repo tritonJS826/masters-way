@@ -179,7 +179,7 @@ func (q *Queries) GetListJobsDoneByDayReportId(ctx context.Context, dayReportUui
 const updateJobDone = `-- name: UpdateJobDone :one
 WITH way_info AS (
     SELECT
-        ways.uuid AS owner_uuid,
+        ways.uuid AS way_uuid,
         ways.name AS way_name
     FROM day_reports
     INNER JOIN ways ON ways.uuid = day_reports.way_uuid
@@ -197,7 +197,7 @@ SET
     time = COALESCE($3, time)
 WHERE job_dones.uuid = $4
 RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid,
-    (SELECT owner_uuid FROM way_info) AS owner_uuid,
+    (SELECT way_uuid FROM way_info) AS way_uuid,
     (SELECT way_name FROM way_info) AS way_name,
     (SELECT owner_name FROM owner_info) AS owner_name,
     -- get tag uuids
@@ -226,7 +226,7 @@ type UpdateJobDoneRow struct {
 	Time          int32            `json:"time"`
 	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
 	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
-	OwnerUuid_2   pgtype.UUID      `json:"owner_uuid_2"`
+	WayUuid       pgtype.UUID      `json:"way_uuid"`
 	WayName       string           `json:"way_name"`
 	OwnerName     string           `json:"owner_name"`
 	TagUuids      []string         `json:"tag_uuids"`
@@ -248,7 +248,7 @@ func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (U
 		&i.Time,
 		&i.OwnerUuid,
 		&i.DayReportUuid,
-		&i.OwnerUuid_2,
+		&i.WayUuid,
 		&i.WayName,
 		&i.OwnerName,
 		&i.TagUuids,

@@ -27,7 +27,7 @@ func TestCreatePlan(t *testing.T) {
 
 	user := "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 
-	t.Run("should get all ways successfully", func(t *testing.T) {
+	t.Run("should create Plan and return it successfully", func(t *testing.T) {
 		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
@@ -83,7 +83,7 @@ func TestUpdatePlan(t *testing.T) {
 	user := "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 	planID := "18cbbee6-5071-4608-b349-ffad514711cb"
 
-	t.Run("should get all ways successfully", func(t *testing.T) {
+	t.Run("should update Plan and return it successfully", func(t *testing.T) {
 		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
@@ -132,7 +132,7 @@ func TestDeletePlanById(t *testing.T) {
 	user := "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 	planID := "18cbbee6-5071-4608-b349-ffad514711cb"
 
-	t.Run("should get all ways successfully", func(t *testing.T) {
+	t.Run("should delete Plan successfully", func(t *testing.T) {
 		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
@@ -157,7 +157,7 @@ func TestDeletePlanById(t *testing.T) {
 		}
 
 		if isExists {
-			t.Fatalf("Failed to get all ways successfully")
+			t.Fatalf("Plan %s wasn't removed", planID)
 		}
 	})
 }

@@ -45,7 +45,7 @@ ORDER BY created_at;
 -- name: UpdateJobDone :one
 WITH way_info AS (
     SELECT
-        ways.uuid AS owner_uuid,
+        ways.uuid AS way_uuid,
         ways.name AS way_name
     FROM day_reports
     INNER JOIN ways ON ways.uuid = day_reports.way_uuid
@@ -63,7 +63,7 @@ SET
     time = COALESCE(sqlc.narg('time'), time)
 WHERE job_dones.uuid = @job_done_uuid
 RETURNING *,
-    (SELECT owner_uuid FROM way_info) AS owner_uuid,
+    (SELECT way_uuid FROM way_info) AS way_uuid,
     (SELECT way_name FROM way_info) AS way_name,
     (SELECT owner_name FROM owner_info) AS owner_name,
     -- get tag uuids

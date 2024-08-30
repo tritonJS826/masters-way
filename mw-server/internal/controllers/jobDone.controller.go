@@ -110,5 +110,5 @@ func (jdc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	err = jdc.jobDoneService.DeleteJobDoneById(ctx, jobDoneID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusNoContent, gin.H{"status": "successfully deleted"})
+	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})
 }
