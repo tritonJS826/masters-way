@@ -25,6 +25,11 @@ interface ReviewCardProps {
   reviewerName: string;
 
   /**
+   * Reviewer profession
+   */
+  reviewerProfession: string;
+
+  /**
    * Reviewer image url
    */
   reviewerImageUrl: string;
@@ -48,26 +53,28 @@ export const ReviewCard = (props: ReviewCardProps) => {
       className={styles.reviewCard}
       dataCy={props.dataCy}
     >
-      <HorizontalContainer className={styles.gradeBlock}>
-        {gradeAmountArray.map((gradeItem) => (
-          <Icon
-            name="StarIcon"
-            size={IconSize.MEDIUM}
-            key={gradeItem}
-            className={styles.gradeItem}
-          />
-        ))}
-      </HorizontalContainer>
-      <p className={styles.review}>
-        {props.review}
-      </p>
+      <VerticalContainer className={styles.gradeAndReview}>
+        <HorizontalContainer className={styles.gradeBlock}>
+          {gradeAmountArray.map((gradeItem) => (
+            <Icon
+              name="StarIcon"
+              size={IconSize.MEDIUM}
+              key={gradeItem}
+              className={styles.gradeItem}
+            />
+          ))}
+        </HorizontalContainer>
+        <p className={styles.review}>
+          {props.review}
+        </p>
+      </VerticalContainer>
       <VerticalContainer className={styles.reviewerBlock}>
         <Avatar
           alt={`Reviewer ${props.reviewerName}`}
           src={props.reviewerImageUrl}
           size={AvatarSize.BIG}
         />
-        {props.reviewerName}
+        {`${props.reviewerName}, ${props.reviewerProfession}`}
       </VerticalContainer>
     </VerticalContainer>
   );

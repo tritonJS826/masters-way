@@ -1,9 +1,12 @@
 import clsx from "clsx";
+import {ActivityIcon} from "src/assets/icons/ActivityIcon";
 import {AppStoreIcon} from "src/assets/icons/AppStoreIcon";
 import {ArrowRightIcon} from "src/assets/icons/ArrowRight";
 import {BookIcon} from "src/assets/icons/BookIcon";
+import {BoxIcon} from "src/assets/icons/BoxIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
 import {ChevronIcon} from "src/assets/icons/ChevronIcon";
+import {ClockIcon} from "src/assets/icons/ClockIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
@@ -26,6 +29,7 @@ import {SettingsIcon} from "src/assets/icons/SettingsIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
+import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
 import {UserIcon} from "src/assets/icons/UserIcon";
 import {UsersIcon} from "src/assets/icons/UsersIcon";
 import {WayIcon} from "src/assets/icons/WayIcon";
@@ -191,6 +195,27 @@ export const IconDictionary = {
    * Gift icon
    */
   GiftIcon: (params: IconProps) => <GiftIcon {...params} />,
+
+  /**
+   * Clock icon
+   */
+  ClockIcon: (params: IconProps) => <ClockIcon {...params} />,
+
+  /**
+   * TrendingUp icon
+   */
+  TrendingUpIcon: (params: IconProps) => <TrendingUpIcon {...params} />,
+
+  /**
+   * Activity icon
+   */
+  ActivityIcon: (params: IconProps) => <ActivityIcon {...params} />,
+
+  /**
+   * Box icon
+   */
+  BoxIcon: (params: IconProps) => <BoxIcon {...params} />,
+
 };
 
 /**
@@ -198,7 +223,8 @@ export const IconDictionary = {
  */
 export enum IconSize {
   SMALL = "small",
-  MEDIUM = "medium"
+  MEDIUM = "medium",
+  BIG = "big"
 }
 
 /**
