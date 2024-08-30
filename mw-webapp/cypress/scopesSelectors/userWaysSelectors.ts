@@ -13,6 +13,7 @@ export const userWaysSelectors = {
 
         getOwnWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton)),
         getMentoringWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton)),
+        getFavoriteWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.favoriteWayCollectionButton)),
 
         getWayCollectionButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayCollectionButtonMainInfo)),
     },

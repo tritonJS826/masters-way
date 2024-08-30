@@ -32,6 +32,11 @@ interface WayChildrenListProps {
      */
     level: number;
 
+    /**
+     * Indicates whether the current user is the owner of way
+     */
+    isOwner: boolean;
+
 }
 
 const LEVEL_INCREMENT = 1;
@@ -58,7 +63,6 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                 alt={child.owner.name}
                 src={child.owner.imageUrl}
                 size={AvatarSize.SMALL}
-              // ClassName={styles.avatar}
               />
               <VerticalContainer className={clsx(isAbandoned && styles.abandonedWay)}>
                 <Link
@@ -79,39 +83,42 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
               </VerticalContainer>
             </HorizontalContainer>
 
-            <Confirm
-              trigger={
-                <Tooltip content={LanguageService.way.peopleBlock.deleteFromComposite[language]}>
-                  <Button
-                  // ClassName={styles.removeButton}
-                    onClick={() => {}}
-                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                    value={
-                      <Icon
-                        size={IconSize.SMALL}
-                        name="RemoveIcon"
-                      // ClassName={styles.removeIcon}
-                      />}
-                  />
-                </Tooltip>
-              }
-              content={<p>
-                {LanguageService.way.peopleBlock.deleteWayFromCompositeModalContent[language]
-                  .replace("$participant", child.name)}
-              </p>}
-              onOk={async () => {
-                await CompositeWayDAL.deleteWayFromComposite({childWayUuid: child.uuid, parentWayUuid: props.way.uuid});
-                props.way.deleteChildWay(child.uuid);
-              }}
-              okText={LanguageService.modals.confirmModal.deleteButton[language]}
-              cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-            />
+            {props.isOwner && (
+              <Confirm
+                trigger={
+                  <Tooltip content={LanguageService.way.peopleBlock.deleteFromComposite[language]}>
+                    <Button
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                      value={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="RemoveIcon"
+                        />}
+                      dataCy={wayDescriptionAccessIds.peopleBlock.deleteFromCompositeWayButton(child.name)}
+                    />
+                  </Tooltip>
+                }
+                content={<p>
+                  {LanguageService.way.peopleBlock.deleteWayFromCompositeModalContent[language]
+                    .replace("$participant", child.name)}
+                </p>}
+                onOk={async () => {
+                  await CompositeWayDAL.deleteWayFromComposite({childWayUuid: child.uuid, parentWayUuid: props.way.uuid});
+                  props.way.deleteChildWay(child.uuid);
+                }}
+                okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                cy={{onOk: wayDescriptionAccessIds.peopleBlock.dialogContent.deleteButton}}
+              />
+            )}
           </HorizontalContainer>
           <Separator />
 
           <WayChildrenList
             way={child}
             level={props.level + LEVEL_INCREMENT}
+            isOwner={props.isOwner}
           />
         </VerticalContainer>
       </div>

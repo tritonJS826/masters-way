@@ -41,10 +41,13 @@
         "userName": "Dana Evans",
         "way": {
           "wayTitle": "dana evans way 3",
-          "wayReport1": "job description 1",
-          "wayReport2": "job description 2",
-          "wayReport1Time": 10,
-          "wayReport2Time": 60
+          "reportTotalAmount": 2,
+          "jobDescription1": "job description 1",
+          "jobDescription2": "job description 2",
+          "timeSpentOnJob1": 10,
+          "timeSpentOnJob2": 50,
+          "reportDate1": "2024-08-11",
+          "reportDate2": "2024-08-14"
         }
 
       }
