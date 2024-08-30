@@ -1290,8 +1290,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
         "403":
           description: User doesn't have rights to delete comment.
           schema:
@@ -1370,8 +1370,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete composite way relation
       tags:
       - compositeWay
@@ -1564,8 +1564,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
@@ -1624,8 +1624,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: Health Check
       tags:
       - Health
