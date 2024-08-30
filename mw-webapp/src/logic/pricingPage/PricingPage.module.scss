@@ -1,0 +1,58 @@
+@import "src/styles/variables";
+
+$homePaddingBigBlock: 128px;
+$mainImageMarginTop: 36px;
+
+.container {
+  justify-content: center;
+  margin-top: $mainImageMarginTop;
+  background-color: var(--generalPrimaryColor);
+  background-image: url("src/assets/Logo45.svg");
+  background-position: 3vw;
+  background-repeat: no-repeat;
+  background-size: max(97vw, 97vh);
+}
+
+.pricingBlock {
+  width: 80%;
+  padding: 145px $paddingMedium $homePaddingBigBlock;
+  margin: 0 auto;
+  gap: $gapLarge;
+  text-align: center;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
+}
+
+.titleContainer {
+  display: flex;
+  max-width: 568px;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: $gapMedium;
+}
+
+.systemItems {
+  max-width: $maxWidthContainer;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: $paddingBig $paddingMedium;
+  gap: $gapExtraLarge;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
+}
+
+.pricingTitle h2 {
+  font-size: $fontSizeTitleBig;
+  opacity: 0.96;
+}
+
+.subtitleDescription h3 {
+  font-size: $fontSizeBig;
+  font-weight: $fontWeightReular;
+  line-height: 1.5em;
+  opacity: 0.68;
+}

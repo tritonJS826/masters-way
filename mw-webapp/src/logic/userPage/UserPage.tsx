@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
@@ -37,6 +38,7 @@ import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -158,6 +160,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
   const {setIsChatOpen} = chatStore;
   const {chatList} = chatListStore;
+  const navigate = useNavigate();
 
   const userPageStore = useStore<
   new (userPageOwnerUuid: string) => UserPageStore,
@@ -600,19 +603,12 @@ export const UserPage = observer((props: UserPageProps) => {
                     </VerticalContainer>
                   }
                 />
-                <Modal
-                  trigger={
-                    <Button
-                      onClick={TrackUserPage.trackUpgradeToPremiumClick}
-                      value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
-                      buttonType={ButtonType.SECONDARY}
-                    />
-                  }
-                  content={
-                    <HorizontalContainer>
-                      {LanguageService.user.personalInfo.upgradeToPremiumModal[language]}
-                    </HorizontalContainer>
-                  }
+                <Button
+                  onClick={() => {
+                    navigate(pages.pricing.getPath({}));
+                  }}
+                  value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
+                  buttonType={ButtonType.SECONDARY}
                 />
               </>
               }

@@ -70,6 +70,10 @@ export const router = createBrowserRouter(
           element={<WithValidatedParams paramsSchema={pages.landingMentors} />}
           errorElement={pages.page404.getPageComponent({})}
         />
+        <Route
+          path={pages.pricing.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.pricing} />}
+        />
       </Route>
     </>,
   ),
