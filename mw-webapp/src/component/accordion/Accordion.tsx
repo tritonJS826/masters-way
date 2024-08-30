@@ -15,13 +15,13 @@ export enum accordionTypes {
    * Single mode (`"single"`) - In this mode, only one accordion item can be open at a time.
    * If a user opens one item, any previously open item will automatically close.
    */
-  single = "single",
+  SINGLE = "single",
 
   /**
    * Multiple mode (`"multiple"`) - In this mode, multiple accordion items can be open simultaneously.
    * Previously open items remain open when the user opens additional items.
    */
-  multiple = "multiple",
+  MULTIPLE = "multiple",
 }
 
 /**
@@ -82,7 +82,7 @@ export const Accordion = (props: AccordionProps) => {
   return (
     <RadixAccordionRoot
       className={clsx(styles.accordionRoot, props.className)}
-      type={props.type ?? accordionTypes.single}
+      type={props.type ?? accordionTypes.SINGLE}
     >
       {props.items.map((item) => {
         const uniqueId = useId();

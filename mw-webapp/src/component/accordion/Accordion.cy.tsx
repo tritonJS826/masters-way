@@ -30,7 +30,7 @@ describe("Accordion component", () => {
   };
 
   it("should render the accordion and all options", () => {
-    mountAccordion(accordionTypes.single);
+    mountAccordion(accordionTypes.SINGLE);
 
     cy.getByData(FIRST_CONTENT).should("exist");
     cy.getByData(SECOND_CONTENT).should("exist");
@@ -39,13 +39,13 @@ describe("Accordion component", () => {
   });
 
   it("should accordion option be closed (text hidden)", () => {
-    mountAccordion(accordionTypes.single);
+    mountAccordion(accordionTypes.SINGLE);
 
     cy.getByData(FIRST_CONTENT).should("be.not.visible");
   });
 
   it("should accordion option be opened when click trigger", () => {
-    mountAccordion(accordionTypes.single);
+    mountAccordion(accordionTypes.SINGLE);
 
     cy.getByData(FIRST_TRIGGER).click();
 
@@ -53,7 +53,7 @@ describe("Accordion component", () => {
   });
 
   it("should all options could be opened and closed one by one", () => {
-    mountAccordion(accordionTypes.single);
+    mountAccordion(accordionTypes.SINGLE);
 
     cy.getByData(FIRST_TRIGGER).click();
     cy.getByData(SECOND_TRIGGER).click();
@@ -63,7 +63,7 @@ describe("Accordion component", () => {
   });
 
   it("should all options be opened and closed in multiple mode", () => {
-    mountAccordion(accordionTypes.multiple);
+    mountAccordion(accordionTypes.MULTIPLE);
 
     cy.getByData(FIRST_TRIGGER).click();
     cy.getByData(SECOND_TRIGGER).click();
@@ -73,7 +73,7 @@ describe("Accordion component", () => {
   });
 
   it("should only one option be opened in not multiple mode", () => {
-    mountAccordion(accordionTypes.single);
+    mountAccordion(accordionTypes.SINGLE);
 
     cy.getByData(FIRST_TRIGGER).click();
 

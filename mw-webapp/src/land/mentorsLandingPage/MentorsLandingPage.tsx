@@ -206,7 +206,7 @@ export const MentorsLandingPage = observer(() => {
           </VerticalContainer>
           <Accordion
             items={accordionItems}
-            type={accordionTypes.multiple}
+            type={accordionTypes.MULTIPLE}
             className={styles.accordion}
           />
         </div>

@@ -330,6 +330,11 @@
       "en": "Statistics",
       "ua": "Статистика"
     },
+    "unitOfMeasurement": {
+      "ru": "ч",
+      "en": "h",
+      "ua": "г"
+    },
     "allStatisticTooltip": {
       "ru": "Показать всю статистику",
       "en": "Show all statistics",
