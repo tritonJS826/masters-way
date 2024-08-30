@@ -149,4 +149,5 @@ export const INDEPENDENT_ROUTES = [
   pages.landing.getPath({}),
   pages.landingMentors.getPath({}),
   pages.aboutProject.getPath({}),
+  pages.home.getPath({}),
 ];
