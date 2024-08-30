@@ -54,7 +54,7 @@ func main() {
 	newRouter.SetRoutes()
 
 	newServer := &http.Server{
-		Addr:    ":" + newConfig.ServerAddress,
+		Addr:    ":" + newConfig.ServerPort,
 		Handler: newRouter.Gin,
 	}
 

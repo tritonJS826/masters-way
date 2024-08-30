@@ -16,10 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateWayCollectionWay,
+  SchemasWayCollectionWayResponse,
 } from '../models/index';
 import {
     SchemasCreateWayCollectionWayFromJSON,
     SchemasCreateWayCollectionWayToJSON,
+    SchemasWayCollectionWayResponseFromJSON,
+    SchemasWayCollectionWayResponseToJSON,
 } from '../models/index';
 
 export interface CreateWayCollectionWayRequest {
@@ -39,7 +42,7 @@ export class WayCollectionWayApi extends runtime.BaseAPI {
     /**
      * Create a new wayCollectionWay
      */
-    async createWayCollectionWayRaw(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createWayCollectionWayRaw(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayCollectionWayResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createWayCollectionWay.');
         }
@@ -58,14 +61,15 @@ export class WayCollectionWayApi extends runtime.BaseAPI {
             body: SchemasCreateWayCollectionWayToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayCollectionWayResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new wayCollectionWay
      */
-    async createWayCollectionWay(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createWayCollectionWayRaw(requestParameters, initOverrides);
+    async createWayCollectionWay(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayCollectionWayResponse> {
+        const response = await this.createWayCollectionWayRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

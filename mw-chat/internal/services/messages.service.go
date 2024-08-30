@@ -7,6 +7,7 @@ import (
 	"mwchat/internal/schemas"
 	"mwchat/pkg/utils"
 
+	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -28,6 +29,12 @@ func NewMessagesService(pool *pgxpool.Pool, MessagesRepository IMessagesReposito
 	return &MessagesService{pool, MessagesRepository}
 }
 
+type CreateMessageParams struct {
+	OwnerUUID string
+	RoomUUID  string
+	Text      string
+}
+
 func (messagesService *MessagesService) CreateMessage(ctx context.Context, messageParams *CreateMessageParams) (*schemas.CreateMessageResponse, error) {
 	tx, err := messagesService.pool.Begin(ctx)
 	if err != nil {
@@ -37,10 +44,10 @@ func (messagesService *MessagesService) CreateMessage(ctx context.Context, messa
 
 	qtx := messagesService.MessagesRepository.WithTx(tx)
 
-	roomPgUUID := pgtype.UUID{Bytes: messageParams.RoomUUID, Valid: true}
+	roomPgUUID := pgtype.UUID{Bytes: uuid.MustParse(messageParams.RoomUUID), Valid: true}
 
 	createMessageParams := db.CreateMessageParams{
-		OwnerUuid: pgtype.UUID{Bytes: messageParams.OwnerUUID, Valid: true},
+		OwnerUuid: pgtype.UUID{Bytes: uuid.MustParse(messageParams.OwnerUUID), Valid: true},
 		RoomUuid:  roomPgUUID,
 		Text:      messageParams.Text,
 	}
@@ -80,6 +87,12 @@ func (messagesService *MessagesService) CreateMessage(ctx context.Context, messa
 			Readers:   []schemas.MessageReader{},
 		},
 	}, nil
+}
+
+type UpdateMessageStatusParams struct {
+	MessageUUID uuid.UUID
+	UserUUID    uuid.UUID
+	IsRead      bool
 }
 
 func (messagesService *MessagesService) UpdateMessageStatus(ctx context.Context, params *UpdateMessageStatusParams) error {

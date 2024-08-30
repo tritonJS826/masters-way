@@ -12,7 +12,7 @@ type Config struct {
 	PostgresUser      string `mapstructure:"POSTGRES_USER"`
 	PostgresPassword  string `mapstructure:"POSTGRES_PASSWORD"`
 	PostgresDb        string `mapstructure:"POSTGRES_DB"`
-	ServerAddress     string `mapstructure:"SERVER_ADDRESS"`
+	ServerPort        string `mapstructure:"SERVER_PORT"`
 	EnvType           string `mapstructure:"ENV_TYPE"`
 	GooglClientId     string `mapstructure:"GOOGLE_CLIENT_ID"`
 	GooglClientSecret string `mapstructure:"GOOGLE_SECRET_ID"`
@@ -31,7 +31,7 @@ var prodRequiredVariables = [14]string{
 	"POSTGRES_USER",
 	"POSTGRES_PASSWORD",
 	"POSTGRES_DB",
-	"SERVER_ADDRESS",
+	"SERVER_PORT",
 	"ENV_TYPE",
 	"GOOGLE_CLIENT_ID",
 	"GOOGLE_SECRET_ID",
@@ -48,7 +48,7 @@ var devRequiredVariables = [14]string{
 	"POSTGRES_USER",
 	"POSTGRES_PASSWORD",
 	"POSTGRES_DB",
-	"SERVER_ADDRESS",
+	"SERVER_PORT",
 	"ENV_TYPE",
 	"GOOGLE_CLIENT_ID",
 	"GOOGLE_SECRET_ID",

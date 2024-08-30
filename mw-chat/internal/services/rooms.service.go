@@ -150,6 +150,13 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 	}, nil
 }
 
+type CreateRoomServiceParams struct {
+	CreatorUUID     uuid.UUID
+	InvitedUserUUID *string
+	Name            *string
+	Type            string
+}
+
 func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error) {
 	creatorUserPgUUID := pgtype.UUID{Bytes: roomParams.CreatorUUID, Valid: true}
 	if roomParams.Type == string(db.RoomTypePrivate) {
@@ -246,6 +253,12 @@ func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roo
 		IsBlocked: false,
 		RoomType:  string(newRoom.Type),
 	}, nil
+}
+
+type BlockOrUnblockRoomParams struct {
+	UserUUID  uuid.UUID
+	RoomUUID  uuid.UUID
+	IsBlocked bool
 }
 
 func (roomsService *RoomsService) BlockOrUnblockRoom(ctx context.Context, BlockOrUnblockParams *BlockOrUnblockRoomParams) error {

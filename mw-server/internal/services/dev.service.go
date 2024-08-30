@@ -2,59 +2,43 @@ package services
 
 import (
 	"context"
-	"fmt"
-	"mwserver/internal/config"
-	"os/exec"
+	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type IDevRepository interface {
 	RegenerateDbData(ctx context.Context) error
+	RemoveEverything(ctx context.Context) error
 }
 
 type DevService struct {
 	devRepository IDevRepository
-	config        *config.Config
 	pgxPool       *pgxpool.Pool
 }
 
-func NewDevService(devRepository IDevRepository, config *config.Config, pgxPool *pgxpool.Pool) *DevService {
-	return &DevService{devRepository, config, pgxPool}
+func NewDevService(devRepository IDevRepository, pgxPool *pgxpool.Pool) *DevService {
+	return &DevService{devRepository, pgxPool}
 }
 
 func (ds *DevService) ResetDb(ctx context.Context) error {
-	downCmd := exec.Command(
-		"migrate",
-		"-path",
-		"internal/db/migration",
-		"-database",
-		ds.config.DBSource,
-		"-verbose",
-		"down",
-		"1",
-	)
-	if output, err := downCmd.CombinedOutput(); err != nil {
-		fmt.Printf("Down migration failed: %v\nOutput: %s\n", err, string(output))
+	migration, err := os.ReadFile("internal/db/migration/000001_init_schema.up.sql")
+	if err != nil {
 		return err
 	}
 
-	upCmd := exec.Command(
-		"migrate",
-		"-path",
-		"internal/db/migration",
-		"-database",
-		ds.config.DBSource,
-		"-verbose",
-		"up",
-		"1",
-	)
-	if output, err := upCmd.CombinedOutput(); err != nil {
-		fmt.Printf("Up migration failed: %v\nOutput: %s\n", err, string(output))
+	err = ds.devRepository.RemoveEverything(ctx)
+	if err != nil {
 		return err
 	}
 
-	err := ds.devRepository.RegenerateDbData(ctx)
+	// migrate schemas according to migrations file
+	_, err = ds.pgxPool.Exec(ctx, string(migration))
+	if err != nil {
+		return err
+	}
+
+	err = ds.devRepository.RegenerateDbData(ctx)
 	if err != nil {
 		return err
 	}

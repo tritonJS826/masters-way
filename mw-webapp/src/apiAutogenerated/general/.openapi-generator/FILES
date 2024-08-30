@@ -45,7 +45,7 @@ models/SchemasCreateMetricPayload.ts
 models/SchemasCreatePlanJobTagPayload.ts
 models/SchemasCreatePlanPayload.ts
 models/SchemasCreateProblemPayload.ts
-models/SchemasCreateUserMentoringRequestPayload.ts
+models/SchemasCreateToUserMentoringRequestPayload.ts
 models/SchemasCreateUserTagPayload.ts
 models/SchemasCreateWayCollectionPayload.ts
 models/SchemasCreateWayCollectionWay.ts
@@ -54,6 +54,7 @@ models/SchemasCreateWayTagPayload.ts
 models/SchemasDayReportsCompositionParticipants.ts
 models/SchemasDefaultWayCollections.ts
 models/SchemasDeleteMentorUserWayPayload.ts
+models/SchemasFromUserMentoringRequestResponse.ts
 models/SchemasGenerateMetricsPayload.ts
 models/SchemasGenerateMetricsResponse.ts
 models/SchemasGetAllUsersResponse.ts
@@ -70,6 +71,7 @@ models/SchemasOverallInformation.ts
 models/SchemasPlanPopulatedResponse.ts
 models/SchemasProblemPopulatedResponse.ts
 models/SchemasTimeSpentByDayPoint.ts
+models/SchemasToUserMentoringRequestResponse.ts
 models/SchemasUpdateCommentPayload.ts
 models/SchemasUpdateJobDone.ts
 models/SchemasUpdateJobTagPayload.ts
@@ -85,6 +87,7 @@ models/SchemasUserPopulatedResponse.ts
 models/SchemasUserTagResponse.ts
 models/SchemasWayCollectionPlainResponse.ts
 models/SchemasWayCollectionPopulatedResponse.ts
+models/SchemasWayCollectionWayResponse.ts
 models/SchemasWayPlainResponse.ts
 models/SchemasWayPopulatedResponse.ts
 models/SchemasWayStatistics.ts

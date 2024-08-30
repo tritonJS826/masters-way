@@ -24,14 +24,14 @@ export class DevApi extends runtime.BaseAPI {
      * resets db
      * resets db
      */
-    async resetDbPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async devResetDbGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/reset-db`,
-            method: 'POST',
+            path: `/dev/reset-db`,
+            method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
@@ -43,8 +43,8 @@ export class DevApi extends runtime.BaseAPI {
      * resets db
      * resets db
      */
-    async resetDbPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.resetDbPostRaw(initOverrides);
+    async devResetDbGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.devResetDbGetRaw(initOverrides);
     }
 
 }

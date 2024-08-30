@@ -11,25 +11,24 @@ import (
 	"github.com/google/uuid"
 )
 
-type MessagesController struct {
-	messagesService services.IMessagesService
+type MessageController struct {
+	messagesService *services.MessagesService
 }
 
-func NewMessagesController(messagesService services.IMessagesService) *MessagesController {
-	return &MessagesController{messagesService}
+func NewMessagesController(messagesService *services.MessagesService) *MessageController {
+	return &MessageController{messagesService}
 }
 
 // @Summary Create message in room
 // @Description
-// @Tags room
-// @ID create-message-in-room
+// @Tags message
+// @ID create-message
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateMessagePayload true "query params"
-// @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.CreateMessageResponse
-// @Router /rooms/{roomId}/messages [post]
-func (messagesController *MessagesController) CreateMessage(ctx *gin.Context) {
+// @Router /messages [post]
+func (messagesController *MessageController) CreateMessage(ctx *gin.Context) {
 	var payload *schemas.CreateMessagePayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -37,15 +36,12 @@ func (messagesController *MessagesController) CreateMessage(ctx *gin.Context) {
 		return
 	}
 
-	roomId := ctx.Param("roomId")
-	roomUUID := uuid.MustParse(roomId)
-
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userIDRaw.(string))
+	userID := userIDRaw.(string)
 
 	params := &services.CreateMessageParams{
-		OwnerUUID: userUUID,
-		RoomUUID:  roomUUID,
+		OwnerUUID: userID,
+		RoomUUID:  payload.RoomID,
 		Text:      payload.Message,
 	}
 	message, err := messagesController.messagesService.CreateMessage(ctx, params)
@@ -64,7 +60,7 @@ func (messagesController *MessagesController) CreateMessage(ctx *gin.Context) {
 // @Param messageId path string true "message Id"
 // @Success 204 "No Content"
 // @Router /messages/{messageId}/message-status [patch]
-func (messagesController *MessagesController) UpdateMessageStatus(ctx *gin.Context) {
+func (messagesController *MessageController) UpdateMessageStatus(ctx *gin.Context) {
 	var payload *schemas.UpdateMessageStatusPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {

@@ -11,12 +11,12 @@ import (
 	"github.com/google/uuid"
 )
 
-type RoomsController struct {
-	roomService services.IRoomsService
+type RoomController struct {
+	roomService *services.RoomsService
 }
 
-func NewRoomsController(roomService services.IRoomsService) *RoomsController {
-	return &RoomsController{roomService}
+func NewRoomsController(roomService *services.RoomsService) *RoomController {
+	return &RoomController{roomService}
 }
 
 // @Summary Get chat preview
@@ -27,11 +27,11 @@ func NewRoomsController(roomService services.IRoomsService) *RoomsController {
 // @Produce  json
 // @Success 200 {object} schemas.GetChatPreviewResponse
 // @Router /rooms/preview [get]
-func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
+func (rc *RoomController) GetChatPreview(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	chatPreview, err := cc.roomService.GetChatPreview(ctx, userUUID)
+	chatPreview, err := rc.roomService.GetChatPreview(ctx, userUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, chatPreview)
@@ -46,7 +46,7 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 // @Param roomType path string true "room type: private | group" Enums(private, group)
 // @Success 200 {object} schemas.GetRoomsResponse
 // @Router /rooms/list/{roomType} [get]
-func (pc *RoomsController) GetRooms(ctx *gin.Context) {
+func (pc *RoomController) GetRooms(ctx *gin.Context) {
 	roomType := ctx.Param("roomType")
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
@@ -66,14 +66,14 @@ func (pc *RoomsController) GetRooms(ctx *gin.Context) {
 // @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId} [get]
-func (pc *RoomsController) GetRoomById(ctx *gin.Context) {
+func (rc *RoomController) GetRoomById(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 	roomUUID := uuid.MustParse(roomId)
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	room, err := pc.roomService.GetRoomByUuid(ctx, userUUID, roomUUID)
+	room, err := rc.roomService.GetRoomByUuid(ctx, userUUID, roomUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, room)
@@ -88,7 +88,7 @@ func (pc *RoomsController) GetRoomById(ctx *gin.Context) {
 // @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
-func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
+func (rc *RoomController) CreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -105,7 +105,7 @@ func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
 		Name:            payload.Name,
 		Type:            payload.RoomType,
 	}
-	newP2PRoom, err := pc.roomService.CreateRoom(ctx, params)
+	newP2PRoom, err := rc.roomService.CreateRoom(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, newP2PRoom)
@@ -120,7 +120,7 @@ func (pc *RoomsController) CreateRoom(ctx *gin.Context) {
 // @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId} [patch]
-func (pc *RoomsController) UpdateRoom(ctx *gin.Context) {
+func (rc *RoomController) UpdateRoom(ctx *gin.Context) {
 	// var payload *schemas.RoomUpdatePayload
 
 	// if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -164,7 +164,7 @@ func (pc *RoomsController) UpdateRoom(ctx *gin.Context) {
 // @Param userId path string true "user Id to delete"
 // @Success 200 {object} schemas.RoomPreviewResponse
 // @Router /rooms/{roomId}/users/{userId} [post]
-func (pc *RoomsController) AddUserToRoom(ctx *gin.Context) {
+func (rc *RoomController) AddUserToRoom(ctx *gin.Context) {
 	// groupRoomId := ctx.Param("groupRoomId")
 	// userId := ctx.Param("userId")
 	// fmt.Println(groupRoomId, userId)
@@ -182,7 +182,7 @@ func (pc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 // @Param userId path string true "user Id to delete"
 // @Success 200
 // @Router /rooms/{roomId}/users/{userId} [delete]
-func (pc *RoomsController) DeleteUserFromRoom(ctx *gin.Context) {
+func (rc *RoomController) DeleteUserFromRoom(ctx *gin.Context) {
 	// groupRoomId := ctx.Param("roomId")
 	// userId := ctx.Param("userId")
 	// fmt.Println(groupRoomId, userId)
