@@ -1,9 +1,9 @@
 build: ## Build the project
 	@echo "Building the project..."
-	go build -o main main.go
+	go build -o main cmd/general/main.go
 
 start: ## Run the project
-	go run main.go
+	go run cmd/general/main.go
 
 test: ## Run all tests
 	go test ./...
@@ -15,11 +15,11 @@ install: ## Install dependencies
 	go mod tidy
 
 swag: ##  Generate swagger specification
-	swag init
+	swag init -g cmd/general/main.go
 
 db-schema: ## Generate db schema
 	sqlc generate
 
 help: ## Display help message
 	@echo "Available targets:"
-	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' Makefile 
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  %-15s %s\n", $$1, $$2}' Makefile

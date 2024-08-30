@@ -1,8 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "title": "Masters way chat API",
+        "contact": {},
+        "version": "1.0"
     },
+    "basePath": "/chat",
     "paths": {
         "/dev/reset-db": {
             "get": {
@@ -14,6 +17,40 @@
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                }
+            }
+        },
+        "/messages": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "message"
+                ],
+                "summary": "Create message in room",
+                "operationId": "create-message",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMessagePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMessageResponse"
+                        }
                     }
                 }
             }
@@ -212,47 +249,6 @@
                 }
             }
         },
-        "/rooms/{roomId}/messages": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "room"
-                ],
-                "summary": "Create message in room",
-                "operationId": "create-message-in-room",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "room Id",
-                        "name": "roomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessageResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/rooms/{roomId}/users/{userId}": {
             "post": {
                 "consumes": [
@@ -331,10 +327,14 @@
         "schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
-                "message"
+                "message",
+                "roomId"
             ],
             "properties": {
                 "message": {
+                    "type": "string"
+                },
+                "roomId": {
                     "type": "string"
                 }
             }

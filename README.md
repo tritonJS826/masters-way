@@ -28,8 +28,8 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 ### Requirements
 
-- make 4.3 (GNU make) 
-- golang 1.23.0 (we recommendo to use [gvm](https://github.com/moovweb/gvm), exist in snap) 
+- make 4.3 (GNU make)
+- golang 1.23.0 (we recommendo to use [gvm](https://github.com/moovweb/gvm), exist in snap)
 - node 22.5.1 (we recommend to use "nvm" or "n" package for installation)
 - pnpm 8.15.2 (https://pnpm.io)
 - sqlc v1.27.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
@@ -52,13 +52,13 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 `pnpm run install:all`
 
-3. Create .env file inside all modules with variables from .env.local.example (ask Kate for values)
+3. Create .env file inside all modules with variables from .env.local.example
 
 4. Run databases and nginx in containers (check local.nginx.conf for right addresses):
 
-`docker-compose -f local.docker.docker-compose.yml up`
+`docker-compose -f local.docker-compose.yml up`
 
-5. You can run all modules locally (don't forget about database, you should up them manually)  
+5. You can run all modules locally (don't forget about database, you should up them manually)
 
 * `pnpm run start` - if you want to have live reloading for all modules
 
@@ -66,11 +66,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 ### Run all modules locally with docker
 
-1. Create .env file inside all modules with variables from .env.local.docker.example (ask Kate for values)
-
+1. Create .env file inside all modules with variables from .env.local.docker.example
 
 2. `docker-compose -f local.docker.docker-compose.yml up --build`
-
 
 ### Clean up all docker images and volumes
 

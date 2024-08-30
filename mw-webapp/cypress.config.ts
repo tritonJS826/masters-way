@@ -23,8 +23,7 @@ const cypressConfig = defineConfig({
     retries: {
       // Configure retry attempts for `cypress run`
       // Default is 0
-      // 5 until we fix db logic 
-      runMode: 5,
+      runMode: 1,
       // Configure retry attempts for `cypress open`
       // Default is 0
       openMode: 0,

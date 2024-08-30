@@ -225,8 +225,9 @@ func (roomsService *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*
 }
 
 func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.SendMessagePayload, error) {
-	messageRaw, _, err := roomsService.chatAPI.RoomAPI.CreateMessageInRoom(ctx, roomId).Request(openapiChat.SchemasCreateMessagePayload{
+	messageRaw, _, err := roomsService.chatAPI.MessageAPI.CreateMessage(ctx).Request(openapiChat.SchemasCreateMessagePayload{
 		Message: messageText,
+		RoomId:  roomId,
 	}).Execute()
 	if err != nil {
 		return nil, err

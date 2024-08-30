@@ -16,10 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateFromUserMentoringRequestPayload,
+  SchemasFromUserMentoringRequestResponse,
 } from '../models/index';
 import {
     SchemasCreateFromUserMentoringRequestPayloadFromJSON,
     SchemasCreateFromUserMentoringRequestPayloadToJSON,
+    SchemasFromUserMentoringRequestResponseFromJSON,
+    SchemasFromUserMentoringRequestResponseToJSON,
 } from '../models/index';
 
 export interface CreateFromUserMentoringRequestRequest {
@@ -39,7 +42,7 @@ export class FromUserMentoringRequestApi extends runtime.BaseAPI {
     /**
      * Create a new fromUserMentoringRequest
      */
-    async createFromUserMentoringRequestRaw(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createFromUserMentoringRequestRaw(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasFromUserMentoringRequestResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createFromUserMentoringRequest.');
         }
@@ -58,14 +61,15 @@ export class FromUserMentoringRequestApi extends runtime.BaseAPI {
             body: SchemasCreateFromUserMentoringRequestPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasFromUserMentoringRequestResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new fromUserMentoringRequest
      */
-    async createFromUserMentoringRequest(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.createFromUserMentoringRequestRaw(requestParameters, initOverrides);
+    async createFromUserMentoringRequest(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasFromUserMentoringRequestResponse> {
+        const response = await this.createFromUserMentoringRequestRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

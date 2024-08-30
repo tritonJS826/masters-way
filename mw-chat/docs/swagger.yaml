@@ -1,10 +1,14 @@
+basePath: /chat
 definitions:
   schemas.CreateMessagePayload:
     properties:
       message:
         type: string
+      roomId:
+        type: string
     required:
     - message
+    - roomId
     type: object
   schemas.CreateMessageResponse:
     properties:
@@ -146,6 +150,8 @@ definitions:
     type: object
 info:
   contact: {}
+  title: Masters way chat API
+  version: "1.0"
 paths:
   /dev/reset-db:
     get:
@@ -156,6 +162,28 @@ paths:
       summary: resets db
       tags:
       - dev
+  /messages:
+    post:
+      consumes:
+      - application/json
+      operationId: create-message
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateMessagePayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.CreateMessageResponse'
+      summary: Create message in room
+      tags:
+      - message
   /messages/{messageId}/message-status:
     patch:
       consumes:
@@ -243,33 +271,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.RoomPopulatedResponse'
       summary: Update room for user
-      tags:
-      - room
-  /rooms/{roomId}/messages:
-    post:
-      consumes:
-      - application/json
-      operationId: create-message-in-room
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateMessagePayload'
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.CreateMessageResponse'
-      summary: Create message in room
       tags:
       - room
   /rooms/{roomId}/users/{userId}:

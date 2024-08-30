@@ -43,7 +43,7 @@ runServerIfChanged () {
   then
     echo "mw-server changed. checking..."
     pnpm server:build
-    # pnpm server:test
+    pnpm server:test
   fi
 }
 
@@ -52,7 +52,7 @@ runChatIfChanged () {
   then
     echo "mw-chat changed. checking..."
     pnpm chat:build
-    # pnpm chat:test
+    pnpm chat:test
   fi
 }
 
@@ -70,7 +70,7 @@ runChatWebsocketIfChanged () {
   then
     echo "mw-chat-websocket changed. checking..."
     pnpm chat-websocket:build
-    # pnpm server:test
+    pnpm server:test
   fi
 }
 

@@ -29,6 +29,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/messages": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "message"
+                ],
+                "summary": "Create message in room",
+                "operationId": "create-message",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMessagePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/messages/{messageId}/message-status": {
             "patch": {
                 "description": "Update message status by message Id",
@@ -223,47 +257,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/rooms/{roomId}/messages": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "room"
-                ],
-                "summary": "Create message in room",
-                "operationId": "create-message-in-room",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "room Id",
-                        "name": "roomId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessageResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/rooms/{roomId}/users/{userId}": {
             "post": {
                 "consumes": [
@@ -342,10 +335,14 @@ const docTemplate = `{
         "schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
-                "message"
+                "message",
+                "roomId"
             ],
             "properties": {
                 "message": {
+                    "type": "string"
+                },
+                "roomId": {
                     "type": "string"
                 }
             }
@@ -557,11 +554,11 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/chat",
 	Schemes:          []string{},
-	Title:            "",
+	Title:            "Masters way chat API",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

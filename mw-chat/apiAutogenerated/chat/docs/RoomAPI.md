@@ -1,11 +1,10 @@
 # \RoomAPI
 
-All URIs are relative to *http://localhost*
+All URIs are relative to */chat*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddUserToRoom**](RoomAPI.md#AddUserToRoom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
-[**CreateMessageInRoom**](RoomAPI.md#CreateMessageInRoom) | **Post** /rooms/{roomId}/messages | Create message in room
 [**CreateRoom**](RoomAPI.md#CreateRoom) | **Post** /rooms | Create room for user
 [**DeleteUserFromRoom**](RoomAPI.md#DeleteUserFromRoom) | **Delete** /rooms/{roomId}/users/{userId} | Delete user from room
 [**GetChatPreview**](RoomAPI.md#GetChatPreview) | **Get** /rooms/preview | Get chat preview
@@ -79,76 +78,6 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## CreateMessageInRoom
-
-> SchemasCreateMessageResponse CreateMessageInRoom(ctx, roomId).Request(request).Execute()
-
-Create message in room
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	roomId := "roomId_example" // string | room Id
-	request := *openapiclient.NewSchemasCreateMessagePayload("Message_example") // SchemasCreateMessagePayload | query params
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.RoomAPI.CreateMessageInRoom(context.Background(), roomId).Request(request).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.CreateMessageInRoom``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `CreateMessageInRoom`: SchemasCreateMessageResponse
-	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.CreateMessageInRoom`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**roomId** | **string** | room Id | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiCreateMessageInRoomRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **request** | [**SchemasCreateMessagePayload**](SchemasCreateMessagePayload.md) | query params | 
-
-### Return type
-
-[**SchemasCreateMessageResponse**](SchemasCreateMessageResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

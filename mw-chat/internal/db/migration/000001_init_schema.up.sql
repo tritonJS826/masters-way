@@ -24,7 +24,7 @@ CREATE TABLE messages (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "owner_uuid" UUID NOT NULL,
     "room_uuid" UUID NOT NULL REFERENCES rooms("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "text" VARCHAR(3000) NOT NULL,
+    "text" VARCHAR(4096) NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "messages_pkey" PRIMARY KEY ("uuid")
