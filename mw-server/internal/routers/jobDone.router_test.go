@@ -158,7 +158,7 @@ func TestDeleteJobDoneById(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 		response, err := generalApi.JobDoneAPI.DeleteJobDone(ctx, jobDoneID).Execute()
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		wayID := "9230479a-a481-4f83-b770-138ef4f3139c"
 		dayReports, response, err := generalApi.DayReportAPI.GetDayReports(ctx, wayID).Execute()

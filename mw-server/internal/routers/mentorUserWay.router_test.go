@@ -45,7 +45,7 @@ func TestAddMentorUserWay(t *testing.T) {
 			t.Fatalf("Failed to create MentorUserWay: %v", err)
 		}
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		way, response, err := generalApi.WayAPI.GetWayByUuid(ctx, wayID).Execute()
 		if err != nil {
@@ -100,7 +100,7 @@ func TestDeleteMentorUserWay(t *testing.T) {
 			t.Fatalf("Failed to delete MentorUserWay: %v", err)
 		}
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		way, response, err := generalApi.WayAPI.GetWayByUuid(ctx, wayID).Execute()
 		if err != nil {

@@ -23,14 +23,11 @@ func TestGetAPIHealthStatus(t *testing.T) {
 	}
 
 	t.Run("should return a successful health check status and validate the response message", func(t *testing.T) {
-		healthCheckStatus, response, err := generalApi.HealthAPI.HealthcheckGet(context.Background()).Execute()
+		response, err := generalApi.HealthAPI.HealthcheckGet(context.Background()).Execute()
 		if err != nil {
-			t.Fatalf("Failed to create FromUserMentoringRequest: %v", err)
+			t.Fatalf("Failed to get healthcheck: %v", err)
 		}
 
-		expectedData := map[string]string(map[string]string{"message": "The way APi is working fine"})
-
-		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData, healthCheckStatus)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 	})
 }

@@ -1,6 +1,6 @@
 # \GeminiAPI
 
-All URIs are relative to *http://localhost*
+All URIs are relative to */api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

@@ -80,7 +80,7 @@ func TestDeleteUserTagByFromUserByTag(t *testing.T) {
 			t.Fatalf("Failed to delete MentorUserWay: %v", err)
 		}
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		user, userResponse, err := generalApi.UserAPI.GetUserByUuid(ctx, userID).Execute()
 		if err != nil {

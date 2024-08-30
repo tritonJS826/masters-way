@@ -56,7 +56,7 @@ func (jc *JobTagService) UpdateJobTag(ctx context.Context, params *UpdateJobTagP
 	args := db.UpdateJobTagParams{
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(params.JobTagID), Valid: true},
 		Name:        pgtype.Text{String: params.Name, Valid: params.Name != ""},
-		Description: pgtype.Text{String: params.Description, Valid: params.Description != ""},
+		Description: pgtype.Text{String: params.Description, Valid: true},
 		Color:       pgtype.Text{String: params.Color, Valid: params.Color != ""},
 	}
 

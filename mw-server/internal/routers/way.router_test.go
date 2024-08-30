@@ -914,7 +914,7 @@ func TestDeleteWay(t *testing.T) {
 			t.Fatalf("Failed to delete Way: %v", err)
 		}
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		ways, response, err := generalApi.WayAPI.GetAllWays(ctx).Status("all").Execute()
 		if err != nil {

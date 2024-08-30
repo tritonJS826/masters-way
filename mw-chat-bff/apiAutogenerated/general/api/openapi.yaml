@@ -136,9 +136,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
         "403":
           content:
             application/json:
@@ -219,9 +219,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete composite way relation
       tags:
       - compositeWay
@@ -406,9 +406,9 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
@@ -461,9 +461,9 @@ paths:
     get:
       description: Get the health status of the API
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Health Check
       tags:
       - Health

@@ -85,7 +85,7 @@ func TestDeleteWayCollectionWayById(t *testing.T) {
 			t.Fatalf("Failed to create WayCollection: %v", err)
 		}
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		user, userResponse, err := generalApi.UserAPI.GetUserByUuid(ctx, currentUserID).Execute()
 		if err != nil {

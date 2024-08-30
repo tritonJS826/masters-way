@@ -83,7 +83,7 @@ func TestDeleteFromUserMentoringRequestById(t *testing.T) {
 			t.Fatalf("Failed to delete FromUserMentoringRequest: %v", err)
 		}
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		way, wayResponse, err := generalApi.WayAPI.GetWayByUuid(ctx, wayID).Execute()
 		if err != nil {

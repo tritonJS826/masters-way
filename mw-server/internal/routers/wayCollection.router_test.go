@@ -130,7 +130,7 @@ func TestDeleteWayCollectionById(t *testing.T) {
 			t.Fatalf("Failed to create WayCollection: %v", err)
 		}
 
-		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		expectedData := &openapiGeneral.SchemasUserPopulatedResponse{
 			CustomWayCollections: []openapiGeneral.SchemasWayCollectionPopulatedResponse{},

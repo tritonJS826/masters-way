@@ -1,6 +1,6 @@
 # \HealthAPI
 
-All URIs are relative to *http://localhost*
+All URIs are relative to */api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## HealthcheckGet
 
-> map[string]string HealthcheckGet(ctx).Execute()
+> HealthcheckGet(ctx).Execute()
 
 Health Check
 
@@ -32,13 +32,11 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.HealthAPI.HealthcheckGet(context.Background()).Execute()
+	r, err := apiClient.HealthAPI.HealthcheckGet(context.Background()).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthcheckGet``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `HealthcheckGet`: map[string]string
-	fmt.Fprintf(os.Stdout, "Response from `HealthAPI.HealthcheckGet`: %v\n", resp)
 }
 ```
 
@@ -53,7 +51,7 @@ Other parameters are passed through a pointer to a apiHealthcheckGetRequest stru
 
 ### Return type
 
-**map[string]string**
+ (empty response body)
 
 ### Authorization
 
@@ -62,7 +60,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
