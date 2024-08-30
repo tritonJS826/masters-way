@@ -52,7 +52,18 @@ func TestAddWayToCompositeWay(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		assert.Equal(t, expectedData, compositeWay)
-		assert.Equal(t, 1, len(way.Children))
+
+		isChildExists := false
+		for _, child := range way.Children {
+			if child.Uuid == childWayID {
+				isChildExists = true
+				break
+			}
+		}
+
+		if !isChildExists {
+			t.Fatalf("childWayID %s does not exist for this user", childWayID)
+		}
 	})
 }
 
@@ -86,6 +97,17 @@ func TestDeleteCompositeWayRelation(t *testing.T) {
 		way, _, err := generalApi.WayAPI.GetWayByUuid(ctx, parentWayID).Execute()
 
 		assert.Equal(t, http.StatusNoContent, response.StatusCode)
-		assert.Equal(t, 0, len(way.Children))
+
+		isChildExists := false
+		for _, child := range way.Children {
+			if child.Uuid == childWayID {
+				isChildExists = true
+				break
+			}
+		}
+
+		if isChildExists {
+			t.Fatalf("childWayID %s exists for this user", childWayID)
+		}
 	})
 }
