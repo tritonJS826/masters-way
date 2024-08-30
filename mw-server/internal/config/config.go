@@ -9,9 +9,6 @@ import (
 
 type Config struct {
 	DBSource          string `mapstructure:"DB_SOURCE"`
-	PostgresUser      string `mapstructure:"POSTGRES_USER"`
-	PostgresPassword  string `mapstructure:"POSTGRES_PASSWORD"`
-	PostgresDb        string `mapstructure:"POSTGRES_DB"`
 	ServerPort        string `mapstructure:"SERVER_PORT"`
 	EnvType           string `mapstructure:"ENV_TYPE"`
 	GooglClientId     string `mapstructure:"GOOGLE_CLIENT_ID"`
@@ -26,11 +23,8 @@ type Config struct {
 	GeneralBaseURL    string `mapstructure:"GENERAL_BASE_URL"`
 }
 
-var prodRequiredVariables = [14]string{
+var prodRequiredVariables = [11]string{
 	"DB_SOURCE",
-	"POSTGRES_USER",
-	"POSTGRES_PASSWORD",
-	"POSTGRES_DB",
 	"SERVER_PORT",
 	"ENV_TYPE",
 	"GOOGLE_CLIENT_ID",
@@ -43,11 +37,8 @@ var prodRequiredVariables = [14]string{
 	"GEMINI_MODEL",
 }
 
-var devRequiredVariables = [14]string{
+var devRequiredVariables = [11]string{
 	"DB_SOURCE",
-	"POSTGRES_USER",
-	"POSTGRES_PASSWORD",
-	"POSTGRES_DB",
 	"SERVER_PORT",
 	"ENV_TYPE",
 	"GOOGLE_CLIENT_ID",
