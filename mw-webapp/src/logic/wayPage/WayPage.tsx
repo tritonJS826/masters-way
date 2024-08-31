@@ -140,7 +140,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
   const {language} = languageStore;
   const {theme} = themeStore;
-  const {way, setWayStatisticsTriple, reloadDayReports} = wayPageStore;
+  const {way, setWayStatisticsTriple} = wayPageStore;
   const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
 
   if (!wayPageSettings || !wayPageStore.isInitialized) {
@@ -758,10 +758,13 @@ export const WayPage = observer((props: WayPageProps) => {
                   way={way}
                   level={0}
                   isOwner={isOwner}
-                  onUpdateDayReports={async (userUuid) => {
+                  onUpdateDayReports={async (userUuid, wayUuid) => {
+                    const updatedStatistics = await WayDAL.getWayStatisticTripleById(way.uuid);
+                    const updatedDayReports = await DayReportDAL.getDayReports({wayId: way.uuid, wayName: way.name});
+                    wayPageStore.reloadDayReports(updatedDayReports.dayReports);
+                    wayPageStore.setWayStatisticsTriple(updatedStatistics);
                     way.deleteDayReports(userUuid);
-                    const dayReports = await DayReportDAL.getDayReports({wayId: way.uuid, wayName: way.name});
-                    reloadDayReports(dayReports.dayReports);
+                    way.deleteChildWay(wayUuid);
                   }}
                 />
               </VerticalContainer>
