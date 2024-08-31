@@ -283,7 +283,7 @@ export const ChatContent = observer(() => {
                       <Button
                         className={styles.wayActionsIcon}
                         buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                        onClick={() => {}}
+                        onClick={() => { }}
                         icon={
                           <Icon
                             size={IconSize.MEDIUM}
@@ -295,16 +295,20 @@ export const ChatContent = observer(() => {
                   )}
                   dropdownMenuItems={[
                     {
-                      id: "Close chat",
-                      isPreventDefaultUsed: false,
-                      value: LanguageService.common.chat.closeChat[language],
+                      dropdownSubMenuItems: [
+                        {
+                          id: "Close chat",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.common.chat.closeChat[language],
 
-                      /**
-                       * Close chat on mobile
-                       */
-                      onClick: () => {
-                        setActiveChatStore(null);
-                      },
+                          /**
+                           * Close chat on mobile
+                           */
+                          onClick: () => {
+                            setActiveChatStore(null);
+                          },
+                        },
+                      ],
                     },
                   ]}
                 />

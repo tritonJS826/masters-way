@@ -25,17 +25,22 @@ interface WayChildrenListProps {
     /**
      * Root Way fo view
      */
-    way: WayWithoutDayReports;
+  way: WayWithoutDayReports;
 
-    /**
-     * Child level (root is 0)
-     */
-    level: number;
+  /**
+   * Child level (root is 0)
+   */
+  level: number;
 
     /**
      * Indicates whether the current user is the owner of way
      */
-    isOwner: boolean;
+  isOwner: boolean;
+
+  /**
+   * Callback update day reports on trigger
+   */
+  onUpdateDayReports?: (userUuid: string, wayUuid: string) => void;
 
 }
 
@@ -105,7 +110,8 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                 </p>}
                 onOk={async () => {
                   await CompositeWayDAL.deleteWayFromComposite({childWayUuid: child.uuid, parentWayUuid: props.way.uuid});
-                  props.way.deleteChildWay(child.uuid);
+                  props.onUpdateDayReports && props.onUpdateDayReports(child.owner.uuid, child.uuid);
+                  // Props.way.deleteChildWay(child.uuid);
                 }}
                 okText={LanguageService.modals.confirmModal.deleteButton[language]}
                 cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
@@ -118,7 +124,7 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
           <WayChildrenList
             way={child}
             level={props.level + LEVEL_INCREMENT}
-            isOwner={props.isOwner}
+            isOwner={false}
           />
         </VerticalContainer>
       </div>

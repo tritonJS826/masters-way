@@ -24,3 +24,10 @@
     color: var(--tertiaryTextColor);
   }
 }
+
+.dropdownMenuItemSubTrigger {
+  padding-right: $paddingExtraSmall;
+  &:not(:last-child) {
+    border-bottom: none;
+  }
+}

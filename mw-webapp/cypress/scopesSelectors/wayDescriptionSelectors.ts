@@ -25,5 +25,7 @@ export const wayDescriptionSelectors = {
     wayActionMenu: {
         getWayActionButton: () => cy.get(getDataCy(wayDescriptionAccessIds.wayActionMenu.wayActionButton)),
         getWayActionMenuItem: () => cy.get(getDataCy(wayDescriptionAccessIds.wayActionMenu.wayMenuItem)),
+        getWayActionSubMenuItem: () => cy.get(getDataCy(wayDescriptionAccessIds.wayActionMenu.wayMenuItem)),
+        getWayActionSubTriggerItem: () => cy.get(getDataCy(wayDescriptionAccessIds.wayActionMenu.waySubTriggerItem)),
     }
 };

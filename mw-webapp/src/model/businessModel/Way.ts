@@ -367,4 +367,19 @@ export class Way {
     this.dayReports = [...this.dayReports, ...dayReports];
   }
 
+  /**
+   * Delete day reports
+   */
+  public deleteDayReports = (userUuid: string) => {
+    this.dayReports = this.dayReports.map((dayReport) => {
+      return new DayReport({
+        ...dayReport,
+        comments: dayReport.comments.filter((comment) => comment.ownerUuid !== userUuid),
+        problems: dayReport.problems.filter((comment) => comment.ownerUuid !== userUuid),
+        plans: dayReport.plans.filter((comment) => comment.ownerUuid !== userUuid),
+        jobsDone: dayReport.jobsDone.filter((comment) => comment.ownerUuid !== userUuid),
+      });
+    });
+  };
+
 }
