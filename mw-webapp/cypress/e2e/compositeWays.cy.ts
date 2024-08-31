@@ -29,13 +29,19 @@ describe('IsAuth Composite ways scope tests', () => {
         allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem()
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+            .contains(`Composite way management`)
+            .click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({force: true});
-        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem()
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+            .contains(`Composite way management`)
+            .click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.logout();
@@ -82,14 +88,20 @@ describe('IsAuth Composite ways scope tests', () => {
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
         allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem()
+      wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+      wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+            .contains(`Composite way management`)
+            .click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({force: true});
-        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem()
+      wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
+      wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+            .contains(`Composite way management`)
+            .click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
 

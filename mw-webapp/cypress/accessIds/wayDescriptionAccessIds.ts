@@ -23,6 +23,8 @@ export const wayDescriptionAccessIds = {
     wayActionMenu: {
         wayActionButton: 'wayActionButton',
         wayActionMenuList: "wayActionMenuList",
-        wayMenuItem: 'wayMenuItem'
+        wayMenuItem: 'wayMenuItem',
+        waySubMenuItem: 'waySubMenuItem',
+        waySubTriggerItem: 'waySubTriggerItem'
     }
 };

@@ -61,6 +61,13 @@ export class WayPageStore {
   };
 
   /**
+   * Update day reports
+   */
+  public reloadDayReports = (dayReports: DayReport[]) => {
+    this.way.dayReports = dayReports;
+  };
+
+  /**
    * Set way
    */
   private setLoadedData = (loadedData: WayPageFirstLoad) => {

@@ -1,5 +1,6 @@
 import {ReactElement} from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import {ChevronRightIcon} from "@radix-ui/react-icons";
 import clsx from "clsx";
 import {
   DropdownMenuItem,
@@ -25,8 +26,39 @@ interface Cy {
   /**
    * Data attribute for cypress testing
    */
+  dataCySubContent?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCySubTrigger?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
   dataCyContentList: string;
 
+}
+
+/**
+ * Nested dropdown
+ */
+interface NestedDropdownItem {
+
+  /**
+   * The element that triggers the Dropdown
+   */
+  subTrigger?: ReactElement<HTMLElement>;
+
+  /**
+   * Is visible element
+   */
+  isVisible?: boolean;
+
+  /**
+   * DropdownMenuItems list
+   */
+  dropdownSubMenuItems: DropdownMenuItemType[];
 }
 
 /**
@@ -42,7 +74,7 @@ export interface DropdownProps {
   /**
    * DropdownMenuItems list
    */
-  dropdownMenuItems: DropdownMenuItemType[];
+  dropdownMenuItems: NestedDropdownItem[];
 
   /**
    * Custom class name of content
@@ -71,24 +103,56 @@ export interface DropdownProps {
  */
 export const Dropdown = (props: DropdownProps) => {
 
-  const renderDropdownMenuItems = props.dropdownMenuItems.map((item) => {
-    const isVisible = item.isVisible ?? true;
+  /**
+   * Render dropdown items
+   */
+  const renderDropdownMenuItems = (dropdownMenuItems: DropdownMenuItemType[]) => {
+    return dropdownMenuItems.map((item) => {
+      const isVisible = item.isVisible ?? true;
 
+      if (isVisible) {
+        return (
+          <DropdownMenuItem
+            key={item.id}
+            value={item.value}
+            onClick={item.onClick ?? (() => { })}
+            dataCyContent={props.cy?.dataCyContent}
+            isPreventDefaultUsed={item.isPreventDefaultUsed}
+          />
+        );
+      }
+    });
+  };
+
+  /**
+   * Render sub content
+   */
+  const renderSubContent = (item: NestedDropdownItem) => {
+    const isVisible = item.isVisible ?? true;
     if (isVisible) {
       return (
-        <DropdownMenuItem
-          key={item.id}
-          value={item.value}
-          onClick={item.onClick ?? (() => { })}
-          dataCyContent={props.cy?.dataCyContent}
-          isPreventDefaultUsed={item.isPreventDefaultUsed}
-        />
+        <DropdownMenu.Sub>
+          <DropdownMenu.SubTrigger
+            className={styles.dropdownMenuSubTrigger}
+            data-cy={props.cy?.dataCySubTrigger}
+          >
+            {item.subTrigger}
+            <ChevronRightIcon className={styles.icon} />
+          </DropdownMenu.SubTrigger>
+          <DropdownMenu.Portal>
+            <DropdownMenu.SubContent
+              className={styles.dropdownMenuSubContent}
+              sideOffset={0}
+              alignOffset={0}
+              data-cy={props.cy?.dataCySubContent}
+            >
+              {renderDropdownMenuItems(item.dropdownSubMenuItems)}
+            </DropdownMenu.SubContent>
+          </DropdownMenu.Portal>
+        </DropdownMenu.Sub>
       );
-
-    } else {
-      return null;
     }
-  });
+  };
 
   return (
     <DropdownMenu.Root
@@ -106,7 +170,14 @@ export const Dropdown = (props: DropdownProps) => {
           className={clsx(styles.dropdownContent, props.contentClassName)}
           data-cy={props.cy?.dataCyContentList}
         >
-          {renderDropdownMenuItems}
+          {props.dropdownMenuItems.map((item) => {
+            return (
+              !item.subTrigger
+                ? renderDropdownMenuItems(item.dropdownSubMenuItems)
+                : renderSubContent(item)
+            );
+          })
+          }
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
