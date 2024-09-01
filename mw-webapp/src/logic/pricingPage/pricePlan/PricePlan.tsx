@@ -7,6 +7,7 @@ import {Modal} from "src/component/modal/Modal";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {CapabilityItem} from "src/logic/pricingPage/pricePlan/capabilityItem/CapabilityItem";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/pricingPage/pricePlan/PricePlan.module.scss";
 
@@ -79,7 +80,7 @@ export interface PricePlanType {
   /**
    * Period price plan
    */
-  period?: "month" | "year";
+  period: "month" | "year" | "free";
 
   /**
    * Capabilities
@@ -109,42 +110,31 @@ export const PricePlan = observer((props: PricePlanProps) => {
 
   return (
     <VerticalContainer className={clsx(styles.pricePlanCard, styles[cardTheme])}>
-      <VerticalContainer className={styles.planHeader}>
-        <Title
-          level={HeadingLevel.h3}
-          text={props.pricePlan.name}
-          className={styles.pricePlanTitle}
-          placeholder=""
-        />
-        <ul>
-          {
-            capabilitiesList.map((item: string) => (
-              <li
-                key={item}
-                className={capabilities[item as keyof typeof capabilities] !== 0 ? styles.itemAvailable : styles.itemUnavailable}
-              >
-                {LanguageService.pricing.planCard[item as keyof typeof capabilities][language]}
-                {
-                  capabilities[item as keyof typeof capabilities] !== 0 &&
-                  <span>
-                    {` (${capabilities[item as keyof typeof capabilities]})`}
-                  </span>
-                }
-              </li>
-            ))
-          }
-        </ul>
-        {props.pricePlan.period === undefined ?
-          <p className={styles.priceFree}>
-            {LanguageService.pricing.free[language].toUpperCase()}
-          </p>
-          :
-          <p className={styles.priceAmount}>
-            {`$${props.pricePlan.price}`}
-            <span>
+      <Title
+        level={HeadingLevel.h2}
+        text={props.pricePlan.name}
+        placeholder=""
+      />
+      <VerticalContainer className={styles.planCapabilities}>
+        {capabilitiesList.map((capability: string) => (
+          <CapabilityItem
+            key={capability}
+            isAvailable={capabilities[capability as keyof typeof capabilities] !== 0}
+            value={LanguageService.pricing.planCard[capability as keyof typeof capabilities][language]}
+            amount={capabilities[capability as keyof typeof capabilities]}
+          />
+        ))
+        }
+        {<p className={styles.priceAmount}>
+          {props.pricePlan.period === "free"
+            ? LanguageService.pricing.free[language].toUpperCase()
+            : `$${props.pricePlan.price}`}
+          {props.pricePlan.period !== "free" &&
+            <span className={styles.measurement}>
               {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
             </span>
-          </p>
+          }
+        </p>
         }
       </VerticalContainer>
       <Modal
@@ -152,7 +142,7 @@ export const PricePlan = observer((props: PricePlanProps) => {
           <Button
             onClick={TrackUserPage.trackUpgradeToPremiumClick}
             value={LanguageService.pricing.choose[language]}
-            buttonType={ButtonType.SUPER_SPECIAL_BEAUTIFUL_BUTTON}
+            buttonType={ButtonType.PRIMARY}
             className={styles.buyPlanButton}
           />
         }
@@ -164,5 +154,4 @@ export const PricePlan = observer((props: PricePlanProps) => {
       />
     </VerticalContainer>
   );
-
 });

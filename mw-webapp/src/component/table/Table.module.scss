@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$table-border: 1px solid var(--primaryStrokeColor);
+$table-border: $primaryBorder solid var(--primaryStrokeColor);
 $cell-max-width: 600px;
 
 .table {

@@ -72,12 +72,6 @@ export const MentorsLandingPage = observer(() => {
                 {`${LanguageService.mentorsLanding.main.mastersWay[language]}`}
               </h1>
             </h1>
-            {/* <Title
-              className={styles.title}
-              level={HeadingLevel.h1}
-              text={LanguageService.mentorsLanding.main.title[language]}
-              placeholder=""
-            /> */}
             <p className={styles.titleDescription}>
               {LanguageService.mentorsLanding.main.description[language]}
             </p>

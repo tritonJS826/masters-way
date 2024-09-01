@@ -5,46 +5,46 @@
 }
 
 .SelectIcon {
-  stroke: var(--primaryIconColor);
-  transition: all $primaryTransitionDuration ease;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  stroke: var(--primaryIconColor);
+  transition: all $primaryTransitionDuration ease;
 }
 
 .SelectTrigger {
   all: unset;
+  display: flex;
+  align-items: center;
   padding: 0 $paddingMedium;
+  border: solid $primaryBorder var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeMedium;
-  border: solid  $primaryBorder var(--primaryStrokeColor);
-  display: flex;
-  align-items: center;
-  gap: $gapSmall;
   font-weight: $fontWeightSemibold;
+  gap: $gapSmall;
 
-  &[data-state="open"] > .SelectIcon  {
+  &[data-state="open"] > .SelectIcon {
     transform: rotate(180deg);
   }
 }
 
 .SelectTriggerValue {
-  font-weight: $fontWeightReular;
+  font-weight: $fontWeightRegular;
 }
 
 .SelectContent {
   z-index: $dropdownZIndex;
+  display: flex;
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
   padding: $paddingSmall $paddingMedium;
+  border: solid $primaryBorder var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
   color: var(--generalPrimaryColor);
-  border: solid $primaryBorder var(--primaryStrokeColor);
-  display: flex;
   gap: $gapSmall;
 }
 

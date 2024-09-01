@@ -4,72 +4,32 @@
 $pricePlanCardWidth: 312px;
 $quintupleBorderRadius: 24px;
 
-.pricePlanCard,
-.light {
+.pricePlanCard {
   width: $pricePlanCardWidth;
   padding: $paddingBig $paddingLarge;
+  border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $quintupleBorderRadius;
-  background-color: var(--secondaryTextColor);
-  color: var(--tertiaryIconColor);
+  background-color: var(--tertiaryBgColor);
+  color: var(--primaryTextColor);
   gap: $gapMedium;
   text-align: left;
 }
 
 .dark {
-  background-color: var(--primaryBgColor);
-  color: var(--primaryTextColor);
+  background-color: var(--quaternaryBgColor);
+  color: var(--secondaryTextColor);
+
+  svg {
+    stroke: var(--secondaryStrokeColor);
+  }
 }
 
-.planHeader {
-  display: flex;
-  flex-direction: column;
-  gap: $gapMedium;
-}
-
-.pricePlanTitle h3 {
-  font-size: $fontSizeLarge;
-}
-
-.pricePlanCard ul {
-  padding-left: $paddingExtraMedium;
-  line-height: 1.875em;
-}
-
-.pricePlanCard li {
-  padding-left: $paddingSmall;
-  font-size: $fontSizeBig;
-  font-weight: $fontWeightReular;
-}
-
-.itemAvailable {
-  list-style-image: url("src/assets/entypo_check.svg");
-}
-
-.dark .itemAvailable {
-  list-style-image: url("src/assets/entypo_check_light.svg");
-}
-
-.itemUnavailable {
-  color: var(--tertiaryTextColor);
-  list-style-image: url("src/assets/icon_close.svg");
+.planCapabilities {
+  gap: $gapSmall;
 }
 
 .buyPlanButton {
   margin: 0 auto;
-  background-color: var(--generalPrimaryColor);
-  color: var(--secondaryTextColor);
-  font-weight: $fontWeightReular;
-
-  &:hover:enabled,
-  &:active:enabled {
-    background-color: var(--hoverBgColor);
-  }
-}
-
-.priceFree {
-  padding-bottom: $paddingSmall;
-  font-size: $fontSizeLarge;
-  font-weight: $fontWeightBold;
 }
 
 .priceAmount {
@@ -77,9 +37,9 @@ $quintupleBorderRadius: 24px;
   font-weight: $fontWeightBold;
 }
 
-.priceAmount span {
+.measurement {
   color: var(--tertiaryTextColor);
   font-size: $fontSizeBig;
-  font-weight: $fontWeightReular;
+  font-weight: $fontWeightRegular;
   vertical-align: middle;
 }

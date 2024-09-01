@@ -17,34 +17,28 @@ export const PricingPage = observer(() => {
 
   return (
     <>
-      <div className={styles.container}>
-        <VerticalContainer className={styles.pricingBlock}>
-          <div className={styles.titleContainer}>
-            <Title
-              level={HeadingLevel.h2}
-              text={LanguageService.pricing.pricingBlock.title[language]}
-              className={styles.pricingTitle}
-              placeholder=""
-            />
-            <Title
-              level={HeadingLevel.h3}
-              text={LanguageService.pricing.pricingBlock.description[language]}
-              className={styles.subtitleDescription}
-              placeholder=""
-            />
-          </div>
-          <HorizontalContainer className={styles.systemItems}>
-            {
-              pricePlans.map((pricePlan) => (
-                <PricePlan
-                  key={pricePlan.id}
-                  pricePlan={pricePlan}
-                />
-              ))
-            }
-          </HorizontalContainer>
-        </VerticalContainer>
-      </div>
+      <VerticalContainer className={styles.pricingBlock}>
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.pricing.pricingBlock.title[language]}
+          className={styles.pricingTitle}
+          placeholder=""
+        />
+        <p className={styles.pricingDescription}>
+          {LanguageService.pricing.pricingBlock.description[language]}
+        </p>
+        <HorizontalContainer className={styles.planItems}>
+          {
+            pricePlans.map((pricePlan) => (
+              <PricePlan
+                key={pricePlan.id}
+                pricePlan={pricePlan}
+              />
+            ))
+          }
+        </HorizontalContainer>
+
+      </VerticalContainer>
       <Footer language={language} />
     </>
   );

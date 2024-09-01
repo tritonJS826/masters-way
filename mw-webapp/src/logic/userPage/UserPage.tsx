@@ -592,8 +592,14 @@ export const UserPage = observer((props: UserPageProps) => {
                 <Modal
                   trigger={
                     <Button
-                      onClick={TrackUserPage.trackUpgradeToPremiumClick}
+                      onClick={TrackUserPage.trackDonateClick}
                       value={LanguageService.user.personalInfo.donateButton[language]}
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name={"DollarIcon"}
+                        />
+                      }
                       buttonType={ButtonType.SECONDARY}
                     />
                   }
@@ -605,9 +611,16 @@ export const UserPage = observer((props: UserPageProps) => {
                 />
                 <Button
                   onClick={() => {
+                    TrackUserPage.trackUpgradeToPremiumClick;
                     navigate(pages.pricing.getPath({}));
                   }}
                   value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
+                  icon={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name={"AwardIcon"}
+                    />
+                  }
                   buttonType={ButtonType.SECONDARY}
                 />
               </>

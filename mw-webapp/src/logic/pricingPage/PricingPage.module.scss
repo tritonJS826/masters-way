@@ -1,58 +1,37 @@
 @import "src/styles/variables";
 
-$homePaddingBigBlock: 128px;
-$mainImageMarginTop: 36px;
-
-.container {
-  justify-content: center;
-  margin-top: $mainImageMarginTop;
-  background-color: var(--generalPrimaryColor);
-  background-image: url("src/assets/Logo45.svg");
-  background-position: 3vw;
-  background-repeat: no-repeat;
-  background-size: max(97vw, 97vh);
-}
-
 .pricingBlock {
-  width: 80%;
-  padding: 145px $paddingMedium $homePaddingBigBlock;
-  margin: 0 auto;
-  gap: $gapLarge;
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  background-color: var(--secondaryBgColor);
+  gap: $gapBig;
   text-align: center;
 
-  @media (max-width: $mediaWidthTablet) {
-    width: 100%;
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingExtraMedium;
   }
 }
 
-.titleContainer {
-  display: flex;
-  max-width: 568px;
-  flex-direction: column;
-  margin: 0 auto;
-  gap: $gapMedium;
+.pricingTitle {
+  max-width: $maxWidthBlock;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
 }
 
-.systemItems {
+.pricingDescription {
+  max-width: $maxWidthBlock;
+}
+
+.planItems {
   max-width: $maxWidthContainer;
   flex-wrap: wrap;
-  justify-content: center;
+
+  justify-content: space-between;
   padding: $paddingBig $paddingMedium;
   gap: $gapExtraLarge;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    justify-content: center;
-  }
-}
-
-.pricingTitle h2 {
-  font-size: $fontSizeTitleBig;
-  opacity: 0.96;
-}
-
-.subtitleDescription h3 {
-  font-size: $fontSizeBig;
-  font-weight: $fontWeightReular;
-  line-height: 1.5em;
-  opacity: 0.68;
 }
