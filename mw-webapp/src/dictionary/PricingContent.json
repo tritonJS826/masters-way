@@ -1,0 +1,76 @@
+{
+  "pricingBlock": {
+    "title": {
+      "ru": "Правильный план для достижения Вашей цели",
+      "en": "The Right Plan for Your Goal",
+      "ua": "Правильний план для досягнення вашої мети"
+    },
+    "description": {
+      "ru": "У нас есть несколько мощных планов, чтобы продемонстрировать Ваш бизнес и заявить о себе как о креативных предпринимателях. Все, что Вам нужно.",
+      "en": "We have several powerful plans to showcase your business and get discovered as a creative entrepreneurs. Everything you need.",
+      "ua": "У нас є кілька потужних планів, щоб продемонструвати ваш бізнес і заявити про себе як креативних підприємців. Все, що вам потрібно."
+    }
+  },
+  "planCard": {
+    "ownWays" : {
+      "ru": "Собственные пути",
+      "en": "Own ways",
+      "ua": "Власні шляхи"
+    },
+    "privateWays" : {
+      "ru": "Приватные пути",
+      "en": "Private ways",
+      "ua": "Приватні шляхи"
+    },
+    "dayReports" : {
+      "ru": "Дневные отчеты",
+      "en": "Day reports",
+      "ua": "Денні звіти"
+    },
+    "userTags" : {
+      "ru": "Пользовательские теги",
+      "en": "User tags",
+      "ua": "Індивідуальні теги"
+    },
+    "customCollections" : {
+      "ru": "Пользовательские коллекции",
+      "en": "Custom collections",
+      "ua": "Індивідуальні колекції"
+    },
+    "mentoringWays" : {
+      "ru": "Пути ментора",
+      "en": "Mentoring ways",
+      "ua": "Шляхи ментора"
+    },
+    "compositeWayDeps" : {
+      "ru": "Композитный путь deps",
+      "en": "Composite way deps",
+      "ua": "Композитний шлях deps"
+    }
+  },
+  "month": {
+    "ru": "месяц",
+    "en": "month",
+    "ua": "місяць"
+  },
+  "year": {
+    "ru": "год",
+    "en": "year",
+    "ua": "рік"
+  },
+  "choose": {
+    "ru": "Выбрать план",
+    "en": "Choose plan",
+    "ua": "Виберіть план"
+  },
+  "free": {
+    "ru": "Бесплатно",
+    "en": "Free",
+    "ua": "Безкоштовно"
+  },
+  "buyPlanModal": {
+    "ru": "Возможность приобрести план еще не реализована. Пожалуйста, подождите немного. Мы благодарим вас за проявленный интерес!",
+    "en": "The option to buy a plan has not yet been implemented. Please wait a moment. We thank you for your interest!",
+    "ua": "Можливість придбати план ще не реалізована. Зачекайте, будь ласка. Ми дякуємо вам за виявлений інтерес!"
+  }
+}

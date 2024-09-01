@@ -7,6 +7,7 @@ import headerContent from "src/dictionary/Header.json";
 import homePageContent from "src/dictionary/HomePageContent.json";
 import mentorsLanding from "src/dictionary/landing/MentorsContent.json";
 import modals from "src/dictionary/Modals.json";
+import pricing from "src/dictionary/PricingContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
@@ -92,6 +93,13 @@ export class LanguageService {
    */
   public static get common() {
     return common;
+  }
+
+  /**
+   * Pricing content
+   */
+  public static get pricing() {
+    return pricing;
   }
 
   /**

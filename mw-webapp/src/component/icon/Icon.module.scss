@@ -1,6 +1,7 @@
 @import "src/styles/variables";
 
 .icon {
+  flex-shrink: 0;
   stroke: var(--primaryIconColor);
 }
 

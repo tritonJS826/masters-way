@@ -1,0 +1,45 @@
+@import "src/styles/variables";
+
+//Price plan card width
+$pricePlanCardWidth: 312px;
+$quintupleBorderRadius: 24px;
+
+.pricePlanCard {
+  width: $pricePlanCardWidth;
+  padding: $paddingBig $paddingLarge;
+  border: $primaryBorder solid var(--generalPrimaryColor);
+  border-radius: $quintupleBorderRadius;
+  background-color: var(--tertiaryBgColor);
+  color: var(--primaryTextColor);
+  gap: $gapMedium;
+  text-align: left;
+}
+
+.dark {
+  background-color: var(--quaternaryBgColor);
+  color: var(--secondaryTextColor);
+
+  svg {
+    stroke: var(--secondaryStrokeColor);
+  }
+}
+
+.planCapabilities {
+  gap: $gapSmall;
+}
+
+.buyPlanButton {
+  margin: 0 auto;
+}
+
+.priceAmount {
+  font-size: $fontSizeTitleMedium;
+  font-weight: $fontWeightBold;
+}
+
+.measurement {
+  color: var(--tertiaryTextColor);
+  font-size: $fontSizeBig;
+  font-weight: $fontWeightRegular;
+  vertical-align: middle;
+}

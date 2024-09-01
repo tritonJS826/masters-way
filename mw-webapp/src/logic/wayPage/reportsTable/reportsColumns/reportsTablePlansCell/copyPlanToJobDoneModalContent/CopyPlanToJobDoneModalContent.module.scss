@@ -11,7 +11,7 @@
 
 .input {
   padding: $paddingSmall;
-  border: 1px solid var(--primaryStrokeColor);
+  border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
 }
 

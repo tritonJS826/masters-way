@@ -42,6 +42,11 @@ const HomePageLazy = React.lazy(() => import("src/logic/homePage/HomePage")
 const HomePage = () => (<>
   <HomePageLazy />
 </>);
+const PricingPageLazy = React.lazy(() => import("src/logic/pricingPage/PricingPage")
+  .then((module) => ({default: module.PricingPage})));
+const PricingPage = () => (<>
+  <PricingPageLazy />
+</>);
 const AlLWaysPageLazy = React.lazy(() => import("src/logic/allWaysPage/AllWaysPage")
   .then((module) => ({default: module.AllWaysPage})));
 const AllWaysPage = () => (<>
@@ -96,6 +101,11 @@ export const pages = {
   home: {
     getPath: () => "/",
     getPageComponent: () => suspended(<HomePage />),
+    urlParams: {},
+  } as PageParams,
+  pricing: {
+    getPath: () => "/pricing",
+    getPageComponent: () => suspended(<PricingPage />),
     urlParams: {},
   } as PageParams,
   allWays: {

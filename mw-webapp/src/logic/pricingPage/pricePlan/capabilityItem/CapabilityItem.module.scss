@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.capabilityItemContainer {
+  align-items: center;
+  gap: $gapMedium;
+}
+
+.icon {
+  svg {
+    stroke: var(--primaryStrokeColor);
+  }
+}
+
+.unavailable {
+  color: var(--tertiaryTextColor);
+  svg {
+    stroke: var(--tertiaryTextColor);
+  }
+}

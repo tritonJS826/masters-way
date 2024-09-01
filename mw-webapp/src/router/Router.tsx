@@ -53,6 +53,10 @@ export const router = createBrowserRouter(
           path={pages.aboutProject.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.aboutProject} />}
         />
+        <Route
+          path={pages.pricing.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.pricing} />}
+        />
       </Route>
 
       <Route
