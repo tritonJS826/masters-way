@@ -1,6 +1,7 @@
 package services
 
 import (
+	"mwserver/internal/auth"
 	"mwserver/internal/config"
 	db "mwserver/internal/db/sqlc"
 
@@ -40,8 +41,10 @@ type Service struct {
 
 func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.Config) *Service {
 	queries := db.New(pool)
+	googleOAuthConfig := auth.MakeGoogleOAuthConfig(config)
 
 	return &Service{
+		AuthService:                     newAuthService(googleOAuthConfig, []byte(config.SecretSessionKey)),
 		CommentService:                  NewCommentService(queries),
 		CompositeWayService:             NewCompositeWayService(queries),
 		DayReportService:                NewDayReportService(queries),
