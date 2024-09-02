@@ -14,7 +14,7 @@ import styles from "src/logic/pricingPage/pricePlan/PricePlan.module.scss";
 /**
  *CapabilitiesType
  */
-interface CapabilitiesType {
+export interface CapabilitiesType {
 
   /**
    * Own ways
@@ -125,18 +125,18 @@ export const PricePlan = observer((props: PricePlanProps) => {
           />
         ))
         }
-        {<p className={styles.priceAmount}>
-          {props.pricePlan.period === "free"
-            ? LanguageService.pricing.free[language].toUpperCase()
-            : `$${props.pricePlan.price}`}
-          {props.pricePlan.period !== "free" &&
-            <span className={styles.measurement}>
-              {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
-            </span>
-          }
-        </p>
-        }
       </VerticalContainer>
+      {<p className={styles.priceAmount}>
+        {props.pricePlan.period === "free"
+          ? LanguageService.pricing.free[language].toUpperCase()
+          : `$${props.pricePlan.price}`}
+        {props.pricePlan.period !== "free" &&
+        <span className={styles.measurement}>
+          {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
+        </span>
+        }
+      </p>
+      }
       <Modal
         trigger={
           <Button

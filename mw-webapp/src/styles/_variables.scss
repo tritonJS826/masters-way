@@ -117,6 +117,17 @@ $disableOpacity: 0.7;
   }
 }
 
+@mixin backgroundImage {
+  background-image: linear-gradient(
+      var(--opacityBgColor),
+      var(--opacityBgColor)
+    ),
+    url("/src/assets/backgroundImageLogo.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 @mixin scaleOnHover {
   &:hover {
     transform: scale(1.02);

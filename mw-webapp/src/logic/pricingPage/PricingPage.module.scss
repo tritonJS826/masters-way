@@ -1,12 +1,10 @@
 @import "src/styles/variables";
 
 .pricingBlock {
-  position: relative;
-  width: 100%;
-  flex-grow: 1;
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
   background-color: var(--secondaryBgColor);
+  @include backgroundImage;
   gap: $gapBig;
   text-align: center;
 
@@ -30,7 +28,6 @@
 .planItems {
   max-width: $maxWidthContainer;
   flex-wrap: wrap;
-
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;
   gap: $gapExtraLarge;
