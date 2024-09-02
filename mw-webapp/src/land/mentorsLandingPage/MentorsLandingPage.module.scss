@@ -77,13 +77,8 @@ $maxWidthTitleBlock: 780px;
   background-clip: padding-box;
 }
 
-.mainBlock,
 .pricingBlock {
   @include backgroundImage;
-}
-
-.mainBlock {
-  background-size: cover;
 }
 
 .questionsBlock,

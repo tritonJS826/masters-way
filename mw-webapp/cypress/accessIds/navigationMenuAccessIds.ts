@@ -8,6 +8,7 @@ export const navigationMenuIds = {
         allWays: 'allWays',
         allUsers: 'allUsers',
         aboutProject: 'aboutProject',
+        pricing: 'pricing',
         settings: 'settings'
     },
 
