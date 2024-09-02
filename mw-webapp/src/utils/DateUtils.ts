@@ -82,16 +82,16 @@ export class DateUtils {
   }
 
   /**
-   * Dates ascendant sorter
+   * Compares two dates for ascending order
    */
-  public static datesASCSorter(a: Date, b: Date) {
+  public static compareDatesASC(a: Date, b: Date) {
     return a.getTime() - b.getTime();
   }
 
   /**
-   * Dates ascendant sorter
+   * Compares two dates for descending order
    */
-  public static datesDESCSorter(a: Date, b: Date) {
+  public static compareDatesDESC (a: Date, b: Date) {
     return b.getTime() - a.getTime();
   }
 

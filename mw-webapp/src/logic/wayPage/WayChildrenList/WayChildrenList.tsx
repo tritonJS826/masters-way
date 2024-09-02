@@ -46,16 +46,7 @@ const LEVEL_INCREMENT = 1;
  * Recursively sorts an array of WayWithoutDayReports objects by their lastUpdate date
  */
 const sortWayChildren = (children: WayWithoutDayReports[]): WayWithoutDayReports[] => {
-  const sortedChildrenItem = children
-    .map(child => {
-      const updatedChild = {
-        ...child,
-        children: child.children ? sortWayChildren(child.children) : [],
-      } as WayWithoutDayReports;
-
-      return updatedChild;
-    })
-    .sort((a, b) => DateUtils.datesDESCSorter(a.lastUpdate, b.lastUpdate));
+  const sortedChildrenItem = [...children].sort((a, b) => DateUtils.compareDatesDESC(a.lastUpdate, b.lastUpdate));
 
   return sortedChildrenItem;
 };
