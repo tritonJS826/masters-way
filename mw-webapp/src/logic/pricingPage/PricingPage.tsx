@@ -1,3 +1,4 @@
+import {pricingAccessIds} from "cypress/accessIds/pricingAccessIds";
 import {observer} from "mobx-react-lite";
 import {Footer} from "src/component/footer/Footer";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -23,6 +24,7 @@ export const PricingPage = observer(() => {
           text={LanguageService.pricing.pricingBlock.title[language]}
           className={styles.pricingTitle}
           placeholder=""
+          cy={{dataCyTitleContainer: pricingAccessIds.pricingBlock.title}}
         />
         <p className={styles.pricingDescription}>
           {LanguageService.pricing.pricingBlock.description[language]}
