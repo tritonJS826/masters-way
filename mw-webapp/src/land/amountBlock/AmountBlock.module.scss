@@ -1,0 +1,11 @@
+@import "src/styles/variables";
+
+.amountBlock {
+  max-width: $maxWidthContainer;
+  justify-content: space-between;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  margin: 0 auto;
+  background-color: var(--primaryBgColor);
+  gap: $gapExtraExtraLarge;
+  grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
+}

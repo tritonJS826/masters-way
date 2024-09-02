@@ -12,8 +12,11 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {AmountBlock, AmountItem} from "src/land/amountBlock/AmountBlock";
 import {HeaderLanding, NavLink} from "src/land/headerLanding/HeaderLanding";
 import {ProblemItem} from "src/land/mentorsLandingPage/problemItem/ProblemItem";
+import {PricePlan} from "src/logic/pricingPage/pricePlan/PricePlan";
+import {pricePlans} from "src/logic/pricingPage/pricePlan/pricePlans";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -42,6 +45,10 @@ export const MentorsLandingPage = observer(() => {
       value: LanguageService.mentorsLanding.navigation.reviews[language],
     },
     {
+      path: "pricing",
+      value: LanguageService.mentorsLanding.navigation.pricing[language],
+    },
+    {
       path: "questions",
       value: LanguageService.mentorsLanding.navigation.questions[language],
     },
@@ -51,6 +58,24 @@ export const MentorsLandingPage = observer(() => {
     trigger: {child: data.question[language]},
     content: {child: renderMarkdown(data.answer[language])},
   }));
+
+  const amountItems: AmountItem[] = [
+    {
+      id: "00000000-0000-0000-0000-00000000001",
+      amount: 30,
+      description: LanguageService.mentorsLanding.amountBlock.mentors[language],
+    },
+    {
+      id: "00000000-0000-0000-0000-00000000002",
+      amount: 150,
+      description: LanguageService.mentorsLanding.amountBlock.activeWays[language],
+    },
+    {
+      id: "00000000-0000-0000-0000-00000000003",
+      amount: 50,
+      description: LanguageService.mentorsLanding.amountBlock.students[language],
+    },
+  ];
 
   return (
     <>
@@ -88,6 +113,8 @@ export const MentorsLandingPage = observer(() => {
             }
             onClick={() => navigate(pages.home.getPath({}))}
           />
+        </VerticalContainer>
+        <VerticalContainer className={styles.imageBlock}>
           <Image
             alt="desktopImage"
             src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w1000"
@@ -129,6 +156,8 @@ export const MentorsLandingPage = observer(() => {
             />
           </HorizontalContainer>
         </div>
+
+        <AmountBlock amountItems={amountItems} />
 
         <div
           className={styles.problemsBlock}
@@ -213,6 +242,28 @@ export const MentorsLandingPage = observer(() => {
             onClick={() => navigate(pages.home.getPath({}))}
             className={styles.triesActionButton}
           />
+        </div>
+
+        <div
+          className={styles.pricingBlock}
+          id="pricing"
+        >
+          <Title
+            className={styles.title}
+            level={HeadingLevel.h2}
+            text={LanguageService.mentorsLanding.pricing.title[language]}
+            placeholder=""
+          />
+          <HorizontalContainer className={styles.planItems}>
+            {
+              pricePlans.map((pricePlan) => (
+                <PricePlan
+                  key={pricePlan.id}
+                  pricePlan={pricePlan}
+                />
+              ))
+            }
+          </HorizontalContainer>
         </div>
 
         <div

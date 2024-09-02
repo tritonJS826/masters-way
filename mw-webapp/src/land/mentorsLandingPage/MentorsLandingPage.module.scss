@@ -45,8 +45,10 @@ $maxWidthTitleBlock: 780px;
 .advantagesBlock,
 .problemsBlock,
 .reviewBlock,
+.pricingBlock,
 .questionsBlock,
 .triesBlock,
+.imageBlock,
 .mainBlock {
   display: flex;
   max-width: $maxWidthContainer;
@@ -65,6 +67,7 @@ $maxWidthTitleBlock: 780px;
 .advantagesBlock,
 .problemsBlock,
 .reviewBlock,
+.pricingBlock,
 .questionsBlock {
   // Workaround for smooth anchor link earlier then block  for don't hide under header https://misha.agency/css/ssyilki-yakori.html
   border-top: 55px solid transparent;
@@ -72,6 +75,15 @@ $maxWidthTitleBlock: 780px;
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+}
+
+.mainBlock,
+.pricingBlock {
+  @include backgroundImage;
+}
+
+.mainBlock {
+  background-size: cover;
 }
 
 .questionsBlock,
@@ -117,4 +129,12 @@ $maxWidthTitleBlock: 780px;
 
 .icon {
   stroke: var(--secondaryStrokeColor);
+}
+
+.planItems {
+  max-width: $maxWidthContainer;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: $paddingBig $paddingMedium;
+  gap: $gapExtraLarge;
 }
