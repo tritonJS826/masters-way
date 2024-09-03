@@ -15,6 +15,7 @@ import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/WayChildrenList/WayChildrenList.module.scss";
 
 /**
@@ -45,6 +46,15 @@ interface WayChildrenListProps {
 }
 
 const LEVEL_INCREMENT = 1;
+
+/**
+ * Recursively sorts an array of WayWithoutDayReports objects by their lastUpdate date
+ */
+const sortWayChildren = (children: WayWithoutDayReports[]): WayWithoutDayReports[] => {
+  const sortedChildrenItem = [...children].sort((a, b) => DateUtils.compareDatesDESC(a.lastUpdate, b.lastUpdate));
+
+  return sortedChildrenItem;
+};
 
 /**
  * Item for way children list
@@ -131,7 +141,9 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
     );
   };
 
-  const childrenList = props.way.children.map(renderChildrenItem);
+  const sortedChildren = sortWayChildren(props.way.children);
+
+  const childrenList = sortedChildren.map(renderChildrenItem);
 
   return childrenList;
 };
