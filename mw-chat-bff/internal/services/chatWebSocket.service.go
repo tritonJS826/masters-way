@@ -8,15 +8,15 @@ import (
 	lop "github.com/samber/lo/parallel"
 )
 
-type MWChatWebSocketService struct {
-	mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient
+type ChatWebSocketService struct {
+	chatWebSocketAPI *openapiMWChatWebSocket.APIClient
 }
 
-func NewMWChatSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient) *MWChatWebSocketService {
-	return &MWChatWebSocketService{mwChatWebSocketAPI}
+func NewChatWebSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient) *ChatWebSocketService {
+	return &ChatWebSocketService{mwChatWebSocketAPI}
 }
 
-func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, messageResponse *schemas.SendMessagePayload) error {
+func (cs *ChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, messageResponse *schemas.SendMessagePayload) error {
 	request := openapiMWChatWebSocket.SchemasSendMessagePayload{
 		Message: openapiMWChatWebSocket.SchemasMessageResponse{
 			MessageId:      messageResponse.Message.MessageID,
@@ -29,7 +29,7 @@ func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Conte
 		},
 		Users: messageResponse.UserIDs,
 	}
-	_, err := mwChatWebSocketService.mwChatWebSocketAPI.SocketAPI.SendMessageEvent(ctx).Request(request).Execute()
+	_, err := cs.chatWebSocketAPI.SocketAPI.SendMessageEvent(ctx).Request(request).Execute()
 	if err != nil {
 		return err
 	}
@@ -37,7 +37,7 @@ func (mwChatWebSocketService *MWChatWebSocketService) SendMessage(ctx *gin.Conte
 	return nil
 }
 
-func (mwChatWebSocketService *MWChatWebSocketService) SendRoom(ctx *gin.Context, populatedRoom *schemas.RoomPopulatedResponse) error {
+func (cs *ChatWebSocketService) SendRoom(ctx *gin.Context, populatedRoom *schemas.RoomPopulatedResponse) error {
 	openapiUsers := lop.Map(populatedRoom.Users, func(user schemas.UserResponse, _ int) openapiMWChatWebSocket.SchemasUserResponse {
 		return openapiMWChatWebSocket.SchemasUserResponse{
 			ImageUrl: user.ImageURL,
@@ -68,7 +68,7 @@ func (mwChatWebSocketService *MWChatWebSocketService) SendRoom(ctx *gin.Context,
 		Users:    openapiUsers,
 	}
 
-	_, err := mwChatWebSocketService.mwChatWebSocketAPI.SocketAPI.SendRoomEvent(ctx).Request(request).Execute()
+	_, err := cs.chatWebSocketAPI.SocketAPI.SendRoomEvent(ctx).Request(request).Execute()
 	if err != nil {
 		return err
 	}

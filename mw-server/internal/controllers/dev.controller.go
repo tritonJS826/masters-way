@@ -22,9 +22,9 @@ func NewDevController(devService *services.DevService) *DevController {
 // @Tags dev
 // @Success 204
 // @Router /dev/reset-db [get]
-func (dc *DevController) ResetDb(ctx *gin.Context) {
+func (dc *DevController) ResetDB(ctx *gin.Context) {
 
-	err := dc.devService.ResetDb(ctx)
+	err := dc.devService.ResetDB(ctx)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

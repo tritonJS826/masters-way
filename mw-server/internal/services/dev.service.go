@@ -21,7 +21,7 @@ func NewDevService(devRepository IDevRepository, pgxPool *pgxpool.Pool) *DevServ
 	return &DevService{devRepository, pgxPool}
 }
 
-func (ds *DevService) ResetDb(ctx context.Context) error {
+func (ds *DevService) ResetDB(ctx context.Context) error {
 	migration, err := os.ReadFile("internal/db/migration/000001_init_schema.up.sql")
 	if err != nil {
 		return err

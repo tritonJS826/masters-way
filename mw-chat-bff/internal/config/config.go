@@ -17,11 +17,12 @@ type Config struct {
 	ChatBaseURL            string `mapstructure:"CHAT_BASE_URL"`
 	MWChatWebSocketAPIHost string `mapstructure:"MW_CHAT_WEBSOCKET_API_HOST"`
 	MWChatWebSocketBaseURL string `mapstructure:"MW_CHAT_WEBSOCKET_BASE_URL"`
-	ChatBffBaseURL         string `mapstructure:"CHAT_BFF_BASE_URL"`
+	ChatBFFAPIHost         string `mapstructure:"CHAT_BFF_API_HOST"`
+	ChatBFFBaseURL         string `mapstructure:"CHAT_BFF_BASE_URL"`
 	SecretSessionKey       string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [11]string{
+var prodRequiredVariables = [12]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -31,11 +32,12 @@ var prodRequiredVariables = [11]string{
 	"CHAT_BASE_URL",
 	"MW_CHAT_WEBSOCKET_API_HOST",
 	"MW_CHAT_WEBSOCKET_BASE_URL",
+	"CHAT_BFF_API_HOST",
 	"CHAT_BFF_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [11]string{
+var devRequiredVariables = [12]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -45,6 +47,7 @@ var devRequiredVariables = [11]string{
 	"CHAT_BASE_URL",
 	"MW_CHAT_WEBSOCKET_API_HOST",
 	"MW_CHAT_WEBSOCKET_BASE_URL",
+	"CHAT_BFF_API_HOST",
 	"CHAT_BFF_BASE_URL",
 	"SECRET_SESSION_KEY",
 }

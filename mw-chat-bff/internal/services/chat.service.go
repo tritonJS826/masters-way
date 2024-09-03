@@ -10,16 +10,16 @@ import (
 	"github.com/samber/lo"
 )
 
-type RoomsService struct {
+type ChatService struct {
 	chatAPI *openapiChat.APIClient
 }
 
-func NewRoomsService(chatAPI *openapiChat.APIClient) *RoomsService {
-	return &RoomsService{chatAPI}
+func NewChatService(chatAPI *openapiChat.APIClient) *ChatService {
+	return &ChatService{chatAPI}
 }
 
-func (roomsService *RoomsService) GetChatPreview(ctx *gin.Context) (*schemas.GetRoomPreviewResponse, error) {
-	chatPreviewRaw, _, err := roomsService.chatAPI.RoomAPI.GetChatPreview(ctx).Execute()
+func (cs *ChatService) GetChatPreview(ctx *gin.Context) (*schemas.GetRoomPreviewResponse, error) {
+	chatPreviewRaw, _, err := cs.chatAPI.RoomAPI.GetChatPreview(ctx).Execute()
 	if err != nil {
 		return &schemas.GetRoomPreviewResponse{}, err
 	}
@@ -31,8 +31,8 @@ func (roomsService *RoomsService) GetChatPreview(ctx *gin.Context) (*schemas.Get
 	return &chatPreview, nil
 }
 
-func (roomsService *RoomsService) GetRooms(ctx *gin.Context, roomType string) (*schemas.GetRoomsResponse, error) {
-	roomsRaw, _, err := roomsService.chatAPI.RoomAPI.GetRooms(ctx, roomType).Execute()
+func (cs *ChatService) GetRooms(ctx *gin.Context, roomType string) (*schemas.GetRoomsResponse, error) {
+	roomsRaw, _, err := cs.chatAPI.RoomAPI.GetRooms(ctx, roomType).Execute()
 	if err != nil {
 		return &schemas.GetRoomsResponse{}, err
 	}
@@ -67,8 +67,8 @@ func (roomsService *RoomsService) GetRooms(ctx *gin.Context, roomType string) (*
 	return &roomsPreview, nil
 }
 
-func (roomsService *RoomsService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.RoomPopulatedResponse, error) {
-	roomRaw, _, err := roomsService.chatAPI.RoomAPI.GetRoomById(ctx, roomUuid).Execute()
+func (cs *ChatService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.RoomPopulatedResponse, error) {
+	roomRaw, _, err := cs.chatAPI.RoomAPI.GetRoomById(ctx, roomUuid).Execute()
 	if err != nil {
 		return &schemas.RoomPopulatedResponse{}, err
 	}
@@ -115,7 +115,7 @@ func (roomsService *RoomsService) GetRoomById(ctx *gin.Context, roomUuid string)
 
 }
 
-func (roomsService *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
+func (cs *ChatService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
 	var name = openapiChat.NullableString{}
 	if createRoomPayload.Name != nil {
 		name.Set(createRoomPayload.Name)
@@ -125,7 +125,7 @@ func (roomsService *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload
 		userId.Set(createRoomPayload.UserID)
 	}
 
-	roomRaw, response, err := roomsService.chatAPI.RoomAPI.CreateRoom(ctx).Request(openapiChat.SchemasCreateRoomPayload{
+	roomRaw, response, err := cs.chatAPI.RoomAPI.CreateRoom(ctx).Request(openapiChat.SchemasCreateRoomPayload{
 		Name:     name,
 		RoomType: createRoomPayload.RoomType,
 		UserId:   userId,
@@ -177,8 +177,8 @@ func (roomsService *RoomsService) CreateRoom(ctx *gin.Context, createRoomPayload
 	return roomPopulatedResponse, nil
 }
 
-func (roomsService *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error) {
-	roomRaw, _, err := roomsService.chatAPI.RoomAPI.UpdateRoom(ctx, roomId).Execute()
+func (cs *ChatService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error) {
+	roomRaw, _, err := cs.chatAPI.RoomAPI.UpdateRoom(ctx, roomId).Execute()
 	if err != nil {
 		return &schemas.RoomPopulatedResponse{}, err
 	}
@@ -224,8 +224,8 @@ func (roomsService *RoomsService) UpdateRoom(ctx *gin.Context, roomId string) (*
 	return &roomPopulatedResponse, nil
 }
 
-func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.SendMessagePayload, error) {
-	messageRaw, _, err := roomsService.chatAPI.MessageAPI.CreateMessage(ctx).Request(openapiChat.SchemasCreateMessagePayload{
+func (cs *ChatService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.SendMessagePayload, error) {
+	messageRaw, _, err := cs.chatAPI.MessageAPI.CreateMessage(ctx).Request(openapiChat.SchemasCreateMessagePayload{
 		Message: messageText,
 		RoomId:  roomId,
 	}).Execute()
@@ -253,8 +253,8 @@ func (roomsService *RoomsService) CreateMessage(ctx *gin.Context, messageText, r
 	return &message, nil
 }
 
-func (roomsService *RoomsService) AddUserToRoom(ctx *gin.Context, roomId string, userId string) (*schemas.RoomPreviewResponse, error) {
-	rawRoom, _, err := roomsService.chatAPI.RoomAPI.AddUserToRoom(ctx, roomId, userId).Execute()
+func (ChatService *ChatService) AddUserToRoom(ctx *gin.Context, roomId string, userId string) (*schemas.RoomPreviewResponse, error) {
+	rawRoom, _, err := ChatService.chatAPI.RoomAPI.AddUserToRoom(ctx, roomId, userId).Execute()
 	if err != nil {
 		return &schemas.RoomPreviewResponse{}, err
 	}
@@ -276,8 +276,21 @@ func (roomsService *RoomsService) AddUserToRoom(ctx *gin.Context, roomId string,
 	return &response, nil
 }
 
-func (roomsService *RoomsService) DeleteUserFromRoom(ctx *gin.Context, roomId string, userId string) error {
-	_, err := roomsService.chatAPI.RoomAPI.DeleteUserFromRoom(ctx, roomId, userId).Execute()
+func (cs *ChatService) DeleteUserFromRoom(ctx *gin.Context, roomId string, userId string) error {
+	_, err := cs.chatAPI.RoomAPI.DeleteUserFromRoom(ctx, roomId, userId).Execute()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (cs *ChatService) UpdateMessageStatus(ctx *gin.Context, messageID string, isRead bool) error {
+	payload := openapiChat.SchemasUpdateMessageStatusPayload{
+		IsRead: isRead,
+	}
+
+	_, err := cs.chatAPI.MessageAPI.UpdateMessageStatus(ctx, messageID).Request(payload).Execute()
 	if err != nil {
 		return err
 	}

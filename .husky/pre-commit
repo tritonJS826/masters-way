@@ -61,7 +61,7 @@ runChatBffIfChanged () {
   then
     echo "mw-chat-bff changed. checking..."
     pnpm chat-bff:build
-    # pnpm chat-bff:test
+    pnpm chat-bff:test
   fi
 }
 

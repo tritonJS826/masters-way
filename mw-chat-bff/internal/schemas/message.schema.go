@@ -1,6 +1,7 @@
 package schemas
 
 type CreateMessagePayload struct {
+	RoomID  string `json:"roomId" validate:"required"`
 	Message string `json:"message" validate:"required"`
 }
 

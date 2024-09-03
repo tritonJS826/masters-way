@@ -16,22 +16,14 @@ import (
 const RoomTypePrivate string = "private"
 const RoomTypeGroup string = "group"
 
-type RoomsController struct {
-	roomsService           services.IRoomsService
-	usersService           services.IUsersService
-	mwChatWebSocketService services.IMWChatWebSocketService
+type RoomController struct {
+	generalService       *services.GeneralService
+	chatService          *services.ChatService
+	chatWebSocketService *services.ChatWebSocketService
 }
 
-func NewRoomsController(
-	roomsService services.IRoomsService,
-	usersService services.IUsersService,
-	mwChatWebSocketService services.IMWChatWebSocketService,
-) *RoomsController {
-	return &RoomsController{
-		roomsService,
-		usersService,
-		mwChatWebSocketService,
-	}
+func NewRoomsController(generalService *services.GeneralService, chatService *services.ChatService, chatWebSocketService *services.ChatWebSocketService) *RoomController {
+	return &RoomController{generalService, chatService, chatWebSocketService}
 }
 
 // @Summary Get chat preview
@@ -42,8 +34,8 @@ func NewRoomsController(
 // @Produce  json
 // @Success 200 {object} schemas.GetRoomPreviewResponse
 // @Router /rooms/preview [get]
-func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
-	chatPreview, err := cc.roomsService.GetChatPreview(ctx)
+func (cc *RoomController) GetChatPreview(ctx *gin.Context) {
+	chatPreview, err := cc.chatService.GetChatPreview(ctx)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, chatPreview)
@@ -58,10 +50,10 @@ func (cc *RoomsController) GetChatPreview(ctx *gin.Context) {
 // @Param roomType path string true "room type: private | group" Enums(private, group)
 // @Success 200 {object} schemas.GetRoomsResponse
 // @Router /rooms/list/{roomType} [get]
-func (cc *RoomsController) GetRooms(ctx *gin.Context) {
+func (cc *RoomController) GetRooms(ctx *gin.Context) {
 	roomType := ctx.Param("roomType")
 
-	rooms, err := cc.roomsService.GetRooms(ctx, roomType)
+	rooms, err := cc.chatService.GetRooms(ctx, roomType)
 	util.HandleErrorGin(ctx, err)
 
 	userIDsFromAllRooms := lo.FlatMap(rooms.Rooms, func(room schemas.RoomPreviewResponse, _ int) []string {
@@ -70,7 +62,7 @@ func (cc *RoomsController) GetRooms(ctx *gin.Context) {
 		})
 	})
 
-	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDsFromAllRooms)
+	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDsFromAllRooms)
 	util.HandleErrorGin(ctx, err)
 
 	rooms.Rooms = lo.Map(rooms.Rooms, func(room schemas.RoomPreviewResponse, _ int) schemas.RoomPreviewResponse {
@@ -109,17 +101,17 @@ func (cc *RoomsController) GetRooms(ctx *gin.Context) {
 // @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId} [get]
-func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
+func (cc *RoomController) GetRoomById(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 
-	room, err := cc.roomsService.GetRoomById(ctx, roomId)
+	room, err := cc.chatService.GetRoomById(ctx, roomId)
 	util.HandleErrorGin(ctx, err)
 
 	userIDs := lo.Map(room.Users, func(user schemas.UserResponse, _ int) string {
 		return user.UserID
 	})
 
-	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDs)
+	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
 	util.HandleErrorGin(ctx, err)
 
 	room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
@@ -161,7 +153,7 @@ func (cc *RoomsController) GetRoomById(ctx *gin.Context) {
 // @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
-func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
+func (cc *RoomController) CreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -177,13 +169,13 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 		userIDs = append(userIDs, *payload.UserID)
 	}
 
-	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, userIDs)
+	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
 	fmt.Println("cc.usersService.GetPopulatedUsers(ctx, userIDs) err: ", err)
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
 	}
 
-	room, err := cc.roomsService.CreateRoom(ctx, payload)
+	room, err := cc.chatService.CreateRoom(ctx, payload)
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("chat service error: %w", err))
 	}
@@ -202,7 +194,7 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 		util.HandleErrorGin(ctx, err)
 	}
 
-	err = cc.mwChatWebSocketService.SendRoom(ctx, room)
+	err = cc.chatWebSocketService.SendRoom(ctx, room)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, &room)
@@ -217,51 +209,13 @@ func (cc *RoomsController) CreateRoom(ctx *gin.Context) {
 // @Param roomId path string true "room Id"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId} [patch]
-func (cc *RoomsController) UpdateRoom(ctx *gin.Context) {
+func (cc *RoomController) UpdateRoom(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 
-	room, err := cc.roomsService.UpdateRoom(ctx, roomId)
+	room, err := cc.chatService.UpdateRoom(ctx, roomId)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, &room)
-}
-
-// @Summary Create message in room
-// @Description
-// @Tags room
-// @ID create-message-in-room
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.CreateMessagePayload true "query params"
-// @Param roomId path string true "room Id"
-// @Success 200 {object} schemas.MessageResponse
-// @Router /rooms/{roomId}/messages [post]
-func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
-	var payload *schemas.CreateMessagePayload
-
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	roomId := ctx.Param("roomId")
-
-	messageResponse, err := cc.roomsService.CreateMessage(ctx, payload.Message, roomId)
-	util.HandleErrorGin(ctx, err)
-
-	// TODO rename  service method
-	populatedUserMap, err := cc.usersService.GetPopulatedUsers(ctx, []string{messageResponse.Message.OwnerID})
-	if err != nil {
-		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
-	}
-
-	messageResponse.Message.OwnerName = populatedUserMap[messageResponse.Message.OwnerID].Name
-	messageResponse.Message.OwnerImageURL = populatedUserMap[messageResponse.Message.OwnerID].ImageURL
-
-	err = cc.mwChatWebSocketService.SendMessage(ctx, roomId, messageResponse)
-	util.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, messageResponse.Message)
 }
 
 // @Summary Add user to room
@@ -274,11 +228,11 @@ func (cc *RoomsController) CreateMessage(ctx *gin.Context) {
 // @Param userId path string true "user Id to delete"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId}/users/{userId} [post]
-func (cc *RoomsController) AddUserToRoom(ctx *gin.Context) {
+func (cc *RoomController) AddUserToRoom(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 	userId := ctx.Param("userId")
 
-	room, err := cc.roomsService.AddUserToRoom(ctx, roomId, userId)
+	room, err := cc.chatService.AddUserToRoom(ctx, roomId, userId)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, &room)
@@ -294,11 +248,11 @@ func (cc *RoomsController) AddUserToRoom(ctx *gin.Context) {
 // @Param userId path string true "user Id to delete"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId}/users/{userId} [delete]
-func (cc *RoomsController) DeleteUserFromRoom(ctx *gin.Context) {
+func (cc *RoomController) DeleteUserFromRoom(ctx *gin.Context) {
 	roomId := ctx.Param("roomId")
 	userId := ctx.Param("userId")
 
-	err := cc.roomsService.DeleteUserFromRoom(ctx, roomId, userId)
+	err := cc.chatService.DeleteUserFromRoom(ctx, roomId, userId)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)

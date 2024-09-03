@@ -9,16 +9,16 @@ import (
 	"github.com/samber/lo"
 )
 
-type UsersService struct {
+type GeneralService struct {
 	generalAPI *openapiGeneral.APIClient
 }
 
-func NewUsersService(generalAPI *openapiGeneral.APIClient) *UsersService {
-	return &UsersService{generalAPI}
+func NewGeneralService(generalAPI *openapiGeneral.APIClient) *GeneralService {
+	return &GeneralService{generalAPI}
 }
 
-func (usersService *UsersService) GetPopulatedUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error) {
-	chatUsersData, response, err := usersService.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
+func (gs *GeneralService) GetPopulatedUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error) {
+	chatUsersData, response, err := gs.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
 	if err != nil {
 		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
 		if extractErr != nil {
