@@ -19,7 +19,7 @@ func NewMessagesController(messagesService *services.MessagesService) *MessageCo
 	return &MessageController{messagesService}
 }
 
-// @Summary Create message in room
+// @Summary Create message
 // @Description
 // @Tags message
 // @ID create-message

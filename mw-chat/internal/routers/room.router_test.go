@@ -7,7 +7,6 @@ import (
 	"mwchat/internal/config"
 	db "mwchat/internal/db/sqlc"
 	"mwchat/internal/openapi"
-	"mwchat/internal/schemas"
 	"mwchat/pkg/utils"
 	"net/http"
 	"testing"
@@ -126,12 +125,12 @@ func TestGetChatPreview(t *testing.T) {
 			t.Fatalf("Failed to get chat preview: %v", err)
 		}
 
-		expectedData := schemas.GetChatPreviewResponse{
+		expectedData := openapiChat.SchemasGetChatPreviewResponse{
 			UnreadMessagesAmount: 3,
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData.UnreadMessagesAmount, int(getChatPreviewResponse.UnreadMessagesAmount))
+		assert.Equal(t, expectedData.UnreadMessagesAmount, getChatPreviewResponse.UnreadMessagesAmount)
 	})
 }
 

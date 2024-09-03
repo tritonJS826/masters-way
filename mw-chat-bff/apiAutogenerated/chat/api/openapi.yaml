@@ -11,9 +11,9 @@ paths:
     get:
       description: resets db
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: resets db
       tags:
       - dev
@@ -34,7 +34,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.CreateMessageResponse'
           description: OK
-      summary: Create message in room
+      summary: Create message
       tags:
       - message
       x-codegen-request-body-name: request

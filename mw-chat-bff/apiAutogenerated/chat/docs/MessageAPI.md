@@ -4,7 +4,7 @@ All URIs are relative to */chat*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateMessage**](MessageAPI.md#CreateMessage) | **Post** /messages | Create message in room
+[**CreateMessage**](MessageAPI.md#CreateMessage) | **Post** /messages | Create message
 [**UpdateMessageStatus**](MessageAPI.md#UpdateMessageStatus) | **Patch** /messages/{messageId}/message-status | Update message status
 
 
@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 > SchemasCreateMessageResponse CreateMessage(ctx).Request(request).Execute()
 
-Create message in room
+Create message
 
 ### Example
 

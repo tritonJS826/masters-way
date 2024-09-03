@@ -40,7 +40,7 @@ func (r ApiCreateMessageRequest) Execute() (*SchemasCreateMessageResponse, *http
 }
 
 /*
-CreateMessage Create message in room
+CreateMessage Create message
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateMessageRequest

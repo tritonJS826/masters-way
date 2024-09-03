@@ -17,10 +17,6 @@ func TestGetAPIHealthStatus(t *testing.T) {
 	}
 
 	generalApi := openapi.MakeGeneralAPIClient(&newConfig)
-	_, err = generalApi.DevAPI.DevResetDbGet(context.Background()).Execute()
-	if err != nil {
-		t.Fatalf("Failed to reset db: %v", err)
-	}
 
 	t.Run("should return a successful health check status and validate the response message", func(t *testing.T) {
 		response, err := generalApi.HealthAPI.HealthcheckGet(context.Background()).Execute()

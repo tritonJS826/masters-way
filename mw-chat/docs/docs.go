@@ -23,8 +23,8 @@ const docTemplate = `{
                 ],
                 "summary": "resets db",
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -40,7 +40,7 @@ const docTemplate = `{
                 "tags": [
                     "message"
                 ],
-                "summary": "Create message in room",
+                "summary": "Create message",
                 "operationId": "create-message",
                 "parameters": [
                     {

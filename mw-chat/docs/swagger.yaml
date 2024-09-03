@@ -157,8 +157,8 @@ paths:
     get:
       description: resets db
       responses:
-        "200":
-          description: OK
+        "204":
+          description: No Content
       summary: resets db
       tags:
       - dev
@@ -181,7 +181,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/schemas.CreateMessageResponse'
-      summary: Create message in room
+      summary: Create message
       tags:
       - message
   /messages/{messageId}/message-status:

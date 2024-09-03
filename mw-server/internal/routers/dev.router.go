@@ -16,5 +16,5 @@ func newDevRouter(devController *controllers.DevController) *devRouter {
 
 func (cr *devRouter) setDevRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("dev")
-	router.GET("reset-db", cr.devController.ResetDb)
+	router.GET("reset-db", cr.devController.ResetDB)
 }

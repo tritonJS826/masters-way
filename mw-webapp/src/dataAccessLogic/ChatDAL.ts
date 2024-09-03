@@ -171,9 +171,11 @@ export class ChatDAL {
    * Create message in chat room
    */
   public static async createMessageInRoom(params: createMessageInGroupParams): Promise<Message> {
-    const messageDTO = await ChatService.createMessageInRoom({
-      roomId: params.roomId,
-      request: {message: params.message},
+    const messageDTO = await MessageService.createMessageInRoom({
+      request: {
+        message: params.message,
+        roomId: params.roomId,
+      },
     });
 
     const message = messageDTOToMessage(messageDTO);
