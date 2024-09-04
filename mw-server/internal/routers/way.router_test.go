@@ -573,7 +573,6 @@ func TestGetWayStatisticsById(t *testing.T) {
 			},
 			LastMonth: openapiGeneral.SchemasWayStatistics{
 				TimeSpentByDayChart: []openapiGeneral.SchemasTimeSpentByDayPoint{
-					{Date: "2024-07-15T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-16T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-17T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-18T00:00:00.000Z", Value: 0},
@@ -608,7 +607,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 				},
 				OverallInformation: openapiGeneral.SchemasOverallInformation{
 					AverageJobTime:            54,
-					AverageTimePerCalendarDay: 13,
+					AverageTimePerCalendarDay: 14,
 					AverageTimePerWorkingDay:  53,
 					FinishedJobs:              8,
 					TotalReports:              8,
