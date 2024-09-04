@@ -6,6 +6,7 @@ SERVER="mw-server/"
 MOBILE="mw-mobile/"
 CHAT="mw-chat/"
 CHAT_BFF="mw-chat-bff/"
+STORAGE="mw-storage/"
 
 generateSwaggerDocs () {
   pnpm swag
@@ -71,6 +72,15 @@ runChatWebsocketIfChanged () {
     echo "mw-chat-websocket changed. checking..."
     pnpm chat-websocket:build
     pnpm server:test
+  fi
+}
+
+runStorageIfChanged () {
+  if git diff --name-only --cached | grep "$STORAGE"
+  then
+    echo "mw-storage changed. checking..."
+    pnpm mw-storage:build
+    pnpm mw-storage:test
   fi
 }
 

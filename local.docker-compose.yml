@@ -28,6 +28,20 @@ services:
     networks:
       - app-network
 
+  postgres-storage:
+    build:
+      context: ./postgres
+      dockerfile: postgres-storage.Dockerfile
+    container_name: postgres-storage
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres-storage:/var/lib/postgresql/data
+    env_file:
+      - ./mw-storage/.env
+    networks:
+      - app-network
+
   nginx:
     image: nginx:1.24.0
     container_name: nginx
@@ -43,6 +57,7 @@ services:
 volumes:
   postgres-general:
   postgres-chat:
+  postgres-storage:
 
 networks:
   app-network:
