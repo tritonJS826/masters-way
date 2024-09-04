@@ -5,10 +5,7 @@ import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {HealthCheckDAL} from "src/dataAccessLogic/HealthCheckDAL";
-import {
-  DEFAULT_NOTIFICATION_SETTINGS,
-  globalContext,
-} from "src/GlobalContext";
+import {globalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {serviceWorkerStore} from "src/globalStore/ServiceWorkerStore";
 import {INDEPENDENT_ROUTES} from "src/router/pages";
@@ -73,8 +70,8 @@ export const App = () => {
     <globalContext.Provider value={{
       isInitialized,
       setIsInitialized,
-      // TODO: load from local storage
-      notification: DEFAULT_NOTIFICATION_SETTINGS,
+      // // TODO: load from local storage
+      // notification: DEFAULT_NOTIFICATION_SETTINGS,
     }}
     >
       <RouterProvider router={router} />

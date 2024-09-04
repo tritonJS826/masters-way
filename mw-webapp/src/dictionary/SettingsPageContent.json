@@ -21,14 +21,19 @@
   },
   "notification": {
     "notificationLabel": {
-      "ru": "Включить напоминания в",
-      "en": "Enable notifications at",
-      "ua": "Увімкнути нагадування о"
+      "ru": "Нотификации",
+      "en": "Notifications",
+      "ua": "Сповіщення"
     },
     "enableSystemNotificationsButton": {
       "ru": "Включить",
       "en": "Enable ",
       "ua": "Увімкнути"
+    },
+    "notEnableSystemNotificationsButton": {
+      "ru": "Отключить",
+      "en": "Turn off",
+      "ua": "Вимкнути"
     },
     "enableSystemNotificationsTitle": {
       "ru": "Masters way",
@@ -39,6 +44,11 @@
       "ru": "Нотификации включены",
       "en": "Notifications enabled",
       "ua": "Сповіщення увімкнено"
+    },
+    "notEnableSystemNotificationsText": {
+      "ru": "Нотификации отключены",
+      "en": "Notifications are turned off",
+      "ua": "Сповіщення вимкнено"
     }
   },
   "comingSoon": {

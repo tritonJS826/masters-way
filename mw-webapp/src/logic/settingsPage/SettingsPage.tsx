@@ -8,18 +8,25 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {useGlobalContext} from "src/GlobalContext";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
+import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LanguageService} from "src/service/LanguageService";
+import {SettingPageSettings} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
+
+const DEFAULT_SETTING_PAGE_SETTINGS: SettingPageSettings = {isNotificationAllowed: false};
 
 /**
  * Settings page
  */
 export const SettingsPage = observer(() => {
-  const {notification} = useGlobalContext();
   const {language, setLanguage} = languageStore;
+
+  const [settingPageSettings, updateSettingPageSettings] = usePersistanceState({
+    key: "settingPage",
+    defaultValue: DEFAULT_SETTING_PAGE_SETTINGS,
+  });
 
   return (
     <VerticalContainer className={styles.container}>
@@ -62,22 +69,23 @@ export const SettingsPage = observer(() => {
 
         <HorizontalContainer className={styles.line}>
           {LanguageService.settings.notification.notificationLabel[language]}
-
-          {" "}
-          {notification.isEnabled}
-          {" "}
-          {notification.notificationTime}
           <Tooltip
             position={PositionTooltip.RIGHT}
             content={LanguageService.settings.comingSoon[language]}
           >
             <Button
-              value={LanguageService.settings.notification.enableSystemNotificationsButton[language]}
+              value={settingPageSettings.isNotificationAllowed
+                ? LanguageService.settings.notification.notEnableSystemNotificationsButton[language]
+                : LanguageService.settings.notification.enableSystemNotificationsButton[language]
+              }
               onClick={() => {
+                updateSettingPageSettings({isNotificationAllowed: !settingPageSettings.isNotificationAllowed});
                 serviceWorkerStore.requestPermission();
                 serviceWorkerStore.systemNotification({
                   title: LanguageService.settings.notification.enableSystemNotificationsTitle[language],
-                  text: LanguageService.settings.notification.enableSystemNotificationsText[language],
+                  text: settingPageSettings.isNotificationAllowed
+                    ? LanguageService.settings.notification.notEnableSystemNotificationsText[language]
+                    : LanguageService.settings.notification.enableSystemNotificationsText[language],
                   tag: SystemNotificationTag.TEST,
                 });
               }}
