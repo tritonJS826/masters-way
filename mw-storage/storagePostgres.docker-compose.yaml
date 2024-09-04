@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  storage-postgres:
+    image: postgres:16.2
+    container_name: storage-postgres
+    ports:
+      - "5435:5432"
+    volumes:
+      - storage-db:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
+volumes:
+  storage-db:

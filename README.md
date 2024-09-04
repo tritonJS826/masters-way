@@ -52,7 +52,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 `pnpm run install:all`
 
-3. Create .env file inside all modules with variables from .env.local.example
+3. Create .env file inside all modules with variables from .env.local.example (run "useEnvs.sh" script for such purpose)
+
+`./useEnvs.sh local`
 
 4. Run databases and nginx in containers (check local.nginx.conf for right addresses):
 
@@ -66,7 +68,9 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 
 ### Run all modules locally with docker
 
-1. Create .env file inside all modules with variables from .env.local.docker.example
+1. Create .env file inside all modules with variables from .env.local.docker.example (run "useEnvs.sh" script for such purpose)
+
+`./useEnvs.sh docker`
 
 2. `docker-compose -f local.docker.docker-compose.yml up --build`
 

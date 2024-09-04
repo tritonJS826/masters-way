@@ -7,7 +7,7 @@ RUN go mod download
 RUN make build
 
 # Stage 2: production
-FROM alpine:3.18
+FROM golang:1.23-alpine
 WORKDIR /app
 COPY --from=build /app/main ./
 COPY --from=build /app/entrypoint.sh ./
