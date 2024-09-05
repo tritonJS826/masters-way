@@ -19,7 +19,6 @@ services:
     build:
       context: ./mw-server
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8000:8000"
     depends_on:
@@ -45,7 +44,6 @@ services:
     build:
       context: ./mw-chat
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8001:8001"
     depends_on:
@@ -57,7 +55,6 @@ services:
     build:
       context: ./mw-chat-bff
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "7999:7999"
     depends_on:
@@ -69,7 +66,6 @@ services:
     build:
       context: ./mw-chat-websocket
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "7994:7994"
     depends_on:
@@ -95,7 +91,6 @@ services:
     build:
       context: ./mw-storage
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8003:8003"
     depends_on:
