@@ -110,8 +110,8 @@ services:
       - "443:443"
     volumes:
       - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ../server.key:/etc/nginx/server.key
-      - ../server.crt:/etc/nginx/server.crt
+      - /etc/letsencrypt/live/mastersway.duckdns.org/privkey.pem
+      - /etc/letsencrypt/live/mastersway.duckdns.org/fullchain.pem
     depends_on:
       - mw-server
       - mw-chat
