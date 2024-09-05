@@ -443,7 +443,7 @@ SELECT
     , 0)::INTEGER AS average_time_per_calendar_day,
     COALESCE(
         SUM(job_dones.time) /
-        NULLIF(COUNT(DISTINCT day_reports.uuid), 0)
+        NULLIF(COUNT(DISTINCT DATE_TRUNC('day', day_reports.created_at)), 0)
     , 0)::INTEGER AS average_time_per_working_day,
     COALESCE(AVG(job_dones.time), 0)::INTEGER AS average_job_time
 FROM day_reports

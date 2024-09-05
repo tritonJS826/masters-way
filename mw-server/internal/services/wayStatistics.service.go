@@ -36,11 +36,13 @@ func (ws *WayStatisticsService) GetWayStatisticsTriplePeriod(ctx context.Context
 	wayPgUUIDs := lo.Map(params.WayUUIDs, func(wayUUID uuid.UUID, _ int) pgtype.UUID {
 		return pgtype.UUID{Bytes: wayUUID, Valid: true}
 	})
-	endDatePgTimestamp := pgtype.Timestamp{Time: params.EndDate, Valid: true}
+
+	endDate := params.EndDate.Truncate(24 * time.Hour).Add(23*time.Hour + 59*time.Minute + 59*time.Second + 999*time.Millisecond)
+	endDatePgTimestamp := pgtype.Timestamp{Time: endDate, Valid: true}
 
 	totalTimeStatisticsParams := &GetWayStatisticsParams{
 		WayPgUUIDs:           wayPgUUIDs,
-		StartDatePgTimestamp: pgtype.Timestamp{Time: params.TotalStartDate, Valid: true},
+		StartDatePgTimestamp: pgtype.Timestamp{Time: params.TotalStartDate.Truncate(24 * time.Hour), Valid: true},
 		EndDatePgTimestamp:   endDatePgTimestamp,
 	}
 	totalTimeStatistics, err := ws.GetWayStatistics(ctx, totalTimeStatisticsParams)
@@ -50,7 +52,7 @@ func (ws *WayStatisticsService) GetWayStatisticsTriplePeriod(ctx context.Context
 
 	lastMonthStatisticsParams := &GetWayStatisticsParams{
 		WayPgUUIDs:           wayPgUUIDs,
-		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, -1, 0), Valid: true},
+		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, -1, 1).Truncate(24 * time.Hour), Valid: true},
 		EndDatePgTimestamp:   endDatePgTimestamp,
 	}
 	lastMonthStatistics, err := ws.GetWayStatistics(ctx, lastMonthStatisticsParams)
@@ -60,7 +62,7 @@ func (ws *WayStatisticsService) GetWayStatisticsTriplePeriod(ctx context.Context
 
 	lastWeekStatisticsParams := &GetWayStatisticsParams{
 		WayPgUUIDs:           wayPgUUIDs,
-		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, 0, -6), Valid: true},
+		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, 0, -6).Truncate(24 * time.Hour), Valid: true},
 		EndDatePgTimestamp:   endDatePgTimestamp,
 	}
 	lastWeekStatistics, err := ws.GetWayStatistics(ctx, lastWeekStatisticsParams)
@@ -116,22 +118,22 @@ func (ws *WayStatisticsService) GetTimeSpentByDayChart(ctx context.Context, para
 		return nil, err
 	}
 
-	daysCount := int(params.EndDatePgTimestamp.Time.Sub(params.StartDatePgTimestamp.Time).Hours()/24) + 1
+	timeSpentByDayMap := make(map[time.Time]int, len(timeSpentByDayChartRaw))
+	for _, timeSpentByDay := range timeSpentByDayChartRaw {
+		truncatedDate := timeSpentByDay.PointDate.Time.Truncate(24 * time.Hour)
+		timeSpentByDayMap[truncatedDate] += int(timeSpentByDay.PointValue)
+	}
+
+	daysCount := int(params.EndDatePgTimestamp.Time.Sub(params.StartDatePgTimestamp.Time).Hours() / 24)
 	timeSpentByDayChart := make([]schemas.TimeSpentByDayPoint, 0, daysCount)
-
-	timeSpentByDayMap := lo.SliceToMap(timeSpentByDayChartRaw, func(timeSpentByDay db.GetTimeSpentByDayChartRow) (time.Time, int) {
-		return timeSpentByDay.PointDate.Time.Truncate(24 * time.Hour), int(timeSpentByDay.PointValue)
-	})
-
 	for date := params.StartDatePgTimestamp.Time; !date.After(params.EndDatePgTimestamp.Time); date = date.AddDate(0, 0, 1) {
-		truncatedDate := date.Truncate(24 * time.Hour)
-		value := timeSpentByDayMap[truncatedDate]
-
+		value := timeSpentByDayMap[date]
 		timeSpentByDayChart = append(timeSpentByDayChart, schemas.TimeSpentByDayPoint{
 			Value: value,
-			Date:  truncatedDate.Format(util.DEFAULT_STRING_LAYOUT),
+			Date:  date.Format(util.DEFAULT_STRING_LAYOUT),
 		})
 	}
+
 	return timeSpentByDayChart, nil
 }
 
