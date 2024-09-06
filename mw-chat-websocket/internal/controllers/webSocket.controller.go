@@ -74,12 +74,12 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	}
 	sessionPool[userID].Connections[connectionID] = conn
 
-	fmt.Println("Current amount of users: ", len(sessionPool))
-
 	totalConnections := 0
 	for _, session := range sessionPool {
 		totalConnections += len(session.Connections)
 	}
+
+	fmt.Println("Current amount of users: ", len(sessionPool))
 	fmt.Println("Total Connections: ", totalConnections)
 
 	for {
@@ -88,16 +88,11 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 
 			delete(sessionPool[userID].Connections, connectionID)
 
-			fmt.Println("Current user session amount: ", len(sessionPool[userID].Connections))
-			if len(sessionPool[userID].Connections) == 0 {
-				delete(sessionPool, userID)
-			}
-
-			fmt.Println("Current amount of users: ", len(sessionPool))
 			totalConnections := 0
 			for _, session := range sessionPool {
 				totalConnections += len(session.Connections)
 			}
+			fmt.Println("Current amount of users: ", len(sessionPool))
 			fmt.Println("Total Connections: ", totalConnections)
 			return
 		}
