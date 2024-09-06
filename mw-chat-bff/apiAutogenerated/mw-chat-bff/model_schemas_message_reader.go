@@ -21,10 +21,10 @@ var _ MappedNullable = &SchemasMessageReader{}
 
 // SchemasMessageReader struct for SchemasMessageReader
 type SchemasMessageReader struct {
-	OwnerImageUrl string `json:"ownerImageUrl"`
-	OwnerName string `json:"ownerName"`
-	ReadDate string `json:"readDate"`
-	UserId string `json:"userId"`
+	OwnerImageUrl string
+	OwnerName string
+	ReadDate string
+	UserId string
 }
 
 type _SchemasMessageReader SchemasMessageReader

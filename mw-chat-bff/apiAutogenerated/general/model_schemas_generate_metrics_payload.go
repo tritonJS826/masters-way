@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasGenerateMetricsPayload{}
 
 // SchemasGenerateMetricsPayload struct for SchemasGenerateMetricsPayload
 type SchemasGenerateMetricsPayload struct {
-	GoalDescription string `json:"goalDescription"`
-	Metrics []string `json:"metrics"`
-	WayName string `json:"wayName"`
+	GoalDescription string
+	Metrics []string
+	WayName string
 }
 
 type _SchemasGenerateMetricsPayload SchemasGenerateMetricsPayload

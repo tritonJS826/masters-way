@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasDayReportsCompositionParticipants{}
 
 // SchemasDayReportsCompositionParticipants struct for SchemasDayReportsCompositionParticipants
 type SchemasDayReportsCompositionParticipants struct {
-	DayReportId string `json:"dayReportId"`
-	WayId string `json:"wayId"`
-	WayName string `json:"wayName"`
+	DayReportId string
+	WayId string
+	WayName string
 }
 
 type _SchemasDayReportsCompositionParticipants SchemasDayReportsCompositionParticipants

@@ -104,19 +104,19 @@ func (a *UserAPIService) GetAllUsersExecute(r ApiGetAllUsersRequest) (*SchemasGe
 	localVarFormParams := url.Values{}
 
 	if r.page != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "", "")
 	}
 	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "", "")
 	}
 	if r.email != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "email", r.email, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "email", r.email, "", "")
 	}
 	if r.name != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "", "")
 	}
 	if r.mentorStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "mentorStatus", r.mentorStatus, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "mentorStatus", r.mentorStatus, "", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

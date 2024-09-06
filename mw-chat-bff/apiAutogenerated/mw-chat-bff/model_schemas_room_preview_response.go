@@ -21,12 +21,12 @@ var _ MappedNullable = &SchemasRoomPreviewResponse{}
 
 // SchemasRoomPreviewResponse struct for SchemasRoomPreviewResponse
 type SchemasRoomPreviewResponse struct {
-	ImageUrl string `json:"imageUrl"`
-	IsBlocked bool `json:"isBlocked"`
-	Name string `json:"name"`
-	RoomId string `json:"roomId"`
-	RoomType string `json:"roomType"`
-	Users []SchemasUserResponse `json:"users"`
+	ImageUrl string
+	IsBlocked bool
+	Name string
+	RoomId string
+	RoomType string
+	Users []SchemasUserResponse
 }
 
 type _SchemasRoomPreviewResponse SchemasRoomPreviewResponse

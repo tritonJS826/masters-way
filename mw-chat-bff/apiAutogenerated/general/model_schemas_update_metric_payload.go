@@ -19,9 +19,9 @@ var _ MappedNullable = &SchemasUpdateMetricPayload{}
 
 // SchemasUpdateMetricPayload struct for SchemasUpdateMetricPayload
 type SchemasUpdateMetricPayload struct {
-	Description *string `json:"description,omitempty"`
-	EstimationTime *int32 `json:"estimationTime,omitempty"`
-	IsDone *bool `json:"isDone,omitempty"`
+	Description *string
+	EstimationTime *int32
+	IsDone *bool
 }
 
 // NewSchemasUpdateMetricPayload instantiates a new SchemasUpdateMetricPayload object

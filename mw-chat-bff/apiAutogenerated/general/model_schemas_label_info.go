@@ -21,11 +21,11 @@ var _ MappedNullable = &SchemasLabelInfo{}
 
 // SchemasLabelInfo struct for SchemasLabelInfo
 type SchemasLabelInfo struct {
-	JobsAmount int32 `json:"jobsAmount"`
-	JobsAmountPercentage int32 `json:"jobsAmountPercentage"`
-	Label SchemasLabel `json:"label"`
-	Time int32 `json:"time"`
-	TimePercentage int32 `json:"timePercentage"`
+	JobsAmount int32
+	JobsAmountPercentage int32
+	Label SchemasLabel
+	Time int32
+	TimePercentage int32
 }
 
 type _SchemasLabelInfo SchemasLabelInfo

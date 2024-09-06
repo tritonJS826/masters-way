@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCreateUserTagPayload{}
 
 // SchemasCreateUserTagPayload struct for SchemasCreateUserTagPayload
 type SchemasCreateUserTagPayload struct {
-	Name string `json:"name"`
-	OwnerUuid string `json:"ownerUuid"`
+	Name string
+	OwnerUuid string
 }
 
 type _SchemasCreateUserTagPayload SchemasCreateUserTagPayload

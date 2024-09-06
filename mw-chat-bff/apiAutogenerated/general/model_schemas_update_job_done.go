@@ -19,8 +19,8 @@ var _ MappedNullable = &SchemasUpdateJobDone{}
 
 // SchemasUpdateJobDone struct for SchemasUpdateJobDone
 type SchemasUpdateJobDone struct {
-	Description *string `json:"description,omitempty"`
-	Time *int32 `json:"time,omitempty"`
+	Description *string
+	Time *int32
 }
 
 // NewSchemasUpdateJobDone instantiates a new SchemasUpdateJobDone object

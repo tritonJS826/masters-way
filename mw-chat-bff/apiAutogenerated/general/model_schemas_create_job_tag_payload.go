@@ -21,10 +21,10 @@ var _ MappedNullable = &SchemasCreateJobTagPayload{}
 
 // SchemasCreateJobTagPayload struct for SchemasCreateJobTagPayload
 type SchemasCreateJobTagPayload struct {
-	Color string `json:"color"`
-	Description string `json:"description"`
-	Name string `json:"name"`
-	WayUuid string `json:"wayUuid"`
+	Color string
+	Description string
+	Name string
+	WayUuid string
 }
 
 type _SchemasCreateJobTagPayload SchemasCreateJobTagPayload

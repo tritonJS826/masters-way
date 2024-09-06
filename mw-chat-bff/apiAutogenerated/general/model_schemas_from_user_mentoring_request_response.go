@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasFromUserMentoringRequestResponse{}
 
 // SchemasFromUserMentoringRequestResponse struct for SchemasFromUserMentoringRequestResponse
 type SchemasFromUserMentoringRequestResponse struct {
-	UserId string `json:"userId"`
-	WayId string `json:"wayId"`
+	UserId string
+	WayId string
 }
 
 type _SchemasFromUserMentoringRequestResponse SchemasFromUserMentoringRequestResponse

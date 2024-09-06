@@ -21,11 +21,11 @@ var _ MappedNullable = &SchemasMetricResponse{}
 
 // SchemasMetricResponse struct for SchemasMetricResponse
 type SchemasMetricResponse struct {
-	Description string `json:"description"`
-	DoneDate NullableString `json:"doneDate"`
-	EstimationTime int32 `json:"estimationTime"`
-	IsDone bool `json:"isDone"`
-	Uuid string `json:"uuid"`
+	Description string
+	DoneDate NullableString
+	EstimationTime int32
+	IsDone bool
+	Uuid string
 }
 
 type _SchemasMetricResponse SchemasMetricResponse

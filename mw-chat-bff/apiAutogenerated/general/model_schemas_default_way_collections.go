@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasDefaultWayCollections{}
 
 // SchemasDefaultWayCollections struct for SchemasDefaultWayCollections
 type SchemasDefaultWayCollections struct {
-	Favorite SchemasWayCollectionPopulatedResponse `json:"favorite"`
-	Mentoring SchemasWayCollectionPopulatedResponse `json:"mentoring"`
-	Own SchemasWayCollectionPopulatedResponse `json:"own"`
+	Favorite SchemasWayCollectionPopulatedResponse
+	Mentoring SchemasWayCollectionPopulatedResponse
+	Own SchemasWayCollectionPopulatedResponse
 }
 
 type _SchemasDefaultWayCollections SchemasDefaultWayCollections

@@ -21,17 +21,17 @@ var _ MappedNullable = &SchemasJobDonePopulatedResponse{}
 
 // SchemasJobDonePopulatedResponse struct for SchemasJobDonePopulatedResponse
 type SchemasJobDonePopulatedResponse struct {
-	CreatedAt string `json:"createdAt"`
-	DayReportUuid string `json:"dayReportUuid"`
-	Description string `json:"description"`
-	OwnerName string `json:"ownerName"`
-	OwnerUuid string `json:"ownerUuid"`
-	Tags []SchemasJobTagResponse `json:"tags"`
-	Time int32 `json:"time"`
-	UpdatedAt string `json:"updatedAt"`
-	Uuid string `json:"uuid"`
-	WayName string `json:"wayName"`
-	WayUuid string `json:"wayUuid"`
+	CreatedAt string
+	DayReportUuid string
+	Description string
+	OwnerName string
+	OwnerUuid string
+	Tags []SchemasJobTagResponse
+	Time int32
+	UpdatedAt string
+	Uuid string
+	WayName string
+	WayUuid string
 }
 
 type _SchemasJobDonePopulatedResponse SchemasJobDonePopulatedResponse

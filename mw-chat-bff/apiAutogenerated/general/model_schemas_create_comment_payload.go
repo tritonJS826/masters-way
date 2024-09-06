@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasCreateCommentPayload{}
 
 // SchemasCreateCommentPayload struct for SchemasCreateCommentPayload
 type SchemasCreateCommentPayload struct {
-	DayReportUuid string `json:"dayReportUuid"`
-	Description string `json:"description"`
-	OwnerUuid string `json:"ownerUuid"`
+	DayReportUuid string
+	Description string
+	OwnerUuid string
 }
 
 type _SchemasCreateCommentPayload SchemasCreateCommentPayload

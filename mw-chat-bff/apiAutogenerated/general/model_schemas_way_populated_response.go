@@ -21,24 +21,24 @@ var _ MappedNullable = &SchemasWayPopulatedResponse{}
 
 // SchemasWayPopulatedResponse struct for SchemasWayPopulatedResponse
 type SchemasWayPopulatedResponse struct {
-	Children []SchemasWayPopulatedResponse `json:"children"`
-	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
-	CreatedAt string `json:"createdAt"`
-	EstimationTime int32 `json:"estimationTime"`
-	FavoriteForUsersAmount int32 `json:"favoriteForUsersAmount"`
-	FormerMentors []SchemasUserPlainResponse `json:"formerMentors"`
-	GoalDescription string `json:"goalDescription"`
-	IsCompleted bool `json:"isCompleted"`
-	IsPrivate bool `json:"isPrivate"`
-	JobTags []SchemasJobTagResponse `json:"jobTags"`
-	MentorRequests []SchemasUserPlainResponse `json:"mentorRequests"`
-	Mentors []SchemasUserPlainResponse `json:"mentors"`
-	Metrics []SchemasMetricResponse `json:"metrics"`
-	Name string `json:"name"`
-	Owner SchemasUserPlainResponse `json:"owner"`
-	UpdatedAt string `json:"updatedAt"`
-	Uuid string `json:"uuid"`
-	WayTags []SchemasWayTagResponse `json:"wayTags"`
+	Children []SchemasWayPopulatedResponse
+	CopiedFromWayUuid NullableString
+	CreatedAt string
+	EstimationTime int32
+	FavoriteForUsersAmount int32
+	FormerMentors []SchemasUserPlainResponse
+	GoalDescription string
+	IsCompleted bool
+	IsPrivate bool
+	JobTags []SchemasJobTagResponse
+	MentorRequests []SchemasUserPlainResponse
+	Mentors []SchemasUserPlainResponse
+	Metrics []SchemasMetricResponse
+	Name string
+	Owner SchemasUserPlainResponse
+	UpdatedAt string
+	Uuid string
+	WayTags []SchemasWayTagResponse
 }
 
 type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse

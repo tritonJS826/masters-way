@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasUpdateMessageStatusPayload{}
 
 // SchemasUpdateMessageStatusPayload struct for SchemasUpdateMessageStatusPayload
 type SchemasUpdateMessageStatusPayload struct {
-	IsRead bool `json:"isRead"`
+	IsRead bool
 }
 
 type _SchemasUpdateMessageStatusPayload SchemasUpdateMessageStatusPayload

@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasCreateRoomPayload{}
 
 // SchemasCreateRoomPayload struct for SchemasCreateRoomPayload
 type SchemasCreateRoomPayload struct {
-	Name NullableString `json:"name,omitempty"`
-	RoomType string `json:"roomType"`
-	UserId NullableString `json:"userId,omitempty"`
+	Name NullableString
+	RoomType string
+	UserId NullableString
 }
 
 type _SchemasCreateRoomPayload SchemasCreateRoomPayload

@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasCreateDayReportPayload{}
 
 // SchemasCreateDayReportPayload struct for SchemasCreateDayReportPayload
 type SchemasCreateDayReportPayload struct {
-	WayUuid string `json:"wayUuid"`
+	WayUuid string
 }
 
 type _SchemasCreateDayReportPayload SchemasCreateDayReportPayload

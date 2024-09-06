@@ -21,17 +21,17 @@ var _ MappedNullable = &SchemasCompositeDayReportPopulatedResponse{}
 
 // SchemasCompositeDayReportPopulatedResponse struct for SchemasCompositeDayReportPopulatedResponse
 type SchemasCompositeDayReportPopulatedResponse struct {
-	Comments []SchemasCommentPopulatedResponse `json:"comments"`
-	CompositionParticipants []SchemasDayReportsCompositionParticipants `json:"compositionParticipants"`
+	Comments []SchemasCommentPopulatedResponse
+	CompositionParticipants []SchemasDayReportsCompositionParticipants
 	// Calculated by - just date
-	CreatedAt string `json:"createdAt"`
-	JobsDone []SchemasJobDonePopulatedResponse `json:"jobsDone"`
-	Plans []SchemasPlanPopulatedResponse `json:"plans"`
-	Problems []SchemasProblemPopulatedResponse `json:"problems"`
+	CreatedAt string
+	JobsDone []SchemasJobDonePopulatedResponse
+	Plans []SchemasPlanPopulatedResponse
+	Problems []SchemasProblemPopulatedResponse
 	// Calculated by - just last date
-	UpdatedAt string `json:"updatedAt"`
+	UpdatedAt string
 	// Always generated
-	Uuid string `json:"uuid"`
+	Uuid string
 }
 
 type _SchemasCompositeDayReportPopulatedResponse SchemasCompositeDayReportPopulatedResponse

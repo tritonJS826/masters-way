@@ -357,7 +357,7 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 		return nil, reportError("state is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

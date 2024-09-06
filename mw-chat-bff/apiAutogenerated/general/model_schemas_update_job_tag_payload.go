@@ -19,9 +19,9 @@ var _ MappedNullable = &SchemasUpdateJobTagPayload{}
 
 // SchemasUpdateJobTagPayload struct for SchemasUpdateJobTagPayload
 type SchemasUpdateJobTagPayload struct {
-	Color *string `json:"color,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Name *string `json:"name,omitempty"`
+	Color *string
+	Description *string
+	Name *string
 }
 
 // NewSchemasUpdateJobTagPayload instantiates a new SchemasUpdateJobTagPayload object

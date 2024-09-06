@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasGetChatPreviewResponse{}
 
 // SchemasGetChatPreviewResponse struct for SchemasGetChatPreviewResponse
 type SchemasGetChatPreviewResponse struct {
-	UnreadMessagesAmount int32 `json:"unreadMessagesAmount"`
+	UnreadMessagesAmount int32
 }
 
 type _SchemasGetChatPreviewResponse SchemasGetChatPreviewResponse
