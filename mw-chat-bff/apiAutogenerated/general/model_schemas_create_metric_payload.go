@@ -21,11 +21,11 @@ var _ MappedNullable = &SchemasCreateMetricPayload{}
 
 // SchemasCreateMetricPayload struct for SchemasCreateMetricPayload
 type SchemasCreateMetricPayload struct {
-	Description string `json:"description"`
-	DoneDate string `json:"doneDate"`
-	EstimationTime int32 `json:"estimationTime"`
-	IsDone bool `json:"isDone"`
-	WayUuid string `json:"wayUuid"`
+	Description string
+	DoneDate string
+	EstimationTime int32
+	IsDone bool
+	WayUuid string
 }
 
 type _SchemasCreateMetricPayload SchemasCreateMetricPayload

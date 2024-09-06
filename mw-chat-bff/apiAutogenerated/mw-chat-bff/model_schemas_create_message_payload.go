@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCreateMessagePayload{}
 
 // SchemasCreateMessagePayload struct for SchemasCreateMessagePayload
 type SchemasCreateMessagePayload struct {
-	Message string `json:"message"`
-	RoomId string `json:"roomId"`
+	Message string
+	RoomId string
 }
 
 type _SchemasCreateMessagePayload SchemasCreateMessagePayload

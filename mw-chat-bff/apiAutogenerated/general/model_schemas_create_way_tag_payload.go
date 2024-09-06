@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCreateWayTagPayload{}
 
 // SchemasCreateWayTagPayload struct for SchemasCreateWayTagPayload
 type SchemasCreateWayTagPayload struct {
-	Name string `json:"name"`
-	WayUuid string `json:"wayUuid"`
+	Name string
+	WayUuid string
 }
 
 type _SchemasCreateWayTagPayload SchemasCreateWayTagPayload

@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasGetAllUsersResponse{}
 
 // SchemasGetAllUsersResponse struct for SchemasGetAllUsersResponse
 type SchemasGetAllUsersResponse struct {
-	Size int32 `json:"size"`
-	Users []SchemasUserPlainResponseWithInfo `json:"users"`
+	Size int32
+	Users []SchemasUserPlainResponseWithInfo
 }
 
 type _SchemasGetAllUsersResponse SchemasGetAllUsersResponse

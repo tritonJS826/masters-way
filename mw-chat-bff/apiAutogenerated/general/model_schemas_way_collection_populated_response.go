@@ -21,14 +21,14 @@ var _ MappedNullable = &SchemasWayCollectionPopulatedResponse{}
 
 // SchemasWayCollectionPopulatedResponse struct for SchemasWayCollectionPopulatedResponse
 type SchemasWayCollectionPopulatedResponse struct {
-	CreatedAt string `json:"createdAt"`
-	Name string `json:"name"`
-	OwnerUuid string `json:"ownerUuid"`
+	CreatedAt string
+	Name string
+	OwnerUuid string
 	// should be removed after separation custom collections and default pseudocollections
-	Type string `json:"type"`
-	UpdatedAt string `json:"updatedAt"`
-	Uuid string `json:"uuid"`
-	Ways []SchemasWayPlainResponse `json:"ways"`
+	Type string
+	UpdatedAt string
+	Uuid string
+	Ways []SchemasWayPlainResponse
 }
 
 type _SchemasWayCollectionPopulatedResponse SchemasWayCollectionPopulatedResponse

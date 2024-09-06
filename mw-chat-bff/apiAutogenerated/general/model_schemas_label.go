@@ -21,10 +21,10 @@ var _ MappedNullable = &SchemasLabel{}
 
 // SchemasLabel struct for SchemasLabel
 type SchemasLabel struct {
-	Color string `json:"color"`
-	Description string `json:"description"`
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Color string
+	Description string
+	Name string
+	Uuid string
 }
 
 type _SchemasLabel SchemasLabel

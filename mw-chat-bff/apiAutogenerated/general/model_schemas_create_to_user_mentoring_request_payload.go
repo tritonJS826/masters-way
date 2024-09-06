@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCreateToUserMentoringRequestPayload{}
 
 // SchemasCreateToUserMentoringRequestPayload struct for SchemasCreateToUserMentoringRequestPayload
 type SchemasCreateToUserMentoringRequestPayload struct {
-	UserUuid string `json:"userUuid"`
-	WayUuid string `json:"wayUuid"`
+	UserUuid string
+	WayUuid string
 }
 
 type _SchemasCreateToUserMentoringRequestPayload SchemasCreateToUserMentoringRequestPayload

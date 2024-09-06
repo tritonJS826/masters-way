@@ -21,12 +21,12 @@ var _ MappedNullable = &SchemasRoomPopulatedResponse{}
 
 // SchemasRoomPopulatedResponse struct for SchemasRoomPopulatedResponse
 type SchemasRoomPopulatedResponse struct {
-	IsBlocked bool `json:"isBlocked"`
-	Messages []SchemasMessageResponse `json:"messages"`
-	Name NullableString `json:"name"`
-	RoomId string `json:"roomId"`
-	RoomType string `json:"roomType"`
-	Users []SchemasUserResponse `json:"users"`
+	IsBlocked bool
+	Messages []SchemasMessageResponse
+	Name NullableString
+	RoomId string
+	RoomType string
+	Users []SchemasUserResponse
 }
 
 type _SchemasRoomPopulatedResponse SchemasRoomPopulatedResponse

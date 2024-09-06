@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCreateFavoriteUserWayPayload{}
 
 // SchemasCreateFavoriteUserWayPayload struct for SchemasCreateFavoriteUserWayPayload
 type SchemasCreateFavoriteUserWayPayload struct {
-	UserUuid string `json:"userUuid"`
-	WayUuid string `json:"wayUuid"`
+	UserUuid string
+	WayUuid string
 }
 
 type _SchemasCreateFavoriteUserWayPayload SchemasCreateFavoriteUserWayPayload

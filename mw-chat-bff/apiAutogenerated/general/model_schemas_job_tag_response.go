@@ -21,10 +21,10 @@ var _ MappedNullable = &SchemasJobTagResponse{}
 
 // SchemasJobTagResponse struct for SchemasJobTagResponse
 type SchemasJobTagResponse struct {
-	Color string `json:"color"`
-	Description string `json:"description"`
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Color string
+	Description string
+	Name string
+	Uuid string
 }
 
 type _SchemasJobTagResponse SchemasJobTagResponse

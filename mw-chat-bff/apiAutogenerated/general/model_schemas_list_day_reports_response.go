@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasListDayReportsResponse{}
 
 // SchemasListDayReportsResponse struct for SchemasListDayReportsResponse
 type SchemasListDayReportsResponse struct {
-	DayReports []SchemasCompositeDayReportPopulatedResponse `json:"dayReports"`
-	Size int32 `json:"size"`
+	DayReports []SchemasCompositeDayReportPopulatedResponse
+	Size int32
 }
 
 type _SchemasListDayReportsResponse SchemasListDayReportsResponse

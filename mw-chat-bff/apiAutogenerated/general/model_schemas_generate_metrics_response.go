@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasGenerateMetricsResponse{}
 
 // SchemasGenerateMetricsResponse struct for SchemasGenerateMetricsResponse
 type SchemasGenerateMetricsResponse struct {
-	Metrics []string `json:"metrics"`
+	Metrics []string
 }
 
 type _SchemasGenerateMetricsResponse SchemasGenerateMetricsResponse

@@ -303,19 +303,19 @@ func (a *WayAPIService) GetAllWaysExecute(r ApiGetAllWaysRequest) (*SchemasGetAl
 	localVarFormParams := url.Values{}
 
 	if r.page != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "", "")
 	}
 	if r.limit != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "", "")
 	}
 	if r.minDayReportsAmount != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "minDayReportsAmount", r.minDayReportsAmount, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "minDayReportsAmount", r.minDayReportsAmount, "", "")
 	}
 	if r.wayName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "wayName", r.wayName, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "wayName", r.wayName, "", "")
 	}
 	if r.status != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "")
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasLabelStatistics{}
 
 // SchemasLabelStatistics struct for SchemasLabelStatistics
 type SchemasLabelStatistics struct {
-	Labels []SchemasLabelInfo `json:"labels"`
+	Labels []SchemasLabelInfo
 }
 
 type _SchemasLabelStatistics SchemasLabelStatistics
