@@ -122,7 +122,6 @@ class ServiceWorker {
    * Update current permissions in instance
    */
   private getNotificationPermissions = () => {
-    // Const isNotificationAvailable = "Notification" in window;
     const isNotificationAvailable = localStorageWorker.getItemByKey<SettingPageSettings>("settingPage")?.isNotificationAllowed;
     if (!isNotificationAvailable) {
       // eslint-disable-next-line no-console

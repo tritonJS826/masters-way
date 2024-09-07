@@ -70,8 +70,6 @@ export const App = () => {
     <globalContext.Provider value={{
       isInitialized,
       setIsInitialized,
-      // // TODO: load from local storage
-      // notification: DEFAULT_NOTIFICATION_SETTINGS,
     }}
     >
       <RouterProvider router={router} />

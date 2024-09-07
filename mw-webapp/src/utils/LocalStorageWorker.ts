@@ -200,7 +200,7 @@ export type SettingPageSettings = {
 
   /**
    * If true notifications is allowed
-   * @ false
+   * @default false
    */
   isNotificationAllowed: boolean;
 }
