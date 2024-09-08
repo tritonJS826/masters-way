@@ -102,8 +102,6 @@ export const Slider = (props: SliderProps) => {
 
   const processedSettings = {...defaultSettings, ...props?.settings};
 
-  // Console.log("processedSettings", processedSettings.pagination);
-
   return (
     <Swiper
       slidesPerView={props.amountSlider ?? DEFAULT_AMOUNT_SLIDER}
