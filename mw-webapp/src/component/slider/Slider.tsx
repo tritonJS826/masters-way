@@ -28,6 +28,11 @@ interface SliderSettings {
    * Enable scrollbar
    */
   scrollbar?: boolean | SwiperProps["scrollbar"];
+
+  /**
+   * Loop slider
+   */
+  loop?: boolean;
 }
 
 /**
@@ -67,12 +72,6 @@ interface SliderProps {
   className?: string;
 
   /**
-   * Loop slider
-   * @default true
-   */
-  loop?: boolean;
-
-  /**
    * Amount slider items
    * @default Number 3
    */
@@ -99,13 +98,13 @@ export const Slider = (props: SliderProps) => {
     navigation: true,
     pagination: {clickable: true},
     scrollbar: false,
+    loop: true,
   };
 
   const processedSettings = {...defaultSettings, ...props?.settings};
 
   return (
     <Swiper
-      loop={props.loop ?? true}
       slidesPerView={props.amountSlider ?? DEFAULT_AMOUNT_SLIDER}
       spaceBetween={props.gap ?? DEFAULT_GAP_SLIDER}
       modules={[Navigation, Pagination, Scrollbar]}
