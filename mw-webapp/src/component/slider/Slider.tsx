@@ -15,22 +15,22 @@ const DEFAULT_GAP_SLIDER = 24;
 interface SliderSettings {
 
   /**
-   * Enable navigation
+   * Navigation settings
    */
   navigation?: SwiperProps["navigation"];
 
   /**
-   * Enable pagination
+   * Pagination settings
    */
   pagination?: SwiperProps["pagination"];
 
   /**
-   * Enable scrollbar
+   * Scrollbar settings
    */
   scrollbar?: SwiperProps["scrollbar"];
 
   /**
-   * Loop slider
+   * Loop settings
    */
   loop?: SwiperProps["loop"];
 }
