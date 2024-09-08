@@ -8,6 +8,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {ReviewCard} from "src/component/reviewCard/ReviewCard";
+import {Slider, SliderItem} from "src/component/slider/Slider";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -74,6 +75,69 @@ export const MentorsLandingPage = observer(() => {
       id: "00000000-0000-0000-0000-00000000003",
       amount: 50,
       description: LanguageService.mentorsLanding.amountBlock.students[language],
+    },
+  ];
+
+  const reviewCards: SliderItem[] = [
+    {
+      id: 1,
+      content: (
+        <ReviewCard
+          gradeAmount={5}
+          review={LanguageService.mentorsLanding.reviews.kirillReview.review[language]}
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
+          reviewerName={LanguageService.mentorsLanding.reviews.kirillReview.mentorName[language]}
+          reviewerProfession={LanguageService.mentorsLanding.reviews.kirillReview.mentorProfession[language]}
+        />
+      ),
+    },
+    {
+      id: 2,
+      content: (
+        <ReviewCard
+          gradeAmount={5}
+          review={LanguageService.mentorsLanding.reviews.viktarReview.review[language]}
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
+          reviewerName={LanguageService.mentorsLanding.reviews.viktarReview.mentorName[language]}
+          reviewerProfession={LanguageService.mentorsLanding.reviews.viktarReview.mentorProfession[language]}
+        />
+      ),
+    },
+    {
+      id: 3,
+      content: (
+        <ReviewCard
+          gradeAmount={5}
+          review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
+          reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
+        />
+      ),
+    },
+    {
+      id: 4,
+      content: (
+        <ReviewCard
+          gradeAmount={4}
+          review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
+          reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
+        />
+      ),
+    },
+    {
+      id: 5,
+      content: (
+        <ReviewCard
+          gradeAmount={3}
+          review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
+          reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
+        />
+      ),
     },
   ];
 
@@ -207,26 +271,9 @@ export const MentorsLandingPage = observer(() => {
             />
           </div>
           <HorizontalContainer className={styles.reviewList}>
-            <ReviewCard
-              gradeAmount={5}
-              review={LanguageService.mentorsLanding.reviews.kirillReview.review[language]}
-              reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
-              reviewerName={LanguageService.mentorsLanding.reviews.kirillReview.mentorName[language]}
-              reviewerProfession={LanguageService.mentorsLanding.reviews.kirillReview.mentorProfession[language]}
-            />
-            <ReviewCard
-              gradeAmount={5}
-              review={LanguageService.mentorsLanding.reviews.viktarReview.review[language]}
-              reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
-              reviewerName={LanguageService.mentorsLanding.reviews.viktarReview.mentorName[language]}
-              reviewerProfession={LanguageService.mentorsLanding.reviews.viktarReview.mentorProfession[language]}
-            />
-            <ReviewCard
-              gradeAmount={5}
-              review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
-              reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
-              reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
-              reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
+            <Slider
+              sliderItems={reviewCards}
+              settings={{pagination: false}}
             />
           </HorizontalContainer>
           <Button
