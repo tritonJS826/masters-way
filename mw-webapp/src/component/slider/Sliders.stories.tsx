@@ -11,7 +11,6 @@ const sliderItems: SliderItem[] = [
   {id: 2, content: getDivElement("Slide 2")},
   {id: 3, content: getDivElement("Slide 3")},
   {id: 4, content: getDivElement("Slide 4")},
-
 ];
 
 const meta = {

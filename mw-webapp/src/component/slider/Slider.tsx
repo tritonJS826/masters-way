@@ -47,13 +47,12 @@ export interface SliderItem {
 }
 
 /**
- * Text props
+ * Slider props
  */
 interface SliderProps {
 
   /**
    * Slider items
-   *
    */
   sliderItems: SliderItem[];
 
