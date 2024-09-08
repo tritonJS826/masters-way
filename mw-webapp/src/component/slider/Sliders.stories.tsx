@@ -27,7 +27,6 @@ type Story = StoryObj;
 export const DefaultSlider: Story = {
   args: {
     sliderItems,
-    loop: true,
     amountSlider: 3,
     gap: 24,
   },
@@ -36,18 +35,17 @@ export const DefaultSlider: Story = {
 export const SliderWithScrollbar: Story = {
   args: {
     sliderItems,
-    loop: true,
     amountSlider: 2,
     gap: 20,
     settings: {scrollbar: {draggable: true}},
   },
 };
 
-export const NonLoopingSlider: Story = {
+export const NoneLoopingSlider: Story = {
   args: {
     sliderItems,
-    loop: false,
     amountSlider: 1,
     gap: 10,
+    settings: {loop: false},
   },
 };
