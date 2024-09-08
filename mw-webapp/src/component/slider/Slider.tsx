@@ -17,22 +17,22 @@ interface SliderSettings {
   /**
    * Enable navigation
    */
-  navigation?: boolean | SwiperProps["navigation"];
+  navigation?: SwiperProps["navigation"];
 
   /**
    * Enable pagination
    */
-  pagination?: boolean | SwiperProps["pagination"];
+  pagination?: SwiperProps["pagination"];
 
   /**
    * Enable scrollbar
    */
-  scrollbar?: boolean | SwiperProps["scrollbar"];
+  scrollbar?: SwiperProps["scrollbar"];
 
   /**
    * Loop slider
    */
-  loop?: boolean;
+  loop?: SwiperProps["loop"];
 }
 
 /**
@@ -97,11 +97,12 @@ export const Slider = (props: SliderProps) => {
   const defaultSettings: SliderSettings = {
     navigation: true,
     pagination: {clickable: true},
-    scrollbar: false,
     loop: true,
   };
 
   const processedSettings = {...defaultSettings, ...props?.settings};
+
+  // Console.log("processedSettings", processedSettings.pagination);
 
   return (
     <Swiper
