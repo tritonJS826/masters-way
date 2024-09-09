@@ -109,18 +109,9 @@ export const Slider = (props: SliderProps) => {
       modules={[Navigation, Pagination, Scrollbar]}
       className={props.className}
       breakpoints={{
-        320: {
-          slidesPerView: 1,
-          spaceBetween: 8,
-        },
-        600: {
-          slidesPerView: 2,
-          spaceBetween: 16,
-        },
-        1100: {
-          slidesPerView: 3,
-          spaceBetween: 24,
-        },
+        320: {slidesPerView: 1},
+        600: {slidesPerView: 2},
+        1100: {slidesPerView: 3},
       }}
       {...processedSettings}
     >
