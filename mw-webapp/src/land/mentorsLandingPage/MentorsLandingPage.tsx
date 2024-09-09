@@ -115,30 +115,6 @@ export const MentorsLandingPage = observer(() => {
         />
       ),
     },
-    {
-      id: 4,
-      content: (
-        <ReviewCard
-          gradeAmount={4}
-          review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
-          reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
-          reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
-        />
-      ),
-    },
-    {
-      id: 5,
-      content: (
-        <ReviewCard
-          gradeAmount={3}
-          review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
-          reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
-          reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
-        />
-      ),
-    },
   ];
 
   return (
