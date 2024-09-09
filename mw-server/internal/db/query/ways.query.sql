@@ -8,9 +8,19 @@ INSERT INTO ways(
     copied_from_way_uuid,
     is_private,
     is_completed,
-    owner_uuid
+    owner_uuid,
+    project,
 ) VALUES (
-    @name, @goal_description, @updated_at, @created_at, @estimation_time, @copied_from_way_uuid, @is_private, @is_completed, @owner_uuid
+    @name,
+    @goal_description,
+    @updated_at,
+    @created_at,
+    @estimation_time,
+    @copied_from_way_uuid,
+    @is_private,
+    @is_completed,
+    @owner_uuid,
+    @project_uuid
 ) RETURNING
     *,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid) AS way_metrics_total,
@@ -26,6 +36,7 @@ INSERT INTO ways(
         '{}'
     )::VARCHAR[] AS children_uuids;
 
+-- TODO exclude ways from private projects for initiator user
 -- name: GetWayById :one
 SELECT
     ways.uuid,
@@ -36,7 +47,7 @@ SELECT
     ways.estimation_time,
     ways.copied_from_way_uuid,
     ways.is_completed,
-    ways.is_private,
+    ways.is_private, 
     COALESCE(
         ARRAY(
             SELECT composite_ways.child_uuid
@@ -61,6 +72,7 @@ JOIN users ON users.uuid = ways.owner_uuid
 WHERE ways.uuid = @way_uuid
 LIMIT 1;
 
+-- TODO exclude ways from private projects for initiator user
 -- name: GetWaysByCollectionId :many
 SELECT
     ways.uuid,
@@ -90,6 +102,7 @@ JOIN way_collections_ways ON way_collections_ways.way_uuid = ways.uuid
 WHERE way_collections_ways.way_collection_uuid = @way_collection_uuid
 ORDER BY ways.updated_at DESC;
 
+-- TODO exclude ways from private projects for initiator user
 -- name: GetOwnWaysByUserId :many
 SELECT
     ways.uuid,
@@ -118,6 +131,7 @@ FROM ways
 WHERE ways.owner_uuid = @owner_uuid
 ORDER BY ways.updated_at DESC;
 
+-- TODO exclude ways from private projects for initiator user
 -- name: GetOwnWaysCountByUserId :one
 SELECT
     COUNT(*) AS own_ways_count
@@ -130,6 +144,7 @@ SELECT
 FROM ways
 WHERE owner_uuid = @user_uuid AND is_private = TRUE;
 
+-- TODO exclude ways from private projects for initiator user
 -- name: GetMentoringWaysByMentorId :many
 SELECT
     ways.uuid,
@@ -189,6 +204,8 @@ WHERE favorite_users_ways.user_uuid = @user_uuid
 ORDER BY ways.updated_at DESC;
 
 
+-- TODO add filter by project (by project name with LIKE '%')
+-- TODO exclude ways from private for user projects
 -- name: ListWays :many
 SELECT
     ways.*,
@@ -223,6 +240,7 @@ LIMIT @request_limit
 OFFSET @request_offset;
 
 
+-- TODO: Add filter by project
 -- name: CountWaysByType :one
 SELECT COUNT(*) FROM ways
 WHERE ways.is_private = false
