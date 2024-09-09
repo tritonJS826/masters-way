@@ -1,11 +1,11 @@
-name: Deploy mw-server to Server
+name: Deploy mw-general to Server
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'mw-server/**'
+      - 'mw-general/**'
   # workflow_dispatch:
 
 jobs:
@@ -33,8 +33,8 @@ jobs:
 
       # - name: Build and push Docker image
       #   run: |
-      #     IMAGE_NAME=victorveretennikov58/masters-way:mw-server.${{ env.COMMIT_HASH }}.${{ env.COMMIT_DATE }}
-      #     docker build -t $IMAGE_NAME -f mw-server/Dockerfile mw-server
+      #     IMAGE_NAME=victorveretennikov58/masters-way:mw-general.${{ env.COMMIT_HASH }}.${{ env.COMMIT_DATE }}
+      #     docker build -t $IMAGE_NAME -f mw-general/Dockerfile mw-general
       #     docker push $IMAGE_NAME
 
   deploy:
@@ -67,9 +67,9 @@ jobs:
         #   ssh -o StrictHostKeyChecking=no ${{ secrets.USER_SERVER }}@${{ secrets.IP_SERVER }} << EOF
         #     cd ~/masters-way
         #     git pull
-        #     sudo docker-compose build mw-server
-        #     sudo docker-compose stop mw-server
-        #     sudo docker-compose up -d mw-server
+        #     sudo docker-compose build mw-general
+        #     sudo docker-compose stop mw-general
+        #     sudo docker-compose up -d mw-general
         #   EOF
 
 
@@ -85,7 +85,7 @@ jobs:
   #         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   #       run: |
   #         STATUS=${{ job.status }}
-  #         MESSAGE="GitHub Action completed with status: $STATUS. Deployment of mw-server with tag mw-server"
+  #         MESSAGE="GitHub Action completed with status: $STATUS. Deployment of mw-general with tag mw-general"
   #         curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
   #         -d chat_id="${TELEGRAM_CHAT_ID}" \
   #         -d text="$MESSAGE"

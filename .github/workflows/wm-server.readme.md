@@ -18,7 +18,7 @@ on:
     branches:
       - main
     paths:
-      - 'mw-server/**'
+      - 'mw-general/**'
   # workflow_dispatch:
 ```
 

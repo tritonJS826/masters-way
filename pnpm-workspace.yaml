@@ -1,6 +1,6 @@
 packages:
   - 'mw-webapp'
-  - 'mw-server'
+  - 'mw-general'
   - 'mw-mobile'
   - 'mw-chat'
   - 'mw-chat-bff'
