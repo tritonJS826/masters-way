@@ -128,6 +128,8 @@ $modal-animation-time: 150ms;
 }
 
 .messageInputBlock {
+  position: relative;
+  align-items: center;
   justify-content: space-between;
   padding: $paddingBig;
   background-color: var(--tertiaryBgColor);
@@ -151,6 +153,17 @@ $modal-animation-time: 150ms;
 .messages {
   display: flex;
   flex-direction: column;
+}
+
+.uploadFileInput {
+  display: none;
+}
+
+.uploadFileIcon {
+  &:hover {
+    cursor: pointer;
+    stroke: var(--hoverIconColor);
+  }
 }
 
 .indicator {
