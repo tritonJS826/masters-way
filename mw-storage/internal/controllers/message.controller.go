@@ -36,18 +36,18 @@ func (messagesController *MessageController) CreateMessage(ctx *gin.Context) {
 		return
 	}
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
+	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// userID := userIDRaw.(string)
 
-	params := &services.CreateMessageParams{
-		OwnerUUID: userID,
-		RoomUUID:  payload.RoomID,
-		Text:      payload.Message,
-	}
-	message, err := messagesController.messagesService.CreateMessage(ctx, params)
-	utils.HandleErrorGin(ctx, err)
+	// params := &services.CreateMessageParams{
+	// 	OwnerUUID: userID,
+	// 	RoomUUID:  payload.RoomID,
+	// 	Text:      payload.Message,
+	// }
+	// message, err := messagesController.messagesService.CreateMessage(ctx, params)
+	// utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, message)
+	ctx.JSON(http.StatusOK, payload)
 }
 
 // @Summary Update message status

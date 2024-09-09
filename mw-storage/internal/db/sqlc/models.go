@@ -11,118 +11,54 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type RoomType string
+type FileExtension string
 
 const (
-	RoomTypePrivate RoomType = "private"
-	RoomTypeGroup   RoomType = "group"
+	FileExtensionWebp FileExtension = "webp"
+	FileExtensionMp4  FileExtension = "mp4"
+	FileExtensionMp3  FileExtension = "mp3"
 )
 
-func (e *RoomType) Scan(src interface{}) error {
+func (e *FileExtension) Scan(src interface{}) error {
 	switch s := src.(type) {
 	case []byte:
-		*e = RoomType(s)
+		*e = FileExtension(s)
 	case string:
-		*e = RoomType(s)
+		*e = FileExtension(s)
 	default:
-		return fmt.Errorf("unsupported scan type for RoomType: %T", src)
+		return fmt.Errorf("unsupported scan type for FileExtension: %T", src)
 	}
 	return nil
 }
 
-type NullRoomType struct {
-	RoomType RoomType `json:"room_type"`
-	Valid    bool     `json:"valid"` // Valid is true if RoomType is not NULL
+type NullFileExtension struct {
+	FileExtension FileExtension `json:"file_extension"`
+	Valid         bool          `json:"valid"` // Valid is true if FileExtension is not NULL
 }
 
 // Scan implements the Scanner interface.
-func (ns *NullRoomType) Scan(value interface{}) error {
+func (ns *NullFileExtension) Scan(value interface{}) error {
 	if value == nil {
-		ns.RoomType, ns.Valid = "", false
+		ns.FileExtension, ns.Valid = "", false
 		return nil
 	}
 	ns.Valid = true
-	return ns.RoomType.Scan(value)
+	return ns.FileExtension.Scan(value)
 }
 
 // Value implements the driver Valuer interface.
-func (ns NullRoomType) Value() (driver.Value, error) {
+func (ns NullFileExtension) Value() (driver.Value, error) {
 	if !ns.Valid {
 		return nil, nil
 	}
-	return string(ns.RoomType), nil
+	return string(ns.FileExtension), nil
 }
 
-type UserRoleType string
-
-const (
-	UserRoleTypeAdmin   UserRoleType = "admin"
-	UserRoleTypeRegular UserRoleType = "regular"
-)
-
-func (e *UserRoleType) Scan(src interface{}) error {
-	switch s := src.(type) {
-	case []byte:
-		*e = UserRoleType(s)
-	case string:
-		*e = UserRoleType(s)
-	default:
-		return fmt.Errorf("unsupported scan type for UserRoleType: %T", src)
-	}
-	return nil
-}
-
-type NullUserRoleType struct {
-	UserRoleType UserRoleType `json:"user_role_type"`
-	Valid        bool         `json:"valid"` // Valid is true if UserRoleType is not NULL
-}
-
-// Scan implements the Scanner interface.
-func (ns *NullUserRoleType) Scan(value interface{}) error {
-	if value == nil {
-		ns.UserRoleType, ns.Valid = "", false
-		return nil
-	}
-	ns.Valid = true
-	return ns.UserRoleType.Scan(value)
-}
-
-// Value implements the driver Valuer interface.
-func (ns NullUserRoleType) Value() (driver.Value, error) {
-	if !ns.Valid {
-		return nil, nil
-	}
-	return string(ns.UserRoleType), nil
-}
-
-type Message struct {
+type File struct {
 	Uuid      pgtype.UUID      `json:"uuid"`
-	OwnerUuid pgtype.UUID      `json:"owner_uuid"`
-	RoomUuid  pgtype.UUID      `json:"room_uuid"`
-	Text      string           `json:"text"`
+	Link      pgtype.Text      `json:"link"`
+	OwnerId   pgtype.UUID      `json:"ownerId"`
+	Size      int64            `json:"size"`
+	Type      FileExtension    `json:"type"`
 	CreatedAt pgtype.Timestamp `json:"created_at"`
-	UpdatedAt pgtype.Timestamp `json:"updated_at"`
-}
-
-type MessageStatus struct {
-	MessageUuid  pgtype.UUID      `json:"message_uuid"`
-	ReceiverUuid pgtype.UUID      `json:"receiver_uuid"`
-	IsRead       bool             `json:"is_read"`
-	UpdatedAt    pgtype.Timestamp `json:"updated_at"`
-}
-
-type Room struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	Name      pgtype.Text      `json:"name"`
-	Type      RoomType         `json:"type"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
-}
-
-type UsersRoom struct {
-	UserUuid      pgtype.UUID      `json:"user_uuid"`
-	RoomUuid      pgtype.UUID      `json:"room_uuid"`
-	UserRole      UserRoleType     `json:"user_role"`
-	IsRoomBlocked bool             `json:"is_room_blocked"`
-	JoinedAt      pgtype.Timestamp `json:"joined_at"`
-	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
 }

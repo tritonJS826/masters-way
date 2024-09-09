@@ -10,6 +10,7 @@ import {CheckIcon} from "src/assets/icons/Check";
 import {ChevronIcon} from "src/assets/icons/ChevronIcon";
 import {ClockIcon} from "src/assets/icons/ClockIcon";
 import {DollarIcon} from "src/assets/icons/DollarIcon";
+import {DownloadIcon} from "src/assets/icons/DownloadIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
@@ -33,6 +34,7 @@ import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
+import {UploadIcon} from "src/assets/icons/UploadIcon";
 import {UserIcon} from "src/assets/icons/UserIcon";
 import {UsersIcon} from "src/assets/icons/UsersIcon";
 import {WayIcon} from "src/assets/icons/WayIcon";
@@ -233,6 +235,16 @@ export const IconDictionary = {
    * Check icon
    */
   CheckIcon: (params: IconProps) => <CheckIcon {...params} />,
+
+  /**
+   * Upload icon
+   */
+  UploadIcon: (params: IconProps) => <UploadIcon {...params} />,
+
+  /**
+   * Download icon
+   */
+  DownloadIcon: (params: IconProps) => <DownloadIcon {...params} />,
 
 };
 
