@@ -260,7 +260,7 @@ const docTemplate = `{
             "required": [
                 "Id",
                 "Name",
-                "Owner",
+                "OwnerId",
                 "Url"
             ],
             "properties": {
@@ -270,7 +270,7 @@ const docTemplate = `{
                 "Name": {
                     "type": "string"
                 },
-                "Owner": {
+                "OwnerId": {
                     "type": "string"
                 },
                 "Url": {

@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"mwstorage/internal/auth"
 	"mwstorage/internal/schemas"
 	"net/http"
 
@@ -33,8 +34,8 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 		return
 	}
 
-	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	// userID := userIDRaw.(string)
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
 
 	savePath := "./uploads/" + file.Filename
 	if err := ctx.SaveUploadedFile(file, savePath); err != nil {
@@ -43,10 +44,10 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 	}
 
 	response := &schemas.UploadFileResponse{
-		ID:    "",
-		Owner: "",
-		Name:  file.Filename,
-		Url:   "",
+		ID:      "",
+		OwnerID: userID,
+		Name:    file.Filename,
+		Url:     "",
 	}
 
 	ctx.JSON(http.StatusOK, response)

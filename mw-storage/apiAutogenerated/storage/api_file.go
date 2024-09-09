@@ -126,12 +126,12 @@ func (a *FileAPIService) DeleteFilesExecute(r ApiDeleteFilesRequest) (*http.Resp
 type ApiUploadFileRequest struct {
 	ctx context.Context
 	ApiService *FileAPIService
-	file *os.File
+	multipart *os.File
 }
 
 // File to upload
-func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
-	r.file = file
+func (r ApiUploadFileRequest) Multipart(multipart *os.File) ApiUploadFileRequest {
+	r.multipart = multipart
 	return r
 }
 
@@ -174,8 +174,8 @@ func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*SchemasUplo
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.file == nil {
-		return localVarReturnValue, nil, reportError("file is required and must be specified")
+	if r.multipart == nil {
+		return localVarReturnValue, nil, reportError("multipart is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -195,20 +195,20 @@ func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*SchemasUplo
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	var fileLocalVarFormFileName string
-	var fileLocalVarFileName     string
-	var fileLocalVarFileBytes    []byte
+	var multipartLocalVarFormFileName string
+	var multipartLocalVarFileName     string
+	var multipartLocalVarFileBytes    []byte
 
-	fileLocalVarFormFileName = "file"
-	fileLocalVarFile := r.file
+	multipartLocalVarFormFileName = "multipart"
+	multipartLocalVarFile := r.multipart
 
-	if fileLocalVarFile != nil {
-		fbs, _ := io.ReadAll(fileLocalVarFile)
+	if multipartLocalVarFile != nil {
+		fbs, _ := io.ReadAll(multipartLocalVarFile)
 
-		fileLocalVarFileBytes = fbs
-		fileLocalVarFileName = fileLocalVarFile.Name()
-		fileLocalVarFile.Close()
-		formFiles = append(formFiles, formFile{fileBytes: fileLocalVarFileBytes, fileName: fileLocalVarFileName, formFileName: fileLocalVarFormFileName})
+		multipartLocalVarFileBytes = fbs
+		multipartLocalVarFileName = multipartLocalVarFile.Name()
+		multipartLocalVarFile.Close()
+		formFiles = append(formFiles, formFile{fileBytes: multipartLocalVarFileBytes, fileName: multipartLocalVarFileName, formFileName: multipartLocalVarFormFileName})
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {

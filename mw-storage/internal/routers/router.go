@@ -27,7 +27,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 
 	// Apply CORS middleware with custom options
 	ginRouter.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{config.WebappBaseURL},
+		AllowOrigins:     []string{config.ChatBFFBaseURL},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},

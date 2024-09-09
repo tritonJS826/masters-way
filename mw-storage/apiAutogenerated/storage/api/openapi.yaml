@@ -212,11 +212,11 @@ components:
       type: object
     upload_file_request:
       properties:
-        file:
+        multipart:
           description: File to upload
           format: binary
           type: string
       required:
-      - file
+      - multipart
       type: object
 x-original-swagger-version: "2.0"

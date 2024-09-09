@@ -79,10 +79,9 @@ func Test_openapi_AuthAPIService(t *testing.T) {
 
 		var provider string
 
-		resp, httpRes, err := apiClient.AuthAPI.LogoutCurrentAuthorizedUser(context.Background(), provider).Execute()
+		httpRes, err := apiClient.AuthAPI.LogoutCurrentAuthorizedUser(context.Background(), provider).Execute()
 
 		require.Nil(t, err)
-		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

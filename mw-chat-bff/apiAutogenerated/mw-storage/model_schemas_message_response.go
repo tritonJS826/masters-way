@@ -21,10 +21,10 @@ var _ MappedNullable = &SchemasMessageResponse{}
 
 // SchemasMessageResponse struct for SchemasMessageResponse
 type SchemasMessageResponse struct {
-	Message string `json:"message"`
-	MessageId string `json:"messageId"`
-	MessageReaders []SchemasMessageReader `json:"messageReaders"`
-	OwnerId string `json:"ownerId"`
+	Message string
+	MessageId string
+	MessageReaders []SchemasMessageReader
+	OwnerId string
 }
 
 type _SchemasMessageResponse SchemasMessageResponse

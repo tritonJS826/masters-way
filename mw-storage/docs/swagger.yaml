@@ -63,14 +63,14 @@ definitions:
         type: string
       Name:
         type: string
-      Owner:
+      OwnerId:
         type: string
       Url:
         type: string
     required:
     - Id
     - Name
-    - Owner
+    - OwnerId
     - Url
     type: object
 info:

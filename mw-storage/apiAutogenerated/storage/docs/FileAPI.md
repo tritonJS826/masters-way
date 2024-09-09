@@ -75,7 +75,7 @@ No authorization required
 
 ## UploadFile
 
-> SchemasUploadFileResponse UploadFile(ctx).File(file).Execute()
+> SchemasUploadFileResponse UploadFile(ctx).Multipart(multipart).Execute()
 
 Upload file to storage
 
@@ -94,11 +94,11 @@ import (
 )
 
 func main() {
-	file := os.NewFile(1234, "some_file") // *os.File | File to upload
+	multipart := os.NewFile(1234, "some_file") // *os.File | File to upload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FileAPI.UploadFile(context.Background()).File(file).Execute()
+	resp, r, err := apiClient.FileAPI.UploadFile(context.Background()).Multipart(multipart).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FileAPI.UploadFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -119,7 +119,7 @@ Other parameters are passed through a pointer to a apiUploadFileRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file** | ***os.File** | File to upload | 
+ **multipart** | ***os.File** | File to upload | 
 
 ### Return type
 

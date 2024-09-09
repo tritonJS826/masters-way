@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"mw-chat-bff/internal/services"
+	util "mw-chat-bff/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -25,33 +26,10 @@ func NewFileController(fileService *services.FileService) *FileController {
 // @Success 200 {object} schemas.UploadFileResponse
 // @Router /files [post]
 func (fc *FileController) UploadFile(ctx *gin.Context) {
+	response, err := fc.fileService.UploadFile(ctx)
+	util.HandleErrorGin(ctx, err)
 
-	fc.fileService.UploadFile(ctx)
-
-	// storageURL := "http://mw-storage:8003/storage/files"
-
-	// req, err := http.NewRequest("POST", storageURL, ctx.Request.Body)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create request to storage"})
-	// 	return
-	// }
-
-	// req.Header.Set("Content-Type", ctx.Request.Header.Get("Content-Type"))
-
-	// client := &http.Client{}
-	// resp, err := client.Do(req)
-	// if err != nil {
-	// 	ctx.JSON(http.StatusInternalServerError, gin.H{"error": "failed to send request to storage"})
-	// 	return
-	// }
-	// defer resp.Body.Close()
-
-	// if resp.StatusCode != http.StatusOK {
-	// 	ctx.JSON(http.StatusInternalServerError, gin.H{"error": "storage service failed"})
-	// 	return
-	// }
-
-	ctx.JSON(http.StatusOK, gin.H{"message": "File successfully uploaded"})
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Delete files by IDs

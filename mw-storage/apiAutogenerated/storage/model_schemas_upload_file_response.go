@@ -21,10 +21,10 @@ var _ MappedNullable = &SchemasUploadFileResponse{}
 
 // SchemasUploadFileResponse struct for SchemasUploadFileResponse
 type SchemasUploadFileResponse struct {
-	Id string `json:"Id"`
-	Name string `json:"Name"`
-	Owner string `json:"Owner"`
-	Url string `json:"Url"`
+	Id string
+	Name string
+	Owner string
+	Url string
 }
 
 type _SchemasUploadFileResponse SchemasUploadFileResponse

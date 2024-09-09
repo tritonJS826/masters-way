@@ -36,5 +36,4 @@ model_schemas_update_message_status_payload.go
 model_schemas_upload_file_response.go
 model_schemas_user_response.go
 response.go
-test/api_file_test.go
 utils.go
