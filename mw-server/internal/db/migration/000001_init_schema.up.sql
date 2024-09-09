@@ -29,6 +29,7 @@ CREATE TABLE ways(
     "copied_from_way_uuid" UUID REFERENCES ways("uuid") ON UPDATE CASCADE,
     "is_completed" BOOLEAN NOT NULL,
     "is_private" BOOLEAN NOT NULL,
+    "project_uuid" UUID REFERENCES project("uuid") ON UPDATE CASCADE,
     CONSTRAINT "ways_pkey" PRIMARY KEY("uuid")
 );
 
@@ -207,6 +208,17 @@ CREATE TABLE "profile_settings" (
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "profile_settings_pkey" PRIMARY KEY("uuid")
 );
+
+CREATE TABLE "projects" (
+    "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "is_private" BOOLEAN NOT NULL,
+);
+
+CREATE TABLE "users_projects" (
+    "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "project_uuid" UUID NOT NULL REFERENCES projects("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+)
 
 -- triggers
 
@@ -683,3 +695,18 @@ CREATE TRIGGER duplicate_today_report_trigger
 BEFORE INSERT ON day_reports
 FOR EACH ROW
 EXECUTE FUNCTION check_duplicate_today_report();
+
+CREATE OR REPLACE FUNCTION check_max_users_per_project()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT COUNT(*) FROM users_projects WHERE project_uuid = NEW.project_uuid) >= 1000 THEN
+        RAISE EXCEPTION 'Project % already has the maximum number of users (1000)', NEW.project_uuid;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_max_users_trigger
+BEFORE INSERT ON users_projects
+FOR EACH ROW
+EXECUTE FUNCTION check_max_users_per_project();
