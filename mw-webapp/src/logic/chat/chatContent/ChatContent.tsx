@@ -356,6 +356,25 @@ export const ChatContent = observer(() => {
                 }
               }}
             />
+            <label>
+              <Input
+                type="file"
+                value=""
+                onChange={() => {}}
+                placeholder=""
+                className={styles.uploadFileInput}
+              />
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content="Coming soon"
+              >
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name={"UploadIcon"}
+                  className={styles.uploadFileIcon}
+                />
+              </Tooltip>
+            </label>
             <Button
               value={LanguageService.common.chat.sendButton[language]}
               onClick={async () => {
