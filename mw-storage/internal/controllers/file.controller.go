@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"mwstorage/internal/schemas"
 	"net/http"
 
@@ -27,6 +28,7 @@ func NewFileController() *FileController {
 func (fc *FileController) UploadFile(ctx *gin.Context) {
 	file, err := ctx.FormFile("file")
 	if err != nil {
+		fmt.Println("UploadFile err: ", err)
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file: " + err.Error()})
 		return
 	}

@@ -95,7 +95,7 @@ func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*Sc
 	}
 	// body params
 	localVarPostBody = r.request
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles, nil)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -208,7 +208,7 @@ func (a *MessageAPIService) UpdateMessageStatusExecute(r ApiUpdateMessageStatusR
 	}
 	// body params
 	localVarPostBody = r.request
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -308,9 +308,10 @@ func (c *APIClient) prepareRequest(
 	}
 
 	isStream := customConfig.IsStream != nil && *customConfig.IsStream
-	if !isStream {
+	// if !isStream {
 	// add form parameters and file if available.
-	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(formFiles) > 0) {
+	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") {
+		// if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(formFiles) > 0) {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
 		}
@@ -351,7 +352,7 @@ func (c *APIClient) prepareRequest(
 		w.Close()
 	}
 
-	}
+	// }
 
 	if strings.HasPrefix(headerParams["Content-Type"], "application/x-www-form-urlencoded") && len(formParams) > 0 {
 		if body != nil {
@@ -396,7 +397,13 @@ func (c *APIClient) prepareRequest(
 
 
 	if isStream {
-		localVarRequest, err = http.NewRequest(method, url.String(), *customConfig.body)
+		// // Set the Boundary in the Content-Type
+		// headerParams["Content-Type"] = "multipart/form-data"
+
+		// // Set Content-Length
+		// headerParams["Content-Length"] = fmt.Sprintf("%d", customConfig.Request.ContentLength)
+
+		localVarRequest, err = http.NewRequest(method, url.String(), customConfig.Request.Body)
 	}else if body != nil {
 		localVarRequest, err = http.NewRequest(method, url.String(), body)
 	} else {

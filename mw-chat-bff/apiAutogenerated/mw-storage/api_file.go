@@ -95,7 +95,7 @@ func (a *FileAPIService) DeleteFilesExecute(r ApiDeleteFilesRequest) (*http.Resp
 	}
 	// body params
 	localVarPostBody = r.fileIDs
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +131,7 @@ type ApiUploadFileRequest struct {
 
 type CustomConfig struct {
 	IsStream *bool
-	body *io.ReadCloser
+	Request *http.Request
 }
 
 type ApiUploadFileStreamRequest struct {
@@ -221,7 +221,7 @@ func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*SchemasUplo
 		multipartLocalVarFile.Close()
 		formFiles = append(formFiles, formFile{fileBytes: multipartLocalVarFileBytes, fileName: multipartLocalVarFileName, formFileName: multipartLocalVarFormFileName})
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles, nil)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
