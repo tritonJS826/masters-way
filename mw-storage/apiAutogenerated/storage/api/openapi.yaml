@@ -17,6 +17,47 @@ paths:
       summary: resets db
       tags:
       - dev
+  /files:
+    delete:
+      description: Delete multiple files from the server storage using their IDs
+      operationId: delete-files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                type: string
+              type: array
+        description: List of file IDs to delete
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete files by IDs
+      tags:
+      - file
+      x-codegen-request-body-name: fileIDs
+    post:
+      description: Uploads a file to the server and stores it in the designated storage
+        path
+      operationId: upload-file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/upload_file_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.UploadFileResponse'
+          description: OK
+      summary: Upload file to storage
+      tags:
+      - file
   /messages:
     post:
       operationId: create-message
@@ -147,5 +188,35 @@ components:
           type: boolean
       required:
       - isRead
+      type: object
+    schemas.UploadFileResponse:
+      example:
+        Owner: Owner
+        Id: Id
+        Url: Url
+        Name: Name
+      properties:
+        Id:
+          type: string
+        Name:
+          type: string
+        Owner:
+          type: string
+        Url:
+          type: string
+      required:
+      - Id
+      - Name
+      - Owner
+      - Url
+      type: object
+    upload_file_request:
+      properties:
+        file:
+          description: File to upload
+          format: binary
+          type: string
+      required:
+      - file
       type: object
 x-original-swagger-version: "2.0"

@@ -17,6 +17,7 @@ import (
 type Router struct {
 	Gin           *gin.Engine
 	config        *config.Config
+	fileRouter    *fileRouter
 	messageRouter *messageRouter
 	devRouter     *devRouter
 }
@@ -40,6 +41,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 	return &Router{
 		Gin:           ginRouter,
 		config:        config,
+		fileRouter:    newFileRouter(controller.FileController),
 		messageRouter: newMessageController(controller.MessagesController),
 		devRouter:     newDevRouter(controller.DevController),
 	}
@@ -48,6 +50,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 func (r *Router) SetRoutes() {
 	storage := r.Gin.Group("/storage")
 
+	r.fileRouter.setFileRoutes(storage)
 	r.messageRouter.setMessageRoutes(storage)
 
 	if r.config.EnvType != "prod" {

@@ -57,6 +57,22 @@ definitions:
     required:
     - isRead
     type: object
+  schemas.UploadFileResponse:
+    properties:
+      Id:
+        type: string
+      Name:
+        type: string
+      Owner:
+        type: string
+      Url:
+        type: string
+    required:
+    - Id
+    - Name
+    - Owner
+    - Url
+    type: object
 info:
   contact: {}
   title: Masters way storage API
@@ -71,6 +87,51 @@ paths:
       summary: resets db
       tags:
       - dev
+  /files:
+    delete:
+      consumes:
+      - application/json
+      description: Delete multiple files from the server storage using their IDs
+      operationId: delete-files
+      parameters:
+      - description: List of file IDs to delete
+        in: body
+        name: fileIDs
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete files by IDs
+      tags:
+      - file
+    post:
+      consumes:
+      - multipart/form-data
+      description: Uploads a file to the server and stores it in the designated storage
+        path
+      operationId: upload-file
+      parameters:
+      - description: File to upload
+        in: formData
+        name: multipart
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UploadFileResponse'
+      summary: Upload file to storage
+      tags:
+      - file
   /messages:
     post:
       consumes:
