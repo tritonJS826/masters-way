@@ -10,6 +10,24 @@ const DEFAULT_AMOUNT_SLIDER = 3;
 const DEFAULT_GAP_SLIDER = 24;
 
 /**
+ * Breakpoint configuration
+ */
+interface BreakpointConfig {
+
+  /**
+   * Slides per view
+   */
+  slidesPerView: number;
+}
+
+/**
+ * Breakpoints object type
+ */
+type Breakpoints = {
+  [width: number]: BreakpointConfig;
+};
+
+/**
  * Slider settings
  */
 interface SliderSettings {
@@ -87,12 +105,23 @@ interface SliderProps {
    * Slider settings
    */
   settings?: SliderSettings;
+
+  /**
+   * Custom breakpoints
+   */
+  breakpoints?: Breakpoints;
 }
 
 /**
  * Slider component
  */
 export const Slider = (props: SliderProps) => {
+
+  const defaultBreakpoints: Breakpoints = {
+    320: {slidesPerView: 1},
+    600: {slidesPerView: 2},
+    1100: {slidesPerView: 3},
+  };
 
   const defaultSettings: SliderSettings = {
     navigation: true,
@@ -106,13 +135,9 @@ export const Slider = (props: SliderProps) => {
     <Swiper
       slidesPerView={props.amountSlider ?? DEFAULT_AMOUNT_SLIDER}
       spaceBetween={props.gap ?? DEFAULT_GAP_SLIDER}
+      breakpoints={props.breakpoints ?? defaultBreakpoints}
       modules={[Navigation, Pagination, Scrollbar]}
       className={props.className}
-      breakpoints={{
-        320: {slidesPerView: 1},
-        600: {slidesPerView: 2},
-        1100: {slidesPerView: 3},
-      }}
       {...processedSettings}
     >
       {props.sliderItems.map((slider) => (
