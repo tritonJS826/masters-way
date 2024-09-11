@@ -500,7 +500,7 @@ components:
       type: object
     schemas.UploadFileResponse:
       example:
-        Owner: Owner
+        OwnerId: OwnerId
         Id: Id
         Url: Url
         Name: Name
@@ -509,14 +509,14 @@ components:
           type: string
         Name:
           type: string
-        Owner:
+        OwnerId:
           type: string
         Url:
           type: string
       required:
       - Id
       - Name
-      - Owner
+      - OwnerId
       - Url
       type: object
     schemas.UserResponse:

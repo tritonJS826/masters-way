@@ -23,7 +23,7 @@ var _ MappedNullable = &SchemasUploadFileResponse{}
 type SchemasUploadFileResponse struct {
 	Id string
 	Name string
-	Owner string
+	OwnerId string
 	Url string
 }
 
@@ -33,11 +33,11 @@ type _SchemasUploadFileResponse SchemasUploadFileResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasUploadFileResponse(id string, name string, owner string, url string) *SchemasUploadFileResponse {
+func NewSchemasUploadFileResponse(id string, name string, ownerId string, url string) *SchemasUploadFileResponse {
 	this := SchemasUploadFileResponse{}
 	this.Id = id
 	this.Name = name
-	this.Owner = owner
+	this.OwnerId = ownerId
 	this.Url = url
 	return &this
 }
@@ -98,28 +98,28 @@ func (o *SchemasUploadFileResponse) SetName(v string) {
 	o.Name = v
 }
 
-// GetOwner returns the Owner field value
-func (o *SchemasUploadFileResponse) GetOwner() string {
+// GetOwnerId returns the OwnerId field value
+func (o *SchemasUploadFileResponse) GetOwnerId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Owner
+	return o.OwnerId
 }
 
-// GetOwnerOk returns a tuple with the Owner field value
+// GetOwnerIdOk returns a tuple with the OwnerId field value
 // and a boolean to check if the value has been set.
-func (o *SchemasUploadFileResponse) GetOwnerOk() (*string, bool) {
+func (o *SchemasUploadFileResponse) GetOwnerIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Owner, true
+	return &o.OwnerId, true
 }
 
-// SetOwner sets field value
-func (o *SchemasUploadFileResponse) SetOwner(v string) {
-	o.Owner = v
+// SetOwnerId sets field value
+func (o *SchemasUploadFileResponse) SetOwnerId(v string) {
+	o.OwnerId = v
 }
 
 // GetUrl returns the Url field value
@@ -158,7 +158,7 @@ func (o SchemasUploadFileResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["Id"] = o.Id
 	toSerialize["Name"] = o.Name
-	toSerialize["Owner"] = o.Owner
+	toSerialize["OwnerId"] = o.OwnerId
 	toSerialize["Url"] = o.Url
 	return toSerialize, nil
 }
@@ -170,7 +170,7 @@ func (o *SchemasUploadFileResponse) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"Id",
 		"Name",
-		"Owner",
+		"OwnerId",
 		"Url",
 	}
 

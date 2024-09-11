@@ -590,7 +590,7 @@
             "required": [
                 "Id",
                 "Name",
-                "Owner",
+                "OwnerId",
                 "Url"
             ],
             "properties": {
@@ -600,7 +600,7 @@
                 "Name": {
                     "type": "string"
                 },
-                "Owner": {
+                "OwnerId": {
                     "type": "string"
                 },
                 "Url": {

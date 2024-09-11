@@ -80,6 +80,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthAPI* | [**BeginAuth**](docs/AuthAPI.md#beginauth) | **Get** /auth/{provider} | Begin oauth
 *AuthAPI* | [**GetCurrentAuthorizedUser**](docs/AuthAPI.md#getcurrentauthorizeduser) | **Get** /auth/current | Get current authorized user
+*AuthAPI* | [**GetGoogleAccessToken**](docs/AuthAPI.md#getgoogleaccesstoken) | **Get** /auth/google-token | Retrieve Google Access Token
 *AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 *AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Post** /auth/{provider}/callback | Log in with google oAuth
 *AuthAPI* | [**LogoutCurrentAuthorizedUser**](docs/AuthAPI.md#logoutcurrentauthorizeduser) | **Get** /auth/logout/{provider} | Logout current authorized user

@@ -6,14 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **string** |  | 
 **Name** | **string** |  | 
-**Owner** | **string** |  | 
+**OwnerId** | **string** |  | 
 **Url** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasUploadFileResponse
 
-`func NewSchemasUploadFileResponse(id string, name string, owner string, url string, ) *SchemasUploadFileResponse`
+`func NewSchemasUploadFileResponse(id string, name string, ownerId string, url string, ) *SchemasUploadFileResponse`
 
 NewSchemasUploadFileResponse instantiates a new SchemasUploadFileResponse object
 This constructor will assign default values to properties that have it defined,
@@ -68,24 +68,24 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### GetOwner
+### GetOwnerId
 
-`func (o *SchemasUploadFileResponse) GetOwner() string`
+`func (o *SchemasUploadFileResponse) GetOwnerId() string`
 
-GetOwner returns the Owner field if non-nil, zero value otherwise.
+GetOwnerId returns the OwnerId field if non-nil, zero value otherwise.
 
-### GetOwnerOk
+### GetOwnerIdOk
 
-`func (o *SchemasUploadFileResponse) GetOwnerOk() (*string, bool)`
+`func (o *SchemasUploadFileResponse) GetOwnerIdOk() (*string, bool)`
 
-GetOwnerOk returns a tuple with the Owner field if it's non-nil, zero value otherwise
+GetOwnerIdOk returns a tuple with the OwnerId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOwner
+### SetOwnerId
 
-`func (o *SchemasUploadFileResponse) SetOwner(v string)`
+`func (o *SchemasUploadFileResponse) SetOwnerId(v string)`
 
-SetOwner sets Owner field to given value.
+SetOwnerId sets OwnerId field to given value.
 
 
 ### GetUrl

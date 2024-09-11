@@ -20,6 +20,21 @@ paths:
       summary: Get current authorized user
       tags:
       - auth
+  /auth/google-token:
+    get:
+      description: This endpoint retrieves the Google access token for an authenticated
+        user.
+      operationId: get-google-access-token
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Google Access Token
+      summary: Retrieve Google Access Token
+      tags:
+      - auth
   /auth/login/local/{userEmail}:
     get:
       description: Login locally by providing an email address.

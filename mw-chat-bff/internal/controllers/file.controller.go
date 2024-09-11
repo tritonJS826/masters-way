@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"mw-chat-bff/internal/auth"
 	"mw-chat-bff/internal/services"
 	util "mw-chat-bff/internal/utils"
 	"net/http"
@@ -9,11 +10,12 @@ import (
 )
 
 type FileController struct {
-	fileService *services.FileService
+	generalService *services.GeneralService
+	fileService    *services.FileService
 }
 
-func NewFileController(fileService *services.FileService) *FileController {
-	return &FileController{fileService}
+func NewFileController(generalService *services.GeneralService, fileService *services.FileService) *FileController {
+	return &FileController{generalService, fileService}
 }
 
 // @Summary Upload file to storage
@@ -26,7 +28,13 @@ func NewFileController(fileService *services.FileService) *FileController {
 // @Success 200 {object} schemas.UploadFileResponse
 // @Router /files [post]
 func (fc *FileController) UploadFile(ctx *gin.Context) {
-	response, err := fc.fileService.UploadFile(ctx)
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
+	token, err := fc.generalService.GetGoogleAccessTokenByID(ctx, userID)
+	util.HandleErrorGin(ctx, err)
+
+	response, err := fc.fileService.UploadFile(ctx.Request, token)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
