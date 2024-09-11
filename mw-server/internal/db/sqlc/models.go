@@ -105,12 +105,12 @@ type JobDone struct {
 	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 }
 
-type JobDonesJobTag struct {
+type JobDonesLabel struct {
 	JobDoneUuid pgtype.UUID `json:"job_done_uuid"`
-	JobTagUuid  pgtype.UUID `json:"job_tag_uuid"`
+	LabelUuid   pgtype.UUID `json:"label_uuid"`
 }
 
-type JobTag struct {
+type Label struct {
 	Uuid        pgtype.UUID `json:"uuid"`
 	Name        string      `json:"name"`
 	Description string      `json:"description"`
@@ -145,9 +145,9 @@ type Plan struct {
 	DayReportUuid pgtype.UUID      `json:"day_report_uuid"`
 }
 
-type PlansJobTag struct {
-	PlanUuid   pgtype.UUID `json:"plan_uuid"`
-	JobTagUuid pgtype.UUID `json:"job_tag_uuid"`
+type PlansLabel struct {
+	PlanUuid  pgtype.UUID `json:"plan_uuid"`
+	LabelUuid pgtype.UUID `json:"label_uuid"`
 }
 
 type Problem struct {

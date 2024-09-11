@@ -21,12 +21,12 @@ type Querier interface {
 	CreateFormerMentorsWay(ctx context.Context, arg CreateFormerMentorsWayParams) (FormerMentorsWay, error)
 	CreateFromUserMentoringRequest(ctx context.Context, arg CreateFromUserMentoringRequestParams) (FromUserMentoringRequest, error)
 	CreateJobDone(ctx context.Context, arg CreateJobDoneParams) (CreateJobDoneRow, error)
-	CreateJobDonesJobTag(ctx context.Context, arg CreateJobDonesJobTagParams) (JobDonesJobTag, error)
-	CreateJobTag(ctx context.Context, arg CreateJobTagParams) (JobTag, error)
+	CreateJobDonesLabel(ctx context.Context, arg CreateJobDonesLabelParams) (JobDonesLabel, error)
+	CreateLabel(ctx context.Context, arg CreateLabelParams) (Label, error)
 	CreateMentorUserWay(ctx context.Context, arg CreateMentorUserWayParams) (MentorUsersWay, error)
 	CreateMetric(ctx context.Context, arg CreateMetricParams) (Metric, error)
 	CreatePlan(ctx context.Context, arg CreatePlanParams) (CreatePlanRow, error)
-	CreatePlansJobTag(ctx context.Context, arg CreatePlansJobTagParams) (PlansJobTag, error)
+	CreatePlansLabel(ctx context.Context, arg CreatePlansLabelParams) (PlansLabel, error)
 	CreateProblem(ctx context.Context, arg CreateProblemParams) (CreateProblemRow, error)
 	CreateToUserMentoringRequest(ctx context.Context, arg CreateToUserMentoringRequestParams) (ToUserMentoringRequest, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
@@ -43,12 +43,12 @@ type Querier interface {
 	DeleteFormerMentorWayIfExist(ctx context.Context, arg DeleteFormerMentorWayIfExistParams) error
 	DeleteFromUserMentoringRequest(ctx context.Context, arg DeleteFromUserMentoringRequestParams) error
 	DeleteJobDone(ctx context.Context, jobDoneUuid pgtype.UUID) error
-	DeleteJobDonesJobTagByJobDoneId(ctx context.Context, arg DeleteJobDonesJobTagByJobDoneIdParams) error
-	DeleteJobTagById(ctx context.Context, jobTagUuid pgtype.UUID) error
+	DeleteJobDonesLabelByJobDoneId(ctx context.Context, arg DeleteJobDonesLabelByJobDoneIdParams) error
+	DeleteLabelById(ctx context.Context, labelUuid pgtype.UUID) error
 	DeleteMentorUserWayByIds(ctx context.Context, arg DeleteMentorUserWayByIdsParams) error
 	DeleteMetric(ctx context.Context, metricsUuid pgtype.UUID) (Metric, error)
 	DeletePlan(ctx context.Context, planUuid pgtype.UUID) error
-	DeletePlansJobTagByIds(ctx context.Context, arg DeletePlansJobTagByIdsParams) error
+	DeletePlansLabelByIds(ctx context.Context, arg DeletePlansLabelByIdsParams) error
 	DeleteProblem(ctx context.Context, problemUuid pgtype.UUID) error
 	DeleteToUserMentoringRequestByIds(ctx context.Context, arg DeleteToUserMentoringRequestByIdsParams) error
 	DeleteUser(ctx context.Context, userUuid pgtype.UUID) error
@@ -73,15 +73,15 @@ type Querier interface {
 	GetIsUserHavingPermissionsForPlan(ctx context.Context, arg GetIsUserHavingPermissionsForPlanParams) (GetIsUserHavingPermissionsForPlanRow, error)
 	GetIsUserHavingPermissionsForProblem(ctx context.Context, arg GetIsUserHavingPermissionsForProblemParams) (GetIsUserHavingPermissionsForProblemRow, error)
 	GetJobDonesByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetJobDonesByDayReportUuidsRow, error)
-	GetJobTagByUuid(ctx context.Context, jobTagUuid pgtype.UUID) (JobTag, error)
+	GetLabelByUuid(ctx context.Context, labelUuid pgtype.UUID) (Label, error)
 	GetLabelStatistics(ctx context.Context, arg GetLabelStatisticsParams) ([]GetLabelStatisticsRow, error)
 	GetLastDayReportDate(ctx context.Context, wayUuids []pgtype.UUID) (GetLastDayReportDateRow, error)
 	GetListCommentsByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]Comment, error)
 	GetListDayReportsByWayUuid(ctx context.Context, arg GetListDayReportsByWayUuidParams) ([]DayReport, error)
-	GetListJobTagsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]JobTag, error)
-	GetListJobTagsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]JobTag, error)
 	GetListJobsDoneByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]JobDone, error)
-	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]JobTag, error)
+	GetListLabelsByLabelUuids(ctx context.Context, labelUuids []pgtype.UUID) ([]Label, error)
+	GetListLabelsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]Label, error)
+	GetListLabelsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]Label, error)
 	GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]Metric, error)
 	GetListPlansByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]Plan, error)
 	GetListProblemsByDayReportId(ctx context.Context, dayReportUuid pgtype.UUID) ([]Problem, error)
@@ -123,7 +123,7 @@ type Querier interface {
 	RemoveEverything(ctx context.Context) error
 	UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error)
 	UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error)
-	UpdateJobTag(ctx context.Context, arg UpdateJobTagParams) (JobTag, error)
+	UpdateLabel(ctx context.Context, arg UpdateLabelParams) (Label, error)
 	UpdateMetric(ctx context.Context, arg UpdateMetricParams) (UpdateMetricRow, error)
 	UpdatePlan(ctx context.Context, arg UpdatePlanParams) (UpdatePlanRow, error)
 	UpdatePricingPlanByUserId(ctx context.Context, arg UpdatePricingPlanByUserIdParams) (ProfileSetting, error)

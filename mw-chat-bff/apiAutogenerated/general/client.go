@@ -71,9 +71,9 @@ type APIClient struct {
 
 	JobDoneAPI *JobDoneAPIService
 
-	JobDoneJobTagAPI *JobDoneJobTagAPIService
+	JobDoneLabelAPI *JobDoneLabelAPIService
 
-	JobTagAPI *JobTagAPIService
+	LabelAPI *LabelAPIService
 
 	MentorUserWayAPI *MentorUserWayAPIService
 
@@ -81,7 +81,7 @@ type APIClient struct {
 
 	PlanAPI *PlanAPIService
 
-	PlanJobTagAPI *PlanJobTagAPIService
+	PlanLabelAPI *PlanLabelAPIService
 
 	ProblemAPI *ProblemAPIService
 
@@ -127,12 +127,12 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.GeminiAPI = (*GeminiAPIService)(&c.common)
 	c.HealthAPI = (*HealthAPIService)(&c.common)
 	c.JobDoneAPI = (*JobDoneAPIService)(&c.common)
-	c.JobDoneJobTagAPI = (*JobDoneJobTagAPIService)(&c.common)
-	c.JobTagAPI = (*JobTagAPIService)(&c.common)
+	c.JobDoneLabelAPI = (*JobDoneLabelAPIService)(&c.common)
+	c.LabelAPI = (*LabelAPIService)(&c.common)
 	c.MentorUserWayAPI = (*MentorUserWayAPIService)(&c.common)
 	c.MetricAPI = (*MetricAPIService)(&c.common)
 	c.PlanAPI = (*PlanAPIService)(&c.common)
-	c.PlanJobTagAPI = (*PlanJobTagAPIService)(&c.common)
+	c.PlanLabelAPI = (*PlanLabelAPIService)(&c.common)
 	c.ProblemAPI = (*ProblemAPIService)(&c.common)
 	c.ToUserMentoringRequestAPI = (*ToUserMentoringRequestAPIService)(&c.common)
 	c.UserAPI = (*UserAPIService)(&c.common)

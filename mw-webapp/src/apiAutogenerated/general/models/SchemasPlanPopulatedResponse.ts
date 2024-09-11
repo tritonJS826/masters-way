@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasJobTagResponse } from './SchemasJobTagResponse';
+import type { SchemasLabelResponse } from './SchemasLabelResponse';
 import {
-    SchemasJobTagResponseFromJSON,
-    SchemasJobTagResponseFromJSONTyped,
-    SchemasJobTagResponseToJSON,
-} from './SchemasJobTagResponse';
+    SchemasLabelResponseFromJSON,
+    SchemasLabelResponseFromJSONTyped,
+    SchemasLabelResponseToJSON,
+} from './SchemasLabelResponse';
 
 /**
  * 
@@ -64,10 +64,10 @@ export interface SchemasPlanPopulatedResponse {
     ownerUuid: string;
     /**
      * 
-     * @type {Array<SchemasJobTagResponse>}
+     * @type {Array<SchemasLabelResponse>}
      * @memberof SchemasPlanPopulatedResponse
      */
-    tags: Array<SchemasJobTagResponse>;
+    tags: Array<SchemasLabelResponse>;
     /**
      * 
      * @type {number}
@@ -142,7 +142,7 @@ export function SchemasPlanPopulatedResponseFromJSONTyped(
         'isDone': json['isDone'],
         'ownerName': json['ownerName'],
         'ownerUuid': json['ownerUuid'],
-        'tags': ((json['tags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
+        'tags': ((json['tags'] as Array<any>).map(SchemasLabelResponseFromJSON)),
         'time': json['time'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
@@ -167,7 +167,7 @@ export function SchemasPlanPopulatedResponseToJSON(value?: SchemasPlanPopulatedR
         'isDone': value.isDone,
         'ownerName': value.ownerName,
         'ownerUuid': value.ownerUuid,
-        'tags': ((value.tags as Array<any>).map(SchemasJobTagResponseToJSON)),
+        'tags': ((value.tags as Array<any>).map(SchemasLabelResponseToJSON)),
         'time': value.time,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,

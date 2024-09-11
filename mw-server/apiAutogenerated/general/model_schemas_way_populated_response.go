@@ -30,7 +30,7 @@ type SchemasWayPopulatedResponse struct {
 	GoalDescription string `json:"goalDescription"`
 	IsCompleted bool `json:"isCompleted"`
 	IsPrivate bool `json:"isPrivate"`
-	JobTags []SchemasJobTagResponse `json:"jobTags"`
+	JobTags []SchemasLabelResponse `json:"jobTags"`
 	MentorRequests []SchemasUserPlainResponse `json:"mentorRequests"`
 	Mentors []SchemasUserPlainResponse `json:"mentors"`
 	Metrics []SchemasMetricResponse `json:"metrics"`
@@ -47,7 +47,7 @@ type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
+func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasLabelResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
 	this := SchemasWayPopulatedResponse{}
 	this.Children = children
 	this.CopiedFromWayUuid = copiedFromWayUuid
@@ -297,9 +297,9 @@ func (o *SchemasWayPopulatedResponse) SetIsPrivate(v bool) {
 }
 
 // GetJobTags returns the JobTags field value
-func (o *SchemasWayPopulatedResponse) GetJobTags() []SchemasJobTagResponse {
+func (o *SchemasWayPopulatedResponse) GetJobTags() []SchemasLabelResponse {
 	if o == nil {
-		var ret []SchemasJobTagResponse
+		var ret []SchemasLabelResponse
 		return ret
 	}
 
@@ -308,7 +308,7 @@ func (o *SchemasWayPopulatedResponse) GetJobTags() []SchemasJobTagResponse {
 
 // GetJobTagsOk returns a tuple with the JobTags field value
 // and a boolean to check if the value has been set.
-func (o *SchemasWayPopulatedResponse) GetJobTagsOk() ([]SchemasJobTagResponse, bool) {
+func (o *SchemasWayPopulatedResponse) GetJobTagsOk() ([]SchemasLabelResponse, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -316,7 +316,7 @@ func (o *SchemasWayPopulatedResponse) GetJobTagsOk() ([]SchemasJobTagResponse, b
 }
 
 // SetJobTags sets field value
-func (o *SchemasWayPopulatedResponse) SetJobTags(v []SchemasJobTagResponse) {
+func (o *SchemasWayPopulatedResponse) SetJobTags(v []SchemasLabelResponse) {
 	o.JobTags = v
 }
 

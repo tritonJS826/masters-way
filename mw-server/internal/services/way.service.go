@@ -15,7 +15,7 @@ import (
 
 type IWayRepository interface {
 	CountWaysByType(ctx context.Context, arg db.CountWaysByTypeParams) (int64, error)
-	CreateJobTag(ctx context.Context, arg db.CreateJobTagParams) (db.JobTag, error)
+	CreateLabel(ctx context.Context, arg db.CreateLabelParams) (db.Label, error)
 	CreateMetric(ctx context.Context, arg db.CreateMetricParams) (db.Metric, error)
 	CreateWay(ctx context.Context, arg db.CreateWayParams) (db.CreateWayRow, error)
 	CreateWaysWayTag(ctx context.Context, arg db.CreateWaysWayTagParams) (db.WaysWayTag, error)
@@ -23,7 +23,7 @@ type IWayRepository interface {
 	GetFavoriteForUserUuidsByWayId(ctx context.Context, wayUuid pgtype.UUID) (int64, error)
 	GetFormerMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
 	GetFromUserMentoringRequestWaysByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
-	GetListJobTagsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.JobTag, error)
+	GetListLabelsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.Label, error)
 	GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.Metric, error)
 	GetListWayTagsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.WayTag, error)
 	GetMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
@@ -65,9 +65,9 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		IsMentor:    way.OwnerIsMentor,
 	}
 
-	jobTagsRaw, _ := ws.wayRepository.GetListJobTagsByWayUuid(ctx, wayPgUUID)
-	jobTags := lo.Map(jobTagsRaw, func(dbJobTag db.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
+	jobTagsRaw, _ := ws.wayRepository.GetListLabelsByWayUuid(ctx, wayPgUUID)
+	jobTags := lo.Map(jobTagsRaw, func(dbJobTag db.Label, i int) schemas.LabelResponse {
+		return schemas.LabelResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbJobTag.Uuid).String(),
 			Name:        dbJobTag.Name,
 			Description: dbJobTag.Description,
@@ -317,8 +317,8 @@ func (ws *WayService) CopyWay(ctx context.Context, fromWayUUID, toWayUUID uuid.U
 		})
 	})
 	// copying labels from the copied way
-	lo.ForEach(originalWay.JobTags, func(jobTag schemas.JobTagResponse, i int) {
-		ws.wayRepository.CreateJobTag(ctx, db.CreateJobTagParams{
+	lo.ForEach(originalWay.JobTags, func(jobTag schemas.LabelResponse, i int) {
+		ws.wayRepository.CreateLabel(ctx, db.CreateLabelParams{
 			WayUuid:     toWayPgUUID,
 			Name:        jobTag.Name,
 			Description: jobTag.Description,

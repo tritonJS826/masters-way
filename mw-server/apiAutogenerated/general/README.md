@@ -104,11 +104,11 @@ Class | Method | HTTP request | Description
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
 *JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
 *JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
-*JobDoneJobTagAPI* | [**CreateJobDoneJobTag**](docs/JobDoneJobTagAPI.md#createjobdonejobtag) | **Post** /jobDoneJobTags | Create a new jobDoneJobTag
-*JobDoneJobTagAPI* | [**DeleteJobDoneJobTag**](docs/JobDoneJobTagAPI.md#deletejobdonejobtag) | **Delete** /jobDoneJobTags/{jobTagId}/{jobDoneId} | Delete jobDoneJobTag by UUID
-*JobTagAPI* | [**CreateJobTag**](docs/JobTagAPI.md#createjobtag) | **Post** /jobTags | Create a new jobTag
-*JobTagAPI* | [**DeleteJobTag**](docs/JobTagAPI.md#deletejobtag) | **Delete** /jobTags/{jobTagId} | Delete jobTag by UUID
-*JobTagAPI* | [**UpdateJobTag**](docs/JobTagAPI.md#updatejobtag) | **Patch** /jobTags/{jobTagId} | Update jobTag by UUID
+*JobDoneLabelAPI* | [**CreateJobDoneLabel**](docs/JobDoneLabelAPI.md#createjobdonelabel) | **Post** /jobDoneLabels | Create a new jobDoneLabel
+*JobDoneLabelAPI* | [**DeleteJobDoneLabel**](docs/JobDoneLabelAPI.md#deletejobdonelabel) | **Delete** /jobDoneLabels/{labelId}/{jobDoneId} | Delete jobDoneLabel by UUID
+*LabelAPI* | [**CreateLabel**](docs/LabelAPI.md#createlabel) | **Post** /labels | Create a new label
+*LabelAPI* | [**DeleteLabel**](docs/LabelAPI.md#deletelabel) | **Delete** /labels/{labelId} | Delete label by UUID
+*LabelAPI* | [**UpdateLabel**](docs/LabelAPI.md#updatelabel) | **Patch** /labels/{labelId} | Update label by UUID
 *MentorUserWayAPI* | [**CreateMentorUserWay**](docs/MentorUserWayAPI.md#creatementoruserway) | **Post** /mentorUserWays | Create a new mentorUserWay
 *MentorUserWayAPI* | [**DeleteMentorUserWay**](docs/MentorUserWayAPI.md#deletementoruserway) | **Delete** /mentorUserWays | Delete mentorUserWay by UUID
 *MetricAPI* | [**CreateMetric**](docs/MetricAPI.md#createmetric) | **Post** /metrics | Create a new metric
@@ -117,8 +117,8 @@ Class | Method | HTTP request | Description
 *PlanAPI* | [**CreatePlan**](docs/PlanAPI.md#createplan) | **Post** /plans | Create a new plan
 *PlanAPI* | [**DeletePlan**](docs/PlanAPI.md#deleteplan) | **Delete** /plans/{planId} | Delete plan by UUID
 *PlanAPI* | [**UpdatePlan**](docs/PlanAPI.md#updateplan) | **Patch** /plans/{planId} | Update plan by UUID
-*PlanJobTagAPI* | [**CreatePlanJobTag**](docs/PlanJobTagAPI.md#createplanjobtag) | **Post** /planJobTags | Create a new planJobTag
-*PlanJobTagAPI* | [**DeletePlanJobTag**](docs/PlanJobTagAPI.md#deleteplanjobtag) | **Delete** /planJobTags/{jobTagId}/{planId} | Delete planJobTag by UUID
+*PlanLabelAPI* | [**CreatePlanLabel**](docs/PlanLabelAPI.md#createplanlabel) | **Post** /planLabels | Create a new planLabel
+*PlanLabelAPI* | [**DeletePlanLabel**](docs/PlanLabelAPI.md#deleteplanlabel) | **Delete** /planLabels/{labelId}/{planId} | Delete planLabel by UUID
 *ProblemAPI* | [**CreateProblem**](docs/ProblemAPI.md#createproblem) | **Post** /problems | Create a new problem
 *ProblemAPI* | [**DeleteProblem**](docs/ProblemAPI.md#deleteproblem) | **Delete** /problems/{problemId} | Delete problem by UUID
 *ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
@@ -159,12 +159,12 @@ Class | Method | HTTP request | Description
  - [SchemasCreateFavoriteUserPayload](docs/SchemasCreateFavoriteUserPayload.md)
  - [SchemasCreateFavoriteUserWayPayload](docs/SchemasCreateFavoriteUserWayPayload.md)
  - [SchemasCreateFromUserMentoringRequestPayload](docs/SchemasCreateFromUserMentoringRequestPayload.md)
- - [SchemasCreateJobDoneJobTagPayload](docs/SchemasCreateJobDoneJobTagPayload.md)
+ - [SchemasCreateJobDoneLabelPayload](docs/SchemasCreateJobDoneLabelPayload.md)
  - [SchemasCreateJobDonePayload](docs/SchemasCreateJobDonePayload.md)
- - [SchemasCreateJobTagPayload](docs/SchemasCreateJobTagPayload.md)
+ - [SchemasCreateLabelPayload](docs/SchemasCreateLabelPayload.md)
  - [SchemasCreateMentorUserWayPayload](docs/SchemasCreateMentorUserWayPayload.md)
  - [SchemasCreateMetricPayload](docs/SchemasCreateMetricPayload.md)
- - [SchemasCreatePlanJobTagPayload](docs/SchemasCreatePlanJobTagPayload.md)
+ - [SchemasCreatePlanLabelPayload](docs/SchemasCreatePlanLabelPayload.md)
  - [SchemasCreatePlanPayload](docs/SchemasCreatePlanPayload.md)
  - [SchemasCreateProblemPayload](docs/SchemasCreateProblemPayload.md)
  - [SchemasCreateToUserMentoringRequestPayload](docs/SchemasCreateToUserMentoringRequestPayload.md)
@@ -184,9 +184,9 @@ Class | Method | HTTP request | Description
  - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
  - [SchemasGoogleToken](docs/SchemasGoogleToken.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
- - [SchemasJobTagResponse](docs/SchemasJobTagResponse.md)
  - [SchemasLabel](docs/SchemasLabel.md)
  - [SchemasLabelInfo](docs/SchemasLabelInfo.md)
+ - [SchemasLabelResponse](docs/SchemasLabelResponse.md)
  - [SchemasLabelStatistics](docs/SchemasLabelStatistics.md)
  - [SchemasListDayReportsResponse](docs/SchemasListDayReportsResponse.md)
  - [SchemasMetricResponse](docs/SchemasMetricResponse.md)
@@ -197,7 +197,7 @@ Class | Method | HTTP request | Description
  - [SchemasToUserMentoringRequestResponse](docs/SchemasToUserMentoringRequestResponse.md)
  - [SchemasUpdateCommentPayload](docs/SchemasUpdateCommentPayload.md)
  - [SchemasUpdateJobDone](docs/SchemasUpdateJobDone.md)
- - [SchemasUpdateJobTagPayload](docs/SchemasUpdateJobTagPayload.md)
+ - [SchemasUpdateLabelPayload](docs/SchemasUpdateLabelPayload.md)
  - [SchemasUpdateMetricPayload](docs/SchemasUpdateMetricPayload.md)
  - [SchemasUpdatePlanPayload](docs/SchemasUpdatePlanPayload.md)
  - [SchemasUpdateProblemPayload](docs/SchemasUpdateProblemPayload.md)

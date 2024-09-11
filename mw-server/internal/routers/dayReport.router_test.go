@@ -137,7 +137,7 @@ func TestGetDayReports(t *testing.T) {
 							Description:   "this is finished job description",
 							OwnerName:     "Dana Evans",
 							OwnerUuid:     "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
-							Tags:          []openapiGeneral.SchemasJobTagResponse{},
+							Tags:          []openapiGeneral.SchemasLabelResponse{},
 							Time:          1000,
 							UpdatedAt:     "2024-08-01T12:40:00.000Z",
 							Uuid:          "8563a330-eedb-4e71-9abc-4db6fbabd13b",
@@ -153,7 +153,7 @@ func TestGetDayReports(t *testing.T) {
 							IsDone:        false,
 							OwnerName:     "Dana Evans",
 							OwnerUuid:     "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
-							Tags: []openapiGeneral.SchemasJobTagResponse{
+							Tags: []openapiGeneral.SchemasLabelResponse{
 								{
 									Color:       "green",
 									Description: "this is not my tag",

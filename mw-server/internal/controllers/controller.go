@@ -16,12 +16,12 @@ type Controller struct {
 	FromUserMentoringRequestController *FromUserMentoringRequestController
 	GeminiController                   *GeminiController
 	JobDoneController                  *JobDoneController
-	JobDoneJobTagController            *JobDoneJobTagController
-	JobTagController                   *JobTagController
+	JobDoneJobTagController            *JobDoneLabelController
+	JobTagController                   *LabelController
 	MentorUserWayController            *MentorUserWayController
 	MetricController                   *MetricController
 	PlanController                     *PlanController
-	PlanJobTagController               *PlanJobTagController
+	PlanJobTagController               *PlanLabelController
 	ProblemController                  *ProblemController
 	WayController                      *WayController
 	WayTagController                   *WayTagController
@@ -45,12 +45,12 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		FromUserMentoringRequestController: NewFromUserMentoringRequestController(services.FromUserMentoringRequestService),
 		GeminiController:                   NewGeminiController(services.GeminiService),
 		JobDoneController:                  NewJobDoneController(services.PermissionService, services.JobDoneService),
-		JobDoneJobTagController:            NewJobDoneJobTagController(services.JobDoneJobTagService),
-		JobTagController:                   NewJobTagController(services.JobTagService),
+		JobDoneJobTagController:            NewJobDoneJobTagController(services.JobDoneLabelService),
+		JobTagController:                   NewLabelController(services.JobTagService),
 		MentorUserWayController:            NewMentorUserWayController(services.LimitService, services.MentorUserWayService),
 		MetricController:                   NewMetricController(services.MetricService, services.WayService),
 		PlanController:                     NewPlanController(services.PermissionService, services.PlanService),
-		PlanJobTagController:               NewPlanJobTagController(services.PlanJobTagService),
+		PlanJobTagController:               NewPlanLabelController(services.PlanJobTagService),
 		ProblemController:                  NewProblemController(services.PermissionService, services.ProblemService),
 		WayController:                      NewWayController(services.WayService, services.WayStatisticsService, services.DayReportService, services.LimitService),
 		WayTagController:                   NewWayTagController(services.WayTagService),

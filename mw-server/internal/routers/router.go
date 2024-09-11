@@ -28,12 +28,12 @@ type Router struct {
 	fromUserMentoringRequestRouter *fromUserMentoringRequestRouter
 	geminiRouter                   *geminiRouter
 	jobDoneRouter                  *jobDoneRouter
-	jobDoneJobTagRouter            *jobDoneJobTagRouter
-	jobTagRouter                   *jobTagRouter
+	jobDoneLabelRouter             *jobDoneLabelRouter
+	labelRouter                    *labelRouter
 	mentorUserWayRouter            *mentorUserWayRouter
 	metricRouter                   *metricRouter
 	planRouter                     *planRouter
-	planJobTagRouter               *planJobTagRouter
+	planLabelRouter                *planLabelRouter
 	problemRouter                  *problemRouter
 	wayRouter                      *wayRouter
 	toUserMentoringRequestRouter   *toUserMentoringRequestRouter
@@ -73,12 +73,12 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		fromUserMentoringRequestRouter: newFromUserMentoringRequestRouter(controller.FromUserMentoringRequestController, config),
 		geminiRouter:                   newGeminiRouter(controller.GeminiController),
 		jobDoneRouter:                  newJobDoneRouter(controller.JobDoneController, config),
-		jobDoneJobTagRouter:            newJobDoneJobTagRouter(controller.JobDoneJobTagController, config),
-		jobTagRouter:                   newJobTagRouter(controller.JobTagController, config),
+		jobDoneLabelRouter:             newJobDoneLabelRouter(controller.JobDoneJobTagController, config),
+		labelRouter:                    newLabelRouter(controller.JobTagController, config),
 		mentorUserWayRouter:            newMentorUserWayRouter(controller.MentorUserWayController, config),
 		metricRouter:                   newMetricRouter(controller.MetricController, config),
 		planRouter:                     newPlanRouter(controller.PlanController, config),
-		planJobTagRouter:               newPlanJobTagRouter(controller.PlanJobTagController, config),
+		planLabelRouter:                newPlanLabelRouter(controller.PlanJobTagController, config),
 		problemRouter:                  newProblemRouter(controller.ProblemController, config),
 		wayRouter:                      newWayRouter(controller.WayController, config),
 		wayTagRouter:                   newWayTagRouter(controller.WayTagController, config),
@@ -103,12 +103,12 @@ func (r *Router) SetRoutes() {
 	r.fromUserMentoringRequestRouter.setFromUserMentoringRequestRoutes(api)
 	r.geminiRouter.setGeminiRoutes(api)
 	r.jobDoneRouter.setJobDoneRoutes(api)
-	r.jobDoneJobTagRouter.setJobDoneJobTagRoutes(api)
-	r.jobTagRouter.setJobTagRoutes(api)
+	r.jobDoneLabelRouter.setJobDoneLabelRoutes(api)
+	r.labelRouter.setLabelRoutes(api)
 	r.mentorUserWayRouter.setMentorUserWayRoutes(api)
 	r.metricRouter.setMetricRouter(api)
 	r.planRouter.setPlanRoutes(api)
-	r.planJobTagRouter.setPlanJobTagRoutes(api)
+	r.planLabelRouter.setPlanLabelRoutes(api)
 	r.problemRouter.setProblemRoutes(api)
 	r.wayRouter.setWayRoutes(api)
 	r.toUserMentoringRequestRouter.setToUserMentoringRequestRoutes(api)

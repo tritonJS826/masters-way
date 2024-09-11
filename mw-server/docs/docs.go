@@ -765,7 +765,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/jobDoneJobTags": {
+        "/jobDoneLabels": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -774,10 +774,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "jobDoneJobTag"
+                    "jobDoneLabel"
                 ],
-                "summary": "Create a new jobDoneJobTag",
-                "operationId": "create-jobDoneJobTag",
+                "summary": "Create a new jobDoneLabel",
+                "operationId": "create-jobDoneLabel",
                 "parameters": [
                     {
                         "description": "query params",
@@ -785,7 +785,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobDoneJobTagPayload"
+                            "$ref": "#/definitions/schemas.CreateJobDoneLabelPayload"
                         }
                     }
                 ],
@@ -796,7 +796,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/jobDoneJobTags/{jobTagId}/{jobDoneId}": {
+        "/jobDoneLabels/{labelId}/{jobDoneId}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -805,10 +805,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "jobDoneJobTag"
+                    "jobDoneLabel"
                 ],
-                "summary": "Delete jobDoneJobTag by UUID",
-                "operationId": "delete-jobDoneJobTag",
+                "summary": "Delete jobDoneLabel by UUID",
+                "operationId": "delete-jobDoneLabel",
                 "parameters": [
                     {
                         "type": "string",
@@ -819,8 +819,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "jobTag UUID",
-                        "name": "jobTagId",
+                        "description": "label UUID",
+                        "name": "labelId",
                         "in": "path",
                         "required": true
                     }
@@ -952,7 +952,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/jobTags": {
+        "/labels": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -961,10 +961,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "jobTag"
+                    "label"
                 ],
-                "summary": "Create a new jobTag",
-                "operationId": "create-jobTag",
+                "summary": "Create a new label",
+                "operationId": "create-label",
                 "parameters": [
                     {
                         "description": "query params",
@@ -972,7 +972,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobTagPayload"
+                            "$ref": "#/definitions/schemas.CreateLabelPayload"
                         }
                     }
                 ],
@@ -980,14 +980,15 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobTagResponse"
+                            "$ref": "#/definitions/schemas.LabelResponse"
                         }
                     }
                 }
             }
         },
-        "/jobTags/{jobTagId}": {
+        "/labels/{labelId}": {
             "delete": {
+                "description": "Delete a label by its UUID.",
                 "consumes": [
                     "application/json"
                 ],
@@ -995,22 +996,28 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "jobTag"
+                    "label"
                 ],
-                "summary": "Delete jobTag by UUID",
-                "operationId": "delete-jobTag",
+                "summary": "Delete label by UUID",
+                "operationId": "delete-label",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "jobTag ID",
-                        "name": "jobTagId",
+                        "description": "label ID",
+                        "name": "labelId",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content"
+                        "description": "Label deleted successfully"
+                    },
+                    "400": {
+                        "description": "Invalid label ID"
+                    },
+                    "404": {
+                        "description": "Label not found"
                     }
                 }
             },
@@ -1022,10 +1029,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "jobTag"
+                    "label"
                 ],
-                "summary": "Update jobTag by UUID",
-                "operationId": "update-jobTag",
+                "summary": "Update label by UUID",
+                "operationId": "update-label",
                 "parameters": [
                     {
                         "description": "query params",
@@ -1033,13 +1040,13 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateJobTagPayload"
+                            "$ref": "#/definitions/schemas.UpdateLabelPayload"
                         }
                     },
                     {
                         "type": "string",
-                        "description": "jobTag UUID",
-                        "name": "jobTagId",
+                        "description": "label UUID",
+                        "name": "labelId",
                         "in": "path",
                         "required": true
                     }
@@ -1048,7 +1055,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobTagResponse"
+                            "$ref": "#/definitions/schemas.LabelResponse"
                         }
                     }
                 }
@@ -1217,7 +1224,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/planJobTags": {
+        "/planLabels": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -1226,10 +1233,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "planJobTag"
+                    "planLabel"
                 ],
-                "summary": "Create a new planJobTag",
-                "operationId": "create-planJobTag",
+                "summary": "Create a new planLabel",
+                "operationId": "create-planLabel",
                 "parameters": [
                     {
                         "description": "query params",
@@ -1237,7 +1244,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreatePlanJobTagPayload"
+                            "$ref": "#/definitions/schemas.CreatePlanLabelPayload"
                         }
                     }
                 ],
@@ -1248,7 +1255,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/planJobTags/{jobTagId}/{planId}": {
+        "/planLabels/{labelId}/{planId}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -1257,15 +1264,15 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "planJobTag"
+                    "planLabel"
                 ],
-                "summary": "Delete planJobTag by UUID",
-                "operationId": "delete-planJobTag",
+                "summary": "Delete planLabel by UUID",
+                "operationId": "delete-planLabel",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "jobTag ID",
-                        "name": "jobTagId",
+                        "description": "label ID",
+                        "name": "labelId",
                         "in": "path",
                         "required": true
                     },
@@ -2535,17 +2542,17 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateJobDoneJobTagPayload": {
+        "schemas.CreateJobDoneLabelPayload": {
             "type": "object",
             "required": [
                 "jobDoneUuid",
-                "jobTagUuid"
+                "labelUuid"
             ],
             "properties": {
                 "jobDoneUuid": {
                     "type": "string"
                 },
-                "jobTagUuid": {
+                "labelUuid": {
                     "type": "string"
                 }
             }
@@ -2580,7 +2587,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateJobTagPayload": {
+        "schemas.CreateLabelPayload": {
             "type": "object",
             "required": [
                 "color",
@@ -2645,14 +2652,14 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreatePlanJobTagPayload": {
+        "schemas.CreatePlanLabelPayload": {
             "type": "object",
             "required": [
-                "jobTagUuid",
+                "labelUuid",
                 "planUuid"
             ],
             "properties": {
-                "jobTagUuid": {
+                "labelUuid": {
                     "type": "string"
                 },
                 "planUuid": {
@@ -3025,7 +3032,7 @@ const docTemplate = `{
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/schemas.LabelResponse"
                     }
                 },
                 "time": {
@@ -3041,29 +3048,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "wayUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.JobTagResponse": {
-            "type": "object",
-            "required": [
-                "color",
-                "description",
-                "name",
-                "uuid"
-            ],
-            "properties": {
-                "color": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "uuid": {
                     "type": "string"
                 }
             }
@@ -3115,6 +3099,29 @@ const docTemplate = `{
                 },
                 "timePercentage": {
                     "type": "integer"
+                }
+            }
+        },
+        "schemas.LabelResponse": {
+            "type": "object",
+            "required": [
+                "color",
+                "description",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
                 }
             }
         },
@@ -3247,7 +3254,7 @@ const docTemplate = `{
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/schemas.LabelResponse"
                     }
                 },
                 "time": {
@@ -3363,7 +3370,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateJobTagPayload": {
+        "schemas.UpdateLabelPayload": {
             "type": "object",
             "properties": {
                 "color": {
@@ -3857,7 +3864,7 @@ const docTemplate = `{
                 "jobTags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/schemas.LabelResponse"
                     }
                 },
                 "mentorRequests": {

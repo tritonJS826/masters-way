@@ -17,14 +17,14 @@ WITH way_info AS (
         ways.uuid AS way_uuid,
         ways.name AS way_name
     FROM day_reports
-    INNER JOIN ways ON ways.uuid = day_reports.way_uuid
+             INNER JOIN ways ON ways.uuid = day_reports.way_uuid
     WHERE day_reports.uuid = $6
 ),
-owner_info AS (
-    SELECT name AS owner_name
-    FROM users
-    WHERE uuid = $5
-)
+     owner_info AS (
+         SELECT name AS owner_name
+         FROM users
+         WHERE uuid = $5
+     )
 INSERT INTO job_dones(
     created_at,
     updated_at,
@@ -40,15 +40,15 @@ RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_repor
     (SELECT way_uuid FROM way_info) AS way_uuid,
     (SELECT way_name FROM way_info) AS way_name,
     (SELECT owner_name FROM owner_info) AS owner_name,
-    -- get tag uuids
+    -- get label uuids
     COALESCE(
         ARRAY(
-            SELECT job_dones_job_tags.job_tag_uuid
-            FROM job_dones_job_tags
-            WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+            SELECT job_dones_labels.label_uuid
+            FROM job_dones_labels
+            WHERE job_dones.uuid = job_dones_labels.job_done_uuid
         ),
     '{}'
-    )::VARCHAR[] AS tag_uuids
+    )::VARCHAR[] AS label_uuids
 `
 
 type CreateJobDoneParams struct {
@@ -71,7 +71,7 @@ type CreateJobDoneRow struct {
 	WayUuid       pgtype.UUID      `json:"way_uuid"`
 	WayName       string           `json:"way_name"`
 	OwnerName     string           `json:"owner_name"`
-	TagUuids      []string         `json:"tag_uuids"`
+	LabelUuids    []string         `json:"label_uuids"`
 }
 
 func (q *Queries) CreateJobDone(ctx context.Context, arg CreateJobDoneParams) (CreateJobDoneRow, error) {
@@ -95,7 +95,7 @@ func (q *Queries) CreateJobDone(ctx context.Context, arg CreateJobDoneParams) (C
 		&i.WayUuid,
 		&i.WayName,
 		&i.OwnerName,
-		&i.TagUuids,
+		&i.LabelUuids,
 	)
 	return i, err
 }
@@ -117,11 +117,11 @@ SELECT
         SELECT 1
         FROM mentor_users_ways
         WHERE mentor_users_ways.way_uuid = ways.uuid
-        AND mentor_users_ways.user_uuid = $1
+          AND mentor_users_ways.user_uuid = $1
     ) OR ways.owner_uuid = $1 AS is_permission_given
 FROM ways
-INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
-INNER JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+         INNER JOIN day_reports ON ways.uuid = day_reports.way_uuid
+         INNER JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
 WHERE job_dones.uuid = $2
 `
 
@@ -182,33 +182,33 @@ WITH way_info AS (
         ways.uuid AS way_uuid,
         ways.name AS way_name
     FROM day_reports
-    INNER JOIN ways ON ways.uuid = day_reports.way_uuid
+             INNER JOIN ways ON ways.uuid = day_reports.way_uuid
     WHERE day_reports.uuid = (SELECT day_report_uuid FROM job_dones WHERE uuid = $4)
 ),
-owner_info AS (
-    SELECT name AS owner_name
-    FROM users
-    WHERE uuid = (SELECT owner_uuid FROM job_dones WHERE uuid = $4)
-)
+     owner_info AS (
+         SELECT name AS owner_name
+         FROM users
+         WHERE uuid = (SELECT owner_uuid FROM job_dones WHERE uuid = $4)
+     )
 UPDATE job_dones
 SET
     updated_at = COALESCE($1, updated_at),
     description = COALESCE($2, description),
     time = COALESCE($3, time)
 WHERE job_dones.uuid = $4
-RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid,
+    RETURNING uuid, created_at, updated_at, description, time, owner_uuid, day_report_uuid,
     (SELECT way_uuid FROM way_info) AS way_uuid,
     (SELECT way_name FROM way_info) AS way_name,
     (SELECT owner_name FROM owner_info) AS owner_name,
-    -- get tag uuids
+    -- get label uuids
     COALESCE(
         ARRAY(
-            SELECT job_dones_job_tags.job_tag_uuid
-            FROM job_dones_job_tags
-            WHERE job_dones.uuid = job_dones_job_tags.job_done_uuid
+            SELECT job_dones_labels.label_uuid
+            FROM job_dones_labels
+            WHERE job_dones.uuid = job_dones_labels.job_done_uuid
         ),
     '{}'
-    )::VARCHAR[] AS tag_uuids
+    )::VARCHAR[] AS label_uuids
 `
 
 type UpdateJobDoneParams struct {
@@ -229,7 +229,7 @@ type UpdateJobDoneRow struct {
 	WayUuid       pgtype.UUID      `json:"way_uuid"`
 	WayName       string           `json:"way_name"`
 	OwnerName     string           `json:"owner_name"`
-	TagUuids      []string         `json:"tag_uuids"`
+	LabelUuids    []string         `json:"label_uuids"`
 }
 
 func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error) {
@@ -251,7 +251,7 @@ func (q *Queries) UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (U
 		&i.WayUuid,
 		&i.WayName,
 		&i.OwnerName,
-		&i.TagUuids,
+		&i.LabelUuids,
 	)
 	return i, err
 }

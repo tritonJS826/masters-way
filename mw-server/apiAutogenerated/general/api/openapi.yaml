@@ -482,27 +482,27 @@ paths:
       summary: Health Check
       tags:
       - Health
-  /jobDoneJobTags:
+  /jobDoneLabels:
     post:
-      operationId: create-jobDoneJobTag
+      operationId: create-jobDoneLabel
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.CreateJobDoneJobTagPayload'
+              $ref: '#/components/schemas/schemas.CreateJobDoneLabelPayload'
         description: query params
         required: true
       responses:
         "204":
           content: {}
           description: No Content
-      summary: Create a new jobDoneJobTag
+      summary: Create a new jobDoneLabel
       tags:
-      - jobDoneJobTag
+      - jobDoneLabel
       x-codegen-request-body-name: request
-  /jobDoneJobTags/{jobTagId}/{jobDoneId}:
+  /jobDoneLabels/{labelId}/{jobDoneId}:
     delete:
-      operationId: delete-jobDoneJobTag
+      operationId: delete-jobDoneLabel
       parameters:
       - description: jobDone ID
         in: path
@@ -510,9 +510,9 @@ paths:
         required: true
         schema:
           type: string
-      - description: jobTag UUID
+      - description: label UUID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         schema:
           type: string
@@ -520,9 +520,9 @@ paths:
         "204":
           content: {}
           description: No Content
-      summary: Delete jobDoneJobTag by UUID
+      summary: Delete jobDoneLabel by UUID
       tags:
-      - jobDoneJobTag
+      - jobDoneLabel
   /jobDones:
     post:
       operationId: create-jobDone
@@ -606,14 +606,14 @@ paths:
       tags:
       - jobDone
       x-codegen-request-body-name: request
-  /jobTags:
+  /labels:
     post:
-      operationId: create-jobTag
+      operationId: create-label
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.CreateJobTagPayload'
+              $ref: '#/components/schemas/schemas.CreateLabelPayload'
         description: query params
         required: true
       responses:
@@ -621,35 +621,42 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.JobTagResponse'
+                $ref: '#/components/schemas/schemas.LabelResponse'
           description: OK
-      summary: Create a new jobTag
+      summary: Create a new label
       tags:
-      - jobTag
+      - label
       x-codegen-request-body-name: request
-  /jobTags/{jobTagId}:
+  /labels/{labelId}:
     delete:
-      operationId: delete-jobTag
+      description: Delete a label by its UUID.
+      operationId: delete-label
       parameters:
-      - description: jobTag ID
+      - description: label ID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         schema:
           type: string
       responses:
         "204":
           content: {}
-          description: No Content
-      summary: Delete jobTag by UUID
+          description: Label deleted successfully
+        "400":
+          content: {}
+          description: Invalid label ID
+        "404":
+          content: {}
+          description: Label not found
+      summary: Delete label by UUID
       tags:
-      - jobTag
+      - label
     patch:
-      operationId: update-jobTag
+      operationId: update-label
       parameters:
-      - description: jobTag UUID
+      - description: label UUID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         schema:
           type: string
@@ -657,7 +664,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.UpdateJobTagPayload'
+              $ref: '#/components/schemas/schemas.UpdateLabelPayload'
         description: query params
         required: true
       responses:
@@ -665,11 +672,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.JobTagResponse'
+                $ref: '#/components/schemas/schemas.LabelResponse'
           description: OK
-      summary: Update jobTag by UUID
+      summary: Update label by UUID
       tags:
-      - jobTag
+      - label
       x-codegen-request-body-name: request
   /mentorUserWays:
     delete:
@@ -772,31 +779,31 @@ paths:
       tags:
       - metric
       x-codegen-request-body-name: request
-  /planJobTags:
+  /planLabels:
     post:
-      operationId: create-planJobTag
+      operationId: create-planLabel
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.CreatePlanJobTagPayload'
+              $ref: '#/components/schemas/schemas.CreatePlanLabelPayload'
         description: query params
         required: true
       responses:
         "204":
           content: {}
           description: No Content
-      summary: Create a new planJobTag
+      summary: Create a new planLabel
       tags:
-      - planJobTag
+      - planLabel
       x-codegen-request-body-name: request
-  /planJobTags/{jobTagId}/{planId}:
+  /planLabels/{labelId}/{planId}:
     delete:
-      operationId: delete-planJobTag
+      operationId: delete-planLabel
       parameters:
-      - description: jobTag ID
+      - description: label ID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         schema:
           type: string
@@ -810,9 +817,9 @@ paths:
         "204":
           content: {}
           description: No Content
-      summary: Delete planJobTag by UUID
+      summary: Delete planLabel by UUID
       tags:
-      - planJobTag
+      - planLabel
   /plans:
     post:
       operationId: create-plan
@@ -1792,15 +1799,15 @@ components:
       - userUuid
       - wayUuid
       type: object
-    schemas.CreateJobDoneJobTagPayload:
+    schemas.CreateJobDoneLabelPayload:
       properties:
         jobDoneUuid:
           type: string
-        jobTagUuid:
+        labelUuid:
           type: string
       required:
       - jobDoneUuid
-      - jobTagUuid
+      - labelUuid
       type: object
     schemas.CreateJobDonePayload:
       properties:
@@ -1823,7 +1830,7 @@ components:
       - ownerUuid
       - time
       type: object
-    schemas.CreateJobTagPayload:
+    schemas.CreateLabelPayload:
       properties:
         color:
           type: string
@@ -1868,14 +1875,14 @@ components:
       - isDone
       - wayUuid
       type: object
-    schemas.CreatePlanJobTagPayload:
+    schemas.CreatePlanLabelPayload:
       properties:
-        jobTagUuid:
+        labelUuid:
           type: string
         planUuid:
           type: string
       required:
-      - jobTagUuid
+      - labelUuid
       - planUuid
       type: object
     schemas.CreatePlanPayload:
@@ -2569,7 +2576,7 @@ components:
           type: string
         tags:
           items:
-            $ref: '#/components/schemas/schemas.JobTagResponse'
+            $ref: '#/components/schemas/schemas.LabelResponse'
           type: array
         time:
           type: integer
@@ -2593,27 +2600,6 @@ components:
       - uuid
       - wayName
       - wayUuid
-      type: object
-    schemas.JobTagResponse:
-      example:
-        color: color
-        name: name
-        description: description
-        uuid: uuid
-      properties:
-        color:
-          type: string
-        description:
-          type: string
-        name:
-          type: string
-        uuid:
-          type: string
-      required:
-      - color
-      - description
-      - name
-      - uuid
       type: object
     schemas.Label:
       example:
@@ -2664,6 +2650,27 @@ components:
       - label
       - time
       - timePercentage
+      type: object
+    schemas.LabelResponse:
+      example:
+        color: color
+        name: name
+        description: description
+        uuid: uuid
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - color
+      - description
+      - name
+      - uuid
       type: object
     schemas.LabelStatistics:
       example:
@@ -3061,7 +3068,7 @@ components:
           type: string
         tags:
           items:
-            $ref: '#/components/schemas/schemas.JobTagResponse'
+            $ref: '#/components/schemas/schemas.LabelResponse'
           type: array
         time:
           type: integer
@@ -3170,7 +3177,7 @@ components:
         time:
           type: integer
       type: object
-    schemas.UpdateJobTagPayload:
+    schemas.UpdateLabelPayload:
       properties:
         color:
           type: string
@@ -4368,7 +4375,7 @@ components:
           type: boolean
         jobTags:
           items:
-            $ref: '#/components/schemas/schemas.JobTagResponse'
+            $ref: '#/components/schemas/schemas.LabelResponse'
           type: array
         mentorRequests:
           items:

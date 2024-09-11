@@ -21,13 +21,13 @@ type Service struct {
 	GeminiService                   *GeminiService
 	PermissionService               *PermissionService
 	JobDoneService                  *JobDoneService
-	JobDoneJobTagService            *JobDoneJobTagService
-	JobTagService                   *JobTagService
+	JobDoneLabelService             *JobDoneLabelService
+	JobTagService                   *LabelService
 	LimitService                    *LimitService
 	MentorUserWayService            *MentorUserWayService
 	MetricService                   *MetricService
 	PlanService                     *PlanService
-	PlanJobTagService               *PlanJobTagService
+	PlanJobTagService               *PlanLabelService
 	ProblemService                  *ProblemService
 	UserService                     *UserService
 	WayService                      *WayService
@@ -55,13 +55,13 @@ func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.C
 		GeminiService:                   NewGeminiService(geminiClient, config),
 		PermissionService:               NewPermissionService(queries),
 		JobDoneService:                  NewJobDoneService(queries),
-		JobDoneJobTagService:            NewJobDoneJobTagService(queries),
-		JobTagService:                   NewJobTagService(queries),
+		JobDoneLabelService:             NewJobDoneLabelService(queries),
+		JobTagService:                   NewLabelService(queries),
 		LimitService:                    NewLimitService(queries),
 		MentorUserWayService:            NewMentorUserWayService(queries),
 		MetricService:                   NewMetricService(queries),
 		PlanService:                     NewPlanService(queries),
-		PlanJobTagService:               NewPlanJobTagService(queries),
+		PlanJobTagService:               NewPlanLabelService(queries),
 		ProblemService:                  NewProblemService(queries),
 		UserService:                     NewUserService(queries),
 		WayService:                      NewWayService(queries),

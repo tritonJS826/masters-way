@@ -166,15 +166,15 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.CreateJobDoneJobTagPayload:
+  schemas.CreateJobDoneLabelPayload:
     properties:
       jobDoneUuid:
         type: string
-      jobTagUuid:
+      labelUuid:
         type: string
     required:
     - jobDoneUuid
-    - jobTagUuid
+    - labelUuid
     type: object
   schemas.CreateJobDonePayload:
     properties:
@@ -197,7 +197,7 @@ definitions:
     - ownerUuid
     - time
     type: object
-  schemas.CreateJobTagPayload:
+  schemas.CreateLabelPayload:
     properties:
       color:
         type: string
@@ -242,14 +242,14 @@ definitions:
     - isDone
     - wayUuid
     type: object
-  schemas.CreatePlanJobTagPayload:
+  schemas.CreatePlanLabelPayload:
     properties:
-      jobTagUuid:
+      labelUuid:
         type: string
       planUuid:
         type: string
     required:
-    - jobTagUuid
+    - labelUuid
     - planUuid
     type: object
   schemas.CreatePlanPayload:
@@ -491,7 +491,7 @@ definitions:
         type: string
       tags:
         items:
-          $ref: '#/definitions/schemas.JobTagResponse'
+          $ref: '#/definitions/schemas.LabelResponse'
         type: array
       time:
         type: integer
@@ -515,22 +515,6 @@ definitions:
     - uuid
     - wayName
     - wayUuid
-    type: object
-  schemas.JobTagResponse:
-    properties:
-      color:
-        type: string
-      description:
-        type: string
-      name:
-        type: string
-      uuid:
-        type: string
-    required:
-    - color
-    - description
-    - name
-    - uuid
     type: object
   schemas.Label:
     properties:
@@ -566,6 +550,22 @@ definitions:
     - label
     - time
     - timePercentage
+    type: object
+  schemas.LabelResponse:
+    properties:
+      color:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      uuid:
+        type: string
+    required:
+    - color
+    - description
+    - name
+    - uuid
     type: object
   schemas.LabelStatistics:
     properties:
@@ -646,7 +646,7 @@ definitions:
         type: string
       tags:
         items:
-          $ref: '#/definitions/schemas.JobTagResponse'
+          $ref: '#/definitions/schemas.LabelResponse'
         type: array
       time:
         type: integer
@@ -738,7 +738,7 @@ definitions:
       time:
         type: integer
     type: object
-  schemas.UpdateJobTagPayload:
+  schemas.UpdateLabelPayload:
     properties:
       color:
         type: string
@@ -1069,7 +1069,7 @@ definitions:
         type: boolean
       jobTags:
         items:
-          $ref: '#/definitions/schemas.JobTagResponse'
+          $ref: '#/definitions/schemas.LabelResponse'
         type: array
       mentorRequests:
         items:
@@ -1653,40 +1653,40 @@ paths:
       summary: Health Check
       tags:
       - Health
-  /jobDoneJobTags:
+  /jobDoneLabels:
     post:
       consumes:
       - application/json
-      operationId: create-jobDoneJobTag
+      operationId: create-jobDoneLabel
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateJobDoneJobTagPayload'
+          $ref: '#/definitions/schemas.CreateJobDoneLabelPayload'
       produces:
       - application/json
       responses:
         "204":
           description: No Content
-      summary: Create a new jobDoneJobTag
+      summary: Create a new jobDoneLabel
       tags:
-      - jobDoneJobTag
-  /jobDoneJobTags/{jobTagId}/{jobDoneId}:
+      - jobDoneLabel
+  /jobDoneLabels/{labelId}/{jobDoneId}:
     delete:
       consumes:
       - application/json
-      operationId: delete-jobDoneJobTag
+      operationId: delete-jobDoneLabel
       parameters:
       - description: jobDone ID
         in: path
         name: jobDoneId
         required: true
         type: string
-      - description: jobTag UUID
+      - description: label UUID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         type: string
       produces:
@@ -1694,9 +1694,9 @@ paths:
       responses:
         "204":
           description: No Content
-      summary: Delete jobDoneJobTag by UUID
+      summary: Delete jobDoneLabel by UUID
       tags:
-      - jobDoneJobTag
+      - jobDoneLabel
   /jobDones:
     post:
       consumes:
@@ -1776,61 +1776,66 @@ paths:
       summary: Update jobDone by UUID
       tags:
       - jobDone
-  /jobTags:
+  /labels:
     post:
       consumes:
       - application/json
-      operationId: create-jobTag
+      operationId: create-label
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateJobTagPayload'
+          $ref: '#/definitions/schemas.CreateLabelPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.JobTagResponse'
-      summary: Create a new jobTag
+            $ref: '#/definitions/schemas.LabelResponse'
+      summary: Create a new label
       tags:
-      - jobTag
-  /jobTags/{jobTagId}:
+      - label
+  /labels/{labelId}:
     delete:
       consumes:
       - application/json
-      operationId: delete-jobTag
+      description: Delete a label by its UUID.
+      operationId: delete-label
       parameters:
-      - description: jobTag ID
+      - description: label ID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         type: string
       produces:
       - application/json
       responses:
         "204":
-          description: No Content
-      summary: Delete jobTag by UUID
+          description: Label deleted successfully
+        "400":
+          description: Invalid label ID
+        "404":
+          description: Label not found
+      summary: Delete label by UUID
       tags:
-      - jobTag
+      - label
     patch:
       consumes:
       - application/json
-      operationId: update-jobTag
+      operationId: update-label
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateJobTagPayload'
-      - description: jobTag UUID
+          $ref: '#/definitions/schemas.UpdateLabelPayload'
+      - description: label UUID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         type: string
       produces:
@@ -1839,10 +1844,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.JobTagResponse'
-      summary: Update jobTag by UUID
+            $ref: '#/definitions/schemas.LabelResponse'
+      summary: Update label by UUID
       tags:
-      - jobTag
+      - label
   /mentorUserWays:
     delete:
       consumes:
@@ -1950,35 +1955,35 @@ paths:
       summary: Update metric by UUID
       tags:
       - metric
-  /planJobTags:
+  /planLabels:
     post:
       consumes:
       - application/json
-      operationId: create-planJobTag
+      operationId: create-planLabel
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreatePlanJobTagPayload'
+          $ref: '#/definitions/schemas.CreatePlanLabelPayload'
       produces:
       - application/json
       responses:
         "204":
           description: No Content
-      summary: Create a new planJobTag
+      summary: Create a new planLabel
       tags:
-      - planJobTag
-  /planJobTags/{jobTagId}/{planId}:
+      - planLabel
+  /planLabels/{labelId}/{planId}:
     delete:
       consumes:
       - application/json
-      operationId: delete-planJobTag
+      operationId: delete-planLabel
       parameters:
-      - description: jobTag ID
+      - description: label ID
         in: path
-        name: jobTagId
+        name: labelId
         required: true
         type: string
       - description: plan ID
@@ -1991,9 +1996,9 @@ paths:
       responses:
         "204":
           description: No Content
-      summary: Delete planJobTag by UUID
+      summary: Delete planLabel by UUID
       tags:
-      - planJobTag
+      - planLabel
   /plans:
     post:
       consumes:

@@ -15,7 +15,7 @@ import (
 type IPlanRepository interface {
 	CreatePlan(ctx context.Context, arg db.CreatePlanParams) (db.CreatePlanRow, error)
 	UpdatePlan(ctx context.Context, arg db.UpdatePlanParams) (db.UpdatePlanRow, error)
-	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.JobTag, error)
+	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.Label, error)
 	DeletePlan(ctx context.Context, planUuid pgtype.UUID) error
 }
 
@@ -56,7 +56,7 @@ func (ps *PlanService) CreatePlan(ctx context.Context, payload *schemas.CreatePl
 		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
 		WayUUID:       util.ConvertPgUUIDToUUID(plan.WayUuid).String(),
 		WayName:       plan.WayName,
-		Tags:          make([]schemas.JobTagResponse, 0),
+		Tags:          make([]schemas.LabelResponse, 0),
 	}, nil
 }
 
@@ -105,8 +105,8 @@ func (ps *PlanService) UpdatePlan(ctx context.Context, params *UpdatePlanParams)
 		return nil, err
 	}
 
-	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
+	tags := lo.Map(dbTags, func(dbTag db.Label, i int) schemas.LabelResponse {
+		return schemas.LabelResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name:        dbTag.Name,
 			Description: dbTag.Description,

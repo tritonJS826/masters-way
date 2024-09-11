@@ -53,7 +53,7 @@ func TestCreatePlan(t *testing.T) {
 			IsDone:        false,
 			OwnerName:     "Alice Johnson",
 			OwnerUuid:     "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
-			Tags:          []openapiGeneral.SchemasJobTagResponse{},
+			Tags:          []openapiGeneral.SchemasLabelResponse{},
 			Time:          0,
 		}
 

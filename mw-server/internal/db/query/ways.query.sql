@@ -304,15 +304,14 @@ GROUP BY point_date;
 WITH job_done_data AS (
     SELECT
         job_dones.*,
-        job_dones_job_tags.job_tag_uuid,
-        job_tags.uuid AS label_uuid,
-        job_tags.name AS label_name,
-        job_tags.color AS label_color,
-        job_tags.description AS label_description
+        job_dones_labels.label_uuid,
+        labels.name AS label_name,
+        labels.color AS label_color,
+        labels.description AS label_description
     FROM day_reports
-    LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
-    INNER JOIN job_dones_job_tags ON job_dones.uuid = job_dones_job_tags.job_done_uuid
-    INNER JOIN job_tags ON job_tags.uuid = job_dones_job_tags.job_tag_uuid
+             LEFT JOIN job_dones ON job_dones.day_report_uuid = day_reports.uuid
+             INNER JOIN job_dones_labels ON job_dones.uuid = job_dones_labels.job_done_uuid
+             INNER JOIN labels ON labels.uuid = job_dones_labels.label_uuid
     WHERE day_reports.way_uuid = ANY(@way_uuids::UUID[]) AND day_reports.created_at BETWEEN @start_date AND @end_date
 )
 SELECT

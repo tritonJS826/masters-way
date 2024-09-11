@@ -54,7 +54,7 @@ func TestCreateJobDone(t *testing.T) {
 			Description:   description,
 			OwnerName:     "Dana Evans",
 			OwnerUuid:     ownerID,
-			Tags:          []openapiGeneral.SchemasJobTagResponse{},
+			Tags:          []openapiGeneral.SchemasLabelResponse{},
 			Time:          0,
 			WayName:       "alice johnson",
 			WayUuid:       "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
@@ -117,7 +117,7 @@ func TestUpdateJobDone(t *testing.T) {
 			DayReportUuid: "7d563ccb-15fc-4d5a-b0cb-27ec86e052ab",
 			WayUuid:       "9230479a-a481-4f83-b770-138ef4f3139c",
 			WayName:       "dana evans way 3",
-			Tags:          []openapiGeneral.SchemasJobTagResponse{},
+			Tags:          []openapiGeneral.SchemasLabelResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)

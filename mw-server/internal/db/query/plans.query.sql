@@ -35,9 +35,9 @@ INSERT INTO plans(
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid
-            FROM plans_job_tags
-            WHERE plans.uuid = plans_job_tags.plan_uuid
+            SELECT plans_labels.label_uuid
+            FROM plans_labels
+            WHERE plans.uuid = plans_labels.plan_uuid
         ),
         '{}'
     )::VARCHAR[] AS tag_uuids;
@@ -75,9 +75,9 @@ RETURNING *,
     -- get tag uuids
     COALESCE(
         ARRAY(
-            SELECT plans_job_tags.job_tag_uuid
-            FROM plans_job_tags
-            WHERE plans.uuid = plans_job_tags.plan_uuid
+            SELECT plans_labels.label_uuid
+            FROM plans_labels
+            WHERE plans.uuid = plans_labels.plan_uuid
         ),
         '{}'
     )::VARCHAR[] AS tag_uuids;

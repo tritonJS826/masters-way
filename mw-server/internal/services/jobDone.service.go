@@ -16,7 +16,7 @@ type IJobDoneRepository interface {
 	CreateJobDone(ctx context.Context, arg db.CreateJobDoneParams) (db.CreateJobDoneRow, error)
 	UpdateJobDone(ctx context.Context, arg db.UpdateJobDoneParams) (db.UpdateJobDoneRow, error)
 	DeleteJobDone(ctx context.Context, jobDoneUuid pgtype.UUID) error
-	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.JobTag, error)
+	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.Label, error)
 }
 
 type JobDoneService struct {
@@ -54,7 +54,7 @@ func (jds *JobDoneService) CreateJobDone(ctx context.Context, payload *schemas.C
 		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
 		WayUUID:       util.ConvertPgUUIDToUUID(jobDone.WayUuid).String(),
 		WayName:       jobDone.WayName,
-		Tags:          []schemas.JobTagResponse{},
+		Tags:          []schemas.LabelResponse{},
 	}, nil
 }
 
@@ -87,13 +87,13 @@ func (jds *JobDoneService) UpdateJobDone(ctx context.Context, params *UpdateJobD
 		return nil, err
 	}
 
-	tagUuids := lo.Map(jobDone.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
+	tagUuids := lo.Map(jobDone.LabelUuids, func(stringifiedUuid string, i int) pgtype.UUID {
 		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
 	})
 
 	dbTags, _ := jds.jobDoneRepository.GetListLabelsByLabelUuids(ctx, tagUuids)
-	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
+	tags := lo.Map(dbTags, func(dbTag db.Label, i int) schemas.LabelResponse {
+		return schemas.LabelResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
 			Name:        dbTag.Name,
 			Description: dbTag.Description,

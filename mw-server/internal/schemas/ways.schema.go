@@ -57,7 +57,7 @@ type WayPopulatedResponse struct {
 	FromUserMentorRequests []UserPlainResponse    `json:"mentorRequests" validate:"required"`
 	FavoriteForUsersAmount int32                  `json:"favoriteForUsersAmount" validate:"required"`
 	WayTags                []WayTagResponse       `json:"wayTags" validate:"required"`
-	JobTags                []JobTagResponse       `json:"jobTags" validate:"required"`
+	JobTags                []LabelResponse        `json:"jobTags" validate:"required"`
 	Metrics                []MetricResponse       `json:"metrics" validate:"required"`
 	CopiedFromWayUuid      *string                `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
 	Children               []WayPopulatedResponse `json:"children" validate:"required"`

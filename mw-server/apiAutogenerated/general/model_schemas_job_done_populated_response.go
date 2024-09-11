@@ -26,7 +26,7 @@ type SchemasJobDonePopulatedResponse struct {
 	Description string `json:"description"`
 	OwnerName string `json:"ownerName"`
 	OwnerUuid string `json:"ownerUuid"`
-	Tags []SchemasJobTagResponse `json:"tags"`
+	Tags []SchemasLabelResponse `json:"tags"`
 	Time int32 `json:"time"`
 	UpdatedAt string `json:"updatedAt"`
 	Uuid string `json:"uuid"`
@@ -40,7 +40,7 @@ type _SchemasJobDonePopulatedResponse SchemasJobDonePopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasJobDonePopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasJobDonePopulatedResponse {
+func NewSchemasJobDonePopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, tags []SchemasLabelResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string) *SchemasJobDonePopulatedResponse {
 	this := SchemasJobDonePopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.DayReportUuid = dayReportUuid
@@ -185,9 +185,9 @@ func (o *SchemasJobDonePopulatedResponse) SetOwnerUuid(v string) {
 }
 
 // GetTags returns the Tags field value
-func (o *SchemasJobDonePopulatedResponse) GetTags() []SchemasJobTagResponse {
+func (o *SchemasJobDonePopulatedResponse) GetTags() []SchemasLabelResponse {
 	if o == nil {
-		var ret []SchemasJobTagResponse
+		var ret []SchemasLabelResponse
 		return ret
 	}
 
@@ -196,7 +196,7 @@ func (o *SchemasJobDonePopulatedResponse) GetTags() []SchemasJobTagResponse {
 
 // GetTagsOk returns a tuple with the Tags field value
 // and a boolean to check if the value has been set.
-func (o *SchemasJobDonePopulatedResponse) GetTagsOk() ([]SchemasJobTagResponse, bool) {
+func (o *SchemasJobDonePopulatedResponse) GetTagsOk() ([]SchemasLabelResponse, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -204,7 +204,7 @@ func (o *SchemasJobDonePopulatedResponse) GetTagsOk() ([]SchemasJobTagResponse, 
 }
 
 // SetTags sets field value
-func (o *SchemasJobDonePopulatedResponse) SetTags(v []SchemasJobTagResponse) {
+func (o *SchemasJobDonePopulatedResponse) SetTags(v []SchemasLabelResponse) {
 	o.Tags = v
 }
 

@@ -89,13 +89,13 @@ CREATE TABLE "metrics"(
     CONSTRAINT "metrics_pkey" PRIMARY KEY("uuid")
 );
 
-CREATE TABLE "job_tags"(
+CREATE TABLE "labels"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "name" VARCHAR(30) NOT NULL,
     "description" VARCHAR(100) NOT NULL,
     "color" VARCHAR(8) NOT NULL,
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "job_tags_pkey" PRIMARY KEY("uuid")
+    CONSTRAINT "labels_pkey" PRIMARY KEY("uuid")
 );
 
 CREATE TABLE "plans"(
@@ -110,10 +110,10 @@ CREATE TABLE "plans"(
     CONSTRAINT "plans_pkey" PRIMARY KEY("uuid")
 );
 
-CREATE TABLE "plans_job_tags"(
+CREATE TABLE "plans_labels"(
     "plan_uuid" UUID NOT NULL REFERENCES plans("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "job_tag_uuid" UUID NOT NULL REFERENCES job_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "plans_job_tags_pkey" PRIMARY KEY (plan_uuid, job_tag_uuid)
+    "label_uuid" UUID NOT NULL REFERENCES labels("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT "plans_labels_pkey" PRIMARY KEY (plan_uuid, label_uuid)
 );
 
 CREATE TABLE "job_dones"(
@@ -127,10 +127,10 @@ CREATE TABLE "job_dones"(
     CONSTRAINT "job_dones_pkey" PRIMARY KEY("uuid")
 );
 
-CREATE TABLE "job_dones_job_tags"(
+CREATE TABLE "job_dones_labels"(
     "job_done_uuid" UUID NOT NULL REFERENCES job_dones("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "job_tag_uuid" UUID NOT NULL REFERENCES job_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT "job_dones_job_tags_pkey" PRIMARY KEY (job_done_uuid, job_tag_uuid)
+    "label_uuid" UUID NOT NULL REFERENCES labels("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT "job_dones_labels_pkey" PRIMARY KEY (job_done_uuid, label_uuid)
 );
 
 CREATE TABLE "problems"(
@@ -406,7 +406,7 @@ EXECUTE FUNCTION check_max_way_tags_in_way();
 CREATE OR REPLACE FUNCTION check_max_labels_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM job_tags WHERE way_uuid = NEW.way_uuid) > 30 THEN
+    IF (SELECT COUNT(*) FROM labels WHERE way_uuid = NEW.way_uuid) > 30 THEN
         RAISE EXCEPTION 'Exceeded the limit of 30 labes for a way';
     END IF;
     RETURN NEW;
@@ -414,7 +414,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER max_labels_in_way_trigger
-BEFORE INSERT ON job_tags
+BEFORE INSERT ON labels
 FOR EACH ROW
 EXECUTE FUNCTION check_max_labels_in_way();
 
@@ -534,7 +534,7 @@ EXECUTE FUNCTION check_max_mentoring_ways_for_user();
 CREATE OR REPLACE FUNCTION check_max_plans_for_label()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM plans_job_tags WHERE job_tag_uuid = NEW.job_tag_uuid) > 182500 THEN
+    IF (SELECT COUNT(*) FROM plans_labels WHERE label_uuid = NEW.label_uuid) > 182500 THEN
         RAISE EXCEPTION 'Exceeded the limit of 182500 plans with a particular label';
     END IF;
     RETURN NEW;
@@ -542,7 +542,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER max_plans_for_label_trigger
-BEFORE INSERT ON plans_job_tags
+BEFORE INSERT ON plans_labels
 FOR EACH ROW
 EXECUTE FUNCTION check_max_plans_for_label();
 
@@ -550,7 +550,7 @@ EXECUTE FUNCTION check_max_plans_for_label();
 CREATE OR REPLACE FUNCTION check_max_labels_for_plans()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM plans_job_tags WHERE plan_uuid = NEW.plan_uuid) > 10 THEN
+    IF (SELECT COUNT(*) FROM plans_labels WHERE plan_uuid = NEW.plan_uuid) > 10 THEN
         RAISE EXCEPTION 'Exceeded the limit of 10 labels for one plan';
     END IF;
     RETURN NEW;
@@ -558,7 +558,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER max_labels_for_plans_trigger
-BEFORE INSERT ON plans_job_tags
+BEFORE INSERT ON plans_labels
 FOR EACH ROW
 EXECUTE FUNCTION check_max_labels_for_plans();
 
@@ -566,7 +566,7 @@ EXECUTE FUNCTION check_max_labels_for_plans();
 CREATE OR REPLACE FUNCTION check_max_labels_for_job_done()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM job_dones_job_tags WHERE job_done_uuid = NEW.job_done_uuid) > 10 THEN
+    IF (SELECT COUNT(*) FROM job_dones_labels WHERE job_done_uuid = NEW.job_done_uuid) > 10 THEN
         RAISE EXCEPTION 'Exceeded the limit of 10 labels for a completed task';
     END IF;
     RETURN NEW;
@@ -574,7 +574,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER max_labels_for_job_done_trigger
-BEFORE INSERT ON job_dones_job_tags
+BEFORE INSERT ON job_dones_labels
 FOR EACH ROW
 EXECUTE FUNCTION check_max_labels_for_job_done();
 
@@ -647,7 +647,7 @@ EXECUTE FUNCTION check_max_comments_in_report();
 CREATE OR REPLACE FUNCTION check_max_job_dones_for_label()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM job_dones_job_tags WHERE job_tag_uuid = NEW.job_tag_uuid) > 182500 THEN
+    IF (SELECT COUNT(*) FROM job_dones_labels WHERE label_uuid = NEW.label_uuid) > 182500 THEN
         RAISE EXCEPTION 'Exceeded the limit of 182500 completed tasks with a particular label';
     END IF;
     RETURN NEW;
@@ -655,7 +655,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER max_job_dones_for_label_trigger
-BEFORE INSERT ON job_dones_job_tags
+BEFORE INSERT ON job_dones_labels
 FOR EACH ROW
 EXECUTE FUNCTION check_max_job_dones_for_label();
 

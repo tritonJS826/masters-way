@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { SchemasJobTagResponse } from './SchemasJobTagResponse';
+import type { SchemasLabelResponse } from './SchemasLabelResponse';
 import {
-    SchemasJobTagResponseFromJSON,
-    SchemasJobTagResponseFromJSONTyped,
-    SchemasJobTagResponseToJSON,
-} from './SchemasJobTagResponse';
+    SchemasLabelResponseFromJSON,
+    SchemasLabelResponseFromJSONTyped,
+    SchemasLabelResponseToJSON,
+} from './SchemasLabelResponse';
 import type { SchemasMetricResponse } from './SchemasMetricResponse';
 import {
     SchemasMetricResponseFromJSON,
@@ -100,10 +100,10 @@ export interface SchemasWayPopulatedResponse {
     isPrivate: boolean;
     /**
      * 
-     * @type {Array<SchemasJobTagResponse>}
+     * @type {Array<SchemasLabelResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    jobTags: Array<SchemasJobTagResponse>;
+    jobTags: Array<SchemasLabelResponse>;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
@@ -205,7 +205,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'goalDescription': json['goalDescription'],
         'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
-        'jobTags': ((json['jobTags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
+        'jobTags': ((json['jobTags'] as Array<any>).map(SchemasLabelResponseFromJSON)),
         'mentorRequests': ((json['mentorRequests'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'metrics': ((json['metrics'] as Array<any>).map(SchemasMetricResponseFromJSON)),
@@ -236,7 +236,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'goalDescription': value.goalDescription,
         'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
-        'jobTags': ((value.jobTags as Array<any>).map(SchemasJobTagResponseToJSON)),
+        'jobTags': ((value.jobTags as Array<any>).map(SchemasLabelResponseToJSON)),
         'mentorRequests': ((value.mentorRequests as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'metrics': ((value.metrics as Array<any>).map(SchemasMetricResponseToJSON)),

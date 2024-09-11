@@ -16,7 +16,7 @@ import (
 type IDayReportRepository interface {
 	GetDayReportsByRankRange(ctx context.Context, arg db.GetDayReportsByRankRangeParams) ([]db.GetDayReportsByRankRangeRow, error)
 	GetWayRelatedUsers(ctx context.Context, wayUuids []pgtype.UUID) ([]db.GetWayRelatedUsersRow, error)
-	GetListJobTagsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]db.JobTag, error)
+	GetListLabelsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]db.Label, error)
 	GetJobDonesByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]db.GetJobDonesByDayReportUuidsRow, error)
 	GetPlansByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]db.GetPlansByDayReportUuidsRow, error)
 	GetLastDayReportDate(ctx context.Context, wayUuids []pgtype.UUID) (db.GetLastDayReportDateRow, error)
@@ -89,10 +89,10 @@ func (drs *DayReportService) GetDayReportsByWayID(ctx context.Context, params *G
 		}
 	})
 
-	jobTagsRaw, _ := drs.dayReportRepository.GetListJobTagsByWayUuids(ctx, wayPgUUIDs)
-	jobTagsMap := lo.SliceToMap(jobTagsRaw, func(jobTag db.JobTag) (string, schemas.JobTagResponse) {
+	jobTagsRaw, _ := drs.dayReportRepository.GetListLabelsByWayUuids(ctx, wayPgUUIDs)
+	jobTagsMap := lo.SliceToMap(jobTagsRaw, func(jobTag db.Label) (string, schemas.LabelResponse) {
 		jobTagUUID := util.ConvertPgUUIDToUUID(jobTag.Uuid).String()
-		return jobTagUUID, schemas.JobTagResponse{
+		return jobTagUUID, schemas.LabelResponse{
 			Uuid:        jobTagUUID,
 			Name:        jobTag.Name,
 			Description: jobTag.Description,
@@ -106,7 +106,7 @@ func (drs *DayReportService) GetDayReportsByWayID(ctx context.Context, params *G
 		jobDoneOwnerUUIDString := util.ConvertPgUUIDToUUID(dbJobDone.OwnerUuid).String()
 		jobDoneOwner := allWayRelatedUsersMap[jobDoneOwnerUUIDString]
 
-		tags := lo.Map(dbJobDone.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
+		tags := lo.Map(dbJobDone.LabelUuids, func(tagUuid string, i int) schemas.LabelResponse {
 			return jobTagsMap[tagUuid]
 		})
 
@@ -134,7 +134,7 @@ func (drs *DayReportService) GetDayReportsByWayID(ctx context.Context, params *G
 	lo.ForEach(dbPlans, func(plan db.GetPlansByDayReportUuidsRow, i int) {
 		planOwnerUUIDString := util.ConvertPgUUIDToUUID(plan.OwnerUuid).String()
 		planOwner := allWayRelatedUsersMap[planOwnerUUIDString]
-		tags := lo.Map(plan.TagUuids, func(tagUuid string, i int) schemas.JobTagResponse {
+		tags := lo.Map(plan.LabelUuids, func(tagUuid string, i int) schemas.LabelResponse {
 			return jobTagsMap[tagUuid]
 		})
 		dayReportUUIDString := util.ConvertPgUUIDToUUID(plan.DayReportUuid).String()

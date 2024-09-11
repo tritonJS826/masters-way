@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Description** | **string** |  | 
 **OwnerName** | **string** |  | 
 **OwnerUuid** | **string** |  | 
-**Tags** | [**[]SchemasJobTagResponse**](SchemasJobTagResponse.md) |  | 
+**Tags** | [**[]SchemasLabelResponse**](SchemasLabelResponse.md) |  | 
 **Time** | **int32** |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
@@ -20,7 +20,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasJobDonePopulatedResponse
 
-`func NewSchemasJobDonePopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasJobDonePopulatedResponse`
+`func NewSchemasJobDonePopulatedResponse(createdAt string, dayReportUuid string, description string, ownerName string, ownerUuid string, tags []SchemasLabelResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasJobDonePopulatedResponse`
 
 NewSchemasJobDonePopulatedResponse instantiates a new SchemasJobDonePopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -137,20 +137,20 @@ SetOwnerUuid sets OwnerUuid field to given value.
 
 ### GetTags
 
-`func (o *SchemasJobDonePopulatedResponse) GetTags() []SchemasJobTagResponse`
+`func (o *SchemasJobDonePopulatedResponse) GetTags() []SchemasLabelResponse`
 
 GetTags returns the Tags field if non-nil, zero value otherwise.
 
 ### GetTagsOk
 
-`func (o *SchemasJobDonePopulatedResponse) GetTagsOk() (*[]SchemasJobTagResponse, bool)`
+`func (o *SchemasJobDonePopulatedResponse) GetTagsOk() (*[]SchemasLabelResponse, bool)`
 
 GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTags
 
-`func (o *SchemasJobDonePopulatedResponse) SetTags(v []SchemasJobTagResponse)`
+`func (o *SchemasJobDonePopulatedResponse) SetTags(v []SchemasLabelResponse)`
 
 SetTags sets Tags field to given value.
 

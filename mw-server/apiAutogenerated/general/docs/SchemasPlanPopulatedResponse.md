@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **IsDone** | **bool** |  | 
 **OwnerName** | **string** |  | 
 **OwnerUuid** | **string** |  | 
-**Tags** | [**[]SchemasJobTagResponse**](SchemasJobTagResponse.md) |  | 
+**Tags** | [**[]SchemasLabelResponse**](SchemasLabelResponse.md) |  | 
 **Time** | **int32** |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasPlanPopulatedResponse
 
-`func NewSchemasPlanPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasJobTagResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasPlanPopulatedResponse`
+`func NewSchemasPlanPopulatedResponse(createdAt string, dayReportUuid string, description string, isDone bool, ownerName string, ownerUuid string, tags []SchemasLabelResponse, time int32, updatedAt string, uuid string, wayName string, wayUuid string, ) *SchemasPlanPopulatedResponse`
 
 NewSchemasPlanPopulatedResponse instantiates a new SchemasPlanPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -158,20 +158,20 @@ SetOwnerUuid sets OwnerUuid field to given value.
 
 ### GetTags
 
-`func (o *SchemasPlanPopulatedResponse) GetTags() []SchemasJobTagResponse`
+`func (o *SchemasPlanPopulatedResponse) GetTags() []SchemasLabelResponse`
 
 GetTags returns the Tags field if non-nil, zero value otherwise.
 
 ### GetTagsOk
 
-`func (o *SchemasPlanPopulatedResponse) GetTagsOk() (*[]SchemasJobTagResponse, bool)`
+`func (o *SchemasPlanPopulatedResponse) GetTagsOk() (*[]SchemasLabelResponse, bool)`
 
 GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTags
 
-`func (o *SchemasPlanPopulatedResponse) SetTags(v []SchemasJobTagResponse)`
+`func (o *SchemasPlanPopulatedResponse) SetTags(v []SchemasLabelResponse)`
 
 SetTags sets Tags field to given value.
 

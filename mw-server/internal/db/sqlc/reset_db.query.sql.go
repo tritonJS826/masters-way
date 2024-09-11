@@ -112,7 +112,7 @@ VALUES
     ('e48a661a-b5ce-4117-b70a-9cdd5a840fc5', '9230479a-a481-4f83-b770-138ef4f3139c', '2024-08-11 00:00:00', '2024-08-11 00:00:00'),
     ('7d563ccb-15fc-4d5a-b0cb-27ec86e052ab', '9230479a-a481-4f83-b770-138ef4f3139c', '2024-08-14 00:00:00', '2024-08-14 00:00:00');
 
-INSERT INTO "job_tags" ("uuid", "name", "description", "color", "way_uuid")
+INSERT INTO "labels" ("uuid", "name", "description", "color", "way_uuid")
 VALUES
     ('d569aa06-452c-4602-a788-2ffca4c959a8', 'super tag', 'this is my testing tag','black', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
     ('bf63a158-c3d9-40aa-bc0f-e6686e96de2c', 'super puper tag', 'this is not my testing tag', 'orange', '32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2'),
@@ -128,14 +128,14 @@ VALUES
     ('2461357d-f2f0-43a7-9f1d-79fd1eaa64f5', 'general meeting', 'this is not my tag', 'yellow', '550e8400-e29b-41d4-a716-446655440000'),
 
     ('b65b5720-4011-49ab-bf1f-ca8e2b87d88c', 'test label 1', 'this is not my tag', 'red', 'd6d46085-8ce6-4df1-8463-3e469c240076'),
-    
+
     ('60c1d2ff-37ea-4a30-978b-c3d633317370', 'test label 2', 'this is not my tag', 'green', '1d922e8a-5d58-4b82-9a3d-83e2e73b3f91');
 
 INSERT INTO "plans" ("uuid", "description", "time", "owner_uuid", "is_done", "day_report_uuid", "created_at", "updated_at")
 VALUES
     ('18cbbee6-5071-4608-b349-ffad514711cb', 'i want to eat', 400, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, '25ceb64e-7a57-4ce0-a4fd-45982d9fce38', '2024-08-01 00:00:00', '2024-08-01 00:00:00');
 
-INSERT INTO "plans_job_tags" ("plan_uuid", "job_tag_uuid")
+INSERT INTO "plans_labels" ("plan_uuid", "label_uuid")
 VALUES
     ('18cbbee6-5071-4608-b349-ffad514711cb', '60c1d2ff-37ea-4a30-978b-c3d633317370');
 
@@ -167,7 +167,7 @@ VALUES
     ('18631c62-7bd6-41e7-b965-27371e052922', 'job description 1', 10, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', 'e48a661a-b5ce-4117-b70a-9cdd5a840fc5', '2024-08-11 00:00:02', '2024-08-11 00:00:02'),
     ('40a1d6c8-2932-46bd-8e29-f6886ec171f4', 'job description 2', 50, '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '7d563ccb-15fc-4d5a-b0cb-27ec86e052ab', '2024-08-14 00:00:01', '2024-08-14 00:00:01');
 
-INSERT INTO "job_dones_job_tags" ("job_done_uuid", "job_tag_uuid")
+INSERT INTO "job_dones_labels" ("job_done_uuid", "label_uuid")
 VALUES
     ('425888ef-074b-4635-adba-371a63e28da8', '5ebb8d43-b685-4090-8453-ceaa7aad2095'),
     ('ad4401ff-e1a6-45de-9b64-a4ce29fb7da9', '5ebb8d43-b685-4090-8453-ceaa7aad2095'),
