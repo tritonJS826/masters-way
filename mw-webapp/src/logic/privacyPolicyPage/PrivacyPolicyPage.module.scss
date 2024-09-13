@@ -1,0 +1,49 @@
+@import "src/styles/variables";
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+div,
+li,
+.padding {
+  margin: 0 0 16px;
+  line-height: 28px;
+}
+
+.padding {
+  display: inline-block;
+}
+
+.additionalPadding {
+  padding-left: 22px;
+}
+
+.link {
+  font-size: 16px;
+}
+
+.container {
+  @include regularContainer;
+  border-radius: 0;
+}
+.privacyTitle {
+  padding-top: $paddingMedium;
+}
+
+.list {
+  padding-left: $paddingMedium;
+  list-style-position: inside;
+}
