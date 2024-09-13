@@ -82,6 +82,12 @@ const Page404Lazy = React.lazy(() => import("src/logic/page404/Page404")
 const Page404 = () => (<>
   <Page404Lazy />
 </>);
+const PrivacyPolicyPageLazy = React.lazy(() => import("src/logic/privacyPolicyPage/PrivacyPolicyPage")
+  .then((module) => ({default: module.PrivacyPolicyPage})));
+const PrivacyPolicyPage = () => (<>
+  <PrivacyPolicyPageLazy />
+</>);
+
 const MentorsLandingPageLazy = React.lazy(() => import("src/land/mentorsLandingPage/MentorsLandingPage")
   .then((module) => ({default: module.MentorsLandingPage})));
 const MentorsLandingPage = () => (<>
@@ -138,6 +144,11 @@ export const pages = {
     getPageComponent: () => suspended(<AboutProjectPage />),
     urlParams: {},
   } as PageParams,
+  privacyPolicy: {
+    getPath: () => "/privacyPolicy",
+    getPageComponent: () => suspended(<PrivacyPolicyPage />),
+    urlParams: {},
+  } as PageParams,
   landing: {
     getPath: () => "/land",
     getPageComponent: () => suspended(<LandingPageLazy />),
@@ -160,4 +171,5 @@ export const INDEPENDENT_ROUTES = [
   pages.landingMentors.getPath({}),
   pages.aboutProject.getPath({}),
   pages.home.getPath({}),
+  pages.privacyPolicy.getPath({}),
 ];
