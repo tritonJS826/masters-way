@@ -4,6 +4,7 @@ import {observer} from "mobx-react-lite";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AdvantageItem} from "src/component/advantageItem/AdvantageItem";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Footer} from "src/component/footer/Footer";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
@@ -318,6 +319,7 @@ export const MentorsLandingPage = observer(() => {
         </HorizontalContainer>
 
       </div>
+      <Footer language={language} />
     </>
   );
 });

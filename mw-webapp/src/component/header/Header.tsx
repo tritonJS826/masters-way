@@ -357,8 +357,8 @@ export const Header = observer((props: HeaderProps) => {
                     {LanguageService.sidebar.nightMode[props.language]}
                   </HorizontalContainer>
                   <Toggle
-                    onChange={() => props.setTheme(DEFAULT_THEME === props.theme ? Theme.LIGHT : DEFAULT_THEME)}
-                    isDefaultChecked={DEFAULT_THEME === props.theme}
+                    onChange={() => props.setTheme(DEFAULT_THEME === props.theme ? Theme.DARK : DEFAULT_THEME)}
+                    isDefaultChecked={props.theme === Theme.DARK}
                     dataCy={navigationMenuIds.nightMode.slider}
                   />
                 </HorizontalContainer>

@@ -27,14 +27,11 @@ describe('NoAuth Header scope tests', () => {
 
   it('NoAuth_Header_LightThemeSwitchIcon', () => {
         cy.openAllWaysPage();
-        headerSelectors.settings.getThemeSwitcher().click();
-
         cy.checkThemeColors(Theme.LIGHT);
     });
 
     it('NoAuth_Header_DarkThemeSwitchIcon', () => {
         cy.openAllWaysPage();
-        headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
 
@@ -43,7 +40,6 @@ describe('NoAuth Header scope tests', () => {
 
     it('NoAuth_Header_ObsidianThemeSwitchIcon', () => {
         cy.openAllWaysPage();
-        headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
 
         cy.checkThemeColors(Theme.OBSIDIAN);

@@ -166,7 +166,7 @@ export const Footer = (props: FooterProps) => {
 
         <HorizontalContainer className={styles.privacyLinks}>
           <Link
-            path="https://www.freeprivacypolicy.com/live/febb15f6-017f-45fc-abaf-b4a5d38316b9"
+            path={pages.privacyPolicy.getPath({})}
             className={styles.privacyLink}
             isNewTab
           >

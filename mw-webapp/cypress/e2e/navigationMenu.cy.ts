@@ -118,7 +118,8 @@ describe('NoAuth Navigation menu scope tests', () => {
         });
     });
 
-    it('NoAuth_NavMenu_DarkMode', () => {
+  it('NoAuth_NavMenu_DarkMode', () => {
+        navigationMenuSelectors.nightMode.getSlider().check({ force: true });
         navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
         navigationMenuSelectors.nightMode.getSlider().check({force: true}).should("be.checked");
 
@@ -126,8 +127,6 @@ describe('NoAuth Navigation menu scope tests', () => {
     }); 
     
     it('NoAuth_NavMenu_LightMode', () => {
-        navigationMenuSelectors.nightMode.getSlider().check({force: true});
-
         navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
         navigationMenuSelectors.nightMode.getSlider().uncheck({force: true}).should("not.be.checked");
         cy.checkThemeColors(Theme.LIGHT);

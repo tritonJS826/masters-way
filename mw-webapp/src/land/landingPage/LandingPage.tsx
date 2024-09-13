@@ -1,4 +1,5 @@
 import {observer} from "mobx-react-lite";
+import {Footer} from "src/component/footer/Footer";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -34,6 +35,7 @@ export const LandingPage = observer(() => {
           Landing page for mentors
         </Link>
       </VerticalContainer>
+      <Footer language={language} />
     </>
   );
 });
