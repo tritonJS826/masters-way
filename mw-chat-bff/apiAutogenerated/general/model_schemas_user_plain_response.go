@@ -21,13 +21,13 @@ var _ MappedNullable = &SchemasUserPlainResponse{}
 
 // SchemasUserPlainResponse struct for SchemasUserPlainResponse
 type SchemasUserPlainResponse struct {
-	CreatedAt string `json:"createdAt"`
-	Description string `json:"description"`
-	Email string `json:"email"`
-	ImageUrl string `json:"imageUrl"`
-	IsMentor bool `json:"isMentor"`
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	CreatedAt string
+	Description string
+	Email string
+	ImageUrl string
+	IsMentor bool
+	Name string
+	Uuid string
 }
 
 type _SchemasUserPlainResponse SchemasUserPlainResponse

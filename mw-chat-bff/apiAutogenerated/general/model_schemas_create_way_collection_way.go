@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCreateWayCollectionWay{}
 
 // SchemasCreateWayCollectionWay struct for SchemasCreateWayCollectionWay
 type SchemasCreateWayCollectionWay struct {
-	WayCollectionUuid string `json:"wayCollectionUuid"`
-	WayUuid string `json:"wayUuid"`
+	WayCollectionUuid string
+	WayUuid string
 }
 
 type _SchemasCreateWayCollectionWay SchemasCreateWayCollectionWay

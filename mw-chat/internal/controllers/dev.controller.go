@@ -9,10 +9,10 @@ import (
 )
 
 type DevController struct {
-	devService services.IDevService
+	devService *services.DevService
 }
 
-func NewDevController(devService services.IDevService) *DevController {
+func NewDevController(devService *services.DevService) *DevController {
 	return &DevController{devService}
 }
 
@@ -20,10 +20,10 @@ func NewDevController(devService services.IDevService) *DevController {
 // @Summary resets db
 // @Description resets db
 // @Tags dev
-// @Success 200
+// @Success 204
 // @Router /dev/reset-db [get]
-func (devController *DevController) ResetDB(ctx *gin.Context) {
-	err := devController.devService.ResetDB(ctx)
+func (dc *DevController) ResetDB(ctx *gin.Context) {
+	err := dc.devService.ResetDB(ctx)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

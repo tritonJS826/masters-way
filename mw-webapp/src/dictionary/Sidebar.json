@@ -19,6 +19,11 @@
     "en": "Personal area",
     "ua": "Особистий кабінет"
   },
+  "pricing": {
+    "ru": "Тарифы",
+    "en": "Pricing",
+    "ua": "Тарифи"
+  },
   "settings": {
     "ru": "Настройки",
     "en": "Settings",

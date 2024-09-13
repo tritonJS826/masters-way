@@ -19,7 +19,6 @@ services:
     build:
       context: ./mw-server
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8000:8000"
     depends_on:
@@ -45,7 +44,6 @@ services:
     build:
       context: ./mw-chat
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8001:8001"
     depends_on:
@@ -57,7 +55,6 @@ services:
     build:
       context: ./mw-chat-bff
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "7999:7999"
     depends_on:
@@ -69,11 +66,35 @@ services:
     build:
       context: ./mw-chat-websocket
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "7994:7994"
     depends_on:
       - mw-chat-bff
+    networks:
+      - app-network
+
+  postgres-storage:
+    build:
+      context: ./postgres
+      dockerfile: postgres-storage.Dockerfile
+    container_name: postgres-storage
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres-storage:/var/lib/postgresql/data
+    env_file:
+      - ./mw-storage/.env
+    networks:
+      - app-network
+    
+  mw-storage:
+    build:
+      context: ./mw-storage
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    depends_on:
+      - postgres-storage
     networks:
       - app-network
 
@@ -84,8 +105,8 @@ services:
       - "443:443"
     volumes:
       - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ../server.key:/etc/nginx/server.key
-      - ../server.crt:/etc/nginx/server.crt
+      - /etc/letsencrypt/live/mastersway.duckdns.org/privkey.pem:/etc/nginx/server.key:ro
+      - /etc/letsencrypt/live/mastersway.duckdns.org/fullchain.pem:/etc/nginx/server.crt:ro
     depends_on:
       - mw-server
       - mw-chat
@@ -97,6 +118,8 @@ services:
 volumes:
   postgres-general:
   postgres-chat:
+  postgres-storage:
+
 
 networks:
   app-network:

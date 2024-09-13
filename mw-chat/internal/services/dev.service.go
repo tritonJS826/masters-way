@@ -16,35 +16,37 @@ type DevRepository interface {
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
-type DevDBService struct {
-	pool          *pgxpool.Pool
+type DevService struct {
+	pgxPool       *pgxpool.Pool
 	devRepository DevRepository
 }
 
-func NewDevService(pool *pgxpool.Pool, roomsRepository DevRepository) *DevDBService {
-	return &DevDBService{pool, roomsRepository}
+func NewDevService(pool *pgxpool.Pool, roomsRepository DevRepository) *DevService {
+	return &DevService{pool, roomsRepository}
 }
 
-func (roomsService *DevDBService) ResetDB(ctx context.Context) error {
+func (ds *DevService) ResetDB(ctx context.Context) error {
 	migration, err := os.ReadFile("internal/db/migration/000001_init_schema.up.sql")
 	if err != nil {
 		return err
 	}
 
-	err = roomsService.devRepository.RemoveEverything(ctx)
+	err = ds.devRepository.RemoveEverything(ctx)
 	if err != nil {
 		return err
 	}
 
-	_, err = roomsService.pool.Exec(ctx, string(migration))
+	_, err = ds.pgxPool.Exec(ctx, string(migration))
 	if err != nil {
 		return err
 	}
 
-	err = roomsService.devRepository.RegenerateDbData(ctx)
+	err = ds.devRepository.RegenerateDbData(ctx)
 	if err != nil {
 		return err
 	}
+
+	ds.pgxPool.Reset()
 
 	return nil
 }

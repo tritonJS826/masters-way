@@ -147,20 +147,25 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                   )}
                   dropdownMenuItems={[
                     {
-                      id: "Edit",
-                      value: LanguageService.user.collections.renameCollection[props.language],
-                      isPreventDefaultUsed: false,
+                      dropdownSubMenuItems: [
+                        {
+                          id: "Edit",
+                          value: LanguageService.user.collections.renameCollection[props.language],
+                          isPreventDefaultUsed: false,
 
-                      /**
-                       * Open rename collection modal
-                       */
-                      onClick: () => setIsRenameCollectionModalOpen(true),
+                          /**
+                           * Open rename collection modal
+                           */
+                          onClick: () => setIsRenameCollectionModalOpen(true),
+                        },
+                        {
+                          id: "Delete",
+                          value: deleteConfirm,
+                          isPreventDefaultUsed: true,
+                        },
+                      ],
                     },
-                    {
-                      id: "Delete",
-                      value: deleteConfirm,
-                      isPreventDefaultUsed: true,
-                    },
+
                   ]}
                 />
               }

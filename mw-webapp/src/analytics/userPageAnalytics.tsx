@@ -36,29 +36,29 @@ const trackUserPage = (label: UserPageLabel) => {
 export class TrackUserPage {
 
   /**
-   * Track userPage upgradeToPremium click
+   * Track userPage name click
    */
-  public static trackNameChanged = () => trackUserPage(UserPageLabel.UPGRADE_TO_PREMIUM_CLICKED);
+  public static trackNameChanged = () => trackUserPage(UserPageLabel.NAME_CHANGED);
 
   /**
-   * Track userPage upgradeToPremium click
+   * Track userPage description click
    */
-  public static trackDescriptionChanged = () => trackUserPage(UserPageLabel.UPGRADE_TO_PREMIUM_CLICKED);
+  public static trackDescriptionChanged = () => trackUserPage(UserPageLabel.DESCRIPTION_CHANGED);
 
   /**
-   * Track userPage upgradeToPremium click
+   * Track userPage mentor status click
    */
-  public static trackMentorStatusClick = () => trackUserPage(UserPageLabel.UPGRADE_TO_PREMIUM_CLICKED);
+  public static trackMentorStatusClick = () => trackUserPage(UserPageLabel.MENTOR_STATUS_CLICKED);
 
   /**
-   * Track userPage upgradeToPremium click
+   * Track userPage add skill click
    */
-  public static trackAddSkillClick = () => trackUserPage(UserPageLabel.UPGRADE_TO_PREMIUM_CLICKED);
+  public static trackAddSkillClick = () => trackUserPage(UserPageLabel.ADD_SKILL_CLICKED);
 
   /**
-   * Track userPage upgradeToPremium click
+   * Track userPage remove skill click
    */
-  public static trackRemoveSkillClick = () => trackUserPage(UserPageLabel.UPGRADE_TO_PREMIUM_CLICKED);
+  public static trackRemoveSkillClick = () => trackUserPage(UserPageLabel.REMOVE_SKILL_CLICKED);
 
   /**
    * Track userPage donate click
@@ -70,5 +70,24 @@ export class TrackUserPage {
    */
   public static trackUpgradeToPremiumClick = () => trackUserPage(UserPageLabel.UPGRADE_TO_PREMIUM_CLICKED);
 
-}
+  /**
+   * Track userPage add collection click
+   */
+  public static trackAddCollectionClick = () => trackUserPage(UserPageLabel.ADD_COLLECTION_CLICKED);
 
+  /**
+   * Track userPage create way click
+   */
+  public static trackCreateWayClick = () => trackUserPage(UserPageLabel.CREATE_NEW_WAY_CLICKED);
+
+  /**
+   * Track userPage card view click
+   */
+  public static trackCardViewClick = () => trackUserPage(UserPageLabel.CARD_VIEW_CLICKED);
+
+  /**
+   * Track userPage table view click
+   */
+  public static trackTableViewClick = () => trackUserPage(UserPageLabel.TABLE_VIEW_CLICKED);
+
+}

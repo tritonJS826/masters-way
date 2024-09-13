@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasTimeSpentByDayPoint{}
 
 // SchemasTimeSpentByDayPoint struct for SchemasTimeSpentByDayPoint
 type SchemasTimeSpentByDayPoint struct {
-	Date string `json:"date"`
-	Value int32 `json:"value"`
+	Date string
+	Value int32
 }
 
 type _SchemasTimeSpentByDayPoint SchemasTimeSpentByDayPoint

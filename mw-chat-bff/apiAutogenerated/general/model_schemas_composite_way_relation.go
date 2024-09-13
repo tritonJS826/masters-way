@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCompositeWayRelation{}
 
 // SchemasCompositeWayRelation struct for SchemasCompositeWayRelation
 type SchemasCompositeWayRelation struct {
-	ChildWayUuid string `json:"childWayUuid"`
-	ParentWayUuid string `json:"parentWayUuid"`
+	ChildWayUuid string
+	ParentWayUuid string
 }
 
 type _SchemasCompositeWayRelation SchemasCompositeWayRelation

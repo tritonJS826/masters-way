@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasAddWayToCompositeWayPayload{}
 
 // SchemasAddWayToCompositeWayPayload struct for SchemasAddWayToCompositeWayPayload
 type SchemasAddWayToCompositeWayPayload struct {
-	ChildWayUuid string `json:"childWayUuid"`
-	ParentWayUuid string `json:"parentWayUuid"`
+	ChildWayUuid string
+	ParentWayUuid string
 }
 
 type _SchemasAddWayToCompositeWayPayload SchemasAddWayToCompositeWayPayload

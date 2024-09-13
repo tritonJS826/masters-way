@@ -1,0 +1,19 @@
+@import "src/styles/variables";
+
+.amountItemBlock {
+  gap: $gapMedium;
+}
+
+.amount {
+  border-bottom: $primaryBorder solid var(--generalPrimaryColor);
+  color: var(--generalPrimaryColor);
+  font-size: $fontSizeTitleLarge;
+  font-weight: $fontWeightBold;
+  text-align: center;
+}
+
+.amountDescription {
+  padding: 0 $paddingMedium;
+  text-align: center;
+  text-wrap: wrap;
+}

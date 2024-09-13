@@ -21,13 +21,13 @@ var _ MappedNullable = &SchemasCreateWayPayload{}
 
 // SchemasCreateWayPayload struct for SchemasCreateWayPayload
 type SchemasCreateWayPayload struct {
-	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
-	EstimationTime int32 `json:"estimationTime"`
-	GoalDescription string `json:"goalDescription"`
-	IsCompleted bool `json:"isCompleted"`
-	IsPrivate bool `json:"isPrivate"`
-	Name string `json:"name"`
-	OwnerUuid string `json:"ownerUuid"`
+	CopiedFromWayUuid NullableString
+	EstimationTime int32
+	GoalDescription string
+	IsCompleted bool
+	IsPrivate bool
+	Name string
+	OwnerUuid string
 }
 
 type _SchemasCreateWayPayload SchemasCreateWayPayload

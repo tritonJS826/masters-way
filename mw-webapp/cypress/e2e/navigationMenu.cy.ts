@@ -5,7 +5,9 @@ import allUsersPageContent from "src/dictionary/AllUsersPageContent.json";
 import allWayPageData from "cypress/fixtures/allWaysFixture.json";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
 import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json";
+import pricingPageContent from "src/dictionary/PricingContent.json";
 import aboutProjectPageData from "cypress/fixtures/aboutProjectPageFixture.json";
+import pricingPageData from "cypress/fixtures/pricingPageFixture.json";
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {aboutProjectSelectors} from "cypress/scopesSelectors/aboutProjectSelectors";
@@ -19,6 +21,7 @@ import {settingsSelectors} from "cypress/scopesSelectors/settingsSelectors";
 import settingsPageContent from "src/dictionary/SettingsPageContent.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
+import { pricingSelectors } from "cypress/scopesSelectors/pricingSelectors";
 
 describe('NoAuth Navigation menu scope tests', () => {
 
@@ -72,6 +75,14 @@ describe('NoAuth Navigation menu scope tests', () => {
         cy.url().should('include', aboutProjectPageData.endpoint);
         aboutProjectSelectors.welcomeBlock.getTitle().should('contain', aboutProjectPageContent.mainTitle.en);
     });
+  
+    it('NoAuth_NavMenu_Pricing', () => {
+      navigationMenuSelectors.menuItemLinks.getPricingItemLink().click();
+
+      navigationMenuSelectors.getNavigationMenu().should('not.exist');
+      cy.url().should('include', pricingPageData.endpoint);
+      pricingSelectors.pricingBlock.getTitle().should('contain', pricingPageContent.pricingBlock.title.en);
+  });
 
     it('NoAuth_NavMenu_Close', () => {
         headerSelectors.getHeader().click({force: true});

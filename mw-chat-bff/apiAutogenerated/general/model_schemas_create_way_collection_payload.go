@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasCreateWayCollectionPayload{}
 
 // SchemasCreateWayCollectionPayload struct for SchemasCreateWayCollectionPayload
 type SchemasCreateWayCollectionPayload struct {
-	Name string `json:"name"`
-	OwnerUuid string `json:"ownerUuid"`
+	Name string
+	OwnerUuid string
 }
 
 type _SchemasCreateWayCollectionPayload SchemasCreateWayCollectionPayload

@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasAIChatPayload{}
 
 // SchemasAIChatPayload struct for SchemasAIChatPayload
 type SchemasAIChatPayload struct {
-	Message string `json:"message"`
+	Message string
 }
 
 type _SchemasAIChatPayload SchemasAIChatPayload

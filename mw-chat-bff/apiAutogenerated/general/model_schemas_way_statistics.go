@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasWayStatistics{}
 
 // SchemasWayStatistics struct for SchemasWayStatistics
 type SchemasWayStatistics struct {
-	LabelStatistics SchemasLabelStatistics `json:"labelStatistics"`
-	OverallInformation SchemasOverallInformation `json:"overallInformation"`
-	TimeSpentByDayChart []SchemasTimeSpentByDayPoint `json:"timeSpentByDayChart"`
+	LabelStatistics SchemasLabelStatistics
+	OverallInformation SchemasOverallInformation
+	TimeSpentByDayChart []SchemasTimeSpentByDayPoint
 }
 
 type _SchemasWayStatistics SchemasWayStatistics

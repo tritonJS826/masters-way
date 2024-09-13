@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasWayTagResponse{}
 
 // SchemasWayTagResponse struct for SchemasWayTagResponse
 type SchemasWayTagResponse struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Name string
+	Uuid string
 }
 
 type _SchemasWayTagResponse SchemasWayTagResponse

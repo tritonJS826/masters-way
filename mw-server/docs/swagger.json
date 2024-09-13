@@ -83,11 +83,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/util.ResponseStatusString"
-                        }
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -115,8 +112,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "ok"
+                    "307": {
+                        "description": "Temporary Redirect"
                     }
                 }
             }
@@ -151,8 +148,11 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "302": {
+                        "description": "Redirect to frontend with JWT token",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -220,8 +220,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete comment.",
@@ -341,8 +341,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -425,6 +425,20 @@
                 }
             }
         },
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
         "/favoriteUserWays": {
             "post": {
                 "consumes": [
@@ -450,8 +464,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -486,8 +500,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -517,8 +531,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -553,8 +567,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -585,7 +599,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.FromUserMentoringRequestResponse"
+                        }
                     }
                 }
             }
@@ -620,8 +637,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -710,14 +727,8 @@
                 ],
                 "summary": "Health Check",
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -747,8 +758,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -783,8 +794,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -852,8 +863,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete job done.",
@@ -966,8 +977,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -1037,8 +1048,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -1066,8 +1077,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1129,8 +1140,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -1199,8 +1210,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1235,8 +1246,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1304,8 +1315,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete plan.",
@@ -1424,8 +1435,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete problem.",
@@ -1481,20 +1492,6 @@
                 }
             }
         },
-        "/reset-db": {
-            "post": {
-                "description": "resets db",
-                "tags": [
-                    "dev"
-                ],
-                "summary": "resets db",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
         "/toUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -1515,13 +1512,16 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserMentoringRequestPayload"
+                            "$ref": "#/definitions/schemas.CreateToUserMentoringRequestPayload"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ToUserMentoringRequestResponse"
+                        }
                     }
                 }
             }
@@ -1556,8 +1556,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1626,8 +1626,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1825,7 +1825,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayCollectionWayResponse"
+                        }
                     }
                 }
             }
@@ -1860,8 +1863,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1923,8 +1926,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -2032,8 +2035,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -2179,8 +2182,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -2675,7 +2678,7 @@
                 }
             }
         },
-        "schemas.CreateUserMentoringRequestPayload": {
+        "schemas.CreateToUserMentoringRequestPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -2835,6 +2838,21 @@
                     "type": "string"
                 },
                 "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.FromUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
                     "type": "string"
                 }
             }
@@ -3268,6 +3286,21 @@
                 }
             }
         },
+        "schemas.ToUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.UpdateCommentPayload": {
             "type": "object",
             "properties": {
@@ -3621,6 +3654,21 @@
                 }
             }
         },
+        "schemas.WayCollectionWayResponse": {
+            "type": "object",
+            "required": [
+                "wayCollectionId",
+                "wayId"
+            ],
+            "properties": {
+                "wayCollectionId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.WayPlainResponse": {
             "type": "object",
             "required": [
@@ -3859,17 +3907,6 @@
                     "type": "string"
                 },
                 "uuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "util.ResponseStatusString": {
-            "type": "object",
-            "required": [
-                "status"
-            ],
-            "properties": {
-                "status": {
                     "type": "string"
                 }
             }

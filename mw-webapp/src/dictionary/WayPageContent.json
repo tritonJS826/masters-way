@@ -73,7 +73,7 @@
       "ua": "Копіювати url шляху"
     },
     "downloadAsPdf": {
-      "ru": "Скопировать как pdf",
+      "ru": "Скачать pdf",
       "en": "Download as pdf",
       "ua": "Завантажити як PDF"
     },
@@ -81,6 +81,16 @@
       "ru": "Перейти к оригиналу",
       "en": "Go to original",
       "ua": "Перейти до оригіналу"
+    },
+    "compositeWayManagement": {
+      "ru": "Управление композитными путями",
+      "en": "Composite way management",
+      "ua": "Управління композитними шляхами"
+    },
+    "collectionManagement": {
+      "ru": "Управление коллекциями",
+      "en": "Collection management",
+      "ua": "Управління колекціями"
     },
     "addToCompositeWay": {
       "ru": "Добавить в композитный путь",

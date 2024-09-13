@@ -64,6 +64,12 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "#00000080",
     [Theme.OBSIDIAN]: "#00000080",
   },
+  // Used for possibility to use transparent image with backgroundColor
+  opacityBgColor: {
+    [Theme.DARK]: "#3D346250",
+    [Theme.LIGHT]: "#FCFBFE50",
+    [Theme.OBSIDIAN]: "#20202099",
+  },
   progressBarBgColor: {
     [Theme.DARK]: "#8F8F8F",
     [Theme.LIGHT]: "#A8A1DD",

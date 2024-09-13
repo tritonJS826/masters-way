@@ -283,7 +283,7 @@ export const ChatContent = observer(() => {
                       <Button
                         className={styles.wayActionsIcon}
                         buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                        onClick={() => {}}
+                        onClick={() => { }}
                         icon={
                           <Icon
                             size={IconSize.MEDIUM}
@@ -295,16 +295,20 @@ export const ChatContent = observer(() => {
                   )}
                   dropdownMenuItems={[
                     {
-                      id: "Close chat",
-                      isPreventDefaultUsed: false,
-                      value: LanguageService.common.chat.closeChat[language],
+                      dropdownSubMenuItems: [
+                        {
+                          id: "Close chat",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.common.chat.closeChat[language],
 
-                      /**
-                       * Close chat on mobile
-                       */
-                      onClick: () => {
-                        setActiveChatStore(null);
-                      },
+                          /**
+                           * Close chat on mobile
+                           */
+                          onClick: () => {
+                            setActiveChatStore(null);
+                          },
+                        },
+                      ],
                     },
                   ]}
                 />
@@ -352,10 +356,29 @@ export const ChatContent = observer(() => {
                 }
               }}
             />
+            <label>
+              <Input
+                type="file"
+                value=""
+                onChange={() => {}}
+                placeholder=""
+                className={styles.uploadFileInput}
+              />
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content="Coming soon"
+              >
+                <Icon
+                  size={IconSize.MEDIUM}
+                  name={"UploadIcon"}
+                  className={styles.uploadFileIcon}
+                />
+              </Tooltip>
+            </label>
             <Button
               value={LanguageService.common.chat.sendButton[language]}
-              onClick={() => {
-                sendMessage({
+              onClick={async () => {
+                await sendMessage({
                   message: activeChatStore.message,
                   roomId: activeChatStore.activeChat.roomId,
                 });

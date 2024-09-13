@@ -26,24 +26,28 @@ describe("Dropdown component", () => {
         }
         dropdownMenuItems={[
           {
-            id: "#1",
-            isPreventDefaultUsed: false,
-            value: "test#1",
+            dropdownSubMenuItems: [
+              {
+                id: "#1",
+                isPreventDefaultUsed: false,
+                value: "test#1",
 
-            /**
-             * Click action
-             */
-            onClick: () => {},
-          },
-          {
-            id: "#2",
-            isPreventDefaultUsed: false,
-            value: "test#2",
+                /**
+                 * Click action
+                 */
+                onClick: () => {},
+              },
+              {
+                id: "#2",
+                isPreventDefaultUsed: false,
+                value: "test#2",
 
-            /**
-             * Click action
-             */
-            onClick: () => {},
+                /**
+                 * Click action
+                 */
+                onClick: () => {},
+              },
+            ],
           },
         ]}
       />,

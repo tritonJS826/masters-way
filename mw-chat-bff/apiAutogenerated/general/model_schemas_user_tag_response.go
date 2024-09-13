@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasUserTagResponse{}
 
 // SchemasUserTagResponse struct for SchemasUserTagResponse
 type SchemasUserTagResponse struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Name string
+	Uuid string
 }
 
 type _SchemasUserTagResponse SchemasUserTagResponse

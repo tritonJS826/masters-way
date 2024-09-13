@@ -91,11 +91,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/util.ResponseStatusString"
-                        }
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -123,8 +120,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "ok"
+                    "307": {
+                        "description": "Temporary Redirect"
                     }
                 }
             }
@@ -159,8 +156,11 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "302": {
+                        "description": "Redirect to frontend with JWT token",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -228,8 +228,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete comment.",
@@ -349,8 +349,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -433,6 +433,20 @@ const docTemplate = `{
                 }
             }
         },
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
         "/favoriteUserWays": {
             "post": {
                 "consumes": [
@@ -458,8 +472,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -494,8 +508,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -525,8 +539,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -561,8 +575,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -593,7 +607,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.FromUserMentoringRequestResponse"
+                        }
                     }
                 }
             }
@@ -628,8 +645,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -718,14 +735,8 @@ const docTemplate = `{
                 ],
                 "summary": "Health Check",
                 "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -755,8 +766,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -791,8 +802,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -860,8 +871,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete job done.",
@@ -974,8 +985,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -1045,8 +1056,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -1074,8 +1085,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1137,8 +1148,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -1207,8 +1218,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1243,8 +1254,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1312,8 +1323,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete plan.",
@@ -1432,8 +1443,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     },
                     "403": {
                         "description": "User doesn't have rights to delete problem.",
@@ -1489,20 +1500,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/reset-db": {
-            "post": {
-                "description": "resets db",
-                "tags": [
-                    "dev"
-                ],
-                "summary": "resets db",
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
         "/toUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -1523,13 +1520,16 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserMentoringRequestPayload"
+                            "$ref": "#/definitions/schemas.CreateToUserMentoringRequestPayload"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ToUserMentoringRequestResponse"
+                        }
                     }
                 }
             }
@@ -1564,8 +1564,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1634,8 +1634,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1833,7 +1833,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayCollectionWayResponse"
+                        }
                     }
                 }
             }
@@ -1868,8 +1871,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -1931,8 +1934,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -2040,8 +2043,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
@@ -2187,8 +2190,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -2683,7 +2686,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateUserMentoringRequestPayload": {
+        "schemas.CreateToUserMentoringRequestPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -2843,6 +2846,21 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.FromUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
                     "type": "string"
                 }
             }
@@ -3276,6 +3294,21 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.ToUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.UpdateCommentPayload": {
             "type": "object",
             "properties": {
@@ -3629,6 +3662,21 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.WayCollectionWayResponse": {
+            "type": "object",
+            "required": [
+                "wayCollectionId",
+                "wayId"
+            ],
+            "properties": {
+                "wayCollectionId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.WayPlainResponse": {
             "type": "object",
             "required": [
@@ -3867,17 +3915,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "uuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "util.ResponseStatusString": {
-            "type": "object",
-            "required": [
-                "status"
-            ],
-            "properties": {
-                "status": {
                     "type": "string"
                 }
             }

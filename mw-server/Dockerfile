@@ -7,13 +7,13 @@ RUN go mod download
 RUN make build
 
 # Stage 2: production
-FROM alpine:3.18
+FROM golang:1.23-alpine
 WORKDIR /app
 COPY --from=build /app/main ./
 COPY --from=build /app/entrypoint.sh ./
 COPY --from=build /app/.env ./
 # required for reset-db
-COPY --from=build /app/db/migration ./db/migration
+COPY --from=build /app/internal/db/migration ./internal/db/migration
 EXPOSE 8000
 RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]

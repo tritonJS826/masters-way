@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasWayCollectionPlainResponse{}
 
 // SchemasWayCollectionPlainResponse struct for SchemasWayCollectionPlainResponse
 type SchemasWayCollectionPlainResponse struct {
-	Name string `json:"name"`
-	Uuid string `json:"uuid"`
+	Name string
+	Uuid string
 }
 
 type _SchemasWayCollectionPlainResponse SchemasWayCollectionPlainResponse

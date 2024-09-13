@@ -15,6 +15,7 @@ import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/WayChildrenList/WayChildrenList.module.scss";
 
 /**
@@ -25,21 +26,35 @@ interface WayChildrenListProps {
     /**
      * Root Way fo view
      */
-    way: WayWithoutDayReports;
+  way: WayWithoutDayReports;
 
-    /**
-     * Child level (root is 0)
-     */
-    level: number;
+  /**
+   * Child level (root is 0)
+   */
+  level: number;
 
     /**
      * Indicates whether the current user is the owner of way
      */
-    isOwner: boolean;
+  isOwner: boolean;
+
+  /**
+   * Callback update day reports on trigger
+   */
+  onUpdateDayReports?: (userUuid: string, wayUuid: string) => void;
 
 }
 
 const LEVEL_INCREMENT = 1;
+
+/**
+ * Recursively sorts an array of WayWithoutDayReports objects by their lastUpdate date
+ */
+const sortWayChildren = (children: WayWithoutDayReports[]): WayWithoutDayReports[] => {
+  const sortedChildrenItem = [...children].sort((a, b) => DateUtils.compareDatesDESC(a.lastUpdate, b.lastUpdate));
+
+  return sortedChildrenItem;
+};
 
 /**
  * Item for way children list
@@ -105,7 +120,8 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                 </p>}
                 onOk={async () => {
                   await CompositeWayDAL.deleteWayFromComposite({childWayUuid: child.uuid, parentWayUuid: props.way.uuid});
-                  props.way.deleteChildWay(child.uuid);
+                  props.onUpdateDayReports && props.onUpdateDayReports(child.owner.uuid, child.uuid);
+                  // Props.way.deleteChildWay(child.uuid);
                 }}
                 okText={LanguageService.modals.confirmModal.deleteButton[language]}
                 cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
@@ -118,14 +134,16 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
           <WayChildrenList
             way={child}
             level={props.level + LEVEL_INCREMENT}
-            isOwner={props.isOwner}
+            isOwner={false}
           />
         </VerticalContainer>
       </div>
     );
   };
 
-  const childrenList = props.way.children.map(renderChildrenItem);
+  const sortedChildren = sortWayChildren(props.way.children);
+
+  const childrenList = sortedChildren.map(renderChildrenItem);
 
   return childrenList;
 };

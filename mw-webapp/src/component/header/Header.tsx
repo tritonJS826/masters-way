@@ -152,6 +152,17 @@ export const Header = observer((props: HeaderProps) => {
         />),
     },
     {
+      path: pages.pricing.getPath({}),
+      value: LanguageService.sidebar.pricing[props.language],
+      dataCy: navigationMenuIds.menuItemLinks.pricing,
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="AwardIcon"
+          className={styles.linkIcon}
+        />),
+    },
+    {
       path: props.user
         ? pages.settings.getPath({})
         : pages.page404.getPath({}),

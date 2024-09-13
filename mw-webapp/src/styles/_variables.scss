@@ -13,7 +13,7 @@ $fontSizeSmall: 12px;
 
 // Font weight
 $fontWeightLight: 300;
-$fontWeightReular: 400;
+$fontWeightRegular: 400;
 $fontWeightSemibold: 500;
 $fontWeightBold: 700;
 
@@ -115,6 +115,17 @@ $disableOpacity: 0.7;
   @media only screen and (max-width: $mediaWidthMobileMedium) {
     padding: $paddingExtraMedium;
   }
+}
+
+@mixin backgroundImage {
+  background-image: linear-gradient(
+      var(--opacityBgColor),
+      var(--opacityBgColor)
+    ),
+    url("/src/assets/backgroundImageLogo.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 @mixin scaleOnHover {

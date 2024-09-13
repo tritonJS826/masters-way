@@ -21,19 +21,19 @@ var _ MappedNullable = &SchemasUserPopulatedResponse{}
 
 // SchemasUserPopulatedResponse struct for SchemasUserPopulatedResponse
 type SchemasUserPopulatedResponse struct {
-	CreatedAt string `json:"createdAt"`
-	CustomWayCollections []SchemasWayCollectionPopulatedResponse `json:"customWayCollections"`
-	DefaultWayCollections SchemasDefaultWayCollections `json:"defaultWayCollections"`
-	Description string `json:"description"`
-	Email string `json:"email"`
-	FavoriteForUsers []string `json:"favoriteForUsers"`
-	FavoriteUsers []SchemasUserPlainResponse `json:"favoriteUsers"`
-	ImageUrl string `json:"imageUrl"`
-	IsMentor bool `json:"isMentor"`
-	Name string `json:"name"`
-	Tags []SchemasUserTagResponse `json:"tags"`
-	Uuid string `json:"uuid"`
-	WayRequests []SchemasWayPlainResponse `json:"wayRequests"`
+	CreatedAt string
+	CustomWayCollections []SchemasWayCollectionPopulatedResponse
+	DefaultWayCollections SchemasDefaultWayCollections
+	Description string
+	Email string
+	FavoriteForUsers []string
+	FavoriteUsers []SchemasUserPlainResponse
+	ImageUrl string
+	IsMentor bool
+	Name string
+	Tags []SchemasUserTagResponse
+	Uuid string
+	WayRequests []SchemasWayPlainResponse
 }
 
 type _SchemasUserPopulatedResponse SchemasUserPopulatedResponse

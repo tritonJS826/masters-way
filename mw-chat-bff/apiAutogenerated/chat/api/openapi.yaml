@@ -2,21 +2,42 @@ openapi: 3.0.1
 info:
   contact: {}
   description: ""
-  title: ""
-  version: ""
+  title: Masters way chat API
+  version: "1.0"
 servers:
-- url: /
+- url: /chat
 paths:
   /dev/reset-db:
     get:
       description: resets db
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: resets db
       tags:
       - dev
+  /messages:
+    post:
+      operationId: create-message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateMessagePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.CreateMessageResponse'
+          description: OK
+      summary: Create message
+      tags:
+      - message
+      x-codegen-request-body-name: request
   /messages/{messageId}/message-status:
     patch:
       description: Update message status by message Id
@@ -139,34 +160,6 @@ paths:
       summary: Update room for user
       tags:
       - room
-  /rooms/{roomId}/messages:
-    post:
-      operationId: create-message-in-room
-      parameters:
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.CreateMessagePayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.CreateMessageResponse'
-          description: OK
-      summary: Create message in room
-      tags:
-      - room
-      x-codegen-request-body-name: request
   /rooms/{roomId}/users/{userId}:
     delete:
       operationId: delete-user-from-room
@@ -221,8 +214,11 @@ components:
       properties:
         message:
           type: string
+        roomId:
+          type: string
       required:
       - message
+      - roomId
       type: object
     schemas.CreateMessageResponse:
       example:

@@ -165,6 +165,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         onChange={onChange}
         data-cy={props.dataCy}
         onKeyDown={props.onKeyDown}
+        multiple={props.type === "file" && true}
       />
     </div>
   );

@@ -2,11 +2,15 @@ import clsx from "clsx";
 import {ActivityIcon} from "src/assets/icons/ActivityIcon";
 import {AppStoreIcon} from "src/assets/icons/AppStoreIcon";
 import {ArrowRightIcon} from "src/assets/icons/ArrowRight";
+import {AwardIcon} from "src/assets/icons/AwardIcon";
 import {BookIcon} from "src/assets/icons/BookIcon";
 import {BoxIcon} from "src/assets/icons/BoxIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
+import {CheckIcon} from "src/assets/icons/Check";
 import {ChevronIcon} from "src/assets/icons/ChevronIcon";
 import {ClockIcon} from "src/assets/icons/ClockIcon";
+import {DollarIcon} from "src/assets/icons/DollarIcon";
+import {DownloadIcon} from "src/assets/icons/DownloadIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
@@ -30,6 +34,7 @@ import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
+import {UploadIcon} from "src/assets/icons/UploadIcon";
 import {UserIcon} from "src/assets/icons/UserIcon";
 import {UsersIcon} from "src/assets/icons/UsersIcon";
 import {WayIcon} from "src/assets/icons/WayIcon";
@@ -215,6 +220,31 @@ export const IconDictionary = {
    * Box icon
    */
   BoxIcon: (params: IconProps) => <BoxIcon {...params} />,
+
+  /**
+   * Dollar icon
+   */
+  DollarIcon: (params: IconProps) => <DollarIcon {...params} />,
+
+  /**
+   * Award icon
+   */
+  AwardIcon: (params: IconProps) => <AwardIcon {...params} />,
+
+  /**
+   * Check icon
+   */
+  CheckIcon: (params: IconProps) => <CheckIcon {...params} />,
+
+  /**
+   * Upload icon
+   */
+  UploadIcon: (params: IconProps) => <UploadIcon {...params} />,
+
+  /**
+   * Download icon
+   */
+  DownloadIcon: (params: IconProps) => <DownloadIcon {...params} />,
 
 };
 

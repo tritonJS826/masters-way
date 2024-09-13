@@ -1,0 +1,34 @@
+@import "src/styles/variables";
+
+.pricingBlock {
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  background-color: var(--secondaryBgColor);
+  @include backgroundImage;
+  gap: $gapBig;
+  text-align: center;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingExtraMedium;
+  }
+}
+
+.pricingTitle {
+  max-width: $maxWidthBlock;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
+}
+
+.pricingDescription {
+  max-width: $maxWidthBlock;
+}
+
+.planItems {
+  max-width: $maxWidthContainer;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: $paddingBig $paddingMedium;
+  gap: $gapExtraLarge;
+}

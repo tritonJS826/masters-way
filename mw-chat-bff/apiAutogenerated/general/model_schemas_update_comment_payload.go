@@ -19,7 +19,7 @@ var _ MappedNullable = &SchemasUpdateCommentPayload{}
 
 // SchemasUpdateCommentPayload struct for SchemasUpdateCommentPayload
 type SchemasUpdateCommentPayload struct {
-	Description *string `json:"description,omitempty"`
+	Description *string
 }
 
 // NewSchemasUpdateCommentPayload instantiates a new SchemasUpdateCommentPayload object

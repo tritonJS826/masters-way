@@ -16,13 +16,10 @@
 import * as runtime from '../runtime';
 import type {
   SchemasUserPopulatedResponse,
-  UtilResponseStatusString,
 } from '../models/index';
 import {
     SchemasUserPopulatedResponseFromJSON,
     SchemasUserPopulatedResponseToJSON,
-    UtilResponseStatusStringFromJSON,
-    UtilResponseStatusStringToJSON,
 } from '../models/index';
 
 export interface BeginAuthRequest {
@@ -173,7 +170,7 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Logout current authorized user
      */
-    async logoutCurrentAuthorizedUserRaw(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UtilResponseStatusString>> {
+    async logoutCurrentAuthorizedUserRaw(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.provider === null || requestParameters.provider === undefined) {
             throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling logoutCurrentAuthorizedUser.');
         }
@@ -189,15 +186,14 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UtilResponseStatusStringFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Logout current authorized user
      */
-    async logoutCurrentAuthorizedUser(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UtilResponseStatusString> {
-        const response = await this.logoutCurrentAuthorizedUserRaw(requestParameters, initOverrides);
-        return await response.value();
+    async logoutCurrentAuthorizedUser(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.logoutCurrentAuthorizedUserRaw(requestParameters, initOverrides);
     }
 
 }

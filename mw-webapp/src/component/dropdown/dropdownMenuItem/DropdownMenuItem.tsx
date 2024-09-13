@@ -1,5 +1,6 @@
 import {ReactElement} from "react";
 import {Item} from "@radix-ui/react-dropdown-menu";
+import clsx from "clsx";
 import styles from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem.module.scss";
 
 /**
@@ -62,6 +63,12 @@ interface DropdownMenuItemProps {
    */
   isPreventDefaultUsed: boolean;
 
+  /**
+   * If true then adding arrow
+   * @default false
+   */
+  isSubTrigger?: boolean;
+
 }
 
 /**
@@ -70,7 +77,7 @@ interface DropdownMenuItemProps {
 export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
   return (
     <Item
-      className={styles.dropdownMenuItem}
+      className={clsx(styles.dropdownMenuItem, props.isSubTrigger && styles.dropdownMenuItemSubTrigger)}
       onClick={props.onClick ?? (() => { })}
       onSelect={(event) => props.isPreventDefaultUsed && event.preventDefault()}
       data-cy={props.dataCyContent}
@@ -79,3 +86,4 @@ export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
     </Item>
   );
 };
+

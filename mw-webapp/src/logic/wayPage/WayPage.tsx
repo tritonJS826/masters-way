@@ -474,92 +474,110 @@ export const WayPage = observer((props: WayPageProps) => {
                   cy={{
                     dataCyContent: wayDescriptionAccessIds.wayActionMenu.wayMenuItem,
                     dataCyContentList: wayDescriptionAccessIds.wayActionMenu.wayActionMenuList,
+                    dataCySubContent: wayDescriptionAccessIds.wayActionMenu.waySubMenuItem,
+                    dataCySubTrigger: wayDescriptionAccessIds.wayActionMenu.waySubTriggerItem,
                   }}
 
                   dropdownMenuItems={[
                     {
-                      id: "Make the way private/public",
-                      isPreventDefaultUsed: false,
-                      isVisible: isOwner,
-                      value: way.isPrivate
-                        ? LanguageService.way.peopleBlock.makePublicButton[language]
-                        : LanguageService.way.peopleBlock.makePrivateButton[language],
+                      dropdownSubMenuItems: [
+                        {
+                          id: "Make the way private/public",
+                          isPreventDefaultUsed: false,
+                          isVisible: isOwner,
+                          value: way.isPrivate
+                            ? LanguageService.way.peopleBlock.makePublicButton[language]
+                            : LanguageService.way.peopleBlock.makePrivateButton[language],
 
-                      /**
-                       * Toggle way privacy
-                       */
-                      onClick: () => updateWay({
-                        wayToUpdate: {
-                          uuid: way.uuid,
-                          isPrivate: !way.isPrivate,
+                          /**
+                           * Toggle way privacy
+                           */
+                          onClick: () => updateWay({
+                            wayToUpdate: {
+                              uuid: way.uuid,
+                              isPrivate: !way.isPrivate,
+                            },
+
+                            /**
+                             * Update isPrivate property
+                             */
+                            setWay: () => way.updateIsPrivate(!way.isPrivate),
+                          }),
                         },
+                        {
+                          id: "Repeat the way",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.way.wayActions.repeatWay[language],
 
-                        /**
-                         * Update isPrivate property
-                         */
-                        setWay: () => way.updateIsPrivate(!way.isPrivate),
-                      }),
+                          /**
+                           * Copy url to clipboard
+                           */
+                          onClick: repeatWay,
+                          isVisible: !!user,
+                        },
+                        {
+                          id: "Copy url to clipboard",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.way.wayActions.copyUrlToClipboard[language],
+
+                          /**
+                           * Copy url to clipboard
+                           */
+                          onClick: async () => {
+                            await navigator.clipboard.writeText(location.href);
+                            displayNotification({
+                              text: LanguageService.way.notifications.urlCopied[language],
+                              type: NotificationType.INFO,
+                            });
+                          },
+                        },
+                        {
+                          id: "Download as pdf",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.way.wayActions.downloadAsPdf[language],
+
+                          /**
+                           * Download way as pdf
+                           */
+                          onClick: () => downloadWayPdf(way, wayPageStore.wayStatisticsTriple),
+                        },
+                        {
+                          id: "Go to original way",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.way.wayActions.goToOriginal[language],
+                          isVisible: !!way.copiedFromWayUuid,
+
+                          /**
+                           * Go to original way (from which current way was copied)
+                           */
+                          onClick: () => {
+                            if (!way.copiedFromWayUuid) {
+                              throw new Error("This way is original, not copied");
+                            }
+                            navigate(pages.way.getPath({uuid: way.copiedFromWayUuid}));
+                          },
+                        },
+                        {
+                          id: "Delete the way",
+                          isPreventDefaultUsed: true,
+                          value: renderDeleteWayDropdownItem,
+                          isVisible: isOwner,
+                        },
+                      ],
                     },
                     {
-                      id: "Repeat the way",
-                      isPreventDefaultUsed: false,
-                      value: LanguageService.way.wayActions.repeatWay[language],
-
-                      /**
-                       * Copy url to clipboard
-                       */
-                      onClick: repeatWay,
+                      subTrigger: <p>
+                        {LanguageService.way.wayActions.collectionManagement[language]}
+                      </p>,
                       isVisible: !!user,
+                      dropdownSubMenuItems: renderAddToCustomCollectionDropdownItems,
                     },
                     {
-                      id: "Copy url to clipboard",
-                      isPreventDefaultUsed: false,
-                      value: LanguageService.way.wayActions.copyUrlToClipboard[language],
-
-                      /**
-                       * Copy url to clipboard
-                       */
-                      onClick: async () => {
-                        await navigator.clipboard.writeText(location.href);
-                        displayNotification({
-                          text: LanguageService.way.notifications.urlCopied[language],
-                          type: NotificationType.INFO,
-                        });
-                      },
-                    },
-                    {
-                      id: "Download as pdf",
-                      isPreventDefaultUsed: false,
-                      value: LanguageService.way.wayActions.downloadAsPdf[language],
-
-                      /**
-                       * Download way as pdf
-                       */
-                      onClick: () => downloadWayPdf(way, wayPageStore.wayStatisticsTriple),
-                    },
-                    ...renderAddToCustomCollectionDropdownItems,
-                    ...renderAddToCompositeWayDropdownItems,
-                    {
-                      id: "Go to original way",
-                      isPreventDefaultUsed: false,
-                      value: LanguageService.way.wayActions.goToOriginal[language],
-                      isVisible: !!way.copiedFromWayUuid,
-
-                      /**
-                       * Go to original way (from which current way was copied)
-                       */
-                      onClick: () => {
-                        if (!way.copiedFromWayUuid) {
-                          throw new Error("This way is original, not copied");
-                        }
-                        navigate(pages.way.getPath({uuid: way.copiedFromWayUuid}));
-                      },
-                    },
-                    {
-                      id: "Delete the way",
-                      isPreventDefaultUsed: true,
-                      value: renderDeleteWayDropdownItem,
-                      isVisible: isOwner,
+                      subTrigger: <p>
+                        {LanguageService.way.wayActions.compositeWayManagement[language]}
+                      </p>,
+                      isVisible: !!user,
+                      dropdownSubMenuItems: renderAddToCompositeWayDropdownItems,
                     },
                   ]}
                 />
@@ -740,6 +758,14 @@ export const WayPage = observer((props: WayPageProps) => {
                   way={way}
                   level={0}
                   isOwner={isOwner}
+                  onUpdateDayReports={async (userUuid, wayUuid) => {
+                    const updatedStatistics = await WayDAL.getWayStatisticTripleById(way.uuid);
+                    const updatedDayReports = await DayReportDAL.getDayReports({wayId: way.uuid, wayName: way.name});
+                    wayPageStore.reloadDayReports(updatedDayReports.dayReports);
+                    wayPageStore.setWayStatisticsTriple(updatedStatistics);
+                    way.deleteDayReports(userUuid);
+                    way.deleteChildWay(wayUuid);
+                  }}
                 />
               </VerticalContainer>
             }

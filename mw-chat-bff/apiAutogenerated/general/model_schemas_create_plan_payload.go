@@ -21,11 +21,11 @@ var _ MappedNullable = &SchemasCreatePlanPayload{}
 
 // SchemasCreatePlanPayload struct for SchemasCreatePlanPayload
 type SchemasCreatePlanPayload struct {
-	DayReportUuid string `json:"dayReportUuid"`
-	Description string `json:"description"`
-	IsDone bool `json:"isDone"`
-	OwnerUuid string `json:"ownerUuid"`
-	Time int32 `json:"time"`
+	DayReportUuid string
+	Description string
+	IsDone bool
+	OwnerUuid string
+	Time int32
 }
 
 type _SchemasCreatePlanPayload SchemasCreatePlanPayload

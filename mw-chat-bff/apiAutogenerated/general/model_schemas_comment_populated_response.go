@@ -21,15 +21,15 @@ var _ MappedNullable = &SchemasCommentPopulatedResponse{}
 
 // SchemasCommentPopulatedResponse struct for SchemasCommentPopulatedResponse
 type SchemasCommentPopulatedResponse struct {
-	CreatedAt string `json:"createdAt"`
-	DayReportUuid string `json:"dayReportUuid"`
-	Description string `json:"description"`
-	OwnerName string `json:"ownerName"`
-	OwnerUuid string `json:"ownerUuid"`
-	UpdatedAt string `json:"updatedAt"`
-	Uuid string `json:"uuid"`
-	WayName string `json:"wayName"`
-	WayUuid string `json:"wayUuid"`
+	CreatedAt string
+	DayReportUuid string
+	Description string
+	OwnerName string
+	OwnerUuid string
+	UpdatedAt string
+	Uuid string
+	WayName string
+	WayUuid string
 }
 
 type _SchemasCommentPopulatedResponse SchemasCommentPopulatedResponse

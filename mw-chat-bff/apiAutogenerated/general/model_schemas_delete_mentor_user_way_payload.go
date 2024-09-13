@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasDeleteMentorUserWayPayload{}
 
 // SchemasDeleteMentorUserWayPayload struct for SchemasDeleteMentorUserWayPayload
 type SchemasDeleteMentorUserWayPayload struct {
-	UserUuid string `json:"userUuid"`
-	WayUuid string `json:"wayUuid"`
+	UserUuid string
+	WayUuid string
 }
 
 type _SchemasDeleteMentorUserWayPayload SchemasDeleteMentorUserWayPayload

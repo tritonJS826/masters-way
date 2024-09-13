@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasWayStatisticsTriplePeriod{}
 
 // SchemasWayStatisticsTriplePeriod struct for SchemasWayStatisticsTriplePeriod
 type SchemasWayStatisticsTriplePeriod struct {
-	LastMonth SchemasWayStatistics `json:"lastMonth"`
-	LastWeek SchemasWayStatistics `json:"lastWeek"`
-	TotalTime SchemasWayStatistics `json:"totalTime"`
+	LastMonth SchemasWayStatistics
+	LastWeek SchemasWayStatistics
+	TotalTime SchemasWayStatistics
 }
 
 type _SchemasWayStatisticsTriplePeriod SchemasWayStatisticsTriplePeriod

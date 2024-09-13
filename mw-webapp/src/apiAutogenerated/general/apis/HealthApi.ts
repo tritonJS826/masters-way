@@ -24,7 +24,7 @@ export class HealthApi extends runtime.BaseAPI {
      * Get the health status of the API
      * Health Check
      */
-    async healthcheckGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: string; }>> {
+    async healthcheckGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -36,16 +36,15 @@ export class HealthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Get the health status of the API
      * Health Check
      */
-    async healthcheckGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: string; }> {
-        const response = await this.healthcheckGetRaw(initOverrides);
-        return await response.value();
+    async healthcheckGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.healthcheckGetRaw(initOverrides);
     }
 
 }

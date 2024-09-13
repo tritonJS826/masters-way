@@ -1,13 +1,132 @@
 @import "src/styles/variables";
 
 $dropdownWidth: 100%;
-$dropdownIndentationBottom: 10px;
+$dropdownIndentationBottom: 8px;
 
-.dropdownContent {
+.dropdownContent,
+.dropdownMenuSubContent {
   z-index: $dropdownZIndex;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
+  animation-duration: 400ms;
+  animation-name: slideDownAndFade;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   background: var(--tertiaryBgColor);
+  outline: none;
   overflow-y: auto;
-  transform: translateY($dropdownIndentationBottom);
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+.dropdownMenuContent[data-side="top"],
+.dropdownMenuSubContent[data-side="top"] {
+  animation-name: slideDownAndFade;
+}
+.dropdownMenuContent[data-side="right"],
+.dropdownMenuSubContent[data-side="right"] {
+  animation-name: slideLeftAndFade;
+}
+.dropdownMenuContent[data-side="bottom"],
+.dropdownMenuSubContent[data-side="bottom"] {
+  animation-name: slideUpAndFade;
+}
+.dDropdownMenuContent[data-side="left"],
+.dropdownMenuSubContent[data-side="left"] {
+  animation-name: slideRightAndFade;
+}
+
+.dropdownMenuItem {
+  padding: $paddingSmall $paddingMedium;
+  cursor: pointer;
+  font-size: $fontSizeMedium;
+  outline: none;
+  user-select: none;
+
+  &:not(:last-child) {
+    border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
+  }
+  &:first-child {
+    border-top-left-radius: $primaryBorderRadius;
+    border-top-right-radius: $primaryBorderRadius;
+  }
+  &:last-child {
+    border-bottom-left-radius: $primaryBorderRadius;
+    border-bottom-right-radius: $primaryBorderRadius;
+  }
+
+  &:hover,
+  &:active {
+    color: var(--tertiaryTextColor);
+  }
+}
+
+.dropdownMenuSubTrigger {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: $paddingSmall $paddingMedium;
+  padding-right: $paddingExtraSmall;
+  cursor: pointer;
+  font-size: $fontSizeMedium;
+  outline: none;
+  user-select: none;
+
+  &:not(:last-child) {
+    border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
+  }
+}
+
+.DropdownMenuSubTrigger[data-state="open"] {
+  background-color: var(--violet-4);
+  color: var(--violet-11);
+}
+
+@keyframes slideUpAndFade {
+  from {
+    opacity: 0;
+    transform: translateY($dropdownIndentationBottom);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRightAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(-$dropdownIndentationBottom);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(-$dropdownIndentationBottom);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+    transform: translateX($dropdownIndentationBottom);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.icon {
+  flex-shrink: 0;
 }
