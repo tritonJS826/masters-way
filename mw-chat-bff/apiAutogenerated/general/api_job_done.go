@@ -145,7 +145,7 @@ func (a *JobDoneAPIService) CreateJobDoneExecute(r ApiCreateJobDoneRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasJobDonePopulatedResponseStream
-func (a *JobDoneAPIService) CreateJobDoneStreamExecute(r ApiCreateJobDoneRequest, request *http.Request) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+func (a *JobDoneAPIService) CreateJobDoneStreamExecute(r ApiCreateJobDoneRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasJobDonePopulatedResponse
@@ -190,6 +190,8 @@ func (a *JobDoneAPIService) CreateJobDoneStreamExecute(r ApiCreateJobDoneRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -334,7 +336,7 @@ func (a *JobDoneAPIService) DeleteJobDoneExecute(r ApiDeleteJobDoneRequest) (*ht
 }
 
 // Execute executes the request
-func (a *JobDoneAPIService) DeleteJobDoneStreamExecute(r ApiDeleteJobDoneRequest, request *http.Request) (*http.Response, error) {
+func (a *JobDoneAPIService) DeleteJobDoneStreamExecute(r ApiDeleteJobDoneRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -379,6 +381,8 @@ func (a *JobDoneAPIService) DeleteJobDoneStreamExecute(r ApiDeleteJobDoneRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -538,7 +542,7 @@ func (a *JobDoneAPIService) UpdateJobDoneExecute(r ApiUpdateJobDoneRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasJobDonePopulatedResponseStream
-func (a *JobDoneAPIService) UpdateJobDoneStreamExecute(r ApiUpdateJobDoneRequest, request *http.Request) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+func (a *JobDoneAPIService) UpdateJobDoneStreamExecute(r ApiUpdateJobDoneRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasJobDonePopulatedResponse
@@ -585,6 +589,8 @@ func (a *JobDoneAPIService) UpdateJobDoneStreamExecute(r ApiUpdateJobDoneRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

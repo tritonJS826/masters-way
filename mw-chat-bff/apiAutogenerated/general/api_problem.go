@@ -145,7 +145,7 @@ func (a *ProblemAPIService) CreateProblemExecute(r ApiCreateProblemRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasProblemPopulatedResponseStream
-func (a *ProblemAPIService) CreateProblemStreamExecute(r ApiCreateProblemRequest, request *http.Request) (*SchemasProblemPopulatedResponse, *http.Response, error) {
+func (a *ProblemAPIService) CreateProblemStreamExecute(r ApiCreateProblemRequest, request *http.Request, GoogleAccessToken string) (*SchemasProblemPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasProblemPopulatedResponse
@@ -190,6 +190,8 @@ func (a *ProblemAPIService) CreateProblemStreamExecute(r ApiCreateProblemRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -334,7 +336,7 @@ func (a *ProblemAPIService) DeleteProblemExecute(r ApiDeleteProblemRequest) (*ht
 }
 
 // Execute executes the request
-func (a *ProblemAPIService) DeleteProblemStreamExecute(r ApiDeleteProblemRequest, request *http.Request) (*http.Response, error) {
+func (a *ProblemAPIService) DeleteProblemStreamExecute(r ApiDeleteProblemRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -379,6 +381,8 @@ func (a *ProblemAPIService) DeleteProblemStreamExecute(r ApiDeleteProblemRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -538,7 +542,7 @@ func (a *ProblemAPIService) UpdateProblemExecute(r ApiUpdateProblemRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasProblemPopulatedResponseStream
-func (a *ProblemAPIService) UpdateProblemStreamExecute(r ApiUpdateProblemRequest, request *http.Request) (*SchemasProblemPopulatedResponse, *http.Response, error) {
+func (a *ProblemAPIService) UpdateProblemStreamExecute(r ApiUpdateProblemRequest, request *http.Request, GoogleAccessToken string) (*SchemasProblemPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasProblemPopulatedResponse
@@ -585,6 +589,8 @@ func (a *ProblemAPIService) UpdateProblemStreamExecute(r ApiUpdateProblemRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

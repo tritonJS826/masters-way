@@ -7,13 +7,15 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **Name** | **string** |  | 
 **OwnerId** | **string** |  | 
-**Url** | **string** |  | 
+**IconUrl** | **string** |  | 
+**PreviewUrl** | **string** |  | 
+**SrcUrl** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasUploadFileResponse
 
-`func NewSchemasUploadFileResponse(id string, name string, ownerId string, url string, ) *SchemasUploadFileResponse`
+`func NewSchemasUploadFileResponse(id string, name string, ownerId string, iconUrl string, previewUrl string, srcUrl string, ) *SchemasUploadFileResponse`
 
 NewSchemasUploadFileResponse instantiates a new SchemasUploadFileResponse object
 This constructor will assign default values to properties that have it defined,
@@ -88,24 +90,64 @@ and a boolean to check if the value has been set.
 SetOwnerId sets OwnerId field to given value.
 
 
-### GetUrl
+### GetIconUrl
 
-`func (o *SchemasUploadFileResponse) GetUrl() string`
+`func (o *SchemasUploadFileResponse) GetIconUrl() string`
 
-GetUrl returns the Url field if non-nil, zero value otherwise.
+GetIconUrl returns the IconUrl field if non-nil, zero value otherwise.
 
-### GetUrlOk
+### GetIconUrlOk
 
-`func (o *SchemasUploadFileResponse) GetUrlOk() (*string, bool)`
+`func (o *SchemasUploadFileResponse) GetIconUrlOk() (*string, bool)`
 
-GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
+GetIconUrlOk returns a tuple with the IconUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUrl
+### SetIconUrl
 
-`func (o *SchemasUploadFileResponse) SetUrl(v string)`
+`func (o *SchemasUploadFileResponse) SetIconUrl(v string)`
 
-SetUrl sets Url field to given value.
+SetIconUrl sets IconUrl field to given value.
+
+
+### GetPreviewUrl
+
+`func (o *SchemasUploadFileResponse) GetPreviewUrl() string`
+
+GetPreviewUrl returns the PreviewUrl field if non-nil, zero value otherwise.
+
+### GetPreviewUrlOk
+
+`func (o *SchemasUploadFileResponse) GetPreviewUrlOk() (*string, bool)`
+
+GetPreviewUrlOk returns a tuple with the PreviewUrl field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPreviewUrl
+
+`func (o *SchemasUploadFileResponse) SetPreviewUrl(v string)`
+
+SetPreviewUrl sets PreviewUrl field to given value.
+
+
+### GetSrcUrl
+
+`func (o *SchemasUploadFileResponse) GetSrcUrl() string`
+
+GetSrcUrl returns the SrcUrl field if non-nil, zero value otherwise.
+
+### GetSrcUrlOk
+
+`func (o *SchemasUploadFileResponse) GetSrcUrlOk() (*string, bool)`
+
+GetSrcUrlOk returns a tuple with the SrcUrl field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSrcUrl
+
+`func (o *SchemasUploadFileResponse) SetSrcUrl(v string)`
+
+SetSrcUrl sets SrcUrl field to given value.
 
 
 

@@ -150,13 +150,19 @@ definitions:
         type: string
       OwnerId:
         type: string
-      Url:
+      iconUrl:
+        type: string
+      previewUrl:
+        type: string
+      srcUrl:
         type: string
     required:
     - Id
     - Name
     - OwnerId
-    - Url
+    - iconUrl
+    - previewUrl
+    - srcUrl
     type: object
   schemas.UserResponse:
     properties:

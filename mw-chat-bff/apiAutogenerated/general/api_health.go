@@ -112,7 +112,7 @@ func (a *HealthAPIService) HealthcheckGetExecute(r ApiHealthcheckGetRequest) (*h
 }
 
 // Execute executes the request
-func (a *HealthAPIService) HealthcheckGetStreamExecute(r ApiHealthcheckGetRequest, request *http.Request) (*http.Response, error) {
+func (a *HealthAPIService) HealthcheckGetStreamExecute(r ApiHealthcheckGetRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 	)
@@ -155,6 +155,8 @@ func (a *HealthAPIService) HealthcheckGetStreamExecute(r ApiHealthcheckGetReques
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

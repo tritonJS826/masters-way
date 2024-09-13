@@ -123,7 +123,7 @@ func (a *PlanJobTagAPIService) CreatePlanJobTagExecute(r ApiCreatePlanJobTagRequ
 }
 
 // Execute executes the request
-func (a *PlanJobTagAPIService) CreatePlanJobTagStreamExecute(r ApiCreatePlanJobTagRequest, request *http.Request) (*http.Response, error) {
+func (a *PlanJobTagAPIService) CreatePlanJobTagStreamExecute(r ApiCreatePlanJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 	)
@@ -167,6 +167,8 @@ func (a *PlanJobTagAPIService) CreatePlanJobTagStreamExecute(r ApiCreatePlanJobT
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -286,7 +288,7 @@ func (a *PlanJobTagAPIService) DeletePlanJobTagExecute(r ApiDeletePlanJobTagRequ
 }
 
 // Execute executes the request
-func (a *PlanJobTagAPIService) DeletePlanJobTagStreamExecute(r ApiDeletePlanJobTagRequest, request *http.Request) (*http.Response, error) {
+func (a *PlanJobTagAPIService) DeletePlanJobTagStreamExecute(r ApiDeletePlanJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -333,6 +335,8 @@ func (a *PlanJobTagAPIService) DeletePlanJobTagStreamExecute(r ApiDeletePlanJobT
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

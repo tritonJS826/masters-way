@@ -123,7 +123,7 @@ func (a *JobDoneJobTagAPIService) CreateJobDoneJobTagExecute(r ApiCreateJobDoneJ
 }
 
 // Execute executes the request
-func (a *JobDoneJobTagAPIService) CreateJobDoneJobTagStreamExecute(r ApiCreateJobDoneJobTagRequest, request *http.Request) (*http.Response, error) {
+func (a *JobDoneJobTagAPIService) CreateJobDoneJobTagStreamExecute(r ApiCreateJobDoneJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 	)
@@ -167,6 +167,8 @@ func (a *JobDoneJobTagAPIService) CreateJobDoneJobTagStreamExecute(r ApiCreateJo
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -286,7 +288,7 @@ func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTagExecute(r ApiDeleteJobDoneJ
 }
 
 // Execute executes the request
-func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTagStreamExecute(r ApiDeleteJobDoneJobTagRequest, request *http.Request) (*http.Response, error) {
+func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTagStreamExecute(r ApiDeleteJobDoneJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -333,6 +335,8 @@ func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTagStreamExecute(r ApiDeleteJo
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

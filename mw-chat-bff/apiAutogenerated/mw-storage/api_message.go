@@ -135,7 +135,7 @@ func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasCreateMessageResponseStream
-func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest, request *http.Request) (*SchemasCreateMessageResponse, *http.Response, error) {
+func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest, request *http.Request, GoogleAccessToken string) (*SchemasCreateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasCreateMessageResponse
@@ -180,6 +180,8 @@ func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -318,7 +320,7 @@ func (a *MessageAPIService) UpdateMessageStatusExecute(r ApiUpdateMessageStatusR
 }
 
 // Execute executes the request
-func (a *MessageAPIService) UpdateMessageStatusStreamExecute(r ApiUpdateMessageStatusRequest, request *http.Request) (*http.Response, error) {
+func (a *MessageAPIService) UpdateMessageStatusStreamExecute(r ApiUpdateMessageStatusRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 	)
@@ -364,6 +366,8 @@ func (a *MessageAPIService) UpdateMessageStatusStreamExecute(r ApiUpdateMessageS
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

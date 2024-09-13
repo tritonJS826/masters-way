@@ -131,7 +131,7 @@ func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*Schem
 
 // Execute executes the request
 //  @return SchemasRoomPreviewResponseStream
-func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, request *http.Request) (*SchemasRoomPreviewResponse, *http.Response, error) {
+func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasRoomPreviewResponse
@@ -179,6 +179,8 @@ func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -323,7 +325,7 @@ func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoom
 
 // Execute executes the request
 //  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request *http.Request) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasRoomPopulatedResponse
@@ -368,6 +370,8 @@ func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -496,7 +500,7 @@ func (a *RoomAPIService) DeleteUserFromRoomExecute(r ApiDeleteUserFromRoomReques
 }
 
 // Execute executes the request
-func (a *RoomAPIService) DeleteUserFromRoomStreamExecute(r ApiDeleteUserFromRoomRequest, request *http.Request) (*http.Response, error) {
+func (a *RoomAPIService) DeleteUserFromRoomStreamExecute(r ApiDeleteUserFromRoomRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -543,6 +547,8 @@ func (a *RoomAPIService) DeleteUserFromRoomStreamExecute(r ApiDeleteUserFromRoom
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -666,7 +672,7 @@ func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*Sch
 
 // Execute executes the request
 //  @return SchemasGetChatPreviewResponseStream
-func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest, request *http.Request) (*SchemasGetChatPreviewResponse, *http.Response, error) {
+func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetChatPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasGetChatPreviewResponse
@@ -710,6 +716,8 @@ func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest,
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -846,7 +854,7 @@ func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRo
 
 // Execute executes the request
 //  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, request *http.Request) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasRoomPopulatedResponse
@@ -892,6 +900,8 @@ func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, reque
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -1028,7 +1038,7 @@ func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRooms
 
 // Execute executes the request
 //  @return SchemasGetRoomsResponseStream
-func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *http.Request) (*SchemasGetRoomsResponse, *http.Response, error) {
+func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetRoomsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasGetRoomsResponse
@@ -1074,6 +1084,8 @@ func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *ht
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -1210,7 +1222,7 @@ func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoom
 
 // Execute executes the request
 //  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request *http.Request) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasRoomPopulatedResponse
@@ -1256,6 +1268,8 @@ func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

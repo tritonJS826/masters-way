@@ -14,20 +14,22 @@ func NewFileService(fileAPI *openapiStorage.APIClient) *FileService {
 	return &FileService{fileAPI}
 }
 
-func (cs *FileService) UploadFile(request *http.Request, token string) (*schemas.UploadFileResponse, error) {
+func (cs *FileService) UploadFile(request *http.Request, googleToken string) (*schemas.UploadFileResponse, error) {
 	r := openapiStorage.ApiUploadFileRequest{
 		ApiService: cs.fileAPI.FileAPI,
 	}
 
-	filePreviewRaw, _, err := cs.fileAPI.FileAPI.UploadFileStreamExecute(r, request)
+	filePreviewRaw, _, err := cs.fileAPI.FileAPI.UploadFileStreamExecute(r, request, googleToken)
 	if err != nil {
 		return nil, err
 	}
 
 	return &schemas.UploadFileResponse{
-		ID:      filePreviewRaw.Id,
-		OwnerID: filePreviewRaw.OwnerId,
-		Name:    filePreviewRaw.Name,
-		Url:     filePreviewRaw.Url,
+		ID:         filePreviewRaw.Id,
+		OwnerID:    filePreviewRaw.OwnerId,
+		Name:       filePreviewRaw.Name,
+		PreviewURL: filePreviewRaw.PreviewUrl,
+		SrcURL:     filePreviewRaw.SrcUrl,
+		IconURL:    filePreviewRaw.IconUrl,
 	}, nil
 }

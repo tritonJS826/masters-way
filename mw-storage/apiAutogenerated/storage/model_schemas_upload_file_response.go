@@ -24,7 +24,9 @@ type SchemasUploadFileResponse struct {
 	Id string
 	Name string
 	OwnerId string
-	Url string
+	IconUrl string
+	PreviewUrl string
+	SrcUrl string
 }
 
 type _SchemasUploadFileResponse SchemasUploadFileResponse
@@ -33,12 +35,14 @@ type _SchemasUploadFileResponse SchemasUploadFileResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasUploadFileResponse(id string, name string, ownerId string, url string) *SchemasUploadFileResponse {
+func NewSchemasUploadFileResponse(id string, name string, ownerId string, iconUrl string, previewUrl string, srcUrl string) *SchemasUploadFileResponse {
 	this := SchemasUploadFileResponse{}
 	this.Id = id
 	this.Name = name
 	this.OwnerId = ownerId
-	this.Url = url
+	this.IconUrl = iconUrl
+	this.PreviewUrl = previewUrl
+	this.SrcUrl = srcUrl
 	return &this
 }
 
@@ -122,28 +126,76 @@ func (o *SchemasUploadFileResponse) SetOwnerId(v string) {
 	o.OwnerId = v
 }
 
-// GetUrl returns the Url field value
-func (o *SchemasUploadFileResponse) GetUrl() string {
+// GetIconUrl returns the IconUrl field value
+func (o *SchemasUploadFileResponse) GetIconUrl() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Url
+	return o.IconUrl
 }
 
-// GetUrlOk returns a tuple with the Url field value
+// GetIconUrlOk returns a tuple with the IconUrl field value
 // and a boolean to check if the value has been set.
-func (o *SchemasUploadFileResponse) GetUrlOk() (*string, bool) {
+func (o *SchemasUploadFileResponse) GetIconUrlOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Url, true
+	return &o.IconUrl, true
 }
 
-// SetUrl sets field value
-func (o *SchemasUploadFileResponse) SetUrl(v string) {
-	o.Url = v
+// SetIconUrl sets field value
+func (o *SchemasUploadFileResponse) SetIconUrl(v string) {
+	o.IconUrl = v
+}
+
+// GetPreviewUrl returns the PreviewUrl field value
+func (o *SchemasUploadFileResponse) GetPreviewUrl() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.PreviewUrl
+}
+
+// GetPreviewUrlOk returns a tuple with the PreviewUrl field value
+// and a boolean to check if the value has been set.
+func (o *SchemasUploadFileResponse) GetPreviewUrlOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.PreviewUrl, true
+}
+
+// SetPreviewUrl sets field value
+func (o *SchemasUploadFileResponse) SetPreviewUrl(v string) {
+	o.PreviewUrl = v
+}
+
+// GetSrcUrl returns the SrcUrl field value
+func (o *SchemasUploadFileResponse) GetSrcUrl() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.SrcUrl
+}
+
+// GetSrcUrlOk returns a tuple with the SrcUrl field value
+// and a boolean to check if the value has been set.
+func (o *SchemasUploadFileResponse) GetSrcUrlOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.SrcUrl, true
+}
+
+// SetSrcUrl sets field value
+func (o *SchemasUploadFileResponse) SetSrcUrl(v string) {
+	o.SrcUrl = v
 }
 
 func (o SchemasUploadFileResponse) MarshalJSON() ([]byte, error) {
@@ -159,7 +211,9 @@ func (o SchemasUploadFileResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["Id"] = o.Id
 	toSerialize["Name"] = o.Name
 	toSerialize["OwnerId"] = o.OwnerId
-	toSerialize["Url"] = o.Url
+	toSerialize["iconUrl"] = o.IconUrl
+	toSerialize["previewUrl"] = o.PreviewUrl
+	toSerialize["srcUrl"] = o.SrcUrl
 	return toSerialize, nil
 }
 
@@ -171,7 +225,9 @@ func (o *SchemasUploadFileResponse) UnmarshalJSON(data []byte) (err error) {
 		"Id",
 		"Name",
 		"OwnerId",
-		"Url",
+		"iconUrl",
+		"previewUrl",
+		"srcUrl",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -261,7 +261,9 @@ const docTemplate = `{
                 "Id",
                 "Name",
                 "OwnerId",
-                "Url"
+                "iconUrl",
+                "previewUrl",
+                "srcUrl"
             ],
             "properties": {
                 "Id": {
@@ -273,7 +275,13 @@ const docTemplate = `{
                 "OwnerId": {
                     "type": "string"
                 },
-                "Url": {
+                "iconUrl": {
+                    "type": "string"
+                },
+                "previewUrl": {
+                    "type": "string"
+                },
+                "srcUrl": {
                     "type": "string"
                 }
             }

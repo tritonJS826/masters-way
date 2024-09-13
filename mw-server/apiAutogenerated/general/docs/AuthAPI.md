@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**BeginAuth**](AuthAPI.md#BeginAuth) | **Get** /auth/{provider} | Begin oauth
 [**GetCurrentAuthorizedUser**](AuthAPI.md#GetCurrentAuthorizedUser) | **Get** /auth/current | Get current authorized user
-[**GetGoogleAccessToken**](AuthAPI.md#GetGoogleAccessToken) | **Get** /auth/google-token | Retrieve Google Access Token
+[**GetGoogleToken**](AuthAPI.md#GetGoogleToken) | **Get** /auth/google-token | Retrieve Google Access Token
 [**GetTokenLocally**](AuthAPI.md#GetTokenLocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 [**GoogleAuthLogInCallbackFunction**](AuthAPI.md#GoogleAuthLogInCallbackFunction) | **Post** /auth/{provider}/callback | Log in with google oAuth
 [**LogoutCurrentAuthorizedUser**](AuthAPI.md#LogoutCurrentAuthorizedUser) | **Get** /auth/logout/{provider} | Logout current authorized user
@@ -138,9 +138,9 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## GetGoogleAccessToken
+## GetGoogleToken
 
-> string GetGoogleAccessToken(ctx).Execute()
+> SchemasGoogleToken GetGoogleToken(ctx).Execute()
 
 Retrieve Google Access Token
 
@@ -162,13 +162,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AuthAPI.GetGoogleAccessToken(context.Background()).Execute()
+	resp, r, err := apiClient.AuthAPI.GetGoogleToken(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetGoogleAccessToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetGoogleToken``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetGoogleAccessToken`: string
-	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetGoogleAccessToken`: %v\n", resp)
+	// response from `GetGoogleToken`: SchemasGoogleToken
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetGoogleToken`: %v\n", resp)
 }
 ```
 
@@ -178,12 +178,12 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetGoogleAccessTokenRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetGoogleTokenRequest struct via the builder pattern
 
 
 ### Return type
 
-**string**
+[**SchemasGoogleToken**](SchemasGoogleToken.md)
 
 ### Authorization
 

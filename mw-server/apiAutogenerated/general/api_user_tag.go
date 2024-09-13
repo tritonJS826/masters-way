@@ -135,7 +135,7 @@ func (a *UserTagAPIService) CreateUserTagExecute(r ApiCreateUserTagRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasUserTagResponseStream
-func (a *UserTagAPIService) CreateUserTagStreamExecute(r ApiCreateUserTagRequest, request *http.Request) (*SchemasUserTagResponse, *http.Response, error) {
+func (a *UserTagAPIService) CreateUserTagStreamExecute(r ApiCreateUserTagRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasUserTagResponse
@@ -180,6 +180,8 @@ func (a *UserTagAPIService) CreateUserTagStreamExecute(r ApiCreateUserTagRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -308,7 +310,7 @@ func (a *UserTagAPIService) DeleteUserTagExecute(r ApiDeleteUserTagRequest) (*ht
 }
 
 // Execute executes the request
-func (a *UserTagAPIService) DeleteUserTagStreamExecute(r ApiDeleteUserTagRequest, request *http.Request) (*http.Response, error) {
+func (a *UserTagAPIService) DeleteUserTagStreamExecute(r ApiDeleteUserTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -355,6 +357,8 @@ func (a *UserTagAPIService) DeleteUserTagStreamExecute(r ApiDeleteUserTagRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

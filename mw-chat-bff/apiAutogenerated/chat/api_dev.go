@@ -112,7 +112,7 @@ func (a *DevAPIService) DevResetDbGetExecute(r ApiDevResetDbGetRequest) (*http.R
 }
 
 // Execute executes the request
-func (a *DevAPIService) DevResetDbGetStreamExecute(r ApiDevResetDbGetRequest, request *http.Request) (*http.Response, error) {
+func (a *DevAPIService) DevResetDbGetStreamExecute(r ApiDevResetDbGetRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 	)
@@ -155,6 +155,8 @@ func (a *DevAPIService) DevResetDbGetStreamExecute(r ApiDevResetDbGetRequest, re
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

@@ -145,7 +145,7 @@ func (a *CommentAPIService) CreateCommentExecute(r ApiCreateCommentRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasCommentPopulatedResponseStream
-func (a *CommentAPIService) CreateCommentStreamExecute(r ApiCreateCommentRequest, request *http.Request) (*SchemasCommentPopulatedResponse, *http.Response, error) {
+func (a *CommentAPIService) CreateCommentStreamExecute(r ApiCreateCommentRequest, request *http.Request, GoogleAccessToken string) (*SchemasCommentPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasCommentPopulatedResponse
@@ -190,6 +190,8 @@ func (a *CommentAPIService) CreateCommentStreamExecute(r ApiCreateCommentRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -334,7 +336,7 @@ func (a *CommentAPIService) DeleteCommentExecute(r ApiDeleteCommentRequest) (*ht
 }
 
 // Execute executes the request
-func (a *CommentAPIService) DeleteCommentStreamExecute(r ApiDeleteCommentRequest, request *http.Request) (*http.Response, error) {
+func (a *CommentAPIService) DeleteCommentStreamExecute(r ApiDeleteCommentRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -379,6 +381,8 @@ func (a *CommentAPIService) DeleteCommentStreamExecute(r ApiDeleteCommentRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -538,7 +542,7 @@ func (a *CommentAPIService) UpdateCommentExecute(r ApiUpdateCommentRequest) (*Sc
 
 // Execute executes the request
 //  @return SchemasCommentPopulatedResponseStream
-func (a *CommentAPIService) UpdateCommentStreamExecute(r ApiUpdateCommentRequest, request *http.Request) (*SchemasCommentPopulatedResponse, *http.Response, error) {
+func (a *CommentAPIService) UpdateCommentStreamExecute(r ApiUpdateCommentRequest, request *http.Request, GoogleAccessToken string) (*SchemasCommentPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasCommentPopulatedResponse
@@ -585,6 +589,8 @@ func (a *CommentAPIService) UpdateCommentStreamExecute(r ApiUpdateCommentRequest
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

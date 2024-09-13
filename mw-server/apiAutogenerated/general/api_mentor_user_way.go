@@ -124,7 +124,7 @@ func (a *MentorUserWayAPIService) CreateMentorUserWayExecute(r ApiCreateMentorUs
 }
 
 // Execute executes the request
-func (a *MentorUserWayAPIService) CreateMentorUserWayStreamExecute(r ApiCreateMentorUserWayRequest, request *http.Request) (*http.Response, error) {
+func (a *MentorUserWayAPIService) CreateMentorUserWayStreamExecute(r ApiCreateMentorUserWayRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 	)
@@ -168,6 +168,8 @@ func (a *MentorUserWayAPIService) CreateMentorUserWayStreamExecute(r ApiCreateMe
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -291,7 +293,7 @@ func (a *MentorUserWayAPIService) DeleteMentorUserWayExecute(r ApiDeleteMentorUs
 }
 
 // Execute executes the request
-func (a *MentorUserWayAPIService) DeleteMentorUserWayStreamExecute(r ApiDeleteMentorUserWayRequest, request *http.Request) (*http.Response, error) {
+func (a *MentorUserWayAPIService) DeleteMentorUserWayStreamExecute(r ApiDeleteMentorUserWayRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -335,6 +337,8 @@ func (a *MentorUserWayAPIService) DeleteMentorUserWayStreamExecute(r ApiDeleteMe
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

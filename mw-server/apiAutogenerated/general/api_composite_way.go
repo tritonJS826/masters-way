@@ -135,7 +135,7 @@ func (a *CompositeWayAPIService) CreateCompositeWayExecute(r ApiCreateCompositeW
 
 // Execute executes the request
 //  @return SchemasCompositeWayRelationStream
-func (a *CompositeWayAPIService) CreateCompositeWayStreamExecute(r ApiCreateCompositeWayRequest, request *http.Request) (*SchemasCompositeWayRelation, *http.Response, error) {
+func (a *CompositeWayAPIService) CreateCompositeWayStreamExecute(r ApiCreateCompositeWayRequest, request *http.Request, GoogleAccessToken string) (*SchemasCompositeWayRelation, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasCompositeWayRelation
@@ -180,6 +180,8 @@ func (a *CompositeWayAPIService) CreateCompositeWayStreamExecute(r ApiCreateComp
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -308,7 +310,7 @@ func (a *CompositeWayAPIService) DeleteCompositeWayRelationExecute(r ApiDeleteCo
 }
 
 // Execute executes the request
-func (a *CompositeWayAPIService) DeleteCompositeWayRelationStreamExecute(r ApiDeleteCompositeWayRelationRequest, request *http.Request) (*http.Response, error) {
+func (a *CompositeWayAPIService) DeleteCompositeWayRelationStreamExecute(r ApiDeleteCompositeWayRelationRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -355,6 +357,8 @@ func (a *CompositeWayAPIService) DeleteCompositeWayRelationStreamExecute(r ApiDe
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

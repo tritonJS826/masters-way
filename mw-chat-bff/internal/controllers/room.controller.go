@@ -170,7 +170,6 @@ func (cc *RoomController) CreateRoom(ctx *gin.Context) {
 	}
 
 	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
-	fmt.Println("cc.usersService.GetPopulatedUsers(ctx, userIDs) err: ", err)
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
 	}

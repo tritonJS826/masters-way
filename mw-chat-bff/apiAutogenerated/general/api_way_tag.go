@@ -135,7 +135,7 @@ func (a *WayTagAPIService) CreateWayTagExecute(r ApiCreateWayTagRequest) (*Schem
 
 // Execute executes the request
 //  @return SchemasWayTagResponseStream
-func (a *WayTagAPIService) CreateWayTagStreamExecute(r ApiCreateWayTagRequest, request *http.Request) (*SchemasWayTagResponse, *http.Response, error) {
+func (a *WayTagAPIService) CreateWayTagStreamExecute(r ApiCreateWayTagRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasWayTagResponse
@@ -180,6 +180,8 @@ func (a *WayTagAPIService) CreateWayTagStreamExecute(r ApiCreateWayTagRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -308,7 +310,7 @@ func (a *WayTagAPIService) DeleteWayTagExecute(r ApiDeleteWayTagRequest) (*http.
 }
 
 // Execute executes the request
-func (a *WayTagAPIService) DeleteWayTagStreamExecute(r ApiDeleteWayTagRequest, request *http.Request) (*http.Response, error) {
+func (a *WayTagAPIService) DeleteWayTagStreamExecute(r ApiDeleteWayTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -355,6 +357,8 @@ func (a *WayTagAPIService) DeleteWayTagStreamExecute(r ApiDeleteWayTagRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

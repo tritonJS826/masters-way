@@ -135,7 +135,7 @@ func (a *WayAPIService) CreateWayExecute(r ApiCreateWayRequest) (*SchemasWayPlai
 
 // Execute executes the request
 //  @return SchemasWayPlainResponseStream
-func (a *WayAPIService) CreateWayStreamExecute(r ApiCreateWayRequest, request *http.Request) (*SchemasWayPlainResponse, *http.Response, error) {
+func (a *WayAPIService) CreateWayStreamExecute(r ApiCreateWayRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasWayPlainResponse
@@ -180,6 +180,8 @@ func (a *WayAPIService) CreateWayStreamExecute(r ApiCreateWayRequest, request *h
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -304,7 +306,7 @@ func (a *WayAPIService) DeleteWayExecute(r ApiDeleteWayRequest) (*http.Response,
 }
 
 // Execute executes the request
-func (a *WayAPIService) DeleteWayStreamExecute(r ApiDeleteWayRequest, request *http.Request) (*http.Response, error) {
+func (a *WayAPIService) DeleteWayStreamExecute(r ApiDeleteWayRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -349,6 +351,8 @@ func (a *WayAPIService) DeleteWayStreamExecute(r ApiDeleteWayRequest, request *h
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -524,7 +528,7 @@ func (a *WayAPIService) GetAllWaysExecute(r ApiGetAllWaysRequest) (*SchemasGetAl
 
 // Execute executes the request
 //  @return SchemasGetAllWaysResponseStream
-func (a *WayAPIService) GetAllWaysStreamExecute(r ApiGetAllWaysRequest, request *http.Request) (*SchemasGetAllWaysResponse, *http.Response, error) {
+func (a *WayAPIService) GetAllWaysStreamExecute(r ApiGetAllWaysRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetAllWaysResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasGetAllWaysResponse
@@ -588,6 +592,8 @@ func (a *WayAPIService) GetAllWaysStreamExecute(r ApiGetAllWaysRequest, request 
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -724,7 +730,7 @@ func (a *WayAPIService) GetWayByUuidExecute(r ApiGetWayByUuidRequest) (*SchemasW
 
 // Execute executes the request
 //  @return SchemasWayPopulatedResponseStream
-func (a *WayAPIService) GetWayByUuidStreamExecute(r ApiGetWayByUuidRequest, request *http.Request) (*SchemasWayPopulatedResponse, *http.Response, error) {
+func (a *WayAPIService) GetWayByUuidStreamExecute(r ApiGetWayByUuidRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasWayPopulatedResponse
@@ -770,6 +776,8 @@ func (a *WayAPIService) GetWayByUuidStreamExecute(r ApiGetWayByUuidRequest, requ
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -906,7 +914,7 @@ func (a *WayAPIService) GetWayStatisticsByUuidExecute(r ApiGetWayStatisticsByUui
 
 // Execute executes the request
 //  @return SchemasWayStatisticsTriplePeriodStream
-func (a *WayAPIService) GetWayStatisticsByUuidStreamExecute(r ApiGetWayStatisticsByUuidRequest, request *http.Request) (*SchemasWayStatisticsTriplePeriod, *http.Response, error) {
+func (a *WayAPIService) GetWayStatisticsByUuidStreamExecute(r ApiGetWayStatisticsByUuidRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayStatisticsTriplePeriod, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasWayStatisticsTriplePeriod
@@ -952,6 +960,8 @@ func (a *WayAPIService) GetWayStatisticsByUuidStreamExecute(r ApiGetWayStatistic
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -1100,7 +1110,7 @@ func (a *WayAPIService) UpdateWayExecute(r ApiUpdateWayRequest) (*SchemasWayPlai
 
 // Execute executes the request
 //  @return SchemasWayPlainResponseStream
-func (a *WayAPIService) UpdateWayStreamExecute(r ApiUpdateWayRequest, request *http.Request) (*SchemasWayPlainResponse, *http.Response, error) {
+func (a *WayAPIService) UpdateWayStreamExecute(r ApiUpdateWayRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasWayPlainResponse
@@ -1147,6 +1157,8 @@ func (a *WayAPIService) UpdateWayStreamExecute(r ApiUpdateWayRequest, request *h
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

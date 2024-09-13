@@ -136,7 +136,7 @@ func (a *GeminiAPIService) AiChatExecute(r ApiAiChatRequest) (*SchemasAIChatResp
 
 // Execute executes the request
 //  @return SchemasAIChatResponseStream
-func (a *GeminiAPIService) AiChatStreamExecute(r ApiAiChatRequest, request *http.Request) (*SchemasAIChatResponse, *http.Response, error) {
+func (a *GeminiAPIService) AiChatStreamExecute(r ApiAiChatRequest, request *http.Request, GoogleAccessToken string) (*SchemasAIChatResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasAIChatResponse
@@ -181,6 +181,8 @@ func (a *GeminiAPIService) AiChatStreamExecute(r ApiAiChatRequest, request *http
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -327,7 +329,7 @@ func (a *GeminiAPIService) GenerateMetricsExecute(r ApiGenerateMetricsRequest) (
 
 // Execute executes the request
 //  @return SchemasGenerateMetricsResponseStream
-func (a *GeminiAPIService) GenerateMetricsStreamExecute(r ApiGenerateMetricsRequest, request *http.Request) (*SchemasGenerateMetricsResponse, *http.Response, error) {
+func (a *GeminiAPIService) GenerateMetricsStreamExecute(r ApiGenerateMetricsRequest, request *http.Request, GoogleAccessToken string) (*SchemasGenerateMetricsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasGenerateMetricsResponse
@@ -372,6 +374,8 @@ func (a *GeminiAPIService) GenerateMetricsStreamExecute(r ApiGenerateMetricsRequ
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

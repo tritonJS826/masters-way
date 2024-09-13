@@ -135,7 +135,7 @@ func (a *JobTagAPIService) CreateJobTagExecute(r ApiCreateJobTagRequest) (*Schem
 
 // Execute executes the request
 //  @return SchemasJobTagResponseStream
-func (a *JobTagAPIService) CreateJobTagStreamExecute(r ApiCreateJobTagRequest, request *http.Request) (*SchemasJobTagResponse, *http.Response, error) {
+func (a *JobTagAPIService) CreateJobTagStreamExecute(r ApiCreateJobTagRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasJobTagResponse
@@ -180,6 +180,8 @@ func (a *JobTagAPIService) CreateJobTagStreamExecute(r ApiCreateJobTagRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -304,7 +306,7 @@ func (a *JobTagAPIService) DeleteJobTagExecute(r ApiDeleteJobTagRequest) (*http.
 }
 
 // Execute executes the request
-func (a *JobTagAPIService) DeleteJobTagStreamExecute(r ApiDeleteJobTagRequest, request *http.Request) (*http.Response, error) {
+func (a *JobTagAPIService) DeleteJobTagStreamExecute(r ApiDeleteJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -349,6 +351,8 @@ func (a *JobTagAPIService) DeleteJobTagStreamExecute(r ApiDeleteJobTagRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -488,7 +492,7 @@ func (a *JobTagAPIService) UpdateJobTagExecute(r ApiUpdateJobTagRequest) (*Schem
 
 // Execute executes the request
 //  @return SchemasJobTagResponseStream
-func (a *JobTagAPIService) UpdateJobTagStreamExecute(r ApiUpdateJobTagRequest, request *http.Request) (*SchemasJobTagResponse, *http.Response, error) {
+func (a *JobTagAPIService) UpdateJobTagStreamExecute(r ApiUpdateJobTagRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasJobTagResponse
@@ -535,6 +539,8 @@ func (a *JobTagAPIService) UpdateJobTagStreamExecute(r ApiUpdateJobTagRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

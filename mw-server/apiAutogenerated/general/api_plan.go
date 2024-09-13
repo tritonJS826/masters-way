@@ -145,7 +145,7 @@ func (a *PlanAPIService) CreatePlanExecute(r ApiCreatePlanRequest) (*SchemasPlan
 
 // Execute executes the request
 //  @return SchemasPlanPopulatedResponseStream
-func (a *PlanAPIService) CreatePlanStreamExecute(r ApiCreatePlanRequest, request *http.Request) (*SchemasPlanPopulatedResponse, *http.Response, error) {
+func (a *PlanAPIService) CreatePlanStreamExecute(r ApiCreatePlanRequest, request *http.Request, GoogleAccessToken string) (*SchemasPlanPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasPlanPopulatedResponse
@@ -190,6 +190,8 @@ func (a *PlanAPIService) CreatePlanStreamExecute(r ApiCreatePlanRequest, request
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -334,7 +336,7 @@ func (a *PlanAPIService) DeletePlanExecute(r ApiDeletePlanRequest) (*http.Respon
 }
 
 // Execute executes the request
-func (a *PlanAPIService) DeletePlanStreamExecute(r ApiDeletePlanRequest, request *http.Request) (*http.Response, error) {
+func (a *PlanAPIService) DeletePlanStreamExecute(r ApiDeletePlanRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -379,6 +381,8 @@ func (a *PlanAPIService) DeletePlanStreamExecute(r ApiDeletePlanRequest, request
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -538,7 +542,7 @@ func (a *PlanAPIService) UpdatePlanExecute(r ApiUpdatePlanRequest) (*SchemasPlan
 
 // Execute executes the request
 //  @return SchemasPlanPopulatedResponseStream
-func (a *PlanAPIService) UpdatePlanStreamExecute(r ApiUpdatePlanRequest, request *http.Request) (*SchemasPlanPopulatedResponse, *http.Response, error) {
+func (a *PlanAPIService) UpdatePlanStreamExecute(r ApiUpdatePlanRequest, request *http.Request, GoogleAccessToken string) (*SchemasPlanPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasPlanPopulatedResponse
@@ -585,6 +589,8 @@ func (a *PlanAPIService) UpdatePlanStreamExecute(r ApiUpdatePlanRequest, request
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

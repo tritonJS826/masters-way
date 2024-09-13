@@ -51,12 +51,12 @@ const docTemplate = `{
                     "auth"
                 ],
                 "summary": "Retrieve Google Access Token",
-                "operationId": "get-google-access-token",
+                "operationId": "get-google-token",
                 "responses": {
                     "200": {
-                        "description": "Google Access Token",
+                        "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/schemas.GoogleToken"
                         }
                     }
                 }
@@ -2976,6 +2976,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GoogleToken": {
+            "type": "object",
+            "required": [
+                "accessToken"
+            ],
+            "properties": {
+                "accessToken": {
                     "type": "string"
                 }
             }

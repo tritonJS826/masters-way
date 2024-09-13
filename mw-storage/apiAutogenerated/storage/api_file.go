@@ -125,7 +125,7 @@ func (a *FileAPIService) DeleteFilesExecute(r ApiDeleteFilesRequest) (*http.Resp
 }
 
 // Execute executes the request
-func (a *FileAPIService) DeleteFilesStreamExecute(r ApiDeleteFilesRequest, request *http.Request) (*http.Response, error) {
+func (a *FileAPIService) DeleteFilesStreamExecute(r ApiDeleteFilesRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -169,6 +169,8 @@ func (a *FileAPIService) DeleteFilesStreamExecute(r ApiDeleteFilesRequest, reque
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -319,7 +321,7 @@ func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*SchemasUplo
 
 // Execute executes the request
 //  @return SchemasUploadFileResponseStream
-func (a *FileAPIService) UploadFileStreamExecute(r ApiUploadFileRequest, request *http.Request) (*SchemasUploadFileResponse, *http.Response, error) {
+func (a *FileAPIService) UploadFileStreamExecute(r ApiUploadFileRequest, request *http.Request, GoogleAccessToken string) (*SchemasUploadFileResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasUploadFileResponse
@@ -364,6 +366,8 @@ func (a *FileAPIService) UploadFileStreamExecute(r ApiUploadFileRequest, request
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

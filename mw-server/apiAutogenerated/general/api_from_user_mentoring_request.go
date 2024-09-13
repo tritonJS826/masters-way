@@ -135,7 +135,7 @@ func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestExecu
 
 // Execute executes the request
 //  @return SchemasFromUserMentoringRequestResponseStream
-func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestStreamExecute(r ApiCreateFromUserMentoringRequestRequest, request *http.Request) (*SchemasFromUserMentoringRequestResponse, *http.Response, error) {
+func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestStreamExecute(r ApiCreateFromUserMentoringRequestRequest, request *http.Request, GoogleAccessToken string) (*SchemasFromUserMentoringRequestResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasFromUserMentoringRequestResponse
@@ -180,6 +180,8 @@ func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestStrea
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -308,7 +310,7 @@ func (a *FromUserMentoringRequestAPIService) DeleteFromUserMentoringRequestExecu
 }
 
 // Execute executes the request
-func (a *FromUserMentoringRequestAPIService) DeleteFromUserMentoringRequestStreamExecute(r ApiDeleteFromUserMentoringRequestRequest, request *http.Request) (*http.Response, error) {
+func (a *FromUserMentoringRequestAPIService) DeleteFromUserMentoringRequestStreamExecute(r ApiDeleteFromUserMentoringRequestRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -355,6 +357,8 @@ func (a *FromUserMentoringRequestAPIService) DeleteFromUserMentoringRequestStrea
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

@@ -135,7 +135,7 @@ func (a *WayCollectionWayAPIService) CreateWayCollectionWayExecute(r ApiCreateWa
 
 // Execute executes the request
 //  @return SchemasWayCollectionWayResponseStream
-func (a *WayCollectionWayAPIService) CreateWayCollectionWayStreamExecute(r ApiCreateWayCollectionWayRequest, request *http.Request) (*SchemasWayCollectionWayResponse, *http.Response, error) {
+func (a *WayCollectionWayAPIService) CreateWayCollectionWayStreamExecute(r ApiCreateWayCollectionWayRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayCollectionWayResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasWayCollectionWayResponse
@@ -180,6 +180,8 @@ func (a *WayCollectionWayAPIService) CreateWayCollectionWayStreamExecute(r ApiCr
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -308,7 +310,7 @@ func (a *WayCollectionWayAPIService) DeleteWayCollectionWayExecute(r ApiDeleteWa
 }
 
 // Execute executes the request
-func (a *WayCollectionWayAPIService) DeleteWayCollectionWayStreamExecute(r ApiDeleteWayCollectionWayRequest, request *http.Request) (*http.Response, error) {
+func (a *WayCollectionWayAPIService) DeleteWayCollectionWayStreamExecute(r ApiDeleteWayCollectionWayRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -355,6 +357,8 @@ func (a *WayCollectionWayAPIService) DeleteWayCollectionWayStreamExecute(r ApiDe
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

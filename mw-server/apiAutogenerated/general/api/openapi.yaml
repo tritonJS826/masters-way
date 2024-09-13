@@ -24,14 +24,14 @@ paths:
     get:
       description: This endpoint retrieves the Google access token for an authenticated
         user.
-      operationId: get-google-access-token
+      operationId: get-google-token
       responses:
         "200":
           content:
             application/json:
               schema:
-                type: string
-          description: Google Access Token
+                $ref: '#/components/schemas/schemas.GoogleToken'
+          description: OK
       summary: Retrieve Google Access Token
       tags:
       - auth
@@ -2525,6 +2525,15 @@ components:
       - imageUrl
       - name
       - userId
+      type: object
+    schemas.GoogleToken:
+      example:
+        accessToken: accessToken
+      properties:
+        accessToken:
+          type: string
+      required:
+      - accessToken
       type: object
     schemas.JobDonePopulatedResponse:
       example:

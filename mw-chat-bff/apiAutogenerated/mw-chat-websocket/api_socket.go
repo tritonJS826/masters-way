@@ -115,7 +115,7 @@ func (a *SocketAPIService) ConnectSocketExecute(r ApiConnectSocketRequest) (*htt
 }
 
 // Execute executes the request
-func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest, request *http.Request) (*http.Response, error) {
+func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 	)
@@ -160,6 +160,8 @@ func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest,
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -283,7 +285,7 @@ func (a *SocketAPIService) SendMessageEventExecute(r ApiSendMessageEventRequest)
 }
 
 // Execute executes the request
-func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRequest, request *http.Request) (*http.Response, error) {
+func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 	)
@@ -327,6 +329,8 @@ func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRe
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -450,7 +454,7 @@ func (a *SocketAPIService) SendRoomEventExecute(r ApiSendRoomEventRequest) (*htt
 }
 
 // Execute executes the request
-func (a *SocketAPIService) SendRoomEventStreamExecute(r ApiSendRoomEventRequest, request *http.Request) (*http.Response, error) {
+func (a *SocketAPIService) SendRoomEventStreamExecute(r ApiSendRoomEventRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 	)
@@ -494,6 +498,8 @@ func (a *SocketAPIService) SendRoomEventStreamExecute(r ApiSendRoomEventRequest,
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

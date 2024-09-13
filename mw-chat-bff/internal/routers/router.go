@@ -2,6 +2,7 @@ package routers
 
 import (
 	"fmt"
+	"mw-chat-bff/internal/auth"
 	"mw-chat-bff/internal/config"
 	"mw-chat-bff/internal/controllers"
 	"net/http"
@@ -48,8 +49,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes() {
-	// chat := r.Gin.Group("/chat", auth.HandleHeaders())
-	chat := r.Gin.Group("/chat")
+	chat := r.Gin.Group("/chat", auth.HandleHeaders())
 
 	r.fileRouter.setFileRoutes(chat)
 	r.roomRouter.setRoomRoutes(chat)

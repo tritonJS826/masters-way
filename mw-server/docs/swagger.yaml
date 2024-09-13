@@ -470,6 +470,13 @@ definitions:
     - name
     - userId
     type: object
+  schemas.GoogleToken:
+    properties:
+      accessToken:
+        type: string
+    required:
+    - accessToken
+    type: object
   schemas.JobDonePopulatedResponse:
     properties:
       createdAt:
@@ -1217,14 +1224,14 @@ paths:
       - application/json
       description: This endpoint retrieves the Google access token for an authenticated
         user.
-      operationId: get-google-access-token
+      operationId: get-google-token
       produces:
       - application/json
       responses:
         "200":
-          description: Google Access Token
+          description: OK
           schema:
-            type: string
+            $ref: '#/definitions/schemas.GoogleToken'
       summary: Retrieve Google Access Token
       tags:
       - auth

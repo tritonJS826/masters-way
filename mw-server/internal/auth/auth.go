@@ -19,7 +19,9 @@ func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
 		ClientSecret: cfg.GooglClientSecret,
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email",
-			"https://www.googleapis.com/auth/userinfo.profile"},
+			"https://www.googleapis.com/auth/userinfo.profile",
+			"https://www.googleapis.com/auth/drive.file",
+		},
 		Endpoint: google.Endpoint,
 	}
 }

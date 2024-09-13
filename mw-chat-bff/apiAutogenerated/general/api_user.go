@@ -175,7 +175,7 @@ func (a *UserAPIService) GetAllUsersExecute(r ApiGetAllUsersRequest) (*SchemasGe
 
 // Execute executes the request
 //  @return SchemasGetAllUsersResponseStream
-func (a *UserAPIService) GetAllUsersStreamExecute(r ApiGetAllUsersRequest, request *http.Request) (*SchemasGetAllUsersResponse, *http.Response, error) {
+func (a *UserAPIService) GetAllUsersStreamExecute(r ApiGetAllUsersRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetAllUsersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasGetAllUsersResponse
@@ -239,6 +239,8 @@ func (a *UserAPIService) GetAllUsersStreamExecute(r ApiGetAllUsersRequest, reque
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -375,7 +377,7 @@ func (a *UserAPIService) GetUserByUuidExecute(r ApiGetUserByUuidRequest) (*Schem
 
 // Execute executes the request
 //  @return SchemasUserPopulatedResponseStream
-func (a *UserAPIService) GetUserByUuidStreamExecute(r ApiGetUserByUuidRequest, request *http.Request) (*SchemasUserPopulatedResponse, *http.Response, error) {
+func (a *UserAPIService) GetUserByUuidStreamExecute(r ApiGetUserByUuidRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasUserPopulatedResponse
@@ -421,6 +423,8 @@ func (a *UserAPIService) GetUserByUuidStreamExecute(r ApiGetUserByUuidRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -565,7 +569,7 @@ func (a *UserAPIService) GetUsersByIdsExecute(r ApiGetUsersByIdsRequest) ([]Sche
 
 // Execute executes the request
 //  @return []SchemasGetUsersByIDsResponseStream
-func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, request *http.Request) ([]SchemasGetUsersByIDsResponse, *http.Response, error) {
+func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, request *http.Request, GoogleAccessToken string) ([]SchemasGetUsersByIDsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  []SchemasGetUsersByIDsResponse
@@ -610,6 +614,8 @@ func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -758,7 +764,7 @@ func (a *UserAPIService) UpdateUserExecute(r ApiUpdateUserRequest) (*SchemasUser
 
 // Execute executes the request
 //  @return SchemasUserPlainResponseStream
-func (a *UserAPIService) UpdateUserStreamExecute(r ApiUpdateUserRequest, request *http.Request) (*SchemasUserPlainResponse, *http.Response, error) {
+func (a *UserAPIService) UpdateUserStreamExecute(r ApiUpdateUserRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasUserPlainResponse
@@ -805,6 +811,8 @@ func (a *UserAPIService) UpdateUserStreamExecute(r ApiUpdateUserRequest, request
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

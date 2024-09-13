@@ -135,7 +135,7 @@ func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest
 
 // Execute executes the request
 //  @return SchemasCompositeDayReportPopulatedResponseStream
-func (a *DayReportAPIService) CreateDayReportStreamExecute(r ApiCreateDayReportRequest, request *http.Request) (*SchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
+func (a *DayReportAPIService) CreateDayReportStreamExecute(r ApiCreateDayReportRequest, request *http.Request, GoogleAccessToken string) (*SchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasCompositeDayReportPopulatedResponse
@@ -180,6 +180,8 @@ func (a *DayReportAPIService) CreateDayReportStreamExecute(r ApiCreateDayReportR
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -336,7 +338,7 @@ func (a *DayReportAPIService) GetDayReportsExecute(r ApiGetDayReportsRequest) (*
 
 // Execute executes the request
 //  @return SchemasListDayReportsResponseStream
-func (a *DayReportAPIService) GetDayReportsStreamExecute(r ApiGetDayReportsRequest, request *http.Request) (*SchemasListDayReportsResponse, *http.Response, error) {
+func (a *DayReportAPIService) GetDayReportsStreamExecute(r ApiGetDayReportsRequest, request *http.Request, GoogleAccessToken string) (*SchemasListDayReportsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasListDayReportsResponse
@@ -390,6 +392,8 @@ func (a *DayReportAPIService) GetDayReportsStreamExecute(r ApiGetDayReportsReque
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

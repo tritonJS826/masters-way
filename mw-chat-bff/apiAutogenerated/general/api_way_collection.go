@@ -135,7 +135,7 @@ func (a *WayCollectionAPIService) CreateWayCollectionExecute(r ApiCreateWayColle
 
 // Execute executes the request
 //  @return SchemasWayCollectionPopulatedResponseStream
-func (a *WayCollectionAPIService) CreateWayCollectionStreamExecute(r ApiCreateWayCollectionRequest, request *http.Request) (*SchemasWayCollectionPopulatedResponse, *http.Response, error) {
+func (a *WayCollectionAPIService) CreateWayCollectionStreamExecute(r ApiCreateWayCollectionRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayCollectionPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasWayCollectionPopulatedResponse
@@ -180,6 +180,8 @@ func (a *WayCollectionAPIService) CreateWayCollectionStreamExecute(r ApiCreateWa
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -304,7 +306,7 @@ func (a *WayCollectionAPIService) DeleteWayCollectionExecute(r ApiDeleteWayColle
 }
 
 // Execute executes the request
-func (a *WayCollectionAPIService) DeleteWayCollectionStreamExecute(r ApiDeleteWayCollectionRequest, request *http.Request) (*http.Response, error) {
+func (a *WayCollectionAPIService) DeleteWayCollectionStreamExecute(r ApiDeleteWayCollectionRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -349,6 +351,8 @@ func (a *WayCollectionAPIService) DeleteWayCollectionStreamExecute(r ApiDeleteWa
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -488,7 +492,7 @@ func (a *WayCollectionAPIService) UpdateWayCollectionExecute(r ApiUpdateWayColle
 
 // Execute executes the request
 //  @return SchemasWayCollectionPlainResponseStream
-func (a *WayCollectionAPIService) UpdateWayCollectionStreamExecute(r ApiUpdateWayCollectionRequest, request *http.Request) (*SchemasWayCollectionPlainResponse, *http.Response, error) {
+func (a *WayCollectionAPIService) UpdateWayCollectionStreamExecute(r ApiUpdateWayCollectionRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayCollectionPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasWayCollectionPlainResponse
@@ -535,6 +539,8 @@ func (a *WayCollectionAPIService) UpdateWayCollectionStreamExecute(r ApiUpdateWa
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

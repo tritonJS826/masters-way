@@ -115,7 +115,7 @@ func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*http.Response
 }
 
 // Execute executes the request
-func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *http.Request) (*http.Response, error) {
+func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 	)
@@ -160,6 +160,8 @@ func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -283,7 +285,7 @@ func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthoriz
 
 // Execute executes the request
 //  @return SchemasUserPopulatedResponseStream
-func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request) (*SchemasUserPopulatedResponse, *http.Response, error) {
+func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *SchemasUserPopulatedResponse
@@ -328,6 +330,8 @@ func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAu
 	    }
 	}
 
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
@@ -360,41 +364,41 @@ func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAu
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetGoogleAccessTokenRequest struct {
+type ApiGetGoogleTokenRequest struct {
 	ctx context.Context
 	ApiService *AuthAPIService
 }
 
-func (r ApiGetGoogleAccessTokenRequest) Execute() (string, *http.Response, error) {
-	return r.ApiService.GetGoogleAccessTokenExecute(r)
+func (r ApiGetGoogleTokenRequest) Execute() (*SchemasGoogleToken, *http.Response, error) {
+	return r.ApiService.GetGoogleTokenExecute(r)
 }
 
 /*
-GetGoogleAccessToken Retrieve Google Access Token
+GetGoogleToken Retrieve Google Access Token
 
 This endpoint retrieves the Google access token for an authenticated user.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetGoogleAccessTokenRequest
+ @return ApiGetGoogleTokenRequest
 */
-func (a *AuthAPIService) GetGoogleAccessToken(ctx context.Context) ApiGetGoogleAccessTokenRequest {
-	return ApiGetGoogleAccessTokenRequest{
+func (a *AuthAPIService) GetGoogleToken(ctx context.Context) ApiGetGoogleTokenRequest {
+	return ApiGetGoogleTokenRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return string
-func (a *AuthAPIService) GetGoogleAccessTokenExecute(r ApiGetGoogleAccessTokenRequest) (string, *http.Response, error) {
+//  @return SchemasGoogleToken
+func (a *AuthAPIService) GetGoogleTokenExecute(r ApiGetGoogleTokenRequest) (*SchemasGoogleToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  string
+		localVarReturnValue  *SchemasGoogleToken
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleAccessToken")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleToken")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -460,14 +464,14 @@ func (a *AuthAPIService) GetGoogleAccessTokenExecute(r ApiGetGoogleAccessTokenRe
 }
 
 // Execute executes the request
-//  @return stringStream
-func (a *AuthAPIService) GetGoogleAccessTokenStreamExecute(r ApiGetGoogleAccessTokenRequest, request *http.Request) (string, *http.Response, error) {
+//  @return SchemasGoogleTokenStream
+func (a *AuthAPIService) GetGoogleTokenStreamExecute(r ApiGetGoogleTokenRequest, request *http.Request, GoogleAccessToken string) (*SchemasGoogleToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  string
+		localVarReturnValue  *SchemasGoogleToken
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleAccessToken")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleToken")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -505,6 +509,8 @@ func (a *AuthAPIService) GetGoogleAccessTokenStreamExecute(r ApiGetGoogleAccessT
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -631,7 +637,7 @@ func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*h
 }
 
 // Execute executes the request
-func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request) (*http.Response, error) {
+func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 	)
@@ -676,6 +682,8 @@ func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyReques
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -812,7 +820,7 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 }
 
 // Execute executes the request
-func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request) (*http.Response, error) {
+func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 	)
@@ -859,6 +867,8 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogl
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -984,7 +994,7 @@ func (a *AuthAPIService) LogoutCurrentAuthorizedUserExecute(r ApiLogoutCurrentAu
 }
 
 // Execute executes the request
-func (a *AuthAPIService) LogoutCurrentAuthorizedUserStreamExecute(r ApiLogoutCurrentAuthorizedUserRequest, request *http.Request) (*http.Response, error) {
+func (a *AuthAPIService) LogoutCurrentAuthorizedUserStreamExecute(r ApiLogoutCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 	)
@@ -1029,6 +1039,8 @@ func (a *AuthAPIService) LogoutCurrentAuthorizedUserStreamExecute(r ApiLogoutCur
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

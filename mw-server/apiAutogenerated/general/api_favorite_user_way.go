@@ -123,7 +123,7 @@ func (a *FavoriteUserWayAPIService) CreateFavoriteUserWayExecute(r ApiCreateFavo
 }
 
 // Execute executes the request
-func (a *FavoriteUserWayAPIService) CreateFavoriteUserWayStreamExecute(r ApiCreateFavoriteUserWayRequest, request *http.Request) (*http.Response, error) {
+func (a *FavoriteUserWayAPIService) CreateFavoriteUserWayStreamExecute(r ApiCreateFavoriteUserWayRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 	)
@@ -167,6 +167,8 @@ func (a *FavoriteUserWayAPIService) CreateFavoriteUserWayStreamExecute(r ApiCrea
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -286,7 +288,7 @@ func (a *FavoriteUserWayAPIService) DeleteFavoriteUserWayExecute(r ApiDeleteFavo
 }
 
 // Execute executes the request
-func (a *FavoriteUserWayAPIService) DeleteFavoriteUserWayStreamExecute(r ApiDeleteFavoriteUserWayRequest, request *http.Request) (*http.Response, error) {
+func (a *FavoriteUserWayAPIService) DeleteFavoriteUserWayStreamExecute(r ApiDeleteFavoriteUserWayRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -333,6 +335,8 @@ func (a *FavoriteUserWayAPIService) DeleteFavoriteUserWayStreamExecute(r ApiDele
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

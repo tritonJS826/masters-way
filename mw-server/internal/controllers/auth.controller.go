@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"mwserver/internal/auth"
 	"mwserver/internal/config"
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
 	"mwserver/pkg/util"
 	"net/http"
@@ -150,10 +151,10 @@ func (ac *AuthController) Logout(ctx *gin.Context) {
 // @Summary Retrieve Google Access Token
 // @Description This endpoint retrieves the Google access token for an authenticated user.
 // @Tags auth
-// @ID get-google-access-token
+// @ID get-google-token
 // @Accept json
 // @Produce json
-// @Success 200 {string} string "Google Access Token"
+// @Success 200 {object} schemas.GoogleToken
 // @Router /auth/google-token [get]
 func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
@@ -162,5 +163,9 @@ func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
 	token, err := ac.authService.GetGoogleAccessTokenByUserID(userID)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, token)
+	response := schemas.GoogleToken{
+		AccessToken: token,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }

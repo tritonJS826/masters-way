@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"mw-chat-bff/internal/auth"
 	"mw-chat-bff/internal/services"
 	util "mw-chat-bff/internal/utils"
@@ -31,11 +32,15 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	token, err := fc.generalService.GetGoogleAccessTokenByID(ctx, userID)
-	util.HandleErrorGin(ctx, err)
+	googleToken, err := fc.generalService.GetGoogleAccessTokenByID(ctx, userID)
+	if err != nil {
+		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
+	}
 
-	response, err := fc.fileService.UploadFile(ctx.Request, token)
-	util.HandleErrorGin(ctx, err)
+	response, err := fc.fileService.UploadFile(ctx.Request, googleToken)
+	if err != nil {
+		util.HandleErrorGin(ctx, fmt.Errorf("storage service error: %w", err))
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }

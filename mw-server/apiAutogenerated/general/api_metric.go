@@ -135,7 +135,7 @@ func (a *MetricAPIService) CreateMetricExecute(r ApiCreateMetricRequest) (*Schem
 
 // Execute executes the request
 //  @return SchemasMetricResponseStream
-func (a *MetricAPIService) CreateMetricStreamExecute(r ApiCreateMetricRequest, request *http.Request) (*SchemasMetricResponse, *http.Response, error) {
+func (a *MetricAPIService) CreateMetricStreamExecute(r ApiCreateMetricRequest, request *http.Request, GoogleAccessToken string) (*SchemasMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *SchemasMetricResponse
@@ -180,6 +180,8 @@ func (a *MetricAPIService) CreateMetricStreamExecute(r ApiCreateMetricRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -304,7 +306,7 @@ func (a *MetricAPIService) DeleteMetricExecute(r ApiDeleteMetricRequest) (*http.
 }
 
 // Execute executes the request
-func (a *MetricAPIService) DeleteMetricStreamExecute(r ApiDeleteMetricRequest, request *http.Request) (*http.Response, error) {
+func (a *MetricAPIService) DeleteMetricStreamExecute(r ApiDeleteMetricRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 	)
@@ -349,6 +351,8 @@ func (a *MetricAPIService) DeleteMetricStreamExecute(r ApiDeleteMetricRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -488,7 +492,7 @@ func (a *MetricAPIService) UpdateMetricExecute(r ApiUpdateMetricRequest) (*Schem
 
 // Execute executes the request
 //  @return SchemasMetricResponseStream
-func (a *MetricAPIService) UpdateMetricStreamExecute(r ApiUpdateMetricRequest, request *http.Request) (*SchemasMetricResponse, *http.Response, error) {
+func (a *MetricAPIService) UpdateMetricStreamExecute(r ApiUpdateMetricRequest, request *http.Request, GoogleAccessToken string) (*SchemasMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarReturnValue  *SchemasMetricResponse
@@ -535,6 +539,8 @@ func (a *MetricAPIService) UpdateMetricStreamExecute(r ApiUpdateMetricRequest, r
 	        req.Header.Add(key, value)
 	    }
 	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
