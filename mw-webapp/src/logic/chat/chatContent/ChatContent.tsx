@@ -13,6 +13,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
+import {FileDAL} from "src/dataAccessLogic/FileDAL";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {useListenEventBus} from "src/eventBus/useListenEvent";
@@ -168,6 +169,16 @@ export const ChatContent = observer(() => {
       type: NotificationType.INFO,
     });
   });
+
+  /**
+   * Sdf
+   */
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileBlob = !!event.target.files && event.target.files[0];
+    if (fileBlob) {
+      await FileDAL.uploadFile(fileBlob);
+    }
+  };
 
   return (
     <DialogPortal>
@@ -357,11 +368,9 @@ export const ChatContent = observer(() => {
               }}
             />
             <label>
-              <Input
+              <input
                 type="file"
-                value=""
-                onChange={() => {}}
-                placeholder=""
+                onChange={async (event) => handleFileChange(event)}
                 className={styles.uploadFileInput}
               />
               <Tooltip

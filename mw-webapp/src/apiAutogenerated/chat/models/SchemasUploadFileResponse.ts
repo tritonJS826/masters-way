@@ -36,13 +36,25 @@ export interface SchemasUploadFileResponse {
      * @type {string}
      * @memberof SchemasUploadFileResponse
      */
-    owner: string;
+    ownerId: string;
     /**
      * 
      * @type {string}
      * @memberof SchemasUploadFileResponse
      */
-    url: string;
+    iconUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasUploadFileResponse
+     */
+    previewUrl: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasUploadFileResponse
+     */
+    srcUrl: string;
 }
 
 /**
@@ -54,8 +66,10 @@ export function instanceOfSchemasUploadFileResponse(
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "owner" in value;
-    isInstance = isInstance && "url" in value;
+    isInstance = isInstance && "ownerId" in value;
+    isInstance = isInstance && "iconUrl" in value;
+    isInstance = isInstance && "previewUrl" in value;
+    isInstance = isInstance && "srcUrl" in value;
 
     return isInstance;
 }
@@ -75,8 +89,10 @@ export function SchemasUploadFileResponseFromJSONTyped(
         
         'id': json['Id'],
         'name': json['Name'],
-        'owner': json['Owner'],
-        'url': json['Url'],
+        'ownerId': json['OwnerId'],
+        'iconUrl': json['iconUrl'],
+        'previewUrl': json['previewUrl'],
+        'srcUrl': json['srcUrl'],
     };
 }
 
@@ -92,8 +108,10 @@ export function SchemasUploadFileResponseToJSON(value?: SchemasUploadFileRespons
         
         'Id': value.id,
         'Name': value.name,
-        'Owner': value.owner,
-        'Url': value.url,
+        'OwnerId': value.ownerId,
+        'iconUrl': value.iconUrl,
+        'previewUrl': value.previewUrl,
+        'srcUrl': value.srcUrl,
     };
 }
 

@@ -15,9 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
+  SchemasGoogleToken,
   SchemasUserPopulatedResponse,
 } from '../models/index';
 import {
+    SchemasGoogleTokenFromJSON,
+    SchemasGoogleTokenToJSON,
     SchemasUserPopulatedResponseFromJSON,
     SchemasUserPopulatedResponseToJSON,
 } from '../models/index';
@@ -96,6 +99,34 @@ export class AuthApi extends runtime.BaseAPI {
      */
     async getCurrentAuthorizedUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
         const response = await this.getCurrentAuthorizedUserRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * This endpoint retrieves the Google access token for an authenticated user.
+     * Retrieve Google Access Token
+     */
+    async getGoogleTokenRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGoogleToken>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/auth/google-token`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGoogleTokenFromJSON(jsonValue));
+    }
+
+    /**
+     * This endpoint retrieves the Google access token for an authenticated user.
+     * Retrieve Google Access Token
+     */
+    async getGoogleToken(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGoogleToken> {
+        const response = await this.getGoogleTokenRaw(initOverrides);
         return await response.value();
     }
 
