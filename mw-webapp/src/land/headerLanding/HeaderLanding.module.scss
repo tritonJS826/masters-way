@@ -2,6 +2,7 @@
 
 .header {
   position: sticky;
+  z-index: $headerLandingZIndex;
   top: 0;
   display: flex;
   width: 100%;
@@ -13,23 +14,43 @@
   border-bottom: $primaryBorder solid var(--generalPrimaryColor);
   margin: 0 auto;
   background-color: var(--primaryBgColor);
+
+  @media (max-width: $mediaWidthTablet) {
+    position: static;
+  }
+}
+
+.tryHeaderButton {
+  @media (max-width: $mediaWidthTablet) {
+    display: none;
+  }
 }
 
 .logo {
   cursor: pointer;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    width: 80px;
+  }
 }
 
 .navBlock {
   gap: $gapLarge;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    gap: $gapMedium;
+  }
+
+  @media (max-width: $mediaWidthMobileBig) {
+    display: none;
+  }
 }
 
 .headerThemeBlock {
   align-items: center;
   gap: $gapBig;
-  @media (max-width: $mediaWidthTablet) {
-    gap: $gapMedium;
-  }
-  @media (max-width: $mediaWidthMobileBig) {
+
+  @media (max-width: $mediaWidthTabletBig) {
     gap: $gapSmall;
   }
 }

@@ -1,15 +1,13 @@
 @import "src/styles/variables";
 
-$maxWidthTitleBlock: 780px;
-
 .titleBlock {
-  max-width: $maxWidthTitleBlock;
   gap: $gapLarge;
 }
 
 .title {
   display: inline;
   text-align: center;
+  white-space: pre-wrap;
 
   & h2 {
     font-size: $fontSizeTitleBig;
@@ -101,6 +99,7 @@ $maxWidthTitleBlock: 780px;
 .problems {
   width: 100%;
   gap: $gapLarge;
+  white-space: pre-wrap;
 }
 
 .accordion {
@@ -109,6 +108,7 @@ $maxWidthTitleBlock: 780px;
 }
 
 .triesContainer {
+  flex-wrap: wrap;
   padding: $paddingLarge;
   border-radius: $primaryBorderRadius;
   background-color: var(--primaryBgColor);
@@ -133,4 +133,9 @@ $maxWidthTitleBlock: 780px;
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;
   gap: $gapExtraLarge;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+    justify-content: center;
+  }
 }

@@ -33,60 +33,60 @@
   },
   "main": {
     "title": {
-      "ru": "Свобода быть ментором с ",
-      "en": "Freedom to be a mentor with ",
-      "ua": "Свобода бути ментором із "
+      "ru": "Свобода быть ментором\nс ",
+      "en": "Want to offer your mentees\nmore flexibility and choice\nin their ",
+      "ua": "Свобода бути ментором\nіз "
     },
     "mastersWay": {
       "ru": "Master's Way",
-      "en": "Master's Way",
+      "en": "learning journey?",
       "ua": "Master's Way"
     },
     "description": {
       "ru": "Автоматизируйте рутину, сосредоточьтесь на главном — развитии ваших учеников.\nНаше приложение обеспечит асинхронное обучение, отслеживание прогресса и отчетность,\nчтобы вы могли масштабировать свое менторство без ущерба качеству.",
-      "en": "Automate the routine, focus on the main thing — the development of your students.\nOur app will provide asynchronous training, progress tracking, and reporting\nso you can scale your mentorship without sacrificing quality.",
+      "en": "Wish you could empower them to learn at their own pace, on their own schedule, and in their own way?\nWith Master's Way, using Asynchronous Learning for Personalized Growth\nGive Your Students the Freedom to Thrive.",
       "ua": "Автоматизуйте рутину, зосередьтеся на головному — розвитку ваших учнів.\nНаша програма забезпечить асинхронне навчання, відстеження прогресу та звітність,\nщоб ви могли масштабувати своє менторство без шкоди якості."
     }
   },
   "advantages": {
     "title": {
       "ru": "Наши преимущества",
-      "en": "Our advantages",
+      "en": "Feeling Overwhelmed by Mentorship?",
       "ua": "Наші переваги"
     },
     "asynchronousInteraction": {
       "title": {
         "ru": "Асинхронное\nвзаимодействие",
-        "en": "Asynchronous\ninteraction",
+        "en": "Say Goodbye to\nTime-Wasting Meetings",
         "ua": "Асинхронне\nвзаємодія"
       },
       "description": {
         "ru": "Вы больше не будете терять время на личные встречи — наш асинхронный формат позволяет взаимодействовать тогда, когда это удобно именно вам.",
-        "en": "You will no longer waste time on personal meetings — our asynchronous format allows you to interact when it is convenient for you.",
+        "en": "Our asynchronous method of learning lets you interact with your mentees whenever it's convenient for you, freeing up your schedule for other important tasks.",
         "ua": "Ви більше не гаятимете час на особисті зустрічі — наш асинхронний формат дозволяє взаємодіяти тоді, коли це зручно саме вам."
       }
     },
     "speedingUpProcesses": {
       "title": {
         "ru": "Ускорение процессов\nс помощью AI",
-        "en": "Speeding up processes\nwith AI",
+        "en": "Track Progress\nwith Ease",
         "ua": "Прискорення процесів\nза допомогою AI"
       },
       "description": {
         "ru": "Использование искусственного интеллекта значительно ускоряет выполнение задач, автоматизируя рутинные и трудоемкие процессы. Это сэкономит время и ресурсы, повысит общую эффективность.",
-        "en": "Track progress and guide your students. Detailed statistics on the time spent studying the material, tests passed and assignments completed.",
+        "en": "Gain valuable insights into your students' progress with detailed statistics on time spent studying, tests passed, and assignments completed.",
         "ua": "Використання штучного інтелекту значно прискорює виконання завдань, автоматизуючи рутинні та трудомісткі процеси. Це заощадить час та ресурси, підвищить загальну ефективність."
       }
     },
     "monitoringAchievements": {
       "title": {
         "ru": "Мониторинг\nдостижений ученика",
-        "en": "Monitoring\nstudent achievements",
+        "en": "Empower\nYour Students",
         "ua": "Моніторинг\nдосягнень учня"
       },
       "description": {
         "ru": "Отслеживайте прогресс и направляйте своих учеников. Подробная статистика о времени, проведенном за изучением материала, пройденных тестах и выполненных заданиях. ",
-        "en": "You will no longer waste time on personal meetings — our asynchronous format allows you to interact when it is convenient for you.",
+        "en": "Master's Way provides a platform for mentors and mentees to effectively interact, set goals, and solve problems in one convenient space.",
         "ua": "Слідкуйте за прогресом і направляйте своїх учнів. Детальна статистика про час, проведений за вивченням матеріалу, пройдені тести та виконані завдання."
       }
     },
@@ -122,48 +122,48 @@
   },
   "solutions": {
     "title": {
-      "ru": "Наше приложение — ключ к успеху для профессиональных менторов",
-      "en": "Our application is the key to success for professional mentors",
-      "ua": "Наша програма — ключ до успіху для професійних менторів."
+      "ru": "Наше приложение — ключ к успеху\nдля профессиональных менторов",
+      "en": "Our application is the key to success\nfor professional mentors",
+      "ua": "Наша програма — ключ до успіху\nдля професійних менторів"
     },
     "description": {
-      "ru": "Профессиональные менторы выбирают наше приложение для достижения лучших результатов.",
-      "en": "Professional mentors choose our application to achieve better results.",
-      "ua": "Професійні ментори вибирають наш додаток для досягнення найкращих результатів."
+      "ru": "Master's Way – это надежный выбор для наставников, стремящихся к лучшим результатам.",
+      "en": "Master's Way is the trusted choice for mentors seeking better results.",
+      "ua": "Master's Way — надійний вибір для наставників, які прагнуть кращих результатів."
     },
     "timeSaving": {
       "title": {
         "ru": "Вы тратите слишком много времени на организационные вопросы, проверку заданий и составление отчетов?",
-        "en": "Are you spending too much time on organizational issues, checking assignments, and writing reports?",
+        "en": "Mentorship Burnout?\nMaster's Way Makes It Easier.",
         "ua": "Ви витрачаєте надто багато часу на організаційні питання, перевірку завдань та складання звітів?"
       },
       "description": {
         "ru": "Мы создали решение, которое не только экономит время и деньги, но и делает обучение доступным даже для тех, кто испытывает стресс от общения или не может участвовать в онлайн-встречах.",
-        "en": "We've created a solution that not only saves time and money, but also makes learning accessible even to those who experience communication stress or are unable to participate in online meetings.",
+        "en": "Tired of endless admin tasks and struggling to reach all your students? Master's Way streamlines your workflow, automates tasks, and makes learning accessible to everyone.",
         "ua": "Ми створили рішення, яке не тільки заощаджує час і гроші, але й робить навчання доступним навіть для тих, хто зазнає стресу від спілкування або не може брати участь в онлайн-зустрічах."
       }
     },
     "progressMonitoring": {
       "title": {
         "ru": "Вам трудно оценить реальные успехи учеников и вовремя скорректировать программу обучения?",
-        "en": "Is it difficult for you to assess the real progress of students and adjust the training program in a timely manner?",
+        "en": "Struggling to\nTrack Student Progress?",
         "ua": "Вам важко оцінити реальні успіхи учнів та вчасно скоригувати програму навчання?"
       },
       "description": {
         "ru": "Мы создали платформу, которая подходит как для индивидуального сопровождения, так и для работы с целыми группами, обеспечивая честную и прозрачную коммуникацию между всеми участниками процесса.",
-        "en": "We have created a platform that is suitable for both individual support and working with entire groups, ensuring honest and transparent communication between all participants in the process.",
+        "en": "Master's Way provides a platform for both individual and group mentorship, ensuring clear communication and making it easy to assess progress and adjust training programs",
         "ua": "Ми створили платформу, яка підходить як для індивідуального супроводу, так і для роботи з цілими групами, забезпечуючи чесну та прозору комунікацію між усіма учасниками процесу."
       }
     },
     "focusOnResults": {
       "title": {
         "ru": "Ученики не всегда видят результаты вашей работы?",
-        "en": "Do your students not always see the results of your work?",
+        "en": "Want your students to see\nthe impact of your mentorship?",
         "ua": "Учні не завжди вбачають результати вашої роботи?"
       },
       "description": {
         "ru": "Ваша работа будет видна и понятна, благодаря отчетам и статистике. Это гарантирует, что каждый потраченный час будет оценен по достоинству.",
-        "en": "Your work will be visible and understandable thanks to reports and statistics. This ensures that every hour spent is appreciated.",
+        "en": "Master's Way provides clear reports and statistics, showcasing their progress and demonstrating the value of your work.",
         "ua": "Ваша робота буде видна і зрозуміла, завдяки звітам та статистиці. Це гарантує, що кожна витрачена година буде гідно оцінена."
       }
     }
@@ -243,66 +243,92 @@
       {
         "id": 0,
         "question": {
-          "ru": "Как начать работу с приложением?",
-          "en": "How to get started with the application?",
-          "ua": "Як розпочати роботу з додатком?"
+          "ru": "Сколько стоит Master's Way?",
+          "en": "How much does Master's Way cost?",
+          "ua": "Скільки коштує Master's Way?"
         },
         "answer": {
-          "ru": "Зарегистрируйтесь в системе, указав свои контактные данные и информацию о профессиональном опыте. Это позволит вам создать профиль ментора, который будет доступен вашим ученикам. После создания профиля вам будет предложено настроить путь обучения для ваших учеников. Вы можете добавить задания, контрольные точки и другие материалы, которые помогут организовать процесс обучения. Вся информация сохраняется и доступна для редактирования. В процессе обучения вы можете отслеживать прогресс учеников, оставлять комментарии к выполненным заданиям и вести отчетность. Все данные будут сохранены в системе, что позволяет вам и вашим ученикам легко отслеживать достигнутые результаты.",
-          "en": "Register in the system by providing your contact details and information about your professional experience. This will allow you to create a mentor profile that will be available to your students. After creating a profile, you will be prompted to set up a learning path for your students. You can add assignments, checkpoints, and other materials to help organize your learning process. All information is saved and available for editing. During the learning process, you can track student progress, leave comments on completed assignments, and keep reports. All data will be saved in the system, allowing you and your students to easily track the results achieved.",
-          "ua": "Зареєструйтесь у системі, вказавши свої контактні дані та інформацію про професійний досвід. Це дозволить вам створити профіль ментора, який буде доступний вашим учням. Після створення профілю вам буде запропоновано налаштувати шлях навчання для ваших учнів. Ви можете додати завдання, контрольні точки та інші матеріали, які допоможуть організувати навчання. Вся інформація зберігається та доступна для редагування. У процесі навчання ви можете відстежувати прогрес учнів, залишати коментарі до виконаних завдань та вести звітність. Всі дані будуть збережені в системі, що дозволяє вам та вашим учням легко відстежувати досягнуті результати."
+          "ru": "Master's Way предлагает различные тарифные планы для удовлетворения различных потребностей. Посетите наш веб-сайт, чтобы получить подробную информацию о ценах и найти план, который подходит именно вам.",
+          "en": "Master's Way offers various pricing plans to suit different needs. Visit our website for detailed pricing information and to find the plan that's right for you.",
+          "ua": "Master's Way пропонує різні тарифні плани відповідно до різних потреб. Відвідайте наш веб-сайт, щоб отримати детальну інформацію про ціни та знайти план, який підходить саме вам."
         }
       },
       {
         "id": 1,
         "question": {
-          "ru": "Есть ли возможность интеграции с другими инструментами или платформами?",
-          "en": "Is it possible to integrate with other tools or platforms?",
-          "ua": "Чи є можливість інтеграції з іншими інструментами чи платформами?"
+          "ru": "Могу ли я попробовать Master's Way, прежде чем совершить сделку?",
+          "en": "Can I try Master's Way before I commit?",
+          "ua": "Чи можу я спробувати Master's Way, перш ніж взяти на себе зобов'язання?"
         },
         "answer": {
-          "ru": "Наше веб-приложение поддерживает интеграции с различными инструментами и платформами для улучшения процесса обучения. Эти интеграции позволяют легко обмениваться материалами, синхронизировать расписания и организовывать взаимодействие с учениками, делая процесс обучения еще более удобным и эффективным.",
-          "en": "Our web application supports integrations with various tools and platforms to enhance the learning experience. These integrations make it easy to share materials, synchronize schedules, and organize interactions with students, making the learning process even more convenient and effective.",
-          "ua": "Наш веб-додаток підтримує інтеграції з різними інструментами та платформами для покращення процесу навчання. Ці інтеграції дозволяють легко обмінюватися матеріалами, синхронізувати розклади та організовувати взаємодію з учнями, роблячи процес навчання ще зручнішим та ефективнішим."
+          "ru": "Да, мы предлагаем бесплатный план, чтобы вы могли лично ощутить преимущества Master's Way. Подпишитесь на бесплатный план на нашем веб-сайте, чтобы изучить платформу и посмотреть, как она может изменить ваш опыт наставничества.",
+          "en": "Yes, we offer a free plan so you can experience the benefits of Master's Way firsthand. Sign up for a free plan on our website to explore the platform and see how it can transform your mentoring experience.",
+          "ua": "Так, ми пропонуємо безкоштовний план, щоб ви могли на власні очі відчути переваги Master's Way. Підпишіться на безкоштовний план на нашому веб-сайті, щоб дослідити платформу та побачити, як вона може змінити ваш досвід наставництва."
         }
       },
       {
         "id": 2,
         "question": {
-          "ru": "Могу ли я адаптировать путь обучения для разных учеников?",
-          "en": "Can I tailor the learning path for different students?",
-          "ua": "Чи можу я адаптувати шлях навчання для різних учнів?"
+          "ru": "Как начать работу с приложением?",
+          "en": "How do I get started with Master's Way?",
+          "ua": "Як розпочати роботу з додатком?"
         },
         "answer": {
-          "ru": "Да, вы можете адаптировать путь обучения под каждого ученика, изменяя задания, сроки и контрольные точки в соответствии с их индивидуальными потребностями. Это позволяет создать персонализированный подход к обучению, учитывая разные уровни подготовки и цели.",
-          "en": "Yes, you can tailor the learning path to each student, changing assignments, deadlines, and milestones to suit their individual needs. This allows you to create a personalized approach to learning, taking into account different levels of training and goals.",
-          "ua": "Так, ви можете адаптувати шлях навчання під кожного учня, змінюючи завдання, терміни та контрольні точки відповідно до їх індивідуальних потреб. Це дозволяє створити персоналізований підхід до навчання з огляду на різні рівні підготовки та мети."
+          "ru": "Это просто! Просто посетите наш сайт и создайте учетную запись. Мы предоставляем комплексные инструкции и поддержку, которые помогут вам ориентироваться на платформе и начать эффективно использовать Master's Way.",
+          "en": "It's easy to get started! Simply visit our website and create an account. We provide comprehensive tutorials and support to help you navigate the platform and start using Master's Way effectively.",
+          "ua": "Почати легко! Просто відвідайте наш сайт та створіть обліковий запис. Ми надаємо комплексні інструкції та підтримку, які допоможуть вам орієнтуватися на платформі та почати ефективно використовувати Master's Way."
         }
       },
       {
         "id": 3,
         "question": {
-          "ru": "Как обеспечить обратную связь ученикам?",
-          "en": "How to provide feedback to students?",
-          "ua": "Як забезпечити зворотній зв'язок учням?"
+          "ru": "Что такое асинхронное обучение и какую пользу оно принесет мне как ментору?",
+          "en": "What is asynchronous learning, and how does it benefit me as a mentor?",
+          "ua": "Що таке асинхронне навчання і яку користь воно принесе мені як ментору?"
         },
         "answer": {
-          "ru": "Обратная связь в нашем приложении предоставляется с помощью нескольких инструментов, которые помогают менторам поддерживать эффективное взаимодействие с учениками: \n\n1. Комментарии к заданиям: вы можете оставлять комментарии к каждому выполненному заданию ученика, предоставляя подробный отзыв о его работе, отмечая успехи и указывая на области, требующие улучшения. \n\n2. Чат или сообщения: приложение поддерживает внутренний чат, где вы можете отвечать на вопросы учеников, давать советы и предоставлять рекомендации в режиме реального времени. \n\n3. Регулярные отчеты: вы можете отправлять отчеты о прогрессе ученика, подводя итоги проделанной работы и устанавливая цели на будущее. Это помогает ученикам видеть свой путь и оставаться мотивированными.",
-          "en": "Feedback in our app is provided through several tools that help mentors maintain effective interactions with students: \n\n1. Assignment Comments: You can leave comments on each student's completed assignment, providing detailed feedback on their work, celebrating successes, and pointing out areas for improvement. \n\n2. Chat or Messages: The app supports an internal chat where you can answer student questions, give advice, and provide recommendations in real time. \n\n3. Regular reports: You can send reports on the student's progress, summarizing the work done and setting goals for the future. This helps students see their path and stay motivated.",
-          "ua": "Зворотній зв'язок у нашому додатку надається за допомогою кількох інструментів, які допомагають менторам підтримувати ефективну взаємодію з учнями: \n\n1. Коментарі до завдань: ви можете залишати коментарі до кожного виконаного завдання учня, надаючи докладний відгук про його роботу, відзначаючи успіхи та вказуючи на області, які потребують покращення. \n\n2. Чат або повідомлення: програма підтримує внутрішній чат, де ви можете відповідати на запитання учнів, давати поради та надавати рекомендації в режимі реального часу. \n\n3. Регулярні звіти: ви можете надсилати звіти про прогрес учня, підбиваючи підсумки виконаної роботи та встановлюючи цілі на майбутнє. Це допомагає учням бачити свій шлях та залишатися мотивованими."
+          "ru": "Асинхронное обучение позволяет вам взаимодействовать со своими учениками вне встреч в режиме реального времени. Это означает, что вы можете оставлять отзывы, проводить уроки и отслеживать прогресс в удобное для вас время, освобождая свое время и позволяя работать со студентами в разных часовых поясах.",
+          "en": "Asynchronous learning allows you to interact with your students outside of real-time meetings. This means you can provide feedback, deliver lessons, and track progress at your convenience, freeing up your time and allowing you to work with students across different time zones.",
+          "ua": "Асинхронне навчання дозволяє вам спілкуватися зі своїми учнями поза межами зустрічей у реальному часі. Це означає, що ви можете надавати відгуки, проводити уроки та відстежувати прогрес у зручний для вас час, звільняючи час і дозволяючи вам працювати зі студентами в різних часових поясах."
         }
       },
       {
         "id": 4,
         "question": {
-          "ru": "Как работает система безопасности данных?",
-          "en": "How does the data security system work?",
-          "ua": "Як працює система безпеки даних?"
+          "ru": "Как Master's Way помогает мне отслеживать прогресс учащихся?",
+          "en": "How does Master's Way help me track student progress?",
+          "ua": "Як Master's Way допомагає мені відстежувати прогрес студента?"
         },
         "answer": {
-          "ru": "Мы обеспечиваем безопасность данных с помощью шифрования, защищенного хранения. Регулярные обновления безопасности и контроль доступа гарантируют защиту конфиденциальной информации.",
-          "en": "We ensure data security through encryption and secure storage. Regular security updates and access control ensure the protection of confidential information.",
-          "ua": "Ми забезпечуємо безпеку даних за допомогою шифрування, захищеного зберігання. Регулярні оновлення безпеки та контроль доступу гарантують захист конфіденційної інформації."
+          "ru": "Master's Way предоставляет подробные отчеты о деятельности учащихся, включая время, потраченное на уроки, выполненные тесты и сданные задания. Эти данные помогут вам определить области, где учащимся нужна дополнительная поддержка, и отметить их достижения.",
+          "en": "Master's Way provides detailed reports on student activity, including time spent on lessons, tests completed, and assignments submitted. This data helps you identify areas where students need extra support and celebrate their achievements.",
+          "ua": "Master's Way надає докладні звіти про діяльність студентів, включаючи час, витрачений на уроки, виконані тести та подані завдання. Ці дані допомагають визначити сфери, де студентам потрібна додаткова підтримка, і відзначити їхні досягнення."
+        }
+      },
+      {
+        "id": 5,
+        "question": {
+          "ru": "Могу ли я адаптировать свой подход к наставничеству с помощью Master's Way?",
+          "en": "Can I customize my mentoring approach with Master's Way?",
+          "ua": "Чи можу я налаштувати свій наставницький підхід за допомогою Master's Way?"
+        },
+        "answer": {
+          "ru": "Абсолютно! Master's Way предлагает гибкую платформу, которая позволяет вам адаптировать свой стиль наставничества. Вы можете создавать индивидуальные уроки, ставить цели и предоставлять персонализированную обратную связь для удовлетворения уникальных потребностей каждого учащегося.",
+          "en": "Absolutely! Master's Way offers a flexible platform that allows you to tailor your mentoring style. You can create custom lessons, set goals, and provide personalized feedback to meet the unique needs of each student.",
+          "ua": "Абсолютно! Master's Way пропонує гнучку платформу, яка дозволяє вам адаптувати свій стиль наставництва. Ви можете створювати спеціальні уроки, встановлювати цілі та надавати індивідуальні відгуки, щоб задовольнити унікальні потреби кожного учня."
+        }
+      },
+      {
+        "id": 6,
+        "question": {
+          "ru": "Как Master's Way помогает мне управлять несколькими студентами?",
+          "en": "How does Master's Way help me manage multiple students?",
+          "ua": "Як Master's Way допомагає мені керувати кількома студентами?"
+        },
+        "answer": {
+          "ru": "Master's Way позволяет легко управлять несколькими студентами благодаря интуитивно понятному интерфейсу и организованной панели управления. Вы можете отслеживать прогресс, общаться с учащимися и эффективно предоставлять обратную связь даже в большой группе.",
+          "en": "Master's Way makes it easy to manage multiple students with its intuitive interface and organized dashboard. You can track progress, communicate with students, and provide feedback efficiently, even with a large group.",
+          "ua": "Master's Way дозволяє легко керувати кількома студентами завдяки інтуїтивно зрозумілому інтерфейсу та організованій інформаційній панелі. Ви можете відстежувати прогрес, спілкуватися зі студентами та ефективно надавати зворотній зв’язок навіть у великій групі."
         }
       }
     ]
