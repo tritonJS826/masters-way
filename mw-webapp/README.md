@@ -1,18 +1,5 @@
 # mw-webapp 
 
-## Requirements
-
-Ensure you have the following tools installed before proceeding:
-
-- [Node.js](https://nodejs.org/) v22.5.1 (we recommend using [nvm](https://github.com/nvm-sh/nvm) or [n](https://github.com/tj/n) for installation)
-- [pnpm](https://pnpm.io/) v8.15.2
-- [Vite](https://vitejs.dev/) v5.4.1
-- [TypeScript](https://www.typescriptlang.org/) v5.3.3
-- [React](https://reactjs.org/) v18.2.0
-
-Additional tools:
-- [Docker](https://www.docker.com/) v24.0.7
-- [Docker Compose](https://docs.docker.com/compose/) v1.29.2
 
 ### Run in dev mode locally
 
