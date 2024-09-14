@@ -1,15 +1,13 @@
 @import "src/styles/variables";
 
-$maxWidthTitleBlock: 780px;
-
 .titleBlock {
-  max-width: $maxWidthTitleBlock;
   gap: $gapLarge;
 }
 
 .title {
   display: inline;
   text-align: center;
+  white-space: pre-wrap;
 
   & h2 {
     font-size: $fontSizeTitleBig;
@@ -101,6 +99,7 @@ $maxWidthTitleBlock: 780px;
 .problems {
   width: 100%;
   gap: $gapLarge;
+  white-space: pre-wrap;
 }
 
 .accordion {

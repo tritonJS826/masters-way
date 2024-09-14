@@ -190,11 +190,6 @@ export const MentorsLandingPage = observer(() => {
               title={LanguageService.mentorsLanding.advantages.monitoringAchievements.title[language]}
               description={LanguageService.mentorsLanding.advantages.monitoringAchievements.description[language]}
             />
-            <AdvantageItem
-              iconName="BoxIcon"
-              title={LanguageService.mentorsLanding.advantages.smartLearningManagement.title[language]}
-              description={LanguageService.mentorsLanding.advantages.smartLearningManagement.description[language]}
-            />
           </HorizontalContainer>
         </div>
 

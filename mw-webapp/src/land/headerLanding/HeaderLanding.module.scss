@@ -2,6 +2,7 @@
 
 .header {
   position: sticky;
+  z-index: $headerLandingZIndex;
   top: 0;
   display: flex;
   width: 100%;
