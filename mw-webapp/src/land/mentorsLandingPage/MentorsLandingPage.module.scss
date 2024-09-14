@@ -108,6 +108,7 @@
 }
 
 .triesContainer {
+  flex-wrap: wrap;
   padding: $paddingLarge;
   border-radius: $primaryBorderRadius;
   background-color: var(--primaryBgColor);
@@ -132,4 +133,9 @@
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;
   gap: $gapExtraLarge;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+    justify-content: center;
+  }
 }
