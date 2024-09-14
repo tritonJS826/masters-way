@@ -596,24 +596,20 @@ const docTemplate = `{
         "schemas.UploadFileResponse": {
             "type": "object",
             "required": [
-                "Id",
-                "Name",
-                "OwnerId",
-                "iconUrl",
+                "id",
+                "name",
+                "ownerId",
                 "previewUrl",
                 "srcUrl"
             ],
             "properties": {
-                "Id": {
+                "id": {
                     "type": "string"
                 },
-                "Name": {
+                "name": {
                     "type": "string"
                 },
-                "OwnerId": {
-                    "type": "string"
-                },
-                "iconUrl": {
+                "ownerId": {
                     "type": "string"
                 },
                 "previewUrl": {

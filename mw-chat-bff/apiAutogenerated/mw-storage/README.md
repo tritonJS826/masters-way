@@ -81,17 +81,10 @@ Class | Method | HTTP request | Description
 *DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
 *FileAPI* | [**DeleteFiles**](docs/FileAPI.md#deletefiles) | **Delete** /files | Delete files by IDs
 *FileAPI* | [**UploadFile**](docs/FileAPI.md#uploadfile) | **Post** /files | Upload file to storage
-*MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message
-*MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
 
 
 ## Documentation For Models
 
- - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
- - [SchemasCreateMessageResponse](docs/SchemasCreateMessageResponse.md)
- - [SchemasMessageReader](docs/SchemasMessageReader.md)
- - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
- - [SchemasUpdateMessageStatusPayload](docs/SchemasUpdateMessageStatusPayload.md)
  - [SchemasUploadFileResponse](docs/SchemasUploadFileResponse.md)
 
 

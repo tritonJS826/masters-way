@@ -1,15 +1,15 @@
 package controllers
 
+import "mwstorage/internal/services"
+
 type Controller struct {
-	FileController     *FileController
-	MessagesController *MessageController
-	DevController      *DevController
+	FileController *FileController
+	DevController  *DevController
 }
 
-func NewController() *Controller {
+func NewController(services *services.Service) *Controller {
 	return &Controller{
-		FileController: NewFileController(),
-		// MessagesController: NewMessagesController(services.MessagesService),
-		// DevController:      NewDevController(services.DevService),
+		FileController: NewFileController(services.FileService, services.GoogleDriveService),
+		DevController:  NewDevController(services.DevService),
 	}
 }

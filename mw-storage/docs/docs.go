@@ -94,188 +94,26 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/messages": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "message"
-                ],
-                "summary": "Create message",
-                "operationId": "create-message",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessageResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/messages/{messageId}/message-status": {
-            "patch": {
-                "description": "Update message status by message Id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "message"
-                ],
-                "summary": "Update message status",
-                "operationId": "update-message-status",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.UpdateMessageStatusPayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "message Id",
-                        "name": "messageId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
         }
     },
     "definitions": {
-        "schemas.CreateMessagePayload": {
-            "type": "object",
-            "required": [
-                "message",
-                "roomId"
-            ],
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "roomId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.CreateMessageResponse": {
-            "type": "object",
-            "required": [
-                "message",
-                "users"
-            ],
-            "properties": {
-                "message": {
-                    "$ref": "#/definitions/schemas.MessageResponse"
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "schemas.MessageReader": {
-            "type": "object",
-            "required": [
-                "readDate",
-                "userId"
-            ],
-            "properties": {
-                "readDate": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.MessageResponse": {
-            "type": "object",
-            "required": [
-                "message",
-                "messageId",
-                "messageReaders",
-                "ownerId"
-            ],
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "messageId": {
-                    "type": "string"
-                },
-                "messageReaders": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.MessageReader"
-                    }
-                },
-                "ownerId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.UpdateMessageStatusPayload": {
-            "type": "object",
-            "required": [
-                "isRead"
-            ],
-            "properties": {
-                "isRead": {
-                    "type": "boolean"
-                }
-            }
-        },
         "schemas.UploadFileResponse": {
             "type": "object",
             "required": [
-                "Id",
-                "Name",
-                "OwnerId",
-                "iconUrl",
+                "id",
+                "name",
+                "ownerId",
                 "previewUrl",
                 "srcUrl"
             ],
             "properties": {
-                "Id": {
+                "id": {
                     "type": "string"
                 },
-                "Name": {
+                "name": {
                     "type": "string"
                 },
-                "OwnerId": {
-                    "type": "string"
-                },
-                "iconUrl": {
+                "ownerId": {
                     "type": "string"
                 },
                 "previewUrl": {

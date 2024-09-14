@@ -7,6 +7,8 @@ import (
 	"mwstorage/internal/config"
 	"mwstorage/internal/controllers"
 	"mwstorage/internal/routers"
+	"mwstorage/internal/services"
+	"mwstorage/pkg/database"
 	"net/http"
 	"os"
 	"os/signal"
@@ -24,15 +26,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	// newPool, err := database.NewPostgresDB(&newConfig)
-	// if err != nil {
-	// 	fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
-	// 	os.Exit(1)
-	// }
-	// defer newPool.Close()
+	newPool, err := database.NewPostgresDB(&newConfig)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
+		os.Exit(1)
+	}
+	defer newPool.Close()
 
-	// newService := services.NewService(newPool)
-	newController := controllers.NewController()
+	newService := services.NewService(newPool)
+	newController := controllers.NewController(newService)
 
 	newRouter := routers.NewRouter(&newConfig, newController)
 	newRouter.SetRoutes()

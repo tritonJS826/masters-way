@@ -1,81 +1,21 @@
 basePath: /storage
 definitions:
-  schemas.CreateMessagePayload:
-    properties:
-      message:
-        type: string
-      roomId:
-        type: string
-    required:
-    - message
-    - roomId
-    type: object
-  schemas.CreateMessageResponse:
-    properties:
-      message:
-        $ref: '#/definitions/schemas.MessageResponse'
-      users:
-        items:
-          type: string
-        type: array
-    required:
-    - message
-    - users
-    type: object
-  schemas.MessageReader:
-    properties:
-      readDate:
-        type: string
-      userId:
-        type: string
-    required:
-    - readDate
-    - userId
-    type: object
-  schemas.MessageResponse:
-    properties:
-      message:
-        type: string
-      messageId:
-        type: string
-      messageReaders:
-        items:
-          $ref: '#/definitions/schemas.MessageReader'
-        type: array
-      ownerId:
-        type: string
-    required:
-    - message
-    - messageId
-    - messageReaders
-    - ownerId
-    type: object
-  schemas.UpdateMessageStatusPayload:
-    properties:
-      isRead:
-        type: boolean
-    required:
-    - isRead
-    type: object
   schemas.UploadFileResponse:
     properties:
-      Id:
+      id:
         type: string
-      Name:
+      name:
         type: string
-      OwnerId:
-        type: string
-      iconUrl:
+      ownerId:
         type: string
       previewUrl:
         type: string
       srcUrl:
         type: string
     required:
-    - Id
-    - Name
-    - OwnerId
-    - iconUrl
+    - id
+    - name
+    - ownerId
     - previewUrl
     - srcUrl
     type: object
@@ -138,52 +78,4 @@ paths:
       summary: Upload file to storage
       tags:
       - file
-  /messages:
-    post:
-      consumes:
-      - application/json
-      operationId: create-message
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateMessagePayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.CreateMessageResponse'
-      summary: Create message
-      tags:
-      - message
-  /messages/{messageId}/message-status:
-    patch:
-      consumes:
-      - application/json
-      description: Update message status by message Id
-      operationId: update-message-status
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.UpdateMessageStatusPayload'
-      - description: message Id
-        in: path
-        name: messageId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Update message status
-      tags:
-      - message
 swagger: "2.0"

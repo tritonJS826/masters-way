@@ -30,6 +30,5 @@ func (cs *FileService) UploadFile(request *http.Request, googleToken string) (*s
 		Name:       filePreviewRaw.Name,
 		PreviewURL: filePreviewRaw.PreviewUrl,
 		SrcURL:     filePreviewRaw.SrcUrl,
-		IconURL:    filePreviewRaw.IconUrl,
 	}, nil
 }

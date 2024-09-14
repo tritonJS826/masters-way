@@ -58,165 +58,36 @@ paths:
       summary: Upload file to storage
       tags:
       - file
-  /messages:
-    post:
-      operationId: create-message
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.CreateMessagePayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.CreateMessageResponse'
-          description: OK
-      summary: Create message
-      tags:
-      - message
-      x-codegen-request-body-name: request
-  /messages/{messageId}/message-status:
-    patch:
-      description: Update message status by message Id
-      operationId: update-message-status
-      parameters:
-      - description: message Id
-        in: path
-        name: messageId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.UpdateMessageStatusPayload'
-        description: query params
-        required: true
-      responses:
-        "204":
-          content: {}
-          description: No Content
-      summary: Update message status
-      tags:
-      - message
-      x-codegen-request-body-name: request
 components:
   schemas:
-    schemas.CreateMessagePayload:
-      properties:
-        message:
-          type: string
-        roomId:
-          type: string
-      required:
-      - message
-      - roomId
-      type: object
-    schemas.CreateMessageResponse:
-      example:
-        message:
-          messageReaders:
-          - readDate: readDate
-            userId: userId
-          - readDate: readDate
-            userId: userId
-          messageId: messageId
-          message: message
-          ownerId: ownerId
-        users:
-        - users
-        - users
-      properties:
-        message:
-          $ref: '#/components/schemas/schemas.MessageResponse'
-        users:
-          items:
-            type: string
-          type: array
-      required:
-      - message
-      - users
-      type: object
-    schemas.MessageReader:
-      example:
-        readDate: readDate
-        userId: userId
-      properties:
-        readDate:
-          type: string
-        userId:
-          type: string
-      required:
-      - readDate
-      - userId
-      type: object
-    schemas.MessageResponse:
-      example:
-        messageReaders:
-        - readDate: readDate
-          userId: userId
-        - readDate: readDate
-          userId: userId
-        messageId: messageId
-        message: message
-        ownerId: ownerId
-      properties:
-        message:
-          type: string
-        messageId:
-          type: string
-        messageReaders:
-          items:
-            $ref: '#/components/schemas/schemas.MessageReader'
-          type: array
-        ownerId:
-          type: string
-      required:
-      - message
-      - messageId
-      - messageReaders
-      - ownerId
-      type: object
-    schemas.UpdateMessageStatusPayload:
-      properties:
-        isRead:
-          type: boolean
-      required:
-      - isRead
-      type: object
     schemas.UploadFileResponse:
       example:
         previewUrl: previewUrl
-        OwnerId: OwnerId
+        name: name
         srcUrl: srcUrl
-        Id: Id
-        iconUrl: iconUrl
-        Name: Name
+        id: id
+        ownerId: ownerId
+        type: type
       properties:
-        Id:
+        id:
           type: string
-        Name:
+        name:
           type: string
-        OwnerId:
-          type: string
-        iconUrl:
+        ownerId:
           type: string
         previewUrl:
           type: string
         srcUrl:
           type: string
+        type:
+          type: string
       required:
-      - Id
-      - Name
-      - OwnerId
-      - iconUrl
+      - id
+      - name
+      - ownerId
       - previewUrl
       - srcUrl
+      - type
       type: object
     upload_file_request:
       properties:

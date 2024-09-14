@@ -501,29 +501,25 @@ components:
     schemas.UploadFileResponse:
       example:
         previewUrl: previewUrl
-        OwnerId: OwnerId
+        name: name
         srcUrl: srcUrl
-        Id: Id
-        iconUrl: iconUrl
-        Name: Name
+        id: id
+        ownerId: ownerId
       properties:
-        Id:
+        id:
           type: string
-        Name:
+        name:
           type: string
-        OwnerId:
-          type: string
-        iconUrl:
+        ownerId:
           type: string
         previewUrl:
           type: string
         srcUrl:
           type: string
       required:
-      - Id
-      - Name
-      - OwnerId
-      - iconUrl
+      - id
+      - name
+      - ownerId
       - previewUrl
       - srcUrl
       type: object
