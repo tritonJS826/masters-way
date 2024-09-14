@@ -45,4 +45,8 @@
 
 .reversed {
   flex-direction: row-reverse;
+
+  @media (max-width: $mediaWidthTablet) {
+    flex-direction: column;
+  }
 }
