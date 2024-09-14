@@ -1,36 +1,6 @@
 # mw-webapp 
 
 
-### Run in dev mode locally
-
-1. Download repository
-
-2. Install all dependencies in the root directory
-  Run:
-   ```sh
-   pnpm run install:all
-   ```
-3. Create .env file inside all modules with variables from .env.local.example (run "useEnvs.sh" script for such purpose)
-
-`./useEnvs.sh local`
-
-## Docker
-
-To run the application using Docker:
-
-1. Ensure you have Docker and Docker Compose installed.
-2. Navigate to the project root directory.
-3. Run:
-   ```sh
-   docker-compose -f local.docker-compose.yml up
-   ```
-
-
-## Start project 
-  - Run:
-   ```sh
-  pnpm run start
-   ```
 
 ## Testing
 
