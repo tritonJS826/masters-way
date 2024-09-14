@@ -126,6 +126,7 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
           buttonType={ButtonType.PRIMARY}
           value={LanguageService.mentorsLanding.callToActionButton[props.language]}
           onClick={() => navigate(pages.home.getPath({}))}
+          className={styles.tryHeaderButton}
         />
       </HorizontalContainer>
     </header>
