@@ -12,8 +12,6 @@
 - Run component tests:
   ```sh
   pnpm cypress:component:run
-  ```
-
 - Run end-to-end tests:
   ```sh
   pnpm cypress:e2e:run
