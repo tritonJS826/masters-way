@@ -16,6 +16,7 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {Tab, TabItemProps} from "src/component/tab/Tab";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -294,6 +295,117 @@ export const UserPage = observer((props: UserPageProps) => {
   const notificationFavoriteUsers = getIsUserInFavorites(user, userPageOwner)
     ? LanguageService.user.notifications.userRemovedFromFavorites[language]
     : LanguageService.user.notifications.userAddedToFavorites[language];
+
+  const tabList: TabItemProps[] = [
+    {
+      id: "0",
+      tabTrigger: {
+        id: "0",
+        value: "Collections",
+      },
+      tabContent: {
+        id: "0",
+        value: (
+          <VerticalContainer className={styles.tabsSectionContainer}>
+            <VerticalContainer className={styles.collectionGroup}>
+              <HorizontalContainer>
+                <Infotip content={LanguageService.user.infotip.basicCollections[language]} />
+                <Title
+                  level={HeadingLevel.h2}
+                  text={LanguageService.user.collections.defaultCollections[language]}
+                  placeholder=""
+                />
+              </HorizontalContainer>
+              <HorizontalContainer className={styles.tabsSection}>
+
+                <WayCollectionCard
+                  isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
+                  collectionTitle={LanguageService.user.collections.own[language]}
+                  collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
+                  onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
+                  language={language}
+                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton}
+                />
+
+                <WayCollectionCard
+                  isActive={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId}
+                  collectionTitle={LanguageService.user.collections.mentoring[language]}
+                  collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
+                  onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
+                  language={language}
+                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton}
+                />
+
+                <WayCollectionCard
+                  isActive={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId}
+                  collectionTitle={LanguageService.user.collections.favorite[language]}
+                  collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
+                  onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
+                  language={language}
+                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.favoriteWayCollectionButton}
+                />
+              </HorizontalContainer>
+            </VerticalContainer>
+
+            <VerticalContainer className={styles.collectionGroup}>
+              <HorizontalContainer>
+                <Infotip content={LanguageService.user.infotip.customCollections[language]} />
+                <Title
+                  level={HeadingLevel.h2}
+                  text={LanguageService.user.collections.customCollections[language]}
+                  placeholder=""
+                />
+              </HorizontalContainer>
+
+              <HorizontalContainer className={styles.tabsSection}>
+                {userPageOwner.customWayCollections.map(collection => (
+                  <WayCollectionCard
+                    key={collection.uuid}
+                    isActive={collection.uuid === openedTabId}
+                    collectionTitle={collection.name}
+                    collectionWaysAmount={collection.ways.length}
+                    onClick={() => setOpenedTabId(collection.uuid)}
+                    language={language}
+                    isEditable={isPageOwner}
+                    onTitleEdit={(name) => {
+                      collection.updateWayCollectionName(name);
+                      updateCustomWayCollection({id: openedTabId, name});
+                    }}
+                    onDelete={() => deleteCustomWayCollections(currentCollection.uuid)}
+                  />
+                ))}
+
+                {isPageOwner && (
+                  <Button
+                    value={LanguageService.user.collections.addCollection[language]}
+                    onClick={createCustomWayCollection}
+                    buttonType={ButtonType.SECONDARY}
+                  />
+                )}
+
+              </HorizontalContainer>
+            </VerticalContainer>
+          </VerticalContainer>
+        ),
+      },
+      value: "Tab 1",
+    },
+    {
+      id: "1",
+      tabTrigger: {
+        id: "1",
+        value: "Projects",
+      },
+      tabContent: {
+        id: "1",
+        value: (
+          <VerticalContainer className={styles.tabsSectionContainer}>
+            Coming soon...
+          </VerticalContainer>),
+      },
+      value: "Tab 2",
+    },
+  ];
 
   return (
     <VerticalContainer className={styles.pageLayout}>
@@ -631,87 +743,7 @@ export const UserPage = observer((props: UserPageProps) => {
         </HorizontalGridContainer>
       </VerticalContainer>
 
-      <VerticalContainer className={styles.tabsSectionContainer}>
-        <VerticalContainer className={styles.collectionGroup}>
-          <HorizontalContainer>
-            <Infotip content={LanguageService.user.infotip.basicCollections[language]} />
-            <Title
-              level={HeadingLevel.h2}
-              text={LanguageService.user.collections.defaultCollections[language]}
-              placeholder=""
-            />
-          </HorizontalContainer>
-          <HorizontalContainer className={styles.tabsSection}>
-
-            <WayCollectionCard
-              isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
-              collectionTitle={LanguageService.user.collections.own[language]}
-              collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
-              onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
-              language={language}
-              dataCy={userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton}
-            />
-
-            <WayCollectionCard
-              isActive={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId}
-              collectionTitle={LanguageService.user.collections.mentoring[language]}
-              collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
-              onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
-              language={language}
-              dataCy={userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton}
-            />
-
-            <WayCollectionCard
-              isActive={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId}
-              collectionTitle={LanguageService.user.collections.favorite[language]}
-              collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
-              onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
-              language={language}
-              dataCy={userWaysAccessIds.wayCollectionButtonsBlock.favoriteWayCollectionButton}
-            />
-          </HorizontalContainer>
-        </VerticalContainer>
-
-        <VerticalContainer className={styles.collectionGroup}>
-          <HorizontalContainer>
-            <Infotip content={LanguageService.user.infotip.customCollections[language]} />
-            <Title
-              level={HeadingLevel.h2}
-              text={LanguageService.user.collections.customCollections[language]}
-              placeholder=""
-            />
-          </HorizontalContainer>
-
-          <HorizontalContainer className={styles.tabsSection}>
-            {userPageOwner.customWayCollections.map(collection => (
-              <WayCollectionCard
-                key={collection.uuid}
-                isActive={collection.uuid === openedTabId}
-                collectionTitle={collection.name}
-                collectionWaysAmount={collection.ways.length}
-                onClick={() => setOpenedTabId(collection.uuid)}
-                language={language}
-                isEditable={isPageOwner}
-                onTitleEdit={(name) => {
-                  collection.updateWayCollectionName(name);
-                  updateCustomWayCollection({id: openedTabId, name});
-                }}
-                onDelete={() => deleteCustomWayCollections(currentCollection.uuid)}
-              />
-            ))}
-
-            {isPageOwner && (
-              <Button
-                value={LanguageService.user.collections.addCollection[language]}
-                onClick={createCustomWayCollection}
-                className={styles.collectionButton}
-                buttonType={ButtonType.SECONDARY}
-              />
-            )}
-
-          </HorizontalContainer>
-        </VerticalContainer>
-      </VerticalContainer>
+      <Tab tabList={tabList} />
 
       <BaseWaysTable
         key={currentCollection.uuid}

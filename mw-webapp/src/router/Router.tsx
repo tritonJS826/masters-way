@@ -41,6 +41,11 @@ export const router = createBrowserRouter(
           errorElement={pages.page404.getPageComponent({})}
         />
         <Route
+          path={pages.project.getPath({uuid: ":uuid"})}
+          element={<WithValidatedParams paramsSchema={pages.project} />}
+          errorElement={pages.page404.getPageComponent({})}
+        />
+        <Route
           path={pages.allUsers.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.allUsers} />}
           errorElement={pages.page404.getPageComponent({})}
