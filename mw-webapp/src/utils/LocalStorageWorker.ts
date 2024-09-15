@@ -113,9 +113,9 @@ export type LocalStorageData = {
   allUsersPage: AllUsersPageSettings;
 
   /**
-   * Setting page data
+   * Is OS notification allowed
    */
-  settingPage: SettingPageSettings;
+  isOSNotificationAllowed: boolean;
 
 }
 
@@ -194,13 +194,4 @@ export type AllUsersPageSettings = {
    * Settled view
    */
   view: View;
-}
-
-export type SettingPageSettings = {
-
-  /**
-   * If true notifications is allowed
-   * @default false
-   */
-  isNotificationAllowed: boolean;
 }

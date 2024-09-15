@@ -10,23 +10,15 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {LanguageService} from "src/service/LanguageService";
-import {SettingPageSettings} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
-
-const DEFAULT_SETTING_PAGE_SETTINGS: SettingPageSettings = {isNotificationAllowed: false};
 
 /**
  * Settings page
  */
 export const SettingsPage = observer(() => {
   const {language, setLanguage} = languageStore;
-
-  const [settingPageSettings, updateSettingPageSettings] = usePersistanceState({
-    key: "settingPage",
-    defaultValue: DEFAULT_SETTING_PAGE_SETTINGS,
-  });
+  const {isNotificationsEnabled, setIsOSNotificationAllowed: setIsOSNotification} = serviceWorkerStore;
 
   return (
     <VerticalContainer className={styles.container}>
@@ -74,16 +66,16 @@ export const SettingsPage = observer(() => {
             content={LanguageService.settings.comingSoon[language]}
           >
             <Button
-              value={settingPageSettings.isNotificationAllowed
+              value={isNotificationsEnabled
                 ? LanguageService.settings.notification.notEnableSystemNotificationsButton[language]
                 : LanguageService.settings.notification.enableSystemNotificationsButton[language]
               }
               onClick={() => {
-                updateSettingPageSettings({isNotificationAllowed: !settingPageSettings.isNotificationAllowed});
+                setIsOSNotification(!isNotificationsEnabled);
                 serviceWorkerStore.requestPermission();
                 serviceWorkerStore.systemNotification({
                   title: LanguageService.settings.notification.enableSystemNotificationsTitle[language],
-                  text: settingPageSettings.isNotificationAllowed
+                  text: isNotificationsEnabled
                     ? LanguageService.settings.notification.notEnableSystemNotificationsText[language]
                     : LanguageService.settings.notification.enableSystemNotificationsText[language],
                   tag: SystemNotificationTag.TEST,

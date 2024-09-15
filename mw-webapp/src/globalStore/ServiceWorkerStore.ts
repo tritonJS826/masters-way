@@ -1,6 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
-import {localStorageWorker, SettingPageSettings} from "src/utils/LocalStorageWorker";
+import {localStorageWorker} from "src/utils/LocalStorageWorker";
 
 /**
  * Available notification tags
@@ -48,6 +48,7 @@ class ServiceWorker {
 
   constructor() {
     makeAutoObservable(this);
+    this.loadIsOSNotificationAllowed();
   }
 
   /**
@@ -100,6 +101,23 @@ class ServiceWorker {
   };
 
   /**
+   * Set IsOSNotification
+   */
+  public setIsOSNotificationAllowed = (isOSNotificationAllowed: boolean) => {
+    localStorageWorker.setItemByKey("isOSNotificationAllowed", isOSNotificationAllowed);
+
+    this.isNotificationsEnabled = isOSNotificationAllowed;
+  };
+
+  /**
+   * Load isOSNotification value
+   */
+  public loadIsOSNotificationAllowed = () => {
+    const isOSNotification = localStorageWorker.getItemByKey<boolean>("isOSNotificationAllowed");
+    this.setIsOSNotificationAllowed(isOSNotification ?? false);
+  };
+
+  /**
    * Show system notification
    */
   public systemNotification = (params: SystemNotificationParams) => {
@@ -122,7 +140,7 @@ class ServiceWorker {
    * Update current permissions in instance
    */
   private getNotificationPermissions = () => {
-    const isNotificationAvailable = localStorageWorker.getItemByKey<SettingPageSettings>("settingPage")?.isNotificationAllowed;
+    const isNotificationAvailable = "Notification" in window && this.isNotificationsEnabled;
     if (!isNotificationAvailable) {
       // eslint-disable-next-line no-console
       console.log("Notification is not available in window");
