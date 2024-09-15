@@ -31,7 +31,12 @@ const getPathForUserPage = (params: { uuid: string }): string => `/user/${params
 /**
  * Create url with appropriate params for @WayPage
  */
-const getPathForWayPage = (params: {uuid: string}): string => `/way/${params.uuid}`;
+const getPathForWayPage = (params: { uuid: string }): string => `/way/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @ProjectPage
+ */
+const getPathForProjectPage = (params: {uuid: string}): string => `/project/${params.uuid}`;
 
 const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null}>
   {lazyNode}
@@ -61,6 +66,11 @@ const WayPageLazy = React.lazy(() => import("src/logic/wayPage/WayPage")
   .then((module) => ({default: module.WayPage})));
 const WayPage = (params: {uuid: string}) => (<>
   <WayPageLazy {...params} />
+</>);
+const ProjectPageLazy = React.lazy(() => import("src/logic/projectPage/ProjectPage")
+  .then((module) => ({default: module.ProjectPage})));
+const ProjectPage = (params: {uuid: string}) => (<>
+  <ProjectPageLazy {...params} />
 </>);
 const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
   .then((module) => ({default: module.AllUsersPage})));
@@ -127,6 +137,11 @@ export const pages = {
   way: {
     getPath: (params): string => getPathForWayPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<WayPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{ uuid: string }>,
+  project: {
+    getPath: (params): string => getPathForProjectPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<ProjectPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   allUsers: {

@@ -1,0 +1,48 @@
+@import "src/styles/variables";
+
+/* reset */
+button,
+fieldset,
+input {
+  all: unset;
+}
+
+.tabsRoot {
+  border-radius: 20px;
+}
+
+.tabsList {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.tabsTrigger {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: $paddingSmall;
+  background-color: var(--secondaryBgColor);
+  user-select: none;
+}
+.tabsTrigger:first-child {
+  border-top-left-radius: 20px;
+}
+.tabsTrigger:last-child {
+  border-top-right-radius: 20px;
+}
+.tabsTrigger:hover {
+  color: var(--violet-11);
+}
+.tabsTrigger[data-state="active"] {
+  box-shadow: inset 0 -1px 0 0 var(--generalPrimaryColor),
+    0 1px 0 0 var(--generalPrimaryColor);
+}
+
+.tabsContent {
+  flex-grow: 1;
+  background-color: var(--secondaryBgColor);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  outline: none;
+}
