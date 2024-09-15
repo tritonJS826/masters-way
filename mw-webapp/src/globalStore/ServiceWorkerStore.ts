@@ -48,7 +48,7 @@ class ServiceWorker {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadIsOSNotificationAllowed();
+    this.loadIsOSNotificationEnabled();
   }
 
   /**
@@ -103,8 +103,8 @@ class ServiceWorker {
   /**
    * Set IsOSNotification
    */
-  public setIsOSNotificationAllowed = (isOSNotificationAllowed: boolean) => {
-    localStorageWorker.setItemByKey("isOSNotificationAllowed", isOSNotificationAllowed);
+  public setIsOSNotificationEnabled = (isOSNotificationAllowed: boolean) => {
+    localStorageWorker.setItemByKey("isOSNotificationEnabled", isOSNotificationAllowed);
 
     this.isNotificationsEnabled = isOSNotificationAllowed;
   };
@@ -112,9 +112,9 @@ class ServiceWorker {
   /**
    * Load isOSNotification value
    */
-  public loadIsOSNotificationAllowed = () => {
-    const isOSNotification = localStorageWorker.getItemByKey<boolean>("isOSNotificationAllowed");
-    this.setIsOSNotificationAllowed(isOSNotification ?? false);
+  public loadIsOSNotificationEnabled = () => {
+    const isOSNotification = localStorageWorker.getItemByKey<boolean>("isOSNotificationEnabled");
+    this.setIsOSNotificationEnabled(isOSNotification ?? false);
   };
 
   /**

@@ -30,7 +30,7 @@
       "en": "Enable ",
       "ua": "Увімкнути"
     },
-    "notEnableSystemNotificationsButton": {
+    "disableSystemNotificationsButton": {
       "ru": "Отключить",
       "en": "Turn off",
       "ua": "Вимкнути"
@@ -45,10 +45,10 @@
       "en": "Notifications enabled",
       "ua": "Сповіщення увімкнено"
     },
-    "notEnableSystemNotificationsText": {
-      "ru": "Нотификации отключены",
-      "en": "Notifications are turned off",
-      "ua": "Сповіщення вимкнено"
+    "disableSystemNotificationsText": {
+      "ru": "Системные уведомления отключены",
+      "en": "System notifications are turned off",
+      "ua": "Системні сповіщення"
     }
   },
   "comingSoon": {
