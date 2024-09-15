@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {localStorageWorker} from "src/utils/LocalStorageWorker";
 
 /**
  * Available notification tags
@@ -40,6 +41,11 @@ class ServiceWorker {
   public isNotificationsEnabled: boolean = false;
 
   /**
+   * Is notification allowed by user
+   */
+  public isOSNotificationAllowedByUser: boolean = false;
+
+  /**
    * User value
    * @default null
    */
@@ -47,6 +53,7 @@ class ServiceWorker {
 
   constructor() {
     makeAutoObservable(this);
+    this.loadIsOSNotificationAllowedByUser();
   }
 
   /**
@@ -99,6 +106,23 @@ class ServiceWorker {
   };
 
   /**
+   * Set IsOSNotification
+   */
+  public setIsOSNotificationAllowedByUser = (isOSNotificationAllowedByUser: boolean) => {
+    localStorageWorker.setItemByKey("isOSNotificationEnabled", isOSNotificationAllowedByUser);
+
+    this.isOSNotificationAllowedByUser = isOSNotificationAllowedByUser;
+  };
+
+  /**
+   * Load isOSNotification value
+   */
+  public loadIsOSNotificationAllowedByUser = () => {
+    const isOSNotification = localStorageWorker.getItemByKey<boolean>("isOSNotificationEnabled");
+    this.setIsOSNotificationAllowedByUser(isOSNotification ?? false);
+  };
+
+  /**
    * Show system notification
    */
   public systemNotification = (params: SystemNotificationParams) => {
@@ -130,7 +154,7 @@ class ServiceWorker {
     }
     const permission = Notification.permission;
 
-    if (permission === "granted") {
+    if (permission === "granted" && this.isOSNotificationAllowedByUser) {
       this.isNotificationsEnabled = true;
       // eslint-disable-next-line no-console
       console.log("Notifications are enabled.");

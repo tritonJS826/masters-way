@@ -3,7 +3,7 @@
 .problemItem {
   gap: 0;
 
-  @media (max-width: $mediaWidthTablet) {
+  @media (max-width: $mediaWidthMobileBig) {
     flex-direction: column;
   }
 }
@@ -24,6 +24,10 @@
   border-bottom-left-radius: $primaryBorderRadius;
   border-top-left-radius: $primaryBorderRadius;
   gap: $gapBig;
+
+  @media (max-width: $mediaWidthTablet) {
+    padding: $paddingLarge;
+  }
 }
 
 .problemContentBlockReversed {
@@ -46,7 +50,7 @@
 .reversed {
   flex-direction: row-reverse;
 
-  @media (max-width: $mediaWidthTablet) {
+  @media (max-width: $mediaWidthMobileBig) {
     flex-direction: column;
   }
 }
