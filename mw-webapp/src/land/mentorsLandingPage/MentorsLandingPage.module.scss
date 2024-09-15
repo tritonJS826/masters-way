@@ -108,11 +108,14 @@
 }
 
 .triesContainer {
-  flex-wrap: wrap;
   padding: $paddingLarge;
   border-radius: $primaryBorderRadius;
   background-color: var(--primaryBgColor);
   gap: $gapLarge;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    flex-wrap: wrap;
+  }
 }
 
 .triesContentBlock {
