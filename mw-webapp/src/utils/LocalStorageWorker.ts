@@ -112,6 +112,11 @@ export type LocalStorageData = {
    */
   allUsersPage: AllUsersPageSettings;
 
+  /**
+   * Is OS notification enabled
+   */
+  isOSNotificationEnabled: boolean;
+
 }
 
 /**

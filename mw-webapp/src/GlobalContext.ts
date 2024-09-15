@@ -16,7 +16,6 @@ export const DEFAULT_NOTIFICATION_SETTINGS: Notification = {
 const DEFAULT_GLOBAL_CONTEXT = {
   isInitialized: false,
   setIsInitialized: DEFAULT_SET_INITIALIZED,
-  notification: DEFAULT_NOTIFICATION_SETTINGS,
 };
 
 export type Notification = {
@@ -43,11 +42,6 @@ export type GlobalContext = {
    * SetIsInitialization
    */
   setIsInitialized: (isInitialized: boolean) => void;
-
-  /**
-   * Notification related settings
-   */
-  notification: Notification;
 
 }
 
