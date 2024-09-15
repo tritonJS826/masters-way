@@ -41,6 +41,11 @@ class ServiceWorker {
   public isNotificationsEnabled: boolean = false;
 
   /**
+   * Is notification allowed by user
+   */
+  public isOSNotificationAllowedByUser: boolean = false;
+
+  /**
    * User value
    * @default null
    */
@@ -48,7 +53,7 @@ class ServiceWorker {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadIsOSNotificationEnabled();
+    this.loadIsOSNotificationAllowedByUser();
   }
 
   /**
@@ -103,18 +108,18 @@ class ServiceWorker {
   /**
    * Set IsOSNotification
    */
-  public setIsOSNotificationEnabled = (isOSNotificationAllowed: boolean) => {
-    localStorageWorker.setItemByKey("isOSNotificationEnabled", isOSNotificationAllowed);
+  public setIsOSNotificationAllowedByUser = (isOSNotificationAllowedByUser: boolean) => {
+    localStorageWorker.setItemByKey("isOSNotificationEnabled", isOSNotificationAllowedByUser);
 
-    this.isNotificationsEnabled = isOSNotificationAllowed;
+    this.isOSNotificationAllowedByUser = isOSNotificationAllowedByUser;
   };
 
   /**
    * Load isOSNotification value
    */
-  public loadIsOSNotificationEnabled = () => {
+  public loadIsOSNotificationAllowedByUser = () => {
     const isOSNotification = localStorageWorker.getItemByKey<boolean>("isOSNotificationEnabled");
-    this.setIsOSNotificationEnabled(isOSNotification ?? false);
+    this.setIsOSNotificationAllowedByUser(isOSNotification ?? false);
   };
 
   /**
@@ -140,7 +145,7 @@ class ServiceWorker {
    * Update current permissions in instance
    */
   private getNotificationPermissions = () => {
-    const isNotificationAvailable = "Notification" in window && this.isNotificationsEnabled;
+    const isNotificationAvailable = "Notification" in window;
     if (!isNotificationAvailable) {
       // eslint-disable-next-line no-console
       console.log("Notification is not available in window");
@@ -149,7 +154,7 @@ class ServiceWorker {
     }
     const permission = Notification.permission;
 
-    if (permission === "granted") {
+    if (permission === "granted" && this.isOSNotificationAllowedByUser) {
       this.isNotificationsEnabled = true;
       // eslint-disable-next-line no-console
       console.log("Notifications are enabled.");

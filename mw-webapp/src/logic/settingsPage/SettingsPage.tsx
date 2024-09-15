@@ -18,7 +18,7 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
  */
 export const SettingsPage = observer(() => {
   const {language, setLanguage} = languageStore;
-  const {isNotificationsEnabled, setIsOSNotificationEnabled} = serviceWorkerStore;
+  const {isOSNotificationAllowedByUser, setIsOSNotificationAllowedByUser} = serviceWorkerStore;
 
   return (
     <VerticalContainer className={styles.container}>
@@ -66,16 +66,16 @@ export const SettingsPage = observer(() => {
             content={LanguageService.settings.comingSoon[language]}
           >
             <Button
-              value={isNotificationsEnabled
+              value={isOSNotificationAllowedByUser
                 ? LanguageService.settings.notification.disableSystemNotificationsButton[language]
                 : LanguageService.settings.notification.enableSystemNotificationsButton[language]
               }
               onClick={() => {
-                setIsOSNotificationEnabled(!isNotificationsEnabled);
+                setIsOSNotificationAllowedByUser(!isOSNotificationAllowedByUser);
                 serviceWorkerStore.requestPermission();
                 serviceWorkerStore.systemNotification({
                   title: LanguageService.settings.notification.enableSystemNotificationsTitle[language],
-                  text: isNotificationsEnabled
+                  text: isOSNotificationAllowedByUser
                     ? LanguageService.settings.notification.disableSystemNotificationsText[language]
                     : LanguageService.settings.notification.enableSystemNotificationsText[language],
                   tag: SystemNotificationTag.TEST,
