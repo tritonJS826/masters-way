@@ -1,0 +1,11 @@
+@import "src/styles/variables";
+
+.swiper-button-prev,
+.swiper-button-next {
+  margin-top: $marginBig;
+  color: var(--generalPrimaryColor);
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--generalPrimaryColor);
+}
