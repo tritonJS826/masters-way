@@ -1,10 +1,11 @@
-import {ReactElement} from "react";
+// Import {ReactElement} from "react";
 import clsx from "clsx";
 import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
 import {pages} from "src/router/pages";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/chat/messageItem/MessageItem.module.scss";
 
 /**
@@ -30,7 +31,7 @@ interface MessageItemProps {
   /**
    * Message's value
    */
-  message: ReactElement<HTMLElement>;
+  message: string;
 
   /**
    * If true - then it's user's message, if false it's a teammate's message
@@ -63,7 +64,7 @@ export const MessageItem = (props: MessageItemProps) => {
           props.isOwnMessage && styles.ownMessage,
         )}
       >
-        {props.message}
+        {renderMarkdown(props.message)}
       </HorizontalContainer>
     </HorizontalContainer>
   );

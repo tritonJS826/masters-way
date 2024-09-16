@@ -42,12 +42,6 @@ export interface SchemasUploadFileResponse {
      * @type {string}
      * @memberof SchemasUploadFileResponse
      */
-    iconUrl: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof SchemasUploadFileResponse
-     */
     previewUrl: string;
     /**
      * 
@@ -67,7 +61,6 @@ export function instanceOfSchemasUploadFileResponse(
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "ownerId" in value;
-    isInstance = isInstance && "iconUrl" in value;
     isInstance = isInstance && "previewUrl" in value;
     isInstance = isInstance && "srcUrl" in value;
 
@@ -87,10 +80,9 @@ export function SchemasUploadFileResponseFromJSONTyped(
     }
     return {
         
-        'id': json['Id'],
-        'name': json['Name'],
-        'ownerId': json['OwnerId'],
-        'iconUrl': json['iconUrl'],
+        'id': json['id'],
+        'name': json['name'],
+        'ownerId': json['ownerId'],
         'previewUrl': json['previewUrl'],
         'srcUrl': json['srcUrl'],
     };
@@ -106,10 +98,9 @@ export function SchemasUploadFileResponseToJSON(value?: SchemasUploadFileRespons
     }
     return {
         
-        'Id': value.id,
-        'Name': value.name,
-        'OwnerId': value.ownerId,
-        'iconUrl': value.iconUrl,
+        'id': value.id,
+        'name': value.name,
+        'ownerId': value.ownerId,
         'previewUrl': value.previewUrl,
         'srcUrl': value.srcUrl,
     };

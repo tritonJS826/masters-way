@@ -27,6 +27,7 @@ export interface DeleteFilesRequest {
 }
 
 export interface UploadFileRequest {
+    roomId: string;
     file: Blob;
 }
 
@@ -74,11 +75,19 @@ export class FileApi extends runtime.BaseAPI {
      * Upload file to storage
      */
     async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUploadFileResponse>> {
+        if (requestParameters.roomId === null || requestParameters.roomId === undefined) {
+            throw new runtime.RequiredError('roomId','Required parameter requestParameters.roomId was null or undefined when calling uploadFile.');
+        }
+
         if (requestParameters.file === null || requestParameters.file === undefined) {
             throw new runtime.RequiredError('file','Required parameter requestParameters.file was null or undefined when calling uploadFile.');
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.roomId !== undefined) {
+            queryParameters['roomId'] = requestParameters.roomId;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 

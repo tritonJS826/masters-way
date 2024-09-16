@@ -171,12 +171,15 @@ export const ChatContent = observer(() => {
   });
 
   /**
-   * Sdf
+   * Upload file
    */
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFile = async (roomId: string, event: React.ChangeEvent<HTMLInputElement>) => {
     const fileBlob = !!event.target.files && event.target.files[0];
     if (fileBlob) {
-      await FileDAL.uploadFile(fileBlob);
+      await FileDAL.uploadFile({
+        roomId,
+        file: fileBlob,
+      });
     }
   };
 
@@ -335,11 +338,7 @@ export const ChatContent = observer(() => {
                       src={messageItem.ownerImageUrl}
                       userName={messageItem.ownerName}
                       userUuid={messageItem.ownerId}
-                      message={
-                        <p>
-                          {messageItem.message}
-                        </p>
-                      }
+                      message={messageItem.message}
                       isOwnMessage={messageItem.ownerId === user?.uuid}
                     />
                   ))}
@@ -370,7 +369,7 @@ export const ChatContent = observer(() => {
             <label>
               <input
                 type="file"
-                onChange={async (event) => handleFileChange(event)}
+                onChange={async (event) => uploadFile(activeChatStore.activeChat.roomId, event)}
                 className={styles.uploadFileInput}
               />
               <Tooltip
