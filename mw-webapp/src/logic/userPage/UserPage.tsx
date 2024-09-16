@@ -380,6 +380,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     value={LanguageService.user.collections.addCollection[language]}
                     onClick={createCustomWayCollection}
                     buttonType={ButtonType.SECONDARY}
+                    className={styles.collectionButton}
                   />
                 )}
 
