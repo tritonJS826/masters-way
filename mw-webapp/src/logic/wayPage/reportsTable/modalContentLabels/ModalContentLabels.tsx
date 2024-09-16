@@ -109,7 +109,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
                     text={label.description || LanguageService.modals.labelsModal.description[language]}
                   />
                   <Checkbox
-                    isDefaultChecked={labelsUpdated.includes(label)}
+                    isDefaultChecked={labelsUpdated.map((labelUpdated) => labelUpdated.uuid).includes(label.uuid)}
                     onChange={() => { }}
                     className={styles.checkbox}
                   />
