@@ -1,7 +1,7 @@
 /*
 Masters way general API
 
-Testing JobDoneLabelAPIService
+Testing JobDoneJobTagAPIService
 
 */
 
@@ -17,30 +17,30 @@ import (
 	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
-func Test_openapi_JobDoneLabelAPIService(t *testing.T) {
+func Test_openapi_JobDoneJobTagAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test JobDoneLabelAPIService CreateJobDoneLabel", func(t *testing.T) {
+	t.Run("Test JobDoneJobTagAPIService CreateJobDoneJobTag", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		httpRes, err := apiClient.JobDoneLabelAPI.CreateJobDoneLabel(context.Background()).Execute()
+		httpRes, err := apiClient.JobDoneJobTagAPI.CreateJobDoneJobTag(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test JobDoneLabelAPIService DeleteJobDoneLabel", func(t *testing.T) {
+	t.Run("Test JobDoneJobTagAPIService DeleteJobDoneJobTag", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var jobDoneId string
-		var labelId string
+		var jobTagId string
 
-		httpRes, err := apiClient.JobDoneLabelAPI.DeleteJobDoneLabel(context.Background(), jobDoneId, labelId).Execute()
+		httpRes, err := apiClient.JobDoneJobTagAPI.DeleteJobDoneJobTag(context.Background(), jobDoneId, jobTagId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

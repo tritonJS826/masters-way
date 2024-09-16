@@ -1,7 +1,7 @@
 /*
 Masters way general API
 
-Testing LabelAPIService
+Testing JobTagAPIService
 
 */
 
@@ -17,16 +17,16 @@ import (
 	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
-func Test_openapi_LabelAPIService(t *testing.T) {
+func Test_openapi_JobTagAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test LabelAPIService CreateLabel", func(t *testing.T) {
+	t.Run("Test JobTagAPIService CreateJobTag", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.LabelAPI.CreateLabel(context.Background()).Execute()
+		resp, httpRes, err := apiClient.JobTagAPI.CreateJobTag(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -34,26 +34,26 @@ func Test_openapi_LabelAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test LabelAPIService DeleteLabel", func(t *testing.T) {
+	t.Run("Test JobTagAPIService DeleteJobTag", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var labelId string
+		var jobTagId string
 
-		httpRes, err := apiClient.LabelAPI.DeleteLabel(context.Background(), labelId).Execute()
+		httpRes, err := apiClient.JobTagAPI.DeleteJobTag(context.Background(), jobTagId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test LabelAPIService UpdateLabel", func(t *testing.T) {
+	t.Run("Test JobTagAPIService UpdateJobTag", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var labelId string
+		var jobTagId string
 
-		resp, httpRes, err := apiClient.LabelAPI.UpdateLabel(context.Background(), labelId).Execute()
+		resp, httpRes, err := apiClient.JobTagAPI.UpdateJobTag(context.Background(), jobTagId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

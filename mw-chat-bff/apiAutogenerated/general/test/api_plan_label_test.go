@@ -1,7 +1,7 @@
 /*
 Masters way general API
 
-Testing PlanLabelAPIService
+Testing PlanJobTagAPIService
 
 */
 
@@ -17,30 +17,30 @@ import (
 	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
-func Test_openapi_PlanLabelAPIService(t *testing.T) {
+func Test_openapi_PlanJobTagAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test PlanLabelAPIService CreatePlanLabel", func(t *testing.T) {
+	t.Run("Test PlanJobTagAPIService CreatePlanJobTag", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		httpRes, err := apiClient.PlanLabelAPI.CreatePlanLabel(context.Background()).Execute()
+		httpRes, err := apiClient.PlanJobTagAPI.CreatePlanJobTag(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test PlanLabelAPIService DeletePlanLabel", func(t *testing.T) {
+	t.Run("Test PlanJobTagAPIService DeletePlanJobTag", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var labelId string
+		var jobTagId string
 		var planId string
 
-		httpRes, err := apiClient.PlanLabelAPI.DeletePlanLabel(context.Background(), labelId, planId).Execute()
+		httpRes, err := apiClient.PlanJobTagAPI.DeletePlanJobTag(context.Background(), jobTagId, planId).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)
