@@ -142,6 +142,25 @@ definitions:
     required:
     - isRead
     type: object
+  schemas.UploadFileResponse:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      ownerId:
+        type: string
+      previewUrl:
+        type: string
+      srcUrl:
+        type: string
+    required:
+    - id
+    - name
+    - ownerId
+    - previewUrl
+    - srcUrl
+    type: object
   schemas.UserResponse:
     properties:
       imageUrl:
@@ -163,6 +182,56 @@ info:
   title: Masters way chat API
   version: "1.0"
 paths:
+  /files:
+    delete:
+      consumes:
+      - application/json
+      description: Delete multiple files from the server storage using their IDs
+      operationId: delete-files
+      parameters:
+      - description: List of file IDs to delete
+        in: body
+        name: fileIDs
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete files by IDs
+      tags:
+      - file
+    post:
+      consumes:
+      - multipart/form-data
+      description: Uploads a file to the server and stores it in the designated storage
+        path
+      operationId: upload-file
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Room id
+        in: query
+        name: roomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.UploadFileResponse'
+      summary: Upload file to storage
+      tags:
+      - file
   /messages:
     post:
       consumes:

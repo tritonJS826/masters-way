@@ -38,6 +38,30 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/google-token": {
+            "get": {
+                "description": "This endpoint retrieves the Google access token for an authenticated user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Retrieve Google Access Token",
+                "operationId": "get-google-token",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GoogleToken"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login/local/{userEmail}": {
             "get": {
                 "description": "Login locally by providing an email address.",
@@ -2952,6 +2976,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GoogleToken": {
+            "type": "object",
+            "required": [
+                "accessToken"
+            ],
+            "properties": {
+                "accessToken": {
                     "type": "string"
                 }
             }

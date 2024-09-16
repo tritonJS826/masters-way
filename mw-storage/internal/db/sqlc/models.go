@@ -11,54 +11,55 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-type FileExtension string
+type StorageType string
 
 const (
-	FileExtensionWebp FileExtension = "webp"
-	FileExtensionMp4  FileExtension = "mp4"
-	FileExtensionMp3  FileExtension = "mp3"
+	StorageTypeGoogleDrive StorageType = "google_drive"
 )
 
-func (e *FileExtension) Scan(src interface{}) error {
+func (e *StorageType) Scan(src interface{}) error {
 	switch s := src.(type) {
 	case []byte:
-		*e = FileExtension(s)
+		*e = StorageType(s)
 	case string:
-		*e = FileExtension(s)
+		*e = StorageType(s)
 	default:
-		return fmt.Errorf("unsupported scan type for FileExtension: %T", src)
+		return fmt.Errorf("unsupported scan type for StorageType: %T", src)
 	}
 	return nil
 }
 
-type NullFileExtension struct {
-	FileExtension FileExtension `json:"file_extension"`
-	Valid         bool          `json:"valid"` // Valid is true if FileExtension is not NULL
+type NullStorageType struct {
+	StorageType StorageType `json:"storage_type"`
+	Valid       bool        `json:"valid"` // Valid is true if StorageType is not NULL
 }
 
 // Scan implements the Scanner interface.
-func (ns *NullFileExtension) Scan(value interface{}) error {
+func (ns *NullStorageType) Scan(value interface{}) error {
 	if value == nil {
-		ns.FileExtension, ns.Valid = "", false
+		ns.StorageType, ns.Valid = "", false
 		return nil
 	}
 	ns.Valid = true
-	return ns.FileExtension.Scan(value)
+	return ns.StorageType.Scan(value)
 }
 
 // Value implements the driver Valuer interface.
-func (ns NullFileExtension) Value() (driver.Value, error) {
+func (ns NullStorageType) Value() (driver.Value, error) {
 	if !ns.Valid {
 		return nil, nil
 	}
-	return string(ns.FileExtension), nil
+	return string(ns.StorageType), nil
 }
 
 type File struct {
-	Uuid      pgtype.UUID      `json:"uuid"`
-	Link      pgtype.Text      `json:"link"`
-	OwnerId   pgtype.UUID      `json:"ownerId"`
-	Size      int64            `json:"size"`
-	Type      FileExtension    `json:"type"`
-	CreatedAt pgtype.Timestamp `json:"created_at"`
+	Uuid          pgtype.UUID      `json:"uuid"`
+	Name          string           `json:"name"`
+	SrcUrl        string           `json:"src_url"`
+	PreviewUrl    pgtype.Text      `json:"preview_url"`
+	StorageType   StorageType      `json:"storage_type"`
+	GoogleDriveID pgtype.Text      `json:"google_drive_id"`
+	OwnerUuid     pgtype.UUID      `json:"owner_uuid"`
+	Size          int64            `json:"size"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
 }

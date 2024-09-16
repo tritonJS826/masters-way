@@ -13,6 +13,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
+import {FileDAL} from "src/dataAccessLogic/FileDAL";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {useListenEventBus} from "src/eventBus/useListenEvent";
@@ -169,6 +170,19 @@ export const ChatContent = observer(() => {
     });
   });
 
+  /**
+   * Upload file
+   */
+  const uploadFile = async (roomId: string, event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileBlob = !!event.target.files && event.target.files[0];
+    if (fileBlob) {
+      await FileDAL.uploadFile({
+        roomId,
+        file: fileBlob,
+      });
+    }
+  };
+
   return (
     <DialogPortal>
       <DialogOverlay className={styles.chatOverlay} />
@@ -324,11 +338,7 @@ export const ChatContent = observer(() => {
                       src={messageItem.ownerImageUrl}
                       userName={messageItem.ownerName}
                       userUuid={messageItem.ownerId}
-                      message={
-                        <p>
-                          {messageItem.message}
-                        </p>
-                      }
+                      message={messageItem.message}
                       isOwnMessage={messageItem.ownerId === user?.uuid}
                     />
                   ))}
@@ -357,11 +367,9 @@ export const ChatContent = observer(() => {
               }}
             />
             <label>
-              <Input
+              <input
                 type="file"
-                value=""
-                onChange={() => {}}
-                placeholder=""
+                onChange={async (event) => uploadFile(activeChatStore.activeChat.roomId, event)}
                 className={styles.uploadFileInput}
               />
               <Tooltip

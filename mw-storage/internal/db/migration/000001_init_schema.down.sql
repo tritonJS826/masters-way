@@ -1,3 +1,2 @@
 DROP TABLE IF EXISTS files;
-DROP TYPE IF EXISTS file_extension;
-
+DROP TYPE IF EXISTS storage_type;

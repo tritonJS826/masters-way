@@ -120,7 +120,9 @@
 ```
   dropdb mastersway_db -h localhost -p 5432 -U root && createdb mastersway_db -h localhost -p 5432 -U root && pg_restore -h localhost -p 5432 -d mastersway_db -U root mastersway_db_backup.dump
 ```
+
 - reset db
+
 ```
 curl http://localhost:8000/api/dev/reset-db
 ```

@@ -35,6 +35,7 @@ export * from './SchemasGenerateMetricsResponse';
 export * from './SchemasGetAllUsersResponse';
 export * from './SchemasGetAllWaysResponse';
 export * from './SchemasGetUsersByIDsResponse';
+export * from './SchemasGoogleToken';
 export * from './SchemasJobDonePopulatedResponse';
 export * from './SchemasJobTagResponse';
 export * from './SchemasLabel';

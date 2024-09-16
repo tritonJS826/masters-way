@@ -37,3 +37,16 @@ func (gs *GeneralService) GetPopulatedUsers(ctx *gin.Context, userIDs []string) 
 
 	return userMap, nil
 }
+
+func (gs *GeneralService) GetGoogleAccessTokenByID(ctx *gin.Context, userID string) (string, error) {
+	googleToken, response, err := gs.generalAPI.AuthAPI.GetGoogleToken(ctx).Execute()
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return "", fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return "", fmt.Errorf(message)
+	}
+
+	return googleToken.AccessToken, nil
+}
