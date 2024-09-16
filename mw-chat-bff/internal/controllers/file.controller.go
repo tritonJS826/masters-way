@@ -47,7 +47,7 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 		util.HandleErrorGin(ctx, fmt.Errorf("storage service error: %w", err))
 	}
 
-	message := fmt.Sprintf("![%s](%s)", response.Name, response.SrcURL)
+	message := fmt.Sprintf("![%s](%s) \n\n [open link](%s)", response.Name, response.PreviewURL, response.SrcURL)
 
 	messageResponse, err := fc.chatService.CreateMessage(ctx, message, roomID)
 	util.HandleErrorGin(ctx, err)

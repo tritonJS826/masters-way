@@ -44,9 +44,9 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 	utils.HandleErrorGin(ctx, err)
 
 	saveFileInfoParams := &services.SaveFileInfoParams{
-		SrcUrl:        uploadedFile.WebContentLink,
+		SrcUrl:        uploadedFile.WebViewLink,
 		Name:          uploadedFile.Name,
-		PreviewUrl:    uploadedFile.WebViewLink,
+		PreviewUrl:    "https://drive.google.com/thumbnail?id=" + uploadedFile.Id,
 		StorageType:   db.StorageTypeGoogleDrive,
 		OwnerUuid:     userID,
 		Size:          uploadedFile.Size,
