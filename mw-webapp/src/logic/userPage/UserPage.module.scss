@@ -114,6 +114,11 @@
   @include regularContainer;
 }
 
+.collectionButton {
+  height: 123px;
+  padding: 0;
+}
+
 .disabled {
   cursor: default;
 
