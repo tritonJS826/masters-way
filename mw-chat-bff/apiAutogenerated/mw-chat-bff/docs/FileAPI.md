@@ -75,7 +75,7 @@ No authorization required
 
 ## UploadFile
 
-> SchemasUploadFileResponse UploadFile(ctx).File(file).Execute()
+> SchemasUploadFileResponse UploadFile(ctx).RoomId(roomId).File(file).Execute()
 
 Upload file to storage
 
@@ -94,11 +94,12 @@ import (
 )
 
 func main() {
+	roomId := "roomId_example" // string | Room id
 	file := os.NewFile(1234, "some_file") // *os.File | File to upload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.FileAPI.UploadFile(context.Background()).File(file).Execute()
+	resp, r, err := apiClient.FileAPI.UploadFile(context.Background()).RoomId(roomId).File(file).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FileAPI.UploadFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -119,6 +120,7 @@ Other parameters are passed through a pointer to a apiUploadFileRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **roomId** | **string** | Room id | 
  **file** | ***os.File** | File to upload | 
 
 ### Return type

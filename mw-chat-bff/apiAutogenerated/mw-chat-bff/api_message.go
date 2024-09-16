@@ -176,9 +176,10 @@ func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -362,9 +363,10 @@ func (a *MessageAPIService) UpdateMessageStatusStreamExecute(r ApiUpdateMessageS
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

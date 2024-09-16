@@ -235,9 +235,10 @@ func (a *UserAPIService) GetAllUsersStreamExecute(r ApiGetAllUsersRequest, reque
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -419,9 +420,10 @@ func (a *UserAPIService) GetUserByUuidStreamExecute(r ApiGetUserByUuidRequest, r
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -610,9 +612,10 @@ func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, r
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -807,9 +810,10 @@ func (a *UserAPIService) UpdateUserStreamExecute(r ApiUpdateUserRequest, request
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

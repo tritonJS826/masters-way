@@ -2,6 +2,7 @@ package routers
 
 import (
 	"fmt"
+	"mwstorage/internal/auth"
 	"mwstorage/internal/config"
 	"mwstorage/internal/controllers"
 	"net/http"
@@ -46,7 +47,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes() {
-	storage := r.Gin.Group("/storage")
+	storage := r.Gin.Group("/storage", auth.AuthMiddleware())
 
 	r.fileRouter.setFileRoutes(storage)
 

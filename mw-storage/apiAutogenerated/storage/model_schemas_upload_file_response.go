@@ -26,7 +26,6 @@ type SchemasUploadFileResponse struct {
 	OwnerId string
 	PreviewUrl string
 	SrcUrl string
-	Type string
 }
 
 type _SchemasUploadFileResponse SchemasUploadFileResponse
@@ -35,14 +34,13 @@ type _SchemasUploadFileResponse SchemasUploadFileResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasUploadFileResponse(id string, name string, ownerId string, previewUrl string, srcUrl string, type_ string) *SchemasUploadFileResponse {
+func NewSchemasUploadFileResponse(id string, name string, ownerId string, previewUrl string, srcUrl string) *SchemasUploadFileResponse {
 	this := SchemasUploadFileResponse{}
 	this.Id = id
 	this.Name = name
 	this.OwnerId = ownerId
 	this.PreviewUrl = previewUrl
 	this.SrcUrl = srcUrl
-	this.Type = type_
 	return &this
 }
 
@@ -174,30 +172,6 @@ func (o *SchemasUploadFileResponse) SetSrcUrl(v string) {
 	o.SrcUrl = v
 }
 
-// GetType returns the Type field value
-func (o *SchemasUploadFileResponse) GetType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *SchemasUploadFileResponse) GetTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Type, true
-}
-
-// SetType sets field value
-func (o *SchemasUploadFileResponse) SetType(v string) {
-	o.Type = v
-}
-
 func (o SchemasUploadFileResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -213,7 +187,6 @@ func (o SchemasUploadFileResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["ownerId"] = o.OwnerId
 	toSerialize["previewUrl"] = o.PreviewUrl
 	toSerialize["srcUrl"] = o.SrcUrl
-	toSerialize["type"] = o.Type
 	return toSerialize, nil
 }
 
@@ -227,7 +200,6 @@ func (o *SchemasUploadFileResponse) UnmarshalJSON(data []byte) (err error) {
 		"ownerId",
 		"previewUrl",
 		"srcUrl",
-		"type",
 	}
 
 	allProperties := make(map[string]interface{})

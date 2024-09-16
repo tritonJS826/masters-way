@@ -176,9 +176,10 @@ func (a *UserTagAPIService) CreateUserTagStreamExecute(r ApiCreateUserTagRequest
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -353,9 +354,10 @@ func (a *UserTagAPIService) DeleteUserTagStreamExecute(r ApiDeleteUserTagRequest
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

@@ -175,9 +175,10 @@ func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, r
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -366,9 +367,10 @@ func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -543,9 +545,10 @@ func (a *RoomAPIService) DeleteUserFromRoomStreamExecute(r ApiDeleteUserFromRoom
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -712,9 +715,10 @@ func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest,
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -896,9 +900,10 @@ func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, reque
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -1080,9 +1085,10 @@ func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *ht
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -1264,9 +1270,10 @@ func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

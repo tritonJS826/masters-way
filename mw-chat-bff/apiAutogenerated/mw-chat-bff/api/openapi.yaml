@@ -32,6 +32,13 @@ paths:
       description: Uploads a file to the server and stores it in the designated storage
         path
       operationId: upload-file
+      parameters:
+      - description: Room id
+        in: query
+        name: roomId
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           multipart/form-data:

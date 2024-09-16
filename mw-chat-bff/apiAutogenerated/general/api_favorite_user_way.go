@@ -163,9 +163,10 @@ func (a *FavoriteUserWayAPIService) CreateFavoriteUserWayStreamExecute(r ApiCrea
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -331,9 +332,10 @@ func (a *FavoriteUserWayAPIService) DeleteFavoriteUserWayStreamExecute(r ApiDele
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

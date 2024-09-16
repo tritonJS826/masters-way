@@ -9,13 +9,12 @@ Name | Type | Description | Notes
 **OwnerId** | **string** |  | 
 **PreviewUrl** | **string** |  | 
 **SrcUrl** | **string** |  | 
-**Type** | **string** |  | 
 
 ## Methods
 
 ### NewSchemasUploadFileResponse
 
-`func NewSchemasUploadFileResponse(id string, name string, ownerId string, previewUrl string, srcUrl string, type_ string, ) *SchemasUploadFileResponse`
+`func NewSchemasUploadFileResponse(id string, name string, ownerId string, previewUrl string, srcUrl string, ) *SchemasUploadFileResponse`
 
 NewSchemasUploadFileResponse instantiates a new SchemasUploadFileResponse object
 This constructor will assign default values to properties that have it defined,
@@ -128,26 +127,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasUploadFileResponse) SetSrcUrl(v string)`
 
 SetSrcUrl sets SrcUrl field to given value.
-
-
-### GetType
-
-`func (o *SchemasUploadFileResponse) GetType() string`
-
-GetType returns the Type field if non-nil, zero value otherwise.
-
-### GetTypeOk
-
-`func (o *SchemasUploadFileResponse) GetTypeOk() (*string, bool)`
-
-GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetType
-
-`func (o *SchemasUploadFileResponse) SetType(v string)`
-
-SetType sets Type field to given value.
 
 
 

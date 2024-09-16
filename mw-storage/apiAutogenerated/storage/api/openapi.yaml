@@ -67,7 +67,6 @@ components:
         srcUrl: srcUrl
         id: id
         ownerId: ownerId
-        type: type
       properties:
         id:
           type: string
@@ -79,15 +78,12 @@ components:
           type: string
         srcUrl:
           type: string
-        type:
-          type: string
       required:
       - id
       - name
       - ownerId
       - previewUrl
       - srcUrl
-      - type
       type: object
     upload_file_request:
       properties:

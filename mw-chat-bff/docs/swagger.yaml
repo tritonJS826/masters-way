@@ -217,6 +217,11 @@ paths:
         name: file
         required: true
         type: file
+      - description: Room id
+        in: query
+        name: roomId
+        required: true
+        type: string
       produces:
       - application/json
       responses:

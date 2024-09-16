@@ -11,12 +11,14 @@ import (
 )
 
 type FileController struct {
-	generalService *services.GeneralService
-	fileService    *services.FileService
+	generalService       *services.GeneralService
+	fileService          *services.FileService
+	chatService          *services.ChatService
+	chatWebSocketService *services.ChatWebSocketService
 }
 
-func NewFileController(generalService *services.GeneralService, fileService *services.FileService) *FileController {
-	return &FileController{generalService, fileService}
+func NewFileController(generalService *services.GeneralService, fileService *services.FileService, chatService *services.ChatService, chatWebSocketService *services.ChatWebSocketService) *FileController {
+	return &FileController{generalService, fileService, chatService, chatWebSocketService}
 }
 
 // @Summary Upload file to storage
@@ -26,11 +28,14 @@ func NewFileController(generalService *services.GeneralService, fileService *ser
 // @Accept  multipart/form-data
 // @Produce  json
 // @Param file formData file true "File to upload"
+// @Param roomId query string true "Room id"
 // @Success 200 {object} schemas.UploadFileResponse
 // @Router /files [post]
 func (fc *FileController) UploadFile(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
+
+	roomID := ctx.Query("roomId")
 
 	googleToken, err := fc.generalService.GetGoogleAccessTokenByID(ctx, userID)
 	if err != nil {
@@ -41,6 +46,23 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("storage service error: %w", err))
 	}
+
+	message := fmt.Sprintf("![%s](%s)", response.Name, response.SrcURL)
+
+	messageResponse, err := fc.chatService.CreateMessage(ctx, message, roomID)
+	util.HandleErrorGin(ctx, err)
+
+	// TODO rename  service method
+	populatedUserMap, err := fc.generalService.GetPopulatedUsers(ctx, []string{messageResponse.Message.OwnerID})
+	if err != nil {
+		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
+	}
+
+	messageResponse.Message.OwnerName = populatedUserMap[messageResponse.Message.OwnerID].Name
+	messageResponse.Message.OwnerImageURL = populatedUserMap[messageResponse.Message.OwnerID].ImageURL
+
+	err = fc.chatWebSocketService.SendMessage(ctx, roomID, messageResponse)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }

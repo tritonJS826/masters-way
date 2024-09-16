@@ -165,9 +165,10 @@ func (a *FileAPIService) DeleteFilesStreamExecute(r ApiDeleteFilesRequest, reque
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -198,7 +199,14 @@ func (a *FileAPIService) DeleteFilesStreamExecute(r ApiDeleteFilesRequest, reque
 type ApiUploadFileRequest struct {
 	ctx context.Context
 	ApiService *FileAPIService
+	roomId *string
 	file *os.File
+}
+
+// Room id
+func (r ApiUploadFileRequest) RoomId(roomId string) ApiUploadFileRequest {
+	r.roomId = &roomId
+	return r
 }
 
 // File to upload
@@ -246,10 +254,14 @@ func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*SchemasUplo
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.roomId == nil {
+		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
+	}
 	if r.file == nil {
 		return localVarReturnValue, nil, reportError("file is required and must be specified")
 	}
 
+	parameterAddToHeaderOrQuery(localVarQueryParams, "roomId", r.roomId, "", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
@@ -339,6 +351,8 @@ func (a *FileAPIService) UploadFileStreamExecute(r ApiUploadFileRequest, request
 	fmt.Println(localVarQueryParams)
 
 
+
+		parameterAddToHeaderOrQuery(localVarQueryParams, "roomId", r.roomId, "", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
@@ -362,9 +376,10 @@ func (a *FileAPIService) UploadFileStreamExecute(r ApiUploadFileRequest, request
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

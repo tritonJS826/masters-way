@@ -151,9 +151,10 @@ func (a *DevAPIService) DevResetDbGetStreamExecute(r ApiDevResetDbGetRequest, re
 	}
 
 	for key, values := range request.Header {
-	    for _, value := range values {
-	        req.Header.Add(key, value)
-	    }
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

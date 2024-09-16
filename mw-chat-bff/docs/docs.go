@@ -36,6 +36,13 @@ const docTemplate = `{
                         "name": "file",
                         "in": "formData",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Room id",
+                        "name": "roomId",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
