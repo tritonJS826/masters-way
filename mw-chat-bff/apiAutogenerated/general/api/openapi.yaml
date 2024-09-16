@@ -20,6 +20,21 @@ paths:
       summary: Get current authorized user
       tags:
       - auth
+  /auth/google-token:
+    get:
+      description: This endpoint retrieves the Google access token for an authenticated
+        user.
+      operationId: get-google-token
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GoogleToken'
+          description: OK
+      summary: Retrieve Google Access Token
+      tags:
+      - auth
   /auth/login/local/{userEmail}:
     get:
       description: Login locally by providing an email address.
@@ -2510,6 +2525,15 @@ components:
       - imageUrl
       - name
       - userId
+      type: object
+    schemas.GoogleToken:
+      example:
+        accessToken: accessToken
+      properties:
+        accessToken:
+          type: string
+      required:
+      - accessToken
       type: object
     schemas.JobDonePopulatedResponse:
       example:

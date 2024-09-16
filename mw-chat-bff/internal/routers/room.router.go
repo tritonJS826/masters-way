@@ -10,7 +10,7 @@ type roomRouter struct {
 	roomsController *controllers.RoomController
 }
 
-func newRoomController(roomController *controllers.RoomController) *roomRouter {
+func newRoomRouter(roomController *controllers.RoomController) *roomRouter {
 	return &roomRouter{roomController}
 }
 

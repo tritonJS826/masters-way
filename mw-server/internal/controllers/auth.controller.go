@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"mwserver/internal/auth"
 	"mwserver/internal/config"
+	"mwserver/internal/schemas"
 	"mwserver/internal/services"
 	"mwserver/pkg/util"
 	"net/http"
@@ -42,21 +43,23 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 		return
 	}
 
-	userInfo, err := ac.authService.AuthenticateGoogleUser(ctx, code, state)
+	googleAuthInfo, err := ac.authService.AuthenticateGoogleUser(ctx, code, state)
 	util.HandleErrorGin(ctx, err)
 
 	now := time.Now()
 	args := &services.CreateUserParams{
-		Name:        userInfo.Name,
-		Email:       userInfo.Email,
+		Name:        googleAuthInfo.UserInfo.Name,
+		Email:       googleAuthInfo.UserInfo.Email,
 		Description: "",
 		CreatedAt:   now,
-		ImageUrl:    userInfo.Picture,
+		ImageUrl:    googleAuthInfo.UserInfo.Picture,
 		IsMentor:    false,
 	}
 
 	populatedUser, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
 	util.HandleErrorGin(ctx, err)
+
+	ac.authService.SetGoogleAccessTokenByUserID(populatedUser.Uuid, googleAuthInfo.Token.AccessToken)
 
 	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
 	util.HandleErrorGin(ctx, err)
@@ -143,4 +146,26 @@ func (ac *AuthController) Logout(ctx *gin.Context) {
 	fmt.Println(userIDRaw.(string))
 
 	ctx.Status(http.StatusNoContent)
+}
+
+// @Summary Retrieve Google Access Token
+// @Description This endpoint retrieves the Google access token for an authenticated user.
+// @Tags auth
+// @ID get-google-token
+// @Accept json
+// @Produce json
+// @Success 200 {object} schemas.GoogleToken
+// @Router /auth/google-token [get]
+func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
+	token, err := ac.authService.GetGoogleAccessTokenByUserID(userID)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.GoogleToken{
+		AccessToken: token,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }

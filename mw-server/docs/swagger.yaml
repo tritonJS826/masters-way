@@ -470,6 +470,13 @@ definitions:
     - name
     - userId
     type: object
+  schemas.GoogleToken:
+    properties:
+      accessToken:
+        type: string
+    required:
+    - accessToken
+    type: object
   schemas.JobDonePopulatedResponse:
     properties:
       createdAt:
@@ -1209,6 +1216,23 @@ paths:
           schema:
             $ref: '#/definitions/schemas.UserPopulatedResponse'
       summary: Get current authorized user
+      tags:
+      - auth
+  /auth/google-token:
+    get:
+      consumes:
+      - application/json
+      description: This endpoint retrieves the Google access token for an authenticated
+        user.
+      operationId: get-google-token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.GoogleToken'
+      summary: Retrieve Google Access Token
       tags:
       - auth
   /auth/login/local/{userEmail}:

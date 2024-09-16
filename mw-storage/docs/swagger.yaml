@@ -1,61 +1,23 @@
 basePath: /storage
 definitions:
-  schemas.CreateMessagePayload:
+  schemas.UploadFileResponse:
     properties:
-      message:
+      id:
         type: string
-      roomId:
+      name:
         type: string
-    required:
-    - message
-    - roomId
-    type: object
-  schemas.CreateMessageResponse:
-    properties:
-      message:
-        $ref: '#/definitions/schemas.MessageResponse'
-      users:
-        items:
-          type: string
-        type: array
-    required:
-    - message
-    - users
-    type: object
-  schemas.MessageReader:
-    properties:
-      readDate:
-        type: string
-      userId:
-        type: string
-    required:
-    - readDate
-    - userId
-    type: object
-  schemas.MessageResponse:
-    properties:
-      message:
-        type: string
-      messageId:
-        type: string
-      messageReaders:
-        items:
-          $ref: '#/definitions/schemas.MessageReader'
-        type: array
       ownerId:
         type: string
+      previewUrl:
+        type: string
+      srcUrl:
+        type: string
     required:
-    - message
-    - messageId
-    - messageReaders
+    - id
+    - name
     - ownerId
-    type: object
-  schemas.UpdateMessageStatusPayload:
-    properties:
-      isRead:
-        type: boolean
-    required:
-    - isRead
+    - previewUrl
+    - srcUrl
     type: object
 info:
   contact: {}
@@ -71,52 +33,49 @@ paths:
       summary: resets db
       tags:
       - dev
-  /messages:
-    post:
+  /files:
+    delete:
       consumes:
       - application/json
-      operationId: create-message
+      description: Delete multiple files from the server storage using their IDs
+      operationId: delete-files
       parameters:
-      - description: query params
+      - description: List of file IDs to delete
         in: body
-        name: request
+        name: fileIDs
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateMessagePayload'
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete files by IDs
+      tags:
+      - file
+    post:
+      consumes:
+      - multipart/form-data
+      description: Uploads a file to the server and stores it in the designated storage
+        path
+      operationId: upload-file
+      parameters:
+      - description: File to upload
+        in: formData
+        name: multipart
+        required: true
+        type: file
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.CreateMessageResponse'
-      summary: Create message
+            $ref: '#/definitions/schemas.UploadFileResponse'
+      summary: Upload file to storage
       tags:
-      - message
-  /messages/{messageId}/message-status:
-    patch:
-      consumes:
-      - application/json
-      description: Update message status by message Id
-      operationId: update-message-status
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.UpdateMessageStatusPayload'
-      - description: message Id
-        in: path
-        name: messageId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Update message status
-      tags:
-      - message
+      - file
 swagger: "2.0"

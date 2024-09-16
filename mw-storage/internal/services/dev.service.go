@@ -2,12 +2,11 @@ package services
 
 import (
 	"context"
+	db "mwstorage/internal/db/sqlc"
 	"os"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
-
-	db "mwstorage/internal/db/sqlc"
 )
 
 type DevRepository interface {

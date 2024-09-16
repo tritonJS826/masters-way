@@ -60,6 +60,7 @@ models/SchemasGenerateMetricsResponse.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
 models/SchemasGetUsersByIDsResponse.ts
+models/SchemasGoogleToken.ts
 models/SchemasJobDonePopulatedResponse.ts
 models/SchemasJobTagResponse.ts
 models/SchemasLabel.ts

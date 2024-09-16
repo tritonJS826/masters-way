@@ -7,14 +7,16 @@ import (
 )
 
 type Service struct {
-	MessagesService *MessagesService
-	DevService      *DevService
+	GoogleDriveService *GoogleDriveService
+	FileService        *FileService
+	DevService         *DevService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 	return &Service{
-		MessagesService: NewMessagesService(pool, queries),
-		DevService:      NewDevService(pool, queries),
+		GoogleDriveService: NewGoogleDriveService(),
+		FileService:        NewFileService(queries),
+		DevService:         NewDevService(pool, queries),
 	}
 }
