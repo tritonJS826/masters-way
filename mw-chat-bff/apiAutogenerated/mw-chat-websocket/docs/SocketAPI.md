@@ -1,6 +1,6 @@
 # \SocketAPI
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://localhost/mw-chat-websocket*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

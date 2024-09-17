@@ -1,8 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "title": "Masters way chat API",
+        "contact": {},
+        "version": "1.0"
     },
+    "basePath": "/mw-chat-websocket",
     "paths": {
         "/messages": {
             "post": {
