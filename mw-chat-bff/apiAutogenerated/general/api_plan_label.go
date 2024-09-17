@@ -14,59 +14,58 @@ import (
 	"bytes"
 	"context"
 	"io"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
 
-// PlanJobTagAPIService PlanJobTagAPI service
-type PlanJobTagAPIService service
+// PlanLabelAPIService PlanLabelAPI service
+type PlanLabelAPIService service
 
-type ApiCreatePlanJobTagRequest struct {
+type ApiCreatePlanLabelRequest struct {
 	ctx context.Context
-	ApiService *PlanJobTagAPIService
-	request *SchemasCreatePlanJobTagPayload
+	ApiService *PlanLabelAPIService
+	request *SchemasCreatePlanLabelPayload
 }
 
 // query params
-func (r ApiCreatePlanJobTagRequest) Request(request SchemasCreatePlanJobTagPayload) ApiCreatePlanJobTagRequest {
+func (r ApiCreatePlanLabelRequest) Request(request SchemasCreatePlanLabelPayload) ApiCreatePlanLabelRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreatePlanJobTagRequest) Execute() (*http.Response, error) {
-	return r.ApiService.CreatePlanJobTagExecute(r)
+func (r ApiCreatePlanLabelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.CreatePlanLabelExecute(r)
 }
 
 /*
-CreatePlanJobTag Create a new planJobTag
+CreatePlanLabel Create a new planLabel
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreatePlanJobTagRequest
+ @return ApiCreatePlanLabelRequest
 */
-func (a *PlanJobTagAPIService) CreatePlanJobTag(ctx context.Context) ApiCreatePlanJobTagRequest {
-	return ApiCreatePlanJobTagRequest{
+func (a *PlanLabelAPIService) CreatePlanLabel(ctx context.Context) ApiCreatePlanLabelRequest {
+	return ApiCreatePlanLabelRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-func (a *PlanJobTagAPIService) CreatePlanJobTagExecute(r ApiCreatePlanJobTagRequest) (*http.Response, error) {
+func (a *PlanLabelAPIService) CreatePlanLabelExecute(r ApiCreatePlanLabelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanJobTagAPIService.CreatePlanJobTag")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanLabelAPIService.CreatePlanLabel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/planJobTags"
+	localVarPath := localBasePath + "/planLabels"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -122,121 +121,49 @@ func (a *PlanJobTagAPIService) CreatePlanJobTagExecute(r ApiCreatePlanJobTagRequ
 	return localVarHTTPResponse, nil
 }
 
-// Execute executes the request
-func (a *PlanJobTagAPIService) CreatePlanJobTagStreamExecute(r ApiCreatePlanJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanJobTagAPIService.CreatePlanJobTag")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/planJobTags"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	fmt.Println(localVarQueryParams)
-
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	for key, values := range request.Header {
-	   if key == "Origin" { continue }
-	   for _, value := range values {
-	       req.Header.Add(key, value)
-	   }
-	}
-
-	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-type ApiDeletePlanJobTagRequest struct {
+type ApiDeletePlanLabelRequest struct {
 	ctx context.Context
-	ApiService *PlanJobTagAPIService
-	jobTagId string
+	ApiService *PlanLabelAPIService
+	labelId string
 	planId string
 }
 
-func (r ApiDeletePlanJobTagRequest) Execute() (*http.Response, error) {
-	return r.ApiService.DeletePlanJobTagExecute(r)
+func (r ApiDeletePlanLabelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeletePlanLabelExecute(r)
 }
 
 /*
-DeletePlanJobTag Delete planJobTag by UUID
+DeletePlanLabel Delete planLabel by UUID
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param jobTagId jobTag ID
+ @param labelId label ID
  @param planId plan ID
- @return ApiDeletePlanJobTagRequest
+ @return ApiDeletePlanLabelRequest
 */
-func (a *PlanJobTagAPIService) DeletePlanJobTag(ctx context.Context, jobTagId string, planId string) ApiDeletePlanJobTagRequest {
-	return ApiDeletePlanJobTagRequest{
+func (a *PlanLabelAPIService) DeletePlanLabel(ctx context.Context, labelId string, planId string) ApiDeletePlanLabelRequest {
+	return ApiDeletePlanLabelRequest{
 		ApiService: a,
 		ctx: ctx,
-		jobTagId: jobTagId,
+		labelId: labelId,
 		planId: planId,
 	}
 }
 
 // Execute executes the request
-func (a *PlanJobTagAPIService) DeletePlanJobTagExecute(r ApiDeletePlanJobTagRequest) (*http.Response, error) {
+func (a *PlanLabelAPIService) DeletePlanLabelExecute(r ApiDeletePlanLabelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanJobTagAPIService.DeletePlanJobTag")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanLabelAPIService.DeletePlanLabel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/planJobTags/{jobTagId}/{planId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"jobTagId"+"}", url.PathEscape(parameterValueToString(r.jobTagId, "jobTagId")), -1)
+	localVarPath := localBasePath + "/planLabels/{labelId}/{planId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"labelId"+"}", url.PathEscape(parameterValueToString(r.labelId, "labelId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"planId"+"}", url.PathEscape(parameterValueToString(r.planId, "planId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -264,81 +191,6 @@ func (a *PlanJobTagAPIService) DeletePlanJobTagExecute(r ApiDeletePlanJobTagRequ
 	if err != nil {
 		return nil, err
 	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-// Execute executes the request
-func (a *PlanJobTagAPIService) DeletePlanJobTagStreamExecute(r ApiDeletePlanJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanJobTagAPIService.DeletePlanJobTag")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/planJobTags/{jobTagId}/{planId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"jobTagId"+"}", url.PathEscape(parameterValueToString(r.jobTagId, "jobTagId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"planId"+"}", url.PathEscape(parameterValueToString(r.planId, "planId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	fmt.Println(localVarQueryParams)
-
-
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	for key, values := range request.Header {
-	   if key == "Origin" { continue }
-	   for _, value := range values {
-	       req.Header.Add(key, value)
-	   }
-	}
-
-	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

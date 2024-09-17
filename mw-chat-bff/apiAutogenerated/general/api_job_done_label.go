@@ -14,59 +14,58 @@ import (
 	"bytes"
 	"context"
 	"io"
-	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
 
-// JobDoneJobTagAPIService JobDoneJobTagAPI service
-type JobDoneJobTagAPIService service
+// JobDoneLabelAPIService JobDoneLabelAPI service
+type JobDoneLabelAPIService service
 
-type ApiCreateJobDoneJobTagRequest struct {
+type ApiCreateJobDoneLabelRequest struct {
 	ctx context.Context
-	ApiService *JobDoneJobTagAPIService
-	request *SchemasCreateJobDoneJobTagPayload
+	ApiService *JobDoneLabelAPIService
+	request *SchemasCreateJobDoneLabelPayload
 }
 
 // query params
-func (r ApiCreateJobDoneJobTagRequest) Request(request SchemasCreateJobDoneJobTagPayload) ApiCreateJobDoneJobTagRequest {
+func (r ApiCreateJobDoneLabelRequest) Request(request SchemasCreateJobDoneLabelPayload) ApiCreateJobDoneLabelRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateJobDoneJobTagRequest) Execute() (*http.Response, error) {
-	return r.ApiService.CreateJobDoneJobTagExecute(r)
+func (r ApiCreateJobDoneLabelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.CreateJobDoneLabelExecute(r)
 }
 
 /*
-CreateJobDoneJobTag Create a new jobDoneJobTag
+CreateJobDoneLabel Create a new jobDoneLabel
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateJobDoneJobTagRequest
+ @return ApiCreateJobDoneLabelRequest
 */
-func (a *JobDoneJobTagAPIService) CreateJobDoneJobTag(ctx context.Context) ApiCreateJobDoneJobTagRequest {
-	return ApiCreateJobDoneJobTagRequest{
+func (a *JobDoneLabelAPIService) CreateJobDoneLabel(ctx context.Context) ApiCreateJobDoneLabelRequest {
+	return ApiCreateJobDoneLabelRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-func (a *JobDoneJobTagAPIService) CreateJobDoneJobTagExecute(r ApiCreateJobDoneJobTagRequest) (*http.Response, error) {
+func (a *JobDoneLabelAPIService) CreateJobDoneLabelExecute(r ApiCreateJobDoneLabelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneJobTagAPIService.CreateJobDoneJobTag")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneLabelAPIService.CreateJobDoneLabel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/jobDoneJobTags"
+	localVarPath := localBasePath + "/jobDoneLabels"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -122,122 +121,50 @@ func (a *JobDoneJobTagAPIService) CreateJobDoneJobTagExecute(r ApiCreateJobDoneJ
 	return localVarHTTPResponse, nil
 }
 
-// Execute executes the request
-func (a *JobDoneJobTagAPIService) CreateJobDoneJobTagStreamExecute(r ApiCreateJobDoneJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneJobTagAPIService.CreateJobDoneJobTag")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/jobDoneJobTags"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	fmt.Println(localVarQueryParams)
-
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	for key, values := range request.Header {
-	   if key == "Origin" { continue }
-	   for _, value := range values {
-	       req.Header.Add(key, value)
-	   }
-	}
-
-	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-type ApiDeleteJobDoneJobTagRequest struct {
+type ApiDeleteJobDoneLabelRequest struct {
 	ctx context.Context
-	ApiService *JobDoneJobTagAPIService
+	ApiService *JobDoneLabelAPIService
 	jobDoneId string
-	jobTagId string
+	labelId string
 }
 
-func (r ApiDeleteJobDoneJobTagRequest) Execute() (*http.Response, error) {
-	return r.ApiService.DeleteJobDoneJobTagExecute(r)
+func (r ApiDeleteJobDoneLabelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteJobDoneLabelExecute(r)
 }
 
 /*
-DeleteJobDoneJobTag Delete jobDoneJobTag by UUID
+DeleteJobDoneLabel Delete jobDoneLabel by UUID
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param jobDoneId jobDone ID
- @param jobTagId jobTag UUID
- @return ApiDeleteJobDoneJobTagRequest
+ @param labelId label UUID
+ @return ApiDeleteJobDoneLabelRequest
 */
-func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTag(ctx context.Context, jobDoneId string, jobTagId string) ApiDeleteJobDoneJobTagRequest {
-	return ApiDeleteJobDoneJobTagRequest{
+func (a *JobDoneLabelAPIService) DeleteJobDoneLabel(ctx context.Context, jobDoneId string, labelId string) ApiDeleteJobDoneLabelRequest {
+	return ApiDeleteJobDoneLabelRequest{
 		ApiService: a,
 		ctx: ctx,
 		jobDoneId: jobDoneId,
-		jobTagId: jobTagId,
+		labelId: labelId,
 	}
 }
 
 // Execute executes the request
-func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTagExecute(r ApiDeleteJobDoneJobTagRequest) (*http.Response, error) {
+func (a *JobDoneLabelAPIService) DeleteJobDoneLabelExecute(r ApiDeleteJobDoneLabelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneJobTagAPIService.DeleteJobDoneJobTag")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneLabelAPIService.DeleteJobDoneLabel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/jobDoneJobTags/{jobTagId}/{jobDoneId}"
+	localVarPath := localBasePath + "/jobDoneLabels/{labelId}/{jobDoneId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"jobDoneId"+"}", url.PathEscape(parameterValueToString(r.jobDoneId, "jobDoneId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"jobTagId"+"}", url.PathEscape(parameterValueToString(r.jobTagId, "jobTagId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"labelId"+"}", url.PathEscape(parameterValueToString(r.labelId, "labelId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -264,81 +191,6 @@ func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTagExecute(r ApiDeleteJobDoneJ
 	if err != nil {
 		return nil, err
 	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-// Execute executes the request
-func (a *JobDoneJobTagAPIService) DeleteJobDoneJobTagStreamExecute(r ApiDeleteJobDoneJobTagRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneJobTagAPIService.DeleteJobDoneJobTag")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/jobDoneJobTags/{jobTagId}/{jobDoneId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"jobDoneId"+"}", url.PathEscape(parameterValueToString(r.jobDoneId, "jobDoneId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"jobTagId"+"}", url.PathEscape(parameterValueToString(r.jobTagId, "jobTagId")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	fmt.Println(localVarQueryParams)
-
-
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	for key, values := range request.Header {
-	   if key == "Origin" { continue }
-	   for _, value := range values {
-	       req.Header.Add(key, value)
-	   }
-	}
-
-	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
