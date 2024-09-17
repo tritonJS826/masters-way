@@ -675,6 +675,146 @@ const docTemplate = `{
                 }
             }
         },
+        "/gemini/comment-issue": {
+            "post": {
+                "description": "Generate a comment for any issue",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate a comment for any issue",
+                "operationId": "ai-comment-issue",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AICommentIssuePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AICommentIssueResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/decompose-issue": {
+            "post": {
+                "description": "Decompose issue for 10 plans",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Decompose issue",
+                "operationId": "ai-decompose-issue",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIDecomposeIssuePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIDecomposeIssueResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/estimate-issue": {
+            "post": {
+                "description": "Estimate issue in minutes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Estimate issue in minutes",
+                "operationId": "ai-estimate-issue",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIEstimateIssuePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIEstimateIssueResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/generate-plans-by-metric": {
+            "post": {
+                "description": "Generate plans by metric.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate plans by metric",
+                "operationId": "ai-plans-by-metrics",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/gemini/just-chat": {
             "post": {
                 "description": "This endpoint for talks with AI language model.",
@@ -2327,6 +2467,116 @@ const docTemplate = `{
             "properties": {
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.AICommentIssuePayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "message"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AICommentIssueResponse": {
+            "type": "object",
+            "required": [
+                "goal"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIDecomposeIssuePayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "message"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIDecomposeIssueResponse": {
+            "type": "object",
+            "required": [
+                "plans"
+            ],
+            "properties": {
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schemas.AIEstimateIssuePayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "issue"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "issue": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIEstimateIssueResponse": {
+            "type": "object",
+            "required": [
+                "estimation"
+            ],
+            "properties": {
+                "estimation": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIGeneratePlansByMetricPayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "metric"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "metric": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIGeneratePlansByMetricResponse": {
+            "type": "object",
+            "required": [
+                "plans"
+            ],
+            "properties": {
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
