@@ -1,17 +1,17 @@
 import {Label} from "src/model/businessModel/Label";
-import {JobTagService} from "src/service/JobTagService";
+import {LabelService} from "src/service/LabelService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
- * Provides methods to interact with the jobTag
+ * Provides methods to interact with the label
  */
 export class LabelDAL {
 
   /**
-   * Create metric
+   * Create label
    */
   public static async createLabel(wayUuid: string, name: string, color: string): Promise<Label> {
-    const jobTagDTO = await JobTagService.createJobTag({
+    const labelDTO = await LabelService.createLabel({
       request: {
         color,
         description: "",
@@ -20,18 +20,18 @@ export class LabelDAL {
       },
     });
 
-    const jobTag = new Label({...jobTagDTO});
+    const jobTag = new Label({...labelDTO});
 
     return jobTag;
   }
 
   /**
-   * Update job tag
+   * Update label
    */
   public static async updateLabel(params: PartialWithUuid<Label>): Promise<Label> {
 
-    const updatedLabelDTO = await JobTagService.updateJobTag({
-      jobTagId: params.uuid,
+    const updatedLabelDTO = await LabelService.updateLabel({
+      labelId: params.uuid,
       request: {...params},
     });
 
@@ -41,10 +41,10 @@ export class LabelDAL {
   }
 
   /**
-   * Delete jobTag by UUID
+   * Delete label by UUID
    */
-  public static async deleteLabel(jobTagId: string): Promise<void> {
-    await JobTagService.deleteJobTag({jobTagId});
+  public static async deleteLabel(labelId: string): Promise<void> {
+    await LabelService.deleteLabel({labelId});
   }
 
 }

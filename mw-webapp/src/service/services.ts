@@ -12,13 +12,13 @@ import {
   GeminiApi,
   HealthApi,
   JobDoneApi,
-  JobDoneJobTagApi,
-  JobTagApi,
+  JobDoneLabelApi,
+  LabelApi,
   MentorUserWayApi,
   MetricApi,
   Middleware,
   PlanApi,
-  PlanJobTagApi,
+  PlanLabelApi,
   ProblemApi,
   RequestContext,
   ResponseContext,
@@ -94,9 +94,9 @@ export const wayTagService = new WayTagApi(generalConfiguration);
 export const wayCollectionWayService = new WayCollectionWayApi(generalConfiguration);
 export const wayService = new WayApi(generalConfiguration);
 export const toUserMentoringRequestService = new ToUserMentoringRequestApi(generalConfiguration);
-export const planJobTagService = new PlanJobTagApi(generalConfiguration);
-export const jobDoneJobTagService = new JobDoneJobTagApi(generalConfiguration);
-export const jobTagService = new JobTagApi(generalConfiguration);
+export const planLabelService = new PlanLabelApi(generalConfiguration);
+export const jobDoneLabelService = new JobDoneLabelApi(generalConfiguration);
+export const labelService = new LabelApi(generalConfiguration);
 export const jobDoneService = new JobDoneApi(generalConfiguration);
 export const planService = new PlanApi(generalConfiguration);
 export const problemService = new ProblemApi(generalConfiguration);

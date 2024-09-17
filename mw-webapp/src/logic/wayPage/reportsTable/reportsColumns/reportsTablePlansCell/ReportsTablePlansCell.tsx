@@ -15,7 +15,7 @@ import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
-import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
+import {PlanLabelDAL} from "src/dataAccessLogic/PlanLabelDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
@@ -177,13 +177,13 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     const labelsToDelete: Label[] = params.plan.tags
       .filter(label => !params.updatedTags.includes(label));
 
-    const addPromises = labelsToAdd.map(label => PlanJobTagDAL.createPlanJobTag({
+    const addPromises = labelsToAdd.map(label => PlanLabelDAL.createPlanJobTag({
       planUuid: params.plan.uuid,
-      jobTagUuid: label.uuid,
+      labelUuid: label.uuid,
     }));
-    const deletePromises = labelsToDelete.map(label => PlanJobTagDAL.deletePlanJobTag({
+    const deletePromises = labelsToDelete.map(label => PlanLabelDAL.deletePlanJobTag({
       planUuid: params.plan.uuid,
-      jobTagUuid: label.uuid,
+      labelUuid: label.uuid,
     }));
 
     await Promise.all([

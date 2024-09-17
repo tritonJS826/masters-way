@@ -14,7 +14,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
+import {JobDoneLabelDAL} from "src/dataAccessLogic/JobDoneLabelDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -182,13 +182,13 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
     const labelsToDelete: Label[] = params.jobDone.tags
       .filter(label => !params.updatedTags.includes(label));
 
-    const addPromises = labelsToAdd.map(label => JobDoneJobTagDAL.createJobDoneJobTag({
+    const addPromises = labelsToAdd.map(label => JobDoneLabelDAL.createJobDoneLabel({
       jobDoneUuid: params.jobDone.uuid,
-      jobTagUuid: label.uuid,
+      labelUuid: label.uuid,
     }));
-    const deletePromises = labelsToDelete.map(label => JobDoneJobTagDAL.deleteJobDoneJobTag({
+    const deletePromises = labelsToDelete.map(label => JobDoneLabelDAL.deleteJobDoneJobTag({
       jobDoneUuid: params.jobDone.uuid,
-      jobTagUuid: label.uuid,
+      labelUuid: label.uuid,
     }));
 
     await Promise.all([
