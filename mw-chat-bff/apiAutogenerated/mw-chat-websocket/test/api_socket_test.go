@@ -1,5 +1,5 @@
 /*
-
+Masters way chat API
 
 Testing SocketAPIService
 
