@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -9,6 +10,7 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
+import {Text} from "src/component/text/Text";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -236,7 +238,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   className={styles.linkToOwnerWay}
                 >
                   <Tooltip
-                    position={PositionTooltip.BOTTOM}
+                    position={PositionTooltip.TOP}
                     content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
                       .replace("$wayName", `"${plan.wayName}"`)}
                   >
@@ -248,6 +250,57 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   </Tooltip>
                 </Link>
                 }
+                <Modal
+                  trigger={
+                    <Tooltip
+                      position={PositionTooltip.TOP}
+                      content={LanguageService.way.reportsTable.decomposePlanByAI[language]}
+                    >
+                      <Button
+                        onClick={() => {}}
+                        buttonType={ButtonType.ICON_BUTTON}
+                        value="DE"
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <Text text={`${LanguageService.way.reportsTable.decomposePlanByAI[language]}. Coming soon...`} />
+                  }
+                />
+                <Modal
+                  trigger={
+                    <Tooltip
+                      position={PositionTooltip.TOP}
+                      content={LanguageService.way.reportsTable.estimatePlanByAI[language]}
+                    >
+                      <Button
+                        onClick={() => {}}
+                        buttonType={ButtonType.ICON_BUTTON}
+                        value="ES"
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <Text text={`${LanguageService.way.reportsTable.estimatePlanByAI[language]}. Coming soon...`} />
+                  }
+                />
+                <Modal
+                  trigger={
+                    <Tooltip
+                      position={PositionTooltip.TOP}
+                      content={LanguageService.way.reportsTable.generatePlanByAI[language]}
+                    >
+                      <Button
+                        onClick={() => {}}
+                        buttonType={ButtonType.ICON_BUTTON}
+                        value="GE"
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <Text text={`${LanguageService.way.reportsTable.generatePlanByAI[language]}. Coming soon...`} />
+                  }
+                />
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
                   content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}

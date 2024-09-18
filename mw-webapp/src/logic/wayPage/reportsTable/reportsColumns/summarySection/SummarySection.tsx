@@ -79,7 +79,8 @@ export const SummarySection = (props: SummarySectionProps) => {
               }
               onClick={() => props.onClick(props.compositionParticipants[0])}
               buttonType={ButtonType.ICON_BUTTON}
-            />)
+            />
+          )
           : (
             <Confirm
               trigger={
