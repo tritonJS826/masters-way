@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -8,6 +9,7 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
+import {Text} from "src/component/text/Text";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -149,6 +151,57 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                 </Tooltip>
               </Link>
               }
+              <Modal
+                trigger={
+                  <Tooltip
+                    position={PositionTooltip.TOP}
+                    content={LanguageService.way.reportsTable.decomposeProblemByAI[language]}
+                  >
+                    <Button
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                      value="DE"
+                    />
+                  </Tooltip>
+                }
+                content={
+                  <Text text={`${LanguageService.way.reportsTable.decomposeProblemByAI[language]}. Coming soon...`} />
+                }
+              />
+              <Modal
+                trigger={
+                  <Tooltip
+                    position={PositionTooltip.TOP}
+                    content={LanguageService.way.reportsTable.estimateProblemByAI[language]}
+                  >
+                    <Button
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                      value="ES"
+                    />
+                  </Tooltip>
+                }
+                content={
+                  <Text text={`${LanguageService.way.reportsTable.estimateProblemByAI[language]}. Coming soon...`} />
+                }
+              />
+              <Modal
+                trigger={
+                  <Tooltip
+                    position={PositionTooltip.TOP}
+                    content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
+                  >
+                    <Button
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                      value="RE"
+                    />
+                  </Tooltip>
+                }
+                content={
+                  <Text text={`${LanguageService.way.reportsTable.addRecommendationsByAI[language]}. Coming soon...`} />
+                }
+              />
               {props.isEditable &&
                 <Tooltip
                   position={PositionTooltip.RIGHT}

@@ -511,6 +511,36 @@
       "en": "Total:",
       "ua": "Всього:"
     },
+    "decomposePlanByAI": {
+      "ru": "Декомпозировать план с помощью ИИ",
+      "en": "Decompose the plan using AI",
+      "ua": "Декомпозувати план за допомогою ІІ"
+    },
+    "estimatePlanByAI": {
+      "ru": "Эстимировать план с помощью ИИ",
+      "en": "Estimate the plan using AI",
+      "ua": "Оцініть план за допомогою ІІ"
+    },
+    "generatePlanByAI": {
+      "ru": "Сгенерировать план на основе метрики с помощью ИИ",
+      "en": "Generate the plan based on a metric using AI",
+      "ua": "Згенерувати план на основі метрики за допомогою ІІ"
+    },
+    "decomposeProblemByAI": {
+      "ru": "Декомпозировать проблему с помощью ИИ",
+      "en": "Decompose the problem using AI",
+      "ua": "Декомпозувати проблему за допомогою ІІ"
+    },
+    "estimateProblemByAI": {
+      "ru": "Эстимировать проблему с помощью ИИ",
+      "en": "Estimate the problem using AI",
+      "ua": "Естимувати проблему за допомогою ІІ"
+    },
+    "addRecommendationsByAI": {
+      "ru": "Добавить рекомендации по проблеме от ИИ",
+      "en": "Add recommendations about the problem by AI",
+      "ua": "Додати рекомендації щодо проблеми за допомогою ІІ"
+    },
     "column": {
       "date": {
         "ru": "Дата",
