@@ -35,18 +35,18 @@
   "main": {
     "title": {
       "ru": "Свобода учиться\nс ",
-      "en": "Freedom to study",
+      "en": "Freedom to study\n with ",
       "ua": "Свобода бути ментором\nіз "
     },
     "mastersWay": {
       "ru": "Master's Way",
-      "en": "Learning journey?",
+      "en": "Master's Way",
       "ua": "Master's Way"
     },
     "description": {
-      "ru": "Используйте технологии ИИ для персонализированного обучения в удобное для вас время. Платформа Master's Way адаптируется под ваш стиль обучения и помогает отслеживать прогресс без необходимости зависеть от менторов.",
-      "en": "Leverage AI-powered personalized learning to study on your own schedule. The Master's Way platform adapts to your learning style, helping you track progress without relying on mentors.",
-      "ua": "Використовуйте технології ІІ для персоналізованого навчання у зручний для вас час. Платформа Master's Way адаптується до вашого стилю навчання, допомагаючи відстежувати прогрес без залежності від менторів."
+      "ru": "Используйте технологии ИИ для персонализированного обучения в удобное для вас время.\nПлатформа Master's Way адаптируется под ваш стиль обучения и помогает отслеживать прогресс без необходимости зависеть от менторов.",
+      "en": "Leverage AI-powered personalized learning to study on your own schedule.\nThe Master's Way platform adapts to your learning style, helping you track progress without relying on mentors.",
+      "ua": "Використовуйте технології ІІ для персоналізованого навчання у зручний для вас час.\nПлатформа Master's Way адаптується до вашого стилю навчання, допомагаючи відстежувати прогрес без залежності від менторів."
     }
   },
   "advantages": {
@@ -57,9 +57,9 @@
     },
     "asynchronousInteraction": {
       "title": {
-        "ru": "Прощайте\n бесконечные встречи",
+        "ru": "Прощайте\nбесконечные встречи",
         "en": "Goodbye to\nTime-Wasting Meetings",
-        "ua": "Прощайте, нескінченні зустрічі"
+        "ua": "Прощайте\nнескінченні зустрічі"
       },
       "description": {
         "ru": "Учитесь в своем темпе без необходимости участвовать в онлайн-встречах. Наша платформа на базе ИИ помогает вам учиться в любое время, без привязки к ментору.",
@@ -128,9 +128,9 @@
       "ua": "Наша програма – ключ до успішного навчання"
     },
     "description": {
-      "ru": "Master's Way предлагает решение для тех, кто стремится к самостоятельному обучению с поддержкой ИИ, без привязки к расписанию менторов.",
-      "en": "Master's Way offers a solution for those seeking self-driven learning with AI support, free from mentor schedules.",
-      "ua": "Master's Way пропонує рішення для тих, хто прагне до самостійного навчання з підтримкою ІІ, без прив’язки до розкладів менторів."
+      "ru": "Master's Way предлагает решение для тех, кто стремится к самостоятельному обучению\nс поддержкой ИИ, без привязки к расписанию менторов.",
+      "en": "Master's Way offers a solution for those seeking self-driven learning\nwith AI support, free from mentor schedules.",
+      "ua": "Master's Way пропонує рішення для тих, хто прагне до самостійного навчання\nз підтримкою ІІ, без прив’язки до розкладів менторів."
     },
     "timeSaving": {
       "title": {
