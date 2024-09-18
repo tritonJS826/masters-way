@@ -16,18 +16,18 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {AmountBlock, AmountItem} from "src/land/amountBlock/AmountBlock";
 import {HeaderLanding, NavLink} from "src/land/headerLanding/HeaderLanding";
-import {ProblemItem} from "src/land/mentorsLandingPage/problemItem/ProblemItem";
+import {ProblemItem} from "src/land/problemItem/ProblemItem";
 import {PricePlan} from "src/logic/pricingPage/pricePlan/PricePlan";
 import {pricePlans} from "src/logic/pricingPage/pricePlan/pricePlans";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import styles from "src/land/mentorsLandingPage/MentorsLandingPage.module.scss";
+import styles from "src/land/landings/studentsWithAiLandingPage/StudentsWithAILandingPage.module.scss";
 
 /**
- * Mentors landing page
+ * Students with AI landing page
  */
-export const MentorsLandingPage = observer(() => {
+export const StudentsWithAILandingPage = observer(() => {
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
 
@@ -36,27 +36,27 @@ export const MentorsLandingPage = observer(() => {
   const navList: NavLink[] = [
     {
       path: "advantages",
-      value: LanguageService.mentorsLanding.navigation.advantages[language],
+      value: LanguageService.studentsWithAiLanding.navigation.advantages[language],
     },
     {
       path: "problems",
-      value: LanguageService.mentorsLanding.navigation.solutions[language],
+      value: LanguageService.studentsWithAiLanding.navigation.solutions[language],
     },
     {
       path: "reviews",
-      value: LanguageService.mentorsLanding.navigation.reviews[language],
+      value: LanguageService.studentsWithAiLanding.navigation.reviews[language],
     },
     {
       path: "pricing",
-      value: LanguageService.mentorsLanding.navigation.pricing[language],
+      value: LanguageService.studentsWithAiLanding.navigation.pricing[language],
     },
     {
       path: "questions",
-      value: LanguageService.mentorsLanding.navigation.questions[language],
+      value: LanguageService.studentsWithAiLanding.navigation.questions[language],
     },
   ];
 
-  const accordionItems = LanguageService.mentorsLanding.questions.accordion.map((data) => ({
+  const accordionItems = LanguageService.studentsWithAiLanding.questions.accordion.map((data) => ({
     trigger: {child: data.question[language]},
     content: {child: renderMarkdown(data.answer[language])},
   }));
@@ -65,17 +65,17 @@ export const MentorsLandingPage = observer(() => {
     {
       id: "00000000-0000-0000-0000-00000000001",
       amount: 30,
-      description: LanguageService.mentorsLanding.amountBlock.mentors[language],
+      description: LanguageService.studentsWithAiLanding.amountBlock.mentors[language],
     },
     {
       id: "00000000-0000-0000-0000-00000000002",
       amount: 150,
-      description: LanguageService.mentorsLanding.amountBlock.activeWays[language],
+      description: LanguageService.studentsWithAiLanding.amountBlock.activeWays[language],
     },
     {
       id: "00000000-0000-0000-0000-00000000003",
       amount: 50,
-      description: LanguageService.mentorsLanding.amountBlock.students[language],
+      description: LanguageService.studentsWithAiLanding.amountBlock.students[language],
     },
   ];
 
@@ -85,10 +85,10 @@ export const MentorsLandingPage = observer(() => {
       content: (
         <ReviewCard
           gradeAmount={5}
-          review={LanguageService.mentorsLanding.reviews.kirillReview.review[language]}
+          review={LanguageService.studentsWithAiLanding.reviews.kirillReview.review[language]}
           reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
-          reviewerName={LanguageService.mentorsLanding.reviews.kirillReview.mentorName[language]}
-          reviewerProfession={LanguageService.mentorsLanding.reviews.kirillReview.mentorProfession[language]}
+          reviewerName={LanguageService.studentsWithAiLanding.reviews.kirillReview.mentorName[language]}
+          reviewerProfession={LanguageService.studentsWithAiLanding.reviews.kirillReview.mentorProfession[language]}
         />
       ),
     },
@@ -97,10 +97,10 @@ export const MentorsLandingPage = observer(() => {
       content: (
         <ReviewCard
           gradeAmount={5}
-          review={LanguageService.mentorsLanding.reviews.viktarReview.review[language]}
+          review={LanguageService.studentsWithAiLanding.reviews.viktarReview.review[language]}
           reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
-          reviewerName={LanguageService.mentorsLanding.reviews.viktarReview.mentorName[language]}
-          reviewerProfession={LanguageService.mentorsLanding.reviews.viktarReview.mentorProfession[language]}
+          reviewerName={LanguageService.studentsWithAiLanding.reviews.viktarReview.mentorName[language]}
+          reviewerProfession={LanguageService.studentsWithAiLanding.reviews.viktarReview.mentorProfession[language]}
         />
       ),
     },
@@ -109,10 +109,10 @@ export const MentorsLandingPage = observer(() => {
       content: (
         <ReviewCard
           gradeAmount={5}
-          review={LanguageService.mentorsLanding.reviews.viktoryiaReview.review[language]}
+          review={LanguageService.studentsWithAiLanding.reviews.viktoryiaReview.review[language]}
           reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
-          reviewerName={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorName[language]}
-          reviewerProfession={LanguageService.mentorsLanding.reviews.viktoryiaReview.mentorProfession[language]}
+          reviewerName={LanguageService.studentsWithAiLanding.reviews.viktoryiaReview.mentorName[language]}
+          reviewerProfession={LanguageService.studentsWithAiLanding.reviews.viktoryiaReview.mentorProfession[language]}
         />
       ),
     },
@@ -133,18 +133,18 @@ export const MentorsLandingPage = observer(() => {
 
             {/* Workaround for colorized part of title */}
             <h1 className={styles.title}>
-              {`${LanguageService.mentorsLanding.main.title[language]}`}
-              <h1 className={clsx(styles.title, styles.mw)}>
-                {`${LanguageService.mentorsLanding.main.mastersWay[language]}`}
-              </h1>
+              {`${LanguageService.studentsWithAiLanding.main.title[language]}`}
+              <span className={clsx(styles.title, styles.mw)}>
+                {`${LanguageService.studentsWithAiLanding.main.mastersWay[language]}`}
+              </span>
             </h1>
             <p className={styles.titleDescription}>
-              {LanguageService.mentorsLanding.main.description[language]}
+              {LanguageService.studentsWithAiLanding.main.description[language]}
             </p>
           </VerticalContainer>
           <Button
             buttonType={ButtonType.PRIMARY}
-            value={LanguageService.mentorsLanding.callToActionButton[language]}
+            value={LanguageService.studentsWithAiLanding.callToActionButton[language]}
             icon={
               <Icon
                 size={IconSize.SMALL}
@@ -171,24 +171,24 @@ export const MentorsLandingPage = observer(() => {
           <Title
             className={styles.title}
             level={HeadingLevel.h2}
-            text={LanguageService.mentorsLanding.advantages.title[language]}
+            text={LanguageService.studentsWithAiLanding.advantages.title[language]}
             placeholder=""
           />
           <HorizontalContainer className={styles.advantages}>
             <AdvantageItem
               iconName="ClockIcon"
-              title={LanguageService.mentorsLanding.advantages.asynchronousInteraction.title[language]}
-              description={LanguageService.mentorsLanding.advantages.asynchronousInteraction.description[language]}
+              title={LanguageService.studentsWithAiLanding.advantages.asynchronousInteraction.title[language]}
+              description={LanguageService.studentsWithAiLanding.advantages.asynchronousInteraction.description[language]}
             />
             <AdvantageItem
               iconName="TrendingUpIcon"
-              title={LanguageService.mentorsLanding.advantages.speedingUpProcesses.title[language]}
-              description={LanguageService.mentorsLanding.advantages.speedingUpProcesses.description[language]}
+              title={LanguageService.studentsWithAiLanding.advantages.speedingUpProcesses.title[language]}
+              description={LanguageService.studentsWithAiLanding.advantages.speedingUpProcesses.description[language]}
             />
             <AdvantageItem
               iconName="ActivityIcon"
-              title={LanguageService.mentorsLanding.advantages.monitoringAchievements.title[language]}
-              description={LanguageService.mentorsLanding.advantages.monitoringAchievements.description[language]}
+              title={LanguageService.studentsWithAiLanding.advantages.monitoringAchievements.title[language]}
+              description={LanguageService.studentsWithAiLanding.advantages.monitoringAchievements.description[language]}
             />
           </HorizontalContainer>
         </div>
@@ -203,28 +203,28 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text={LanguageService.mentorsLanding.solutions.title[language]}
+              text={LanguageService.studentsWithAiLanding.solutions.title[language]}
               placeholder=""
             />
             <p className={styles.titleDescription}>
-              {LanguageService.mentorsLanding.solutions.description[language]}
+              {LanguageService.studentsWithAiLanding.solutions.description[language]}
             </p>
           </VerticalContainer>
           <VerticalContainer className={styles.problems}>
             <ProblemItem
-              title={LanguageService.mentorsLanding.solutions.timeSaving.title[language]}
-              description={LanguageService.mentorsLanding.solutions.timeSaving.description[language]}
+              title={LanguageService.studentsWithAiLanding.solutions.timeSaving.title[language]}
+              description={LanguageService.studentsWithAiLanding.solutions.timeSaving.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1TSOIZOIg4uvfWeRrE5SUf44CBLanjTUP&sz=w1000"
             />
             <ProblemItem
-              title={LanguageService.mentorsLanding.solutions.progressMonitoring.title[language]}
-              description={LanguageService.mentorsLanding.solutions.progressMonitoring.description[language]}
+              title={LanguageService.studentsWithAiLanding.solutions.progressMonitoring.title[language]}
+              description={LanguageService.studentsWithAiLanding.solutions.progressMonitoring.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1ipbye-Gw_KT81T6KDMFpcfKkyxIO9C3g&sz=w1000"
               isReversed
             />
             <ProblemItem
-              title={LanguageService.mentorsLanding.solutions.focusOnResults.title[language]}
-              description={LanguageService.mentorsLanding.solutions.focusOnResults.description[language]}
+              title={LanguageService.studentsWithAiLanding.solutions.focusOnResults.title[language]}
+              description={LanguageService.studentsWithAiLanding.solutions.focusOnResults.description[language]}
               imageSrc="https://drive.google.com/thumbnail?id=1fKbItiABNCIlHNM87qwTH1L0fezqdiab&sz=w1000"
             />
           </VerticalContainer>
@@ -238,7 +238,7 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text={LanguageService.mentorsLanding.reviews.title[language]}
+              text={LanguageService.studentsWithAiLanding.reviews.title[language]}
               placeholder=""
             />
           </div>
@@ -250,7 +250,7 @@ export const MentorsLandingPage = observer(() => {
           </HorizontalContainer>
           <Button
             buttonType={ButtonType.PRIMARY}
-            value={LanguageService.mentorsLanding.callToActionButton[language]}
+            value={LanguageService.studentsWithAiLanding.callToActionButton[language]}
             icon={
               <Icon
                 size={IconSize.SMALL}
@@ -270,7 +270,7 @@ export const MentorsLandingPage = observer(() => {
           <Title
             className={styles.title}
             level={HeadingLevel.h2}
-            text={LanguageService.mentorsLanding.pricing.title[language]}
+            text={LanguageService.studentsWithAiLanding.pricing.title[language]}
             placeholder=""
           />
           <HorizontalContainer className={styles.planItems}>
@@ -293,7 +293,7 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={styles.title}
               level={HeadingLevel.h2}
-              text={LanguageService.mentorsLanding.questions.title[language]}
+              text={LanguageService.studentsWithAiLanding.questions.title[language]}
               placeholder=""
             />
           </VerticalContainer>
@@ -309,19 +309,19 @@ export const MentorsLandingPage = observer(() => {
             <Title
               className={clsx(styles.titleBlock, styles.title, styles.titleYouShouldBlock)}
               level={HeadingLevel.h2}
-              text={LanguageService.mentorsLanding.aboutApp.title[language]}
+              text={LanguageService.studentsWithAiLanding.aboutApp.title[language]}
               placeholder=""
             />
             <VerticalContainer className={styles.triesContentBlock}>
               <p>
-                {LanguageService.mentorsLanding.aboutApp.tryOurApp[language]}
+                {LanguageService.studentsWithAiLanding.aboutApp.tryOurApp[language]}
               </p>
               <p>
-                {LanguageService.mentorsLanding.aboutApp.ourAppIs[language]}
+                {LanguageService.studentsWithAiLanding.aboutApp.ourAppIs[language]}
               </p>
               <Button
                 buttonType={ButtonType.PRIMARY}
-                value={LanguageService.mentorsLanding.callToActionButton[language]}
+                value={LanguageService.studentsWithAiLanding.callToActionButton[language]}
                 icon={
                   <Icon
                     size={IconSize.SMALL}
