@@ -10,7 +10,6 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
-import {Text} from "src/component/text/Text";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -21,6 +20,10 @@ import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {DecomposeIssueAiModal} from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal";
+import {EstimateIssueAiModal} from "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal";
+import {GeneratePlansByMetricAiModal} from
+  "src/logic/wayPage/reportsTable/generatePlansByMetricAiModal/GeneratePlansByMetricAiModal";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -250,57 +253,78 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   </Tooltip>
                 </Link>
                 }
-                <Modal
-                  trigger={
-                    <Tooltip
-                      position={PositionTooltip.TOP}
-                      content={LanguageService.way.reportsTable.decomposePlanByAI[language]}
-                    >
-                      <Button
-                        onClick={() => {}}
-                        buttonType={ButtonType.ICON_BUTTON}
-                        value="DE"
-                      />
-                    </Tooltip>
-                  }
-                  content={
-                    <Text text={`${LanguageService.way.reportsTable.decomposePlanByAI[language]}. Coming soon...`} />
-                  }
-                />
-                <Modal
-                  trigger={
-                    <Tooltip
-                      position={PositionTooltip.TOP}
-                      content={LanguageService.way.reportsTable.estimatePlanByAI[language]}
-                    >
-                      <Button
-                        onClick={() => {}}
-                        buttonType={ButtonType.ICON_BUTTON}
-                        value="ES"
-                      />
-                    </Tooltip>
-                  }
-                  content={
-                    <Text text={`${LanguageService.way.reportsTable.estimatePlanByAI[language]}. Coming soon...`} />
-                  }
-                />
-                <Modal
-                  trigger={
-                    <Tooltip
-                      position={PositionTooltip.TOP}
-                      content={LanguageService.way.reportsTable.generatePlanByAI[language]}
-                    >
-                      <Button
-                        onClick={() => {}}
-                        buttonType={ButtonType.ICON_BUTTON}
-                        value="GE"
-                      />
-                    </Tooltip>
-                  }
-                  content={
-                    <Text text={`${LanguageService.way.reportsTable.generatePlanByAI[language]}. Coming soon...`} />
-                  }
-                />
+                {props.user &&
+                  <>
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={LanguageService.way.reportsTable.decomposeIssueByAI[language]}
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="DE"
+                            className={styles.aiButton}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <DecomposeIssueAiModal
+                          goalDescription={props.way.goalDescription}
+                          issueDescription={plan.description}
+                          dayReportUuid={plan.dayReportUuid}
+                          ownerUuid={props.user.uuid}
+                          addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
+                        />}
+                    />
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={LanguageService.way.reportsTable.estimateIssueByAI[language]}
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="ES"
+                            className={styles.aiButton}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <EstimateIssueAiModal
+                          goalDescription={props.way.goalDescription}
+                          issueDescription={plan.description}
+                        />
+                      }
+                    />
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={LanguageService.way.reportsTable.generatePlansByAI[language]}
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="GE"
+                            className={styles.aiButton}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <GeneratePlansByMetricAiModal
+                          goalDescription={props.way.goalDescription}
+                          addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
+                          dayReportUuid={plan.dayReportUuid}
+                          metrics={props.way.metrics}
+                          ownerUuid={props.user.uuid}
+                        />
+                      }
+                    />
+                  </>
+                }
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
                   content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
@@ -357,16 +381,19 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
 
                   </Tooltip>
                 }
-                {plan.ownerUuid === props.user?.uuid &&
-                <Trash
-                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
-                  tooltipPosition={PositionTooltip.BOTTOM}
-                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  onOk={() => deletePlan(plan.uuid)}
-                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
+                {plan.ownerUuid === props.user?.uuid ?
+                  <Trash
+                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
+                    tooltipPosition={PositionTooltip.BOTTOM}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    onOk={() => deletePlan(plan.uuid)}
+                    confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
                     "${plan.description}"?`}
-                />
+                  />
+                  : (
+                    <div className={styles.trashReservation} />
+                  )
                 }
               </HorizontalContainer>
               {props.isEditable ?

@@ -9,20 +9,25 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
-import {Text} from "src/component/text/Text";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {CommentIssueAiModal} from "src/logic/wayPage/reportsTable/commentIssueAiModal/CommentIssueAiModal";
 import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {DecomposeIssueAiModal} from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal";
+import {EstimateIssueAiModal} from
+  "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
+import {Plan} from "src/model/businessModel/Plan";
 import {User, UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
@@ -151,57 +156,86 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                 </Tooltip>
               </Link>
               }
-              <Modal
-                trigger={
-                  <Tooltip
-                    position={PositionTooltip.TOP}
-                    content={LanguageService.way.reportsTable.decomposeProblemByAI[language]}
-                  >
-                    <Button
-                      onClick={() => {}}
-                      buttonType={ButtonType.ICON_BUTTON}
-                      value="DE"
-                    />
-                  </Tooltip>
-                }
-                content={
-                  <Text text={`${LanguageService.way.reportsTable.decomposeProblemByAI[language]}. Coming soon...`} />
-                }
-              />
-              <Modal
-                trigger={
-                  <Tooltip
-                    position={PositionTooltip.TOP}
-                    content={LanguageService.way.reportsTable.estimateProblemByAI[language]}
-                  >
-                    <Button
-                      onClick={() => {}}
-                      buttonType={ButtonType.ICON_BUTTON}
-                      value="ES"
-                    />
-                  </Tooltip>
-                }
-                content={
-                  <Text text={`${LanguageService.way.reportsTable.estimateProblemByAI[language]}. Coming soon...`} />
-                }
-              />
-              <Modal
-                trigger={
-                  <Tooltip
-                    position={PositionTooltip.TOP}
-                    content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
-                  >
-                    <Button
-                      onClick={() => {}}
-                      buttonType={ButtonType.ICON_BUTTON}
-                      value="RE"
-                    />
-                  </Tooltip>
-                }
-                content={
-                  <Text text={`${LanguageService.way.reportsTable.addRecommendationsByAI[language]}. Coming soon...`} />
-                }
-              />
+              {props.user &&
+                <>
+                  <Modal
+                    trigger={
+                      <Tooltip
+                        position={PositionTooltip.TOP}
+                        content={LanguageService.way.reportsTable.decomposeIssueByAI[language]}
+                      >
+                        <Button
+                          onClick={() => {}}
+                          buttonType={ButtonType.ICON_BUTTON}
+                          value="DE"
+                          className={styles.aiButton}
+                        />
+                      </Tooltip>
+                    }
+                    content={
+                      <DecomposeIssueAiModal
+                        goalDescription={props.way.goalDescription}
+                        issueDescription={problem.description}
+                        dayReportUuid={problem.dayReportUuid}
+                        ownerUuid={props.user.uuid}
+                        addPlan={(plan: Plan) => props.dayReport.addPlan(plan)}
+                      />
+                    }
+                  />
+                  <Modal
+                    trigger={
+                      <Tooltip
+                        position={PositionTooltip.TOP}
+                        content={LanguageService.way.reportsTable.estimateIssueByAI[language]}
+                      >
+                        <Button
+                          onClick={() => {}}
+                          buttonType={ButtonType.ICON_BUTTON}
+                          value="ES"
+                          className={styles.aiButton}
+                        />
+                      </Tooltip>
+                    }
+                    content={
+                      <EstimateIssueAiModal
+                        goalDescription={props.way.goalDescription}
+                        issueDescription={problem.description}
+                      />
+                    }
+                  />
+                  <Modal
+                    trigger={
+                      <Tooltip
+                        position={PositionTooltip.TOP}
+                        content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
+                      >
+                        <Button
+                          onClick={() => {}}
+                          buttonType={ButtonType.ICON_BUTTON}
+                          value="RE"
+                          className={styles.aiButton}
+                        />
+                      </Tooltip>
+                    }
+                    content={
+                      <CommentIssueAiModal
+                        goalDescription={props.way.goalDescription}
+                        problemDescription={problem.description}
+                        addComment={async (commentRaw: string) => {
+                          if (props.user) {
+                            const comment = await CommentDAL.createComment({
+                              dayReportUuid: problem.dayReportUuid,
+                              ownerUuid: props.user.uuid,
+                              description: commentRaw,
+                            });
+                            props.dayReport.addComment(comment);
+                          }
+                        }}
+                      />
+                    }
+                  />
+                </>
+              }
               {props.isEditable &&
                 <Tooltip
                   position={PositionTooltip.RIGHT}
@@ -221,7 +255,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                   />
                 </Tooltip>
               }
-              {problem.ownerUuid === props.user?.uuid &&
+              {problem.ownerUuid === props.user?.uuid ?
                 <Trash
                   tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteProblem[language]}
                   tooltipPosition={PositionTooltip.BOTTOM}
@@ -231,6 +265,9 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                   confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteProblemQuestion[language]}
                     "${problem.description}"?`}
                 />
+                : (
+                  <div className={styles.trashReservation} />
+                )
               }
             </HorizontalContainer>
             <EditableTextarea
