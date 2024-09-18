@@ -17,6 +17,14 @@ import * as runtime from '../runtime';
 import type {
   SchemasAIChatPayload,
   SchemasAIChatResponse,
+  SchemasAICommentIssuePayload,
+  SchemasAICommentIssueResponse,
+  SchemasAIDecomposeIssuePayload,
+  SchemasAIDecomposeIssueResponse,
+  SchemasAIEstimateIssuePayload,
+  SchemasAIEstimateIssueResponse,
+  SchemasAIGeneratePlansByMetricPayload,
+  SchemasAIGeneratePlansByMetricResponse,
   SchemasGenerateMetricsPayload,
   SchemasGenerateMetricsResponse,
 } from '../models/index';
@@ -25,6 +33,22 @@ import {
     SchemasAIChatPayloadToJSON,
     SchemasAIChatResponseFromJSON,
     SchemasAIChatResponseToJSON,
+    SchemasAICommentIssuePayloadFromJSON,
+    SchemasAICommentIssuePayloadToJSON,
+    SchemasAICommentIssueResponseFromJSON,
+    SchemasAICommentIssueResponseToJSON,
+    SchemasAIDecomposeIssuePayloadFromJSON,
+    SchemasAIDecomposeIssuePayloadToJSON,
+    SchemasAIDecomposeIssueResponseFromJSON,
+    SchemasAIDecomposeIssueResponseToJSON,
+    SchemasAIEstimateIssuePayloadFromJSON,
+    SchemasAIEstimateIssuePayloadToJSON,
+    SchemasAIEstimateIssueResponseFromJSON,
+    SchemasAIEstimateIssueResponseToJSON,
+    SchemasAIGeneratePlansByMetricPayloadFromJSON,
+    SchemasAIGeneratePlansByMetricPayloadToJSON,
+    SchemasAIGeneratePlansByMetricResponseFromJSON,
+    SchemasAIGeneratePlansByMetricResponseToJSON,
     SchemasGenerateMetricsPayloadFromJSON,
     SchemasGenerateMetricsPayloadToJSON,
     SchemasGenerateMetricsResponseFromJSON,
@@ -33,6 +57,22 @@ import {
 
 export interface AiChatRequest {
     request: SchemasAIChatPayload;
+}
+
+export interface AiCommentIssueRequest {
+    request: SchemasAICommentIssuePayload;
+}
+
+export interface AiDecomposeIssueRequest {
+    request: SchemasAIDecomposeIssuePayload;
+}
+
+export interface AiEstimateIssueRequest {
+    request: SchemasAIEstimateIssuePayload;
+}
+
+export interface AiPlansByMetricsRequest {
+    request: SchemasAIGeneratePlansByMetricPayload;
 }
 
 export interface GenerateMetricsRequest {
@@ -76,6 +116,146 @@ export class GeminiApi extends runtime.BaseAPI {
      */
     async aiChat(requestParameters: AiChatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIChatResponse> {
         const response = await this.aiChatRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Generate a comment for any issue
+     * Generate a comment for any issue
+     */
+    async aiCommentIssueRaw(requestParameters: AiCommentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAICommentIssueResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiCommentIssue.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/comment-issue`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasAICommentIssuePayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAICommentIssueResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate a comment for any issue
+     * Generate a comment for any issue
+     */
+    async aiCommentIssue(requestParameters: AiCommentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAICommentIssueResponse> {
+        const response = await this.aiCommentIssueRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Decompose issue for 10 plans
+     * Decompose issue
+     */
+    async aiDecomposeIssueRaw(requestParameters: AiDecomposeIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIDecomposeIssueResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiDecomposeIssue.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/decompose-issue`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasAIDecomposeIssuePayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIDecomposeIssueResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Decompose issue for 10 plans
+     * Decompose issue
+     */
+    async aiDecomposeIssue(requestParameters: AiDecomposeIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIDecomposeIssueResponse> {
+        const response = await this.aiDecomposeIssueRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Estimate issue in minutes
+     * Estimate issue in minutes
+     */
+    async aiEstimateIssueRaw(requestParameters: AiEstimateIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIEstimateIssueResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiEstimateIssue.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/estimate-issue`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasAIEstimateIssuePayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIEstimateIssueResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Estimate issue in minutes
+     * Estimate issue in minutes
+     */
+    async aiEstimateIssue(requestParameters: AiEstimateIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIEstimateIssueResponse> {
+        const response = await this.aiEstimateIssueRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Generate plans by metric.
+     * Generate plans by metric
+     */
+    async aiPlansByMetricsRaw(requestParameters: AiPlansByMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIGeneratePlansByMetricResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiPlansByMetrics.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/generate-plans-by-metric`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasAIGeneratePlansByMetricPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIGeneratePlansByMetricResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate plans by metric.
+     * Generate plans by metric
+     */
+    async aiPlansByMetrics(requestParameters: AiPlansByMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIGeneratePlansByMetricResponse> {
+        const response = await this.aiPlansByMetricsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
