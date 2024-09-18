@@ -9,7 +9,7 @@ INSERT INTO ways(
     is_private,
     is_completed,
     owner_uuid,
-    project,
+    project_uuid
 ) VALUES (
     @name,
     @goal_description,
@@ -47,7 +47,7 @@ SELECT
     ways.estimation_time,
     ways.copied_from_way_uuid,
     ways.is_completed,
-    ways.is_private, 
+    ways.is_private,
     COALESCE(
         ARRAY(
             SELECT composite_ways.child_uuid
