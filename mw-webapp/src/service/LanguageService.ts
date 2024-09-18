@@ -5,7 +5,10 @@ import common from "src/dictionary/CommonContent.json";
 import errorContent from "src/dictionary/ErrorContent.json";
 import headerContent from "src/dictionary/Header.json";
 import homePageContent from "src/dictionary/HomePageContent.json";
-import mentorsLanding from "src/dictionary/landing/MentorsContent.json";
+import businessLanding from "src/dictionary/landing/BusinessLandingContent.json";
+import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
+import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
+import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
 import modals from "src/dictionary/Modals.json";
 import pricing from "src/dictionary/PricingContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
@@ -107,6 +110,27 @@ export class LanguageService {
    */
   public static get mentorsLanding() {
     return mentorsLanding;
+  }
+
+  /**
+   * Mentor's landing content
+   */
+  public static get studentsWithAiLanding() {
+    return studentsWithAiLanding;
+  }
+
+  /**
+   * Mentor's landing content
+   */
+  public static get studentsWithMentorsLanding() {
+    return studentsWithMentorsLanding;
+  }
+
+  /**
+   * Mentor's landing content
+   */
+  public static get businessLanding() {
+    return businessLanding;
   }
 
   /**
