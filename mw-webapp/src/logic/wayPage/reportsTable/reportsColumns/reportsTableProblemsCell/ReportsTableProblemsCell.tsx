@@ -226,7 +226,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                             const comment = await CommentDAL.createComment({
                               dayReportUuid: problem.dayReportUuid,
                               ownerUuid: props.user.uuid,
-                              description: commentRaw,
+                              description: `AI: ${commentRaw}`,
                             });
                             props.dayReport.addComment(comment);
                           }

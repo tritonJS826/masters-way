@@ -22,8 +22,6 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal";
 import {EstimateIssueAiModal} from "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal";
-import {GeneratePlansByMetricAiModal} from
-  "src/logic/wayPage/reportsTable/generatePlansByMetricAiModal/GeneratePlansByMetricAiModal";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -299,30 +297,6 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                         />
                       }
                     />
-                    <Modal
-                      trigger={
-                        <Tooltip
-                          position={PositionTooltip.TOP}
-                          content={LanguageService.way.reportsTable.generatePlansByAI[language]}
-                        >
-                          <Button
-                            onClick={() => { }}
-                            buttonType={ButtonType.ICON_BUTTON}
-                            value="GE"
-                            className={styles.aiButton}
-                          />
-                        </Tooltip>
-                      }
-                      content={
-                        <GeneratePlansByMetricAiModal
-                          goalDescription={props.way.goalDescription}
-                          addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
-                          dayReportUuid={plan.dayReportUuid}
-                          metrics={props.way.metrics}
-                          ownerUuid={props.user.uuid}
-                        />
-                      }
-                    />
                   </>
                 }
                 <Tooltip
@@ -459,6 +433,12 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
         total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
           ${props.dayReport.plans.reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
         }
+        goalDescription={props.way.goalDescription}
+        addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
+        metrics={props.way.metrics}
+        ownerUuid={props.user?.uuid}
+        generatePlanTooltip={LanguageService.way.reportsTable.generatePlansByAI[language]}
+        isPlanColumn={true}
       />
     </VerticalContainer>
   );
