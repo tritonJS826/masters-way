@@ -192,6 +192,11 @@
       "en": "Add new goal metric",
       "ua": "Додати нову метрику"
     },
+    "generatePlansWithAIButton": {
+      "ru": "Сгенерировать планы с помощью ИИ",
+      "en": "Generate plans using AI",
+      "ua": "Згенерувати плани за допомогою ІІ"
+    },
     "generateNewGoalMetricsWithAIButton": {
       "ru": "Сгенерировать новые метрики с помощью AI",
       "en": "Generate new metrics using AI",
@@ -511,35 +516,35 @@
       "en": "Total:",
       "ua": "Всього:"
     },
-    "decomposePlanByAI": {
-      "ru": "Декомпозировать план с помощью ИИ",
-      "en": "Decompose the plan using AI",
-      "ua": "Декомпозувати план за допомогою ІІ"
+    "generatePlansByAI": {
+      "ru": "Сгенерировать план с помощью ИИ",
+      "en": "Generate the plan using AI",
+      "ua": "Згенерувати план за допомогою ІІ"
     },
-    "estimatePlanByAI": {
-      "ru": "Эстимировать план с помощью ИИ",
-      "en": "Estimate the plan using AI",
-      "ua": "Оцініть план за допомогою ІІ"
+    "decomposeIssueByAI": {
+      "ru": "Декомпозировать с помощью ИИ",
+      "en": "Decompose using AI",
+      "ua": "Декомпозувати за допомогою ІІ"
     },
-    "generatePlanByAI": {
-      "ru": "Сгенерировать план на основе метрики с помощью ИИ",
-      "en": "Generate the plan based on a metric using AI",
-      "ua": "Згенерувати план на основі метрики за допомогою ІІ"
-    },
-    "decomposeProblemByAI": {
-      "ru": "Декомпозировать проблему с помощью ИИ",
-      "en": "Decompose the problem using AI",
-      "ua": "Декомпозувати проблему за допомогою ІІ"
-    },
-    "estimateProblemByAI": {
-      "ru": "Эстимировать проблему с помощью ИИ",
-      "en": "Estimate the problem using AI",
-      "ua": "Естимувати проблему за допомогою ІІ"
+    "estimateIssueByAI": {
+      "ru": "Эстимировать с помощью ИИ",
+      "en": "Estimate using AI",
+      "ua": "Естимувати за допомогою ІІ"
     },
     "addRecommendationsByAI": {
-      "ru": "Добавить рекомендации по проблеме от ИИ",
-      "en": "Add recommendations about the problem by AI",
-      "ua": "Додати рекомендації щодо проблеми за допомогою ІІ"
+      "ru": "Добавить рекомендации от ИИ",
+      "en": "Add recommendations by AI",
+      "ua": "Додати рекомендації за допомогою ІІ"
+    },
+    "addGeneratedPlansToPlans": {
+      "ru": "Добавить в планы",
+      "en": "Add to plans",
+      "ua": "Додати до планів"
+    },
+    "addGeneratedMessageToComments": {
+      "ru": "Добавить в комментарии",
+      "en": "Add to comments",
+      "ua": "Додати у коментарі"
     },
     "column": {
       "date": {

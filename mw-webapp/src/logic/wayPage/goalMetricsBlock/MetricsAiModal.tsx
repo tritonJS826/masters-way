@@ -100,7 +100,7 @@ export const MetricsAiModal = (props: MetricsAiModalProps) => {
   const {language} = languageStore;
 
   /**
-   * Generate AI metricsa
+   * Generate AI metrics
    */
   const generateAIMetrics = async () => {
     const metricsPreviewRaw = await AIDAL.generateMetrics({
