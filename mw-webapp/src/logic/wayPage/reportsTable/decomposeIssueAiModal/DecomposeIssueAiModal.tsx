@@ -109,7 +109,7 @@ export const DecomposeIssueAiModal = (props: DecomposeIssueAiModalProps) => {
     });
 
     const plansPreview = plansPreviewRaw.map(planPreview => new PlanPreview({
-      description: planPreview,
+      description: `AI: ${planPreview}`,
       isChecked: false,
     }));
 
