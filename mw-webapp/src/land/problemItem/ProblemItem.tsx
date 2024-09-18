@@ -3,7 +3,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Image} from "src/component/image/Image";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import styles from "src/land/mentorsLandingPage/problemItem/ProblemItem.module.scss";
+import styles from "src/land/problemItem/ProblemItem.module.scss";
 
 /**
  * ProblemItem props

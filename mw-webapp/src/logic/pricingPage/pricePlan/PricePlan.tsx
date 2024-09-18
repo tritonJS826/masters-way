@@ -2,17 +2,17 @@ import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Button, ButtonType} from "src/component/button/Button";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Modal} from "src/component/modal/Modal";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {CapabilityItem} from "src/logic/pricingPage/pricePlan/capabilityItem/CapabilityItem";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/pricingPage/pricePlan/PricePlan.module.scss";
 
 /**
- *CapabilitiesType
+ * CapabilitiesType
  */
 export interface CapabilitiesType {
 
@@ -147,9 +147,9 @@ export const PricePlan = observer((props: PricePlanProps) => {
           />
         }
         content={
-          <HorizontalContainer>
-            {LanguageService.pricing.buyPlanModal[language]}
-          </HorizontalContainer>
+          <VerticalContainer>
+            {renderMarkdown(LanguageService.pricing.buyPlanModal[language])}
+          </VerticalContainer>
         }
       />
     </VerticalContainer>
