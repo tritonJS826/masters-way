@@ -1664,6 +1664,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/projects": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "metric"
+                ],
+                "summary": "Create a new project",
+                "operationId": "create-project",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateProjectPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProjectResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/toUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -2960,6 +2994,21 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.CreateProjectPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "ownerId"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CreateToUserMentoringRequestPayload": {
             "type": "object",
             "required": [
@@ -3561,6 +3610,43 @@ const docTemplate = `{
                 },
                 "wayUuid": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.ProjectResponse": {
+            "type": "object",
+            "required": [
+                "id",
+                "isPrivate",
+                "name",
+                "ownerId",
+                "users",
+                "ways"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                    }
+                },
+                "ways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
                 }
             }
         },

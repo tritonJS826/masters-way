@@ -16,6 +16,8 @@ import (
 
 type IMessagesRepository interface {
 	CreateMessage(ctx context.Context, arg db.CreateMessageParams) (db.CreateMessageRow, error)
+	CreateMessageStatus(ctx context.Context, arg db.CreateMessageStatusParams) error
+	GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error)
 	UpdateMessageStatus(ctx context.Context, arg db.UpdateMessageStatusParams) error
 	WithTx(tx pgx.Tx) *db.Queries
 }
@@ -35,14 +37,14 @@ type CreateMessageParams struct {
 	Text      string
 }
 
-func (messagesService *MessagesService) CreateMessage(ctx context.Context, messageParams *CreateMessageParams) (*schemas.CreateMessageResponse, error) {
-	tx, err := messagesService.pool.Begin(ctx)
+func (ms *MessagesService) CreateMessage(ctx context.Context, messageParams *CreateMessageParams) (*schemas.CreateMessageResponse, error) {
+	tx, err := ms.pool.Begin(ctx)
 	if err != nil {
 		return nil, err
 	}
 	defer tx.Rollback(ctx)
 
-	qtx := messagesService.MessagesRepository.WithTx(tx)
+	var messagesRepositoryTx IMessagesRepository = ms.MessagesRepository.WithTx(tx)
 
 	roomPgUUID := pgtype.UUID{Bytes: uuid.MustParse(messageParams.RoomUUID), Valid: true}
 
@@ -52,7 +54,7 @@ func (messagesService *MessagesService) CreateMessage(ctx context.Context, messa
 		Text:      messageParams.Text,
 	}
 
-	message, err := qtx.CreateMessage(ctx, createMessageParams)
+	message, err := messagesRepositoryTx.CreateMessage(ctx, createMessageParams)
 	if err != nil {
 		return nil, err
 	}
@@ -62,12 +64,12 @@ func (messagesService *MessagesService) CreateMessage(ctx context.Context, messa
 		MessageUuid: message.Uuid,
 		UserUuid:    message.OwnerUuid,
 	}
-	err = qtx.CreateMessageStatus(ctx, messageStatusParams)
+	err = messagesRepositoryTx.CreateMessageStatus(ctx, messageStatusParams)
 	if err != nil {
 		return nil, err
 	}
 
-	userUUIDs, err := qtx.GetUsersUUIDsInRoom(ctx, roomPgUUID)
+	userUUIDs, err := messagesRepositoryTx.GetUsersUUIDsInRoom(ctx, roomPgUUID)
 	if err != nil {
 		return nil, err
 	}

@@ -18,6 +18,21 @@ CREATE TABLE favorite_users(
     CONSTRAINT favorite_users_pkey PRIMARY KEY (donor_user_uuid, acceptor_user_uuid)
 );
 
+CREATE TABLE projects (
+    "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "name" VARCHAR(50) NOT NULL,
+    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "is_private" BOOLEAN NOT NULL DEFAULT FALSE,
+    "is_deleted" BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT "projects_pkey" PRIMARY KEY("uuid")
+);
+
+CREATE TABLE users_projects (
+    "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "project_uuid" UUID NOT NULL REFERENCES projects("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT "users_projects_pkey" PRIMARY KEY (user_uuid, project_uuid)
+);
+
 CREATE TABLE ways(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "name" VARCHAR(50) NOT NULL,
@@ -29,7 +44,7 @@ CREATE TABLE ways(
     "copied_from_way_uuid" UUID REFERENCES ways("uuid") ON UPDATE CASCADE,
     "is_completed" BOOLEAN NOT NULL,
     "is_private" BOOLEAN NOT NULL,
-    "project_uuid" UUID REFERENCES project("uuid") ON UPDATE CASCADE,
+    "project_uuid" UUID REFERENCES projects("uuid") ON UPDATE CASCADE,
     CONSTRAINT "ways_pkey" PRIMARY KEY("uuid")
 );
 
@@ -208,17 +223,6 @@ CREATE TABLE "profile_settings" (
     "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "profile_settings_pkey" PRIMARY KEY("uuid")
 );
-
-CREATE TABLE "projects" (
-    "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "owner_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "is_private" BOOLEAN NOT NULL,
-);
-
-CREATE TABLE "users_projects" (
-    "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "project_uuid" UUID NOT NULL REFERENCES projects("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-)
 
 -- triggers
 

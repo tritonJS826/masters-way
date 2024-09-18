@@ -11,8 +11,10 @@ import (
 )
 
 type Querier interface {
+	AddUserToProject(ctx context.Context, arg AddUserToProjectParams) (UsersProject, error)
 	AddWayToCompositeWay(ctx context.Context, arg AddWayToCompositeWayParams) (CompositeWay, error)
 	CountUsers(ctx context.Context, arg CountUsersParams) (int64, error)
+	// TODO: Add filter by project
 	CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error)
 	CreateComment(ctx context.Context, arg CreateCommentParams) (CreateCommentRow, error)
 	CreateDayReport(ctx context.Context, arg CreateDayReportParams) (DayReport, error)
@@ -28,6 +30,7 @@ type Querier interface {
 	CreatePlan(ctx context.Context, arg CreatePlanParams) (CreatePlanRow, error)
 	CreatePlansJobTag(ctx context.Context, arg CreatePlansJobTagParams) (PlansJobTag, error)
 	CreateProblem(ctx context.Context, arg CreateProblemParams) (CreateProblemRow, error)
+	CreateProject(ctx context.Context, arg CreateProjectParams) (CreateProjectRow, error)
 	CreateToUserMentoringRequest(ctx context.Context, arg CreateToUserMentoringRequestParams) (ToUserMentoringRequest, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateUserTag(ctx context.Context, tagName string) (UserTag, error)
@@ -91,11 +94,15 @@ type Querier interface {
 	GetListWayTagsByWayIds(ctx context.Context, wayUuids []pgtype.UUID) ([]GetListWayTagsByWayIdsRow, error)
 	GetMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]User, error)
 	GetMentorUsersByWayIds(ctx context.Context, wayUuids []pgtype.UUID) ([]GetMentorUsersByWayIdsRow, error)
+	// TODO exclude ways from private projects for initiator user
 	GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringWaysByMentorIdRow, error)
 	GetMentoringWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetOverallInformation(ctx context.Context, arg GetOverallInformationParams) (GetOverallInformationRow, error)
+	// TODO exclude ways from private projects for initiator user
 	GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetOwnWaysByUserIdRow, error)
+	// TODO exclude ways from private projects for initiator user
 	GetOwnWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
+	GetPlainUserWithInfoByIDs(ctx context.Context, projectUuid pgtype.UUID) ([]GetPlainUserWithInfoByIDsRow, error)
 	GetPlansByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetPlansByDayReportUuidsRow, error)
 	GetPricingPlanByUserId(ctx context.Context, userUuid pgtype.UUID) (PricingPlanType, error)
 	GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
@@ -108,6 +115,7 @@ type Querier interface {
 	GetUserByIds(ctx context.Context, dollar_1 []pgtype.UUID) ([]User, error)
 	GetUserTagByName(ctx context.Context, tagName string) (UserTag, error)
 	GetUsersByIds(ctx context.Context, userUuids []pgtype.UUID) ([]GetUsersByIdsRow, error)
+	// TODO exclude ways from private projects for initiator user
 	GetWayById(ctx context.Context, wayUuid pgtype.UUID) (GetWayByIdRow, error)
 	GetWayChildren(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
 	GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetWayCollectionJoinWayByUserIdRow, error)
@@ -115,9 +123,12 @@ type Querier interface {
 	GetWayCollectionsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetWayRelatedUsers(ctx context.Context, wayUuids []pgtype.UUID) ([]GetWayRelatedUsersRow, error)
 	GetWayTagByName(ctx context.Context, wayTagName string) (WayTag, error)
+	// TODO exclude ways from private projects for initiator user
 	GetWaysByCollectionId(ctx context.Context, wayCollectionUuid pgtype.UUID) ([]GetWaysByCollectionIdRow, error)
 	IsAllMetricsDone(ctx context.Context, wayUuid pgtype.UUID) (bool, error)
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]ListUsersRow, error)
+	// TODO add filter by project (by project name with LIKE '%')
+	// TODO exclude ways from private for user projects
 	ListWays(ctx context.Context, arg ListWaysParams) ([]ListWaysRow, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
@@ -128,6 +139,7 @@ type Querier interface {
 	UpdatePlan(ctx context.Context, arg UpdatePlanParams) (UpdatePlanRow, error)
 	UpdatePricingPlanByUserId(ctx context.Context, arg UpdatePricingPlanByUserIdParams) (ProfileSetting, error)
 	UpdateProblem(ctx context.Context, arg UpdateProblemParams) (UpdateProblemRow, error)
+	UpdateProject(ctx context.Context, arg UpdateProjectParams) (UpdateProjectRow, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 	UpdateWay(ctx context.Context, arg UpdateWayParams) (UpdateWayRow, error)
 	UpdateWayCollection(ctx context.Context, arg UpdateWayCollectionParams) (WayCollection, error)
