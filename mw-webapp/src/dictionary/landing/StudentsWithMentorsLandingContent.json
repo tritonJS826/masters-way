@@ -33,13 +33,13 @@
   },
   "main": {
     "title": {
-      "ru": "Свобода учиться\nс ",
-      "en": "Freedom to study",
-      "ua": "Свобода бути ментором\nіз "
+      "ru": "Свобода учиться \nс ",
+      "en": "Freedom to study \nwith ",
+      "ua": "Свобода бути ментором \niз "
     },
     "mastersWay": {
       "ru": "Master's Way",
-      "en": "Learning journey?",
+      "en": "Master's Way",
       "ua": "Master's Way"
     },
     "description": {
