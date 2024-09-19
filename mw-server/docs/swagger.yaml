@@ -880,6 +880,15 @@ definitions:
       isDone:
         type: boolean
     type: object
+  schemas.UpdateProjectPayload:
+    properties:
+      isPrivate:
+        type: boolean
+        x-nullable: true
+      name:
+        type: string
+        x-nullable: true
+    type: object
   schemas.UpdateUserPayload:
     properties:
       description:
@@ -2352,6 +2361,71 @@ paths:
       summary: Update problem by UUID
       tags:
       - problem
+  /project/{projectId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete project by id
+      tags:
+      - project
+    get:
+      consumes:
+      - application/json
+      operationId: get-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ProjectResponse'
+      summary: Get project by id
+      tags:
+      - project
+    patch:
+      consumes:
+      - application/json
+      operationId: update-project
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UpdateProjectPayload'
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ProjectResponse'
+      summary: Update project by id
+      tags:
+      - project
   /projects:
     post:
       consumes:
@@ -2373,7 +2447,7 @@ paths:
             $ref: '#/definitions/schemas.ProjectResponse'
       summary: Create a new project
       tags:
-      - metric
+      - project
   /toUserMentoringRequests:
     post:
       consumes:

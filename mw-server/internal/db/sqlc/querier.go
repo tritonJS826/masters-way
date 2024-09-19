@@ -107,6 +107,7 @@ type Querier interface {
 	GetPricingPlanByUserId(ctx context.Context, userUuid pgtype.UUID) (PricingPlanType, error)
 	GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetProblemsByDayReportUuids(ctx context.Context, dollar_1 []pgtype.UUID) ([]Problem, error)
+	GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (GetProjectByIDRow, error)
 	GetTagsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetTimeSpentByDayChart(ctx context.Context, arg GetTimeSpentByDayChartParams) ([]GetTimeSpentByDayChartRow, error)
 	GetToMentorUserRequestsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)

@@ -15,6 +15,7 @@ import (
 type IProjectRepository interface {
 	CreateProject(ctx context.Context, arg db.CreateProjectParams) (db.CreateProjectRow, error)
 	AddUserToProject(ctx context.Context, arg db.AddUserToProjectParams) (db.UsersProject, error)
+	GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (db.GetProjectByIDRow, error)
 	UpdateProject(ctx context.Context, arg db.UpdateProjectParams) (db.UpdateProjectRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
@@ -113,6 +114,33 @@ func (ps *ProjectService) UpdateProject(ctx context.Context, params *UpdateProje
 	}, nil
 }
 
-func (ps *ProjectService) DeleteProjectById(ctx context.Context, metricID string) error {
+func (ps *ProjectService) GetProjectByID(ctx context.Context, projectID string) (*ProjectResponse, error) {
+	project, err := ps.projectRepository.GetProjectByID(ctx, pgtype.UUID{Bytes: uuid.MustParse(projectID), Valid: true})
+	if err != nil {
+		return nil, err
+	}
+
+	return &ProjectResponse{
+		ID:        util.ConvertPgUUIDToUUID(project.Uuid).String(),
+		Name:      project.Name,
+		OwnerID:   util.ConvertPgUUIDToUUID(project.OwnerUuid).String(),
+		IsPrivate: project.IsPrivate,
+		WayIDs:    project.WayUuids,
+		UserIDs:   project.UserUuids,
+	}, nil
+}
+
+func (ps *ProjectService) DeleteProjectById(ctx context.Context, projectID string) error {
+	updateProjectParams := db.UpdateProjectParams{
+		Name:        pgtype.Text{},
+		IsPrivate:   pgtype.Bool{},
+		IsDeleted:   pgtype.Bool{Bool: true, Valid: true},
+		ProjectUuid: pgtype.UUID{Bytes: uuid.MustParse(projectID), Valid: true},
+	}
+	_, err := ps.projectRepository.UpdateProject(ctx, updateProjectParams)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
