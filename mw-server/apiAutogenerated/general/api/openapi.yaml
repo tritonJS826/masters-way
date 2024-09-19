@@ -1,7 +1,6 @@
 openapi: 3.0.1
 info:
   contact: {}
-  description: ""
   title: Masters way general API
   version: "1.0"
 servers:
@@ -18,6 +17,21 @@ paths:
                 $ref: '#/components/schemas/schemas.UserPopulatedResponse'
           description: OK
       summary: Get current authorized user
+      tags:
+      - auth
+  /auth/google-token:
+    get:
+      description: This endpoint retrieves the Google access token for an authenticated
+        user.
+      operationId: get-google-token
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GoogleToken'
+          description: OK
+      summary: Retrieve Google Access Token
       tags:
       - auth
   /auth/login/local/{userEmail}:
@@ -412,6 +426,94 @@ paths:
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
+  /gemini/comment-issue:
+    post:
+      description: Generate a comment for any issue
+      operationId: ai-comment-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AICommentIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AICommentIssueResponse'
+          description: OK
+      summary: Generate a comment for any issue
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/decompose-issue:
+    post:
+      description: Decompose issue for 10 plans
+      operationId: ai-decompose-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AIDecomposeIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AIDecomposeIssueResponse'
+          description: OK
+      summary: Decompose issue
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/estimate-issue:
+    post:
+      description: Estimate issue in minutes
+      operationId: ai-estimate-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AIEstimateIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AIEstimateIssueResponse'
+          description: OK
+      summary: Estimate issue in minutes
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/generate-plans-by-metric:
+    post:
+      description: Generate plans by metric.
+      operationId: ai-plans-by-metrics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AIGeneratePlansByMetricPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AIGeneratePlansByMetricResponse'
+          description: OK
+      summary: Generate plans by metric
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/just-chat:
     post:
       description: This endpoint for talks with AI language model.
@@ -1491,6 +1593,90 @@ components:
       required:
       - message
       type: object
+    schemas.AICommentIssuePayload:
+      properties:
+        goal:
+          type: string
+        message:
+          type: string
+      required:
+      - goal
+      - message
+      type: object
+    schemas.AICommentIssueResponse:
+      example:
+        goal: goal
+      properties:
+        goal:
+          type: string
+      required:
+      - goal
+      type: object
+    schemas.AIDecomposeIssuePayload:
+      properties:
+        goal:
+          type: string
+        message:
+          type: string
+      required:
+      - goal
+      - message
+      type: object
+    schemas.AIDecomposeIssueResponse:
+      example:
+        plans:
+        - plans
+        - plans
+      properties:
+        plans:
+          items:
+            type: string
+          type: array
+      required:
+      - plans
+      type: object
+    schemas.AIEstimateIssuePayload:
+      properties:
+        goal:
+          type: string
+        issue:
+          type: string
+      required:
+      - goal
+      - issue
+      type: object
+    schemas.AIEstimateIssueResponse:
+      example:
+        estimation: estimation
+      properties:
+        estimation:
+          type: string
+      required:
+      - estimation
+      type: object
+    schemas.AIGeneratePlansByMetricPayload:
+      properties:
+        goal:
+          type: string
+        metric:
+          type: string
+      required:
+      - goal
+      - metric
+      type: object
+    schemas.AIGeneratePlansByMetricResponse:
+      example:
+        plans:
+        - plans
+        - plans
+      properties:
+        plans:
+          items:
+            type: string
+          type: array
+      required:
+      - plans
+      type: object
     schemas.AddWayToCompositeWayPayload:
       properties:
         childWayUuid:
@@ -2510,6 +2696,15 @@ components:
       - imageUrl
       - name
       - userId
+      type: object
+    schemas.GoogleToken:
+      example:
+        accessToken: accessToken
+      properties:
+        accessToken:
+          type: string
+      required:
+      - accessToken
       type: object
     schemas.JobDonePopulatedResponse:
       example:

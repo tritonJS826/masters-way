@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
+import {Button, ButtonType} from "src/component/button/Button";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -14,6 +15,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {ChatAiModal} from "src/logic/wayPage/reportsTable/chatAiModal/ChatAiModal";
 import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
@@ -150,16 +152,49 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                   </Tooltip>
                 </Link>
                 }
-                {comment.ownerUuid === props.user?.uuid &&
-                <Trash
-                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
-                  tooltipPosition={PositionTooltip.LEFT}
-                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  onOk={() => deleteComment(comment.uuid)}
-                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
-                    "${comment.description}"?`}
+                <Modal
+                  trigger={
+                    <Tooltip
+                      position={PositionTooltip.TOP}
+                      content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
+                    >
+                      <Button
+                        onClick={() => {}}
+                        buttonType={ButtonType.ICON_BUTTON}
+                        value="RE"
+                        className={styles.aiButton}
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <ChatAiModal
+                      message={comment.description}
+                      addComment={async (commentRaw: string) => {
+                        if (props.user) {
+                          const generatedComment = await CommentDAL.createComment({
+                            dayReportUuid: comment.dayReportUuid,
+                            ownerUuid: props.user.uuid,
+                            description: `AI: ${commentRaw}`,
+                          });
+                          props.dayReport.addComment(generatedComment);
+                        }
+                      }}
+                    />
+                  }
                 />
+                {comment.ownerUuid === props.user?.uuid ?
+                  <Trash
+                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
+                    tooltipPosition={PositionTooltip.LEFT}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    onOk={() => deleteComment(comment.uuid)}
+                    confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
+                    "${comment.description}"?`}
+                  />
+                  : (
+                    <div className={styles.trashReservation} />
+                  )
                 }
               </HorizontalContainer>
               <EditableTextarea

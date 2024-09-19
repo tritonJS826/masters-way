@@ -18,6 +18,11 @@ interface CreatePlanParams {
    */
   dayReportUuid: string;
 
+  /**
+   * Plan's description
+   */
+  description?: string;
+
 }
 
 /**
@@ -44,7 +49,7 @@ export class PlanDAL {
     const planDTO = await PlanService.createPlan({
       request: {
         dayReportUuid: params.dayReportUuid,
-        description: "",
+        description: params.description ?? "",
         ownerUuid: params.ownerUuid,
         time: 0,
         isDone: false,

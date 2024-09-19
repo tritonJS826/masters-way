@@ -78,6 +78,8 @@ All URIs are relative to */chat*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FileAPI* | [**DeleteFiles**](docs/FileAPI.md#deletefiles) | **Delete** /files | Delete files by IDs
+*FileAPI* | [**UploadFile**](docs/FileAPI.md#uploadfile) | **Post** /files | Upload file to storage
 *MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message
 *MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
 *RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
@@ -100,6 +102,7 @@ Class | Method | HTTP request | Description
  - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
  - [SchemasRoomPreviewResponse](docs/SchemasRoomPreviewResponse.md)
  - [SchemasUpdateMessageStatusPayload](docs/SchemasUpdateMessageStatusPayload.md)
+ - [SchemasUploadFileResponse](docs/SchemasUploadFileResponse.md)
  - [SchemasUserResponse](docs/SchemasUserResponse.md)
 
 

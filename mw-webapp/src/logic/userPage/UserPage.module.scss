@@ -109,14 +109,14 @@
   gap: $gapBig;
 }
 
-.collectionButton {
-  height: 123px;
-  margin-bottom: auto;
-}
-
 .temporalBlock {
   flex-wrap: wrap;
   @include regularContainer;
+}
+
+.collectionButton {
+  height: 123px;
+  padding: 0;
 }
 
 .disabled {

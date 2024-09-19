@@ -80,6 +80,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthAPI* | [**BeginAuth**](docs/AuthAPI.md#beginauth) | **Get** /auth/{provider} | Begin oauth
 *AuthAPI* | [**GetCurrentAuthorizedUser**](docs/AuthAPI.md#getcurrentauthorizeduser) | **Get** /auth/current | Get current authorized user
+*AuthAPI* | [**GetGoogleToken**](docs/AuthAPI.md#getgoogletoken) | **Get** /auth/google-token | Retrieve Google Access Token
 *AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 *AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Post** /auth/{provider}/callback | Log in with google oAuth
 *AuthAPI* | [**LogoutCurrentAuthorizedUser**](docs/AuthAPI.md#logoutcurrentauthorizeduser) | **Get** /auth/logout/{provider} | Logout current authorized user
@@ -98,6 +99,10 @@ Class | Method | HTTP request | Description
 *FromUserMentoringRequestAPI* | [**CreateFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#createfromusermentoringrequest) | **Post** /fromUserMentoringRequests | Create a new fromUserMentoringRequest
 *FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
 *GeminiAPI* | [**AiChat**](docs/GeminiAPI.md#aichat) | **Post** /gemini/just-chat | Just chat with AI
+*GeminiAPI* | [**AiCommentIssue**](docs/GeminiAPI.md#aicommentissue) | **Post** /gemini/comment-issue | Generate a comment for any issue
+*GeminiAPI* | [**AiDecomposeIssue**](docs/GeminiAPI.md#aidecomposeissue) | **Post** /gemini/decompose-issue | Decompose issue
+*GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
+*GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
@@ -149,6 +154,14 @@ Class | Method | HTTP request | Description
  - [CustomErrorsNoRightToChangeDayReportError](docs/CustomErrorsNoRightToChangeDayReportError.md)
  - [SchemasAIChatPayload](docs/SchemasAIChatPayload.md)
  - [SchemasAIChatResponse](docs/SchemasAIChatResponse.md)
+ - [SchemasAICommentIssuePayload](docs/SchemasAICommentIssuePayload.md)
+ - [SchemasAICommentIssueResponse](docs/SchemasAICommentIssueResponse.md)
+ - [SchemasAIDecomposeIssuePayload](docs/SchemasAIDecomposeIssuePayload.md)
+ - [SchemasAIDecomposeIssueResponse](docs/SchemasAIDecomposeIssueResponse.md)
+ - [SchemasAIEstimateIssuePayload](docs/SchemasAIEstimateIssuePayload.md)
+ - [SchemasAIEstimateIssueResponse](docs/SchemasAIEstimateIssueResponse.md)
+ - [SchemasAIGeneratePlansByMetricPayload](docs/SchemasAIGeneratePlansByMetricPayload.md)
+ - [SchemasAIGeneratePlansByMetricResponse](docs/SchemasAIGeneratePlansByMetricResponse.md)
  - [SchemasAddWayToCompositeWayPayload](docs/SchemasAddWayToCompositeWayPayload.md)
  - [SchemasCommentPopulatedResponse](docs/SchemasCommentPopulatedResponse.md)
  - [SchemasCompositeDayReportPopulatedResponse](docs/SchemasCompositeDayReportPopulatedResponse.md)
@@ -181,6 +194,7 @@ Class | Method | HTTP request | Description
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
  - [SchemasGetAllWaysResponse](docs/SchemasGetAllWaysResponse.md)
  - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
+ - [SchemasGoogleToken](docs/SchemasGoogleToken.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
  - [SchemasJobTagResponse](docs/SchemasJobTagResponse.md)
  - [SchemasLabel](docs/SchemasLabel.md)

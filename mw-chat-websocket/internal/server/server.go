@@ -46,9 +46,6 @@ func NewServer(cfg *config.Config) *Server {
 	}
 }
 
-// @title     Masters way chat API
-// @version 1.0
-// @BasePath  /mw-chat-websocket
 func (server *Server) SetRoutes(controller *controllers.Controller) {
 	mwChatWebsocket := server.GinServer.Group("/mw-chat-websocket")
 	{

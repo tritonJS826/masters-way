@@ -10,7 +10,7 @@ type messageRouter struct {
 	messageController *controllers.MessageController
 }
 
-func newMessageController(messageController *controllers.MessageController) *messageRouter {
+func newMessageRouter(messageController *controllers.MessageController) *messageRouter {
 	return &messageRouter{messageController}
 }
 

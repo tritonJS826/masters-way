@@ -109,3 +109,133 @@ func (gs *GeminiService) AIChat(ctx context.Context, payload *schemas.AIChatPayl
 
 	return &schemas.AIChatResponse{Message: responseText}, nil
 }
+
+func (gs *GeminiService) GeneratePlansByMetric(ctx context.Context, payload *schemas.AIGeneratePlansByMetricPayload) (*schemas.AIGeneratePlansByMetricResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		return &schemas.AIGeneratePlansByMetricResponse{
+			Plans: []string{
+				"1 stub message from AI GeneratePlansByMetric for developing",
+				"2 stub message from AI GeneratePlansByMetric for developing",
+				"3 stub message from AI GeneratePlansByMetric for developing",
+				"4 stub message from AI GeneratePlansByMetric for developing",
+				"5 stub message from AI GeneratePlansByMetric for developing",
+			},
+		}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage = "I have a goal:" + payload.Goal + ". And one of metrics for this goal is" + payload.Metric + " \n Give me 10 decomposed tasks with max 300 symbols each how to achieve this metric. Return just an array of strings in json"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "[")
+	jsonEnd := strings.LastIndex(responseText, "]") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var plans []string
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &plans)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &schemas.AIGeneratePlansByMetricResponse{Plans: plans}, nil
+}
+
+func (gs *GeminiService) CommentIssue(ctx context.Context, payload *schemas.AICommentIssuePayload) (*schemas.AICommentIssueResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		return &schemas.AICommentIssueResponse{Comment: "Hi! It's a stub message from CommentIssue for developing"}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage = "I have a goal:" + payload.Goal + ". And one of issues to solve is" + payload.Message + " \n Comment it, for example is it relevant or should I know something before the implementation." + " \n Give me answer with max 300 symbols"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	return &schemas.AICommentIssueResponse{Comment: responseText}, nil
+}
+
+func (gs *GeminiService) DecomposeIssue(ctx context.Context, payload *schemas.AIDecomposeIssuePayload) (*schemas.AIDecomposeIssueResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		return &schemas.AIDecomposeIssueResponse{
+			Plans: []string{
+				"1 stub message from AI DecomposeIssue for developing",
+				"2 stub message from AI DecomposeIssue for developing",
+				"3 stub message from AI DecomposeIssue for developing",
+				"4 stub message from AI DecomposeIssue for developing",
+				"5 stub message from AI DecomposeIssue for developing",
+			},
+		}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage = "I have a goal:" + payload.Goal + ". And one of plans for this goal is" + payload.Message + " \n Give me 10 decomposed tasks with max 300 symbols each how to achieve this metric. Return just an array of strings in json"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "[")
+	jsonEnd := strings.LastIndex(responseText, "]") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var plans []string
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &plans)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &schemas.AIDecomposeIssueResponse{Plans: plans}, nil
+}
+
+func (gs *GeminiService) EstimateIssue(ctx context.Context, payload *schemas.AIEstimateIssuePayload) (*schemas.AIEstimateIssueResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		return &schemas.AIEstimateIssueResponse{Estimation: "Hi! It's a stub message from AI EstimateIssue for developing"}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage = "I have a goal" + payload.Goal + ". And one of the plans is:" + payload.Issue + " \n Estimate how much time do I need to solve it? Give me answer with max 300 symbols"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	return &schemas.AIEstimateIssueResponse{Estimation: responseText}, nil
+}

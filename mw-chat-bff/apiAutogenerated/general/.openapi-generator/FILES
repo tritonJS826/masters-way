@@ -50,6 +50,14 @@ docs/PlanJobTagAPI.md
 docs/ProblemAPI.md
 docs/SchemasAIChatPayload.md
 docs/SchemasAIChatResponse.md
+docs/SchemasAICommentIssuePayload.md
+docs/SchemasAICommentIssueResponse.md
+docs/SchemasAIDecomposeIssuePayload.md
+docs/SchemasAIDecomposeIssueResponse.md
+docs/SchemasAIEstimateIssuePayload.md
+docs/SchemasAIEstimateIssueResponse.md
+docs/SchemasAIGeneratePlansByMetricPayload.md
+docs/SchemasAIGeneratePlansByMetricResponse.md
 docs/SchemasAddWayToCompositeWayPayload.md
 docs/SchemasCommentPopulatedResponse.md
 docs/SchemasCompositeDayReportPopulatedResponse.md
@@ -82,6 +90,7 @@ docs/SchemasGenerateMetricsResponse.md
 docs/SchemasGetAllUsersResponse.md
 docs/SchemasGetAllWaysResponse.md
 docs/SchemasGetUsersByIDsResponse.md
+docs/SchemasGoogleToken.md
 docs/SchemasJobDonePopulatedResponse.md
 docs/SchemasJobTagResponse.md
 docs/SchemasLabel.md
@@ -129,6 +138,14 @@ model_custom_errors_no_right_to_change_day_report_error.go
 model_schemas_add_way_to_composite_way_payload.go
 model_schemas_ai_chat_payload.go
 model_schemas_ai_chat_response.go
+model_schemas_ai_comment_issue_payload.go
+model_schemas_ai_comment_issue_response.go
+model_schemas_ai_decompose_issue_payload.go
+model_schemas_ai_decompose_issue_response.go
+model_schemas_ai_estimate_issue_payload.go
+model_schemas_ai_estimate_issue_response.go
+model_schemas_ai_generate_plans_by_metric_payload.go
+model_schemas_ai_generate_plans_by_metric_response.go
 model_schemas_comment_populated_response.go
 model_schemas_composite_day_report_populated_response.go
 model_schemas_composite_way_relation.go
@@ -160,6 +177,7 @@ model_schemas_generate_metrics_response.go
 model_schemas_get_all_users_response.go
 model_schemas_get_all_ways_response.go
 model_schemas_get_users_by_ids_response.go
+model_schemas_google_token.go
 model_schemas_job_done_populated_response.go
 model_schemas_job_tag_response.go
 model_schemas_label.go

@@ -28,6 +28,14 @@ index.ts
 models/CustomErrorsNoRightToChangeDayReportError.ts
 models/SchemasAIChatPayload.ts
 models/SchemasAIChatResponse.ts
+models/SchemasAICommentIssuePayload.ts
+models/SchemasAICommentIssueResponse.ts
+models/SchemasAIDecomposeIssuePayload.ts
+models/SchemasAIDecomposeIssueResponse.ts
+models/SchemasAIEstimateIssuePayload.ts
+models/SchemasAIEstimateIssueResponse.ts
+models/SchemasAIGeneratePlansByMetricPayload.ts
+models/SchemasAIGeneratePlansByMetricResponse.ts
 models/SchemasAddWayToCompositeWayPayload.ts
 models/SchemasCommentPopulatedResponse.ts
 models/SchemasCompositeDayReportPopulatedResponse.ts
@@ -60,6 +68,7 @@ models/SchemasGenerateMetricsResponse.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
 models/SchemasGetUsersByIDsResponse.ts
+models/SchemasGoogleToken.ts
 models/SchemasJobDonePopulatedResponse.ts
 models/SchemasJobTagResponse.ts
 models/SchemasLabel.ts

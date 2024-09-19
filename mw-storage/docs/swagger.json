@@ -21,43 +21,40 @@
                 }
             }
         },
-        "/messages": {
+        "/files": {
             "post": {
+                "description": "Uploads a file to the server and stores it in the designated storage path",
                 "consumes": [
-                    "application/json"
+                    "multipart/form-data"
                 ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "message"
+                    "file"
                 ],
-                "summary": "Create message",
-                "operationId": "create-message",
+                "summary": "Upload file to storage",
+                "operationId": "upload-file",
                 "parameters": [
                     {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
-                        }
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "multipart",
+                        "in": "formData",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessageResponse"
+                            "$ref": "#/definitions/schemas.UploadFileResponse"
                         }
                     }
                 }
-            }
-        },
-        "/messages/{messageId}/message-status": {
-            "patch": {
-                "description": "Update message status by message Id",
+            },
+            "delete": {
+                "description": "Delete multiple files from the server storage using their IDs",
                 "consumes": [
                     "application/json"
                 ],
@@ -65,26 +62,22 @@
                     "application/json"
                 ],
                 "tags": [
-                    "message"
+                    "file"
                 ],
-                "summary": "Update message status",
-                "operationId": "update-message-status",
+                "summary": "Delete files by IDs",
+                "operationId": "delete-files",
                 "parameters": [
                     {
-                        "description": "query params",
-                        "name": "request",
+                        "description": "List of file IDs to delete",
+                        "name": "fileIDs",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateMessageStatusPayload"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "message Id",
-                        "name": "messageId",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -96,88 +89,30 @@
         }
     },
     "definitions": {
-        "schemas.CreateMessagePayload": {
+        "schemas.UploadFileResponse": {
             "type": "object",
             "required": [
-                "message",
-                "roomId"
+                "id",
+                "name",
+                "ownerId",
+                "previewUrl",
+                "srcUrl"
             ],
             "properties": {
-                "message": {
+                "id": {
                     "type": "string"
                 },
-                "roomId": {
+                "name": {
                     "type": "string"
-                }
-            }
-        },
-        "schemas.CreateMessageResponse": {
-            "type": "object",
-            "required": [
-                "message",
-                "users"
-            ],
-            "properties": {
-                "message": {
-                    "$ref": "#/definitions/schemas.MessageResponse"
-                },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        "schemas.MessageReader": {
-            "type": "object",
-            "required": [
-                "readDate",
-                "userId"
-            ],
-            "properties": {
-                "readDate": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
-        "schemas.MessageResponse": {
-            "type": "object",
-            "required": [
-                "message",
-                "messageId",
-                "messageReaders",
-                "ownerId"
-            ],
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "messageId": {
-                    "type": "string"
-                },
-                "messageReaders": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.MessageReader"
-                    }
                 },
                 "ownerId": {
                     "type": "string"
-                }
-            }
-        },
-        "schemas.UpdateMessageStatusPayload": {
-            "type": "object",
-            "required": [
-                "isRead"
-            ],
-            "properties": {
-                "isRead": {
-                    "type": "boolean"
+                },
+                "previewUrl": {
+                    "type": "string"
+                },
+                "srcUrl": {
+                    "type": "string"
                 }
             }
         }

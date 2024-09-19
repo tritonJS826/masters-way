@@ -41,8 +41,8 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 	return &Router{
 		Gin:           ginRouter,
 		config:        config,
-		roomRouter:    newRoomController(controller.RoomsController),
-		messageRouter: newMessageController(controller.MessagesController),
+		roomRouter:    newRoomRouter(controller.RoomsController),
+		messageRouter: newMessageRouter(controller.MessagesController),
 		devRouter:     newDevRouter(controller.DevController),
 	}
 }

@@ -14,3 +14,9 @@
   margin-left: auto;
   text-wrap: nowrap;
 }
+
+.aiButton {
+  border-color: var(--generalPrimaryColor);
+  background-color: var(--tertiaryBgColor);
+  font-weight: $fontWeightRegular;
+}

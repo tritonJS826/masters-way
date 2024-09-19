@@ -9,4 +9,5 @@ export * from './SchemasMessageResponse';
 export * from './SchemasRoomPopulatedResponse';
 export * from './SchemasRoomPreviewResponse';
 export * from './SchemasUpdateMessageStatusPayload';
+export * from './SchemasUploadFileResponse';
 export * from './SchemasUserResponse';

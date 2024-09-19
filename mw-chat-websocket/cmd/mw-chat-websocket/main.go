@@ -7,6 +7,9 @@ import (
 	"mw-chat-websocket/internal/server"
 )
 
+// @title     Masters way chat-websocket API
+// @version 1.0
+// @BasePath  /mw-chat-websocket
 func main() {
 	newConfig, err := config.LoadConfig("")
 	if err != nil {

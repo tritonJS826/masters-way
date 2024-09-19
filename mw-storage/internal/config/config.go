@@ -9,7 +9,7 @@ import (
 
 type Config struct {
 	ServerPort       string `mapstructure:"SERVER_PORT"`
-	WebappBaseURL    string `mapstructure:"WEBAPP_BASE_URL"`
+	ChatBFFBaseURL   string `mapstructure:"CHAT_BFF_BASE_URL"`
 	EnvType          string `mapstructure:"ENV_TYPE"`
 	DBSource         string `mapstructure:"DB_SOURCE"`
 	StorageAPIHost   string `mapstructure:"STORAGE_API_HOST"`
@@ -19,7 +19,7 @@ type Config struct {
 
 var prodRequiredVariables = [7]string{
 	"SERVER_PORT",
-	"WEBAPP_BASE_URL",
+	"CHAT_BFF_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
 	"STORAGE_API_HOST",
@@ -29,7 +29,7 @@ var prodRequiredVariables = [7]string{
 
 var devRequiredVariables = [7]string{
 	"SERVER_PORT",
-	"WEBAPP_BASE_URL",
+	"CHAT_BFF_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
 	"STORAGE_API_HOST",

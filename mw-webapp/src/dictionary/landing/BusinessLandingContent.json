@@ -1,0 +1,354 @@
+{ 
+  "todo": "yes",
+  "navigation": {
+    "advantages": {
+      "ru": "Преимущества",
+      "en": "Advantages",
+      "ua": "Переваги"
+    },
+    "solutions": {
+      "ru": "Решения",
+      "en": "Solutions",
+      "ua": "Рішення"
+    },
+    "reviews": {
+      "ru": "Отзывы",
+      "en": "Reviews",
+      "ua": "Відгуки"
+    },
+    "pricing": {
+      "ru": "Тарифы",
+      "en": "Pricing",
+      "ua": "Тарифи"
+    },
+    "questions": {
+      "ru": "Вопросы",
+      "en": "Questions",
+      "ua": "Питання"
+    }
+  },
+  "callToActionButton": {
+    "ru": "Попробовать бесплатно",
+    "en": "Try for free",
+    "ua": "Спробувати безкоштовно"
+  },
+"main": {
+    "title": {
+      "ru": "Расширьте возможности развития своих сотрудников с помощью",
+      "en": "Empower Your Employees with\nFlexible Learning Opportunities with ",
+      "ua": "Розширте можливості розвитку своїх співробітників з"
+    },
+    "mastersWay": {
+      "ru": " Master's Way",
+      "en": " Master's Way",
+      "ua": " Master's Way"
+    },
+    "description": {
+      "ru": "Автоматизируйте управление развитием сотрудников, сосредоточьтесь на том, что важно — их росте и успехах.\nНаше приложение поддерживает асинхронное обучение,\n отслеживание прогресса и отчетность, обеспечивая масштабируемый рост без потери качества.",
+      "en": "Automate employee development management and focus on what matters most—their growth and success.\nOur platform supports asynchronous learning, progress tracking, and reporting,\n allowing you to scale without compromising quality.",
+      "ua": "Автоматизуйте управління розвитком співробітників, зосередьтеся на головному — їхньому зростанні та успіхах.\nНаша програма підтримує асинхронне навчання, відстеження прогресу та звітність,\n забезпечуючи масштабоване зростання без шкоди якості."
+    }
+  },
+  "advantages": {
+    "title": {
+      "ru": "Преимущества для вашего бизнеса",
+      "en": "Enhancing Employee Growth Made Simple",
+      "ua": "Переваги для вашого бізнесу"
+    },
+    "asynchronousInteraction": {
+      "title": {
+        "ru": "Асинхронное взаимодействие",
+        "en": "Say Goodbye to\nTime-Wasting Meetings",
+        "ua": "Асинхронне взаємодія"
+      },
+      "description": {
+        "ru": "Позвольте вашим сотрудникам учиться, когда это удобно им. Асинхронное обучение избавляет от необходимости тратить время на синхронные встречи, позволяя фокусироваться на стратегически важных задачах.",
+        "en": "Let your employees learn on their own time. Asynchronous learning removes the need for time-consuming meetings, freeing you to focus on strategic initiatives.",
+        "ua": "Дозвольте своїм співробітникам навчатися в зручний для них час. Асинхронне навчання усуває необхідність у витратах часу на синхронні зустрічі, дозволяючи вам зосередитися на важливих завданнях."
+      }
+    },
+    "speedingUpProcesses": {
+      "title": {
+        "ru": "Ускорение процессов с помощью AI",
+        "en": "Accelerate Progress with AI Insights",
+        "ua": "Прискорення процесів з допомогою AI"
+      },
+      "description": {
+        "ru": "AI-технологии автоматизируют рутинные задачи и ускоряют выполнение учебных процессов, позволяя вам тратить меньше времени на мониторинг прогресса и организационные моменты.",
+        "en": "AI-powered tools automate routine tasks and speed up learning processes, letting you spend less time on tracking progress and handling administrative duties.",
+        "ua": "AI-технології автоматизують рутинні завдання та прискорюють навчальні процеси, дозволяючи вам витрачати менше часу на моніторинг прогресу та організаційні моменти."
+      }
+    },
+    "monitoringAchievements": {
+      "title": {
+        "ru": "Мониторинг достижений",
+        "en": "Real-Time Achievement Tracking",
+        "ua": "Моніторинг досягнень"
+      },
+      "description": {
+        "ru": "Отслеживайте результаты обучения ваших сотрудников с помощью точных данных о пройденных курсах, выполненных заданиях и общем прогрессе.",
+        "en": "Track your employees' learning outcomes with detailed data on completed courses, assignments, and overall progress.",
+        "ua": "Слідкуйте за результатами навчання ваших співробітників за допомогою точних даних про пройдені курси, виконані завдання та загальний прогрес."
+      }
+    },
+    "smartLearningManagement": {
+      "title": {
+        "ru": "Умное управление обучением",
+        "en": "Efficient Learning Management",
+        "ua": "Розумне керування навчанням"
+      },
+      "description": {
+        "ru": "Платформа Master's Way помогает создавать индивидуальные программы обучения, ставить цели и решать задачи в удобном и доступном формате.",
+        "en": "Master's Way helps you create personalized learning paths, set goals, and manage tasks in an accessible and efficient format.",
+        "ua": "Платформа Master's Way допомагає створювати індивідуальні програми навчання, ставити цілі та вирішувати завдання у зручному й доступному форматі."
+      }
+    }
+  },
+  "amountBlock": {
+    "mentors": {
+      "ru": "Профессиональных наставников",
+      "en": "Professional Mentors",
+      "ua": "Професійних наставників"
+    },
+    "activeWays": {
+      "ru": "Активных учебных путей",
+      "en": "Active Learning Paths",
+      "ua": "Активних навчальних шляхів"
+    },
+    "students": {
+      "ru": "Сотрудников, ищущих наставников",
+      "en": "Employees Seeking Mentorship",
+      "ua": "Співробітників, які шукають наставників"
+    }
+  },
+  "solutions": {
+    "title": {
+      "ru": "Наше приложение — ключ к успеху для вашего бизнеса",
+      "en": "Our Platform—The Key to Growing Your Workforce",
+      "ua": "Наша програма — ключ до успіху вашого бізнесу"
+    },
+    "description": {
+      "ru": "Master's Way — надежное решение для компаний, стремящихся развивать свои кадры и повышать их эффективность.",
+      "en": "Master's Way is the trusted solution for businesses looking to develop and enhance their workforce.",
+      "ua": "Master's Way — надійне рішення для компаній, які прагнуть розвивати свої кадри та підвищувати їх ефективність."
+    },
+    "timeSaving": {
+      "title": {
+        "ru": "Тратите слишком много времени на организационные задачи?",
+        "en": "Overloaded with Admin Tasks?\nMaster's Way Simplifies Everything.",
+        "ua": "Витрачаєте надто багато часу на організаційні завдання?"
+      },
+      "description": {
+        "ru": "Мы предлагаем решение, которое экономит ваше время и ресурсы, автоматизируя управление развитием сотрудников и делая его более эффективным.",
+        "en": "We offer a solution that saves your time and resources by automating employee development management and making it more efficient.",
+        "ua": "Ми пропонуємо рішення, яке заощаджує ваш час та ресурси, автоматизуючи управління розвитком співробітників та роблячи його більш ефективним."
+      }
+    },
+    "progressMonitoring": {
+      "title": {
+        "ru": "Трудно отслеживать успехи сотрудников?",
+        "en": "Struggling to Track Employee Progress?",
+        "ua": "Важко відстежувати успіхи співробітників?"
+      },
+      "description": {
+        "ru": "Наша платформа позволяет как индивидуальное, так и групповое обучение, обеспечивая прозрачную коммуникацию и легкий контроль над прогрессом.",
+        "en": "Our platform enables both individual and group learning, ensuring transparent communication and easy monitoring of progress.",
+        "ua": "Наша платформа дозволяє як індивідуальне, так і групове навчання, забезпечуючи прозору комунікацію та легкий контроль над прогресом."
+      }
+    },
+    "focusOnResults": {
+      "title": {
+        "ru": "Хотите, чтобы сотрудники видели результаты обучения?",
+        "en": "Want Employees to See Tangible Results?",
+        "ua": "Бажаєте, щоб співробітники бачили результати навчання?"
+      },
+      "description": {
+        "ru": "Master's Way обеспечивает подробные отчеты и статистику, демонстрируя их прогресс и показывая ценность вашего подхода к обучению.",
+        "en": "Master's Way provides detailed reports and statistics, showcasing their progress and highlighting the value of your learning approach.",
+        "ua": "Master's Way забезпечує докладні звіти та статистику, демонструючи їх прогрес та підкреслюючи цінність вашого підходу до навчання."
+      }
+    }
+  },
+  "reviews": {
+    "title": {
+      "ru": "Отзывы менторов, которые используют наше приложение",
+      "en": "Reviews from mentors who use our application",
+      "ua": "Відгуки менторів, які використовують нашу програму"
+    },
+    "kirillReview": {
+      "review": {
+        "ru": "Это приложение изменило мою профессиональную жизнь! Я могу уделять больше времени каждому ученику, не жертвуя своим личным временем.",
+        "en": "This app has changed my professional life! I can spend more time with each student without sacrificing my personal time.",
+        "ua": "Ця програма змінила моє професійне життя! Я можу більше часу приділяти кожному учневі, не жертвуючи своїм особистим часом."
+      },
+      "mentorName": {
+        "ru": "Kirill",
+        "en": "Kirill",
+        "ua": "Kirill"
+      },
+      "mentorProfession": {
+        "ru": "ментор по Golang",
+        "en": "Golang mentor",
+        "ua": "ментор по Golang"
+      }
+    },
+    "viktarReview": {
+      "review": {
+        "ru": "Отслеживание прогресса, статистика и отчетность — это просто бомба! Теперь я могу наглядно показать результаты своей работы с моими учениками.",
+        "en": "Progress tracking, statistics and reporting are just the bomb! Now I can clearly show the results of my work with my students.",
+        "ua": "Відстеження прогресу, статистика та звітність — це просто бомба! Тепер я можу показати результати своєї роботи з моїми учнями."
+      },
+      "mentorName": {
+        "ru": "Victar",
+        "en": "Victar",
+        "ua": "Victar"
+      },
+      "mentorProfession": {
+        "ru": "ментор по React, TS",
+        "en": "React, TS mentor",
+        "ua": "ментор з React, TS"
+      }
+    },
+    "viktoryiaReview": {
+      "review": {
+        "ru": "Благодаря асинхронному обучению я могу работать с учениками со всего мира. Это открыло для меня новые возможности.",
+        "en": "Asynchronous learning allows me to work with students from all over the world. This opened up new opportunities for me.",
+        "ua": "Завдяки асинхронному навчанню я можу працювати з учнями з усього світу. Це відкрило для мене нові можливості."
+      },
+      "mentorName": {
+        "ru": "Viktoryia",
+        "en": "Viktoryia",
+        "ua": "Viktoryia"
+      },
+      "mentorProfession": {
+        "ru": "ментор по UX/UI",
+        "en": "UX/UI mentor",
+        "ua": "ментор по UX/UI"
+      }
+    }
+  },
+  "pricing": {
+    "title": {
+      "ru": "Ознакомьтесь с нашими тарифами",
+      "en": "Check out our rates",
+      "ua": "Ознайомтеся з нашими тарифами"
+    }
+  },
+  "questions": {
+    "title": {
+      "ru": "Часто задаваемые вопросы",
+      "en": "Frequently Asked Questions",
+      "ua": "Часті питання"
+    },
+    "accordion": [
+      {
+        "id": 0,
+        "question": {
+          "ru": "Сколько стоит Master's Way?",
+          "en": "How much does Master's Way cost?",
+          "ua": "Скільки коштує Master's Way?"
+        },
+        "answer": {
+          "ru": "Master's Way предлагает различные тарифные планы для удовлетворения различных потребностей. Посетите наш веб-сайт, чтобы получить подробную информацию о ценах и найти план, который подходит именно вам.",
+          "en": "Master's Way offers various pricing plans to suit different needs. Visit our website for detailed pricing information and to find the plan that's right for you.",
+          "ua": "Master's Way пропонує різні тарифні плани відповідно до різних потреб. Відвідайте наш веб-сайт, щоб отримати детальну інформацію про ціни та знайти план, який підходить саме вам."
+        }
+      },
+      {
+        "id": 1,
+        "question": {
+          "ru": "Могу ли я попробовать Master's Way, прежде чем совершить сделку?",
+          "en": "Can I try Master's Way before I commit?",
+          "ua": "Чи можу я спробувати Master's Way, перш ніж взяти на себе зобов'язання?"
+        },
+        "answer": {
+          "ru": "Да, мы предлагаем бесплатный план, чтобы вы могли лично ощутить преимущества Master's Way. Подпишитесь на бесплатный план на нашем веб-сайте, чтобы изучить платформу и посмотреть, как она может изменить ваш опыт наставничества.",
+          "en": "Yes, we offer a free plan so you can experience the benefits of Master's Way firsthand. Sign up for a free plan on our website to explore the platform and see how it can transform your mentoring experience.",
+          "ua": "Так, ми пропонуємо безкоштовний план, щоб ви могли на власні очі відчути переваги Master's Way. Підпишіться на безкоштовний план на нашому веб-сайті, щоб дослідити платформу та побачити, як вона може змінити ваш досвід наставництва."
+        }
+      },
+      {
+        "id": 2,
+        "question": {
+          "ru": "Как начать работу с приложением?",
+          "en": "How do I get started with Master's Way?",
+          "ua": "Як розпочати роботу з додатком?"
+        },
+        "answer": {
+          "ru": "Это просто! Просто посетите наш сайт и создайте учетную запись. Мы предоставляем комплексные инструкции и поддержку, которые помогут вам ориентироваться на платформе и начать эффективно использовать Master's Way.",
+          "en": "It's easy to get started! Simply visit our website and create an account. We provide comprehensive tutorials and support to help you navigate the platform and start using Master's Way effectively.",
+          "ua": "Почати легко! Просто відвідайте наш сайт та створіть обліковий запис. Ми надаємо комплексні інструкції та підтримку, які допоможуть вам орієнтуватися на платформі та почати ефективно використовувати Master's Way."
+        }
+      },
+      {
+        "id": 3,
+        "question": {
+          "ru": "Что такое асинхронное обучение и какую пользу оно принесет мне как ментору?",
+          "en": "What is asynchronous learning, and how does it benefit me as a mentor?",
+          "ua": "Що таке асинхронне навчання і яку користь воно принесе мені як ментору?"
+        },
+        "answer": {
+          "ru": "Асинхронное обучение позволяет вам взаимодействовать со своими учениками вне встреч в режиме реального времени. Это означает, что вы можете оставлять отзывы, проводить уроки и отслеживать прогресс в удобное для вас время, освобождая свое время и позволяя работать со студентами в разных часовых поясах.",
+          "en": "Asynchronous learning allows you to interact with your students outside of real-time meetings. This means you can provide feedback, deliver lessons, and track progress at your convenience, freeing up your time and allowing you to work with students across different time zones.",
+          "ua": "Асинхронне навчання дозволяє вам спілкуватися зі своїми учнями поза межами зустрічей у реальному часі. Це означає, що ви можете надавати відгуки, проводити уроки та відстежувати прогрес у зручний для вас час, звільняючи час і дозволяючи вам працювати зі студентами в різних часових поясах."
+        }
+      },
+      {
+        "id": 4,
+        "question": {
+          "ru": "Как Master's Way помогает мне отслеживать прогресс учащихся?",
+          "en": "How does Master's Way help me track student progress?",
+          "ua": "Як Master's Way допомагає мені відстежувати прогрес студента?"
+        },
+        "answer": {
+          "ru": "Master's Way предоставляет подробные отчеты о деятельности учащихся, включая время, потраченное на уроки, выполненные тесты и сданные задания. Эти данные помогут вам определить области, где учащимся нужна дополнительная поддержка, и отметить их достижения.",
+          "en": "Master's Way provides detailed reports on student activity, including time spent on lessons, tests completed, and assignments submitted. This data helps you identify areas where students need extra support and celebrate their achievements.",
+          "ua": "Master's Way надає докладні звіти про діяльність студентів, включаючи час, витрачений на уроки, виконані тести та подані завдання. Ці дані допомагають визначити сфери, де студентам потрібна додаткова підтримка, і відзначити їхні досягнення."
+        }
+      },
+      {
+        "id": 5,
+        "question": {
+          "ru": "Могу ли я адаптировать свой подход к наставничеству с помощью Master's Way?",
+          "en": "Can I customize my mentoring approach with Master's Way?",
+          "ua": "Чи можу я налаштувати свій наставницький підхід за допомогою Master's Way?"
+        },
+        "answer": {
+          "ru": "Абсолютно! Master's Way предлагает гибкую платформу, которая позволяет вам адаптировать свой стиль наставничества. Вы можете создавать индивидуальные уроки, ставить цели и предоставлять персонализированную обратную связь для удовлетворения уникальных потребностей каждого учащегося.",
+          "en": "Absolutely! Master's Way offers a flexible platform that allows you to tailor your mentoring style. You can create custom lessons, set goals, and provide personalized feedback to meet the unique needs of each student.",
+          "ua": "Абсолютно! Master's Way пропонує гнучку платформу, яка дозволяє вам адаптувати свій стиль наставництва. Ви можете створювати спеціальні уроки, встановлювати цілі та надавати індивідуальні відгуки, щоб задовольнити унікальні потреби кожного учня."
+        }
+      },
+      {
+        "id": 6,
+        "question": {
+          "ru": "Как Master's Way помогает мне управлять несколькими студентами?",
+          "en": "How does Master's Way help me manage multiple students?",
+          "ua": "Як Master's Way допомагає мені керувати кількома студентами?"
+        },
+        "answer": {
+          "ru": "Master's Way позволяет легко управлять несколькими студентами благодаря интуитивно понятному интерфейсу и организованной панели управления. Вы можете отслеживать прогресс, общаться с учащимися и эффективно предоставлять обратную связь даже в большой группе.",
+          "en": "Master's Way makes it easy to manage multiple students with its intuitive interface and organized dashboard. You can track progress, communicate with students, and provide feedback efficiently, even with a large group.",
+          "ua": "Master's Way дозволяє легко керувати кількома студентами завдяки інтуїтивно зрозумілому інтерфейсу та організованій інформаційній панелі. Ви можете відстежувати прогрес, спілкуватися зі студентами та ефективно надавати зворотній зв’язок навіть у великій групі."
+        }
+      }
+    ]
+  },
+  "aboutApp": {
+    "title": {
+      "ru": "Готовы вывести развитие своих сотрудников на новый уровень с Masters Way?",
+      "en": "Ready to elevate your team's development with Masters Way?",
+      "ua": "Готові вивести розвиток ваших співробітників на новий рівень з Masters Way?"
+    },
+    "tryOurApp": {
+      "ru": "Попробуйте наше веб-приложение бесплатно и убедитесь, как оно может помочь вам увеличить производительность, вовлеченность и удовлетворение сотрудников. Мы предлагаем новый способ взаимодействия для эффективного обучения.",
+      "en": "Try our web app for free and see how it can help you boost productivity, engagement, and job satisfaction for your team. We offer a new way to facilitate effective learning.",
+      "ua": "Спробуйте наш веб-додаток безкоштовно і переконайтеся, як він може допомогти збільшити продуктивність, залученість та задоволення роботою у ваших співробітників. Ми пропонуємо новий спосіб ефективного навчання."
+    },
+    "ourAppIs": {
+      "ru": "Наша платформа для развития сотрудников обеспечивает полный контроль над процессом обучения, прозрачную отчетность и асинхронное взаимодействие, что экономит время как для менеджеров, так и для сотрудников. Она доступна по цене, подходит для индивидуального и командного обучения, предлагает интеграцию с AI и GitHub, а также помогает строить репутацию успешной компании через детализированную статистику и отзывы.",
+      "en": "Our platform for employee development gives you full control over the learning process, transparent reporting, and asynchronous interaction, saving time for both managers and employees. It's affordable, suitable for both individual and team learning, offers AI and GitHub integration, and helps build your company's reputation with detailed statistics and feedback.",
+      "ua": "Наша платформа для розвитку співробітників забезпечує повний контроль над процесом навчання, прозору звітність та асинхронну взаємодію, що заощаджує час як менеджерів, так і співробітників. Вона доступна за ціною, підходить для індивідуального та командного навчання, пропонує інтеграцію з AI та GitHub, а також допомагає будувати репутацію успішної компанії завдяки детальній статистиці та відгукам."
+    }
+  }
+}

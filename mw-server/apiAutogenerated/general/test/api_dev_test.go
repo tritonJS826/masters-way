@@ -1,5 +1,5 @@
 /*
-
+Masters way general API
 
 Testing DevAPIService
 
@@ -22,11 +22,11 @@ func Test_openapi_DevAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test DevAPIService ResetDbPost", func(t *testing.T) {
+	t.Run("Test DevAPIService DevResetDbGet", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		httpRes, err := apiClient.DevAPI.ResetDbPost(context.Background()).Execute()
+		httpRes, err := apiClient.DevAPI.DevResetDbGet(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

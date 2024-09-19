@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -19,6 +20,8 @@ import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {DecomposeIssueAiModal} from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal";
+import {EstimateIssueAiModal} from "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -236,7 +239,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   className={styles.linkToOwnerWay}
                 >
                   <Tooltip
-                    position={PositionTooltip.BOTTOM}
+                    position={PositionTooltip.TOP}
                     content={LanguageService.way.reportsTable.columnTooltip.visitWay[language]
                       .replace("$wayName", `"${plan.wayName}"`)}
                   >
@@ -247,6 +250,54 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                     />
                   </Tooltip>
                 </Link>
+                }
+                {props.user &&
+                  <>
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={LanguageService.way.reportsTable.decomposeIssueByAI[language]}
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="DE"
+                            className={styles.aiButton}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <DecomposeIssueAiModal
+                          goalDescription={props.way.goalDescription}
+                          issueDescription={plan.description}
+                          dayReportUuid={plan.dayReportUuid}
+                          ownerUuid={props.user.uuid}
+                          addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
+                        />}
+                    />
+                    <Modal
+                      trigger={
+                        <Tooltip
+                          position={PositionTooltip.TOP}
+                          content={LanguageService.way.reportsTable.estimateIssueByAI[language]}
+                        >
+                          <Button
+                            onClick={() => { }}
+                            buttonType={ButtonType.ICON_BUTTON}
+                            value="ES"
+                            className={styles.aiButton}
+                          />
+                        </Tooltip>
+                      }
+                      content={
+                        <EstimateIssueAiModal
+                          goalDescription={props.way.goalDescription}
+                          issueDescription={plan.description}
+                        />
+                      }
+                    />
+                  </>
                 }
                 <Tooltip
                   position={PositionTooltip.BOTTOM}
@@ -304,16 +355,19 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
 
                   </Tooltip>
                 }
-                {plan.ownerUuid === props.user?.uuid &&
-                <Trash
-                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
-                  tooltipPosition={PositionTooltip.BOTTOM}
-                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  onOk={() => deletePlan(plan.uuid)}
-                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
+                {plan.ownerUuid === props.user?.uuid ?
+                  <Trash
+                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
+                    tooltipPosition={PositionTooltip.BOTTOM}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    onOk={() => deletePlan(plan.uuid)}
+                    confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
                     "${plan.description}"?`}
-                />
+                  />
+                  : (
+                    <div className={styles.trashReservation} />
+                  )
                 }
               </HorizontalContainer>
               {props.isEditable ?
@@ -379,6 +433,12 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
         total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
           ${props.dayReport.plans.reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
         }
+        goalDescription={props.way.goalDescription}
+        addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
+        metrics={props.way.metrics}
+        ownerUuid={props.user?.uuid}
+        generatePlanTooltip={LanguageService.way.reportsTable.generatePlansByAI[language]}
+        isPlanColumn={true}
       />
     </VerticalContainer>
   );

@@ -17,6 +17,11 @@ interface CreateCommentParams {
    */
   dayReportUuid: string;
 
+  /**
+   * Comment description
+   */
+  description?: string;
+
 }
 
 /**
@@ -43,7 +48,7 @@ export class CommentDAL {
     const commentDTO = await CommentService.createComment({
       request: {
         dayReportUuid: params.dayReportUuid,
-        description: "",
+        description: params.description ?? "",
         ownerUuid: params.ownerUuid,
       },
     });

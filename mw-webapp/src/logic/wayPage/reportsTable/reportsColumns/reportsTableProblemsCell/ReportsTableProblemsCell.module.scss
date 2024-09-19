@@ -9,16 +9,16 @@
 }
 
 .numberedList {
-  flex: 1 0 auto;
-  list-style-type: none;
   display: flex;
+  flex: 1 0 auto;
   flex-direction: column;
   gap: $gapSmall;
+  list-style-type: none;
 }
 
 .numberedListItem {
-  width: 100%;
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: $gapSmall;
 }
@@ -44,4 +44,13 @@
 .socialMediaIcon {
   width: $iconSizeSmall;
   height: $iconSizeSmall;
+}
+
+.aiButton {
+  border-color: var(--generalPrimaryColor);
+  background-color: var(--tertiaryBgColor);
+}
+
+.trashReservation {
+  width: 16px;
 }
