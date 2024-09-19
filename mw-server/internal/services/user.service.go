@@ -24,6 +24,7 @@ type IUserRepository interface {
 	GetFavoriteWaysByUserId(ctx context.Context, userUuid pgtype.UUID) ([]db.GetFavoriteWaysByUserIdRow, error)
 	GetMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
 	GetListWayTagsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.WayTag, error)
+	GetPlainUserWithInfoByIDs(ctx context.Context, projectUuid pgtype.UUID) ([]db.GetPlainUserWithInfoByIDsRow, error)
 	GetWaysByCollectionId(ctx context.Context, wayCollectionUuid pgtype.UUID) ([]db.GetWaysByCollectionIdRow, error)
 	GetListUserTagsByUserId(ctx context.Context, userUuid pgtype.UUID) ([]db.UserTag, error)
 	GetFromUserMentoringRequestWaysByUserId(ctx context.Context, userUuid pgtype.UUID) ([]db.GetFromUserMentoringRequestWaysByUserIdRow, error)
@@ -556,4 +557,40 @@ func (us *UserService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserI
 			ChildrenUuids:       dbWayRaw.ChildrenUuids,
 		}
 	})
+}
+
+func (us *UserService) GetPlainUserWithInfoByIDs(ctx context.Context, projectID string) ([]schemas.UserPlainResponseWithInfo, error) {
+	projectUuid := pgtype.UUID{Bytes: uuid.MustParse(projectID), Valid: true}
+	users, err := us.IUserRepository.GetPlainUserWithInfoByIDs(ctx, projectUuid)
+	if err != nil {
+		return nil, err
+	}
+
+	response := make([]schemas.UserPlainResponseWithInfo, len(users))
+	for i, user := range users {
+
+		userTags := lo.Map(user.TagUuids, func(tagUuid string, i int) schemas.UserTagResponse {
+			return schemas.UserTagResponse{
+				Uuid: tagUuid,
+				Name: user.TagNames[i],
+			}
+		})
+
+		response[i] = schemas.UserPlainResponseWithInfo{
+			Uuid:             util.ConvertPgUUIDToUUID(user.Uuid).String(),
+			Name:             user.Name,
+			Description:      user.Description,
+			CreatedAt:        user.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+			ImageUrl:         user.ImageUrl,
+			IsMentor:         user.IsMentor,
+			Email:            user.Email,
+			FavoriteForUsers: int32(user.FavoriteForUsersAmount),
+			FavoriteWays:     int32(user.FavoriteWays),
+			MentoringWays:    int32(user.MentoringWaysAmount),
+			OwnWays:          int32(user.OwnWaysAmount),
+			Tags:             userTags,
+		}
+	}
+
+	return response, nil
 }
