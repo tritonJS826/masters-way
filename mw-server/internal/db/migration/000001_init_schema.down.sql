@@ -1,4 +1,5 @@
 -- Drop triggers
+DROP TRIGGER IF EXISTS check_max_users_trigger;
 DROP TRIGGER IF EXISTS create_user_trigger ON users;
 DROP TRIGGER IF EXISTS max_tags_to_user_trigger ON users_user_tags;
 DROP TRIGGER IF EXISTS max_likes_to_user_trigger ON favorite_users;
@@ -30,6 +31,7 @@ DROP TRIGGER IF EXISTS max_job_dones_for_label_trigger ON job_dones_job_tags;
 DROP TRIGGER IF EXISTS duplicate_today_report_trigger ON day_reports;
 
 -- Drop functions
+DROP FUNCTION IF EXISTS check_max_users_per_project;
 DROP FUNCTION IF EXISTS init_user CASCADE;
 DROP FUNCTION IF EXISTS check_max_tags_to_user CASCADE;
 DROP FUNCTION IF EXISTS check_max_likes_to_user CASCADE;
@@ -61,6 +63,8 @@ DROP FUNCTION IF EXISTS check_max_job_dones_for_label CASCADE;
 DROP FUNCTION IF EXISTS check_duplicate_today_report CASCADE;
 
 -- Drop tables that reference other tables first
+DROP TABLE IF EXISTS "users_projects" CASCADE;
+DROP TABLE IF EXISTS "projects" CASCADE;
 DROP TABLE IF EXISTS "plans_job_tags" CASCADE;
 DROP TABLE IF EXISTS "job_dones_job_tags" CASCADE;
 DROP TABLE IF EXISTS "way_collections_ways" CASCADE;
@@ -85,6 +89,7 @@ DROP TABLE IF EXISTS "way_collections" CASCADE;
 DROP TABLE IF EXISTS "user_tags" CASCADE;
 DROP TABLE IF EXISTS "way_tags" CASCADE;
 DROP TABLE IF EXISTS "profile_settings" CASCADE;
+
 
 -- Finally, drop the main 'users' table
 DROP TABLE IF EXISTS "users" CASCADE;

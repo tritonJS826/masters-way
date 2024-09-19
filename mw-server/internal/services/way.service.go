@@ -395,7 +395,10 @@ func (ws *WayService) GetAllWays(ctx context.Context, params *GetAllWaysParams) 
 		MinDayReportsAmount: int32(params.ReqMinDayReportsAmount),
 		WayName:             params.WayName,
 	}
-	waysSize, _ := ws.wayRepository.CountWaysByType(ctx, waySizeArgs)
+	waysSize, err := ws.wayRepository.CountWaysByType(ctx, waySizeArgs)
+	if err != nil {
+		return nil, err
+	}
 
 	listWaysArgs := db.ListWaysParams{
 		Date:                pgtype.Timestamp{Time: currentDate, Valid: true},
@@ -405,7 +408,6 @@ func (ws *WayService) GetAllWays(ctx context.Context, params *GetAllWaysParams) 
 		RequestLimit:        int32(params.ReqLimit),
 		WayName:             params.WayName,
 	}
-
 	ways, err := ws.wayRepository.ListWays(ctx, listWaysArgs)
 	if err != nil {
 		return nil, err

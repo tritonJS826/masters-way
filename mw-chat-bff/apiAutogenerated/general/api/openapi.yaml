@@ -1073,6 +1073,91 @@ paths:
       tags:
       - problem
       x-codegen-request-body-name: request
+  /project/{projectId}:
+    delete:
+      operationId: delete-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete project by id
+      tags:
+      - project
+  /projects:
+    post:
+      operationId: create-project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateProjectPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.ProjectResponse'
+          description: OK
+      summary: Create a new project
+      tags:
+      - project
+      x-codegen-request-body-name: request
+  /projects/{projectId}:
+    get:
+      operationId: get-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.ProjectResponse'
+          description: OK
+      summary: Get project by id
+      tags:
+      - project
+    patch:
+      operationId: update-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateProjectPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.ProjectResponse'
+          description: OK
+      summary: Update project by id
+      tags:
+      - project
+      x-codegen-request-body-name: request
   /toUserMentoringRequests:
     post:
       operationId: create-userMentoringRequest
@@ -2091,6 +2176,16 @@ components:
       - isDone
       - ownerUuid
       type: object
+    schemas.CreateProjectPayload:
+      properties:
+        name:
+          type: string
+        ownerId:
+          type: string
+      required:
+      - name
+      - ownerId
+      type: object
     schemas.CreateToUserMentoringRequestPayload:
       properties:
         userUuid:
@@ -2543,9 +2638,9 @@ components:
         users:
         - createdAt: createdAt
           ownWays: 5
-          mentoringWays: 5
-          favoriteWays: 1
-          favoriteForUsers: 6
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
           imageUrl: imageUrl
           name: name
           description: description
@@ -2559,9 +2654,9 @@ components:
             uuid: uuid
         - createdAt: createdAt
           ownWays: 5
-          mentoringWays: 5
-          favoriteWays: 1
-          favoriteForUsers: 6
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
           imageUrl: imageUrl
           name: name
           description: description
@@ -3310,6 +3405,159 @@ components:
       - wayName
       - wayUuid
       type: object
+    schemas.ProjectResponse:
+      example:
+        ways:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        name: name
+        id: id
+        isPrivate: true
+        ownerId: ownerId
+        users:
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+      properties:
+        id:
+          type: string
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+        ownerId:
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/schemas.UserPlainResponseWithInfo'
+          type: array
+        ways:
+          items:
+            $ref: '#/components/schemas/schemas.WayPlainResponse'
+          type: array
+      required:
+      - id
+      - isPrivate
+      - name
+      - ownerId
+      - users
+      - ways
+      type: object
     schemas.TimeSpentByDayPoint:
       example:
         date: date
@@ -3382,6 +3630,15 @@ components:
         isDone:
           type: boolean
       type: object
+    schemas.UpdateProjectPayload:
+      properties:
+        isPrivate:
+          nullable: true
+          type: boolean
+        name:
+          nullable: true
+          type: string
+      type: object
     schemas.UpdateUserPayload:
       properties:
         description:
@@ -3448,9 +3705,9 @@ components:
       example:
         createdAt: createdAt
         ownWays: 5
-        mentoringWays: 5
-        favoriteWays: 1
-        favoriteForUsers: 6
+        mentoringWays: 1
+        favoriteWays: 6
+        favoriteForUsers: 0
         imageUrl: imageUrl
         name: name
         description: description

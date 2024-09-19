@@ -16,6 +16,7 @@ apis/MetricApi.ts
 apis/PlanApi.ts
 apis/PlanLabelApi.ts
 apis/ProblemApi.ts
+apis/ProjectApi.ts
 apis/ToUserMentoringRequestApi.ts
 apis/UserApi.ts
 apis/UserTagApi.ts
@@ -53,6 +54,7 @@ models/SchemasCreateMetricPayload.ts
 models/SchemasCreatePlanLabelPayload.ts
 models/SchemasCreatePlanPayload.ts
 models/SchemasCreateProblemPayload.ts
+models/SchemasCreateProjectPayload.ts
 models/SchemasCreateToUserMentoringRequestPayload.ts
 models/SchemasCreateUserTagPayload.ts
 models/SchemasCreateWayCollectionPayload.ts
@@ -79,6 +81,7 @@ models/SchemasMetricResponse.ts
 models/SchemasOverallInformation.ts
 models/SchemasPlanPopulatedResponse.ts
 models/SchemasProblemPopulatedResponse.ts
+models/SchemasProjectResponse.ts
 models/SchemasTimeSpentByDayPoint.ts
 models/SchemasToUserMentoringRequestResponse.ts
 models/SchemasUpdateCommentPayload.ts
@@ -87,6 +90,7 @@ models/SchemasUpdateLabelPayload.ts
 models/SchemasUpdateMetricPayload.ts
 models/SchemasUpdatePlanPayload.ts
 models/SchemasUpdateProblemPayload.ts
+models/SchemasUpdateProjectPayload.ts
 models/SchemasUpdateUserPayload.ts
 models/SchemasUpdateWayCollectionPayload.ts
 models/SchemasUpdateWayPayload.ts

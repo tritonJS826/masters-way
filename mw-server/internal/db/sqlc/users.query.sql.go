@@ -87,6 +87,97 @@ func (q *Queries) DeleteUser(ctx context.Context, userUuid pgtype.UUID) error {
 	return err
 }
 
+const getPlainUserWithInfoByIDs = `-- name: GetPlainUserWithInfoByIDs :many
+SELECT
+    users.uuid,
+    users.name,
+    users.email,
+    users.description,
+    users.created_at,
+    users.image_url,
+    users.is_mentor,
+    (SELECT COUNT(*) FROM ways WHERE ways.owner_uuid = users.uuid) AS own_ways_amount,
+    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.user_uuid = users.uuid) AS favorite_ways,
+    (SELECT COUNT(*) FROM mentor_users_ways WHERE mentor_users_ways.user_uuid = users.uuid) AS mentoring_ways_amount,
+    (SELECT COUNT(*) FROM favorite_users WHERE favorite_users.acceptor_user_uuid = users.uuid) AS favorite_for_users_amount,
+    -- get user tag uuids
+    COALESCE(
+        ARRAY(
+            SELECT user_tags.uuid
+            FROM user_tags
+            INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+            WHERE users_user_tags.user_uuid = users.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS tag_uuids,
+    -- get user tag names
+    COALESCE(
+        ARRAY(
+            SELECT user_tags.name
+            FROM user_tags
+            INNER JOIN users_user_tags ON user_tags.uuid = users_user_tags.user_tag_uuid
+            WHERE users_user_tags.user_uuid = users.uuid
+        ),
+        '{}'
+    )::VARCHAR[] AS tag_names
+FROM users
+WHERE users.uuid IN (
+    SELECT user_uuid 
+    FROM users_projects 
+    WHERE users_projects.project_uuid = $1
+)
+`
+
+type GetPlainUserWithInfoByIDsRow struct {
+	Uuid                   pgtype.UUID      `json:"uuid"`
+	Name                   string           `json:"name"`
+	Email                  string           `json:"email"`
+	Description            string           `json:"description"`
+	CreatedAt              pgtype.Timestamp `json:"created_at"`
+	ImageUrl               string           `json:"image_url"`
+	IsMentor               bool             `json:"is_mentor"`
+	OwnWaysAmount          int64            `json:"own_ways_amount"`
+	FavoriteWays           int64            `json:"favorite_ways"`
+	MentoringWaysAmount    int64            `json:"mentoring_ways_amount"`
+	FavoriteForUsersAmount int64            `json:"favorite_for_users_amount"`
+	TagUuids               []string         `json:"tag_uuids"`
+	TagNames               []string         `json:"tag_names"`
+}
+
+func (q *Queries) GetPlainUserWithInfoByIDs(ctx context.Context, projectUuid pgtype.UUID) ([]GetPlainUserWithInfoByIDsRow, error) {
+	rows, err := q.db.Query(ctx, getPlainUserWithInfoByIDs, projectUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetPlainUserWithInfoByIDsRow{}
+	for rows.Next() {
+		var i GetPlainUserWithInfoByIDsRow
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Email,
+			&i.Description,
+			&i.CreatedAt,
+			&i.ImageUrl,
+			&i.IsMentor,
+			&i.OwnWaysAmount,
+			&i.FavoriteWays,
+			&i.MentoringWaysAmount,
+			&i.FavoriteForUsersAmount,
+			&i.TagUuids,
+			&i.TagNames,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getUserByEmail = `-- name: GetUserByEmail :one
 SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
 WHERE email = $1
@@ -236,7 +327,6 @@ WHERE (LOWER(users.email) LIKE '%' || LOWER($3) || '%' OR $3 = '')
         ($5 = 'mentor' AND users.is_mentor = true)
         OR ($5 = 'all')
     )
-
 ORDER BY created_at DESC
 LIMIT $1
 OFFSET $2

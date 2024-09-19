@@ -280,4 +280,13 @@ VALUES
 INSERT INTO "profile_settings" ("uuid", "pricing_plan", "owner_uuid")
 VALUES
     ('07dfa820-a4b2-4a42-b079-405376b240e7', 'pro', '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1');
+
+INSERT INTO "projects" ("uuid", "name", "owner_uuid")
+VALUES
+    ('afb02990-7e8c-4353-a724-ea8de5fb6cfc', 'Project 1', '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1');
+
+INSERT INTO "users_projects" ("user_uuid", "project_uuid")
+VALUES
+    ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', 'afb02990-7e8c-4353-a724-ea8de5fb6cfc');
+
 END $$;

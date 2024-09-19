@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -20,6 +21,7 @@ api_metric.go
 api_plan.go
 api_plan_label.go
 api_problem.go
+api_project.go
 api_to_user_mentoring_request.go
 api_user.go
 api_user_tag.go
@@ -48,6 +50,7 @@ docs/MetricAPI.md
 docs/PlanAPI.md
 docs/PlanLabelAPI.md
 docs/ProblemAPI.md
+docs/ProjectAPI.md
 docs/SchemasAIChatPayload.md
 docs/SchemasAIChatResponse.md
 docs/SchemasAICommentIssuePayload.md
@@ -75,6 +78,7 @@ docs/SchemasCreateMetricPayload.md
 docs/SchemasCreatePlanLabelPayload.md
 docs/SchemasCreatePlanPayload.md
 docs/SchemasCreateProblemPayload.md
+docs/SchemasCreateProjectPayload.md
 docs/SchemasCreateToUserMentoringRequestPayload.md
 docs/SchemasCreateUserTagPayload.md
 docs/SchemasCreateWayCollectionPayload.md
@@ -101,6 +105,7 @@ docs/SchemasMetricResponse.md
 docs/SchemasOverallInformation.md
 docs/SchemasPlanPopulatedResponse.md
 docs/SchemasProblemPopulatedResponse.md
+docs/SchemasProjectResponse.md
 docs/SchemasTimeSpentByDayPoint.md
 docs/SchemasToUserMentoringRequestResponse.md
 docs/SchemasUpdateCommentPayload.md
@@ -109,6 +114,7 @@ docs/SchemasUpdateLabelPayload.md
 docs/SchemasUpdateMetricPayload.md
 docs/SchemasUpdatePlanPayload.md
 docs/SchemasUpdateProblemPayload.md
+docs/SchemasUpdateProjectPayload.md
 docs/SchemasUpdateUserPayload.md
 docs/SchemasUpdateWayCollectionPayload.md
 docs/SchemasUpdateWayPayload.md
@@ -162,6 +168,7 @@ model_schemas_create_metric_payload.go
 model_schemas_create_plan_label_payload.go
 model_schemas_create_plan_payload.go
 model_schemas_create_problem_payload.go
+model_schemas_create_project_payload.go
 model_schemas_create_to_user_mentoring_request_payload.go
 model_schemas_create_user_tag_payload.go
 model_schemas_create_way_collection_payload.go
@@ -188,6 +195,7 @@ model_schemas_metric_response.go
 model_schemas_overall_information.go
 model_schemas_plan_populated_response.go
 model_schemas_problem_populated_response.go
+model_schemas_project_response.go
 model_schemas_time_spent_by_day_point.go
 model_schemas_to_user_mentoring_request_response.go
 model_schemas_update_comment_payload.go
@@ -196,6 +204,7 @@ model_schemas_update_label_payload.go
 model_schemas_update_metric_payload.go
 model_schemas_update_plan_payload.go
 model_schemas_update_problem_payload.go
+model_schemas_update_project_payload.go
 model_schemas_update_user_payload.go
 model_schemas_update_way_collection_payload.go
 model_schemas_update_way_payload.go
@@ -212,4 +221,30 @@ model_schemas_way_statistics.go
 model_schemas_way_statistics_triple_period.go
 model_schemas_way_tag_response.go
 response.go
+test/api_auth_test.go
+test/api_comment_test.go
+test/api_composite_way_test.go
+test/api_day_report_test.go
+test/api_dev_test.go
+test/api_favorite_user_test.go
+test/api_favorite_user_way_test.go
+test/api_from_user_mentoring_request_test.go
+test/api_gemini_test.go
+test/api_health_test.go
+test/api_job_done_job_tag_test.go
+test/api_job_done_test.go
+test/api_job_tag_test.go
+test/api_mentor_user_way_test.go
+test/api_metric_test.go
+test/api_plan_job_tag_test.go
+test/api_plan_test.go
+test/api_problem_test.go
+test/api_project_test.go
+test/api_to_user_mentoring_request_test.go
+test/api_user_tag_test.go
+test/api_user_test.go
+test/api_way_collection_test.go
+test/api_way_collection_way_test.go
+test/api_way_tag_test.go
+test/api_way_test.go
 utils.go

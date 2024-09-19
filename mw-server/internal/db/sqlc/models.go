@@ -169,6 +169,14 @@ type ProfileSetting struct {
 	OwnerUuid      pgtype.UUID      `json:"owner_uuid"`
 }
 
+type Project struct {
+	Uuid      pgtype.UUID `json:"uuid"`
+	Name      string      `json:"name"`
+	OwnerUuid pgtype.UUID `json:"owner_uuid"`
+	IsPrivate bool        `json:"is_private"`
+	IsDeleted bool        `json:"is_deleted"`
+}
+
 type ToUserMentoringRequest struct {
 	UserUuid pgtype.UUID `json:"user_uuid"`
 	WayUuid  pgtype.UUID `json:"way_uuid"`
@@ -189,6 +197,11 @@ type UserTag struct {
 	Name string      `json:"name"`
 }
 
+type UsersProject struct {
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+	ProjectUuid pgtype.UUID `json:"project_uuid"`
+}
+
 type UsersUserTag struct {
 	UserUuid    pgtype.UUID `json:"user_uuid"`
 	UserTagUuid pgtype.UUID `json:"user_tag_uuid"`
@@ -205,6 +218,7 @@ type Way struct {
 	CopiedFromWayUuid pgtype.UUID      `json:"copied_from_way_uuid"`
 	IsCompleted       bool             `json:"is_completed"`
 	IsPrivate         bool             `json:"is_private"`
+	ProjectUuid       pgtype.UUID      `json:"project_uuid"`
 }
 
 type WayCollection struct {

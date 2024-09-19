@@ -35,6 +35,7 @@ type Router struct {
 	planRouter                     *planRouter
 	planLabelRouter                *planLabelRouter
 	problemRouter                  *problemRouter
+	projectRouter                  *projectRouter
 	wayRouter                      *wayRouter
 	toUserMentoringRequestRouter   *toUserMentoringRequestRouter
 	userRouter                     *userRouter
@@ -80,6 +81,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		planRouter:                     newPlanRouter(controller.PlanController, config),
 		planLabelRouter:                newPlanLabelRouter(controller.PlanJobTagController, config),
 		problemRouter:                  newProblemRouter(controller.ProblemController, config),
+		projectRouter:                  newProjectRouter(controller.ProjectController, config),
 		wayRouter:                      newWayRouter(controller.WayController, config),
 		wayTagRouter:                   newWayTagRouter(controller.WayTagController, config),
 		toUserMentoringRequestRouter:   newToUserMentoringRequestRouter(controller.ToUserMentoringRequestController, config),
@@ -110,6 +112,7 @@ func (r *Router) SetRoutes() {
 	r.planRouter.setPlanRoutes(api)
 	r.planLabelRouter.setPlanLabelRoutes(api)
 	r.problemRouter.setProblemRoutes(api)
+	r.projectRouter.setProjectRouter(api)
 	r.wayRouter.setWayRoutes(api)
 	r.toUserMentoringRequestRouter.setToUserMentoringRequestRoutes(api)
 	r.userRouter.setUserRoutes(api)

@@ -23,6 +23,7 @@ type Controller struct {
 	PlanController                     *PlanController
 	PlanJobTagController               *PlanLabelController
 	ProblemController                  *ProblemController
+	ProjectController                  *ProjectController
 	WayController                      *WayController
 	WayTagController                   *WayTagController
 	ToUserMentoringRequestController   *ToUserMentoringRequestController
@@ -52,6 +53,7 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		PlanController:                     NewPlanController(services.PermissionService, services.PlanService),
 		PlanJobTagController:               NewPlanLabelController(services.PlanJobTagService),
 		ProblemController:                  NewProblemController(services.PermissionService, services.ProblemService),
+		ProjectController:                  NewProjectController(services.ProjectService, services.WayService, services.UserService),
 		WayController:                      NewWayController(services.WayService, services.WayStatisticsService, services.DayReportService, services.LimitService),
 		WayTagController:                   NewWayTagController(services.WayTagService),
 		ToUserMentoringRequestController:   NewToUserMentoringRequestController(services.ToUserMentoringRequestService),

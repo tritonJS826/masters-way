@@ -359,6 +359,16 @@ definitions:
     - isDone
     - ownerUuid
     type: object
+  schemas.CreateProjectPayload:
+    properties:
+      name:
+        type: string
+      ownerId:
+        type: string
+    required:
+    - name
+    - ownerId
+    type: object
   schemas.CreateToUserMentoringRequestPayload:
     properties:
       userUuid:
@@ -778,6 +788,32 @@ definitions:
     - wayName
     - wayUuid
     type: object
+  schemas.ProjectResponse:
+    properties:
+      id:
+        type: string
+      isPrivate:
+        type: boolean
+      name:
+        type: string
+      ownerId:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/schemas.UserPlainResponseWithInfo'
+        type: array
+      ways:
+        items:
+          $ref: '#/definitions/schemas.WayPlainResponse'
+        type: array
+    required:
+    - id
+    - isPrivate
+    - name
+    - ownerId
+    - users
+    - ways
+    type: object
   schemas.TimeSpentByDayPoint:
     properties:
       date:
@@ -843,6 +879,15 @@ definitions:
         type: string
       isDone:
         type: boolean
+    type: object
+  schemas.UpdateProjectPayload:
+    properties:
+      isPrivate:
+        type: boolean
+        x-nullable: true
+      name:
+        type: string
+        x-nullable: true
     type: object
   schemas.UpdateUserPayload:
     properties:
@@ -2321,6 +2366,94 @@ paths:
       summary: Update problem by UUID
       tags:
       - problem
+  /project/{projectId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete project by id
+      tags:
+      - project
+  /projects:
+    post:
+      consumes:
+      - application/json
+      operationId: create-project
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateProjectPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ProjectResponse'
+      summary: Create a new project
+      tags:
+      - project
+  /projects/{projectId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ProjectResponse'
+      summary: Get project by id
+      tags:
+      - project
+    patch:
+      consumes:
+      - application/json
+      operationId: update-project
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UpdateProjectPayload'
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ProjectResponse'
+      summary: Update project by id
+      tags:
+      - project
   /toUserMentoringRequests:
     post:
       consumes:
