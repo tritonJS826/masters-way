@@ -98,6 +98,31 @@ services:
     networks:
       - app-network
 
+  postgres-survey:
+    build:
+      context: ./postgres
+      dockerfile: postgres-survey.Dockerfile
+    container_name: postgres-survey
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres-survey:/var/lib/postgresql/data
+    env_file:
+      - ./mw-survey/.env
+    networks:
+      - app-network
+    
+  mw-survey:
+    build:
+      context: ./mw-survey
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    depends_on:
+      - postgres-survey
+    networks:
+      - app-network
+
   nginx:
     image: nginx:1.24.0
     container_name: nginx
@@ -112,6 +137,8 @@ services:
       - mw-chat
       - mw-chat-bff
       - mw-chat-websocket
+      - mw-survey
+      - mw-storage
     networks:
       - app-network
 
@@ -119,6 +146,7 @@ volumes:
   postgres-general:
   postgres-chat:
   postgres-storage:
+  postgres-survey:
 
 
 networks:

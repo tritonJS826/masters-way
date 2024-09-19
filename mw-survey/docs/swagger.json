@@ -1,0 +1,94 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Masters way survey API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/survey",
+    "paths": {
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/survey/user-intro": {
+            "post": {
+                "description": "Post survey user intro",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Post survey user intro",
+                "operationId": "survey-user-intro",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.PostSurveyUserIntroPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "schemas.PostSurveyUserIntroPayload": {
+            "type": "object",
+            "required": [
+                "deviceId",
+                "preferredInterfaceLanguage",
+                "role",
+                "source",
+                "studentExperience",
+                "studentGoals",
+                "whyRegistered"
+            ],
+            "properties": {
+                "deviceId": {
+                    "type": "string"
+                },
+                "preferredInterfaceLanguage": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "studentExperience": {
+                    "type": "string"
+                },
+                "studentGoals": {
+                    "type": "string"
+                },
+                "whyRegistered": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
