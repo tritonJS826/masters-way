@@ -81,6 +81,55 @@ func (q *Queries) CreateProject(ctx context.Context, arg CreateProjectParams) (C
 	return i, err
 }
 
+const getProjectByID = `-- name: GetProjectByID :one
+SELECT
+    uuid,
+    name,
+    owner_uuid,
+    is_private,
+    COALESCE(
+            ARRAY(
+                SELECT uuid
+                FROM ways
+                WHERE ways.project_uuid = uuid
+            ),
+            '{}'
+    )::VARCHAR[] AS way_uuids,
+    COALESCE(
+            ARRAY(
+                SELECT user_uuid
+                FROM users_projects
+                WHERE users_projects.project_uuid = uuid
+            ),
+            '{}'
+    )::VARCHAR[] AS user_uuids
+FROM projects
+WHERE projects.uuid = $1
+`
+
+type GetProjectByIDRow struct {
+	Uuid      pgtype.UUID `json:"uuid"`
+	Name      string      `json:"name"`
+	OwnerUuid pgtype.UUID `json:"owner_uuid"`
+	IsPrivate bool        `json:"is_private"`
+	WayUuids  []string    `json:"way_uuids"`
+	UserUuids []string    `json:"user_uuids"`
+}
+
+func (q *Queries) GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (GetProjectByIDRow, error) {
+	row := q.db.QueryRow(ctx, getProjectByID, projectUuid)
+	var i GetProjectByIDRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.OwnerUuid,
+		&i.IsPrivate,
+		&i.WayUuids,
+		&i.UserUuids,
+	)
+	return i, err
+}
+
 const updateProject = `-- name: UpdateProject :one
 UPDATE projects
 SET name = coalesce($1, name),

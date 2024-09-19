@@ -18,6 +18,7 @@ export * from './MetricApi';
 export * from './PlanApi';
 export * from './PlanJobTagApi';
 export * from './ProblemApi';
+export * from './ProjectApi';
 export * from './ToUserMentoringRequestApi';
 export * from './UserApi';
 export * from './UserTagApi';
