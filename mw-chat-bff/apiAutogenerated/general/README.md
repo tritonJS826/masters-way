@@ -128,8 +128,8 @@ Class | Method | HTTP request | Description
 *ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
 *ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
 *ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /project/{projectId} | Delete project by id
-*ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /project/{projectId} | Get project by id
-*ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /project/{projectId} | Update project by id
+*ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
+*ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users

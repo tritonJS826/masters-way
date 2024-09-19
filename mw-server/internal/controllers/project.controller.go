@@ -67,7 +67,7 @@ func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 // @Param request body schemas.UpdateProjectPayload true "query params"
 // @Param projectId path string true "project id"
 // @Success 200 {object} schemas.ProjectResponse
-// @Router /project/{projectId} [patch]
+// @Router /projects/{projectId} [patch]
 func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 	var payload *schemas.UpdateProjectPayload
 	projectID := ctx.Param("projectId")
@@ -116,7 +116,7 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 // @Produce  json
 // @Param projectId path string true "project id"
 // @Success 200 {object} schemas.ProjectResponse
-// @Router /project/{projectId} [get]
+// @Router /projects/{projectId} [get]
 func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 

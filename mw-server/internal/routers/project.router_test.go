@@ -29,7 +29,7 @@ func TestCreateProject(t *testing.T) {
 	userID := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 	projectName := "Test project"
 
-	t.Run("should successfully create a MentorUserWay and ensure the new mentor is associated with the specified Way", func(t *testing.T) {
+	t.Run("should create a project successfully and match expected structure", func(t *testing.T) {
 		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
@@ -43,7 +43,7 @@ func TestCreateProject(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 		project, response, err := generalApi.ProjectAPI.CreateProject(ctx).Request(request).Execute()
 		if err != nil {
-			t.Fatalf("Failed to create MentorUserWay: %v", err)
+			t.Fatalf("Failed to create project: %v", err)
 		}
 
 		expectedData := openapiGeneral.SchemasProjectResponse{
@@ -72,5 +72,79 @@ func TestCreateProject(t *testing.T) {
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		diff := cmp.Diff(expectedData, *project, cmpopts.IgnoreFields(openapiGeneral.SchemasProjectResponse{}, "Id"))
 		assert.True(t, diff == "", "Structures should match except for Id")
+	})
+}
+
+func TestUpdateProject(t *testing.T) {
+	newConfig, err := config.LoadConfig("../../")
+	if err != nil {
+		t.Fatalf("Failed to load config: %v", err)
+	}
+
+	generalApi := openapi.MakeGeneralAPIClient(&newConfig)
+	_, err = generalApi.DevAPI.DevResetDbGet(context.Background()).Execute()
+	if err != nil {
+		t.Fatalf("Failed to reset db: %v", err)
+	}
+
+	userID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
+	projectID := "afb02990-7e8c-4353-a724-ea8de5fb6cfc"
+	projectName := "Test project"
+	isPrivate := true
+
+	t.Run("should update a project successfully and match expected structure", func(t *testing.T) {
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		if err != nil {
+			t.Fatalf("Failed to generate JWT: %v", err)
+		}
+
+		nullableProjectName := openapiGeneral.NullableString{}
+		nullableIsPrivate := openapiGeneral.NullableBool{}
+
+		nullableProjectName.Set(&projectName)
+		nullableIsPrivate.Set(&isPrivate)
+
+		request := openapiGeneral.SchemasUpdateProjectPayload{
+			Name:      nullableProjectName,
+			IsPrivate: nullableIsPrivate,
+		}
+
+		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
+		project, response, err := generalApi.ProjectAPI.UpdateProject(ctx, projectID).Request(request).Execute()
+		if err != nil {
+			t.Fatalf("Failed to update project: %v", err)
+		}
+
+		expectedData := &openapiGeneral.SchemasProjectResponse{
+			Id:        projectID,
+			Name:      projectName,
+			OwnerId:   userID,
+			IsPrivate: true,
+			Users: []openapiGeneral.SchemasUserPlainResponseWithInfo{
+				{
+					Uuid:             "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
+					Name:             "Dana Evans",
+					Email:            "dana.evans@example.com",
+					Description:      "A brief description about Dana.",
+					CreatedAt:        "2024-07-06T05:00:00.000Z",
+					ImageUrl:         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
+					IsMentor:         true,
+					FavoriteForUsers: 1,
+					FavoriteWays:     0,
+					MentoringWays:    1,
+					OwnWays:          4,
+					Tags: []openapiGeneral.SchemasUserTagResponse{
+						{
+							Uuid: "8749d799-0a89-4ffd-b1bd-02ada9234e5a",
+							Name: "some tag",
+						},
+					},
+				},
+			},
+			Ways: []openapiGeneral.SchemasWayPlainResponse{},
+		}
+
+		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, expectedData, project)
 	})
 }

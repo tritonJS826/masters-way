@@ -1083,6 +1083,28 @@ paths:
       summary: Delete project by id
       tags:
       - project
+  /projects:
+    post:
+      operationId: create-project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateProjectPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.ProjectResponse'
+          description: OK
+      summary: Create a new project
+      tags:
+      - project
+      x-codegen-request-body-name: request
+  /projects/{projectId}:
     get:
       operationId: get-project
       parameters:
@@ -1126,27 +1148,6 @@ paths:
                 $ref: '#/components/schemas/schemas.ProjectResponse'
           description: OK
       summary: Update project by id
-      tags:
-      - project
-      x-codegen-request-body-name: request
-  /projects:
-    post:
-      operationId: create-project
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.CreateProjectPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.ProjectResponse'
-          description: OK
-      summary: Create a new project
       tags:
       - project
       x-codegen-request-body-name: request

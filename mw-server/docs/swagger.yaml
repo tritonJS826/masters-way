@@ -2380,6 +2380,29 @@ paths:
       summary: Delete project by id
       tags:
       - project
+  /projects:
+    post:
+      consumes:
+      - application/json
+      operationId: create-project
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateProjectPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.ProjectResponse'
+      summary: Create a new project
+      tags:
+      - project
+  /projects/{projectId}:
     get:
       consumes:
       - application/json
@@ -2424,28 +2447,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.ProjectResponse'
       summary: Update project by id
-      tags:
-      - project
-  /projects:
-    post:
-      consumes:
-      - application/json
-      operationId: create-project
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/schemas.CreateProjectPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.ProjectResponse'
-      summary: Create a new project
       tags:
       - project
   /toUserMentoringRequests:
