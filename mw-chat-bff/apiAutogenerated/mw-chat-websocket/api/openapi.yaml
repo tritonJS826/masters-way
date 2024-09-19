@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   contact: {}
-  title: Masters way chat API
+  title: Masters way chat-websocket API
   version: "1.0"
 servers:
 - url: /mw-chat-websocket

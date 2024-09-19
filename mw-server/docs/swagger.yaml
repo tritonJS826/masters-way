@@ -24,6 +24,78 @@ definitions:
     required:
     - message
     type: object
+  schemas.AICommentIssuePayload:
+    properties:
+      goal:
+        type: string
+      message:
+        type: string
+    required:
+    - goal
+    - message
+    type: object
+  schemas.AICommentIssueResponse:
+    properties:
+      goal:
+        type: string
+    required:
+    - goal
+    type: object
+  schemas.AIDecomposeIssuePayload:
+    properties:
+      goal:
+        type: string
+      message:
+        type: string
+    required:
+    - goal
+    - message
+    type: object
+  schemas.AIDecomposeIssueResponse:
+    properties:
+      plans:
+        items:
+          type: string
+        type: array
+    required:
+    - plans
+    type: object
+  schemas.AIEstimateIssuePayload:
+    properties:
+      goal:
+        type: string
+      issue:
+        type: string
+    required:
+    - goal
+    - issue
+    type: object
+  schemas.AIEstimateIssueResponse:
+    properties:
+      estimation:
+        type: string
+    required:
+    - estimation
+    type: object
+  schemas.AIGeneratePlansByMetricPayload:
+    properties:
+      goal:
+        type: string
+      metric:
+        type: string
+    required:
+    - goal
+    - metric
+    type: object
+  schemas.AIGeneratePlansByMetricResponse:
+    properties:
+      plans:
+        items:
+          type: string
+        type: array
+    required:
+    - plans
+    type: object
   schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -1593,6 +1665,98 @@ paths:
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
+  /gemini/comment-issue:
+    post:
+      consumes:
+      - application/json
+      description: Generate a comment for any issue
+      operationId: ai-comment-issue
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AICommentIssuePayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AICommentIssueResponse'
+      summary: Generate a comment for any issue
+      tags:
+      - gemini
+  /gemini/decompose-issue:
+    post:
+      consumes:
+      - application/json
+      description: Decompose issue for 10 plans
+      operationId: ai-decompose-issue
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AIDecomposeIssuePayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AIDecomposeIssueResponse'
+      summary: Decompose issue
+      tags:
+      - gemini
+  /gemini/estimate-issue:
+    post:
+      consumes:
+      - application/json
+      description: Estimate issue in minutes
+      operationId: ai-estimate-issue
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AIEstimateIssuePayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AIEstimateIssueResponse'
+      summary: Estimate issue in minutes
+      tags:
+      - gemini
+  /gemini/generate-plans-by-metric:
+    post:
+      consumes:
+      - application/json
+      description: Generate plans by metric.
+      operationId: ai-plans-by-metrics
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AIGeneratePlansByMetricPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.AIGeneratePlansByMetricResponse'
+      summary: Generate plans by metric
+      tags:
+      - gemini
   /gemini/just-chat:
     post:
       consumes:

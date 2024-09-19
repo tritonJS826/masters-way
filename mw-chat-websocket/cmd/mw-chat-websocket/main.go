@@ -7,7 +7,7 @@ import (
 	"mw-chat-websocket/internal/server"
 )
 
-// @title     Masters way chat API
+// @title     Masters way chat-websocket API
 // @version 1.0
 // @BasePath  /mw-chat-websocket
 func main() {

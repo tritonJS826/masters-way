@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Masters way chat API",
+        "title": "Masters way chat-websocket API",
         "contact": {},
         "version": "1.0"
     },

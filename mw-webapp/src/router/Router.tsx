@@ -75,13 +75,28 @@ export const router = createBrowserRouter(
           errorElement={pages.page404.getPageComponent({})}
         />
         <Route
-          path={pages.landing.getPath({})}
-          element={<WithValidatedParams paramsSchema={pages.landing} />}
+          path={pages.landings.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landings} />}
           errorElement={pages.page404.getPageComponent({})}
         />
         <Route
           path={pages.landingMentors.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.landingMentors} />}
+          errorElement={pages.page404.getPageComponent({})}
+        />
+        <Route
+          path={pages.landingStudentsWithMentors.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingStudentsWithMentors} />}
+          errorElement={pages.page404.getPageComponent({})}
+        />
+        <Route
+          path={pages.landingStudentsWithAI.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingStudentsWithAI} />}
+          errorElement={pages.page404.getPageComponent({})}
+        />
+        <Route
+          path={pages.landingBusiness.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingBusiness} />}
           errorElement={pages.page404.getPageComponent({})}
         />
       </Route>

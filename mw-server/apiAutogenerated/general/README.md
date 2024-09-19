@@ -99,6 +99,10 @@ Class | Method | HTTP request | Description
 *FromUserMentoringRequestAPI* | [**CreateFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#createfromusermentoringrequest) | **Post** /fromUserMentoringRequests | Create a new fromUserMentoringRequest
 *FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
 *GeminiAPI* | [**AiChat**](docs/GeminiAPI.md#aichat) | **Post** /gemini/just-chat | Just chat with AI
+*GeminiAPI* | [**AiCommentIssue**](docs/GeminiAPI.md#aicommentissue) | **Post** /gemini/comment-issue | Generate a comment for any issue
+*GeminiAPI* | [**AiDecomposeIssue**](docs/GeminiAPI.md#aidecomposeissue) | **Post** /gemini/decompose-issue | Decompose issue
+*GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
+*GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
@@ -150,6 +154,14 @@ Class | Method | HTTP request | Description
  - [CustomErrorsNoRightToChangeDayReportError](docs/CustomErrorsNoRightToChangeDayReportError.md)
  - [SchemasAIChatPayload](docs/SchemasAIChatPayload.md)
  - [SchemasAIChatResponse](docs/SchemasAIChatResponse.md)
+ - [SchemasAICommentIssuePayload](docs/SchemasAICommentIssuePayload.md)
+ - [SchemasAICommentIssueResponse](docs/SchemasAICommentIssueResponse.md)
+ - [SchemasAIDecomposeIssuePayload](docs/SchemasAIDecomposeIssuePayload.md)
+ - [SchemasAIDecomposeIssueResponse](docs/SchemasAIDecomposeIssueResponse.md)
+ - [SchemasAIEstimateIssuePayload](docs/SchemasAIEstimateIssuePayload.md)
+ - [SchemasAIEstimateIssueResponse](docs/SchemasAIEstimateIssueResponse.md)
+ - [SchemasAIGeneratePlansByMetricPayload](docs/SchemasAIGeneratePlansByMetricPayload.md)
+ - [SchemasAIGeneratePlansByMetricResponse](docs/SchemasAIGeneratePlansByMetricResponse.md)
  - [SchemasAddWayToCompositeWayPayload](docs/SchemasAddWayToCompositeWayPayload.md)
  - [SchemasCommentPopulatedResponse](docs/SchemasCommentPopulatedResponse.md)
  - [SchemasCompositeDayReportPopulatedResponse](docs/SchemasCompositeDayReportPopulatedResponse.md)

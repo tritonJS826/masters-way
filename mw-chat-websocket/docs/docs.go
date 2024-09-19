@@ -256,7 +256,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "/mw-chat-websocket",
 	Schemes:          []string{},
-	Title:            "Masters way chat API",
+	Title:            "Masters way chat-websocket API",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

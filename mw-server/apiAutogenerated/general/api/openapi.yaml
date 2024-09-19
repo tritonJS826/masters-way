@@ -426,6 +426,94 @@ paths:
       summary: Delete fromUserMentoringRequest by UUID
       tags:
       - fromUserMentoringRequest
+  /gemini/comment-issue:
+    post:
+      description: Generate a comment for any issue
+      operationId: ai-comment-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AICommentIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AICommentIssueResponse'
+          description: OK
+      summary: Generate a comment for any issue
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/decompose-issue:
+    post:
+      description: Decompose issue for 10 plans
+      operationId: ai-decompose-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AIDecomposeIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AIDecomposeIssueResponse'
+          description: OK
+      summary: Decompose issue
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/estimate-issue:
+    post:
+      description: Estimate issue in minutes
+      operationId: ai-estimate-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AIEstimateIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AIEstimateIssueResponse'
+          description: OK
+      summary: Estimate issue in minutes
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/generate-plans-by-metric:
+    post:
+      description: Generate plans by metric.
+      operationId: ai-plans-by-metrics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.AIGeneratePlansByMetricPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.AIGeneratePlansByMetricResponse'
+          description: OK
+      summary: Generate plans by metric
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /gemini/just-chat:
     post:
       description: This endpoint for talks with AI language model.
@@ -1511,6 +1599,90 @@ components:
           type: string
       required:
       - message
+      type: object
+    schemas.AICommentIssuePayload:
+      properties:
+        goal:
+          type: string
+        message:
+          type: string
+      required:
+      - goal
+      - message
+      type: object
+    schemas.AICommentIssueResponse:
+      example:
+        goal: goal
+      properties:
+        goal:
+          type: string
+      required:
+      - goal
+      type: object
+    schemas.AIDecomposeIssuePayload:
+      properties:
+        goal:
+          type: string
+        message:
+          type: string
+      required:
+      - goal
+      - message
+      type: object
+    schemas.AIDecomposeIssueResponse:
+      example:
+        plans:
+        - plans
+        - plans
+      properties:
+        plans:
+          items:
+            type: string
+          type: array
+      required:
+      - plans
+      type: object
+    schemas.AIEstimateIssuePayload:
+      properties:
+        goal:
+          type: string
+        issue:
+          type: string
+      required:
+      - goal
+      - issue
+      type: object
+    schemas.AIEstimateIssueResponse:
+      example:
+        estimation: estimation
+      properties:
+        estimation:
+          type: string
+      required:
+      - estimation
+      type: object
+    schemas.AIGeneratePlansByMetricPayload:
+      properties:
+        goal:
+          type: string
+        metric:
+          type: string
+      required:
+      - goal
+      - metric
+      type: object
+    schemas.AIGeneratePlansByMetricResponse:
+      example:
+        plans:
+        - plans
+        - plans
+      properties:
+        plans:
+          items:
+            type: string
+          type: array
+      required:
+      - plans
       type: object
     schemas.AddWayToCompositeWayPayload:
       properties:

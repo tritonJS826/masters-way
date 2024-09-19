@@ -99,7 +99,7 @@ definitions:
     type: object
 info:
   contact: {}
-  title: Masters way chat API
+  title: Masters way chat-websocket API
   version: "1.0"
 paths:
   /messages:

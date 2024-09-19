@@ -4,10 +4,15 @@ import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Modal} from "src/component/modal/Modal";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {GeneratePlansByMetricAiModal} from
+  "src/logic/wayPage/reportsTable/generatePlansByMetricAiModal/GeneratePlansByMetricAiModal";
 import {DayReportCompositionParticipant} from "src/model/businessModel/DayReportCompositionParticipants";
+import {Metric} from "src/model/businessModel/Metric";
+import {Plan} from "src/model/businessModel/Plan";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection.module.scss";
 
 const SINGLE_PARTICIPANT_AMOUNT = 1;
@@ -52,6 +57,37 @@ interface SummarySectionProps {
    */
   wayId: string;
 
+  /**
+   * Is placed inside Plan column
+   * default @false
+   */
+  isPlanColumn?: boolean;
+
+  /**
+   * Generate plans with AI button tooltip
+   */
+  generatePlanTooltip?: string;
+
+  /**
+   * Way's goal
+   */
+  goalDescription?: string;
+
+  /**
+   * Add plan callback
+   */
+  addPlan?: (generatedPlan: Plan) => void;
+
+  /**
+   * Metrics
+   */
+  metrics?: Metric[];
+
+  /**
+   * Owner UUID
+   */
+  ownerUuid?: string;
+
 }
 
 /**
@@ -70,16 +106,46 @@ export const SummarySection = (props: SummarySectionProps) => {
         {props.compositionParticipants.length === SINGLE_PARTICIPANT_AMOUNT
             && props.compositionParticipants[0].wayId === props.wayId ?
           (
-            <Button
-              value={
-                <Icon
-                  size={IconSize.SMALL}
-                  name="PlusIcon"
+            <HorizontalContainer>
+              <Button
+                value={
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="PlusIcon"
+                  />
+                }
+                onClick={() => props.onClick(props.compositionParticipants[0])}
+                buttonType={ButtonType.ICON_BUTTON}
+              />
+
+              {props.isPlanColumn && props.ownerUuid && props.metrics && props.goalDescription &&
+                <Modal
+                  trigger={
+                    <Tooltip
+                      position={PositionTooltip.TOP}
+                      content={props.generatePlanTooltip}
+                    >
+                      <Button
+                        onClick={() => { }}
+                        buttonType={ButtonType.ICON_BUTTON}
+                        value="GE"
+                        className={styles.aiButton}
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <GeneratePlansByMetricAiModal
+                      goalDescription={props.goalDescription}
+                      addPlan={(plan: Plan) => props.addPlan && props.addPlan(plan)}
+                      dayReportUuid={props.compositionParticipants[0].dayReportId}
+                      metrics={props.metrics}
+                      ownerUuid={props.ownerUuid}
+                    />
+                  }
                 />
               }
-              onClick={() => props.onClick(props.compositionParticipants[0])}
-              buttonType={ButtonType.ICON_BUTTON}
-            />)
+            </HorizontalContainer>
+          )
           : (
             <Confirm
               trigger={
