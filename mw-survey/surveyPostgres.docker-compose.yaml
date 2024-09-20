@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  survey-postgres:
+    image: postgres:16.2
+    container_name: survey-postgres
+    ports:
+      - "5436:5432"
+    volumes:
+      - survey-db:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
+volumes:
+  survey-db:

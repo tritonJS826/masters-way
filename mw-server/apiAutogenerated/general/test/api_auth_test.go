@@ -47,11 +47,11 @@ func Test_openapi_AuthAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test AuthAPIService GetGoogleAccessToken", func(t *testing.T) {
+	t.Run("Test AuthAPIService GetGoogleToken", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.AuthAPI.GetGoogleAccessToken(context.Background()).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GetGoogleToken(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

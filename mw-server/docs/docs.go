@@ -1664,6 +1664,140 @@ const docTemplate = `{
                 }
             }
         },
+        "/project/{projectId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Delete project by id",
+                "operationId": "delete-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Create a new project",
+                "operationId": "create-project",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateProjectPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProjectResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Get project by id",
+                "operationId": "get-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProjectResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Update project by id",
+                "operationId": "update-project",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateProjectPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProjectResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/toUserMentoringRequests": {
             "post": {
                 "consumes": [
@@ -2960,6 +3094,21 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.CreateProjectPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "ownerId"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CreateToUserMentoringRequestPayload": {
             "type": "object",
             "required": [
@@ -3564,6 +3713,43 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.ProjectResponse": {
+            "type": "object",
+            "required": [
+                "id",
+                "isPrivate",
+                "name",
+                "ownerId",
+                "users",
+                "ways"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                    }
+                },
+                "ways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
         "schemas.TimeSpentByDayPoint": {
             "type": "object",
             "required": [
@@ -3663,6 +3849,19 @@ const docTemplate = `{
                 },
                 "isDone": {
                     "type": "boolean"
+                }
+            }
+        },
+        "schemas.UpdateProjectPayload": {
+            "type": "object",
+            "properties": {
+                "isPrivate": {
+                    "type": "boolean",
+                    "x-nullable": true
+                },
+                "name": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },

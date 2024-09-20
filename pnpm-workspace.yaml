@@ -6,3 +6,4 @@ packages:
   - 'mw-chat-bff'
   - 'mw-chat-websocket'
   - 'mw-storage'
+  - 'mw-survey'

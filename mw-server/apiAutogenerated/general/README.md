@@ -126,6 +126,10 @@ Class | Method | HTTP request | Description
 *ProblemAPI* | [**CreateProblem**](docs/ProblemAPI.md#createproblem) | **Post** /problems | Create a new problem
 *ProblemAPI* | [**DeleteProblem**](docs/ProblemAPI.md#deleteproblem) | **Delete** /problems/{problemId} | Delete problem by UUID
 *ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
+*ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
+*ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /project/{projectId} | Delete project by id
+*ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
+*ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
@@ -179,6 +183,7 @@ Class | Method | HTTP request | Description
  - [SchemasCreatePlanJobTagPayload](docs/SchemasCreatePlanJobTagPayload.md)
  - [SchemasCreatePlanPayload](docs/SchemasCreatePlanPayload.md)
  - [SchemasCreateProblemPayload](docs/SchemasCreateProblemPayload.md)
+ - [SchemasCreateProjectPayload](docs/SchemasCreateProjectPayload.md)
  - [SchemasCreateToUserMentoringRequestPayload](docs/SchemasCreateToUserMentoringRequestPayload.md)
  - [SchemasCreateUserTagPayload](docs/SchemasCreateUserTagPayload.md)
  - [SchemasCreateWayCollectionPayload](docs/SchemasCreateWayCollectionPayload.md)
@@ -205,6 +210,7 @@ Class | Method | HTTP request | Description
  - [SchemasOverallInformation](docs/SchemasOverallInformation.md)
  - [SchemasPlanPopulatedResponse](docs/SchemasPlanPopulatedResponse.md)
  - [SchemasProblemPopulatedResponse](docs/SchemasProblemPopulatedResponse.md)
+ - [SchemasProjectResponse](docs/SchemasProjectResponse.md)
  - [SchemasTimeSpentByDayPoint](docs/SchemasTimeSpentByDayPoint.md)
  - [SchemasToUserMentoringRequestResponse](docs/SchemasToUserMentoringRequestResponse.md)
  - [SchemasUpdateCommentPayload](docs/SchemasUpdateCommentPayload.md)
@@ -213,6 +219,7 @@ Class | Method | HTTP request | Description
  - [SchemasUpdateMetricPayload](docs/SchemasUpdateMetricPayload.md)
  - [SchemasUpdatePlanPayload](docs/SchemasUpdatePlanPayload.md)
  - [SchemasUpdateProblemPayload](docs/SchemasUpdateProblemPayload.md)
+ - [SchemasUpdateProjectPayload](docs/SchemasUpdateProjectPayload.md)
  - [SchemasUpdateUserPayload](docs/SchemasUpdateUserPayload.md)
  - [SchemasUpdateWayCollectionPayload](docs/SchemasUpdateWayCollectionPayload.md)
  - [SchemasUpdateWayPayload](docs/SchemasUpdateWayPayload.md)

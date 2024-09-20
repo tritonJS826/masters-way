@@ -1,5 +1,5 @@
 /*
-
+Masters way chat-websocket API
 
 Testing SocketAPIService
 
