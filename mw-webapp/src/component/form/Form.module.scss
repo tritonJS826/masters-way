@@ -1,0 +1,18 @@
+@import "src/styles/variables";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: $paddingExtraBig;
+  border: $primaryBorder solid var(--generalPrimaryColor);
+  border-radius: $primaryBorderRadius;
+  background-color: var(--secondaryBgColor);
+  gap: $gapMedium;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  gap: $gapMedium;
+}
