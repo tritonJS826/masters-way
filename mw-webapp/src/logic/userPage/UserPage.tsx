@@ -8,7 +8,6 @@ import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {Form} from "src/component/form/Form";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -411,24 +410,6 @@ export const UserPage = observer((props: UserPageProps) => {
 
   return (
     <VerticalContainer className={styles.pageLayout}>
-      <Form
-        onSubmit={() => {
-        }}
-        formFields={[
-          {
-            id: 0,
-            label: "UserName:",
-            placeholder: "Viktar Veratsennikau",
-            value: "",
-          },
-          {
-            id: 1,
-            label: "UserCity:",
-            placeholder: "Georgia",
-            value: "",
-          },
-        ]}
-      />
       <VerticalContainer className={styles.userInfoBlock}>
         <HorizontalGridContainer className={styles.userMainInfoBlock}>
           <HorizontalContainer className={styles.userAboutBlock}>
