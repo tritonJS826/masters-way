@@ -62,7 +62,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   overlayBgColor: {
     [Theme.DARK]: "#00000080",
     [Theme.LIGHT]: "#00000080",
-    [Theme.OBSIDIAN]: "#00000080",
+    [Theme.OBSIDIAN]: "#20202099",
   },
   // Used for possibility to use transparent image with backgroundColor
   opacityBgColor: {
