@@ -3,6 +3,7 @@ import clsx from "clsx";
 import {Button} from "src/component/button/Button";
 import {Input, InputType} from "src/component/input/Input";
 import {InputMode} from "src/component/input/InputMode";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
 import styles from "src/component/form/Form.module.scss";
 
@@ -91,6 +92,21 @@ interface FormProps {
   onSubmit: () => void;
 
   /**
+   * Submit button value
+   */
+  submitButtonValue: string;
+
+  /**
+   * Form fields
+   */
+  formTitle?: string;
+
+  /**
+   * Form fields
+   */
+  formDescription?: string;
+
+  /**
    * Additional custom class name for the component
    */
   className?: string;
@@ -108,43 +124,62 @@ export const Form = (props: FormProps) => {
   const [formData, setFormData] = useState<FormField[]>(props.formFields);
 
   return (
-    <form className={clsx(styles.form, props.className)}>
-      {formData.map((field) => (
-        <label
-          key={field.id}
-          className={styles.label}
-        >
-          {field.label}
-          <Input
-            type={field.type}
-            required={field.required}
-            disabled={field.disabled}
-            placeholder={field.placeholder}
-            value={field.value}
-            typeInput={field.typeInput ?? InputType.Line}
-            onChange={(value: string) => {
-              const updatedFormData: FormField[] = formData.map((item: FormField) => {
-                return item.label === field.label
-                  ? {...item, value}
-                  : item;
-              });
+    <>
 
-              setFormData(updatedFormData);
-            }}
-            inputMode={field.inputMode}
-          />
-        </label>
-      ))}
+      <form className={clsx(styles.form, props.className)}>
+        {props.formTitle &&
+        <Title
+          level={HeadingLevel.h2}
+          text={props.formTitle}
+          placeholder=""
+          className={styles.formTitle}
+        />
+        }
+        {props.formDescription &&
+        <Title
+          level={HeadingLevel.h3}
+          text={props.formDescription}
+          placeholder=""
+          className={styles.formDescription}
+        />
+        }
+        {formData.map((field) => (
+          <label
+            key={field.id}
+            className={styles.label}
+          >
+            {field.label}
+            <Input
+              type={field.type}
+              required={field.required}
+              disabled={field.disabled}
+              placeholder={field.placeholder}
+              value={field.value}
+              typeInput={field.typeInput ?? InputType.Line}
+              onChange={(value: string) => {
+                const updatedFormData: FormField[] = formData.map((item: FormField) => {
+                  return item.label === field.label
+                    ? {...item, value}
+                    : item;
+                });
 
-      <Button
-        onClick={(event) => {
-          event.preventDefault();
-          // eslint-disable-next-line no-console
-          console.log(formData);
-          props.onSubmit();
-        }}
-        value={"Submit"}
-      />
-    </form>
+                setFormData(updatedFormData);
+              }}
+              inputMode={field.inputMode}
+            />
+          </label>
+        ))}
+
+        <Button
+          onClick={(event) => {
+            event.preventDefault();
+            // eslint-disable-next-line no-console
+            console.log(formData);
+            props.onSubmit();
+          }}
+          value={props.submitButtonValue}
+        />
+      </form>
+    </>
   );
 };

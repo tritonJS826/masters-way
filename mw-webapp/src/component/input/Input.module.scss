@@ -29,17 +29,17 @@ $leftPosition: 12px;
 }
 
 .line {
+  width: calc(100% - (2 * $paddingSmall));
   padding: $paddingSmall;
-  border-bottom: $primaryBorder  solid var(--generalPrimaryColor);
+  border-bottom: $primaryBorder solid var(--generalPrimaryColor);
 }
 
 .border {
   padding: $paddingSmall;
-  border: $primaryBorder  solid var(--primaryStrokeColor);
+  border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $secondaryBorderRadius;
 
   &:focus {
-
     &::placeholder {
       opacity: 0;
       transition: opacity $primaryTransitionDuration ease-in-out;
