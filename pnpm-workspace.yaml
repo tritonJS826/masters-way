@@ -7,3 +7,4 @@ packages:
   - 'mw-chat-websocket'
   - 'mw-storage'
   - 'mw-survey'
+  - 'mw-notification'

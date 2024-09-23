@@ -1,0 +1,29 @@
+basePath: /notification
+info:
+  contact: {}
+  title: Masters way notification API
+  version: "1.0"
+paths:
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "204":
+          description: No Content
+      summary: resets db
+      tags:
+      - dev
+  /list:
+    get:
+      consumes:
+      - application/json
+      operationId: get-notification-list
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Get notification list by user id
+      tags:
+      - notification
+swagger: "2.0"

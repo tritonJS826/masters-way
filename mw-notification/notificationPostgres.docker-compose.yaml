@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  notification-postgres:
+    image: postgres:16.2
+    container_name: notification-postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - notification-db:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
+volumes:
+  notification-db:

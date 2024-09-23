@@ -8,6 +8,7 @@ CHAT="mw-chat/"
 CHAT_BFF="mw-chat-bff/"
 STORAGE="mw-storage/"
 SURVEY="mw-survey/"
+NOTIfICATION="mw-notification/"
 
 generateSwaggerDocs () {
   pnpm swag
@@ -91,6 +92,15 @@ runSurveyIfChanged () {
     echo "mw-survey changed. checking..."
     pnpm survey:build
     pnpm survey:test
+  fi
+}
+
+runNotificationIfChanged () {
+  if git diff --name-only --cached | grep "$NOTIfICATION"
+  then
+    echo "mw-notification changed. checking..."
+    pnpm notification:build
+    pnpm notification:test
   fi
 }
 
