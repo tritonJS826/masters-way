@@ -39,10 +39,10 @@ paths:
       summary: resets db
       tags:
       - dev
-  /survey/user-intro:
+  /user-intro:
     post:
       consumes:
-      - multipart/form-data
+      - application/json
       description: Post survey user intro
       operationId: survey-user-intro
       parameters:

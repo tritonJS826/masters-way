@@ -1,4 +1,3 @@
-import {useState} from "react";
 import clsx from "clsx";
 import {Button} from "src/component/button/Button";
 import {Input, InputType} from "src/component/input/Input";
@@ -34,6 +33,11 @@ interface FormField {
    * Form field label
    */
   label: string;
+
+  /**
+   * Form field name
+   */
+  name: string;
 
   /**
    * Input's value
@@ -89,7 +93,8 @@ interface FormProps {
   /**
    * Callback on Submit button
    */
-  onSubmit: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSubmit: (formData: any) => void;
 
   /**
    * Submit button value
@@ -121,11 +126,14 @@ interface FormProps {
  * Form component
  */
 export const Form = (props: FormProps) => {
-  const [formData, setFormData] = useState<FormField[]>(props.formFields);
+
+  const formData: {[key: string]: string} = {};
+  props.formFields.forEach((item) => {
+    formData[item.label] = "";
+  });
 
   return (
     <>
-
       <form className={clsx(styles.form, props.className)}>
         {props.formTitle &&
         <Title
@@ -143,12 +151,12 @@ export const Form = (props: FormProps) => {
           className={styles.formDescription}
         />
         }
-        {formData.map((field) => (
+        {props.formFields.map((field) => (
           <label
             key={field.id}
             className={styles.label}
           >
-            {field.label}
+            {field.name}
             <Input
               type={field.type}
               required={field.required}
@@ -157,13 +165,7 @@ export const Form = (props: FormProps) => {
               value={field.value}
               typeInput={field.typeInput ?? InputType.Line}
               onChange={(value: string) => {
-                const updatedFormData: FormField[] = formData.map((item: FormField) => {
-                  return item.label === field.label
-                    ? {...item, value}
-                    : item;
-                });
-
-                setFormData(updatedFormData);
+                formData[field.label] = value;
               }}
               inputMode={field.inputMode}
             />
@@ -173,9 +175,7 @@ export const Form = (props: FormProps) => {
         <Button
           onClick={(event) => {
             event.preventDefault();
-            // eslint-disable-next-line no-console
-            console.log(formData);
-            props.onSubmit();
+            props.onSubmit(formData);
           }}
           value={props.submitButtonValue}
         />

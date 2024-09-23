@@ -4,13 +4,13 @@ All URIs are relative to */survey*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SurveyUserIntro**](SurveyAPI.md#SurveyUserIntro) | **Post** /survey/user-intro | Post survey user intro
+[**SurveyUserIntro**](SurveyAPI.md#SurveyUserIntro) | **Post** /user-intro | Post survey user intro
 
 
 
 ## SurveyUserIntro
 
-> SurveyUserIntro(ctx).DeviceId(deviceId).PreferredInterfaceLanguage(preferredInterfaceLanguage).Role(role).Source(source).StudentExperience(studentExperience).StudentGoals(studentGoals).WhyRegistered(whyRegistered).Execute()
+> SurveyUserIntro(ctx).Request(request).Execute()
 
 Post survey user intro
 
@@ -29,17 +29,11 @@ import (
 )
 
 func main() {
-	deviceId := "deviceId_example" // string | 
-	preferredInterfaceLanguage := "preferredInterfaceLanguage_example" // string | 
-	role := "role_example" // string | 
-	source := "source_example" // string | 
-	studentExperience := "studentExperience_example" // string | 
-	studentGoals := "studentGoals_example" // string | 
-	whyRegistered := "whyRegistered_example" // string | 
+	request := *openapiclient.NewSchemasPostSurveyUserIntroPayload("DeviceId_example", "PreferredInterfaceLanguage_example", "Role_example", "Source_example", "StudentExperience_example", "StudentGoals_example", "WhyRegistered_example") // SchemasPostSurveyUserIntroPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.SurveyAPI.SurveyUserIntro(context.Background()).DeviceId(deviceId).PreferredInterfaceLanguage(preferredInterfaceLanguage).Role(role).Source(source).StudentExperience(studentExperience).StudentGoals(studentGoals).WhyRegistered(whyRegistered).Execute()
+	r, err := apiClient.SurveyAPI.SurveyUserIntro(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `SurveyAPI.SurveyUserIntro``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -58,13 +52,7 @@ Other parameters are passed through a pointer to a apiSurveyUserIntroRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **deviceId** | **string** |  | 
- **preferredInterfaceLanguage** | **string** |  | 
- **role** | **string** |  | 
- **source** | **string** |  | 
- **studentExperience** | **string** |  | 
- **studentGoals** | **string** |  | 
- **whyRegistered** | **string** |  | 
+ **request** | [**SchemasPostSurveyUserIntroPayload**](SchemasPostSurveyUserIntroPayload.md) | query params | 
 
 ### Return type
 
@@ -76,7 +64,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

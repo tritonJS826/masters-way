@@ -13,6 +13,7 @@ import modals from "src/dictionary/Modals.json";
 import pricing from "src/dictionary/PricingContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
+import survey from "src/dictionary/SurveyModalsContent.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import wayPageContent from "src/dictionary/WayPageContent.json";
 
@@ -96,6 +97,13 @@ export class LanguageService {
    */
   public static get common() {
     return common;
+  }
+
+  /**
+   * Survey modals content
+   */
+  public static get survey() {
+    return survey;
   }
 
   /**

@@ -23,11 +23,11 @@ func NewSurveyController(surveyService *services.SurveyService) *SurveyControlle
 // @Description Post survey user intro
 // @Tags survey
 // @ID survey-user-intro
-// @Accept  multipart/form-data
+// @Accept  json
 // @Produce  json
 // @Param request body schemas.PostSurveyUserIntroPayload true "query params"
 // @Success 200
-// @Router /survey/user-intro [post]
+// @Router /user-intro [post]
 func (fc *SurveyController) PostSurveyUserIntro(ctx *gin.Context) {
 	var payload *schemas.PostSurveyUserIntroPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {

@@ -8,6 +8,7 @@ import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {Form} from "src/component/form/Form";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -25,9 +26,11 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCard";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
+import {SurveyDAL, SurveyUserIntroParams} from "src/dataAccessLogic/SurveyDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
+import {deviceStore} from "src/globalStore/DeviceStore";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -46,6 +49,7 @@ import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithId, PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
+import {v4 as uuidv4} from "uuid";
 import styles from "src/logic/userPage/UserPage.module.scss";
 
 const MAX_LENGTH_USERNAME = 50;
@@ -161,6 +165,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
   const {setIsChatOpen} = chatStore;
   const {chatList} = chatListStore;
+  const {deviceId, setDeviceId} = deviceStore;
   const navigate = useNavigate();
 
   const userPageStore = useStore<
@@ -427,10 +432,10 @@ export const UserPage = observer((props: UserPageProps) => {
 
                   const isUserConnected = !!chatParticipantsIds.includes(userPageOwner.uuid);
                   !isUserConnected &&
-                  await ChatDAL.createRoom({
-                    roomType: RoomType.PRIVATE,
-                    userId: userPageOwner.uuid,
-                  });
+                await ChatDAL.createRoom({
+                  roomType: RoomType.PRIVATE,
+                  userId: userPageOwner.uuid,
+                });
 
                   setIsChatOpen(true);
                 }}
@@ -751,13 +756,14 @@ export const UserPage = observer((props: UserPageProps) => {
         // This check need to translate default collections and don't translate custom collections
         title={currentCollection.name.toLowerCase() in LanguageService.user.collections
           ? LanguageService.user.collections[
-            currentCollection.name.toLowerCase() as keyof typeof LanguageService.user.collections
+          currentCollection.name.toLowerCase() as keyof typeof LanguageService.user.collections
           ][language]
           : currentCollection.name
         }
         ways={currentCollection.ways}
         updateCollection={isCustomCollection
-          ? (wayCollection: Partial<WayCollection>) => updateCustomWayCollection({id: currentCollection.uuid, ...wayCollection})
+          ? (wayCollection: Partial<WayCollection>) =>
+            updateCustomWayCollection({id: currentCollection.uuid, ...wayCollection})
           : undefined
         }
         filterStatus={userPageSettings.filterStatus}
@@ -768,7 +774,85 @@ export const UserPage = observer((props: UserPageProps) => {
         setView={(view: View) => updateUserPageSettings({view})}
         isPageOwner={isPageOwner}
       />
-
+      {isPageOwner && !deviceId &&
+        <Modal
+          cy={{dataCyContent: {dataCyOverlay: userPersonalDataAccessIds.surveyOverlay}}}
+          isOpen={true}
+          close={() => {
+            const generatedDeviceId = uuidv4();
+            setDeviceId(generatedDeviceId);
+          }
+          }
+          trigger={<></>}
+          content={
+            <VerticalContainer className={styles.modalContainer}>
+              <Form
+                onSubmit={async (formData: Omit<SurveyUserIntroParams, "deviceId">) => {
+                  const generatedDeviceId = uuidv4();
+                  setDeviceId(generatedDeviceId);
+                  await SurveyDAL.surveyUserIntro({
+                    deviceId: generatedDeviceId,
+                    ...formData,
+                  });
+                }}
+                submitButtonValue={LanguageService.survey.submitButton[language]}
+                formTitle={LanguageService.survey.cohortAnalysis.title[language]}
+                formDescription={LanguageService.survey.cohortAnalysis.description[language]}
+                formFields={[
+                  {
+                    id: 0,
+                    label: "preferredInterfaceLanguage",
+                    name: `${LanguageService.survey.cohortAnalysis.fields.interfaceLanguage.name[language]}`,
+                    value: "",
+                    required: true,
+                    placeholder: `${LanguageService.survey.cohortAnalysis.fields.interfaceLanguage.placeholder[language]}`,
+                  },
+                  {
+                    id: 1,
+                    label: "role",
+                    name: `${LanguageService.survey.cohortAnalysis.fields.role.name[language]}`,
+                    value: "",
+                    required: true,
+                    placeholder: `${LanguageService.survey.cohortAnalysis.fields.role.placeholder[language]}`,
+                  },
+                  {
+                    id: 2,
+                    label: "source",
+                    name: `${LanguageService.survey.cohortAnalysis.fields.source.name[language]}`,
+                    value: "",
+                    required: true,
+                    placeholder: `${LanguageService.survey.cohortAnalysis.fields.source.placeholder[language]}`,
+                  },
+                  {
+                    id: 3,
+                    label: "studentExperience",
+                    name: `${LanguageService.survey.cohortAnalysis.fields.studentExperience.name[language]}`,
+                    value: "",
+                    required: true,
+                    placeholder: `${LanguageService.survey.cohortAnalysis.fields.studentExperience.placeholder[language]}`,
+                  },
+                  {
+                    id: 4,
+                    label: "studentGoals",
+                    name: `${LanguageService.survey.cohortAnalysis.fields.studentGoals.name[language]}`,
+                    value: "",
+                    required: true,
+                    placeholder: `${LanguageService.survey.cohortAnalysis.fields.studentGoals.placeholder[language]}`,
+                  },
+                  {
+                    id: 5,
+                    label: "whyRegistered",
+                    name: `${LanguageService.survey.cohortAnalysis.fields.whyRegistered.name[language]}`,
+                    value: "",
+                    required: true,
+                    placeholder: `${LanguageService.survey.cohortAnalysis.fields.whyRegistered.placeholder[language]}`,
+                  },
+                ]}
+              />
+            </VerticalContainer>
+          }
+        />
+      }
     </VerticalContainer>
   );
 });

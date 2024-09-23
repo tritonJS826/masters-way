@@ -7,8 +7,7 @@ import {localStorageWorker, Token} from "src/utils/LocalStorageWorker";
 class TokenStore {
 
   /**
-   * Language value
-   * @default {@link DEFAULT_LANGUAGE}
+   * Access token value
    */
   public accessToken: string | null = null;
 
@@ -26,7 +25,7 @@ class TokenStore {
   };
 
   /**
-   * Load language
+   * Load token
    */
   public loadAccessToken = () => {
     const tokenData = localStorageWorker.getItemByKey<Token>("token");

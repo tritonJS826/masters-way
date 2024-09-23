@@ -8,6 +8,7 @@ export const userPersonalDataAccessIds = {
     },
 
     connectButton: "connectButton",
+    surveyOverlay: "surveyOverlay",
 
     userSkillsBlock: {
         skillsModalContent: {

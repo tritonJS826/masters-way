@@ -77,6 +77,11 @@ export type LocalStorageData = {
   token: Token;
 
   /**
+   * Device ID
+   */
+  deviceId: string;
+
+  /**
    * Supported themes
    */
   theme: Theme;

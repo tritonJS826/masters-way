@@ -16,13 +16,13 @@ paths:
       summary: resets db
       tags:
       - dev
-  /survey/user-intro:
+  /user-intro:
     post:
       description: Post survey user intro
       operationId: survey-user-intro
       requestBody:
         content:
-          multipart/form-data:
+          application/json:
             schema:
               $ref: '#/components/schemas/schemas.PostSurveyUserIntroPayload'
         description: query params

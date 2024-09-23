@@ -17,7 +17,8 @@ afterEach(() => {
 
 describe('Chat tests', () => {
 
-    it('Scenario_AnyLoggedinUser_SendMessageInChat', () => {
+  it('Scenario_AnyLoggedinUser_SendMessageInChat', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         cy.openAllUsersPage();
 
         allUsersSelectors.card.getCardLink(testUserData.users.Jane.userName).click();
@@ -31,6 +32,7 @@ describe('Chat tests', () => {
     });
 
     it('Scenario_AnyLoggedinUser_ReciveMessageInChat', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         cy.logout();
         cy.login(testUserData.testUsers.studentJonh.loginLink); 
         cy.openAllUsersPage();

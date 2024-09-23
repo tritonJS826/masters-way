@@ -14,7 +14,8 @@ afterEach(() => {
 
 describe('IsAuth User personal data scope tests', () => {
 
-    it('IsAuth_UserPersonalData_EditUserName', () => {
+  it('IsAuth_UserPersonalData_EditUserName', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.descriptionSection.getName().dblclick();
     
         userPersonalSelectors.descriptionSection.getNameInput()
@@ -31,7 +32,8 @@ describe('IsAuth User personal data scope tests', () => {
 
     });
 
-    it('IsAuth_UserPersonalData_EditAboutSection', () => {
+  it('IsAuth_UserPersonalData_EditAboutSection', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.descriptionSection.getAboutMe().dblclick();
     
         userPersonalSelectors.descriptionSection.getAboutMeInput()
@@ -43,7 +45,8 @@ describe('IsAuth User personal data scope tests', () => {
 
     });
 
-    it('IsAuth_UserPersonalData_AddSkillTag', () => {
+  it('IsAuth_UserPersonalData_AddSkillTag', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.descriptionSection.getAddSkillButton().click();
         userPersonalSelectors.userSkillsBlock.skillsModalContent.getSkillInput().type(userPersonalData.skill);
         userPersonalSelectors.userSkillsBlock.skillsModalContent.getCreateSkillButton().click();

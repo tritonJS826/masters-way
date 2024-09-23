@@ -22,5 +22,10 @@ export const userPersonalSelectors = {
             getSkillTag: () => cy.get(getDataCy(userPersonalDataAccessIds.userSkillsBlock.skillTag.tag)),
             getRemoveTagButton: () => cy.get(getDataCy(userPersonalDataAccessIds.userSkillsBlock.skillTag.removeTagButton)),
         }
+  },
+  surveyModal: {
+    userInfoSurvey: {
+      getOverlay: () => cy.get(getDataCy(userPersonalDataAccessIds.surveyOverlay)),
+      }
     }
 };
