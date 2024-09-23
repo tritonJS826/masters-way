@@ -11,6 +11,7 @@ $modal-animation-time: 150ms;
   position: fixed;
   z-index: $modalZIndex;
   animation: overlayShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur($blurLight);
   background-color: var(--overlayBgColor);
   inset: 0;
 }
