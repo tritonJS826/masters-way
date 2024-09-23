@@ -1,0 +1,65 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  title: Masters way survey API
+  version: "1.0"
+servers:
+- url: /survey
+paths:
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: resets db
+      tags:
+      - dev
+  /survey/user-intro:
+    post:
+      description: Post survey user intro
+      operationId: survey-user-intro
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/schemas.PostSurveyUserIntroPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Post survey user intro
+      tags:
+      - survey
+      x-codegen-request-body-name: request
+components:
+  schemas:
+    schemas.PostSurveyUserIntroPayload:
+      properties:
+        deviceId:
+          type: string
+        preferredInterfaceLanguage:
+          type: string
+        role:
+          type: string
+        source:
+          type: string
+        studentExperience:
+          type: string
+        studentGoals:
+          type: string
+        whyRegistered:
+          type: string
+      required:
+      - deviceId
+      - preferredInterfaceLanguage
+      - role
+      - source
+      - studentExperience
+      - studentGoals
+      - whyRegistered
+      type: object
+x-original-swagger-version: "2.0"

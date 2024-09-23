@@ -19,7 +19,6 @@ services:
     build:
       context: ./mw-server
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8000:8000"
     depends_on:
@@ -45,7 +44,6 @@ services:
     build:
       context: ./mw-chat
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8001:8001"
     depends_on:
@@ -57,7 +55,6 @@ services:
     build:
       context: ./mw-chat-bff
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "7999:7999"
     depends_on:
@@ -69,7 +66,6 @@ services:
     build:
       context: ./mw-chat-websocket
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "7994:7994"
     depends_on:
@@ -81,7 +77,6 @@ services:
     build:
       context: ./mw-webapp
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "5172:5174"
     networks:
@@ -105,11 +100,35 @@ services:
     build:
       context: ./mw-storage
       dockerfile: Dockerfile
-    restart: unless-stopped
     ports:
       - "8003:8003"
     depends_on:
       - postgres-storage
+    networks:
+      - app-network
+
+  postgres-survey:
+    build:
+      context: ./postgres
+      dockerfile: postgres-survey.Dockerfile
+    container_name: postgres-survey
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres-survey:/var/lib/postgresql/data
+    env_file:
+      - ./mw-survey/.env
+    networks:
+      - app-network
+
+  mw-survey:
+    build:
+      context: ./mw-survey
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+    depends_on:
+      - postgres-survey
     networks:
       - app-network
 
@@ -127,6 +146,7 @@ services:
       - mw-chat-bff
       - mw-chat-websocket
       - mw-storage
+      - mw-survey
     networks:
       - app-network
 
@@ -134,6 +154,8 @@ volumes:
   postgres-general:
   postgres-chat:
   postgres-storage:
+  postgres-survey:
+
 
 networks:
   app-network:
