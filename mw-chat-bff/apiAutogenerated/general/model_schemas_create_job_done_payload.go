@@ -11,8 +11,8 @@ API version: 1.0
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -22,10 +22,10 @@ var _ MappedNullable = &SchemasCreateJobDonePayload{}
 // SchemasCreateJobDonePayload struct for SchemasCreateJobDonePayload
 type SchemasCreateJobDonePayload struct {
 	DayReportUuid string
-	Description string
-	JobTagUuids []string
-	OwnerUuid string
-	Time int32
+	Description   string
+	LabelUuids    []string
+	OwnerUuid     string
+	Time          int32
 }
 
 type _SchemasCreateJobDonePayload SchemasCreateJobDonePayload
@@ -34,11 +34,11 @@ type _SchemasCreateJobDonePayload SchemasCreateJobDonePayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasCreateJobDonePayload(dayReportUuid string, description string, jobTagUuids []string, ownerUuid string, time int32) *SchemasCreateJobDonePayload {
+func NewSchemasCreateJobDonePayload(dayReportUuid string, description string, labelUuids []string, ownerUuid string, time int32) *SchemasCreateJobDonePayload {
 	this := SchemasCreateJobDonePayload{}
 	this.DayReportUuid = dayReportUuid
 	this.Description = description
-	this.JobTagUuids = jobTagUuids
+	this.LabelUuids = labelUuids
 	this.OwnerUuid = ownerUuid
 	this.Time = time
 	return &this
@@ -100,28 +100,28 @@ func (o *SchemasCreateJobDonePayload) SetDescription(v string) {
 	o.Description = v
 }
 
-// GetJobTagUuids returns the JobTagUuids field value
-func (o *SchemasCreateJobDonePayload) GetJobTagUuids() []string {
+// GetLabelUuids returns the LabelUuids field value
+func (o *SchemasCreateJobDonePayload) GetLabelUuids() []string {
 	if o == nil {
 		var ret []string
 		return ret
 	}
 
-	return o.JobTagUuids
+	return o.LabelUuids
 }
 
-// GetJobTagUuidsOk returns a tuple with the JobTagUuids field value
+// GetLabelUuidsOk returns a tuple with the LabelUuids field value
 // and a boolean to check if the value has been set.
-func (o *SchemasCreateJobDonePayload) GetJobTagUuidsOk() ([]string, bool) {
+func (o *SchemasCreateJobDonePayload) GetLabelUuidsOk() ([]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.JobTagUuids, true
+	return o.LabelUuids, true
 }
 
-// SetJobTagUuids sets field value
-func (o *SchemasCreateJobDonePayload) SetJobTagUuids(v []string) {
-	o.JobTagUuids = v
+// SetLabelUuids sets field value
+func (o *SchemasCreateJobDonePayload) SetLabelUuids(v []string) {
+	o.LabelUuids = v
 }
 
 // GetOwnerUuid returns the OwnerUuid field value
@@ -173,7 +173,7 @@ func (o *SchemasCreateJobDonePayload) SetTime(v int32) {
 }
 
 func (o SchemasCreateJobDonePayload) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -184,7 +184,7 @@ func (o SchemasCreateJobDonePayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["dayReportUuid"] = o.DayReportUuid
 	toSerialize["description"] = o.Description
-	toSerialize["jobTagUuids"] = o.JobTagUuids
+	toSerialize["labelUuids"] = o.LabelUuids
 	toSerialize["ownerUuid"] = o.OwnerUuid
 	toSerialize["time"] = o.Time
 	return toSerialize, nil
@@ -197,7 +197,7 @@ func (o *SchemasCreateJobDonePayload) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"dayReportUuid",
 		"description",
-		"jobTagUuids",
+		"labelUuids",
 		"ownerUuid",
 		"time",
 	}
@@ -207,10 +207,10 @@ func (o *SchemasCreateJobDonePayload) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -266,5 +266,3 @@ func (v *NullableSchemasCreateJobDonePayload) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

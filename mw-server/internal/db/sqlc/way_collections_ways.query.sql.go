@@ -49,11 +49,11 @@ func (q *Queries) DeleteWayCollectionsWaysByIds(ctx context.Context, arg DeleteW
 
 const getWayCollectionJoinWayByUserId = `-- name: GetWayCollectionJoinWayByUserId :many
 SELECT
-    way_collections.uuid AS collection_uuid,
-    way_collections.created_at AS collection_created_at,
-    way_collections.updated_at AS collection_updated_at,
-    way_collections.name AS collection_name,
-    way_collections.type AS collection_type,
+	way_collections.uuid AS collection_uuid,
+	way_collections.created_at AS collection_created_at,
+	way_collections.updated_at AS collection_updated_at,
+	way_collections.name AS collection_name,
+	way_collections.type AS collection_type,
     ways.uuid AS way_uuid,
     ways.name AS way_name,
     ways.goal_description AS way_description,

@@ -11,8 +11,8 @@ API version: 1.0
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasUpdateMessageStatusPayload{}
 
 // SchemasUpdateMessageStatusPayload struct for SchemasUpdateMessageStatusPayload
 type SchemasUpdateMessageStatusPayload struct {
-	IsRead bool `json:"isRead"`
+	IsRead bool
 }
 
 type _SchemasUpdateMessageStatusPayload SchemasUpdateMessageStatusPayload
@@ -69,7 +69,7 @@ func (o *SchemasUpdateMessageStatusPayload) SetIsRead(v bool) {
 }
 
 func (o SchemasUpdateMessageStatusPayload) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -95,10 +95,10 @@ func (o *SchemasUpdateMessageStatusPayload) UnmarshalJSON(data []byte) (err erro
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -154,5 +154,3 @@ func (v *NullableSchemasUpdateMessageStatusPayload) UnmarshalJSON(src []byte) er
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

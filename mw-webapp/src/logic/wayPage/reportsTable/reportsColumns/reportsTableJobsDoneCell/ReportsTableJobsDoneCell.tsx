@@ -304,7 +304,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.waysMap.getValue(jobDone.wayUuid).jobTags}
+                      labels={props.waysMap.getValue(jobDone.wayUuid).labels}
                       labelsDone={jobDone.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: Label[]) => updateLabelsInJobDone({

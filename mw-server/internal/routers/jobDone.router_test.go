@@ -38,7 +38,7 @@ func TestCreateJobDone(t *testing.T) {
 		request := openapiGeneral.SchemasCreateJobDonePayload{
 			DayReportUuid: dayReportID,
 			Description:   description,
-			JobTagUuids:   []string{},
+			LabelUuids:    []string{},
 			OwnerUuid:     ownerID,
 			Time:          0,
 		}

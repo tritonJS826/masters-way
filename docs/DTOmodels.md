@@ -32,7 +32,7 @@ formerMentorUuids: string[] @User.uuid
 mentorRequestUuids: string[] @User.uuid
 metricsStringified: string[] stringified@Metric
 wayTagsStringified: string[] stringified@WayTag
-jobTagsStringified: string[] stringified@JobTag
+labelsStringified: string[] stringified@Label
 
 DayReportDTO #collection
 uuid: string
@@ -90,7 +90,7 @@ WayTagDTO
 uuid: string
 name: string
 
-JobTagDTO
+LabelDTO
 uuid: string
 name: string
 description: string

@@ -55,7 +55,7 @@ export class JobDoneDAL {
         description: params.plan?.description ?? "",
         ownerUuid: params.ownerUuid,
         time: params.plan?.time ?? 0,
-        jobTagUuids: params.plan?.tags.map(tag => tag.uuid) ?? [],
+        labelUuids: params.plan?.tags.map(tag => tag.uuid) ?? [],
       },
     });
 

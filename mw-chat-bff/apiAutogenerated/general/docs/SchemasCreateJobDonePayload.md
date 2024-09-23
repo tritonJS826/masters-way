@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DayReportUuid** | **string** |  | 
 **Description** | **string** |  | 
-**JobTagUuids** | **[]string** |  | 
+**LabelUuids** | **[]string** |  | 
 **OwnerUuid** | **string** |  | 
 **Time** | **int32** |  | 
 
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasCreateJobDonePayload
 
-`func NewSchemasCreateJobDonePayload(dayReportUuid string, description string, jobTagUuids []string, ownerUuid string, time int32, ) *SchemasCreateJobDonePayload`
+`func NewSchemasCreateJobDonePayload(dayReportUuid string, description string, labelUuids []string, ownerUuid string, time int32, ) *SchemasCreateJobDonePayload`
 
 NewSchemasCreateJobDonePayload instantiates a new SchemasCreateJobDonePayload object
 This constructor will assign default values to properties that have it defined,
@@ -69,24 +69,24 @@ and a boolean to check if the value has been set.
 SetDescription sets Description field to given value.
 
 
-### GetJobTagUuids
+### GetLabelUuids
 
-`func (o *SchemasCreateJobDonePayload) GetJobTagUuids() []string`
+`func (o *SchemasCreateJobDonePayload) GetLabelUuids() []string`
 
-GetJobTagUuids returns the JobTagUuids field if non-nil, zero value otherwise.
+GetLabelUuids returns the LabelUuids field if non-nil, zero value otherwise.
 
-### GetJobTagUuidsOk
+### GetLabelUuidsOk
 
-`func (o *SchemasCreateJobDonePayload) GetJobTagUuidsOk() (*[]string, bool)`
+`func (o *SchemasCreateJobDonePayload) GetLabelUuidsOk() (*[]string, bool)`
 
-GetJobTagUuidsOk returns a tuple with the JobTagUuids field if it's non-nil, zero value otherwise
+GetLabelUuidsOk returns a tuple with the LabelUuids field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetJobTagUuids
+### SetLabelUuids
 
-`func (o *SchemasCreateJobDonePayload) SetJobTagUuids(v []string)`
+`func (o *SchemasCreateJobDonePayload) SetLabelUuids(v []string)`
 
-SetJobTagUuids sets JobTagUuids field to given value.
+SetLabelUuids sets LabelUuids field to given value.
 
 
 ### GetOwnerUuid

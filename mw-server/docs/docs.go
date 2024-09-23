@@ -2946,7 +2946,7 @@ const docTemplate = `{
             "required": [
                 "dayReportUuid",
                 "description",
-                "jobTagUuids",
+                "labelUuids",
                 "ownerUuid",
                 "time"
             ],
@@ -2957,7 +2957,7 @@ const docTemplate = `{
                 "description": {
                     "type": "string"
                 },
-                "jobTagUuids": {
+                "labelUuids": {
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -4265,7 +4265,7 @@ const docTemplate = `{
                 "goalDescription",
                 "isCompleted",
                 "isPrivate",
-                "jobTags",
+                "labels",
                 "mentorRequests",
                 "mentors",
                 "metrics",
@@ -4310,7 +4310,7 @@ const docTemplate = `{
                 "isPrivate": {
                     "type": "boolean"
                 },
-                "jobTags": {
+                "labels": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/schemas.LabelResponse"

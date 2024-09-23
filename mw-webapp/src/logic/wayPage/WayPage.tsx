@@ -920,7 +920,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 <div className={styles.labelsWrapper}>
                   <AdjustLabelsBlock
                     wayUuid={way.uuid}
-                    jobTags={way.jobTags}
+                    jobTags={way.labels}
                     isEditable={isUserOwnerOrMentor}
                     addLabel={(label: Label) => way.addLabel(label)}
                     deleteLabel={(labelUuid: string) => way.deleteLabel(labelUuid)}

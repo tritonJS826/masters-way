@@ -164,7 +164,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		FromUserMentorRequests: fromUserMentoringRequests,
 		FavoriteForUsersAmount: int32(favoriteForUserAmount),
 		WayTags:                wayTags,
-		JobTags:                jobTags,
+		Labels:                 jobTags,
 		Metrics:                metrics,
 		CopiedFromWayUuid:      util.MarshalPgUUID(way.CopiedFromWayUuid),
 		Children:               children,
@@ -317,7 +317,7 @@ func (ws *WayService) CopyWay(ctx context.Context, fromWayUUID, toWayUUID uuid.U
 		})
 	})
 	// copying labels from the copied way
-	lo.ForEach(originalWay.JobTags, func(jobTag schemas.LabelResponse, i int) {
+	lo.ForEach(originalWay.Labels, func(jobTag schemas.LabelResponse, i int) {
 		ws.wayRepository.CreateLabel(ctx, db.CreateLabelParams{
 			WayUuid:     toWayPgUUID,
 			Name:        jobTag.Name,

@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **GoalDescription** | **string** |  | 
 **IsCompleted** | **bool** |  | 
 **IsPrivate** | **bool** |  | 
-**JobTags** | [**[]SchemasLabelResponse**](SchemasLabelResponse.md) |  | 
+**Labels** | [**[]SchemasLabelResponse**](SchemasLabelResponse.md) |  | 
 **MentorRequests** | [**[]SchemasUserPlainResponse**](SchemasUserPlainResponse.md) |  | 
 **Mentors** | [**[]SchemasUserPlainResponse**](SchemasUserPlainResponse.md) |  | 
 **Metrics** | [**[]SchemasMetricResponse**](SchemasMetricResponse.md) |  | 
@@ -27,7 +27,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasWayPopulatedResponse
 
-`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasLabelResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
+`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, labels []SchemasLabelResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
 
 NewSchemasWayPopulatedResponse instantiates a new SchemasWayPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -232,24 +232,24 @@ and a boolean to check if the value has been set.
 SetIsPrivate sets IsPrivate field to given value.
 
 
-### GetJobTags
+### GetLabels
 
-`func (o *SchemasWayPopulatedResponse) GetJobTags() []SchemasLabelResponse`
+`func (o *SchemasWayPopulatedResponse) GetLabels() []SchemasLabelResponse`
 
-GetJobTags returns the JobTags field if non-nil, zero value otherwise.
+GetLabels returns the Labels field if non-nil, zero value otherwise.
 
-### GetJobTagsOk
+### GetLabelsOk
 
-`func (o *SchemasWayPopulatedResponse) GetJobTagsOk() (*[]SchemasLabelResponse, bool)`
+`func (o *SchemasWayPopulatedResponse) GetLabelsOk() (*[]SchemasLabelResponse, bool)`
 
-GetJobTagsOk returns a tuple with the JobTags field if it's non-nil, zero value otherwise
+GetLabelsOk returns a tuple with the Labels field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetJobTags
+### SetLabels
 
-`func (o *SchemasWayPopulatedResponse) SetJobTags(v []SchemasLabelResponse)`
+`func (o *SchemasWayPopulatedResponse) SetLabels(v []SchemasLabelResponse)`
 
-SetJobTags sets JobTags field to given value.
+SetLabels sets Labels field to given value.
 
 
 ### GetMentorRequests

@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateJobDonePayload("DayReportUuid_example", "Description_example", []string{"JobTagUuids_example"}, "OwnerUuid_example", int32(123)) // SchemasCreateJobDonePayload | query params
+	request := *openapiclient.NewSchemasCreateJobDonePayload("DayReportUuid_example", "Description_example", []string{"LabelUuids_example"}, "OwnerUuid_example", int32(123)) // SchemasCreateJobDonePayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

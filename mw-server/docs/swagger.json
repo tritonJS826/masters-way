@@ -2938,7 +2938,7 @@
             "required": [
                 "dayReportUuid",
                 "description",
-                "jobTagUuids",
+                "labelUuids",
                 "ownerUuid",
                 "time"
             ],
@@ -2949,7 +2949,7 @@
                 "description": {
                     "type": "string"
                 },
-                "jobTagUuids": {
+                "labelUuids": {
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -4257,7 +4257,7 @@
                 "goalDescription",
                 "isCompleted",
                 "isPrivate",
-                "jobTags",
+                "labels",
                 "mentorRequests",
                 "mentors",
                 "metrics",
@@ -4302,7 +4302,7 @@
                 "isPrivate": {
                     "type": "boolean"
                 },
-                "jobTags": {
+                "labels": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/schemas.LabelResponse"

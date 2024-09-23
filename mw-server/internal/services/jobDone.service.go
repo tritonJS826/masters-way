@@ -16,7 +16,7 @@ type IJobDoneRepository interface {
 	CreateJobDone(ctx context.Context, arg db.CreateJobDoneParams) (db.CreateJobDoneRow, error)
 	UpdateJobDone(ctx context.Context, arg db.UpdateJobDoneParams) (db.UpdateJobDoneRow, error)
 	DeleteJobDone(ctx context.Context, jobDoneUuid pgtype.UUID) error
-	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.Label, error)
+	GetListLabelsByLabelUuids(ctx context.Context, labelUuids []pgtype.UUID) ([]db.Label, error)
 }
 
 type JobDoneService struct {

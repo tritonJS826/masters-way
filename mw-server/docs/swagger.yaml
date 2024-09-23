@@ -254,7 +254,7 @@ definitions:
         type: string
       description:
         type: string
-      jobTagUuids:
+      labelUuids:
         items:
           type: string
         type: array
@@ -265,7 +265,7 @@ definitions:
     required:
     - dayReportUuid
     - description
-    - jobTagUuids
+    - labelUuids
     - ownerUuid
     - time
     type: object
@@ -1184,7 +1184,7 @@ definitions:
         type: boolean
       isPrivate:
         type: boolean
-      jobTags:
+      labels:
         items:
           $ref: '#/definitions/schemas.LabelResponse'
         type: array
@@ -1222,7 +1222,7 @@ definitions:
     - goalDescription
     - isCompleted
     - isPrivate
-    - jobTags
+    - labels
     - mentorRequests
     - mentors
     - metrics

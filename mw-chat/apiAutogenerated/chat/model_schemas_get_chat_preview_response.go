@@ -11,8 +11,8 @@ API version: 1.0
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasGetChatPreviewResponse{}
 
 // SchemasGetChatPreviewResponse struct for SchemasGetChatPreviewResponse
 type SchemasGetChatPreviewResponse struct {
-	UnreadMessagesAmount int32 `json:"unreadMessagesAmount"`
+	UnreadMessagesAmount int32
 }
 
 type _SchemasGetChatPreviewResponse SchemasGetChatPreviewResponse
@@ -69,7 +69,7 @@ func (o *SchemasGetChatPreviewResponse) SetUnreadMessagesAmount(v int32) {
 }
 
 func (o SchemasGetChatPreviewResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -95,10 +95,10 @@ func (o *SchemasGetChatPreviewResponse) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -154,5 +154,3 @@ func (v *NullableSchemasGetChatPreviewResponse) UnmarshalJSON(src []byte) error 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

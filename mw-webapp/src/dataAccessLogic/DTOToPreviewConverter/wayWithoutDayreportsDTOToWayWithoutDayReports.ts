@@ -52,6 +52,6 @@ export const wayWithoutDayReportsDTOToWayWithoutDayReports = (
     lastUpdate: new Date(wayDTO.updatedAt),
     owner,
     children: wayDTO.children.map(wayWithoutDayReportsDTOToWayWithoutDayReports),
-    jobTags: wayDTO.jobTags.map(label => new Label(label)),
+    labels: wayDTO.labels.map(label => new Label(label)),
   });
 };

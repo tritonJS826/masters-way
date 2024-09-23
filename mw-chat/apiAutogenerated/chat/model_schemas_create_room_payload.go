@@ -11,8 +11,8 @@ API version: 1.0
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,9 +21,9 @@ var _ MappedNullable = &SchemasCreateRoomPayload{}
 
 // SchemasCreateRoomPayload struct for SchemasCreateRoomPayload
 type SchemasCreateRoomPayload struct {
-	Name NullableString `json:"name,omitempty"`
-	RoomType string `json:"roomType"`
-	UserId NullableString `json:"userId,omitempty"`
+	Name     NullableString
+	RoomType string
+	UserId   NullableString
 }
 
 type _SchemasCreateRoomPayload SchemasCreateRoomPayload
@@ -78,6 +78,7 @@ func (o *SchemasCreateRoomPayload) HasName() bool {
 func (o *SchemasCreateRoomPayload) SetName(v string) {
 	o.Name.Set(&v)
 }
+
 // SetNameNil sets the value for Name to be an explicit nil
 func (o *SchemasCreateRoomPayload) SetNameNil() {
 	o.Name.Set(nil)
@@ -144,6 +145,7 @@ func (o *SchemasCreateRoomPayload) HasUserId() bool {
 func (o *SchemasCreateRoomPayload) SetUserId(v string) {
 	o.UserId.Set(&v)
 }
+
 // SetUserIdNil sets the value for UserId to be an explicit nil
 func (o *SchemasCreateRoomPayload) SetUserIdNil() {
 	o.UserId.Set(nil)
@@ -155,7 +157,7 @@ func (o *SchemasCreateRoomPayload) UnsetUserId() {
 }
 
 func (o SchemasCreateRoomPayload) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -187,10 +189,10 @@ func (o *SchemasCreateRoomPayload) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -246,5 +248,3 @@ func (v *NullableSchemasCreateRoomPayload) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

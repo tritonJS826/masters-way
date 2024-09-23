@@ -5,7 +5,7 @@ type CreateJobDonePayload struct {
 	Time          int32    `json:"time" validate:"required"`
 	DayReportUuid string   `json:"dayReportUuid" validate:"required"`
 	OwnerUuid     string   `json:"ownerUuid" validate:"required"`
-	JobTagUuids   []string `json:"jobTagUuids" validate:"required"`
+	LabelUuids    []string `json:"labelUuids" validate:"required"`
 }
 
 type UpdateJobDone struct {

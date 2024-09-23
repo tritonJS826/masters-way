@@ -103,7 +103,7 @@ export interface SchemasWayPopulatedResponse {
      * @type {Array<SchemasLabelResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
-    jobTags: Array<SchemasLabelResponse>;
+    labels: Array<SchemasLabelResponse>;
     /**
      * 
      * @type {Array<SchemasUserPlainResponse>}
@@ -170,7 +170,7 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "goalDescription" in value;
     isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
-    isInstance = isInstance && "jobTags" in value;
+    isInstance = isInstance && "labels" in value;
     isInstance = isInstance && "mentorRequests" in value;
     isInstance = isInstance && "mentors" in value;
     isInstance = isInstance && "metrics" in value;
@@ -205,7 +205,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'goalDescription': json['goalDescription'],
         'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
-        'jobTags': ((json['jobTags'] as Array<any>).map(SchemasLabelResponseFromJSON)),
+        'labels': ((json['labels'] as Array<any>).map(SchemasLabelResponseFromJSON)),
         'mentorRequests': ((json['mentorRequests'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'mentors': ((json['mentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'metrics': ((json['metrics'] as Array<any>).map(SchemasMetricResponseFromJSON)),
@@ -236,7 +236,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'goalDescription': value.goalDescription,
         'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
-        'jobTags': ((value.jobTags as Array<any>).map(SchemasLabelResponseToJSON)),
+        'labels': ((value.labels as Array<any>).map(SchemasLabelResponseToJSON)),
         'mentorRequests': ((value.mentorRequests as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'mentors': ((value.mentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'metrics': ((value.metrics as Array<any>).map(SchemasMetricResponseToJSON)),

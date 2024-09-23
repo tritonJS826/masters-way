@@ -380,13 +380,13 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                     <div className={styles.tagsBlockTrigger}>
                       <JobDoneTags
                         jobDoneTags={plan.tags}
-                        labels={props.way.jobTags}
+                        labels={props.way.labels}
                       />
                     </div>
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.waysMap.getValue(plan.wayUuid).jobTags}
+                      labels={props.waysMap.getValue(plan.wayUuid).labels}
                       labelsDone={plan.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: Label[]) => updateLabelsInPlan({
@@ -399,7 +399,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 :
                 <JobDoneTags
                   jobDoneTags={plan.tags}
-                  labels={props.way.jobTags}
+                  labels={props.way.labels}
                 />
               }
             </VerticalContainer>

@@ -11,8 +11,8 @@ API version: 1.0
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,24 +21,24 @@ var _ MappedNullable = &SchemasWayPopulatedResponse{}
 
 // SchemasWayPopulatedResponse struct for SchemasWayPopulatedResponse
 type SchemasWayPopulatedResponse struct {
-	Children []SchemasWayPopulatedResponse `json:"children"`
-	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
-	CreatedAt string `json:"createdAt"`
-	EstimationTime int32 `json:"estimationTime"`
-	FavoriteForUsersAmount int32 `json:"favoriteForUsersAmount"`
-	FormerMentors []SchemasUserPlainResponse `json:"formerMentors"`
-	GoalDescription string `json:"goalDescription"`
-	IsCompleted bool `json:"isCompleted"`
-	IsPrivate bool `json:"isPrivate"`
-	JobTags []SchemasLabelResponse `json:"jobTags"`
-	MentorRequests []SchemasUserPlainResponse `json:"mentorRequests"`
-	Mentors []SchemasUserPlainResponse `json:"mentors"`
-	Metrics []SchemasMetricResponse `json:"metrics"`
-	Name string `json:"name"`
-	Owner SchemasUserPlainResponse `json:"owner"`
-	UpdatedAt string `json:"updatedAt"`
-	Uuid string `json:"uuid"`
-	WayTags []SchemasWayTagResponse `json:"wayTags"`
+	Children               []SchemasWayPopulatedResponse `json:"children"`
+	CopiedFromWayUuid      NullableString                `json:"copiedFromWayUuid"`
+	CreatedAt              string                        `json:"createdAt"`
+	EstimationTime         int32                         `json:"estimationTime"`
+	FavoriteForUsersAmount int32                         `json:"favoriteForUsersAmount"`
+	FormerMentors          []SchemasUserPlainResponse    `json:"formerMentors"`
+	GoalDescription        string                        `json:"goalDescription"`
+	IsCompleted            bool                          `json:"isCompleted"`
+	IsPrivate              bool                          `json:"isPrivate"`
+	Labels                 []SchemasLabelResponse        `json:"labels"`
+	MentorRequests         []SchemasUserPlainResponse    `json:"mentorRequests"`
+	Mentors                []SchemasUserPlainResponse    `json:"mentors"`
+	Metrics                []SchemasMetricResponse       `json:"metrics"`
+	Name                   string                        `json:"name"`
+	Owner                  SchemasUserPlainResponse      `json:"owner"`
+	UpdatedAt              string                        `json:"updatedAt"`
+	Uuid                   string                        `json:"uuid"`
+	WayTags                []SchemasWayTagResponse       `json:"wayTags"`
 }
 
 type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse
@@ -47,7 +47,7 @@ type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasLabelResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
+func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, labels []SchemasLabelResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
 	this := SchemasWayPopulatedResponse{}
 	this.Children = children
 	this.CopiedFromWayUuid = copiedFromWayUuid
@@ -58,7 +58,7 @@ func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copi
 	this.GoalDescription = goalDescription
 	this.IsCompleted = isCompleted
 	this.IsPrivate = isPrivate
-	this.JobTags = jobTags
+	this.Labels = labels
 	this.MentorRequests = mentorRequests
 	this.Mentors = mentors
 	this.Metrics = metrics
@@ -296,28 +296,28 @@ func (o *SchemasWayPopulatedResponse) SetIsPrivate(v bool) {
 	o.IsPrivate = v
 }
 
-// GetJobTags returns the JobTags field value
-func (o *SchemasWayPopulatedResponse) GetJobTags() []SchemasLabelResponse {
+// GetLabels returns the Labels field value
+func (o *SchemasWayPopulatedResponse) GetLabels() []SchemasLabelResponse {
 	if o == nil {
 		var ret []SchemasLabelResponse
 		return ret
 	}
 
-	return o.JobTags
+	return o.Labels
 }
 
-// GetJobTagsOk returns a tuple with the JobTags field value
+// GetLabelsOk returns a tuple with the Labels field value
 // and a boolean to check if the value has been set.
-func (o *SchemasWayPopulatedResponse) GetJobTagsOk() ([]SchemasLabelResponse, bool) {
+func (o *SchemasWayPopulatedResponse) GetLabelsOk() ([]SchemasLabelResponse, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.JobTags, true
+	return o.Labels, true
 }
 
-// SetJobTags sets field value
-func (o *SchemasWayPopulatedResponse) SetJobTags(v []SchemasLabelResponse) {
-	o.JobTags = v
+// SetLabels sets field value
+func (o *SchemasWayPopulatedResponse) SetLabels(v []SchemasLabelResponse) {
+	o.Labels = v
 }
 
 // GetMentorRequests returns the MentorRequests field value
@@ -513,7 +513,7 @@ func (o *SchemasWayPopulatedResponse) SetWayTags(v []SchemasWayTagResponse) {
 }
 
 func (o SchemasWayPopulatedResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -531,7 +531,7 @@ func (o SchemasWayPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["goalDescription"] = o.GoalDescription
 	toSerialize["isCompleted"] = o.IsCompleted
 	toSerialize["isPrivate"] = o.IsPrivate
-	toSerialize["jobTags"] = o.JobTags
+	toSerialize["labels"] = o.Labels
 	toSerialize["mentorRequests"] = o.MentorRequests
 	toSerialize["mentors"] = o.Mentors
 	toSerialize["metrics"] = o.Metrics
@@ -557,7 +557,7 @@ func (o *SchemasWayPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 		"goalDescription",
 		"isCompleted",
 		"isPrivate",
-		"jobTags",
+		"labels",
 		"mentorRequests",
 		"mentors",
 		"metrics",
@@ -573,10 +573,10 @@ func (o *SchemasWayPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -632,5 +632,3 @@ func (v *NullableSchemasWayPopulatedResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -1,7 +1,6 @@
 openapi: 3.0.1
 info:
   contact: {}
-  description: ""
   title: Masters way chat API
   version: "1.0"
 servers:
@@ -11,9 +10,9 @@ paths:
     get:
       description: resets db
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: resets db
       tags:
       - dev
@@ -34,7 +33,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/schemas.CreateMessageResponse'
           description: OK
-      summary: Create message in room
+      summary: Create message
       tags:
       - message
       x-codegen-request-body-name: request

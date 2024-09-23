@@ -11,8 +11,8 @@ API version: 1.0
 package openapi
 
 import (
-	"encoding/json"
 	"bytes"
+	"encoding/json"
 	"fmt"
 )
 
@@ -21,8 +21,8 @@ var _ MappedNullable = &SchemasGetRoomsResponse{}
 
 // SchemasGetRoomsResponse struct for SchemasGetRoomsResponse
 type SchemasGetRoomsResponse struct {
-	Rooms []SchemasRoomPreviewResponse `json:"rooms"`
-	Size int32 `json:"size"`
+	Rooms []SchemasRoomPreviewResponse
+	Size  int32
 }
 
 type _SchemasGetRoomsResponse SchemasGetRoomsResponse
@@ -95,7 +95,7 @@ func (o *SchemasGetRoomsResponse) SetSize(v int32) {
 }
 
 func (o SchemasGetRoomsResponse) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
+	toSerialize, err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -123,10 +123,10 @@ func (o *SchemasGetRoomsResponse) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err;
+		return err
 	}
 
-	for _, requiredProperty := range(requiredProperties) {
+	for _, requiredProperty := range requiredProperties {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -182,5 +182,3 @@ func (v *NullableSchemasGetRoomsResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

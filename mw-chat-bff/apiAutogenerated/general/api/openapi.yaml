@@ -2071,7 +2071,7 @@ components:
           type: string
         description:
           type: string
-        jobTagUuids:
+        labelUuids:
           items:
             type: string
           type: array
@@ -2082,7 +2082,7 @@ components:
       required:
       - dayReportUuid
       - description
-      - jobTagUuids
+      - labelUuids
       - ownerUuid
       - time
       type: object
@@ -4700,6 +4700,15 @@ components:
         estimationTime: 0
         isPrivate: true
         uuid: uuid
+        labels:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
         createdAt: createdAt
         mentorRequests:
         - createdAt: createdAt
@@ -4766,15 +4775,6 @@ components:
           doneDate: doneDate
           isDone: true
           uuid: uuid
-        jobTags:
-        - color: color
-          name: name
-          description: description
-          uuid: uuid
-        - color: color
-          name: name
-          description: description
-          uuid: uuid
         isCompleted: true
         updatedAt: updatedAt
       properties:
@@ -4801,7 +4801,7 @@ components:
           type: boolean
         isPrivate:
           type: boolean
-        jobTags:
+        labels:
           items:
             $ref: '#/components/schemas/schemas.LabelResponse'
           type: array
@@ -4839,7 +4839,7 @@ components:
       - goalDescription
       - isCompleted
       - isPrivate
-      - jobTags
+      - labels
       - mentorRequests
       - mentors
       - metrics

@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// Path to the migrate binary in your project
-	migrateBinary := "/opt/homebrew/bin/migrate" // Update this with the actual path in your project
+	migrateBinary := "/home/triton/go/pkg/mod/github.com/golang-migrate/migrate@v3.5.4+incompatible" // Update this with the actual path in your project
 
 	// Command to create a migration
 	cmd := exec.Command(migrateBinary, "create", "-ext", "sql", "-dir", "db/migration", "-seq", "init_schema")
