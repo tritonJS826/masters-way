@@ -29,11 +29,11 @@ const docTemplate = `{
                 }
             }
         },
-        "/survey/user-intro": {
+        "/user-intro": {
             "post": {
                 "description": "Post survey user intro",
                 "consumes": [
-                    "multipart/form-data"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"

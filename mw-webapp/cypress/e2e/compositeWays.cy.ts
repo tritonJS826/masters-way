@@ -4,6 +4,7 @@ import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
+import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 beforeEach(() => {
     cy.resetDb();
@@ -19,6 +20,7 @@ describe('IsAuth Composite ways scope tests', () => {
         const danaEvansNameForReports = testUserData.users.Dana.userName.split(" ")[0];
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
@@ -79,6 +81,7 @@ describe('IsAuth Composite ways scope tests', () => {
         const danaEvansNameForReports = testUserData.users.Dana.userName.split(" ")[0];
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({ force: true });
         userWaysSelectors.getCreateNewWayButton().click();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);

@@ -16,6 +16,6 @@ func newFileRouter(surveyController *controllers.SurveyController) *surveyRouter
 }
 
 func (fr *surveyRouter) setFileRoutes(rg *gin.RouterGroup) {
-	files := rg.Group("/survey", auth.AuthMiddleware())
-	files.POST("user-intro", fr.surveyController.PostSurveyUserIntro)
+	// files := rg.Group("/survey", auth.AuthMiddleware())
+	rg.POST("user-intro", auth.AuthMiddleware(), fr.surveyController.PostSurveyUserIntro)
 }

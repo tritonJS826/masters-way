@@ -5,6 +5,7 @@ import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
+import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 beforeEach(() => {
     cy.resetDb();
@@ -18,6 +19,7 @@ describe('Mentor-mentee tests', () => {
 
     it('Scenario_Mentor_AddAsWayMentor', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);

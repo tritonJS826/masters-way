@@ -18,12 +18,14 @@ export const Default: Story = {
       {
         id: 0,
         label: "UserName:",
+        name: "Name",
         placeholder: "Viktar Veratsennikau",
         value: "",
       },
       {
         id: 1,
         label: "UserCity:",
+        name: "City",
         placeholder: "Georgia",
         value: "",
       },

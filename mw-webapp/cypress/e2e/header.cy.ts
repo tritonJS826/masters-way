@@ -94,20 +94,23 @@ describe('IsAuth Header scope tests', () => {
         cy.clearAllStorage();
     });
 
-    it('IsAuth_Header_UserNameLink', () => {
+  it('IsAuth_Header_UserNameLink', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         headerSelectors.getAvatar().click();
 
         cy.url().should('match', new RegExp(`\\/user\\/${testUserData.urlPattern}`));
         userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.studentJonh.name);
     });
 
-    it('IsAuth_Header_UserNameLinkOneWord', () => {
+  it('IsAuth_Header_UserNameLinkOneWord', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         const expectedAvatar = testUserData.testUsers.studentJonh.name.substring(0, 2).toUpperCase();
 
         headerSelectors.getAvatar().should('have.text', expectedAvatar);
     });
 
-    it('IsAuth_Header_NavigationBurgerMenu', () => {
+  it('IsAuth_Header_NavigationBurgerMenu', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         headerSelectors.getBurgerMenu().click();
         
         navigationMenuSelectors.getNavigationMenu().should('exist');

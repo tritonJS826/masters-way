@@ -1,0 +1,93 @@
+{
+  "submitButton": {
+    "ru": "Отправить",
+    "en": "Send",
+    "ua": "Надіслати"
+  },
+  "cohortAnalysis": {
+    "title": {
+      "ru": "Информация о пользователе",
+      "en": "User info",
+      "ua": "Інформація про користувача"
+    },
+    "description": {
+      "ru": "Расскажите, пожалуйста, о себе, чтобы мы могли сделать приложение более полезным для вас",
+      "en": "Please tell us about yourself so we could  make the app more useful for you",
+      "ua": "Розкажіть нам про себе, щоб ми могли зробити додаток кориснішим для вас"
+    },
+    "fields": {
+      "interfaceLanguage": {
+        "name": {
+          "ru": "Какой язык интерфейса вы предпочитаете?",
+          "en": "What interface language do you prefer?",
+          "ua": "Якій мові інтерфейсу ви віддаєте перевагу?"
+        }, 
+        "placeholder": {
+          "ru": "Например: английский",
+          "en": "For example: English",
+          "ua": "Наприклад: англійська"
+        }
+      },
+      "role": {
+        "name": {
+          "ru": "Какова ваша роль?",
+          "en": "What is your role?",
+          "ua": "Яка ваша роль?"
+        }, 
+        "placeholder": {
+          "ru": "Например: Mentor, React, Typescript",
+          "en": "For example: Mentor, React, Typescript",
+          "ua": "Наприклад: Mentor, React, Typescript"
+        }
+      },
+      "source": {
+        "name": {
+          "ru": "Как вы узнали о платформе?",
+          "en": "How did you find out about the platform?",
+          "ua": "Як ви дізналися про платформу?"
+        }, 
+        "placeholder": {
+          "ru": "Например: реклама, социальные сети, рекомендации, поисковые системы и т.д",
+          "en": "For example: advertising, social networks, recommendations, search engines, etc.",
+          "ua": "Наприклад: реклама, соціальні мережі, рекомендації, пошукові системи та ін."
+        }
+      },
+      "studentExperience": {
+        "name": {
+          "ru": "Каков ваш уровень владения навыком?",
+          "en": "What is your skill level?",
+          "ua": "Яков ваш рівень володіння навиком?"
+        }, 
+        "placeholder": {
+          "ru": "Например: новичок, продвинутый, эксперт",
+          "en": "For example: beginner, advanced, expert",
+          "ua": "Наприклад: новичок, продвинутий, експерт"
+        }
+      },
+      "studentGoals": {
+        "name": {
+          "ru": "Каковы ваши цели?",
+          "en": "What are your goals?",
+          "ua": "Які ваші цілі?"
+        }, 
+        "placeholder": {
+          "ru": "Например: повышение квалификации, карьерный рост, смена профессии и т.д",
+          "en": "For example: advanced training, career growth, change of profession, etc.",
+          "ua": "Наприклад: підвищення кваліфікації, кар'єрне зростання, зміна професії та ін."
+        }
+      },
+      "whyRegistered": {
+        "name": {
+          "ru": "Что побудило вас зарегистрироваться?",
+          "en": "What prompted you to register?",
+          "ua": "Що спонукало вас зареєструватися?"
+        }, 
+        "placeholder": {
+          "ru": "Например: интерес к теме, рекомендации друзей, потребности работы и т.д.",
+          "en": "For example: interest in a topic, recommendations from friends, work needs, etc.",
+          "ua": "Наприклад: інтерес до теми, рекомендації друзів, потреби роботи та ін."
+        }
+      }
+    }
+  }
+}

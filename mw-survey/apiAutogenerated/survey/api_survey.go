@@ -26,47 +26,12 @@ type SurveyAPIService service
 type ApiSurveyUserIntroRequest struct {
 	ctx context.Context
 	ApiService *SurveyAPIService
-	deviceId *string
-	preferredInterfaceLanguage *string
-	role *string
-	source *string
-	studentExperience *string
-	studentGoals *string
-	whyRegistered *string
+	request *SchemasPostSurveyUserIntroPayload
 }
 
-func (r ApiSurveyUserIntroRequest) DeviceId(deviceId string) ApiSurveyUserIntroRequest {
-	r.deviceId = &deviceId
-	return r
-}
-
-func (r ApiSurveyUserIntroRequest) PreferredInterfaceLanguage(preferredInterfaceLanguage string) ApiSurveyUserIntroRequest {
-	r.preferredInterfaceLanguage = &preferredInterfaceLanguage
-	return r
-}
-
-func (r ApiSurveyUserIntroRequest) Role(role string) ApiSurveyUserIntroRequest {
-	r.role = &role
-	return r
-}
-
-func (r ApiSurveyUserIntroRequest) Source(source string) ApiSurveyUserIntroRequest {
-	r.source = &source
-	return r
-}
-
-func (r ApiSurveyUserIntroRequest) StudentExperience(studentExperience string) ApiSurveyUserIntroRequest {
-	r.studentExperience = &studentExperience
-	return r
-}
-
-func (r ApiSurveyUserIntroRequest) StudentGoals(studentGoals string) ApiSurveyUserIntroRequest {
-	r.studentGoals = &studentGoals
-	return r
-}
-
-func (r ApiSurveyUserIntroRequest) WhyRegistered(whyRegistered string) ApiSurveyUserIntroRequest {
-	r.whyRegistered = &whyRegistered
+// query params
+func (r ApiSurveyUserIntroRequest) Request(request SchemasPostSurveyUserIntroPayload) ApiSurveyUserIntroRequest {
+	r.request = &request
 	return r
 }
 
@@ -102,35 +67,17 @@ func (a *SurveyAPIService) SurveyUserIntroExecute(r ApiSurveyUserIntroRequest) (
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/survey/user-intro"
+	localVarPath := localBasePath + "/user-intro"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.deviceId == nil {
-		return nil, reportError("deviceId is required and must be specified")
-	}
-	if r.preferredInterfaceLanguage == nil {
-		return nil, reportError("preferredInterfaceLanguage is required and must be specified")
-	}
-	if r.role == nil {
-		return nil, reportError("role is required and must be specified")
-	}
-	if r.source == nil {
-		return nil, reportError("source is required and must be specified")
-	}
-	if r.studentExperience == nil {
-		return nil, reportError("studentExperience is required and must be specified")
-	}
-	if r.studentGoals == nil {
-		return nil, reportError("studentGoals is required and must be specified")
-	}
-	if r.whyRegistered == nil {
-		return nil, reportError("whyRegistered is required and must be specified")
+	if r.request == nil {
+		return nil, reportError("request is required and must be specified")
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"multipart/form-data"}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -146,13 +93,8 @@ func (a *SurveyAPIService) SurveyUserIntroExecute(r ApiSurveyUserIntroRequest) (
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	parameterAddToHeaderOrQuery(localVarFormParams, "deviceId", r.deviceId, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "preferredInterfaceLanguage", r.preferredInterfaceLanguage, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "role", r.role, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "source", r.source, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "studentExperience", r.studentExperience, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "studentGoals", r.studentGoals, "", "")
-	parameterAddToHeaderOrQuery(localVarFormParams, "whyRegistered", r.whyRegistered, "", "")
+	// body params
+	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -192,21 +134,15 @@ func (a *SurveyAPIService) SurveyUserIntroStreamExecute(r ApiSurveyUserIntroRequ
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/survey/user-intro"
+	localVarPath := localBasePath + "/user-intro"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
 
 
-
-
-
-
-
-
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"multipart/form-data"}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)

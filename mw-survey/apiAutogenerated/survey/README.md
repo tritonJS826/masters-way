@@ -79,11 +79,12 @@ All URIs are relative to */survey*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
-*SurveyAPI* | [**SurveyUserIntro**](docs/SurveyAPI.md#surveyuserintro) | **Post** /survey/user-intro | Post survey user intro
+*SurveyAPI* | [**SurveyUserIntro**](docs/SurveyAPI.md#surveyuserintro) | **Post** /user-intro | Post survey user intro
 
 
 ## Documentation For Models
 
+ - [SchemasPostSurveyUserIntroPayload](docs/SchemasPostSurveyUserIntroPayload.md)
 
 
 ## Documentation For Authorization
