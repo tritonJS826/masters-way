@@ -39,7 +39,7 @@ services:
       - ./mw-chat/.env
     networks:
       - app-network
-  
+
   mw-chat:
     build:
       context: ./mw-chat
@@ -50,7 +50,7 @@ services:
       - postgres-chat
     networks:
       - app-network
-  
+
   mw-chat-bff:
     build:
       context: ./mw-chat-bff
@@ -139,6 +139,13 @@ services:
     container_name: grafana
     ports:
       - "9876:3000"
+    env_file:
+      - ./grafana/.env
+    depends_on:
+      - postgres-general
+      - postgres-chat
+      - postgres-storage
+      - postgres-survey
     networks:
       - app-network
 
@@ -165,7 +172,6 @@ volumes:
   postgres-chat:
   postgres-storage:
   postgres-survey:
-
 
 networks:
   app-network:
