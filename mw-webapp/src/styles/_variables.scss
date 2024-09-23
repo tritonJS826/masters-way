@@ -108,6 +108,9 @@ $mediaWidthDesktopSmall: 1280px;
 // opacity
 $disableOpacity: 0.7;
 
+// Blur filter
+$blurLight: 2px;
+
 @mixin regularContainer {
   padding: $paddingLarge;
   border-radius: 20px;
