@@ -56,6 +56,20 @@ services:
     networks:
       - app-network
 
+  postgres-notification:
+    build:
+      context: ./postgres
+      dockerfile: postgres-notification.Dockerfile
+    container_name: postgres-notification
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-notification:/var/lib/postgresql/data
+    env_file:
+      - ./mw-notification/.env
+    networks:
+      - app-network
+
   grafana:
     build:
       context: ./grafana
@@ -90,6 +104,7 @@ volumes:
   postgres-chat:
   postgres-storage:
   postgres-survey:
+  postgres-notification:
 
 networks:
   app-network:

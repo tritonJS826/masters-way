@@ -1,0 +1,45 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Masters way notification API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/notification",
+    "paths": {
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/list": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Get notification list by user id",
+                "operationId": "get-notification-list",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        }
+    }
+}
