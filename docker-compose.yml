@@ -140,6 +140,23 @@ services:
     networks:
       - app-network
 
+  grafana:
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    container_name: grafana
+    ports:
+      - "9876:3000"
+    env_file:
+      - ./grafana/.env
+    depends_on:
+      - postgres-general
+      - postgres-chat
+      - postgres-storage
+      - postgres-survey
+    networks:
+      - app-network
+
   nginx:
     image: nginx:1.24.0
     container_name: nginx
