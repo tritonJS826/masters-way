@@ -1,0 +1,47 @@
+apiVersion: 1
+datasources:
+  - name: postgres-general
+    type: postgres
+    access: proxy
+    url: postgres-general:5432
+    user: ${POSTGRES_GENERAL_USER}
+    password: ${POSTGRES_GENERAL_PASSWORD}
+    database: ${POSTGRES_GENERAL_DB}
+    isDefault: true
+    editable: true
+    jsonData:
+      sslmode: "disable"
+  - name: postgres-chat
+    type: postgres
+    access: proxy
+    url: postgres-chat:5433
+    user: ${POSTGRES_CHAT_USER}
+    password: ${POSTGRES_CHAT_PASSWORD}
+    database: ${POSTGRES_CHAT_DB}
+    isDefault: false
+    editable: true
+    jsonData:
+      sslmode: "disable"
+  - name: postgres-survey
+    type: postgres
+    access: proxy
+    url: postgres-survey:5436
+    user: ${POSTGRES_SURVEY_USER}
+    password: ${POSTGRES_SURVEY_PASSWORD}
+    database: ${POSTGRES_SURVEY_DB}
+    isDefault: false
+    editable: true
+    jsonData:
+      sslmode: "disable"
+  - name: postgres-storage
+    type: postgres
+    access: proxy
+    url: postgres-storage:5435
+    user: ${POSTGRES_STORAGE_USER}
+    password: ${POSTGRES_STORAGE_PASSWORD}
+    database: ${POSTGRES_STORAGE_DB}
+    isDefault: false
+    editable: true
+    jsonData:
+      sslmode: "disable"
+
