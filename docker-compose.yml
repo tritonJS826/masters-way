@@ -39,7 +39,7 @@ services:
       - ./mw-chat/.env
     networks:
       - app-network
-  
+
   mw-chat:
     build:
       context: ./mw-chat
@@ -50,7 +50,7 @@ services:
       - postgres-chat
     networks:
       - app-network
-  
+
   mw-chat-bff:
     build:
       context: ./mw-chat-bff
@@ -86,7 +86,7 @@ services:
       - ./mw-storage/.env
     networks:
       - app-network
-    
+
   mw-storage:
     build:
       context: ./mw-storage
@@ -111,7 +111,7 @@ services:
       - ./mw-survey/.env
     networks:
       - app-network
-    
+
   mw-survey:
     build:
       context: ./mw-survey
@@ -119,6 +119,23 @@ services:
     ports:
       - "8004:8004"
     depends_on:
+      - postgres-survey
+    networks:
+      - app-network
+
+  grafana:
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    container_name: grafana
+    ports:
+      - "9876:3000"
+    env_file:
+      - ./grafana/.env
+    depends_on:
+      - postgres-general
+      - postgres-chat
+      - postgres-storage
       - postgres-survey
     networks:
       - app-network
@@ -147,7 +164,6 @@ volumes:
   postgres-chat:
   postgres-storage:
   postgres-survey:
-
 
 networks:
   app-network:
