@@ -23,6 +23,7 @@ api_problem.go
 api_project.go
 api_to_user_mentoring_request.go
 api_user.go
+api_user_project.go
 api_user_tag.go
 api_way.go
 api_way_collection.go
@@ -79,6 +80,7 @@ docs/SchemasCreatePlanPayload.md
 docs/SchemasCreateProblemPayload.md
 docs/SchemasCreateProjectPayload.md
 docs/SchemasCreateToUserMentoringRequestPayload.md
+docs/SchemasCreateUserProjectPayload.md
 docs/SchemasCreateUserTagPayload.md
 docs/SchemasCreateWayCollectionPayload.md
 docs/SchemasCreateWayCollectionWay.md
@@ -92,6 +94,7 @@ docs/SchemasGenerateMetricsPayload.md
 docs/SchemasGenerateMetricsResponse.md
 docs/SchemasGetAllUsersResponse.md
 docs/SchemasGetAllWaysResponse.md
+docs/SchemasGetProjectsByUserIDResponse.md
 docs/SchemasGetUsersByIDsResponse.md
 docs/SchemasGoogleToken.md
 docs/SchemasJobDonePopulatedResponse.md
@@ -104,7 +107,8 @@ docs/SchemasMetricResponse.md
 docs/SchemasOverallInformation.md
 docs/SchemasPlanPopulatedResponse.md
 docs/SchemasProblemPopulatedResponse.md
-docs/SchemasProjectResponse.md
+docs/SchemasProjectPlainResponse.md
+docs/SchemasProjectPopulatedResponse.md
 docs/SchemasTimeSpentByDayPoint.md
 docs/SchemasToUserMentoringRequestResponse.md
 docs/SchemasUpdateCommentPayload.md
@@ -131,6 +135,7 @@ docs/SchemasWayStatisticsTriplePeriod.md
 docs/SchemasWayTagResponse.md
 docs/ToUserMentoringRequestAPI.md
 docs/UserAPI.md
+docs/UserProjectAPI.md
 docs/UserTagAPI.md
 docs/WayAPI.md
 docs/WayCollectionAPI.md
@@ -169,6 +174,7 @@ model_schemas_create_plan_payload.go
 model_schemas_create_problem_payload.go
 model_schemas_create_project_payload.go
 model_schemas_create_to_user_mentoring_request_payload.go
+model_schemas_create_user_project_payload.go
 model_schemas_create_user_tag_payload.go
 model_schemas_create_way_collection_payload.go
 model_schemas_create_way_collection_way.go
@@ -182,6 +188,7 @@ model_schemas_generate_metrics_payload.go
 model_schemas_generate_metrics_response.go
 model_schemas_get_all_users_response.go
 model_schemas_get_all_ways_response.go
+model_schemas_get_projects_by_user_id_response.go
 model_schemas_get_users_by_ids_response.go
 model_schemas_google_token.go
 model_schemas_job_done_populated_response.go
@@ -194,7 +201,8 @@ model_schemas_metric_response.go
 model_schemas_overall_information.go
 model_schemas_plan_populated_response.go
 model_schemas_problem_populated_response.go
-model_schemas_project_response.go
+model_schemas_project_plain_response.go
+model_schemas_project_populated_response.go
 model_schemas_time_spent_by_day_point.go
 model_schemas_to_user_mentoring_request_response.go
 model_schemas_update_comment_payload.go

@@ -4,19 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CopiedFromWayUuid** | **NullableString** |  | 
+**CopiedFromWayId** | **NullableString** |  | 
 **EstimationTime** | **int32** |  | 
 **GoalDescription** | **string** |  | 
 **IsCompleted** | **bool** |  | 
 **IsPrivate** | **bool** |  | 
 **Name** | **string** |  | 
-**OwnerUuid** | **string** |  | 
+**OwnerId** | **string** |  | 
+**ProjectId** | **NullableString** |  | 
 
 ## Methods
 
 ### NewSchemasCreateWayPayload
 
-`func NewSchemasCreateWayPayload(copiedFromWayUuid NullableString, estimationTime int32, goalDescription string, isCompleted bool, isPrivate bool, name string, ownerUuid string, ) *SchemasCreateWayPayload`
+`func NewSchemasCreateWayPayload(copiedFromWayId NullableString, estimationTime int32, goalDescription string, isCompleted bool, isPrivate bool, name string, ownerId string, projectId NullableString, ) *SchemasCreateWayPayload`
 
 NewSchemasCreateWayPayload instantiates a new SchemasCreateWayPayload object
 This constructor will assign default values to properties that have it defined,
@@ -31,36 +32,36 @@ NewSchemasCreateWayPayloadWithDefaults instantiates a new SchemasCreateWayPayloa
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetCopiedFromWayUuid
+### GetCopiedFromWayId
 
-`func (o *SchemasCreateWayPayload) GetCopiedFromWayUuid() string`
+`func (o *SchemasCreateWayPayload) GetCopiedFromWayId() string`
 
-GetCopiedFromWayUuid returns the CopiedFromWayUuid field if non-nil, zero value otherwise.
+GetCopiedFromWayId returns the CopiedFromWayId field if non-nil, zero value otherwise.
 
-### GetCopiedFromWayUuidOk
+### GetCopiedFromWayIdOk
 
-`func (o *SchemasCreateWayPayload) GetCopiedFromWayUuidOk() (*string, bool)`
+`func (o *SchemasCreateWayPayload) GetCopiedFromWayIdOk() (*string, bool)`
 
-GetCopiedFromWayUuidOk returns a tuple with the CopiedFromWayUuid field if it's non-nil, zero value otherwise
+GetCopiedFromWayIdOk returns a tuple with the CopiedFromWayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCopiedFromWayUuid
+### SetCopiedFromWayId
 
-`func (o *SchemasCreateWayPayload) SetCopiedFromWayUuid(v string)`
+`func (o *SchemasCreateWayPayload) SetCopiedFromWayId(v string)`
 
-SetCopiedFromWayUuid sets CopiedFromWayUuid field to given value.
+SetCopiedFromWayId sets CopiedFromWayId field to given value.
 
 
-### SetCopiedFromWayUuidNil
+### SetCopiedFromWayIdNil
 
-`func (o *SchemasCreateWayPayload) SetCopiedFromWayUuidNil(b bool)`
+`func (o *SchemasCreateWayPayload) SetCopiedFromWayIdNil(b bool)`
 
- SetCopiedFromWayUuidNil sets the value for CopiedFromWayUuid to be an explicit nil
+ SetCopiedFromWayIdNil sets the value for CopiedFromWayId to be an explicit nil
 
-### UnsetCopiedFromWayUuid
-`func (o *SchemasCreateWayPayload) UnsetCopiedFromWayUuid()`
+### UnsetCopiedFromWayId
+`func (o *SchemasCreateWayPayload) UnsetCopiedFromWayId()`
 
-UnsetCopiedFromWayUuid ensures that no value is present for CopiedFromWayUuid, not even an explicit nil
+UnsetCopiedFromWayId ensures that no value is present for CopiedFromWayId, not even an explicit nil
 ### GetEstimationTime
 
 `func (o *SchemasCreateWayPayload) GetEstimationTime() int32`
@@ -161,26 +162,56 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### GetOwnerUuid
+### GetOwnerId
 
-`func (o *SchemasCreateWayPayload) GetOwnerUuid() string`
+`func (o *SchemasCreateWayPayload) GetOwnerId() string`
 
-GetOwnerUuid returns the OwnerUuid field if non-nil, zero value otherwise.
+GetOwnerId returns the OwnerId field if non-nil, zero value otherwise.
 
-### GetOwnerUuidOk
+### GetOwnerIdOk
 
-`func (o *SchemasCreateWayPayload) GetOwnerUuidOk() (*string, bool)`
+`func (o *SchemasCreateWayPayload) GetOwnerIdOk() (*string, bool)`
 
-GetOwnerUuidOk returns a tuple with the OwnerUuid field if it's non-nil, zero value otherwise
+GetOwnerIdOk returns a tuple with the OwnerId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOwnerUuid
+### SetOwnerId
 
-`func (o *SchemasCreateWayPayload) SetOwnerUuid(v string)`
+`func (o *SchemasCreateWayPayload) SetOwnerId(v string)`
 
-SetOwnerUuid sets OwnerUuid field to given value.
+SetOwnerId sets OwnerId field to given value.
 
 
+### GetProjectId
+
+`func (o *SchemasCreateWayPayload) GetProjectId() string`
+
+GetProjectId returns the ProjectId field if non-nil, zero value otherwise.
+
+### GetProjectIdOk
+
+`func (o *SchemasCreateWayPayload) GetProjectIdOk() (*string, bool)`
+
+GetProjectIdOk returns a tuple with the ProjectId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectId
+
+`func (o *SchemasCreateWayPayload) SetProjectId(v string)`
+
+SetProjectId sets ProjectId field to given value.
+
+
+### SetProjectIdNil
+
+`func (o *SchemasCreateWayPayload) SetProjectIdNil(b bool)`
+
+ SetProjectIdNil sets the value for ProjectId to be an explicit nil
+
+### UnsetProjectId
+`func (o *SchemasCreateWayPayload) UnsetProjectId()`
+
+UnsetProjectId ensures that no value is present for ProjectId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

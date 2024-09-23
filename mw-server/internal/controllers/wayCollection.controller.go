@@ -8,7 +8,6 @@ import (
 	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type WayCollectionController struct {
@@ -40,7 +39,7 @@ func (wc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 
 	err := wc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxCustomCollections,
-		UserID:    uuid.MustParse(payload.OwnerUuid),
+		UserID:    payload.OwnerUuid,
 	})
 	util.HandleErrorGin(ctx, err)
 

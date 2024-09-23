@@ -11,22 +11,13 @@ INSERT INTO projects(
     owner_uuid,
     is_private,
     COALESCE(
-            ARRAY(
-                SELECT user_uuid
-                FROM users_projects
-                WHERE users_projects.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT user_uuid
+            FROM users_projects
+            WHERE users_projects.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS user_uuids;
-
--- name: AddUserToProject :one
-INSERT INTO users_projects(
-    user_uuid,
-    project_uuid
-) VALUES (
-    @user_uuid,
-    @project_uuid
-) RETURNING *;
 
 -- name: GetProjectByID :one
 SELECT
@@ -35,23 +26,32 @@ SELECT
     owner_uuid,
     is_private,
     COALESCE(
-            ARRAY(
-                SELECT uuid
-                FROM ways
-                WHERE ways.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT uuid
+            FROM ways
+            WHERE ways.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS way_uuids,
     COALESCE(
-            ARRAY(
-                SELECT user_uuid
-                FROM users_projects
-                WHERE users_projects.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT user_uuid
+            FROM users_projects
+            WHERE users_projects.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS user_uuids
 FROM projects
 WHERE projects.uuid = @project_uuid;
+
+-- name: GetProjectsByUserID :many
+SELECT uuid, name, is_private
+FROM projects
+WHERE projects.uuid IN (
+    SELECT project_uuid
+    FROM users_projects
+    WHERE users_projects.user_uuid = @user_uuid
+);
 
 -- name: UpdateProject :one
 UPDATE projects
@@ -65,18 +65,18 @@ RETURNING
     owner_uuid,
     is_private,
     COALESCE(
-            ARRAY(
-                SELECT uuid
-                FROM ways
-                WHERE ways.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT uuid
+            FROM ways
+            WHERE ways.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS way_uuids,
     COALESCE(
-            ARRAY(
-                SELECT user_uuid
-                FROM users_projects
-                WHERE users_projects.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT user_uuid
+            FROM users_projects
+            WHERE users_projects.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS user_uuids;

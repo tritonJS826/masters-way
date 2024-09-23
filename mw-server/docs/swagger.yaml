@@ -203,10 +203,10 @@ definitions:
     type: object
   schemas.CreateDayReportPayload:
     properties:
-      wayUuid:
+      wayId:
         type: string
     required:
-    - wayUuid
+    - wayId
     type: object
   schemas.CreateFavoriteUserPayload:
     properties:
@@ -379,6 +379,16 @@ definitions:
     - userUuid
     - wayUuid
     type: object
+  schemas.CreateUserProjectPayload:
+    properties:
+      projectId:
+        type: string
+      userId:
+        type: string
+    required:
+    - projectId
+    - userId
+    type: object
   schemas.CreateUserTagPayload:
     properties:
       name:
@@ -411,7 +421,7 @@ definitions:
     type: object
   schemas.CreateWayPayload:
     properties:
-      copiedFromWayUuid:
+      copiedFromWayId:
         type: string
         x-nullable: true
       estimationTime:
@@ -424,16 +434,20 @@ definitions:
         type: boolean
       name:
         type: string
-      ownerUuid:
+      ownerId:
         type: string
+      projectId:
+        type: string
+        x-nullable: true
     required:
-    - copiedFromWayUuid
+    - copiedFromWayId
     - estimationTime
     - goalDescription
     - isCompleted
     - isPrivate
     - name
-    - ownerUuid
+    - ownerId
+    - projectId
     type: object
   schemas.CreateWayTagPayload:
     properties:
@@ -538,6 +552,15 @@ definitions:
     required:
     - size
     - ways
+    type: object
+  schemas.GetProjectsByUserIDResponse:
+    properties:
+      projects:
+        items:
+          $ref: '#/definitions/schemas.ProjectPlainResponse'
+        type: array
+    required:
+    - projects
     type: object
   schemas.GetUsersByIDsResponse:
     properties:
@@ -788,7 +811,20 @@ definitions:
     - wayName
     - wayUuid
     type: object
-  schemas.ProjectResponse:
+  schemas.ProjectPlainResponse:
+    properties:
+      id:
+        type: string
+      isPrivate:
+        type: boolean
+      name:
+        type: string
+    required:
+    - id
+    - isPrivate
+    - name
+    type: object
+  schemas.ProjectPopulatedResponse:
     properties:
       id:
         type: string
@@ -1103,7 +1139,7 @@ definitions:
         items:
           type: string
         type: array
-      copiedFromWayUuid:
+      copiedFromWayId:
         type: string
         x-nullable: true
       createdAt:
@@ -1115,6 +1151,8 @@ definitions:
       favoriteForUsers:
         type: integer
       goalDescription:
+        type: string
+      id:
         type: string
       isCompleted:
         type: boolean
@@ -1134,20 +1172,19 @@ definitions:
         $ref: '#/definitions/schemas.UserPlainResponse'
       updatedAt:
         type: string
-      uuid:
-        type: string
       wayTags:
         items:
           $ref: '#/definitions/schemas.WayTagResponse'
         type: array
     required:
     - childrenUuids
-    - copiedFromWayUuid
+    - copiedFromWayId
     - createdAt
     - dayReportsAmount
     - estimationTime
     - favoriteForUsers
     - goalDescription
+    - id
     - isCompleted
     - isPrivate
     - mentors
@@ -1156,7 +1193,6 @@ definitions:
     - name
     - owner
     - updatedAt
-    - uuid
     - wayTags
     type: object
   schemas.WayPopulatedResponse:
@@ -1165,7 +1201,7 @@ definitions:
         items:
           $ref: '#/definitions/schemas.WayPopulatedResponse'
         type: array
-      copiedFromWayUuid:
+      copiedFromWayId:
         type: string
         x-nullable: true
       createdAt:
@@ -1179,6 +1215,8 @@ definitions:
           $ref: '#/definitions/schemas.UserPlainResponse'
         type: array
       goalDescription:
+        type: string
+      id:
         type: string
       isCompleted:
         type: boolean
@@ -1206,20 +1244,19 @@ definitions:
         $ref: '#/definitions/schemas.UserPlainResponse'
       updatedAt:
         type: string
-      uuid:
-        type: string
       wayTags:
         items:
           $ref: '#/definitions/schemas.WayTagResponse'
         type: array
     required:
     - children
-    - copiedFromWayUuid
+    - copiedFromWayId
     - createdAt
     - estimationTime
     - favoriteForUsersAmount
     - formerMentors
     - goalDescription
+    - id
     - isCompleted
     - isPrivate
     - jobTags
@@ -1229,7 +1266,6 @@ definitions:
     - name
     - owner
     - updatedAt
-    - uuid
     - wayTags
     type: object
   schemas.WayStatistics:
@@ -2381,6 +2417,20 @@ paths:
       tags:
       - project
   /projects:
+    get:
+      consumes:
+      - application/json
+      operationId: get-projects-by-user-id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.GetProjectsByUserIDResponse'
+      summary: Get projects by user id
+      tags:
+      - project
     post:
       consumes:
       - application/json
@@ -2398,7 +2448,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProjectResponse'
+            $ref: '#/definitions/schemas.ProjectPopulatedResponse'
       summary: Create a new project
       tags:
       - project
@@ -2419,7 +2469,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProjectResponse'
+            $ref: '#/definitions/schemas.ProjectPopulatedResponse'
       summary: Get project by id
       tags:
       - project
@@ -2445,7 +2495,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProjectResponse'
+            $ref: '#/definitions/schemas.ProjectPopulatedResponse'
       summary: Update project by id
       tags:
       - project
@@ -2495,6 +2545,50 @@ paths:
       summary: Delete toUserMentoringReques by UUID
       tags:
       - toUserMentoringRequest
+  /userProjects:
+    post:
+      consumes:
+      - application/json
+      operationId: create-userProject
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateUserProjectPayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Add user to project
+      tags:
+      - userProject
+  /userProjects/{projectId}/{userId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-userProject
+      parameters:
+      - description: project ID
+        in: path
+        name: projectId
+        required: true
+        type: string
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete userProject by UUID
+      tags:
+      - userProject
   /userTags:
     post:
       consumes:

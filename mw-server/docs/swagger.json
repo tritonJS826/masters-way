@@ -1686,6 +1686,27 @@
             }
         },
         "/projects": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Get projects by user id",
+                "operationId": "get-projects-by-user-id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetProjectsByUserIDResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -1713,7 +1734,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectResponse"
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1745,7 +1766,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectResponse"
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1784,7 +1805,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectResponse"
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1849,6 +1870,73 @@
                         "type": "string",
                         "description": "way UUID",
                         "name": "wayUuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/userProjects": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userProject"
+                ],
+                "summary": "Add user to project",
+                "operationId": "create-userProject",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateUserProjectPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/userProjects/{projectId}/{userId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userProject"
+                ],
+                "summary": "Delete userProject by UUID",
+                "operationId": "delete-userProject",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project ID",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
                         "in": "path",
                         "required": true
                     }
@@ -2858,10 +2946,10 @@
         "schemas.CreateDayReportPayload": {
             "type": "object",
             "required": [
-                "wayUuid"
+                "wayId"
             ],
             "properties": {
-                "wayUuid": {
+                "wayId": {
                     "type": "string"
                 }
             }
@@ -3116,6 +3204,21 @@
                 }
             }
         },
+        "schemas.CreateUserProjectPayload": {
+            "type": "object",
+            "required": [
+                "projectId",
+                "userId"
+            ],
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CreateUserTagPayload": {
             "type": "object",
             "required": [
@@ -3164,16 +3267,17 @@
         "schemas.CreateWayPayload": {
             "type": "object",
             "required": [
-                "copiedFromWayUuid",
+                "copiedFromWayId",
                 "estimationTime",
                 "goalDescription",
                 "isCompleted",
                 "isPrivate",
                 "name",
-                "ownerUuid"
+                "ownerId",
+                "projectId"
             ],
             "properties": {
-                "copiedFromWayUuid": {
+                "copiedFromWayId": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -3192,8 +3296,12 @@
                 "name": {
                     "type": "string"
                 },
-                "ownerUuid": {
+                "ownerId": {
                     "type": "string"
+                },
+                "projectId": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },
@@ -3348,6 +3456,20 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
+        "schemas.GetProjectsByUserIDResponse": {
+            "type": "object",
+            "required": [
+                "projects"
+            ],
+            "properties": {
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ProjectPlainResponse"
                     }
                 }
             }
@@ -3705,7 +3827,26 @@
                 }
             }
         },
-        "schemas.ProjectResponse": {
+        "schemas.ProjectPlainResponse": {
+            "type": "object",
+            "required": [
+                "id",
+                "isPrivate",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.ProjectPopulatedResponse": {
             "type": "object",
             "required": [
                 "id",
@@ -4157,12 +4298,13 @@
             "type": "object",
             "required": [
                 "childrenUuids",
-                "copiedFromWayUuid",
+                "copiedFromWayId",
                 "createdAt",
                 "dayReportsAmount",
                 "estimationTime",
                 "favoriteForUsers",
                 "goalDescription",
+                "id",
                 "isCompleted",
                 "isPrivate",
                 "mentors",
@@ -4171,7 +4313,6 @@
                 "name",
                 "owner",
                 "updatedAt",
-                "uuid",
                 "wayTags"
             ],
             "properties": {
@@ -4181,7 +4322,7 @@
                         "type": "string"
                     }
                 },
-                "copiedFromWayUuid": {
+                "copiedFromWayId": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -4198,6 +4339,9 @@
                     "type": "integer"
                 },
                 "goalDescription": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "isCompleted": {
@@ -4227,9 +4371,6 @@
                 "updatedAt": {
                     "type": "string"
                 },
-                "uuid": {
-                    "type": "string"
-                },
                 "wayTags": {
                     "type": "array",
                     "items": {
@@ -4242,12 +4383,13 @@
             "type": "object",
             "required": [
                 "children",
-                "copiedFromWayUuid",
+                "copiedFromWayId",
                 "createdAt",
                 "estimationTime",
                 "favoriteForUsersAmount",
                 "formerMentors",
                 "goalDescription",
+                "id",
                 "isCompleted",
                 "isPrivate",
                 "jobTags",
@@ -4257,7 +4399,6 @@
                 "name",
                 "owner",
                 "updatedAt",
-                "uuid",
                 "wayTags"
             ],
             "properties": {
@@ -4267,7 +4408,7 @@
                         "$ref": "#/definitions/schemas.WayPopulatedResponse"
                     }
                 },
-                "copiedFromWayUuid": {
+                "copiedFromWayId": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -4287,6 +4428,9 @@
                     }
                 },
                 "goalDescription": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "isCompleted": {
@@ -4326,9 +4470,6 @@
                     "$ref": "#/definitions/schemas.UserPlainResponse"
                 },
                 "updatedAt": {
-                    "type": "string"
-                },
-                "uuid": {
                     "type": "string"
                 },
                 "wayTags": {

@@ -11,7 +11,6 @@ import (
 )
 
 type Querier interface {
-	AddUserToProject(ctx context.Context, arg AddUserToProjectParams) (UsersProject, error)
 	AddWayToCompositeWay(ctx context.Context, arg AddWayToCompositeWayParams) (CompositeWay, error)
 	CountUsers(ctx context.Context, arg CountUsersParams) (int64, error)
 	// TODO: Add filter by project
@@ -34,6 +33,7 @@ type Querier interface {
 	CreateToUserMentoringRequest(ctx context.Context, arg CreateToUserMentoringRequestParams) (ToUserMentoringRequest, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
 	CreateUserTag(ctx context.Context, tagName string) (UserTag, error)
+	CreateUsersProjects(ctx context.Context, arg CreateUsersProjectsParams) (UsersProject, error)
 	CreateUsersUserTag(ctx context.Context, arg CreateUsersUserTagParams) (UsersUserTag, error)
 	CreateWay(ctx context.Context, arg CreateWayParams) (CreateWayRow, error)
 	CreateWayCollection(ctx context.Context, arg CreateWayCollectionParams) (WayCollection, error)
@@ -56,6 +56,7 @@ type Querier interface {
 	DeleteToUserMentoringRequestByIds(ctx context.Context, arg DeleteToUserMentoringRequestByIdsParams) error
 	DeleteUser(ctx context.Context, userUuid pgtype.UUID) error
 	DeleteUserTagFromUser(ctx context.Context, arg DeleteUserTagFromUserParams) error
+	DeleteUsersProjects(ctx context.Context, arg DeleteUsersProjectsParams) error
 	DeleteWay(ctx context.Context, wayUuid pgtype.UUID) error
 	DeleteWayCollection(ctx context.Context, wayCollectionsUuid pgtype.UUID) error
 	DeleteWayCollectionsWaysByIds(ctx context.Context, arg DeleteWayCollectionsWaysByIdsParams) error
@@ -108,6 +109,7 @@ type Querier interface {
 	GetPrivateWaysCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetProblemsByDayReportUuids(ctx context.Context, dollar_1 []pgtype.UUID) ([]Problem, error)
 	GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (GetProjectByIDRow, error)
+	GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]GetProjectsByUserIDRow, error)
 	GetTagsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetTimeSpentByDayChart(ctx context.Context, arg GetTimeSpentByDayChartParams) ([]GetTimeSpentByDayChartRow, error)
 	GetToMentorUserRequestsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)

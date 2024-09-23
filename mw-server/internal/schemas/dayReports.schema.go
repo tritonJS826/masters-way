@@ -1,11 +1,7 @@
 package schemas
 
-import (
-	"github.com/google/uuid"
-)
-
 type CreateDayReportPayload struct {
-	WayUuid uuid.UUID `json:"wayUuid" validate:"required"`
+	WayID string `json:"wayId" validate:"required"`
 }
 
 type DayReportsCompositionParticipants struct {

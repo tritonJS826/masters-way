@@ -11,28 +11,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const addUserToProject = `-- name: AddUserToProject :one
-INSERT INTO users_projects(
-    user_uuid,
-    project_uuid
-) VALUES (
-    $1,
-    $2
-) RETURNING user_uuid, project_uuid
-`
-
-type AddUserToProjectParams struct {
-	UserUuid    pgtype.UUID `json:"user_uuid"`
-	ProjectUuid pgtype.UUID `json:"project_uuid"`
-}
-
-func (q *Queries) AddUserToProject(ctx context.Context, arg AddUserToProjectParams) (UsersProject, error) {
-	row := q.db.QueryRow(ctx, addUserToProject, arg.UserUuid, arg.ProjectUuid)
-	var i UsersProject
-	err := row.Scan(&i.UserUuid, &i.ProjectUuid)
-	return i, err
-}
-
 const createProject = `-- name: CreateProject :one
 INSERT INTO projects(
     name,
@@ -46,12 +24,12 @@ INSERT INTO projects(
     owner_uuid,
     is_private,
     COALESCE(
-            ARRAY(
-                SELECT user_uuid
-                FROM users_projects
-                WHERE users_projects.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT user_uuid
+            FROM users_projects
+            WHERE users_projects.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS user_uuids
 `
 
@@ -88,20 +66,20 @@ SELECT
     owner_uuid,
     is_private,
     COALESCE(
-            ARRAY(
-                SELECT uuid
-                FROM ways
-                WHERE ways.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT uuid
+            FROM ways
+            WHERE ways.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS way_uuids,
     COALESCE(
-            ARRAY(
-                SELECT user_uuid
-                FROM users_projects
-                WHERE users_projects.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT user_uuid
+            FROM users_projects
+            WHERE users_projects.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS user_uuids
 FROM projects
 WHERE projects.uuid = $1
@@ -130,6 +108,42 @@ func (q *Queries) GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (
 	return i, err
 }
 
+const getProjectsByUserID = `-- name: GetProjectsByUserID :many
+SELECT uuid, name, is_private
+FROM projects
+WHERE projects.uuid IN (
+    SELECT project_uuid
+    FROM users_projects
+    WHERE users_projects.user_uuid = $1
+)
+`
+
+type GetProjectsByUserIDRow struct {
+	Uuid      pgtype.UUID `json:"uuid"`
+	Name      string      `json:"name"`
+	IsPrivate bool        `json:"is_private"`
+}
+
+func (q *Queries) GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]GetProjectsByUserIDRow, error) {
+	rows, err := q.db.Query(ctx, getProjectsByUserID, userUuid)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetProjectsByUserIDRow{}
+	for rows.Next() {
+		var i GetProjectsByUserIDRow
+		if err := rows.Scan(&i.Uuid, &i.Name, &i.IsPrivate); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateProject = `-- name: UpdateProject :one
 UPDATE projects
 SET name = coalesce($1, name),
@@ -142,20 +156,20 @@ RETURNING
     owner_uuid,
     is_private,
     COALESCE(
-            ARRAY(
-                SELECT uuid
-                FROM ways
-                WHERE ways.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT uuid
+            FROM ways
+            WHERE ways.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS way_uuids,
     COALESCE(
-            ARRAY(
-                SELECT user_uuid
-                FROM users_projects
-                WHERE users_projects.project_uuid = uuid
-            ),
-            '{}'
+        ARRAY(
+            SELECT user_uuid
+            FROM users_projects
+            WHERE users_projects.project_uuid = uuid
+        ),
+        '{}'
     )::VARCHAR[] AS user_uuids
 `
 

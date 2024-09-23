@@ -52,7 +52,7 @@ func (wc *WayController) CreateWay(ctx *gin.Context) {
 
 	err := wc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxOwnWays,
-		UserID:    payload.OwnerUuid,
+		UserID:    payload.OwnerID,
 	})
 	util.HandleErrorGin(ctx, err)
 
@@ -83,7 +83,7 @@ func (wc *WayController) UpdateWay(ctx *gin.Context) {
 	}
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := uuid.MustParse(userIDRaw.(string))
+	userID := userIDRaw.(string)
 
 	if payload.IsPrivate != nil && *payload.IsPrivate {
 		err := wc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{

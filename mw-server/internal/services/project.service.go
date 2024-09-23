@@ -10,11 +10,13 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/samber/lo"
 )
 
 type IProjectRepository interface {
 	CreateProject(ctx context.Context, arg db.CreateProjectParams) (db.CreateProjectRow, error)
-	AddUserToProject(ctx context.Context, arg db.AddUserToProjectParams) (db.UsersProject, error)
+	CreateUsersProjects(ctx context.Context, arg db.CreateUsersProjectsParams) (db.UsersProject, error)
+	GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]db.GetProjectsByUserIDRow, error)
 	GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (db.GetProjectByIDRow, error)
 	UpdateProject(ctx context.Context, arg db.UpdateProjectParams) (db.UpdateProjectRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
@@ -56,11 +58,11 @@ func (ps *ProjectService) CreateProject(ctx context.Context, payload *schemas.Cr
 		return nil, err
 	}
 
-	addUserToProjectParams := db.AddUserToProjectParams{
+	createUserToProjectParams := db.CreateUsersProjectsParams{
 		UserUuid:    project.OwnerUuid,
 		ProjectUuid: project.Uuid,
 	}
-	addedUser, err := projectRepositoryTx.AddUserToProject(ctx, addUserToProjectParams)
+	addedUser, err := projectRepositoryTx.CreateUsersProjects(ctx, createUserToProjectParams)
 	if err != nil {
 		return nil, err
 	}
@@ -128,6 +130,23 @@ func (ps *ProjectService) GetProjectByID(ctx context.Context, projectID string) 
 		WayIDs:    project.WayUuids,
 		UserIDs:   project.UserUuids,
 	}, nil
+}
+
+func (ps *ProjectService) GetProjectsByUserID(ctx context.Context, userID string) ([]schemas.ProjectPlainResponse, error) {
+	projectsRaw, err := ps.projectRepository.GetProjectsByUserID(ctx, pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true})
+	if err != nil {
+		return nil, err
+	}
+
+	projects := lo.Map(projectsRaw, func(projectRaw db.GetProjectsByUserIDRow, _ int) schemas.ProjectPlainResponse {
+		return schemas.ProjectPlainResponse{
+			ID:        util.ConvertPgUUIDToUUID(projectRaw.Uuid).String(),
+			Name:      projectRaw.Name,
+			IsPrivate: projectRaw.IsPrivate,
+		}
+	})
+
+	return projects, nil
 }
 
 func (ps *ProjectService) DeleteProjectById(ctx context.Context, projectID string) error {

@@ -5,12 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Children** | [**[]SchemasWayPopulatedResponse**](SchemasWayPopulatedResponse.md) |  | 
-**CopiedFromWayUuid** | **NullableString** |  | 
+**CopiedFromWayId** | **NullableString** |  | 
 **CreatedAt** | **string** |  | 
 **EstimationTime** | **int32** |  | 
 **FavoriteForUsersAmount** | **int32** |  | 
 **FormerMentors** | [**[]SchemasUserPlainResponse**](SchemasUserPlainResponse.md) |  | 
 **GoalDescription** | **string** |  | 
+**Id** | **string** |  | 
 **IsCompleted** | **bool** |  | 
 **IsPrivate** | **bool** |  | 
 **JobTags** | [**[]SchemasJobTagResponse**](SchemasJobTagResponse.md) |  | 
@@ -20,14 +21,13 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Owner** | [**SchemasUserPlainResponse**](SchemasUserPlainResponse.md) |  | 
 **UpdatedAt** | **string** |  | 
-**Uuid** | **string** |  | 
 **WayTags** | [**[]SchemasWayTagResponse**](SchemasWayTagResponse.md) |  | 
 
 ## Methods
 
 ### NewSchemasWayPopulatedResponse
 
-`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
+`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayId NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, id string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
 
 NewSchemasWayPopulatedResponse instantiates a new SchemasWayPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -62,36 +62,36 @@ and a boolean to check if the value has been set.
 SetChildren sets Children field to given value.
 
 
-### GetCopiedFromWayUuid
+### GetCopiedFromWayId
 
-`func (o *SchemasWayPopulatedResponse) GetCopiedFromWayUuid() string`
+`func (o *SchemasWayPopulatedResponse) GetCopiedFromWayId() string`
 
-GetCopiedFromWayUuid returns the CopiedFromWayUuid field if non-nil, zero value otherwise.
+GetCopiedFromWayId returns the CopiedFromWayId field if non-nil, zero value otherwise.
 
-### GetCopiedFromWayUuidOk
+### GetCopiedFromWayIdOk
 
-`func (o *SchemasWayPopulatedResponse) GetCopiedFromWayUuidOk() (*string, bool)`
+`func (o *SchemasWayPopulatedResponse) GetCopiedFromWayIdOk() (*string, bool)`
 
-GetCopiedFromWayUuidOk returns a tuple with the CopiedFromWayUuid field if it's non-nil, zero value otherwise
+GetCopiedFromWayIdOk returns a tuple with the CopiedFromWayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCopiedFromWayUuid
+### SetCopiedFromWayId
 
-`func (o *SchemasWayPopulatedResponse) SetCopiedFromWayUuid(v string)`
+`func (o *SchemasWayPopulatedResponse) SetCopiedFromWayId(v string)`
 
-SetCopiedFromWayUuid sets CopiedFromWayUuid field to given value.
+SetCopiedFromWayId sets CopiedFromWayId field to given value.
 
 
-### SetCopiedFromWayUuidNil
+### SetCopiedFromWayIdNil
 
-`func (o *SchemasWayPopulatedResponse) SetCopiedFromWayUuidNil(b bool)`
+`func (o *SchemasWayPopulatedResponse) SetCopiedFromWayIdNil(b bool)`
 
- SetCopiedFromWayUuidNil sets the value for CopiedFromWayUuid to be an explicit nil
+ SetCopiedFromWayIdNil sets the value for CopiedFromWayId to be an explicit nil
 
-### UnsetCopiedFromWayUuid
-`func (o *SchemasWayPopulatedResponse) UnsetCopiedFromWayUuid()`
+### UnsetCopiedFromWayId
+`func (o *SchemasWayPopulatedResponse) UnsetCopiedFromWayId()`
 
-UnsetCopiedFromWayUuid ensures that no value is present for CopiedFromWayUuid, not even an explicit nil
+UnsetCopiedFromWayId ensures that no value is present for CopiedFromWayId, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *SchemasWayPopulatedResponse) GetCreatedAt() string`
@@ -190,6 +190,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasWayPopulatedResponse) SetGoalDescription(v string)`
 
 SetGoalDescription sets GoalDescription field to given value.
+
+
+### GetId
+
+`func (o *SchemasWayPopulatedResponse) GetId() string`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *SchemasWayPopulatedResponse) GetIdOk() (*string, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *SchemasWayPopulatedResponse) SetId(v string)`
+
+SetId sets Id field to given value.
 
 
 ### GetIsCompleted
@@ -370,26 +390,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasWayPopulatedResponse) SetUpdatedAt(v string)`
 
 SetUpdatedAt sets UpdatedAt field to given value.
-
-
-### GetUuid
-
-`func (o *SchemasWayPopulatedResponse) GetUuid() string`
-
-GetUuid returns the Uuid field if non-nil, zero value otherwise.
-
-### GetUuidOk
-
-`func (o *SchemasWayPopulatedResponse) GetUuidOk() (*string, bool)`
-
-GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUuid
-
-`func (o *SchemasWayPopulatedResponse) SetUuid(v string)`
-
-SetUuid sets Uuid field to given value.
 
 
 ### GetWayTags

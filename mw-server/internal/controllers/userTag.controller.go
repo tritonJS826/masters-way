@@ -8,7 +8,6 @@ import (
 	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type UserTagController struct {
@@ -38,10 +37,9 @@ func (uc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		return
 	}
 
-	userID := uuid.MustParse(payload.OwnerUuid)
 	err := uc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxUserTags,
-		UserID:    userID,
+		UserID:    payload.OwnerUuid,
 	})
 	util.HandleErrorGin(ctx, err)
 

@@ -98,12 +98,12 @@ func (drc *DayReportController) CreateDayReport(ctx *gin.Context) {
 
 	err := drc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxDayReports,
-		UserID:    uuid.MustParse(userID),
-		WayID:     &payload.WayUuid,
+		UserID:    userID,
+		WayID:     &payload.WayID,
 	})
 	util.HandleErrorGin(ctx, err)
 
-	response, err := drc.dayReportService.CreateDayReport(ctx, payload.WayUuid)
+	response, err := drc.dayReportService.CreateDayReport(ctx, payload.WayID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

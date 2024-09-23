@@ -56,7 +56,7 @@ func TestAddWayToCompositeWay(t *testing.T) {
 
 		isChildExists := false
 		for _, child := range way.Children {
-			if child.Uuid == childWayID {
+			if child.Id == childWayID {
 				isChildExists = true
 				break
 			}
@@ -101,7 +101,7 @@ func TestDeleteCompositeWayRelation(t *testing.T) {
 
 		isChildExists := false
 		for _, child := range way.Children {
-			if child.Uuid == childWayID {
+			if child.Id == childWayID {
 				isChildExists = true
 				break
 			}

@@ -21,20 +21,7 @@ INSERT INTO ways(
     @is_completed,
     @owner_uuid,
     @project_uuid
-) RETURNING
-    *,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid) AS way_metrics_total,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid AND metrics.is_done = true) AS way_metrics_done,
-    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = @way_uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
-    COALESCE(
-        ARRAY(
-            SELECT composite_ways.child_uuid
-            FROM composite_ways
-            WHERE composite_ways.parent_uuid = ways.uuid
-        ),
-        '{}'
-    )::VARCHAR[] AS children_uuids;
+) RETURNING uuid, copied_from_way_uuid;
 
 -- TODO exclude ways from private projects for initiator user
 -- name: GetWayById :one

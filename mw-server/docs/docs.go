@@ -1694,6 +1694,27 @@ const docTemplate = `{
             }
         },
         "/projects": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Get projects by user id",
+                "operationId": "get-projects-by-user-id",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetProjectsByUserIDResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -1721,7 +1742,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectResponse"
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1753,7 +1774,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectResponse"
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1792,7 +1813,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectResponse"
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1857,6 +1878,73 @@ const docTemplate = `{
                         "type": "string",
                         "description": "way UUID",
                         "name": "wayUuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/userProjects": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userProject"
+                ],
+                "summary": "Add user to project",
+                "operationId": "create-userProject",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateUserProjectPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/userProjects/{projectId}/{userId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userProject"
+                ],
+                "summary": "Delete userProject by UUID",
+                "operationId": "delete-userProject",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project ID",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
                         "in": "path",
                         "required": true
                     }
@@ -2866,10 +2954,10 @@ const docTemplate = `{
         "schemas.CreateDayReportPayload": {
             "type": "object",
             "required": [
-                "wayUuid"
+                "wayId"
             ],
             "properties": {
-                "wayUuid": {
+                "wayId": {
                     "type": "string"
                 }
             }
@@ -3124,6 +3212,21 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.CreateUserProjectPayload": {
+            "type": "object",
+            "required": [
+                "projectId",
+                "userId"
+            ],
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.CreateUserTagPayload": {
             "type": "object",
             "required": [
@@ -3172,16 +3275,17 @@ const docTemplate = `{
         "schemas.CreateWayPayload": {
             "type": "object",
             "required": [
-                "copiedFromWayUuid",
+                "copiedFromWayId",
                 "estimationTime",
                 "goalDescription",
                 "isCompleted",
                 "isPrivate",
                 "name",
-                "ownerUuid"
+                "ownerId",
+                "projectId"
             ],
             "properties": {
-                "copiedFromWayUuid": {
+                "copiedFromWayId": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -3200,8 +3304,12 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "ownerUuid": {
+                "ownerId": {
                     "type": "string"
+                },
+                "projectId": {
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },
@@ -3356,6 +3464,20 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
+        "schemas.GetProjectsByUserIDResponse": {
+            "type": "object",
+            "required": [
+                "projects"
+            ],
+            "properties": {
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ProjectPlainResponse"
                     }
                 }
             }
@@ -3713,7 +3835,26 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.ProjectResponse": {
+        "schemas.ProjectPlainResponse": {
+            "type": "object",
+            "required": [
+                "id",
+                "isPrivate",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.ProjectPopulatedResponse": {
             "type": "object",
             "required": [
                 "id",
@@ -4165,12 +4306,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "childrenUuids",
-                "copiedFromWayUuid",
+                "copiedFromWayId",
                 "createdAt",
                 "dayReportsAmount",
                 "estimationTime",
                 "favoriteForUsers",
                 "goalDescription",
+                "id",
                 "isCompleted",
                 "isPrivate",
                 "mentors",
@@ -4179,7 +4321,6 @@ const docTemplate = `{
                 "name",
                 "owner",
                 "updatedAt",
-                "uuid",
                 "wayTags"
             ],
             "properties": {
@@ -4189,7 +4330,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "copiedFromWayUuid": {
+                "copiedFromWayId": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -4206,6 +4347,9 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "goalDescription": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "isCompleted": {
@@ -4235,9 +4379,6 @@ const docTemplate = `{
                 "updatedAt": {
                     "type": "string"
                 },
-                "uuid": {
-                    "type": "string"
-                },
                 "wayTags": {
                     "type": "array",
                     "items": {
@@ -4250,12 +4391,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "children",
-                "copiedFromWayUuid",
+                "copiedFromWayId",
                 "createdAt",
                 "estimationTime",
                 "favoriteForUsersAmount",
                 "formerMentors",
                 "goalDescription",
+                "id",
                 "isCompleted",
                 "isPrivate",
                 "jobTags",
@@ -4265,7 +4407,6 @@ const docTemplate = `{
                 "name",
                 "owner",
                 "updatedAt",
-                "uuid",
                 "wayTags"
             ],
             "properties": {
@@ -4275,7 +4416,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/schemas.WayPopulatedResponse"
                     }
                 },
-                "copiedFromWayUuid": {
+                "copiedFromWayId": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -4295,6 +4436,9 @@ const docTemplate = `{
                     }
                 },
                 "goalDescription": {
+                    "type": "string"
+                },
+                "id": {
                     "type": "string"
                 },
                 "isCompleted": {
@@ -4334,9 +4478,6 @@ const docTemplate = `{
                     "$ref": "#/definitions/schemas.UserPlainResponse"
                 },
                 "updatedAt": {
-                    "type": "string"
-                },
-                "uuid": {
                     "type": "string"
                 },
                 "wayTags": {

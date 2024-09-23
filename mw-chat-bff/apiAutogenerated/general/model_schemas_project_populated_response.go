@@ -16,27 +16,27 @@ import (
 	"fmt"
 )
 
-// checks if the SchemasProjectResponse type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &SchemasProjectResponse{}
+// checks if the SchemasProjectPopulatedResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &SchemasProjectPopulatedResponse{}
 
-// SchemasProjectResponse struct for SchemasProjectResponse
-type SchemasProjectResponse struct {
-	Id string `json:"id"`
-	IsPrivate bool `json:"isPrivate"`
-	Name string `json:"name"`
-	OwnerId string `json:"ownerId"`
-	Users []SchemasUserPlainResponseWithInfo `json:"users"`
-	Ways []SchemasWayPlainResponse `json:"ways"`
+// SchemasProjectPopulatedResponse struct for SchemasProjectPopulatedResponse
+type SchemasProjectPopulatedResponse struct {
+	Id string
+	IsPrivate bool
+	Name string
+	OwnerId string
+	Users []SchemasUserPlainResponseWithInfo
+	Ways []SchemasWayPlainResponse
 }
 
-type _SchemasProjectResponse SchemasProjectResponse
+type _SchemasProjectPopulatedResponse SchemasProjectPopulatedResponse
 
-// NewSchemasProjectResponse instantiates a new SchemasProjectResponse object
+// NewSchemasProjectPopulatedResponse instantiates a new SchemasProjectPopulatedResponse object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasProjectResponse(id string, isPrivate bool, name string, ownerId string, users []SchemasUserPlainResponseWithInfo, ways []SchemasWayPlainResponse) *SchemasProjectResponse {
-	this := SchemasProjectResponse{}
+func NewSchemasProjectPopulatedResponse(id string, isPrivate bool, name string, ownerId string, users []SchemasUserPlainResponseWithInfo, ways []SchemasWayPlainResponse) *SchemasProjectPopulatedResponse {
+	this := SchemasProjectPopulatedResponse{}
 	this.Id = id
 	this.IsPrivate = isPrivate
 	this.Name = name
@@ -46,16 +46,16 @@ func NewSchemasProjectResponse(id string, isPrivate bool, name string, ownerId s
 	return &this
 }
 
-// NewSchemasProjectResponseWithDefaults instantiates a new SchemasProjectResponse object
+// NewSchemasProjectPopulatedResponseWithDefaults instantiates a new SchemasProjectPopulatedResponse object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSchemasProjectResponseWithDefaults() *SchemasProjectResponse {
-	this := SchemasProjectResponse{}
+func NewSchemasProjectPopulatedResponseWithDefaults() *SchemasProjectPopulatedResponse {
+	this := SchemasProjectPopulatedResponse{}
 	return &this
 }
 
 // GetId returns the Id field value
-func (o *SchemasProjectResponse) GetId() string {
+func (o *SchemasProjectPopulatedResponse) GetId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -66,7 +66,7 @@ func (o *SchemasProjectResponse) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *SchemasProjectResponse) GetIdOk() (*string, bool) {
+func (o *SchemasProjectPopulatedResponse) GetIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -74,12 +74,12 @@ func (o *SchemasProjectResponse) GetIdOk() (*string, bool) {
 }
 
 // SetId sets field value
-func (o *SchemasProjectResponse) SetId(v string) {
+func (o *SchemasProjectPopulatedResponse) SetId(v string) {
 	o.Id = v
 }
 
 // GetIsPrivate returns the IsPrivate field value
-func (o *SchemasProjectResponse) GetIsPrivate() bool {
+func (o *SchemasProjectPopulatedResponse) GetIsPrivate() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -90,7 +90,7 @@ func (o *SchemasProjectResponse) GetIsPrivate() bool {
 
 // GetIsPrivateOk returns a tuple with the IsPrivate field value
 // and a boolean to check if the value has been set.
-func (o *SchemasProjectResponse) GetIsPrivateOk() (*bool, bool) {
+func (o *SchemasProjectPopulatedResponse) GetIsPrivateOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -98,12 +98,12 @@ func (o *SchemasProjectResponse) GetIsPrivateOk() (*bool, bool) {
 }
 
 // SetIsPrivate sets field value
-func (o *SchemasProjectResponse) SetIsPrivate(v bool) {
+func (o *SchemasProjectPopulatedResponse) SetIsPrivate(v bool) {
 	o.IsPrivate = v
 }
 
 // GetName returns the Name field value
-func (o *SchemasProjectResponse) GetName() string {
+func (o *SchemasProjectPopulatedResponse) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -114,7 +114,7 @@ func (o *SchemasProjectResponse) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *SchemasProjectResponse) GetNameOk() (*string, bool) {
+func (o *SchemasProjectPopulatedResponse) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -122,12 +122,12 @@ func (o *SchemasProjectResponse) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value
-func (o *SchemasProjectResponse) SetName(v string) {
+func (o *SchemasProjectPopulatedResponse) SetName(v string) {
 	o.Name = v
 }
 
 // GetOwnerId returns the OwnerId field value
-func (o *SchemasProjectResponse) GetOwnerId() string {
+func (o *SchemasProjectPopulatedResponse) GetOwnerId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -138,7 +138,7 @@ func (o *SchemasProjectResponse) GetOwnerId() string {
 
 // GetOwnerIdOk returns a tuple with the OwnerId field value
 // and a boolean to check if the value has been set.
-func (o *SchemasProjectResponse) GetOwnerIdOk() (*string, bool) {
+func (o *SchemasProjectPopulatedResponse) GetOwnerIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -146,12 +146,12 @@ func (o *SchemasProjectResponse) GetOwnerIdOk() (*string, bool) {
 }
 
 // SetOwnerId sets field value
-func (o *SchemasProjectResponse) SetOwnerId(v string) {
+func (o *SchemasProjectPopulatedResponse) SetOwnerId(v string) {
 	o.OwnerId = v
 }
 
 // GetUsers returns the Users field value
-func (o *SchemasProjectResponse) GetUsers() []SchemasUserPlainResponseWithInfo {
+func (o *SchemasProjectPopulatedResponse) GetUsers() []SchemasUserPlainResponseWithInfo {
 	if o == nil {
 		var ret []SchemasUserPlainResponseWithInfo
 		return ret
@@ -162,7 +162,7 @@ func (o *SchemasProjectResponse) GetUsers() []SchemasUserPlainResponseWithInfo {
 
 // GetUsersOk returns a tuple with the Users field value
 // and a boolean to check if the value has been set.
-func (o *SchemasProjectResponse) GetUsersOk() ([]SchemasUserPlainResponseWithInfo, bool) {
+func (o *SchemasProjectPopulatedResponse) GetUsersOk() ([]SchemasUserPlainResponseWithInfo, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -170,12 +170,12 @@ func (o *SchemasProjectResponse) GetUsersOk() ([]SchemasUserPlainResponseWithInf
 }
 
 // SetUsers sets field value
-func (o *SchemasProjectResponse) SetUsers(v []SchemasUserPlainResponseWithInfo) {
+func (o *SchemasProjectPopulatedResponse) SetUsers(v []SchemasUserPlainResponseWithInfo) {
 	o.Users = v
 }
 
 // GetWays returns the Ways field value
-func (o *SchemasProjectResponse) GetWays() []SchemasWayPlainResponse {
+func (o *SchemasProjectPopulatedResponse) GetWays() []SchemasWayPlainResponse {
 	if o == nil {
 		var ret []SchemasWayPlainResponse
 		return ret
@@ -186,7 +186,7 @@ func (o *SchemasProjectResponse) GetWays() []SchemasWayPlainResponse {
 
 // GetWaysOk returns a tuple with the Ways field value
 // and a boolean to check if the value has been set.
-func (o *SchemasProjectResponse) GetWaysOk() ([]SchemasWayPlainResponse, bool) {
+func (o *SchemasProjectPopulatedResponse) GetWaysOk() ([]SchemasWayPlainResponse, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -194,11 +194,11 @@ func (o *SchemasProjectResponse) GetWaysOk() ([]SchemasWayPlainResponse, bool) {
 }
 
 // SetWays sets field value
-func (o *SchemasProjectResponse) SetWays(v []SchemasWayPlainResponse) {
+func (o *SchemasProjectPopulatedResponse) SetWays(v []SchemasWayPlainResponse) {
 	o.Ways = v
 }
 
-func (o SchemasProjectResponse) MarshalJSON() ([]byte, error) {
+func (o SchemasProjectPopulatedResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -206,7 +206,7 @@ func (o SchemasProjectResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o SchemasProjectResponse) ToMap() (map[string]interface{}, error) {
+func (o SchemasProjectPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["isPrivate"] = o.IsPrivate
@@ -217,7 +217,7 @@ func (o SchemasProjectResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *SchemasProjectResponse) UnmarshalJSON(data []byte) (err error) {
+func (o *SchemasProjectPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -244,53 +244,53 @@ func (o *SchemasProjectResponse) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varSchemasProjectResponse := _SchemasProjectResponse{}
+	varSchemasProjectPopulatedResponse := _SchemasProjectPopulatedResponse{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
 	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSchemasProjectResponse)
+	err = decoder.Decode(&varSchemasProjectPopulatedResponse)
 
 	if err != nil {
 		return err
 	}
 
-	*o = SchemasProjectResponse(varSchemasProjectResponse)
+	*o = SchemasProjectPopulatedResponse(varSchemasProjectPopulatedResponse)
 
 	return err
 }
 
-type NullableSchemasProjectResponse struct {
-	value *SchemasProjectResponse
+type NullableSchemasProjectPopulatedResponse struct {
+	value *SchemasProjectPopulatedResponse
 	isSet bool
 }
 
-func (v NullableSchemasProjectResponse) Get() *SchemasProjectResponse {
+func (v NullableSchemasProjectPopulatedResponse) Get() *SchemasProjectPopulatedResponse {
 	return v.value
 }
 
-func (v *NullableSchemasProjectResponse) Set(val *SchemasProjectResponse) {
+func (v *NullableSchemasProjectPopulatedResponse) Set(val *SchemasProjectPopulatedResponse) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSchemasProjectResponse) IsSet() bool {
+func (v NullableSchemasProjectPopulatedResponse) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSchemasProjectResponse) Unset() {
+func (v *NullableSchemasProjectPopulatedResponse) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSchemasProjectResponse(val *SchemasProjectResponse) *NullableSchemasProjectResponse {
-	return &NullableSchemasProjectResponse{value: val, isSet: true}
+func NewNullableSchemasProjectPopulatedResponse(val *SchemasProjectPopulatedResponse) *NullableSchemasProjectPopulatedResponse {
+	return &NullableSchemasProjectPopulatedResponse{value: val, isSet: true}
 }
 
-func (v NullableSchemasProjectResponse) MarshalJSON() ([]byte, error) {
+func (v NullableSchemasProjectPopulatedResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSchemasProjectResponse) UnmarshalJSON(src []byte) error {
+func (v *NullableSchemasProjectPopulatedResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

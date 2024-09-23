@@ -76,20 +76,7 @@ INSERT INTO ways(
     $8,
     $9,
     $10
-) RETURNING
-    uuid, name, goal_description, updated_at, created_at, estimation_time, owner_uuid, copied_from_way_uuid, is_completed, is_private, project_uuid,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $11) AS way_metrics_total,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = $11 AND metrics.is_done = true) AS way_metrics_done,
-    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = $11) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = $11) AS way_day_reports_amount,
-    COALESCE(
-        ARRAY(
-            SELECT composite_ways.child_uuid
-            FROM composite_ways
-            WHERE composite_ways.parent_uuid = ways.uuid
-        ),
-        '{}'
-    )::VARCHAR[] AS children_uuids
+) RETURNING uuid, copied_from_way_uuid
 `
 
 type CreateWayParams struct {
@@ -103,26 +90,11 @@ type CreateWayParams struct {
 	IsCompleted       bool             `json:"is_completed"`
 	OwnerUuid         pgtype.UUID      `json:"owner_uuid"`
 	ProjectUuid       pgtype.UUID      `json:"project_uuid"`
-	WayUuid           pgtype.UUID      `json:"way_uuid"`
 }
 
 type CreateWayRow struct {
-	Uuid                pgtype.UUID      `json:"uuid"`
-	Name                string           `json:"name"`
-	GoalDescription     string           `json:"goal_description"`
-	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
-	CreatedAt           pgtype.Timestamp `json:"created_at"`
-	EstimationTime      int32            `json:"estimation_time"`
-	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
-	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
-	IsCompleted         bool             `json:"is_completed"`
-	IsPrivate           bool             `json:"is_private"`
-	ProjectUuid         pgtype.UUID      `json:"project_uuid"`
-	WayMetricsTotal     int64            `json:"way_metrics_total"`
-	WayMetricsDone      int64            `json:"way_metrics_done"`
-	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
-	WayDayReportsAmount int64            `json:"way_day_reports_amount"`
-	ChildrenUuids       []string         `json:"children_uuids"`
+	Uuid              pgtype.UUID `json:"uuid"`
+	CopiedFromWayUuid pgtype.UUID `json:"copied_from_way_uuid"`
 }
 
 func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (CreateWayRow, error) {
@@ -137,27 +109,9 @@ func (q *Queries) CreateWay(ctx context.Context, arg CreateWayParams) (CreateWay
 		arg.IsCompleted,
 		arg.OwnerUuid,
 		arg.ProjectUuid,
-		arg.WayUuid,
 	)
 	var i CreateWayRow
-	err := row.Scan(
-		&i.Uuid,
-		&i.Name,
-		&i.GoalDescription,
-		&i.UpdatedAt,
-		&i.CreatedAt,
-		&i.EstimationTime,
-		&i.OwnerUuid,
-		&i.CopiedFromWayUuid,
-		&i.IsCompleted,
-		&i.IsPrivate,
-		&i.ProjectUuid,
-		&i.WayMetricsTotal,
-		&i.WayMetricsDone,
-		&i.WayFavoriteForUsers,
-		&i.WayDayReportsAmount,
-		&i.ChildrenUuids,
-	)
+	err := row.Scan(&i.Uuid, &i.CopiedFromWayUuid)
 	return i, err
 }
 

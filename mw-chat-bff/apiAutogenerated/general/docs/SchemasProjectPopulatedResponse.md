@@ -1,4 +1,4 @@
-# SchemasProjectResponse
+# SchemasProjectPopulatedResponse
 
 ## Properties
 
@@ -13,139 +13,139 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewSchemasProjectResponse
+### NewSchemasProjectPopulatedResponse
 
-`func NewSchemasProjectResponse(id string, isPrivate bool, name string, ownerId string, users []SchemasUserPlainResponseWithInfo, ways []SchemasWayPlainResponse, ) *SchemasProjectResponse`
+`func NewSchemasProjectPopulatedResponse(id string, isPrivate bool, name string, ownerId string, users []SchemasUserPlainResponseWithInfo, ways []SchemasWayPlainResponse, ) *SchemasProjectPopulatedResponse`
 
-NewSchemasProjectResponse instantiates a new SchemasProjectResponse object
+NewSchemasProjectPopulatedResponse instantiates a new SchemasProjectPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSchemasProjectResponseWithDefaults
+### NewSchemasProjectPopulatedResponseWithDefaults
 
-`func NewSchemasProjectResponseWithDefaults() *SchemasProjectResponse`
+`func NewSchemasProjectPopulatedResponseWithDefaults() *SchemasProjectPopulatedResponse`
 
-NewSchemasProjectResponseWithDefaults instantiates a new SchemasProjectResponse object
+NewSchemasProjectPopulatedResponseWithDefaults instantiates a new SchemasProjectPopulatedResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *SchemasProjectResponse) GetId() string`
+`func (o *SchemasProjectPopulatedResponse) GetId() string`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *SchemasProjectResponse) GetIdOk() (*string, bool)`
+`func (o *SchemasProjectPopulatedResponse) GetIdOk() (*string, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *SchemasProjectResponse) SetId(v string)`
+`func (o *SchemasProjectPopulatedResponse) SetId(v string)`
 
 SetId sets Id field to given value.
 
 
 ### GetIsPrivate
 
-`func (o *SchemasProjectResponse) GetIsPrivate() bool`
+`func (o *SchemasProjectPopulatedResponse) GetIsPrivate() bool`
 
 GetIsPrivate returns the IsPrivate field if non-nil, zero value otherwise.
 
 ### GetIsPrivateOk
 
-`func (o *SchemasProjectResponse) GetIsPrivateOk() (*bool, bool)`
+`func (o *SchemasProjectPopulatedResponse) GetIsPrivateOk() (*bool, bool)`
 
 GetIsPrivateOk returns a tuple with the IsPrivate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsPrivate
 
-`func (o *SchemasProjectResponse) SetIsPrivate(v bool)`
+`func (o *SchemasProjectPopulatedResponse) SetIsPrivate(v bool)`
 
 SetIsPrivate sets IsPrivate field to given value.
 
 
 ### GetName
 
-`func (o *SchemasProjectResponse) GetName() string`
+`func (o *SchemasProjectPopulatedResponse) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *SchemasProjectResponse) GetNameOk() (*string, bool)`
+`func (o *SchemasProjectPopulatedResponse) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *SchemasProjectResponse) SetName(v string)`
+`func (o *SchemasProjectPopulatedResponse) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetOwnerId
 
-`func (o *SchemasProjectResponse) GetOwnerId() string`
+`func (o *SchemasProjectPopulatedResponse) GetOwnerId() string`
 
 GetOwnerId returns the OwnerId field if non-nil, zero value otherwise.
 
 ### GetOwnerIdOk
 
-`func (o *SchemasProjectResponse) GetOwnerIdOk() (*string, bool)`
+`func (o *SchemasProjectPopulatedResponse) GetOwnerIdOk() (*string, bool)`
 
 GetOwnerIdOk returns a tuple with the OwnerId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOwnerId
 
-`func (o *SchemasProjectResponse) SetOwnerId(v string)`
+`func (o *SchemasProjectPopulatedResponse) SetOwnerId(v string)`
 
 SetOwnerId sets OwnerId field to given value.
 
 
 ### GetUsers
 
-`func (o *SchemasProjectResponse) GetUsers() []SchemasUserPlainResponseWithInfo`
+`func (o *SchemasProjectPopulatedResponse) GetUsers() []SchemasUserPlainResponseWithInfo`
 
 GetUsers returns the Users field if non-nil, zero value otherwise.
 
 ### GetUsersOk
 
-`func (o *SchemasProjectResponse) GetUsersOk() (*[]SchemasUserPlainResponseWithInfo, bool)`
+`func (o *SchemasProjectPopulatedResponse) GetUsersOk() (*[]SchemasUserPlainResponseWithInfo, bool)`
 
 GetUsersOk returns a tuple with the Users field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsers
 
-`func (o *SchemasProjectResponse) SetUsers(v []SchemasUserPlainResponseWithInfo)`
+`func (o *SchemasProjectPopulatedResponse) SetUsers(v []SchemasUserPlainResponseWithInfo)`
 
 SetUsers sets Users field to given value.
 
 
 ### GetWays
 
-`func (o *SchemasProjectResponse) GetWays() []SchemasWayPlainResponse`
+`func (o *SchemasProjectPopulatedResponse) GetWays() []SchemasWayPlainResponse`
 
 GetWays returns the Ways field if non-nil, zero value otherwise.
 
 ### GetWaysOk
 
-`func (o *SchemasProjectResponse) GetWaysOk() (*[]SchemasWayPlainResponse, bool)`
+`func (o *SchemasProjectPopulatedResponse) GetWaysOk() (*[]SchemasWayPlainResponse, bool)`
 
 GetWaysOk returns a tuple with the Ways field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWays
 
-`func (o *SchemasProjectResponse) SetWays(v []SchemasWayPlainResponse)`
+`func (o *SchemasProjectPopulatedResponse) SetWays(v []SchemasWayPlainResponse)`
 
 SetWays sets Ways field to given value.
 

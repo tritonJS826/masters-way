@@ -7,13 +7,14 @@ Method | HTTP request | Description
 [**CreateProject**](ProjectAPI.md#CreateProject) | **Post** /projects | Create a new project
 [**DeleteProject**](ProjectAPI.md#DeleteProject) | **Delete** /project/{projectId} | Delete project by id
 [**GetProject**](ProjectAPI.md#GetProject) | **Get** /projects/{projectId} | Get project by id
+[**GetProjectsByUserId**](ProjectAPI.md#GetProjectsByUserId) | **Get** /projects | Get projects by user id
 [**UpdateProject**](ProjectAPI.md#UpdateProject) | **Patch** /projects/{projectId} | Update project by id
 
 
 
 ## CreateProject
 
-> SchemasProjectResponse CreateProject(ctx).Request(request).Execute()
+> SchemasProjectPopulatedResponse CreateProject(ctx).Request(request).Execute()
 
 Create a new project
 
@@ -39,7 +40,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.CreateProject``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateProject`: SchemasProjectResponse
+	// response from `CreateProject`: SchemasProjectPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.CreateProject`: %v\n", resp)
 }
 ```
@@ -59,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasProjectResponse**](SchemasProjectResponse.md)
+[**SchemasProjectPopulatedResponse**](SchemasProjectPopulatedResponse.md)
 
 ### Authorization
 
@@ -143,7 +144,7 @@ No authorization required
 
 ## GetProject
 
-> SchemasProjectResponse GetProject(ctx, projectId).Execute()
+> SchemasProjectPopulatedResponse GetProject(ctx, projectId).Execute()
 
 Get project by id
 
@@ -169,7 +170,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.GetProject``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetProject`: SchemasProjectResponse
+	// response from `GetProject`: SchemasProjectPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.GetProject`: %v\n", resp)
 }
 ```
@@ -193,7 +194,66 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasProjectResponse**](SchemasProjectResponse.md)
+[**SchemasProjectPopulatedResponse**](SchemasProjectPopulatedResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetProjectsByUserId
+
+> SchemasGetProjectsByUserIDResponse GetProjectsByUserId(ctx).Execute()
+
+Get projects by user id
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ProjectAPI.GetProjectsByUserId(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.GetProjectsByUserId``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetProjectsByUserId`: SchemasGetProjectsByUserIDResponse
+	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.GetProjectsByUserId`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetProjectsByUserIdRequest struct via the builder pattern
+
+
+### Return type
+
+[**SchemasGetProjectsByUserIDResponse**](SchemasGetProjectsByUserIDResponse.md)
 
 ### Authorization
 
@@ -211,7 +271,7 @@ No authorization required
 
 ## UpdateProject
 
-> SchemasProjectResponse UpdateProject(ctx, projectId).Request(request).Execute()
+> SchemasProjectPopulatedResponse UpdateProject(ctx, projectId).Request(request).Execute()
 
 Update project by id
 
@@ -238,7 +298,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.UpdateProject``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateProject`: SchemasProjectResponse
+	// response from `UpdateProject`: SchemasProjectPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.UpdateProject`: %v\n", resp)
 }
 ```
@@ -263,7 +323,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasProjectResponse**](SchemasProjectResponse.md)
+[**SchemasProjectPopulatedResponse**](SchemasProjectPopulatedResponse.md)
 
 ### Authorization
 

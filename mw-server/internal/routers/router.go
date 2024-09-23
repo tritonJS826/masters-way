@@ -40,6 +40,7 @@ type Router struct {
 	toUserMentoringRequestRouter   *toUserMentoringRequestRouter
 	userRouter                     *userRouter
 	userTagRouter                  *userTagRouter
+	userProjectRouter              *userProjectRouter
 	wayCollectionRouter            *wayCollectionRouter
 	wayCollectionWayRouter         *wayCollectionWayRouter
 	healthCheckRouter              *healthCheckRouter
@@ -87,6 +88,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		toUserMentoringRequestRouter:   newToUserMentoringRequestRouter(controller.ToUserMentoringRequestController, config),
 		userRouter:                     newUserRouter(controller.UserController, config),
 		userTagRouter:                  newUserTagRouter(controller.UserTagController, config),
+		userProjectRouter:              newUserProjectRouter(controller.UserProjectController, config),
 		wayCollectionRouter:            newWayCollectionRouter(controller.WayCollectionController, config),
 		wayCollectionWayRouter:         newWayCollectionWayRouter(controller.WayCollectionWayController, config),
 		healthCheckRouter:              newHealthCheckRouter(controller.HealthCheckController),
@@ -117,6 +119,7 @@ func (r *Router) SetRoutes() {
 	r.toUserMentoringRequestRouter.setToUserMentoringRequestRoutes(api)
 	r.userRouter.setUserRoutes(api)
 	r.userTagRouter.setUserTagRoutes(api)
+	r.userProjectRouter.setUserProjectRoutes(api)
 	r.wayCollectionRouter.setWayCollectionRoutes(api)
 	r.wayCollectionWayRouter.setWayCollectionWayRoutes(api)
 	r.wayTagRouter.setWayTagRoutes(api)

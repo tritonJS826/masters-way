@@ -79,8 +79,8 @@ func NewLimitService(db *db.Queries) *LimitService {
 
 type LimitReachedParams struct {
 	LimitName LimitNameType
-	UserID    uuid.UUID
-	WayID     *uuid.UUID
+	UserID    string
+	WayID     *string
 }
 
 func (ls *LimitService) CheckIsLimitReachedByPricingPlan(ctx context.Context, params *LimitReachedParams) error {
@@ -89,17 +89,17 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(ctx context.Context, pa
 
 	switch params.LimitName {
 	case MaxOwnWays:
-		count, err = ls.limitRepository.GetOwnWaysCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
+		count, err = ls.limitRepository.GetOwnWaysCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	case MaxPrivateWays:
-		count, err = ls.limitRepository.GetPrivateWaysCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
+		count, err = ls.limitRepository.GetPrivateWaysCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	case MaxMentoringsWays:
-		count, err = ls.limitRepository.GetMentoringWaysCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
+		count, err = ls.limitRepository.GetMentoringWaysCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	case MaxUserTags:
-		count, err = ls.limitRepository.GetTagsCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
+		count, err = ls.limitRepository.GetTagsCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	case MaxCustomCollections:
-		count, err = ls.limitRepository.GetWayCollectionsCountByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
+		count, err = ls.limitRepository.GetWayCollectionsCountByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	case MaxDayReports:
-		count, err = ls.limitRepository.GetDayReportsCountByWayId(ctx, pgtype.UUID{Bytes: *params.WayID, Valid: true})
+		count, err = ls.limitRepository.GetDayReportsCountByWayId(ctx, pgtype.UUID{Bytes: uuid.MustParse(*params.WayID), Valid: true})
 	default:
 		return fmt.Errorf("invalid limit name: %s", params.LimitName)
 	}
@@ -107,7 +107,7 @@ func (ls *LimitService) CheckIsLimitReachedByPricingPlan(ctx context.Context, pa
 		return fmt.Errorf("failed to get count for %s: %w", params.LimitName, err)
 	}
 
-	userPricingPlan, err := ls.limitRepository.GetPricingPlanByUserId(ctx, pgtype.UUID{Bytes: params.UserID, Valid: true})
+	userPricingPlan, err := ls.limitRepository.GetPricingPlanByUserId(ctx, pgtype.UUID{Bytes: uuid.MustParse(params.UserID), Valid: true})
 	if err != nil {
 		return fmt.Errorf("failed to get pricing plan for userID: %w", err)
 	}
