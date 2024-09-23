@@ -122,6 +122,16 @@ services:
       - postgres-survey
     networks:
       - app-network
+  
+  grafana:
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    container_name: grafana
+    ports:
+      - "9876:3000"
+    networks:
+      - app-network
 
   grafana:
     build:
