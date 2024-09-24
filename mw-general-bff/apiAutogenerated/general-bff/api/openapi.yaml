@@ -1,0 +1,562 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  title: Masters way chat API
+  version: "1.0"
+servers:
+- url: /chat
+paths:
+  /files:
+    delete:
+      description: Delete multiple files from the server storage using their IDs
+      operationId: delete-files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                type: string
+              type: array
+        description: List of file IDs to delete
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete files by IDs
+      tags:
+      - file
+      x-codegen-request-body-name: fileIDs
+    post:
+      description: Uploads a file to the server and stores it in the designated storage
+        path
+      operationId: upload-file
+      parameters:
+      - description: Room id
+        in: query
+        name: roomId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/upload_file_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.UploadFileResponse'
+          description: OK
+      summary: Upload file to storage
+      tags:
+      - file
+  /messages:
+    post:
+      operationId: create-message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateMessagePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.MessageResponse'
+          description: OK
+      summary: Create message
+      tags:
+      - message
+      x-codegen-request-body-name: request
+  /messages/{messageId}/message-status:
+    patch:
+      description: Update message status by message Id
+      operationId: update-message-status
+      parameters:
+      - description: message Id
+        in: path
+        name: messageId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.UpdateMessageStatusPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Update message status
+      tags:
+      - message
+      x-codegen-request-body-name: request
+  /rooms:
+    post:
+      operationId: create-room
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateRoomPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Create room for user
+      tags:
+      - room
+      x-codegen-request-body-name: request
+  /rooms/list/{roomType}:
+    get:
+      operationId: get-rooms
+      parameters:
+      - description: "room type: private | group"
+        in: path
+        name: roomType
+        required: true
+        schema:
+          enum:
+          - private
+          - group
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetRoomsResponse'
+          description: OK
+      summary: Get rooms for user
+      tags:
+      - room
+  /rooms/preview:
+    get:
+      operationId: get-chat-preview
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetRoomPreviewResponse'
+          description: OK
+      summary: Get chat preview
+      tags:
+      - room
+  /rooms/{roomId}:
+    get:
+      operationId: get-room-by-id
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Get room by id
+      tags:
+      - room
+    patch:
+      operationId: update-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Update room
+      tags:
+      - room
+  /rooms/{roomId}/users/{userId}:
+    delete:
+      operationId: delete-user-from-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Delete user from room
+      tags:
+      - room
+    post:
+      operationId: add-user-to-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        schema:
+          type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+          description: OK
+      summary: Add user to room
+      tags:
+      - room
+components:
+  schemas:
+    schemas.CreateMessagePayload:
+      properties:
+        message:
+          type: string
+        roomId:
+          type: string
+      required:
+      - message
+      - roomId
+      type: object
+    schemas.CreateRoomPayload:
+      properties:
+        name:
+          nullable: true
+          type: string
+        roomType:
+          type: string
+        userId:
+          nullable: true
+          type: string
+      required:
+      - roomType
+      type: object
+    schemas.GetRoomPreviewResponse:
+      example:
+        unreadMessagesAmount: 0
+      properties:
+        unreadMessagesAmount:
+          type: integer
+      required:
+      - unreadMessagesAmount
+      type: object
+    schemas.GetRoomsResponse:
+      example:
+        rooms:
+        - imageUrl: imageUrl
+          isBlocked: true
+          name: name
+          roomId: roomId
+          roomType: roomType
+          users:
+          - role: role
+            imageUrl: imageUrl
+            name: name
+            userId: userId
+          - role: role
+            imageUrl: imageUrl
+            name: name
+            userId: userId
+        - imageUrl: imageUrl
+          isBlocked: true
+          name: name
+          roomId: roomId
+          roomType: roomType
+          users:
+          - role: role
+            imageUrl: imageUrl
+            name: name
+            userId: userId
+          - role: role
+            imageUrl: imageUrl
+            name: name
+            userId: userId
+        size: 0
+      properties:
+        rooms:
+          items:
+            $ref: '#/components/schemas/schemas.RoomPreviewResponse'
+          type: array
+        size:
+          type: integer
+      required:
+      - rooms
+      - size
+      type: object
+    schemas.MessageReader:
+      example:
+        ownerName: ownerName
+        readDate: readDate
+        userId: userId
+        ownerImageUrl: ownerImageUrl
+      properties:
+        ownerImageUrl:
+          type: string
+        ownerName:
+          type: string
+        readDate:
+          type: string
+        userId:
+          type: string
+      required:
+      - ownerImageUrl
+      - ownerName
+      - readDate
+      - userId
+      type: object
+    schemas.MessageResponse:
+      example:
+        messageReaders:
+        - ownerName: ownerName
+          readDate: readDate
+          userId: userId
+          ownerImageUrl: ownerImageUrl
+        - ownerName: ownerName
+          readDate: readDate
+          userId: userId
+          ownerImageUrl: ownerImageUrl
+        ownerName: ownerName
+        messageId: messageId
+        message: message
+        ownerId: ownerId
+        ownerImageUrl: ownerImageUrl
+      properties:
+        message:
+          type: string
+        messageId:
+          type: string
+        messageReaders:
+          items:
+            $ref: '#/components/schemas/schemas.MessageReader'
+          type: array
+        ownerId:
+          type: string
+        ownerImageUrl:
+          type: string
+        ownerName:
+          type: string
+      required:
+      - message
+      - messageId
+      - messageReaders
+      - ownerId
+      - ownerImageUrl
+      - ownerName
+      type: object
+    schemas.RoomPopulatedResponse:
+      example:
+        imageUrl: imageUrl
+        isBlocked: true
+        name: name
+        messages:
+        - messageReaders:
+          - ownerName: ownerName
+            readDate: readDate
+            userId: userId
+            ownerImageUrl: ownerImageUrl
+          - ownerName: ownerName
+            readDate: readDate
+            userId: userId
+            ownerImageUrl: ownerImageUrl
+          ownerName: ownerName
+          messageId: messageId
+          message: message
+          ownerId: ownerId
+          ownerImageUrl: ownerImageUrl
+        - messageReaders:
+          - ownerName: ownerName
+            readDate: readDate
+            userId: userId
+            ownerImageUrl: ownerImageUrl
+          - ownerName: ownerName
+            readDate: readDate
+            userId: userId
+            ownerImageUrl: ownerImageUrl
+          ownerName: ownerName
+          messageId: messageId
+          message: message
+          ownerId: ownerId
+          ownerImageUrl: ownerImageUrl
+        roomId: roomId
+        roomType: roomType
+        users:
+        - role: role
+          imageUrl: imageUrl
+          name: name
+          userId: userId
+        - role: role
+          imageUrl: imageUrl
+          name: name
+          userId: userId
+      properties:
+        imageUrl:
+          type: string
+        isBlocked:
+          type: boolean
+        messages:
+          items:
+            $ref: '#/components/schemas/schemas.MessageResponse'
+          type: array
+        name:
+          type: string
+        roomId:
+          type: string
+        roomType:
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/schemas.UserResponse'
+          type: array
+      required:
+      - imageUrl
+      - isBlocked
+      - messages
+      - name
+      - roomId
+      - roomType
+      - users
+      type: object
+    schemas.RoomPreviewResponse:
+      example:
+        imageUrl: imageUrl
+        isBlocked: true
+        name: name
+        roomId: roomId
+        roomType: roomType
+        users:
+        - role: role
+          imageUrl: imageUrl
+          name: name
+          userId: userId
+        - role: role
+          imageUrl: imageUrl
+          name: name
+          userId: userId
+      properties:
+        imageUrl:
+          type: string
+        isBlocked:
+          type: boolean
+        name:
+          type: string
+        roomId:
+          type: string
+        roomType:
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/schemas.UserResponse'
+          type: array
+      required:
+      - imageUrl
+      - isBlocked
+      - name
+      - roomId
+      - roomType
+      - users
+      type: object
+    schemas.UpdateMessageStatusPayload:
+      properties:
+        isRead:
+          type: boolean
+      required:
+      - isRead
+      type: object
+    schemas.UploadFileResponse:
+      example:
+        previewUrl: previewUrl
+        name: name
+        srcUrl: srcUrl
+        id: id
+        ownerId: ownerId
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        ownerId:
+          type: string
+        previewUrl:
+          type: string
+        srcUrl:
+          type: string
+      required:
+      - id
+      - name
+      - ownerId
+      - previewUrl
+      - srcUrl
+      type: object
+    schemas.UserResponse:
+      example:
+        role: role
+        imageUrl: imageUrl
+        name: name
+        userId: userId
+      properties:
+        imageUrl:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - role
+      - userId
+      type: object
+    upload_file_request:
+      properties:
+        file:
+          description: File to upload
+          format: binary
+          type: string
+      required:
+      - file
+      type: object
+x-original-swagger-version: "2.0"

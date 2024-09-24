@@ -26,6 +26,17 @@ services:
     networks:
       - app-network
 
+  mw-general-bff:
+    build:
+      context: ./mw-general-bff
+      dockerfile: Dockerfile
+    ports:
+      - "7995:7995"
+    depends_on:
+      - mw-general
+    networks:
+      - app-network
+
   postgres-chat:
     build:
       context: ./postgres
