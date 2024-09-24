@@ -14,7 +14,8 @@
   display: flex;
   flex-direction: column;
   // align-items: center;
-  gap: $gapMedium;
+  margin-top: $marginBig;
+  // gap: $gapMedium;
 }
 
 .formTitle,

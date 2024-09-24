@@ -55,7 +55,7 @@ export interface SchemasWayPopulatedResponse {
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
-    copiedFromWayUuid: string | null;
+    copiedFromWayId: string | null;
     /**
      * 
      * @type {string}
@@ -86,6 +86,12 @@ export interface SchemasWayPopulatedResponse {
      * @memberof SchemasWayPopulatedResponse
      */
     goalDescription: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasWayPopulatedResponse
+     */
+    id: string;
     /**
      * 
      * @type {boolean}
@@ -142,12 +148,6 @@ export interface SchemasWayPopulatedResponse {
     updatedAt: string;
     /**
      * 
-     * @type {string}
-     * @memberof SchemasWayPopulatedResponse
-     */
-    uuid: string;
-    /**
-     * 
      * @type {Array<SchemasWayTagResponse>}
      * @memberof SchemasWayPopulatedResponse
      */
@@ -162,12 +162,13 @@ export function instanceOfSchemasWayPopulatedResponse(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "children" in value;
-    isInstance = isInstance && "copiedFromWayUuid" in value;
+    isInstance = isInstance && "copiedFromWayId" in value;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "favoriteForUsersAmount" in value;
     isInstance = isInstance && "formerMentors" in value;
     isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "id" in value;
     isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "jobTags" in value;
@@ -177,7 +178,6 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "updatedAt" in value;
-    isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "wayTags" in value;
 
     return isInstance;
@@ -197,12 +197,13 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
     return {
         
         'children': ((json['children'] as Array<any>).map(SchemasWayPopulatedResponseFromJSON)),
-        'copiedFromWayUuid': json['copiedFromWayUuid'],
+        'copiedFromWayId': json['copiedFromWayId'],
         'createdAt': json['createdAt'],
         'estimationTime': json['estimationTime'],
         'favoriteForUsersAmount': json['favoriteForUsersAmount'],
         'formerMentors': ((json['formerMentors'] as Array<any>).map(SchemasUserPlainResponseFromJSON)),
         'goalDescription': json['goalDescription'],
+        'id': json['id'],
         'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
         'jobTags': ((json['jobTags'] as Array<any>).map(SchemasJobTagResponseFromJSON)),
@@ -212,7 +213,6 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'name': json['name'],
         'owner': SchemasUserPlainResponseFromJSON(json['owner']),
         'updatedAt': json['updatedAt'],
-        'uuid': json['uuid'],
         'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
     };
 }
@@ -228,12 +228,13 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
     return {
         
         'children': ((value.children as Array<any>).map(SchemasWayPopulatedResponseToJSON)),
-        'copiedFromWayUuid': value.copiedFromWayUuid,
+        'copiedFromWayId': value.copiedFromWayId,
         'createdAt': value.createdAt,
         'estimationTime': value.estimationTime,
         'favoriteForUsersAmount': value.favoriteForUsersAmount,
         'formerMentors': ((value.formerMentors as Array<any>).map(SchemasUserPlainResponseToJSON)),
         'goalDescription': value.goalDescription,
+        'id': value.id,
         'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
         'jobTags': ((value.jobTags as Array<any>).map(SchemasJobTagResponseToJSON)),
@@ -243,7 +244,6 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'name': value.name,
         'owner': SchemasUserPlainResponseToJSON(value.owner),
         'updatedAt': value.updatedAt,
-        'uuid': value.uuid,
         'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
     };
 }

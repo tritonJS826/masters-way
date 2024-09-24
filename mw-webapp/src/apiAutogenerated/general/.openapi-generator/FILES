@@ -19,6 +19,7 @@ apis/ProblemApi.ts
 apis/ProjectApi.ts
 apis/ToUserMentoringRequestApi.ts
 apis/UserApi.ts
+apis/UserProjectApi.ts
 apis/UserTagApi.ts
 apis/WayApi.ts
 apis/WayCollectionApi.ts
@@ -56,6 +57,7 @@ models/SchemasCreatePlanPayload.ts
 models/SchemasCreateProblemPayload.ts
 models/SchemasCreateProjectPayload.ts
 models/SchemasCreateToUserMentoringRequestPayload.ts
+models/SchemasCreateUserProjectPayload.ts
 models/SchemasCreateUserTagPayload.ts
 models/SchemasCreateWayCollectionPayload.ts
 models/SchemasCreateWayCollectionWay.ts
@@ -69,6 +71,7 @@ models/SchemasGenerateMetricsPayload.ts
 models/SchemasGenerateMetricsResponse.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
+models/SchemasGetProjectsByUserIDResponse.ts
 models/SchemasGetUsersByIDsResponse.ts
 models/SchemasGoogleToken.ts
 models/SchemasJobDonePopulatedResponse.ts
@@ -81,7 +84,8 @@ models/SchemasMetricResponse.ts
 models/SchemasOverallInformation.ts
 models/SchemasPlanPopulatedResponse.ts
 models/SchemasProblemPopulatedResponse.ts
-models/SchemasProjectResponse.ts
+models/SchemasProjectPlainResponse.ts
+models/SchemasProjectPopulatedResponse.ts
 models/SchemasTimeSpentByDayPoint.ts
 models/SchemasToUserMentoringRequestResponse.ts
 models/SchemasUpdateCommentPayload.ts

@@ -35,6 +35,8 @@ export const wayDTOToWay = (wayDTO: SchemasWayPopulatedResponse, dayReports: Day
 
   return new Way({
     ...wayDTO,
+    uuid: wayDTO.id,
+    copiedFromWayUuid: wayDTO.copiedFromWayId,
     metrics: wayDTO.metrics.map((metric) => {
       return new Metric({
         ...metric,

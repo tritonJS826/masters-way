@@ -19,6 +19,8 @@ export const wayDTOToWayPreview = (wayDTO: SchemasWayPlainResponse): WayPreview 
 
   return new WayPreview({
     ...wayDTO,
+    uuid: wayDTO.id,
+    copiedFromWayUuid: wayDTO.copiedFromWayId,
     status,
     createdAt: new Date(wayDTO.createdAt),
     lastUpdate: new Date(wayDTO.updatedAt),

@@ -16,14 +16,17 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateProjectPayload,
-  SchemasProjectResponse,
+  SchemasGetProjectsByUserIDResponse,
+  SchemasProjectPopulatedResponse,
   SchemasUpdateProjectPayload,
 } from '../models/index';
 import {
     SchemasCreateProjectPayloadFromJSON,
     SchemasCreateProjectPayloadToJSON,
-    SchemasProjectResponseFromJSON,
-    SchemasProjectResponseToJSON,
+    SchemasGetProjectsByUserIDResponseFromJSON,
+    SchemasGetProjectsByUserIDResponseToJSON,
+    SchemasProjectPopulatedResponseFromJSON,
+    SchemasProjectPopulatedResponseToJSON,
     SchemasUpdateProjectPayloadFromJSON,
     SchemasUpdateProjectPayloadToJSON,
 } from '../models/index';
@@ -53,7 +56,7 @@ export class ProjectApi extends runtime.BaseAPI {
     /**
      * Create a new project
      */
-    async createProjectRaw(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectResponse>> {
+    async createProjectRaw(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createProject.');
         }
@@ -72,13 +75,13 @@ export class ProjectApi extends runtime.BaseAPI {
             body: SchemasCreateProjectPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new project
      */
-    async createProject(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectResponse> {
+    async createProject(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectPopulatedResponse> {
         const response = await this.createProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -115,7 +118,7 @@ export class ProjectApi extends runtime.BaseAPI {
     /**
      * Get project by id
      */
-    async getProjectRaw(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectResponse>> {
+    async getProjectRaw(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectPopulatedResponse>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getProject.');
         }
@@ -131,21 +134,47 @@ export class ProjectApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get project by id
      */
-    async getProject(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectResponse> {
+    async getProject(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectPopulatedResponse> {
         const response = await this.getProjectRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get projects by user id
+     */
+    async getProjectsByUserIdRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetProjectsByUserIDResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/projects`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetProjectsByUserIDResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get projects by user id
+     */
+    async getProjectsByUserId(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetProjectsByUserIDResponse> {
+        const response = await this.getProjectsByUserIdRaw(initOverrides);
         return await response.value();
     }
 
     /**
      * Update project by id
      */
-    async updateProjectRaw(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectResponse>> {
+    async updateProjectRaw(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectPopulatedResponse>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateProject.');
         }
@@ -168,13 +197,13 @@ export class ProjectApi extends runtime.BaseAPI {
             body: SchemasUpdateProjectPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update project by id
      */
-    async updateProject(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectResponse> {
+    async updateProject(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectPopulatedResponse> {
         const response = await this.updateProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }

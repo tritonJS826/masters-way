@@ -34,6 +34,8 @@ export const wayWithoutDayReportsDTOToWayWithoutDayReports = (
 
   return new WayWithoutDayReports({
     ...wayDTO,
+    uuid: wayDTO.id,
+    copiedFromWayUuid: wayDTO.copiedFromWayId,
     metrics: wayDTO.metrics.map((metric) => {
       return new Metric({
         ...metric,

@@ -19,6 +19,8 @@ export const wayCollectionDTOToWayCollection = (wayCollectionDTO: SchemasWayColl
 
       const wayPreview = new WayPreview({
         ...way,
+        copiedFromWayUuid: way.copiedFromWayId,
+        uuid: way.id,
         status,
         createdAt: new Date(way.createdAt),
         lastUpdate: new Date(way.updatedAt),
