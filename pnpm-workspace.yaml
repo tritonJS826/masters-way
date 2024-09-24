@@ -9,3 +9,4 @@ packages:
   - 'mw-storage'
   - 'mw-survey'
   - 'mw-notification'
+  - 'mw-notification-bff'

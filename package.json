@@ -33,6 +33,8 @@
     "notification:start": "pnpm --filter 'mw-notification' start",
     "notification:build": "pnpm --filter 'mw-notification' build",
     "notification:test": "pnpm --filter 'mw-notification' test:integration",
+    "notification-bff:build": "pnpm --filter 'mw-notification-bff' build",
+    "notification-bff:test": "pnpm --filter 'mw-notification-bff' test:integration",
     "mobile:test": "pnpm --filter 'mw-mobile' test",
     "chat-websocket:build": "pnpm --filter 'mw-chat-websocket' build",
     "prepare": "husky install",

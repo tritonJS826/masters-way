@@ -10,6 +10,7 @@ CHAT_BFF="mw-chat-bff/"
 STORAGE="mw-storage/"
 SURVEY="mw-survey/"
 NOTIfICATION="mw-notification/"
+NOTIFICATION_BFF="mw-notification-bff/"
 
 generateSwaggerDocs () {
   pnpm swag
@@ -55,8 +56,8 @@ runGeneralBffIfChanged () {
   if git diff --name-only --cached | grep "$GENERAL_BFF"
   then
     echo "mw-general-bff changed. checking..."
-    pnpm server:build
-    pnpm server:test
+    pnpm general-bff:build
+    pnpm general-bff:test
   fi
 }
 
@@ -111,6 +112,15 @@ runNotificationIfChanged () {
     echo "mw-notification changed. checking..."
     pnpm notification:build
     pnpm notification:test
+  fi
+}
+
+runNotificationBffIfChanged () {
+  if git diff --name-only --cached | grep "$NOTIFICATION_BFF"
+  then
+    echo "mw-notification-bff changed. checking..."
+    pnpm notification-bff:build
+    pnpm notification-bff:test
   fi
 }
 

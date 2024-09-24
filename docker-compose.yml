@@ -148,6 +148,17 @@ services:
     networks:
       - app-network
 
+  mw-notification-bff:
+    build:
+      context: ./mw-notification-bff
+      dockerfile: Dockerfile
+    ports:
+      - "7993:7993"
+    depends_on:
+      - mw-notification
+    networks:
+      - app-network
+
   mw-notification:
     build:
       context: ./mw-notification
