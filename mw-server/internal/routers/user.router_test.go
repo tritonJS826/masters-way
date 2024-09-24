@@ -206,8 +206,9 @@ func TestGetUserById(t *testing.T) {
 			t.Fatalf("Failed to get User by id: %v", err)
 		}
 
-		nullableCopiedFromWayUUID := openapiGeneral.NullableString{}
-		nullableCopiedFromWayUUID.Set(nil)
+		emptyNullableString := openapiGeneral.NullableString{}
+		emptyNullableString.Set(nil)
+
 		expectedData := &openapiGeneral.SchemasUserPopulatedResponse{
 			CreatedAt:            "2024-07-08T10:00:00.000Z",
 			CustomWayCollections: []openapiGeneral.SchemasWayCollectionPopulatedResponse{},
@@ -217,7 +218,7 @@ func TestGetUserById(t *testing.T) {
 					Name: "Own",
 					Ways: []openapiGeneral.SchemasWayPlainResponse{
 						{
-							Id:              "550e8400-e29b-41d4-a716-446655440000",
+							Uuid:            "550e8400-e29b-41d4-a716-446655440000",
 							Name:            "john doe way",
 							GoalDescription: "john doe goal",
 							UpdatedAt:       "2024-07-09T00:00:00.000Z",
@@ -233,10 +234,11 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayId:  nullableCopiedFromWayUUID,
-							IsPrivate:        false,
-							FavoriteForUsers: 0,
-							DayReportsAmount: 8,
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
+							IsPrivate:         false,
+							FavoriteForUsers:  0,
+							DayReportsAmount:  8,
 							Mentors: []openapiGeneral.SchemasUserPlainResponse{
 								{
 									Uuid:        "d63d2f89-6412-4324-8587-7061bf02dca4",
@@ -254,7 +256,7 @@ func TestGetUserById(t *testing.T) {
 							ChildrenUuids: []string{},
 						},
 						{
-							Id:              "54910bd4-ad28-44f4-a669-f233861cf816",
+							Uuid:            "54910bd4-ad28-44f4-a669-f233861cf816",
 							Name:            "john doe way 1",
 							GoalDescription: "john doe goal 1",
 							UpdatedAt:       "2024-07-09T00:00:00.000Z",
@@ -270,18 +272,19 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayId:  nullableCopiedFromWayUUID,
-							IsPrivate:        false,
-							FavoriteForUsers: 0,
-							DayReportsAmount: 8,
-							Mentors:          []openapiGeneral.SchemasUserPlainResponse{},
-							WayTags:          []openapiGeneral.SchemasWayTagResponse{},
-							MetricsDone:      0,
-							MetricsTotal:     0,
-							ChildrenUuids:    []string{},
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
+							IsPrivate:         false,
+							FavoriteForUsers:  0,
+							DayReportsAmount:  8,
+							Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+							WayTags:           []openapiGeneral.SchemasWayTagResponse{},
+							MetricsDone:       0,
+							MetricsTotal:      0,
+							ChildrenUuids:     []string{},
 						},
 						{
-							Id:              "d6d46085-8ce6-4df1-8463-3e469c240076",
+							Uuid:            "d6d46085-8ce6-4df1-8463-3e469c240076",
 							Name:            "john doe composite way 1",
 							GoalDescription: "john doe composite way",
 							UpdatedAt:       "2024-07-09T00:00:00.000Z",
@@ -297,21 +300,22 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayId:  nullableCopiedFromWayUUID,
-							IsPrivate:        false,
-							FavoriteForUsers: 0,
-							DayReportsAmount: 1,
-							Mentors:          []openapiGeneral.SchemasUserPlainResponse{},
-							WayTags:          []openapiGeneral.SchemasWayTagResponse{},
-							MetricsDone:      0,
-							MetricsTotal:     0,
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
+							IsPrivate:         false,
+							FavoriteForUsers:  0,
+							DayReportsAmount:  1,
+							Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+							WayTags:           []openapiGeneral.SchemasWayTagResponse{},
+							MetricsDone:       0,
+							MetricsTotal:      0,
 							ChildrenUuids: []string{
 								"550e8400-e29b-41d4-a716-446655440000",
 								"54910bd4-ad28-44f4-a669-f233861cf816",
 							},
 						},
 						{
-							Id:              "a73c4484-0a44-4e57-8183-aea93a4ccbbb",
+							Uuid:            "a73c4484-0a44-4e57-8183-aea93a4ccbbb",
 							Name:            "john doe composite way",
 							GoalDescription: "john doe composite way",
 							UpdatedAt:       "2024-07-09T00:00:00.000Z",
@@ -327,15 +331,16 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayId:  nullableCopiedFromWayUUID,
-							IsPrivate:        false,
-							FavoriteForUsers: 0,
-							DayReportsAmount: 0,
-							Mentors:          []openapiGeneral.SchemasUserPlainResponse{},
-							WayTags:          []openapiGeneral.SchemasWayTagResponse{},
-							MetricsDone:      0,
-							MetricsTotal:     0,
-							ChildrenUuids:    []string{},
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
+							IsPrivate:         false,
+							FavoriteForUsers:  0,
+							DayReportsAmount:  0,
+							Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+							WayTags:           []openapiGeneral.SchemasWayTagResponse{},
+							MetricsDone:       0,
+							MetricsTotal:      0,
+							ChildrenUuids:     []string{},
 						},
 					},
 					CreatedAt: "2024-07-08T10:00:00.000Z",
@@ -385,7 +390,6 @@ func TestGetUserById(t *testing.T) {
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData, allUsersResponse)
 		assert.Equal(t, expectedData, allUsersResponse)
 	})
 }

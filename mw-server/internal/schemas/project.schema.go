@@ -6,8 +6,8 @@ type CreateProjectPayload struct {
 }
 
 type UpdateProjectPayload struct {
-	Name      *string `json:"name" extensions:"x-nullable"`
-	IsPrivate *bool   `json:"isPrivate" extensions:"x-nullable"`
+	Name      *string `json:"name"`
+	IsPrivate *bool   `json:"isPrivate"`
 }
 
 type GetProjectsByUserIDResponse struct {

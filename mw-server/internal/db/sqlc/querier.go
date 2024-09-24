@@ -13,7 +13,6 @@ import (
 type Querier interface {
 	AddWayToCompositeWay(ctx context.Context, arg AddWayToCompositeWayParams) (CompositeWay, error)
 	CountUsers(ctx context.Context, arg CountUsersParams) (int64, error)
-	// TODO: Add filter by project
 	CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error)
 	CreateComment(ctx context.Context, arg CreateCommentParams) (CreateCommentRow, error)
 	CreateDayReport(ctx context.Context, arg CreateDayReportParams) (DayReport, error)

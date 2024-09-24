@@ -150,7 +150,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	}
 
 	response := &schemas.WayPopulatedResponse{
-		ID:                     util.ConvertPgUUIDToUUID(way.Uuid).String(),
+		Uuid:                   util.ConvertPgUUIDToUUID(way.Uuid).String(),
 		Name:                   way.Name,
 		GoalDescription:        way.GoalDescription,
 		UpdatedAt:              way.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
@@ -158,6 +158,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		EstimationTime:         way.EstimationTime,
 		IsCompleted:            way.IsCompleted,
 		IsPrivate:              way.IsPrivate,
+		ProjectUuid:            util.MarshalPgUUID(way.ProjectUuid),
 		Owner:                  wayOwner,
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
@@ -166,7 +167,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		WayTags:                wayTags,
 		JobTags:                jobTags,
 		Metrics:                metrics,
-		CopiedFromWayID:        util.MarshalPgUUID(way.CopiedFromWayUuid),
+		CopiedFromWayUuid:      util.MarshalPgUUID(way.CopiedFromWayUuid),
 		Children:               children,
 	}
 
@@ -236,23 +237,24 @@ func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*
 	})
 
 	return &schemas.WayPlainResponse{
-		ID:               util.ConvertPgUUIDToUUID(way.Uuid).String(),
-		Name:             way.Name,
-		GoalDescription:  way.GoalDescription,
-		UpdatedAt:        way.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		CreatedAt:        way.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		EstimationTime:   way.EstimationTime,
-		IsCompleted:      way.IsCompleted,
-		Owner:            owner,
-		CopiedFromWayID:  util.MarshalPgUUID(way.CopiedFromWayUuid),
-		IsPrivate:        way.IsPrivate,
-		FavoriteForUsers: int32(way.WayFavoriteForUsers),
-		DayReportsAmount: int32(way.WayDayReportsAmount),
-		Mentors:          mentors,
-		MetricsDone:      int32(way.WayMetricsDone),
-		MetricsTotal:     int32(way.WayMetricsTotal),
-		WayTags:          wayTags,
-		ChildrenUuids:    way.ChildrenUuids,
+		Uuid:              util.ConvertPgUUIDToUUID(way.Uuid).String(),
+		Name:              way.Name,
+		GoalDescription:   way.GoalDescription,
+		UpdatedAt:         way.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:         way.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		EstimationTime:    way.EstimationTime,
+		IsCompleted:       way.IsCompleted,
+		Owner:             owner,
+		CopiedFromWayUuid: util.MarshalPgUUID(way.CopiedFromWayUuid),
+		ProjectUuid:       util.MarshalPgUUID(way.ProjectUuid),
+		IsPrivate:         way.IsPrivate,
+		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
+		DayReportsAmount:  int32(way.WayDayReportsAmount),
+		Mentors:           mentors,
+		WayTags:           wayTags,
+		MetricsDone:       int32(way.WayMetricsDone),
+		MetricsTotal:      int32(way.WayMetricsTotal),
+		ChildrenUuids:     way.ChildrenUuids,
 	}, nil
 }
 

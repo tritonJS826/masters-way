@@ -12,35 +12,44 @@ import (
 )
 
 const countWaysByType = `-- name: CountWaysByType :one
-SELECT COUNT(*) FROM ways
+SELECT COUNT(*)
+FROM ways
 WHERE ways.is_private = false
     AND (
-        ($1 = 'inProgress'
+        ($1::VARCHAR = 'inProgress'
             AND ways.is_completed = false
             AND ways.updated_at > (($2)::timestamp - interval '14 days'))
-        OR ($1 = 'completed' AND ways.is_completed = true)
-        OR ($1 = 'abandoned'
+        OR ($1::VARCHAR = 'completed' AND ways.is_completed = true)
+        OR ($1::VARCHAR = 'abandoned'
             AND (ways.is_completed = false)
             AND (ways.updated_at < (($2)::timestamp - interval '14 days'))
         )
-        OR ($1 = 'all')
+        OR ($1::VARCHAR = 'all')
     )
     AND (
         (SELECT COUNT(day_reports.uuid)
             FROM day_reports
             WHERE day_reports.way_uuid = ways.uuid
         ) >= $3::integer
-    ) AND (LOWER(ways.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
+    )
+    AND (LOWER(ways.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
+    AND (
+            ways.project_uuid IS NULL
+            OR (
+                SELECT projects.is_private
+                FROM projects
+                WHERE projects.uuid = ways.project_uuid
+		) = false
+    )
 `
 
 type CountWaysByTypeParams struct {
-	WayStatus           interface{}      `json:"way_status"`
+	WayStatus           string           `json:"way_status"`
 	Date                pgtype.Timestamp `json:"date"`
 	MinDayReportsAmount int32            `json:"min_day_reports_amount"`
 	WayName             string           `json:"way_name"`
 }
 
-// TODO: Add filter by project
 func (q *Queries) CountWaysByType(ctx context.Context, arg CountWaysByTypeParams) (int64, error) {
 	row := q.db.QueryRow(ctx, countWaysByType,
 		arg.WayStatus,
@@ -137,6 +146,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -166,6 +176,7 @@ type GetFavoriteWaysByUserIdRow struct {
 	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
 	IsCompleted         bool             `json:"is_completed"`
 	IsPrivate           bool             `json:"is_private"`
+	ProjectUuid         pgtype.UUID      `json:"project_uuid"`
 	WayMetricsTotal     int64            `json:"way_metrics_total"`
 	WayMetricsDone      int64            `json:"way_metrics_done"`
 	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
@@ -193,6 +204,7 @@ func (q *Queries) GetFavoriteWaysByUserId(ctx context.Context, userUuid pgtype.U
 			&i.CopiedFromWayUuid,
 			&i.IsCompleted,
 			&i.IsPrivate,
+			&i.ProjectUuid,
 			&i.WayMetricsTotal,
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
@@ -329,6 +341,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -358,6 +371,7 @@ type GetMentoringWaysByMentorIdRow struct {
 	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
 	IsCompleted         bool             `json:"is_completed"`
 	IsPrivate           bool             `json:"is_private"`
+	ProjectUuid         pgtype.UUID      `json:"project_uuid"`
 	WayMetricsTotal     int64            `json:"way_metrics_total"`
 	WayMetricsDone      int64            `json:"way_metrics_done"`
 	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
@@ -386,6 +400,7 @@ func (q *Queries) GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtyp
 			&i.CopiedFromWayUuid,
 			&i.IsCompleted,
 			&i.IsPrivate,
+			&i.ProjectUuid,
 			&i.WayMetricsTotal,
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
@@ -463,6 +478,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -491,6 +507,7 @@ type GetOwnWaysByUserIdRow struct {
 	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
 	IsCompleted         bool             `json:"is_completed"`
 	IsPrivate           bool             `json:"is_private"`
+	ProjectUuid         pgtype.UUID      `json:"project_uuid"`
 	WayMetricsTotal     int64            `json:"way_metrics_total"`
 	WayMetricsDone      int64            `json:"way_metrics_done"`
 	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
@@ -519,6 +536,7 @@ func (q *Queries) GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID)
 			&i.CopiedFromWayUuid,
 			&i.IsCompleted,
 			&i.IsPrivate,
+			&i.ProjectUuid,
 			&i.WayMetricsTotal,
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
@@ -616,6 +634,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     COALESCE(
         ARRAY(
             SELECT composite_ways.child_uuid
@@ -651,6 +670,7 @@ type GetWayByIdRow struct {
 	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
 	IsCompleted         bool             `json:"is_completed"`
 	IsPrivate           bool             `json:"is_private"`
+	ProjectUuid         pgtype.UUID      `json:"project_uuid"`
 	ChildrenUuids       []string         `json:"children_uuids"`
 	OwnerUuid           pgtype.UUID      `json:"owner_uuid"`
 	OwnerName           string           `json:"owner_name"`
@@ -679,6 +699,7 @@ func (q *Queries) GetWayById(ctx context.Context, wayUuid pgtype.UUID) (GetWayBy
 		&i.CopiedFromWayUuid,
 		&i.IsCompleted,
 		&i.IsPrivate,
+		&i.ProjectUuid,
 		&i.ChildrenUuids,
 		&i.OwnerUuid,
 		&i.OwnerName,
@@ -783,6 +804,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -812,6 +834,7 @@ type GetWaysByCollectionIdRow struct {
 	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
 	IsCompleted         bool             `json:"is_completed"`
 	IsPrivate           bool             `json:"is_private"`
+	ProjectUuid         pgtype.UUID      `json:"project_uuid"`
 	WayMetricsTotal     int64            `json:"way_metrics_total"`
 	WayMetricsDone      int64            `json:"way_metrics_done"`
 	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
@@ -840,6 +863,7 @@ func (q *Queries) GetWaysByCollectionId(ctx context.Context, wayCollectionUuid p
 			&i.CopiedFromWayUuid,
 			&i.IsCompleted,
 			&i.IsPrivate,
+			&i.ProjectUuid,
 			&i.WayMetricsTotal,
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,
@@ -885,6 +909,14 @@ WHERE ways.is_private = false
         WHERE day_reports.way_uuid = ways.uuid
     ) >= $3::integer)
     AND (LOWER(ways.name) LIKE '%' || LOWER($4) || '%' OR $4 = '')
+    AND (
+            ways.project_uuid IS NULL
+            OR (
+                SELECT projects.is_private
+                FROM projects
+                WHERE projects.uuid = ways.project_uuid
+		) = false
+    )
 ORDER BY ways.created_at DESC
 LIMIT $6
 OFFSET $5

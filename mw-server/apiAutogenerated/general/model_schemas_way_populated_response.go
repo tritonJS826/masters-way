@@ -22,13 +22,12 @@ var _ MappedNullable = &SchemasWayPopulatedResponse{}
 // SchemasWayPopulatedResponse struct for SchemasWayPopulatedResponse
 type SchemasWayPopulatedResponse struct {
 	Children []SchemasWayPopulatedResponse `json:"children"`
-	CopiedFromWayId NullableString `json:"copiedFromWayId"`
+	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
 	CreatedAt string `json:"createdAt"`
 	EstimationTime int32 `json:"estimationTime"`
 	FavoriteForUsersAmount int32 `json:"favoriteForUsersAmount"`
 	FormerMentors []SchemasUserPlainResponse `json:"formerMentors"`
 	GoalDescription string `json:"goalDescription"`
-	Id string `json:"id"`
 	IsCompleted bool `json:"isCompleted"`
 	IsPrivate bool `json:"isPrivate"`
 	JobTags []SchemasJobTagResponse `json:"jobTags"`
@@ -37,7 +36,9 @@ type SchemasWayPopulatedResponse struct {
 	Metrics []SchemasMetricResponse `json:"metrics"`
 	Name string `json:"name"`
 	Owner SchemasUserPlainResponse `json:"owner"`
+	ProjectUuid NullableString `json:"projectUuid"`
 	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
 	WayTags []SchemasWayTagResponse `json:"wayTags"`
 }
 
@@ -47,16 +48,15 @@ type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayId NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, id string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
+func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
 	this := SchemasWayPopulatedResponse{}
 	this.Children = children
-	this.CopiedFromWayId = copiedFromWayId
+	this.CopiedFromWayUuid = copiedFromWayUuid
 	this.CreatedAt = createdAt
 	this.EstimationTime = estimationTime
 	this.FavoriteForUsersAmount = favoriteForUsersAmount
 	this.FormerMentors = formerMentors
 	this.GoalDescription = goalDescription
-	this.Id = id
 	this.IsCompleted = isCompleted
 	this.IsPrivate = isPrivate
 	this.JobTags = jobTags
@@ -65,7 +65,9 @@ func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copi
 	this.Metrics = metrics
 	this.Name = name
 	this.Owner = owner
+	this.ProjectUuid = projectUuid
 	this.UpdatedAt = updatedAt
+	this.Uuid = uuid
 	this.WayTags = wayTags
 	return &this
 }
@@ -102,30 +104,30 @@ func (o *SchemasWayPopulatedResponse) SetChildren(v []SchemasWayPopulatedRespons
 	o.Children = v
 }
 
-// GetCopiedFromWayId returns the CopiedFromWayId field value
+// GetCopiedFromWayUuid returns the CopiedFromWayUuid field value
 // If the value is explicit nil, the zero value for string will be returned
-func (o *SchemasWayPopulatedResponse) GetCopiedFromWayId() string {
-	if o == nil || o.CopiedFromWayId.Get() == nil {
+func (o *SchemasWayPopulatedResponse) GetCopiedFromWayUuid() string {
+	if o == nil || o.CopiedFromWayUuid.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return *o.CopiedFromWayId.Get()
+	return *o.CopiedFromWayUuid.Get()
 }
 
-// GetCopiedFromWayIdOk returns a tuple with the CopiedFromWayId field value
+// GetCopiedFromWayUuidOk returns a tuple with the CopiedFromWayUuid field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *SchemasWayPopulatedResponse) GetCopiedFromWayIdOk() (*string, bool) {
+func (o *SchemasWayPopulatedResponse) GetCopiedFromWayUuidOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.CopiedFromWayId.Get(), o.CopiedFromWayId.IsSet()
+	return o.CopiedFromWayUuid.Get(), o.CopiedFromWayUuid.IsSet()
 }
 
-// SetCopiedFromWayId sets field value
-func (o *SchemasWayPopulatedResponse) SetCopiedFromWayId(v string) {
-	o.CopiedFromWayId.Set(&v)
+// SetCopiedFromWayUuid sets field value
+func (o *SchemasWayPopulatedResponse) SetCopiedFromWayUuid(v string) {
+	o.CopiedFromWayUuid.Set(&v)
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -246,30 +248,6 @@ func (o *SchemasWayPopulatedResponse) GetGoalDescriptionOk() (*string, bool) {
 // SetGoalDescription sets field value
 func (o *SchemasWayPopulatedResponse) SetGoalDescription(v string) {
 	o.GoalDescription = v
-}
-
-// GetId returns the Id field value
-func (o *SchemasWayPopulatedResponse) GetId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value
-// and a boolean to check if the value has been set.
-func (o *SchemasWayPopulatedResponse) GetIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Id, true
-}
-
-// SetId sets field value
-func (o *SchemasWayPopulatedResponse) SetId(v string) {
-	o.Id = v
 }
 
 // GetIsCompleted returns the IsCompleted field value
@@ -464,6 +442,32 @@ func (o *SchemasWayPopulatedResponse) SetOwner(v SchemasUserPlainResponse) {
 	o.Owner = v
 }
 
+// GetProjectUuid returns the ProjectUuid field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *SchemasWayPopulatedResponse) GetProjectUuid() string {
+	if o == nil || o.ProjectUuid.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ProjectUuid.Get()
+}
+
+// GetProjectUuidOk returns a tuple with the ProjectUuid field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SchemasWayPopulatedResponse) GetProjectUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectUuid.Get(), o.ProjectUuid.IsSet()
+}
+
+// SetProjectUuid sets field value
+func (o *SchemasWayPopulatedResponse) SetProjectUuid(v string) {
+	o.ProjectUuid.Set(&v)
+}
+
 // GetUpdatedAt returns the UpdatedAt field value
 func (o *SchemasWayPopulatedResponse) GetUpdatedAt() string {
 	if o == nil {
@@ -486,6 +490,30 @@ func (o *SchemasWayPopulatedResponse) GetUpdatedAtOk() (*string, bool) {
 // SetUpdatedAt sets field value
 func (o *SchemasWayPopulatedResponse) SetUpdatedAt(v string) {
 	o.UpdatedAt = v
+}
+
+// GetUuid returns the Uuid field value
+func (o *SchemasWayPopulatedResponse) GetUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Uuid
+}
+
+// GetUuidOk returns a tuple with the Uuid field value
+// and a boolean to check if the value has been set.
+func (o *SchemasWayPopulatedResponse) GetUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Uuid, true
+}
+
+// SetUuid sets field value
+func (o *SchemasWayPopulatedResponse) SetUuid(v string) {
+	o.Uuid = v
 }
 
 // GetWayTags returns the WayTags field value
@@ -523,13 +551,12 @@ func (o SchemasWayPopulatedResponse) MarshalJSON() ([]byte, error) {
 func (o SchemasWayPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["children"] = o.Children
-	toSerialize["copiedFromWayId"] = o.CopiedFromWayId.Get()
+	toSerialize["copiedFromWayUuid"] = o.CopiedFromWayUuid.Get()
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["estimationTime"] = o.EstimationTime
 	toSerialize["favoriteForUsersAmount"] = o.FavoriteForUsersAmount
 	toSerialize["formerMentors"] = o.FormerMentors
 	toSerialize["goalDescription"] = o.GoalDescription
-	toSerialize["id"] = o.Id
 	toSerialize["isCompleted"] = o.IsCompleted
 	toSerialize["isPrivate"] = o.IsPrivate
 	toSerialize["jobTags"] = o.JobTags
@@ -538,7 +565,9 @@ func (o SchemasWayPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["metrics"] = o.Metrics
 	toSerialize["name"] = o.Name
 	toSerialize["owner"] = o.Owner
+	toSerialize["projectUuid"] = o.ProjectUuid.Get()
 	toSerialize["updatedAt"] = o.UpdatedAt
+	toSerialize["uuid"] = o.Uuid
 	toSerialize["wayTags"] = o.WayTags
 	return toSerialize, nil
 }
@@ -549,13 +578,12 @@ func (o *SchemasWayPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"children",
-		"copiedFromWayId",
+		"copiedFromWayUuid",
 		"createdAt",
 		"estimationTime",
 		"favoriteForUsersAmount",
 		"formerMentors",
 		"goalDescription",
-		"id",
 		"isCompleted",
 		"isPrivate",
 		"jobTags",
@@ -564,7 +592,9 @@ func (o *SchemasWayPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 		"metrics",
 		"name",
 		"owner",
+		"projectUuid",
 		"updatedAt",
+		"uuid",
 		"wayTags",
 	}
 

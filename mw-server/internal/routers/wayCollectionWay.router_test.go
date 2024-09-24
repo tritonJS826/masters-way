@@ -107,7 +107,7 @@ func TestDeleteWayCollectionWayById(t *testing.T) {
 				isWayCollectionExists = true
 				for _, way := range customWayCollections.Ways {
 					// Search needed way by id, to make sure that it was deleted from this customWayCollections
-					if way.Id == wayID {
+					if way.Uuid == wayID {
 						t.Fatalf("wayID %s wasn't removed from customWayCollections %s", wayID, wayCollectionID)
 					}
 				}

@@ -246,6 +246,7 @@ type dbWay struct {
 	CreatedAt           time.Time
 	EstimationTime      int32
 	CopiedFromWayUuid   pgtype.UUID
+	ProjectUuid         pgtype.UUID
 	IsCompleted         bool
 	IsPrivate           bool
 	WayMetricsTotal     int64
@@ -358,23 +359,24 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 			IsMentor:    dbOwner.IsMentor,
 		}
 		return schemas.WayPlainResponse{
-			ID:               util.ConvertPgUUIDToUUID(dbWay.Uuid).String(),
-			Name:             dbWay.Name,
-			GoalDescription:  dbWay.GoalDescription,
-			UpdatedAt:        dbWay.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-			CreatedAt:        dbWay.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-			EstimationTime:   dbWay.EstimationTime,
-			IsCompleted:      dbWay.IsCompleted,
-			Owner:            owner,
-			CopiedFromWayID:  util.MarshalPgUUID(dbWay.CopiedFromWayUuid),
-			IsPrivate:        dbWay.IsPrivate,
-			FavoriteForUsers: int32(dbWay.WayFavoriteForUsers),
-			DayReportsAmount: int32(dbWay.WayDayReportsAmount),
-			Mentors:          mentors,
-			WayTags:          wayTags,
-			MetricsDone:      int32(dbWay.WayMetricsDone),
-			MetricsTotal:     int32(dbWay.WayMetricsTotal),
-			ChildrenUuids:    dbWay.ChildrenUuids,
+			Uuid:              util.ConvertPgUUIDToUUID(dbWay.Uuid).String(),
+			Name:              dbWay.Name,
+			GoalDescription:   dbWay.GoalDescription,
+			UpdatedAt:         dbWay.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+			CreatedAt:         dbWay.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+			EstimationTime:    dbWay.EstimationTime,
+			IsCompleted:       dbWay.IsCompleted,
+			ProjectUuid:       util.MarshalPgUUID(dbWay.ProjectUuid),
+			Owner:             owner,
+			CopiedFromWayUuid: util.MarshalPgUUID(dbWay.CopiedFromWayUuid),
+			IsPrivate:         dbWay.IsPrivate,
+			FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
+			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
+			Mentors:           mentors,
+			WayTags:           wayTags,
+			MetricsDone:       int32(dbWay.WayMetricsDone),
+			MetricsTotal:      int32(dbWay.WayMetricsTotal),
+			ChildrenUuids:     dbWay.ChildrenUuids,
 		}
 	})
 
@@ -448,23 +450,24 @@ func (us *UserService) convertDbWaysToPlainWays(ctx context.Context, dbWays []db
 		})
 
 		return schemas.WayPlainResponse{
-			ID:               util.ConvertPgUUIDToUUID(dbWay.Uuid).String(),
-			Name:             dbWay.Name,
-			GoalDescription:  dbWay.GoalDescription,
-			UpdatedAt:        dbWay.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			CreatedAt:        dbWay.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
-			EstimationTime:   dbWay.EstimationTime,
-			IsCompleted:      dbWay.IsCompleted,
-			Owner:            owner,
-			CopiedFromWayID:  util.MarshalPgUUID(dbWay.CopiedFromWayUuid),
-			IsPrivate:        dbWay.IsPrivate,
-			FavoriteForUsers: int32(dbWay.WayFavoriteForUsers),
-			DayReportsAmount: int32(dbWay.WayDayReportsAmount),
-			Mentors:          mentors,
-			WayTags:          wayTags,
-			MetricsDone:      int32(dbWay.WayMetricsDone),
-			MetricsTotal:     int32(dbWay.WayMetricsTotal),
-			ChildrenUuids:    dbWay.ChildrenUuids,
+			Uuid:              util.ConvertPgUUIDToUUID(dbWay.Uuid).String(),
+			Name:              dbWay.Name,
+			GoalDescription:   dbWay.GoalDescription,
+			UpdatedAt:         dbWay.UpdatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			CreatedAt:         dbWay.CreatedAt.Format(util.DEFAULT_STRING_LAYOUT),
+			EstimationTime:    dbWay.EstimationTime,
+			IsCompleted:       dbWay.IsCompleted,
+			Owner:             owner,
+			CopiedFromWayUuid: util.MarshalPgUUID(dbWay.CopiedFromWayUuid),
+			ProjectUuid:       util.MarshalPgUUID(dbWay.ProjectUuid),
+			IsPrivate:         dbWay.IsPrivate,
+			FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
+			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),
+			Mentors:           mentors,
+			WayTags:           wayTags,
+			MetricsDone:       int32(dbWay.WayMetricsDone),
+			MetricsTotal:      int32(dbWay.WayMetricsTotal),
+			ChildrenUuids:     dbWay.ChildrenUuids,
 		}
 	})
 

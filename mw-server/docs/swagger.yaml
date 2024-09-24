@@ -920,10 +920,8 @@ definitions:
     properties:
       isPrivate:
         type: boolean
-        x-nullable: true
       name:
         type: string
-        x-nullable: true
     type: object
   schemas.UpdateUserPayload:
     properties:
@@ -1139,7 +1137,7 @@ definitions:
         items:
           type: string
         type: array
-      copiedFromWayId:
+      copiedFromWayUuid:
         type: string
         x-nullable: true
       createdAt:
@@ -1151,8 +1149,6 @@ definitions:
       favoriteForUsers:
         type: integer
       goalDescription:
-        type: string
-      id:
         type: string
       isCompleted:
         type: boolean
@@ -1170,7 +1166,12 @@ definitions:
         type: string
       owner:
         $ref: '#/definitions/schemas.UserPlainResponse'
+      projectUuid:
+        type: string
+        x-nullable: true
       updatedAt:
+        type: string
+      uuid:
         type: string
       wayTags:
         items:
@@ -1178,13 +1179,12 @@ definitions:
         type: array
     required:
     - childrenUuids
-    - copiedFromWayId
+    - copiedFromWayUuid
     - createdAt
     - dayReportsAmount
     - estimationTime
     - favoriteForUsers
     - goalDescription
-    - id
     - isCompleted
     - isPrivate
     - mentors
@@ -1192,7 +1192,9 @@ definitions:
     - metricsTotal
     - name
     - owner
+    - projectUuid
     - updatedAt
+    - uuid
     - wayTags
     type: object
   schemas.WayPopulatedResponse:
@@ -1201,7 +1203,7 @@ definitions:
         items:
           $ref: '#/definitions/schemas.WayPopulatedResponse'
         type: array
-      copiedFromWayId:
+      copiedFromWayUuid:
         type: string
         x-nullable: true
       createdAt:
@@ -1215,8 +1217,6 @@ definitions:
           $ref: '#/definitions/schemas.UserPlainResponse'
         type: array
       goalDescription:
-        type: string
-      id:
         type: string
       isCompleted:
         type: boolean
@@ -1242,7 +1242,12 @@ definitions:
         type: string
       owner:
         $ref: '#/definitions/schemas.UserPlainResponse'
+      projectUuid:
+        type: string
+        x-nullable: true
       updatedAt:
+        type: string
+      uuid:
         type: string
       wayTags:
         items:
@@ -1250,13 +1255,12 @@ definitions:
         type: array
     required:
     - children
-    - copiedFromWayId
+    - copiedFromWayUuid
     - createdAt
     - estimationTime
     - favoriteForUsersAmount
     - formerMentors
     - goalDescription
-    - id
     - isCompleted
     - isPrivate
     - jobTags
@@ -1265,7 +1269,9 @@ definitions:
     - metrics
     - name
     - owner
+    - projectUuid
     - updatedAt
+    - uuid
     - wayTags
     type: object
   schemas.WayStatistics:

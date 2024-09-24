@@ -98,15 +98,9 @@ func TestUpdateProject(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		nullableProjectName := openapiGeneral.NullableString{}
-		nullableIsPrivate := openapiGeneral.NullableBool{}
-
-		nullableProjectName.Set(&projectName)
-		nullableIsPrivate.Set(&isPrivate)
-
 		request := openapiGeneral.SchemasUpdateProjectPayload{
-			Name:      nullableProjectName,
-			IsPrivate: nullableIsPrivate,
+			Name:      &projectName,
+			IsPrivate: &isPrivate,
 		}
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)

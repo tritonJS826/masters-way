@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**IsPrivate** | Pointer to **NullableBool** |  | [optional] 
-**Name** | Pointer to **NullableString** |  | [optional] 
+**IsPrivate** | Pointer to **bool** |  | [optional] 
+**Name** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -51,16 +51,6 @@ SetIsPrivate sets IsPrivate field to given value.
 
 HasIsPrivate returns a boolean if a field has been set.
 
-### SetIsPrivateNil
-
-`func (o *SchemasUpdateProjectPayload) SetIsPrivateNil(b bool)`
-
- SetIsPrivateNil sets the value for IsPrivate to be an explicit nil
-
-### UnsetIsPrivate
-`func (o *SchemasUpdateProjectPayload) UnsetIsPrivate()`
-
-UnsetIsPrivate ensures that no value is present for IsPrivate, not even an explicit nil
 ### GetName
 
 `func (o *SchemasUpdateProjectPayload) GetName() string`
@@ -86,16 +76,6 @@ SetName sets Name field to given value.
 
 HasName returns a boolean if a field has been set.
 
-### SetNameNil
-
-`func (o *SchemasUpdateProjectPayload) SetNameNil(b bool)`
-
- SetNameNil sets the value for Name to be an explicit nil
-
-### UnsetName
-`func (o *SchemasUpdateProjectPayload) UnsetName()`
-
-UnsetName ensures that no value is present for Name, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

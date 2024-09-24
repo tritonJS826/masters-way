@@ -2354,12 +2354,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2385,8 +2388,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           - owner:
@@ -2398,12 +2399,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2429,8 +2433,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           name: name
@@ -2450,12 +2452,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2481,8 +2486,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           - owner:
@@ -2494,12 +2497,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2525,8 +2531,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           name: name
@@ -2546,12 +2550,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2577,8 +2584,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           - owner:
@@ -2590,12 +2595,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2621,8 +2629,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           name: name
@@ -2751,12 +2757,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -2782,8 +2791,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         - owner:
@@ -2795,12 +2802,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -2826,8 +2836,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         size: 0
@@ -3511,12 +3519,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -3542,8 +3553,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         - owner:
@@ -3555,12 +3564,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -3586,8 +3598,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         name: name
@@ -3727,10 +3737,8 @@ components:
     schemas.UpdateProjectPayload:
       properties:
         isPrivate:
-          nullable: true
           type: boolean
         name:
-          nullable: true
           type: string
       type: object
     schemas.UpdateUserPayload:
@@ -3870,12 +3878,15 @@ components:
                 uuid: uuid
                 email: email
               goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
               childrenUuids:
               - childrenUuids
               - childrenUuids
               estimationTime: 6
               isPrivate: true
+              uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -3901,8 +3912,6 @@ components:
                 uuid: uuid
                 email: email
               name: name
-              copiedFromWayId: copiedFromWayId
-              id: id
               isCompleted: true
               updatedAt: updatedAt
             - owner:
@@ -3914,12 +3923,15 @@ components:
                 uuid: uuid
                 email: email
               goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
               childrenUuids:
               - childrenUuids
               - childrenUuids
               estimationTime: 6
               isPrivate: true
+              uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -3945,8 +3957,6 @@ components:
                 uuid: uuid
                 email: email
               name: name
-              copiedFromWayId: copiedFromWayId
-              id: id
               isCompleted: true
               updatedAt: updatedAt
             name: name
@@ -3966,12 +3976,15 @@ components:
                 uuid: uuid
                 email: email
               goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
               childrenUuids:
               - childrenUuids
               - childrenUuids
               estimationTime: 6
               isPrivate: true
+              uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -3997,8 +4010,6 @@ components:
                 uuid: uuid
                 email: email
               name: name
-              copiedFromWayId: copiedFromWayId
-              id: id
               isCompleted: true
               updatedAt: updatedAt
             - owner:
@@ -4010,12 +4021,15 @@ components:
                 uuid: uuid
                 email: email
               goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
               childrenUuids:
               - childrenUuids
               - childrenUuids
               estimationTime: 6
               isPrivate: true
+              uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -4041,8 +4055,6 @@ components:
                 uuid: uuid
                 email: email
               name: name
-              copiedFromWayId: copiedFromWayId
-              id: id
               isCompleted: true
               updatedAt: updatedAt
             name: name
@@ -4062,12 +4074,15 @@ components:
                 uuid: uuid
                 email: email
               goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
               childrenUuids:
               - childrenUuids
               - childrenUuids
               estimationTime: 6
               isPrivate: true
+              uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -4093,8 +4108,6 @@ components:
                 uuid: uuid
                 email: email
               name: name
-              copiedFromWayId: copiedFromWayId
-              id: id
               isCompleted: true
               updatedAt: updatedAt
             - owner:
@@ -4106,12 +4119,15 @@ components:
                 uuid: uuid
                 email: email
               goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
               childrenUuids:
               - childrenUuids
               - childrenUuids
               estimationTime: 6
               isPrivate: true
+              uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -4137,8 +4153,6 @@ components:
                 uuid: uuid
                 email: email
               name: name
-              copiedFromWayId: copiedFromWayId
-              id: id
               isCompleted: true
               updatedAt: updatedAt
             name: name
@@ -4180,12 +4194,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4211,8 +4228,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           - owner:
@@ -4224,12 +4239,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4255,8 +4273,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           name: name
@@ -4275,12 +4291,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4306,8 +4325,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           - owner:
@@ -4319,12 +4336,15 @@ components:
               uuid: uuid
               email: email
             goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
             childrenUuids:
             - childrenUuids
             - childrenUuids
             estimationTime: 6
             isPrivate: true
+            uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4350,8 +4370,6 @@ components:
               uuid: uuid
               email: email
             name: name
-            copiedFromWayId: copiedFromWayId
-            id: id
             isCompleted: true
             updatedAt: updatedAt
           name: name
@@ -4372,12 +4390,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4403,8 +4424,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         - owner:
@@ -4416,12 +4435,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4447,8 +4469,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         imageUrl: imageUrl
@@ -4547,12 +4567,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4578,8 +4601,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         - owner:
@@ -4591,12 +4612,15 @@ components:
             uuid: uuid
             email: email
           goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
           childrenUuids:
           - childrenUuids
           - childrenUuids
           estimationTime: 6
           isPrivate: true
+          uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4622,8 +4646,6 @@ components:
             uuid: uuid
             email: email
           name: name
-          copiedFromWayId: copiedFromWayId
-          id: id
           isCompleted: true
           updatedAt: updatedAt
         name: name
@@ -4682,12 +4704,15 @@ components:
           uuid: uuid
           email: email
         goalDescription: goalDescription
+        copiedFromWayUuid: copiedFromWayUuid
         childrenUuids:
         - childrenUuids
         - childrenUuids
         estimationTime: 6
         isPrivate: true
+        uuid: uuid
         dayReportsAmount: 0
+        projectUuid: projectUuid
         metricsDone: 5
         createdAt: createdAt
         wayTags:
@@ -4713,8 +4738,6 @@ components:
           uuid: uuid
           email: email
         name: name
-        copiedFromWayId: copiedFromWayId
-        id: id
         isCompleted: true
         updatedAt: updatedAt
       properties:
@@ -4722,7 +4745,7 @@ components:
           items:
             type: string
           type: array
-        copiedFromWayId:
+        copiedFromWayUuid:
           nullable: true
           type: string
         createdAt:
@@ -4734,8 +4757,6 @@ components:
         favoriteForUsers:
           type: integer
         goalDescription:
-          type: string
-        id:
           type: string
         isCompleted:
           type: boolean
@@ -4753,7 +4774,12 @@ components:
           type: string
         owner:
           $ref: '#/components/schemas/schemas.UserPlainResponse'
+        projectUuid:
+          nullable: true
+          type: string
         updatedAt:
+          type: string
+        uuid:
           type: string
         wayTags:
           items:
@@ -4761,13 +4787,12 @@ components:
           type: array
       required:
       - childrenUuids
-      - copiedFromWayId
+      - copiedFromWayUuid
       - createdAt
       - dayReportsAmount
       - estimationTime
       - favoriteForUsers
       - goalDescription
-      - id
       - isCompleted
       - isPrivate
       - mentors
@@ -4775,7 +4800,9 @@ components:
       - metricsTotal
       - name
       - owner
+      - projectUuid
       - updatedAt
+      - uuid
       - wayTags
       type: object
     schemas.WayPopulatedResponse:
@@ -4790,8 +4817,11 @@ components:
           email: email
         favoriteForUsersAmount: 6
         goalDescription: goalDescription
+        copiedFromWayUuid: copiedFromWayUuid
         estimationTime: 0
         isPrivate: true
+        uuid: uuid
+        projectUuid: projectUuid
         createdAt: createdAt
         mentorRequests:
         - createdAt: createdAt
@@ -4847,8 +4877,6 @@ components:
           isMentor: true
           uuid: uuid
           email: email
-        copiedFromWayId: copiedFromWayId
-        id: id
         metrics:
         - description: description
           estimationTime: 0
@@ -4876,7 +4904,7 @@ components:
           items:
             $ref: '#/components/schemas/schemas.WayPopulatedResponse'
           type: array
-        copiedFromWayId:
+        copiedFromWayUuid:
           nullable: true
           type: string
         createdAt:
@@ -4890,8 +4918,6 @@ components:
             $ref: '#/components/schemas/schemas.UserPlainResponse'
           type: array
         goalDescription:
-          type: string
-        id:
           type: string
         isCompleted:
           type: boolean
@@ -4917,7 +4943,12 @@ components:
           type: string
         owner:
           $ref: '#/components/schemas/schemas.UserPlainResponse'
+        projectUuid:
+          nullable: true
+          type: string
         updatedAt:
+          type: string
+        uuid:
           type: string
         wayTags:
           items:
@@ -4925,13 +4956,12 @@ components:
           type: array
       required:
       - children
-      - copiedFromWayId
+      - copiedFromWayUuid
       - createdAt
       - estimationTime
       - favoriteForUsersAmount
       - formerMentors
       - goalDescription
-      - id
       - isCompleted
       - isPrivate
       - jobTags
@@ -4940,7 +4970,9 @@ components:
       - metrics
       - name
       - owner
+      - projectUuid
       - updatedAt
+      - uuid
       - wayTags
       type: object
     schemas.WayStatistics:

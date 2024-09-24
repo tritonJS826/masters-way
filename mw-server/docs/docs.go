@@ -3997,12 +3997,10 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "isPrivate": {
-                    "type": "boolean",
-                    "x-nullable": true
+                    "type": "boolean"
                 },
                 "name": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 }
             }
         },
@@ -4306,13 +4304,12 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "childrenUuids",
-                "copiedFromWayId",
+                "copiedFromWayUuid",
                 "createdAt",
                 "dayReportsAmount",
                 "estimationTime",
                 "favoriteForUsers",
                 "goalDescription",
-                "id",
                 "isCompleted",
                 "isPrivate",
                 "mentors",
@@ -4320,7 +4317,9 @@ const docTemplate = `{
                 "metricsTotal",
                 "name",
                 "owner",
+                "projectUuid",
                 "updatedAt",
+                "uuid",
                 "wayTags"
             ],
             "properties": {
@@ -4330,7 +4329,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "copiedFromWayId": {
+                "copiedFromWayUuid": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -4347,9 +4346,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "goalDescription": {
-                    "type": "string"
-                },
-                "id": {
                     "type": "string"
                 },
                 "isCompleted": {
@@ -4376,7 +4372,14 @@ const docTemplate = `{
                 "owner": {
                     "$ref": "#/definitions/schemas.UserPlainResponse"
                 },
+                "projectUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
                     "type": "string"
                 },
                 "wayTags": {
@@ -4391,13 +4394,12 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "children",
-                "copiedFromWayId",
+                "copiedFromWayUuid",
                 "createdAt",
                 "estimationTime",
                 "favoriteForUsersAmount",
                 "formerMentors",
                 "goalDescription",
-                "id",
                 "isCompleted",
                 "isPrivate",
                 "jobTags",
@@ -4406,7 +4408,9 @@ const docTemplate = `{
                 "metrics",
                 "name",
                 "owner",
+                "projectUuid",
                 "updatedAt",
+                "uuid",
                 "wayTags"
             ],
             "properties": {
@@ -4416,7 +4420,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/schemas.WayPopulatedResponse"
                     }
                 },
-                "copiedFromWayId": {
+                "copiedFromWayUuid": {
                     "type": "string",
                     "x-nullable": true
                 },
@@ -4436,9 +4440,6 @@ const docTemplate = `{
                     }
                 },
                 "goalDescription": {
-                    "type": "string"
-                },
-                "id": {
                     "type": "string"
                 },
                 "isCompleted": {
@@ -4477,7 +4478,14 @@ const docTemplate = `{
                 "owner": {
                     "$ref": "#/definitions/schemas.UserPlainResponse"
                 },
+                "projectUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
                     "type": "string"
                 },
                 "wayTags": {
