@@ -26,6 +26,17 @@ services:
     networks:
       - app-network
 
+  mw-general-bff:
+    build:
+      context: ./mw-general-bff
+      dockerfile: Dockerfile
+    ports:
+      - "7995:7995"
+    depends_on:
+      - mw-general
+    networks:
+      - app-network
+
   postgres-chat:
     build:
       context: ./postgres
@@ -146,6 +157,17 @@ services:
     networks:
       - app-network
 
+  mw-notification-bff:
+    build:
+      context: ./mw-notification-bff
+      dockerfile: Dockerfile
+    ports:
+      - "7993:7993"
+    depends_on:
+      - mw-notification
+    networks:
+      - app-network
+
   mw-notification:
     build:
       context: ./mw-notification
@@ -184,6 +206,7 @@ services:
     depends_on:
       - mw-server
       - mw-webapp
+      - mw-general-bff
       - mw-chat
       - mw-chat-bff
       - mw-chat-websocket

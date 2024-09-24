@@ -1,6 +1,7 @@
 packages:
   - 'mw-webapp'
   - 'mw-server'
+  - 'mw-general-bff'
   - 'mw-mobile'
   - 'mw-chat'
   - 'mw-chat-bff'
@@ -8,3 +9,4 @@ packages:
   - 'mw-storage'
   - 'mw-survey'
   - 'mw-notification'
+  - 'mw-notification-bff'

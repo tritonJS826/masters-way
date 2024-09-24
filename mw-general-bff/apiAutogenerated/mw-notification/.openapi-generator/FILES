@@ -1,0 +1,15 @@
+.gitignore
+.travis.yml
+README.md
+api/openapi.yaml
+api_dev.go
+api_notification.go
+client.go
+configuration.go
+docs/DevAPI.md
+docs/NotificationAPI.md
+git_push.sh
+go.mod
+go.sum
+response.go
+utils.go

@@ -1,0 +1,17 @@
+.gitignore
+.travis.yml
+README.md
+api/openapi.yaml
+api_dev.go
+api_file.go
+client.go
+configuration.go
+docs/DevAPI.md
+docs/FileAPI.md
+docs/SchemasUploadFileResponse.md
+git_push.sh
+go.mod
+go.sum
+model_schemas_upload_file_response.go
+response.go
+utils.go

@@ -214,6 +214,7 @@ CREATE TABLE "users_user_tags"(
 
 CREATE TYPE pricing_plan_type AS ENUM ('free', 'starter', 'pro');
 
+-- only payments service can change profile_settings data (unidirectional)
 CREATE TABLE "profile_settings" (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "pricing_plan" pricing_plan_type NOT NULL,
