@@ -33,7 +33,7 @@ services:
     ports:
       - "7995:7995"
     depends_on:
-      - mw-general
+      - mw-server
     networks:
       - app-network
 
