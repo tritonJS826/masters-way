@@ -89,5 +89,55 @@
         }
       }
     }
+  },
+  "findMentor": {
+    "title": {
+      "ru": "Запрос на поиск ментора",
+      "en": "Request to find a mentor",
+      "ua": "Запит на пошук ментора"
+    },
+    "description": {
+      "ru": "Ответьте, пожалуйста, на следующие вопросы, чтобы мы могли подобрать для вас подходящего ментора",
+      "en": "Please answer the following questions so we can find the right mentor for you",
+      "ua": "Дайте відповідь, будь ласка, на наступні питання, щоб ми могли підібрати для вас відповідного ментора"
+    },
+    "fields": {
+      "skillsToLearn": {
+        "name": {
+          "ru": "Какие конкретные навыки или области знаний вы хотели бы улучшить?",
+          "en": "What specific skills or areas of knowledge would you like to improve?",
+          "ua": "Які конкретні навички чи галузі знань ви хотіли б покращити?"
+        }, 
+        "placeholder": {
+          "ru": "Например: front-end, React",
+          "en": "For example: front-end, React",
+          "ua": "Наприклад: front-end, React"
+        }
+      },
+      "currentExperience": {
+        "name": {
+          "ru": "Что вы уже знате по данному направлению?",
+          "en": "What do you already know in this area?",
+          "ua": "Що ви вже знаєте за цим напрямком?"
+        }, 
+        "placeholder": {
+          "ru": "Например: новичок, знаю основы html",
+          "en": "For example: newbie, know the basics of html",
+          "ua": "Наприклад: новачок, знаю основи html"
+        }
+      },
+      "mentorDescription": {
+        "name": {
+          "ru": "Что для вас важно при выборе ментора и в процессе обучения?",
+          "en": "What is important to you when choosing a mentor and in the learning process?",
+          "ua": "Що для вас важливо при виборі ментора та у процесі навчання?"
+        }, 
+        "placeholder": {
+          "ru": "Например: важен ежедневный фидбэк и наличие плана обучения и т.д.",
+          "en": "For example: daily feedback and having a training plan, etc.",
+          "ua": "Наприклад: важливий щоденний фідбек та наявність плану навчання та ін."
+        }
+      }
+    }
   }
 }

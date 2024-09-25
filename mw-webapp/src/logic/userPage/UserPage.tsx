@@ -505,6 +505,64 @@ export const UserPage = observer((props: UserPageProps) => {
                 dataCy={userPersonalDataAccessIds.connectButton}
               />
               }
+
+              {isPageOwner &&
+              <Modal
+                trigger={
+                  <Button
+                    onClick={() => { }}
+                    buttonType={ButtonType.PRIMARY}
+                    value={LanguageService.user.personalInfo.findMentorButton[language]}
+                    className={styles.specialButton}
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="ArrowRightIcon"
+                        className={styles.socialMediaIcon}
+                      />
+                    }
+                  />
+                }
+                content={
+                  <VerticalContainer className={styles.modalContainer}>
+                    <Form
+                      onSubmit={async () => {
+                        await SurveyDAL.findMentor();
+                      }}
+                      submitButtonValue={LanguageService.survey.submitButton[language]}
+                      formTitle={LanguageService.survey.findMentor.title[language]}
+                      formDescription={LanguageService.survey.findMentor.description[language]}
+                      formFields={[
+                        {
+                          id: 0,
+                          label: "skillsToLearn",
+                          name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
+                          value: "",
+                          required: true,
+                          placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
+                        },
+                        {
+                          id: 1,
+                          label: "currentExperience",
+                          name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
+                          value: "",
+                          required: true,
+                          placeholder: `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
+                        },
+                        {
+                          id: 2,
+                          label: "mentorDescription",
+                          name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
+                          value: "",
+                          required: true,
+                          placeholder: `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
+                        },
+                      ]}
+                    />
+                  </VerticalContainer>
+                }
+              />
+              }
             </VerticalContainer>
 
             <VerticalContainer className={styles.nameEmailSection}>

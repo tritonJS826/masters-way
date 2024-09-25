@@ -13,4 +13,11 @@ export class SurveyService {
     await surveyService.surveyUserIntro(requestParameters);
   }
 
+  /**
+   * Survey find a mentor request
+   */
+  public static async findMentor(): Promise<void> {
+    // Await surveyService.surveyUserIntro(requestParameters);
+  }
+
 }

@@ -1,4 +1,4 @@
-import {surveyService} from "src/service/services";
+import {SurveyService} from "src/service/SurveyService";
 
 /**
  * SurveyUserIntro params
@@ -51,7 +51,14 @@ export class SurveyDAL {
    * Survey user intro
    */
   public static async surveyUserIntro(params: SurveyUserIntroParams): Promise<void> {
-    await surveyService.surveyUserIntro({request: {...params}});
+    await SurveyService.surveyUserIntro({request: {...params}});
+  }
+
+  /**
+   * Survey find a mentor request
+   */
+  public static async findMentor(): Promise<void> {
+    await SurveyService.findMentor();
   }
 
 }
