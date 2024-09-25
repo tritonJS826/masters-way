@@ -513,7 +513,6 @@ export const UserPage = observer((props: UserPageProps) => {
                     onClick={() => { }}
                     buttonType={ButtonType.PRIMARY}
                     value={LanguageService.user.personalInfo.findMentorButton[language]}
-                    className={styles.specialButton}
                     icon={
                       <Icon
                         size={IconSize.SMALL}
