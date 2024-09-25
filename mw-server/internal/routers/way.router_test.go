@@ -38,15 +38,16 @@ func TestGetAllWays(t *testing.T) {
 			t.Fatalf("Failed to get all ways: %v", err)
 		}
 
-		copiedFromWayUuid := openapiGeneral.NullableString{}
-		copiedFromWayUuid.Set(nil)
+		emptyNullableString := openapiGeneral.NullableString{}
+		emptyNullableString.Set(nil)
 
 		expectedData := &openapiGeneral.SchemasGetAllWaysResponse{
 			Size: 14,
 			Ways: []openapiGeneral.SchemasWayPlainResponse{
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-08-10T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    40404040,
@@ -78,7 +79,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-08-10T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    40404040,
@@ -105,7 +107,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-08-10T00:00:00.000Z",
 					DayReportsAmount:  2,
 					EstimationTime:    40404040,
@@ -132,7 +135,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-07-22T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    30303030,
@@ -159,7 +163,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-07-22T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    30303030,
@@ -188,7 +193,8 @@ func TestGetAllWays(t *testing.T) {
 					ChildrenUuids: []string{
 						"550e8400-e29b-41d4-a716-446655440000",
 					},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-07-09T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    20202020,
@@ -225,7 +231,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-07-09T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    20202020,
@@ -262,7 +269,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-07-09T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    40404040,
@@ -289,7 +297,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-07-09T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    40404040,
@@ -316,7 +325,8 @@ func TestGetAllWays(t *testing.T) {
 				},
 				{
 					ChildrenUuids:     []string{},
-					CopiedFromWayUuid: copiedFromWayUuid,
+					CopiedFromWayUuid: emptyNullableString,
+					ProjectUuid:       emptyNullableString,
 					CreatedAt:         "2024-07-09T00:00:00.000Z",
 					DayReportsAmount:  0,
 					EstimationTime:    40404040,
@@ -384,7 +394,7 @@ func TestGetWayById(t *testing.T) {
 	user := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 	wayID := "9972552a-c0b3-41f3-b464-284d36a36964"
 
-	t.Run("should get all ways successfully", func(t *testing.T) {
+	t.Run("should get way by id successfully", func(t *testing.T) {
 		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
@@ -396,48 +406,41 @@ func TestGetWayById(t *testing.T) {
 			t.Fatalf("Failed to get way: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasWayPlainResponse{
-			ChildrenUuids:     []string{},
-			CopiedFromWayUuid: openapiGeneral.NullableString{},
-			CreatedAt:         "2024-07-09 00:00:00",
-			DayReportsAmount:  0,
-			EstimationTime:    40404040,
-			FavoriteForUsers:  0,
-			GoalDescription:   "ronnie stanton goal",
-			IsCompleted:       false,
-			IsPrivate:         false,
-			Mentors: []openapiGeneral.SchemasUserPlainResponse{
-				{
-					CreatedAt:   "2024-07-09 00:00:00",
-					Description: "A brief description about Ronnie.",
-					Email:       "ronnie.stanton@example.com",
-					ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
-					IsMentor:    false,
-					Name:        "Ronnie Stanton",
-					Uuid:        "d63d2f89-6412-4324-8587-7061bf02dca4",
-				},
-			},
-			MetricsDone:  0,
-			MetricsTotal: 0,
-			Name:         "ronnie stanton way",
+		emptyNullableString := openapiGeneral.NullableString{}
+		emptyNullableString.Set(nil)
+
+		expectedData := &openapiGeneral.SchemasWayPopulatedResponse{
+			Uuid:            "9972552a-c0b3-41f3-b464-284d36a36964",
+			Name:            "ronnie stanton way",
+			GoalDescription: "ronnie stanton goal",
+			UpdatedAt:       "2024-07-09T00:00:00.000Z",
+			CreatedAt:       "2024-07-09T00:00:00.000Z",
+			EstimationTime:  40404040,
+			IsCompleted:     false,
+			IsPrivate:       false,
 			Owner: openapiGeneral.SchemasUserPlainResponse{
-				CreatedAt:   "2024-07-09 00:00:00",
-				Description: "A brief description about Ronnie.",
-				Email:       "ronnie.stanton@example.com",
-				ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F",
-				IsMentor:    false,
-				Name:        "Ronnie Stanton",
 				Uuid:        "d63d2f89-6412-4324-8587-7061bf02dca4",
+				Name:        "Ronnie Stanton",
+				Email:       "ronnie.stanton@example.com",
+				Description: "A brief description about Ronnie.",
+				CreatedAt:   "2024-07-06T10:00:00.000Z",
+				ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAN",
+				IsMentor:    false,
 			},
-			UpdatedAt: "2024-07-09 00:00:00",
-			Uuid:      "9972552a-c0b3-41f3-b464-284d36a36964",
-			WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+			Mentors:                []openapiGeneral.SchemasUserPlainResponse{},
+			FormerMentors:          []openapiGeneral.SchemasUserPlainResponse{},
+			MentorRequests:         []openapiGeneral.SchemasUserPlainResponse{},
+			FavoriteForUsersAmount: 0,
+			WayTags:                []openapiGeneral.SchemasWayTagResponse{},
+			JobTags:                []openapiGeneral.SchemasJobTagResponse{},
+			Metrics:                []openapiGeneral.SchemasMetricResponse{},
+			CopiedFromWayUuid:      emptyNullableString,
+			ProjectUuid:            emptyNullableString,
+			Children:               []openapiGeneral.SchemasWayPopulatedResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData.Uuid, way.Uuid)
-		assert.Equal(t, expectedData.Name, way.Name)
-		assert.Equal(t, expectedData.GoalDescription, way.GoalDescription)
+		assert.Equal(t, expectedData, way)
 	})
 }
 
@@ -755,13 +758,13 @@ func TestCreateWay(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
 		request := openapiGeneral.SchemasCreateWayPayload{
-			CopiedFromWayUuid: openapiGeneral.NullableString{},
-			EstimationTime:    0,
-			GoalDescription:   "Random Description",
-			IsCompleted:       false,
-			IsPrivate:         false,
-			Name:              "Random name",
-			OwnerUuid:         "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
+			CopiedFromWayId: openapiGeneral.NullableString{},
+			EstimationTime:  0,
+			GoalDescription: "Random Description",
+			IsCompleted:     false,
+			IsPrivate:       false,
+			Name:            "Random name",
+			OwnerId:         "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
 		}
 
 		way, response, err := generalApi.WayAPI.CreateWay(ctx).Request(request).Execute()
@@ -841,9 +844,12 @@ func TestUpdateWay(t *testing.T) {
 
 		way, response, err := generalApi.WayAPI.UpdateWay(ctx, wayID).Request(request).Execute()
 
+		nullableCopiedFromWayUUID := openapiGeneral.NullableString{}
+		nullableCopiedFromWayUUID.Set(nil)
+
 		expectedData := &openapiGeneral.SchemasWayPlainResponse{
 			ChildrenUuids:     []string{},
-			CopiedFromWayUuid: openapiGeneral.NullableString{},
+			CopiedFromWayUuid: nullableCopiedFromWayUUID,
 			CreatedAt:         "2024-07-09 00:00:00",
 			DayReportsAmount:  0,
 			EstimationTime:    40404040,

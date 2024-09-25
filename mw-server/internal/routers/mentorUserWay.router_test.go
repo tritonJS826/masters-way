@@ -63,7 +63,6 @@ func TestAddMentorUserWay(t *testing.T) {
 		if !mentorFound {
 			t.Fatalf("Mentor with UUID %s was not found in the Way", newMentorID)
 		}
-
 	})
 }
 

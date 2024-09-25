@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateDayReportPayload("WayUuid_example") // SchemasCreateDayReportPayload | query params
+	request := *openapiclient.NewSchemasCreateDayReportPayload("WayId_example") // SchemasCreateDayReportPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

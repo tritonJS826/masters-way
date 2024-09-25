@@ -29,51 +29,51 @@ import {
 /**
  * 
  * @export
- * @interface SchemasProjectResponse
+ * @interface SchemasProjectPopulatedResponse
  */
-export interface SchemasProjectResponse {
+export interface SchemasProjectPopulatedResponse {
     /**
      * 
      * @type {string}
-     * @memberof SchemasProjectResponse
+     * @memberof SchemasProjectPopulatedResponse
      */
     id: string;
     /**
      * 
      * @type {boolean}
-     * @memberof SchemasProjectResponse
+     * @memberof SchemasProjectPopulatedResponse
      */
     isPrivate: boolean;
     /**
      * 
      * @type {string}
-     * @memberof SchemasProjectResponse
+     * @memberof SchemasProjectPopulatedResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof SchemasProjectResponse
+     * @memberof SchemasProjectPopulatedResponse
      */
     ownerId: string;
     /**
      * 
      * @type {Array<SchemasUserPlainResponseWithInfo>}
-     * @memberof SchemasProjectResponse
+     * @memberof SchemasProjectPopulatedResponse
      */
     users: Array<SchemasUserPlainResponseWithInfo>;
     /**
      * 
      * @type {Array<SchemasWayPlainResponse>}
-     * @memberof SchemasProjectResponse
+     * @memberof SchemasProjectPopulatedResponse
      */
     ways: Array<SchemasWayPlainResponse>;
 }
 
 /**
- * Check if a given object implements the SchemasProjectResponse interface.
+ * Check if a given object implements the SchemasProjectPopulatedResponse interface.
  */
-export function instanceOfSchemasProjectResponse(
+export function instanceOfSchemasProjectPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -87,14 +87,14 @@ export function instanceOfSchemasProjectResponse(
     return isInstance;
 }
 
-export function SchemasProjectResponseFromJSON(json: any): SchemasProjectResponse {
-    return SchemasProjectResponseFromJSONTyped(json, false);
+export function SchemasProjectPopulatedResponseFromJSON(json: any): SchemasProjectPopulatedResponse {
+    return SchemasProjectPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function SchemasProjectResponseFromJSONTyped(
+export function SchemasProjectPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): SchemasProjectResponse {
+): SchemasProjectPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -110,7 +110,7 @@ export function SchemasProjectResponseFromJSONTyped(
 }
 
 
-export function SchemasProjectResponseToJSON(value?: SchemasProjectResponse | null): any {
+export function SchemasProjectPopulatedResponseToJSON(value?: SchemasProjectPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

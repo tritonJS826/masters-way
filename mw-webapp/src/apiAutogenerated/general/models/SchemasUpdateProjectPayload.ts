@@ -24,13 +24,13 @@ export interface SchemasUpdateProjectPayload {
      * @type {boolean}
      * @memberof SchemasUpdateProjectPayload
      */
-    isPrivate?: boolean | null;
+    isPrivate?: boolean;
     /**
      * 
      * @type {string}
      * @memberof SchemasUpdateProjectPayload
      */
-    name?: string | null;
+    name?: string;
 }
 
 /**

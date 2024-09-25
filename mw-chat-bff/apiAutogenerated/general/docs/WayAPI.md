@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateWayPayload("CopiedFromWayUuid_example", int32(123), "GoalDescription_example", false, false, "Name_example", "OwnerUuid_example") // SchemasCreateWayPayload | query params
+	request := *openapiclient.NewSchemasCreateWayPayload("CopiedFromWayId_example", int32(123), "GoalDescription_example", false, false, "Name_example", "OwnerId_example", "ProjectId_example") // SchemasCreateWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **MetricsTotal** | **int32** |  | 
 **Name** | **string** |  | 
 **Owner** | [**SchemasUserPlainResponse**](SchemasUserPlainResponse.md) |  | 
+**ProjectUuid** | **NullableString** |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
 **WayTags** | [**[]SchemasWayTagResponse**](SchemasWayTagResponse.md) |  | 
@@ -26,7 +27,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasWayPlainResponse
 
-`func NewSchemasWayPlainResponse(childrenUuids []string, copiedFromWayUuid NullableString, createdAt string, dayReportsAmount int32, estimationTime int32, favoriteForUsers int32, goalDescription string, isCompleted bool, isPrivate bool, mentors []SchemasUserPlainResponse, metricsDone int32, metricsTotal int32, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPlainResponse`
+`func NewSchemasWayPlainResponse(childrenUuids []string, copiedFromWayUuid NullableString, createdAt string, dayReportsAmount int32, estimationTime int32, favoriteForUsers int32, goalDescription string, isCompleted bool, isPrivate bool, mentors []SchemasUserPlainResponse, metricsDone int32, metricsTotal int32, name string, owner SchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPlainResponse`
 
 NewSchemasWayPlainResponse instantiates a new SchemasWayPlainResponse object
 This constructor will assign default values to properties that have it defined,
@@ -331,6 +332,36 @@ and a boolean to check if the value has been set.
 SetOwner sets Owner field to given value.
 
 
+### GetProjectUuid
+
+`func (o *SchemasWayPlainResponse) GetProjectUuid() string`
+
+GetProjectUuid returns the ProjectUuid field if non-nil, zero value otherwise.
+
+### GetProjectUuidOk
+
+`func (o *SchemasWayPlainResponse) GetProjectUuidOk() (*string, bool)`
+
+GetProjectUuidOk returns a tuple with the ProjectUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectUuid
+
+`func (o *SchemasWayPlainResponse) SetProjectUuid(v string)`
+
+SetProjectUuid sets ProjectUuid field to given value.
+
+
+### SetProjectUuidNil
+
+`func (o *SchemasWayPlainResponse) SetProjectUuidNil(b bool)`
+
+ SetProjectUuidNil sets the value for ProjectUuid to be an explicit nil
+
+### UnsetProjectUuid
+`func (o *SchemasWayPlainResponse) UnsetProjectUuid()`
+
+UnsetProjectUuid ensures that no value is present for ProjectUuid, not even an explicit nil
 ### GetUpdatedAt
 
 `func (o *SchemasWayPlainResponse) GetUpdatedAt() string`

@@ -20,10 +20,12 @@ import {
   PlanApi,
   PlanJobTagApi,
   ProblemApi,
+  ProjectApi,
   RequestContext,
   ResponseContext,
   ToUserMentoringRequestApi,
-  UserApi, UserTagApi,
+  UserApi, UserProjectApi,
+  UserTagApi,
   WayApi,
   WayCollectionApi,
   WayCollectionWayApi,
@@ -109,6 +111,8 @@ export const fromUserMentoringRequest = new FromUserMentoringRequestApi(generalC
 export const mentorUserWay = new MentorUserWayApi(generalConfiguration);
 export const compositeWayService = new CompositeWayApi(generalConfiguration);
 export const aiService = new GeminiApi(generalConfiguration);
+export const projectService = new ProjectApi(generalConfiguration);
+export const userProjectService = new UserProjectApi(generalConfiguration);
 
 const chatConfiguration = new ChatConfiguration({
   basePath: env.API_CHAT_BASE_PATH,

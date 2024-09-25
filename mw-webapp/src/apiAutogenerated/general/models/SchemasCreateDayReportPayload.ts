@@ -24,7 +24,7 @@ export interface SchemasCreateDayReportPayload {
      * @type {string}
      * @memberof SchemasCreateDayReportPayload
      */
-    wayUuid: string;
+    wayId: string;
 }
 
 /**
@@ -34,7 +34,7 @@ export function instanceOfSchemasCreateDayReportPayload(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "wayUuid" in value;
+    isInstance = isInstance && "wayId" in value;
 
     return isInstance;
 }
@@ -52,7 +52,7 @@ export function SchemasCreateDayReportPayloadFromJSONTyped(
     }
     return {
         
-        'wayUuid': json['wayUuid'],
+        'wayId': json['wayId'],
     };
 }
 
@@ -66,7 +66,7 @@ export function SchemasCreateDayReportPayloadToJSON(value?: SchemasCreateDayRepo
     }
     return {
         
-        'wayUuid': value.wayUuid,
+        'wayId': value.wayId,
     };
 }
 

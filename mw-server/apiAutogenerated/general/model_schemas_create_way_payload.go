@@ -21,13 +21,14 @@ var _ MappedNullable = &SchemasCreateWayPayload{}
 
 // SchemasCreateWayPayload struct for SchemasCreateWayPayload
 type SchemasCreateWayPayload struct {
-	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
+	CopiedFromWayId NullableString `json:"copiedFromWayId"`
 	EstimationTime int32 `json:"estimationTime"`
 	GoalDescription string `json:"goalDescription"`
 	IsCompleted bool `json:"isCompleted"`
 	IsPrivate bool `json:"isPrivate"`
 	Name string `json:"name"`
-	OwnerUuid string `json:"ownerUuid"`
+	OwnerId string `json:"ownerId"`
+	ProjectId NullableString `json:"projectId"`
 }
 
 type _SchemasCreateWayPayload SchemasCreateWayPayload
@@ -36,15 +37,16 @@ type _SchemasCreateWayPayload SchemasCreateWayPayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasCreateWayPayload(copiedFromWayUuid NullableString, estimationTime int32, goalDescription string, isCompleted bool, isPrivate bool, name string, ownerUuid string) *SchemasCreateWayPayload {
+func NewSchemasCreateWayPayload(copiedFromWayId NullableString, estimationTime int32, goalDescription string, isCompleted bool, isPrivate bool, name string, ownerId string, projectId NullableString) *SchemasCreateWayPayload {
 	this := SchemasCreateWayPayload{}
-	this.CopiedFromWayUuid = copiedFromWayUuid
+	this.CopiedFromWayId = copiedFromWayId
 	this.EstimationTime = estimationTime
 	this.GoalDescription = goalDescription
 	this.IsCompleted = isCompleted
 	this.IsPrivate = isPrivate
 	this.Name = name
-	this.OwnerUuid = ownerUuid
+	this.OwnerId = ownerId
+	this.ProjectId = projectId
 	return &this
 }
 
@@ -56,30 +58,30 @@ func NewSchemasCreateWayPayloadWithDefaults() *SchemasCreateWayPayload {
 	return &this
 }
 
-// GetCopiedFromWayUuid returns the CopiedFromWayUuid field value
+// GetCopiedFromWayId returns the CopiedFromWayId field value
 // If the value is explicit nil, the zero value for string will be returned
-func (o *SchemasCreateWayPayload) GetCopiedFromWayUuid() string {
-	if o == nil || o.CopiedFromWayUuid.Get() == nil {
+func (o *SchemasCreateWayPayload) GetCopiedFromWayId() string {
+	if o == nil || o.CopiedFromWayId.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return *o.CopiedFromWayUuid.Get()
+	return *o.CopiedFromWayId.Get()
 }
 
-// GetCopiedFromWayUuidOk returns a tuple with the CopiedFromWayUuid field value
+// GetCopiedFromWayIdOk returns a tuple with the CopiedFromWayId field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *SchemasCreateWayPayload) GetCopiedFromWayUuidOk() (*string, bool) {
+func (o *SchemasCreateWayPayload) GetCopiedFromWayIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.CopiedFromWayUuid.Get(), o.CopiedFromWayUuid.IsSet()
+	return o.CopiedFromWayId.Get(), o.CopiedFromWayId.IsSet()
 }
 
-// SetCopiedFromWayUuid sets field value
-func (o *SchemasCreateWayPayload) SetCopiedFromWayUuid(v string) {
-	o.CopiedFromWayUuid.Set(&v)
+// SetCopiedFromWayId sets field value
+func (o *SchemasCreateWayPayload) SetCopiedFromWayId(v string) {
+	o.CopiedFromWayId.Set(&v)
 }
 
 // GetEstimationTime returns the EstimationTime field value
@@ -202,28 +204,54 @@ func (o *SchemasCreateWayPayload) SetName(v string) {
 	o.Name = v
 }
 
-// GetOwnerUuid returns the OwnerUuid field value
-func (o *SchemasCreateWayPayload) GetOwnerUuid() string {
+// GetOwnerId returns the OwnerId field value
+func (o *SchemasCreateWayPayload) GetOwnerId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.OwnerUuid
+	return o.OwnerId
 }
 
-// GetOwnerUuidOk returns a tuple with the OwnerUuid field value
+// GetOwnerIdOk returns a tuple with the OwnerId field value
 // and a boolean to check if the value has been set.
-func (o *SchemasCreateWayPayload) GetOwnerUuidOk() (*string, bool) {
+func (o *SchemasCreateWayPayload) GetOwnerIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.OwnerUuid, true
+	return &o.OwnerId, true
 }
 
-// SetOwnerUuid sets field value
-func (o *SchemasCreateWayPayload) SetOwnerUuid(v string) {
-	o.OwnerUuid = v
+// SetOwnerId sets field value
+func (o *SchemasCreateWayPayload) SetOwnerId(v string) {
+	o.OwnerId = v
+}
+
+// GetProjectId returns the ProjectId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *SchemasCreateWayPayload) GetProjectId() string {
+	if o == nil || o.ProjectId.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ProjectId.Get()
+}
+
+// GetProjectIdOk returns a tuple with the ProjectId field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SchemasCreateWayPayload) GetProjectIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectId.Get(), o.ProjectId.IsSet()
+}
+
+// SetProjectId sets field value
+func (o *SchemasCreateWayPayload) SetProjectId(v string) {
+	o.ProjectId.Set(&v)
 }
 
 func (o SchemasCreateWayPayload) MarshalJSON() ([]byte, error) {
@@ -236,13 +264,14 @@ func (o SchemasCreateWayPayload) MarshalJSON() ([]byte, error) {
 
 func (o SchemasCreateWayPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["copiedFromWayUuid"] = o.CopiedFromWayUuid.Get()
+	toSerialize["copiedFromWayId"] = o.CopiedFromWayId.Get()
 	toSerialize["estimationTime"] = o.EstimationTime
 	toSerialize["goalDescription"] = o.GoalDescription
 	toSerialize["isCompleted"] = o.IsCompleted
 	toSerialize["isPrivate"] = o.IsPrivate
 	toSerialize["name"] = o.Name
-	toSerialize["ownerUuid"] = o.OwnerUuid
+	toSerialize["ownerId"] = o.OwnerId
+	toSerialize["projectId"] = o.ProjectId.Get()
 	return toSerialize, nil
 }
 
@@ -251,13 +280,14 @@ func (o *SchemasCreateWayPayload) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"copiedFromWayUuid",
+		"copiedFromWayId",
 		"estimationTime",
 		"goalDescription",
 		"isCompleted",
 		"isPrivate",
 		"name",
-		"ownerUuid",
+		"ownerId",
+		"projectId",
 	}
 
 	allProperties := make(map[string]interface{})

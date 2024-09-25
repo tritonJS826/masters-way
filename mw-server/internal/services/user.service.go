@@ -246,6 +246,7 @@ type dbWay struct {
 	CreatedAt           time.Time
 	EstimationTime      int32
 	CopiedFromWayUuid   pgtype.UUID
+	ProjectUuid         pgtype.UUID
 	IsCompleted         bool
 	IsPrivate           bool
 	WayMetricsTotal     int64
@@ -365,6 +366,7 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 			CreatedAt:         dbWay.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
 			EstimationTime:    dbWay.EstimationTime,
 			IsCompleted:       dbWay.IsCompleted,
+			ProjectUuid:       util.MarshalPgUUID(dbWay.ProjectUuid),
 			Owner:             owner,
 			CopiedFromWayUuid: util.MarshalPgUUID(dbWay.CopiedFromWayUuid),
 			IsPrivate:         dbWay.IsPrivate,
@@ -457,6 +459,7 @@ func (us *UserService) convertDbWaysToPlainWays(ctx context.Context, dbWays []db
 			IsCompleted:       dbWay.IsCompleted,
 			Owner:             owner,
 			CopiedFromWayUuid: util.MarshalPgUUID(dbWay.CopiedFromWayUuid),
+			ProjectUuid:       util.MarshalPgUUID(dbWay.ProjectUuid),
 			IsPrivate:         dbWay.IsPrivate,
 			FavoriteForUsers:  int32(dbWay.WayFavoriteForUsers),
 			DayReportsAmount:  int32(dbWay.WayDayReportsAmount),

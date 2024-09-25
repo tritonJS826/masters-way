@@ -158,6 +158,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		EstimationTime:         way.EstimationTime,
 		IsCompleted:            way.IsCompleted,
 		IsPrivate:              way.IsPrivate,
+		ProjectUuid:            util.MarshalPgUUID(way.ProjectUuid),
 		Owner:                  wayOwner,
 		Mentors:                mentors,
 		FormerMentors:          formerMentors,
@@ -245,13 +246,14 @@ func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*
 		IsCompleted:       way.IsCompleted,
 		Owner:             owner,
 		CopiedFromWayUuid: util.MarshalPgUUID(way.CopiedFromWayUuid),
+		ProjectUuid:       util.MarshalPgUUID(way.ProjectUuid),
 		IsPrivate:         way.IsPrivate,
 		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
 		DayReportsAmount:  int32(way.WayDayReportsAmount),
 		Mentors:           mentors,
+		WayTags:           wayTags,
 		MetricsDone:       int32(way.WayMetricsDone),
 		MetricsTotal:      int32(way.WayMetricsTotal),
-		WayTags:           wayTags,
 		ChildrenUuids:     way.ChildrenUuids,
 	}, nil
 }
@@ -259,20 +261,26 @@ func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*
 func (ws *WayService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
 	now := time.Now()
 
-	var copiedFromWayPg pgtype.UUID
-	if payload.CopiedFromWayUuid != nil {
-		copiedFromWayPg = pgtype.UUID{Bytes: uuid.MustParse(*payload.CopiedFromWayUuid), Valid: true}
+	var projectPg, copiedFromWayPg pgtype.UUID
+	if payload.CopiedFromWayID != nil {
+		copiedFromWayPg = pgtype.UUID{Bytes: uuid.MustParse(*payload.CopiedFromWayID), Valid: true}
 	}
+
+	if payload.ProjectID != nil {
+		projectPg = pgtype.UUID{Bytes: uuid.MustParse(*payload.ProjectID), Valid: true}
+	}
+
 	args := db.CreateWayParams{
 		Name:              payload.Name,
 		GoalDescription:   payload.GoalDescription,
 		EstimationTime:    payload.EstimationTime,
-		OwnerUuid:         pgtype.UUID{Bytes: payload.OwnerUuid, Valid: true},
+		OwnerUuid:         pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerID), Valid: true},
 		IsCompleted:       payload.IsCompleted,
 		IsPrivate:         false,
 		CopiedFromWayUuid: copiedFromWayPg,
 		UpdatedAt:         pgtype.Timestamp{Time: now, Valid: true},
 		CreatedAt:         pgtype.Timestamp{Time: now, Valid: true},
+		ProjectUuid:       projectPg,
 	}
 
 	way, err := ws.wayRepository.CreateWay(ctx, args)

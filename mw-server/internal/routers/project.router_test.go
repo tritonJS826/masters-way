@@ -46,7 +46,7 @@ func TestCreateProject(t *testing.T) {
 			t.Fatalf("Failed to create project: %v", err)
 		}
 
-		expectedData := openapiGeneral.SchemasProjectResponse{
+		expectedData := openapiGeneral.SchemasProjectPopulatedResponse{
 			Name:      projectName,
 			OwnerId:   userID,
 			IsPrivate: false,
@@ -70,7 +70,7 @@ func TestCreateProject(t *testing.T) {
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		diff := cmp.Diff(expectedData, *project, cmpopts.IgnoreFields(openapiGeneral.SchemasProjectResponse{}, "Id"))
+		diff := cmp.Diff(expectedData, *project, cmpopts.IgnoreFields(openapiGeneral.SchemasProjectPopulatedResponse{}, "Id"))
 		assert.True(t, diff == "", "Structures should match except for Id")
 	})
 }
@@ -98,15 +98,9 @@ func TestUpdateProject(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		nullableProjectName := openapiGeneral.NullableString{}
-		nullableIsPrivate := openapiGeneral.NullableBool{}
-
-		nullableProjectName.Set(&projectName)
-		nullableIsPrivate.Set(&isPrivate)
-
 		request := openapiGeneral.SchemasUpdateProjectPayload{
-			Name:      nullableProjectName,
-			IsPrivate: nullableIsPrivate,
+			Name:      &projectName,
+			IsPrivate: &isPrivate,
 		}
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
@@ -115,12 +109,26 @@ func TestUpdateProject(t *testing.T) {
 			t.Fatalf("Failed to update project: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasProjectResponse{
+		expectedData := &openapiGeneral.SchemasProjectPopulatedResponse{
 			Id:        projectID,
 			Name:      projectName,
 			OwnerId:   userID,
 			IsPrivate: true,
 			Users: []openapiGeneral.SchemasUserPlainResponseWithInfo{
+				{
+					Uuid:             "7cdb041b-4574-4f7b-a500-c53e74c72e94",
+					Name:             "John Doe",
+					Email:            "john.doe@example.com",
+					Description:      "A brief description about John.",
+					CreatedAt:        "2024-07-08T10:00:00.000Z",
+					ImageUrl:         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
+					IsMentor:         false,
+					FavoriteForUsers: 0,
+					FavoriteWays:     0,
+					MentoringWays:    0,
+					OwnWays:          4,
+					Tags:             []openapiGeneral.SchemasUserTagResponse{},
+				},
 				{
 					Uuid:             "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
 					Name:             "Dana Evans",
@@ -146,5 +154,46 @@ func TestUpdateProject(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		assert.Equal(t, expectedData, project)
+	})
+}
+
+func TestGetProjectsByUserID(t *testing.T) {
+	newConfig, err := config.LoadConfig("../../")
+	if err != nil {
+		t.Fatalf("Failed to load config: %v", err)
+	}
+
+	generalApi := openapi.MakeGeneralAPIClient(&newConfig)
+	_, err = generalApi.DevAPI.DevResetDbGet(context.Background()).Execute()
+	if err != nil {
+		t.Fatalf("Failed to reset db: %v", err)
+	}
+
+	userID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
+
+	t.Run("should get projects by user id successfully", func(t *testing.T) {
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		if err != nil {
+			t.Fatalf("Failed to generate JWT: %v", err)
+		}
+
+		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
+		projects, response, err := generalApi.ProjectAPI.GetProjectsByUserId(ctx, userID).Execute()
+		if err != nil {
+			t.Fatalf("Failed to get projects by user id: %v", err)
+		}
+
+		expectedData := &openapiGeneral.SchemasGetProjectsByUserIDResponse{
+			Projects: []openapiGeneral.SchemasProjectPlainResponse{
+				{
+					Id:        "afb02990-7e8c-4353-a724-ea8de5fb6cfc",
+					Name:      "Project 1",
+					IsPrivate: false,
+				},
+			},
+		}
+
+		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, expectedData, projects)
 	})
 }

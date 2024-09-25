@@ -1,17 +1,14 @@
 package schemas
 
-import (
-	"github.com/google/uuid"
-)
-
 type CreateWayPayload struct {
-	Name              string    `json:"name" validate:"required"`
-	GoalDescription   string    `json:"goalDescription" validate:"required"`
-	EstimationTime    int32     `json:"estimationTime" validate:"required"`
-	CopiedFromWayUuid *string   `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
-	IsCompleted       bool      `json:"isCompleted" validate:"required"`
-	IsPrivate         bool      `json:"isPrivate" validate:"required"`
-	OwnerUuid         uuid.UUID `json:"ownerUuid" validate:"required"`
+	Name            string  `json:"name" validate:"required"`
+	GoalDescription string  `json:"goalDescription" validate:"required"`
+	OwnerID         string  `json:"ownerId" validate:"required"`
+	CopiedFromWayID *string `json:"copiedFromWayId" validate:"required" extensions:"x-nullable"`
+	ProjectID       *string `json:"projectId" validate:"required" extensions:"x-nullable"`
+	EstimationTime  int32   `json:"estimationTime" validate:"required"`
+	IsCompleted     bool    `json:"isCompleted" validate:"required"`
+	IsPrivate       bool    `json:"isPrivate" validate:"required"`
 }
 
 type UpdateWayPayload struct {
@@ -32,6 +29,7 @@ type WayPlainResponse struct {
 	IsCompleted       bool                `json:"isCompleted" validate:"required"`
 	Owner             UserPlainResponse   `json:"owner" validate:"required"`
 	CopiedFromWayUuid *string             `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
+	ProjectUuid       *string             `json:"projectUuid" validate:"required" extensions:"x-nullable"`
 	IsPrivate         bool                `json:"isPrivate" validate:"required"`
 	FavoriteForUsers  int32               `json:"favoriteForUsers" validate:"required"`
 	DayReportsAmount  int32               `json:"dayReportsAmount" validate:"required"`
@@ -60,6 +58,7 @@ type WayPopulatedResponse struct {
 	JobTags                []JobTagResponse       `json:"jobTags" validate:"required"`
 	Metrics                []MetricResponse       `json:"metrics" validate:"required"`
 	CopiedFromWayUuid      *string                `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
+	ProjectUuid            *string                `json:"projectUuid" validate:"required" extensions:"x-nullable"`
 	Children               []WayPopulatedResponse `json:"children" validate:"required"`
 }
 

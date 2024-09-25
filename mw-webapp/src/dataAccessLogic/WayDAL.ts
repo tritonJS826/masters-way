@@ -62,6 +62,11 @@ export interface CreateWayParams {
   wayName: string;
 
   /**
+   * Project's Uuid
+   */
+  projectUuid?: string;
+
+  /**
    * Way's data
    */
   baseWayData?: BaseWayData;
@@ -105,7 +110,7 @@ export class WayDAL {
    */
   public static async getWay(wayId: string): Promise<Way> {
     const wayDTO = await WayService.getWayByUuid({wayId});
-    const dayReports = await DayReportDAL.getDayReports({wayId, wayName: "todo"});
+    const dayReports = await DayReportDAL.getDayReports({wayId, wayName: wayDTO.name});
     const way = wayDTOToWay(wayDTO, dayReports);
 
     return way;
@@ -117,12 +122,13 @@ export class WayDAL {
   public static async createWay(params: CreateWayParams): Promise<WayPreview> {
     const wayDTO = await WayService.createWay({
       request: {
-        copiedFromWayUuid: params.baseWayData?.copiedFromWayUuid ?? null,
+        copiedFromWayId: params.baseWayData?.copiedFromWayUuid ?? null,
+        projectId: params.projectUuid ?? null,
         estimationTime: params.baseWayData?.estimationTime ?? 0,
         goalDescription: params.baseWayData?.goalDescription ?? "",
         name: params.baseWayData?.name ?? params.wayName,
         isPrivate: false,
-        ownerUuid: `${params.userUuid}`,
+        ownerId: `${params.userUuid}`,
         isCompleted: false,
       },
     });

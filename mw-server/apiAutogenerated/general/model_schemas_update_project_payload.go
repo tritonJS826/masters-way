@@ -19,8 +19,8 @@ var _ MappedNullable = &SchemasUpdateProjectPayload{}
 
 // SchemasUpdateProjectPayload struct for SchemasUpdateProjectPayload
 type SchemasUpdateProjectPayload struct {
-	IsPrivate NullableBool `json:"isPrivate,omitempty"`
-	Name NullableString `json:"name,omitempty"`
+	IsPrivate *bool `json:"isPrivate,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 // NewSchemasUpdateProjectPayload instantiates a new SchemasUpdateProjectPayload object
@@ -40,88 +40,68 @@ func NewSchemasUpdateProjectPayloadWithDefaults() *SchemasUpdateProjectPayload {
 	return &this
 }
 
-// GetIsPrivate returns the IsPrivate field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetIsPrivate returns the IsPrivate field value if set, zero value otherwise.
 func (o *SchemasUpdateProjectPayload) GetIsPrivate() bool {
-	if o == nil || IsNil(o.IsPrivate.Get()) {
+	if o == nil || IsNil(o.IsPrivate) {
 		var ret bool
 		return ret
 	}
-	return *o.IsPrivate.Get()
+	return *o.IsPrivate
 }
 
 // GetIsPrivateOk returns a tuple with the IsPrivate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *SchemasUpdateProjectPayload) GetIsPrivateOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.IsPrivate) {
 		return nil, false
 	}
-	return o.IsPrivate.Get(), o.IsPrivate.IsSet()
+	return o.IsPrivate, true
 }
 
 // HasIsPrivate returns a boolean if a field has been set.
 func (o *SchemasUpdateProjectPayload) HasIsPrivate() bool {
-	if o != nil && o.IsPrivate.IsSet() {
+	if o != nil && !IsNil(o.IsPrivate) {
 		return true
 	}
 
 	return false
 }
 
-// SetIsPrivate gets a reference to the given NullableBool and assigns it to the IsPrivate field.
+// SetIsPrivate gets a reference to the given bool and assigns it to the IsPrivate field.
 func (o *SchemasUpdateProjectPayload) SetIsPrivate(v bool) {
-	o.IsPrivate.Set(&v)
-}
-// SetIsPrivateNil sets the value for IsPrivate to be an explicit nil
-func (o *SchemasUpdateProjectPayload) SetIsPrivateNil() {
-	o.IsPrivate.Set(nil)
+	o.IsPrivate = &v
 }
 
-// UnsetIsPrivate ensures that no value is present for IsPrivate, not even an explicit nil
-func (o *SchemasUpdateProjectPayload) UnsetIsPrivate() {
-	o.IsPrivate.Unset()
-}
-
-// GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetName returns the Name field value if set, zero value otherwise.
 func (o *SchemasUpdateProjectPayload) GetName() string {
-	if o == nil || IsNil(o.Name.Get()) {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
-	return *o.Name.Get()
+	return *o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *SchemasUpdateProjectPayload) GetNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
-	return o.Name.Get(), o.Name.IsSet()
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *SchemasUpdateProjectPayload) HasName() bool {
-	if o != nil && o.Name.IsSet() {
+	if o != nil && !IsNil(o.Name) {
 		return true
 	}
 
 	return false
 }
 
-// SetName gets a reference to the given NullableString and assigns it to the Name field.
+// SetName gets a reference to the given string and assigns it to the Name field.
 func (o *SchemasUpdateProjectPayload) SetName(v string) {
-	o.Name.Set(&v)
-}
-// SetNameNil sets the value for Name to be an explicit nil
-func (o *SchemasUpdateProjectPayload) SetNameNil() {
-	o.Name.Set(nil)
-}
-
-// UnsetName ensures that no value is present for Name, not even an explicit nil
-func (o *SchemasUpdateProjectPayload) UnsetName() {
-	o.Name.Unset()
+	o.Name = &v
 }
 
 func (o SchemasUpdateProjectPayload) MarshalJSON() ([]byte, error) {
@@ -134,11 +114,11 @@ func (o SchemasUpdateProjectPayload) MarshalJSON() ([]byte, error) {
 
 func (o SchemasUpdateProjectPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.IsPrivate.IsSet() {
-		toSerialize["isPrivate"] = o.IsPrivate.Get()
+	if !IsNil(o.IsPrivate) {
+		toSerialize["isPrivate"] = o.IsPrivate
 	}
-	if o.Name.IsSet() {
-		toSerialize["name"] = o.Name.Get()
+	if !IsNil(o.Name) {
+		toSerialize["name"] = o.Name
 	}
 	return toSerialize, nil
 }

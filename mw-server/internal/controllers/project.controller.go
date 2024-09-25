@@ -29,7 +29,7 @@ func NewProjectController(projectService *services.ProjectService, wayService *s
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateProjectPayload true "query params"
-// @Success 200 {object} schemas.ProjectResponse
+// @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects [post]
 func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 	var payload *schemas.CreateProjectPayload
@@ -45,7 +45,7 @@ func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 	users, err := pc.userService.GetPlainUserWithInfoByIDs(ctx, project.ID)
 	util.HandleErrorGin(ctx, err)
 
-	response := schemas.ProjectResponse{
+	response := schemas.ProjectPopulatedResponse{
 		ID:        project.ID,
 		Name:      project.Name,
 		OwnerID:   project.OwnerID,
@@ -66,7 +66,7 @@ func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateProjectPayload true "query params"
 // @Param projectId path string true "project id"
-// @Success 200 {object} schemas.ProjectResponse
+// @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects/{projectId} [patch]
 func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 	var payload *schemas.UpdateProjectPayload
@@ -95,7 +95,7 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 		ways = append(ways, *way)
 	}
 
-	response := schemas.ProjectResponse{
+	response := schemas.ProjectPopulatedResponse{
 		ID:        project.ID,
 		Name:      project.Name,
 		OwnerID:   project.OwnerID,
@@ -115,7 +115,7 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param projectId path string true "project id"
-// @Success 200 {object} schemas.ProjectResponse
+// @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects/{projectId} [get]
 func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
@@ -134,13 +134,36 @@ func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 		ways = append(ways, *way)
 	}
 
-	response := schemas.ProjectResponse{
+	response := schemas.ProjectPopulatedResponse{
 		ID:        project.ID,
 		Name:      project.Name,
 		OwnerID:   project.OwnerID,
 		IsPrivate: project.IsPrivate,
 		Users:     users,
 		Ways:      ways,
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// Get Projects by userID handler
+// @Summary Get projects by user id
+// @Description
+// @Tags project
+// @ID get-projects-by-user-id
+// @Accept json
+// @Produce json
+// @Param userId path string true "user id"
+// @Success 200 {object} schemas.GetProjectsByUserIDResponse
+// @Router /projects/user/{userId} [get]
+func (pc *ProjectController) GetProjectsByUserID(ctx *gin.Context) {
+	userID := ctx.Param("userId")
+
+	projects, err := pc.projectService.GetProjectsByUserID(ctx, userID)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.GetProjectsByUserIDResponse{
+		Projects: projects,
 	}
 
 	ctx.JSON(http.StatusOK, response)

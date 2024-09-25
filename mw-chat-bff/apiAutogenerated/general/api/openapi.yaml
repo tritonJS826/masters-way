@@ -1098,12 +1098,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.ProjectResponse'
+                $ref: '#/components/schemas/schemas.ProjectPopulatedResponse'
           description: OK
       summary: Create a new project
       tags:
       - project
       x-codegen-request-body-name: request
+  /projects/user/{userId}:
+    get:
+      operationId: get-projects-by-user-id
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetProjectsByUserIDResponse'
+          description: OK
+      summary: Get projects by user id
+      tags:
+      - project
   /projects/{projectId}:
     get:
       operationId: get-project
@@ -1119,7 +1139,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.ProjectResponse'
+                $ref: '#/components/schemas/schemas.ProjectPopulatedResponse'
           description: OK
       summary: Get project by id
       tags:
@@ -1145,7 +1165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.ProjectResponse'
+                $ref: '#/components/schemas/schemas.ProjectPopulatedResponse'
           description: OK
       summary: Update project by id
       tags:
@@ -1195,6 +1215,47 @@ paths:
       summary: Delete toUserMentoringReques by UUID
       tags:
       - toUserMentoringRequest
+  /userProjects:
+    post:
+      operationId: create-userProject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.CreateUserProjectPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Add user to project
+      tags:
+      - userProject
+      x-codegen-request-body-name: request
+  /userProjects/{projectId}/{userId}:
+    delete:
+      operationId: delete-userProject
+      parameters:
+      - description: project ID
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete userProject by UUID
+      tags:
+      - userProject
   /userTags:
     post:
       operationId: create-userTag
@@ -2013,10 +2074,10 @@ components:
       type: object
     schemas.CreateDayReportPayload:
       properties:
-        wayUuid:
+        wayId:
           type: string
       required:
-      - wayUuid
+      - wayId
       type: object
     schemas.CreateFavoriteUserPayload:
       properties:
@@ -2189,6 +2250,16 @@ components:
       - userUuid
       - wayUuid
       type: object
+    schemas.CreateUserProjectPayload:
+      properties:
+        projectId:
+          type: string
+        userId:
+          type: string
+      required:
+      - projectId
+      - userId
+      type: object
     schemas.CreateUserTagPayload:
       properties:
         name:
@@ -2221,7 +2292,7 @@ components:
       type: object
     schemas.CreateWayPayload:
       properties:
-        copiedFromWayUuid:
+        copiedFromWayId:
           nullable: true
           type: string
         estimationTime:
@@ -2234,16 +2305,20 @@ components:
           type: boolean
         name:
           type: string
-        ownerUuid:
+        ownerId:
+          type: string
+        projectId:
+          nullable: true
           type: string
       required:
-      - copiedFromWayUuid
+      - copiedFromWayId
       - estimationTime
       - goalDescription
       - isCompleted
       - isPrivate
       - name
-      - ownerUuid
+      - ownerId
+      - projectId
       type: object
     schemas.CreateWayTagPayload:
       properties:
@@ -2295,6 +2370,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2339,6 +2415,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2391,6 +2468,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2435,6 +2513,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2487,6 +2566,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2531,6 +2611,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -2692,6 +2773,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -2736,6 +2818,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -2774,6 +2857,23 @@ components:
       required:
       - size
       - ways
+      type: object
+    schemas.GetProjectsByUserIDResponse:
+      example:
+        projects:
+        - name: name
+          id: id
+          isPrivate: true
+        - name: name
+          id: id
+          isPrivate: true
+      properties:
+        projects:
+          items:
+            $ref: '#/components/schemas/schemas.ProjectPlainResponse'
+          type: array
+      required:
+      - projects
       type: object
     schemas.GetUsersByIDsResponse:
       example:
@@ -3398,7 +3498,24 @@ components:
       - wayName
       - wayUuid
       type: object
-    schemas.ProjectResponse:
+    schemas.ProjectPlainResponse:
+      example:
+        name: name
+        id: id
+        isPrivate: true
+      properties:
+        id:
+          type: string
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+      required:
+      - id
+      - isPrivate
+      - name
+      type: object
+    schemas.ProjectPopulatedResponse:
       example:
         ways:
         - owner:
@@ -3418,6 +3535,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -3462,6 +3580,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -3626,10 +3745,8 @@ components:
     schemas.UpdateProjectPayload:
       properties:
         isPrivate:
-          nullable: true
           type: boolean
         name:
-          nullable: true
           type: string
       type: object
     schemas.UpdateUserPayload:
@@ -3777,6 +3894,7 @@ components:
               isPrivate: true
               uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -3821,6 +3939,7 @@ components:
               isPrivate: true
               uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -3873,6 +3992,7 @@ components:
               isPrivate: true
               uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -3917,6 +4037,7 @@ components:
               isPrivate: true
               uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -3969,6 +4090,7 @@ components:
               isPrivate: true
               uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -4013,6 +4135,7 @@ components:
               isPrivate: true
               uuid: uuid
               dayReportsAmount: 0
+              projectUuid: projectUuid
               metricsDone: 5
               createdAt: createdAt
               wayTags:
@@ -4087,6 +4210,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4131,6 +4255,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4182,6 +4307,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4226,6 +4352,7 @@ components:
             isPrivate: true
             uuid: uuid
             dayReportsAmount: 0
+            projectUuid: projectUuid
             metricsDone: 5
             createdAt: createdAt
             wayTags:
@@ -4279,6 +4406,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4323,6 +4451,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4454,6 +4583,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4498,6 +4628,7 @@ components:
           isPrivate: true
           uuid: uuid
           dayReportsAmount: 0
+          projectUuid: projectUuid
           metricsDone: 5
           createdAt: createdAt
           wayTags:
@@ -4589,6 +4720,7 @@ components:
         isPrivate: true
         uuid: uuid
         dayReportsAmount: 0
+        projectUuid: projectUuid
         metricsDone: 5
         createdAt: createdAt
         wayTags:
@@ -4650,6 +4782,9 @@ components:
           type: string
         owner:
           $ref: '#/components/schemas/schemas.UserPlainResponse'
+        projectUuid:
+          nullable: true
+          type: string
         updatedAt:
           type: string
         uuid:
@@ -4673,6 +4808,7 @@ components:
       - metricsTotal
       - name
       - owner
+      - projectUuid
       - updatedAt
       - uuid
       - wayTags
@@ -4693,6 +4829,7 @@ components:
         estimationTime: 0
         isPrivate: true
         uuid: uuid
+        projectUuid: projectUuid
         createdAt: createdAt
         mentorRequests:
         - createdAt: createdAt
@@ -4814,6 +4951,9 @@ components:
           type: string
         owner:
           $ref: '#/components/schemas/schemas.UserPlainResponse'
+        projectUuid:
+          nullable: true
+          type: string
         updatedAt:
           type: string
         uuid:
@@ -4838,6 +4978,7 @@ components:
       - metrics
       - name
       - owner
+      - projectUuid
       - updatedAt
       - uuid
       - wayTags

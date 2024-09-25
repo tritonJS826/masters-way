@@ -1,0 +1,68 @@
+@import "src/styles/variables";
+
+$wayCollectionCardMainHeight: 76px;
+$wayCollectionCardAdditionalHeight: 47px;
+$titleWithBurgerBlockHeight: 32px;
+
+.projectCardContainer {
+  width: 100%;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $primaryBorderRadius;
+  cursor: pointer;
+  @include scaleOnHover;
+}
+
+.projectButton {
+  padding: 0;
+  border: none;
+}
+
+.mainInfo {
+  height: $wayCollectionCardMainHeight;
+  padding: $paddingMedium;
+  background-color: var(--mainInfoCardColor);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  gap: $gapSmall;
+  text-align: left;
+
+  & h3 {
+    font-size: $fontSizeBig;
+  }
+}
+
+.title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--secondaryTextColor);
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+}
+
+.projectTitleBlock {
+  min-height: $titleWithBurgerBlockHeight;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--secondaryTextColor);
+  font-size: $fontSizeMedium;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+}
+
+.additionalInfo {
+  height: $wayCollectionCardAdditionalHeight;
+  padding: $paddingMedium;
+  background-color: var(--additionalInfoCardBgColor);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  color: var(--primaryTextColor);
+  font-size: $fontSizeBig;
+  font-weight: $fontWeightBold;
+}

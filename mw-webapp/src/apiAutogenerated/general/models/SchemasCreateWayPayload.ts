@@ -24,7 +24,7 @@ export interface SchemasCreateWayPayload {
      * @type {string}
      * @memberof SchemasCreateWayPayload
      */
-    copiedFromWayUuid: string | null;
+    copiedFromWayId: string | null;
     /**
      * 
      * @type {number}
@@ -60,7 +60,13 @@ export interface SchemasCreateWayPayload {
      * @type {string}
      * @memberof SchemasCreateWayPayload
      */
-    ownerUuid: string;
+    ownerId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasCreateWayPayload
+     */
+    projectId: string | null;
 }
 
 /**
@@ -70,13 +76,14 @@ export function instanceOfSchemasCreateWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "copiedFromWayUuid" in value;
+    isInstance = isInstance && "copiedFromWayId" in value;
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "goalDescription" in value;
     isInstance = isInstance && "isCompleted" in value;
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "ownerUuid" in value;
+    isInstance = isInstance && "ownerId" in value;
+    isInstance = isInstance && "projectId" in value;
 
     return isInstance;
 }
@@ -94,13 +101,14 @@ export function SchemasCreateWayPayloadFromJSONTyped(
     }
     return {
         
-        'copiedFromWayUuid': json['copiedFromWayUuid'],
+        'copiedFromWayId': json['copiedFromWayId'],
         'estimationTime': json['estimationTime'],
         'goalDescription': json['goalDescription'],
         'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
         'name': json['name'],
-        'ownerUuid': json['ownerUuid'],
+        'ownerId': json['ownerId'],
+        'projectId': json['projectId'],
     };
 }
 
@@ -114,13 +122,14 @@ export function SchemasCreateWayPayloadToJSON(value?: SchemasCreateWayPayload | 
     }
     return {
         
-        'copiedFromWayUuid': value.copiedFromWayUuid,
+        'copiedFromWayId': value.copiedFromWayId,
         'estimationTime': value.estimationTime,
         'goalDescription': value.goalDescription,
         'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
         'name': value.name,
-        'ownerUuid': value.ownerUuid,
+        'ownerId': value.ownerId,
+        'projectId': value.projectId,
     };
 }
 

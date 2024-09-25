@@ -129,6 +129,7 @@ Class | Method | HTTP request | Description
 *ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
 *ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /project/{projectId} | Delete project by id
 *ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
+*ProjectAPI* | [**GetProjectsByUserId**](docs/ProjectAPI.md#getprojectsbyuserid) | **Get** /projects/user/{userId} | Get projects by user id
 *ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
@@ -136,6 +137,8 @@ Class | Method | HTTP request | Description
 *UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
 *UserAPI* | [**GetUsersByIds**](docs/UserAPI.md#getusersbyids) | **Get** /users/list-by-ids | Get users by ids
 *UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
+*UserProjectAPI* | [**CreateUserProject**](docs/UserProjectAPI.md#createuserproject) | **Post** /userProjects | Add user to project
+*UserProjectAPI* | [**DeleteUserProject**](docs/UserProjectAPI.md#deleteuserproject) | **Delete** /userProjects/{projectId}/{userId} | Delete userProject by UUID
 *UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
 *UserTagAPI* | [**DeleteUserTag**](docs/UserTagAPI.md#deleteusertag) | **Delete** /userTags/{userTagId}/{userId} | Delete userTag by UUID
 *WayAPI* | [**CreateWay**](docs/WayAPI.md#createway) | **Post** /ways | Create a new way
@@ -185,6 +188,7 @@ Class | Method | HTTP request | Description
  - [SchemasCreateProblemPayload](docs/SchemasCreateProblemPayload.md)
  - [SchemasCreateProjectPayload](docs/SchemasCreateProjectPayload.md)
  - [SchemasCreateToUserMentoringRequestPayload](docs/SchemasCreateToUserMentoringRequestPayload.md)
+ - [SchemasCreateUserProjectPayload](docs/SchemasCreateUserProjectPayload.md)
  - [SchemasCreateUserTagPayload](docs/SchemasCreateUserTagPayload.md)
  - [SchemasCreateWayCollectionPayload](docs/SchemasCreateWayCollectionPayload.md)
  - [SchemasCreateWayCollectionWay](docs/SchemasCreateWayCollectionWay.md)
@@ -198,6 +202,7 @@ Class | Method | HTTP request | Description
  - [SchemasGenerateMetricsResponse](docs/SchemasGenerateMetricsResponse.md)
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
  - [SchemasGetAllWaysResponse](docs/SchemasGetAllWaysResponse.md)
+ - [SchemasGetProjectsByUserIDResponse](docs/SchemasGetProjectsByUserIDResponse.md)
  - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
  - [SchemasGoogleToken](docs/SchemasGoogleToken.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
@@ -210,7 +215,8 @@ Class | Method | HTTP request | Description
  - [SchemasOverallInformation](docs/SchemasOverallInformation.md)
  - [SchemasPlanPopulatedResponse](docs/SchemasPlanPopulatedResponse.md)
  - [SchemasProblemPopulatedResponse](docs/SchemasProblemPopulatedResponse.md)
- - [SchemasProjectResponse](docs/SchemasProjectResponse.md)
+ - [SchemasProjectPlainResponse](docs/SchemasProjectPlainResponse.md)
+ - [SchemasProjectPopulatedResponse](docs/SchemasProjectPopulatedResponse.md)
  - [SchemasTimeSpentByDayPoint](docs/SchemasTimeSpentByDayPoint.md)
  - [SchemasToUserMentoringRequestResponse](docs/SchemasToUserMentoringRequestResponse.md)
  - [SchemasUpdateCommentPayload](docs/SchemasUpdateCommentPayload.md)

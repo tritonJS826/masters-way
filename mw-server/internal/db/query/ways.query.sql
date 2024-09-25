@@ -21,20 +21,7 @@ INSERT INTO ways(
     @is_completed,
     @owner_uuid,
     @project_uuid
-) RETURNING
-    *,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid) AS way_metrics_total,
-    (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = @way_uuid AND metrics.is_done = true) AS way_metrics_done,
-    (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = @way_uuid) AS way_favorite_for_users,
-    (SELECT COUNT(*) FROM day_reports WHERE day_reports.way_uuid = @way_uuid) AS way_day_reports_amount,
-    COALESCE(
-        ARRAY(
-            SELECT composite_ways.child_uuid
-            FROM composite_ways
-            WHERE composite_ways.parent_uuid = ways.uuid
-        ),
-        '{}'
-    )::VARCHAR[] AS children_uuids;
+) RETURNING uuid, copied_from_way_uuid;
 
 -- TODO exclude ways from private projects for initiator user
 -- name: GetWayById :one
@@ -48,6 +35,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     COALESCE(
         ARRAY(
             SELECT composite_ways.child_uuid
@@ -85,6 +73,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -115,6 +104,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -157,6 +147,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -186,6 +177,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -235,32 +227,49 @@ WHERE ways.is_private = false
         WHERE day_reports.way_uuid = ways.uuid
     ) >= @min_day_reports_amount::integer)
     AND (LOWER(ways.name) LIKE '%' || LOWER(@way_name) || '%' OR @way_name = '')
+    AND (
+            ways.project_uuid IS NULL
+            OR (
+                SELECT projects.is_private
+                FROM projects
+                WHERE projects.uuid = ways.project_uuid
+		) = false
+    )
 ORDER BY ways.created_at DESC
 LIMIT @request_limit
 OFFSET @request_offset;
 
 
--- TODO: Add filter by project
 -- name: CountWaysByType :one
-SELECT COUNT(*) FROM ways
+SELECT COUNT(*)
+FROM ways
 WHERE ways.is_private = false
     AND (
-        (@way_status = 'inProgress'
+        (@way_status::VARCHAR = 'inProgress'
             AND ways.is_completed = false
             AND ways.updated_at > ((@date)::timestamp - interval '14 days'))
-        OR (@way_status = 'completed' AND ways.is_completed = true)
-        OR (@way_status = 'abandoned'
+        OR (@way_status::VARCHAR = 'completed' AND ways.is_completed = true)
+        OR (@way_status::VARCHAR = 'abandoned'
             AND (ways.is_completed = false)
             AND (ways.updated_at < ((@date)::timestamp - interval '14 days'))
         )
-        OR (@way_status = 'all')
+        OR (@way_status::VARCHAR = 'all')
     )
     AND (
         (SELECT COUNT(day_reports.uuid)
             FROM day_reports
             WHERE day_reports.way_uuid = ways.uuid
         ) >= @min_day_reports_amount::integer
-    ) AND (LOWER(ways.name) LIKE '%' || LOWER(@way_name) || '%' OR @way_name = '');
+    )
+    AND (LOWER(ways.name) LIKE '%' || LOWER(@way_name) || '%' OR @way_name = '')
+    AND (
+            ways.project_uuid IS NULL
+            OR (
+                SELECT projects.is_private
+                FROM projects
+                WHERE projects.uuid = ways.project_uuid
+		) = false
+    );
 
 -- name: UpdateWay :one
 UPDATE ways

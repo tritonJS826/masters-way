@@ -59,6 +59,7 @@ SELECT
     ways.copied_from_way_uuid,
     ways.is_completed,
     ways.is_private,
+    ways.project_uuid,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid) AS way_metrics_total,
     (SELECT COUNT(*) FROM metrics WHERE metrics.way_uuid = ways.uuid AND metrics.is_done = true) AS way_metrics_done,
     (SELECT COUNT(*) FROM favorite_users_ways WHERE favorite_users_ways.way_uuid = ways.uuid) AS way_favorite_for_users,
@@ -88,6 +89,7 @@ type GetFromUserMentoringRequestWaysByUserIdRow struct {
 	CopiedFromWayUuid   pgtype.UUID      `json:"copied_from_way_uuid"`
 	IsCompleted         bool             `json:"is_completed"`
 	IsPrivate           bool             `json:"is_private"`
+	ProjectUuid         pgtype.UUID      `json:"project_uuid"`
 	WayMetricsTotal     int64            `json:"way_metrics_total"`
 	WayMetricsDone      int64            `json:"way_metrics_done"`
 	WayFavoriteForUsers int64            `json:"way_favorite_for_users"`
@@ -115,6 +117,7 @@ func (q *Queries) GetFromUserMentoringRequestWaysByUserId(ctx context.Context, u
 			&i.CopiedFromWayUuid,
 			&i.IsCompleted,
 			&i.IsPrivate,
+			&i.ProjectUuid,
 			&i.WayMetricsTotal,
 			&i.WayMetricsDone,
 			&i.WayFavoriteForUsers,

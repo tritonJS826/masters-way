@@ -348,10 +348,10 @@ func (ds *DayReportService) GetLastDayReportDate(ctx context.Context, wayUUIDs [
 	}, nil
 }
 
-func (drs *DayReportService) CreateDayReport(ctx context.Context, wayUUID uuid.UUID) (*schemas.CompositeDayReportPopulatedResponse, error) {
+func (drs *DayReportService) CreateDayReport(ctx context.Context, wayID string) (*schemas.CompositeDayReportPopulatedResponse, error) {
 	now := time.Now()
 	dbDayReport, err := drs.dayReportRepository.CreateDayReport(ctx, db.CreateDayReportParams{
-		WayUuid:   pgtype.UUID{Bytes: wayUUID, Valid: true},
+		WayUuid:   pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true},
 		CreatedAt: pgtype.Timestamp{Time: now, Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	})
@@ -360,7 +360,7 @@ func (drs *DayReportService) CreateDayReport(ctx context.Context, wayUUID uuid.U
 	}
 
 	way, err := drs.dayReportRepository.UpdateWay(ctx, db.UpdateWayParams{
-		WayUuid:   pgtype.UUID{Bytes: wayUUID, Valid: true},
+		WayUuid:   pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true},
 		UpdatedAt: pgtype.Timestamp{Time: now, Valid: true},
 	})
 	if err != nil {

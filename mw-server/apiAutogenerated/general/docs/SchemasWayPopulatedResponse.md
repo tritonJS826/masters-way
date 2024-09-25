@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **Metrics** | [**[]SchemasMetricResponse**](SchemasMetricResponse.md) |  | 
 **Name** | **string** |  | 
 **Owner** | [**SchemasUserPlainResponse**](SchemasUserPlainResponse.md) |  | 
+**ProjectUuid** | **NullableString** |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
 **WayTags** | [**[]SchemasWayTagResponse**](SchemasWayTagResponse.md) |  | 
@@ -27,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasWayPopulatedResponse
 
-`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
+`func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []SchemasWayTagResponse, ) *SchemasWayPopulatedResponse`
 
 NewSchemasWayPopulatedResponse instantiates a new SchemasWayPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -352,6 +353,36 @@ and a boolean to check if the value has been set.
 SetOwner sets Owner field to given value.
 
 
+### GetProjectUuid
+
+`func (o *SchemasWayPopulatedResponse) GetProjectUuid() string`
+
+GetProjectUuid returns the ProjectUuid field if non-nil, zero value otherwise.
+
+### GetProjectUuidOk
+
+`func (o *SchemasWayPopulatedResponse) GetProjectUuidOk() (*string, bool)`
+
+GetProjectUuidOk returns a tuple with the ProjectUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjectUuid
+
+`func (o *SchemasWayPopulatedResponse) SetProjectUuid(v string)`
+
+SetProjectUuid sets ProjectUuid field to given value.
+
+
+### SetProjectUuidNil
+
+`func (o *SchemasWayPopulatedResponse) SetProjectUuidNil(b bool)`
+
+ SetProjectUuidNil sets the value for ProjectUuid to be an explicit nil
+
+### UnsetProjectUuid
+`func (o *SchemasWayPopulatedResponse) UnsetProjectUuid()`
+
+UnsetProjectUuid ensures that no value is present for ProjectUuid, not even an explicit nil
 ### GetUpdatedAt
 
 `func (o *SchemasWayPopulatedResponse) GetUpdatedAt() string`

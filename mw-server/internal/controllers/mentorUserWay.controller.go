@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type MentorUserWayController struct {
@@ -39,7 +38,7 @@ func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 
 	err := mc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
 		LimitName: services.MaxMentoringsWays,
-		UserID:    uuid.MustParse(payload.UserUuid),
+		UserID:    payload.UserUuid,
 	})
 	util.HandleErrorGin(ctx, err)
 

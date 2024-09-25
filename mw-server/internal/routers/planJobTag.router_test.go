@@ -36,7 +36,7 @@ func TestCreatePlanTag(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
 		// Create Day Report for Way
-		requestCreateDayReport := openapiGeneral.SchemasCreateDayReportPayload{WayUuid: wayID}
+		requestCreateDayReport := openapiGeneral.SchemasCreateDayReportPayload{WayId: wayID}
 		dayReport, _, err := generalApi.DayReportAPI.CreateDayReport(ctx).Request(requestCreateDayReport).Execute()
 		if err != nil {
 			t.Fatalf("Failed to create day report: %v", err)

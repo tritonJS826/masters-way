@@ -1,0 +1,26 @@
+{
+  "projectInfo": {
+    "deleteProject": {
+      "ru": "Удалить проект",
+      "en": "Delete project",
+      "ua": "Видалити проект"
+    },
+    "deleteProjectModalQuestion": {
+      "ru": "Вы уверены, что хотите удалить проект",
+      "en": "Are you sure you want to delete project",
+      "ua": "Ви впевнені, що хочете видалити проект"
+    }
+  },
+  "notifications": {
+    "projectNameMaxLength": {
+      "ru": "Название проекта не должно превышать 50 символов",
+      "en": "The name of the project should not exceed 50 characters",
+      "ua": "Назва проекту не повинна перевищувати 50 символів"
+    },
+    "projectNameMinLength": {
+      "ru": "Название проекта должно содержать хотя бы один символ",
+      "en": "The project name must contain at least one character",
+      "ua": "Назва проекту має містити хоча б один символ"
+    }
+  }
+}

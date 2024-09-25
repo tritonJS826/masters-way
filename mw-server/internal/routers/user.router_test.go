@@ -206,8 +206,9 @@ func TestGetUserById(t *testing.T) {
 			t.Fatalf("Failed to get User by id: %v", err)
 		}
 
-		nullableCopiedFromWayUUID := openapiGeneral.NullableString{}
-		nullableCopiedFromWayUUID.Set(nil)
+		emptyNullableString := openapiGeneral.NullableString{}
+		emptyNullableString.Set(nil)
+
 		expectedData := &openapiGeneral.SchemasUserPopulatedResponse{
 			CreatedAt:            "2024-07-08T10:00:00.000Z",
 			CustomWayCollections: []openapiGeneral.SchemasWayCollectionPopulatedResponse{},
@@ -233,7 +234,8 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayUuid: nullableCopiedFromWayUUID,
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  8,
@@ -270,7 +272,8 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayUuid: nullableCopiedFromWayUUID,
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  8,
@@ -297,7 +300,8 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayUuid: nullableCopiedFromWayUUID,
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  1,
@@ -327,7 +331,8 @@ func TestGetUserById(t *testing.T) {
 								ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 								IsMentor:    false,
 							},
-							CopiedFromWayUuid: nullableCopiedFromWayUUID,
+							CopiedFromWayUuid: emptyNullableString,
+							ProjectUuid:       emptyNullableString,
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  0,
@@ -385,7 +390,6 @@ func TestGetUserById(t *testing.T) {
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData, allUsersResponse)
 		assert.Equal(t, expectedData, allUsersResponse)
 	})
 }

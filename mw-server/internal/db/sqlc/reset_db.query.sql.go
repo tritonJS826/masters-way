@@ -229,7 +229,8 @@ VALUES
 
 INSERT INTO "users_projects" ("user_uuid", "project_uuid")
 VALUES
-    ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', 'afb02990-7e8c-4353-a724-ea8de5fb6cfc');
+    ('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', 'afb02990-7e8c-4353-a724-ea8de5fb6cfc'),
+    ('7cdb041b-4574-4f7b-a500-c53e74c72e94', 'afb02990-7e8c-4353-a724-ea8de5fb6cfc');
 
 END $$
 `

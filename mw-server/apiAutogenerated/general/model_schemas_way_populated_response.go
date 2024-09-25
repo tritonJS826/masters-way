@@ -36,6 +36,7 @@ type SchemasWayPopulatedResponse struct {
 	Metrics []SchemasMetricResponse `json:"metrics"`
 	Name string `json:"name"`
 	Owner SchemasUserPlainResponse `json:"owner"`
+	ProjectUuid NullableString `json:"projectUuid"`
 	UpdatedAt string `json:"updatedAt"`
 	Uuid string `json:"uuid"`
 	WayTags []SchemasWayTagResponse `json:"wayTags"`
@@ -47,7 +48,7 @@ type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
+func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []SchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []SchemasJobTagResponse, mentorRequests []SchemasUserPlainResponse, mentors []SchemasUserPlainResponse, metrics []SchemasMetricResponse, name string, owner SchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPopulatedResponse {
 	this := SchemasWayPopulatedResponse{}
 	this.Children = children
 	this.CopiedFromWayUuid = copiedFromWayUuid
@@ -64,6 +65,7 @@ func NewSchemasWayPopulatedResponse(children []SchemasWayPopulatedResponse, copi
 	this.Metrics = metrics
 	this.Name = name
 	this.Owner = owner
+	this.ProjectUuid = projectUuid
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
 	this.WayTags = wayTags
@@ -440,6 +442,32 @@ func (o *SchemasWayPopulatedResponse) SetOwner(v SchemasUserPlainResponse) {
 	o.Owner = v
 }
 
+// GetProjectUuid returns the ProjectUuid field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *SchemasWayPopulatedResponse) GetProjectUuid() string {
+	if o == nil || o.ProjectUuid.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ProjectUuid.Get()
+}
+
+// GetProjectUuidOk returns a tuple with the ProjectUuid field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SchemasWayPopulatedResponse) GetProjectUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectUuid.Get(), o.ProjectUuid.IsSet()
+}
+
+// SetProjectUuid sets field value
+func (o *SchemasWayPopulatedResponse) SetProjectUuid(v string) {
+	o.ProjectUuid.Set(&v)
+}
+
 // GetUpdatedAt returns the UpdatedAt field value
 func (o *SchemasWayPopulatedResponse) GetUpdatedAt() string {
 	if o == nil {
@@ -537,6 +565,7 @@ func (o SchemasWayPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["metrics"] = o.Metrics
 	toSerialize["name"] = o.Name
 	toSerialize["owner"] = o.Owner
+	toSerialize["projectUuid"] = o.ProjectUuid.Get()
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["wayTags"] = o.WayTags
@@ -563,6 +592,7 @@ func (o *SchemasWayPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 		"metrics",
 		"name",
 		"owner",
+		"projectUuid",
 		"updatedAt",
 		"uuid",
 		"wayTags",

@@ -139,6 +139,12 @@ export interface SchemasWayPopulatedResponse {
      * @type {string}
      * @memberof SchemasWayPopulatedResponse
      */
+    projectUuid: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SchemasWayPopulatedResponse
+     */
     updatedAt: string;
     /**
      * 
@@ -176,6 +182,7 @@ export function instanceOfSchemasWayPopulatedResponse(
     isInstance = isInstance && "metrics" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "owner" in value;
+    isInstance = isInstance && "projectUuid" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "wayTags" in value;
@@ -211,6 +218,7 @@ export function SchemasWayPopulatedResponseFromJSONTyped(
         'metrics': ((json['metrics'] as Array<any>).map(SchemasMetricResponseFromJSON)),
         'name': json['name'],
         'owner': SchemasUserPlainResponseFromJSON(json['owner']),
+        'projectUuid': json['projectUuid'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
         'wayTags': ((json['wayTags'] as Array<any>).map(SchemasWayTagResponseFromJSON)),
@@ -242,6 +250,7 @@ export function SchemasWayPopulatedResponseToJSON(value?: SchemasWayPopulatedRes
         'metrics': ((value.metrics as Array<any>).map(SchemasMetricResponseToJSON)),
         'name': value.name,
         'owner': SchemasUserPlainResponseToJSON(value.owner),
+        'projectUuid': value.projectUuid,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
         'wayTags': ((value.wayTags as Array<any>).map(SchemasWayTagResponseToJSON)),
