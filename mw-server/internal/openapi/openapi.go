@@ -22,11 +22,11 @@ func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 func MakeGeneralAPIClient(cfg *config.Config) *openapiGeneral.APIClient {
 	generalAPIConfig := &openapiGeneral.Configuration{
-		Host:   cfg.GeneralAPIHost,
+		Host:   cfg.TestGeneralAPIHost,
 		Scheme: "http",
 		Servers: openapiGeneral.ServerConfigurations{
 			{
-				URL:         cfg.GeneralBaseURL,
+				URL:         cfg.TestGeneralBaseURL,
 				Description: "mw-general",
 			},
 		},

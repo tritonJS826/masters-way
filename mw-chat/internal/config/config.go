@@ -12,26 +12,28 @@ type Config struct {
 	WebappBaseURL    string `mapstructure:"WEBAPP_BASE_URL"`
 	EnvType          string `mapstructure:"ENV_TYPE"`
 	DBSource         string `mapstructure:"DB_SOURCE"`
-	ChatAPIHost      string `mapstructure:"CHAT_API_HOST"`
-	ChatBaseURL      string `mapstructure:"CHAT_BASE_URL"`
+	TestChatAPIHost  string `mapstructure:"TEST_CHAT_API_HOST"`
+	TestChatBaseURL  string `mapstructure:"TEST_CHAT_BASE_URL"`
 	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [6]string{
+var prodRequiredVariables = [7]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
-	"CHAT_BASE_URL",
+	"TEST_CHAT_API_HOST",
+	"TEST_CHAT_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [6]string{
+var devRequiredVariables = [7]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
-	"CHAT_BASE_URL",
+	"TEST_CHAT_API_HOST",
+	"TEST_CHAT_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 

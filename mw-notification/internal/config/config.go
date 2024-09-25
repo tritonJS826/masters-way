@@ -8,30 +8,32 @@ import (
 )
 
 type Config struct {
-	ServerPort          string `mapstructure:"SERVER_PORT"`
-	WebappBaseURL       string `mapstructure:"WEBAPP_BASE_URL"`
-	EnvType             string `mapstructure:"ENV_TYPE"`
-	DBSource            string `mapstructure:"DB_SOURCE"`
-	NotificationAPIHost string `mapstructure:"NOTIFICATION_API_HOST"`
-	NotificationBaseURL string `mapstructure:"NOTIFICATION_BASE_URL"`
-	SecretSessionKey    string `mapstructure:"SECRET_SESSION_KEY"`
+	ServerPort              string `mapstructure:"SERVER_PORT"`
+	WebappBaseURL           string `mapstructure:"WEBAPP_BASE_URL"`
+	EnvType                 string `mapstructure:"ENV_TYPE"`
+	DBSource                string `mapstructure:"DB_SOURCE"`
+	TestNotificationAPIHost string `mapstructure:"TEST_NOTIFICATION_API_HOST"`
+	TestNotificationBaseURL string `mapstructure:"TEST_NOTIFICATION_BASE_URL"`
+	SecretSessionKey        string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [6]string{
+var prodRequiredVariables = [7]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
-	"NOTIFICATION_BASE_URL",
+	"TEST_NOTIFICATION_API_HOST",
+	"TEST_NOTIFICATION_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [6]string{
+var devRequiredVariables = [7]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
-	"NOTIFICATION_BASE_URL",
+	"TEST_NOTIFICATION_API_HOST",
+	"TEST_NOTIFICATION_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 

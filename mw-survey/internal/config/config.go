@@ -8,13 +8,13 @@ import (
 )
 
 type Config struct {
-	ServerPort       string `mapstructure:"SERVER_PORT"`
-	EnvType          string `mapstructure:"ENV_TYPE"`
-	DBSource         string `mapstructure:"DB_SOURCE"`
-	WebappBaseUrl    string `mapstructure:"WEBAPP_BASE_URL"`
-	SurveyAPIHost    string `mapstructure:"SURVEY_API_HOST"`
-	SurveyBaseURL    string `mapstructure:"SURVEY_BASE_URL"`
-	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
+	ServerPort        string `mapstructure:"SERVER_PORT"`
+	EnvType           string `mapstructure:"ENV_TYPE"`
+	DBSource          string `mapstructure:"DB_SOURCE"`
+	WebappBaseUrl     string `mapstructure:"WEBAPP_BASE_URL"`
+	TestSurveyAPIHost string `mapstructure:"TEST_SURVEY_API_HOST"`
+	TestSurveyBaseURL string `mapstructure:"TEST_SURVEY_BASE_URL"`
+	SecretSessionKey  string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
 var prodRequiredVariables = [7]string{
@@ -22,8 +22,8 @@ var prodRequiredVariables = [7]string{
 	"ENV_TYPE",
 	"DB_SOURCE",
 	"WEBAPP_BASE_URL",
-	"SURVEY_API_HOST",
-	"SURVEY_BASE_URL",
+	"TEST_SURVEY_API_HOST",
+	"TEST_SURVEY_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 
@@ -32,8 +32,8 @@ var devRequiredVariables = [7]string{
 	"ENV_TYPE",
 	"DB_SOURCE",
 	"WEBAPP_BASE_URL",
-	"SURVEY_API_HOST",
-	"SURVEY_BASE_URL",
+	"TEST_SURVEY_API_HOST",
+	"TEST_SURVEY_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 

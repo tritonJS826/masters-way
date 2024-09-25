@@ -21,11 +21,11 @@ func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 func MakeChatAPIClient(cfg *config.Config) *openapiNotification.APIClient {
 	notificationAPIConfig := &openapiNotification.Configuration{
-		Host:   cfg.NotificationAPIHost,
+		Host:   cfg.TestNotificationAPIHost,
 		Scheme: "http",
 		Servers: openapiNotification.ServerConfigurations{
 			{
-				URL:         cfg.NotificationBaseURL,
+				URL:         cfg.TestNotificationBaseURL,
 				Description: "mw-notification",
 			},
 		},

@@ -8,13 +8,13 @@ import (
 )
 
 type Config struct {
-	ServerPort       string `mapstructure:"SERVER_PORT"`
-	ChatBFFBaseURL   string `mapstructure:"CHAT_BFF_BASE_URL"`
-	EnvType          string `mapstructure:"ENV_TYPE"`
-	DBSource         string `mapstructure:"DB_SOURCE"`
-	StorageAPIHost   string `mapstructure:"STORAGE_API_HOST"`
-	StorageBaseURL   string `mapstructure:"STORAGE_BASE_URL"`
-	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
+	ServerPort         string `mapstructure:"SERVER_PORT"`
+	ChatBFFBaseURL     string `mapstructure:"CHAT_BFF_BASE_URL"`
+	EnvType            string `mapstructure:"ENV_TYPE"`
+	DBSource           string `mapstructure:"DB_SOURCE"`
+	TestStorageAPIHost string `mapstructure:"TEST_STORAGE_API_HOST"`
+	TestStorageBaseURL string `mapstructure:"TEST_STORAGE_BASE_URL"`
+	SecretSessionKey   string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
 var prodRequiredVariables = [7]string{
@@ -22,8 +22,8 @@ var prodRequiredVariables = [7]string{
 	"CHAT_BFF_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
-	"STORAGE_API_HOST",
-	"STORAGE_BASE_URL",
+	"TEST_STORAGE_API_HOST",
+	"TEST_STORAGE_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 
@@ -32,8 +32,8 @@ var devRequiredVariables = [7]string{
 	"CHAT_BFF_BASE_URL",
 	"ENV_TYPE",
 	"DB_SOURCE",
-	"STORAGE_API_HOST",
-	"STORAGE_BASE_URL",
+	"TEST_STORAGE_API_HOST",
+	"TEST_STORAGE_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 

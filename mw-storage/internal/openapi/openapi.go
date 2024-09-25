@@ -22,11 +22,11 @@ func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 func MakeStorageAPIClient(cfg *config.Config) *openapiStorage.APIClient {
 	chatAPIConfig := &openapiStorage.Configuration{
-		Host:   cfg.StorageAPIHost,
+		Host:   cfg.TestStorageAPIHost,
 		Scheme: "http",
 		Servers: openapiStorage.ServerConfigurations{
 			{
-				URL:         cfg.StorageBaseURL,
+				URL:         cfg.TestStorageBaseURL,
 				Description: "mw-storage",
 			},
 		},

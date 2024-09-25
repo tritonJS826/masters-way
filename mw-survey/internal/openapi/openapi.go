@@ -22,11 +22,11 @@ func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 func MakeStorageAPIClient(cfg *config.Config) *openapiSurvey.APIClient {
 	chatAPIConfig := &openapiSurvey.Configuration{
-		Host:   cfg.SurveyAPIHost,
+		Host:   cfg.TestSurveyAPIHost,
 		Scheme: "http",
 		Servers: openapiSurvey.ServerConfigurations{
 			{
-				URL:         cfg.SurveyBaseURL,
+				URL:         cfg.TestSurveyBaseURL,
 				Description: "mw-survey",
 			},
 		},
