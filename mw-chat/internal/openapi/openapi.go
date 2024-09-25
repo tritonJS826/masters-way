@@ -21,11 +21,11 @@ func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 func MakeChatAPIClient(cfg *config.Config) *openapiChat.APIClient {
 	chatAPIConfig := &openapiChat.Configuration{
-		Host:   cfg.ChatAPIHost,
+		Host:   cfg.TestChatAPIHost,
 		Scheme: "http",
 		Servers: openapiChat.ServerConfigurations{
 			{
-				URL:         cfg.ChatBaseURL,
+				URL:         cfg.TestChatBaseURL,
 				Description: "mw-chat",
 			},
 		},

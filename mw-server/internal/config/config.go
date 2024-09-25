@@ -8,22 +8,22 @@ import (
 )
 
 type Config struct {
-	DBSource          string `mapstructure:"DB_SOURCE"`
-	ServerPort        string `mapstructure:"SERVER_PORT"`
-	EnvType           string `mapstructure:"ENV_TYPE"`
-	GooglClientId     string `mapstructure:"GOOGLE_CLIENT_ID"`
-	GooglClientSecret string `mapstructure:"GOOGLE_SECRET_ID"`
-	SecretSessionKey  string `mapstructure:"SECRET_SESSION_KEY"`
-	ApiBaseUrl        string `mapstructure:"API_BASE_URL"`
-	WebappBaseUrl     string `mapstructure:"WEBAPP_BASE_URL"`
-	Domain            string `mapstructure:"WEBAPP_DOMAIN"`
-	GeminiApiKey      string `mapstructure:"GEMINI_API_KEY"`
-	GeminiModel       string `mapstructure:"GEMINI_MODEL"`
-	GeneralAPIHost    string `mapstructure:"GENERAL_API_HOST"`
-	GeneralBaseURL    string `mapstructure:"GENERAL_BASE_URL"`
+	DBSource           string `mapstructure:"DB_SOURCE"`
+	ServerPort         string `mapstructure:"SERVER_PORT"`
+	EnvType            string `mapstructure:"ENV_TYPE"`
+	GooglClientId      string `mapstructure:"GOOGLE_CLIENT_ID"`
+	GooglClientSecret  string `mapstructure:"GOOGLE_SECRET_ID"`
+	SecretSessionKey   string `mapstructure:"SECRET_SESSION_KEY"`
+	ApiBaseUrl         string `mapstructure:"API_BASE_URL"`
+	WebappBaseUrl      string `mapstructure:"WEBAPP_BASE_URL"`
+	Domain             string `mapstructure:"WEBAPP_DOMAIN"`
+	GeminiApiKey       string `mapstructure:"GEMINI_API_KEY"`
+	GeminiModel        string `mapstructure:"GEMINI_MODEL"`
+	TestGeneralAPIHost string `mapstructure:"TEST_GENERAL_API_HOST"`
+	TestGeneralBaseURL string `mapstructure:"TEST_GENERAL_BASE_URL"`
 }
 
-var prodRequiredVariables = [11]string{
+var prodRequiredVariables = [13]string{
 	"DB_SOURCE",
 	"SERVER_PORT",
 	"ENV_TYPE",
@@ -35,9 +35,11 @@ var prodRequiredVariables = [11]string{
 	"WEBAPP_DOMAIN",
 	"GEMINI_API_KEY",
 	"GEMINI_MODEL",
+	"TEST_GENERAL_API_HOST",
+	"TEST_GENERAL_BASE_URL",
 }
 
-var devRequiredVariables = [11]string{
+var devRequiredVariables = [13]string{
 	"DB_SOURCE",
 	"SERVER_PORT",
 	"ENV_TYPE",
@@ -49,6 +51,8 @@ var devRequiredVariables = [11]string{
 	"WEBAPP_DOMAIN",
 	"GEMINI_API_KEY",
 	"GEMINI_MODEL",
+	"TEST_GENERAL_API_HOST",
+	"TEST_GENERAL_BASE_URL",
 }
 
 func LoadConfig(path string) (config Config, err error) {

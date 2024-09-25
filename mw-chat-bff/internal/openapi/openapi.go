@@ -76,11 +76,11 @@ func MakeMWChatWebSocketAPIClient(cfg *config.Config) *openapiChatWebSocket.APIC
 
 func MakeChatBFFAPIClient(cfg *config.Config) *openapiChatBFF.APIClient {
 	chatBFFAPIConfig := &openapiChatBFF.Configuration{
-		Host:   cfg.ChatBFFAPIHost,
+		Host:   cfg.TestChatBFFAPIHost,
 		Scheme: "http",
 		Servers: openapiChatBFF.ServerConfigurations{
 			{
-				URL:         cfg.ChatBFFBaseURL,
+				URL:         cfg.TestChatBFFBaseURL,
 				Description: "mw-chat-bff",
 			},
 		},

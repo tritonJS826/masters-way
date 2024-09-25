@@ -15,16 +15,18 @@ type Config struct {
 	SecretSessionKey string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [4]string{
+var prodRequiredVariables = [5]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
+	"CHAT_BFF_DOMAIN",
 	"ENV_TYPE",
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [4]string{
+var devRequiredVariables = [5]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
+	"CHAT_BFF_DOMAIN",
 	"ENV_TYPE",
 	"SECRET_SESSION_KEY",
 }
@@ -73,21 +75,3 @@ func LoadConfig(path string) (config Config, err error) {
 
 	return
 }
-
-// v := reflect.ValueOf(config)
-// 	t := reflect.TypeOf(config)
-
-// 	for i := 0; i < v.NumField(); i++ {
-// 		fieldName := t.Field(i).Name
-// 		fieldValue := v.Field(i).Interface()
-
-// 		fmt.Println("fieldName: ", fieldName, "fieldValue: ", fieldValue)
-
-// 		if fieldValue == nil {
-// 			fmt.Println("----------------------------------------")
-// 			fmt.Printf("env variable: %s is not found in .env file", fieldName)
-// 			fmt.Println("----------------------------------------")
-
-// 			panic("env variable: %s is not found in .env file")
-// 		}
-// 	}
