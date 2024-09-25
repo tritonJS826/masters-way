@@ -13,7 +13,7 @@
   place-content: center;
 
   &:checked {
-    border: none;
+    border-color: var(--generalPrimaryColor);
     background-color: var(--generalPrimaryColor);
   }
 }

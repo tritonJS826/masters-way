@@ -16,7 +16,6 @@ import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
 import {FlagIcon} from "src/assets/icons/FlagIcon";
 import {GiftIcon} from "src/assets/icons/GiftIcon";
-import {GithubIcon} from "src/assets/icons/GithubIcon";
 import {GlobeIcon} from "src/assets/icons/GlobeIcon";
 import {GooglePlayIcon} from "src/assets/icons/GooglePlayIcon";
 import {GridViewIcon} from "src/assets/icons/GridViewIcon";
@@ -110,11 +109,6 @@ export const IconDictionary = {
    * Globe icon
    */
   GlobeIcon: (params: IconProps) => <GlobeIcon {...params} />,
-
-  /**
-   * Github icon
-   */
-  GithubIcon: (params: IconProps) => <GithubIcon {...params} />,
 
   /**
    * Linkedin icon

@@ -153,36 +153,38 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                   </Tooltip>
                 </Link>
                 }
-                <Modal
-                  trigger={
-                    <Tooltip
-                      position={PositionTooltip.TOP}
-                      content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
-                    >
-                      <Button
-                        onClick={() => {}}
-                        buttonType={ButtonType.ICON_BUTTON}
-                        value="RE"
-                        className={styles.aiButton}
+                {comment.ownerUuid === props.user?.uuid &&
+                  <Modal
+                    trigger={
+                      <Tooltip
+                        position={PositionTooltip.TOP}
+                        content={LanguageService.way.reportsTable.addRecommendationsByAI[language]}
+                      >
+                        <Button
+                          onClick={() => { }}
+                          buttonType={ButtonType.ICON_BUTTON}
+                          value="RE"
+                          className={styles.aiButton}
+                        />
+                      </Tooltip>
+                    }
+                    content={
+                      <ChatAiModal
+                        message={comment.description}
+                        addComment={async (commentRaw: string) => {
+                          if (props.user) {
+                            const generatedComment = await CommentDAL.createComment({
+                              dayReportUuid: comment.dayReportUuid,
+                              ownerUuid: props.user.uuid,
+                              description: `***AI:*** ${commentRaw}`,
+                            });
+                            props.dayReport.addComment(generatedComment);
+                          }
+                        }}
                       />
-                    </Tooltip>
-                  }
-                  content={
-                    <ChatAiModal
-                      message={comment.description}
-                      addComment={async (commentRaw: string) => {
-                        if (props.user) {
-                          const generatedComment = await CommentDAL.createComment({
-                            dayReportUuid: comment.dayReportUuid,
-                            ownerUuid: props.user.uuid,
-                            description: `AI: ${commentRaw}`,
-                          });
-                          props.dayReport.addComment(generatedComment);
-                        }
-                      }}
-                    />
-                  }
-                />
+                    }
+                  />
+                }
                 {comment.ownerUuid === props.user?.uuid ?
                   <Trash
                     tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
