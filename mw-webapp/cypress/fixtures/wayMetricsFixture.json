@@ -1,0 +1,11 @@
+{
+    "wayMetricDescriptions":[
+        "Complete 10 practice exercises per week",
+        "Stub metric 1",
+        "Stub metric 4",
+        "Stub metric 6"
+    ],
+
+    "totalMetrics": 4,
+    "totalAiGeneratedMetrics": 6
+}

@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -116,6 +117,7 @@ export const SummarySection = (props: SummarySectionProps) => {
                 }
                 onClick={() => props.onClick(props.compositionParticipants[0])}
                 buttonType={ButtonType.ICON_BUTTON}
+                dataCy={dayReportsAccessIds.dayReportsContent.addButton}
               />
 
               {props.isPlanColumn && props.ownerUuid && props.metrics && props.goalDescription &&

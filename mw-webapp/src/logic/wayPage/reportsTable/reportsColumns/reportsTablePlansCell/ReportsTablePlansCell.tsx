@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -319,6 +320,13 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                     className={styles.editableTime}
                     isEditable={plan.ownerUuid === props.user?.uuid}
                     placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                    cy={
+                      {
+                        trigger: dayReportsAccessIds.dayReportsContent.plans.estimatedPlanTime,
+                        placeholder: "",
+                        inputCy: dayReportsAccessIds.dayReportsContent.plans.estimatedPlanTimeInput,
+                      }
+                    }
                   />
                 </Tooltip>
                 {props.isEditable &&
@@ -417,6 +425,12 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]
                 : LanguageService.common.emptyMarkdown[language]}
+              cy={
+                {
+                  textArea: dayReportsAccessIds.dayReportsContent.plans.planDescriptionInput,
+                  trigger: dayReportsAccessIds.dayReportsContent.plans.planDescription,
+                }
+              }
             />
             <Separator />
           </li>

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {DialogTrigger, Root as DialogRoot} from "@radix-ui/react-dialog";
 import clsx from "clsx";
-import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
+import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {observer} from "mobx-react-lite";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";

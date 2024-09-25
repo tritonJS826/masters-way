@@ -1,4 +1,5 @@
 import {TrashIcon} from "@radix-ui/react-icons";
+import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -123,6 +124,12 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
               placeholder={props.isEditable
                 ? LanguageService.common.emptyMarkdownAction[language]
                 : LanguageService.common.emptyMarkdown[language]}
+              cy={
+                {
+                  textArea: wayMetricsAccessIds.metricDescriptionInput,
+                  trigger: wayMetricsAccessIds.metricDescription,
+                }
+              }
             />
           </Tooltip>
         </div>
@@ -132,13 +139,20 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
         <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
           <Confirm
             trigger={
-              <TrashIcon />}
+              <TrashIcon data-cy={wayMetricsAccessIds.deleteMetric.trashButton} />}
             content={<p>
               {`${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`}
             </p>}
             onOk={() => props.deleteMetric(props.metric.uuid)}
             okText={LanguageService.modals.confirmModal.deleteButton[language]}
             cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+            cy={
+              {
+                onEnter: "",
+                onCancel: wayMetricsAccessIds.deleteMetric.cancelButton,
+                onOk: wayMetricsAccessIds.deleteMetric.deleteButton,
+              }
+            }
           />
         </Tooltip>
       )

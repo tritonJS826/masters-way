@@ -1,0 +1,11 @@
+{
+    "jobDoneDescription": "First job done",
+    "timeSpentOnJob": "125",
+
+    "planDescription": "First plan description",
+    "estimatedPlanTime": "45",
+
+    "problemDescription": "My first problem description",
+
+    "commentDescription": "First comment"
+}

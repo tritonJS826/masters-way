@@ -1,6 +1,6 @@
 // Import {ReactElement} from "react";
 import clsx from "clsx";
-import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
+import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";

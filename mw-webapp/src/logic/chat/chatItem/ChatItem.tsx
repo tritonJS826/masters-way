@@ -1,4 +1,4 @@
-import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
+import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";

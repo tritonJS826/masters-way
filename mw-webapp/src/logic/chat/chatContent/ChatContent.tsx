@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {DialogClose, DialogContent, DialogOverlay, DialogPortal} from "@radix-ui/react-dialog";
 import clsx from "clsx";
-import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
+import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Dropdown} from "src/component/dropdown/Dropdown";

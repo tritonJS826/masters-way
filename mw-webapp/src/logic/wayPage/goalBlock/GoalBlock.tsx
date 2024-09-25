@@ -1,3 +1,4 @@
+import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -74,6 +75,12 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
         placeholder={props.isEditable
           ? LanguageService.common.emptyMarkdownAction[language]
           : LanguageService.common.emptyMarkdown[language]}
+        cy={
+          {
+            textArea: "",
+            trigger: wayDescriptionAccessIds.wayDashBoardLeft.goal,
+          }
+        }
       />
     </VerticalContainer>
   );
