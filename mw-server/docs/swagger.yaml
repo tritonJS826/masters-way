@@ -2423,20 +2423,6 @@ paths:
       tags:
       - project
   /projects:
-    get:
-      consumes:
-      - application/json
-      operationId: get-projects-by-user-id
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.GetProjectsByUserIDResponse'
-      summary: Get projects by user id
-      tags:
-      - project
     post:
       consumes:
       - application/json
@@ -2503,6 +2489,27 @@ paths:
           schema:
             $ref: '#/definitions/schemas.ProjectPopulatedResponse'
       summary: Update project by id
+      tags:
+      - project
+  /projects/user/{userId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-projects-by-user-id
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.GetProjectsByUserIDResponse'
+      summary: Get projects by user id
       tags:
       - project
   /toUserMentoringRequests:

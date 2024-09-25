@@ -1084,18 +1084,6 @@ paths:
       tags:
       - project
   /projects:
-    get:
-      operationId: get-projects-by-user-id
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.GetProjectsByUserIDResponse'
-          description: OK
-      summary: Get projects by user id
-      tags:
-      - project
     post:
       operationId: create-project
       requestBody:
@@ -1116,6 +1104,26 @@ paths:
       tags:
       - project
       x-codegen-request-body-name: request
+  /projects/user/{userId}:
+    get:
+      operationId: get-projects-by-user-id
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas.GetProjectsByUserIDResponse'
+          description: OK
+      summary: Get projects by user id
+      tags:
+      - project
   /projects/{projectId}:
     get:
       operationId: get-project

@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**CreateProject**](ProjectAPI.md#CreateProject) | **Post** /projects | Create a new project
 [**DeleteProject**](ProjectAPI.md#DeleteProject) | **Delete** /project/{projectId} | Delete project by id
 [**GetProject**](ProjectAPI.md#GetProject) | **Get** /projects/{projectId} | Get project by id
-[**GetProjectsByUserId**](ProjectAPI.md#GetProjectsByUserId) | **Get** /projects | Get projects by user id
+[**GetProjectsByUserId**](ProjectAPI.md#GetProjectsByUserId) | **Get** /projects/user/{userId} | Get projects by user id
 [**UpdateProject**](ProjectAPI.md#UpdateProject) | **Patch** /projects/{projectId} | Update project by id
 
 
@@ -212,7 +212,7 @@ No authorization required
 
 ## GetProjectsByUserId
 
-> SchemasGetProjectsByUserIDResponse GetProjectsByUserId(ctx).Execute()
+> SchemasGetProjectsByUserIDResponse GetProjectsByUserId(ctx, userId).Execute()
 
 Get projects by user id
 
@@ -229,10 +229,11 @@ import (
 )
 
 func main() {
+	userId := "userId_example" // string | user id
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ProjectAPI.GetProjectsByUserId(context.Background()).Execute()
+	resp, r, err := apiClient.ProjectAPI.GetProjectsByUserId(context.Background(), userId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.GetProjectsByUserId``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -244,11 +245,19 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**userId** | **string** | user id | 
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiGetProjectsByUserIdRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
 
 
 ### Return type

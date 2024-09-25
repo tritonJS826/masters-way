@@ -567,6 +567,7 @@ func (a *ProjectAPIService) GetProjectStreamExecute(r ApiGetProjectRequest, requ
 type ApiGetProjectsByUserIdRequest struct {
 	ctx context.Context
 	ApiService *ProjectAPIService
+	userId string
 }
 
 func (r ApiGetProjectsByUserIdRequest) Execute() (*SchemasGetProjectsByUserIDResponse, *http.Response, error) {
@@ -577,12 +578,14 @@ func (r ApiGetProjectsByUserIdRequest) Execute() (*SchemasGetProjectsByUserIDRes
 GetProjectsByUserId Get projects by user id
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param userId user id
  @return ApiGetProjectsByUserIdRequest
 */
-func (a *ProjectAPIService) GetProjectsByUserId(ctx context.Context) ApiGetProjectsByUserIdRequest {
+func (a *ProjectAPIService) GetProjectsByUserId(ctx context.Context, userId string) ApiGetProjectsByUserIdRequest {
 	return ApiGetProjectsByUserIdRequest{
 		ApiService: a,
 		ctx: ctx,
+		userId: userId,
 	}
 }
 
@@ -601,7 +604,8 @@ func (a *ProjectAPIService) GetProjectsByUserIdExecute(r ApiGetProjectsByUserIdR
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/projects"
+	localVarPath := localBasePath + "/projects/user/{userId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -674,11 +678,13 @@ func (a *ProjectAPIService) GetProjectsByUserIdStreamExecute(r ApiGetProjectsByU
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/projects"
+	localVarPath := localBasePath + "/projects/user/{userId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
+
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

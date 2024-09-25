@@ -129,7 +129,7 @@ Class | Method | HTTP request | Description
 *ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
 *ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /project/{projectId} | Delete project by id
 *ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
-*ProjectAPI* | [**GetProjectsByUserId**](docs/ProjectAPI.md#getprojectsbyuserid) | **Get** /projects | Get projects by user id
+*ProjectAPI* | [**GetProjectsByUserId**](docs/ProjectAPI.md#getprojectsbyuserid) | **Get** /projects/user/{userId} | Get projects by user id
 *ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID

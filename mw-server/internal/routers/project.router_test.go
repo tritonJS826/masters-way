@@ -178,7 +178,7 @@ func TestGetProjectsByUserID(t *testing.T) {
 		}
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		projects, response, err := generalApi.ProjectAPI.GetProjectsByUserId(ctx).Execute()
+		projects, response, err := generalApi.ProjectAPI.GetProjectsByUserId(ctx, userID).Execute()
 		if err != nil {
 			t.Fatalf("Failed to get projects by user id: %v", err)
 		}

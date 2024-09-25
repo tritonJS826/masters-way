@@ -3,7 +3,6 @@ package controllers
 import (
 	"net/http"
 
-	"mwserver/internal/auth"
 	"mwserver/internal/schemas"
 	"mwserver/internal/services"
 	"mwserver/pkg/util"
@@ -154,11 +153,11 @@ func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 // @ID get-projects-by-user-id
 // @Accept json
 // @Produce json
+// @Param userId path string true "user id"
 // @Success 200 {object} schemas.GetProjectsByUserIDResponse
-// @Router /projects [get]
+// @Router /projects/user/{userId} [get]
 func (pc *ProjectController) GetProjectsByUserID(ctx *gin.Context) {
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
+	userID := ctx.Param("userId")
 
 	projects, err := pc.projectService.GetProjectsByUserID(ctx, userID)
 	util.HandleErrorGin(ctx, err)
