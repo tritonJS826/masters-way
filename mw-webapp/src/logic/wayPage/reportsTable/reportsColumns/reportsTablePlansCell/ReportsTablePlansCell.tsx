@@ -50,11 +50,6 @@ import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePl
 interface ReportsTablePlansCellProps {
 
   /**
-   * All jobDone tags in the way
-   */
-  jobTags: Label[];
-
-  /**
    * Day report's uuid for update
    */
   dayReport: DayReport;
@@ -83,6 +78,11 @@ interface ReportsTablePlansCellProps {
    * Way's participants
    */
   wayParticipantsMap: SafeMap<string, UserPlain>;
+
+  /**
+   * All labels
+   */
+  labels: Label[];
 
   /**
    * Sdf
@@ -252,7 +252,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                   </Tooltip>
                 </Link>
                 }
-                {props.user &&
+                {props.user && props.isEditable &&
                   <>
                     <Modal
                       trigger={
@@ -388,7 +388,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                     <div className={styles.tagsBlockTrigger}>
                       <JobDoneTags
                         jobDoneTags={plan.tags}
-                        labels={props.way.jobTags}
+                        labels={props.labels}
                       />
                     </div>
                   }
@@ -407,7 +407,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                 :
                 <JobDoneTags
                   jobDoneTags={plan.tags}
-                  labels={props.way.jobTags}
+                  labels={props.labels}
                 />
               }
             </VerticalContainer>

@@ -167,7 +167,10 @@ export const Columns = (props: ColumnsProps) => {
         <ReportsTablePlansCell
           dayReport={row.original}
           isEditable={isUserOwnerOrMentor}
-          jobTags={props.way.children.flatMap((item) => item.jobTags).concat(props.way.jobTags)}
+          labels={ArrayUtils.removeDuplicatesByField(
+            TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+            "uuid",
+          )}
           waysMap={waysSafeMap}
           way={props.way}
           createDayReport={props.createDayReport}

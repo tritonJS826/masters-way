@@ -109,7 +109,7 @@ export const DecomposeIssueAiModal = (props: DecomposeIssueAiModalProps) => {
     });
 
     const plansPreview = plansPreviewRaw.map(planPreview => new PlanPreview({
-      description: `AI: ${planPreview}`,
+      description: planPreview,
       isChecked: false,
     }));
 
@@ -130,7 +130,7 @@ export const DecomposeIssueAiModal = (props: DecomposeIssueAiModalProps) => {
       const newPlan = await PlanDAL.createPlan({
         dayReportUuid: props.dayReportUuid,
         ownerUuid: props.ownerUuid,
-        description: planPreview.description,
+        description: `***AI:*** ${planPreview.description}`,
       });
 
       return newPlan;

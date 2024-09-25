@@ -401,19 +401,6 @@ export const Header = observer((props: HeaderProps) => {
                         />
                       </div>
                     </Link>
-                    <Link
-                      path="https://github.com/tritonJS826/masters-way"
-                      isNewTab
-                      ariaLabel={LanguageService.common.socialMediaAriaLabel.github[props.language]}
-                    >
-                      <div className={styles.iconWrapper}>
-                        <Icon
-                          size={IconSize.SMALL}
-                          name="GithubIcon"
-                          className={styles.socialMediaIcon}
-                        />
-                      </div>
-                    </Link>
                   </HorizontalContainer>
                 </VerticalContainer>
                 {props.user &&

@@ -157,7 +157,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                 </Tooltip>
               </Link>
               }
-              {props.user &&
+              {problem.ownerUuid === props.user?.uuid &&
                 <>
                   <Modal
                     trigger={
@@ -227,7 +227,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                             const comment = await CommentDAL.createComment({
                               dayReportUuid: problem.dayReportUuid,
                               ownerUuid: props.user.uuid,
-                              description: `AI: ${commentRaw}`,
+                              description: `***AI:*** ${commentRaw}`,
                             });
                             props.dayReport.addComment(comment);
                           }

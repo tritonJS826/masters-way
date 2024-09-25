@@ -9,18 +9,18 @@
 }
 
 .numberedList {
-  flex: 1 0 auto;
-  list-style-type: none;
   display: flex;
+  flex: 1 0 auto;
   flex-direction: column;
   gap: $gapSmall;
+  list-style-type: none;
 }
 
 .numberedListItem {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: $gapSmall;
-  width: 100%;
 }
 
 .recordInfo {
@@ -68,4 +68,8 @@
 .socialMediaIcon {
   width: $iconSizeSmall;
   height: $iconSizeSmall;
+}
+
+.trashReservation {
+  width: 16px;
 }

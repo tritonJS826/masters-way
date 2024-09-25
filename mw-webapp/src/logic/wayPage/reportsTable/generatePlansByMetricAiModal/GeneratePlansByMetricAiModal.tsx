@@ -129,7 +129,7 @@ export const GeneratePlansByMetricAiModal = (props: DecomposeIssueAiModalProps) 
       const newPlan = await PlanDAL.createPlan({
         dayReportUuid: props.dayReportUuid,
         ownerUuid: props.ownerUuid,
-        description: `AI: ${planPreview.description}`,
+        description: `***AI:*** ${planPreview.description}`,
       });
 
       return newPlan;

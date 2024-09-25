@@ -276,16 +276,19 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                     }
                   />
                 </Tooltip>
-                {props.isEditable &&
-                <Trash
-                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
-                  tooltipPosition={PositionTooltip.BOTTOM}
-                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  onOk={() => deleteJobDone(jobDone.uuid)}
-                  confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
+                {props.isEditable && jobDone.ownerUuid === props.user?.uuid ?
+                  <Trash
+                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
+                    tooltipPosition={PositionTooltip.BOTTOM}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    onOk={() => deleteJobDone(jobDone.uuid)}
+                    confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
                     "${jobDone.description}"?`}
-                />
+                  />
+                  : (
+                    <div className={styles.trashReservation} />
+                  )
                 }
               </HorizontalContainer>
               {props.isEditable ?
