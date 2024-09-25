@@ -271,7 +271,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                       {
                         trigger: dayReportsAccessIds.dayReportsContent.jobDone.timeSpentOnJob,
                         placeholder: "",
-                        inputCy: "",
+                        inputCy: dayReportsAccessIds.dayReportsContent.jobDone.timeSpentOnJobInput,
                       }
                     }
                   />
@@ -337,7 +337,7 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                 : LanguageService.common.emptyMarkdown[language]}
               cy={
                 {
-                  textArea: "",
+                  textArea: dayReportsAccessIds.dayReportsContent.jobDone.jobDoneDescriptionInput,
                   trigger: dayReportsAccessIds.dayReportsContent.jobDone.jobDoneDescription,
                 }
               }

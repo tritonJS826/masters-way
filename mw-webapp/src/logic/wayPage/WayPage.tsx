@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -602,6 +603,13 @@ export const WayPage = observer((props: WayPageProps) => {
                     WayTagDAL.deleteWayTag({wayTagId: tag.uuid, wayId: way.uuid});
                     way.deleteTag(tag.uuid);
                   }}
+                  cy={
+                    {
+                      dataCyCross: "",
+                      dataCyTag: wayDescriptionAccessIds.wayDashBoardLeft.tag.tagTitle,
+                    }
+
+                  }
                 />
               ))}
               {!way.wayTags.length && LanguageService.way.wayInfo.noTags[language]}
@@ -619,6 +627,7 @@ export const WayPage = observer((props: WayPageProps) => {
                         }
                         onClick={() => {}}
                         buttonType={ButtonType.ICON_BUTTON}
+                        dataCy={wayDescriptionAccessIds.wayDashBoardLeft.tag.addTagButton}
                       />
                     </Tooltip>
                   }
@@ -642,6 +651,12 @@ export const WayPage = observer((props: WayPageProps) => {
                       }}
                       okButtonValue={LanguageService.way.wayInfo.addWayTagModalButton[language]}
                       cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
+                      cy={
+                        {
+                          dataCyCreateButton: wayDescriptionAccessIds.wayDashBoardLeft.tag.createTagButton,
+                          dataCyInput: wayDescriptionAccessIds.wayDashBoardLeft.tag.tagInput,
+                        }
+                      }
                     />
                   }
                 />
@@ -906,6 +921,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   wayPageStore.setWayStatisticsTriple(updatedStatistics);
                 }}
                 buttonType={ButtonType.PRIMARY}
+                dataCy={dayReportsAccessIds.createNewDayReportButton}
               />
             }
             <Modal

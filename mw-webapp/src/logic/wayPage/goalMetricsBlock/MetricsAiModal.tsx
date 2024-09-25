@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {DialogClose} from "@radix-ui/react-dialog";
+import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {makeAutoObservable} from "mobx";
 import {Button} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
@@ -146,10 +147,19 @@ export const MetricsAiModal = (props: MetricsAiModalProps) => {
       <Loader theme={theme} />
     )
     : (
-      <VerticalContainer className={styles.generatedMetricsList}>
+      <VerticalContainer
+        className={styles.generatedMetricsList}
+        dataCy={wayMetricsAccessIds.metricsAiGeneratedDialog.dialogWindow}
+      >
         {generatedMetricsPreview.map(generatedMetric => (
-          <HorizontalContainer key={generatedMetric.description}>
-            <Checkbox onChange={generatedMetric.toggleIsChecked} />
+          <HorizontalContainer
+            key={generatedMetric.description}
+            dataCy={wayMetricsAccessIds.metricsAiGeneratedDialog.generatedMetric}
+          >
+            <Checkbox
+              onChange={generatedMetric.toggleIsChecked}
+              dataCy={wayMetricsAccessIds.metricsAiGeneratedDialog.metricCheckbox}
+            />
             {generatedMetric.description}
           </HorizontalContainer>))}
         <HorizontalContainer>
@@ -163,6 +173,7 @@ export const MetricsAiModal = (props: MetricsAiModalProps) => {
             <Button
               value={LanguageService.way.metricsBlock.addNewGoalMetricsButton[language]}
               onClick={applyAllSelectedMetricsPreview}
+              dataCy={wayMetricsAccessIds.metricsAiGeneratedDialog.addSelectedMetricsButton}
             />
           </DialogClose>
         </HorizontalContainer>

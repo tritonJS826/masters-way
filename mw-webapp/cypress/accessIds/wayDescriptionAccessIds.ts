@@ -1,6 +1,13 @@
 export const wayDescriptionAccessIds = {
     wayDashBoardLeft: {
-        title : 'wayTitle'
+        title : 'wayTitle',
+        goal: 'wayGoal',
+        tag: {
+            addTagButton: 'addTagButton',
+            tagInput: "tagInput",
+            createTagButton: "createTagButton",
+            tagTitle: "tagTitle"
+        }
     },
 
     peopleBlock: {

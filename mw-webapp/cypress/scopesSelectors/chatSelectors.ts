@@ -1,4 +1,4 @@
-import {chatAccessIds} from "cypress/accessIds/scenariosAccessIds/chatAccessIds";
+import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const chatSelectors = {

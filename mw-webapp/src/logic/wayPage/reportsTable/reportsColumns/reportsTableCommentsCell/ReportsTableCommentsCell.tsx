@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Avatar} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -211,6 +212,12 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                 placeholder={props.isEditable
                   ? LanguageService.common.emptyMarkdownAction[language]
                   : LanguageService.common.emptyMarkdown[language]}
+                cy={
+                  {
+                    textArea: dayReportsAccessIds.dayReportsContent.comments.commentDescriptionInput,
+                    trigger: dayReportsAccessIds.dayReportsContent.comments.commentDescription,
+                  }
+                }
               />
               <Separator />
             </li>

@@ -1,3 +1,4 @@
+import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
 import {Modal} from "src/component/modal/Modal";
@@ -106,6 +107,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
         <Button
           value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
           onClick={addEmptyMetric}
+          dataCy={wayMetricsAccessIds.metricButtons.addNewGoalMetricButton}
         />
         <Modal
           trigger={
@@ -113,6 +115,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
               value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
               onClick={() => {}}
               className={styles.addMetricButton}
+              dataCy={wayMetricsAccessIds.metricButtons.generateNewMetricsAiButton}
             />
           }
           content={

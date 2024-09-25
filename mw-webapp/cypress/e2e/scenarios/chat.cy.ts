@@ -1,10 +1,9 @@
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
-import {chatSelectors} from "cypress/scopesSelectors/scenariosSelectors/chatSelectors";
-import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
+import {chatSelectors} from "cypress/scopesSelectors/chatSelectors";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
-import chatData from "cypress/fixtures/scenariosFixtures/chatFixture.json"
+import chatData from "cypress/fixtures/chatFixture.json"
 
 beforeEach(() => {
     cy.resetDb();

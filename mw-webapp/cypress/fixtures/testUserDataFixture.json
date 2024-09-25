@@ -9,7 +9,10 @@
         "editedName": "John Perry Student",
         "aboutMeDescription": "I'm a student learning JavaScript with a focus on React and Node.js. I'm eager to enhance my skills and seeking a mentor to guide me in becoming a proficient front-end developer. Let's connect!",
         "skill": "JS",
-        "wayTitle": "Way of studentJonh@gmail.com"
+        "wayTitle": "Way of studentJonh@gmail.com",
+        "newWayTitle": "My first way",
+        "goal": "My first way goal",
+        "wayTag1": "tag1"
       },
       "mentorMax": {
         "name": "mentorMax@gmail.com",
