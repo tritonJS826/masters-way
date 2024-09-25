@@ -43,6 +43,10 @@ export interface GetProjectRequest {
     projectId: string;
 }
 
+export interface GetProjectsByUserIdRequest {
+    userId: string;
+}
+
 export interface UpdateProjectRequest {
     projectId: string;
     request: SchemasUpdateProjectPayload;
@@ -148,13 +152,17 @@ export class ProjectApi extends runtime.BaseAPI {
     /**
      * Get projects by user id
      */
-    async getProjectsByUserIdRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetProjectsByUserIDResponse>> {
+    async getProjectsByUserIdRaw(requestParameters: GetProjectsByUserIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetProjectsByUserIDResponse>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getProjectsByUserId.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/projects`,
+            path: `/projects/user/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -166,8 +174,8 @@ export class ProjectApi extends runtime.BaseAPI {
     /**
      * Get projects by user id
      */
-    async getProjectsByUserId(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetProjectsByUserIDResponse> {
-        const response = await this.getProjectsByUserIdRaw(initOverrides);
+    async getProjectsByUserId(requestParameters: GetProjectsByUserIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetProjectsByUserIDResponse> {
+        const response = await this.getProjectsByUserIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

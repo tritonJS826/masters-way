@@ -54,7 +54,7 @@ export class Project {
 
   /**
    * Is project private
-   * @default true
+   * @default false
    */
   public isPrivate: boolean;
 

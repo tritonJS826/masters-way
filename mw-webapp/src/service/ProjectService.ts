@@ -2,6 +2,7 @@ import {
   CreateProjectRequest,
   DeleteProjectRequest,
   GetProjectRequest,
+  GetProjectsByUserIdRequest,
   SchemasGetProjectsByUserIDResponse,
   SchemasProjectPopulatedResponse,
   UpdateProjectRequest,
@@ -33,10 +34,11 @@ export class ProjectService {
 
   /**
    * Get projects by user UUID
-   * TODO: need pass userID?
    */
-  public static async getProjectsByUserId(): Promise<SchemasGetProjectsByUserIDResponse> {
-    const projects = await projectService.getProjectsByUserId();
+  public static async getProjectsByUserId(
+    requestParameters: GetProjectsByUserIdRequest,
+  ): Promise<SchemasGetProjectsByUserIDResponse> {
+    const projects = await projectService.getProjectsByUserId(requestParameters);
 
     return projects;
   }

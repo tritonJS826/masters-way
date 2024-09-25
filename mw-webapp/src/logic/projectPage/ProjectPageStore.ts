@@ -1,23 +1,7 @@
 import {makeAutoObservable} from "mobx";
-import {WayDAL} from "src/dataAccessLogic/WayDAL";
+import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
 import {load} from "src/hooks/useLoad";
-import {DayReport} from "src/model/businessModel/DayReport";
-import {Way} from "src/model/businessModel/Way";
-import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
-
-type WayPageFirstLoad = {
-
-  /**
-   * Way
-   */
-  way: Way;
-
-  /**
-   * Way statistics
-   */
-  wayStatistics: WayStatisticsTriple;
-
-}
+import {Project} from "src/model/businessModel/Project";
 
 /**
  * ProjectPageStore related methods
@@ -25,69 +9,41 @@ type WayPageFirstLoad = {
 export class ProjectPageStore {
 
   /**
-   * Way value
+   * Project value
    * Should be initialized!
    */
-  public way!: Way;
-
-  /**
-   * Way statistics
-   * Should be initialized!
-   */
-  public wayStatisticsTriple!: WayStatisticsTriple;
+  public project!: Project;
 
   /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
 
-  constructor(wayUuid: string) {
+  constructor(projectUuid: string) {
     makeAutoObservable(this);
-    this.initialize(wayUuid);
+    this.initialize(projectUuid);
   }
 
   /**
-   * Set way statistics triple
+   * Set project
    */
-  public setWayStatisticsTriple = (wayStatistics: WayStatisticsTriple) => {
-    this.wayStatisticsTriple = wayStatistics;
-  };
-
-  /**
-   * Update day reports
-   */
-  public updateDayReports = (dayReports: DayReport[]) => {
-    this.way.dayReports = [...dayReports, ...this.way.dayReports];
-  };
-
-  /**
-   * Update day reports
-   */
-  public reloadDayReports = (dayReports: DayReport[]) => {
-    this.way.dayReports = dayReports;
-  };
-
-  /**
-   * Set way
-   */
-  private setLoadedData = (loadedData: WayPageFirstLoad) => {
-    this.way = loadedData.way;
-    this.wayStatisticsTriple = loadedData.wayStatistics;
+  private setProject = (project: Project) => {
+    this.project = project;
   };
 
   /**
    * Initialize
    */
-  private async initialize(wayUuid: string) {
-    await load<WayPageFirstLoad>({
+  private async initialize(projectUuid: string) {
+    await load<Project>({
 
       /**
        * Load data
        */
-      loadData: () => this.loadData(wayUuid),
+      loadData: () => this.loadData(projectUuid),
       validateData: this.validateData,
       onError: this.onError,
-      onSuccess: this.setLoadedData,
+      onSuccess: this.setProject,
     });
 
     this.isInitialized = true;
@@ -97,20 +53,17 @@ export class ProjectPageStore {
   /**
    * Load data
    */
-  private loadData = async (wayUuid: string): Promise<WayPageFirstLoad> => {
-    const wayPromise = WayDAL.getWay(wayUuid);
-    const wayStatisticsPromise = WayDAL.getWayStatisticTripleById(wayUuid);
+  private loadData = async (projectUuid: string): Promise<Project> => {
+    const project = await ProjectDAL.getProject(projectUuid);
 
-    const [way, wayStatistics] = await Promise.all([wayPromise, wayStatisticsPromise]);
-
-    return {way, wayStatistics};
+    return project;
   };
 
   /**
    * Validate data
    */
-  private validateData = (data: WayPageFirstLoad) => {
-    return !!data.way && !!data.wayStatistics;
+  private validateData = (data: Project) => {
+    return !!data;
   };
 
   /**

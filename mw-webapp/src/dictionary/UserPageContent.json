@@ -210,6 +210,43 @@
       "ua": "Дії колекції"
     }
   },
+  "projects": {
+    "addProject": {
+      "ru": "Добавить проект",
+      "en": "Add project",
+      "ua": "Додати проект"
+    },
+    "private": {
+      "ru": "Приватный",
+      "en": "Private",
+      "ua": "Приватний"
+    },
+    "public": {
+      "ru": "Публичный",
+      "en": "Public",
+      "ua": "Публічний"
+    },
+    "newProject": {
+      "ru": "Новый проект",
+      "en": "New project",
+      "ua": "Новий проект"
+    },
+    "renameProject": {
+      "ru": "Переименовать проект",
+      "en": "Rename project",
+      "ua": "Перейменувати проект"
+    },
+    "projectTitle": {
+      "ru": "Название проекта",
+      "en": "Project's title",
+      "ua": "Назва проекту"
+    },
+    "projectActionsTooltip": {
+      "ru": "Действия проекта",
+      "en": "Project actions",
+      "ua": "Дії проекту"
+    }
+  },
   "filterBlock": {
     "type": {
       "ru": "Статус",

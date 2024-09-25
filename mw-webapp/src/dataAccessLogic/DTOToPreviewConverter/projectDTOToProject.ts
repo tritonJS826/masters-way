@@ -5,12 +5,13 @@ import {wayDTOToWayPreview} from "src/dataAccessLogic/DTOToPreviewConverter/wayD
 import {Project} from "src/model/businessModel/Project";
 
 /**
- * Convert {@link projectDTO} to {@link Project}
+ * Convert {@link SchemasProjectPopulatedResponse} to {@link Project}
  */
 export const projectDTOToProject = (projectDTO: SchemasProjectPopulatedResponse): Project => {
   return new Project({
     ...projectDTO,
     uuid: projectDTO.id,
+    ownerId: projectDTO.ownerId,
     users: projectDTO.users.map(userDTOToUserNotSaturatedWayConverter),
     ways: projectDTO.ways.map(wayDTOToWayPreview),
   });

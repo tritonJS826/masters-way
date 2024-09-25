@@ -69,6 +69,11 @@ export interface TabItemProps {
    * Tab value
    */
   value: string;
+
+  /**
+   * Callback triggered on tab click
+   */
+  onCLick?: () => void;
 }
 
 /**
@@ -101,6 +106,7 @@ export const Tab = (props: TabProps) => {
             key={tab.tabTrigger.id}
             className={styles.tabsTrigger}
             value={tab.value}
+            onClick={tab.onCLick}
           >
             {tab.tabTrigger.value}
           </Tabs.Trigger>

@@ -17,6 +17,7 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {ProjectCard} from "src/component/projectCard/ProjectCard";
 import {Tab, TabItemProps} from "src/component/tab/Tab";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -26,6 +27,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCard";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
+import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
 import {SurveyDAL, SurveyUserIntroParams} from "src/dataAccessLogic/SurveyDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
@@ -42,6 +44,7 @@ import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
+import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {UserPageSettings, View} from "src/utils/LocalStorageWorker";
@@ -180,6 +183,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const {theme} = themeStore;
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
+  const [projects, setProjects] = useState<ProjectPreview[]>([]);
 
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
@@ -223,6 +227,7 @@ export const UserPage = observer((props: UserPageProps) => {
     && userPageOwner.customWayCollections.includes(currentCollection);
   const defaultCollection = userPageOwner.defaultWayCollections.own;
   const newCollectionName = LanguageService.user.collections.newCollection[language];
+  const newProjectName = LanguageService.user.projects.newProject[language];
 
   if (!defaultCollection) {
     throw new Error("Default collection is not exist");
@@ -248,6 +253,24 @@ export const UserPage = observer((props: UserPageProps) => {
     userPageOwner.addCollection(newWayCollection);
 
     setOpenedTabId(newWayCollection.uuid);
+  };
+
+  /**
+   * Create project
+   */
+  const createProject = async () => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+
+    const newProject = await ProjectDAL.createProject({
+      ownerId: user.uuid,
+      name: newProjectName,
+    });
+
+    const updatedProjects = projects.concat(newProject);
+
+    setProjects(updatedProjects);
   };
 
   /**
@@ -300,6 +323,14 @@ export const UserPage = observer((props: UserPageProps) => {
   const notificationFavoriteUsers = getIsUserInFavorites(user, userPageOwner)
     ? LanguageService.user.notifications.userRemovedFromFavorites[language]
     : LanguageService.user.notifications.userAddedToFavorites[language];
+
+  /**
+   * Load user's projects
+   */
+  const loadUserProjects = async () => {
+    const projectsPreview = await ProjectDAL.getProjectsByUserUuid(userPageOwner.uuid);
+    setProjects(projectsPreview);
+  };
 
   const tabList: TabItemProps[] = [
     {
@@ -406,10 +437,40 @@ export const UserPage = observer((props: UserPageProps) => {
         id: "1",
         value: (
           <VerticalContainer className={styles.tabsSectionContainer}>
-            Coming soon...
+            <HorizontalContainer className={styles.tabsSection}>
+              {projects.map(project => (
+                <ProjectCard
+                  key={project.uuid}
+                  projectTitle={project.name}
+                  projectType={project.isPrivate
+                    ? LanguageService.user.projects.private[language]
+                    : LanguageService.user.projects.public[language]
+                  }
+                  onClick={() => navigate(pages.project.getPath({uuid: project.uuid}))}
+                  language={language}
+                />
+              ))}
+
+              {isPageOwner && (
+                <Button
+                  value={LanguageService.user.projects.addProject[language]}
+                  onClick={createProject}
+                  buttonType={ButtonType.SECONDARY}
+                  className={styles.collectionButton}
+                />
+              )}
+
+            </HorizontalContainer>
           </VerticalContainer>),
       },
       value: "Tab 2",
+
+      /**
+       * Load user's projects
+       */
+      onCLick: () => {
+        loadUserProjects();
+      },
     },
   ];
 

@@ -11,6 +11,7 @@ import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMento
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
 import modals from "src/dictionary/Modals.json";
 import pricing from "src/dictionary/PricingContent.json";
+import project from "src/dictionary/ProjectPageContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
 import survey from "src/dictionary/SurveyModalsContent.json";
@@ -44,14 +45,14 @@ export class LanguageService {
   }
 
   /**
-   * About project page content
+   * All ways page content
    */
   public static get allWays() {
     return allWaysPageContent;
   }
 
   /**
-   * About project page content
+   * All users page content
    */
   public static get allUsers() {
     return allUsersPageContent;
@@ -65,21 +66,28 @@ export class LanguageService {
   }
 
   /**
-   * About project page content
+   * User page content
    */
   public static get user() {
     return userPageContent;
   }
 
   /**
-   * About project page content
+   * Way page content
    */
   public static get way() {
     return wayPageContent;
   }
 
   /**
-   * About project page content
+   * Project page content
+   */
+  public static get project() {
+    return project;
+  }
+
+  /**
+   * Settings page content
    */
   public static get settings() {
     return settings;
@@ -107,7 +115,7 @@ export class LanguageService {
   }
 
   /**
-   * Pricing content
+   * Pricing page content
    */
   public static get pricing() {
     return pricing;
@@ -121,28 +129,28 @@ export class LanguageService {
   }
 
   /**
-   * Mentor's landing content
+   * Students with AI landing content
    */
   public static get studentsWithAiLanding() {
     return studentsWithAiLanding;
   }
 
   /**
-   * Mentor's landing content
+   * Students with Mentors landing content
    */
   public static get studentsWithMentorsLanding() {
     return studentsWithMentorsLanding;
   }
 
   /**
-   * Mentor's landing content
+   * Business landing content
    */
   public static get businessLanding() {
     return businessLanding;
   }
 
   /**
-   * Errors content
+   * Error page content
    */
   public static get error() {
     return errorContent;
