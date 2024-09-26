@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres-general:/var/lib/postgresql/data
     env_file:
-      - ./mw-server/.env
+      - mw-general/.env
     networks:
       - app-network
 
