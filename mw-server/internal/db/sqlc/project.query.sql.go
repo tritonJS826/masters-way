@@ -69,7 +69,7 @@ SELECT
         ARRAY(
             SELECT uuid
             FROM ways
-            WHERE ways.project_uuid = uuid
+            WHERE ways.project_uuid = projects.uuid
         ),
         '{}'
     )::VARCHAR[] AS way_uuids,
@@ -77,7 +77,7 @@ SELECT
         ARRAY(
             SELECT user_uuid
             FROM users_projects
-            WHERE users_projects.project_uuid = uuid
+            WHERE users_projects.project_uuid = projects.uuid
         ),
         '{}'
     )::VARCHAR[] AS user_uuids
@@ -159,7 +159,7 @@ RETURNING
         ARRAY(
             SELECT uuid
             FROM ways
-            WHERE ways.project_uuid = uuid
+            WHERE ways.project_uuid = projects.uuid
         ),
         '{}'
     )::VARCHAR[] AS way_uuids,
@@ -167,7 +167,7 @@ RETURNING
         ARRAY(
             SELECT user_uuid
             FROM users_projects
-            WHERE users_projects.project_uuid = uuid
+            WHERE users_projects.project_uuid = projects.uuid
         ),
         '{}'
     )::VARCHAR[] AS user_uuids
