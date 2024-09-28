@@ -72,6 +72,11 @@ interface BaseWaysTableProps {
    * Rename collection
    */
   updateCollection?: (wayCollectionPartial: Partial<WayCollection>) => Promise<void>;
+
+  /**
+   * Project UUID (if way created in the project)
+   */
+  projectUuid?: string;
 }
 
 export const FILTER_STATUS_ALL_VALUE = "all";
@@ -175,6 +180,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
     const newWay: WayPreview = await WayDAL.createWay({
       userUuid: ownerUuid,
       wayName: LanguageService.user.personalInfo.defaultWayName[language].replace("$user", user.name),
+      projectUuid: props.projectUuid,
     });
 
     user.defaultWayCollections.own.addWay(newWay);

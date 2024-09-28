@@ -22,5 +22,34 @@
       "en": "The project name must contain at least one character",
       "ua": "Назва проекту має містити хоча б один символ"
     }
+  },
+  "projectPrivacy": {
+    "private": {
+      "ru": "Приватный",
+      "en": "Private",
+      "ua": "Приватний"
+    },
+    "public": {
+      "ru": "Публичный",
+      "en": "Public",
+      "ua": "Публічний"
+    }
+  },
+  "tabs": {
+    "project": {
+      "ru": "Проект",
+      "en": "Project",
+      "ua": "Проект"
+    },
+    "participants": {
+      "ru": "Участники",
+      "en": "Participants",
+      "ua": "Учасники"
+    }
+  },
+  "waysOfProject": {
+    "ru": "Пути проекта",
+    "en": "Ways of project",
+    "ua": "Шляхи проекту"
   }
 }

@@ -133,6 +133,18 @@
       "ua": "Ім'я повинно містити принаймні один символ"
     }
   },
+  "tabs": {
+    "collections": {
+      "ru": "Коллекции",
+      "en": "Collections",
+      "ua": "Колекції"
+    },
+    "projects": {
+      "ru": "Проекты",
+      "en": "Projects",
+      "ua": "Проекти"
+    }
+  },
   "collections": {
     "defaultCollections": {
       "ru": "Базовые коллекции",
