@@ -122,8 +122,8 @@ SELECT
     )::VARCHAR[] AS tag_names
 FROM users
 WHERE users.uuid IN (
-    SELECT user_uuid 
-    FROM users_projects 
+    SELECT user_uuid
+    FROM users_projects
     WHERE users_projects.project_uuid = $1
 )
 `
@@ -199,14 +199,13 @@ func (q *Queries) GetUserByEmail(ctx context.Context, userEmail string) (User, e
 	return i, err
 }
 
-const getUserById = `-- name: GetUserById :one
+const getUserByID = `-- name: GetUserByID :one
 SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
 WHERE uuid = $1
-LIMIT 1
 `
 
-func (q *Queries) GetUserById(ctx context.Context, userUuid pgtype.UUID) (User, error) {
-	row := q.db.QueryRow(ctx, getUserById, userUuid)
+func (q *Queries) GetUserByID(ctx context.Context, userUuid pgtype.UUID) (User, error) {
+	row := q.db.QueryRow(ctx, getUserByID, userUuid)
 	var i User
 	err := row.Scan(
 		&i.Uuid,
@@ -220,13 +219,13 @@ func (q *Queries) GetUserById(ctx context.Context, userUuid pgtype.UUID) (User, 
 	return i, err
 }
 
-const getUserByIds = `-- name: GetUserByIds :many
+const getUsersByIDs = `-- name: GetUsersByIDs :many
 SELECT uuid, name, email, description, created_at, image_url, is_mentor FROM users
 WHERE uuid = ANY($1::UUID[])
 `
 
-func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []pgtype.UUID) ([]User, error) {
-	rows, err := q.db.Query(ctx, getUserByIds, dollar_1)
+func (q *Queries) GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]User, error) {
+	rows, err := q.db.Query(ctx, getUsersByIDs, userUuids)
 	if err != nil {
 		return nil, err
 	}
@@ -243,38 +242,6 @@ func (q *Queries) GetUserByIds(ctx context.Context, dollar_1 []pgtype.UUID) ([]U
 			&i.ImageUrl,
 			&i.IsMentor,
 		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getUsersByIds = `-- name: GetUsersByIds :many
-SELECT uuid, name, image_url
-FROM users
-WHERE uuid = ANY($1::UUID[])
-`
-
-type GetUsersByIdsRow struct {
-	Uuid     pgtype.UUID `json:"uuid"`
-	Name     string      `json:"name"`
-	ImageUrl string      `json:"image_url"`
-}
-
-func (q *Queries) GetUsersByIds(ctx context.Context, userUuids []pgtype.UUID) ([]GetUsersByIdsRow, error) {
-	rows, err := q.db.Query(ctx, getUsersByIds, userUuids)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []GetUsersByIdsRow{}
-	for rows.Next() {
-		var i GetUsersByIdsRow
-		if err := rows.Scan(&i.Uuid, &i.Name, &i.ImageUrl); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

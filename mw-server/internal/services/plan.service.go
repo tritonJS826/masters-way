@@ -9,13 +9,11 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/samber/lo"
 )
 
 type IPlanRepository interface {
 	CreatePlan(ctx context.Context, arg db.CreatePlanParams) (db.CreatePlanRow, error)
 	UpdatePlan(ctx context.Context, arg db.UpdatePlanParams) (db.UpdatePlanRow, error)
-	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.JobTag, error)
 	DeletePlan(ctx context.Context, planUuid pgtype.UUID) error
 }
 
@@ -27,7 +25,22 @@ func NewPlanService(planRepository IPlanRepository) *PlanService {
 	return &PlanService{planRepository}
 }
 
-func (ps *PlanService) CreatePlan(ctx context.Context, payload *schemas.CreatePlanPayload) (*schemas.PlanPopulatedResponse, error) {
+type Plan struct {
+	ID          string
+	CreatedAt   string
+	UpdatedAt   string
+	Description string
+	Time        int32
+	OwnerUuid   string
+	OwnerName   string
+	IsDone      bool
+	DayReportID string
+	WayUUID     string
+	WayName     string
+	TagIDs      []string
+}
+
+func (ps *PlanService) CreatePlan(ctx context.Context, payload *schemas.CreatePlanPayload) (*Plan, error) {
 	now := time.Now()
 	args := db.CreatePlanParams{
 		Description:   payload.Description,
@@ -44,19 +57,19 @@ func (ps *PlanService) CreatePlan(ctx context.Context, payload *schemas.CreatePl
 		return nil, err
 	}
 
-	return &schemas.PlanPopulatedResponse{
-		Uuid:          util.ConvertPgUUIDToUUID(plan.Uuid).String(),
-		CreatedAt:     plan.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     plan.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		Description:   plan.Description,
-		Time:          plan.Time,
-		OwnerUuid:     util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
-		OwnerName:     plan.OwnerName,
-		IsDone:        plan.IsDone,
-		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
-		WayUUID:       util.ConvertPgUUIDToUUID(plan.WayUuid).String(),
-		WayName:       plan.WayName,
-		Tags:          make([]schemas.JobTagResponse, 0),
+	return &Plan{
+		ID:          util.ConvertPgUUIDToUUID(plan.Uuid).String(),
+		CreatedAt:   plan.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:   plan.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		Description: plan.Description,
+		Time:        plan.Time,
+		OwnerUuid:   util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
+		OwnerName:   plan.OwnerName,
+		IsDone:      plan.IsDone,
+		DayReportID: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
+		WayUUID:     util.ConvertPgUUIDToUUID(plan.WayUuid).String(),
+		WayName:     plan.WayName,
+		TagIDs:      []string{},
 	}, nil
 }
 
@@ -67,7 +80,7 @@ type UpdatePlanParams struct {
 	IsDone      *bool
 }
 
-func (ps *PlanService) UpdatePlan(ctx context.Context, params *UpdatePlanParams) (*schemas.PlanPopulatedResponse, error) {
+func (ps *PlanService) UpdatePlan(ctx context.Context, params *UpdatePlanParams) (*Plan, error) {
 	planUUID := pgtype.UUID{Bytes: uuid.MustParse(params.PlanID), Valid: true}
 
 	var descriptionPg pgtype.Text
@@ -96,37 +109,19 @@ func (ps *PlanService) UpdatePlan(ctx context.Context, params *UpdatePlanParams)
 		return nil, err
 	}
 
-	tagUuids := lo.Map(plan.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
-		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
-	})
-
-	dbTags, err := ps.planRepository.GetListLabelsByLabelUuids(ctx, tagUuids)
-	if err != nil {
-		return nil, err
-	}
-
-	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
-			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
-			Name:        dbTag.Name,
-			Description: dbTag.Description,
-			Color:       dbTag.Color,
-		}
-	})
-
-	return &schemas.PlanPopulatedResponse{
-		Uuid:          util.ConvertPgUUIDToUUID(plan.Uuid).String(),
-		CreatedAt:     plan.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     plan.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		Description:   plan.Description,
-		Time:          plan.Time,
-		OwnerUuid:     util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
-		OwnerName:     plan.OwnerName,
-		IsDone:        plan.IsDone,
-		DayReportUuid: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
-		WayUUID:       util.ConvertPgUUIDToUUID(plan.WayUuid).String(),
-		WayName:       plan.WayName,
-		Tags:          tags,
+	return &Plan{
+		ID:          util.ConvertPgUUIDToUUID(plan.Uuid).String(),
+		CreatedAt:   plan.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:   plan.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		Description: plan.Description,
+		Time:        plan.Time,
+		OwnerUuid:   util.ConvertPgUUIDToUUID(plan.OwnerUuid).String(),
+		OwnerName:   plan.OwnerName,
+		IsDone:      plan.IsDone,
+		DayReportID: util.ConvertPgUUIDToUUID(plan.DayReportUuid).String(),
+		WayUUID:     util.ConvertPgUUIDToUUID(plan.WayUuid).String(),
+		WayName:     plan.WayName,
+		TagIDs:      plan.TagUuids,
 	}, nil
 }
 

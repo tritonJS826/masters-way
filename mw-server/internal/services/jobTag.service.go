@@ -8,10 +8,12 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/samber/lo"
 )
 
 type IJobTagRepository interface {
 	CreateJobTag(ctx context.Context, arg db.CreateJobTagParams) (db.JobTag, error)
+	GetLabelsByIDs(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.JobTag, error)
 	UpdateJobTag(ctx context.Context, arg db.UpdateJobTagParams) (db.JobTag, error)
 	DeleteJobTagById(ctx context.Context, jobTagUuid pgtype.UUID) error
 }
@@ -43,6 +45,28 @@ func (js *JobTagService) CreateJobTag(ctx context.Context, payload *schemas.Crea
 		Description: jobTag.Description,
 		Color:       jobTag.Color,
 	}, nil
+}
+
+func (js *JobTagService) GetLabelsByIDs(ctx context.Context, jobTagIDs []string) ([]schemas.JobTagResponse, error) {
+	jobTagPgUUIDs := lo.Map(jobTagIDs, func(stringifiedUuid string, _ int) pgtype.UUID {
+		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
+	})
+
+	dbTagsRaw, err := js.jobTagRepository.GetLabelsByIDs(ctx, jobTagPgUUIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	jobTags := lo.Map(dbTagsRaw, func(dbTag db.JobTag, _ int) schemas.JobTagResponse {
+		return schemas.JobTagResponse{
+			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
+			Name:        dbTag.Name,
+			Description: dbTag.Description,
+			Color:       dbTag.Color,
+		}
+	})
+
+	return jobTags, nil
 }
 
 type UpdateJobTagParams struct {

@@ -191,6 +191,10 @@ func TestGetDayReports(t *testing.T) {
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		assert.Equal(t, expectedData.Size, report.Size)
 
-		assert.True(t, cmp.Equal(expectedData, *report, cmpopts.IgnoreFields(openapiGeneral.SchemasCompositeDayReportPopulatedResponse{}, "Uuid", "CreatedAt", "UpdatedAt")), "Structures should match except for UUID, CreatedAt, and UpdatedAt")
+		if !cmp.Equal(expectedData, *report, cmpopts.IgnoreFields(openapiGeneral.SchemasCompositeDayReportPopulatedResponse{}, "Uuid", "CreatedAt", "UpdatedAt")) {
+			// Print the differences for debugging
+			diff := cmp.Diff(expectedData, *report, cmpopts.IgnoreFields(openapiGeneral.SchemasCompositeDayReportPopulatedResponse{}, "Uuid", "CreatedAt", "UpdatedAt"))
+			t.Errorf("Structures should match except for UUID, CreatedAt, and UpdatedAt. Diff: %s", diff)
+		}
 	})
 }

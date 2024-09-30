@@ -10,24 +10,18 @@ INSERT INTO users(
     @name, @email, @description, @created_at, @image_url, @is_mentor
 ) RETURNING *;
 
--- name: GetUsersByIds :many
-SELECT uuid, name, image_url
-FROM users
+-- name: GetUsersByIDs :many
+SELECT * FROM users
 WHERE uuid = ANY(@user_uuids::UUID[]);
 
--- name: GetUserById :one
+-- name: GetUserByID :one
 SELECT * FROM users
-WHERE uuid = @user_uuid
-LIMIT 1;
+WHERE uuid = @user_uuid;
 
 -- name: GetUserByEmail :one
 SELECT * FROM users
 WHERE email = @user_email
 LIMIT 1;
-
--- name: GetUserByIds :many
-SELECT * FROM users
-WHERE uuid = ANY($1::UUID[]);
 
 -- name: ListUsers :many
 SELECT
@@ -110,8 +104,8 @@ SELECT
     )::VARCHAR[] AS tag_names
 FROM users
 WHERE users.uuid IN (
-    SELECT user_uuid 
-    FROM users_projects 
+    SELECT user_uuid
+    FROM users_projects
     WHERE users_projects.project_uuid = @project_uuid
 );
 

@@ -11,12 +11,19 @@ import (
 )
 
 type JobDoneController struct {
-	permissionService *services.PermissionService
-	jobDoneService    *services.JobDoneService
+	permissionService    *services.PermissionService
+	jobDoneService       *services.JobDoneService
+	jobDoneJobTagService *services.JobDoneJobTagService
+	jobTagService        *services.JobTagService
 }
 
-func NewJobDoneController(permissionService *services.PermissionService, jobDoneService *services.JobDoneService) *JobDoneController {
-	return &JobDoneController{permissionService, jobDoneService}
+func NewJobDoneController(
+	permissionService *services.PermissionService,
+	jobDoneService *services.JobDoneService,
+	jobDoneJobTagService *services.JobDoneJobTagService,
+	jobTagService *services.JobTagService,
+) *JobDoneController {
+	return &JobDoneController{permissionService, jobDoneService, jobDoneJobTagService, jobTagService}
 }
 
 // Create JobDone  handler
@@ -30,7 +37,7 @@ func NewJobDoneController(permissionService *services.PermissionService, jobDone
 // @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create job done."
 // @Router /jobDones [post]
-func (jdc *JobDoneController) CreateJobDone(ctx *gin.Context) {
+func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -41,13 +48,38 @@ func (jdc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	err := jdc.permissionService.CheckIsUserHavingPermissionsForDayReport(ctx, userID, payload.DayReportUuid)
+	err := jc.permissionService.CheckIsUserHavingPermissionsForDayReport(ctx, userID, payload.DayReportUuid)
 	util.HandleErrorGin(ctx, err)
 
-	jobDone, err := jdc.jobDoneService.CreateJobDone(ctx, payload)
+	jobDone, err := jc.jobDoneService.CreateJobDone(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, jobDone)
+	for _, jobTagID := range payload.JobTagUuids {
+		_, err := jc.jobDoneJobTagService.CreateJobDoneJobTag(ctx, &schemas.CreateJobDoneJobTagPayload{
+			JobDoneUuid: jobDone.ID,
+			JobTagUuid:  jobTagID,
+		})
+		util.HandleErrorGin(ctx, err)
+	}
+
+	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, jobDone.TagIDs)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          jobDone.ID,
+		CreatedAt:     jobDone.CreatedAt,
+		UpdatedAt:     jobDone.UpdatedAt,
+		Description:   jobDone.Description,
+		Time:          jobDone.Time,
+		OwnerUuid:     jobDone.OwnerUuid,
+		OwnerName:     jobDone.OwnerName,
+		DayReportUuid: jobDone.DayReportID,
+		WayUUID:       jobDone.WayUUID,
+		WayName:       jobDone.WayName,
+		Tags:          jobTags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update JobDone handler
@@ -62,7 +94,7 @@ func (jdc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 // @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update job done."
 // @Router /jobDones/{jobDoneId} [patch]
-func (jdc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
+func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	var payload *schemas.UpdateJobDone
 	jobDoneID := ctx.Param("jobDoneId")
 
@@ -74,15 +106,32 @@ func (jdc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	err := jdc.permissionService.CheckIsUserHavingPermissionsForJobDone(ctx, userID, jobDoneID)
+	err := jc.permissionService.CheckIsUserHavingPermissionsForJobDone(ctx, userID, jobDoneID)
 	util.HandleErrorGin(ctx, err)
 
-	response, err := jdc.jobDoneService.UpdateJobDone(ctx, &services.UpdateJobDoneParams{
+	jobDone, err := jc.jobDoneService.UpdateJobDone(ctx, &services.UpdateJobDoneParams{
 		JobDoneID:   jobDoneID,
 		Description: payload.Description,
 		Time:        payload.Time,
 	})
 	util.HandleErrorGin(ctx, err)
+
+	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, jobDone.TagIDs)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          jobDone.ID,
+		CreatedAt:     jobDone.CreatedAt,
+		UpdatedAt:     jobDone.UpdatedAt,
+		Description:   jobDone.Description,
+		Time:          jobDone.Time,
+		OwnerUuid:     jobDone.OwnerUuid,
+		OwnerName:     jobDone.OwnerName,
+		DayReportUuid: jobDone.DayReportID,
+		WayUUID:       jobDone.WayUUID,
+		WayName:       jobDone.WayName,
+		Tags:          jobTags,
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -98,16 +147,16 @@ func (jdc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 // @Success 204
 // @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete job done."
 // @Router /jobDones/{jobDoneId} [delete]
-func (jdc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
+func (jc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	jobDoneID := ctx.Param("jobDoneId")
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	err := jdc.permissionService.CheckIsUserHavingPermissionsForJobDone(ctx, userID, jobDoneID)
+	err := jc.permissionService.CheckIsUserHavingPermissionsForJobDone(ctx, userID, jobDoneID)
 	util.HandleErrorGin(ctx, err)
 
-	err = jdc.jobDoneService.DeleteJobDoneById(ctx, jobDoneID)
+	err = jc.jobDoneService.DeleteJobDoneByID(ctx, jobDoneID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

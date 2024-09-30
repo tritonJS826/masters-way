@@ -17,7 +17,7 @@ type IUserRepository interface {
 	CreateUser(ctx context.Context, arg db.CreateUserParams) (db.User, error)
 	UpdateUser(ctx context.Context, arg db.UpdateUserParams) (db.User, error)
 	GetUserByEmail(ctx context.Context, userEmail string) (db.User, error)
-	GetUserById(ctx context.Context, userUuid pgtype.UUID) (db.User, error)
+	GetUserByID(ctx context.Context, userUuid pgtype.UUID) (db.User, error)
 	GetWayCollectionsByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]db.WayCollection, error)
 	GetOwnWaysByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]db.GetOwnWaysByUserIdRow, error)
 	GetMentoringWaysByMentorId(ctx context.Context, userUuid pgtype.UUID) ([]db.GetMentoringWaysByMentorIdRow, error)
@@ -32,7 +32,7 @@ type IUserRepository interface {
 	GetFavoriteUserByDonorUserId(ctx context.Context, donorUserUuid pgtype.UUID) ([]db.User, error)
 	CountUsers(ctx context.Context, arg db.CountUsersParams) (int64, error)
 	ListUsers(ctx context.Context, arg db.ListUsersParams) ([]db.ListUsersRow, error)
-	GetUsersByIds(ctx context.Context, userUuids []pgtype.UUID) ([]db.GetUsersByIdsRow, error)
+	GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]db.User, error)
 }
 
 type UserService struct {
@@ -157,12 +157,12 @@ func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]s
 		return pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
 	})
 
-	dbUsers, err := us.IUserRepository.GetUsersByIds(ctx, usersPgUUIDs)
+	dbUsers, err := us.IUserRepository.GetUsersByIDs(ctx, usersPgUUIDs)
 	if err != nil {
 		return nil, err
 	}
 
-	dbUsersMap := lo.SliceToMap(dbUsers, func(dbUser db.GetUsersByIdsRow) (string, db.GetUsersByIdsRow) {
+	dbUsersMap := lo.SliceToMap(dbUsers, func(dbUser db.User) (string, db.User) {
 		return util.ConvertPgUUIDToUUID(dbUser.Uuid).String(), dbUser
 	})
 
@@ -258,7 +258,7 @@ type dbWay struct {
 
 func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
 	userPgUUID := pgtype.UUID{Bytes: userUuid, Valid: true}
-	user, err := us.IUserRepository.GetUserById(ctx, userPgUUID)
+	user, err := us.IUserRepository.GetUserByID(ctx, userPgUUID)
 	if err != nil {
 		return nil, err
 	}
@@ -348,7 +348,7 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 				IsMentor:    dbMentor.IsMentor,
 			}
 		})
-		dbOwner, _ := us.IUserRepository.GetUserById(ctx, dbWay.Uuid)
+		dbOwner, _ := us.IUserRepository.GetUserByID(ctx, dbWay.Uuid)
 		owner := schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbOwner.Uuid).String(),
 			Name:        dbOwner.Name,
@@ -417,7 +417,7 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 
 func (us *UserService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
 	ways := lo.Map(dbWays, func(dbWay dbWay, i int) schemas.WayPlainResponse {
-		dbOwner, _ := us.IUserRepository.GetUserById(ctx, dbWay.OwnerUuid)
+		dbOwner, _ := us.IUserRepository.GetUserByID(ctx, dbWay.OwnerUuid)
 		owner := schemas.UserPlainResponse{
 			Uuid:        util.ConvertPgUUIDToUUID(dbWay.OwnerUuid).String(),
 			Name:        dbOwner.Name,
