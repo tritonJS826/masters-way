@@ -102,6 +102,11 @@ export type LocalStorageData = {
   userPage: UserPageSettings;
 
   /**
+   * Project page data
+   */
+  projectPage: ProjectPageSettings;
+
+  /**
    * Id of opened collection
    * Be careful this data should be deprecated and tab with this id sometimes could not be exist
    */
@@ -158,6 +163,19 @@ export type WayPageSettings = {
 }
 
 export type UserPageSettings = {
+
+  /**
+   * Settled filter by statuses
+   */
+  filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE;
+
+  /**
+   * Settled view
+   */
+  view: View;
+}
+
+export type ProjectPageSettings = {
 
   /**
    * Settled filter by statuses

@@ -337,7 +337,7 @@ export const UserPage = observer((props: UserPageProps) => {
       id: "0",
       tabTrigger: {
         id: "0",
-        value: "Collections",
+        value: LanguageService.user.tabs.collections[language],
       },
       tabContent: {
         id: "0",
@@ -431,7 +431,7 @@ export const UserPage = observer((props: UserPageProps) => {
       id: "1",
       tabTrigger: {
         id: "1",
-        value: "Projects",
+        value: LanguageService.user.tabs.projects[language],
       },
       tabContent: {
         id: "1",

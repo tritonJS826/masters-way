@@ -1,7 +1,44 @@
 @import "src/styles/variables";
 
-.container {
+.pageLayout {
   max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
+  gap: $gapExtraBig;
+}
+
+.projectInfoBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.projectTitleActions {
+  justify-content: space-between;
+}
+
+.participantsBlock {
+  gap: $gapSmall;
+}
+
+.participants {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.participant {
+  align-items: center;
+}
+
+.participantInfo {
+  gap: $gapSmall;
+}
+
+.participantDescription {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
 }
