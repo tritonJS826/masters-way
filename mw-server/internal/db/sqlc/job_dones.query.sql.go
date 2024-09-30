@@ -17,14 +17,14 @@ WITH way_info AS (
         ways.uuid AS way_uuid,
         ways.name AS way_name
     FROM day_reports
-             INNER JOIN ways ON ways.uuid = day_reports.way_uuid
+        INNER JOIN ways ON ways.uuid = day_reports.way_uuid
     WHERE day_reports.uuid = $6
-),
-     owner_info AS (
-         SELECT name AS owner_name
-         FROM users
-         WHERE uuid = $5
-     )
+    ),
+    owner_info AS (
+        SELECT name AS owner_name
+        FROM users
+        WHERE uuid = $5
+    )
 INSERT INTO job_dones(
     created_at,
     updated_at,
@@ -182,14 +182,18 @@ WITH way_info AS (
         ways.uuid AS way_uuid,
         ways.name AS way_name
     FROM day_reports
-             INNER JOIN ways ON ways.uuid = day_reports.way_uuid
-    WHERE day_reports.uuid = (SELECT day_report_uuid FROM job_dones WHERE uuid = $4)
-),
-     owner_info AS (
-         SELECT name AS owner_name
-         FROM users
-         WHERE uuid = (SELECT owner_uuid FROM job_dones WHERE uuid = $4)
-     )
+        INNER JOIN ways ON ways.uuid = day_reports.way_uuid
+    WHERE day_reports.uuid = (
+            SELECT day_report_uuid
+            FROM job_dones
+            WHERE uuid = $4
+        )
+    ),
+         owner_info AS (
+             SELECT name AS owner_name
+             FROM users
+             WHERE uuid = (SELECT owner_uuid FROM job_dones WHERE uuid = $4)
+         )
 UPDATE job_dones
 SET
     updated_at = COALESCE($1, updated_at),

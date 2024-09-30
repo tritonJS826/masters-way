@@ -11,8 +11,8 @@ API version: 1.0
 package openapi
 
 import (
-	"bytes"
 	"encoding/json"
+	"bytes"
 	"fmt"
 )
 
@@ -21,24 +21,24 @@ var _ MappedNullable = &SchemasWayPopulatedResponse{}
 
 // SchemasWayPopulatedResponse struct for SchemasWayPopulatedResponse
 type SchemasWayPopulatedResponse struct {
-	Children               []SchemasWayPopulatedResponse `json:"children"`
-	CopiedFromWayUuid      NullableString                `json:"copiedFromWayUuid"`
-	CreatedAt              string                        `json:"createdAt"`
-	EstimationTime         int32                         `json:"estimationTime"`
-	FavoriteForUsersAmount int32                         `json:"favoriteForUsersAmount"`
-	FormerMentors          []SchemasUserPlainResponse    `json:"formerMentors"`
-	GoalDescription        string                        `json:"goalDescription"`
-	IsCompleted            bool                          `json:"isCompleted"`
-	IsPrivate              bool                          `json:"isPrivate"`
-	Labels                 []SchemasLabelResponse        `json:"labels"`
-	MentorRequests         []SchemasUserPlainResponse    `json:"mentorRequests"`
-	Mentors                []SchemasUserPlainResponse    `json:"mentors"`
-	Metrics                []SchemasMetricResponse       `json:"metrics"`
-	Name                   string                        `json:"name"`
-	Owner                  SchemasUserPlainResponse      `json:"owner"`
-	UpdatedAt              string                        `json:"updatedAt"`
-	Uuid                   string                        `json:"uuid"`
-	WayTags                []SchemasWayTagResponse       `json:"wayTags"`
+	Children []SchemasWayPopulatedResponse `json:"children"`
+	CopiedFromWayUuid NullableString `json:"copiedFromWayUuid"`
+	CreatedAt string `json:"createdAt"`
+	EstimationTime int32 `json:"estimationTime"`
+	FavoriteForUsersAmount int32 `json:"favoriteForUsersAmount"`
+	FormerMentors []SchemasUserPlainResponse `json:"formerMentors"`
+	GoalDescription string `json:"goalDescription"`
+	IsCompleted bool `json:"isCompleted"`
+	IsPrivate bool `json:"isPrivate"`
+	Labels []SchemasLabelResponse `json:"labels"`
+	MentorRequests []SchemasUserPlainResponse `json:"mentorRequests"`
+	Mentors []SchemasUserPlainResponse `json:"mentors"`
+	Metrics []SchemasMetricResponse `json:"metrics"`
+	Name string `json:"name"`
+	Owner SchemasUserPlainResponse `json:"owner"`
+	UpdatedAt string `json:"updatedAt"`
+	Uuid string `json:"uuid"`
+	WayTags []SchemasWayTagResponse `json:"wayTags"`
 }
 
 type _SchemasWayPopulatedResponse SchemasWayPopulatedResponse
@@ -513,7 +513,7 @@ func (o *SchemasWayPopulatedResponse) SetWayTags(v []SchemasWayTagResponse) {
 }
 
 func (o SchemasWayPopulatedResponse) MarshalJSON() ([]byte, error) {
-	toSerialize, err := o.ToMap()
+	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
 	}
@@ -573,10 +573,10 @@ func (o *SchemasWayPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 	err = json.Unmarshal(data, &allProperties)
 
 	if err != nil {
-		return err
+		return err;
 	}
 
-	for _, requiredProperty := range requiredProperties {
+	for _, requiredProperty := range(requiredProperties) {
 		if _, exists := allProperties[requiredProperty]; !exists {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
@@ -632,3 +632,5 @@ func (v *NullableSchemasWayPopulatedResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

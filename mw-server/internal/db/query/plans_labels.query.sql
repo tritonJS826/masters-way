@@ -10,12 +10,12 @@ INSERT INTO plans_labels(
 SELECT
     *,
     COALESCE(
-            ARRAY(
-                SELECT plans_labels.label_uuid
+        ARRAY(
+            SELECT plans_labels.label_uuid
             FROM plans_labels
             WHERE plans.uuid = plans_labels.plan_uuid
-    ),
-            '{}'
+        ),
+        '{}'
     )::VARCHAR[] AS label_uuids
 FROM plans WHERE plans.day_report_uuid = ANY(@day_report_uuids::UUID[]);
 

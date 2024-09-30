@@ -13,20 +13,21 @@ package openapi
 import (
 	"bytes"
 	"context"
-	"fmt"
 	"io"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
+
 // SocketAPIService SocketAPI service
 type SocketAPIService service
 
 type ApiConnectSocketRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *SocketAPIService
-	token      string
+	token string
 }
 
 func (r ApiConnectSocketRequest) Execute() (*http.Response, error) {
@@ -36,24 +37,24 @@ func (r ApiConnectSocketRequest) Execute() (*http.Response, error) {
 /*
 ConnectSocket Connect to socket
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param token token
-	@return ApiConnectSocketRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param token token
+ @return ApiConnectSocketRequest
 */
 func (a *SocketAPIService) ConnectSocket(ctx context.Context, token string) ApiConnectSocketRequest {
 	return ApiConnectSocketRequest{
 		ApiService: a,
-		ctx:        ctx,
-		token:      token,
+		ctx: ctx,
+		token: token,
 	}
 }
 
 // Execute executes the request
 func (a *SocketAPIService) ConnectSocketExecute(r ApiConnectSocketRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodGet
-		localVarPostBody   interface{}
-		formFiles          []formFile
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.ConnectSocket")
@@ -116,7 +117,7 @@ func (a *SocketAPIService) ConnectSocketExecute(r ApiConnectSocketRequest) (*htt
 // Execute executes the request
 func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.ConnectSocket")
@@ -130,6 +131,7 @@ func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest,
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
+
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -154,12 +156,10 @@ func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest,
 	}
 
 	for key, values := range request.Header {
-		if key == "Origin" {
-			continue
-		}
-		for _, value := range values {
-			req.Header.Add(key, value)
-		}
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -188,9 +188,9 @@ func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest,
 }
 
 type ApiSendMessageEventRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *SocketAPIService
-	request    *SchemasSendMessagePayload
+	request *SchemasSendMessagePayload
 }
 
 // query params
@@ -206,22 +206,22 @@ func (r ApiSendMessageEventRequest) Execute() (*http.Response, error) {
 /*
 SendMessageEvent Send message to socket
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiSendMessageEventRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiSendMessageEventRequest
 */
 func (a *SocketAPIService) SendMessageEvent(ctx context.Context) ApiSendMessageEventRequest {
 	return ApiSendMessageEventRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
 func (a *SocketAPIService) SendMessageEventExecute(r ApiSendMessageEventRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodPost
-		localVarPostBody   interface{}
-		formFiles          []formFile
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.SendMessageEvent")
@@ -288,7 +288,7 @@ func (a *SocketAPIService) SendMessageEventExecute(r ApiSendMessageEventRequest)
 // Execute executes the request
 func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.SendMessageEvent")
@@ -301,6 +301,7 @@ func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRe
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
+
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -325,12 +326,10 @@ func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRe
 	}
 
 	for key, values := range request.Header {
-		if key == "Origin" {
-			continue
-		}
-		for _, value := range values {
-			req.Header.Add(key, value)
-		}
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
@@ -359,9 +358,9 @@ func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRe
 }
 
 type ApiSendRoomEventRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService *SocketAPIService
-	request    *SchemasRoomPopulatedResponse
+	request *SchemasRoomPopulatedResponse
 }
 
 // query params
@@ -377,22 +376,22 @@ func (r ApiSendRoomEventRequest) Execute() (*http.Response, error) {
 /*
 SendRoomEvent Send created room event
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiSendRoomEventRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiSendRoomEventRequest
 */
 func (a *SocketAPIService) SendRoomEvent(ctx context.Context) ApiSendRoomEventRequest {
 	return ApiSendRoomEventRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
 func (a *SocketAPIService) SendRoomEventExecute(r ApiSendRoomEventRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodPost
-		localVarPostBody   interface{}
-		formFiles          []formFile
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.SendRoomEvent")
@@ -459,7 +458,7 @@ func (a *SocketAPIService) SendRoomEventExecute(r ApiSendRoomEventRequest) (*htt
 // Execute executes the request
 func (a *SocketAPIService) SendRoomEventStreamExecute(r ApiSendRoomEventRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SocketAPIService.SendRoomEvent")
@@ -472,6 +471,7 @@ func (a *SocketAPIService) SendRoomEventStreamExecute(r ApiSendRoomEventRequest,
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
+
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -496,12 +496,10 @@ func (a *SocketAPIService) SendRoomEventStreamExecute(r ApiSendRoomEventRequest,
 	}
 
 	for key, values := range request.Header {
-		if key == "Origin" {
-			continue
-		}
-		for _, value := range values {
-			req.Header.Add(key, value)
-		}
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
 	}
 
 	req.Header.Add("GoogleAccessToken", GoogleAccessToken)

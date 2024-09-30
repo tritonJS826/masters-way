@@ -51,12 +51,12 @@ const getPlansByDayReportUuids = `-- name: GetPlansByDayReportUuids :many
 SELECT
     uuid, created_at, updated_at, description, time, owner_uuid, is_done, day_report_uuid,
     COALESCE(
-            ARRAY(
-                SELECT plans_labels.label_uuid
+        ARRAY(
+            SELECT plans_labels.label_uuid
             FROM plans_labels
             WHERE plans.uuid = plans_labels.plan_uuid
-    ),
-            '{}'
+        ),
+        '{}'
     )::VARCHAR[] AS label_uuids
 FROM plans WHERE plans.day_report_uuid = ANY($1::UUID[])
 `
