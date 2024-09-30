@@ -9,14 +9,12 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/samber/lo"
 )
 
 type IJobDoneRepository interface {
 	CreateJobDone(ctx context.Context, arg db.CreateJobDoneParams) (db.CreateJobDoneRow, error)
 	UpdateJobDone(ctx context.Context, arg db.UpdateJobDoneParams) (db.UpdateJobDoneRow, error)
 	DeleteJobDone(ctx context.Context, jobDoneUuid pgtype.UUID) error
-	GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]db.JobTag, error)
 }
 
 type JobDoneService struct {
@@ -27,11 +25,25 @@ func NewJobDoneService(jobDoneRepository IJobDoneRepository) *JobDoneService {
 	return &JobDoneService{jobDoneRepository}
 }
 
-func (jds *JobDoneService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*schemas.JobDonePopulatedResponse, error) {
+type JobDone struct {
+	ID          string
+	CreatedAt   string
+	UpdatedAt   string
+	Description string
+	Time        int32
+	OwnerUuid   string
+	OwnerName   string
+	DayReportID string
+	WayUUID     string
+	WayName     string
+	TagIDs      []string
+}
+
+func (js *JobDoneService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*JobDone, error) {
 	dayReportUUID := pgtype.UUID{Bytes: uuid.MustParse(payload.DayReportUuid), Valid: true}
 
 	now := time.Now()
-	jobDone, err := jds.jobDoneRepository.CreateJobDone(ctx, db.CreateJobDoneParams{
+	jobDone, err := js.jobDoneRepository.CreateJobDone(ctx, db.CreateJobDoneParams{
 		Description:   payload.Description,
 		OwnerUuid:     pgtype.UUID{Bytes: uuid.MustParse(payload.OwnerUuid), Valid: true},
 		DayReportUuid: dayReportUUID,
@@ -43,18 +55,18 @@ func (jds *JobDoneService) CreateJobDone(ctx context.Context, payload *schemas.C
 		return nil, err
 	}
 
-	return &schemas.JobDonePopulatedResponse{
-		Uuid:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
-		CreatedAt:     jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     jobDone.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		Description:   jobDone.Description,
-		Time:          jobDone.Time,
-		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
-		OwnerName:     jobDone.OwnerName,
-		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
-		WayUUID:       util.ConvertPgUUIDToUUID(jobDone.WayUuid).String(),
-		WayName:       jobDone.WayName,
-		Tags:          []schemas.JobTagResponse{},
+	return &JobDone{
+		ID:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
+		CreatedAt:   jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:   jobDone.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		Description: jobDone.Description,
+		Time:        jobDone.Time,
+		OwnerUuid:   util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
+		OwnerName:   jobDone.OwnerName,
+		DayReportID: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
+		WayUUID:     util.ConvertPgUUIDToUUID(jobDone.WayUuid).String(),
+		WayName:     jobDone.WayName,
+		TagIDs:      []string{},
 	}, nil
 }
 
@@ -64,7 +76,7 @@ type UpdateJobDoneParams struct {
 	Time        *int32
 }
 
-func (jds *JobDoneService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*schemas.JobDonePopulatedResponse, error) {
+func (js *JobDoneService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*JobDone, error) {
 	now := time.Now()
 	var descriptionPg pgtype.Text
 	if params.Description != nil {
@@ -82,40 +94,26 @@ func (jds *JobDoneService) UpdateJobDone(ctx context.Context, params *UpdateJobD
 		Time:        timePg,
 	}
 
-	jobDone, err := jds.jobDoneRepository.UpdateJobDone(ctx, args)
+	jobDone, err := js.jobDoneRepository.UpdateJobDone(ctx, args)
 	if err != nil {
 		return nil, err
 	}
 
-	tagUuids := lo.Map(jobDone.TagUuids, func(stringifiedUuid string, i int) pgtype.UUID {
-		return pgtype.UUID{Bytes: uuid.MustParse(stringifiedUuid), Valid: true}
-	})
-
-	dbTags, _ := jds.jobDoneRepository.GetListLabelsByLabelUuids(ctx, tagUuids)
-	tags := lo.Map(dbTags, func(dbTag db.JobTag, i int) schemas.JobTagResponse {
-		return schemas.JobTagResponse{
-			Uuid:        util.ConvertPgUUIDToUUID(dbTag.Uuid).String(),
-			Name:        dbTag.Name,
-			Description: dbTag.Description,
-			Color:       dbTag.Color,
-		}
-	})
-
-	return &schemas.JobDonePopulatedResponse{
-		Uuid:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
-		CreatedAt:     jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		UpdatedAt:     jobDone.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		Description:   jobDone.Description,
-		Time:          jobDone.Time,
-		OwnerUuid:     util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
-		OwnerName:     jobDone.OwnerName,
-		DayReportUuid: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
-		WayUUID:       util.ConvertPgUUIDToUUID(jobDone.WayUuid).String(),
-		WayName:       jobDone.WayName,
-		Tags:          tags,
+	return &JobDone{
+		ID:          util.ConvertPgUUIDToUUID(jobDone.Uuid).String(),
+		CreatedAt:   jobDone.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		UpdatedAt:   jobDone.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		Description: jobDone.Description,
+		Time:        jobDone.Time,
+		OwnerUuid:   util.ConvertPgUUIDToUUID(jobDone.OwnerUuid).String(),
+		OwnerName:   jobDone.OwnerName,
+		DayReportID: util.ConvertPgUUIDToUUID(jobDone.DayReportUuid).String(),
+		WayUUID:     util.ConvertPgUUIDToUUID(jobDone.WayUuid).String(),
+		WayName:     jobDone.WayName,
+		TagIDs:      jobDone.TagUuids,
 	}, nil
 }
 
-func (jds *JobDoneService) DeleteJobDoneById(ctx context.Context, jobDoneID string) error {
-	return jds.jobDoneRepository.DeleteJobDone(ctx, pgtype.UUID{Bytes: uuid.MustParse(jobDoneID), Valid: true})
+func (js *JobDoneService) DeleteJobDoneByID(ctx context.Context, jobDoneID string) error {
+	return js.jobDoneRepository.DeleteJobDone(ctx, pgtype.UUID{Bytes: uuid.MustParse(jobDoneID), Valid: true})
 }

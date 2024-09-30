@@ -14,10 +14,15 @@ import (
 type PlanController struct {
 	permissionService *services.PermissionService
 	planService       *services.PlanService
+	jobTagService     *services.JobTagService
 }
 
-func NewPlanController(permissionService *services.PermissionService, planService *services.PlanService) *PlanController {
-	return &PlanController{permissionService, planService}
+func NewPlanController(
+	permissionService *services.PermissionService,
+	planService *services.PlanService,
+	jobTagService *services.JobTagService,
+) *PlanController {
+	return &PlanController{permissionService, planService, jobTagService}
 }
 
 // Create Plan handler
@@ -48,7 +53,25 @@ func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 	plan, err := pc.planService.CreatePlan(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, plan)
+	tags, err := pc.jobTagService.GetLabelsByIDs(ctx, plan.TagIDs)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          plan.ID,
+		CreatedAt:     plan.CreatedAt,
+		UpdatedAt:     plan.UpdatedAt,
+		Description:   plan.Description,
+		Time:          plan.Time,
+		OwnerUuid:     plan.OwnerUuid,
+		OwnerName:     plan.OwnerName,
+		IsDone:        plan.IsDone,
+		DayReportUuid: plan.DayReportID,
+		WayUUID:       plan.WayUUID,
+		WayName:       plan.WayName,
+		Tags:          tags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update Plan handler
@@ -86,7 +109,25 @@ func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
 	})
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, plan)
+	jobTags, err := pc.jobTagService.GetLabelsByIDs(ctx, plan.TagIDs)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          plan.ID,
+		CreatedAt:     plan.CreatedAt,
+		UpdatedAt:     plan.UpdatedAt,
+		Description:   plan.Description,
+		Time:          plan.Time,
+		OwnerUuid:     plan.OwnerUuid,
+		OwnerName:     plan.OwnerName,
+		IsDone:        plan.IsDone,
+		DayReportUuid: plan.DayReportID,
+		WayUUID:       plan.WayUUID,
+		WayName:       plan.WayName,
+		Tags:          jobTags,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Deleting Plan handlers

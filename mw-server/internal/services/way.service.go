@@ -27,7 +27,7 @@ type IWayRepository interface {
 	GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UUID) ([]db.Metric, error)
 	GetListWayTagsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.WayTag, error)
 	GetMentorUsersByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]db.User, error)
-	GetUserById(ctx context.Context, userUuid pgtype.UUID) (db.User, error)
+	GetUserByID(ctx context.Context, userUuid pgtype.UUID) (db.User, error)
 	GetWayById(ctx context.Context, wayUuid pgtype.UUID) (db.GetWayByIdRow, error)
 	GetWayChildren(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
 	ListWays(ctx context.Context, arg db.ListWaysParams) ([]db.ListWaysRow, error)
@@ -218,7 +218,7 @@ func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*
 		}
 	})
 
-	dbOwner, _ := ws.wayRepository.GetUserById(ctx, way.OwnerUuid)
+	dbOwner, _ := ws.wayRepository.GetUserByID(ctx, way.OwnerUuid)
 	owner := schemas.UserPlainResponse{
 		Uuid:        util.ConvertPgUUIDToUUID(dbOwner.Uuid).String(),
 		Name:        dbOwner.Name,

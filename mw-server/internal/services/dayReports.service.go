@@ -89,7 +89,10 @@ func (drs *DayReportService) GetDayReportsByWayID(ctx context.Context, params *G
 		}
 	})
 
-	jobTagsRaw, _ := drs.dayReportRepository.GetListJobTagsByWayUuids(ctx, wayPgUUIDs)
+	jobTagsRaw, err := drs.dayReportRepository.GetListJobTagsByWayUuids(ctx, wayPgUUIDs)
+	if err != nil {
+		return nil, err
+	}
 	jobTagsMap := lo.SliceToMap(jobTagsRaw, func(jobTag db.JobTag) (string, schemas.JobTagResponse) {
 		jobTagUUID := util.ConvertPgUUIDToUUID(jobTag.Uuid).String()
 		return jobTagUUID, schemas.JobTagResponse{
@@ -100,7 +103,10 @@ func (drs *DayReportService) GetDayReportsByWayID(ctx context.Context, params *G
 		}
 	})
 
-	dbJobDones, _ := drs.dayReportRepository.GetJobDonesByDayReportUuids(ctx, dayReportPgUUIDs)
+	dbJobDones, err := drs.dayReportRepository.GetJobDonesByDayReportUuids(ctx, dayReportPgUUIDs)
+	if err != nil {
+		return nil, err
+	}
 	jobDonesMap := make(map[string][]schemas.JobDonePopulatedResponse)
 	lo.ForEach(dbJobDones, func(dbJobDone db.GetJobDonesByDayReportUuidsRow, i int) {
 		jobDoneOwnerUUIDString := util.ConvertPgUUIDToUUID(dbJobDone.OwnerUuid).String()

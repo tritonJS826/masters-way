@@ -78,6 +78,38 @@ func (q *Queries) GetJobTagByUuid(ctx context.Context, jobTagUuid pgtype.UUID) (
 	return i, err
 }
 
+const getLabelsByIDs = `-- name: GetLabelsByIDs :many
+SELECT uuid, name, description, color, way_uuid from job_tags
+WHERE job_tags.uuid = ANY($1::UUID[])
+ORDER BY uuid
+`
+
+func (q *Queries) GetLabelsByIDs(ctx context.Context, jobTagUuids []pgtype.UUID) ([]JobTag, error) {
+	rows, err := q.db.Query(ctx, getLabelsByIDs, jobTagUuids)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []JobTag{}
+	for rows.Next() {
+		var i JobTag
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.Description,
+			&i.Color,
+			&i.WayUuid,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getListJobTagsByWayUuid = `-- name: GetListJobTagsByWayUuid :many
 SELECT uuid, name, description, color, way_uuid FROM job_tags
 WHERE way_uuid = $1
@@ -117,38 +149,6 @@ WHERE way_uuid = ANY($1::UUID[])
 
 func (q *Queries) GetListJobTagsByWayUuids(ctx context.Context, wayUuids []pgtype.UUID) ([]JobTag, error) {
 	rows, err := q.db.Query(ctx, getListJobTagsByWayUuids, wayUuids)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []JobTag{}
-	for rows.Next() {
-		var i JobTag
-		if err := rows.Scan(
-			&i.Uuid,
-			&i.Name,
-			&i.Description,
-			&i.Color,
-			&i.WayUuid,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getListLabelsByLabelUuids = `-- name: GetListLabelsByLabelUuids :many
-SELECT uuid, name, description, color, way_uuid from job_tags
-WHERE job_tags.uuid = ANY($1::UUID[])
-ORDER BY uuid
-`
-
-func (q *Queries) GetListLabelsByLabelUuids(ctx context.Context, jobTagUuids []pgtype.UUID) ([]JobTag, error) {
-	rows, err := q.db.Query(ctx, getListLabelsByLabelUuids, jobTagUuids)
 	if err != nil {
 		return nil, err
 	}

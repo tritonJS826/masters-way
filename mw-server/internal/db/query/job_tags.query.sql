@@ -16,7 +16,7 @@ SELECT * FROM job_tags
 WHERE way_uuid = @way_uuid
 ORDER BY uuid;
 
--- name: GetListLabelsByLabelUuids :many
+-- name: GetLabelsByIDs :many
 SELECT * from job_tags
 WHERE job_tags.uuid = ANY(@job_tag_uuids::UUID[])
 ORDER BY uuid;
