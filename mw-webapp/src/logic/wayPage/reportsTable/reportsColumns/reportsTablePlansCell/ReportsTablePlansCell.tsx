@@ -152,8 +152,14 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
     if (!ownerUuid) {
       throw new Error("User is not exist and create plan is impossible");
     }
+
+    const wayParticipant = report.compositionParticipants.find((participant) => participant.wayId === plan.wayUuid);
+    if (!wayParticipant) {
+      throw new Error("Way is not exist and create job is impossible");
+    }
+
     const jobDone = await JobDoneDAL.createJobDone({
-      dayReportUuid: plan.dayReportUuid,
+      dayReportUuid: wayParticipant.dayReportId,
       ownerUuid,
       plan,
     });
