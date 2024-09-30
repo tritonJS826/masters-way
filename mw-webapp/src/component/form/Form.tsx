@@ -83,7 +83,7 @@ interface FormField {
 /**
  * Props for the Form component
  */
-interface FormProps {
+export interface FormProps {
 
   /**
    * Form fields
@@ -134,7 +134,10 @@ export const Form = (props: FormProps) => {
 
   return (
     <>
-      <form className={clsx(styles.form, props.className)}>
+      <form
+        role="form"
+        className={clsx(styles.form, props.className)}
+      >
         {props.formTitle &&
         <Title
           level={HeadingLevel.h2}
