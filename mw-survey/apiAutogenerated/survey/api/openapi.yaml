@@ -60,8 +60,6 @@ components:
       properties:
         currentExperience:
           type: string
-        isHandled:
-          type: boolean
         mentorDescription:
           type: string
         skillsToLearn:
@@ -70,7 +68,6 @@ components:
           type: string
       required:
       - currentExperience
-      - isHandled
       - mentorDescription
       - skillsToLearn
       - userEmail

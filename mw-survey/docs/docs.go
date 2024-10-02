@@ -99,7 +99,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "currentExperience",
-                "isHandled",
                 "mentorDescription",
                 "skillsToLearn",
                 "userEmail"
@@ -107,9 +106,6 @@ const docTemplate = `{
             "properties": {
                 "currentExperience": {
                     "type": "string"
-                },
-                "isHandled": {
-                    "type": "boolean"
                 },
                 "mentorDescription": {
                     "type": "string"

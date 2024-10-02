@@ -4,15 +4,12 @@ INSERT INTO looking_for_mentor (
     user_email,
     skills_to_learn,
     current_experience,
-    mentor_description,
-    is_handled
-)
-VALUES (
+    mentor_description
+) VALUES (
     @user_uuid,
     @user_email,
     @skills_to_learn,
     @current_experience,
-    @mentor_description,
-    @is_handled
+    @mentor_description
 )
 RETURNING *;

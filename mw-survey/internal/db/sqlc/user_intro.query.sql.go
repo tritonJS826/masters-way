@@ -21,8 +21,7 @@ INSERT INTO user_intro (
     student_experience,
     why_registered,
     source
-)
-VALUES (
+) VALUES (
     $1,
     $2,
     $3,

@@ -15,5 +15,4 @@ type PostSurveyLookingForMentorPayload struct {
 	SkillsToLearn     string `json:"skillsToLearn" validate:"required"`
 	CurrentExperience string `json:"currentExperience" validate:"required"`
 	MentorDescription string `json:"mentorDescription" validate:"required"`
-	IsHandled         bool   `json:"isHandled" validate:"required"`
 }

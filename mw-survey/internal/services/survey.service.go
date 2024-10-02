@@ -61,7 +61,6 @@ type SaveLookingForMentorSurveyParams struct {
 	SkillsToLearn     string    `json:"skillsToLearn" validate:"required"`
 	CurrentExperience string    `json:"currentExperience" validate:"required"`
 	MentorDescription string    `json:"mentorDescription" validate:"required"`
-	IsHandled         bool      `json:"isHandled" validate:"required"`
 }
 
 func (ss *SurveyService) CreateLookingForMentorSurvey(ctx context.Context, lookingForMentorSurveyParams *SaveLookingForMentorSurveyParams) error {
@@ -71,7 +70,6 @@ func (ss *SurveyService) CreateLookingForMentorSurvey(ctx context.Context, looki
 		SkillsToLearn:     lookingForMentorSurveyParams.SkillsToLearn,
 		CurrentExperience: lookingForMentorSurveyParams.CurrentExperience,
 		MentorDescription: lookingForMentorSurveyParams.MentorDescription,
-		IsHandled:         lookingForMentorSurveyParams.IsHandled,
 	}
 
 	_, err := ss.surveyRepository.CreateLookingForMentorSurvey(ctx, createLookingForMentorSurveyParams)

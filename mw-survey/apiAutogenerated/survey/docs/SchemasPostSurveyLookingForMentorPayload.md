@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CurrentExperience** | **string** |  | 
-**IsHandled** | **bool** |  | 
 **MentorDescription** | **string** |  | 
 **SkillsToLearn** | **string** |  | 
 **UserEmail** | **string** |  | 
@@ -14,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasPostSurveyLookingForMentorPayload
 
-`func NewSchemasPostSurveyLookingForMentorPayload(currentExperience string, isHandled bool, mentorDescription string, skillsToLearn string, userEmail string, ) *SchemasPostSurveyLookingForMentorPayload`
+`func NewSchemasPostSurveyLookingForMentorPayload(currentExperience string, mentorDescription string, skillsToLearn string, userEmail string, ) *SchemasPostSurveyLookingForMentorPayload`
 
 NewSchemasPostSurveyLookingForMentorPayload instantiates a new SchemasPostSurveyLookingForMentorPayload object
 This constructor will assign default values to properties that have it defined,
@@ -47,26 +46,6 @@ and a boolean to check if the value has been set.
 `func (o *SchemasPostSurveyLookingForMentorPayload) SetCurrentExperience(v string)`
 
 SetCurrentExperience sets CurrentExperience field to given value.
-
-
-### GetIsHandled
-
-`func (o *SchemasPostSurveyLookingForMentorPayload) GetIsHandled() bool`
-
-GetIsHandled returns the IsHandled field if non-nil, zero value otherwise.
-
-### GetIsHandledOk
-
-`func (o *SchemasPostSurveyLookingForMentorPayload) GetIsHandledOk() (*bool, bool)`
-
-GetIsHandledOk returns a tuple with the IsHandled field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIsHandled
-
-`func (o *SchemasPostSurveyLookingForMentorPayload) SetIsHandled(v bool)`
-
-SetIsHandled sets IsHandled field to given value.
 
 
 ### GetMentorDescription

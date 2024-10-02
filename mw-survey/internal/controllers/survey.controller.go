@@ -80,7 +80,6 @@ func (sc *SurveyController) PostSurveyLookingForMentor(ctx *gin.Context) {
 		SkillsToLearn:     payload.SkillsToLearn,
 		CurrentExperience: payload.CurrentExperience,
 		MentorDescription: payload.MentorDescription,
-		IsHandled:         payload.IsHandled,
 	}
 
 	err := sc.surveyService.CreateLookingForMentorSurvey(ctx, params)

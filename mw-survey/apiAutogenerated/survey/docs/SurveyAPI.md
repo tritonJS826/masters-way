@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasPostSurveyLookingForMentorPayload("CurrentExperience_example", false, "MentorDescription_example", "SkillsToLearn_example", "UserEmail_example") // SchemasPostSurveyLookingForMentorPayload | query params
+	request := *openapiclient.NewSchemasPostSurveyLookingForMentorPayload("CurrentExperience_example", "MentorDescription_example", "SkillsToLearn_example", "UserEmail_example") // SchemasPostSurveyLookingForMentorPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -22,7 +22,6 @@ var _ MappedNullable = &SchemasPostSurveyLookingForMentorPayload{}
 // SchemasPostSurveyLookingForMentorPayload struct for SchemasPostSurveyLookingForMentorPayload
 type SchemasPostSurveyLookingForMentorPayload struct {
 	CurrentExperience string
-	IsHandled bool
 	MentorDescription string
 	SkillsToLearn string
 	UserEmail string
@@ -34,10 +33,9 @@ type _SchemasPostSurveyLookingForMentorPayload SchemasPostSurveyLookingForMentor
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasPostSurveyLookingForMentorPayload(currentExperience string, isHandled bool, mentorDescription string, skillsToLearn string, userEmail string) *SchemasPostSurveyLookingForMentorPayload {
+func NewSchemasPostSurveyLookingForMentorPayload(currentExperience string, mentorDescription string, skillsToLearn string, userEmail string) *SchemasPostSurveyLookingForMentorPayload {
 	this := SchemasPostSurveyLookingForMentorPayload{}
 	this.CurrentExperience = currentExperience
-	this.IsHandled = isHandled
 	this.MentorDescription = mentorDescription
 	this.SkillsToLearn = skillsToLearn
 	this.UserEmail = userEmail
@@ -74,30 +72,6 @@ func (o *SchemasPostSurveyLookingForMentorPayload) GetCurrentExperienceOk() (*st
 // SetCurrentExperience sets field value
 func (o *SchemasPostSurveyLookingForMentorPayload) SetCurrentExperience(v string) {
 	o.CurrentExperience = v
-}
-
-// GetIsHandled returns the IsHandled field value
-func (o *SchemasPostSurveyLookingForMentorPayload) GetIsHandled() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.IsHandled
-}
-
-// GetIsHandledOk returns a tuple with the IsHandled field value
-// and a boolean to check if the value has been set.
-func (o *SchemasPostSurveyLookingForMentorPayload) GetIsHandledOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.IsHandled, true
-}
-
-// SetIsHandled sets field value
-func (o *SchemasPostSurveyLookingForMentorPayload) SetIsHandled(v bool) {
-	o.IsHandled = v
 }
 
 // GetMentorDescription returns the MentorDescription field value
@@ -183,7 +157,6 @@ func (o SchemasPostSurveyLookingForMentorPayload) MarshalJSON() ([]byte, error) 
 func (o SchemasPostSurveyLookingForMentorPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["currentExperience"] = o.CurrentExperience
-	toSerialize["isHandled"] = o.IsHandled
 	toSerialize["mentorDescription"] = o.MentorDescription
 	toSerialize["skillsToLearn"] = o.SkillsToLearn
 	toSerialize["userEmail"] = o.UserEmail
@@ -196,7 +169,6 @@ func (o *SchemasPostSurveyLookingForMentorPayload) UnmarshalJSON(data []byte) (e
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"currentExperience",
-		"isHandled",
 		"mentorDescription",
 		"skillsToLearn",
 		"userEmail",

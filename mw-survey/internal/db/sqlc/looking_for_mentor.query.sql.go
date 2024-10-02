@@ -17,16 +17,13 @@ INSERT INTO looking_for_mentor (
     user_email,
     skills_to_learn,
     current_experience,
-    mentor_description,
-    is_handled
-)
-VALUES (
+    mentor_description
+) VALUES (
     $1,
     $2,
     $3,
     $4,
-    $5,
-    $6
+    $5
 )
 RETURNING uuid, user_uuid, user_email, skills_to_learn, current_experience, mentor_description, is_handled, handled_date, created_at
 `
@@ -37,7 +34,6 @@ type CreateLookingForMentorSurveyParams struct {
 	SkillsToLearn     string      `json:"skills_to_learn"`
 	CurrentExperience string      `json:"current_experience"`
 	MentorDescription string      `json:"mentor_description"`
-	IsHandled         bool        `json:"is_handled"`
 }
 
 func (q *Queries) CreateLookingForMentorSurvey(ctx context.Context, arg CreateLookingForMentorSurveyParams) (LookingForMentor, error) {
@@ -47,7 +43,6 @@ func (q *Queries) CreateLookingForMentorSurvey(ctx context.Context, arg CreateLo
 		arg.SkillsToLearn,
 		arg.CurrentExperience,
 		arg.MentorDescription,
-		arg.IsHandled,
 	)
 	var i LookingForMentor
 	err := row.Scan(
