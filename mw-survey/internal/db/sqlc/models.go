@@ -8,6 +8,18 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type LookingForMentor struct {
+	Uuid              pgtype.UUID      `json:"uuid"`
+	UserUuid          pgtype.UUID      `json:"user_uuid"`
+	UserEmail         string           `json:"user_email"`
+	SkillsToLearn     string           `json:"skills_to_learn"`
+	CurrentExperience string           `json:"current_experience"`
+	MentorDescription string           `json:"mentor_description"`
+	IsHandled         bool             `json:"is_handled"`
+	HandledDate       pgtype.Timestamp `json:"handled_date"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+}
+
 type UserIntro struct {
 	Uuid                       pgtype.UUID      `json:"uuid"`
 	UserUuid                   pgtype.UUID      `json:"user_uuid"`

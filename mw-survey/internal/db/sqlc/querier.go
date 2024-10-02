@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	CreateLookingForMentorSurvey(ctx context.Context, arg CreateLookingForMentorSurveyParams) (LookingForMentor, error)
 	CreateUserIntroSurvey(ctx context.Context, arg CreateUserIntroSurveyParams) (UserIntro, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error

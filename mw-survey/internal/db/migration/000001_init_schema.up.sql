@@ -17,3 +17,16 @@ CREATE TABLE user_intro (
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "user_intro_pkey" PRIMARY KEY (uuid)
 );
+
+CREATE TABLE looking_for_mentor (
+    "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "user_uuid" UUID NOT NULL,
+    "user_email" VARCHAR(128) NOT NULL,
+    "skills_to_learn" VARCHAR(255) NOT NULL,
+    "current_experience" VARCHAR(255) NOT NULL,
+    "mentor_description" VARCHAR(255) NOT NULL,
+    "is_handled" BOOLEAN NOT NULL DEFAULT FALSE,
+    "handled_date" TIMESTAMP,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "looking_for_mentor_pkey" PRIMARY KEY (uuid)
+);

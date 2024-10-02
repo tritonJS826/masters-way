@@ -1,5 +1,5 @@
 /*
-Masters way storage API
+Masters way survey API
 
 Testing SurveyAPIService
 
@@ -21,6 +21,17 @@ func Test_openapi_SurveyAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
+
+	t.Run("Test SurveyAPIService SurveyLookingForMentor", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		httpRes, err := apiClient.SurveyAPI.SurveyLookingForMentor(context.Background()).Execute()
+
+		require.Nil(t, err)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
 
 	t.Run("Test SurveyAPIService SurveyUserIntro", func(t *testing.T) {
 

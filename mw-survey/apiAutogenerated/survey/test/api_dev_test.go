@@ -1,5 +1,5 @@
 /*
-Masters way storage API
+Masters way survey API
 
 Testing DevAPIService
 

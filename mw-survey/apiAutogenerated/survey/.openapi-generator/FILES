@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -7,11 +8,15 @@ api_survey.go
 client.go
 configuration.go
 docs/DevAPI.md
+docs/SchemasPostSurveyLookingForMentorPayload.md
 docs/SchemasPostSurveyUserIntroPayload.md
 docs/SurveyAPI.md
 git_push.sh
 go.mod
 go.sum
+model_schemas_post_survey_looking_for_mentor_payload.go
 model_schemas_post_survey_user_intro_payload.go
 response.go
+test/api_dev_test.go
+test/api_survey_test.go
 utils.go

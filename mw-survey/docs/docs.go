@@ -29,6 +29,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/looking-for-mentor": {
+            "post": {
+                "description": "Post survey looking for mentor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "survey"
+                ],
+                "summary": "Post survey looking for mentor",
+                "operationId": "survey-looking-for-mentor",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.PostSurveyLookingForMentorPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
         "/user-intro": {
             "post": {
                 "description": "Post survey user intro",
@@ -55,14 +87,41 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             }
         }
     },
     "definitions": {
+        "schemas.PostSurveyLookingForMentorPayload": {
+            "type": "object",
+            "required": [
+                "currentExperience",
+                "isHandled",
+                "mentorDescription",
+                "skillsToLearn",
+                "userEmail"
+            ],
+            "properties": {
+                "currentExperience": {
+                    "type": "string"
+                },
+                "isHandled": {
+                    "type": "boolean"
+                },
+                "mentorDescription": {
+                    "type": "string"
+                },
+                "skillsToLearn": {
+                    "type": "string"
+                },
+                "userEmail": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.PostSurveyUserIntroPayload": {
             "type": "object",
             "required": [
