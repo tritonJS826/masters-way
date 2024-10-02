@@ -43,6 +43,33 @@ export interface SurveyUserIntroParams {
 }
 
 /**
+ * SurveyFindMentor params
+ */
+export interface SurveyFindMentorParams {
+
+  /**
+   * Current level of knowledge
+   */
+  currentExperience: string;
+
+  /**
+   * What is important in the mentor and education process
+   */
+  mentorDescription: string;
+
+  /**
+   * What user want to learn
+   */
+  skillsToLearn: string;
+
+  /**
+   * User's Email in the app
+   */
+  userEmail: string;
+
+}
+
+/**
  * Provides methods to interact with the surveys
  */
 export class SurveyDAL {
@@ -57,8 +84,8 @@ export class SurveyDAL {
   /**
    * Survey find a mentor request
    */
-  public static async findMentor(): Promise<void> {
-    await SurveyService.findMentor();
+  public static async surveyFindMentor(params: SurveyFindMentorParams): Promise<void> {
+    await SurveyService.surveyFindMentor({request: {...params}});
   }
 
 }

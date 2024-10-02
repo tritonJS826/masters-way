@@ -1,6 +1,6 @@
 # \FileAPI
 
-All URIs are relative to */chat*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

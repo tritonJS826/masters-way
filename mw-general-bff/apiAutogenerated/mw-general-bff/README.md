@@ -74,36 +74,17 @@ ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVari
 
 ## Documentation for API Endpoints
 
-All URIs are relative to */chat*
+All URIs are relative to */general*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FileAPI* | [**DeleteFiles**](docs/FileAPI.md#deletefiles) | **Delete** /files | Delete files by IDs
 *FileAPI* | [**UploadFile**](docs/FileAPI.md#uploadfile) | **Post** /files | Upload file to storage
-*MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message
-*MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
-*RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
-*RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
-*RoomAPI* | [**DeleteUserFromRoom**](docs/RoomAPI.md#deleteuserfromroom) | **Delete** /rooms/{roomId}/users/{userId} | Delete user from room
-*RoomAPI* | [**GetChatPreview**](docs/RoomAPI.md#getchatpreview) | **Get** /rooms/preview | Get chat preview
-*RoomAPI* | [**GetRoomById**](docs/RoomAPI.md#getroombyid) | **Get** /rooms/{roomId} | Get room by id
-*RoomAPI* | [**GetRooms**](docs/RoomAPI.md#getrooms) | **Get** /rooms/list/{roomType} | Get rooms for user
-*RoomAPI* | [**UpdateRoom**](docs/RoomAPI.md#updateroom) | **Patch** /rooms/{roomId} | Update room
 
 
 ## Documentation For Models
 
- - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
- - [SchemasCreateRoomPayload](docs/SchemasCreateRoomPayload.md)
- - [SchemasGetRoomPreviewResponse](docs/SchemasGetRoomPreviewResponse.md)
- - [SchemasGetRoomsResponse](docs/SchemasGetRoomsResponse.md)
- - [SchemasMessageReader](docs/SchemasMessageReader.md)
- - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
- - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
- - [SchemasRoomPreviewResponse](docs/SchemasRoomPreviewResponse.md)
- - [SchemasUpdateMessageStatusPayload](docs/SchemasUpdateMessageStatusPayload.md)
  - [SchemasUploadFileResponse](docs/SchemasUploadFileResponse.md)
- - [SchemasUserResponse](docs/SchemasUserResponse.md)
 
 
 ## Documentation For Authorization

@@ -21,7 +21,7 @@ var _ MappedNullable = &SchemasCreateDayReportPayload{}
 
 // SchemasCreateDayReportPayload struct for SchemasCreateDayReportPayload
 type SchemasCreateDayReportPayload struct {
-	WayUuid string
+	WayId string
 }
 
 type _SchemasCreateDayReportPayload SchemasCreateDayReportPayload
@@ -30,9 +30,9 @@ type _SchemasCreateDayReportPayload SchemasCreateDayReportPayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasCreateDayReportPayload(wayUuid string) *SchemasCreateDayReportPayload {
+func NewSchemasCreateDayReportPayload(wayId string) *SchemasCreateDayReportPayload {
 	this := SchemasCreateDayReportPayload{}
-	this.WayUuid = wayUuid
+	this.WayId = wayId
 	return &this
 }
 
@@ -44,28 +44,28 @@ func NewSchemasCreateDayReportPayloadWithDefaults() *SchemasCreateDayReportPaylo
 	return &this
 }
 
-// GetWayUuid returns the WayUuid field value
-func (o *SchemasCreateDayReportPayload) GetWayUuid() string {
+// GetWayId returns the WayId field value
+func (o *SchemasCreateDayReportPayload) GetWayId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.WayUuid
+	return o.WayId
 }
 
-// GetWayUuidOk returns a tuple with the WayUuid field value
+// GetWayIdOk returns a tuple with the WayId field value
 // and a boolean to check if the value has been set.
-func (o *SchemasCreateDayReportPayload) GetWayUuidOk() (*string, bool) {
+func (o *SchemasCreateDayReportPayload) GetWayIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.WayUuid, true
+	return &o.WayId, true
 }
 
-// SetWayUuid sets field value
-func (o *SchemasCreateDayReportPayload) SetWayUuid(v string) {
-	o.WayUuid = v
+// SetWayId sets field value
+func (o *SchemasCreateDayReportPayload) SetWayId(v string) {
+	o.WayId = v
 }
 
 func (o SchemasCreateDayReportPayload) MarshalJSON() ([]byte, error) {
@@ -78,7 +78,7 @@ func (o SchemasCreateDayReportPayload) MarshalJSON() ([]byte, error) {
 
 func (o SchemasCreateDayReportPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["wayUuid"] = o.WayUuid
+	toSerialize["wayId"] = o.WayId
 	return toSerialize, nil
 }
 
@@ -87,7 +87,7 @@ func (o *SchemasCreateDayReportPayload) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"wayUuid",
+		"wayId",
 	}
 
 	allProperties := make(map[string]interface{})
