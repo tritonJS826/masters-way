@@ -26,9 +26,9 @@ func NewSurveyController(surveyService *services.SurveyService) *SurveyControlle
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.PostSurveyUserIntroPayload true "query params"
-// @Success 200
+// @Success 204
 // @Router /user-intro [post]
-func (fc *SurveyController) PostSurveyUserIntro(ctx *gin.Context) {
+func (sc *SurveyController) PostSurveyUserIntro(ctx *gin.Context) {
 	var payload *schemas.PostSurveyUserIntroPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -39,8 +39,8 @@ func (fc *SurveyController) PostSurveyUserIntro(ctx *gin.Context) {
 	userID := userIDRaw.(string)
 
 	params := &services.SaveUserIntroSurveyParams{
-		UserUuid:                   uuid.MustParse(userID),
-		DeviceUuid:                 uuid.MustParse(payload.DeviceUuid),
+		UserUUID:                   uuid.MustParse(userID),
+		DeviceUUID:                 uuid.MustParse(payload.DeviceUuid),
 		Role:                       payload.Role,
 		PreferredInterfaceLanguage: payload.PreferredInterfaceLanguage,
 		StudentGoals:               payload.StudentGoals,
@@ -49,8 +49,41 @@ func (fc *SurveyController) PostSurveyUserIntro(ctx *gin.Context) {
 		Source:                     payload.Source,
 	}
 
-	err := fc.surveyService.CreateUserIntroSurvey(ctx, params)
+	err := sc.surveyService.CreateUserIntroSurvey(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.Status(http.StatusOK)
+	ctx.Status(http.StatusNoContent)
+}
+
+// @Summary Post survey looking for mentor
+// @Description Post survey looking for mentor
+// @Tags survey
+// @ID survey-looking-for-mentor
+// @Accept json
+// @Produce json
+// @Param request body schemas.PostSurveyLookingForMentorPayload true "query params"
+// @Success 204
+// @Router /looking-for-mentor [post]
+func (sc *SurveyController) PostSurveyLookingForMentor(ctx *gin.Context) {
+	var payload *schemas.PostSurveyLookingForMentorPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
+	params := &services.SaveLookingForMentorSurveyParams{
+		UserUUID:          uuid.MustParse(userID),
+		UserEmail:         payload.UserEmail,
+		SkillsToLearn:     payload.SkillsToLearn,
+		CurrentExperience: payload.CurrentExperience,
+		MentorDescription: payload.MentorDescription,
+	}
+
+	err := sc.surveyService.CreateLookingForMentorSurvey(ctx, params)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Status(http.StatusNoContent)
 }

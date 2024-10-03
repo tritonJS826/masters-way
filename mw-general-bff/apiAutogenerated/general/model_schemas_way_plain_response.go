@@ -35,6 +35,7 @@ type SchemasWayPlainResponse struct {
 	MetricsTotal int32
 	Name string
 	Owner SchemasUserPlainResponse
+	ProjectUuid NullableString
 	UpdatedAt string
 	Uuid string
 	WayTags []SchemasWayTagResponse
@@ -46,7 +47,7 @@ type _SchemasWayPlainResponse SchemasWayPlainResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasWayPlainResponse(childrenUuids []string, copiedFromWayUuid NullableString, createdAt string, dayReportsAmount int32, estimationTime int32, favoriteForUsers int32, goalDescription string, isCompleted bool, isPrivate bool, mentors []SchemasUserPlainResponse, metricsDone int32, metricsTotal int32, name string, owner SchemasUserPlainResponse, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPlainResponse {
+func NewSchemasWayPlainResponse(childrenUuids []string, copiedFromWayUuid NullableString, createdAt string, dayReportsAmount int32, estimationTime int32, favoriteForUsers int32, goalDescription string, isCompleted bool, isPrivate bool, mentors []SchemasUserPlainResponse, metricsDone int32, metricsTotal int32, name string, owner SchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []SchemasWayTagResponse) *SchemasWayPlainResponse {
 	this := SchemasWayPlainResponse{}
 	this.ChildrenUuids = childrenUuids
 	this.CopiedFromWayUuid = copiedFromWayUuid
@@ -62,6 +63,7 @@ func NewSchemasWayPlainResponse(childrenUuids []string, copiedFromWayUuid Nullab
 	this.MetricsTotal = metricsTotal
 	this.Name = name
 	this.Owner = owner
+	this.ProjectUuid = projectUuid
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
 	this.WayTags = wayTags
@@ -414,6 +416,32 @@ func (o *SchemasWayPlainResponse) SetOwner(v SchemasUserPlainResponse) {
 	o.Owner = v
 }
 
+// GetProjectUuid returns the ProjectUuid field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *SchemasWayPlainResponse) GetProjectUuid() string {
+	if o == nil || o.ProjectUuid.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ProjectUuid.Get()
+}
+
+// GetProjectUuidOk returns a tuple with the ProjectUuid field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SchemasWayPlainResponse) GetProjectUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ProjectUuid.Get(), o.ProjectUuid.IsSet()
+}
+
+// SetProjectUuid sets field value
+func (o *SchemasWayPlainResponse) SetProjectUuid(v string) {
+	o.ProjectUuid.Set(&v)
+}
+
 // GetUpdatedAt returns the UpdatedAt field value
 func (o *SchemasWayPlainResponse) GetUpdatedAt() string {
 	if o == nil {
@@ -510,6 +538,7 @@ func (o SchemasWayPlainResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["metricsTotal"] = o.MetricsTotal
 	toSerialize["name"] = o.Name
 	toSerialize["owner"] = o.Owner
+	toSerialize["projectUuid"] = o.ProjectUuid.Get()
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["wayTags"] = o.WayTags
@@ -535,6 +564,7 @@ func (o *SchemasWayPlainResponse) UnmarshalJSON(data []byte) (err error) {
 		"metricsTotal",
 		"name",
 		"owner",
+		"projectUuid",
 		"updatedAt",
 		"uuid",
 		"wayTags",

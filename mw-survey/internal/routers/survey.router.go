@@ -11,11 +11,12 @@ type surveyRouter struct {
 	surveyController *controllers.SurveyController
 }
 
-func newFileRouter(surveyController *controllers.SurveyController) *surveyRouter {
+func newSurveyRouter(surveyController *controllers.SurveyController) *surveyRouter {
 	return &surveyRouter{surveyController}
 }
 
-func (fr *surveyRouter) setFileRoutes(rg *gin.RouterGroup) {
+func (fr *surveyRouter) setSurveyRoutes(rg *gin.RouterGroup) {
 	// files := rg.Group("/survey", auth.AuthMiddleware())
 	rg.POST("user-intro", auth.AuthMiddleware(), fr.surveyController.PostSurveyUserIntro)
+	rg.POST("looking-for-mentor", auth.AuthMiddleware(), fr.surveyController.PostSurveyLookingForMentor)
 }

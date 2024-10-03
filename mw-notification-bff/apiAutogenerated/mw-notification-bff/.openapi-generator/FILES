@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -13,6 +12,4 @@ git_push.sh
 go.mod
 go.sum
 response.go
-test/api_dev_test.go
-test/api_notification_test.go
 utils.go

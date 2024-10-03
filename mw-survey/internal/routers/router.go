@@ -40,7 +40,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 	return &Router{
 		Gin:        ginRouter,
 		config:     config,
-		fileRouter: newFileRouter(controller.SurveyController),
+		fileRouter: newSurveyRouter(controller.SurveyController),
 		devRouter:  newDevRouter(controller.DevController),
 	}
 }
@@ -48,7 +48,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 func (r *Router) SetRoutes() {
 	survey := r.Gin.Group("/survey")
 
-	r.fileRouter.setFileRoutes(survey)
+	r.fileRouter.setSurveyRoutes(survey)
 
 	if r.config.EnvType != "prod" {
 		r.devRouter.setDevRoutes(survey)

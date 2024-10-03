@@ -9,3 +9,10 @@ type PostSurveyUserIntroPayload struct {
 	WhyRegistered              string `json:"whyRegistered" validate:"required"`
 	Source                     string `json:"source" validate:"required"`
 }
+
+type PostSurveyLookingForMentorPayload struct {
+	UserEmail         string `json:"userEmail" validate:"required"`
+	SkillsToLearn     string `json:"skillsToLearn" validate:"required"`
+	CurrentExperience string `json:"currentExperience" validate:"required"`
+	MentorDescription string `json:"mentorDescription" validate:"required"`
+}

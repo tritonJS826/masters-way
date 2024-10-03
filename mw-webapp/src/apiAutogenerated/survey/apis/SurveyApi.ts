@@ -15,12 +15,19 @@
 
 import * as runtime from '../runtime';
 import type {
+  SchemasPostSurveyLookingForMentorPayload,
   SchemasPostSurveyUserIntroPayload,
 } from '../models/index';
 import {
+    SchemasPostSurveyLookingForMentorPayloadFromJSON,
+    SchemasPostSurveyLookingForMentorPayloadToJSON,
     SchemasPostSurveyUserIntroPayloadFromJSON,
     SchemasPostSurveyUserIntroPayloadToJSON,
 } from '../models/index';
+
+export interface SurveyLookingForMentorRequest {
+    request: SchemasPostSurveyLookingForMentorPayload;
+}
 
 export interface SurveyUserIntroRequest {
     request: SchemasPostSurveyUserIntroPayload;
@@ -30,6 +37,40 @@ export interface SurveyUserIntroRequest {
  * 
  */
 export class SurveyApi extends runtime.BaseAPI {
+
+    /**
+     * Post survey looking for mentor
+     * Post survey looking for mentor
+     */
+    async surveyLookingForMentorRaw(requestParameters: SurveyLookingForMentorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling surveyLookingForMentor.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/looking-for-mentor`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: SchemasPostSurveyLookingForMentorPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Post survey looking for mentor
+     * Post survey looking for mentor
+     */
+    async surveyLookingForMentor(requestParameters: SurveyLookingForMentorRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.surveyLookingForMentorRaw(requestParameters, initOverrides);
+    }
 
     /**
      * Post survey user intro

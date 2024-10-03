@@ -16,6 +16,25 @@ paths:
       summary: resets db
       tags:
       - dev
+  /looking-for-mentor:
+    post:
+      description: Post survey looking for mentor
+      operationId: survey-looking-for-mentor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/schemas.PostSurveyLookingForMentorPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Post survey looking for mentor
+      tags:
+      - survey
+      x-codegen-request-body-name: request
   /user-intro:
     post:
       description: Post survey user intro
@@ -28,15 +47,31 @@ paths:
         description: query params
         required: true
       responses:
-        "200":
+        "204":
           content: {}
-          description: OK
+          description: No Content
       summary: Post survey user intro
       tags:
       - survey
       x-codegen-request-body-name: request
 components:
   schemas:
+    schemas.PostSurveyLookingForMentorPayload:
+      properties:
+        currentExperience:
+          type: string
+        mentorDescription:
+          type: string
+        skillsToLearn:
+          type: string
+        userEmail:
+          type: string
+      required:
+      - currentExperience
+      - mentorDescription
+      - skillsToLearn
+      - userEmail
+      type: object
     schemas.PostSurveyUserIntroPayload:
       properties:
         deviceId:

@@ -28,7 +28,7 @@ import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCa
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
-import {SurveyDAL, SurveyUserIntroParams} from "src/dataAccessLogic/SurveyDAL";
+import {SurveyDAL, SurveyFindMentorParams, SurveyUserIntroParams} from "src/dataAccessLogic/SurveyDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
@@ -182,6 +182,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
+  const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
   const [projects, setProjects] = useState<ProjectPreview[]>([]);
 
@@ -503,6 +504,75 @@ export const UserPage = observer((props: UserPageProps) => {
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.user.personalInfo.writeToConnectButton[language]}
                 dataCy={userPersonalDataAccessIds.connectButton}
+              />
+              }
+
+              {isPageOwner &&
+              <Modal
+                trigger={
+                  <Button
+                    onClick={() => setIsFindMentorRequestSent(false)}
+                    buttonType={ButtonType.PRIMARY}
+                    value={LanguageService.user.personalInfo.findMentorButton[language]}
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="ArrowRightIcon"
+                        className={styles.socialMediaIcon}
+                      />
+                    }
+                  />
+                }
+                content={
+                  !isFindMentorRequestSent
+                    ? (
+                      <VerticalContainer className={styles.modalContainer}>
+                        <Form
+                          onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
+                            await SurveyDAL.surveyFindMentor({
+                              ...formData,
+                              userEmail: user.email,
+                            });
+                            setIsFindMentorRequestSent(true);
+                          }}
+                          submitButtonValue={LanguageService.survey.submitButton[language]}
+                          formTitle={LanguageService.survey.findMentor.title[language]}
+                          formDescription={LanguageService.survey.findMentor.description[language]}
+                          formFields={[
+                            {
+                              id: 0,
+                              label: "skillsToLearn",
+                              name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
+                              value: "",
+                              required: true,
+                              placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
+                            },
+                            {
+                              id: 1,
+                              label: "currentExperience",
+                              name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
+                              value: "",
+                              required: true,
+                              placeholder: `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
+                            },
+                            {
+                              id: 2,
+                              label: "mentorDescription",
+                              name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
+                              value: "",
+                              required: true,
+                              placeholder: `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
+                            },
+                          ]}
+                        />
+                      </VerticalContainer>
+                    )
+                    : (
+                      <VerticalContainer className={styles.modalContainer}>
+                        {LanguageService.survey.findMentor.requestSent[language]}
+                      </VerticalContainer>
+                    )
+                }
               />
               }
             </VerticalContainer>

@@ -8,8 +8,7 @@ INSERT INTO user_intro (
     student_experience,
     why_registered,
     source
-)
-VALUES (
+) VALUES (
     @user_uuid,
     @device_uuid,
     @role,

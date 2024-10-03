@@ -79,11 +79,13 @@ All URIs are relative to */survey*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
+*SurveyAPI* | [**SurveyLookingForMentor**](docs/SurveyAPI.md#surveylookingformentor) | **Post** /looking-for-mentor | Post survey looking for mentor
 *SurveyAPI* | [**SurveyUserIntro**](docs/SurveyAPI.md#surveyuserintro) | **Post** /user-intro | Post survey user intro
 
 
 ## Documentation For Models
 
+ - [SchemasPostSurveyLookingForMentorPayload](docs/SchemasPostSurveyLookingForMentorPayload.md)
  - [SchemasPostSurveyUserIntroPayload](docs/SchemasPostSurveyUserIntroPayload.md)
 
 
