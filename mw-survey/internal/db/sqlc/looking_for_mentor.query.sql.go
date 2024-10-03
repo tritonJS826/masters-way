@@ -25,7 +25,7 @@ INSERT INTO looking_for_mentor (
     $4,
     $5
 )
-RETURNING uuid, user_uuid, user_email, skills_to_learn, current_experience, mentor_description, is_handled, handled_date, created_at
+RETURNING uuid, user_uuid, user_email, skills_to_learn, current_experience, mentor_description, handled_date, created_at
 `
 
 type CreateLookingForMentorSurveyParams struct {
@@ -52,7 +52,6 @@ func (q *Queries) CreateLookingForMentorSurvey(ctx context.Context, arg CreateLo
 		&i.SkillsToLearn,
 		&i.CurrentExperience,
 		&i.MentorDescription,
-		&i.IsHandled,
 		&i.HandledDate,
 		&i.CreatedAt,
 	)

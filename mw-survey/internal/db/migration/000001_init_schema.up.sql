@@ -25,7 +25,6 @@ CREATE TABLE looking_for_mentor (
     "skills_to_learn" VARCHAR(255) NOT NULL,
     "current_experience" VARCHAR(255) NOT NULL,
     "mentor_description" VARCHAR(255) NOT NULL,
-    "is_handled" BOOLEAN NOT NULL DEFAULT FALSE,
     "handled_date" TIMESTAMP,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "looking_for_mentor_pkey" PRIMARY KEY (uuid)
