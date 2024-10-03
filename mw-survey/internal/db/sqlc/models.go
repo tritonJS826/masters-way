@@ -15,7 +15,6 @@ type LookingForMentor struct {
 	SkillsToLearn     string           `json:"skills_to_learn"`
 	CurrentExperience string           `json:"current_experience"`
 	MentorDescription string           `json:"mentor_description"`
-	IsHandled         bool             `json:"is_handled"`
 	HandledDate       pgtype.Timestamp `json:"handled_date"`
 	CreatedAt         pgtype.Timestamp `json:"created_at"`
 }
