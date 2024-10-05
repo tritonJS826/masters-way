@@ -109,7 +109,6 @@ export const ChatContent = observer(() => {
           message: params.message,
           roomId: params.roomId,
         });
-        activeChatStore?.setMessage("");
       } catch (error) {
         displayNotification({
           text: "The message was not sent. Check your Internet connection.",
@@ -363,6 +362,7 @@ export const ChatContent = observer(() => {
                     message: activeChatStore.message,
                     roomId: activeChatStore.activeChat.roomId,
                   });
+                  activeChatStore?.setMessage("");
                 }
               }}
             />
@@ -390,6 +390,7 @@ export const ChatContent = observer(() => {
                   message: activeChatStore.message,
                   roomId: activeChatStore.activeChat.roomId,
                 });
+                activeChatStore?.setMessage("");
               }}
               buttonType={ButtonType.PRIMARY}
               dataCy={chatAccessIds.chatContainer.sendMessageButton}

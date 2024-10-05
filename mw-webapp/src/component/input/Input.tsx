@@ -154,7 +154,8 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         />
       )}
       <input
-        value={props.formatter ? props.formatter(text) : text}
+        defaultValue={props.formatter ? props.formatter(text) : text}
+        value={props.value}
         type={props.type ?? "text"}
         max={props.max}
         min={props.min}
