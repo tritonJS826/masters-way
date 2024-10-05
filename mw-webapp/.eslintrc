@@ -217,7 +217,8 @@
     "vitest.config.ts",
     "cypress.config.ts",
     "cypress/",
-    "coverage/"
+    "coverage/",
+    "generateSiteMap.js"
   ],
   "overrides": [
     {

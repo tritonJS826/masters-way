@@ -78,7 +78,7 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
               cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
               trigger={
                 <Checkbox
-                  isDisabled={true}
+                  isDisabled={!props.isEditable}
                   isDefaultChecked={props.metric.isDone}
                   className={styles.checkbox}
                   onChange={() => {}}

@@ -1,4 +1,4 @@
-import {Close as DialogClose} from "@radix-ui/react-dialog";
+import {Close as DialogClose, Dialog} from "@radix-ui/react-dialog";
 import clsx from "clsx";
 import {Button} from "src/component/button/Button";
 import {Input, InputType} from "src/component/input/Input";
@@ -175,16 +175,17 @@ export const Form = (props: FormProps) => {
             />
           </label>
         ))}
-
-        <DialogClose asChild>
-          <Button
-            onClick={(event) => {
-              event.preventDefault();
-              props.onSubmit(formData);
-            }}
-            value={props.submitButtonValue}
-          />
-        </DialogClose>
+        <Dialog>
+          <DialogClose asChild>
+            <Button
+              onClick={(event) => {
+                event.preventDefault();
+                props.onSubmit(formData);
+              }}
+              value={props.submitButtonValue}
+            />
+          </DialogClose>
+        </Dialog>
       </form>
     </>
   );

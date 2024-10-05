@@ -17,6 +17,7 @@ $leftPosition: 12px;
 
 .input {
   width: 100%;
+  box-sizing: border-box;
   border: none;
   background: transparent;
   color: var(--primaryTextColor);

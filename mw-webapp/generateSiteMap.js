@@ -33,7 +33,7 @@ async function generateSitemap() {
     { url: "/land/business", changefreq: "weekly", priority: 0.8 },
   ];
 
-  routes.forEach(route => {
+  routes.forEach((route) => {
     sitemap.write(route);
   });
 

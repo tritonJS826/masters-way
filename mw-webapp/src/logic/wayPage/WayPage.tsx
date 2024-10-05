@@ -365,41 +365,39 @@ export const WayPage = observer((props: WayPageProps) => {
         <VerticalContainer className={styles.wayDashBoardLeft}>
           <VerticalContainer className={styles.wayInfo}>
             <HorizontalContainer className={styles.wayTitleBlock}>
-              <HorizontalContainer>
-                <Infotip content={LanguageService.way.infotip.wayName[language]} />
-                <Title
-                  cy={{dataCyTitleContainer: wayDescriptionAccessIds.wayDashBoardLeft.title}}
-                  level={HeadingLevel.h2}
-                  text={way.name}
-                  placeholder={LanguageService.common.emptyMarkdown[language]}
-                  onChangeFinish={(name) => {
-                    updateWay({
-                      wayToUpdate: {
-                        uuid: way.uuid,
-                        name,
-                      },
+              <Infotip content={LanguageService.way.infotip.wayName[language]} />
+              <Title
+                cy={{dataCyTitleContainer: wayDescriptionAccessIds.wayDashBoardLeft.title}}
+                level={HeadingLevel.h2}
+                text={way.name}
+                placeholder={LanguageService.common.emptyMarkdown[language]}
+                onChangeFinish={(name) => {
+                  updateWay({
+                    wayToUpdate: {
+                      uuid: way.uuid,
+                      name,
+                    },
 
-                      /**
-                       * Update way's name
-                       */
-                      setWay: () => way.updateName(name),
+                    /**
+                     * Update way's name
+                     */
+                    setWay: () => way.updateName(name),
+                  });
+                  const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
+                  allCollections?.map((collection) => {
+                    collection.updateWay({
+                      uuid: way.uuid,
+                      name,
                     });
-                    const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);
-                    allCollections?.map((collection) => {
-                      collection.updateWay({
-                        uuid: way.uuid,
-                        name,
-                      });
-                    });
-                  }}
-                  isEditable={isUserOwnerOrMentor}
-                  className={styles.wayName}
-                  validators={[
-                    minLengthValidator(MIN_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMinLength[language]),
-                    maxLengthValidator(MAX_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMaxLength[language]),
-                  ]}
-                />
-              </HorizontalContainer>
+                  });
+                }}
+                isEditable={isUserOwnerOrMentor}
+                className={styles.wayName}
+                validators={[
+                  minLengthValidator(MIN_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMinLength[language]),
+                  maxLengthValidator(MAX_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMaxLength[language]),
+                ]}
+              />
 
               <HorizontalContainer className={styles.wayActionButtons}>
                 <Tooltip
