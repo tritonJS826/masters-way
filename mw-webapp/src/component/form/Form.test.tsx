@@ -72,10 +72,7 @@ describe("Form component", () => {
 
     renderForm(props);
 
-    // Const submitButton = screen.getByText(FORM_SUBMIT_BUTTON);
     const user = userEvent.setup();
-    // Const clickCallback = vi.fn();
-    // renderButton(clickCallback);
     const button = screen.getByRole("button");
 
     await user.click(button);

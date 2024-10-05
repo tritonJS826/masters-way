@@ -22,6 +22,8 @@
 .checkbox::after {
   width: $checkmarkWidthLarge;
   height: $checkmarkHeightLarge;
+  box-shadow: inset $checkmarkWidthLarge $checkmarkHeightLarge
+    var(--secondaryStrokeColor);
 }
 
 .metricDescriptionWrapper {

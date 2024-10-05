@@ -3,10 +3,10 @@
 /* reset */
 .tooltipTrigger {
   all: unset;
-  display: inline-flex;
 }
 
 .tooltipContent {
+  z-index: $tooltipZIndex;
   max-width: $maxWidthBlock;
   padding: $paddingExtraSmall $paddingSmall;
   border: $primaryBorder solid var(--generalPrimaryColor);
@@ -16,7 +16,6 @@
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeSmall;
-  z-index: $tooltipZIndex;
 }
 
 .tooltipContent[data-state="delayed-open"][data-side="top"] {

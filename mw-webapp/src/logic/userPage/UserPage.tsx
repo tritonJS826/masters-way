@@ -518,7 +518,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       <Icon
                         size={IconSize.SMALL}
                         name="ArrowRightIcon"
-                        className={styles.socialMediaIcon}
+                        className={styles.findMentorIcon}
                       />
                     }
                   />

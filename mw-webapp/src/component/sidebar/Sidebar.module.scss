@@ -9,6 +9,10 @@
 .menuItem {
   align-items: center;
   gap: $gapSmall;
+
+  &:first-child {
+    padding-bottom: $paddingMedium;
+  }
 }
 
 .menuItemLink {

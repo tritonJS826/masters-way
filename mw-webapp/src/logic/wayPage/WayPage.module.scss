@@ -18,12 +18,13 @@ $labelMaxWidthBlock: 650px;
 }
 
 .wayTitleBlock {
+  align-items: baseline;
   justify-content: space-between;
 }
 
 .wayActionsIcon {
   height: 38px;
-  padding: $paddingSmall;
+  padding: 0 $paddingSmall;
 }
 
 .wayTagsContainer {
@@ -134,6 +135,7 @@ $labelMaxWidthBlock: 650px;
 }
 
 .wayName {
+  flex: 1;
   input {
     width: $minWidthBlock;
     height: $heightH2;
