@@ -14,7 +14,6 @@ CREATE TYPE notification_channel AS ENUM (
     'webapp'
 );
 
--- TODO remove 5000 more than 5000+ oldest notifications
 CREATE TABLE notifications (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "user_uuid" UUID NOT NULL,
