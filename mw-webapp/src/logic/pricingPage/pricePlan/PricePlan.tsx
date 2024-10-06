@@ -135,8 +135,14 @@ export const PricePlan = observer((props: PricePlanProps) => {
           {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
         </span>
         }
+        {props.pricePlan.period === "year" &&
+        <span className={styles.measurement}>
+          {` (35$/${LanguageService.pricing.month[language]})`}
+        </span>
+        }
       </p>
       }
+
       <Modal
         trigger={
           <Button

@@ -4,7 +4,7 @@ export const pricePlans: PricePlanType[] = [
   {
     id: 0,
     theme: "light",
-    name: "Intro",
+    name: "Free",
     price: 0,
     period: "free",
     capabilities: {
@@ -20,8 +20,8 @@ export const pricePlans: PricePlanType[] = [
   {
     id: 1,
     theme: "dark",
-    name: "Base",
-    price: 5,
+    name: "Month",
+    price: 50,
     period: "month",
     capabilities: {
       ownWays: 20,
@@ -36,8 +36,8 @@ export const pricePlans: PricePlanType[] = [
   {
     id: 2,
     theme: "light",
-    name: "PRO",
-    price: 50,
+    name: "Year",
+    price: 420,
     period: "year",
     capabilities: {
       ownWays: 30,

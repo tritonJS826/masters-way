@@ -40,7 +40,7 @@
   width: $sidebarWidth;
   flex-direction: column;
   justify-content: space-between;
-  padding: $paddingExtraMedium $paddingLarge;
+  padding: $paddingExtraMedium;
   background-color: var(--quaternaryBgColor);
   overflow-y: auto;
 }

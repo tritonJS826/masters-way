@@ -1,5 +1,4 @@
 @import "src/styles/variables";
-@import "src/styles/mixins";
 
 .chatTrigger {
   position: fixed;
@@ -36,7 +35,7 @@
 .chatHeader {
   align-items: center;
   justify-content: space-between;
-  padding: $paddingBig;
+  padding: $paddingMedium;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
 }
@@ -89,7 +88,7 @@ $modal-animation-time: 150ms;
 
 .chatList {
   flex: 1;
-  padding: $paddingMedium $paddingLarge;
+  padding: $paddingMedium;
   background-color: var(--tertiaryBgColor);
   gap: $gapMedium;
   overflow-y: auto;
@@ -131,7 +130,7 @@ $modal-animation-time: 150ms;
   position: relative;
   align-items: center;
   justify-content: space-between;
-  padding: $paddingBig;
+  padding: $paddingMedium;
   background-color: var(--tertiaryBgColor);
   gap: $gapExtraBig;
 }
