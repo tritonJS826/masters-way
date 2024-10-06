@@ -6,7 +6,7 @@ $quintupleBorderRadius: 24px;
 
 .pricePlanCard {
   width: $pricePlanCardWidth;
-  padding: $paddingBig $paddingLarge;
+  padding: $paddingExtraMedium $paddingBig;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $quintupleBorderRadius;
   background-color: var(--tertiaryBgColor);
