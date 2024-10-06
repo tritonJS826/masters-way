@@ -62,7 +62,7 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		util.HandleErrorGin(ctx, err)
 	}
 
-	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, jobDone.TagIDs)
+	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, payload.JobTagUuids)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.JobDonePopulatedResponse{
