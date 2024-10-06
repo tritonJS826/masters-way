@@ -1,5 +1,5 @@
 /*
-Masters way chat API
+Masters way general-bff API
 
 Testing FileAPIService
 
