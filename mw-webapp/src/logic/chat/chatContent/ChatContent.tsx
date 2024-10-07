@@ -39,6 +39,7 @@ export const ChatContent = observer(() => {
   const {isChatOpen, addUnreadMessageToAmount} = chatStore;
 
   const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(null);
+  const [inputDisabled, setInputDisabled] = useState<boolean>(false);
   const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -109,6 +110,8 @@ export const ChatContent = observer(() => {
           message: params.message,
           roomId: params.roomId,
         });
+        activeChatStore?.setMessage("");
+        setInputDisabled(false);
       } catch (error) {
         displayNotification({
           text: "The message was not sent. Check your Internet connection.",
@@ -356,13 +359,14 @@ export const ChatContent = observer(() => {
               onChange={activeChatStore.setMessage}
               placeholder={LanguageService.common.chat.messagePlaceholder[language]}
               typeInput={InputType.Border}
+              disabled={inputDisabled}
               onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
                 if (event.key === KeySymbols.ENTER) {
                   sendMessage({
                     message: activeChatStore.message,
                     roomId: activeChatStore.activeChat.roomId,
                   });
-                  activeChatStore?.setMessage("");
+                  setInputDisabled(true);
                 }
               }}
             />
@@ -390,7 +394,6 @@ export const ChatContent = observer(() => {
                   message: activeChatStore.message,
                   roomId: activeChatStore.activeChat.roomId,
                 });
-                activeChatStore?.setMessage("");
               }}
               buttonType={ButtonType.PRIMARY}
               dataCy={chatAccessIds.chatContainer.sendMessageButton}
