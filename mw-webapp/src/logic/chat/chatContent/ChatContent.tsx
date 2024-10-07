@@ -111,7 +111,6 @@ export const ChatContent = observer(() => {
           roomId: params.roomId,
         });
         activeChatStore?.setMessage("");
-        setInputDisabled(false);
       } catch (error) {
         displayNotification({
           text: "The message was not sent. Check your Internet connection.",
@@ -119,6 +118,7 @@ export const ChatContent = observer(() => {
         });
       }
     }
+    setInputDisabled(false);
   };
 
   /**
