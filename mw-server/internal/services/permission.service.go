@@ -16,6 +16,7 @@ type IPermissionRepository interface {
 	GetIsUserHavingPermissionsForJobDone(ctx context.Context, arg db.GetIsUserHavingPermissionsForJobDoneParams) (db.GetIsUserHavingPermissionsForJobDoneRow, error)
 	GetIsUserHavingPermissionsForComment(ctx context.Context, arg db.GetIsUserHavingPermissionsForCommentParams) (db.GetIsUserHavingPermissionsForCommentRow, error)
 	GetIsUserHavingPermissionsForPlan(ctx context.Context, arg db.GetIsUserHavingPermissionsForPlanParams) (db.GetIsUserHavingPermissionsForPlanRow, error)
+	GetIsUserProjectOwner(ctx context.Context, arg db.GetIsUserProjectOwnerParams) (bool, error)
 }
 
 type PermissionService struct {
@@ -119,4 +120,18 @@ func (ps *PermissionService) CheckIsUserHavingPermissionsForProblem(ctx context.
 	}
 
 	return nil
+}
+
+func (ps *PermissionService) GetIsUserHavingPermissionsForProject(ctx context.Context, userID, projectID string) (bool, error) {
+	arg := db.GetIsUserProjectOwnerParams{
+		ProjectUuid: pgtype.UUID{Bytes: uuid.MustParse(projectID), Valid: true},
+		UserUuid:    pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true},
+	}
+
+	isUserProjectOwner, err := ps.permissionRepository.GetIsUserProjectOwner(ctx, arg)
+	if err != nil {
+		return false, err
+	}
+
+	return isUserProjectOwner, nil
 }

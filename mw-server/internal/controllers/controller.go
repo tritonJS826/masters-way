@@ -60,7 +60,7 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		ToUserMentoringRequestController:   NewToUserMentoringRequestController(services.ToUserMentoringRequestService),
 		UserController:                     NewUserController(services.UserService),
 		UserTagController:                  NewUserTagController(services.LimitService, services.UserTagService),
-		UserProjectController:              NewUserProjectController(services.LimitService, services.UserProjectService),
+		UserProjectController:              NewUserProjectController(services.PermissionService, services.UserProjectService),
 		WayCollectionController:            NewWayCollectionController(services.LimitService, services.WayCollectionService),
 		WayCollectionWayController:         NewWayCollectionWayController(services.WayCollectionWayService),
 		HealthCheckController:              NewHealthCheckController(),

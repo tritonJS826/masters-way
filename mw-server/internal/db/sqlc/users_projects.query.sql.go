@@ -47,3 +47,24 @@ func (q *Queries) DeleteUsersProjects(ctx context.Context, arg DeleteUsersProjec
 	_, err := q.db.Exec(ctx, deleteUsersProjects, arg.UserUuid, arg.ProjectUuid)
 	return err
 }
+
+const getIsUserProjectOwner = `-- name: GetIsUserProjectOwner :one
+SELECT
+    EXISTS (
+        SELECT 1
+        FROM projects
+        WHERE projects.uuid = $1 AND projects.owner_uuid = $2
+    )
+`
+
+type GetIsUserProjectOwnerParams struct {
+	ProjectUuid pgtype.UUID `json:"project_uuid"`
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+}
+
+func (q *Queries) GetIsUserProjectOwner(ctx context.Context, arg GetIsUserProjectOwnerParams) (bool, error) {
+	row := q.db.QueryRow(ctx, getIsUserProjectOwner, arg.ProjectUuid, arg.UserUuid)
+	var exists bool
+	err := row.Scan(&exists)
+	return exists, err
+}

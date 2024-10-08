@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -20,4 +21,5 @@ model_schemas_room_populated_response.go
 model_schemas_send_message_payload.go
 model_schemas_user_response.go
 response.go
+test/api_socket_test.go
 utils.go
