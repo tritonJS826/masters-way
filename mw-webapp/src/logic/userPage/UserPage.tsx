@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import clsx from "clsx";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
@@ -7,6 +8,8 @@ import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
+import {Dropdown} from "src/component/dropdown/Dropdown";
+import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Form} from "src/component/form/Form";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -30,6 +33,7 @@ import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
 import {SurveyDAL, SurveyFindMentorParams, SurveyUserIntroParams} from "src/dataAccessLogic/SurveyDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
+import {UserProjectDAL} from "src/dataAccessLogic/UserProjectDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {deviceStore} from "src/globalStore/DeviceStore";
@@ -475,6 +479,50 @@ export const UserPage = observer((props: UserPageProps) => {
     },
   ];
 
+  /**
+   * Add to or remove user from project
+   */
+  const toggleUserInProject = async (isUserInProject: boolean, projectUuid: string, userUuid: string) => {
+    if (!user) {
+      throw new Error("User is not exist");
+    }
+
+    isUserInProject
+      ? await UserProjectDAL.deleteUser({projectId: projectUuid, userId: userUuid})
+      : await UserProjectDAL.addUser({projectId: projectUuid, userId: userUuid});
+    displayNotification({
+      text: `${LanguageService.user.notifications.projectUpdated[language]}`,
+      type: NotificationType.INFO,
+    });
+
+    isUserInProject
+      ? user.deleteWayFromComposite(projectUuid, userUuid)
+      : user.addWayToComposite(projectUuid, userUuid);
+  };
+
+  const renderAddToProjectDropdownItems: DropdownMenuItemType[] = projects.map((project) => {
+    const isUserInProjectCollection = false;
+    // Project.ownWay.childrenUuids.includes(way.uuid);
+
+    return {
+      id: project.uuid,
+      isPreventDefaultUsed: false,
+      value: isUserInProjectCollection
+        ? `${LanguageService.user.userActions.deleteFromProject[language]} ${project.name}`
+        : `${LanguageService.user.userActions.addToProject[language]} ${project.name}`,
+
+      /**
+       * Add to or remove user from project
+       */
+      onClick: () => {
+        if (!user) {
+          throw new Error("User is not defined");
+        }
+        toggleUserInProject(isUserInProjectCollection, project.uuid, user.uuid);
+      },
+    };
+  });
+
   return (
     <VerticalContainer className={styles.pageLayout}>
       <VerticalContainer className={styles.userInfoBlock}>
@@ -578,85 +626,117 @@ export const UserPage = observer((props: UserPageProps) => {
             </VerticalContainer>
 
             <VerticalContainer className={styles.nameEmailSection}>
-              <HorizontalContainer className={styles.nameSection}>
-                <HorizontalContainer>
-                  <Infotip content={LanguageService.user.infotip.userName[language]} />
+              <HorizontalContainer className={styles.userTitleBlock}>
+                <Infotip content={LanguageService.user.infotip.userName[language]} />
 
-                  <Title
-                    cy={
-                      {
-                        dataCyTitleContainer: userPersonalDataAccessIds.descriptionSection.nameDisplay,
-                        dataCyInput: userPersonalDataAccessIds.descriptionSection.nameInput,
-                      }
+                <Title
+                  cy={
+                    {
+                      dataCyTitleContainer: userPersonalDataAccessIds.descriptionSection.nameDisplay,
+                      dataCyInput: userPersonalDataAccessIds.descriptionSection.nameInput,
                     }
-                    level={HeadingLevel.h2}
-                    text={userPageOwner.name}
-                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                    onChangeFinish={async (name) => updateUser({
-                      userToUpdate: {
-                        uuid: userPageOwner.uuid,
-                        name,
-                      },
+                  }
+                  level={HeadingLevel.h2}
+                  text={userPageOwner.name}
+                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                  onChangeFinish={async (name) => updateUser({
+                    userToUpdate: {
+                      uuid: userPageOwner.uuid,
+                      name,
+                    },
 
-                      /**
-                       * Update user
-                       */
-                      setUser: () => {
-                        user && user.updateName(name);
-                        userPageOwner.updateName(name);
+                    /**
+                     * Update user
+                     */
+                    setUser: () => {
+                      user && user.updateName(name);
+                      userPageOwner.updateName(name);
+                    },
+                  })}
+                  isEditable={isPageOwner}
+                  validators={[
+                    minLengthValidator(MIN_LENGTH_USERNAME, LanguageService.user.notifications.userNameMinLength[language]),
+                    maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
+                  ]}
+                  className={styles.ownerName}
+
+                />
+
+                <HorizontalContainer className={styles.userActionButtons}>
+                  <Tooltip
+                    content={favoriteTooltipText}
+                    position={PositionTooltip.LEFT}
+
+                  >
+                    <Button
+                      className={clsx(styles.userActionsIcon, {[styles.disabled]: !user})}
+                      value={`${getIsUserInFavorites(user, userPageOwner)
+                        ? Symbols.STAR
+                        : Symbols.OUTLINED_STAR
+                      }${Symbols.NO_BREAK_SPACE}${userPageOwner.favoriteForUserUuids.length}`}
+                      onClick={() => {
+                        if (!user) {
+                          return;
+                        }
+                        if (getIsUserInFavorites(user, userPageOwner)) {
+                          FavoriteUserDAL.deleteFavoriteUser({
+                            donorUserUuid: user.uuid,
+                            acceptorUserUuid: userPageOwner.uuid,
+                          });
+                          deleteUserFromFavorite(userPageOwner.uuid);
+                          deleteUserFromFavoriteForUser(user.uuid);
+                        } else {
+                          FavoriteUserDAL.createFavoriteUser({
+                            donorUserUuid: user.uuid,
+                            acceptorUserUuid: userPageOwner.uuid,
+                          });
+
+                          const newFavoriteUser = new UserPlain({...userPageOwner});
+                          addUserToFavorite(newFavoriteUser);
+                          addUserToFavoriteForUser(user.uuid);
+                        }
+
+                        displayNotification({
+                          text: notificationFavoriteUsers,
+                          type: NotificationType.INFO,
+                        });
+                      }}
+                      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                    />
+                  </Tooltip>
+
+                  <Dropdown
+                    contentClassName={styles.userActionMenu}
+                    trigger={(
+                      <Tooltip
+                        content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                        position={PositionTooltip.LEFT}
+                      >
+                        <Button
+                          className={styles.userActionsIcon}
+                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                          onClick={() => {}}
+                          icon={
+                            <Icon
+                              size={IconSize.MEDIUM}
+                              name={"MoreVertical"}
+                            />
+                          }
+                        />
+                      </Tooltip>
+                    )}
+
+                    dropdownMenuItems={[
+                      {
+                        subTrigger: <p>
+                          {LanguageService.way.wayActions.collectionManagement[language]}
+                        </p>,
+                        isVisible: !user,
+                        dropdownSubMenuItems: renderAddToProjectDropdownItems,
                       },
-                    })}
-                    isEditable={isPageOwner}
-                    validators={[
-                      minLengthValidator(MIN_LENGTH_USERNAME, LanguageService.user.notifications.userNameMinLength[language]),
-                      maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
                     ]}
-                    className={styles.ownerName}
-
                   />
                 </HorizontalContainer>
-
-                <Tooltip
-                  content={favoriteTooltipText}
-                  position={PositionTooltip.LEFT}
-
-                >
-                  <Button
-                    className={!user ? styles.disabled : ""}
-                    value={`${getIsUserInFavorites(user, userPageOwner)
-                      ? Symbols.STAR
-                      : Symbols.OUTLINED_STAR
-                    }${Symbols.NO_BREAK_SPACE}${userPageOwner.favoriteForUserUuids.length}`}
-                    onClick={() => {
-                      if (!user) {
-                        return;
-                      }
-                      if (getIsUserInFavorites(user, userPageOwner)) {
-                        FavoriteUserDAL.deleteFavoriteUser({
-                          donorUserUuid: user.uuid,
-                          acceptorUserUuid: userPageOwner.uuid,
-                        });
-                        deleteUserFromFavorite(userPageOwner.uuid);
-                        deleteUserFromFavoriteForUser(user.uuid);
-                      } else {
-                        FavoriteUserDAL.createFavoriteUser({
-                          donorUserUuid: user.uuid,
-                          acceptorUserUuid: userPageOwner.uuid,
-                        });
-
-                        const newFavoriteUser = new UserPlain({...userPageOwner});
-                        addUserToFavorite(newFavoriteUser);
-                        addUserToFavoriteForUser(user.uuid);
-                      }
-
-                      displayNotification({
-                        text: notificationFavoriteUsers,
-                        type: NotificationType.INFO,
-                      });
-                    }}
-                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                  />
-                </Tooltip>
 
               </HorizontalContainer>
 

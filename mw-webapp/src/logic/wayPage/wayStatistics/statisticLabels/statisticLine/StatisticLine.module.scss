@@ -28,6 +28,7 @@ $labelColorSize: 10px;
 .labelColor {
   width: $labelColorSize;
   height: $labelColorSize;
+  flex-shrink: 0;
   border-radius: $tertiaryBorderRadius;
 }
 

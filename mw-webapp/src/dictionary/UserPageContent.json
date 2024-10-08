@@ -116,7 +116,29 @@
       "ua": "Знайдіть ментора"
     }
   },
+  "userActions": {
+    "collectionManagement": {
+      "ru": "Управление проектами",
+      "en": "Project management",
+      "ua": "Управління проектами"
+    },
+    "addToProject": {
+      "ru": "Добавить в проект",
+      "en": "Add to project",
+      "ua": "Додати до проекту"
+    },
+    "deleteFromProject": {
+      "ru": "Удалить из проекта",
+      "en": "Delete from project",
+      "ua": "Видалити із проекту"
+    }
+  },
   "notifications": {
+    "projectUpdated": {
+      "ru": "Проект обновлен",
+      "en": "Project updated",
+      "ua": "Проект оновлено"
+    },
     "userRemovedFromFavorites": {
       "ru": "Пользователь удален из избранных",
       "en": "User removed from favorites",

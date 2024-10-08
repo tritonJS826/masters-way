@@ -1,5 +1,6 @@
 import {TrashIcon} from "@radix-ui/react-icons";
 import {observer} from "mobx-react-lite";
+import {ColorPicker} from "src/component/colorPicker/ColorPicker";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -91,15 +92,13 @@ export const LabelLine = observer((props: LabelLineProps) => {
         placeholder={LanguageService.common.emptyMarkdownAction[language]}
       />
 
-      {/* Move to color picker component */}
-      <input
-        type="color"
-        value={props.label.color}
-        onChange={(event) => {
-          props.label.updateColor(event.target.value);
+      <ColorPicker
+        color={props.label.color}
+        onChange={(updatedColor: string) => {
+          props.label.updateColor(updatedColor);
           updateLabelDebounced({
             uuid: props.label.uuid,
-            color: event.target.value,
+            color: updatedColor,
           });
         }}
       />
