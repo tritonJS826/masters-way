@@ -134,12 +134,7 @@
 .planItems {
   max-width: $maxWidthContainer;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: $paddingBig $paddingMedium;
   gap: $gapExtraLarge;
-
-  @media (max-width: $mediaWidthTablet) {
-    width: 100%;
-    justify-content: center;
-  }
 }
