@@ -8,13 +8,14 @@ export const pricePlans: PricePlanType[] = [
     price: 0,
     period: "free",
     capabilities: {
+      mentorSupport: 0,
       ownWays: 10,
       privateWays: 1,
       dayReports: 100,
       userTags: 3,
-      mentoringWays: 0,
-      customCollections: 0,
-      compositeWayDeps: 0,
+      mentoringWays: 20,
+      customCollections: 10,
+      compositeWayDeps: 2,
     },
   },
   {
@@ -24,13 +25,14 @@ export const pricePlans: PricePlanType[] = [
     price: 50,
     period: "month",
     capabilities: {
+      mentorSupport: 1,
       ownWays: 20,
       privateWays: 10,
       dayReports: 200,
       userTags: 5,
       mentoringWays: 20,
-      customCollections: 0,
-      compositeWayDeps: 0,
+      customCollections: 10,
+      compositeWayDeps: 2,
     },
   },
   {
@@ -40,6 +42,7 @@ export const pricePlans: PricePlanType[] = [
     price: 420,
     period: "year",
     capabilities: {
+      mentorSupport: 2,
       ownWays: 30,
       privateWays: 10,
       dayReports: 365,
