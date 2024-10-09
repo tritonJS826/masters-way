@@ -12,6 +12,11 @@
     }
   },
   "planCard": {
+    "mentorSupport" : {
+      "ru": "24/7 поддержка ментора",
+      "en": "24/7 mentor support",
+      "ua": "24/7 підтримка наставників"
+    },
     "ownWays" : {
       "ru": "Собственные пути",
       "en": "Own ways",
