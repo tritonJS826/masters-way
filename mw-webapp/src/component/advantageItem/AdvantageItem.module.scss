@@ -4,17 +4,20 @@
   width: 31%;
   min-width: $minWidthBlock;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 0 auto;
   gap: $gapMedium;
 }
 
 .advantageTitle {
+  flex: 1;
   font-size: $fontSizeTitleSmall;
   text-align: center;
 }
 
 .advantageDescription {
+  display: flex;
+  justify-content: flex-start;
   text-align: center;
 }
 
@@ -30,4 +33,8 @@
 
 .icon {
   stroke: var(--generalPrimaryColor);
+}
+
+.advantageText {
+  gap: 10px;
 }

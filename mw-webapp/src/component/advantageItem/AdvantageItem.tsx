@@ -38,16 +38,18 @@ export const AdvantageItem = (props: AdvantageItemProps) => {
           className={styles.icon}
         />
       </div>
-      <Title
-        level={HeadingLevel.h3}
-        text={props.title}
-        className={styles.advantageTitle}
-        classNameHeading={styles.advantageTitle}
-        placeholder=""
-      />
-      <p className={styles.advantageDescription}>
-        {props.description}
-      </p>
+      <VerticalContainer className={styles.advantageText}>
+        <Title
+          level={HeadingLevel.h3}
+          text={props.title}
+          className={styles.advantageTitle}
+          classNameHeading={styles.advantageTitle}
+          placeholder=""
+        />
+        <p className={styles.advantageDescription}>
+          {props.description}
+        </p>
+      </VerticalContainer>
     </VerticalContainer>
   );
 };

@@ -94,7 +94,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;
-  gap: $gapExtraLarge;
+  gap: $gapLarge;
 
   @media (max-width: $mediaWidthMobileBig) {
     justify-content: center;

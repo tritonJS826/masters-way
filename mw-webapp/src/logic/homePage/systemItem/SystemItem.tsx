@@ -1,4 +1,3 @@
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import styles from "src/logic/homePage/systemItem/SystemItem.module.scss";
@@ -17,6 +16,11 @@ interface SystemItemProps {
    * Title description
    */
   description: string;
+
+  /**
+   * Step's number
+   */
+  stepNumber: string;
 }
 
 /**
@@ -25,20 +29,21 @@ interface SystemItemProps {
 export const SystemItem = (props: SystemItemProps) => {
   return (
     <VerticalContainer className={styles.systemItem}>
-      <Icon
-        name="WayIcon"
-        size={IconSize.MEDIUM}
-      />
-      <Title
-        level={HeadingLevel.h3}
-        text={props.title}
-        className={styles.title}
-        classNameHeading={styles.title}
-        placeholder=""
-      />
-      <p className={styles.description}>
-        {props.description}
-      </p>
+      <div className={styles.numberWrapper}>
+        {props.stepNumber}
+      </div>
+      <VerticalContainer className={styles.systemText}>
+        <Title
+          level={HeadingLevel.h3}
+          text={props.title}
+          className={styles.systemTitle}
+          classNameHeading={styles.systemTitle}
+          placeholder=""
+        />
+        <p className={styles.systemDescription}>
+          {props.description}
+        </p>
+      </VerticalContainer>
     </VerticalContainer>
   );
 };

@@ -5,6 +5,7 @@ import {observer} from "mobx-react-lite";
 import {TrackHomePage} from "src/analytics/homeAnalytics";
 import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
+import {AdvantageItem} from "src/component/advantageItem/AdvantageItem";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Footer} from "src/component/footer/Footer";
 import {LOGO_TEXT} from "src/component/header/Header";
@@ -12,6 +13,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
+import {Tab, TabItemProps} from "src/component/tab/Tab";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -19,7 +21,6 @@ import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {AdvantageItem} from "src/logic/homePage/advantageItem/AdvantageItem";
 import {SystemItem} from "src/logic/homePage/systemItem/SystemItem";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -47,6 +48,49 @@ export const HomePage = observer(() => {
   const navigate = useNavigate();
 
   const [videoUrl, setVideoUrl] = useState<string>(VIDEO_FOR_STUDENT_URL);
+
+  const tabList: TabItemProps[] = [
+    {
+      id: "0",
+      tabTrigger: {
+        id: "0",
+        value: LanguageService.home.videoForStudent[language],
+      },
+      tabContent: {
+        id: "0",
+        value: (<></>),
+      },
+      value: "Tab 1",
+
+      /**
+       * Show video for student
+       */
+      onCLick: () => {
+        TrackHomePage.studentVideoClicked();
+        setVideoUrl(VIDEO_FOR_STUDENT_URL);
+      },
+    },
+    {
+      id: "1",
+      tabTrigger: {
+        id: "1",
+        value: LanguageService.home.videoForMentor[language],
+      },
+      tabContent: {
+        id: "1",
+        value: (<></>),
+      },
+      value: "Tab 2",
+
+      /**
+       * Show video for mentor
+       */
+      onCLick: () => {
+        TrackHomePage.mentorVideoClicked();
+        setVideoUrl(VIDEO_FOR_MENTOR_URL);
+      },
+    },
+  ];
 
   return (
     <>
@@ -87,30 +131,7 @@ export const HomePage = observer(() => {
           </VerticalContainer>
 
           <VerticalContainer className={styles.videosBlock}>
-            <HorizontalContainer>
-              <Button
-                onClick={() => {
-                  TrackHomePage.studentVideoClicked();
-                  setVideoUrl(VIDEO_FOR_STUDENT_URL);
-                }}
-                buttonType={videoUrl === VIDEO_FOR_STUDENT_URL
-                  ? ButtonType.PRIMARY
-                  : ButtonType.SECONDARY
-                }
-                value={LanguageService.home.videoForStudent[language]}
-              />
-              <Button
-                onClick={() => {
-                  TrackHomePage.mentorVideoClicked();
-                  setVideoUrl(VIDEO_FOR_MENTOR_URL);
-                }}
-                buttonType={videoUrl === VIDEO_FOR_MENTOR_URL
-                  ? ButtonType.PRIMARY
-                  : ButtonType.SECONDARY
-                }
-                value={LanguageService.home.videoForMentor[language]}
-              />
-            </HorizontalContainer>
+            <Tab tabList={tabList} />
             <iframe
               width="100%"
               height="400"
@@ -138,26 +159,17 @@ export const HomePage = observer(() => {
           <AdvantageItem
             title={LanguageService.home.advantages.personalizedLearning.title[language]}
             description={LanguageService.home.advantages.personalizedLearning.description[language]}
-          />
-          <AdvantageItem
-            title={LanguageService.home.advantages.comprehensiveControl.title[language]}
-            description={LanguageService.home.advantages.comprehensiveControl.description[language]}
+            iconName="ActivityIcon"
           />
           <AdvantageItem
             title={LanguageService.home.advantages.fastFeedback.title[language]}
             description={LanguageService.home.advantages.fastFeedback.description[language]}
+            iconName="ClockIcon"
           />
           <AdvantageItem
-            title={LanguageService.home.advantages.visualizationOfProgress.title[language]}
-            description={LanguageService.home.advantages.visualizationOfProgress.description[language]}
-          />
-          <AdvantageItem
-            title={LanguageService.home.advantages.supportiveNetwork.title[language]}
-            description={LanguageService.home.advantages.supportiveNetwork.description[language]}
-          />
-          <AdvantageItem
-            title={LanguageService.home.advantages.timeSavingEfficiency.title[language]}
-            description={LanguageService.home.advantages.timeSavingEfficiency.description[language]}
+            title={LanguageService.home.advantages.aiAssistant.title[language]}
+            description={LanguageService.home.advantages.aiAssistant.description[language]}
+            iconName="TrendingUpIcon"
           />
         </HorizontalContainer>
 
@@ -186,14 +198,17 @@ export const HomePage = observer(() => {
           <SystemItem
             title={LanguageService.home.systemBlock.createWay.title[language]}
             description={LanguageService.home.systemBlock.createWay.description[language]}
+            stepNumber="1"
           />
           <SystemItem
             title={LanguageService.home.systemBlock.setGoalAndMetrics.title[language]}
             description={LanguageService.home.systemBlock.setGoalAndMetrics.description[language]}
+            stepNumber="2"
           />
           <SystemItem
             title={LanguageService.home.systemBlock.trackProgress.title[language]}
             description={LanguageService.home.systemBlock.trackProgress.description[language]}
+            stepNumber="3"
           />
 
           <Image
