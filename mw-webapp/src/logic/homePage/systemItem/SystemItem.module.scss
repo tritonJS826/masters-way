@@ -1,19 +1,47 @@
 @import "src/styles/variables";
 
 .systemItem {
-  width: 30%;
+  position: relative;
+  width: 31%;
   min-width: $minWidthBlock;
   align-items: center;
   justify-content: flex-start;
+  padding: $paddingBig;
+  border-radius: $primaryBorderRadius;
+  margin: 0 auto;
+  background-color: var(--secondaryBgColor);
   gap: $gapMedium;
 }
 
-.title {
+.systemTitle {
+  flex: 1;
   font-size: $fontSizeTitleSmall;
   text-align: center;
 }
 
-.description {
-  line-height: $lineHeightPrimary;
+.systemDescription {
+  display: flex;
+  justify-content: flex-start;
   text-align: center;
+}
+
+.numberWrapper {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  background-color: var(--primaryBgColor);
+  color: var(--generalPrimaryColor);
+  font-size: $fontSizeTitleLarge;
+  font-weight: $fontWeightBold;
+}
+
+.icon {
+  stroke: var(--generalPrimaryColor);
+}
+
+.systemText {
+  gap: 10px;
 }

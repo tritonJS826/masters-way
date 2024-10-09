@@ -31,8 +31,8 @@ const getDescriptionForTheme = (theme: Theme, language: Language): string =>
 const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK
   ? "SunIcon"
   : theme === Theme.LIGHT
-    ? "GiftIcon"
-    : "MoonIcon";
+    ? "MoonIcon"
+    : "SunsetIcon";
 
 /**
  * ThemeSwitcher props

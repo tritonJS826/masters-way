@@ -12,6 +12,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {Plan} from "src/model/businessModel/Plan";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal.module.scss";
 
 /**
@@ -150,7 +151,7 @@ export const DecomposeIssueAiModal = (props: DecomposeIssueAiModalProps) => {
         {generatedPansPreview.map(generatedMetric => (
           <HorizontalContainer key={generatedMetric.description}>
             <Checkbox onChange={generatedMetric.toggleIsChecked} />
-            {generatedMetric.description}
+            {renderMarkdown(generatedMetric.description)}
           </HorizontalContainer>))}
         <HorizontalContainer>
           <DialogClose asChild>

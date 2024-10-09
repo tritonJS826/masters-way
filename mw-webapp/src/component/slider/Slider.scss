@@ -9,3 +9,7 @@
 .swiper-pagination-bullet-active {
   background-color: var(--generalPrimaryColor);
 }
+
+.swiper-slide {
+  display: flex;
+}

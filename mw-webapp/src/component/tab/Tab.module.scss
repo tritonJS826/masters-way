@@ -23,7 +23,12 @@ input {
   justify-content: center;
   padding: $paddingSmall;
   background-color: var(--secondaryBgColor);
+  cursor: pointer;
   user-select: none;
+
+  &:hover {
+    background-color: var(--tertiaryBgColor);
+  }
 }
 .tabsTrigger:first-child {
   border-top-left-radius: 20px;
@@ -31,9 +36,7 @@ input {
 .tabsTrigger:last-child {
   border-top-right-radius: 20px;
 }
-.tabsTrigger:hover {
-  color: var(--violet-11);
-}
+
 .tabsTrigger[data-state="active"] {
   box-shadow: inset 0 -1px 0 0 var(--generalPrimaryColor),
     0 1px 0 0 var(--generalPrimaryColor);
