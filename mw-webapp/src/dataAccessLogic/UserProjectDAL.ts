@@ -1,6 +1,22 @@
 import {UserProjectService} from "src/service/UserProjectService";
 
 /**
+ * Toggle user in project params
+ */
+interface ToggleUserInProjectParams {
+
+  /**
+   * User ID
+   */
+  userId: string;
+
+  /**
+   * Project ID
+   */
+  projectId: string;
+}
+
+/**
  * Provides methods to interact with the UserProject
  */
 export class UserProjectDAL {
@@ -8,11 +24,11 @@ export class UserProjectDAL {
   /**
    * Add user to the project
    */
-  public static async addUser(userId: string, projectId: string): Promise<void> {
+  public static async addUser(params: ToggleUserInProjectParams): Promise<void> {
     await UserProjectService.addUserProject({
       request: {
-        userId,
-        projectId,
+        userId: params.userId,
+        projectId: params.projectId,
       },
     });
   }
@@ -20,10 +36,10 @@ export class UserProjectDAL {
   /**
    * Delete user from the project
    */
-  public static async deleteUser(userId: string, projectId: string): Promise<void> {
+  public static async deleteUser(params: ToggleUserInProjectParams): Promise<void> {
     await UserProjectService.deleteUserProject({
-      userId,
-      projectId,
+      userId: params.userId,
+      projectId: params.projectId,
     });
   }
 

@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
@@ -294,6 +295,11 @@ interface UserProps {
    * Way's that requested user become a mentor {@link WayPreview}
    */
   wayRequests: WayPreview[];
+
+  /**
+   * User's projects
+   */
+  projects: ProjectPreview[];
 }
 
 /**
@@ -366,6 +372,11 @@ export class User {
    */
   public wayRequests: WayPreview[];
 
+  /**
+   * User's projects
+   */
+  public projects: ProjectPreview[];
+
   constructor(userData: UserProps) {
     makeAutoObservable(this);
     this.uuid = userData.uuid;
@@ -381,6 +392,7 @@ export class User {
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;
     this.wayRequests = userData.wayRequests;
+    this.projects = userData.projects.map(project => new ProjectPreview(project));
   }
 
   /**
@@ -411,6 +423,13 @@ export class User {
    */
   public addCollection(newCollection: WayCollection): void {
     this.customWayCollections.push(newCollection);
+  }
+
+  /**
+   * Add new collection to user
+   */
+  public addProject(newProject: ProjectPreview): void {
+    this.projects.push(newProject);
   }
 
   /**

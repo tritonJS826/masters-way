@@ -7,7 +7,6 @@ Method | HTTP request | Description
 [**CreateProject**](ProjectAPI.md#CreateProject) | **Post** /projects | Create a new project
 [**DeleteProject**](ProjectAPI.md#DeleteProject) | **Delete** /project/{projectId} | Delete project by id
 [**GetProject**](ProjectAPI.md#GetProject) | **Get** /projects/{projectId} | Get project by id
-[**GetProjectsByUserId**](ProjectAPI.md#GetProjectsByUserId) | **Get** /projects/user/{userId} | Get projects by user id
 [**UpdateProject**](ProjectAPI.md#UpdateProject) | **Patch** /projects/{projectId} | Update project by id
 
 
@@ -195,74 +194,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SchemasProjectPopulatedResponse**](SchemasProjectPopulatedResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## GetProjectsByUserId
-
-> SchemasGetProjectsByUserIDResponse GetProjectsByUserId(ctx, userId).Execute()
-
-Get projects by user id
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	userId := "userId_example" // string | user id
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.ProjectAPI.GetProjectsByUserId(context.Background(), userId).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.GetProjectsByUserId``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `GetProjectsByUserId`: SchemasGetProjectsByUserIDResponse
-	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.GetProjectsByUserId`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**userId** | **string** | user id | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetProjectsByUserIdRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
-[**SchemasGetProjectsByUserIDResponse**](SchemasGetProjectsByUserIDResponse.md)
 
 ### Authorization
 

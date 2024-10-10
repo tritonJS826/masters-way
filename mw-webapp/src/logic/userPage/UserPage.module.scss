@@ -49,11 +49,13 @@
   gap: $gapMedium;
 }
 
-.nameSection {
+.userTitleBlock {
+  align-items: baseline;
   justify-content: space-between;
 }
 
 .ownerName {
+  flex: 1;
   input {
     height: $heightH2;
   }
@@ -139,4 +141,18 @@
 
 .findMentorIcon {
   stroke: var(--secondaryStrokeColor);
+}
+
+.userActionMenu {
+  left: -150px;
+  width: 200px;
+}
+
+.userActionButtons {
+  align-items: start;
+}
+
+.userActionsIcon {
+  height: 38px;
+  padding: 0 $paddingSmall;
 }

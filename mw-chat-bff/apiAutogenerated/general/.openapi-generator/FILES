@@ -95,7 +95,6 @@ docs/SchemasGenerateMetricsPayload.md
 docs/SchemasGenerateMetricsResponse.md
 docs/SchemasGetAllUsersResponse.md
 docs/SchemasGetAllWaysResponse.md
-docs/SchemasGetProjectsByUserIDResponse.md
 docs/SchemasGetUsersByIDsResponse.md
 docs/SchemasGoogleToken.md
 docs/SchemasJobDonePopulatedResponse.md
@@ -189,7 +188,6 @@ model_schemas_generate_metrics_payload.go
 model_schemas_generate_metrics_response.go
 model_schemas_get_all_users_response.go
 model_schemas_get_all_ways_response.go
-model_schemas_get_projects_by_user_id_response.go
 model_schemas_get_users_by_ids_response.go
 model_schemas_google_token.go
 model_schemas_job_done_populated_response.go

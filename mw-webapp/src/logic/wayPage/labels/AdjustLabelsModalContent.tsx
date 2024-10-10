@@ -48,7 +48,7 @@ interface JobTagsProps {
 }
 
 /**
- * Job tags
+ * Adjust labels modal content
  */
 export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
   const {language} = languageStore;

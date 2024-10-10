@@ -61,20 +61,6 @@ func Test_openapi_ProjectAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test ProjectAPIService GetProjectsByUserId", func(t *testing.T) {
-
-		t.Skip("skip test")  // remove to run test
-
-		var userId string
-
-		resp, httpRes, err := apiClient.ProjectAPI.GetProjectsByUserId(context.Background(), userId).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test ProjectAPIService UpdateProject", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

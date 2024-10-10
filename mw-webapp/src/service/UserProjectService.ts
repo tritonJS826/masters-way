@@ -11,7 +11,6 @@ export class UserProjectService {
 
   /**
    * Add user to the project
-   * TODO: rename method on back -> addUserProject
    */
   public static async addUserProject(requestParameters: CreateUserProjectRequest): Promise<void> {
     await userProjectService.createUserProject(requestParameters);

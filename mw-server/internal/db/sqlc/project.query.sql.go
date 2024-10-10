@@ -109,7 +109,18 @@ func (q *Queries) GetProjectByID(ctx context.Context, projectUuid pgtype.UUID) (
 }
 
 const getProjectsByUserID = `-- name: GetProjectsByUserID :many
-SELECT uuid, name, is_private
+SELECT
+    uuid,
+    name,
+    is_private,
+    COALESCE(
+        ARRAY(
+            SELECT user_uuid
+            FROM users_projects
+            WHERE users_projects.project_uuid = projects.uuid
+        ),
+        '{}'
+        )::VARCHAR[] AS user_uuids
 FROM projects
 WHERE projects.uuid IN (
     SELECT project_uuid
@@ -122,6 +133,7 @@ type GetProjectsByUserIDRow struct {
 	Uuid      pgtype.UUID `json:"uuid"`
 	Name      string      `json:"name"`
 	IsPrivate bool        `json:"is_private"`
+	UserUuids []string    `json:"user_uuids"`
 }
 
 func (q *Queries) GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]GetProjectsByUserIDRow, error) {
@@ -133,7 +145,12 @@ func (q *Queries) GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID)
 	items := []GetProjectsByUserIDRow{}
 	for rows.Next() {
 		var i GetProjectsByUserIDRow
-		if err := rows.Scan(&i.Uuid, &i.Name, &i.IsPrivate); err != nil {
+		if err := rows.Scan(
+			&i.Uuid,
+			&i.Name,
+			&i.IsPrivate,
+			&i.UserUuids,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

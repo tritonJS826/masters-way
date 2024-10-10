@@ -387,6 +387,17 @@ func TestGetUserById(t *testing.T) {
 			Tags:        []openapiGeneral.SchemasUserTagResponse{},
 			Uuid:        "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 			WayRequests: []openapiGeneral.SchemasWayPlainResponse{},
+			Projects: []openapiGeneral.SchemasProjectPlainResponse{
+				{
+					Id:        "afb02990-7e8c-4353-a724-ea8de5fb6cfc",
+					Name:      "Project 1",
+					IsPrivate: false,
+					UserIds: []string{
+						"1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
+						"7cdb041b-4574-4f7b-a500-c53e74c72e94",
+					},
+				},
+			},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)

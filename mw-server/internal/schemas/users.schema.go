@@ -54,6 +54,7 @@ type UserPopulatedResponse struct {
 	FavoriteUsers      []UserPlainResponse              `json:"favoriteUsers" validate:"required"`
 	Tags               []UserTagResponse                `json:"tags" validate:"required"`
 	WayRequests        []WayPlainResponse               `json:"wayRequests" validate:"required"`
+	Projects           []ProjectPlainResponse           `json:"projects" validate:"required"`
 }
 
 type GetAllUsersResponse struct {

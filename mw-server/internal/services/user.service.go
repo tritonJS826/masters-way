@@ -33,6 +33,7 @@ type IUserRepository interface {
 	CountUsers(ctx context.Context, arg db.CountUsersParams) (int64, error)
 	ListUsers(ctx context.Context, arg db.ListUsersParams) ([]db.ListUsersRow, error)
 	GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]db.User, error)
+	GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]db.GetProjectsByUserIDRow, error)
 }
 
 type UserService struct {
@@ -270,6 +271,20 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 	dbFavoriteWays, _ := us.IUserRepository.GetFavoriteWaysByUserId(ctx, user.Uuid)
 	favoriteWays := us.convertDbWaysToPlainWays(ctx, us.dbFavoriteWaysToDbWays(dbFavoriteWays))
 
+	projectsRaw, err := us.IUserRepository.GetProjectsByUserID(ctx, userPgUUID)
+	if err != nil {
+		return nil, err
+	}
+
+	projects := lo.Map(projectsRaw, func(projectRaw db.GetProjectsByUserIDRow, _ int) schemas.ProjectPlainResponse {
+		return schemas.ProjectPlainResponse{
+			ID:        util.ConvertPgUUIDToUUID(projectRaw.Uuid).String(),
+			Name:      projectRaw.Name,
+			IsPrivate: projectRaw.IsPrivate,
+			UserIDs:   projectRaw.UserUuids,
+		}
+	})
+
 	defaultCollections := schemas.DefaultWayCollections{
 		Own: schemas.WayCollectionPopulatedResponse{
 			Uuid:      "00000000-0000-0000-0000-00000000001",
@@ -412,6 +427,7 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 		FavoriteUsers:      favoriteUsers,
 		Tags:               tags,
 		WayRequests:        wayRequests,
+		Projects:           projects,
 	}, nil
 }
 
