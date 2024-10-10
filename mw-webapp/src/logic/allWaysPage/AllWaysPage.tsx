@@ -156,20 +156,23 @@ export const AllWaysPage = observer(() => {
     <VerticalContainer className={styles.allWaysContainer}>
       <HorizontalContainer className={styles.filterView}>
         <HorizontalContainer className={styles.filterViewLeftPanel}>
-          <Input
-            value={allWaysPageSettings.wayName}
-            onChange={(wayName: string) => {
-              updateAllWaysPageSettings({
-                filterStatus: allWaysPageSettings.filterStatus,
-                view: allWaysPageSettings.view,
-                minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
-                wayName,
-              });
-            }}
-            placeholder={LanguageService.allWays.filterBlock.wayNamePlaceholder[language]}
-            typeInputIcon={"SearchIcon"}
-            typeInput={InputType.Border}
-          />
+          {/* TODO: fix: input should not be width: 100% by default as I understand */}
+          <div>
+            <Input
+              value={allWaysPageSettings.wayName}
+              onChange={(wayName: string) => {
+                updateAllWaysPageSettings({
+                  filterStatus: allWaysPageSettings.filterStatus,
+                  view: allWaysPageSettings.view,
+                  minDayReportsAmount: allWaysPageSettings.minDayReportsAmount,
+                  wayName,
+                });
+              }}
+              placeholder={LanguageService.allWays.filterBlock.wayNamePlaceholder[language]}
+              typeInputIcon={"SearchIcon"}
+              typeInput={InputType.Border}
+            />
+          </div>
 
           <Select
             label={LanguageService.allWays.filterBlock.type[language]}
