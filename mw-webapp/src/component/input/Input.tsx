@@ -118,9 +118,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
   const [text, setText] = useState<T>(props.value);
 
   useEffect(() => {
-    if (props.value === "") {
-      setText(props.value);
-    }
+    setText(props.value);
   }, [props.value]);
 
   /**
