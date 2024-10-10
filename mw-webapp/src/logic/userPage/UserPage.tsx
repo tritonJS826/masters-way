@@ -188,7 +188,6 @@ export const UserPage = observer((props: UserPageProps) => {
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
   const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
-  const [projects, setProjects] = useState<ProjectPreview[]>([]);
 
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
@@ -273,9 +272,13 @@ export const UserPage = observer((props: UserPageProps) => {
       name: newProjectName,
     });
 
-    const updatedProjects = projects.concat(newProject);
+    const newProjectPreview = new ProjectPreview({
+      ...newProject,
+      userIds: newProject.users.map(participant => participant.uuid),
+    });
 
-    setProjects(updatedProjects);
+    user.addProject(newProjectPreview);
+    userPageOwner.addProject(newProjectPreview);
   };
 
   /**
@@ -328,14 +331,6 @@ export const UserPage = observer((props: UserPageProps) => {
   const notificationFavoriteUsers = getIsUserInFavorites(user, userPageOwner)
     ? LanguageService.user.notifications.userRemovedFromFavorites[language]
     : LanguageService.user.notifications.userAddedToFavorites[language];
-
-  /**
-   * Load user's projects
-   */
-  const loadUserProjects = async () => {
-    const projectsPreview = await ProjectDAL.getProjectsByUserUuid(userPageOwner.uuid);
-    setProjects(projectsPreview);
-  };
 
   const tabList: TabItemProps[] = [
     {
@@ -443,7 +438,7 @@ export const UserPage = observer((props: UserPageProps) => {
         value: (
           <VerticalContainer className={styles.tabsSectionContainer}>
             <HorizontalContainer className={styles.tabsSection}>
-              {projects.map(project => (
+              {userPageOwner.projects.map(project => (
                 <ProjectCard
                   key={project.uuid}
                   projectTitle={project.name}
@@ -469,13 +464,6 @@ export const UserPage = observer((props: UserPageProps) => {
           </VerticalContainer>),
       },
       value: "Tab 2",
-
-      /**
-       * Load user's projects
-       */
-      onCLick: () => {
-        loadUserProjects();
-      },
     },
   ];
 
@@ -500,28 +488,28 @@ export const UserPage = observer((props: UserPageProps) => {
       : user.addWayToComposite(projectUuid, userUuid);
   };
 
-  const renderAddToProjectDropdownItems: DropdownMenuItemType[] = projects.map((project) => {
-    const isUserInProjectCollection = false;
-    // Project.ownWay.childrenUuids.includes(way.uuid);
+  const renderAddToProjectDropdownItems: DropdownMenuItemType[] = (user?.projects ?? [])
+    .map((project) => {
+      const isUserInProject = project.userIds.includes(userPageOwner.uuid);
 
-    return {
-      id: project.uuid,
-      isPreventDefaultUsed: false,
-      value: isUserInProjectCollection
-        ? `${LanguageService.user.userActions.deleteFromProject[language]} ${project.name}`
-        : `${LanguageService.user.userActions.addToProject[language]} ${project.name}`,
+      return {
+        id: project.uuid,
+        isPreventDefaultUsed: false,
+        value: isUserInProject
+          ? `${LanguageService.user.userActions.deleteFromProject[language]} ${project.name}`
+          : `${LanguageService.user.userActions.addToProject[language]} ${project.name}`,
 
-      /**
-       * Add to or remove user from project
-       */
-      onClick: () => {
-        if (!user) {
-          throw new Error("User is not defined");
-        }
-        toggleUserInProject(isUserInProjectCollection, project.uuid, user.uuid);
-      },
-    };
-  });
+        /**
+         * Add to or remove user from project
+         */
+        onClick: () => {
+          if (!user) {
+            throw new Error("User is not defined");
+          }
+          toggleUserInProject(isUserInProject, project.uuid, user.uuid);
+        },
+      };
+    });
 
   return (
     <VerticalContainer className={styles.pageLayout}>
@@ -705,11 +693,12 @@ export const UserPage = observer((props: UserPageProps) => {
                     />
                   </Tooltip>
 
+                  {user &&
                   <Dropdown
                     contentClassName={styles.userActionMenu}
                     trigger={(
                       <Tooltip
-                        content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                        content={LanguageService.user.projects.projectActionsTooltip[language]}
                         position={PositionTooltip.LEFT}
                       >
                         <Button
@@ -729,13 +718,14 @@ export const UserPage = observer((props: UserPageProps) => {
                     dropdownMenuItems={[
                       {
                         subTrigger: <p>
-                          {LanguageService.way.wayActions.collectionManagement[language]}
+                          {LanguageService.user.userActions.projectManagement[language]}
                         </p>,
-                        isVisible: !user,
+                        isVisible: !!user,
                         dropdownSubMenuItems: renderAddToProjectDropdownItems,
                       },
                     ]}
                   />
+                  }
                 </HorizontalContainer>
 
               </HorizontalContainer>

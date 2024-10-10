@@ -71,7 +71,6 @@ models/SchemasGenerateMetricsPayload.ts
 models/SchemasGenerateMetricsResponse.ts
 models/SchemasGetAllUsersResponse.ts
 models/SchemasGetAllWaysResponse.ts
-models/SchemasGetProjectsByUserIDResponse.ts
 models/SchemasGetUsersByIDsResponse.ts
 models/SchemasGoogleToken.ts
 models/SchemasJobDonePopulatedResponse.ts

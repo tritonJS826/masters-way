@@ -21,6 +21,11 @@ interface ProjectPreviewProps {
    */
   name: string;
 
+  /**
+   * Project's participants
+   */
+  userIds: string[];
+
 }
 
 /**
@@ -44,32 +49,17 @@ export class ProjectPreview {
    */
   public name: string;
 
-  // /**
-  //  *
-  //  * Owner's UUID
-  //  */
-  // public ownerId: string;
-
-  // /**
-  //  *
-  //  * Project's members
-  //  */
-  // public users: UserNotSaturatedWay[];
-
-  // /**
-  //  *
-  //  * Project's ways
-  //  */
-  // public ways: WayPreview[];
+  /**
+   * Project's participants
+   */
+  public userIds: string[];
 
   constructor(projectPreviewData: ProjectPreviewProps) {
     makeAutoObservable(this);
     this.uuid = projectPreviewData.uuid;
     this.name = projectPreviewData.name;
-    // This.ownerId = projectPreviewData.ownerId;
-    // this.users = projectPreviewData.users.map(user => new UserNotSaturatedWay(user));
+    this.userIds = projectPreviewData.userIds;
     this.isPrivate = projectPreviewData.isPrivate;
-    // This.ways = projectPreviewData.ways.map(way => new WayPreview(way));
   }
 
 }

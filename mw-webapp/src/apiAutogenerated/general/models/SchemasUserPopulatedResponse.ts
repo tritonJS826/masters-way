@@ -19,6 +19,12 @@ import {
     SchemasDefaultWayCollectionsFromJSONTyped,
     SchemasDefaultWayCollectionsToJSON,
 } from './SchemasDefaultWayCollections';
+import type { SchemasProjectPlainResponse } from './SchemasProjectPlainResponse';
+import {
+    SchemasProjectPlainResponseFromJSON,
+    SchemasProjectPlainResponseFromJSONTyped,
+    SchemasProjectPlainResponseToJSON,
+} from './SchemasProjectPlainResponse';
 import type { SchemasUserPlainResponse } from './SchemasUserPlainResponse';
 import {
     SchemasUserPlainResponseFromJSON,
@@ -112,6 +118,12 @@ export interface SchemasUserPopulatedResponse {
     name: string;
     /**
      * 
+     * @type {Array<SchemasProjectPlainResponse>}
+     * @memberof SchemasUserPopulatedResponse
+     */
+    projects: Array<SchemasProjectPlainResponse>;
+    /**
+     * 
      * @type {Array<SchemasUserTagResponse>}
      * @memberof SchemasUserPopulatedResponse
      */
@@ -147,6 +159,7 @@ export function instanceOfSchemasUserPopulatedResponse(
     isInstance = isInstance && "imageUrl" in value;
     isInstance = isInstance && "isMentor" in value;
     isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "projects" in value;
     isInstance = isInstance && "tags" in value;
     isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "wayRequests" in value;
@@ -177,6 +190,7 @@ export function SchemasUserPopulatedResponseFromJSONTyped(
         'imageUrl': json['imageUrl'],
         'isMentor': json['isMentor'],
         'name': json['name'],
+        'projects': ((json['projects'] as Array<any>).map(SchemasProjectPlainResponseFromJSON)),
         'tags': ((json['tags'] as Array<any>).map(SchemasUserTagResponseFromJSON)),
         'uuid': json['uuid'],
         'wayRequests': ((json['wayRequests'] as Array<any>).map(SchemasWayPlainResponseFromJSON)),
@@ -203,6 +217,7 @@ export function SchemasUserPopulatedResponseToJSON(value?: SchemasUserPopulatedR
         'imageUrl': value.imageUrl,
         'isMentor': value.isMentor,
         'name': value.name,
+        'projects': ((value.projects as Array<any>).map(SchemasProjectPlainResponseToJSON)),
         'tags': ((value.tags as Array<any>).map(SchemasUserTagResponseToJSON)),
         'uuid': value.uuid,
         'wayRequests': ((value.wayRequests as Array<any>).map(SchemasWayPlainResponseToJSON)),

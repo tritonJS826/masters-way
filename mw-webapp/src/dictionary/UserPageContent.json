@@ -117,7 +117,7 @@
     }
   },
   "userActions": {
-    "collectionManagement": {
+    "projectManagement": {
       "ru": "Управление проектами",
       "en": "Project management",
       "ua": "Управління проектами"

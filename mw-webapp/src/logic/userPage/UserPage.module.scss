@@ -55,6 +55,7 @@
 }
 
 .ownerName {
+  flex: 1;
   input {
     height: $heightH2;
   }
@@ -143,7 +144,7 @@
 }
 
 .userActionMenu {
-  // left: -150px;
+  left: -150px;
   width: 200px;
 }
 
