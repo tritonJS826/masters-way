@@ -7,12 +7,13 @@ Name | Type | Description | Notes
 **Id** | **string** |  | 
 **IsPrivate** | **bool** |  | 
 **Name** | **string** |  | 
+**UserIds** | **[]string** |  | 
 
 ## Methods
 
 ### NewSchemasProjectPlainResponse
 
-`func NewSchemasProjectPlainResponse(id string, isPrivate bool, name string, ) *SchemasProjectPlainResponse`
+`func NewSchemasProjectPlainResponse(id string, isPrivate bool, name string, userIds []string, ) *SchemasProjectPlainResponse`
 
 NewSchemasProjectPlainResponse instantiates a new SchemasProjectPlainResponse object
 This constructor will assign default values to properties that have it defined,
@@ -85,6 +86,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasProjectPlainResponse) SetName(v string)`
 
 SetName sets Name field to given value.
+
+
+### GetUserIds
+
+`func (o *SchemasProjectPlainResponse) GetUserIds() []string`
+
+GetUserIds returns the UserIds field if non-nil, zero value otherwise.
+
+### GetUserIdsOk
+
+`func (o *SchemasProjectPlainResponse) GetUserIdsOk() (*[]string, bool)`
+
+GetUserIdsOk returns a tuple with the UserIds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserIds
+
+`func (o *SchemasProjectPlainResponse) SetUserIds(v []string)`
+
+SetUserIds sets UserIds field to given value.
 
 
 

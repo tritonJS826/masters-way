@@ -146,29 +146,6 @@ func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Get Projects by userID handler
-// @Summary Get projects by user id
-// @Description
-// @Tags project
-// @ID get-projects-by-user-id
-// @Accept json
-// @Produce json
-// @Param userId path string true "user id"
-// @Success 200 {object} schemas.GetProjectsByUserIDResponse
-// @Router /projects/user/{userId} [get]
-func (pc *ProjectController) GetProjectsByUserID(ctx *gin.Context) {
-	userID := ctx.Param("userId")
-
-	projects, err := pc.projectService.GetProjectsByUserID(ctx, userID)
-	util.HandleErrorGin(ctx, err)
-
-	response := schemas.GetProjectsByUserIDResponse{
-		Projects: projects,
-	}
-
-	ctx.JSON(http.StatusOK, response)
-}
-
 // Delete Project handler
 // @Summary Delete project by id
 // @Description

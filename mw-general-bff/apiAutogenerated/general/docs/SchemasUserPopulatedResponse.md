@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **ImageUrl** | **string** |  | 
 **IsMentor** | **bool** |  | 
 **Name** | **string** |  | 
+**Projects** | [**[]SchemasProjectPlainResponse**](SchemasProjectPlainResponse.md) |  | 
 **Tags** | [**[]SchemasUserTagResponse**](SchemasUserTagResponse.md) |  | 
 **Uuid** | **string** |  | 
 **WayRequests** | [**[]SchemasWayPlainResponse**](SchemasWayPlainResponse.md) |  | 
@@ -22,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewSchemasUserPopulatedResponse
 
-`func NewSchemasUserPopulatedResponse(createdAt string, customWayCollections []SchemasWayCollectionPopulatedResponse, defaultWayCollections SchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []SchemasUserPlainResponse, imageUrl string, isMentor bool, name string, tags []SchemasUserTagResponse, uuid string, wayRequests []SchemasWayPlainResponse, ) *SchemasUserPopulatedResponse`
+`func NewSchemasUserPopulatedResponse(createdAt string, customWayCollections []SchemasWayCollectionPopulatedResponse, defaultWayCollections SchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []SchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []SchemasProjectPlainResponse, tags []SchemasUserTagResponse, uuid string, wayRequests []SchemasWayPlainResponse, ) *SchemasUserPopulatedResponse`
 
 NewSchemasUserPopulatedResponse instantiates a new SchemasUserPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -235,6 +236,26 @@ and a boolean to check if the value has been set.
 `func (o *SchemasUserPopulatedResponse) SetName(v string)`
 
 SetName sets Name field to given value.
+
+
+### GetProjects
+
+`func (o *SchemasUserPopulatedResponse) GetProjects() []SchemasProjectPlainResponse`
+
+GetProjects returns the Projects field if non-nil, zero value otherwise.
+
+### GetProjectsOk
+
+`func (o *SchemasUserPopulatedResponse) GetProjectsOk() (*[]SchemasProjectPlainResponse, bool)`
+
+GetProjectsOk returns a tuple with the Projects field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProjects
+
+`func (o *SchemasUserPopulatedResponse) SetProjects(v []SchemasProjectPlainResponse)`
+
+SetProjects sets Projects field to given value.
 
 
 ### GetTags

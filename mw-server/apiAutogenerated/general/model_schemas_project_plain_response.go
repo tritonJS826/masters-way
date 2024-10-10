@@ -24,6 +24,7 @@ type SchemasProjectPlainResponse struct {
 	Id string `json:"id"`
 	IsPrivate bool `json:"isPrivate"`
 	Name string `json:"name"`
+	UserIds []string `json:"userIds"`
 }
 
 type _SchemasProjectPlainResponse SchemasProjectPlainResponse
@@ -32,11 +33,12 @@ type _SchemasProjectPlainResponse SchemasProjectPlainResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasProjectPlainResponse(id string, isPrivate bool, name string) *SchemasProjectPlainResponse {
+func NewSchemasProjectPlainResponse(id string, isPrivate bool, name string, userIds []string) *SchemasProjectPlainResponse {
 	this := SchemasProjectPlainResponse{}
 	this.Id = id
 	this.IsPrivate = isPrivate
 	this.Name = name
+	this.UserIds = userIds
 	return &this
 }
 
@@ -120,6 +122,30 @@ func (o *SchemasProjectPlainResponse) SetName(v string) {
 	o.Name = v
 }
 
+// GetUserIds returns the UserIds field value
+func (o *SchemasProjectPlainResponse) GetUserIds() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.UserIds
+}
+
+// GetUserIdsOk returns a tuple with the UserIds field value
+// and a boolean to check if the value has been set.
+func (o *SchemasProjectPlainResponse) GetUserIdsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.UserIds, true
+}
+
+// SetUserIds sets field value
+func (o *SchemasProjectPlainResponse) SetUserIds(v []string) {
+	o.UserIds = v
+}
+
 func (o SchemasProjectPlainResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -133,6 +159,7 @@ func (o SchemasProjectPlainResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["isPrivate"] = o.IsPrivate
 	toSerialize["name"] = o.Name
+	toSerialize["userIds"] = o.UserIds
 	return toSerialize, nil
 }
 
@@ -144,6 +171,7 @@ func (o *SchemasProjectPlainResponse) UnmarshalJSON(data []byte) (err error) {
 		"id",
 		"isPrivate",
 		"name",
+		"userIds",
 	}
 
 	allProperties := make(map[string]interface{})
