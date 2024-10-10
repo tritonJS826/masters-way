@@ -159,7 +159,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         max={props.max}
         min={props.min}
         placeholder={props.placeholder}
-        className={clsx(styles.input, props.className, props.typeInputIcon && styles.inputFilterIcon, inputTypeStyles)}
+        className={clsx(styles.input, props.typeInputIcon && styles.inputFilterIcon, inputTypeStyles, props.className)}
         inputMode={props.inputMode}
         disabled={!!props.disabled}
         required={!!props.required}
