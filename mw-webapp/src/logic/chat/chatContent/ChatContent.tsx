@@ -105,23 +105,27 @@ export const ChatContent = observer(() => {
     const trimmedMessage = params.message.trim();
     const isValidMessage = trimmedMessage !== "";
     setInputDisabled(true);
-    if (isValidMessage) {
+    if (isValidMessage && activeChatStore) {
       try {
         await ChatDAL.createMessageInRoom({
           message: params.message,
           roomId: params.roomId,
         });
-        if (activeChatStore) {
-          activeChatStore.setMessage("");
-        } else {
-          displayNotification({
-            text: "Active chat is not exist.",
-            type: NotificationType.ERROR,
-          });
-        }
+        activeChatStore.setMessage("");
       } catch (error) {
         displayNotification({
           text: "The message was not sent. Check your Internet connection.",
+          type: NotificationType.ERROR,
+        });
+      }
+    } else {
+
+      /**
+       * Send error notification when activeChatStore is null
+       */
+      if (!activeChatStore) {
+        displayNotification({
+          text: "Active chat is not exist.",
           type: NotificationType.ERROR,
         });
       }

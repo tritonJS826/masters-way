@@ -117,6 +117,9 @@ interface InputProps<T extends string | number> {
 export const Input = <T extends string | number>(props: InputProps<T>) => {
   const [text, setText] = useState<T>(props.value);
 
+  /**
+   * Clear input after sending
+   */
   useEffect(() => {
     setText(props.value);
   }, [props.value]);
