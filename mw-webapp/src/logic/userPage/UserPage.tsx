@@ -503,10 +503,7 @@ export const UserPage = observer((props: UserPageProps) => {
          * Add to or remove user from project
          */
         onClick: () => {
-          if (!user) {
-            throw new Error("User is not defined");
-          }
-          toggleUserInProject(isUserInProject, project.uuid, user.uuid);
+          toggleUserInProject(isUserInProject, project.uuid, userPageOwner.uuid);
         },
       };
     });
