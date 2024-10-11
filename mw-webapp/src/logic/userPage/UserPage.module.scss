@@ -87,7 +87,7 @@
 
 .skillsTitleBlock,
 .supportTitleBlock {
-  align-items: center;
+  align-items: baseline;
   gap: $gapMedium;
 }
 
@@ -121,14 +121,14 @@
   padding: 0;
 }
 
-.disabled {
+.disable {
   cursor: default;
 
-  &:hover {
+  &:hover:enabled {
     background-color: var(--secondaryBgBtnColor);
   }
 
-  &:active {
+  &:active:enabled {
     border: none;
     background-color: var(--secondaryBgBtnColor);
     color: var(--primaryTextColor);
@@ -155,4 +155,8 @@
 .userActionsIcon {
   height: 38px;
   padding: 0 $paddingSmall;
+}
+
+.userAboutTitleBlock {
+  align-items: baseline;
 }
