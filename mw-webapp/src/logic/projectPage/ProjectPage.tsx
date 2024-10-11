@@ -1,9 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
+import {Dropdown} from "src/component/dropdown/Dropdown";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -33,6 +35,30 @@ const MIN_LENGTH_PROJECT_NAME = 1;
 const DEFAULT_PROJECT_PAGE_SETTINGS: ProjectPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   view: View.Card,
+};
+
+/**
+ * Update Project params
+ */
+interface UpdateProjectParams {
+
+  /**
+   * Project to update
+   */
+  projectToUpdate: PartialWithUuid<Project>;
+
+  /**
+   * Callback to update project
+   */
+  setProject: (project: PartialWithUuid<Project>) => void;
+}
+
+/**
+ * Update Project
+ */
+const updateProject = async (params: UpdateProjectParams) => {
+  params.setProject(params.projectToUpdate);
+  await ProjectDAL.updateProject(params.projectToUpdate);
 };
 
 /**
@@ -73,21 +99,13 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
   /**
    * Delete project
    */
-  const deleteProject = async (projectUuid: string) => {
+  const deleteProject = async () => {
     if (!user) {
       throw new Error("User is not defined");
     }
 
-    await ProjectDAL.deleteProject(projectUuid);
+    await ProjectDAL.deleteProject(project.uuid);
     navigate(pages.user.getPath({uuid: user.uuid}));
-  };
-
-  /**
-   * Update project
-   */
-  const updateProject = async (projectToUpdate: PartialWithUuid<Project>) => {
-    await ProjectDAL.updateProject(projectToUpdate);
-
   };
 
   if (!projectStore.isInitialized) {
@@ -101,6 +119,19 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
 
   const isOwner = !!user && user.uuid === project.ownerId;
 
+  const renderDeleteProjectDropdownItem = (
+    <Confirm
+      trigger={<>
+        {LanguageService.project.projectInfo.deleteProject[language]}
+      </>}
+      content={<p>
+        {`${LanguageService.project.projectInfo.deleteProjectModalQuestion[language]} "${project.name}"?`}
+      </p>}
+      onOk={deleteProject}
+      okText={LanguageService.modals.confirmModal.deleteButton[language]}
+      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+    />);
+
   return (
     <VerticalContainer className={styles.pageLayout}>
       <VerticalContainer className={styles.projectInfoBlock}>
@@ -110,11 +141,19 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
               level={HeadingLevel.h2}
               text={project.name}
               placeholder=""
-              onChangeFinish={async (name) => updateProject({
-                uuid: project.uuid,
-                name,
-              },
-              )}
+              onChangeFinish={(name) => {
+                updateProject({
+                  projectToUpdate: {
+                    uuid: project.uuid,
+                    name,
+                  },
+
+                  /**
+                   * Update project's name
+                   */
+                  setProject: () => project.updateName(name),
+                });
+              }}
               isEditable={isOwner}
               validators={[
                 minLengthValidator(MIN_LENGTH_PROJECT_NAME, LanguageService.project.notifications.projectNameMinLength[language]),
@@ -127,20 +166,62 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
             }
           </VerticalContainer>
           {isOwner &&
-            <Confirm
-              trigger={
+          <Dropdown
+            contentClassName={styles.wayActionMenu}
+            trigger={(
+              <Tooltip
+                content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                position={PositionTooltip.LEFT}
+              >
                 <Button
+                  className={styles.projectActionsIcon}
+                  buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                   onClick={() => {}}
-                  value={LanguageService.project.projectInfo.deleteProject[language]}
+                  icon={
+                    <Icon
+                      size={IconSize.MEDIUM}
+                      name={"MoreVertical"}
+                    />
+                  }
                 />
-              }
-              content={<p>
-                {`${LanguageService.project.projectInfo.deleteProjectModalQuestion[language]} "${project.name}"?`}
-              </p>}
-              onOk={() => deleteProject(project.uuid)}
-              okText={LanguageService.modals.confirmModal.deleteButton[language]}
-              cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-            />
+              </Tooltip>
+            )}
+            dropdownMenuItems={[
+              {
+                dropdownSubMenuItems: [
+                  {
+                    id: "Make the project private/public",
+                    isPreventDefaultUsed: false,
+                    isVisible: isOwner,
+                    value: project.isPrivate
+                      ? LanguageService.project.projectInfo.makePublicButton[language]
+                      : LanguageService.project.projectInfo.makePrivateButton[language],
+
+                    /**
+                     * Toggle way privacy
+                     */
+                    onClick: () => updateProject({
+                      projectToUpdate: {
+                        uuid: project.uuid,
+                        isPrivate: !project.isPrivate,
+                      },
+
+                      /**
+                       * Update isPrivate property
+                       */
+                      setProject: () => project.updateIsPrivate(!project.isPrivate),
+                    }),
+                  },
+                  {
+                    id: "Delete the project",
+                    isPreventDefaultUsed: true,
+                    value: renderDeleteProjectDropdownItem,
+                    isVisible: isOwner,
+                  },
+                ],
+              },
+            ]}
+          />
           }
         </HorizontalContainer>
 
