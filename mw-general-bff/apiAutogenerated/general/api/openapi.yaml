@@ -1066,23 +1066,6 @@ paths:
       tags:
       - problem
       x-codegen-request-body-name: request
-  /project/{projectId}:
-    delete:
-      operationId: delete-project
-      parameters:
-      - description: project id
-        in: path
-        name: projectId
-        required: true
-        schema:
-          type: string
-      responses:
-        "204":
-          content: {}
-          description: No Content
-      summary: Delete project by id
-      tags:
-      - project
   /projects:
     post:
       operationId: create-project
@@ -1105,6 +1088,22 @@ paths:
       - project
       x-codegen-request-body-name: request
   /projects/{projectId}:
+    delete:
+      operationId: delete-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete project by id
+      tags:
+      - project
     get:
       operationId: get-project
       parameters:

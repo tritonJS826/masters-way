@@ -254,7 +254,7 @@ func (a *ProjectAPIService) DeleteProjectExecute(r ApiDeleteProjectRequest) (*ht
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/project/{projectId}"
+	localVarPath := localBasePath + "/projects/{projectId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectId"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -317,7 +317,7 @@ func (a *ProjectAPIService) DeleteProjectStreamExecute(r ApiDeleteProjectRequest
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/project/{projectId}"
+	localVarPath := localBasePath + "/projects/{projectId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"projectId"+"}", url.PathEscape(parameterValueToString(r.projectId, "projectId")), -1)
 
 	localVarHeaderParams := make(map[string]string)

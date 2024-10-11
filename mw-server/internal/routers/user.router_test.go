@@ -395,6 +395,7 @@ func TestGetUserById(t *testing.T) {
 					UserIds: []string{
 						"1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
 						"7cdb041b-4574-4f7b-a500-c53e74c72e94",
+						"c31384a6-b811-4a1f-befa-95dd53e3f4b9",
 					},
 				},
 			},

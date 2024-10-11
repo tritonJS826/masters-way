@@ -42,7 +42,7 @@ SELECT
         '{}'
     )::VARCHAR[] AS user_uuids
 FROM projects
-WHERE projects.uuid = @project_uuid;
+WHERE projects.uuid = @project_uuid AND projects.is_deleted = FALSE;
 
 -- name: GetProjectsByUserID :many
 SELECT
@@ -62,7 +62,7 @@ WHERE projects.uuid IN (
     SELECT project_uuid
     FROM users_projects
     WHERE users_projects.user_uuid = @user_uuid
-);
+) AND projects.is_deleted = FALSE;
 
 -- name: UpdateProject :one
 UPDATE projects

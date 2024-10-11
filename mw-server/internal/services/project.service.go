@@ -131,7 +131,7 @@ func (ps *ProjectService) GetProjectByID(ctx context.Context, projectID string) 
 	}, nil
 }
 
-func (ps *ProjectService) DeleteProjectById(ctx context.Context, projectID string) error {
+func (ps *ProjectService) DeleteProjectByID(ctx context.Context, projectID string) error {
 	updateProjectParams := db.UpdateProjectParams{
 		Name:        pgtype.Text{},
 		IsPrivate:   pgtype.Bool{},

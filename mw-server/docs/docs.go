@@ -1664,35 +1664,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/project/{projectId}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "project"
-                ],
-                "summary": "Delete project by id",
-                "operationId": "delete-project",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "project id",
-                        "name": "projectId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
         "/projects": {
             "post": {
                 "consumes": [
@@ -1755,6 +1726,33 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Delete project by id",
+                "operationId": "delete-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },

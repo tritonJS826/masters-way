@@ -2404,25 +2404,6 @@ paths:
       summary: Update problem by UUID
       tags:
       - problem
-  /project/{projectId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-project
-      parameters:
-      - description: project id
-        in: path
-        name: projectId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete project by id
-      tags:
-      - project
   /projects:
     post:
       consumes:
@@ -2446,6 +2427,24 @@ paths:
       tags:
       - project
   /projects/{projectId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete project by id
+      tags:
+      - project
     get:
       consumes:
       - application/json

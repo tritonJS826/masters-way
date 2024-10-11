@@ -5,7 +5,7 @@ All URIs are relative to */api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateProject**](ProjectAPI.md#CreateProject) | **Post** /projects | Create a new project
-[**DeleteProject**](ProjectAPI.md#DeleteProject) | **Delete** /project/{projectId} | Delete project by id
+[**DeleteProject**](ProjectAPI.md#DeleteProject) | **Delete** /projects/{projectId} | Delete project by id
 [**GetProject**](ProjectAPI.md#GetProject) | **Get** /projects/{projectId} | Get project by id
 [**UpdateProject**](ProjectAPI.md#UpdateProject) | **Patch** /projects/{projectId} | Update project by id
 
