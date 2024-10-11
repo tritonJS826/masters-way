@@ -118,9 +118,9 @@
   },
   "userActions": {
     "projectManagement": {
-      "ru": "Управление проектами",
-      "en": "Project management",
-      "ua": "Управління проектами"
+      "ru": "Проекты",
+      "en": "Projects",
+      "ua": "Проекти"
     },
     "addToProject": {
       "ru": "Добавить в проект",

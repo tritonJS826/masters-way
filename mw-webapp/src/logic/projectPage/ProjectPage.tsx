@@ -170,7 +170,7 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
             contentClassName={styles.wayActionMenu}
             trigger={(
               <Tooltip
-                content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                content={LanguageService.project.projectInfo.projectActionsTooltip[language]}
                 position={PositionTooltip.LEFT}
               >
                 <Button
