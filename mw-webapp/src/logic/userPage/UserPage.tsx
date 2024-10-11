@@ -123,6 +123,7 @@ enum DefaultCollections {
 const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   view: View.Card,
+  isProjectsOpened: false,
 };
 
 /**
@@ -189,6 +190,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
 
+  // Const [isProjectsOpened, setIsProjectsOpened] = useState<boolean>(false);
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
     defaultValue: DefaultCollections.OWN,
@@ -425,7 +427,14 @@ export const UserPage = observer((props: UserPageProps) => {
           </VerticalContainer>
         ),
       },
-      value: "Tab 1",
+      value: "Collections",
+
+      /**
+       * Save projects tab as closed
+       */
+      onCLick: () => {
+        updateUserPageSettings({isProjectsOpened: false});
+      },
     },
     {
       id: "1",
@@ -463,7 +472,14 @@ export const UserPage = observer((props: UserPageProps) => {
             </HorizontalContainer>
           </VerticalContainer>),
       },
-      value: "Tab 2",
+      value: "Projects",
+
+      /**
+       * Save projects tab as opened
+       */
+      onCLick: () => {
+        updateUserPageSettings({isProjectsOpened: true});
+      },
     },
   ];
 
@@ -947,8 +963,12 @@ export const UserPage = observer((props: UserPageProps) => {
         </HorizontalGridContainer>
       </VerticalContainer>
 
-      <Tab tabList={tabList} />
+      <Tab
+        tabList={tabList}
+        defaultValue={userPageSettings.isProjectsOpened ? "Projects" : "Collections"}
+      />
 
+      {!userPageSettings.isProjectsOpened &&
       <BaseWaysTable
         key={currentCollection.uuid}
         // This check need to translate default collections and don't translate custom collections
@@ -972,6 +992,8 @@ export const UserPage = observer((props: UserPageProps) => {
         setView={(view: View) => updateUserPageSettings({view})}
         isPageOwner={isPageOwner}
       />
+      }
+
       {isPageOwner && !deviceId &&
         <Modal
           cy={{dataCyContent: {dataCyOverlay: userPersonalDataAccessIds.surveyOverlay}}}

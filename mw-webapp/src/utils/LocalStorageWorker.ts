@@ -173,6 +173,11 @@ export type UserPageSettings = {
    * Settled view
    */
   view: View;
+
+  /**
+   * If tab with Projects opened - true
+   */
+  isProjectsOpened: boolean;
 }
 
 export type ProjectPageSettings = {
