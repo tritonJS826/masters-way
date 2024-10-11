@@ -145,7 +145,7 @@ $labelMaxWidthBlock: 650px;
 }
 
 .horizontalContainer {
-  align-items: flex-start;
+  align-items: center;
   gap: $gapExtraSmall;
 }
 
@@ -169,11 +169,11 @@ $labelMaxWidthBlock: 650px;
 .disabled {
   cursor: default;
 
-  &:hover {
+  &:hover:enabled {
     background-color: var(--secondaryBgBtnColor);
   }
 
-  &:active {
+  &:active:enabled {
     border: none;
     background-color: var(--secondaryBgBtnColor);
     color: var(--primaryTextColor);

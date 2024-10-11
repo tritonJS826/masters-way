@@ -535,7 +535,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 src={userPageOwner.imageUrl}
                 size={AvatarSize.LARGE}
               />
-              {!isPageOwner &&
+              {!isPageOwner && user &&
               <Button
                 onClick={async () => {
                   const chatParticipantsIds = chatList.flatMap((chatPreview) =>
@@ -670,7 +670,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
                   >
                     <Button
-                      className={clsx(styles.userActionsIcon, {[styles.disabled]: !user})}
+                      className={clsx(styles.userActionsIcon, {[styles.disable]: !user})}
                       value={`${getIsUserInFavorites(user, userPageOwner)
                         ? Symbols.STAR
                         : Symbols.OUTLINED_STAR
@@ -744,7 +744,7 @@ export const UserPage = observer((props: UserPageProps) => {
               </HorizontalContainer>
 
               <VerticalContainer className={styles.userDescriptionSection}>
-                <HorizontalContainer>
+                <HorizontalContainer className={styles.userAboutTitleBlock}>
                   <Infotip content={LanguageService.user.infotip.aboutUser[language]} />
                   <Title
                     level={HeadingLevel.h3}
@@ -827,14 +827,12 @@ export const UserPage = observer((props: UserPageProps) => {
 
           <VerticalContainer className={styles.userSkillsAndSocialBlock}>
             <HorizontalContainer className={styles.skillsTitleBlock}>
-              <HorizontalContainer>
-                <Infotip content={LanguageService.user.infotip.skills[language]} />
-                <Title
-                  level={HeadingLevel.h2}
-                  text={LanguageService.user.personalInfo.skills[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
+              <Infotip content={LanguageService.user.infotip.skills[language]} />
+              <Title
+                level={HeadingLevel.h2}
+                text={LanguageService.user.personalInfo.skills[language]}
+                placeholder=""
+              />
               {isPageOwner && (
                 <Modal
                   isOpen={isAddUserTagModalOpen}
@@ -909,14 +907,12 @@ export const UserPage = observer((props: UserPageProps) => {
               {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
             </HorizontalContainer>
             <HorizontalContainer className={styles.supportTitleBlock}>
-              <HorizontalContainer>
-                <Infotip content={LanguageService.user.infotip.support[language]} />
-                <Title
-                  level={HeadingLevel.h2}
-                  text={LanguageService.user.personalInfo.support[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
+              <Infotip content={LanguageService.user.infotip.support[language]} />
+              <Title
+                level={HeadingLevel.h2}
+                text={LanguageService.user.personalInfo.support[language]}
+                placeholder=""
+              />
             </HorizontalContainer>
             <HorizontalContainer className={styles.supportBlock}>
               {user &&
