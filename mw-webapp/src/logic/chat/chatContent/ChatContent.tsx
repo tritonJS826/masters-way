@@ -104,8 +104,8 @@ export const ChatContent = observer(() => {
   const sendMessage = async (params: createMessageInGroupParams) => {
     const trimmedMessage = params.message.trim();
     const isValidMessage = trimmedMessage !== "";
-    setInputDisabled(true);
     if (isValidMessage && activeChatStore) {
+      setInputDisabled(true);
       try {
         await ChatDAL.createMessageInRoom({
           message: params.message,
