@@ -155,15 +155,11 @@ func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 // @Produce  json
 // @Param projectId path string true "project id"
 // @Success 204
-// @Router /project/{projectId} [delete]
+// @Router /projects/{projectId} [delete]
 func (pc *ProjectController) DeleteProject(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 
-	_, err := pc.projectService.UpdateProject(ctx, &services.UpdateProjectParams{
-		ID:        projectID,
-		Name:      nil,
-		IsPrivate: nil,
-	})
+	err := pc.projectService.DeleteProjectByID(ctx, projectID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

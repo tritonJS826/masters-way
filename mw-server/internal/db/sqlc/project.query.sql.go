@@ -82,7 +82,7 @@ SELECT
         '{}'
     )::VARCHAR[] AS user_uuids
 FROM projects
-WHERE projects.uuid = $1
+WHERE projects.uuid = $1 AND projects.is_deleted = FALSE
 `
 
 type GetProjectByIDRow struct {
@@ -126,7 +126,7 @@ WHERE projects.uuid IN (
     SELECT project_uuid
     FROM users_projects
     WHERE users_projects.user_uuid = $1
-)
+) AND projects.is_deleted = FALSE
 `
 
 type GetProjectsByUserIDRow struct {
