@@ -1,0 +1,15 @@
+@import "src/styles/variables";
+
+.tabContent {
+  width: 100%;
+  padding-top: $paddingMedium;
+  gap: 0;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
+}
+
+.active {
+  background-color: var(--generalPrimaryColor);
+}

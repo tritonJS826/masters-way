@@ -1,0 +1,30 @@
+@import "src/styles/variables";
+
+.supportModalTrigger {
+  position: fixed;
+  z-index: $supportModalButton;
+  right: 0;
+  bottom: calc(11 * $marginBig);
+  display: flex;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: $paddingBig $paddingMedium;
+  border: $primaryBorder solid var(--secondaryStrokeColor);
+  border-radius: $primaryBorderRadius;
+  background-color: var(--generalPrimaryColor);
+  color: var(--secondaryTextColor);
+  font-size: $fontSizeTitleBig;
+  font-weight: $fontWeightBold;
+
+  &:hover {
+    background-color: var(--quaternaryBgColor);
+    cursor: pointer;
+  }
+}
+
+.modalContent {
+  z-index: $supportModalContent;
+  width: 100%;
+}
