@@ -28,7 +28,6 @@ import {User, UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell.module.scss";
 
 /**
@@ -194,7 +193,7 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                     cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                     onOk={() => deleteComment(comment.uuid)}
                     confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
-                    "${renderMarkdown(comment.description)}"?`}
+                    "${comment.description}"?`}
                   />
                   : (
                     <div className={styles.trashReservation} />
