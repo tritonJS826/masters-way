@@ -41,7 +41,6 @@ import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDay
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
-import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/ReportsTablePlansCell.module.scss";
 
@@ -378,7 +377,7 @@ export const ReportsTablePlansCell = observer((props: ReportsTablePlansCellProps
                     cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                     onOk={() => deletePlan(plan.uuid)}
                     confirmContent={`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
-                    "${renderMarkdown(plan.description)}"?`}
+                    "${plan.description}"?`}
                   />
                   : (
                     <div className={styles.trashReservation} />

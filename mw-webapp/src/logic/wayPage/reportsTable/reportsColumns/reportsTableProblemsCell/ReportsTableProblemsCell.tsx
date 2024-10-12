@@ -33,7 +33,6 @@ import {User, UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell.module.scss";
 
 /**
@@ -265,7 +264,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                   cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                   onOk={() => deleteProblem(problem.uuid)}
                   confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteProblemQuestion[language]}
-                    "${renderMarkdown(problem.description)}"?`}
+                    "${problem.description}"?`}
                 />
                 : (
                   <div className={styles.trashReservation} />
