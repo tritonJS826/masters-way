@@ -1,4 +1,4 @@
-import {HTMLInputTypeAttribute, useState} from "react";
+import {HTMLInputTypeAttribute, useEffect, useState} from "react";
 import clsx from "clsx";
 import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 import {InputMode} from "src/component/input/InputMode";
@@ -116,6 +116,13 @@ interface InputProps<T extends string | number> {
  */
 export const Input = <T extends string | number>(props: InputProps<T>) => {
   const [text, setText] = useState<T>(props.value);
+
+  /**
+   * Clear input after sending
+   */
+  useEffect(() => {
+    setText(props.value);
+  }, [props.value]);
 
   /**
    * Event handler for the input change event

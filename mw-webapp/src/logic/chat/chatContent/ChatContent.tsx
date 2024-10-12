@@ -39,6 +39,7 @@ export const ChatContent = observer(() => {
   const {isChatOpen, addUnreadMessageToAmount} = chatStore;
 
   const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(null);
+  const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -103,20 +104,33 @@ export const ChatContent = observer(() => {
   const sendMessage = async (params: createMessageInGroupParams) => {
     const trimmedMessage = params.message.trim();
     const isValidMessage = trimmedMessage !== "";
-    if (isValidMessage) {
+    if (isValidMessage && activeChatStore) {
+      setInputDisabled(true);
       try {
         await ChatDAL.createMessageInRoom({
           message: params.message,
           roomId: params.roomId,
         });
-        activeChatStore?.setMessage("");
+        activeChatStore.setMessage("");
       } catch (error) {
         displayNotification({
           text: "The message was not sent. Check your Internet connection.",
           type: NotificationType.ERROR,
         });
       }
+    } else {
+
+      /**
+       * Send error notification when activeChatStore is null
+       */
+      if (!activeChatStore) {
+        displayNotification({
+          text: "Active chat is not exist.",
+          type: NotificationType.ERROR,
+        });
+      }
     }
+    setInputDisabled(false);
   };
 
   /**
@@ -357,6 +371,7 @@ export const ChatContent = observer(() => {
               onChange={activeChatStore.setMessage}
               placeholder={LanguageService.common.chat.messagePlaceholder[language]}
               typeInput={InputType.Border}
+              disabled={isInputDisabled}
               onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
                 if (event.key === KeySymbols.ENTER) {
                   sendMessage({
