@@ -7,6 +7,7 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ChatModal} from "src/logic/chat/Chat";
 import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
+import {SupportModal} from "src/logic/supportModal/SupportModal";
 
 /**
  * Layout
@@ -27,6 +28,8 @@ export const Layout = observer(() => {
         setTheme={setTheme}
         dataCy={headerAccessIds.header}
       />
+
+      <SupportModal />
 
       {user &&
         <ChatModal />

@@ -1,0 +1,27 @@
+@import "src/styles/variables";
+
+.supportTopicsItem {
+  width: $minWidthBlock;
+  padding: $paddingSmall;
+  border-top: 0;
+  border-right: 1px solid var(--primaryStrokeColor);
+  border-bottom: 1px solid var(--primaryStrokeColor);
+  border-left: 1px solid var(--primaryStrokeColor);
+  cursor: pointer;
+
+  &:first-child {
+    border-top: 1px solid var(--primaryStrokeColor);
+  }
+
+  &:hover {
+    background-color: var(--primaryBgColor);
+  }
+
+  @media (max-width: $mediaWidthMobileBig) {
+    width: 100%;
+  }
+}
+
+.active {
+  background: red;
+}

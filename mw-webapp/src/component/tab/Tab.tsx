@@ -1,5 +1,6 @@
 // Import {useEffect, useState} from "react";
 import * as Tabs from "@radix-ui/react-tabs";
+import clsx from "clsx";
 // Import clsx from "clsx";
 import styles from "src/component/tab/Tab.module.scss";
 
@@ -91,6 +92,16 @@ interface TabProps {
    */
   defaultValue?: string;
 
+  /**
+   * Is tabs vertical
+   */
+  isVertical?: boolean;
+
+  /**
+   * Sdf
+   */
+  className?: string;
+
 }
 
 /**
@@ -99,11 +110,11 @@ interface TabProps {
 export const Tab = (props: TabProps) => {
   return (
     <Tabs.Root
-      className={styles.tabsRoot}
+      className={clsx(styles.tabsRoot, styles.className)}
       defaultValue={props.defaultValue ?? props.tabList[0].value}
     >
       <Tabs.List
-        className={styles.tabsList}
+        className={clsx(styles.tabsList, props.isVertical && styles.vertical)}
         aria-label="User's collections and projects"
       >
         {props.tabList.map((tab) => (

@@ -68,5 +68,68 @@
       "en": "Confirm",
       "ua": "Підтвердити"
     }
+  },
+  "supportModal": {
+    "students": {
+      "title": {
+        "ru": "Студенты",
+        "en": "Students",
+        "ua": "Студенти"
+      },
+      "selfLearningWithAI": {
+        "ru": "Самообучение с помощью ИИ",
+        "en": "Self Learning with AI",
+        "ua": "Самонавчання з ШІ"
+      },
+      "howToFindMentor": {
+        "ru": "Как найти ментора",
+        "en": "How to find a mentor",
+        "ua": "Як знайти наставника"
+      },
+      "howToLeadWay": {
+        "ru": "Как вести Путь и что такое Путь, если я учусь у ментора",
+        "en": "How to lead the Way and what is the Way if I study with a mentor",
+        "ua": "Як вести Шлях і що таке Шлях, якщо я навчаюсь у ментора"
+      }
+    }, 
+    "mentors": {
+      "title": {
+        "ru": "Менторы",
+        "en": "Mentors",
+        "ua": "Менторы"
+      },
+      "howToManageStudents": {
+        "ru": "Как управлять студентами, коллекциями",
+        "en": "How to manage students, collections",
+        "ua": "Як керувати студентами, колекціями"
+      },
+      "howToManageTeam": {
+        "ru": "Как управлять командой",
+        "en": "How to manage a team",
+        "ua": "Як керувати командою"
+      },
+      "projectsManagement": {
+        "ru": "Управление проектами",
+        "en": "Projects management",
+        "ua": "Управління проектами"
+      }
+    }, 
+    "business": {
+      "title": {
+        "ru": "Бизнес",
+        "en": "Business",
+        "ua": "Business"
+      },
+      "howToManageTeam": {
+        "ru": "Как управлять командой",
+        "en": "How to manage a team",
+        "ua": "Як керувати командою"
+      },
+      "projectsManagement": {
+        "ru": "Управление проектами",
+        "en": "Projects management",
+        "ua": "Управління проектами"
+      }
+    }
   }
 }
