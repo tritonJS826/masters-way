@@ -10,7 +10,6 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/samber/lo"
 )
 
 type IProjectRepository interface {
@@ -132,24 +131,7 @@ func (ps *ProjectService) GetProjectByID(ctx context.Context, projectID string) 
 	}, nil
 }
 
-func (ps *ProjectService) GetProjectsByUserID(ctx context.Context, userID string) ([]schemas.ProjectPlainResponse, error) {
-	projectsRaw, err := ps.projectRepository.GetProjectsByUserID(ctx, pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true})
-	if err != nil {
-		return nil, err
-	}
-
-	projects := lo.Map(projectsRaw, func(projectRaw db.GetProjectsByUserIDRow, _ int) schemas.ProjectPlainResponse {
-		return schemas.ProjectPlainResponse{
-			ID:        util.ConvertPgUUIDToUUID(projectRaw.Uuid).String(),
-			Name:      projectRaw.Name,
-			IsPrivate: projectRaw.IsPrivate,
-		}
-	})
-
-	return projects, nil
-}
-
-func (ps *ProjectService) DeleteProjectById(ctx context.Context, projectID string) error {
+func (ps *ProjectService) DeleteProjectByID(ctx context.Context, projectID string) error {
 	updateProjectParams := db.UpdateProjectParams{
 		Name:        pgtype.Text{},
 		IsPrivate:   pgtype.Bool{},

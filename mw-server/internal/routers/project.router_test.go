@@ -148,52 +148,25 @@ func TestUpdateProject(t *testing.T) {
 						},
 					},
 				},
+				{
+					Uuid:             "c31384a6-b811-4a1f-befa-95dd53e3f4b9",
+					Name:             "Celine Vinje",
+					Email:            "celine.vinje@example.com",
+					Description:      "A brief description about Celine.",
+					CreatedAt:        "2024-07-04T03:00:00.000Z",
+					ImageUrl:         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAF",
+					IsMentor:         false,
+					FavoriteForUsers: 0,
+					FavoriteWays:     0,
+					MentoringWays:    0,
+					OwnWays:          0,
+					Tags:             []openapiGeneral.SchemasUserTagResponse{},
+				},
 			},
 			Ways: []openapiGeneral.SchemasWayPlainResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		assert.Equal(t, expectedData, project)
-	})
-}
-
-func TestGetProjectsByUserID(t *testing.T) {
-	newConfig, err := config.LoadConfig("../../")
-	if err != nil {
-		t.Fatalf("Failed to load config: %v", err)
-	}
-
-	generalApi := openapi.MakeGeneralAPIClient(&newConfig)
-	_, err = generalApi.DevAPI.DevResetDbGet(context.Background()).Execute()
-	if err != nil {
-		t.Fatalf("Failed to reset db: %v", err)
-	}
-
-	userID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
-
-	t.Run("should get projects by user id successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
-		if err != nil {
-			t.Fatalf("Failed to generate JWT: %v", err)
-		}
-
-		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		projects, response, err := generalApi.ProjectAPI.GetProjectsByUserId(ctx, userID).Execute()
-		if err != nil {
-			t.Fatalf("Failed to get projects by user id: %v", err)
-		}
-
-		expectedData := &openapiGeneral.SchemasGetProjectsByUserIDResponse{
-			Projects: []openapiGeneral.SchemasProjectPlainResponse{
-				{
-					Id:        "afb02990-7e8c-4353-a724-ea8de5fb6cfc",
-					Name:      "Project 1",
-					IsPrivate: false,
-				},
-			},
-		}
-
-		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData, projects)
 	})
 }

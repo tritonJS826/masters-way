@@ -50,6 +50,11 @@ export interface CapabilitiesType {
    * Composite way deps
    */
   compositeWayDeps: number;
+
+  /**
+   * Mentoring support
+   */
+  mentorSupport: number;
 }
 
 /**
@@ -104,24 +109,24 @@ interface PricePlanProps {
  */
 export const PricePlan = observer((props: PricePlanProps) => {
   const {language} = languageStore;
-  const capabilities: CapabilitiesType = props.pricePlan.capabilities;
-  const capabilitiesList: string[] = Object.keys(capabilities);
-  const cardTheme = props.pricePlan.theme;
+  const capabilitiesList = Object.keys(props.pricePlan.capabilities) as (
+    keyof typeof props.pricePlan.capabilities
+  )[];
 
   return (
-    <VerticalContainer className={clsx(styles.pricePlanCard, styles[cardTheme])}>
+    <VerticalContainer className={clsx(styles.pricePlanCard, styles[props.pricePlan.theme])}>
       <Title
         level={HeadingLevel.h2}
         text={props.pricePlan.name}
         placeholder=""
       />
       <VerticalContainer className={styles.planCapabilities}>
-        {capabilitiesList.map((capability: string) => (
+        {capabilitiesList.map((capability) => (
           <CapabilityItem
             key={capability}
-            isAvailable={capabilities[capability as keyof typeof capabilities] !== 0}
-            value={LanguageService.pricing.planCard[capability as keyof typeof capabilities][language]}
-            amount={capabilities[capability as keyof typeof capabilities]}
+            isAvailable={props.pricePlan.capabilities[capability] !== 0}
+            value={LanguageService.pricing.planCard[capability][language]}
+            amount={props.pricePlan.capabilities[capability]}
           />
         ))
         }
@@ -135,8 +140,14 @@ export const PricePlan = observer((props: PricePlanProps) => {
           {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
         </span>
         }
+        {props.pricePlan.period === "year" &&
+        <span className={styles.measurement}>
+          {` (35$/${LanguageService.pricing.month[language]})`}
+        </span>
+        }
       </p>
       }
+
       <Modal
         trigger={
           <Button

@@ -112,7 +112,7 @@ $disableOpacity: 0.7;
 $blurLight: 2px;
 
 @mixin regularContainer {
-  padding: $paddingLarge;
+  padding: $paddingMedium;
   border-radius: 20px;
   background-color: var(--secondaryBgColor);
 

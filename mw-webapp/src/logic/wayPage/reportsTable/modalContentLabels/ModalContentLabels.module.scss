@@ -38,6 +38,7 @@ $descriptionMinWidthMobile: 150px;
 }
 
 .label {
+  width: fit-content;
   max-width: $labelMinWidth;
 }
 

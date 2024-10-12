@@ -18,13 +18,17 @@
   justify-content: space-between;
 }
 
+.projectActionsIcon {
+  height: 38px;
+  padding: 0 $paddingSmall;
+}
+
 .participantsBlock {
   gap: $gapSmall;
 }
 
 .participants {
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .participant {

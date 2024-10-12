@@ -146,29 +146,6 @@ func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Get Projects by userID handler
-// @Summary Get projects by user id
-// @Description
-// @Tags project
-// @ID get-projects-by-user-id
-// @Accept json
-// @Produce json
-// @Param userId path string true "user id"
-// @Success 200 {object} schemas.GetProjectsByUserIDResponse
-// @Router /projects/user/{userId} [get]
-func (pc *ProjectController) GetProjectsByUserID(ctx *gin.Context) {
-	userID := ctx.Param("userId")
-
-	projects, err := pc.projectService.GetProjectsByUserID(ctx, userID)
-	util.HandleErrorGin(ctx, err)
-
-	response := schemas.GetProjectsByUserIDResponse{
-		Projects: projects,
-	}
-
-	ctx.JSON(http.StatusOK, response)
-}
-
 // Delete Project handler
 // @Summary Delete project by id
 // @Description
@@ -178,15 +155,11 @@ func (pc *ProjectController) GetProjectsByUserID(ctx *gin.Context) {
 // @Produce  json
 // @Param projectId path string true "project id"
 // @Success 204
-// @Router /project/{projectId} [delete]
+// @Router /projects/{projectId} [delete]
 func (pc *ProjectController) DeleteProject(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 
-	_, err := pc.projectService.UpdateProject(ctx, &services.UpdateProjectParams{
-		ID:        projectID,
-		Name:      nil,
-		IsPrivate: nil,
-	})
+	err := pc.projectService.DeleteProjectByID(ctx, projectID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

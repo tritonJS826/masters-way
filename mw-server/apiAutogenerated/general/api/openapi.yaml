@@ -1066,23 +1066,6 @@ paths:
       tags:
       - problem
       x-codegen-request-body-name: request
-  /project/{projectId}:
-    delete:
-      operationId: delete-project
-      parameters:
-      - description: project id
-        in: path
-        name: projectId
-        required: true
-        schema:
-          type: string
-      responses:
-        "204":
-          content: {}
-          description: No Content
-      summary: Delete project by id
-      tags:
-      - project
   /projects:
     post:
       operationId: create-project
@@ -1104,27 +1087,23 @@ paths:
       tags:
       - project
       x-codegen-request-body-name: request
-  /projects/user/{userId}:
-    get:
-      operationId: get-projects-by-user-id
+  /projects/{projectId}:
+    delete:
+      operationId: delete-project
       parameters:
-      - description: user id
+      - description: project id
         in: path
-        name: userId
+        name: projectId
         required: true
         schema:
           type: string
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.GetProjectsByUserIDResponse'
-          description: OK
-      summary: Get projects by user id
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete project by id
       tags:
       - project
-  /projects/{projectId}:
     get:
       operationId: get-project
       parameters:
@@ -2858,23 +2837,6 @@ components:
       - size
       - ways
       type: object
-    schemas.GetProjectsByUserIDResponse:
-      example:
-        projects:
-        - name: name
-          id: id
-          isPrivate: true
-        - name: name
-          id: id
-          isPrivate: true
-      properties:
-        projects:
-          items:
-            $ref: '#/components/schemas/schemas.ProjectPlainResponse'
-          type: array
-      required:
-      - projects
-      type: object
     schemas.GetUsersByIDsResponse:
       example:
         imageUrl: imageUrl
@@ -3500,6 +3462,9 @@ components:
       type: object
     schemas.ProjectPlainResponse:
       example:
+        userIds:
+        - userIds
+        - userIds
         name: name
         id: id
         isPrivate: true
@@ -3510,10 +3475,15 @@ components:
           type: boolean
         name:
           type: string
+        userIds:
+          items:
+            type: string
+          type: array
       required:
       - id
       - isPrivate
       - name
+      - userIds
       type: object
     schemas.ProjectPopulatedResponse:
       example:
@@ -3872,6 +3842,19 @@ components:
       type: object
     schemas.UserPopulatedResponse:
       example:
+        projects:
+        - userIds:
+          - userIds
+          - userIds
+          name: name
+          id: id
+          isPrivate: true
+        - userIds:
+          - userIds
+          - userIds
+          name: name
+          id: id
+          isPrivate: true
         defaultWayCollections:
           own:
             createdAt: createdAt
@@ -4510,6 +4493,10 @@ components:
           type: boolean
         name:
           type: string
+        projects:
+          items:
+            $ref: '#/components/schemas/schemas.ProjectPlainResponse'
+          type: array
         tags:
           items:
             $ref: '#/components/schemas/schemas.UserTagResponse'
@@ -4531,6 +4518,7 @@ components:
       - imageUrl
       - isMentor
       - name
+      - projects
       - tags
       - uuid
       - wayRequests

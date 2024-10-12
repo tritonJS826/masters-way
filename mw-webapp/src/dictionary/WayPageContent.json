@@ -83,14 +83,14 @@
       "ua": "Перейти до оригіналу"
     },
     "compositeWayManagement": {
-      "ru": "Управление композитными путями",
-      "en": "Composite way management",
-      "ua": "Управління композитними шляхами"
+      "ru": "Композитные пути",
+      "en": "Composite ways",
+      "ua": "Композитні шляхи"
     },
     "collectionManagement": {
-      "ru": "Управление коллекциями",
-      "en": "Collection management",
-      "ua": "Управління колекціями"
+      "ru": "Коллекции",
+      "en": "Collections",
+      "ua": "Колекціі"
     },
     "addToCompositeWay": {
       "ru": "Добавить в композитный путь",

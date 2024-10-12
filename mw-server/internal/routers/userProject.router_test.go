@@ -26,9 +26,9 @@ func TestCreateUserProject(t *testing.T) {
 		t.Fatalf("Failed to reset db: %v", err)
 	}
 
-	projectOwnerID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
-	userID := "5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e"
 	projectID := "afb02990-7e8c-4353-a724-ea8de5fb6cfc"
+	projectOwnerID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
+	firstNewProjectUserID := "5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e"
 
 	t.Run("should create a UserProject successfully and check if the user is added to the project", func(t *testing.T) {
 		token, err := auth.GenerateJWT(projectOwnerID, newConfig.SecretSessionKey)
@@ -38,7 +38,7 @@ func TestCreateUserProject(t *testing.T) {
 
 		request := openapiGeneral.SchemasCreateUserProjectPayload{
 			ProjectId: projectID,
-			UserId:    userID,
+			UserId:    firstNewProjectUserID,
 		}
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
@@ -57,7 +57,7 @@ func TestCreateUserProject(t *testing.T) {
 		assert.Equal(t, http.StatusOK, projectResponse.StatusCode)
 
 		_, found := lo.Find(project.Users, func(user openapiGeneral.SchemasUserPlainResponseWithInfo) bool {
-			return user.Uuid == userID
+			return user.Uuid == firstNewProjectUserID
 		})
 
 		assert.True(t, found, "User with the given ID was not found in the project")
@@ -76,11 +76,12 @@ func TestDeleteUserProject(t *testing.T) {
 		t.Fatalf("Failed to reset db: %v", err)
 	}
 
-	projectOwnerID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
-	userID := "7cdb041b-4574-4f7b-a500-c53e74c72e94"
 	projectID := "afb02990-7e8c-4353-a724-ea8de5fb6cfc"
+	projectOwnerID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
 
 	t.Run("should delete a UserProject successfully and check if the user is deleted from the project", func(t *testing.T) {
+		userID := "7cdb041b-4574-4f7b-a500-c53e74c72e94"
+
 		token, err := auth.GenerateJWT(projectOwnerID, newConfig.SecretSessionKey)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
@@ -105,6 +106,6 @@ func TestDeleteUserProject(t *testing.T) {
 			return user.Uuid == userID
 		})
 
-		assert.True(t, !found, "User with the given ID was not deleted from the project")
+		assert.True(t, !found, "The owner of the project was unable to remove a user from the project.")
 	})
 }

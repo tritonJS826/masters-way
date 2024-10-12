@@ -31,6 +31,7 @@ import {SearchIcon} from "src/assets/icons/SearchIcon";
 import {SettingsIcon} from "src/assets/icons/SettingsIcon";
 import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
+import {SunsetIcon} from "src/assets/icons/SunsetIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
 import {UploadIcon} from "src/assets/icons/UploadIcon";
@@ -239,6 +240,11 @@ export const IconDictionary = {
    * Download icon
    */
   DownloadIcon: (params: IconProps) => <DownloadIcon {...params} />,
+
+  /**
+   * Sunset icon
+   */
+  SunsetIcon: (params: IconProps) => <SunsetIcon {...params} />,
 
 };
 

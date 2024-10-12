@@ -31,6 +31,7 @@ type SchemasUserPopulatedResponse struct {
 	ImageUrl string `json:"imageUrl"`
 	IsMentor bool `json:"isMentor"`
 	Name string `json:"name"`
+	Projects []SchemasProjectPlainResponse `json:"projects"`
 	Tags []SchemasUserTagResponse `json:"tags"`
 	Uuid string `json:"uuid"`
 	WayRequests []SchemasWayPlainResponse `json:"wayRequests"`
@@ -42,7 +43,7 @@ type _SchemasUserPopulatedResponse SchemasUserPopulatedResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSchemasUserPopulatedResponse(createdAt string, customWayCollections []SchemasWayCollectionPopulatedResponse, defaultWayCollections SchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []SchemasUserPlainResponse, imageUrl string, isMentor bool, name string, tags []SchemasUserTagResponse, uuid string, wayRequests []SchemasWayPlainResponse) *SchemasUserPopulatedResponse {
+func NewSchemasUserPopulatedResponse(createdAt string, customWayCollections []SchemasWayCollectionPopulatedResponse, defaultWayCollections SchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []SchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []SchemasProjectPlainResponse, tags []SchemasUserTagResponse, uuid string, wayRequests []SchemasWayPlainResponse) *SchemasUserPopulatedResponse {
 	this := SchemasUserPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.CustomWayCollections = customWayCollections
@@ -54,6 +55,7 @@ func NewSchemasUserPopulatedResponse(createdAt string, customWayCollections []Sc
 	this.ImageUrl = imageUrl
 	this.IsMentor = isMentor
 	this.Name = name
+	this.Projects = projects
 	this.Tags = tags
 	this.Uuid = uuid
 	this.WayRequests = wayRequests
@@ -308,6 +310,30 @@ func (o *SchemasUserPopulatedResponse) SetName(v string) {
 	o.Name = v
 }
 
+// GetProjects returns the Projects field value
+func (o *SchemasUserPopulatedResponse) GetProjects() []SchemasProjectPlainResponse {
+	if o == nil {
+		var ret []SchemasProjectPlainResponse
+		return ret
+	}
+
+	return o.Projects
+}
+
+// GetProjectsOk returns a tuple with the Projects field value
+// and a boolean to check if the value has been set.
+func (o *SchemasUserPopulatedResponse) GetProjectsOk() ([]SchemasProjectPlainResponse, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Projects, true
+}
+
+// SetProjects sets field value
+func (o *SchemasUserPopulatedResponse) SetProjects(v []SchemasProjectPlainResponse) {
+	o.Projects = v
+}
+
 // GetTags returns the Tags field value
 func (o *SchemasUserPopulatedResponse) GetTags() []SchemasUserTagResponse {
 	if o == nil {
@@ -400,6 +426,7 @@ func (o SchemasUserPopulatedResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["imageUrl"] = o.ImageUrl
 	toSerialize["isMentor"] = o.IsMentor
 	toSerialize["name"] = o.Name
+	toSerialize["projects"] = o.Projects
 	toSerialize["tags"] = o.Tags
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["wayRequests"] = o.WayRequests
@@ -421,6 +448,7 @@ func (o *SchemasUserPopulatedResponse) UnmarshalJSON(data []byte) (err error) {
 		"imageUrl",
 		"isMentor",
 		"name",
+		"projects",
 		"tags",
 		"uuid",
 		"wayRequests",

@@ -8,6 +8,7 @@ import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal.module.scss";
 
 /**
@@ -57,7 +58,7 @@ export const EstimateIssueAiModal = (props: EstimateIssueAiModalProps) => {
     )
     : (
       <VerticalContainer className={styles.estimatedMessageModal}>
-        {generatedEstimateMessage}
+        {renderMarkdown(generatedEstimateMessage)}
         <HorizontalContainer>
           <DialogClose asChild>
             <Button

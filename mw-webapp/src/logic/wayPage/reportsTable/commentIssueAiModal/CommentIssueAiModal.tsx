@@ -8,6 +8,7 @@ import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reportsTable/commentIssueAiModal/CommentIssueAiModal.module.scss";
 
 /**
@@ -61,7 +62,7 @@ export const CommentIssueAiModal = (props: CommentIssueAiModalProps) => {
     )
     : (
       <VerticalContainer className={styles.commentIssueAiModal}>
-        {generatedComment}
+        {renderMarkdown(generatedComment)}
         <HorizontalContainer>
           <DialogClose asChild>
             <Button

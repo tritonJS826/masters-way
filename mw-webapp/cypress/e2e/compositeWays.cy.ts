@@ -32,7 +32,7 @@ describe('IsAuth Composite ways scope tests', () => {
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite way management`)
+            .contains(`Composite ways`)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
@@ -41,7 +41,7 @@ describe('IsAuth Composite ways scope tests', () => {
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite way management`)
+            .contains(`Composite ways`)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
@@ -93,7 +93,7 @@ describe('IsAuth Composite ways scope tests', () => {
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
       wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
       wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite way management`)
+            .contains(`Composite ways`)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
@@ -102,7 +102,7 @@ describe('IsAuth Composite ways scope tests', () => {
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
       wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
       wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite way management`)
+            .contains(`Composite ways`)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)

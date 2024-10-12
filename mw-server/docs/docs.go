@@ -1664,35 +1664,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/project/{projectId}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "project"
-                ],
-                "summary": "Delete project by id",
-                "operationId": "delete-project",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "project id",
-                        "name": "projectId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
         "/projects": {
             "post": {
                 "consumes": [
@@ -1727,38 +1698,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/projects/user/{userId}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "project"
-                ],
-                "summary": "Get projects by user id",
-                "operationId": "get-projects-by-user-id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user id",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.GetProjectsByUserIDResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/projects/{projectId}": {
             "get": {
                 "consumes": [
@@ -1787,6 +1726,33 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
                         }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Delete project by id",
+                "operationId": "delete-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     }
                 }
             },
@@ -3479,20 +3445,6 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetProjectsByUserIDResponse": {
-            "type": "object",
-            "required": [
-                "projects"
-            ],
-            "properties": {
-                "projects": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/schemas.ProjectPlainResponse"
-                    }
-                }
-            }
-        },
         "schemas.GetUsersByIDsResponse": {
             "type": "object",
             "required": [
@@ -3851,7 +3803,8 @@ const docTemplate = `{
             "required": [
                 "id",
                 "isPrivate",
-                "name"
+                "name",
+                "userIds"
             ],
             "properties": {
                 "id": {
@@ -3862,6 +3815,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "userIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -4166,6 +4125,7 @@ const docTemplate = `{
                 "imageUrl",
                 "isMentor",
                 "name",
+                "projects",
                 "tags",
                 "uuid",
                 "wayRequests"
@@ -4209,6 +4169,12 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ProjectPlainResponse"
+                    }
                 },
                 "tags": {
                     "type": "array",

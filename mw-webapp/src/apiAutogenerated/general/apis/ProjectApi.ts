@@ -16,15 +16,12 @@
 import * as runtime from '../runtime';
 import type {
   SchemasCreateProjectPayload,
-  SchemasGetProjectsByUserIDResponse,
   SchemasProjectPopulatedResponse,
   SchemasUpdateProjectPayload,
 } from '../models/index';
 import {
     SchemasCreateProjectPayloadFromJSON,
     SchemasCreateProjectPayloadToJSON,
-    SchemasGetProjectsByUserIDResponseFromJSON,
-    SchemasGetProjectsByUserIDResponseToJSON,
     SchemasProjectPopulatedResponseFromJSON,
     SchemasProjectPopulatedResponseToJSON,
     SchemasUpdateProjectPayloadFromJSON,
@@ -41,10 +38,6 @@ export interface DeleteProjectRequest {
 
 export interface GetProjectRequest {
     projectId: string;
-}
-
-export interface GetProjectsByUserIdRequest {
-    userId: string;
 }
 
 export interface UpdateProjectRequest {
@@ -103,7 +96,7 @@ export class ProjectApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/project/{projectId}`.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/projects/{projectId}`.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters.projectId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -146,36 +139,6 @@ export class ProjectApi extends runtime.BaseAPI {
      */
     async getProject(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectPopulatedResponse> {
         const response = await this.getProjectRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Get projects by user id
-     */
-    async getProjectsByUserIdRaw(requestParameters: GetProjectsByUserIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetProjectsByUserIDResponse>> {
-        if (requestParameters.userId === null || requestParameters.userId === undefined) {
-            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getProjectsByUserId.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/projects/user/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetProjectsByUserIDResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Get projects by user id
-     */
-    async getProjectsByUserId(requestParameters: GetProjectsByUserIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetProjectsByUserIDResponse> {
-        const response = await this.getProjectsByUserIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

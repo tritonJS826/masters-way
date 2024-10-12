@@ -44,7 +44,6 @@ export * from './SchemasGenerateMetricsPayload';
 export * from './SchemasGenerateMetricsResponse';
 export * from './SchemasGetAllUsersResponse';
 export * from './SchemasGetAllWaysResponse';
-export * from './SchemasGetProjectsByUserIDResponse';
 export * from './SchemasGetUsersByIDsResponse';
 export * from './SchemasGoogleToken';
 export * from './SchemasJobDonePopulatedResponse';

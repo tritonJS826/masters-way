@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+	"mwserver/internal/auth"
 	"mwserver/internal/schemas"
 	"mwserver/internal/services"
 	"mwserver/pkg/util"
@@ -10,12 +12,12 @@ import (
 )
 
 type UserProjectController struct {
-	limitService       *services.LimitService
+	permissionService  *services.PermissionService
 	userProjectService *services.UserProjectService
 }
 
-func NewUserProjectController(limitService *services.LimitService, userProjectService *services.UserProjectService) *UserProjectController {
-	return &UserProjectController{limitService, userProjectService}
+func NewUserProjectController(permissionService *services.PermissionService, userProjectService *services.UserProjectService) *UserProjectController {
+	return &UserProjectController{permissionService, userProjectService}
 }
 
 // Create userProject handler
@@ -36,15 +38,17 @@ func (uc *UserProjectController) CreateUsersProject(ctx *gin.Context) {
 		return
 	}
 
-	// err := uc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
-	// 	LimitName: services.MaxUserProjects,
-	// 	UserID:    payload.OwnerUuid,
-	// })
-	// util.HandleErrorGin(ctx, err)
+	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	currentUserID := currentUserIDRaw.(string)
 
-	// permissions
+	isUserHavingPermissionsForProject, err := uc.permissionService.GetIsUserHavingPermissionsForProject(ctx, currentUserID, payload.ProjectID)
+	util.HandleErrorGin(ctx, err)
 
-	err := uc.userProjectService.CreateUserProject(ctx, payload.UserID, payload.ProjectID)
+	if !isUserHavingPermissionsForProject {
+		util.HandleErrorGin(ctx, fmt.Errorf("no rights for adding user"))
+	}
+
+	err = uc.userProjectService.CreateUserProject(ctx, payload.UserID, payload.ProjectID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
@@ -65,9 +69,17 @@ func (uc *UserProjectController) DeleteUserProject(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 	userID := ctx.Param("userId")
 
-	// permissions
+	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	currentUserID := currentUserIDRaw.(string)
 
-	err := uc.userProjectService.DeleteUserProject(ctx, userID, projectID)
+	isUserHavingPermissionsForProject, err := uc.permissionService.GetIsUserHavingPermissionsForProject(ctx, currentUserID, projectID)
+	util.HandleErrorGin(ctx, err)
+
+	if !isUserHavingPermissionsForProject {
+		util.HandleErrorGin(ctx, fmt.Errorf("no rights for deleting user"))
+	}
+
+	err = uc.userProjectService.DeleteUserProject(ctx, userID, projectID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

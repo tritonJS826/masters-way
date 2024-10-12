@@ -1,8 +1,6 @@
 import {wayToWayDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/wayToWayDTOPartial";
 import {projectDTOToProject} from "src/dataAccessLogic/DTOToPreviewConverter/projectDTOToProject";
-import {projectPlainDTOToProjectPreview} from "src/dataAccessLogic/DTOToPreviewConverter/projectPlainDTOToProjectPreview";
 import {Project} from "src/model/businessModel/Project";
-import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {ProjectService} from "src/service/ProjectService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
@@ -52,17 +50,6 @@ export class ProjectDAL {
     const project = projectDTOToProject(projectDTO);
 
     return project;
-  }
-
-  /**
-   * Get projects by user UUID
-   */
-  public static async getProjectsByUserUuid(userId: string): Promise<ProjectPreview[]> {
-    const projectsDTO = await ProjectService.getProjectsByUserId({userId});
-
-    const projects = projectsDTO.projects.map(projectPlainDTOToProjectPreview);
-
-    return projects;
   }
 
   /**

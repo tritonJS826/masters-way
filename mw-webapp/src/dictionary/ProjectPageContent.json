@@ -1,5 +1,20 @@
 {
   "projectInfo": {
+    "projectActionsTooltip": {
+      "ru": "Доступные действия",
+      "en": "Project actions",
+      "ua": "Доступні дії"
+    },
+    "makePrivateButton": {
+      "ru": "Сделать проект приватным",
+      "en": "Make the project private",
+      "ua": "Зробити проект приватним"
+    },
+    "makePublicButton": {
+      "ru": "Сделать проект публичным",
+      "en": "Make the project public",
+      "ua": "Зробити проект публічним"
+    },
     "deleteProject": {
       "ru": "Удалить проект",
       "en": "Delete project",

@@ -39,6 +39,7 @@ export const testUserPreview = new User({
   wayRequests: [],
   imageUrl: "",
   isMentor: false,
+  projects: [],
   customWayCollections: [],
   defaultWayCollections: {
     own: ownWayCollection,

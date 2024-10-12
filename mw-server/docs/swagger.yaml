@@ -553,15 +553,6 @@ definitions:
     - size
     - ways
     type: object
-  schemas.GetProjectsByUserIDResponse:
-    properties:
-      projects:
-        items:
-          $ref: '#/definitions/schemas.ProjectPlainResponse'
-        type: array
-    required:
-    - projects
-    type: object
   schemas.GetUsersByIDsResponse:
     properties:
       imageUrl:
@@ -819,10 +810,15 @@ definitions:
         type: boolean
       name:
         type: string
+      userIds:
+        items:
+          type: string
+        type: array
     required:
     - id
     - isPrivate
     - name
+    - userIds
     type: object
   schemas.ProjectPopulatedResponse:
     properties:
@@ -1047,6 +1043,10 @@ definitions:
         type: boolean
       name:
         type: string
+      projects:
+        items:
+          $ref: '#/definitions/schemas.ProjectPlainResponse'
+        type: array
       tags:
         items:
           $ref: '#/definitions/schemas.UserTagResponse'
@@ -1068,6 +1068,7 @@ definitions:
     - imageUrl
     - isMentor
     - name
+    - projects
     - tags
     - uuid
     - wayRequests
@@ -2403,25 +2404,6 @@ paths:
       summary: Update problem by UUID
       tags:
       - problem
-  /project/{projectId}:
-    delete:
-      consumes:
-      - application/json
-      operationId: delete-project
-      parameters:
-      - description: project id
-        in: path
-        name: projectId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "204":
-          description: No Content
-      summary: Delete project by id
-      tags:
-      - project
   /projects:
     post:
       consumes:
@@ -2445,6 +2427,24 @@ paths:
       tags:
       - project
   /projects/{projectId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete project by id
+      tags:
+      - project
     get:
       consumes:
       - application/json
@@ -2489,27 +2489,6 @@ paths:
           schema:
             $ref: '#/definitions/schemas.ProjectPopulatedResponse'
       summary: Update project by id
-      tags:
-      - project
-  /projects/user/{userId}:
-    get:
-      consumes:
-      - application/json
-      operationId: get-projects-by-user-id
-      parameters:
-      - description: user id
-        in: path
-        name: userId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/schemas.GetProjectsByUserIDResponse'
-      summary: Get projects by user id
       tags:
       - project
   /toUserMentoringRequests:

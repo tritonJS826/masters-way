@@ -33,6 +33,7 @@
 
 .filterView {
   width: 100%;
+  // flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   @include regularContainer;
@@ -40,4 +41,10 @@
 
 .filterViewLeftPanel {
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.filterBlock {
+  flex-grow: 1;
+  justify-content: flex-start;
 }

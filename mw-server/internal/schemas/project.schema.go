@@ -15,9 +15,10 @@ type GetProjectsByUserIDResponse struct {
 }
 
 type ProjectPlainResponse struct {
-	ID        string `json:"id" validate:"required"`
-	Name      string `json:"name" validate:"required"`
-	IsPrivate bool   `json:"isPrivate" validate:"required"`
+	ID        string   `json:"id" validate:"required"`
+	Name      string   `json:"name" validate:"required"`
+	IsPrivate bool     `json:"isPrivate" validate:"required"`
+	UserIDs   []string `json:"userIds" validate:"required"`
 }
 
 type ProjectPopulatedResponse struct {

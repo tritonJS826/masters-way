@@ -86,6 +86,11 @@ interface TabProps {
    */
   tabList: TabItemProps[];
 
+  /**
+   * Tab's default value
+   */
+  defaultValue?: string;
+
 }
 
 /**
@@ -95,7 +100,7 @@ export const Tab = (props: TabProps) => {
   return (
     <Tabs.Root
       className={styles.tabsRoot}
-      defaultValue={props.tabList[0].value}
+      defaultValue={props.defaultValue ?? props.tabList[0].value}
     >
       <Tabs.List
         className={styles.tabsList}

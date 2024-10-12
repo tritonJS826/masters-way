@@ -49,11 +49,13 @@
   gap: $gapMedium;
 }
 
-.nameSection {
+.userTitleBlock {
+  align-items: baseline;
   justify-content: space-between;
 }
 
 .ownerName {
+  flex: 1;
   input {
     height: $heightH2;
   }
@@ -85,7 +87,7 @@
 
 .skillsTitleBlock,
 .supportTitleBlock {
-  align-items: center;
+  align-items: baseline;
   gap: $gapMedium;
 }
 
@@ -119,14 +121,14 @@
   padding: 0;
 }
 
-.disabled {
+.disable {
   cursor: default;
 
-  &:hover {
+  &:hover:enabled {
     background-color: var(--secondaryBgBtnColor);
   }
 
-  &:active {
+  &:active:enabled {
     border: none;
     background-color: var(--secondaryBgBtnColor);
     color: var(--primaryTextColor);
@@ -139,4 +141,22 @@
 
 .findMentorIcon {
   stroke: var(--secondaryStrokeColor);
+}
+
+.userActionMenu {
+  left: -150px;
+  width: 200px;
+}
+
+.userActionButtons {
+  align-items: start;
+}
+
+.userActionsIcon {
+  height: 38px;
+  padding: 0 $paddingSmall;
+}
+
+.userAboutTitleBlock {
+  align-items: baseline;
 }

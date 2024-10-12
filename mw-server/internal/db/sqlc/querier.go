@@ -75,6 +75,7 @@ type Querier interface {
 	GetIsUserHavingPermissionsForJobDone(ctx context.Context, arg GetIsUserHavingPermissionsForJobDoneParams) (GetIsUserHavingPermissionsForJobDoneRow, error)
 	GetIsUserHavingPermissionsForPlan(ctx context.Context, arg GetIsUserHavingPermissionsForPlanParams) (GetIsUserHavingPermissionsForPlanRow, error)
 	GetIsUserHavingPermissionsForProblem(ctx context.Context, arg GetIsUserHavingPermissionsForProblemParams) (GetIsUserHavingPermissionsForProblemRow, error)
+	GetIsUserProjectOwner(ctx context.Context, arg GetIsUserProjectOwnerParams) (bool, error)
 	GetJobDonesByDayReportUuids(ctx context.Context, dayReportUuids []pgtype.UUID) ([]GetJobDonesByDayReportUuidsRow, error)
 	GetJobTagByUuid(ctx context.Context, jobTagUuid pgtype.UUID) (JobTag, error)
 	GetLabelStatistics(ctx context.Context, arg GetLabelStatisticsParams) ([]GetLabelStatisticsRow, error)

@@ -127,9 +127,8 @@ Class | Method | HTTP request | Description
 *ProblemAPI* | [**DeleteProblem**](docs/ProblemAPI.md#deleteproblem) | **Delete** /problems/{problemId} | Delete problem by UUID
 *ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
 *ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
-*ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /project/{projectId} | Delete project by id
+*ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /projects/{projectId} | Delete project by id
 *ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
-*ProjectAPI* | [**GetProjectsByUserId**](docs/ProjectAPI.md#getprojectsbyuserid) | **Get** /projects/user/{userId} | Get projects by user id
 *ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
 *ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
 *ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
@@ -202,7 +201,6 @@ Class | Method | HTTP request | Description
  - [SchemasGenerateMetricsResponse](docs/SchemasGenerateMetricsResponse.md)
  - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
  - [SchemasGetAllWaysResponse](docs/SchemasGetAllWaysResponse.md)
- - [SchemasGetProjectsByUserIDResponse](docs/SchemasGetProjectsByUserIDResponse.md)
  - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
  - [SchemasGoogleToken](docs/SchemasGoogleToken.md)
  - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)

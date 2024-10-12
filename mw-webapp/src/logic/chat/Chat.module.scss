@@ -1,5 +1,4 @@
 @import "src/styles/variables";
-@import "src/styles/mixins";
 
 .chatTrigger {
   position: fixed;
@@ -24,114 +23,9 @@
   }
 }
 
-.chatIcon {
-  margin-bottom: $marginMedium;
-}
-
 .chatTriggerText {
   text-wrap: nowrap;
   transform: rotate(90deg);
-}
-
-.chatHeader {
-  align-items: center;
-  justify-content: space-between;
-  padding: $paddingBig;
-  background-color: var(--generalPrimaryColor);
-  color: var(--secondaryTextColor);
-}
-
-.removeButton {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.removeIcon {
-  stroke: var(--secondaryIconBgColor);
-}
-
-// Modal
-$modal-close-btn-top: 10px;
-$modal-close-btn-right: 10px;
-$modal-close-btn-size: 25px;
-$modal-animation-time: 150ms;
-
-.chatOverlay {
-  position: fixed;
-  z-index: $modalZIndex;
-  animation: overlayShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: var(--overlayBgColor);
-  inset: 0;
-}
-
-.chatContent {
-  position: fixed;
-  z-index: $modalZIndex;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  width: 70%;
-  height: 100vh;
-  border: $primaryBorder solid var(--primaryStrokeColor);
-  animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.chatContainer {
-  width: 100%;
-}
-
-.chatContactsMessages {
-  flex: 1;
-  gap: 0;
-  overflow-y: auto;
-}
-
-.chatList {
-  flex: 1;
-  padding: $paddingMedium $paddingLarge;
-  background-color: var(--tertiaryBgColor);
-  gap: $gapMedium;
-  overflow-y: auto;
-}
-
-.chatListHide {
-  @media (max-width: $mediaWidthMobileBig) {
-    display: none;
-  }
-}
-
-.chatBlock {
-  flex: 2;
-  background-color: var(--secondaryBgColor);
-
-  @media (max-width: $mediaWidthMobileBig) {
-    display: none;
-  }
-}
-
-.chatBlockOpen {
-  display: flex;
-}
-
-.chatInfo {
-  justify-content: space-between;
-  padding: $paddingMedium;
-  border-bottom: $primaryBorder solid var(--primaryStrokeColor);
-}
-
-.messageList {
-  flex: 1;
-  padding: $paddingMedium;
-  gap: $gapMedium;
-  overflow-y: auto;
-}
-
-.messageInputBlock {
-  justify-content: space-between;
-  padding: $paddingBig;
-  background-color: var(--tertiaryBgColor);
-  gap: $gapExtraBig;
 }
 
 .unreadMessagesAmount {
@@ -147,10 +41,6 @@ $modal-animation-time: 150ms;
   border-radius: $tagBorderRadius;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
-}
-.messages {
-  display: flex;
-  flex-direction: column;
 }
 
 .indicator {
@@ -191,17 +81,5 @@ $modal-animation-time: 150ms;
   to {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-@media (max-width: $mediaWidthTabletBig) {
-  .chatContent {
-    width: 100%;
-  }
-}
-
-@media (max-width: $mediaWidthTablet) {
-  .chatItem {
-    max-width: 50px;
   }
 }

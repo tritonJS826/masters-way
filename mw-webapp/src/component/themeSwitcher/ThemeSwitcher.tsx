@@ -11,12 +11,18 @@ import styles from "src/component/themeSwitcher/ThemeSwitcher.module.scss";
  * Calculate next switch theme
  */
 export const getNextSwitchTheme = (theme: Theme) => {
-
-  return theme === Theme.DARK
-    ? Theme.LIGHT
-    : theme === Theme.LIGHT
-      ? Theme.OBSIDIAN
-      : Theme.DARK;
+  switch (theme) {
+    case Theme.DARK: {
+      return Theme.LIGHT;
+    }
+    case Theme.LIGHT: {
+      return Theme.OBSIDIAN;
+    }
+    case Theme.OBSIDIAN:
+    default: {
+      return Theme.DARK;
+    }
+  }
 };
 
 /**
@@ -31,8 +37,8 @@ const getDescriptionForTheme = (theme: Theme, language: Language): string =>
 const getIconForNextTheme = (theme: Theme) => theme === Theme.DARK
   ? "SunIcon"
   : theme === Theme.LIGHT
-    ? "GiftIcon"
-    : "MoonIcon";
+    ? "MoonIcon"
+    : "SunsetIcon";
 
 /**
  * ThemeSwitcher props

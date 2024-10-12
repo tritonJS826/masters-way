@@ -19,7 +19,6 @@ func newProjectRouter(projectController *controllers.ProjectController, config *
 
 func (mr *projectRouter) setProjectRouter(rg *gin.RouterGroup) {
 	router := rg.Group("projects", auth.AuthMiddleware(mr.config))
-	router.GET("/user/:userId", mr.projectController.GetProjectsByUserID)
 	router.GET("/:projectId", mr.projectController.GetProjectByID)
 	router.POST("", mr.projectController.CreateProject)
 	router.PATCH("/:projectId", mr.projectController.UpdateProject)

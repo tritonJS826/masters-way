@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import clsx from "clsx";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
@@ -7,6 +8,8 @@ import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
+import {Dropdown} from "src/component/dropdown/Dropdown";
+import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Form} from "src/component/form/Form";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -30,6 +33,7 @@ import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
 import {SurveyDAL, SurveyFindMentorParams, SurveyUserIntroParams} from "src/dataAccessLogic/SurveyDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
+import {UserProjectDAL} from "src/dataAccessLogic/UserProjectDAL";
 import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {deviceStore} from "src/globalStore/DeviceStore";
@@ -119,6 +123,7 @@ enum DefaultCollections {
 const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   view: View.Card,
+  isProjectsOpened: false,
 };
 
 /**
@@ -184,8 +189,8 @@ export const UserPage = observer((props: UserPageProps) => {
   const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
   const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
-  const [projects, setProjects] = useState<ProjectPreview[]>([]);
 
+  // Const [isProjectsOpened, setIsProjectsOpened] = useState<boolean>(false);
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
     defaultValue: DefaultCollections.OWN,
@@ -269,9 +274,13 @@ export const UserPage = observer((props: UserPageProps) => {
       name: newProjectName,
     });
 
-    const updatedProjects = projects.concat(newProject);
+    const newProjectPreview = new ProjectPreview({
+      ...newProject,
+      userIds: newProject.users.map(participant => participant.uuid),
+    });
 
-    setProjects(updatedProjects);
+    user.addProject(newProjectPreview);
+    userPageOwner.addProject(newProjectPreview);
   };
 
   /**
@@ -324,14 +333,6 @@ export const UserPage = observer((props: UserPageProps) => {
   const notificationFavoriteUsers = getIsUserInFavorites(user, userPageOwner)
     ? LanguageService.user.notifications.userRemovedFromFavorites[language]
     : LanguageService.user.notifications.userAddedToFavorites[language];
-
-  /**
-   * Load user's projects
-   */
-  const loadUserProjects = async () => {
-    const projectsPreview = await ProjectDAL.getProjectsByUserUuid(userPageOwner.uuid);
-    setProjects(projectsPreview);
-  };
 
   const tabList: TabItemProps[] = [
     {
@@ -426,7 +427,14 @@ export const UserPage = observer((props: UserPageProps) => {
           </VerticalContainer>
         ),
       },
-      value: "Tab 1",
+      value: "Collections",
+
+      /**
+       * Save projects tab as closed
+       */
+      onCLick: () => {
+        updateUserPageSettings({isProjectsOpened: false});
+      },
     },
     {
       id: "1",
@@ -439,7 +447,7 @@ export const UserPage = observer((props: UserPageProps) => {
         value: (
           <VerticalContainer className={styles.tabsSectionContainer}>
             <HorizontalContainer className={styles.tabsSection}>
-              {projects.map(project => (
+              {userPageOwner.projects.map(project => (
                 <ProjectCard
                   key={project.uuid}
                   projectTitle={project.name}
@@ -464,16 +472,57 @@ export const UserPage = observer((props: UserPageProps) => {
             </HorizontalContainer>
           </VerticalContainer>),
       },
-      value: "Tab 2",
+      value: "Projects",
 
       /**
-       * Load user's projects
+       * Save projects tab as opened
        */
       onCLick: () => {
-        loadUserProjects();
+        updateUserPageSettings({isProjectsOpened: true});
       },
     },
   ];
+
+  /**
+   * Add to or remove user from project
+   */
+  const toggleUserInProject = async (isUserInProject: boolean, projectUuid: string, userUuid: string) => {
+    if (!user) {
+      throw new Error("User is not exist");
+    }
+
+    isUserInProject
+      ? await UserProjectDAL.deleteUser({projectId: projectUuid, userId: userUuid})
+      : await UserProjectDAL.addUser({projectId: projectUuid, userId: userUuid});
+    displayNotification({
+      text: `${LanguageService.user.notifications.projectUpdated[language]}`,
+      type: NotificationType.INFO,
+    });
+
+    isUserInProject
+      ? user.deleteWayFromComposite(projectUuid, userUuid)
+      : user.addWayToComposite(projectUuid, userUuid);
+  };
+
+  const renderAddToProjectDropdownItems: DropdownMenuItemType[] = (user?.projects ?? [])
+    .map((project) => {
+      const isUserInProject = project.userIds.includes(userPageOwner.uuid);
+
+      return {
+        id: project.uuid,
+        isPreventDefaultUsed: false,
+        value: isUserInProject
+          ? `${LanguageService.user.userActions.deleteFromProject[language]} ${project.name}`
+          : `${LanguageService.user.userActions.addToProject[language]} ${project.name}`,
+
+        /**
+         * Add to or remove user from project
+         */
+        onClick: () => {
+          toggleUserInProject(isUserInProject, project.uuid, userPageOwner.uuid);
+        },
+      };
+    });
 
   return (
     <VerticalContainer className={styles.pageLayout}>
@@ -486,7 +535,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 src={userPageOwner.imageUrl}
                 size={AvatarSize.LARGE}
               />
-              {!isPageOwner &&
+              {!isPageOwner && user &&
               <Button
                 onClick={async () => {
                   const chatParticipantsIds = chatList.flatMap((chatPreview) =>
@@ -578,90 +627,124 @@ export const UserPage = observer((props: UserPageProps) => {
             </VerticalContainer>
 
             <VerticalContainer className={styles.nameEmailSection}>
-              <HorizontalContainer className={styles.nameSection}>
-                <HorizontalContainer>
-                  <Infotip content={LanguageService.user.infotip.userName[language]} />
+              <HorizontalContainer className={styles.userTitleBlock}>
+                <Infotip content={LanguageService.user.infotip.userName[language]} />
 
-                  <Title
-                    cy={
-                      {
-                        dataCyTitleContainer: userPersonalDataAccessIds.descriptionSection.nameDisplay,
-                        dataCyInput: userPersonalDataAccessIds.descriptionSection.nameInput,
-                      }
+                <Title
+                  cy={
+                    {
+                      dataCyTitleContainer: userPersonalDataAccessIds.descriptionSection.nameDisplay,
+                      dataCyInput: userPersonalDataAccessIds.descriptionSection.nameInput,
                     }
-                    level={HeadingLevel.h2}
-                    text={userPageOwner.name}
-                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                    onChangeFinish={async (name) => updateUser({
-                      userToUpdate: {
-                        uuid: userPageOwner.uuid,
-                        name,
-                      },
+                  }
+                  level={HeadingLevel.h2}
+                  text={userPageOwner.name}
+                  placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                  onChangeFinish={async (name) => updateUser({
+                    userToUpdate: {
+                      uuid: userPageOwner.uuid,
+                      name,
+                    },
 
-                      /**
-                       * Update user
-                       */
-                      setUser: () => {
-                        user && user.updateName(name);
-                        userPageOwner.updateName(name);
+                    /**
+                     * Update user
+                     */
+                    setUser: () => {
+                      user && user.updateName(name);
+                      userPageOwner.updateName(name);
+                    },
+                  })}
+                  isEditable={isPageOwner}
+                  validators={[
+                    minLengthValidator(MIN_LENGTH_USERNAME, LanguageService.user.notifications.userNameMinLength[language]),
+                    maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
+                  ]}
+                  className={styles.ownerName}
+
+                />
+
+                <HorizontalContainer className={styles.userActionButtons}>
+                  <Tooltip
+                    content={favoriteTooltipText}
+                    position={PositionTooltip.LEFT}
+
+                  >
+                    <Button
+                      className={clsx(styles.userActionsIcon, {[styles.disable]: !user})}
+                      value={`${getIsUserInFavorites(user, userPageOwner)
+                        ? Symbols.STAR
+                        : Symbols.OUTLINED_STAR
+                      }${Symbols.NO_BREAK_SPACE}${userPageOwner.favoriteForUserUuids.length}`}
+                      onClick={() => {
+                        if (!user) {
+                          return;
+                        }
+                        if (getIsUserInFavorites(user, userPageOwner)) {
+                          FavoriteUserDAL.deleteFavoriteUser({
+                            donorUserUuid: user.uuid,
+                            acceptorUserUuid: userPageOwner.uuid,
+                          });
+                          deleteUserFromFavorite(userPageOwner.uuid);
+                          deleteUserFromFavoriteForUser(user.uuid);
+                        } else {
+                          FavoriteUserDAL.createFavoriteUser({
+                            donorUserUuid: user.uuid,
+                            acceptorUserUuid: userPageOwner.uuid,
+                          });
+
+                          const newFavoriteUser = new UserPlain({...userPageOwner});
+                          addUserToFavorite(newFavoriteUser);
+                          addUserToFavoriteForUser(user.uuid);
+                        }
+
+                        displayNotification({
+                          text: notificationFavoriteUsers,
+                          type: NotificationType.INFO,
+                        });
+                      }}
+                      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                    />
+                  </Tooltip>
+
+                  {user &&
+                  <Dropdown
+                    contentClassName={styles.userActionMenu}
+                    trigger={(
+                      <Tooltip
+                        content={LanguageService.user.projects.projectActionsTooltip[language]}
+                        position={PositionTooltip.LEFT}
+                      >
+                        <Button
+                          className={styles.userActionsIcon}
+                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                          onClick={() => {}}
+                          icon={
+                            <Icon
+                              size={IconSize.MEDIUM}
+                              name={"MoreVertical"}
+                            />
+                          }
+                        />
+                      </Tooltip>
+                    )}
+
+                    dropdownMenuItems={[
+                      {
+                        subTrigger: <p>
+                          {LanguageService.user.userActions.projectManagement[language]}
+                        </p>,
+                        isVisible: !!user,
+                        dropdownSubMenuItems: renderAddToProjectDropdownItems,
                       },
-                    })}
-                    isEditable={isPageOwner}
-                    validators={[
-                      minLengthValidator(MIN_LENGTH_USERNAME, LanguageService.user.notifications.userNameMinLength[language]),
-                      maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
                     ]}
-                    className={styles.ownerName}
-
                   />
+                  }
                 </HorizontalContainer>
-
-                <Tooltip
-                  content={favoriteTooltipText}
-                  position={PositionTooltip.LEFT}
-
-                >
-                  <Button
-                    className={!user ? styles.disabled : ""}
-                    value={`${getIsUserInFavorites(user, userPageOwner)
-                      ? Symbols.STAR
-                      : Symbols.OUTLINED_STAR
-                    }${Symbols.NO_BREAK_SPACE}${userPageOwner.favoriteForUserUuids.length}`}
-                    onClick={() => {
-                      if (!user) {
-                        return;
-                      }
-                      if (getIsUserInFavorites(user, userPageOwner)) {
-                        FavoriteUserDAL.deleteFavoriteUser({
-                          donorUserUuid: user.uuid,
-                          acceptorUserUuid: userPageOwner.uuid,
-                        });
-                        deleteUserFromFavorite(userPageOwner.uuid);
-                        deleteUserFromFavoriteForUser(user.uuid);
-                      } else {
-                        FavoriteUserDAL.createFavoriteUser({
-                          donorUserUuid: user.uuid,
-                          acceptorUserUuid: userPageOwner.uuid,
-                        });
-
-                        const newFavoriteUser = new UserPlain({...userPageOwner});
-                        addUserToFavorite(newFavoriteUser);
-                        addUserToFavoriteForUser(user.uuid);
-                      }
-
-                      displayNotification({
-                        text: notificationFavoriteUsers,
-                        type: NotificationType.INFO,
-                      });
-                    }}
-                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                  />
-                </Tooltip>
 
               </HorizontalContainer>
 
               <VerticalContainer className={styles.userDescriptionSection}>
-                <HorizontalContainer>
+                <HorizontalContainer className={styles.userAboutTitleBlock}>
                   <Infotip content={LanguageService.user.infotip.aboutUser[language]} />
                   <Title
                     level={HeadingLevel.h3}
@@ -744,14 +827,12 @@ export const UserPage = observer((props: UserPageProps) => {
 
           <VerticalContainer className={styles.userSkillsAndSocialBlock}>
             <HorizontalContainer className={styles.skillsTitleBlock}>
-              <HorizontalContainer>
-                <Infotip content={LanguageService.user.infotip.skills[language]} />
-                <Title
-                  level={HeadingLevel.h2}
-                  text={LanguageService.user.personalInfo.skills[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
+              <Infotip content={LanguageService.user.infotip.skills[language]} />
+              <Title
+                level={HeadingLevel.h2}
+                text={LanguageService.user.personalInfo.skills[language]}
+                placeholder=""
+              />
               {isPageOwner && (
                 <Modal
                   isOpen={isAddUserTagModalOpen}
@@ -826,14 +907,12 @@ export const UserPage = observer((props: UserPageProps) => {
               {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
             </HorizontalContainer>
             <HorizontalContainer className={styles.supportTitleBlock}>
-              <HorizontalContainer>
-                <Infotip content={LanguageService.user.infotip.support[language]} />
-                <Title
-                  level={HeadingLevel.h2}
-                  text={LanguageService.user.personalInfo.support[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
+              <Infotip content={LanguageService.user.infotip.support[language]} />
+              <Title
+                level={HeadingLevel.h2}
+                text={LanguageService.user.personalInfo.support[language]}
+                placeholder=""
+              />
             </HorizontalContainer>
             <HorizontalContainer className={styles.supportBlock}>
               {user &&
@@ -880,8 +959,12 @@ export const UserPage = observer((props: UserPageProps) => {
         </HorizontalGridContainer>
       </VerticalContainer>
 
-      <Tab tabList={tabList} />
+      <Tab
+        tabList={tabList}
+        defaultValue={userPageSettings.isProjectsOpened ? "Projects" : "Collections"}
+      />
 
+      {!userPageSettings.isProjectsOpened &&
       <BaseWaysTable
         key={currentCollection.uuid}
         // This check need to translate default collections and don't translate custom collections
@@ -905,6 +988,8 @@ export const UserPage = observer((props: UserPageProps) => {
         setView={(view: View) => updateUserPageSettings({view})}
         isPageOwner={isPageOwner}
       />
+      }
+
       {isPageOwner && !deviceId &&
         <Modal
           cy={{dataCyContent: {dataCyOverlay: userPersonalDataAccessIds.surveyOverlay}}}

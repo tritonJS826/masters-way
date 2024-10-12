@@ -37,6 +37,12 @@ export interface SchemasProjectPlainResponse {
      * @memberof SchemasProjectPlainResponse
      */
     name: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof SchemasProjectPlainResponse
+     */
+    userIds: Array<string>;
 }
 
 /**
@@ -49,6 +55,7 @@ export function instanceOfSchemasProjectPlainResponse(
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "userIds" in value;
 
     return isInstance;
 }
@@ -69,6 +76,7 @@ export function SchemasProjectPlainResponseFromJSONTyped(
         'id': json['id'],
         'isPrivate': json['isPrivate'],
         'name': json['name'],
+        'userIds': json['userIds'],
     };
 }
 
@@ -85,6 +93,7 @@ export function SchemasProjectPlainResponseToJSON(value?: SchemasProjectPlainRes
         'id': value.id,
         'isPrivate': value.isPrivate,
         'name': value.name,
+        'userIds': value.userIds,
     };
 }
 
