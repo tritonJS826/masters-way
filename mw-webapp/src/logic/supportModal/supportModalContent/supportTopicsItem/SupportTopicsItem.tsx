@@ -1,4 +1,6 @@
 import clsx from "clsx";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import styles from "src/logic/supportModal/supportModalContent/supportTopicsItem/SupportTopicsItem.module.scss";
 
 /**
@@ -17,6 +19,11 @@ interface SupportTopicsItemProps {
   className?: string;
 
   /**
+   * If item is active - true
+   */
+  isActive: boolean;
+
+  /**
    * Callback triggered on click chat item
    */
   onClick?: () => void;
@@ -27,11 +34,24 @@ interface SupportTopicsItemProps {
  */
 export const SupportTopicsItem = (props: SupportTopicsItemProps) => {
   return (
-    <div
+    <HorizontalContainer
       onClick={props.onClick}
-      className={clsx(styles.supportTopicsItem, props.className)}
+      className={clsx(styles.supportTopicsItem, props.isActive && styles.active, props.className)}
     >
-      {props.title}
-    </div>
+      <div className={styles.topicText}>
+        {props.title}
+      </div>
+      {props.isActive
+        ? (
+          <Icon
+            name="ArrowRightIcon"
+            size={IconSize.SMALL}
+          />
+        )
+        : (
+          <div className={styles.topicIconEmpty} />
+        )
+      }
+    </HorizontalContainer>
   );
 };

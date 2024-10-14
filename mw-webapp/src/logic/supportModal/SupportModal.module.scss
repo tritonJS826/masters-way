@@ -26,5 +26,8 @@
 
 .modalContent {
   z-index: $supportModalContent;
-  width: 100%;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 95vw;
+  }
 }
