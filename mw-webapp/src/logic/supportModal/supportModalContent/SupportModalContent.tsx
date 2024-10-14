@@ -1,5 +1,4 @@
 import {useState} from "react";
-import clsx from "clsx";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Tab, TabItemProps} from "src/component/tab/Tab";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -7,16 +6,6 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {SupportTopicsItem} from "src/logic/supportModal/supportModalContent/supportTopicsItem/SupportTopicsItem";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/supportModal/supportModalContent/SupportModalContent.module.scss";
-
-const DEFAULT_SUPPORT_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const SELF_LEARNING_WITH_AI_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const HOW_TO_FIND_MENTOR_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const HOW_TO_LEAD_WAY_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const HOW_TO_MANAGE_STUDENTS_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const HOW_TO_MANAGE_TEAM_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const PROJECT_MANAGEMENT_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const HOW_TO_MANAGE_TEAM_BUSINESS_VIDEO_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9mFiC1A3gPaX";
-const PROJECT_MANAGEMENT_BUSINESS_VIDEO_URL = "https://www.youtube.com/embed/WrgBgDZVVMo?si=uXNrv1w6xRJpXMHc";
 
 /**
  * Support tab item params
@@ -44,56 +33,56 @@ interface SupportTabItem {
  */
 export const SupportModalContent = () => {
   const {language} = languageStore;
-  const [videoUrl, setVideoUrl] = useState<string>(DEFAULT_SUPPORT_VIDEO_URL);
-
   const studentsTabList: SupportTabItem[] = [
     {
       id: "0",
-      title: LanguageService.modals.supportModal.students.selfLearningWithAI[language],
-      url: SELF_LEARNING_WITH_AI_VIDEO_URL,
+      title: LanguageService.modals.supportModal.students.selfLearningWithAI.title[language],
+      url: LanguageService.modals.supportModal.students.selfLearningWithAI.videoUrl[language],
     },
     {
       id: "1",
-      title: LanguageService.modals.supportModal.students.howToFindMentor[language],
-      url: HOW_TO_FIND_MENTOR_VIDEO_URL,
+      title: LanguageService.modals.supportModal.students.howToFindMentor.title[language],
+      url: LanguageService.modals.supportModal.students.howToFindMentor.videoUrl[language],
     },
     {
       id: "2",
-      title: LanguageService.modals.supportModal.students.howToLeadWay[language],
-      url: HOW_TO_LEAD_WAY_VIDEO_URL,
+      title: LanguageService.modals.supportModal.students.howToLeadWay.title[language],
+      url: LanguageService.modals.supportModal.students.howToLeadWay.videoUrl[language],
     },
   ];
 
   const mentorsTabList: SupportTabItem[] = [
     {
       id: "0",
-      title: LanguageService.modals.supportModal.mentors.howToManageStudents[language],
-      url: HOW_TO_MANAGE_STUDENTS_VIDEO_URL,
+      title: LanguageService.modals.supportModal.mentors.howToManageStudents.title[language],
+      url: LanguageService.modals.supportModal.mentors.howToManageStudents.videoUrl[language],
     },
     {
       id: "1",
-      title: LanguageService.modals.supportModal.mentors.howToManageTeam[language],
-      url: HOW_TO_MANAGE_TEAM_VIDEO_URL,
+      title: LanguageService.modals.supportModal.mentors.howToManageTeam.title[language],
+      url: LanguageService.modals.supportModal.mentors.howToManageTeam.videoUrl[language],
     },
     {
       id: "2",
-      title: LanguageService.modals.supportModal.mentors.projectsManagement[language],
-      url: PROJECT_MANAGEMENT_VIDEO_URL,
+      title: LanguageService.modals.supportModal.mentors.projectsManagement.title[language],
+      url: LanguageService.modals.supportModal.mentors.projectsManagement.videoUrl[language],
     },
   ];
 
   const businessTabList: SupportTabItem[] = [
     {
       id: "0",
-      title: LanguageService.modals.supportModal.business.howToManageTeam[language],
-      url: HOW_TO_MANAGE_TEAM_BUSINESS_VIDEO_URL,
+      title: LanguageService.modals.supportModal.business.howToManageTeam.title[language],
+      url: LanguageService.modals.supportModal.business.howToManageTeam.videoUrl[language],
     },
     {
       id: "1",
-      title: LanguageService.modals.supportModal.business.projectsManagement[language],
-      url: PROJECT_MANAGEMENT_BUSINESS_VIDEO_URL,
+      title: LanguageService.modals.supportModal.business.projectsManagement.title[language],
+      url: LanguageService.modals.supportModal.business.projectsManagement.videoUrl[language],
     },
   ];
+
+  const [videoUrl, setVideoUrl] = useState<string>(studentsTabList[0].url);
 
   /**
    * Sdf
@@ -107,18 +96,19 @@ export const SupportModalContent = () => {
               key={tabItem.id}
               title={tabItem.title}
               onClick={() => setVideoUrl(tabItem.url)}
-              className={clsx(videoUrl === tabItem.url && styles.active)}
+              isActive={videoUrl === tabItem.url}
             />
           ))}
         </VerticalContainer>
         <iframe
-          width="100%"
+          width="700"
           height="400"
           src={videoUrl}
           title="Video onboarding"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen={true}
+          className={styles.video}
         />
       </HorizontalContainer>
     );
@@ -140,7 +130,7 @@ export const SupportModalContent = () => {
       /**
        * Callback triggered on tab click
        */
-      onCLick: () => setVideoUrl(HOW_TO_MANAGE_STUDENTS_VIDEO_URL),
+      onCLick: () => setVideoUrl(studentsTabList[0].url),
     },
     {
       id: "1",
@@ -157,7 +147,7 @@ export const SupportModalContent = () => {
       /**
        * Callback triggered on tab click
        */
-      onCLick: () => setVideoUrl(HOW_TO_MANAGE_TEAM_BUSINESS_VIDEO_URL),
+      onCLick: () => setVideoUrl(mentorsTabList[0].url),
     },
     {
       id: "2",
@@ -174,7 +164,7 @@ export const SupportModalContent = () => {
       /**
        * Callback triggered on tab click
        */
-      onCLick: () => setVideoUrl(HOW_TO_MANAGE_TEAM_BUSINESS_VIDEO_URL),
+      onCLick: () => setVideoUrl(businessTabList[0].url),
     },
   ];
 
