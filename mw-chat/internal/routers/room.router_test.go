@@ -70,7 +70,7 @@ func TestGetRoomById(t *testing.T) {
 					MessageReaders: []openapiChat.SchemasMessageReader{
 						{
 							UserId:   currentUserID,
-							ReadDate: "2024-08-09T01:05:00.000Z",
+							ReadDate: "2024-08-09T02:00:00.000Z",
 						},
 					},
 				},
@@ -87,7 +87,7 @@ func TestGetRoomById(t *testing.T) {
 					MessageReaders: []openapiChat.SchemasMessageReader{
 						{
 							UserId:   currentUserID,
-							ReadDate: "2024-08-09T01:05:00.000Z",
+							ReadDate: "2024-08-10T13:30:00.000Z",
 						},
 					},
 				},
@@ -148,17 +148,7 @@ func TestGetRooms(t *testing.T) {
 
 	roomCreatorID := "d63d2f89-6412-4324-8587-7061bf02dca4"
 
-	user1ID := "c31384a6-b811-4a1f-befa-95dd53e3f4b9"
-	room1ID := "e57fc491-69f7-4b30-9979-78879c8873bf"
-
-	user2ID := "5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e"
-	room2ID := "897f4a0f-fe31-4036-8358-f89a19c9bda6"
-
-	user3ID := "8a3d1fe1-42da-499a-bf64-248297fd670a"
-	room3ID := "85f610df-9f86-4c55-8ee1-02485d42defb"
-
 	t.Run("should return list of private rooms successfully", func(t *testing.T) {
-
 		token, err := auth.GenerateTestJWT(newConfig.SecretSessionKey, roomCreatorID)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
@@ -176,7 +166,7 @@ func TestGetRooms(t *testing.T) {
 			Size: 3,
 			Rooms: []openapiChat.SchemasRoomPreviewResponse{
 				{
-					RoomId:    room1ID,
+					RoomId:    "85f610df-9f86-4c55-8ee1-02485d42defb",
 					Name:      nullableName,
 					RoomType:  string(db.RoomTypePrivate),
 					IsBlocked: false,
@@ -186,13 +176,13 @@ func TestGetRooms(t *testing.T) {
 							Role:   "regular",
 						},
 						{
-							UserId: user1ID,
+							UserId: "8a3d1fe1-42da-499a-bf64-248297fd670a",
 							Role:   "regular",
 						},
 					},
 				},
 				{
-					RoomId:    room2ID,
+					RoomId:    "897f4a0f-fe31-4036-8358-f89a19c9bda6",
 					Name:      nullableName,
 					RoomType:  string(db.RoomTypePrivate),
 					IsBlocked: false,
@@ -202,13 +192,13 @@ func TestGetRooms(t *testing.T) {
 							Role:   "regular",
 						},
 						{
-							UserId: user2ID,
+							UserId: "5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e",
 							Role:   "regular",
 						},
 					},
 				},
 				{
-					RoomId:    room3ID,
+					RoomId:    "e57fc491-69f7-4b30-9979-78879c8873bf",
 					Name:      nullableName,
 					RoomType:  string(db.RoomTypePrivate),
 					IsBlocked: false,
@@ -218,7 +208,7 @@ func TestGetRooms(t *testing.T) {
 							Role:   "regular",
 						},
 						{
-							UserId: user3ID,
+							UserId: "c31384a6-b811-4a1f-befa-95dd53e3f4b9",
 							Role:   "regular",
 						},
 					},
