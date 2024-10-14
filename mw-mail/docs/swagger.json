@@ -25,7 +25,7 @@
             "post": {
                 "description": "Sending messages to recipients by smtp and saving the log of the sent email",
                 "consumes": [
-                    "multipart/form-data"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
@@ -37,42 +37,54 @@
                 "operationId": "send-email",
                 "parameters": [
                     {
-                        "type": "string",
                         "description": "Subject of the email",
                         "name": "subject",
-                        "in": "formData",
-                        "required": true
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "type": "array",
                         "description": "Recipient email addresses",
                         "name": "to",
-                        "in": "formData",
-                        "required": true
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
                     },
                     {
-                        "type": "array",
                         "description": "CC email addresses",
                         "name": "cc",
-                        "in": "formData"
+                        "in": "body",
+                        "schema": {
+                            "type": "array"
+                        }
                     },
                     {
-                        "type": "array",
                         "description": "BCC email addresses",
                         "name": "bcc",
-                        "in": "formData"
+                        "in": "body",
+                        "schema": {
+                            "type": "array"
+                        }
                     },
                     {
-                        "type": "string",
                         "description": "Plain text message",
                         "name": "message",
-                        "in": "formData"
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
                     },
                     {
-                        "type": "string",
                         "description": "HTML message",
                         "name": "html_message",
-                        "in": "formData"
+                        "in": "body",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {

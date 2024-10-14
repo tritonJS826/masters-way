@@ -25,14 +25,14 @@ func NewMailController(logMailService *services.LogMailService, smtpService *ser
 // @Description Sending messages to recipients by smtp and saving the log of the sent email
 // @Tags mail
 // @ID send-email
-// @Accept  multipart/form-data
+// @Accept  application/json
 // @Produce  application/json
-// @Param subject formData string true "Subject of the email"
-// @Param to formData array true "Recipient email addresses"
-// @Param cc formData array false "CC email addresses"
-// @Param bcc formData array false "BCC email addresses"
-// @Param message formData string false "Plain text message"
-// @Param html_message formData string false "HTML message"
+// @Param subject body string true "Subject of the email"
+// @Param to body array true "Recipient email addresses"
+// @Param cc body array false "CC email addresses"
+// @Param bcc body array false "BCC email addresses"
+// @Param message body string false "Plain text message"
+// @Param html_message body string false "HTML message"
 // @Success 200 {object} schemas.SendMailResponse
 // @Failure 500 {object} schemas.SendMailResponse "internal server error"
 // @Router /mail [post]
@@ -41,7 +41,7 @@ func (fc *MailController) SendEmail(ctx *gin.Context) {
 	var fromEmail string
 
 	// retrieving and validating form-Data
-	if err := ctx.ShouldBind(&emailReq); err != nil {
+	if err := ctx.ShouldBindJSON(&emailReq); err != nil {
 		utils.SendMsgErrorGin(ctx, err, &emailReq, fromEmail)
 		return
 	}

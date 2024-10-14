@@ -84,6 +84,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [InlineObject](docs/InlineObject.md)
  - [SendMailResponse](docs/SendMailResponse.md)
 
 

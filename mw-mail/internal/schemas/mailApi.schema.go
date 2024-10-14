@@ -2,13 +2,13 @@ package schemas
 
 // Used to get data from a POST request
 type EmailRequest struct {
-	Subject     string   `form:"subject" binding:"required"`
-	To          []string `form:"to" binding:"required"`
-	Cc          []string `form:"cc,omitempty"`
-	Bcc         []string `form:"bcc,omitempty"`
-	ReplyTo     []string `form:"reply_to,omitempty"`
-	Message     string   `form:"message,omitempty"`
-	HtmlMessage string   `form:"html_message,omitempty"`
+	Subject     string   `json:"subject" binding:"required"`
+	To          []string `json:"to" binding:"required"`
+	Cc          []string `json:"cc,omitempty"`
+	Bcc         []string `json:"bcc,omitempty"`
+	ReplyTo     []string `json:"reply_to,omitempty"`
+	Message     string   `json:"message,omitempty"`
+	HtmlMessage string   `json:"html_message,omitempty"`
 }
 
 // Response data from the smtp server.

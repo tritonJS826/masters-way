@@ -81,7 +81,7 @@ func (a *DefaultApiService) SendEmailExecute(r ApiSendEmailRequest) (*SendMailRe
 	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"multipart/form-data"}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)

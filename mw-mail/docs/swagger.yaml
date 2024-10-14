@@ -43,37 +43,43 @@ paths:
   /mail:
     post:
       consumes:
-      - multipart/form-data
+      - application/json
       description: Sending messages to recipients by smtp and saving the log of the
         sent email
       operationId: send-email
       parameters:
       - description: Subject of the email
-        in: formData
+        in: body
         name: subject
         required: true
-        type: string
+        schema:
+          type: string
       - description: Recipient email addresses
-        in: formData
+        in: body
         name: to
         required: true
-        type: array
+        schema:
+          type: array
       - description: CC email addresses
-        in: formData
+        in: body
         name: cc
-        type: array
+        schema:
+          type: array
       - description: BCC email addresses
-        in: formData
+        in: body
         name: bcc
-        type: array
+        schema:
+          type: array
       - description: Plain text message
-        in: formData
+        in: body
         name: message
-        type: string
+        schema:
+          type: string
       - description: HTML message
-        in: formData
+        in: body
         name: html_message
-        type: string
+        schema:
+          type: string
       produces:
       - application/json
       responses:

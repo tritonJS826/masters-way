@@ -40,7 +40,7 @@ components:
   requestBodies:
     inline_object:
       content:
-        multipart/form-data:
+        application/json:
           schema:
             $ref: '#/components/schemas/inline_object'
       required: true

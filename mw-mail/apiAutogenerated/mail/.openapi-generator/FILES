@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -9,10 +8,12 @@ client.go
 configuration.go
 docs/DefaultApi.md
 docs/DevApi.md
+docs/InlineObject.md
 docs/SendMailResponse.md
 git_push.sh
 go.mod
 go.sum
+model_inline_object.go
 model_send_mail_response.go
 response.go
 utils.go

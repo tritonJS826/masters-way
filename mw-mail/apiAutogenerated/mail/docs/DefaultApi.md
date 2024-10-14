@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-    inlineObject := TODO // InlineObject | 
+    inlineObject := *openapiclient.NewInlineObject("Welcome to our service", []string{"To_example"}) // InlineObject | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -66,7 +66,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
