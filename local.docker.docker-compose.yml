@@ -118,6 +118,31 @@ services:
     networks:
       - app-network
 
+  postgres-mail:
+    build:
+      context: ./postgres
+      dockerfile: postgres-mail.Dockerfile
+    container_name: postgres-mail
+    ports:
+      - "5437:5432"
+    volumes:
+      - postgres-mail:/var/lib/postgresql/data
+    env_file:
+      - ./mw-mail/.env
+    networks:
+      - app-network
+
+  mw-mail:
+    build:
+      context: ./mw-mail
+      dockerfile: Dockerfile
+    ports:
+      - "8007:8007"
+    depends_on:
+      - postgres-mail
+    networks:
+      - app-network
+
   postgres-survey:
     build:
       context: ./postgres

@@ -8,6 +8,7 @@ MOBILE="mw-mobile/"
 CHAT="mw-chat/"
 CHAT_BFF="mw-chat-bff/"
 STORAGE="mw-storage/"
+MAIL="mw-mail/"
 SURVEY="mw-survey/"
 NOTIfICATION="mw-notification/"
 NOTIFICATION_BFF="mw-notification-bff/"
@@ -97,6 +98,15 @@ runStorageIfChanged () {
   fi
 }
 
+runMailIfChanged () {
+  if git diff --name-only --cached | grep "$MAIL"
+  then
+    echo "mw-mail changed. checking..."
+    pnpm mail:build
+    pnpm mail:test
+  fi
+}
+
 runSurveyIfChanged () {
   if git diff --name-only --cached | grep "$SURVEY"
   then
@@ -149,6 +159,7 @@ runChatIfChanged
 runChatBffIfChanged
 runChatWebsocketIfChanged
 runStorageIfChanged
+runMailIfChanged
 runSurveyIfChanged
 runMobileIfChanged
 
