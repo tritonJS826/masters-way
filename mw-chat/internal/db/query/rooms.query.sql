@@ -40,7 +40,8 @@ SELECT
     )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
-WHERE users_rooms.user_uuid = @user_uuid AND rooms.type = @room_type;
+WHERE users_rooms.user_uuid = @user_uuid AND rooms.type = @room_type
+ORDER BY (SELECT MAX(messages.created_at) FROM messages WHERE messages.room_uuid = rooms.uuid) DESC;
 
 -- name: GetRoomByUUID :one
 SELECT
