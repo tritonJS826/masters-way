@@ -27,52 +27,46 @@ func NewSmtpService(config *config.Config) *SmtpService {
 	}
 }
 
-// Sending messages to recipients with Maileroo api
-func (ss *SmtpService) SendMail(dataMail *schemas.EmailRequest) (*schemas.SendSmtpResponse, error) {
-	var emailResp schemas.SendSmtpResponse
+// Sending messages to recipients with smtp
+func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmtpResponse, error) {
 
-	//Formatting the data received from the request.
-	e := email.NewEmail()
-	e.From = fmt.Sprintf("%s <%s>", ss.SenderName, ss.SenderMail)
-	e.Subject = dataMail.Subject
-	e.HTML = []byte(dataMail.HtmlMessage)
-	e.Text = []byte(dataMail.Message)
-	e.Cc = dataMail.Cc
-	e.Bcc = dataMail.Bcc
-	e.ReplyTo = dataMail.ReplyTo
-	e.To = dataMail.To
+	mail := ss.CreateMail(dataMail)
 
 	smtpAuth := smtp.PlainAuth("", ss.SenderMail, ss.SenderPassword, ss.AuthAddress)
 
-	err := e.Send(ss.ServerAddress, smtpAuth)
+	err := mail.Send(ss.ServerAddress, smtpAuth)
 	if err != nil {
-		//formating data struct for save response log
-		emailResp.FromEmail = ss.SenderMail
-		emailResp.FromName = ss.SenderName
-		emailResp.Recipients = dataMail.To
-		emailResp.Cc = dataMail.Cc
-		emailResp.Bcc = dataMail.Bcc
-		emailResp.ReplyTo = dataMail.ReplyTo
-		emailResp.Subject = dataMail.Subject
-		emailResp.Message = dataMail.Message
-		emailResp.HtmlMessage = dataMail.HtmlMessage
-		emailResp.Err = err.Error()
 
-		return &emailResp, err
+		return nil, err
 	}
 
-	//formating data struct for save response log
-	emailResp.FromEmail = ss.SenderMail
-	emailResp.FromName = ss.SenderName
-	emailResp.Recipients = dataMail.To
-	emailResp.Cc = dataMail.Cc
-	emailResp.Bcc = dataMail.Bcc
-	emailResp.ReplyTo = dataMail.ReplyTo
-	emailResp.Subject = dataMail.Subject
-	emailResp.Message = dataMail.Message
-	emailResp.HtmlMessage = dataMail.HtmlMessage
-	emailResp.Err = ""
+	mailResp := schemas.SendSmtpResponse{
+		FromEmail:   ss.SenderMail,
+		FromName:    ss.SenderName,
+		Recipients:  dataMail.To,
+		Cc:          dataMail.Cc,
+		Bcc:         dataMail.Bcc,
+		ReplyTo:     dataMail.ReplyTo,
+		Subject:     dataMail.Subject,
+		Message:     dataMail.Message,
+		HtmlMessage: dataMail.HtmlMessage,
+	}
 
-	return &emailResp, nil
+	return &mailResp, nil
 
+}
+
+func (ss *SmtpService) CreateMail(dataMail *schemas.MailRequest) *email.Email {
+	mail := email.NewEmail()
+
+	mail.From = fmt.Sprintf("%s <%s>", ss.SenderName, ss.SenderMail)
+	mail.Subject = dataMail.Subject
+	mail.HTML = []byte(dataMail.HtmlMessage)
+	mail.Text = []byte(dataMail.Message)
+	mail.Cc = dataMail.Cc
+	mail.Bcc = dataMail.Bcc
+	mail.ReplyTo = dataMail.ReplyTo
+	mail.To = dataMail.To
+
+	return mail
 }

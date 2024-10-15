@@ -1,14 +1,14 @@
 package schemas
 
 // Used to get data from a POST request
-type EmailRequest struct {
+type MailRequest struct {
 	Subject     string   `json:"subject" binding:"required"`
 	To          []string `json:"to" binding:"required"`
 	Cc          []string `json:"cc,omitempty"`
 	Bcc         []string `json:"bcc,omitempty"`
-	ReplyTo     []string `json:"reply_to,omitempty"`
+	ReplyTo     []string `json:"replyTo,omitempty"`
 	Message     string   `json:"message,omitempty"`
-	HtmlMessage string   `json:"html_message,omitempty"`
+	HtmlMessage string   `json:"htmlMessage,omitempty"`
 }
 
 // Response data from the smtp server.
@@ -22,7 +22,7 @@ type SendSmtpResponse struct {
 	Subject     string   `json:"subject"`
 	Message     string   `json:"message"`
 	HtmlMessage string   `json:"html_message"`
-	Err         string   `json:"err"`
+	Log         string   `json:"log"`
 }
 
 // Response data to our user
@@ -31,7 +31,6 @@ type SendMailResponse struct {
 	FromEmail   string   `json:"fromEmail" validate:"required"`
 	Recipients  []string `json:"recipients" validate:"required"`
 	Subject     string   `json:"subject" validate:"required"`
-	Message     string   `json:"message" validate:"required"`
-	HtmlMessage string   `json:"htmlMessage" validate:"required"`
-	Err         string   `json:"err"`
+	Message     string   `json:"message,omitempty"`
+	HtmlMessage string   `json:"htmlMessage,omitempty"`
 }

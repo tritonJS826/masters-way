@@ -2,8 +2,6 @@ basePath: /mail
 definitions:
   schemas.SendMailResponse:
     properties:
-      err:
-        type: string
       fromEmail:
         type: string
       htmlMessage:
@@ -20,9 +18,7 @@ definitions:
         type: string
     required:
     - fromEmail
-    - htmlMessage
     - id
-    - message
     - recipients
     - subject
     type: object
@@ -85,10 +81,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/schemas.SendMailResponse'
-        "500":
-          description: internal server error
           schema:
             $ref: '#/definitions/schemas.SendMailResponse'
       summary: Sending messages to recipients and save logs

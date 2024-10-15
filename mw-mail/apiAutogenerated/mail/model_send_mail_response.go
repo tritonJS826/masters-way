@@ -22,7 +22,6 @@ type SendMailResponse struct {
 	Subject *string `json:"subject,omitempty"`
 	Message *string `json:"message,omitempty"`
 	HtmlMessage *string `json:"htmlMessage,omitempty"`
-	Err *string `json:"err,omitempty"`
 }
 
 // NewSendMailResponse instantiates a new SendMailResponse object
@@ -234,38 +233,6 @@ func (o *SendMailResponse) SetHtmlMessage(v string) {
 	o.HtmlMessage = &v
 }
 
-// GetErr returns the Err field value if set, zero value otherwise.
-func (o *SendMailResponse) GetErr() string {
-	if o == nil || o.Err == nil {
-		var ret string
-		return ret
-	}
-	return *o.Err
-}
-
-// GetErrOk returns a tuple with the Err field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SendMailResponse) GetErrOk() (*string, bool) {
-	if o == nil || o.Err == nil {
-		return nil, false
-	}
-	return o.Err, true
-}
-
-// HasErr returns a boolean if a field has been set.
-func (o *SendMailResponse) HasErr() bool {
-	if o != nil && o.Err != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetErr gets a reference to the given string and assigns it to the Err field.
-func (o *SendMailResponse) SetErr(v string) {
-	o.Err = &v
-}
-
 func (o SendMailResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
@@ -285,9 +252,6 @@ func (o SendMailResponse) MarshalJSON() ([]byte, error) {
 	}
 	if o.HtmlMessage != nil {
 		toSerialize["htmlMessage"] = o.HtmlMessage
-	}
-	if o.Err != nil {
-		toSerialize["err"] = o.Err
 	}
 	return json.Marshal(toSerialize)
 }

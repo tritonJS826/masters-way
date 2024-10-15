@@ -8,16 +8,16 @@ import (
 )
 
 type Service struct {
-	SmtpService    *SmtpService
-	LogMailService *LogMailService
-	DevService     *DevService
+	SmtpService *SmtpService
+	MailService *MailService
+	DevService  *DevService
 }
 
 func NewService(pool *pgxpool.Pool, newConfig *config.Config) *Service {
 	queries := db.New(pool)
 	return &Service{
-		SmtpService:    NewSmtpService(newConfig),
-		LogMailService: NewLogMailService(queries),
-		DevService:     NewDevService(pool, queries),
+		SmtpService: NewSmtpService(newConfig),
+		MailService: NewMailService(queries),
+		DevService:  NewDevService(pool, queries),
 	}
 }

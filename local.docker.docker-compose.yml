@@ -124,7 +124,7 @@ services:
       dockerfile: postgres-mail.Dockerfile
     container_name: postgres-mail
     ports:
-      - "5437:5432"
+      - "5438:5432"
     volumes:
       - postgres-mail:/var/lib/postgresql/data
     env_file:
@@ -137,7 +137,7 @@ services:
       context: ./mw-mail
       dockerfile: Dockerfile
     ports:
-      - "8007:8007"
+      - "8006:8006"
     depends_on:
       - postgres-mail
     networks:

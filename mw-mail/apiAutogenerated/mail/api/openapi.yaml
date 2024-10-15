@@ -30,12 +30,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/SendMailResponse'
           description: Mail successfully sent
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SendMailResponse'
-          description: Internal server error
 components:
   requestBodies:
     inline_object:
@@ -53,7 +47,6 @@ components:
         subject: Welcome to our service
         message: This is the plain text message.
         htmlMessage: <b>This is the HTML message.</b>
-        err: invalid input
       properties:
         id:
           example: 123e4567-e89b-12d3-a456-426614174000
@@ -72,9 +65,6 @@ components:
           type: string
         htmlMessage:
           example: <b>This is the HTML message.</b>
-          type: string
-        err:
-          example: invalid input
           type: string
       type: object
     inline_object:

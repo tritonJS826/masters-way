@@ -10,7 +10,6 @@ Name | Type | Description | Notes
 **Subject** | Pointer to **string** |  | [optional] 
 **Message** | Pointer to **string** |  | [optional] 
 **HtmlMessage** | Pointer to **string** |  | [optional] 
-**Err** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -180,31 +179,6 @@ SetHtmlMessage sets HtmlMessage field to given value.
 `func (o *SendMailResponse) HasHtmlMessage() bool`
 
 HasHtmlMessage returns a boolean if a field has been set.
-
-### GetErr
-
-`func (o *SendMailResponse) GetErr() string`
-
-GetErr returns the Err field if non-nil, zero value otherwise.
-
-### GetErrOk
-
-`func (o *SendMailResponse) GetErrOk() (*string, bool)`
-
-GetErrOk returns a tuple with the Err field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetErr
-
-`func (o *SendMailResponse) SetErr(v string)`
-
-SetErr sets Err field to given value.
-
-### HasErr
-
-`func (o *SendMailResponse) HasErr() bool`
-
-HasErr returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -9,7 +9,7 @@ import (
 )
 
 type Querier interface {
-	CreateLogMail(ctx context.Context, arg CreateLogMailParams) (CreateLogMailRow, error)
+	CreateMail(ctx context.Context, arg CreateMailParams) (CreateMailRow, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
 }

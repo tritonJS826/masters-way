@@ -10,15 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const ErrValid = "at least one of the fields 'Message' or 'HtmlMessage' must not be empty"
+const (
+	ErrMsgRequired = "at least one of the fields 'Message' or 'HtmlMessage' must not be empty"
+)
 
 type MailController struct {
-	logMailService *services.LogMailService
-	smtpService    *services.SmtpService
+	mailService *services.MailService
+	smtpService *services.SmtpService
 }
 
-func NewMailController(logMailService *services.LogMailService, smtpService *services.SmtpService) *MailController {
-	return &MailController{logMailService, smtpService}
+func NewMailController(mailService *services.MailService, smtpService *services.SmtpService) *MailController {
+	return &MailController{mailService, smtpService}
 }
 
 // @Summary Sending messages to recipients and save logs
@@ -34,50 +36,61 @@ func NewMailController(logMailService *services.LogMailService, smtpService *ser
 // @Param message body string false "Plain text message"
 // @Param html_message body string false "HTML message"
 // @Success 200 {object} schemas.SendMailResponse
-// @Failure 500 {object} schemas.SendMailResponse "internal server error"
 // @Router /mail [post]
-func (fc *MailController) SendEmail(ctx *gin.Context) {
-	var emailReq schemas.EmailRequest
-	var fromEmail string
+func (mc *MailController) SendEmail(ctx *gin.Context) {
+	var mailReq schemas.MailRequest
 
 	// retrieving and validating form-Data
-	if err := ctx.ShouldBindJSON(&emailReq); err != nil {
-		utils.SendMsgErrorGin(ctx, err, &emailReq, fromEmail)
-		return
-	}
+	err := ctx.ShouldBindJSON(&mailReq)
+	mc.HanldeErrorMail(&mailReq, ctx, err)
 
 	// one of these parameters must be provided
-	if emailReq.Message == "" && emailReq.HtmlMessage == "" {
-		err := fmt.Errorf("%s", ErrValid)
-		utils.SendMsgErrorGin(ctx, err, &emailReq, fromEmail)
-		return
+	if mailReq.Message == "" && mailReq.HtmlMessage == "" {
+		err := fmt.Errorf("%s", ErrMsgRequired)
+		mc.HanldeErrorMail(&mailReq, ctx, err)
 	}
 
 	// sending message to recipients
-	smtpResp, err := fc.smtpService.SendMail(&emailReq)
-	if err != nil {
-		fmt.Println("ошибка отправка почты", err)
-		utils.SendMsgErrorGin(ctx, err, &emailReq, fromEmail)
-		return
-	}
+	smtpResp, err := mc.smtpService.SendMail(&mailReq)
+	mc.HanldeErrorMail(&mailReq, ctx, err)
 
 	// saving message logs
-	mailResp, err := fc.logMailService.SaveLogMail(ctx, smtpResp)
-	if err != nil {
-		fmt.Println("ошибка сохранения в бд", err)
-		utils.SendMsgErrorGin(ctx, err, &emailReq, mailResp.FromEmail)
-	}
+	mailResp, err := mc.mailService.SaveMail(ctx, smtpResp)
+	utils.HandleErrorGin(ctx, err)
 
-	// response
 	serviceResp := &schemas.SendMailResponse{
-		ID:          "53453dfsef",
+		ID:          mailResp.ID,
 		FromEmail:   mailResp.FromEmail,
 		Recipients:  mailResp.Recipients,
 		Subject:     mailResp.Subject,
 		Message:     mailResp.Message,
 		HtmlMessage: mailResp.HtmlMessage,
-		Err:         mailResp.Err,
 	}
 
 	ctx.JSON(http.StatusOK, serviceResp)
+}
+
+func (mc *MailController) HanldeErrorMail(mailReq *schemas.MailRequest, ctx *gin.Context, err error) {
+	if err != nil {
+		mailResp := &schemas.SendSmtpResponse{
+			FromEmail:   mc.smtpService.SenderMail,
+			FromName:    mc.smtpService.SenderName,
+			Recipients:  mailReq.To,
+			Cc:          mailReq.Cc,
+			Bcc:         mailReq.Bcc,
+			ReplyTo:     mailReq.ReplyTo,
+			Subject:     mailReq.Subject,
+			Message:     mailReq.Message,
+			HtmlMessage: mailReq.HtmlMessage,
+			Log:         err.Error(),
+		}
+
+		_, errDb := mc.mailService.SaveMail(ctx, mailResp)
+		if errDb != nil {
+			err = fmt.Errorf("main error: %v. Db error: %v", err, errDb)
+			utils.HandleErrorGin(ctx, err)
+		}
+
+		utils.HandleErrorGin(ctx, err)
+	}
 }

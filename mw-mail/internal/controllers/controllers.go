@@ -9,7 +9,7 @@ type Controller struct {
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		MailController: NewMailController(services.LogMailService, services.SmtpService),
+		MailController: NewMailController(services.MailService, services.SmtpService),
 		DevController:  NewDevController(services.DevService),
 	}
 }

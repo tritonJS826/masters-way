@@ -101,12 +101,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/schemas.SendMailResponse"
                         }
-                    },
-                    "500": {
-                        "description": "internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/schemas.SendMailResponse"
-                        }
                     }
                 }
             }
@@ -117,16 +111,11 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "fromEmail",
-                "htmlMessage",
                 "id",
-                "message",
                 "recipients",
                 "subject"
             ],
             "properties": {
-                "err": {
-                    "type": "string"
-                },
                 "fromEmail": {
                     "type": "string"
                 },

@@ -18,6 +18,6 @@ type MailLog struct {
 	Subject     string           `json:"subject"`
 	Message     pgtype.Text      `json:"message"`
 	HtmlMessage pgtype.Text      `json:"html_message"`
-	Err         pgtype.Text      `json:"err"`
+	Log         string           `json:"log"`
 	CreatedAt   pgtype.Timestamp `json:"created_at"`
 }

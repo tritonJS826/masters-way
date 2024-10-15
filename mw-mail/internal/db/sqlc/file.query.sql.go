@@ -11,13 +11,39 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const createLogMail = `-- name: CreateLogMail :one
-INSERT INTO mail_logs (from_email, from_name, recipients, cc, bcc, subject, message, html_message, err)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-RETURNING uuid, from_email, recipients, subject, message, html_message, err
+const createMail = `-- name: CreateMail :one
+INSERT INTO mail_logs (
+    from_email,
+    from_name,
+    recipients,
+    cc,
+    bcc,
+    subject,
+    message,
+    html_message,
+    log
+)
+VALUES (
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6,
+    $7,
+    $8,
+    $9
+)
+RETURNING
+    uuid,
+    from_email,
+    recipients,
+    subject,
+    message,
+    html_message
 `
 
-type CreateLogMailParams struct {
+type CreateMailParams struct {
 	FromEmail   string      `json:"from_email"`
 	FromName    pgtype.Text `json:"from_name"`
 	Recipients  []string    `json:"recipients"`
@@ -26,21 +52,20 @@ type CreateLogMailParams struct {
 	Subject     string      `json:"subject"`
 	Message     pgtype.Text `json:"message"`
 	HtmlMessage pgtype.Text `json:"html_message"`
-	Err         pgtype.Text `json:"err"`
+	Log         string      `json:"log"`
 }
 
-type CreateLogMailRow struct {
+type CreateMailRow struct {
 	Uuid        pgtype.UUID `json:"uuid"`
 	FromEmail   string      `json:"from_email"`
 	Recipients  []string    `json:"recipients"`
 	Subject     string      `json:"subject"`
 	Message     pgtype.Text `json:"message"`
 	HtmlMessage pgtype.Text `json:"html_message"`
-	Err         pgtype.Text `json:"err"`
 }
 
-func (q *Queries) CreateLogMail(ctx context.Context, arg CreateLogMailParams) (CreateLogMailRow, error) {
-	row := q.db.QueryRow(ctx, createLogMail,
+func (q *Queries) CreateMail(ctx context.Context, arg CreateMailParams) (CreateMailRow, error) {
+	row := q.db.QueryRow(ctx, createMail,
 		arg.FromEmail,
 		arg.FromName,
 		arg.Recipients,
@@ -49,9 +74,9 @@ func (q *Queries) CreateLogMail(ctx context.Context, arg CreateLogMailParams) (C
 		arg.Subject,
 		arg.Message,
 		arg.HtmlMessage,
-		arg.Err,
+		arg.Log,
 	)
-	var i CreateLogMailRow
+	var i CreateMailRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.FromEmail,
@@ -59,7 +84,6 @@ func (q *Queries) CreateLogMail(ctx context.Context, arg CreateLogMailParams) (C
 		&i.Subject,
 		&i.Message,
 		&i.HtmlMessage,
-		&i.Err,
 	)
 	return i, err
 }
