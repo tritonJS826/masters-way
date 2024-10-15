@@ -244,6 +244,7 @@ volumes:
   postgres-general:
   postgres-chat:
   postgres-storage:
+  postgres-mail:
   postgres-survey:
   postgres-notification:
 
