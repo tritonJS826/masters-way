@@ -9,14 +9,13 @@ Name | Type | Description | Notes
 **Cc** | Pointer to **[]string** | CC email addresses (array) | [optional] 
 **Bcc** | Pointer to **[]string** | BCC email addresses (array) | [optional] 
 **ReplyTo** | Pointer to **[]string** | reply_to email addresses (array) | [optional] 
-**Message** | Pointer to **string** | Plain text message content | [optional] 
-**HtmlMessage** | Pointer to **string** | HTML formatted message content | [optional] 
+**Message** | **string** | Plain text or HTML formatted message content | 
 
 ## Methods
 
 ### NewInlineObject
 
-`func NewInlineObject(subject string, to []string, ) *InlineObject`
+`func NewInlineObject(subject string, to []string, message string, ) *InlineObject`
 
 NewInlineObject instantiates a new InlineObject object
 This constructor will assign default values to properties that have it defined,
@@ -165,36 +164,6 @@ and a boolean to check if the value has been set.
 
 SetMessage sets Message field to given value.
 
-### HasMessage
-
-`func (o *InlineObject) HasMessage() bool`
-
-HasMessage returns a boolean if a field has been set.
-
-### GetHtmlMessage
-
-`func (o *InlineObject) GetHtmlMessage() string`
-
-GetHtmlMessage returns the HtmlMessage field if non-nil, zero value otherwise.
-
-### GetHtmlMessageOk
-
-`func (o *InlineObject) GetHtmlMessageOk() (*string, bool)`
-
-GetHtmlMessageOk returns a tuple with the HtmlMessage field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHtmlMessage
-
-`func (o *InlineObject) SetHtmlMessage(v string)`
-
-SetHtmlMessage sets HtmlMessage field to given value.
-
-### HasHtmlMessage
-
-`func (o *InlineObject) HasHtmlMessage() bool`
-
-HasHtmlMessage returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

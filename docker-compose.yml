@@ -208,6 +208,7 @@ services:
       - postgres-general
       - postgres-chat
       - postgres-storage
+      - postgres-mail
       - postgres-survey
     networks:
       - app-network
@@ -228,6 +229,7 @@ services:
       - mw-chat-websocket
       - mw-survey
       - mw-storage
+      - mw-mail
     networks:
       - app-network
 

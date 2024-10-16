@@ -97,6 +97,7 @@ services:
       - postgres-general
       - postgres-chat
       - postgres-storage
+      - postgres-mail
       - postgres-survey
     networks:
       - app-network
@@ -117,7 +118,6 @@ volumes:
   postgres-general:
   postgres-chat:
   postgres-storage:
-  postgres-mail:
   postgres-survey:
   postgres-notification:
   postgres-mail:

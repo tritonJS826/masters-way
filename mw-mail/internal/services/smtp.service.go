@@ -41,15 +41,14 @@ func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmt
 	}
 
 	mailResp := schemas.SendSmtpResponse{
-		FromEmail:   ss.SenderMail,
-		FromName:    ss.SenderName,
-		Recipients:  dataMail.To,
-		Cc:          dataMail.Cc,
-		Bcc:         dataMail.Bcc,
-		ReplyTo:     dataMail.ReplyTo,
-		Subject:     dataMail.Subject,
-		Message:     dataMail.Message,
-		HtmlMessage: dataMail.HtmlMessage,
+		FromMail:   ss.SenderMail,
+		FromName:   ss.SenderName,
+		Recipients: dataMail.To,
+		Cc:         dataMail.Cc,
+		Bcc:        dataMail.Bcc,
+		ReplyTo:    dataMail.ReplyTo,
+		Subject:    dataMail.Subject,
+		Message:    dataMail.Message,
 	}
 
 	return &mailResp, nil
@@ -61,8 +60,7 @@ func (ss *SmtpService) CreateMail(dataMail *schemas.MailRequest) *email.Email {
 
 	mail.From = fmt.Sprintf("%s <%s>", ss.SenderName, ss.SenderMail)
 	mail.Subject = dataMail.Subject
-	mail.HTML = []byte(dataMail.HtmlMessage)
-	mail.Text = []byte(dataMail.Message)
+	mail.HTML = []byte(dataMail.Message)
 	mail.Cc = dataMail.Cc
 	mail.Bcc = dataMail.Bcc
 	mail.ReplyTo = dataMail.ReplyTo

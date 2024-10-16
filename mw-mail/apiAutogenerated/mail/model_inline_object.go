@@ -26,20 +26,19 @@ type InlineObject struct {
 	Bcc []string `json:"bcc,omitempty"`
 	// reply_to email addresses (array)
 	ReplyTo []string `json:"reply_to,omitempty"`
-	// Plain text message content
-	Message *string `json:"message,omitempty"`
-	// HTML formatted message content
-	HtmlMessage *string `json:"html_message,omitempty"`
+	// Plain text or HTML formatted message content
+	Message string `json:"message"`
 }
 
 // NewInlineObject instantiates a new InlineObject object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInlineObject(subject string, to []string) *InlineObject {
+func NewInlineObject(subject string, to []string, message string) *InlineObject {
 	this := InlineObject{}
 	this.Subject = subject
 	this.To = to
+	this.Message = message
 	return &this
 }
 
@@ -195,68 +194,28 @@ func (o *InlineObject) SetReplyTo(v []string) {
 	o.ReplyTo = v
 }
 
-// GetMessage returns the Message field value if set, zero value otherwise.
+// GetMessage returns the Message field value
 func (o *InlineObject) GetMessage() string {
-	if o == nil || o.Message == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Message
+
+	return o.Message
 }
 
-// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
+// GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *InlineObject) GetMessageOk() (*string, bool) {
-	if o == nil || o.Message == nil {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Message, true
+	return &o.Message, true
 }
 
-// HasMessage returns a boolean if a field has been set.
-func (o *InlineObject) HasMessage() bool {
-	if o != nil && o.Message != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMessage gets a reference to the given string and assigns it to the Message field.
+// SetMessage sets field value
 func (o *InlineObject) SetMessage(v string) {
-	o.Message = &v
-}
-
-// GetHtmlMessage returns the HtmlMessage field value if set, zero value otherwise.
-func (o *InlineObject) GetHtmlMessage() string {
-	if o == nil || o.HtmlMessage == nil {
-		var ret string
-		return ret
-	}
-	return *o.HtmlMessage
-}
-
-// GetHtmlMessageOk returns a tuple with the HtmlMessage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InlineObject) GetHtmlMessageOk() (*string, bool) {
-	if o == nil || o.HtmlMessage == nil {
-		return nil, false
-	}
-	return o.HtmlMessage, true
-}
-
-// HasHtmlMessage returns a boolean if a field has been set.
-func (o *InlineObject) HasHtmlMessage() bool {
-	if o != nil && o.HtmlMessage != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetHtmlMessage gets a reference to the given string and assigns it to the HtmlMessage field.
-func (o *InlineObject) SetHtmlMessage(v string) {
-	o.HtmlMessage = &v
+	o.Message = v
 }
 
 func (o InlineObject) MarshalJSON() ([]byte, error) {
@@ -276,11 +235,8 @@ func (o InlineObject) MarshalJSON() ([]byte, error) {
 	if o.ReplyTo != nil {
 		toSerialize["reply_to"] = o.ReplyTo
 	}
-	if o.Message != nil {
+	if true {
 		toSerialize["message"] = o.Message
-	}
-	if o.HtmlMessage != nil {
-		toSerialize["html_message"] = o.HtmlMessage
 	}
 	return json.Marshal(toSerialize)
 }

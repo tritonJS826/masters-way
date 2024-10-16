@@ -9,15 +9,14 @@ import (
 )
 
 type MailLog struct {
-	Uuid        pgtype.UUID      `json:"uuid"`
-	FromEmail   string           `json:"from_email"`
-	FromName    pgtype.Text      `json:"from_name"`
-	Recipients  []string         `json:"recipients"`
-	Cc          []string         `json:"cc"`
-	Bcc         []string         `json:"bcc"`
-	Subject     string           `json:"subject"`
-	Message     pgtype.Text      `json:"message"`
-	HtmlMessage pgtype.Text      `json:"html_message"`
-	Log         string           `json:"log"`
-	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	Uuid       pgtype.UUID      `json:"uuid"`
+	FromMail   string           `json:"from_mail"`
+	FromName   pgtype.Text      `json:"from_name"`
+	Recipients []string         `json:"recipients"`
+	Cc         []string         `json:"cc"`
+	Bcc        []string         `json:"bcc"`
+	Subject    string           `json:"subject"`
+	Message    string           `json:"message"`
+	Log        string           `json:"log"`
+	CreatedAt  pgtype.Timestamp `json:"created_at"`
 }

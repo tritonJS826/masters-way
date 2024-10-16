@@ -9,7 +9,6 @@ Name | Type | Description | Notes
 **Recipients** | Pointer to **string** |  | [optional] 
 **Subject** | Pointer to **string** |  | [optional] 
 **Message** | Pointer to **string** |  | [optional] 
-**HtmlMessage** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -154,31 +153,6 @@ SetMessage sets Message field to given value.
 `func (o *SendMailResponse) HasMessage() bool`
 
 HasMessage returns a boolean if a field has been set.
-
-### GetHtmlMessage
-
-`func (o *SendMailResponse) GetHtmlMessage() string`
-
-GetHtmlMessage returns the HtmlMessage field if non-nil, zero value otherwise.
-
-### GetHtmlMessageOk
-
-`func (o *SendMailResponse) GetHtmlMessageOk() (*string, bool)`
-
-GetHtmlMessageOk returns a tuple with the HtmlMessage field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetHtmlMessage
-
-`func (o *SendMailResponse) SetHtmlMessage(v string)`
-
-SetHtmlMessage sets HtmlMessage field to given value.
-
-### HasHtmlMessage
-
-`func (o *SendMailResponse) HasHtmlMessage() bool`
-
-HasHtmlMessage returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

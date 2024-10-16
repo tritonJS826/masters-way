@@ -13,14 +13,13 @@ import (
 
 const createMail = `-- name: CreateMail :one
 INSERT INTO mail_logs (
-    from_email,
+    from_mail,
     from_name,
     recipients,
     cc,
     bcc,
     subject,
     message,
-    html_message,
     log
 )
 VALUES (
@@ -31,59 +30,53 @@ VALUES (
     $5,
     $6,
     $7,
-    $8,
-    $9
+    $8
 )
 RETURNING
     uuid,
-    from_email,
+    from_mail,
     recipients,
     subject,
-    message,
-    html_message
+    message
 `
 
 type CreateMailParams struct {
-	FromEmail   string      `json:"from_email"`
-	FromName    pgtype.Text `json:"from_name"`
-	Recipients  []string    `json:"recipients"`
-	Cc          []string    `json:"cc"`
-	Bcc         []string    `json:"bcc"`
-	Subject     string      `json:"subject"`
-	Message     pgtype.Text `json:"message"`
-	HtmlMessage pgtype.Text `json:"html_message"`
-	Log         string      `json:"log"`
+	FromMail   string      `json:"from_mail"`
+	FromName   pgtype.Text `json:"from_name"`
+	Recipients []string    `json:"recipients"`
+	Cc         []string    `json:"cc"`
+	Bcc        []string    `json:"bcc"`
+	Subject    string      `json:"subject"`
+	Message    string      `json:"message"`
+	Log        string      `json:"log"`
 }
 
 type CreateMailRow struct {
-	Uuid        pgtype.UUID `json:"uuid"`
-	FromEmail   string      `json:"from_email"`
-	Recipients  []string    `json:"recipients"`
-	Subject     string      `json:"subject"`
-	Message     pgtype.Text `json:"message"`
-	HtmlMessage pgtype.Text `json:"html_message"`
+	Uuid       pgtype.UUID `json:"uuid"`
+	FromMail   string      `json:"from_mail"`
+	Recipients []string    `json:"recipients"`
+	Subject    string      `json:"subject"`
+	Message    string      `json:"message"`
 }
 
 func (q *Queries) CreateMail(ctx context.Context, arg CreateMailParams) (CreateMailRow, error) {
 	row := q.db.QueryRow(ctx, createMail,
-		arg.FromEmail,
+		arg.FromMail,
 		arg.FromName,
 		arg.Recipients,
 		arg.Cc,
 		arg.Bcc,
 		arg.Subject,
 		arg.Message,
-		arg.HtmlMessage,
 		arg.Log,
 	)
 	var i CreateMailRow
 	err := row.Scan(
 		&i.Uuid,
-		&i.FromEmail,
+		&i.FromMail,
 		&i.Recipients,
 		&i.Subject,
 		&i.Message,
-		&i.HtmlMessage,
 	)
 	return i, err
 }

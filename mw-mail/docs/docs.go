@@ -79,17 +79,10 @@ const docTemplate = `{
                         }
                     },
                     {
-                        "description": "Plain text message",
+                        "description": "Message content to be sent. Can be plain text or HTML-formatted text",
                         "name": "message",
                         "in": "body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "HTML message",
-                        "name": "html_message",
-                        "in": "body",
+                        "required": true,
                         "schema": {
                             "type": "string"
                         }
@@ -110,16 +103,14 @@ const docTemplate = `{
         "schemas.SendMailResponse": {
             "type": "object",
             "required": [
-                "fromEmail",
+                "fromMail",
                 "id",
+                "message",
                 "recipients",
                 "subject"
             ],
             "properties": {
-                "fromEmail": {
-                    "type": "string"
-                },
-                "htmlMessage": {
+                "fromMail": {
                     "type": "string"
                 },
                 "id": {

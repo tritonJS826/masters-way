@@ -2,9 +2,7 @@ basePath: /mail
 definitions:
   schemas.SendMailResponse:
     properties:
-      fromEmail:
-        type: string
-      htmlMessage:
+      fromMail:
         type: string
       id:
         type: string
@@ -17,8 +15,9 @@ definitions:
       subject:
         type: string
     required:
-    - fromEmail
+    - fromMail
     - id
+    - message
     - recipients
     - subject
     type: object
@@ -66,14 +65,11 @@ paths:
         name: bcc
         schema:
           type: array
-      - description: Plain text message
+      - description: Message content to be sent. Can be plain text or HTML-formatted
+          text
         in: body
         name: message
-        schema:
-          type: string
-      - description: HTML message
-        in: body
-        name: html_message
+        required: true
         schema:
           type: string
       produces:

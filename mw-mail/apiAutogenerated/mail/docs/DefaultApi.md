@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-    inlineObject := *openapiclient.NewInlineObject("Welcome to our service", []string{"To_example"}) // InlineObject | 
+    inlineObject := *openapiclient.NewInlineObject("Welcome to our service", []string{"To_example"}, "This is the plain text message.") // InlineObject | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

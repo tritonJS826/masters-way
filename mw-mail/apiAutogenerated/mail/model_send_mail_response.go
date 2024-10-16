@@ -21,7 +21,6 @@ type SendMailResponse struct {
 	Recipients *string `json:"recipients,omitempty"`
 	Subject *string `json:"subject,omitempty"`
 	Message *string `json:"message,omitempty"`
-	HtmlMessage *string `json:"htmlMessage,omitempty"`
 }
 
 // NewSendMailResponse instantiates a new SendMailResponse object
@@ -201,38 +200,6 @@ func (o *SendMailResponse) SetMessage(v string) {
 	o.Message = &v
 }
 
-// GetHtmlMessage returns the HtmlMessage field value if set, zero value otherwise.
-func (o *SendMailResponse) GetHtmlMessage() string {
-	if o == nil || o.HtmlMessage == nil {
-		var ret string
-		return ret
-	}
-	return *o.HtmlMessage
-}
-
-// GetHtmlMessageOk returns a tuple with the HtmlMessage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SendMailResponse) GetHtmlMessageOk() (*string, bool) {
-	if o == nil || o.HtmlMessage == nil {
-		return nil, false
-	}
-	return o.HtmlMessage, true
-}
-
-// HasHtmlMessage returns a boolean if a field has been set.
-func (o *SendMailResponse) HasHtmlMessage() bool {
-	if o != nil && o.HtmlMessage != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetHtmlMessage gets a reference to the given string and assigns it to the HtmlMessage field.
-func (o *SendMailResponse) SetHtmlMessage(v string) {
-	o.HtmlMessage = &v
-}
-
 func (o SendMailResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
@@ -249,9 +216,6 @@ func (o SendMailResponse) MarshalJSON() ([]byte, error) {
 	}
 	if o.Message != nil {
 		toSerialize["message"] = o.Message
-	}
-	if o.HtmlMessage != nil {
-		toSerialize["htmlMessage"] = o.HtmlMessage
 	}
 	return json.Marshal(toSerialize)
 }

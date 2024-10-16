@@ -11,6 +11,8 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const mailSuccessSent = "mail successfully sent"
+
 type IMailRepository interface {
 	CreateMail(ctx context.Context, arg db.CreateMailParams) (db.CreateMailRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
@@ -26,23 +28,23 @@ func NewMailService(mailRepository IMailRepository) *MailService {
 
 // Save response log after sending message to recipients
 func (ms *MailService) SaveMail(ctx context.Context, smtpInfoParams *schemas.SendSmtpResponse) (*schemas.SendMailResponse, error) {
-	var createMailParams db.CreateMailParams
 
+	var log string
 	if smtpInfoParams.Log == "" {
-		createMailParams.Log = "mail successfully sent"
+		log = mailSuccessSent
 	} else {
-		createMailParams.Log = smtpInfoParams.Log
+		log = smtpInfoParams.Log
 	}
 
-	createMailParams = db.CreateMailParams{
-		FromEmail:   smtpInfoParams.FromEmail,
-		FromName:    pgtype.Text{String: smtpInfoParams.FromName, Valid: true},
-		Recipients:  smtpInfoParams.Recipients,
-		Cc:          smtpInfoParams.Cc,
-		Bcc:         smtpInfoParams.Bcc,
-		Subject:     smtpInfoParams.Subject,
-		Message:     pgtype.Text{String: smtpInfoParams.Message, Valid: true},
-		HtmlMessage: pgtype.Text{String: smtpInfoParams.HtmlMessage, Valid: true},
+	createMailParams := db.CreateMailParams{
+		FromMail:   smtpInfoParams.FromMail,
+		FromName:   pgtype.Text{String: smtpInfoParams.FromName, Valid: true},
+		Recipients: smtpInfoParams.Recipients,
+		Cc:         smtpInfoParams.Cc,
+		Bcc:        smtpInfoParams.Bcc,
+		Subject:    smtpInfoParams.Subject,
+		Message:    smtpInfoParams.Message,
+		Log:        log,
 	}
 
 	result, err := ms.MailRepository.CreateMail(ctx, createMailParams)
@@ -51,11 +53,10 @@ func (ms *MailService) SaveMail(ctx context.Context, smtpInfoParams *schemas.Sen
 	}
 
 	return &schemas.SendMailResponse{
-		ID:          utils.ConvertPgUUIDToUUID(result.Uuid).String(),
-		FromEmail:   result.FromEmail,
-		Recipients:  result.Recipients,
-		Subject:     result.Subject,
-		Message:     *utils.MarshalPgText(result.Message),
-		HtmlMessage: *utils.MarshalPgText(result.HtmlMessage),
+		ID:         utils.ConvertPgUUIDToUUID(result.Uuid).String(),
+		FromMail:   result.FromMail,
+		Recipients: result.Recipients,
+		Subject:    result.Subject,
+		Message:    result.Message,
 	}, nil
 }

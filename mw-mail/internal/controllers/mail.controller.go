@@ -33,8 +33,7 @@ func NewMailController(mailService *services.MailService, smtpService *services.
 // @Param to body array true "Recipient email addresses"
 // @Param cc body array false "CC email addresses"
 // @Param bcc body array false "BCC email addresses"
-// @Param message body string false "Plain text message"
-// @Param html_message body string false "HTML message"
+// @Param message body string true "Message content to be sent. Can be plain text or HTML-formatted text"
 // @Success 200 {object} schemas.SendMailResponse
 // @Router /mail [post]
 func (mc *MailController) SendEmail(ctx *gin.Context) {
@@ -43,12 +42,6 @@ func (mc *MailController) SendEmail(ctx *gin.Context) {
 	// retrieving and validating form-Data
 	err := ctx.ShouldBindJSON(&mailReq)
 	mc.HanldeErrorMail(&mailReq, ctx, err)
-
-	// one of these parameters must be provided
-	if mailReq.Message == "" && mailReq.HtmlMessage == "" {
-		err := fmt.Errorf("%s", ErrMsgRequired)
-		mc.HanldeErrorMail(&mailReq, ctx, err)
-	}
 
 	// sending message to recipients
 	smtpResp, err := mc.smtpService.SendMail(&mailReq)
@@ -59,12 +52,11 @@ func (mc *MailController) SendEmail(ctx *gin.Context) {
 	utils.HandleErrorGin(ctx, err)
 
 	serviceResp := &schemas.SendMailResponse{
-		ID:          mailResp.ID,
-		FromEmail:   mailResp.FromEmail,
-		Recipients:  mailResp.Recipients,
-		Subject:     mailResp.Subject,
-		Message:     mailResp.Message,
-		HtmlMessage: mailResp.HtmlMessage,
+		ID:         mailResp.ID,
+		FromMail:   mailResp.FromMail,
+		Recipients: mailResp.Recipients,
+		Subject:    mailResp.Subject,
+		Message:    mailResp.Message,
 	}
 
 	ctx.JSON(http.StatusOK, serviceResp)
@@ -73,16 +65,15 @@ func (mc *MailController) SendEmail(ctx *gin.Context) {
 func (mc *MailController) HanldeErrorMail(mailReq *schemas.MailRequest, ctx *gin.Context, err error) {
 	if err != nil {
 		mailResp := &schemas.SendSmtpResponse{
-			FromEmail:   mc.smtpService.SenderMail,
-			FromName:    mc.smtpService.SenderName,
-			Recipients:  mailReq.To,
-			Cc:          mailReq.Cc,
-			Bcc:         mailReq.Bcc,
-			ReplyTo:     mailReq.ReplyTo,
-			Subject:     mailReq.Subject,
-			Message:     mailReq.Message,
-			HtmlMessage: mailReq.HtmlMessage,
-			Log:         err.Error(),
+			FromMail:   mc.smtpService.SenderMail,
+			FromName:   mc.smtpService.SenderName,
+			Recipients: mailReq.To,
+			Cc:         mailReq.Cc,
+			Bcc:        mailReq.Bcc,
+			ReplyTo:    mailReq.ReplyTo,
+			Subject:    mailReq.Subject,
+			Message:    mailReq.Message,
+			Log:        err.Error(),
 		}
 
 		_, errDb := mc.mailService.SaveMail(ctx, mailResp)
