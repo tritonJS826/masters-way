@@ -175,7 +175,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
             className={styles.additionalInfo}
             dataCy={userWaysAccessIds.wayCollectionButtonsBlock.wayAmountCollectionButton}
           >
-            {`${props.collectionWaysAmount} ${LanguageService.user.collections.ways[props.language]}`}
+            {`${LanguageService.user.collections.ways[props.language]}: ${props.collectionWaysAmount}`}
           </HorizontalContainer>
         </VerticalContainer>
       }
