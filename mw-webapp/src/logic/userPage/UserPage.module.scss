@@ -14,7 +14,7 @@
 }
 
 .userMainInfoBlock {
-  gap: $gapLarge;
+  gap: $gapBig;
 
   grid-template-columns: minmax($minWidthBlock, 1fr) minmax(
       $minWidthBlock,
@@ -98,7 +98,7 @@
 
 .tabsSectionContainer {
   @include regularContainer;
-  gap: $gapExtraLarge;
+  gap: $gapBig;
 }
 
 .tabsSection {

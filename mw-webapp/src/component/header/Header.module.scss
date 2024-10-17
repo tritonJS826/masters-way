@@ -14,22 +14,31 @@ $iconSize: 32px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: $paddingBig $paddingMedium;
+  padding: $paddingMedium;
   margin: 0 auto;
 }
 
 .logoSidebar {
-  height: logoSidebarHeight;
+  height: $logoSidebarHeight;
 }
 
 .headerButtonsContainer {
   align-items: center;
   justify-content: space-between;
-  gap: $gapExtraLarge;
+  gap: $gapBig;
 
   @media (max-width: $mediaWidthTablet) {
     gap: $gapMedium;
   }
+}
+
+.logoWithBell {
+  align-items: center;
+  gap: $gapBig;
+}
+
+.logoLink {
+  width: 60px;
 }
 
 .logo {

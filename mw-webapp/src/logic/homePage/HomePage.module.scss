@@ -6,7 +6,7 @@
 }
 
 .welcomeBlock {
-  max-width: $maxWidthContainer;
+  max-width: $maxWidthLandingContainer;
   align-items: end;
   padding: $paddingVerticalBlockBig $paddingMedium;
   margin: 0 auto;
@@ -90,7 +90,7 @@
 .advantages,
 .systemItems,
 .aboutProjectItems {
-  max-width: $maxWidthContainer;
+  max-width: $maxWidthLandingContainer;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: $paddingBig $paddingMedium;

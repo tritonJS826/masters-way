@@ -374,12 +374,7 @@ export const ChatContent = observer(() => {
                 isAutofocus
                 isDisabled={isInputDisabled}
                 onKeyPress={(event: React.KeyboardEvent<HTMLElement>) => {
-                  if (event.key === KeySymbols.ENTER && event.ctrlKey) {
-                    activeChatStore.setMessage(`${activeChatStore.message}\n`);
-
-                    return;
-                  }
-                  if (event.key === KeySymbols.ENTER) {
+                  if ((event.key === KeySymbols.ENTER && event.ctrlKey) || (event.key === KeySymbols.ENTER && event.shiftKey)) {
                     sendMessage({
                       message: activeChatStore.message,
                       roomId: activeChatStore.activeChat.roomId,
