@@ -128,11 +128,12 @@ $modal-animation-time: 150ms;
 
 .messageInputBlock {
   position: relative;
-  align-items: center;
+  align-items: end;
   justify-content: space-between;
   padding: $paddingMedium;
   background-color: var(--tertiaryBgColor);
   gap: $gapExtraBig;
+  white-space: pre-wrap;
 }
 
 .unreadMessagesAmount {
@@ -182,6 +183,11 @@ $modal-animation-time: 150ms;
   .wayActionsIcon {
     z-index: $chatActionButton;
   }
+}
+
+.chatTextarea {
+  width: 100%;
+  max-height: 200px;
 }
 
 @keyframes overlayShow {
