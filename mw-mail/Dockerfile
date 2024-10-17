@@ -14,6 +14,6 @@ COPY --from=build /app/entrypoint.sh ./
 COPY --from=build /app/.env ./
 # required for reset-db
 COPY --from=build /app/internal/db/migration ./internal/db/migration
-EXPOSE 8001
+EXPOSE 8006
 RUN chmod +x ./entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
