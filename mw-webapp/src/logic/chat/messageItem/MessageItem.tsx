@@ -4,6 +4,7 @@ import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Link} from "src/component/link/Link";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {pages} from "src/router/pages";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/chat/messageItem/MessageItem.module.scss";
@@ -64,7 +65,9 @@ export const MessageItem = (props: MessageItemProps) => {
           props.isOwnMessage && styles.ownMessage,
         )}
       >
-        {renderMarkdown(props.message)}
+        <VerticalContainer>
+          {renderMarkdown(props.message)}
+        </VerticalContainer>
       </HorizontalContainer>
     </HorizontalContainer>
   );

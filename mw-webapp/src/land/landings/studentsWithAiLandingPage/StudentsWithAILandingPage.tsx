@@ -14,12 +14,13 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {AmountBlock, AmountItem} from "src/land/amountBlock/AmountBlock";
 import {HeaderLanding, NavLink} from "src/land/headerLanding/HeaderLanding";
 import {ProblemItem} from "src/land/problemItem/ProblemItem";
+import {getStarted} from "src/logic/homePage/HomePage";
 import {PricePlan} from "src/logic/pricingPage/pricePlan/PricePlan";
 import {pricePlans} from "src/logic/pricingPage/pricePlan/pricePlans";
-import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/land/landings/studentsWithAiLandingPage/StudentsWithAILandingPage.module.scss";
@@ -28,6 +29,7 @@ import styles from "src/land/landings/studentsWithAiLandingPage/StudentsWithAILa
  * Students with AI landing page
  */
 export const StudentsWithAILandingPage = observer(() => {
+  const {user} = userStore;
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
 
@@ -127,6 +129,7 @@ export const StudentsWithAILandingPage = observer(() => {
           theme={theme}
           setTheme={setTheme}
           navList={navList}
+          userUuid={user?.uuid}
         />
         <VerticalContainer className={styles.mainBlock}>
           <VerticalContainer className={styles.titleBlock}>
@@ -152,7 +155,7 @@ export const StudentsWithAILandingPage = observer(() => {
                 className={styles.icon}
               />
             }
-            onClick={() => navigate(pages.home.getPath({}))}
+            onClick={() => getStarted(navigate, user?.uuid)}
           />
         </VerticalContainer>
         <VerticalContainer className={styles.imageBlock}>
@@ -258,7 +261,7 @@ export const StudentsWithAILandingPage = observer(() => {
                 className={styles.icon}
               />
             }
-            onClick={() => navigate(pages.home.getPath({}))}
+            onClick={() => getStarted(navigate, user?.uuid)}
             className={styles.triesActionButton}
           />
         </div>
@@ -329,7 +332,7 @@ export const StudentsWithAILandingPage = observer(() => {
                     className={styles.icon}
                   />
                 }
-                onClick={() => navigate(pages.home.getPath({}))}
+                onClick={() => getStarted(navigate, user?.uuid)}
                 className={styles.triesActionButton}
               />
             </VerticalContainer>
