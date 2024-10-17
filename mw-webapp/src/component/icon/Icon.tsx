@@ -3,6 +3,7 @@ import {ActivityIcon} from "src/assets/icons/ActivityIcon";
 import {AppStoreIcon} from "src/assets/icons/AppStoreIcon";
 import {ArrowRightIcon} from "src/assets/icons/ArrowRight";
 import {AwardIcon} from "src/assets/icons/AwardIcon";
+import {BellIcon} from "src/assets/icons/BellIcon";
 import {BookIcon} from "src/assets/icons/BookIcon";
 import {BoxIcon} from "src/assets/icons/BoxIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
@@ -245,6 +246,11 @@ export const IconDictionary = {
    * Sunset icon
    */
   SunsetIcon: (params: IconProps) => <SunsetIcon {...params} />,
+
+  /**
+   * Bell icon
+   */
+  BellIcon: (params: IconProps) => <BellIcon {...params} />,
 
 };
 

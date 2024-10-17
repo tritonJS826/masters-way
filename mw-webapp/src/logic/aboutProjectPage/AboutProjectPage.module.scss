@@ -17,7 +17,8 @@
 }
 
 .aboutDescription {
-  max-width: $maxWidthContainer;
+  width: 100%;
+  max-width: $maxWidthLandingContainer;
   align-items: center;
   justify-content: center;
   margin-top: $marginBig;
@@ -41,13 +42,15 @@
 .ourTeamBlock {
   width: 100%;
   padding: $paddingExtraMedium $paddingSmall;
-  gap: $gapLarge;
+  gap: $gapBig;
   text-align: center;
 }
 
 .ourTeamMembers {
+  max-width: $maxWidthLandingContainer;
   flex-wrap: wrap;
   justify-content: center;
+  margin: 0 auto;
   gap: $gapLarge;
 }
 
@@ -60,5 +63,6 @@
 
 .accordion {
   width: 100%;
+  max-width: $maxWidthLandingContainer;
   padding: 0 $paddingMedium;
 }

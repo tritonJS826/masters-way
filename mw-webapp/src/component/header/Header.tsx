@@ -192,23 +192,43 @@ export const Header = observer((props: HeaderProps) => {
       className={styles.header}
       data-cy={props.dataCy}
     >
-      <Link
-        className={styles.logo}
-        path={pages.home.getPath({})}
-        dataCy={headerAccessIds.logo}
-        onClick={TrackHeader.trackLogoClick}
-      >
-        <ThemedImage
-          className={styles.logo}
-          sources={getMapThemeSources({
-            [Theme.DARK]: logoLight,
-            [Theme.LIGHT]: logo,
-            [Theme.OBSIDIAN]: logoLight,
-          })}
-          theme={props.theme}
-          name={LOGO_TEXT}
-        />
-      </Link>
+      <HorizontalContainer className={styles.logoWithBell}>
+        <Link
+          className={styles.logoLink}
+          path={pages.home.getPath({})}
+          dataCy={headerAccessIds.logo}
+          onClick={TrackHeader.trackLogoClick}
+        >
+          <ThemedImage
+            className={styles.logo}
+            sources={getMapThemeSources({
+              [Theme.DARK]: logoLight,
+              [Theme.LIGHT]: logo,
+              [Theme.OBSIDIAN]: logoLight,
+            })}
+            theme={props.theme}
+            name={LOGO_TEXT}
+          />
+        </Link>
+        {props.user &&
+        <Tooltip
+          position={PositionTooltip.BOTTOM}
+          content="Coming soon..."
+        >
+          <Button
+            onClick={() => { }}
+            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+            className={styles.notificationTrigger}
+            icon={
+              <Icon
+                name="BellIcon"
+                size={IconSize.SMALL}
+              />
+            }
+          />
+        </Tooltip>
+        }
+      </HorizontalContainer>
       <HorizontalContainer className={styles.headerButtonsContainer}>
         <HorizontalContainer className={styles.headerThemeLanguageBlock}>
           <ThemeSwitcher

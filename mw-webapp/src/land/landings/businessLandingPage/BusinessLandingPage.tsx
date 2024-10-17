@@ -4,7 +4,6 @@ import {observer} from "mobx-react-lite";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AdvantageItem} from "src/component/advantageItem/AdvantageItem";
 import {Button, ButtonType} from "src/component/button/Button";
-import {Footer} from "src/component/footer/Footer";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
@@ -16,6 +15,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {AmountBlock, AmountItem} from "src/land/amountBlock/AmountBlock";
+import {FooterLanding} from "src/land/footerLanding/FooterLanding";
 import {HeaderLanding, NavLink} from "src/land/headerLanding/HeaderLanding";
 import {ProblemItem} from "src/land/problemItem/ProblemItem";
 import {getStarted} from "src/logic/homePage/HomePage";
@@ -340,7 +340,7 @@ export const BusinessLandingPage = observer(() => {
         </HorizontalContainer>
 
       </div>
-      <Footer language={language} />
+      <FooterLanding language={language} />
     </>
   );
 });

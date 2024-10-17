@@ -95,7 +95,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
    * Update cell value after OnKeyDown event
    */
   const handleCtrlEnter = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === KeySymbols.ENTER && event.ctrlKey) {
+    if ((event.key === KeySymbols.ENTER && event.ctrlKey) || (event.key === KeySymbols.ENTER && event.shiftKey)) {
       handleChangeFinish();
     }
   };
@@ -144,4 +144,3 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     </div>
   );
 };
-
