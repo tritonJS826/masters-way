@@ -6,7 +6,7 @@
 
       "ownCollection": {
         "name": "Own",
-        "waysNumberCollectionButton": "3 Ways",
+        "waysNumberCollectionButton": "Ways: 3",
         "publicWaysNumber": 2,
         "publicWaysTitles": {
           "1": {
@@ -20,7 +20,7 @@
       
       "mentoringCollection": {
         "name": "Mentoring",
-        "waysNumberCollectionButton": "1 Ways",
+        "waysNumberCollectionButton": "Ways: 1",
         "publicWaysNumber": 1,
         "publicWaysTitles": {
           "1": {
@@ -31,7 +31,7 @@
       
       "favoriteCollection": {
         "name": "Favorite",
-        "waysNumberCollectionButton": "1 Ways",
+        "waysNumberCollectionButton": "Ways: 1",
         "publicWaysNumber": 1,
         "publicWaysTitles": {
         "1": {
