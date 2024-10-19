@@ -2,8 +2,16 @@
 
 .pageLayout {
   max-width: $maxWidthContainer;
-  padding: 0 $paddingMedium;
   margin: 0 auto;
+  gap: $gapExtraBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
+}
+
+.userPageWrapper {
+  width: 100%;
   gap: $gapExtraBig;
 }
 

@@ -1,5 +1,12 @@
 @import "src/styles/variables";
 
-.wrapper {
-  // max-width: $maxWidthFullScreen;
+.pageLayout {
+  max-width: $maxWidthContainer;
+  padding: 0 $paddingMedium;
+  margin: 0 auto;
+  gap: $gapExtraBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
 }

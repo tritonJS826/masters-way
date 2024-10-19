@@ -17,7 +17,7 @@ export const PricingPage = observer(() => {
   const {language} = languageStore;
 
   return (
-    <>
+    <VerticalContainer className={styles.pricingPageWrapper}>
       <VerticalContainer className={styles.pricingBlock}>
         <Title
           level={HeadingLevel.h2}
@@ -42,7 +42,7 @@ export const PricingPage = observer(() => {
 
       </VerticalContainer>
       <Footer language={language} />
-    </>
+    </VerticalContainer>
   );
 
 });

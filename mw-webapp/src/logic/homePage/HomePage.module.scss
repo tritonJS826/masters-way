@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.homePageWrapper {
+  width: 100%;
+}
+
 .container {
   justify-content: center;
   background-color: var(--secondaryBgColor);
@@ -35,6 +39,7 @@
 
 .buildSystemImageBlock {
   width: 80%;
+  height: auto;
   margin: 0 auto;
 
   @media (max-width: $mediaWidthTablet) {

@@ -25,6 +25,8 @@ describe("Header component", () => {
           language={languageStore.language}
           theme={themeStore.theme}
           setTheme={STUB_FUNCTION_SET_THEME}
+          openNotificationBlock={() => { }}
+          unreadNotificationsAmount={null}
         />
       </BrowserRouter>,
     );

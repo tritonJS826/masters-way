@@ -1,8 +1,8 @@
 @import "src/styles/variables";
 
 .container {
+  width: 100%;
   max-width: $maxWidthContainer;
-  padding: 0 $paddingMedium;
   margin: 0 auto;
 }
 

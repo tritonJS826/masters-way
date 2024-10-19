@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.pricingPageWrapper {
+  width: 100%;
+}
+
 .pricingBlock {
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;

@@ -93,7 +93,7 @@ export const HomePage = observer(() => {
   ];
 
   return (
-    <>
+    <VerticalContainer className={styles.homePageWrapper}>
       <div className={styles.container}>
         <HorizontalGridContainer className={styles.welcomeBlock}>
           <VerticalContainer className={styles.welcomeInfoBlock}>
@@ -269,7 +269,7 @@ export const HomePage = observer(() => {
       </VerticalContainer>
 
       <Footer language={language} />
-    </>
+    </VerticalContainer>
   );
 
 });

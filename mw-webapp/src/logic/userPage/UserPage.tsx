@@ -12,6 +12,7 @@ import {Dropdown} from "src/component/dropdown/Dropdown";
 import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Form} from "src/component/form/Form";
+// Import {HiddenBlock} from "src/component/hiddenBlock/HiddenBlock";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -44,6 +45,7 @@ import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
 import {chatListStore} from "src/logic/chat/ChatListStore";
 import {chatStore} from "src/logic/chat/ChatStore";
+// Import {notificationStore} from "src/logic/notificationBlock/NotificationStore";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
@@ -174,6 +176,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const {setIsChatOpen} = chatStore;
   const {chatList} = chatListStore;
   const {deviceId, setDeviceId} = deviceStore;
+  // Const {isNotificationOpen, setIsNotificationOpen, notificationList} = notificationStore;
   const navigate = useNavigate();
 
   const userPageStore = useStore<
@@ -190,7 +193,6 @@ export const UserPage = observer((props: UserPageProps) => {
   const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
 
-  // Const [isProjectsOpened, setIsProjectsOpened] = useState<boolean>(false);
   const [openedTabId, setOpenedTabId] = usePersistanceState({
     key: "userPage.openedTabId",
     defaultValue: DefaultCollections.OWN,
@@ -524,8 +526,35 @@ export const UserPage = observer((props: UserPageProps) => {
       };
     });
 
+  // Const notificationList = [
+  //   {
+  //     id: "0",
+  //     title: "haha",
+  //     description: "desciption",
+  //     isRead: false,
+  //   },
+  //   {
+  //     id: "1",
+  //     title: "haha",
+  //     description: "desciption",
+  //     isRead: false,
+  //   },
+  //   {
+  //     id: "2",
+  //     title: "haha",
+  //     description: "desciption",
+  //     isRead: false,
+  //   },
+  //   {
+  //     id: "3",
+  //     title: "haha",
+  //     description: "desciption",
+  //     isRead: false,
+  //   },
+  // ];
+
   return (
-    <VerticalContainer className={styles.pageLayout}>
+    <VerticalContainer className={styles.userPageWrapper}>
       <VerticalContainer className={styles.userInfoBlock}>
         <HorizontalGridContainer className={styles.userMainInfoBlock}>
           <HorizontalContainer className={styles.userAboutBlock}>
@@ -536,93 +565,95 @@ export const UserPage = observer((props: UserPageProps) => {
                 size={AvatarSize.LARGE}
               />
               {!isPageOwner && user &&
-              <Button
-                onClick={async () => {
-                  const chatParticipantsIds = chatList.flatMap((chatPreview) =>
-                    chatPreview.participantIds);
+                <Button
+                  onClick={async () => {
+                    const chatParticipantsIds = chatList.flatMap((chatPreview) =>
+                      chatPreview.participantIds);
 
-                  const isUserConnected = !!chatParticipantsIds.includes(userPageOwner.uuid);
-                  !isUserConnected &&
+                    const isUserConnected = !!chatParticipantsIds.includes(userPageOwner.uuid);
+                    !isUserConnected &&
                 await ChatDAL.createRoom({
                   roomType: RoomType.PRIVATE,
                   userId: userPageOwner.uuid,
                 });
 
-                  setIsChatOpen(true);
-                }}
-                buttonType={ButtonType.SECONDARY}
-                value={LanguageService.user.personalInfo.writeToConnectButton[language]}
-                dataCy={userPersonalDataAccessIds.connectButton}
-              />
+                    setIsChatOpen(true);
+                  }}
+                  buttonType={ButtonType.SECONDARY}
+                  value={LanguageService.user.personalInfo.writeToConnectButton[language]}
+                  dataCy={userPersonalDataAccessIds.connectButton}
+                />
               }
 
               {isPageOwner &&
-              <Modal
-                trigger={
-                  <Button
-                    onClick={() => setIsFindMentorRequestSent(false)}
-                    buttonType={ButtonType.PRIMARY}
-                    value={LanguageService.user.personalInfo.findMentorButton[language]}
-                    icon={
-                      <Icon
-                        size={IconSize.SMALL}
-                        name="ArrowRightIcon"
-                        className={styles.findMentorIcon}
-                      />
-                    }
-                  />
-                }
-                content={
-                  !isFindMentorRequestSent
-                    ? (
-                      <VerticalContainer className={styles.modalContainer}>
-                        <Form
-                          onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
-                            await SurveyDAL.surveyFindMentor({
-                              ...formData,
-                              userEmail: user.email,
-                            });
-                            setIsFindMentorRequestSent(true);
-                          }}
-                          submitButtonValue={LanguageService.survey.submitButton[language]}
-                          formTitle={LanguageService.survey.findMentor.title[language]}
-                          formDescription={LanguageService.survey.findMentor.description[language]}
-                          formFields={[
-                            {
-                              id: 0,
-                              label: "skillsToLearn",
-                              name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
-                              value: "",
-                              required: true,
-                              placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
-                            },
-                            {
-                              id: 1,
-                              label: "currentExperience",
-                              name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
-                              value: "",
-                              required: true,
-                              placeholder: `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
-                            },
-                            {
-                              id: 2,
-                              label: "mentorDescription",
-                              name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
-                              value: "",
-                              required: true,
-                              placeholder: `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
-                            },
-                          ]}
+                <Modal
+                  trigger={
+                    <Button
+                      onClick={() => setIsFindMentorRequestSent(false)}
+                      buttonType={ButtonType.PRIMARY}
+                      value={LanguageService.user.personalInfo.findMentorButton[language]}
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="ArrowRightIcon"
+                          className={styles.findMentorIcon}
                         />
-                      </VerticalContainer>
-                    )
-                    : (
-                      <VerticalContainer className={styles.modalContainer}>
-                        {LanguageService.survey.findMentor.requestSent[language]}
-                      </VerticalContainer>
-                    )
-                }
-              />
+                      }
+                    />
+                  }
+                  content={
+                    !isFindMentorRequestSent
+                      ? (
+                        <VerticalContainer className={styles.modalContainer}>
+                          <Form
+                            onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
+                              await SurveyDAL.surveyFindMentor({
+                                ...formData,
+                                userEmail: user.email,
+                              });
+                              setIsFindMentorRequestSent(true);
+                            }}
+                            submitButtonValue={LanguageService.survey.submitButton[language]}
+                            formTitle={LanguageService.survey.findMentor.title[language]}
+                            formDescription={LanguageService.survey.findMentor.description[language]}
+                            formFields={[
+                              {
+                                id: 0,
+                                label: "skillsToLearn",
+                                name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
+                                value: "",
+                                required: true,
+                                placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
+                              },
+                              {
+                                id: 1,
+                                label: "currentExperience",
+                                name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
+                                value: "",
+                                required: true,
+                                placeholder:
+                                  `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
+                              },
+                              {
+                                id: 2,
+                                label: "mentorDescription",
+                                name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
+                                value: "",
+                                required: true,
+                                placeholder:
+                                  `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
+                              },
+                            ]}
+                          />
+                        </VerticalContainer>
+                      )
+                      : (
+                        <VerticalContainer className={styles.modalContainer}>
+                          {LanguageService.survey.findMentor.requestSent[language]}
+                        </VerticalContainer>
+                      )
+                  }
+                />
               }
             </VerticalContainer>
 
@@ -660,14 +691,12 @@ export const UserPage = observer((props: UserPageProps) => {
                     maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
                   ]}
                   className={styles.ownerName}
-
                 />
 
                 <HorizontalContainer className={styles.userActionButtons}>
                   <Tooltip
                     content={favoriteTooltipText}
                     position={PositionTooltip.LEFT}
-
                   >
                     <Button
                       className={clsx(styles.userActionsIcon, {[styles.disable]: !user})}
@@ -707,37 +736,37 @@ export const UserPage = observer((props: UserPageProps) => {
                   </Tooltip>
 
                   {user &&
-                  <Dropdown
-                    contentClassName={styles.userActionMenu}
-                    trigger={(
-                      <Tooltip
-                        content={LanguageService.user.projects.projectActionsTooltip[language]}
-                        position={PositionTooltip.LEFT}
-                      >
-                        <Button
-                          className={styles.userActionsIcon}
-                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                          onClick={() => {}}
-                          icon={
-                            <Icon
-                              size={IconSize.MEDIUM}
-                              name={"MoreVertical"}
-                            />
-                          }
-                        />
-                      </Tooltip>
-                    )}
+                    <Dropdown
+                      contentClassName={styles.userActionMenu}
+                      trigger={(
+                        <Tooltip
+                          content={LanguageService.user.projects.projectActionsTooltip[language]}
+                          position={PositionTooltip.LEFT}
+                        >
+                          <Button
+                            className={styles.userActionsIcon}
+                            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                            onClick={() => {}}
+                            icon={
+                              <Icon
+                                size={IconSize.MEDIUM}
+                                name={"MoreVertical"}
+                              />
+                            }
+                          />
+                        </Tooltip>
+                      )}
 
-                    dropdownMenuItems={[
-                      {
-                        subTrigger: <p>
-                          {LanguageService.user.userActions.projectManagement[language]}
-                        </p>,
-                        isVisible: !!user,
-                        dropdownSubMenuItems: renderAddToProjectDropdownItems,
-                      },
-                    ]}
-                  />
+                      dropdownMenuItems={[
+                        {
+                          subTrigger: <p>
+                            {LanguageService.user.userActions.projectManagement[language]}
+                          </p>,
+                          isVisible: !!user,
+                          dropdownSubMenuItems: renderAddToProjectDropdownItems,
+                        },
+                      ]}
+                    />
                   }
                 </HorizontalContainer>
 
@@ -916,42 +945,42 @@ export const UserPage = observer((props: UserPageProps) => {
             </HorizontalContainer>
             <HorizontalContainer className={styles.supportBlock}>
               {user &&
-              <>
-                <Modal
-                  trigger={
-                    <Button
-                      onClick={TrackUserPage.trackDonateClick}
-                      value={LanguageService.user.personalInfo.donateButton[language]}
-                      icon={
-                        <Icon
-                          size={IconSize.SMALL}
-                          name={"DollarIcon"}
-                        />
-                      }
-                      buttonType={ButtonType.SECONDARY}
-                    />
-                  }
-                  content={
-                    <VerticalContainer>
-                      {renderMarkdown(LanguageService.user.personalInfo.donateModal[language])}
-                    </VerticalContainer>
-                  }
-                />
-                <Button
-                  onClick={() => {
-                    TrackUserPage.trackUpgradeToPremiumClick;
-                    navigate(pages.pricing.getPath({}));
-                  }}
-                  value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
-                  icon={
-                    <Icon
-                      size={IconSize.SMALL}
-                      name={"AwardIcon"}
-                    />
-                  }
-                  buttonType={ButtonType.SECONDARY}
-                />
-              </>
+                <>
+                  <Modal
+                    trigger={
+                      <Button
+                        onClick={TrackUserPage.trackDonateClick}
+                        value={LanguageService.user.personalInfo.donateButton[language]}
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name={"DollarIcon"}
+                          />
+                        }
+                        buttonType={ButtonType.SECONDARY}
+                      />
+                    }
+                    content={
+                      <VerticalContainer>
+                        {renderMarkdown(LanguageService.user.personalInfo.donateModal[language])}
+                      </VerticalContainer>
+                    }
+                  />
+                  <Button
+                    onClick={() => {
+                      TrackUserPage.trackUpgradeToPremiumClick;
+                      navigate(pages.pricing.getPath({}));
+                    }}
+                    value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name={"AwardIcon"}
+                      />
+                    }
+                    buttonType={ButtonType.SECONDARY}
+                  />
+                </>
               }
             </HorizontalContainer>
           </VerticalContainer>
@@ -965,29 +994,29 @@ export const UserPage = observer((props: UserPageProps) => {
       />
 
       {!userPageSettings.isProjectsOpened &&
-      <BaseWaysTable
-        key={currentCollection.uuid}
-        // This check need to translate default collections and don't translate custom collections
-        title={currentCollection.name.toLowerCase() in LanguageService.user.collections
-          ? LanguageService.user.collections[
+        <BaseWaysTable
+          key={currentCollection.uuid}
+          // This check need to translate default collections and don't translate custom collections
+          title={currentCollection.name.toLowerCase() in LanguageService.user.collections
+            ? LanguageService.user.collections[
           currentCollection.name.toLowerCase() as keyof typeof LanguageService.user.collections
-          ][language]
-          : currentCollection.name
-        }
-        ways={currentCollection.ways}
-        updateCollection={isCustomCollection
-          ? (wayCollection: Partial<WayCollection>) =>
-            updateCustomWayCollection({id: currentCollection.uuid, ...wayCollection})
-          : undefined
-        }
-        filterStatus={userPageSettings.filterStatus}
-        setFilterStatus={(
-          filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
-        ) => updateUserPageSettings({filterStatus})}
-        view={userPageSettings.view}
-        setView={(view: View) => updateUserPageSettings({view})}
-        isPageOwner={isPageOwner}
-      />
+            ][language]
+            : currentCollection.name
+          }
+          ways={currentCollection.ways}
+          updateCollection={isCustomCollection
+            ? (wayCollection: Partial<WayCollection>) =>
+              updateCustomWayCollection({id: currentCollection.uuid, ...wayCollection})
+            : undefined
+          }
+          filterStatus={userPageSettings.filterStatus}
+          setFilterStatus={(
+            filterStatus: WayStatusType | typeof FILTER_STATUS_ALL_VALUE,
+          ) => updateUserPageSettings({filterStatus})}
+          view={userPageSettings.view}
+          setView={(view: View) => updateUserPageSettings({view})}
+          isPageOwner={isPageOwner}
+        />
       }
 
       {isPageOwner && !deviceId &&
