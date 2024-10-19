@@ -9,6 +9,8 @@ import (
 	"github.com/jordan-wright/email"
 )
 
+const identity = ""
+
 type SmtpService struct {
 	SenderName     string
 	SenderMail     string
@@ -27,23 +29,21 @@ func NewSmtpService(config *config.Config) *SmtpService {
 	}
 }
 
-// Sending messages to recipients with smtp
 func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmtpResponse, error) {
 
 	mail := ss.CreateMail(dataMail)
 
-	smtpAuth := smtp.PlainAuth("", ss.SenderMail, ss.SenderPassword, ss.AuthAddress)
+	smtpAuth := smtp.PlainAuth(identity, ss.SenderMail, ss.SenderPassword, ss.AuthAddress)
 
 	err := mail.Send(ss.ServerAddress, smtpAuth)
 	if err != nil {
-
 		return nil, err
 	}
 
 	mailResp := schemas.SendSmtpResponse{
-		FromMail:   ss.SenderMail,
-		FromName:   ss.SenderName,
-		Recipients: dataMail.To,
+		SenderMail: ss.SenderMail,
+		SenderName: ss.SenderName,
+		Recipients: dataMail.Recipients,
 		Cc:         dataMail.Cc,
 		Bcc:        dataMail.Bcc,
 		ReplyTo:    dataMail.ReplyTo,
@@ -64,7 +64,7 @@ func (ss *SmtpService) CreateMail(dataMail *schemas.MailRequest) *email.Email {
 	mail.Cc = dataMail.Cc
 	mail.Bcc = dataMail.Bcc
 	mail.ReplyTo = dataMail.ReplyTo
-	mail.To = dataMail.To
+	mail.To = dataMail.Recipients
 
 	return mail
 }

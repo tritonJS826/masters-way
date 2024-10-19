@@ -1,27 +1,31 @@
 -- name: CreateMail :one
 INSERT INTO mail_logs (
-    from_mail,
-    from_name,
+    sender_mail,
+    sender_name,
     recipients,
     cc,
     bcc,
+    reply_to,
     subject,
     message,
     log
-)
-VALUES (
-    @from_mail,
-    @from_name,
+) VALUES (
+    @sender_mail,
+    @sender_name,
     @recipients,
     @cc,
     @bcc,
+    @reply_to,
     @subject,
     @message,
     @log
-)
-RETURNING
+) RETURNING
     uuid,
-    from_mail,
+    sender_mail,
+    sender_name,
     recipients,
+    cc,
+    bcc,
+    reply_to,
     subject,
     message;

@@ -13,16 +13,16 @@ import (
 
 const createMail = `-- name: CreateMail :one
 INSERT INTO mail_logs (
-    from_mail,
-    from_name,
+    sender_mail,
+    sender_name,
     recipients,
     cc,
     bcc,
+    reply_to,
     subject,
     message,
     log
-)
-VALUES (
+) VALUES (
     $1,
     $2,
     $3,
@@ -30,42 +30,52 @@ VALUES (
     $5,
     $6,
     $7,
-    $8
-)
-RETURNING
+    $8,
+    $9
+) RETURNING
     uuid,
-    from_mail,
+    sender_mail,
+    sender_name,
     recipients,
+    cc,
+    bcc,
+    reply_to,
     subject,
     message
 `
 
 type CreateMailParams struct {
-	FromMail   string      `json:"from_mail"`
-	FromName   pgtype.Text `json:"from_name"`
+	SenderMail string      `json:"sender_mail"`
+	SenderName pgtype.Text `json:"sender_name"`
 	Recipients []string    `json:"recipients"`
 	Cc         []string    `json:"cc"`
 	Bcc        []string    `json:"bcc"`
+	ReplyTo    []string    `json:"reply_to"`
 	Subject    string      `json:"subject"`
 	Message    string      `json:"message"`
-	Log        string      `json:"log"`
+	Log        pgtype.Text `json:"log"`
 }
 
 type CreateMailRow struct {
 	Uuid       pgtype.UUID `json:"uuid"`
-	FromMail   string      `json:"from_mail"`
+	SenderMail string      `json:"sender_mail"`
+	SenderName pgtype.Text `json:"sender_name"`
 	Recipients []string    `json:"recipients"`
+	Cc         []string    `json:"cc"`
+	Bcc        []string    `json:"bcc"`
+	ReplyTo    []string    `json:"reply_to"`
 	Subject    string      `json:"subject"`
 	Message    string      `json:"message"`
 }
 
 func (q *Queries) CreateMail(ctx context.Context, arg CreateMailParams) (CreateMailRow, error) {
 	row := q.db.QueryRow(ctx, createMail,
-		arg.FromMail,
-		arg.FromName,
+		arg.SenderMail,
+		arg.SenderName,
 		arg.Recipients,
 		arg.Cc,
 		arg.Bcc,
+		arg.ReplyTo,
 		arg.Subject,
 		arg.Message,
 		arg.Log,
@@ -73,8 +83,12 @@ func (q *Queries) CreateMail(ctx context.Context, arg CreateMailParams) (CreateM
 	var i CreateMailRow
 	err := row.Scan(
 		&i.Uuid,
-		&i.FromMail,
+		&i.SenderMail,
+		&i.SenderName,
 		&i.Recipients,
+		&i.Cc,
+		&i.Bcc,
+		&i.ReplyTo,
 		&i.Subject,
 		&i.Message,
 	)

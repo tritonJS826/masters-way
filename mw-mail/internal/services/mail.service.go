@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const mailSuccessSent = "mail successfully sent"
+const emptyName = ""
 
 type IMailRepository interface {
 	CreateMail(ctx context.Context, arg db.CreateMailParams) (db.CreateMailRow, error)
@@ -26,25 +26,17 @@ func NewMailService(mailRepository IMailRepository) *MailService {
 	return &MailService{mailRepository}
 }
 
-// Save response log after sending message to recipients
-func (ms *MailService) SaveMail(ctx context.Context, smtpInfoParams *schemas.SendSmtpResponse) (*schemas.SendMailResponse, error) {
-
-	var log string
-	if smtpInfoParams.Log == "" {
-		log = mailSuccessSent
-	} else {
-		log = smtpInfoParams.Log
-	}
+func (ms *MailService) SaveMailResultToDB(ctx context.Context, smtpInfoParams *schemas.SendSmtpResponse) (*schemas.SendMailResponse, error) {
 
 	createMailParams := db.CreateMailParams{
-		FromMail:   smtpInfoParams.FromMail,
-		FromName:   pgtype.Text{String: smtpInfoParams.FromName, Valid: true},
+		SenderMail: smtpInfoParams.SenderMail,
+		SenderName: pgtype.Text{String: smtpInfoParams.SenderName, Valid: true},
 		Recipients: smtpInfoParams.Recipients,
 		Cc:         smtpInfoParams.Cc,
 		Bcc:        smtpInfoParams.Bcc,
 		Subject:    smtpInfoParams.Subject,
 		Message:    smtpInfoParams.Message,
-		Log:        log,
+		Log:        pgtype.Text{String: smtpInfoParams.Log, Valid: true},
 	}
 
 	result, err := ms.MailRepository.CreateMail(ctx, createMailParams)
@@ -52,10 +44,21 @@ func (ms *MailService) SaveMail(ctx context.Context, smtpInfoParams *schemas.Sen
 		return nil, err
 	}
 
+	var senderName string
+	if ptr := utils.MarshalPgText(result.SenderName); ptr != nil {
+		senderName = *ptr
+	} else {
+		senderName = emptyName
+	}
+
 	return &schemas.SendMailResponse{
 		ID:         utils.ConvertPgUUIDToUUID(result.Uuid).String(),
-		FromMail:   result.FromMail,
+		SenderMail: result.SenderMail,
+		SenderName: senderName,
 		Recipients: result.Recipients,
+		Cc:         result.Cc,
+		Bcc:        result.Bcc,
+		ReplyTo:    result.ReplyTo,
 		Subject:    result.Subject,
 		Message:    result.Message,
 	}, nil
