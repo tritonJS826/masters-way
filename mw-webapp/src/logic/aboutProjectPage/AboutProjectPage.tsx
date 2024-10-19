@@ -30,7 +30,7 @@ export const AboutProjectPage = observer(() => {
   }));
 
   return (
-    <>
+    <VerticalContainer className={styles.aboutProjectPageWrapper}>
       <VerticalContainer className={styles.aboutBlock}>
         <Title
           level={HeadingLevel.h2}
@@ -107,6 +107,6 @@ export const AboutProjectPage = observer(() => {
       </VerticalContainer>
 
       <Footer language={language} />
-    </>
+    </VerticalContainer>
   );
 });

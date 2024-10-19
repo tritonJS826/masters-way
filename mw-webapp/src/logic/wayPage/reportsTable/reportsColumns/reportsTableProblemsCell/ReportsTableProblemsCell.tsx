@@ -157,7 +157,7 @@ export const ReportsTableProblemsCell = observer((props: ReportsTableProblemsCel
                 </Tooltip>
               </Link>
               }
-              {problem.ownerUuid === props.user?.uuid &&
+              {props.user && props.isEditable &&
                 <>
                   <Modal
                     trigger={

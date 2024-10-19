@@ -1,0 +1,20 @@
+@import "src/styles/variables";
+
+.notificationItem {
+  width: 100%;
+  cursor: pointer;
+  gap: $gapExtraSmall;
+}
+
+.notificationTexts {
+  padding: $paddingExtraSmall 0;
+}
+
+.notificationDescription {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  font-size: $fontSizeMedium;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+}

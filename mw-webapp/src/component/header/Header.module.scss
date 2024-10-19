@@ -38,11 +38,36 @@ $iconSize: 32px;
 }
 
 .logoLink {
-  width: 60px;
+  width: 85px;
 }
 
 .logo {
   cursor: pointer;
+}
+
+.notificationTrigger {
+  &:hover {
+    svg {
+      stroke: var(--generalPrimaryColor);
+    }
+  }
+}
+
+.xxx {
+  gap: 0;
+}
+
+.unreadNotificationAmount {
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  margin-top: -5px;
+  margin-left: -15px;
+  background-color: var(--generalPrimaryColor);
+  color: var(--primaryTextColor);
+  font-size: $fontSizeSmall;
 }
 
 .headerThemeLanguageBlock {

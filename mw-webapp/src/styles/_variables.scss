@@ -26,6 +26,7 @@ $secondaryBorderRadius: 8px;
 $quaternaryBorderRadius: 2px;
 $tertiaryBorderRadius: 50%;
 $tagBorderRadius: 1000px;
+$containerBorderRadius: 20px;
 
 // Stroke, border
 $primaryBorder: 1px;
@@ -48,6 +49,7 @@ $tooltipZIndex: 130;
 $notificationZIndex: 130;
 $chatActionButton: 140;
 $supportModalContent: 140;
+$notificationBLockZIndex: 150;
 $progressIndicatorZIndex: -1;
 
 $marginBig: 24px;
@@ -116,7 +118,7 @@ $blurLight: 2px;
 
 @mixin regularContainer {
   padding: $paddingMedium;
-  border-radius: 20px;
+  border-radius: $containerBorderRadius;
   background-color: var(--secondaryBgColor);
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {

@@ -153,7 +153,7 @@ export const ReportsTableCommentsCell = observer((props: ReportsTableCommentsCel
                   </Tooltip>
                 </Link>
                 }
-                {comment.ownerUuid === props.user?.uuid &&
+                {props.user && props.isEditable &&
                   <Modal
                     trigger={
                       <Tooltip

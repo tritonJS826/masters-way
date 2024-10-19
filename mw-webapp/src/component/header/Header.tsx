@@ -77,6 +77,16 @@ interface HeaderProps {
    */
   setTheme: (theme: Theme) => void;
 
+  /**
+   * Callback to open notifications
+   */
+  openNotificationBlock: (isNotificationBlockOpen: boolean) => void;
+
+  /**
+   * Unread notifications amount
+   */
+  unreadNotificationsAmount: number | null;
+
 }
 
 /**
@@ -215,17 +225,26 @@ export const Header = observer((props: HeaderProps) => {
           position={PositionTooltip.BOTTOM}
           content="Coming soon..."
         >
-          <Button
-            onClick={() => { }}
-            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-            className={styles.notificationTrigger}
-            icon={
-              <Icon
-                name="BellIcon"
-                size={IconSize.SMALL}
-              />
+          <HorizontalContainer className={styles.xxx}>
+            <Button
+              onClick={() => {
+                props.openNotificationBlock(true);
+              }}
+              buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+              className={styles.notificationTrigger}
+              icon={
+                <Icon
+                  name="BellIcon"
+                  size={IconSize.MEDIUM}
+                />
+              }
+            />
+            {!!props.unreadNotificationsAmount &&
+              <HorizontalContainer className={styles.unreadNotificationAmount}>
+                {props.unreadNotificationsAmount}
+              </HorizontalContainer>
             }
-          />
+          </HorizontalContainer>
         </Tooltip>
         }
       </HorizontalContainer>
