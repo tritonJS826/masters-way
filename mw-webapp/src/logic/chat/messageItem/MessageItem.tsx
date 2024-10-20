@@ -1,4 +1,3 @@
-// Import {ReactElement} from "react";
 import clsx from "clsx";
 import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
@@ -43,7 +42,7 @@ interface MessageItemProps {
 }
 
 /**
- * ChatItem component
+ * MessageItem component
  */
 export const MessageItem = (props: MessageItemProps) => {
   return (

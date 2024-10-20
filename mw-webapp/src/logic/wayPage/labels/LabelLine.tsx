@@ -1,12 +1,10 @@
-import {TrashIcon} from "@radix-ui/react-icons";
 import {observer} from "mobx-react-lite";
 import {ColorPicker} from "src/component/colorPicker/ColorPicker";
-import {Confirm} from "src/component/confirm/Confirm";
 import {EditableText} from "src/component/editableText/EditableText";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Label} from "src/component/label/Label";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Trash} from "src/component/trash/Trash";
 import {LabelDAL} from "src/dataAccessLogic/LabelDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {Label as LabelModel} from "src/model/businessModel/Label";
@@ -60,6 +58,7 @@ export const LabelLine = observer((props: LabelLineProps) => {
 
   return (
     <HorizontalContainer className={styles.labelLine}>
+      {/* <HorizontalContainer className={styles.x}> */}
       <div className={styles.labelContainer}>
         <Label
           label={props.label}
@@ -91,37 +90,33 @@ export const LabelLine = observer((props: LabelLineProps) => {
         className={styles.labelDescription}
         placeholder={LanguageService.common.emptyMarkdownAction[language]}
       />
+      {/* </HorizontalContainer> */}
 
-      <ColorPicker
-        color={props.label.color}
-        onChange={(updatedColor: string) => {
-          props.label.updateColor(updatedColor);
-          updateLabelDebounced({
-            uuid: props.label.uuid,
-            color: updatedColor,
-          });
-        }}
-      />
+      <HorizontalContainer className={styles.actionButtons}>
+        <ColorPicker
+          color={props.label.color}
+          onChange={(updatedColor: string) => {
+            props.label.updateColor(updatedColor);
+            updateLabelDebounced({
+              uuid: props.label.uuid,
+              color: updatedColor,
+            });
+          }}
+        />
 
-      {/* remove button */}
-      {props.isEditable && (
-        <Tooltip
-          content={LanguageService.way.filterBlock.deleteFromLabels[language]}
-          position={PositionTooltip.LEFT}
-        >
-          <Confirm
-            trigger={<TrashIcon className={styles.icon} />}
-            content={<p>
-              {LanguageService.way.filterBlock.deleteLabelQuestion[language].replace("$label", `"${props.label.name}"`)}
-            </p>}
+        {props.isEditable && (
+          <Trash
             onOk={() => props.onRemoveLabel(props.label.uuid)}
             okText={LanguageService.modals.confirmModal.deleteButton[language]}
             cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+            confirmContent={LanguageService.way.filterBlock.deleteLabelQuestion[language]
+              .replace("$label", `"${props.label.name}"`)}
+            tooltipContent={LanguageService.way.filterBlock.deleteFromLabels[language]}
+            tooltipPosition={PositionTooltip.LEFT}
           />
-        </Tooltip>
-      )}
+        )}
+      </HorizontalContainer>
 
     </HorizontalContainer>
-
   );
 });

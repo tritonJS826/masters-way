@@ -1,13 +1,11 @@
-import {TrashIcon} from "@radix-ui/react-icons";
 import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
-import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Infotip} from "src/component/infotip/Infotip";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
-import {Tooltip} from "src/component/tooltip/Tooltip";
+import {Trash} from "src/component/trash/Trash";
 import {MentorUserWayDAL} from "src/dataAccessLogic/MentorUserWayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -83,21 +81,15 @@ export const MentorsSection = observer((props: MentorsSectionProps) => {
         >
           {(props.isOwner || user?.uuid === mentor.uuid)
             ? (
-              <Tooltip
-                content={LanguageService.way.peopleBlock.deleteFromMentors[language]}
-                position={PositionTooltip.RIGHT}
-              >
-                <Confirm
-                  trigger={
-                    <TrashIcon className={styles.icon} />}
-                  content={<p>
-                    {LanguageService.way.peopleBlock.deleteMentorModalContent[language].replace("$mentor", `"${mentor.name}"`)}
-                  </p>}
-                  onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
-                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                />
-              </Tooltip>
+              <Trash
+                onOk={() => removeMentorFromWay(props.way, props.setWay, mentor)}
+                okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                confirmContent={LanguageService.way.peopleBlock.deleteMentorModalContent[language]
+                  .replace("$mentor", `"${mentor.name}"`)}
+                tooltipContent={LanguageService.way.peopleBlock.deleteFromMentors[language]}
+                tooltipPosition={PositionTooltip.RIGHT}
+              />
             )
             : (
               <div className={styles.icon} />

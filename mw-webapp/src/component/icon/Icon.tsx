@@ -34,6 +34,7 @@ import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {SunsetIcon} from "src/assets/icons/SunsetIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
+import {TrashIcon} from "src/assets/icons/TrashIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
 import {UploadIcon} from "src/assets/icons/UploadIcon";
 import {UserIcon} from "src/assets/icons/UserIcon";
@@ -251,6 +252,11 @@ export const IconDictionary = {
    * Bell icon
    */
   BellIcon: (params: IconProps) => <BellIcon {...params} />,
+
+  /**
+   * Trash icon
+   */
+  TrashIcon: (params: IconProps) => <TrashIcon {...params} />,
 
 };
 
