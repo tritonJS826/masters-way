@@ -1,18 +1,8 @@
 @import "src/styles/variables";
 
-.pageLayout {
-  max-width: $maxWidthContainer;
-  margin: 0 auto;
-  gap: $gapExtraBig;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    flex-direction: column;
-  }
-}
-
 .userPageWrapper {
   width: 100%;
-  gap: $gapExtraBig;
+  gap: $gapSmall;
 }
 
 .userInfoBlock {

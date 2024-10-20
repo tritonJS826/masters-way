@@ -4,7 +4,7 @@
   max-width: $maxWidthContainer;
   padding: 0 $paddingMedium;
   margin: 0 auto;
-  gap: $gapExtraBig;
+  gap: $gapSmall;
 
   @media (max-width: $mediaWidthMobileBig) {
     flex-direction: column;

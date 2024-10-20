@@ -16,6 +16,7 @@
 .aboutBlock {
   align-items: center;
   padding: $paddingVerticalBlockBig;
+  border-radius: $containerBorderRadius $containerBorderRadius 0 0;
   background-color: var(--secondaryBgColor);
   gap: $gapExtraSmall;
 }
@@ -30,13 +31,14 @@
 }
 
 .aboutTextBlock {
-  flex: 1 1 75%;
+  flex: 1 1 70%;
   padding: $paddingMedium;
   gap: $gapBig;
 }
 
 .logoAbout {
-  flex: 1 1 25%;
+  height: auto;
+  flex: 1 1 30%;
   padding: $paddingMedium;
   @media (max-width: $mediaWidthTablet) {
     display: none;

@@ -16,7 +16,7 @@ export const Page404 = () => {
   const {user, clearUser} = userStore;
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
-  const {unreadNotificationsAmount, setIsNotificationOpen} = notificationStore;
+  const {isNotificationOpen, unreadNotificationsAmount, setIsNotificationOpen} = notificationStore;
 
   const error = useRouteError();
   if (isRouteErrorResponse(error)) {
@@ -31,6 +31,7 @@ export const Page404 = () => {
           setTheme={setTheme}
           openNotificationBlock={() => setIsNotificationOpen(true)}
           unreadNotificationsAmount={unreadNotificationsAmount}
+          isNotificationBlockOpen={isNotificationOpen}
         />
         <ErrorComponent
           text={`${error.status} ${error.statusText}`}

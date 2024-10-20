@@ -1,20 +1,14 @@
 @import "src/styles/variables";
 
 .hiddenBlockContainer {
+  @include regularContainer;
   width: $mediumWidthBlock;
-  padding: $paddingMedium;
-  background-color: var(--secondaryBgColor);
-  gap: $gapExtraSmall;
 
   @media (max-width: $mediaWidthMobileBig) {
     width: 100%;
     height: 30vh;
     overflow-y: scroll;
   }
-}
-
-.titleAndCloseButton {
-  justify-content: space-between;
 }
 
 .hidden {

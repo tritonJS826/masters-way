@@ -6,6 +6,7 @@
 
 .container {
   justify-content: center;
+  border-radius: $containerBorderRadius $containerBorderRadius 0 0;
   background-color: var(--secondaryBgColor);
 }
 
@@ -38,7 +39,7 @@
 }
 
 .buildSystemImageBlock {
-  width: 80%;
+  // width: 80%;
   height: auto;
   margin: 0 auto;
 
@@ -81,14 +82,17 @@
 }
 
 .advantagesBlock {
+  width: 100%;
   background-color: var(--tertiaryBgColor);
 }
 
 .aboutProjectBlock {
+  width: 100%;
   background-color: var(--secondaryBgColor);
 }
 
 .aboutProjectBlock {
+  width: 100%;
   flex-wrap: wrap;
 }
 

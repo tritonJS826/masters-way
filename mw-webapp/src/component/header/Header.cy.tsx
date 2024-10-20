@@ -27,6 +27,7 @@ describe("Header component", () => {
           setTheme={STUB_FUNCTION_SET_THEME}
           openNotificationBlock={() => { }}
           unreadNotificationsAmount={null}
+          isNotificationBlockOpen={false}
         />
       </BrowserRouter>,
     );

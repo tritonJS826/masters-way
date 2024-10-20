@@ -35,6 +35,7 @@ export const Layout = observer(() => {
         dataCy={headerAccessIds.header}
         openNotificationBlock={(isOpen: boolean) => setIsNotificationOpen(isOpen)}
         unreadNotificationsAmount={unreadNotificationsAmount}
+        isNotificationBlockOpen={isNotificationOpen}
       />
 
       <SupportModal />
@@ -49,7 +50,6 @@ export const Layout = observer(() => {
           title={LanguageService.common.notifications.title[language]}
           notificationList={notificationList}
           isOpen={isNotificationOpen}
-          closeNotificationBlock={(isOpen: boolean) => setIsNotificationOpen(isOpen)}
         />
         }
 
