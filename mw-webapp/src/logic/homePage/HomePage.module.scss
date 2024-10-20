@@ -71,6 +71,7 @@
 .advantagesBlock,
 .buildSystemBlock,
 .aboutProjectBlock {
+  width: 100%;
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
   margin: 0 auto;
@@ -82,18 +83,12 @@
 }
 
 .advantagesBlock {
-  width: 100%;
   background-color: var(--tertiaryBgColor);
 }
 
 .aboutProjectBlock {
-  width: 100%;
-  background-color: var(--secondaryBgColor);
-}
-
-.aboutProjectBlock {
-  width: 100%;
   flex-wrap: wrap;
+  background-color: var(--secondaryBgColor);
 }
 
 .advantages,
