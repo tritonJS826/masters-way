@@ -8,7 +8,6 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
 import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
-// Import {HiddenBlock} from "src/component/hiddenBlock/HiddenBlock";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -37,7 +36,6 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
-// Import {notificationStore} from "src/logic/notificationBlock/NotificationStore";
 import {getAllCollections} from "src/logic/userPage/UserPage";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
@@ -144,7 +142,6 @@ export const WayPage = observer((props: WayPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const {way, setWayStatisticsTriple} = wayPageStore;
-  // Const {isNotificationOpen, setIsNotificationOpen, notificationList} = notificationStore;
   const [isAddWayTagModalOpen, setIsAddWayTagModalOpen] = useState(false);
 
   if (!wayPageSettings || !wayPageStore.isInitialized) {

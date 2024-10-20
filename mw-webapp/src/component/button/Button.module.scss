@@ -92,7 +92,6 @@ $superSpecialBeautifulButton: 18px;
   }
 
   &:active:enabled {
-    border: $primaryBorder solid var(--generalPrimaryColor);
     background-color: var(--primaryBgColor);
     color: var(--generalPrimaryColor);
   }

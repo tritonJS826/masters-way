@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
 import {observer} from "mobx-react-lite";
@@ -76,6 +77,11 @@ interface HeaderProps {
    * Callback to set theme
    */
   setTheme: (theme: Theme) => void;
+
+  /**
+   * If true notification block is open
+   */
+  isNotificationBlockOpen: boolean;
 
   /**
    * Callback to open notifications
@@ -225,13 +231,14 @@ export const Header = observer((props: HeaderProps) => {
           position={PositionTooltip.BOTTOM}
           content="Coming soon..."
         >
-          <HorizontalContainer className={styles.xxx}>
+          <HorizontalContainer className={styles.bellWithUnreadNotificationsAmount}>
             <Button
-              onClick={() => {
-                props.openNotificationBlock(true);
-              }}
+              onClick={() => props.isNotificationBlockOpen
+                ? props.openNotificationBlock(false)
+                : props.openNotificationBlock(true)
+              }
               buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-              className={styles.notificationTrigger}
+              className={clsx(styles.notificationTrigger, props.isNotificationBlockOpen && styles.active)}
               icon={
                 <Icon
                   name="BellIcon"

@@ -7,10 +7,11 @@
 .pricingBlock {
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
+  border-radius: $containerBorderRadius $containerBorderRadius 0 0;
   background-color: var(--secondaryBgColor);
-  @include backgroundImage;
   gap: $gapBig;
   text-align: center;
+  @include backgroundImage;
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {
     padding: $paddingExtraMedium;
