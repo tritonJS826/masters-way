@@ -1,15 +1,10 @@
 @import "src/styles/variables";
 
-//actual height of header and footer
-$headerHeight: 64px;
-$footerHeight: 139px;
-
 .pricingPageWrapper {
   width: 100%;
 }
 
 .pricingBlock {
-  min-height: calc(100vh - $headerHeight - $footerHeight);
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
   border-radius: $containerBorderRadius $containerBorderRadius 0 0;
