@@ -20,14 +20,7 @@
     );
 
   @media (max-width: $mediaWidthTabletBig) {
-    grid-template-columns: minmax($minWidthBlock, 1.5fr) minmax(
-        $minWidthBlock,
-        1fr
-      );
-  }
-
-  @media (max-width: $mediaWidthTablet) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax($minWidthBlock, 1fr);
   }
 }
 

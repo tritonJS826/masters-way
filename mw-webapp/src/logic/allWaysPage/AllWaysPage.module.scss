@@ -18,7 +18,7 @@
 }
 
 .waysContent {
-  width: 100%;
+  display: grid;
   @include regularContainer;
 }
 
