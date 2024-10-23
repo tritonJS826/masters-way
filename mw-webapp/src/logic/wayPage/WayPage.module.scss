@@ -92,13 +92,12 @@ $labelMaxWidthBlock: 650px;
 
 .wayDashboard {
   gap: $gapSmall;
-  // grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
   grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
       $mediumWidthBlock,
       3fr
     );
 
-  @media (max-width: $mediaWidthTablet) {
+  @media (max-width: $mediaWidthTabletBig) {
     grid-template-columns: minmax($minWidthBlock, 1fr);
   }
 }

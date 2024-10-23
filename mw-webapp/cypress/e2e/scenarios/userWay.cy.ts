@@ -8,7 +8,7 @@ import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
+import { wayDescriptionSelectors } from "cypress/scopesSelectors/wayDescriptionSelectors";
 
 beforeEach(() => {
   cy.resetDb();
@@ -22,6 +22,7 @@ afterEach(() => {
 describe('User Way tests', () => {
 
   it('Scenario_Student_CreateNewWay', () => {
+    cy.viewport(1200, 900);
     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
 
     userWaysSelectors.getCreateNewWayButton().click();
