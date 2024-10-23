@@ -57,9 +57,47 @@ type UpdateCommentParams struct {
 }
 
 func (gs *GeneralService) UpdateComment(ctx context.Context, params *UpdateCommentParams) (*schemas.CommentPopulatedResponse, error) {
+	updateReq := openapiGeneral.SchemasUpdateCommentPayload{
+		Description: params.Description,
+	}
+
+	updatedCommentRaw, response, err := gs.generalAPI.CommentAPI.UpdateComment(ctx, params.CommentID).Request(updateReq).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	updatedComment := &schemas.CommentPopulatedResponse{
+		Uuid:          updatedCommentRaw.Uuid,
+		Description:   updatedCommentRaw.Description,
+		OwnerUuid:     updatedCommentRaw.OwnerUuid,
+		OwnerName:     updatedCommentRaw.OwnerName,
+		CreatedAt:     updatedCommentRaw.CreatedAt,
+		UpdatedAt:     updatedCommentRaw.UpdatedAt,
+		DayReportUuid: updatedCommentRaw.DayReportUuid,
+		WayUUID:       updatedCommentRaw.WayUuid,
+		WayName:       updatedCommentRaw.WayName,
+	}
+
+	return updatedComment, nil
 }
 
 func (gs *GeneralService) DeleteCommentById(ctx context.Context, commentID string) error {
+	response, err := gs.generalAPI.CommentAPI.DeleteComment(ctx, commentID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
 type AddWayToCompositeWayParams struct {
@@ -336,162 +374,207 @@ type GetAllUsersParams struct {
 func (us *UserService) GetAllUsers(ctx context.Context, params *GetAllUsersParams) (*schemas.GetAllUsersResponse, error) {
 }
 
-func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {	usersPgUUIDs := lo.Map(userIDs, func(userID string, i int) pgtype.UUID {
-}
+func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {
+	usersPgUUIDs := lo.Map(userIDs, func(userID string, i int) pgtype.UUID {
+	}
 
-type CreateUserParams struct {
-	Name        string
-	Email       string
-	Description string
-	CreatedAt   time.Time
-	ImageUrl    string
-	IsMentor    bool
-}
+	type CreateUserParams struct {
+		Name        string
+		Email       string
+		Description string
+		CreatedAt   time.Time
+		ImageUrl    string
+		IsMentor    bool
+	}
 
-func (us *UserService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
-}
+	func(us *UserService) FindOrCreateUserByEmail(ctx
+	context.Context, params * CreateUserParams) (*schemas.UserPopulatedResponse, error) {
+	}
 
-func (us *UserService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
-}
+	func(us *UserService) CreateUser(ctx
+	context.Context, params * CreateUserParams) (*schemas.UserPlainResponse, error) {
+	}
 
-type dbWay struct {
-	Uuid                pgtype.UUID
-	Name                string
-	OwnerUuid           pgtype.UUID
-	GoalDescription     string
-	UpdatedAt           time.Time
-	CreatedAt           time.Time
-	EstimationTime      int32
-	CopiedFromWayUuid   pgtype.UUID
-	ProjectUuid         pgtype.UUID
-	IsCompleted         bool
-	IsPrivate           bool
-	WayMetricsTotal     int64
-	WayMetricsDone      int64
-	WayFavoriteForUsers int64
-	WayDayReportsAmount int64
-	ChildrenUuids       []string
-}
+	type dbWay struct {
+		Uuid                pgtype.UUID
+		Name                string
+		OwnerUuid           pgtype.UUID
+		GoalDescription     string
+		UpdatedAt           time.Time
+		CreatedAt           time.Time
+		EstimationTime      int32
+		CopiedFromWayUuid   pgtype.UUID
+		ProjectUuid         pgtype.UUID
+		IsCompleted         bool
+		IsPrivate           bool
+		WayMetricsTotal     int64
+		WayMetricsDone      int64
+		WayFavoriteForUsers int64
+		WayDayReportsAmount int64
+		ChildrenUuids       []string
+	}
 
-func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
-}
+	func(us *UserService) GetPopulatedUserById(ctx
+	context.Context, userUuid
+	uuid.UUID) (*schemas.UserPopulatedResponse, error) {
+	}
 
-func (us *UserService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
-}
+	func(us *UserService) convertDbWaysToPlainWays(ctx
+	context.Context, dbWays[]
+	dbWay) []schemas.WayPlainResponse{}
 
-func (us *UserService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {
-}
+	func(us *UserService) dbCollectionWaysToDbWays(rawWay[]
+	db.GetWaysByCollectionIdRow) []dbWay{}
 
-func (us *UserService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {
-}
+	func(us *UserService) dbMentoringWaysToDbWays(rawWay[]
+	db.GetMentoringWaysByMentorIdRow) []dbWay{}
 
-func (us *UserService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {
-}
+	func(us *UserService) dbFavoriteWaysToDbWays(rawWay[]
+	db.GetFavoriteWaysByUserIdRow) []dbWay{}
 
-func (us *UserService) GetPlainUserWithInfoByIDs(ctx context.Context, projectID string) ([]schemas.UserPlainResponseWithInfo, error) {
-}
+	func(us *UserService) GetPlainUserWithInfoByIDs(ctx
+	context.Context, projectID
+	string) ([]schemas.UserPlainResponseWithInfo, error) {
+	}
 
-func (us *UserProjectService) CreateUserProject(ctx context.Context, userID, projectID string) error {
-}
+	func(us *UserProjectService) CreateUserProject(ctx
+	context.Context, userID, projectID
+	string) error{}
 
-func (us *UserProjectService) DeleteUserProject(ctx context.Context, userID, projectID string) error {
-}
+	func(us *UserProjectService) DeleteUserProject(ctx
+	context.Context, userID, projectID
+	string) error{}
 
-func (uc *UserTagService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*schemas.UserTagResponse, error) {
-}
+	func(uc *UserTagService) AddUserTagByName(ctx
+	context.Context, payload * schemas.CreateUserTagPayload) (*schemas.UserTagResponse, error) {
+	}
 
-func (us *UserTagService) DeleteUserTagByFromUserByTag(ctx context.Context, userID, userTagID string) error {
-}
+	func(us *UserTagService) DeleteUserTagByFromUserByTag(ctx
+	context.Context, userID, userTagID
+	string) error{}
 
-func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulatedWayByIdParams) (*schemas.WayPopulatedResponse, error) {
-}
+	func(ws *WayService) GetPopulatedWayById(ctx
+	context.Context, params
+	GetPopulatedWayByIdParams) (*schemas.WayPopulatedResponse, error) {
+	}
 
-func (ws *WayService) UpdateWayIsCompletedStatus(ctx context.Context, wayID string) error {
-}
+	func(ws *WayService) UpdateWayIsCompletedStatus(ctx
+	context.Context, wayID
+	string) error{}
 
-func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainResponse, error) {
-}
+	func(ws *WayService) GetPlainWayById(ctx
+	context.Context, wayUUID
+	uuid.UUID) (*schemas.WayPlainResponse, error) {
+	}
 
-func (ws *WayService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
-}
+	func(ws *WayService) CreateWay(ctx
+	context.Context, payload * schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
+	}
 
-type UpdateWayParams struct {
-	WayID           string
-	Name            string
-	GoalDescription string
-	EstimationTime  int32
-	IsPrivate       *bool
-	IsCompleted     bool
-}
+	type UpdateWayParams struct {
+		WayID           string
+		Name            string
+		GoalDescription string
+		EstimationTime  int32
+		IsPrivate       *bool
+		IsCompleted     bool
+	}
 
-func (ws *WayService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*schemas.WayPlainResponse, error) {
-}
+	func(ws *WayService) UpdateWay(ctx
+	context.Context, params * UpdateWayParams) (*schemas.WayPlainResponse, error) {
+	}
 
-type GetAllWaysParams struct {
-	Status                 string
-	WayName                string
-	Offset                 int
-	ReqMinDayReportsAmount int
-	ReqLimit               int
-}
+	type GetAllWaysParams struct {
+		Status                 string
+		WayName                string
+		Offset                 int
+		ReqMinDayReportsAmount int
+		ReqLimit               int
+	}
 
-func (ws *WayService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*schemas.GetAllWaysResponse, error) {
-}
+	func(ws *WayService) GetAllWays(ctx
+	context.Context, params * GetAllWaysParams) (*schemas.GetAllWaysResponse, error) {
+	}
 
-func (ws *WayService) DeleteWayById(ctx *gin.Context, wayID string) error {
-	return ws.wayRepository.DeleteWay(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true})
-}
+	func(ws *WayService) DeleteWayById(ctx * gin.Context,
+	wayID
+	string) error{
+		return ws.wayRepository.DeleteWay(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true})
+	}
 
-func (ws *WayService) GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {
-}
+	func(ws *WayService) GetChildrenWayIDs(ctx
+	context.Context, wayID
+	uuid.UUID, maxDepth
+	int) ([]uuid.UUID, error) {
+	}
 
-func (ws *WayService) GetNestedWayIDs(ctx context.Context, parentWayUUID pgtype.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error) {
-}
+	func(ws *WayService) GetNestedWayIDs(ctx
+	context.Context, parentWayUUID
+	pgtype.UUID, currentDepth
+	int, maxDepth
+	int) ([]pgtype.UUID, error) {
+	}
 
-func (ws *WayCollectionService) CreateWayCollection(ctx context.Context, payload *schemas.CreateWayCollectionPayload) (*schemas.WayCollectionPopulatedResponse, error) {
-}
+	func(ws *WayCollectionService) CreateWayCollection(ctx
+	context.Context, payload * schemas.CreateWayCollectionPayload) (*schemas.WayCollectionPopulatedResponse, error) {
+	}
 
-func (cc *WayCollectionService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*schemas.WayCollectionPlainResponse, error) {
-}
+	func(cc *WayCollectionService) UpdateWayCollection(ctx
+	context.Context, wayCollectionID, wayCollectionName
+	string) (*schemas.WayCollectionPlainResponse, error) {
+	}
 
-func (ws *WayCollectionService) DeleteWayCollectionById(ctx context.Context, wayCollectionID string) error {
-}
+	func(ws *WayCollectionService) DeleteWayCollectionById(ctx
+	context.Context, wayCollectionID
+	string) error{}
 
-func (ws *WayCollectionWayService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*schemas.WayCollectionWayResponse, error) {
-}
+	func(ws *WayCollectionWayService) CreateWayCollectionWay(ctx
+	context.Context, payload * schemas.CreateWayCollectionWay) (*schemas.WayCollectionWayResponse, error) {
+	}
 
-func (ws *WayCollectionWayService) DeleteWayCollectionWayById(ctx context.Context, wayID, wayCollectionID string) error {
-}
+	func(ws *WayCollectionWayService) DeleteWayCollectionWayById(ctx
+	context.Context, wayID, wayCollectionID
+	string) error{}
 
-type GetWayStatisticsTriplePeriodParams struct {
-	WayUUIDs       []uuid.UUID
-	TotalStartDate time.Time
-	EndDate        time.Time
-}
+	type GetWayStatisticsTriplePeriodParams struct {
+		WayUUIDs       []uuid.UUID
+		TotalStartDate time.Time
+		EndDate        time.Time
+	}
 
-func (ws *WayStatisticsService) GetWayStatisticsTriplePeriod(ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
-}
+	func(ws *WayStatisticsService) GetWayStatisticsTriplePeriod(ctx
+	context.Context, params * GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
+	}
 
-type GetWayStatisticsParams struct {
-	WayPgUUIDs           []pgtype.UUID
-	StartDatePgTimestamp pgtype.Timestamp
-	EndDatePgTimestamp   pgtype.Timestamp
-}
+	type GetWayStatisticsParams struct {
+		WayPgUUIDs           []pgtype.UUID
+		StartDatePgTimestamp pgtype.Timestamp
+		EndDatePgTimestamp   pgtype.Timestamp
+	}
 
-func (ws *WayStatisticsService) GetWayStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.WayStatistics, error) {
-}
+	func(ws *WayStatisticsService) GetWayStatistics(ctx
+	context.Context, params * GetWayStatisticsParams) (*schemas.WayStatistics, error) {
+	}
 
-func (ws *WayStatisticsService) GetTimeSpentByDayChart(ctx context.Context, params *GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
-}
+	func(ws *WayStatisticsService) GetTimeSpentByDayChart(ctx
+	context.Context, params * GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
+	}
 
-func (ws *WayStatisticsService) GetOverallInformation(ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
-}
+	func(ws *WayStatisticsService) GetOverallInformation(ctx
+	context.Context, params * GetWayStatisticsParams) (*schemas.OverallInformation, error) {
+	}
 
-func (ws *WayStatisticsService) GetLabelStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
-}
+	func(ws *WayStatisticsService) GetLabelStatistics(ctx
+	context.Context, params * GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
+	}
 
-func (wts *WayTagService) AddWayTagToWay(ctx context.Context, name string, wayID string) (*schemas.WayTagResponse, error) {
-}
+	func(wts *WayTagService) AddWayTagToWay(ctx
+	context.Context, name
+	string, wayID
+	string) (*schemas.WayTagResponse, error) {
+	}
 
-func (wts *WayTagService) DeleteWayTagFromWayByTagID(ctx context.Context, wayTagID string, wayID string) error {
-}
+	func(wts *WayTagService) DeleteWayTagFromWayByTagID(ctx
+	context.Context, wayTagID
+	string, wayID
+	string) error{}
