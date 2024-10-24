@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type RoomController struct {
@@ -29,9 +28,9 @@ func NewRoomsController(roomService *services.RoomsService) *RoomController {
 // @Router /rooms/preview [get]
 func (rc *RoomController) GetChatPreview(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userIDRaw.(string))
+	userID := userIDRaw.(string)
 
-	chatPreview, err := rc.roomService.GetChatPreview(ctx, userUUID)
+	chatPreview, err := rc.roomService.GetChatPreview(ctx, userID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, chatPreview)
@@ -49,9 +48,9 @@ func (rc *RoomController) GetChatPreview(ctx *gin.Context) {
 func (pc *RoomController) GetRooms(ctx *gin.Context) {
 	roomType := ctx.Param("roomType")
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userIDRaw.(string))
+	userID := userIDRaw.(string)
 
-	p2pRooms, err := pc.roomService.GetRooms(ctx, userUUID, roomType)
+	p2pRooms, err := pc.roomService.GetRooms(ctx, userID, roomType)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, p2pRooms)
@@ -67,13 +66,12 @@ func (pc *RoomController) GetRooms(ctx *gin.Context) {
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms/{roomId} [get]
 func (rc *RoomController) GetRoomById(ctx *gin.Context) {
-	roomId := ctx.Param("roomId")
-	roomUUID := uuid.MustParse(roomId)
+	roomID := ctx.Param("roomId")
 
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userUUID := uuid.MustParse(userIDRaw.(string))
+	userID := userIDRaw.(string)
 
-	room, err := rc.roomService.GetRoomByUuid(ctx, userUUID, roomUUID)
+	room, err := rc.roomService.GetRoomByUuid(ctx, userID, roomID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, room)
@@ -97,13 +95,13 @@ func (rc *RoomController) CreateRoom(ctx *gin.Context) {
 	}
 
 	creatorIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	creatorUUID := uuid.MustParse(creatorIDRaw.(string))
+	creatorID := creatorIDRaw.(string)
 
 	params := &services.CreateRoomServiceParams{
-		CreatorUUID:     creatorUUID,
-		InvitedUserUUID: payload.UserID,
-		Name:            payload.Name,
-		Type:            payload.RoomType,
+		CreatorID:     creatorID,
+		InvitedUserID: payload.UserID,
+		Name:          payload.Name,
+		Type:          payload.RoomType,
 	}
 	newP2PRoom, err := rc.roomService.CreateRoom(ctx, params)
 	utils.HandleErrorGin(ctx, err)

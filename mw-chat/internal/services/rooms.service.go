@@ -41,8 +41,8 @@ func NewRoomsService(pool *pgxpool.Pool, roomsRepository RoomsRepository) *Rooms
 	return &RoomsService{pool, roomsRepository}
 }
 
-func (roomsService *RoomsService) GetChatPreview(ctx context.Context, userUUID uuid.UUID) (*schemas.GetChatPreviewResponse, error) {
-	userPgUUID := pgtype.UUID{Bytes: userUUID, Valid: true}
+func (roomsService *RoomsService) GetChatPreview(ctx context.Context, userID string) (*schemas.GetChatPreviewResponse, error) {
+	userPgUUID := pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
 
 	chatPreview, err := roomsService.roomsRepository.GetChatPreview(ctx, userPgUUID)
 	if err != nil {
@@ -54,9 +54,9 @@ func (roomsService *RoomsService) GetChatPreview(ctx context.Context, userUUID u
 	}, nil
 }
 
-func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UUID, roomType string) (*schemas.GetRoomsResponse, error) {
+func (roomsService *RoomsService) GetRooms(ctx context.Context, userID string, roomType string) (*schemas.GetRoomsResponse, error) {
 	params := db.GetRoomsByUserUUIDParams{
-		UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
+		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true},
 		RoomType: db.RoomType(roomType),
 	}
 
@@ -87,9 +87,9 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 	}, nil
 }
 
-func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, roomUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {
-	roomPgUUID := pgtype.UUID{Bytes: roomUUID, Valid: true}
-	userPgUUID := pgtype.UUID{Bytes: userUUID, Valid: true}
+func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userID, roomID string) (*schemas.RoomPopulatedResponse, error) {
+	roomPgUUID := pgtype.UUID{Bytes: uuid.MustParse(roomID), Valid: true}
+	userPgUUID := pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
 
 	getRoomByUUIDParams := db.GetRoomByUUIDParams{
 		RoomUuid: roomPgUUID,
@@ -150,18 +150,18 @@ func (roomsService *RoomsService) GetRoomByUuid(ctx context.Context, userUUID, r
 }
 
 type CreateRoomServiceParams struct {
-	CreatorUUID     uuid.UUID
-	InvitedUserUUID *string
-	Name            *string
-	Type            string
+	CreatorID     string
+	InvitedUserID *string
+	Name          *string
+	Type          string
 }
 
 func (roomsService *RoomsService) CreateRoom(ctx context.Context, roomParams *CreateRoomServiceParams) (*schemas.RoomPopulatedResponse, error) {
-	creatorUserPgUUID := pgtype.UUID{Bytes: roomParams.CreatorUUID, Valid: true}
+	creatorUserPgUUID := pgtype.UUID{Bytes: uuid.MustParse(roomParams.CreatorID), Valid: true}
 	if roomParams.Type == string(db.RoomTypePrivate) {
 		params := db.GetIsPrivateRoomAlreadyExistsParams{
 			User1: creatorUserPgUUID,
-			User2: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
+			User2: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserID), Valid: true},
 		}
 		isPrivateRoomAlreadyExists, err := roomsService.roomsRepository.GetIsPrivateRoomAlreadyExists(ctx, params)
 		if err != nil {
@@ -227,7 +227,7 @@ func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roo
 
 	if roomParams.Type == string(db.RoomTypePrivate) {
 		createInvitedUserParams := db.AddUserToRoomParams{
-			UserUuid: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
+			UserUuid: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserID), Valid: true},
 			UserRole: db.UserRoleTypeRegular,
 			RoomUuid: newRoom.Uuid,
 			JoinedAt: pgtype.Timestamp{Time: now, Valid: true},
