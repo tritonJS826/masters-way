@@ -17,6 +17,7 @@ type SmtpService struct {
 	SenderPassword string
 	AuthAddress    string
 	ServerAddress  string
+	EnvType        string
 }
 
 func NewSmtpService(config *config.Config) *SmtpService {
@@ -26,10 +27,23 @@ func NewSmtpService(config *config.Config) *SmtpService {
 		SenderPassword: config.SenderPassword,
 		AuthAddress:    config.SmtpAuthAddress,
 		ServerAddress:  config.SmtpServerAddress,
+		EnvType:        config.EnvType,
 	}
 }
 
 func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmtpResponse, error) {
+	if ss.EnvType != "prod" {
+		return &schemas.SendSmtpResponse{
+			SenderMail: "Stub sender mail",
+			SenderName: "Stub sender name",
+			Recipients: dataMail.Recipients,
+			Cc:         dataMail.Cc,
+			Bcc:        dataMail.Bcc,
+			ReplyTo:    dataMail.ReplyTo,
+			Subject:    dataMail.Subject,
+			Message:    dataMail.Message,
+		}, nil
+	}
 
 	mail := ss.CreateMail(dataMail)
 
