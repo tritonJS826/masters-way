@@ -1,0 +1,126 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Masters way mail API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/mail",
+    "paths": {
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/mail": {
+            "post": {
+                "description": "Sending messages to recipients by smtp and saving the log of the sent email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mail"
+                ],
+                "summary": "Sending messages to recipients and save logs",
+                "operationId": "send-email",
+                "parameters": [
+                    {
+                        "description": "Subject of the email",
+                        "name": "subject",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Recipient email addresses",
+                        "name": "to",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "description": "CC email addresses",
+                        "name": "cc",
+                        "in": "body",
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "description": "BCC email addresses",
+                        "name": "bcc",
+                        "in": "body",
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "description": "Message content to be sent. Can be plain text or HTML-formatted text",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.SendMailResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "schemas.SendMailResponse": {
+            "type": "object",
+            "required": [
+                "fromMail",
+                "id",
+                "message",
+                "recipients",
+                "subject"
+            ],
+            "properties": {
+                "fromMail": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "recipients": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "subject": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
