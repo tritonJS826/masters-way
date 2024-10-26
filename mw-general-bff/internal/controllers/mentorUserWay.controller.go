@@ -1,18 +1,20 @@
 package controllers
 
 import (
-	"mwserver/internal/services"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type MentorUserWayController struct {
-	limitService         *services.LimitService
-	mentorUserWayService *services.MentorUserWayService
+	generalService *services.GeneralService
 }
 
-func NewMentorUserWayController(limitService *services.LimitService, mentorUserWayService *services.MentorUserWayService) *MentorUserWayController {
-	return &MentorUserWayController{limitService, mentorUserWayService}
+func NewMentorUserWayController(generalService *services.GeneralService) *MentorUserWayController {
+	return &MentorUserWayController{generalService}
 }
 
 // Create mentorUserWay handler
@@ -26,23 +28,23 @@ func NewMentorUserWayController(limitService *services.LimitService, mentorUserW
 // @Success 204
 // @Router /mentorUserWays [post]
 func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
-	// var payload *schemas.CreateMentorUserWayPayload
+	var payload *schemas.CreateMentorUserWayPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// err := mc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
-	// 	LimitName: services.MaxMentoringsWays,
-	// 	UserID:    payload.UserUuid,
-	// })
-	// util.HandleErrorGin(ctx, err)
+	//err := mc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+	//	LimitName: services.MaxMentoringsWays,
+	//	UserID:    payload.UserUuid,
+	//})
+	//utils.HandleErrorGin(ctx, err)
 
-	// err = mc.mentorUserWayService.AddMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
-	// util.HandleErrorGin(ctx, err)
+	err := mc.generalService.AddMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting mentorUserWay handlers
@@ -56,15 +58,15 @@ func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 // @Success 204
 // @Router /mentorUserWays [delete]
 func (mc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
-	// var payload *schemas.DeleteMentorUserWayPayload
+	var payload *schemas.DeleteMentorUserWayPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// err := mc.mentorUserWayService.DeleteMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
-	// util.HandleErrorGin(ctx, err)
+	err := mc.generalService.DeleteMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }

@@ -1,21 +1,21 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/services"
+	"mwserver/pkg/util"
 	"net/http"
 
 	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 type WayTagController struct {
-	wayTagService *services.WayTagService
+	generalService *services.GeneralService
 }
 
-func NewWayTagController(wayTagService *services.WayTagService) *WayTagController {
-	return &WayTagController{wayTagService}
+func NewWayTagController(generalService *services.WayTagService) *WayTagController {
+	return &WayTagController{generalService}
 }
 
 // Create wayTagRoute handler
@@ -36,7 +36,7 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.wayTagService.AddWayTagToWay(ctx, payload.Name, payload.WayUuid)
+	response, err := cc.generalService.AddWayTagToWay(ctx, payload.Name, payload.WayUuid)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -57,7 +57,7 @@ func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	wayTagID := ctx.Param("wayTagId")
 	wayID := ctx.Param("wayId")
 
-	err := cc.wayTagService.DeleteWayTagFromWayByTagID(ctx, wayTagID, wayID)
+	err := cc.generalService.DeleteWayTagFromWayByTagID(ctx, wayTagID, wayID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

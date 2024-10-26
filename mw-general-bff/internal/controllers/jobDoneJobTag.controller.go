@@ -1,17 +1,19 @@
 package controllers
 
 import (
-	"mwserver/internal/services"
-
 	"github.com/gin-gonic/gin"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
+	"net/http"
 )
 
 type JobDoneJobTagController struct {
-	jobDoneJobTagService *services.JobDoneJobTagService
+	generalService *services.GeneralService
 }
 
-func NewJobDoneJobTagController(jobDoneJobTagService *services.JobDoneJobTagService) *JobDoneJobTagController {
-	return &JobDoneJobTagController{jobDoneJobTagService}
+func NewJobDoneJobTagController(generalService *services.GeneralService) *JobDoneJobTagController {
+	return &JobDoneJobTagController{generalService}
 }
 
 // Create jobDoneJobTag handler
@@ -25,17 +27,17 @@ func NewJobDoneJobTagController(jobDoneJobTagService *services.JobDoneJobTagServ
 // @Success 204
 // @Router /jobDoneJobTags [post]
 func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
-	// 	var payload *schemas.CreateJobDoneJobTagPayload
+	var payload *schemas.CreateJobDoneJobTagPayload
 
-	// 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 		return
-	// 	}
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// 	_, err := cc.jobDoneJobTagService.CreateJobDoneJobTag(ctx, payload)
-	// 	util.HandleErrorGin(ctx, err)
+	_, err := cc.generalService.CreateJobDoneJobTag(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting JobDoneJobTag handlers
@@ -50,11 +52,11 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 // @Success 204
 // @Router /jobDoneJobTags/{jobTagId}/{jobDoneId} [delete]
 func (jc *JobDoneJobTagController) DeleteJobDoneJobTagById(ctx *gin.Context) {
-	// jobTagID := ctx.Param("jobTagId")
-	// jobDoneID := ctx.Param("jobDoneId")
+	jobTagID := ctx.Param("jobTagId")
+	jobDoneID := ctx.Param("jobDoneId")
 
-	// err := jc.jobDoneJobTagService.DeleteJobDoneJobTagById(ctx, jobDoneID, jobTagID)
-	// util.HandleErrorGin(ctx, err)
+	err := jc.generalService.DeleteJobDoneJobTagById(ctx, jobDoneID, jobTagID)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }

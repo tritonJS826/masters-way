@@ -27,7 +27,6 @@ func NewCommentController(generalService *services.GeneralService) *CommentContr
 // @Produce  json
 // @Param request body schemas.CreateCommentPayload true "query params"
 // @Success 200 {object} schemas.CommentPopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create comment."
 // @Router /comments [post]
 func (cc *CommentController) CreateComment(ctx *gin.Context) {
 	var payload *schemas.CreateCommentPayload
@@ -58,7 +57,6 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 // @Param request body schemas.UpdateCommentPayload true "query params"
 // @Param commentId path string true "comment ID"
 // @Success 200 {object} schemas.CommentPopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update comment."
 // @Router /comments/{commentId} [patch]
 func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	var payload *schemas.UpdateCommentPayload
@@ -88,7 +86,6 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 // @Produce  json
 // @Param commentId path string true "comment ID"
 // @Success 204
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete comment."
 // @Router /comments/{commentId} [delete]
 func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	commentID := ctx.Param("commentId")

@@ -35,7 +35,6 @@ func NewJobDoneController(
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
 // @Success 200 {object} schemas.JobDonePopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create job done."
 // @Router /jobDones [post]
 func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	// var payload *schemas.CreateJobDonePayload
@@ -92,7 +91,6 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 // @Param request body schemas.UpdateJobDone true "query params"
 // @Param jobDoneId path string true "jobDone UUID"
 // @Success 200 {object} schemas.JobDonePopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update job done."
 // @Router /jobDones/{jobDoneId} [patch]
 func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	var payload *schemas.UpdateJobDone
@@ -145,7 +143,6 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 // @Produce  json
 // @Param jobDoneId path string true "jobDone ID"
 // @Success 204
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete job done."
 // @Router /jobDones/{jobDoneId} [delete]
 func (jc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	jobDoneID := ctx.Param("jobDoneId")

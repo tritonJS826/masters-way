@@ -13,8 +13,8 @@ type CompositeWayController struct {
 	generalService *services.GeneralService
 }
 
-func NewCompositeWayController(compositeWayService *services.GeneralService) *CompositeWayController {
-	return &CompositeWayController{compositeWayService}
+func NewCompositeWayController(generalService *services.GeneralService) *CompositeWayController {
+	return &CompositeWayController{generalService}
 }
 
 // Create compositeWay handler
@@ -34,10 +34,9 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
-	args := &schemas.CreateCommentPayload{
-		Description:   payload.Description,
-		DayReportUuid: payload.DayReportUuid,
-		OwnerUuid:     payload.OwnerUuid,
+	args := &schemas.AddWayToCompositeWayPayload{
+		ChildWayUuid:  payload.ChildWayUuid,
+		ParentWayUuid: payload.ParentWayUuid,
 	}
 	response, err := cc.generalService.AddWayToCompositeWay(ctx, args)
 	utils.HandleErrorGin(ctx, err)
@@ -63,11 +62,11 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 // @Success 204
 // @Router /compositeWay/{parentWayId}/{childWayId} [delete]
 func (cwc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) {
-	// parentWayID := ctx.Param("parentWayId")
-	// childWayID := ctx.Param("childWayId")
+	parentWayID := ctx.Param("parentWayId")
+	childWayID := ctx.Param("childWayId")
 
-	// err := cwc.compositeWayService.DeleteCompositeWayRelation(ctx, parentWayID, childWayID)
-	// util.HandleErrorGin(ctx, err)
+	err := cwc.generalService.DeleteCompositeWayRelation(ctx, parentWayID, childWayID)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }

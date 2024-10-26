@@ -1,20 +1,20 @@
 package controllers
 
 import (
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type GeminiController struct {
-	geminiService *services.GeminiService
+	generalService *services.GeneralService
 }
 
-func NewGeminiController(geminiService *services.GeminiService) *GeminiController {
-	return &GeminiController{geminiService}
+func NewGeminiController(generalService *services.GeneralService) *GeminiController {
+	return &GeminiController{generalService}
 }
 
 // Generate metrics handler
@@ -28,16 +28,19 @@ func NewGeminiController(geminiService *services.GeminiService) *GeminiControlle
 // @Success 200 {object} schemas.GenerateMetricsResponse
 // @Router /gemini/metrics [post]
 func (cc *GeminiController) GenerateMetrics(ctx *gin.Context) {
-	// var payload *schemas.GenerateMetricsPayload
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
+	var payload schemas.GenerateMetricsPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	// metrics, err := cc.geminiService.GetMetricsByGoal(ctx, payload)
-	// util.HandleErrorGin(ctx, err)
+	response, err := cc.generalService.CreateMetricsPrompt(ctx, &payload)
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
-	// ctx.JSON(http.StatusOK, schemas.GenerateMetricsResponse{Metrics: &metrics})
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Just chat with AI
@@ -51,14 +54,17 @@ func (cc *GeminiController) GenerateMetrics(ctx *gin.Context) {
 // @Success 200 {object} schemas.AIChatResponse
 // @Router /gemini/just-chat [post]
 func (cc *GeminiController) AIChat(ctx *gin.Context) {
-	var payload *schemas.AIChatPayload
+	var payload schemas.AIChatPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.geminiService.AIChat(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	response, err := cc.generalService.AIChat(ctx, &payload)
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -80,8 +86,8 @@ func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.GeneratePlansByMetric(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	response, err := cc.generalService.GeneratePlansByMetric(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -97,14 +103,17 @@ func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 // @Success 200 {object} schemas.AICommentIssueResponse
 // @Router /gemini/comment-issue [post]
 func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
-	var payload *schemas.AICommentIssuePayload
+	var payload schemas.AICommentIssuePayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.geminiService.CommentIssue(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	response, err := cc.generalService.CommentIssue(ctx, &payload)
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -126,8 +135,8 @@ func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.DecomposeIssue(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	response, err := cc.generalService.DecomposeIssue(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -149,8 +158,8 @@ func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.geminiService.EstimateIssue(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	response, err := cc.generalService.EstimateIssue(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }

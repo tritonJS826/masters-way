@@ -1,17 +1,20 @@
 package controllers
 
 import (
-	"mwserver/internal/services"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type FavoriteUserController struct {
-	favoriteUserService *services.FavoriteUserService
+	generalService *services.GeneralService
 }
 
-func NewFavoriteUserController(favoriteUserService *services.FavoriteUserService) *FavoriteUserController {
-	return &FavoriteUserController{favoriteUserService}
+func NewFavoriteUserController(generalService *services.GeneralService) *FavoriteUserController {
+	return &FavoriteUserController{generalService}
 }
 
 // Create favoriteUser handler
@@ -25,17 +28,24 @@ func NewFavoriteUserController(favoriteUserService *services.FavoriteUserService
 // @Success 204
 // @Router /favoriteUsers [post]
 func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
-	// var payload *schemas.CreateFavoriteUserPayload
+	var payload schemas.CreateFavoriteUserPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// _, err := fuc.favoriteUserService.CreateFavoriteUser(ctx, payload.DonorUserUuid, payload.AcceptorUserUuid)
-	// util.HandleErrorGin(ctx, err)
+	args := &schemas.CreateFavoriteUserPayload{
+		DonorUserUuid:    payload.DonorUserUuid,
+		AcceptorUserUuid: payload.AcceptorUserUuid,
+	}
+	err := fuc.generalService.CreateFavoriteUser(ctx, args)
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent) // Успешное создание
 }
 
 // Deleting favorite user handlers
@@ -50,11 +60,11 @@ func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 // @Success 204
 // @Router /favoriteUsers/{donorUserUuid}/{acceptorUserUuid} [delete]
 func (fuc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
-	// donorUserUuid := ctx.Param("donorUserUuid")
-	// acceptorUserUuid := ctx.Param("acceptorUserUuid")
+	donorUserUuid := ctx.Param("donorUserUuid")
+	acceptorUserUuid := ctx.Param("acceptorUserUuid")
 
-	// err := fuc.favoriteUserService.DeleteFavoriteUserById(ctx, donorUserUuid, acceptorUserUuid)
-	// util.HandleErrorGin(ctx, err)
+	err := fuc.generalService.DeleteFavoriteUserById(ctx, donorUserUuid, acceptorUserUuid)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }
