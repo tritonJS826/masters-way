@@ -1,21 +1,20 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 type ToUserMentoringRequestController struct {
-	toUserMentoringRequestService *services.ToUserMentoringRequestService
+	generalService *services.GeneralService
 }
 
-func NewToUserMentoringRequestController(toUserMentoringRequestService *services.ToUserMentoringRequestService) *ToUserMentoringRequestController {
-	return &ToUserMentoringRequestController{toUserMentoringRequestService}
+func NewToUserMentoringRequestController(generalService *services.GeneralService) *ToUserMentoringRequestController {
+	return &ToUserMentoringRequestController{generalService}
 }
 
 // Create userMentoringRequest handler
@@ -36,8 +35,8 @@ func (tc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gi
 		return
 	}
 
-	toUserMentoringRequest, err := tc.toUserMentoringRequestService.CreateToUserMentoringRequest(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	toUserMentoringRequest, err := tc.generalService.CreateToUserMentoringRequest(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, toUserMentoringRequest)
 }
@@ -57,8 +56,8 @@ func (tc *ToUserMentoringRequestController) DeleteToUserMentoringRequestById(ctx
 	userID := ctx.Param("userUuid")
 	wayID := ctx.Param("wayUuid")
 
-	err := tc.toUserMentoringRequestService.DeleteToUserMentoringRequestById(ctx, userID, wayID)
-	util.HandleErrorGin(ctx, err)
+	err := tc.generalService.DeleteToUserMentoringRequestById(ctx, userID, wayID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

@@ -2,23 +2,22 @@ package controllers
 
 import (
 	"database/sql"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
 	"strconv"
-
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 type UserController struct {
-	userService *services.UserService
+	generalService *services.GeneralService
 }
 
-func NewUserController(userService *services.UserService) *UserController {
-	return &UserController{userService}
+func NewUserController(generalService *services.GeneralService) *UserController {
+	return &UserController{generalService}
 }
 
 // @Summary Update user by UUID
@@ -40,7 +39,7 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	user, err := uc.userService.UpdateUser(ctx, &services.UpdateUserParams{
+	user, err := uc.generalService.UpdateUser(ctx, &services.UpdateUserParams{
 		UserID:      userID,
 		Name:        payload.Name,
 		Description: payload.Description,
@@ -71,7 +70,7 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 func (uc *UserController) GetUserById(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 
-	populatedUser, err := uc.userService.GetPopulatedUserById(ctx, uuid.MustParse(userID))
+	populatedUser, err := uc.generalService.GetPopulatedUserById(ctx, uuid.MustParse(userID))
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
@@ -80,6 +79,7 @@ func (uc *UserController) GetUserById(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
 		return
 	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
 }
@@ -109,14 +109,14 @@ func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 	reqLimit, _ := strconv.Atoi(limit)
 	offset := (reqPageID - 1) * reqLimit
 
-	response, err := uc.userService.GetAllUsers(ctx, &services.GetAllUsersParams{
+	response, err := uc.generalService.GetAllUsers(ctx, &services.GetAllUsersParams{
 		MentorStatus: mentorStatus,
 		UserName:     name,
 		UserEmail:    email,
 		Offset:       offset,
 		ReqLimit:     reqLimit,
 	})
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -139,7 +139,7 @@ func (uc *UserController) GetUsersByIDs(ctx *gin.Context) {
 	}
 
 	response, err := uc.userService.GetUsersByIDs(ctx, userIDs)
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }

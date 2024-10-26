@@ -34,7 +34,7 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 		return
 	}
 
-	_, err := cc.generalService.CreateJobDoneJobTag(ctx, payload)
+	err := cc.generalService.CreateJobDoneJobTag(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

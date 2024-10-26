@@ -84,7 +84,7 @@ func (drc *DayReportController) GetDayReports(ctx *gin.Context) {
 // @Success 200 {object} schemas.CompositeDayReportPopulatedResponse
 // @Router /dayReports [post]
 func (drc *DayReportController) CreateDayReport(ctx *gin.Context) {
-	var payload *schemas.CreateDayReportPayload
+	var payload *schemas.CreateDa
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})

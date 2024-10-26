@@ -1,29 +1,20 @@
 package controllers
 
 import (
-	"mwserver/internal/auth"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type JobDoneController struct {
-	permissionService    *services.PermissionService
-	jobDoneService       *services.JobDoneService
-	jobDoneJobTagService *services.JobDoneJobTagService
-	jobTagService        *services.JobTagService
+	generalService *services.GeneralService
 }
 
-func NewJobDoneController(
-	permissionService *services.PermissionService,
-	jobDoneService *services.JobDoneService,
-	jobDoneJobTagService *services.JobDoneJobTagService,
-	jobTagService *services.JobTagService,
-) *JobDoneController {
-	return &JobDoneController{permissionService, jobDoneService, jobDoneJobTagService, jobTagService}
+func NewJobDoneController(generalService *services.GeneralService) *JobDoneController {
+	return &JobDoneController{generalService}
 }
 
 // Create JobDone  handler
@@ -36,49 +27,28 @@ func NewJobDoneController(
 // @Param request body schemas.CreateJobDonePayload true "query params"
 // @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Router /jobDones [post]
+// Create JobDone handler
+// @Summary Create a new jobDone
+// @Description
+// @Tags jobDone
+// @ID create-jobDone
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.CreateJobDonePayload true "query params"
+// @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Router /jobDones [post]
 func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
-	// var payload *schemas.CreateJobDonePayload
+	var payload *schemas.CreateJobDonePayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	// userID := userIDRaw.(string)
+	response, err := jc.generalService.CreateJobDone(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
-	// err := jc.permissionService.CheckIsUserHavingPermissionsForDayReport(ctx, userID, payload.DayReportUuid)
-	// util.HandleErrorGin(ctx, err)
-
-	// jobDone, err := jc.jobDoneService.CreateJobDone(ctx, payload)
-	// util.HandleErrorGin(ctx, err)
-
-	// for _, jobTagID := range payload.JobTagUuids {
-	// 	_, err := jc.jobDoneJobTagService.CreateJobDoneJobTag(ctx, &schemas.CreateJobDoneJobTagPayload{
-	// 		JobDoneUuid: jobDone.ID,
-	// 		JobTagUuid:  jobTagID,
-	// 	})
-	// 	util.HandleErrorGin(ctx, err)
-	// }
-
-	// jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, payload.JobTagUuids)
-	// util.HandleErrorGin(ctx, err)
-
-	// response := schemas.JobDonePopulatedResponse{
-	// 	Uuid:          jobDone.ID,
-	// 	CreatedAt:     jobDone.CreatedAt,
-	// 	UpdatedAt:     jobDone.UpdatedAt,
-	// 	Description:   jobDone.Description,
-	// 	Time:          jobDone.Time,
-	// 	OwnerUuid:     jobDone.OwnerUuid,
-	// 	OwnerName:     jobDone.OwnerName,
-	// 	DayReportUuid: jobDone.DayReportID,
-	// 	WayUUID:       jobDone.WayUUID,
-	// 	WayName:       jobDone.WayName,
-	// 	Tags:          jobTags,
-	// }
-
-	// ctx.JSON(http.StatusOK, response)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Update JobDone handler
@@ -101,40 +71,19 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
-
-	err := jc.permissionService.CheckIsUserHavingPermissionsForJobDone(ctx, userID, jobDoneID)
-	util.HandleErrorGin(ctx, err)
-
-	jobDone, err := jc.jobDoneService.UpdateJobDone(ctx, &services.UpdateJobDoneParams{
+	params := &services.UpdateJobDoneParams{
 		JobDoneID:   jobDoneID,
 		Description: payload.Description,
 		Time:        payload.Time,
-	})
-	util.HandleErrorGin(ctx, err)
-
-	jobTags, err := jc.jobTagService.GetLabelsByIDs(ctx, jobDone.TagIDs)
-	util.HandleErrorGin(ctx, err)
-
-	response := schemas.JobDonePopulatedResponse{
-		Uuid:          jobDone.ID,
-		CreatedAt:     jobDone.CreatedAt,
-		UpdatedAt:     jobDone.UpdatedAt,
-		Description:   jobDone.Description,
-		Time:          jobDone.Time,
-		OwnerUuid:     jobDone.OwnerUuid,
-		OwnerName:     jobDone.OwnerName,
-		DayReportUuid: jobDone.DayReportID,
-		WayUUID:       jobDone.WayUUID,
-		WayName:       jobDone.WayName,
-		Tags:          jobTags,
 	}
+
+	response, err := jc.generalService.UpdateJobDone(ctx, params)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Deleting jobDone handlers
+// Deleting jobDone handler
 // @Summary Delete jobDone by UUID
 // @Description
 // @Tags jobDone
@@ -147,14 +96,8 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 func (jc *JobDoneController) DeleteJobDoneById(ctx *gin.Context) {
 	jobDoneID := ctx.Param("jobDoneId")
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
-
-	err := jc.permissionService.CheckIsUserHavingPermissionsForJobDone(ctx, userID, jobDoneID)
-	util.HandleErrorGin(ctx, err)
-
-	err = jc.jobDoneService.DeleteJobDoneByID(ctx, jobDoneID)
-	util.HandleErrorGin(ctx, err)
+	err := jc.generalService.DeleteJobDoneByID(ctx, jobDoneID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }
