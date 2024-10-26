@@ -167,7 +167,31 @@ type GetLastDayReportDateResponse struct {
 func (ds *GeneralService) GetLastDayReportDate(ctx context.Context, wayUUIDs []uuid.UUID) (*GetLastDayReportDateResponse, error) {
 }
 
-func (ds *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*schemas.CompositeDayReportPopulatedResponse, error) {
+func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*schemas.CompositeDayReportPopulatedResponse, error) {
+	dayReportRaw, response, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(openapiGeneral.SchemasCreateDayReportPayload{
+		WayId: wayID,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	dayReport := &schemas.CompositeDayReportPopulatedResponse{
+		UUID:                    dayReportRaw.Uuid,
+		CreatedAt:               dayReportRaw.CreatedAt,
+		UpdatedAt:               dayReportRaw.UpdatedAt,
+		CompositionParticipants: dayReportRaw.CompositionParticipants,
+		JobsDone:                dayReportRaw.JobsDone,
+		Plans:                   dayReportRaw.Plans,
+		Problems:                dayReportRaw.Problems,
+		Comments:                dayReportRaw.Comments,
+	}
+
+	return dayReport, nil
 }
 
 func (gs *GeneralService) CreateFavoriteUser(ctx context.Context, payload *schemas.CreateFavoriteUserPayload) error {
@@ -297,6 +321,7 @@ func (gs *GeneralService) CreateMetricsPrompt(ctx context.Context, payload *sche
 }
 
 func (gs *GeneralService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
+
 }
 
 func (gs *GeneralService) AIChat(ctx context.Context, payload *schemas.AIChatPayload) (*schemas.AIChatResponse, error) {
@@ -419,24 +444,12 @@ type JobDone struct {
 }
 
 func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*JobDone, error) {
-}
-
-type UpdateJobDoneParams struct {
-	JobDoneID   string
-	Description *string
-	Time        *int32
-}
-
-func (gs *GeneralService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*JobDone, error) {
-}
-
-func (gs *GeneralService) DeleteJobDoneByID(ctx context.Context, jobDoneID string) error {
-}
-
-func (gs *GeneralService) CreateJobDoneJobTag(ctx context.Context, payload *schemas.CreateJobDoneJobTagPayload) (*db.JobDonesJobTag, error) {
-	response, err := gs.generalAPI.JobDoneJobTagAPI.CreateJobDoneJobTag(ctx).Request(openapiGeneral.SchemasCreateJobDoneJobTagPayload{
-		JobDoneUuid: payload.JobDoneUuid,
-		JobTagUuid:  payload.JobTagUuid,
+	jobDoneRaw, response, err := gs.generalAPI.JobDoneAPI.CreateJobDone(ctx).Request(openapiGeneral.SchemasCreateJobDonePayload{
+		DayReportUuid: payload.DayReportUuid,
+		Description:   payload.Description,
+		JobTagUuids:   payload.JobTagUuids,
+		OwnerUuid:     payload.OwnerUuid,
+		Time:          payload.Time,
 	}).Execute()
 
 	if err != nil {
@@ -447,7 +460,99 @@ func (gs *GeneralService) CreateJobDoneJobTag(ctx context.Context, payload *sche
 		return nil, fmt.Errorf(message)
 	}
 
-	return nil, nil
+	tags := make([]string, 5)
+	for _, tag := range jobDoneRaw.Tags {
+		tags = append(tags, tag.Uuid)
+	}
+
+	jobDone := &JobDone{
+		ID:          jobDoneRaw.Uuid,
+		CreatedAt:   jobDoneRaw.CreatedAt,
+		UpdatedAt:   jobDoneRaw.UpdatedAt,
+		Description: jobDoneRaw.Description,
+		Time:        jobDoneRaw.Time,
+		OwnerUuid:   jobDoneRaw.OwnerUuid,
+		OwnerName:   jobDoneRaw.OwnerName,
+		DayReportID: jobDoneRaw.DayReportUuid,
+		WayUUID:     jobDoneRaw.WayUuid,
+		WayName:     jobDoneRaw.WayName,
+		TagIDs:      tags,
+	}
+
+	return jobDone, nil
+}
+
+type UpdateJobDoneParams struct {
+	JobDoneID   string
+	Description *string
+	Time        *int32
+}
+
+func (gs *GeneralService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*JobDone, error) {
+	jobDoneRaw, response, err := gs.generalAPI.JobDoneAPI.UpdateJobDone(ctx, params.JobDoneID).Request(openapiGeneral.SchemasUpdateJobDone{
+		Description: params.Description,
+		Time:        params.Time,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	tags := make([]string, 5)
+	for _, tag := range jobDoneRaw.Tags {
+		tags = append(tags, tag.Uuid)
+	}
+
+	jobDone := &JobDone{
+		ID:          jobDoneRaw.Uuid,
+		CreatedAt:   jobDoneRaw.CreatedAt,
+		UpdatedAt:   jobDoneRaw.UpdatedAt,
+		Description: jobDoneRaw.Description,
+		Time:        jobDoneRaw.Time,
+		OwnerUuid:   jobDoneRaw.OwnerUuid,
+		OwnerName:   jobDoneRaw.OwnerName,
+		DayReportID: jobDoneRaw.DayReportUuid,
+		WayUUID:     jobDoneRaw.WayUuid,
+		WayName:     jobDoneRaw.WayName,
+		TagIDs:      tags,
+	}
+
+	return jobDone, nil
+}
+
+func (gs *GeneralService) DeleteJobDoneByID(ctx context.Context, jobDoneID string) error {
+	response, err := gs.generalAPI.JobDoneAPI.DeleteJobDone(ctx, jobDoneID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
+}
+
+func (gs *GeneralService) CreateJobDoneJobTag(ctx context.Context, payload *schemas.CreateJobDoneJobTagPayload) error {
+	response, err := gs.generalAPI.JobDoneJobTagAPI.CreateJobDoneJobTag(ctx).Request(openapiGeneral.SchemasCreateJobDoneJobTagPayload{
+		JobDoneUuid: payload.JobDoneUuid,
+		JobTagUuid:  payload.JobTagUuid,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
 func (gs *GeneralService) DeleteJobDoneJobTagById(ctx context.Context, jobDoneID, jobTagID string) error {
@@ -678,6 +783,43 @@ type Plan struct {
 }
 
 func (gs *GeneralService) CreatePlan(ctx context.Context, payload *schemas.CreatePlanPayload) (*Plan, error) {
+	planRaw, response, err := gs.generalAPI.PlanAPI.CreatePlan(ctx).Request(openapiGeneral.SchemasCreatePlanPayload{
+		DayReportUuid: payload.DayReportUuid,
+		Description:   payload.Description,
+		IsDone:        payload.IsDone,
+		OwnerUuid:     payload.OwnerUuid,
+		Time:          payload.Time,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	tags := make([]string, 5)
+	for _, tag := range planRaw.Tags {
+		tags = append(tags, tag.Uuid)
+	}
+
+	plan := &Plan{
+		ID:          planRaw.Uuid,
+		CreatedAt:   planRaw.CreatedAt,
+		UpdatedAt:   planRaw.UpdatedAt,
+		Description: planRaw.Description,
+		Time:        planRaw.Time,
+		OwnerUuid:   planRaw.OwnerUuid,
+		OwnerName:   planRaw.OwnerName,
+		IsDone:      planRaw.IsDone,
+		DayReportID: planRaw.DayReportUuid,
+		WayUUID:     planRaw.WayUuid,
+		WayName:     planRaw.WayName,
+		TagIDs:      tags,
+	}
+
+	return plan, nil
 }
 
 type UpdatePlanParams struct {
@@ -688,9 +830,55 @@ type UpdatePlanParams struct {
 }
 
 func (gs *GeneralService) UpdatePlan(ctx context.Context, params *UpdatePlanParams) (*Plan, error) {
+	planRaw, response, err := gs.generalAPI.PlanAPI.UpdatePlan(ctx, params.PlanID).Request(openapiGeneral.SchemasUpdatePlanPayload{
+		Description: params.Description,
+		IsDone:      params.IsDone,
+		Time:        params.Time,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	tags := make([]string, 5)
+	for _, tag := range planRaw.Tags {
+		tags = append(tags, tag.Uuid)
+	}
+
+	plan := &Plan{
+		ID:          planRaw.Uuid,
+		CreatedAt:   planRaw.CreatedAt,
+		UpdatedAt:   planRaw.UpdatedAt,
+		Description: planRaw.Description,
+		Time:        planRaw.Time,
+		OwnerUuid:   planRaw.OwnerUuid,
+		OwnerName:   planRaw.OwnerName,
+		IsDone:      planRaw.IsDone,
+		DayReportID: planRaw.DayReportUuid,
+		WayUUID:     planRaw.WayUuid,
+		WayName:     planRaw.WayName,
+		TagIDs:      tags,
+	}
+
+	return plan, nil
 }
 
 func (gs *GeneralService) DeletePlanById(ctx context.Context, planID string) error {
+	response, err := gs.generalAPI.PlanAPI.DeletePlan(ctx, planID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
 func (gs *GeneralService) CreatePlanJobTag(ctx context.Context, payload *schemas.CreatePlanJobTagPayload) error {
@@ -726,6 +914,35 @@ func (gs *GeneralService) DeletePlanJobTagById(ctx context.Context, planID, jobT
 }
 
 func (gs *GeneralService) CreateProblem(ctx context.Context, payload *schemas.CreateProblemPayload) (*schemas.ProblemPopulatedResponse, error) {
+	problemRaw, response, err := gs.generalAPI.ProblemAPI.CreateProblem(ctx).Request(openapiGeneral.SchemasCreateProblemPayload{
+		DayReportUuid: payload.DayReportUuid,
+		Description:   payload.Description,
+		IsDone:        payload.IsDone,
+		OwnerUuid:     payload.OwnerUuid,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	problem := &schemas.ProblemPopulatedResponse{
+		Uuid:          problemRaw.Uuid,
+		CreatedAt:     problemRaw.CreatedAt,
+		UpdatedAt:     problemRaw.UpdatedAt,
+		Description:   problemRaw.Description,
+		IsDone:        problemRaw.IsDone,
+		OwnerUuid:     problemRaw.OwnerUuid,
+		OwnerName:     problemRaw.OwnerName,
+		DayReportUuid: problemRaw.DayReportUuid,
+		WayUUID:       problemRaw.WayUuid,
+		WayName:       problemRaw.WayName,
+	}
+
+	return problem, nil
 }
 
 type UpdateProblemParams struct {
@@ -735,9 +952,48 @@ type UpdateProblemParams struct {
 }
 
 func (gs *GeneralService) UpdateProblem(ctx context.Context, params *UpdateProblemParams) (*schemas.ProblemPopulatedResponse, error) {
+	problemRaw, response, err := gs.generalAPI.ProblemAPI.UpdateProblem(ctx, params.ProblemID).Request(openapiGeneral.SchemasUpdateProblemPayload{
+		Description: params.Description,
+		IsDone:      params.IsDone,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	problem := &schemas.ProblemPopulatedResponse{
+		Uuid:          problemRaw.Uuid,
+		CreatedAt:     problemRaw.CreatedAt,
+		UpdatedAt:     problemRaw.UpdatedAt,
+		Description:   problemRaw.Description,
+		IsDone:        problemRaw.IsDone,
+		OwnerUuid:     problemRaw.OwnerUuid,
+		OwnerName:     problemRaw.OwnerName,
+		DayReportUuid: problemRaw.DayReportUuid,
+		WayUUID:       problemRaw.WayUuid,
+		WayName:       problemRaw.WayName,
+	}
+
+	return problem, nil
+
 }
 
 func (gs *GeneralService) DeleteProblemById(ctx context.Context, problemID string) error {
+	response, err := gs.generalAPI.ProblemAPI.DeleteProblem(ctx, problemID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
 type ProjectResponse struct {
@@ -768,9 +1024,38 @@ func (gs *GeneralService) DeleteProjectByID(ctx context.Context, projectID strin
 }
 
 func (gs *GeneralService) CreateToUserMentoringRequest(ctx context.Context, payload *schemas.CreateToUserMentoringRequestPayload) (*schemas.ToUserMentoringRequestResponse, error) {
+	userMentorRaw, response, err := gs.generalAPI.ToUserMentoringRequestAPI.CreateUserMentoringRequest(ctx).Request(openapiGeneral.SchemasCreateToUserMentoringRequestPayload{
+		UserUuid: payload.UserUuid,
+		WayUuid:  payload.WayUuid,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+	userMentor := &schemas.ToUserMentoringRequestResponse{
+		UserID: userMentorRaw.UserId,
+		WayID:  userMentorRaw.WayId,
+	}
+
+	return userMentor, nil
 }
 
 func (gs *GeneralService) DeleteToUserMentoringRequestById(ctx context.Context, userID, wayID string) error {
+	response, err := gs.generalAPI.ToUserMentoringRequestAPI.DeleteToUserMentoringRequest(ctx, userID, wayID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
 type UpdateUserParams struct {
@@ -782,6 +1067,32 @@ type UpdateUserParams struct {
 }
 
 func (gs *GeneralService) UpdateUser(ctx context.Context, params *UpdateUserParams) (*schemas.UserPlainResponse, error) {
+	userRaw, response, err := gs.generalAPI.UserAPI.UpdateUser(ctx, params.UserID).Request(openapiGeneral.SchemasUpdateUserPayload{
+		Description: params.Description,
+		ImageUrl:    params.ImageUrl,
+		IsMentor:    params.IsMentor,
+		Name:        params.Name,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	user := &schemas.UserPlainResponse{
+		Uuid:        userRaw.Uuid,
+		Name:        userRaw.Name,
+		Email:       userRaw.Email,
+		Description: userRaw.Description,
+		CreatedAt:   userRaw.CreatedAt,
+		ImageUrl:    userRaw.ImageUrl,
+		IsMentor:    userRaw.IsMentor,
+	}
+
+	return user, nil
 }
 
 type GetAllUsersParams struct {
@@ -793,6 +1104,43 @@ type GetAllUsersParams struct {
 }
 
 func (gs *GeneralService) GetAllUsers(ctx context.Context, params *GetAllUsersParams) (*schemas.GetAllUsersResponse, error) {
+	usersRaw, response, err := gs.generalAPI.UserAPI.GetAllUsers(ctx).
+		MentorStatus(params.MentorStatus).
+		Name(params.UserName).
+		Email(params.UserEmail).
+		Page(int32(params.Offset)).
+		Limit(int32(params.ReqLimit)).
+		Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	users := make([]schemas.UserPlainResponseWithInfo, len(usersRaw.Users))
+	for i, user := range usersRaw.Users {
+		users[i] = schemas.UserPlainResponseWithInfo{
+			Uuid:             user.Uuid,
+			Name:             user.Name,
+			Email:            user.Email,
+			Description:      user.Description,
+			CreatedAt:        user.CreatedAt,
+			ImageUrl:         user.ImageUrl,
+			IsMentor:         user.IsMentor,
+			FavoriteForUsers: user.FavoriteForUsers,
+			FavoriteWays:     user.FavoriteWays,
+			MentoringWays:    user.MentoringWays,
+			OwnWays:          user.OwnWays,
+		}
+	}
+
+	return &schemas.GetAllUsersResponse{
+		Size:  int64(len(users)),
+		Users: users,
+	}, nil
 }
 
 //func (gs *GeneralService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {
@@ -808,10 +1156,10 @@ type CreateUserParams struct {
 	IsMentor    bool
 }
 
-func (us *UserService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
+func (us *GeneralService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
 }
 
-func (us *UserService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
+func (us *GeneralService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
 }
 
 type dbWay struct {
@@ -833,44 +1181,45 @@ type dbWay struct {
 	ChildrenUuids       []string
 }
 
-func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
+func (us *GeneralService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
 }
 
-func (us *UserService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
+func (us *GeneralService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
 }
 
-func (us *UserService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {}
+func (us *GeneralService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {}
 
-func (us *UserService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {}
-
-func (us *UserService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {}
-
-func (us *UserService) GetPlainUserWithInfoByIDs(ctx context.Context, projectID string) ([]schemas.UserPlainResponseWithInfo, error) {
+func (us *GeneralService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {
 }
 
-func (us *UserProjectService) CreateUserProject(ctx context.Context, userID, projectID string) error {
+func (us *GeneralService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {}
+
+func (us *GeneralService) GetPlainUserWithInfoByIDs(ctx context.Context, projectID string) ([]schemas.UserPlainResponseWithInfo, error) {
 }
 
-func (us *UserProjectService) DeleteUserProject(ctx context.Context, userID, projectID string) error {
+func (us *GeneralService) CreateUserProject(ctx context.Context, userID, projectID string) error {
 }
 
-func (uc *UserTagService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*schemas.UserTagResponse, error) {
+func (us *GeneralService) DeleteUserProject(ctx context.Context, userID, projectID string) error {
 }
 
-func (us *UserTagService) DeleteUserTagByFromUserByTag(ctx context.Context, userID, userTagID string) error {
+func (uc *GeneralService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*schemas.UserTagResponse, error) {
 }
 
-func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulatedWayByIdParams) (*schemas.WayPopulatedResponse, error) {
+func (us *GeneralService) DeleteUserTagByFromUserByTag(ctx context.Context, userID, userTagID string) error {
+}
+
+func (ws *GeneralService) GetPopulatedWayById(ctx context.Context, params GetPopulatedWayByIdParams) (*schemas.WayPopulatedResponse, error) {
 }
 
 func (gs *GeneralService) UpdateWayIsCompletedStatus(ctx context.Context, wayID string) error {
 	//response, err := gs.generalAPI.WayAPI.
 }
 
-func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainResponse, error) {
+func (ws *GeneralService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainResponse, error) {
 }
 
-func (ws *WayService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
+func (ws *GeneralService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
 }
 
 type UpdateWayParams struct {
@@ -882,7 +1231,7 @@ type UpdateWayParams struct {
 	IsCompleted     bool
 }
 
-func (ws *WayService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*schemas.WayPlainResponse, error) {
+func (ws *GeneralService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*schemas.WayPlainResponse, error) {
 }
 
 type GetAllWaysParams struct {
@@ -893,32 +1242,32 @@ type GetAllWaysParams struct {
 	ReqLimit               int
 }
 
-func (ws *WayService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*schemas.GetAllWaysResponse, error) {
+func (ws *GeneralService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*schemas.GetAllWaysResponse, error) {
 }
 
-func (ws *WayService) DeleteWayById(ctx *gin.Context, wayID string) error {
+func (ws *GeneralService) DeleteWayById(ctx *gin.Context, wayID string) error {
 	return ws.wayRepository.DeleteWay(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true})
 }
 
-func (ws *WayService) GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {
+func (ws *GeneralService) GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {
 }
 
-func (ws *WayService) GetNestedWayIDs(ctx context.Context, parentWayUUID pgtype.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error) {
+func (ws *GeneralService) GetNestedWayIDs(ctx context.Context, parentWayUUID pgtype.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error) {
 }
 
-func (ws *WayCollectionService) CreateWayCollection(ctx context.Context, payload *schemas.CreateWayCollectionPayload) (*schemas.WayCollectionPopulatedResponse, error) {
+func (ws *GeneralService) CreateWayCollection(ctx context.Context, payload *schemas.CreateWayCollectionPayload) (*schemas.WayCollectionPopulatedResponse, error) {
 }
 
-func (cc *WayCollectionService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*schemas.WayCollectionPlainResponse, error) {
+func (cc *GeneralService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*schemas.WayCollectionPlainResponse, error) {
 }
 
-func (ws *WayCollectionService) DeleteWayCollectionById(ctx context.Context, wayCollectionID string) error {
+func (ws *GeneralService) DeleteWayCollectionById(ctx context.Context, wayCollectionID string) error {
 }
 
-func (ws *WayCollectionWayService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*schemas.WayCollectionWayResponse, error) {
+func (ws *GeneralService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*schemas.WayCollectionWayResponse, error) {
 }
 
-func (ws *WayCollectionWayService) DeleteWayCollectionWayById(ctx context.Context, wayID, wayCollectionID string) error {
+func (ws *GeneralService) DeleteWayCollectionWayById(ctx context.Context, wayID, wayCollectionID string) error {
 }
 
 type GetWayStatisticsTriplePeriodParams struct {
@@ -927,7 +1276,7 @@ type GetWayStatisticsTriplePeriodParams struct {
 	EndDate        time.Time
 }
 
-func (ws *WayStatisticsService) GetWayStatisticsTriplePeriod(ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
+func (ws *GeneralService) GetWayStatisticsTriplePeriod(ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
 }
 
 type GetWayStatisticsParams struct {
@@ -936,16 +1285,16 @@ type GetWayStatisticsParams struct {
 	EndDatePgTimestamp   pgtype.Timestamp
 }
 
-func (ws *WayStatisticsService) GetWayStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.WayStatistics, error) {
+func (ws *GeneralService) GetWayStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.WayStatistics, error) {
 }
 
-func (ws *WayStatisticsService) GetTimeSpentByDayChart(ctx context.Context, params *GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
+func (ws *GeneralService) GetTimeSpentByDayChart(ctx context.Context, params *GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
 }
 
-func (ws *WayStatisticsService) GetOverallInformation(ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
+func (ws *GeneralService) GetOverallInformation(ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
 }
 
-func (ws *WayStatisticsService) GetLabelStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
+func (ws *GeneralService) GetLabelStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
 }
 
 func (gs *GeneralService) AddWayTagToWay(ctx context.Context, name string, wayID string) (*schemas.WayTagResponse, error) {

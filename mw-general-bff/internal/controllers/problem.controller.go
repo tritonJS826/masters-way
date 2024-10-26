@@ -1,26 +1,23 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/auth"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 type ProblemController struct {
-	permissionService *services.PermissionService
-	problemService    *services.ProblemService
+	generalService *services.GeneralService
 }
 
-func NewProblemController(permissionService *services.PermissionService, problemService *services.ProblemService) *ProblemController {
-	return &ProblemController{permissionService, problemService}
+func NewProblemController(generalService *services.GeneralService) *ProblemController {
+	return &ProblemController{generalService}
 }
 
-// Create Problem  handler
+// Create Problem handler
 // @Summary Create a new problem
 // @Description
 // @Tags problem
@@ -39,14 +36,8 @@ func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 		return
 	}
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
-
-	err := pc.permissionService.CheckIsUserHavingPermissionsForDayReport(ctx, userID, payload.DayReportUuid)
-	util.HandleErrorGin(ctx, err)
-
-	problem, err := pc.problemService.CreateProblem(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	problem, err := pc.generalService.CreateProblem(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, problem)
 }
@@ -72,23 +63,17 @@ func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		return
 	}
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
-
-	err := pc.permissionService.CheckIsUserHavingPermissionsForProblem(ctx, userID, problemID)
-	util.HandleErrorGin(ctx, err)
-
-	problem, err := pc.problemService.UpdateProblem(ctx, &services.UpdateProblemParams{
+	problem, err := pc.generalService.UpdateProblem(ctx, &services.UpdateProblemParams{
 		ProblemID:   problemID,
 		Description: payload.Description,
 		IsDone:      payload.IsDone,
 	})
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, problem)
 }
 
-// Deleting Problem handlers
+// Delete Problem handler
 // @Summary Delete problem by UUID
 // @Description
 // @Tags problem
@@ -102,14 +87,8 @@ func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 func (pc *ProblemController) DeleteProblemById(ctx *gin.Context) {
 	problemID := ctx.Param("problemId")
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
-
-	err := pc.permissionService.CheckIsUserHavingPermissionsForProblem(ctx, userID, problemID)
-	util.HandleErrorGin(ctx, err)
-
-	err = pc.problemService.DeleteProblemById(ctx, problemID)
-	util.HandleErrorGin(ctx, err)
+	err = pc.generalService.DeleteProblemById(ctx, problemID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }
