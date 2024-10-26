@@ -1,17 +1,20 @@
 package controllers
 
 import (
-	"mwserver/internal/services"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type JobTagController struct {
-	jobTagService *services.JobTagService
+	generalService *services.GeneralService
 }
 
-func NewJobTagController(jobTagService *services.JobTagService) *JobTagController {
-	return &JobTagController{jobTagService}
+func NewJobTagController(generalService *services.GeneralService) *JobTagController {
+	return &JobTagController{generalService}
 }
 
 // Create wayTag  handler
@@ -25,17 +28,20 @@ func NewJobTagController(jobTagService *services.JobTagService) *JobTagControlle
 // @Success 200 {object} schemas.JobTagResponse
 // @Router /jobTags [post]
 func (jc *JobTagController) CreateJobTag(ctx *gin.Context) {
-	// var payload *schemas.CreateJobTagPayload
+	var payload schemas.CreateJobTagPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// jobTag, err := jc.jobTagService.CreateJobTag(ctx, payload)
-	// util.HandleErrorGin(ctx, err)
+	jobTag, err := jc.generalService.CreateJobTag(ctx, &payload)
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
-	// ctx.JSON(http.StatusOK, jobTag)
+	ctx.JSON(http.StatusOK, jobTag)
 }
 
 // Update jobTag handler
@@ -50,23 +56,26 @@ func (jc *JobTagController) CreateJobTag(ctx *gin.Context) {
 // @Success 200 {object} schemas.JobTagResponse
 // @Router /jobTags/{jobTagId} [patch]
 func (jc *JobTagController) UpdateJobTag(ctx *gin.Context) {
-	// var payload *schemas.UpdateJobTagPayload
-	// jobTagID := ctx.Param("jobTagId")
+	var payload schemas.UpdateJobTagPayload
+	jobTagID := ctx.Param("jobTagId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// jobTag, err := jc.jobTagService.UpdateJobTag(ctx, &services.UpdateJobTagParams{
-	// 	JobTagID:    jobTagID,
-	// 	Name:        payload.Name,
-	// 	Description: payload.Description,
-	// 	Color:       payload.Color,
-	// })
-	// util.HandleErrorGin(ctx, err)
+	jobTag, err := jc.generalService.UpdateJobTag(ctx, &services.UpdateJobTagParams{
+		JobTagID:    jobTagID,
+		Name:        payload.Name,
+		Description: payload.Description,
+		Color:       payload.Color,
+	})
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
-	// ctx.JSON(http.StatusOK, jobTag)
+	ctx.JSON(http.StatusOK, jobTag)
 }
 
 // Deleting wayTag handlers
@@ -80,10 +89,10 @@ func (jc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 // @Success 204
 // @Router /jobTags/{jobTagId} [delete]
 func (jc *JobTagController) DeleteJobTagById(ctx *gin.Context) {
-	// jobTagID := ctx.Param("jobTagId")
+	jobTagID := ctx.Param("jobTagId")
 
-	// err := jc.jobTagService.DeleteJobTagById(ctx, jobTagID)
-	// util.HandleErrorGin(ctx, err)
+	err := jc.generalService.DeleteJobTagById(ctx, jobTagID)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }

@@ -1,17 +1,20 @@
 package controllers
 
 import (
-	"mwserver/internal/services"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type PlanJobTagController struct {
-	planJobTagService *services.PlanJobTagService
+	generalService *services.GeneralService
 }
 
-func NewPlanJobTagController(planJobTagService *services.PlanJobTagService) *PlanJobTagController {
-	return &PlanJobTagController{planJobTagService}
+func NewPlanJobTagController(generalService *services.GeneralService) *PlanJobTagController {
+	return &PlanJobTagController{generalService}
 }
 
 // Create planJobTag  handler
@@ -25,17 +28,17 @@ func NewPlanJobTagController(planJobTagService *services.PlanJobTagService) *Pla
 // @Success 204
 // @Router /planJobTags [post]
 func (pc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
-	// var payload *schemas.CreatePlanJobTagPayload
+	var payload *schemas.CreatePlanJobTagPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// _, err := pc.planJobTagService.CreatePlanJobTag(ctx, payload)
-	// util.HandleErrorGin(ctx, err)
+	err := pc.generalService.CreatePlanJobTag(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting PlanJobTag handlers
@@ -50,11 +53,11 @@ func (pc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 // @Success 204
 // @Router /planJobTags/{jobTagId}/{planId} [delete]
 func (pc *PlanJobTagController) DeletePlanJobTagById(ctx *gin.Context) {
-	// planID := ctx.Param("planId")
-	// jobTagID := ctx.Param("jobTagId")
+	planID := ctx.Param("planId")
+	jobTagID := ctx.Param("jobTagId")
 
-	// err := pc.planJobTagService.DeletePlanJobTagById(ctx, planID, jobTagID)
-	// util.HandleErrorGin(ctx, err)
+	err := pc.generalService.DeletePlanJobTagById(ctx, planID, jobTagID)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.Status(http.StatusNoContent)
+	ctx.Status(http.StatusNoContent)
 }

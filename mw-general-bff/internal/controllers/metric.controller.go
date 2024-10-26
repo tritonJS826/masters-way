@@ -1,22 +1,20 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 type MetricController struct {
-	metricService *services.MetricService
-	wayService    *services.WayService
+	generalService *services.GeneralService
 }
 
-func NewMetricController(metricService *services.MetricService, wayService *services.WayService) *MetricController {
-	return &MetricController{metricService, wayService}
+func NewMetricController(generalService *services.GeneralService) *MetricController {
+	return &MetricController{generalService}
 }
 
 // Create Metric  handler
@@ -30,20 +28,20 @@ func NewMetricController(metricService *services.MetricService, wayService *serv
 // @Success 200 {object} schemas.MetricResponse
 // @Router /metrics [post]
 func (mc *MetricController) CreateMetric(ctx *gin.Context) {
-	// var payload *schemas.CreateMetricPayload
+	var payload *schemas.CreateMetricPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// metric, err := mc.metricService.CreateMetric(ctx, payload)
-	// util.HandleErrorGin(ctx, err)
+	metric, err := mc.generalService.CreateMetric(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
-	// err = mc.wayService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
-	// util.HandleErrorGin(ctx, err)
+	err = mc.generalService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.JSON(http.StatusOK, metric.MetricResponse)
+	ctx.JSON(http.StatusOK, metric.MetricResponse)
 }
 
 // Update Metric handler
@@ -66,16 +64,16 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 		return
 	}
 
-	metric, err := mc.metricService.UpdateMetric(ctx, &services.UpdateMetricParams{
+	metric, err := mc.generalService.UpdateMetric(ctx, &services.UpdateMetricParams{
 		MetricID:         metricID,
 		Description:      payload.Description,
 		IsDone:           payload.IsDone,
 		MetricEstimation: payload.MetricEstimation,
 	})
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
-	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
-	util.HandleErrorGin(ctx, err)
+	err = mc.generalService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, metric.MetricResponse)
 }
@@ -93,11 +91,11 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 func (mc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricID := ctx.Param("metricId")
 
-	wayID, err := mc.metricService.DeleteMetricById(ctx, metricID)
-	util.HandleErrorGin(ctx, err)
+	wayID, err := mc.generalService.DeleteMetricById(ctx, metricID)
+	utils.HandleErrorGin(ctx, err)
 
-	err = mc.wayService.UpdateWayIsCompletedStatus(ctx, wayID)
-	util.HandleErrorGin(ctx, err)
+	err = mc.generalService.UpdateWayIsCompletedStatus(ctx, wayID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

@@ -24,3 +24,7 @@ type ProblemPopulatedResponse struct {
 	WayUUID       string `json:"wayUuid" validate:"required"`
 	WayName       string `json:"wayName" validate:"required"`
 }
+
+type NoRightToChangeDayReportError struct {
+	Message string `json:"message"`
+}

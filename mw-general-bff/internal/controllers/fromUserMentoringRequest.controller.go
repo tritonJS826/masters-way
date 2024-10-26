@@ -1,20 +1,20 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 type FromUserMentoringRequestController struct {
-	fromUserMentoringRequestService *services.FromUserMentoringRequestService
+	generalService *services.GeneralService
 }
 
-func NewFromUserMentoringRequestController(fromUserMentoringRequestService *services.FromUserMentoringRequestService) *FromUserMentoringRequestController {
-	return &FromUserMentoringRequestController{fromUserMentoringRequestService}
+func NewFromUserMentoringRequestController(generalService *services.GeneralService) *FromUserMentoringRequestController {
+	return &FromUserMentoringRequestController{generalService}
 }
 
 // Create fromUserMentoringRequest handler
@@ -28,17 +28,20 @@ func NewFromUserMentoringRequestController(fromUserMentoringRequestService *serv
 // @Success 200 {object} schemas.FromUserMentoringRequestResponse
 // @Router /fromUserMentoringRequests [post]
 func (fc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx *gin.Context) {
-	// var payload *schemas.CreateFromUserMentoringRequestPayload
+	var payload schemas.CreateFromUserMentoringRequestPayload
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// fromUserMentoringRequest, err := fc.fromUserMentoringRequestService.CreateFromUserMentoringRequest(ctx, payload.UserUuid, payload.WayUuid)
-	// util.HandleErrorGin(ctx, err)
+	fromUserMentoringRequest, err := fc.generalService.CreateFromUserMentoringRequest(ctx, payload.UserUuid, payload.WayUuid)
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
-	// ctx.JSON(http.StatusOK, fromUserMentoringRequest)
+	ctx.JSON(http.StatusOK, fromUserMentoringRequest)
 }
 
 // Deleting fromUserMentoringRequest handlers
@@ -56,8 +59,11 @@ func (fumrc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestB
 	userID := ctx.Param("userUuid")
 	wayID := ctx.Param("wayUuid")
 
-	err := fumrc.fromUserMentoringRequestService.DeleteFromUserMentoringRequestById(ctx, userID, wayID)
-	util.HandleErrorGin(ctx, err)
+	err := fumrc.generalService.DeleteFromUserMentoringRequestById(ctx, userID, wayID)
+	if err != nil {
+		utils.HandleErrorGin(ctx, err)
+		return
+	}
 
 	ctx.Status(http.StatusNoContent)
 }

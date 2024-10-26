@@ -15,6 +15,578 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/current": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Get current authorized user",
+                "operationId": "get-current-authorized-user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/google-token": {
+            "get": {
+                "description": "This endpoint retrieves the Google access token for an authenticated user.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Retrieve Google Access Token",
+                "operationId": "get-google-token",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GoogleToken"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login/local/{userEmail}": {
+            "get": {
+                "description": "Login locally by providing an email address.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "login locally by email (with no oauth)",
+                "operationId": "get token locally",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "userEmail",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "304": {
+                        "description": "redirect"
+                    }
+                }
+            }
+        },
+        "/auth/logout/{provider}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Logout current authorized user",
+                "operationId": "logout-current-authorized-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/auth/{provider}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Begin oauth",
+                "operationId": "begin-auth",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "307": {
+                        "description": "Temporary Redirect"
+                    }
+                }
+            }
+        },
+        "/auth/{provider}/callback": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Log in with google oAuth",
+                "operationId": "google auth log in callback function",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "state parameter",
+                        "name": "state",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "google",
+                        "name": "provider",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirect to frontend with JWT token",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/comments": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Create a new comment",
+                "operationId": "create-comment",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateCommentPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/{commentId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Delete comment by UUID",
+                "operationId": "delete-comment",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "comment ID",
+                        "name": "commentId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment"
+                ],
+                "summary": "Update comment by UUID",
+                "operationId": "update-comment",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateCommentPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "comment ID",
+                        "name": "commentId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/compositeWay": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "compositeWay"
+                ],
+                "summary": "Add a way to composite way",
+                "operationId": "create-compositeWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AddWayToCompositeWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CompositeWayRelation"
+                        }
+                    }
+                }
+            }
+        },
+        "/compositeWay/{parentWayId}/{childWayId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "compositeWay"
+                ],
+                "summary": "Delete composite way relation",
+                "operationId": "delete-compositeWay relation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "parentWay ID",
+                        "name": "parentWayId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "childWay ID",
+                        "name": "childWayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/dayReports": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dayReport"
+                ],
+                "summary": "Create a new dayReport",
+                "operationId": "create-dayReport",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateDayReportPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dayReports/{wayId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "dayReport"
+                ],
+                "summary": "Get list of day reports by way UUID",
+                "operationId": "get-day-reports",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ListDayReportsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/reset-db": {
+            "get": {
+                "description": "resets db",
+                "tags": [
+                    "dev"
+                ],
+                "summary": "resets db",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/favoriteUserWays": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favoriteUserWay"
+                ],
+                "summary": "Create a new favoriteUserWay",
+                "operationId": "create-favoriteUserWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateFavoriteUserWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/favoriteUserWays/{userUuid}/{wayUuid}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favoriteUserWay"
+                ],
+                "summary": "Delete favoriteUserWay by UUID",
+                "operationId": "delete-favoriteUserWay",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user UUID",
+                        "name": "userUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayUuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/favoriteUsers": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favoriteUser"
+                ],
+                "summary": "Create a new favorite user",
+                "operationId": "create-favoriteUser",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateFavoriteUserPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/favoriteUsers/{donorUserUuid}/{acceptorUserUuid}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favoriteUser"
+                ],
+                "summary": "Delete favoriteUser by UUID",
+                "operationId": "delete-favoriteUser",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "donorUser UUID",
+                        "name": "donorUserUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "acceptorUser UUID",
+                        "name": "acceptorUserUuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
         "/files": {
             "post": {
                 "description": "Uploads a file to the server and stores it in the designated storage path",
@@ -87,9 +659,3396 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/fromUserMentoringRequests": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "fromUserMentoringRequest"
+                ],
+                "summary": "Create a new fromUserMentoringRequest",
+                "operationId": "create-fromUserMentoringRequest",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateFromUserMentoringRequestPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.FromUserMentoringRequestResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/fromUserMentoringRequests/{userUuid}/{wayUuid}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "fromUserMentoringRequest"
+                ],
+                "summary": "Delete fromUserMentoringRequest by UUID",
+                "operationId": "delete-fromUserMentoringRequest",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user UUID",
+                        "name": "userUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "way UUID",
+                        "name": "wayUuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/gemini/comment-issue": {
+            "post": {
+                "description": "Generate a comment for any issue",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate a comment for any issue",
+                "operationId": "ai-comment-issue",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AICommentIssuePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AICommentIssueResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/decompose-issue": {
+            "post": {
+                "description": "Decompose issue for 10 plans",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Decompose issue",
+                "operationId": "ai-decompose-issue",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIDecomposeIssuePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIDecomposeIssueResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/estimate-issue": {
+            "post": {
+                "description": "Estimate issue in minutes",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Estimate issue in minutes",
+                "operationId": "ai-estimate-issue",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIEstimateIssuePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIEstimateIssueResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/generate-plans-by-metric": {
+            "post": {
+                "description": "Generate plans by metric.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate plans by metric",
+                "operationId": "ai-plans-by-metrics",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/just-chat": {
+            "post": {
+                "description": "This endpoint for talks with AI language model.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Just chat with AI",
+                "operationId": "ai-chat",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIChatPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AIChatResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/metrics": {
+            "post": {
+                "description": "This endpoint uses Gemini to generate metrics by analyzing the provided goals.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate metrics using Gemini",
+                "operationId": "generate-metrics",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GenerateMetricsPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GenerateMetricsResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/healthcheck": {
+            "get": {
+                "description": "Get the health status of the API",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health Check",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/jobDoneJobTags": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobDoneJobTag"
+                ],
+                "summary": "Create a new jobDoneJobTag",
+                "operationId": "create-jobDoneJobTag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateJobDoneJobTagPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/jobDoneJobTags/{jobTagId}/{jobDoneId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobDoneJobTag"
+                ],
+                "summary": "Delete jobDoneJobTag by UUID",
+                "operationId": "delete-jobDoneJobTag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "jobDone ID",
+                        "name": "jobDoneId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "jobTag UUID",
+                        "name": "jobTagId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/jobDones": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobDone"
+                ],
+                "summary": "Create a new jobDone",
+                "operationId": "create-jobDone",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateJobDonePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/jobDones/{jobDoneId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobDone"
+                ],
+                "summary": "Delete jobDone by UUID",
+                "operationId": "delete-jobDone",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "jobDone ID",
+                        "name": "jobDoneId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobDone"
+                ],
+                "summary": "Update jobDone by UUID",
+                "operationId": "update-jobDone",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateJobDone"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "jobDone UUID",
+                        "name": "jobDoneId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/jobTags": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobTag"
+                ],
+                "summary": "Create a new jobTag",
+                "operationId": "create-jobTag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateJobTagPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.JobTagResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/jobTags/{jobTagId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobTag"
+                ],
+                "summary": "Delete jobTag by UUID",
+                "operationId": "delete-jobTag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "jobTag ID",
+                        "name": "jobTagId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "jobTag"
+                ],
+                "summary": "Update jobTag by UUID",
+                "operationId": "update-jobTag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateJobTagPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "jobTag UUID",
+                        "name": "jobTagId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.JobTagResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mentorUserWays": {
+            "post": {
+                "description": "Make user mentor and also added to appropriate mentoring collection",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mentorUserWay"
+                ],
+                "summary": "Create a new mentorUserWay",
+                "operationId": "create-mentorUserWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMentorUserWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "mentorUserWay"
+                ],
+                "summary": "Delete mentorUserWay by UUID",
+                "operationId": "delete-mentorUserWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.DeleteMentorUserWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/metrics": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "metric"
+                ],
+                "summary": "Create a new metric",
+                "operationId": "create-metric",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateMetricPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.MetricResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/metrics/{metricId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "metric"
+                ],
+                "summary": "Delete metric by UUID",
+                "operationId": "delete-metric",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "metric ID",
+                        "name": "metricId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "metric"
+                ],
+                "summary": "Update metric by UUID",
+                "operationId": "update-metric",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateMetricPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "metric UUID",
+                        "name": "metricId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.MetricResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/planJobTags": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "planJobTag"
+                ],
+                "summary": "Create a new planJobTag",
+                "operationId": "create-planJobTag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreatePlanJobTagPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/planJobTags/{jobTagId}/{planId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "planJobTag"
+                ],
+                "summary": "Delete planJobTag by UUID",
+                "operationId": "delete-planJobTag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "jobTag ID",
+                        "name": "jobTagId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "plan ID",
+                        "name": "planId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/plans": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "plan"
+                ],
+                "summary": "Create a new plan",
+                "operationId": "create-plan",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreatePlanPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create plan.",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NoRightToChangeDayReportError"
+                        }
+                    }
+                }
+            }
+        },
+        "/plans/{planId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "plan"
+                ],
+                "summary": "Delete plan by UUID",
+                "operationId": "delete-plan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "plan ID",
+                        "name": "planId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to delete plan.",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NoRightToChangeDayReportError"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "plan"
+                ],
+                "summary": "Update plan by UUID",
+                "operationId": "update-plan",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdatePlanPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "plan UUID",
+                        "name": "planId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to update plan.",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NoRightToChangeDayReportError"
+                        }
+                    }
+                }
+            }
+        },
+        "/problems": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "problem"
+                ],
+                "summary": "Create a new problem",
+                "operationId": "create-problem",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateProblemPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to create problem.",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NoRightToChangeDayReportError"
+                        }
+                    }
+                }
+            }
+        },
+        "/problems/{problemId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "problem"
+                ],
+                "summary": "Delete problem by UUID",
+                "operationId": "delete-problem",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "problem ID",
+                        "name": "problemId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to delete problem.",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NoRightToChangeDayReportError"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "problem"
+                ],
+                "summary": "Update problem by UUID",
+                "operationId": "update-problem",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateProblemPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "problem ID",
+                        "name": "problemId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "User doesn't have rights to update problem.",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NoRightToChangeDayReportError"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Create a new project",
+                "operationId": "create-project",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateProjectPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/projects/{projectId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Get project by id",
+                "operationId": "get-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Delete project by id",
+                "operationId": "delete-project",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "project"
+                ],
+                "summary": "Update project by id",
+                "operationId": "update-project",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateProjectPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "project id",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/toUserMentoringRequests": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "toUserMentoringRequest"
+                ],
+                "summary": "Create a new userMentoringRequest",
+                "operationId": "create-userMentoringRequest",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateToUserMentoringRequestPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ToUserMentoringRequestResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/toUserMentoringRequests/{userUuid}/{wayUuid}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "toUserMentoringRequest"
+                ],
+                "summary": "Delete toUserMentoringReques by UUID",
+                "operationId": "delete-toUserMentoringRequest",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user UUID",
+                        "name": "userUuid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "way UUID",
+                        "name": "wayUuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/userProjects": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userProject"
+                ],
+                "summary": "Add user to project",
+                "operationId": "create-userProject",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateUserProjectPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/userProjects/{projectId}/{userId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userProject"
+                ],
+                "summary": "Delete userProject by UUID",
+                "operationId": "delete-userProject",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "project ID",
+                        "name": "projectId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/userTags": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userTag"
+                ],
+                "summary": "Create a new userTag",
+                "operationId": "create-userTag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateUserTagPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserTagResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/userTags/{userTagId}/{userId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userTag"
+                ],
+                "summary": "Delete userTag by UUID",
+                "operationId": "delete-userTag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userTag ID",
+                        "name": "userTagId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "Get users with pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get all users",
+                "operationId": "get-all-users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Part of user email for filters",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Part of user name for filters",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "'mentor' | 'all' status for filter",
+                        "name": "mentorStatus",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetAllUsersResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/list-by-ids": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get users by ids",
+                "operationId": "get-users-by-ids",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/schemas.GetUsersByIDsResponse"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get user by UUID",
+                "operationId": "get-user-by-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update user by UUID",
+                "operationId": "update-user",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateUserPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserPlainResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/wayCollectionWays": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wayCollectionWay"
+                ],
+                "summary": "Create a new wayCollectionWay",
+                "operationId": "create-wayCollectionWay",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateWayCollectionWay"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayCollectionWayResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/wayCollectionWays/{wayId}/{wayCollectionId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wayCollectionWay"
+                ],
+                "summary": "Delete wayCollectionWay by UUID",
+                "operationId": "delete-wayCollectionWay",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "wayCollection ID",
+                        "name": "wayCollectionId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/wayCollections": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wayCollection"
+                ],
+                "summary": "Create a new wayCollection",
+                "operationId": "create-wayCollection",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateWayCollectionPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/wayCollections/{wayCollectionId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wayCollection"
+                ],
+                "summary": "Delete wayCollection by UUID",
+                "operationId": "delete-wayCollection",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "wayCollection ID",
+                        "name": "wayCollectionId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wayCollection"
+                ],
+                "summary": "Update wayCollection by UUID",
+                "operationId": "update-wayCollection",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateWayCollectionPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "wayCollection ID",
+                        "name": "wayCollectionId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayCollectionPlainResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/wayTags": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wayTag"
+                ],
+                "summary": "Create a new wayTag",
+                "operationId": "create-wayTag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateWayTagPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayTagResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/wayTags/{wayTagId}/{wayId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wayTag"
+                ],
+                "summary": "Delete wayTag by UUID",
+                "operationId": "delete-wayTag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "wayTag ID",
+                        "name": "wayTagId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/ways": {
+            "get": {
+                "description": "Get ways with pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Get all ways",
+                "operationId": "get-all-ways",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Min day reports amount",
+                        "name": "minDayReportsAmount",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Way name",
+                        "name": "wayName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Ways type: all | completed | inProgress | abandoned",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetAllWaysResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Create a new way",
+                "operationId": "create-way",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateWayPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayPlainResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ways/{wayId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Get way by UUID",
+                "operationId": "get-way-by-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Delete way by UUID",
+                "operationId": "delete-way",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Update way by UUID",
+                "operationId": "update-way",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateWayPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayPlainResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ways/{wayId}/statistics": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Get way statistics by UUID",
+                "operationId": "get-way-statistics-by-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.WayStatisticsTriplePeriod"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "schemas.AIChatPayload": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIChatResponse": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AICommentIssuePayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "message"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AICommentIssueResponse": {
+            "type": "object",
+            "required": [
+                "goal"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIDecomposeIssuePayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "message"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIDecomposeIssueResponse": {
+            "type": "object",
+            "required": [
+                "plans"
+            ],
+            "properties": {
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schemas.AIEstimateIssuePayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "issue"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "issue": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIEstimateIssueResponse": {
+            "type": "object",
+            "required": [
+                "estimation"
+            ],
+            "properties": {
+                "estimation": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIGeneratePlansByMetricPayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "metric"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "metric": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.AIGeneratePlansByMetricResponse": {
+            "type": "object",
+            "required": [
+                "plans"
+            ],
+            "properties": {
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schemas.AddWayToCompositeWayPayload": {
+            "type": "object",
+            "required": [
+                "childWayUuid",
+                "parentWayUuid"
+            ],
+            "properties": {
+                "childWayUuid": {
+                    "type": "string"
+                },
+                "parentWayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CommentPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "dayReportUuid",
+                "description",
+                "ownerName",
+                "ownerUuid",
+                "updatedAt",
+                "uuid",
+                "wayName",
+                "wayUuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "ownerName": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CompositeDayReportPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "comments",
+                "compositionParticipants",
+                "createdAt",
+                "jobsDone",
+                "plans",
+                "problems",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                    }
+                },
+                "compositionParticipants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.DayReportsCompositionParticipants"
+                    }
+                },
+                "createdAt": {
+                    "description": "Calculated by - just date",
+                    "type": "string"
+                },
+                "jobsDone": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                    }
+                },
+                "plans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                    }
+                },
+                "problems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                    }
+                },
+                "updatedAt": {
+                    "description": "Calculated by - just last date",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "Always generated",
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CompositeWayRelation": {
+            "type": "object",
+            "required": [
+                "childWayUuid",
+                "parentWayUuid"
+            ],
+            "properties": {
+                "childWayUuid": {
+                    "type": "string"
+                },
+                "parentWayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateCommentPayload": {
+            "type": "object",
+            "required": [
+                "dayReportUuid",
+                "description",
+                "ownerUuid"
+            ],
+            "properties": {
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateDayReportPayload": {
+            "type": "object",
+            "required": [
+                "wayId"
+            ],
+            "properties": {
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateFavoriteUserPayload": {
+            "type": "object",
+            "required": [
+                "acceptorUserUuid",
+                "donorUserUuid"
+            ],
+            "properties": {
+                "acceptorUserUuid": {
+                    "type": "string"
+                },
+                "donorUserUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateFavoriteUserWayPayload": {
+            "type": "object",
+            "required": [
+                "userUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateFromUserMentoringRequestPayload": {
+            "type": "object",
+            "required": [
+                "userUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateJobDoneJobTagPayload": {
+            "type": "object",
+            "required": [
+                "jobDoneUuid",
+                "jobTagUuid"
+            ],
+            "properties": {
+                "jobDoneUuid": {
+                    "type": "string"
+                },
+                "jobTagUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateJobDonePayload": {
+            "type": "object",
+            "required": [
+                "dayReportUuid",
+                "description",
+                "jobTagUuids",
+                "ownerUuid",
+                "time"
+            ],
+            "properties": {
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "jobTagUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.CreateJobTagPayload": {
+            "type": "object",
+            "required": [
+                "color",
+                "description",
+                "name",
+                "wayUuid"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateMentorUserWayPayload": {
+            "type": "object",
+            "required": [
+                "userUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateMetricPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "doneDate",
+                "estimationTime",
+                "isDone",
+                "wayUuid"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "doneDate": {
+                    "type": "string"
+                },
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreatePlanJobTagPayload": {
+            "type": "object",
+            "required": [
+                "jobTagUuid",
+                "planUuid"
+            ],
+            "properties": {
+                "jobTagUuid": {
+                    "type": "string"
+                },
+                "planUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreatePlanPayload": {
+            "type": "object",
+            "required": [
+                "dayReportUuid",
+                "description",
+                "isDone",
+                "ownerUuid",
+                "time"
+            ],
+            "properties": {
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.CreateProblemPayload": {
+            "type": "object",
+            "required": [
+                "dayReportUuid",
+                "description",
+                "isDone",
+                "ownerUuid"
+            ],
+            "properties": {
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateProjectPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "ownerId"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateToUserMentoringRequestPayload": {
+            "type": "object",
+            "required": [
+                "userUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateUserProjectPayload": {
+            "type": "object",
+            "required": [
+                "projectId",
+                "userId"
+            ],
+            "properties": {
+                "projectId": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateUserTagPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "ownerUuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateWayCollectionPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "ownerUuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateWayCollectionWay": {
+            "type": "object",
+            "required": [
+                "wayCollectionUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "wayCollectionUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CreateWayPayload": {
+            "type": "object",
+            "required": [
+                "copiedFromWayId",
+                "estimationTime",
+                "goalDescription",
+                "isCompleted",
+                "isPrivate",
+                "name",
+                "ownerId",
+                "projectId"
+            ],
+            "properties": {
+                "copiedFromWayId": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "goalDescription": {
+                    "type": "string"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                },
+                "projectId": {
+                    "type": "string",
+                    "x-nullable": true
+                }
+            }
+        },
+        "schemas.CreateWayTagPayload": {
+            "type": "object",
+            "required": [
+                "name",
+                "wayUuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.DayReportsCompositionParticipants": {
+            "type": "object",
+            "required": [
+                "dayReportId",
+                "wayId",
+                "wayName"
+            ],
+            "properties": {
+                "dayReportId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.DefaultWayCollections": {
+            "type": "object",
+            "required": [
+                "favorite",
+                "mentoring",
+                "own"
+            ],
+            "properties": {
+                "favorite": {
+                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                },
+                "mentoring": {
+                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                },
+                "own": {
+                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                }
+            }
+        },
+        "schemas.DeleteMentorUserWayPayload": {
+            "type": "object",
+            "required": [
+                "userUuid",
+                "wayUuid"
+            ],
+            "properties": {
+                "userUuid": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.FromUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GenerateMetricsPayload": {
+            "type": "object",
+            "required": [
+                "goalDescription",
+                "metrics",
+                "wayName"
+            ],
+            "properties": {
+                "goalDescription": {
+                    "type": "string"
+                },
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "wayName": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GenerateMetricsResponse": {
+            "type": "object",
+            "required": [
+                "metrics"
+            ],
+            "properties": {
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schemas.GetAllUsersResponse": {
+            "type": "object",
+            "required": [
+                "size",
+                "users"
+            ],
+            "properties": {
+                "size": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                    }
+                }
+            }
+        },
+        "schemas.GetAllWaysResponse": {
+            "type": "object",
+            "required": [
+                "size",
+                "ways"
+            ],
+            "properties": {
+                "size": {
+                    "type": "integer"
+                },
+                "ways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
+        "schemas.GetUsersByIDsResponse": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GoogleToken": {
+            "type": "object",
+            "required": [
+                "accessToken"
+            ],
+            "properties": {
+                "accessToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.JobDonePopulatedResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "dayReportUuid",
+                "description",
+                "ownerName",
+                "ownerUuid",
+                "tags",
+                "time",
+                "updatedAt",
+                "uuid",
+                "wayName",
+                "wayUuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "ownerName": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.JobTagResponse"
+                    }
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.JobTagResponse": {
+            "type": "object",
+            "required": [
+                "color",
+                "description",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.Label": {
+            "type": "object",
+            "required": [
+                "color",
+                "description",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.LabelInfo": {
+            "type": "object",
+            "required": [
+                "jobsAmount",
+                "jobsAmountPercentage",
+                "label",
+                "time",
+                "timePercentage"
+            ],
+            "properties": {
+                "jobsAmount": {
+                    "type": "integer"
+                },
+                "jobsAmountPercentage": {
+                    "type": "integer"
+                },
+                "label": {
+                    "$ref": "#/definitions/schemas.Label"
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "timePercentage": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.LabelStatistics": {
+            "type": "object",
+            "required": [
+                "labels"
+            ],
+            "properties": {
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.LabelInfo"
+                    }
+                }
+            }
+        },
+        "schemas.ListDayReportsResponse": {
+            "type": "object",
+            "required": [
+                "dayReports",
+                "size"
+            ],
+            "properties": {
+                "dayReports": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.MetricResponse": {
+            "type": "object",
+            "required": [
+                "description",
+                "doneDate",
+                "estimationTime",
+                "isDone",
+                "uuid"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "doneDate": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.NoRightToChangeDayReportError": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.OverallInformation": {
+            "type": "object",
+            "required": [
+                "averageJobTime",
+                "averageTimePerCalendarDay",
+                "averageTimePerWorkingDay",
+                "finishedJobs",
+                "totalReports",
+                "totalTime"
+            ],
+            "properties": {
+                "averageJobTime": {
+                    "type": "integer"
+                },
+                "averageTimePerCalendarDay": {
+                    "type": "integer"
+                },
+                "averageTimePerWorkingDay": {
+                    "type": "integer"
+                },
+                "finishedJobs": {
+                    "type": "integer"
+                },
+                "totalReports": {
+                    "type": "integer"
+                },
+                "totalTime": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.PlanPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "dayReportUuid",
+                "description",
+                "isDone",
+                "ownerName",
+                "ownerUuid",
+                "tags",
+                "time",
+                "updatedAt",
+                "uuid",
+                "wayName",
+                "wayUuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "ownerName": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.JobTagResponse"
+                    }
+                },
+                "time": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.ProblemPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "dayReportUuid",
+                "description",
+                "isDone",
+                "ownerName",
+                "ownerUuid",
+                "updatedAt",
+                "uuid",
+                "wayName",
+                "wayUuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "dayReportUuid": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "ownerName": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayName": {
+                    "type": "string"
+                },
+                "wayUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.ProjectPlainResponse": {
+            "type": "object",
+            "required": [
+                "id",
+                "isPrivate",
+                "name",
+                "userIds"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schemas.ProjectPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "id",
+                "isPrivate",
+                "name",
+                "ownerId",
+                "users",
+                "ways"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ownerId": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                    }
+                },
+                "ways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
+        "schemas.TimeSpentByDayPoint": {
+            "type": "object",
+            "required": [
+                "date",
+                "value"
+            ],
+            "properties": {
+                "date": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.ToUserMentoringRequestResponse": {
+            "type": "object",
+            "required": [
+                "userId",
+                "wayId"
+            ],
+            "properties": {
+                "userId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateCommentPayload": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateJobDone": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.UpdateJobTagPayload": {
+            "type": "object",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateMetricPayload": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "isDone": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schemas.UpdatePlanPayload": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                },
+                "time": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.UpdateProblemPayload": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "isDone": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schemas.UpdateProjectPayload": {
+            "type": "object",
+            "properties": {
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateUserPayload": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "isMentor": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateWayCollectionPayload": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateWayPayload": {
+            "type": "object",
+            "properties": {
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "goalDescription": {
+                    "type": "string"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "schemas.UploadFileResponse": {
             "type": "object",
             "required": [
@@ -113,6 +4072,516 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "srcUrl": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UserPlainResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "email",
+                "imageUrl",
+                "isMentor",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "isMentor": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UserPlainResponseWithInfo": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "email",
+                "favoriteForUsers",
+                "favoriteWays",
+                "imageUrl",
+                "isMentor",
+                "mentoringWays",
+                "name",
+                "ownWays",
+                "tags",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "favoriteForUsers": {
+                    "type": "integer"
+                },
+                "favoriteWays": {
+                    "type": "integer"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "isMentor": {
+                    "type": "boolean"
+                },
+                "mentoringWays": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ownWays": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserTagResponse"
+                    }
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UserPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "customWayCollections",
+                "defaultWayCollections",
+                "description",
+                "email",
+                "favoriteForUsers",
+                "favoriteUsers",
+                "imageUrl",
+                "isMentor",
+                "name",
+                "projects",
+                "tags",
+                "uuid",
+                "wayRequests"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "customWayCollections": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    }
+                },
+                "defaultWayCollections": {
+                    "$ref": "#/definitions/schemas.DefaultWayCollections"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "favoriteForUsers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "favoriteUsers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                    }
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "isMentor": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.ProjectPlainResponse"
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserTagResponse"
+                    }
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayRequests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
+        "schemas.UserTagResponse": {
+            "type": "object",
+            "required": [
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.WayCollectionPlainResponse": {
+            "type": "object",
+            "required": [
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.WayCollectionPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "name",
+                "ownerUuid",
+                "type",
+                "updatedAt",
+                "uuid",
+                "ways"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "ownerUuid": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "should be removed after separation custom collections and default pseudocollections",
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "ways": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                    }
+                }
+            }
+        },
+        "schemas.WayCollectionWayResponse": {
+            "type": "object",
+            "required": [
+                "wayCollectionId",
+                "wayId"
+            ],
+            "properties": {
+                "wayCollectionId": {
+                    "type": "string"
+                },
+                "wayId": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.WayPlainResponse": {
+            "type": "object",
+            "required": [
+                "childrenUuids",
+                "copiedFromWayUuid",
+                "createdAt",
+                "dayReportsAmount",
+                "estimationTime",
+                "favoriteForUsers",
+                "goalDescription",
+                "isCompleted",
+                "isPrivate",
+                "mentors",
+                "metricsDone",
+                "metricsTotal",
+                "name",
+                "owner",
+                "projectUuid",
+                "updatedAt",
+                "uuid",
+                "wayTags"
+            ],
+            "properties": {
+                "childrenUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "copiedFromWayUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "dayReportsAmount": {
+                    "type": "integer"
+                },
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "favoriteForUsers": {
+                    "type": "integer"
+                },
+                "goalDescription": {
+                    "type": "string"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "mentors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                    }
+                },
+                "metricsDone": {
+                    "type": "integer"
+                },
+                "metricsTotal": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "$ref": "#/definitions/schemas.UserPlainResponse"
+                },
+                "projectUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayTags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayTagResponse"
+                    }
+                }
+            }
+        },
+        "schemas.WayPopulatedResponse": {
+            "type": "object",
+            "required": [
+                "children",
+                "copiedFromWayUuid",
+                "createdAt",
+                "estimationTime",
+                "favoriteForUsersAmount",
+                "formerMentors",
+                "goalDescription",
+                "isCompleted",
+                "isPrivate",
+                "jobTags",
+                "mentorRequests",
+                "mentors",
+                "metrics",
+                "name",
+                "owner",
+                "projectUuid",
+                "updatedAt",
+                "uuid",
+                "wayTags"
+            ],
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                    }
+                },
+                "copiedFromWayUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "estimationTime": {
+                    "type": "integer"
+                },
+                "favoriteForUsersAmount": {
+                    "type": "integer"
+                },
+                "formerMentors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                    }
+                },
+                "goalDescription": {
+                    "type": "string"
+                },
+                "isCompleted": {
+                    "type": "boolean"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "jobTags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.JobTagResponse"
+                    }
+                },
+                "mentorRequests": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                    }
+                },
+                "mentors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                    }
+                },
+                "metrics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.MetricResponse"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "$ref": "#/definitions/schemas.UserPlainResponse"
+                },
+                "projectUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "wayTags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.WayTagResponse"
+                    }
+                }
+            }
+        },
+        "schemas.WayStatistics": {
+            "type": "object",
+            "required": [
+                "labelStatistics",
+                "overallInformation",
+                "timeSpentByDayChart"
+            ],
+            "properties": {
+                "labelStatistics": {
+                    "$ref": "#/definitions/schemas.LabelStatistics"
+                },
+                "overallInformation": {
+                    "$ref": "#/definitions/schemas.OverallInformation"
+                },
+                "timeSpentByDayChart": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.TimeSpentByDayPoint"
+                    }
+                }
+            }
+        },
+        "schemas.WayStatisticsTriplePeriod": {
+            "type": "object",
+            "required": [
+                "lastMonth",
+                "lastWeek",
+                "totalTime"
+            ],
+            "properties": {
+                "lastMonth": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
+                },
+                "lastWeek": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
+                },
+                "totalTime": {
+                    "$ref": "#/definitions/schemas.WayStatistics"
+                }
+            }
+        },
+        "schemas.WayTagResponse": {
+            "type": "object",
+            "required": [
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
                     "type": "string"
                 }
             }

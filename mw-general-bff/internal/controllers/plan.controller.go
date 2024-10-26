@@ -33,7 +33,7 @@ func NewPlanController(
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
 // @Success 200 {object} schemas.PlanPopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create plan."
+// @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to create plan."
 // @Router /plans [post]
 func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 	// var payload *schemas.CreatePlanPayload
@@ -83,7 +83,7 @@ func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 // @Param request body schemas.UpdatePlanPayload true "query params"
 // @Param planId path string true "plan UUID"
 // @Success 200 {object} schemas.PlanPopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update plan."
+// @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to update plan."
 // @Router /plans/{planId} [patch]
 func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
 	// var payload *schemas.UpdatePlanPayload
@@ -138,7 +138,7 @@ func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
 // @Produce  json
 // @Param planId path string true "plan ID"
 // @Success 204
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete plan."
+// @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to delete plan."
 // @Router /plans/{planId} [delete]
 func (pc *PlanController) DeletePlanById(ctx *gin.Context) {
 	planID := ctx.Param("planId")

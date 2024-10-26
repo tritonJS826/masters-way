@@ -29,7 +29,7 @@ func NewProblemController(permissionService *services.PermissionService, problem
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
 // @Success 200 {object} schemas.ProblemPopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to create problem."
+// @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to create problem."
 // @Router /problems [post]
 func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 	var payload *schemas.CreateProblemPayload
@@ -61,7 +61,7 @@ func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 // @Param request body schemas.UpdateProblemPayload true "query params"
 // @Param problemId path string true "problem ID"
 // @Success 200 {object} schemas.ProblemPopulatedResponse
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to update problem."
+// @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to update problem."
 // @Router /problems/{problemId} [patch]
 func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 	var payload *schemas.UpdateProblemPayload
@@ -97,7 +97,7 @@ func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 // @Produce  json
 // @Param problemId path string true "problem ID"
 // @Success 204
-// @Failure 403 {object} customErrors.NoRightToChangeDayReportError "User doesn't have rights to delete problem."
+// @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to delete problem."
 // @Router /problems/{problemId} [delete]
 func (pc *ProblemController) DeleteProblemById(ctx *gin.Context) {
 	problemID := ctx.Param("problemId")
