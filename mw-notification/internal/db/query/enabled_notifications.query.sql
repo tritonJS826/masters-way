@@ -1,4 +1,4 @@
--- name: CreateEnabledNotification :exec
+-- name: CreateEnabledNotifications :exec
 INSERT INTO enabled_notifications (
     user_uuid,
     nature,

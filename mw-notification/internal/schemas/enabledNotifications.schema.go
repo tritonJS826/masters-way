@@ -1,27 +1,17 @@
 package schemas
 
-// type CreateEnabledNotificationPayload struct {
-// 	UserID      string `json:"userId" validate:"required"`
-// 	Description string `json:"description" validate:"required"`
-// 	Url         string `json:"url" validate:"required"`
-// 	Nature      string `json:"nature" validate:"required"`
-// }
+type UpdateEnabledNotificationPayload struct {
+	IsEnabled bool `json:"isEnabled" validate:"required"`
+}
 
-// type UpdateNotificationPayload struct {
-// 	IsRead bool `json:"isRead" validate:"required"`
-// }
+type EnabledNotificationResponse struct {
+	UUID      string `json:"uuid" validate:"required"`
+	UserUUID  string `json:"userUuid" validate:"required"`
+	Nature    string `json:"nature" validate:"required"`
+	Channel   string `json:"channel" validate:"required"`
+	IsEnabled bool   `json:"isEnabled" validate:"required"`
+}
 
-// type NotificationResponse struct {
-// 	ID          string `json:"id" validate:"required"`
-// 	UserID      string `json:"userId" validate:"required"`
-// 	IsRead      bool   `json:"isRead" validate:"required"`
-// 	Description string `json:"description" validate:"required"`
-// 	Url         string `json:"url" validate:"required"`
-// 	Nature      string `json:"nature" validate:"required"`
-// 	CreatedAt   string `json:"createdAt" validate:"required"`
-// }
-
-// type GetNotificationListResponse struct {
-// 	Size          int                    `json:"size" validate:"required"`
-// 	Notifications []NotificationResponse `json:"notifications" validate:"required"`
-// }
+type GetEnabledNotificationListResponse struct {
+	EnabledNotifications []EnabledNotificationResponse `json:"enabledNotifications" validate:"required"`
+}

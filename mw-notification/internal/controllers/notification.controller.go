@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type NotificationController struct {
@@ -36,7 +37,16 @@ func (nc *NotificationController) CreateNotification(ctx *gin.Context) {
 		return
 	}
 
-	notification, err := nc.notificationService.CreateNotification(ctx, payload)
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userUUID := uuid.MustParse(userIDRaw.(string))
+
+	params := &services.CreateNotificationParams{
+		UserID:      userUUID,
+		Description: payload.Description,
+		Url:         payload.Url,
+		Nature:      payload.Nature,
+	}
+	notification, err := nc.notificationService.CreateNotification(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, notification)
@@ -62,12 +72,11 @@ func (nc *NotificationController) UpdateNotification(ctx *gin.Context) {
 		return
 	}
 
-	params := services.UpdateNotificationParams{
-		NotificationID: notificationID,
+	params := &services.UpdateNotificationParams{
+		NotificationID: uuid.MustParse(notificationID),
 		IsRead:         payload.IsRead,
 	}
-
-	notification, err := nc.notificationService.UpdateNotification(ctx, &params)
+	notification, err := nc.notificationService.UpdateNotification(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, notification)
@@ -81,11 +90,11 @@ func (nc *NotificationController) UpdateNotification(ctx *gin.Context) {
 // @Produce json
 // @Success 200 {object} schemas.GetNotificationListResponse
 // @Router /notifications [get]
-func (rc *NotificationController) GetNotificationListByUserID(ctx *gin.Context) {
+func (nc *NotificationController) GetNotificationListByUserID(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
+	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	response, err := rc.notificationService.GetNotificationListByUserID(ctx, userID)
+	response, err := nc.notificationService.GetNotificationListByUserID(ctx, userUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

@@ -32,12 +32,19 @@ func NewNotificationService(notificationRepository NotificationRepository) *Noti
 	return &NotificationService{notificationRepository}
 }
 
-func (ns *NotificationService) CreateNotification(ctx context.Context, payload *schemas.CreateNotificationPayload) (*schemas.NotificationResponse, error) {
+type CreateNotificationParams struct {
+	UserID      uuid.UUID
+	Description string
+	Url         string
+	Nature      string
+}
+
+func (ns *NotificationService) CreateNotification(ctx context.Context, params *CreateNotificationParams) (*schemas.NotificationResponse, error) {
 	arg := db.CreateNotificationParams{
-		UserUuid:    pgtype.UUID{Bytes: uuid.MustParse(payload.UserID), Valid: true},
-		Description: pgtype.Text{String: payload.Description, Valid: true},
-		Url:         pgtype.Text{String: payload.Url, Valid: true},
-		Nature:      db.NotificationNature(payload.Nature),
+		UserUuid:    pgtype.UUID{Bytes: params.UserID, Valid: true},
+		Description: pgtype.Text{String: params.Description, Valid: true},
+		Url:         pgtype.Text{String: params.Url, Valid: true},
+		Nature:      db.NotificationNature(params.Nature),
 	}
 
 	notification, err := ns.notificationRepository.CreateNotification(ctx, arg)
@@ -46,8 +53,8 @@ func (ns *NotificationService) CreateNotification(ctx context.Context, payload *
 	}
 
 	return &schemas.NotificationResponse{
-		ID:          utils.ConvertPgUUIDToUUID(notification.Uuid).String(),
-		UserID:      utils.ConvertPgUUIDToUUID(notification.UserUuid).String(),
+		UUID:        utils.ConvertPgUUIDToUUID(notification.Uuid).String(),
+		UserUUID:    utils.ConvertPgUUIDToUUID(notification.UserUuid).String(),
 		IsRead:      notification.IsRead,
 		Description: notification.Description.String,
 		Url:         notification.Url.String,
@@ -57,14 +64,14 @@ func (ns *NotificationService) CreateNotification(ctx context.Context, payload *
 }
 
 type UpdateNotificationParams struct {
-	NotificationID string
+	NotificationID uuid.UUID
 	IsRead         bool
 }
 
 func (ns *NotificationService) UpdateNotification(ctx context.Context, params *UpdateNotificationParams) (*schemas.NotificationResponse, error) {
 	arg := db.UpdateNotificationParams{
-		IsRead:           pgtype.Bool{Bool: params.IsRead},
-		NotificationUuid: pgtype.UUID{Bytes: uuid.MustParse(params.NotificationID), Valid: true},
+		IsRead:           pgtype.Bool{Bool: params.IsRead, Valid: true},
+		NotificationUuid: pgtype.UUID{Bytes: params.NotificationID, Valid: true},
 	}
 	notification, err := ns.notificationRepository.UpdateNotification(ctx, arg)
 	if err != nil {
@@ -72,8 +79,8 @@ func (ns *NotificationService) UpdateNotification(ctx context.Context, params *U
 	}
 
 	return &schemas.NotificationResponse{
-		ID:          utils.ConvertPgUUIDToUUID(notification.Uuid).String(),
-		UserID:      utils.ConvertPgUUIDToUUID(notification.UserUuid).String(),
+		UUID:        utils.ConvertPgUUIDToUUID(notification.Uuid).String(),
+		UserUUID:    utils.ConvertPgUUIDToUUID(notification.UserUuid).String(),
 		IsRead:      notification.IsRead,
 		Description: notification.Description.String,
 		Url:         notification.Url.String,
@@ -82,8 +89,8 @@ func (ns *NotificationService) UpdateNotification(ctx context.Context, params *U
 	}, nil
 }
 
-func (ns *NotificationService) GetNotificationListByUserID(ctx context.Context, userID string) (*schemas.GetNotificationListResponse, error) {
-	userPgUUID := pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
+func (ns *NotificationService) GetNotificationListByUserID(ctx context.Context, userID uuid.UUID) (*schemas.GetNotificationListResponse, error) {
+	userPgUUID := pgtype.UUID{Bytes: userID, Valid: true}
 
 	notificationListRaw, err := ns.notificationRepository.GetNotificationListByUserID(ctx, userPgUUID)
 	if err != nil {
@@ -92,8 +99,8 @@ func (ns *NotificationService) GetNotificationListByUserID(ctx context.Context, 
 
 	notificationList := lo.Map(notificationListRaw, func(notificationRaw db.Notification, _ int) schemas.NotificationResponse {
 		return schemas.NotificationResponse{
-			ID:          utils.ConvertPgUUIDToUUID(notificationRaw.Uuid).String(),
-			UserID:      utils.ConvertPgUUIDToUUID(notificationRaw.UserUuid).String(),
+			UUID:        utils.ConvertPgUUIDToUUID(notificationRaw.Uuid).String(),
+			UserUUID:    utils.ConvertPgUUIDToUUID(notificationRaw.UserUuid).String(),
 			IsRead:      notificationRaw.IsRead,
 			Description: notificationRaw.Description.String,
 			Url:         notificationRaw.Url.String,

@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const createEnabledNotification = `-- name: CreateEnabledNotification :exec
+const createEnabledNotifications = `-- name: CreateEnabledNotifications :exec
 INSERT INTO enabled_notifications (
     user_uuid,
     nature,
@@ -32,8 +32,8 @@ INSERT INTO enabled_notifications (
     ($1, 'favorite_way', 'webapp', TRUE)
 `
 
-func (q *Queries) CreateEnabledNotification(ctx context.Context, userUuid pgtype.UUID) error {
-	_, err := q.db.Exec(ctx, createEnabledNotification, userUuid)
+func (q *Queries) CreateEnabledNotifications(ctx context.Context, userUuid pgtype.UUID) error {
+	_, err := q.db.Exec(ctx, createEnabledNotifications, userUuid)
 	return err
 }
 

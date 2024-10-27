@@ -3,14 +3,17 @@ package services
 import (
 	"context"
 	db "mwnotification/internal/db/sqlc"
+	"mwnotification/internal/schemas"
+	"mwnotification/pkg/utils"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/samber/lo"
 )
 
 type EnabledNotificationRepository interface {
-	CreateEnabledNotification(ctx context.Context, userUuid pgtype.UUID) error
+	CreateEnabledNotifications(ctx context.Context, userUuid pgtype.UUID) error
 	GetEnabledNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]db.EnabledNotification, error)
 	UpdateEnabledNotification(ctx context.Context, arg db.UpdateEnabledNotificationParams) (db.EnabledNotification, error)
 	WithTx(tx pgx.Tx) *db.Queries
@@ -24,8 +27,8 @@ func NewEnabledNotificationService(EnabledNotificationRepository EnabledNotifica
 	return &EnabledNotificationService{EnabledNotificationRepository}
 }
 
-func (es *EnabledNotificationService) CreateEnabledNotification(ctx context.Context, userID string) error {
-	err := es.enabledEnabledNotificationRepository.CreateEnabledNotification(ctx, pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true})
+func (es *EnabledNotificationService) CreateEnabledNotifications(ctx context.Context, userID uuid.UUID) error {
+	err := es.enabledEnabledNotificationRepository.CreateEnabledNotifications(ctx, pgtype.UUID{Bytes: userID, Valid: true})
 	if err != nil {
 		return err
 	}
@@ -33,41 +36,49 @@ func (es *EnabledNotificationService) CreateEnabledNotification(ctx context.Cont
 	return nil
 }
 
-// type UpdateEnabledNotificationParams struct {
-// 	EnabledNotificationID string
-// 	IsRead                bool
-// }
+type UpdateEnabledNotificationParams struct {
+	EnabledNotificationUUID uuid.UUID
+	IsEnabled               bool
+}
 
-// func (ns *EnabledNotificationService) UpdateEnabledNotification(ctx context.Context, params *UpdateEnabledNotificationParams) (*schemas.EnabledNotificationResponse, error) {
-// 	arg := db.UpdateEnabledNotificationParams{
-// 		IsRead:                  pgtype.Bool{Bool: params.IsRead},
-// 		EnabledNotificationUuid: pgtype.UUID{Bytes: uuid.MustParse(params.EnabledNotificationID), Valid: true},
-// 	}
-// 	EnabledNotification, err := ns.EnabledNotificationRepository.UpdateEnabledNotification(ctx, arg)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (es *EnabledNotificationService) UpdateEnabledNotification(ctx context.Context, params *UpdateEnabledNotificationParams) (*schemas.EnabledNotificationResponse, error) {
+	arg := db.UpdateEnabledNotificationParams{
+		IsEnabled:                pgtype.Bool{Bool: params.IsEnabled, Valid: true},
+		EnabledNotificationsUuid: pgtype.UUID{Bytes: params.EnabledNotificationUUID, Valid: true},
+	}
+	enabledNotification, err := es.enabledEnabledNotificationRepository.UpdateEnabledNotification(ctx, arg)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return &schemas.EnabledNotificationResponse{
-// 		ID:          utils.ConvertPgUUIDToUUID(EnabledNotification.Uuid).String(),
-// 		UserID:      utils.ConvertPgUUIDToUUID(EnabledNotification.UserUuid).String(),
-// 		IsRead:      EnabledNotification.IsRead,
-// 		Description: EnabledNotification.Description.String,
-// 		Url:         EnabledNotification.Url.String,
-// 		Nature:      string(EnabledNotification.Nature),
-// 		CreatedAt:   EnabledNotification.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
-// 	}, nil
-// }
+	return &schemas.EnabledNotificationResponse{
+		UUID:      utils.ConvertPgUUIDToUUID(enabledNotification.Uuid).String(),
+		UserUUID:  utils.ConvertPgUUIDToUUID(enabledNotification.UserUuid).String(),
+		Nature:    string(enabledNotification.Nature),
+		Channel:   string(enabledNotification.Channel),
+		IsEnabled: enabledNotification.IsEnabled,
+	}, nil
+}
 
-// func (ns *EnabledNotificationService) GetEnabledNotificationListByUserId(ctx context.Context, userID string) (*schemas.GetChatPreviewResponse, error) {
-// 	userPgUUID := pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
+func (es *EnabledNotificationService) GetEnabledNotificationListByUserID(ctx context.Context, userUUID uuid.UUID) (*schemas.GetEnabledNotificationListResponse, error) {
+	userPgUUID := pgtype.UUID{Bytes: userUUID, Valid: true}
 
-// 	EnabledNotifications, err := ns.EnabledNotificationRepository.GetEnabledNotificationListByUserId(ctx, userPgUUID)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	enabledNotificationsRaw, err := es.enabledEnabledNotificationRepository.GetEnabledNotificationListByUserID(ctx, userPgUUID)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return &schemas.GetChatPreviewResponse{
-// 		// UnreadMessagesAmount: int(chatPreview),
-// 	}, nil
-// }
+	enabledNotifications := lo.Map(enabledNotificationsRaw, func(enabledNotificationRaw db.EnabledNotification, _ int) schemas.EnabledNotificationResponse {
+		return schemas.EnabledNotificationResponse{
+			UUID:      utils.ConvertPgUUIDToUUID(enabledNotificationRaw.Uuid).String(),
+			UserUUID:  utils.ConvertPgUUIDToUUID(enabledNotificationRaw.UserUuid).String(),
+			Nature:    string(enabledNotificationRaw.Nature),
+			Channel:   string(enabledNotificationRaw.Channel),
+			IsEnabled: enabledNotificationRaw.IsEnabled,
+		}
+	})
+
+	return &schemas.GetEnabledNotificationListResponse{
+		EnabledNotifications: enabledNotifications,
+	}, nil
+}

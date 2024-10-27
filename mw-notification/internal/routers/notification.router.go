@@ -19,9 +19,7 @@ func (rr *notificationRouter) setNotificationRoutes(rg *gin.RouterGroup) {
 	notifications := rg.Group("notifications", auth.AuthMiddleware())
 	{
 		notifications.POST("", rr.notificationController.CreateNotification)
-		notifications.GET("/users/:userId/list", rr.notificationController.GetNotificationListByUserID)
+		notifications.GET("", rr.notificationController.GetNotificationListByUserID)
 		notifications.PATCH("/:notificationId", rr.notificationController.UpdateNotification)
-		// notifications.POST("", rr.notificationController.CreateNotification)
-		// notifications.POST("/user/:userId/adjust-notification", rr.notificationController.CreateNotification)
 	}
 }

@@ -1,7 +1,6 @@
 package schemas
 
 type CreateNotificationPayload struct {
-	UserID      string `json:"userId" validate:"required"`
 	Description string `json:"description" validate:"required"`
 	Url         string `json:"url" validate:"required"`
 	Nature      string `json:"nature" validate:"required"`
@@ -12,8 +11,8 @@ type UpdateNotificationPayload struct {
 }
 
 type NotificationResponse struct {
-	ID          string `json:"id" validate:"required"`
-	UserID      string `json:"userId" validate:"required"`
+	UUID        string `json:"uuid" validate:"required"`
+	UserUUID    string `json:"userUuid" validate:"required"`
 	IsRead      bool   `json:"isRead" validate:"required"`
 	Description string `json:"description" validate:"required"`
 	Url         string `json:"url" validate:"required"`

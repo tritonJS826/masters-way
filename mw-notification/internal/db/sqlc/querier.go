@@ -11,7 +11,7 @@ import (
 )
 
 type Querier interface {
-	CreateEnabledNotification(ctx context.Context, userUuid pgtype.UUID) error
+	CreateEnabledNotifications(ctx context.Context, userUuid pgtype.UUID) error
 	CreateNotification(ctx context.Context, arg CreateNotificationParams) (Notification, error)
 	GetEnabledNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]EnabledNotification, error)
 	GetNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]Notification, error)
