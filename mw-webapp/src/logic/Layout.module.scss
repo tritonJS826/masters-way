@@ -1,7 +1,9 @@
 @import "src/styles/variables";
 
 .pageLayout {
+  width: 100%;
   max-width: $maxWidthContainer;
+  flex-grow: 1;
   padding: 0 $paddingMedium;
   margin: 0 auto;
   gap: $gapSmall;
