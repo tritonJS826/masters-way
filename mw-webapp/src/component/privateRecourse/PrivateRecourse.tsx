@@ -1,12 +1,11 @@
-import { HeadingLevel, Title } from "src/component/title/Title";
-import { VerticalContainer } from "src/component/verticalContainer/VerticalContainer";
+import {useNavigate} from "react-router-dom";
+import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {LanguageService} from "src/service/LanguageService";
 import styles from "src/component/privateRecourse/PrivateRecourse.module.scss";
-import { Button, ButtonType } from "../button/Button";
-import { HorizontalContainer } from "../horizontalContainer/HorizontalContainer";
-import { LanguageService } from "src/service/LanguageService";
-import { useNavigate } from "react-router-dom";
-import { languageStore } from "src/globalStore/LanguageStore";
-import { Image } from "../image/Image";
 
 /**
  * Private recourse props
@@ -30,7 +29,8 @@ interface ErrorComponentProps {
 export const ErrorComponent = (props: ErrorComponentProps) => {
 
   const navigate = useNavigate();
-  const { language } = languageStore;
+  const {language} = languageStore;
+  const ButtonBack = -1;
 
   return (
     <VerticalContainer className={styles.container}>
@@ -43,13 +43,13 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
         />
         <HorizontalContainer className={styles.ButtonGroup}>
           <Button
-            onClick={() => navigate({ pathname: "/" })}
+            onClick={() => navigate({pathname: "/"})}
             buttonType={ButtonType.PRIMARY}
             value={LanguageService.user.button.home[language]}
             className={styles.Button}
           />
           <Button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(ButtonBack)}
             buttonType={ButtonType.SECONDARY}
             value={LanguageService.user.button.back[language]}
           />
