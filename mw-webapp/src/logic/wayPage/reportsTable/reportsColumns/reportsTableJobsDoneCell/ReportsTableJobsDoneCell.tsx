@@ -34,6 +34,7 @@ import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell.module.scss";
 
@@ -283,8 +284,8 @@ export const ReportsTableJobsDoneCell = observer((props: ReportsTableJobsDoneCel
                     okText={LanguageService.modals.confirmModal.deleteButton[language]}
                     cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                     onOk={() => deleteJobDone(jobDone.uuid)}
-                    confirmContent={`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
-                    "${jobDone.description}"?`}
+                    confirmContent={renderMarkdown(`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
+                    "${jobDone.description}"?`)}
                   />
                   : (
                     <div className={styles.trashReservation} />
