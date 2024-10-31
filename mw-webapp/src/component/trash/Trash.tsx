@@ -22,7 +22,7 @@ interface TrashProps {
   /**
    * Confirm content
    */
-  confirmContent: string;
+  confirmContent: string | JSX.Element;
 
   /**
    * Callback triggered on click Ok button
