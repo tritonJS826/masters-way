@@ -1,13 +1,37 @@
 @import "src/styles/variables";
 
 .container {
+  margin: 0 180px;
   height: 100%;
-  align-items: center;
+  max-width: $maxWidthContainer;
   justify-content: center;
   margin-top: $marginMedium;
+}
+
+.Inner {
+  justify-content: end;
+}
+
+.Title {
+  margin-top: 180px;
 }
 
 .description {
   max-width: $maxWidthBlock;
   margin: 0 auto;
+}
+
+.ImageBackground {
+  top: 155px;
+  right: 0;
+  z-index: $progressIndicatorZIndex;
+  position: absolute;
+}
+
+.ButtonGroup {
+  margin-top: 90px;
+}
+
+.Button {
+  margin-right: 65px;
 }
