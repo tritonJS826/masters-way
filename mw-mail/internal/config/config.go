@@ -18,7 +18,7 @@ type Config struct {
 	TestMailBaseURL        string `mapstructure:"TEST_MAIL_BASE_URL"`
 	SecretSessionKey       string `mapstructure:"SECRET_SESSION_KEY"`
 	SenderPassword         string `mapstructure:"SENDER_PASSWORD"`
-	SenderEmail            string `mapstructure:"SENDER_EMAIL"`
+	SenderMail             string `mapstructure:"SENDER_EMAIL"`
 	SenderName             string `mapstructure:"SENDER_NAME"`
 	SmtpAuthAddress        string `mapstructure:"SMTP_AUTH_ADDRESS"`
 	SmtpServerAddress      string `mapstructure:"SMTP_SERVER_ADDRESS"`
@@ -41,7 +41,7 @@ var prodRequiredVariables = [14]string{
 	"SMTP_SERVER_ADDRESS",
 }
 
-var devRequiredVariables = [14]string{
+var devRequiredVariables = [9]string{
 	"SERVER_PORT",
 	"CHAT_BFF_BASE_URL",
 	"NOTIFICATION_BFF_BASE_URL",
@@ -51,11 +51,6 @@ var devRequiredVariables = [14]string{
 	"TEST_MAIL_API_HOST",
 	"TEST_MAIL_BASE_URL",
 	"SECRET_SESSION_KEY",
-	"SENDER_PASSWORD",
-	"SENDER_EMAIL",
-	"SENDER_NAME",
-	"SMTP_AUTH_ADDRESS",
-	"SMTP_SERVER_ADDRESS",
 }
 
 func LoadConfig(path string) (config Config, err error) {
