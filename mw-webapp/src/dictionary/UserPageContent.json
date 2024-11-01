@@ -351,17 +351,5 @@
       "en": "You create custom collections yourself. This is a kind of folder in which you can put paths related to a certain criterion. For example, if you are a mentor and lead a group of students, you can combine the paths of each student into one collection.",
       "ua": "Користувальницькі колекції ти створюєш сам. Це свого роду папка, в яку ти зможеш складати шляхи, що належать до певного критерію. Наприклад, якщо ти ментор і ведеш групу студентів, ти можеш поєднати шляхи кожного студента в одну колекцію."
     }
-  }, 
-  "button": {
-    "home": {
-    "ru": "Домашняя страница",
-    "en": "Home",
-    "ua": "Домашня сторінка"
-  },
-  "back": {
-    "ru": "Назад",
-    "en": "Back",
-    "ua": "Назад"
-  }
   }
 }

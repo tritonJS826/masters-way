@@ -87,7 +87,7 @@ const AboutProjectPageLazy = React.lazy(() => import("src/logic/aboutProjectPage
 const AboutProjectPage = () => (<>
   <AboutProjectPageLazy />
 </>);
-const Page404Lazy = React.lazy(() => import("src/logic/page404/Page404")
+const Page404Lazy = React.lazy(() => import("src/logic/errorPage/ErrorPage")
   .then((module) => ({default: module.Page404})));
 const Page404 = () => (<>
   <Page404Lazy />

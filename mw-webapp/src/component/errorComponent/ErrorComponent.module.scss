@@ -1,0 +1,13 @@
+@import "src/styles/variables";
+
+.container {
+  height: 100%;
+  justify-content: center;
+  margin-top: $marginMedium;
+}
+
+.description {
+  max-width: $maxWidthBlock;
+  font-weight: $fontWeightBold;
+  font-size: $fontSizeTitleLarge;
+}
