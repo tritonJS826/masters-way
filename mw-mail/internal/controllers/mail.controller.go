@@ -62,8 +62,8 @@ func (mc *MailController) SendEmail(ctx *gin.Context) {
 func (mc *MailController) HanldeErrorMail(mailReq *schemas.MailRequest, ctx *gin.Context, err error) {
 	if err != nil {
 		mailResp := &schemas.SendSmtpResponse{
-			SenderMail: mc.smtpService.SenderMail,
-			SenderName: mc.smtpService.SenderName,
+			SenderMail: mc.smtpService.Config.SenderMail,
+			SenderName: mc.smtpService.Config.SenderName,
 			Recipients: mailReq.Recipients,
 			Cc:         mailReq.Cc,
 			Bcc:        mailReq.Bcc,

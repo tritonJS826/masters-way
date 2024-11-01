@@ -12,37 +12,41 @@ import (
 const identity = ""
 
 type SmtpService struct {
-	SenderName     string
-	SenderMail     string
-	SenderPassword string
-	AuthAddress    string
-	ServerAddress  string
+	Config *config.Config
 }
 
 func NewSmtpService(config *config.Config) *SmtpService {
 	return &SmtpService{
-		SenderName:     config.SenderName,
-		SenderMail:     config.SenderEmail,
-		SenderPassword: config.SenderPassword,
-		AuthAddress:    config.SmtpAuthAddress,
-		ServerAddress:  config.SmtpServerAddress,
+		Config: config,
 	}
 }
 
 func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmtpResponse, error) {
+	if ss.Config.EnvType != "prod" {
+		return &schemas.SendSmtpResponse{
+			SenderMail: "Stub sender mail",
+			SenderName: "Stub sender name",
+			Recipients: dataMail.Recipients,
+			Cc:         dataMail.Cc,
+			Bcc:        dataMail.Bcc,
+			ReplyTo:    dataMail.ReplyTo,
+			Subject:    dataMail.Subject,
+			Message:    dataMail.Message,
+		}, nil
+	}
 
 	mail := ss.CreateMail(dataMail)
 
-	smtpAuth := smtp.PlainAuth(identity, ss.SenderMail, ss.SenderPassword, ss.AuthAddress)
+	smtpAuth := smtp.PlainAuth(identity, ss.Config.SenderMail, ss.Config.SenderPassword, ss.Config.SmtpAuthAddress)
 
-	err := mail.Send(ss.ServerAddress, smtpAuth)
+	err := mail.Send(ss.Config.SmtpServerAddress, smtpAuth)
 	if err != nil {
 		return nil, err
 	}
 
 	mailResp := schemas.SendSmtpResponse{
-		SenderMail: ss.SenderMail,
-		SenderName: ss.SenderName,
+		SenderMail: ss.Config.SenderMail,
+		SenderName: ss.Config.SenderName,
 		Recipients: dataMail.Recipients,
 		Cc:         dataMail.Cc,
 		Bcc:        dataMail.Bcc,
@@ -58,7 +62,7 @@ func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmt
 func (ss *SmtpService) CreateMail(dataMail *schemas.MailRequest) *email.Email {
 	mail := email.NewEmail()
 
-	mail.From = fmt.Sprintf("%s <%s>", ss.SenderName, ss.SenderMail)
+	mail.From = fmt.Sprintf("%s <%s>", ss.Config.SenderName, ss.Config.SenderMail)
 	mail.Subject = dataMail.Subject
 	mail.HTML = []byte(dataMail.Message)
 	mail.Cc = dataMail.Cc
