@@ -1,22 +1,20 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 type WayCollectionController struct {
-	limitService         *services.LimitService
-	wayCollectionService *services.WayCollectionService
+	generalService *services.GeneralService
 }
 
-func NewWayCollectionController(limitService *services.LimitService, wayCollectionService *services.WayCollectionService) *WayCollectionController {
-	return &WayCollectionController{limitService, wayCollectionService}
+func NewWayCollectionController(generalService *services.GeneralService) *WayCollectionController {
+	return &WayCollectionController{generalService}
 }
 
 // Create wayCollectionRoute handler
@@ -37,14 +35,12 @@ func (wc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		return
 	}
 
-	err := wc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
-		LimitName: services.MaxCustomCollections,
-		UserID:    payload.OwnerUuid,
-	})
-	util.HandleErrorGin(ctx, err)
-
-	response, err := wc.wayCollectionService.CreateWayCollection(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	args := &schemas.CreateWayCollectionPayload{
+		Name:      payload.Name,
+		OwnerUuid: payload.OwnerUuid,
+	}
+	response, err := wc.generalService.CreateWayCollection(ctx, args)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -69,8 +65,8 @@ func (wc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 		return
 	}
 
-	wayCollection, err := wc.wayCollectionService.UpdateWayCollection(ctx, wayCollectionID, payload.Name)
-	util.HandleErrorGin(ctx, err)
+	wayCollection, err := wc.generalService.UpdateWayCollection(ctx, wayCollectionID, payload.Name)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayCollection)
 }
@@ -88,8 +84,8 @@ func (wc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 func (wc *WayCollectionController) DeleteWayCollectionById(ctx *gin.Context) {
 	wayCollectionID := ctx.Param("wayCollectionId")
 
-	err := wc.wayCollectionService.DeleteWayCollectionById(ctx, wayCollectionID)
-	util.HandleErrorGin(ctx, err)
+	err := wc.generalService.DeleteWayCollectionById(ctx, wayCollectionID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

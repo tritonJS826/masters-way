@@ -35,12 +35,12 @@ type Controller struct {
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		FileController:                     NewFileController(services.GeneralService, services.FileService),
-		AuthController:                     NewAuthController(services.AuthService, services.UserService, config),
+		FileController: NewFileController(services.GeneralService, services.FileService),
+		//AuthController:                     NewAuthController(services.AuthService, services.UserService, config),
 		CommentController:                  NewCommentController(services.GeneralService),
 		CompositeWayController:             NewCompositeWayController(services.GeneralService),
-		DayReportController:                NewDayReportController(services.DayReportService, services.LimitService, services.WayService),
-		DevController:                      NewDevController(services.DevService),
+		DayReportController:                NewDayReportController(services.GeneralService),
+		DevController:                      NewDevController(services.GeneralService),
 		FavoriteUserController:             NewFavoriteUserController(services.GeneralService),
 		FavoriteUserWayController:          NewFavoriteUserWayController(services.GeneralService),
 		FromUserMentoringRequestController: NewFromUserMentoringRequestController(services.GeneralService),
@@ -53,15 +53,15 @@ func NewController(services *services.Service) *Controller {
 		PlanController:                     NewPlanController(services.GeneralService),
 		PlanJobTagController:               NewPlanJobTagController(services.GeneralService),
 		ProblemController:                  NewProblemController(services.GeneralService),
-		ProjectController:                  NewProjectController(services.ProjectService, services.WayService, services.UserService),
-		WayController:                      NewWayController(services.WayService, services.WayStatisticsService, services.DayReportService, services.LimitService),
+		ProjectController:                  NewProjectController(services.GeneralService),
+		WayController:                      NewWayController(services.GeneralService),
 		WayTagController:                   NewWayTagController(services.GeneralService),
 		ToUserMentoringRequestController:   NewToUserMentoringRequestController(services.GeneralService),
 		UserController:                     NewUserController(services.GeneralService),
-		UserTagController:                  NewUserTagController(services.LimitService, services.UserTagService),
-		UserProjectController:              NewUserProjectController(services.PermissionService, services.UserProjectService),
-		WayCollectionController:            NewWayCollectionController(services.LimitService, services.WayCollectionService),
-		WayCollectionWayController:         NewWayCollectionWayController(services.WayCollectionWayService),
+		UserTagController:                  NewUserTagController(services.GeneralService),
+		UserProjectController:              NewUserProjectController(services.GeneralService),
+		WayCollectionController:            NewWayCollectionController(services.GeneralService),
+		WayCollectionWayController:         NewWayCollectionWayController(services.GeneralService),
 		HealthCheckController:              NewHealthCheckController(),
 	}
 }

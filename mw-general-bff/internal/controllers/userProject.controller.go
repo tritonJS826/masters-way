@@ -1,23 +1,27 @@
 package controllers
 
 import (
-	"fmt"
-	"mwserver/internal/auth"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/pkg/utils"
 	"net/http"
+
+	//"fmt"
+	//"mw-general-bff/internal/auth"
+	//"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	//"mw-general-bff/pkg/utils"
+
+	//"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type UserProjectController struct {
-	permissionService  *services.PermissionService
-	userProjectService *services.UserProjectService
+	generalService *services.GeneralService
 }
 
-func NewUserProjectController(permissionService *services.PermissionService, userProjectService *services.UserProjectService) *UserProjectController {
-	return &UserProjectController{permissionService, userProjectService}
+func NewUserProjectController(generalService *services.GeneralService) *UserProjectController {
+	return &UserProjectController{generalService}
 }
 
 // Create userProject handler
@@ -38,18 +42,18 @@ func (uc *UserProjectController) CreateUsersProject(ctx *gin.Context) {
 		return
 	}
 
-	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	currentUserID := currentUserIDRaw.(string)
+	//currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	//currentUserID := currentUserIDRaw.(string)
+	//
+	//isUserHavingPermissionsForProject, err := uc.generalService.GetIsUserHavingPermissionsForProject(ctx, currentUserID, payload.ProjectID)
+	//utils.HandleErrorGin(ctx, err)
+	//
+	//if !isUserHavingPermissionsForProject {
+	//	utils.HandleErrorGin(ctx, fmt.Errorf("no rights for adding user"))
+	//}
 
-	isUserHavingPermissionsForProject, err := uc.permissionService.GetIsUserHavingPermissionsForProject(ctx, currentUserID, payload.ProjectID)
-	util.HandleErrorGin(ctx, err)
-
-	if !isUserHavingPermissionsForProject {
-		util.HandleErrorGin(ctx, fmt.Errorf("no rights for adding user"))
-	}
-
-	err = uc.userProjectService.CreateUserProject(ctx, payload.UserID, payload.ProjectID)
-	util.HandleErrorGin(ctx, err)
+	err := uc.generalService.CreateUserProject(ctx, payload.UserID, payload.ProjectID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }
@@ -69,18 +73,18 @@ func (uc *UserProjectController) DeleteUserProject(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 	userID := ctx.Param("userId")
 
-	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	currentUserID := currentUserIDRaw.(string)
+	//currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	//currentUserID := currentUserIDRaw.(string)
+	//
+	//isUserHavingPermissionsForProject, err := uc.generalService.GetIsUserHavingPermissionsForProject(ctx, currentUserID, projectID)
+	//utils.HandleErrorGin(ctx, err)
+	//
+	//if !isUserHavingPermissionsForProject {
+	//	utils.HandleErrorGin(ctx, fmt.Errorf("no rights for deleting user"))
+	//}
 
-	isUserHavingPermissionsForProject, err := uc.permissionService.GetIsUserHavingPermissionsForProject(ctx, currentUserID, projectID)
-	util.HandleErrorGin(ctx, err)
-
-	if !isUserHavingPermissionsForProject {
-		util.HandleErrorGin(ctx, fmt.Errorf("no rights for deleting user"))
-	}
-
-	err = uc.userProjectService.DeleteUserProject(ctx, userID, projectID)
-	util.HandleErrorGin(ctx, err)
+	err := uc.generalService.DeleteUserProject(ctx, userID, projectID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

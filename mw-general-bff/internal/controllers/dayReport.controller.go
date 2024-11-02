@@ -1,28 +1,27 @@
 package controllers
 
 import (
-	"net/http"
+	"github.com/google/uuid"
+	"mw-general-bff/internal/schemas"
 
-	"mwserver/internal/auth"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	//"mw-general-bff/internal/auth"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
+	"net/http"
+	"strconv"
+
+	//"mw-general-bff/pkg/utils"
+	//"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type DayReportController struct {
-	dayReportService *services.DayReportService
-	limitService     *services.LimitService
-	wayService       *services.WayService
+	generalService *services.GeneralService
 }
 
-func NewDayReportController(
-	dayReportService *services.DayReportService,
-	limitService *services.LimitService,
-	wayService *services.WayService,
-) *DayReportController {
-	return &DayReportController{dayReportService, limitService, wayService}
+func NewDayReportController(generalService *services.GeneralService) *DayReportController {
+	return &DayReportController{generalService}
 }
 
 // Get a list of day reports for specific way
@@ -38,39 +37,38 @@ func NewDayReportController(
 // @Success 200 {object} schemas.ListDayReportsResponse
 // @Router /dayReports/{wayId} [get]
 func (drc *DayReportController) GetDayReports(ctx *gin.Context) {
-	// wayIDRaw := ctx.Param("wayId")
-	// page := ctx.DefaultQuery("page", "1")
-	// limit := ctx.DefaultQuery("limit", "7")
+	wayIDRaw := ctx.Param("wayId")
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "7")
 
-	// wayID := uuid.MustParse(wayIDRaw)
-	// reqPage, _ := strconv.Atoi(page)
-	// reqLimit, _ := strconv.Atoi(limit)
-	// offset := (reqPage - 1) * reqLimit
+	wayID := uuid.MustParse(wayIDRaw)
+	reqPage, _ := strconv.Atoi(page)
+	reqLimit, _ := strconv.Atoi(limit)
+	offset := (reqPage - 1) * reqLimit
 
-	// var maxDepth int = 2
-	// userIDRaw, exists := ctx.Get(auth.ContextKeyUserID)
-	// if exists {
-	// 	userID := uuid.MustParse(userIDRaw.(string))
-	// 	var err error
-	// 	maxDepth, err = drc.limitService.GetMaxCompositeWayDepthByUserID(ctx, userID)
-	// 	util.HandleErrorGin(ctx, err)
-	// }
+	var maxDepth int = 2
+	//userIDRaw, exists := ctx.Get(auth.ContextKeyUserID)
+	//if exists {
+	//	userID := uuid.MustParse(userIDRaw.(string))
+	//	var err error
+	//	maxDepth, err = drc.generalService.GetMaxCompositeWayDepthByUserID(ctx, userID)
+	//	utils.HandleErrorGin(ctx, err)
+	//}
 
-	// childrenWays, err := drc.wayService.GetChildrenWayIDs(ctx, wayID, maxDepth)
-	// util.HandleErrorGin(ctx, err)
+	childrenWays, err := drc.generalService.GetChildrenWayIDs(ctx, wayID, maxDepth)
+	utils.HandleErrorGin(ctx, err)
 
-	// args := &services.GetDayReportsByWayIdParams{
-	// 	ParentWayID:    wayID,
-	// 	ChildrenWayIDs: childrenWays,
-	// 	ReqLimit:       reqLimit,
-	// 	Offset:         offset,
-	// }
+	args := &services.GetDayReportsByWayIdParams{
+		ParentWayID:    wayID,
+		ChildrenWayIDs: childrenWays,
+		ReqLimit:       reqLimit,
+		Offset:         offset,
+	}
 
-	// // TODO: remove info that already exist in the way (user names etc.) - should be rendered on the frontend
-	// response, err := drc.dayReportService.GetDayReportsByWayID(ctx, args)
-	// util.HandleErrorGin(ctx, err)
+	response, err := drc.generalService.GetDayReportsByWayID(ctx, args)
+	utils.HandleErrorGin(ctx, err)
 
-	// ctx.JSON(http.StatusOK, response)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Create day report  handler
@@ -84,25 +82,15 @@ func (drc *DayReportController) GetDayReports(ctx *gin.Context) {
 // @Success 200 {object} schemas.CompositeDayReportPopulatedResponse
 // @Router /dayReports [post]
 func (drc *DayReportController) CreateDayReport(ctx *gin.Context) {
-	var payload *schemas.CreateDa
+	var payload *schemas.CreateDayReportPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
-
-	err := drc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
-		LimitName: services.MaxDayReports,
-		UserID:    userID,
-		WayID:     &payload.WayID,
-	})
-	util.HandleErrorGin(ctx, err)
-
-	response, err := drc.dayReportService.CreateDayReport(ctx, payload.WayID)
-	util.HandleErrorGin(ctx, err)
+	response, err := drc.generalService.CreateDayReport(ctx, payload.WayID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }

@@ -3,9 +3,6 @@ package services
 import (
 	"mw-general-bff/internal/config"
 	"mw-general-bff/internal/openapi"
-
-	"github.com/google/generative-ai-go/genai"
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Service struct {
@@ -42,7 +39,7 @@ type Service struct {
 	// WayCollectionWayService         *WayCollectionWayService
 }
 
-func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.Config) *Service {
+func NewService(config *config.Config) *Service {
 	var generalApi = openapi.MakeGeneralAPIClient(config)
 	var storageApi = openapi.MakeStorageAPIClient(config)
 

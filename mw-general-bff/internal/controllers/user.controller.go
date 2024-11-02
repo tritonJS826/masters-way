@@ -138,7 +138,7 @@ func (uc *UserController) GetUsersByIDs(ctx *gin.Context) {
 		return
 	}
 
-	response, err := uc.userService.GetUsersByIDs(ctx, userIDs)
+	response, err := uc.generalService.GetUsersByIDs(ctx, userIDs)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

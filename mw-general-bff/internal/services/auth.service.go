@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"google.golang.org/api/option"
 
 	"golang.org/x/oauth2"
 	oauthGoogle "google.golang.org/api/oauth2/v2"
@@ -23,34 +24,36 @@ type GoogleAuthInfo struct {
 }
 
 func (as *AuthService) AuthenticateGoogleUser(ctx context.Context, code, state string) (*GoogleAuthInfo, error) {
-	// token, err := as.googleOAuthConfig.Exchange(ctx, code)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	token, err := as.googleOAuthConfig.Exchange(ctx, code)
+	if err != nil {
+		return nil, err
+	}
 
-	// client := as.googleOAuthConfig.Client(ctx, token)
+	client := as.googleOAuthConfig.Client(ctx, token)
 
-	// oauth2Service, err := oauthGoogle.NewService(ctx, option.WithHTTPClient(client))
-	// if err != nil {
-	// 	return nil, err
-	// }
+	oauth2Service, err := oauthGoogle.NewService(ctx, option.WithHTTPClient(client))
+	if err != nil {
+		return nil, err
+	}
 
-	// userInfo, err := oauth2Service.Userinfo.Get().Do()
-	// if err != nil {
-	// 	return nil, err
-	// }
+	userInfo, err := oauth2Service.Userinfo.Get().Do()
+	if err != nil {
+		return nil, err
+	}
 
-	// return &GoogleAuthInfo{
-	// 	UserInfo: userInfo,
-	// 	Token:    token,
-	// }, nil
+	return &GoogleAuthInfo{
+		UserInfo: userInfo,
+		Token:    token,
+	}, nil
 }
 
 func (as *AuthService) GetGoogleAuthURL() string {
+	return ""
 }
 
 func (as *AuthService) SetGoogleAccessTokenByUserID(userID, token string) {
 }
 
 func (as *AuthService) GetGoogleAccessTokenByUserID(userID string) (string, error) {
+	return "", nil
 }

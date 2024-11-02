@@ -1,22 +1,24 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/pkg/utils"
 	"net/http"
 
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	//"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	//"mw-general-bff/pkg/utils"
+	//"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type UserTagController struct {
-	limitService   *services.LimitService
-	userTagService *services.UserTagService
+	generalService *services.GeneralService
 }
 
-func NewUserTagController(limitService *services.LimitService, userTagService *services.UserTagService) *UserTagController {
-	return &UserTagController{limitService, userTagService}
+func NewUserTagController(generalService *services.GeneralService) *UserTagController {
+	return &UserTagController{generalService}
 }
 
 // Create userTag  handler
@@ -37,14 +39,14 @@ func (uc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		return
 	}
 
-	err := uc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
-		LimitName: services.MaxUserTags,
-		UserID:    payload.OwnerUuid,
-	})
-	util.HandleErrorGin(ctx, err)
+	//err := uc.generalService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
+	//	LimitName: services.MaxUserTags,
+	//	UserID:    payload.OwnerUuid,
+	//})
+	//utils.HandleErrorGin(ctx, err)
 
-	response, err := uc.userTagService.AddUserTagByName(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	response, err := uc.generalService.AddUserTagByName(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -64,8 +66,8 @@ func (uc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 	userTagID := ctx.Param("userTagId")
 
-	err := uc.userTagService.DeleteUserTagByFromUserByTag(ctx, userID, userTagID)
-	util.HandleErrorGin(ctx, err)
+	err := uc.generalService.DeleteUserTagByFromUserByTag(ctx, userID, userTagID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

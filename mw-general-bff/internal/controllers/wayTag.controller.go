@@ -1,11 +1,10 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
-	"mwserver/pkg/util"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/schemas"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +13,7 @@ type WayTagController struct {
 	generalService *services.GeneralService
 }
 
-func NewWayTagController(generalService *services.WayTagService) *WayTagController {
+func NewWayTagController(generalService *services.GeneralService) *WayTagController {
 	return &WayTagController{generalService}
 }
 
@@ -37,7 +36,7 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 	}
 
 	response, err := cc.generalService.AddWayTagToWay(ctx, payload.Name, payload.WayUuid)
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -58,7 +57,7 @@ func (cc *WayTagController) DeleteWayTagFromWayByTagId(ctx *gin.Context) {
 	wayID := ctx.Param("wayId")
 
 	err := cc.generalService.DeleteWayTagFromWayByTagID(ctx, wayTagID, wayID)
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

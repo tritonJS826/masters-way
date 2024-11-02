@@ -1,24 +1,21 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 type ProjectController struct {
-	projectService *services.ProjectService
-	wayService     *services.WayService
-	userService    *services.UserService
+	generalService *services.GeneralService
 }
 
-func NewProjectController(projectService *services.ProjectService, wayService *services.WayService, userService *services.UserService) *ProjectController {
-	return &ProjectController{projectService, wayService, userService}
+func NewProjectController(generalService *services.GeneralService) *ProjectController {
+	return &ProjectController{generalService}
 }
 
 // Create Project handler
@@ -39,11 +36,11 @@ func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 		return
 	}
 
-	project, err := pc.projectService.CreateProject(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	project, err := pc.generalService.CreateProject(ctx, payload)
+	utils.HandleErrorGin(ctx, err)
 
-	users, err := pc.userService.GetPlainUserWithInfoByIDs(ctx, project.ID)
-	util.HandleErrorGin(ctx, err)
+	users, err := pc.generalService.GetPlainUserWithInfoByIDs(ctx, project.ID)
+	utils.HandleErrorGin(ctx, err)
 
 	response := schemas.ProjectPopulatedResponse{
 		ID:        project.ID,
@@ -77,20 +74,20 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 		return
 	}
 
-	project, err := pc.projectService.UpdateProject(ctx, &services.UpdateProjectParams{
+	project, err := pc.generalService.UpdateProject(ctx, &services.UpdateProjectParams{
 		ID:        projectID,
 		Name:      payload.Name,
 		IsPrivate: payload.IsPrivate,
 	})
-	util.HandleErrorGin(ctx, err)
+	utils.HandleErrorGin(ctx, err)
 
-	users, err := pc.userService.GetPlainUserWithInfoByIDs(ctx, project.ID)
-	util.HandleErrorGin(ctx, err)
+	users, err := pc.generalService.GetPlainUserWithInfoByIDs(ctx, project.ID)
+	utils.HandleErrorGin(ctx, err)
 
 	ways := make([]schemas.WayPlainResponse, 0, len(project.WayIDs))
 	for _, wayID := range project.WayIDs {
-		way, err := pc.wayService.GetPlainWayById(ctx, uuid.MustParse(wayID))
-		util.HandleErrorGin(ctx, err)
+		way, err := pc.generalService.GetPlainWayById(ctx, uuid.MustParse(wayID))
+		utils.HandleErrorGin(ctx, err)
 
 		ways = append(ways, *way)
 	}
@@ -120,16 +117,16 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 
-	project, err := pc.projectService.GetProjectByID(ctx, projectID)
-	util.HandleErrorGin(ctx, err)
+	project, err := pc.generalService.GetProjectByID(ctx, projectID)
+	utils.HandleErrorGin(ctx, err)
 
-	users, err := pc.userService.GetPlainUserWithInfoByIDs(ctx, project.ID)
-	util.HandleErrorGin(ctx, err)
+	users, err := pc.generalService.GetPlainUserWithInfoByIDs(ctx, project.ID)
+	utils.HandleErrorGin(ctx, err)
 
 	ways := make([]schemas.WayPlainResponse, 0, len(project.WayIDs))
 	for _, wayID := range project.WayIDs {
-		way, err := pc.wayService.GetPlainWayById(ctx, uuid.MustParse(wayID))
-		util.HandleErrorGin(ctx, err)
+		way, err := pc.generalService.GetPlainWayById(ctx, uuid.MustParse(wayID))
+		utils.HandleErrorGin(ctx, err)
 
 		ways = append(ways, *way)
 	}
@@ -159,8 +156,8 @@ func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 func (pc *ProjectController) DeleteProject(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 
-	err := pc.projectService.DeleteProjectByID(ctx, projectID)
-	util.HandleErrorGin(ctx, err)
+	err := pc.generalService.DeleteProjectByID(ctx, projectID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

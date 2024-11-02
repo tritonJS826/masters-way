@@ -87,7 +87,7 @@ func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 func (pc *ProblemController) DeleteProblemById(ctx *gin.Context) {
 	problemID := ctx.Param("problemId")
 
-	err = pc.generalService.DeleteProblemById(ctx, problemID)
+	err := pc.generalService.DeleteProblemById(ctx, problemID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
