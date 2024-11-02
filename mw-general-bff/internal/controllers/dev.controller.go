@@ -1,17 +1,16 @@
 package controllers
 
 import (
-	"mwserver/internal/services"
-
 	"github.com/gin-gonic/gin"
+	"mw-general-bff/internal/services"
 )
 
 type DevController struct {
-	devService *services.DevService
+	generalService *services.GeneralService
 }
 
-func NewDevController(devService *services.DevService) *DevController {
-	return &DevController{devService}
+func NewDevController(generalService *services.GeneralService) *DevController {
+	return &DevController{generalService}
 }
 
 // Reset db

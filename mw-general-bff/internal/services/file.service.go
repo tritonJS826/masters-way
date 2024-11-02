@@ -15,4 +15,5 @@ func NewFileService(fileAPI *openapiStorage.APIClient) *FileService {
 }
 
 func (cs *FileService) UploadFile(request *http.Request, googleToken string) (*schemas.UploadFileResponse, error) {
+	return nil, nil
 }

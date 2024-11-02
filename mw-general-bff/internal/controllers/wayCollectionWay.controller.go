@@ -1,21 +1,20 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
 	"net/http"
-
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
 
 type WayCollectionWayController struct {
-	wayCollectionWayService *services.WayCollectionWayService
+	generalService *services.GeneralService
 }
 
-func NewWayCollectionWayController(wayCollectionWayService *services.WayCollectionWayService) *WayCollectionWayController {
-	return &WayCollectionWayController{wayCollectionWayService}
+func NewWayCollectionWayController(generalService *services.GeneralService) *WayCollectionWayController {
+	return &WayCollectionWayController{generalService}
 }
 
 // Create wayCollectionWayRoute  handler
@@ -36,8 +35,13 @@ func (wc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 		return
 	}
 
-	wayCollectionWay, err := wc.wayCollectionWayService.CreateWayCollectionWay(ctx, payload)
-	util.HandleErrorGin(ctx, err)
+	args := &schemas.CreateWayCollectionWay{
+		WayCollectionUuid: payload.WayCollectionUuid,
+		WayUuid:           payload.WayUuid,
+	}
+
+	wayCollectionWay, err := wc.generalService.CreateWayCollectionWay(ctx, args)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, wayCollectionWay)
 }
@@ -57,8 +61,8 @@ func (wc *WayCollectionWayController) DeleteWayCollectionWayById(ctx *gin.Contex
 	wayID := ctx.Param("wayId")
 	wayCollectionID := ctx.Param("wayCollectionId")
 
-	err := wc.wayCollectionWayService.DeleteWayCollectionWayById(ctx, wayID, wayCollectionID)
-	util.HandleErrorGin(ctx, err)
+	err := wc.generalService.DeleteWayCollectionWayById(ctx, wayID, wayCollectionID)
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

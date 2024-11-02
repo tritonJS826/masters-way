@@ -3,6 +3,10 @@ package services
 import (
 	"context"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgtype"
+	"github.com/samber/lo"
+	//"github.com/samber/lo"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/pkg/utils"
 
@@ -106,10 +110,10 @@ type AddWayToCompositeWayParams struct {
 	ParentWayID string
 }
 
-func (gs *GeneralService) AddWayToCompositeWay(ctx context.Context, params *AddWayToCompositeWayParams) (*schemas.CompositeWayRelation, error) {
+func (gs *GeneralService) AddWayToCompositeWay(ctx context.Context, params *schemas.AddWayToCompositeWayPayload) (*schemas.CompositeWayRelation, error) {
 	relationRaw, response, err := gs.generalAPI.CompositeWayAPI.CreateCompositeWay(ctx).Request(openapiGeneral.SchemasAddWayToCompositeWayPayload{
-		ChildWayUuid:  params.ChildWayID,
-		ParentWayUuid: params.ParentWayID,
+		ChildWayUuid:  params.ChildWayUuid,
+		ParentWayUuid: params.ParentWayUuid,
 	}).Execute()
 
 	if err != nil {
@@ -157,6 +161,123 @@ type GetDayReportsByWayIdParams struct {
 }
 
 func (gs *GeneralService) GetDayReportsByWayID(ctx context.Context, params *GetDayReportsByWayIdParams) (*schemas.ListDayReportsResponse, error) {
+	reportsRaw, response, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, params.ParentWayID.String()).Page(int32(params.Offset)).Limit(int32(params.ReqLimit)).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	dayReports := lo.Map(reportsRaw.DayReports, func(report openapiGeneral.SchemasCompositeDayReportPopulatedResponse, _ int) schemas.CompositeDayReportPopulatedResponse {
+		compositionParticipants := lo.Map(report.CompositionParticipants, func(p openapiGeneral.SchemasDayReportsCompositionParticipants, _ int) schemas.DayReportsCompositionParticipants {
+			return schemas.DayReportsCompositionParticipants{
+				DayReportID: p.DayReportId,
+				WayID:       p.WayId,
+				WayName:     p.WayName,
+			}
+		})
+
+		jobsDone := lo.Map(report.JobsDone, func(job openapiGeneral.SchemasJobDonePopulatedResponse, _ int) schemas.JobDonePopulatedResponse {
+			tags := lo.Map(job.Tags, func(tag openapiGeneral.SchemasJobTagResponse, _ int) schemas.JobTagResponse {
+				return schemas.JobTagResponse{
+					Uuid:        tag.Uuid,
+					Name:        tag.Name,
+					Description: tag.Description,
+					Color:       tag.Color,
+				}
+			})
+
+			return schemas.JobDonePopulatedResponse{
+				Uuid:          job.Uuid,
+				CreatedAt:     job.CreatedAt,
+				UpdatedAt:     job.UpdatedAt,
+				Description:   job.Description,
+				Time:          job.Time,
+				OwnerUuid:     job.OwnerUuid,
+				OwnerName:     job.OwnerName,
+				DayReportUuid: job.DayReportUuid,
+				WayUUID:       job.WayUuid,
+				WayName:       job.WayName,
+				Tags:          tags,
+			}
+		})
+
+		plans := lo.Map(report.Plans, func(plan openapiGeneral.SchemasPlanPopulatedResponse, _ int) schemas.PlanPopulatedResponse {
+			tags := lo.Map(plan.Tags, func(tag openapiGeneral.SchemasJobTagResponse, _ int) schemas.JobTagResponse {
+				return schemas.JobTagResponse{
+					Uuid:        tag.Uuid,
+					Name:        tag.Name,
+					Description: tag.Description,
+					Color:       tag.Color,
+				}
+			})
+
+			return schemas.PlanPopulatedResponse{
+				Uuid:          plan.Uuid,
+				CreatedAt:     plan.CreatedAt,
+				UpdatedAt:     plan.UpdatedAt,
+				Description:   plan.Description,
+				Time:          plan.Time,
+				OwnerUuid:     plan.OwnerUuid,
+				OwnerName:     plan.OwnerName,
+				IsDone:        plan.IsDone,
+				DayReportUuid: plan.DayReportUuid,
+				WayUUID:       plan.WayUuid,
+				WayName:       plan.WayName,
+				Tags:          tags,
+			}
+		})
+
+		problems := lo.Map(report.Problems, func(problem openapiGeneral.SchemasProblemPopulatedResponse, _ int) schemas.ProblemPopulatedResponse {
+			return schemas.ProblemPopulatedResponse{
+				Uuid:          problem.Uuid,
+				CreatedAt:     problem.CreatedAt,
+				UpdatedAt:     problem.UpdatedAt,
+				Description:   problem.Description,
+				IsDone:        problem.IsDone,
+				OwnerUuid:     problem.OwnerUuid,
+				OwnerName:     problem.OwnerName,
+				DayReportUuid: problem.DayReportUuid,
+				WayUUID:       problem.WayUuid,
+				WayName:       problem.WayName,
+			}
+		})
+
+		comments := lo.Map(report.Comments, func(comment openapiGeneral.SchemasCommentPopulatedResponse, _ int) schemas.CommentPopulatedResponse {
+			return schemas.CommentPopulatedResponse{
+				Uuid:          comment.Uuid,
+				Description:   comment.Description,
+				OwnerUuid:     comment.OwnerUuid,
+				OwnerName:     comment.OwnerName,
+				CreatedAt:     comment.CreatedAt,
+				UpdatedAt:     comment.UpdatedAt,
+				DayReportUuid: comment.DayReportUuid,
+				WayUUID:       comment.WayUuid,
+				WayName:       comment.WayName,
+			}
+		})
+
+		return schemas.CompositeDayReportPopulatedResponse{
+			UUID:                    report.Uuid,
+			CreatedAt:               report.CreatedAt,
+			UpdatedAt:               report.UpdatedAt,
+			CompositionParticipants: compositionParticipants,
+			JobsDone:                jobsDone,
+			Plans:                   plans,
+			Problems:                problems,
+			Comments:                comments,
+		}
+	})
+
+	reports := &schemas.ListDayReportsResponse{
+		DayReports: dayReports,
+		Size:       int(reportsRaw.Size),
+	}
+
+	return reports, nil
 }
 
 type GetLastDayReportDateResponse struct {
@@ -164,7 +285,8 @@ type GetLastDayReportDateResponse struct {
 	EndDate        time.Time
 }
 
-func (ds *GeneralService) GetLastDayReportDate(ctx context.Context, wayUUIDs []uuid.UUID) (*GetLastDayReportDateResponse, error) {
+func (gs *GeneralService) GetLastDayReportDate(ctx context.Context, wayUUIDs []uuid.UUID) (*GetLastDayReportDateResponse, error) {
+	return nil, nil
 }
 
 func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*schemas.CompositeDayReportPopulatedResponse, error) {
@@ -180,26 +302,114 @@ func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*s
 		return nil, fmt.Errorf(message)
 	}
 
-	dayReport := &schemas.CompositeDayReportPopulatedResponse{
+	compositionParticipants := lo.Map(dayReportRaw.CompositionParticipants, func(p openapiGeneral.SchemasDayReportsCompositionParticipants, _ int) schemas.DayReportsCompositionParticipants {
+		return schemas.DayReportsCompositionParticipants{
+			DayReportID: p.DayReportId,
+			WayID:       p.WayId,
+			WayName:     p.WayName,
+		}
+	})
+
+	jobsDone := lo.Map(dayReportRaw.JobsDone, func(job openapiGeneral.SchemasJobDonePopulatedResponse, _ int) schemas.JobDonePopulatedResponse {
+		tags := lo.Map(job.Tags, func(tag openapiGeneral.SchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		})
+
+		return schemas.JobDonePopulatedResponse{
+			Uuid:          job.Uuid,
+			CreatedAt:     job.CreatedAt,
+			UpdatedAt:     job.UpdatedAt,
+			Description:   job.Description,
+			Time:          job.Time,
+			OwnerUuid:     job.OwnerUuid,
+			OwnerName:     job.OwnerName,
+			DayReportUuid: job.DayReportUuid,
+			WayUUID:       job.WayUuid,
+			WayName:       job.WayName,
+			Tags:          tags,
+		}
+	})
+
+	plans := lo.Map(dayReportRaw.Plans, func(plan openapiGeneral.SchemasPlanPopulatedResponse, _ int) schemas.PlanPopulatedResponse {
+		tags := lo.Map(plan.Tags, func(tag openapiGeneral.SchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		})
+
+		return schemas.PlanPopulatedResponse{
+			Uuid:          plan.Uuid,
+			CreatedAt:     plan.CreatedAt,
+			UpdatedAt:     plan.UpdatedAt,
+			Description:   plan.Description,
+			Time:          plan.Time,
+			OwnerUuid:     plan.OwnerUuid,
+			OwnerName:     plan.OwnerName,
+			IsDone:        plan.IsDone,
+			DayReportUuid: plan.DayReportUuid,
+			WayUUID:       plan.WayUuid,
+			WayName:       plan.WayName,
+			Tags:          tags,
+		}
+	})
+
+	problems := lo.Map(dayReportRaw.Problems, func(problem openapiGeneral.SchemasProblemPopulatedResponse, _ int) schemas.ProblemPopulatedResponse {
+		return schemas.ProblemPopulatedResponse{
+			Uuid:          problem.Uuid,
+			CreatedAt:     problem.CreatedAt,
+			UpdatedAt:     problem.UpdatedAt,
+			Description:   problem.Description,
+			IsDone:        problem.IsDone,
+			OwnerUuid:     problem.OwnerUuid,
+			OwnerName:     problem.OwnerName,
+			DayReportUuid: problem.DayReportUuid,
+			WayUUID:       problem.WayUuid,
+			WayName:       problem.WayName,
+		}
+	})
+
+	comments := lo.Map(dayReportRaw.Comments, func(comment openapiGeneral.SchemasCommentPopulatedResponse, _ int) schemas.CommentPopulatedResponse {
+		return schemas.CommentPopulatedResponse{
+			Uuid:          comment.Uuid,
+			Description:   comment.Description,
+			OwnerUuid:     comment.OwnerUuid,
+			OwnerName:     comment.OwnerName,
+			CreatedAt:     comment.CreatedAt,
+			UpdatedAt:     comment.UpdatedAt,
+			DayReportUuid: comment.DayReportUuid,
+			WayUUID:       comment.WayUuid,
+			WayName:       comment.WayName,
+		}
+	})
+
+	dayReports := &schemas.CompositeDayReportPopulatedResponse{
 		UUID:                    dayReportRaw.Uuid,
 		CreatedAt:               dayReportRaw.CreatedAt,
 		UpdatedAt:               dayReportRaw.UpdatedAt,
-		CompositionParticipants: dayReportRaw.CompositionParticipants,
-		JobsDone:                dayReportRaw.JobsDone,
-		Plans:                   dayReportRaw.Plans,
-		Problems:                dayReportRaw.Problems,
-		Comments:                dayReportRaw.Comments,
+		CompositionParticipants: compositionParticipants,
+		JobsDone:                jobsDone,
+		Plans:                   plans,
+		Problems:                problems,
+		Comments:                comments,
 	}
 
-	return dayReport, nil
+	return dayReports, nil
 }
 
 func (gs *GeneralService) CreateFavoriteUser(ctx context.Context, payload *schemas.CreateFavoriteUserPayload) error {
 
 	response, err := gs.generalAPI.FavoriteUserAPI.CreateFavoriteUser(ctx).
 		Request(openapiGeneral.SchemasCreateFavoriteUserPayload{
-			DonorUserUuid:    payload.DonorUserUuid,
-			AcceptorUserUuid: payload.AcceptorUserUuid,
+			DonorUserUuid:    payload.DonorUserUuid.String(),
+			AcceptorUserUuid: payload.AcceptorUserUuid.String(),
 		}).Execute()
 
 	if err != nil {
@@ -229,8 +439,8 @@ func (gs *GeneralService) DeleteFavoriteUserById(ctx context.Context, donorUserU
 
 func (gs *GeneralService) CreateFavoriteUserWay(ctx context.Context, userUUID, wayUUID uuid.UUID) error {
 	response, err := gs.generalAPI.FavoriteUserWayAPI.CreateFavoriteUserWay(ctx).Request(openapiGeneral.SchemasCreateFavoriteUserWayPayload{
-		UserUuid: userUUID,
-		WayUuid:  wayUUID,
+		UserUuid: userUUID.String(),
+		WayUuid:  wayUUID.String(),
 	}).Execute()
 
 	if err != nil {
@@ -321,7 +531,7 @@ func (gs *GeneralService) CreateMetricsPrompt(ctx context.Context, payload *sche
 }
 
 func (gs *GeneralService) GetMetricsByGoal(ctx context.Context, payload *schemas.GenerateMetricsPayload) ([]string, error) {
-
+	return nil, nil
 }
 
 func (gs *GeneralService) AIChat(ctx context.Context, payload *schemas.AIChatPayload) (*schemas.AIChatResponse, error) {
@@ -596,7 +806,9 @@ func (gs *GeneralService) CreateJobTag(ctx context.Context, payload *schemas.Cre
 
 }
 
+// TODO
 func (gs *GeneralService) GetLabelsByIDs(ctx context.Context, jobTagIDs []string) ([]schemas.JobTagResponse, error) {
+	return nil, nil
 }
 
 type UpdateJobTagParams struct {
@@ -1006,6 +1218,37 @@ type ProjectResponse struct {
 }
 
 func (gs *GeneralService) CreateProject(ctx context.Context, payload *schemas.CreateProjectPayload) (*ProjectResponse, error) {
+	projectRaw, response, err := gs.generalAPI.ProjectAPI.CreateProject(ctx).Request(openapiGeneral.SchemasCreateProjectPayload{
+		Name:    payload.Name,
+		OwnerId: payload.OwnerID,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	wayIDs := make([]string, len(projectRaw.Ways))
+	for i, way := range projectRaw.Ways {
+		wayIDs[i] = way.Uuid
+	}
+
+	userIDs := make([]string, len(projectRaw.Users))
+	for i, user := range projectRaw.Users {
+		userIDs[i] = user.Uuid
+	}
+	project := &ProjectResponse{
+		ID:        projectRaw.Id,
+		Name:      projectRaw.Name,
+		OwnerID:   projectRaw.OwnerId,
+		IsPrivate: projectRaw.IsPrivate,
+		WayIDs:    wayIDs,
+		UserIDs:   userIDs,
+	}
+	return project, nil
 }
 
 type UpdateProjectParams struct {
@@ -1015,12 +1258,81 @@ type UpdateProjectParams struct {
 }
 
 func (gs *GeneralService) UpdateProject(ctx context.Context, params *UpdateProjectParams) (*ProjectResponse, error) {
+	projectRaw, response, err := gs.generalAPI.ProjectAPI.UpdateProject(ctx, params.ID).Request(openapiGeneral.SchemasUpdateProjectPayload{
+		IsPrivate: params.IsPrivate,
+		Name:      params.Name,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	wayIDs := make([]string, len(projectRaw.Ways))
+	for i, way := range projectRaw.Ways {
+		wayIDs[i] = way.Uuid
+	}
+
+	userIDs := make([]string, len(projectRaw.Users))
+	for i, user := range projectRaw.Users {
+		userIDs[i] = user.Uuid
+	}
+	project := &ProjectResponse{
+		ID:        projectRaw.Id,
+		Name:      projectRaw.Name,
+		OwnerID:   projectRaw.OwnerId,
+		IsPrivate: projectRaw.IsPrivate,
+		WayIDs:    wayIDs,
+		UserIDs:   userIDs,
+	}
+	return project, nil
 }
 
 func (gs *GeneralService) GetProjectByID(ctx context.Context, projectID string) (*ProjectResponse, error) {
+	projectRaw, response, err := gs.generalAPI.ProjectAPI.GetProject(ctx, projectID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	wayIDs := make([]string, len(projectRaw.Ways))
+	for i, way := range projectRaw.Ways {
+		wayIDs[i] = way.Uuid
+	}
+
+	userIDs := make([]string, len(projectRaw.Users))
+	for i, user := range projectRaw.Users {
+		userIDs[i] = user.Uuid
+	}
+	project := &ProjectResponse{
+		ID:        projectRaw.Id,
+		Name:      projectRaw.Name,
+		OwnerID:   projectRaw.OwnerId,
+		IsPrivate: projectRaw.IsPrivate,
+		WayIDs:    wayIDs,
+		UserIDs:   userIDs,
+	}
+	return project, nil
 }
 
 func (gs *GeneralService) DeleteProjectByID(ctx context.Context, projectID string) error {
+	response, err := gs.generalAPI.ProjectAPI.DeleteProject(ctx, projectID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+	return nil
 }
 
 func (gs *GeneralService) CreateToUserMentoringRequest(ctx context.Context, payload *schemas.CreateToUserMentoringRequestPayload) (*schemas.ToUserMentoringRequestResponse, error) {
@@ -1143,9 +1455,28 @@ func (gs *GeneralService) GetAllUsers(ctx context.Context, params *GetAllUsersPa
 	}, nil
 }
 
-//func (gs *GeneralService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {
-//	usersPgUUIDs := lo.Map(userIDs, func(userID string, i int) pgtype.UUID)
-//}
+func (gs *GeneralService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {
+	userRaw, response, err := gs.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	users := make([]schemas.GetUsersByIDsResponse, len(userRaw))
+	for _, dsResponse := range userRaw {
+		users = append(users, schemas.GetUsersByIDsResponse{
+			UserID:   dsResponse.UserId,
+			Name:     dsResponse.Name,
+			ImageURL: dsResponse.ImageUrl,
+		})
+	}
+
+	return users, nil
+}
 
 type CreateUserParams struct {
 	Name        string
@@ -1156,22 +1487,25 @@ type CreateUserParams struct {
 	IsMentor    bool
 }
 
-func (us *GeneralService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
+func (gs *GeneralService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
+
+	return nil, nil
 }
 
-func (us *GeneralService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
+func (gs *GeneralService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
+	return nil, nil
 }
 
 type dbWay struct {
-	Uuid                pgtype.UUID
+	Uuid                uuid.UUID
 	Name                string
-	OwnerUuid           pgtype.UUID
+	OwnerUuid           uuid.UUID
 	GoalDescription     string
 	UpdatedAt           time.Time
 	CreatedAt           time.Time
 	EstimationTime      int32
-	CopiedFromWayUuid   pgtype.UUID
-	ProjectUuid         pgtype.UUID
+	CopiedFromWayUuid   uuid.UUID
+	ProjectUuid         uuid.UUID
 	IsCompleted         bool
 	IsPrivate           bool
 	WayMetricsTotal     int64
@@ -1181,45 +1515,421 @@ type dbWay struct {
 	ChildrenUuids       []string
 }
 
-func (us *GeneralService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
+func (gs *GeneralService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*schemas.UserPopulatedResponse, error) {
+	userRaw, response, err := gs.generalAPI.UserAPI.GetUserByUuid(ctx, userUuid.String()).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	wayCollections := lo.Map(userRaw.CustomWayCollections, func(collection openapiGeneral.SchemasWayCollectionPopulatedResponse, _ int) schemas.WayCollectionPopulatedResponse {
+		return schemas.WayCollectionPopulatedResponse{
+			Uuid:      collection.Uuid,
+			Name:      collection.Name,
+			Ways:      lo.Map(collection.Ways, mapWayPlainResponse),
+			CreatedAt: collection.CreatedAt,
+			UpdatedAt: collection.UpdatedAt,
+			OwnerUuid: collection.OwnerUuid,
+			Type:      collection.Type,
+		}
+	})
+
+	defaultCollections := schemas.DefaultWayCollections{
+		Own:       mapWayCollection(userRaw.DefaultWayCollections.Own),
+		Favorite:  mapWayCollection(userRaw.DefaultWayCollections.Favorite),
+		Mentoring: mapWayCollection(userRaw.DefaultWayCollections.Mentoring),
+	}
+
+	favoriteUsers := lo.Map(userRaw.FavoriteUsers, mapUserPlainResponse)
+	tags := lo.Map(userRaw.Tags, mapUserTagResponse)
+	wayRequests := lo.Map(userRaw.WayRequests, mapWayPlainResponse)
+	projects := lo.Map(userRaw.Projects, mapProjectPlainResponse)
+
+	user := &schemas.UserPopulatedResponse{
+		Uuid:               userRaw.Uuid,
+		Name:               userRaw.Name,
+		Email:              userRaw.Email,
+		Description:        userRaw.Description,
+		CreatedAt:          userRaw.CreatedAt,
+		ImageUrl:           userRaw.ImageUrl,
+		IsMentor:           userRaw.IsMentor,
+		WayCollections:     wayCollections,
+		DefaultCollections: defaultCollections,
+		FavoriteForUsers:   userRaw.FavoriteForUsers,
+		FavoriteUsers:      favoriteUsers,
+		Tags:               tags,
+		WayRequests:        wayRequests,
+		Projects:           projects,
+	}
+
+	return user, nil
 }
 
-func (us *GeneralService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
+func mapWayCollection(collection openapiGeneral.SchemasWayCollectionPopulatedResponse) schemas.WayCollectionPopulatedResponse {
+	return schemas.WayCollectionPopulatedResponse{
+		Uuid:      collection.Uuid,
+		Name:      collection.Name,
+		Ways:      lo.Map(collection.Ways, mapWayPlainResponse),
+		CreatedAt: collection.CreatedAt,
+		UpdatedAt: collection.UpdatedAt,
+		OwnerUuid: collection.OwnerUuid,
+		Type:      collection.Type,
+	}
 }
 
-func (us *GeneralService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {}
-
-func (us *GeneralService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {
+func mapWayPlainResponse(way openapiGeneral.SchemasWayPlainResponse, _ int) schemas.WayPlainResponse {
+	return schemas.WayPlainResponse{
+		Uuid:              way.Uuid,
+		Name:              way.Name,
+		GoalDescription:   way.GoalDescription,
+		UpdatedAt:         way.UpdatedAt,
+		CreatedAt:         way.CreatedAt,
+		EstimationTime:    way.EstimationTime,
+		IsCompleted:       way.IsCompleted,
+		Owner:             mapUserPlainResponse(way.Owner, 1),
+		CopiedFromWayUuid: way.CopiedFromWayUuid.Get(),
+		ProjectUuid:       way.ProjectUuid.Get(),
+		IsPrivate:         way.IsPrivate,
+		FavoriteForUsers:  way.FavoriteForUsers,
+		DayReportsAmount:  way.DayReportsAmount,
+		Mentors:           lo.Map(way.Mentors, mapUserPlainResponse),
+		WayTags:           lo.Map(way.WayTags, mapWayTagResponse),
+		MetricsDone:       way.MetricsDone,
+		MetricsTotal:      way.MetricsTotal,
+		ChildrenUuids:     way.ChildrenUuids,
+	}
 }
 
-func (us *GeneralService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {}
-
-func (us *GeneralService) GetPlainUserWithInfoByIDs(ctx context.Context, projectID string) ([]schemas.UserPlainResponseWithInfo, error) {
+func mapUserPlainResponse(user openapiGeneral.SchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+	return schemas.UserPlainResponse{
+		Uuid:        user.Uuid,
+		Name:        user.Name,
+		Email:       user.Email,
+		Description: user.Description,
+		CreatedAt:   user.CreatedAt,
+		ImageUrl:    user.ImageUrl,
+		IsMentor:    user.IsMentor,
+	}
 }
 
-func (us *GeneralService) CreateUserProject(ctx context.Context, userID, projectID string) error {
+func mapUserTagResponse(tag openapiGeneral.SchemasUserTagResponse, _ int) schemas.UserTagResponse {
+	return schemas.UserTagResponse{
+		Uuid: tag.Uuid,
+		Name: tag.Name,
+	}
 }
 
-func (us *GeneralService) DeleteUserProject(ctx context.Context, userID, projectID string) error {
+func mapWayTagResponse(tag openapiGeneral.SchemasWayTagResponse, _ int) schemas.WayTagResponse {
+	return schemas.WayTagResponse{
+		Uuid: tag.Uuid,
+		Name: tag.Name,
+	}
 }
 
-func (uc *GeneralService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*schemas.UserTagResponse, error) {
+func mapProjectPlainResponse(project openapiGeneral.SchemasProjectPlainResponse, _ int) schemas.ProjectPlainResponse {
+	return schemas.ProjectPlainResponse{
+		ID:        project.Id,
+		Name:      project.Name,
+		UserIDs:   project.UserIds,
+		IsPrivate: project.IsPrivate,
+	}
 }
 
-func (us *GeneralService) DeleteUserTagByFromUserByTag(ctx context.Context, userID, userTagID string) error {
+//
+//func (us *GeneralService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
+//	return nil
+//}
+//
+////
+//func (us *GeneralService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {
+//	return nil
+//}
+//
+//func (us *GeneralService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {
+//	return nil
+//}
+//
+//func (us *GeneralService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {
+//	return nil
+//}
+
+func (gs *GeneralService) GetPlainUserWithInfoByIDs(ctx context.Context, projectID string) ([]schemas.UserPlainResponseWithInfo, error) {
+	usersRaw, response, err := gs.generalAPI.ProjectAPI.GetProject(ctx, projectID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	users := make([]schemas.UserPlainResponseWithInfo, len(usersRaw.Users))
+
+	for i, user := range usersRaw.Users {
+		tags := make([]schemas.UserTagResponse, len(user.Tags))
+		for j, tag := range user.Tags {
+			tags[j] = schemas.UserTagResponse{
+				Uuid: tag.Uuid,
+				Name: tag.Name,
+			}
+		}
+
+		users[i] = schemas.UserPlainResponseWithInfo{
+			Uuid:             user.Uuid,
+			Name:             user.Name,
+			Email:            user.Email,
+			Description:      user.Description,
+			CreatedAt:        user.CreatedAt,
+			ImageUrl:         user.ImageUrl,
+			IsMentor:         user.IsMentor,
+			FavoriteForUsers: user.FavoriteForUsers,
+			FavoriteWays:     user.FavoriteWays,
+			MentoringWays:    user.MentoringWays,
+			OwnWays:          user.OwnWays,
+			Tags:             tags,
+		}
+	}
+
+	return users, nil
 }
 
-func (ws *GeneralService) GetPopulatedWayById(ctx context.Context, params GetPopulatedWayByIdParams) (*schemas.WayPopulatedResponse, error) {
+func (gs *GeneralService) CreateUserProject(ctx context.Context, userID, projectID string) error {
+	response, err := gs.generalAPI.UserProjectAPI.CreateUserProject(ctx).Request(openapiGeneral.SchemasCreateUserProjectPayload{
+		ProjectId: projectID,
+		UserId:    userID,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
+
+func (gs *GeneralService) DeleteUserProject(ctx context.Context, userID, projectID string) error {
+	response, err := gs.generalAPI.UserProjectAPI.DeleteUserProject(ctx, projectID, userID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+	return nil
+}
+
+func (gs *GeneralService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*schemas.UserTagResponse, error) {
+	userTagRaw, response, err := gs.generalAPI.UserTagAPI.CreateUserTag(ctx).Request(openapiGeneral.SchemasCreateUserTagPayload{
+		Name:      payload.Name,
+		OwnerUuid: payload.OwnerUuid,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	userTag := &schemas.UserTagResponse{
+		Uuid: userTagRaw.Uuid,
+		Name: userTagRaw.Name,
+	}
+	return userTag, nil
+}
+
+func (gs *GeneralService) DeleteUserTagByFromUserByTag(ctx context.Context, userID, userTagID string) error {
+	response, err := gs.generalAPI.UserTagAPI.DeleteUserTag(ctx, userTagID, userID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+	return nil
+}
+
+type GetPopulatedWayByIdParams struct {
+	WayUuid              uuid.UUID
+	CurrentChildrenDepth int32
+}
+
+//func (ws *GeneralService) GetPopulatedWayById(ctx context.Context, params GetPopulatedWayByIdParams) (*schemas.WayPopulatedResponse, error) {
+//}
 
 func (gs *GeneralService) UpdateWayIsCompletedStatus(ctx context.Context, wayID string) error {
-	//response, err := gs.generalAPI.WayAPI.
+	IsCompleted := true
+	_, response, err := gs.generalAPI.WayAPI.UpdateWay(ctx, wayID).Request(openapiGeneral.SchemasUpdateWayPayload{
+		IsCompleted: &IsCompleted,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
-func (ws *GeneralService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainResponse, error) {
+func (gs *GeneralService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainResponse, error) {
+	wayRaw, response, err := gs.generalAPI.WayAPI.GetWayByUuid(ctx, wayUUID.String()).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	owner := mapOwner(wayRaw.Owner)
+	mentors := mapMentors(wayRaw.Mentors)
+	wayTags := mapWayTags(wayRaw.WayTags)
+
+	var metricsDone int32 = 0
+	var metricsTotal int32 = 0
+
+	for _, metric := range wayRaw.Metrics {
+		if metric.IsDone {
+			metricsDone++
+		}
+		metricsTotal += metric.EstimationTime
+	}
+
+	childrenUuids := make([]string, len(wayRaw.Children))
+	for i, child := range wayRaw.Children {
+		childrenUuids[i] = child.Uuid
+	}
+
+	way := &schemas.WayPlainResponse{
+		Uuid:              wayRaw.Uuid,
+		Name:              wayRaw.Name,
+		GoalDescription:   wayRaw.GoalDescription,
+		UpdatedAt:         wayRaw.UpdatedAt,
+		CreatedAt:         wayRaw.CreatedAt,
+		EstimationTime:    wayRaw.EstimationTime,
+		IsCompleted:       wayRaw.IsCompleted,
+		Owner:             owner,
+		CopiedFromWayUuid: wayRaw.CopiedFromWayUuid.Get(),
+		ProjectUuid:       wayRaw.ProjectUuid.Get(),
+		IsPrivate:         wayRaw.IsPrivate,
+		FavoriteForUsers:  wayRaw.FavoriteForUsersAmount,
+		Mentors:           mentors,
+		WayTags:           wayTags,
+		MetricsDone:       metricsDone,
+		MetricsTotal:      metricsTotal,
+		ChildrenUuids:     childrenUuids,
+	}
+
+	return way, nil
 }
 
-func (ws *GeneralService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
+func (gs *GeneralService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*schemas.WayPlainResponse, error) {
+	var CopiedFromWayID, ProjectID openapiGeneral.NullableString
+
+	CopiedFromWayID.Set(payload.CopiedFromWayID)
+	ProjectID.Set(payload.ProjectID)
+
+	wayRaw, response, err := gs.generalAPI.WayAPI.CreateWay(ctx).Request(openapiGeneral.SchemasCreateWayPayload{
+		CopiedFromWayId: CopiedFromWayID,
+		EstimationTime:  payload.EstimationTime,
+		GoalDescription: payload.GoalDescription,
+		IsCompleted:     payload.IsCompleted,
+		IsPrivate:       payload.IsPrivate,
+		Name:            payload.Name,
+		OwnerId:         payload.OwnerID,
+		ProjectId:       ProjectID,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	owner := mapOwner(wayRaw.Owner)
+	mentors := mapMentors(wayRaw.Mentors)
+	wayTags := mapWayTags(wayRaw.WayTags)
+
+	way := &schemas.WayPlainResponse{
+		Uuid:              wayRaw.Uuid,
+		Name:              wayRaw.Name,
+		GoalDescription:   wayRaw.GoalDescription,
+		UpdatedAt:         wayRaw.UpdatedAt,
+		CreatedAt:         wayRaw.CreatedAt,
+		EstimationTime:    wayRaw.EstimationTime,
+		IsCompleted:       wayRaw.IsCompleted,
+		Owner:             owner,
+		CopiedFromWayUuid: wayRaw.CopiedFromWayUuid.Get(),
+		ProjectUuid:       wayRaw.ProjectUuid.Get(),
+		IsPrivate:         wayRaw.IsPrivate,
+		FavoriteForUsers:  wayRaw.FavoriteForUsers,
+		DayReportsAmount:  wayRaw.DayReportsAmount,
+		Mentors:           mentors,
+		WayTags:           wayTags,
+		MetricsDone:       wayRaw.MetricsDone,
+		MetricsTotal:      wayRaw.MetricsTotal,
+		ChildrenUuids:     wayRaw.ChildrenUuids,
+	}
+
+	return way, nil
+}
+
+func mapOwner(ownerRaw openapiGeneral.SchemasUserPlainResponse) schemas.UserPlainResponse {
+	return schemas.UserPlainResponse{
+		Uuid:        ownerRaw.Uuid,
+		Name:        ownerRaw.Name,
+		Email:       ownerRaw.Email,
+		Description: ownerRaw.Description,
+		CreatedAt:   ownerRaw.CreatedAt,
+		ImageUrl:    ownerRaw.ImageUrl,
+		IsMentor:    ownerRaw.IsMentor,
+	}
+}
+
+func mapMentors(mentorsRaw []openapiGeneral.SchemasUserPlainResponse) []schemas.UserPlainResponse {
+	mentors := make([]schemas.UserPlainResponse, len(mentorsRaw))
+	for i, mentor := range mentorsRaw {
+		mentors[i] = schemas.UserPlainResponse{
+			Uuid:        mentor.Uuid,
+			Name:        mentor.Name,
+			Email:       mentor.Email,
+			Description: mentor.Description,
+			CreatedAt:   mentor.CreatedAt,
+			ImageUrl:    mentor.ImageUrl,
+			IsMentor:    mentor.IsMentor,
+		}
+	}
+	return mentors
+}
+
+func mapWayTags(tagsRaw []openapiGeneral.SchemasWayTagResponse) []schemas.WayTagResponse {
+	wayTags := make([]schemas.WayTagResponse, len(tagsRaw))
+	for i, tag := range tagsRaw {
+		wayTags[i] = schemas.WayTagResponse{
+			Uuid: tag.Uuid,
+			Name: tag.Name,
+		}
+	}
+	return wayTags
 }
 
 type UpdateWayParams struct {
@@ -1227,11 +1937,51 @@ type UpdateWayParams struct {
 	Name            string
 	GoalDescription string
 	EstimationTime  int32
-	IsPrivate       *bool
+	IsPrivate       bool
 	IsCompleted     bool
 }
 
-func (ws *GeneralService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*schemas.WayPlainResponse, error) {
+func (gs *GeneralService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*schemas.WayPlainResponse, error) {
+	wayRaw, response, err := gs.generalAPI.WayAPI.UpdateWay(ctx, params.WayID).Request(openapiGeneral.SchemasUpdateWayPayload{
+		EstimationTime:  &params.EstimationTime,
+		GoalDescription: &params.GoalDescription,
+		IsCompleted:     &params.IsCompleted,
+		IsPrivate:       &params.IsPrivate,
+		Name:            &params.Name,
+	}).Execute()
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+	owner := mapOwner(wayRaw.Owner)
+	mentors := mapMentors(wayRaw.Mentors)
+	wayTags := mapWayTags(wayRaw.WayTags)
+
+	way := &schemas.WayPlainResponse{
+		Uuid:              wayRaw.Uuid,
+		Name:              wayRaw.Name,
+		GoalDescription:   wayRaw.GoalDescription,
+		UpdatedAt:         wayRaw.UpdatedAt,
+		CreatedAt:         wayRaw.CreatedAt,
+		EstimationTime:    wayRaw.EstimationTime,
+		IsCompleted:       wayRaw.IsCompleted,
+		Owner:             owner,
+		CopiedFromWayUuid: wayRaw.CopiedFromWayUuid.Get(),
+		ProjectUuid:       wayRaw.ProjectUuid.Get(),
+		IsPrivate:         wayRaw.IsPrivate,
+		FavoriteForUsers:  wayRaw.FavoriteForUsers,
+		DayReportsAmount:  wayRaw.DayReportsAmount,
+		Mentors:           mentors,
+		WayTags:           wayTags,
+		MetricsDone:       wayRaw.MetricsDone,
+		MetricsTotal:      wayRaw.MetricsTotal,
+		ChildrenUuids:     wayRaw.ChildrenUuids,
+	}
+
+	return way, nil
 }
 
 type GetAllWaysParams struct {
@@ -1242,32 +1992,255 @@ type GetAllWaysParams struct {
 	ReqLimit               int
 }
 
-func (ws *GeneralService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*schemas.GetAllWaysResponse, error) {
+func (gs *GeneralService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*schemas.GetAllWaysResponse, error) {
+	waysRaw, response, err := gs.generalAPI.WayAPI.GetAllWays(ctx).
+		WayName(params.WayName).
+		MinDayReportsAmount(int32(params.ReqMinDayReportsAmount)).
+		Status(params.Status).
+		Page(int32(params.Offset)).
+		Limit(int32(params.ReqLimit)).
+		Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+	ways := make([]schemas.WayPlainResponse, len(waysRaw.Ways))
+	for i, way := range waysRaw.Ways {
+		ways[i] = mapWayPlainRes(way)
+	}
+	res := &schemas.GetAllWaysResponse{
+		Size: waysRaw.Size,
+		Ways: ways,
+	}
+	return res, nil
+}
+func mapWayPlainRes(wayRaw openapiGeneral.SchemasWayPlainResponse) schemas.WayPlainResponse {
+	return schemas.WayPlainResponse{
+		Uuid:              wayRaw.Uuid,
+		Name:              wayRaw.Name,
+		GoalDescription:   wayRaw.GoalDescription,
+		UpdatedAt:         wayRaw.UpdatedAt,
+		CreatedAt:         wayRaw.CreatedAt,
+		EstimationTime:    wayRaw.EstimationTime,
+		IsCompleted:       wayRaw.IsCompleted,
+		Owner:             mapOwner(wayRaw.Owner),
+		CopiedFromWayUuid: wayRaw.CopiedFromWayUuid.Get(),
+		ProjectUuid:       wayRaw.ProjectUuid.Get(),
+		IsPrivate:         wayRaw.IsPrivate,
+		FavoriteForUsers:  wayRaw.FavoriteForUsers,
+		DayReportsAmount:  wayRaw.DayReportsAmount,
+		Mentors:           mapMentors(wayRaw.Mentors),
+		WayTags:           mapWayTags(wayRaw.WayTags),
+		MetricsDone:       wayRaw.MetricsDone,
+		MetricsTotal:      wayRaw.MetricsTotal,
+		ChildrenUuids:     wayRaw.ChildrenUuids,
+	}
+}
+func (gs *GeneralService) DeleteWayById(ctx *gin.Context, wayID string) error {
+	response, err := gs.generalAPI.WayAPI.DeleteWay(ctx, wayID).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
-func (ws *GeneralService) DeleteWayById(ctx *gin.Context, wayID string) error {
-	return ws.wayRepository.DeleteWay(ctx, pgtype.UUID{Bytes: uuid.MustParse(wayID), Valid: true})
+func (gs *GeneralService) GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {
+	var collectChildren func(ctx context.Context, wayID uuid.UUID, currentDepth int) ([]uuid.UUID, error)
+	collectChildren = func(ctx context.Context, wayID uuid.UUID, currentDepth int) ([]uuid.UUID, error) {
+		if currentDepth >= maxDepth {
+			return nil, nil
+		}
+
+		wayRaw, response, err := gs.generalAPI.WayAPI.GetWayByUuid(ctx, wayID.String()).Execute()
+		if err != nil {
+			message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+			if extractErr != nil {
+				return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+			}
+			return nil, fmt.Errorf(message)
+		}
+
+		children := make([]uuid.UUID, len(wayRaw.Children))
+		for i, child := range wayRaw.Children {
+			childUUID, parseErr := uuid.Parse(child.GetUuid())
+			if parseErr != nil {
+				return nil, fmt.Errorf("failed to parse child UUID: %w", parseErr)
+			}
+			children[i] = childUUID
+		}
+
+		for _, childID := range children {
+			subChildren, err := collectChildren(ctx, childID, currentDepth+1)
+			if err != nil {
+				return nil, err
+			}
+			children = append(children, subChildren...)
+		}
+
+		return children, nil
+	}
+
+	return collectChildren(ctx, wayID, 0)
 }
 
-func (ws *GeneralService) GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {
+func (ws *GeneralService) GetNestedWayIDs(ctx context.Context, parentWayUUID uuid.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error) {
+	return nil, nil
 }
 
-func (ws *GeneralService) GetNestedWayIDs(ctx context.Context, parentWayUUID pgtype.UUID, currentDepth int, maxDepth int) ([]pgtype.UUID, error) {
+func (gs *GeneralService) CreateWayCollection(ctx context.Context, payload *schemas.CreateWayCollectionPayload) (*schemas.WayCollectionPopulatedResponse, error) {
+	wayCollectionRaw, response, err := gs.generalAPI.WayCollectionAPI.CreateWayCollection(ctx).Request(openapiGeneral.SchemasCreateWayCollectionPayload{
+		Name:      payload.Name,
+		OwnerUuid: payload.OwnerUuid,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	ways := lo.Map(wayCollectionRaw.Ways, func(way openapiGeneral.SchemasWayPlainResponse, _ int) schemas.WayPlainResponse {
+		wayTags := lo.Map(way.WayTags, func(tag openapiGeneral.SchemasWayTagResponse, _ int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: tag.Uuid,
+				Name: tag.Name,
+			}
+		})
+
+		mentors := lo.Map(way.Mentors, func(mentor openapiGeneral.SchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        mentor.Uuid,
+				Name:        mentor.Name,
+				Email:       mentor.Email,
+				Description: mentor.Description,
+				CreatedAt:   mentor.CreatedAt,
+				ImageUrl:    mentor.ImageUrl,
+				IsMentor:    mentor.IsMentor,
+			}
+		})
+
+		owner := schemas.UserPlainResponse{
+			Uuid:        way.Owner.Uuid,
+			Name:        way.Owner.Name,
+			Email:       way.Owner.Email,
+			Description: way.Owner.Description,
+			CreatedAt:   way.Owner.CreatedAt,
+			ImageUrl:    way.Owner.ImageUrl,
+			IsMentor:    way.Owner.IsMentor,
+		}
+
+		return schemas.WayPlainResponse{
+			Uuid:              way.Uuid,
+			Name:              way.Name,
+			GoalDescription:   way.GoalDescription,
+			UpdatedAt:         way.UpdatedAt,
+			CreatedAt:         way.CreatedAt,
+			EstimationTime:    way.EstimationTime,
+			IsCompleted:       way.IsCompleted,
+			Owner:             owner,
+			CopiedFromWayUuid: way.CopiedFromWayUuid.Get(),
+			ProjectUuid:       way.ProjectUuid.Get(),
+			IsPrivate:         way.IsPrivate,
+			FavoriteForUsers:  way.FavoriteForUsers,
+			DayReportsAmount:  way.DayReportsAmount,
+			Mentors:           mentors,
+			WayTags:           wayTags,
+			MetricsTotal:      way.MetricsTotal,
+			MetricsDone:       way.MetricsDone,
+			ChildrenUuids:     way.ChildrenUuids,
+		}
+	})
+
+	wayCollection := &schemas.WayCollectionPopulatedResponse{
+		Uuid:      wayCollectionRaw.Uuid,
+		Name:      wayCollectionRaw.Name,
+		Ways:      ways,
+		CreatedAt: wayCollectionRaw.CreatedAt,
+		UpdatedAt: wayCollectionRaw.UpdatedAt,
+		OwnerUuid: wayCollectionRaw.OwnerUuid,
+		Type:      wayCollectionRaw.Type,
+	}
+	return wayCollection, nil
 }
 
-func (ws *GeneralService) CreateWayCollection(ctx context.Context, payload *schemas.CreateWayCollectionPayload) (*schemas.WayCollectionPopulatedResponse, error) {
+func (gs *GeneralService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*schemas.WayCollectionPlainResponse, error) {
+	wayCollectionRaw, response, err := gs.generalAPI.WayCollectionAPI.UpdateWayCollection(ctx, wayCollectionID).Request(openapiGeneral.SchemasUpdateWayCollectionPayload{
+		Name: &wayCollectionName,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	wayCollection := &schemas.WayCollectionPlainResponse{
+		Uuid: wayCollectionRaw.Uuid,
+		Name: wayCollectionRaw.Name,
+	}
+	return wayCollection, nil
 }
 
-func (cc *GeneralService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*schemas.WayCollectionPlainResponse, error) {
+func (gs *GeneralService) DeleteWayCollectionById(ctx context.Context, wayCollectionID string) error {
+	response, err := gs.generalAPI.WayCollectionAPI.DeleteWayCollection(ctx, wayCollectionID).Execute()
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+	return nil
 }
 
-func (ws *GeneralService) DeleteWayCollectionById(ctx context.Context, wayCollectionID string) error {
+func (gs *GeneralService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*schemas.WayCollectionWayResponse, error) {
+	wayCollectionRaw, response, err := gs.generalAPI.WayCollectionWayAPI.CreateWayCollectionWay(ctx).Request(openapiGeneral.SchemasCreateWayCollectionWay{
+		WayUuid:           payload.WayCollectionUuid,
+		WayCollectionUuid: payload.WayCollectionUuid,
+	}).Execute()
+
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return nil, fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return nil, fmt.Errorf(message)
+	}
+
+	wayCollectionWay := &schemas.WayCollectionWayResponse{
+		WayID:           wayCollectionRaw.WayCollectionId,
+		WayCollectionID: wayCollectionRaw.WayCollectionId,
+	}
+
+	return wayCollectionWay, nil
 }
 
-func (ws *GeneralService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*schemas.WayCollectionWayResponse, error) {
-}
+func (gs *GeneralService) DeleteWayCollectionWayById(ctx context.Context, wayID, wayCollectionID string) error {
+	response, err := gs.generalAPI.WayCollectionWayAPI.DeleteWayCollectionWay(ctx, wayCollectionID, wayID).Execute()
 
-func (ws *GeneralService) DeleteWayCollectionWayById(ctx context.Context, wayID, wayCollectionID string) error {
+	if err != nil {
+		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
+		if extractErr != nil {
+			return fmt.Errorf("failed to extract error message: %w", extractErr)
+		}
+		return fmt.Errorf(message)
+	}
+
+	return nil
 }
 
 type GetWayStatisticsTriplePeriodParams struct {
@@ -1276,25 +2249,39 @@ type GetWayStatisticsTriplePeriodParams struct {
 	EndDate        time.Time
 }
 
-func (ws *GeneralService) GetWayStatisticsTriplePeriod(ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
+func (gs *GeneralService) GetWayStatisticsTriplePeriod(ctx context.Context, params *GetWayStatisticsTriplePeriodParams) (*schemas.WayStatisticsTriplePeriod, error) {
+	//wayStatisticsRaw, response, err := gs.generalAPI.WayAPI.GetWayStatisticsByUuid(ctx, params.WayUUIDs).Execute()
+	//
+	//
+	//wayStatistics := &schemas.WayStatistics{
+	//	TimeSpentByDayChart:,
+	//	OverallInformation: ,
+	//	LabelStatistics:
+	//}
+	return nil, nil
 }
 
 type GetWayStatisticsParams struct {
-	WayPgUUIDs           []pgtype.UUID
+	WayPgUUIDs           []uuid.UUID
 	StartDatePgTimestamp pgtype.Timestamp
 	EndDatePgTimestamp   pgtype.Timestamp
 }
 
-func (ws *GeneralService) GetWayStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.WayStatistics, error) {
+func (gs *GeneralService) GetWayStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.WayStatistics, error) {
+	//wayStatisticsRaw, response, err := gs.generalAPI.WayAPI.GetWayStatisticsByUuid(ctx, params.WayPgUUIDs).Execute()
+	return nil, nil
 }
 
 func (ws *GeneralService) GetTimeSpentByDayChart(ctx context.Context, params *GetWayStatisticsParams) ([]schemas.TimeSpentByDayPoint, error) {
+	return nil, nil
 }
 
 func (ws *GeneralService) GetOverallInformation(ctx context.Context, params *GetWayStatisticsParams) (*schemas.OverallInformation, error) {
+	return nil, nil
 }
 
 func (ws *GeneralService) GetLabelStatistics(ctx context.Context, params *GetWayStatisticsParams) (*schemas.LabelStatistics, error) {
+	return nil, nil
 }
 
 func (gs *GeneralService) AddWayTagToWay(ctx context.Context, name string, wayID string) (*schemas.WayTagResponse, error) {
