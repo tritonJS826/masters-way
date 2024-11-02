@@ -21,64 +21,52 @@ import (
 )
 
 
-// NotificationAPIService NotificationAPI service
-type NotificationAPIService service
+// EnabledNotificationAPIService EnabledNotificationAPI service
+type EnabledNotificationAPIService service
 
-type ApiCreateNotificationRequest struct {
+type ApiCreateEnabledNotificationRequest struct {
 	ctx context.Context
-	ApiService *NotificationAPIService
-	request *SchemasCreateNotificationPayload
+	ApiService *EnabledNotificationAPIService
 }
 
-// query params
-func (r ApiCreateNotificationRequest) Request(request SchemasCreateNotificationPayload) ApiCreateNotificationRequest {
-	r.request = &request
-	return r
-}
-
-func (r ApiCreateNotificationRequest) Execute() (*SchemasNotificationResponse, *http.Response, error) {
-	return r.ApiService.CreateNotificationExecute(r)
+func (r ApiCreateEnabledNotificationRequest) Execute() (*http.Response, error) {
+	return r.ApiService.CreateEnabledNotificationExecute(r)
 }
 
 /*
-CreateNotification Create a new notification
+CreateEnabledNotification Create a new enabledNotifications
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateNotificationRequest
+ @return ApiCreateEnabledNotificationRequest
 */
-func (a *NotificationAPIService) CreateNotification(ctx context.Context) ApiCreateNotificationRequest {
-	return ApiCreateNotificationRequest{
+func (a *EnabledNotificationAPIService) CreateEnabledNotification(ctx context.Context) ApiCreateEnabledNotificationRequest {
+	return ApiCreateEnabledNotificationRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return SchemasNotificationResponse
-func (a *NotificationAPIService) CreateNotificationExecute(r ApiCreateNotificationRequest) (*SchemasNotificationResponse, *http.Response, error) {
+func (a *EnabledNotificationAPIService) CreateEnabledNotificationExecute(r ApiCreateEnabledNotificationRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasNotificationResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.CreateNotification")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EnabledNotificationAPIService.CreateEnabledNotification")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notifications"
+	localVarPath := localBasePath + "/enabled-notifications"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.request == nil {
-		return localVarReturnValue, nil, reportError("request is required and must be specified")
-	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -87,30 +75,28 @@ func (a *NotificationAPIService) CreateNotificationExecute(r ApiCreateNotificati
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
+	localVarHTTPHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	// body params
-	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -118,43 +104,31 @@ func (a *NotificationAPIService) CreateNotificationExecute(r ApiCreateNotificati
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 // Execute executes the request
-//  @return SchemasNotificationResponseStream
-func (a *NotificationAPIService) CreateNotificationStreamExecute(r ApiCreateNotificationRequest, request *http.Request, GoogleAccessToken string) (*SchemasNotificationResponse, *http.Response, error) {
+func (a *EnabledNotificationAPIService) CreateEnabledNotificationStreamExecute(r ApiCreateEnabledNotificationRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasNotificationResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.CreateNotification")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EnabledNotificationAPIService.CreateEnabledNotification")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notifications"
+	localVarPath := localBasePath + "/enabled-notifications"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
 
-
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -163,7 +137,7 @@ func (a *NotificationAPIService) CreateNotificationStreamExecute(r ApiCreateNoti
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
+	localVarHTTPHeaderAccepts := []string{}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -172,7 +146,7 @@ func (a *NotificationAPIService) CreateNotificationStreamExecute(r ApiCreateNoti
 	}
 	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	for key, values := range request.Header {
@@ -186,14 +160,14 @@ func (a *NotificationAPIService) CreateNotificationStreamExecute(r ApiCreateNoti
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -201,59 +175,50 @@ func (a *NotificationAPIService) CreateNotificationStreamExecute(r ApiCreateNoti
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
-type ApiGetNotificationListRequest struct {
+type ApiGetEnabledNotificationListRequest struct {
 	ctx context.Context
-	ApiService *NotificationAPIService
+	ApiService *EnabledNotificationAPIService
 }
 
-func (r ApiGetNotificationListRequest) Execute() (*SchemasGetNotificationListResponse, *http.Response, error) {
-	return r.ApiService.GetNotificationListExecute(r)
+func (r ApiGetEnabledNotificationListRequest) Execute() (*SchemasEnabledNotificationResponse, *http.Response, error) {
+	return r.ApiService.GetEnabledNotificationListExecute(r)
 }
 
 /*
-GetNotificationList Get notification list by user id
+GetEnabledNotificationList Get enabledNotification list by user id
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetNotificationListRequest
+ @return ApiGetEnabledNotificationListRequest
 */
-func (a *NotificationAPIService) GetNotificationList(ctx context.Context) ApiGetNotificationListRequest {
-	return ApiGetNotificationListRequest{
+func (a *EnabledNotificationAPIService) GetEnabledNotificationList(ctx context.Context) ApiGetEnabledNotificationListRequest {
+	return ApiGetEnabledNotificationListRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return SchemasGetNotificationListResponse
-func (a *NotificationAPIService) GetNotificationListExecute(r ApiGetNotificationListRequest) (*SchemasGetNotificationListResponse, *http.Response, error) {
+//  @return SchemasEnabledNotificationResponse
+func (a *EnabledNotificationAPIService) GetEnabledNotificationListExecute(r ApiGetEnabledNotificationListRequest) (*SchemasEnabledNotificationResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetNotificationListResponse
+		localVarReturnValue  *SchemasEnabledNotificationResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.GetNotificationList")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EnabledNotificationAPIService.GetEnabledNotificationList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notifications"
+	localVarPath := localBasePath + "/enabled-notifications"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -314,19 +279,19 @@ func (a *NotificationAPIService) GetNotificationListExecute(r ApiGetNotification
 }
 
 // Execute executes the request
-//  @return SchemasGetNotificationListResponseStream
-func (a *NotificationAPIService) GetNotificationListStreamExecute(r ApiGetNotificationListRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetNotificationListResponse, *http.Response, error) {
+//  @return SchemasEnabledNotificationResponseStream
+func (a *EnabledNotificationAPIService) GetEnabledNotificationListStreamExecute(r ApiGetEnabledNotificationListRequest, request *http.Request, GoogleAccessToken string) (*SchemasEnabledNotificationResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGetNotificationListResponse
+		localVarReturnValue  *SchemasEnabledNotificationResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.GetNotificationList")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EnabledNotificationAPIService.GetEnabledNotificationList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notifications"
+	localVarPath := localBasePath + "/enabled-notifications"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -395,55 +360,55 @@ func (a *NotificationAPIService) GetNotificationListStreamExecute(r ApiGetNotifi
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiUpdateNotificationRequest struct {
+type ApiUpdateEnabledNotificationRequest struct {
 	ctx context.Context
-	ApiService *NotificationAPIService
-	notificationId string
-	request *SchemasUpdateNotificationPayload
+	ApiService *EnabledNotificationAPIService
+	enabledNotificationId string
+	request *SchemasUpdateEnabledNotificationPayload
 }
 
 // query params
-func (r ApiUpdateNotificationRequest) Request(request SchemasUpdateNotificationPayload) ApiUpdateNotificationRequest {
+func (r ApiUpdateEnabledNotificationRequest) Request(request SchemasUpdateEnabledNotificationPayload) ApiUpdateEnabledNotificationRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateNotificationRequest) Execute() (*SchemasNotificationResponse, *http.Response, error) {
-	return r.ApiService.UpdateNotificationExecute(r)
+func (r ApiUpdateEnabledNotificationRequest) Execute() (*SchemasEnabledNotificationResponse, *http.Response, error) {
+	return r.ApiService.UpdateEnabledNotificationExecute(r)
 }
 
 /*
-UpdateNotification Update notification by id
+UpdateEnabledNotification Update enabledNotification by id
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationId notification id
- @return ApiUpdateNotificationRequest
+ @param enabledNotificationId notification id
+ @return ApiUpdateEnabledNotificationRequest
 */
-func (a *NotificationAPIService) UpdateNotification(ctx context.Context, notificationId string) ApiUpdateNotificationRequest {
-	return ApiUpdateNotificationRequest{
+func (a *EnabledNotificationAPIService) UpdateEnabledNotification(ctx context.Context, enabledNotificationId string) ApiUpdateEnabledNotificationRequest {
+	return ApiUpdateEnabledNotificationRequest{
 		ApiService: a,
 		ctx: ctx,
-		notificationId: notificationId,
+		enabledNotificationId: enabledNotificationId,
 	}
 }
 
 // Execute executes the request
-//  @return SchemasNotificationResponse
-func (a *NotificationAPIService) UpdateNotificationExecute(r ApiUpdateNotificationRequest) (*SchemasNotificationResponse, *http.Response, error) {
+//  @return SchemasEnabledNotificationResponse
+func (a *EnabledNotificationAPIService) UpdateEnabledNotificationExecute(r ApiUpdateEnabledNotificationRequest) (*SchemasEnabledNotificationResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasNotificationResponse
+		localVarReturnValue  *SchemasEnabledNotificationResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.UpdateNotification")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EnabledNotificationAPIService.UpdateEnabledNotification")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notifications/{notificationId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"notificationId"+"}", url.PathEscape(parameterValueToString(r.notificationId, "notificationId")), -1)
+	localVarPath := localBasePath + "/enabled-notifications/{enabledNotificationId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"enabledNotificationId"+"}", url.PathEscape(parameterValueToString(r.enabledNotificationId, "enabledNotificationId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -509,20 +474,20 @@ func (a *NotificationAPIService) UpdateNotificationExecute(r ApiUpdateNotificati
 }
 
 // Execute executes the request
-//  @return SchemasNotificationResponseStream
-func (a *NotificationAPIService) UpdateNotificationStreamExecute(r ApiUpdateNotificationRequest, request *http.Request, GoogleAccessToken string) (*SchemasNotificationResponse, *http.Response, error) {
+//  @return SchemasEnabledNotificationResponseStream
+func (a *EnabledNotificationAPIService) UpdateEnabledNotificationStreamExecute(r ApiUpdateEnabledNotificationRequest, request *http.Request, GoogleAccessToken string) (*SchemasEnabledNotificationResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasNotificationResponse
+		localVarReturnValue  *SchemasEnabledNotificationResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.UpdateNotification")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EnabledNotificationAPIService.UpdateEnabledNotification")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notifications/{notificationId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"notificationId"+"}", url.PathEscape(parameterValueToString(r.notificationId, "notificationId")), -1)
+	localVarPath := localBasePath + "/enabled-notifications/{enabledNotificationId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"enabledNotificationId"+"}", url.PathEscape(parameterValueToString(r.enabledNotificationId, "enabledNotificationId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

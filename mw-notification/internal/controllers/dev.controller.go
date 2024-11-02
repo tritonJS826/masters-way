@@ -21,7 +21,7 @@ func NewDevController(devService *services.DevService) *DevController {
 // @Description resets db
 // @Tags dev
 // @Success 204
-// @Router /dev/reset-db [get]
+// @Router /dev/resetDb [get]
 func (dc *DevController) ResetDB(ctx *gin.Context) {
 	err := dc.devService.ResetDB(ctx)
 	utils.HandleErrorGin(ctx, err)

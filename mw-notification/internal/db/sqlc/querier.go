@@ -6,11 +6,19 @@ package db
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Querier interface {
+	CreateEnabledNotifications(ctx context.Context, userUuid pgtype.UUID) error
+	CreateNotification(ctx context.Context, arg CreateNotificationParams) (Notification, error)
+	GetEnabledNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]EnabledNotification, error)
+	GetNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]Notification, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
+	UpdateEnabledNotification(ctx context.Context, arg UpdateEnabledNotificationParams) (EnabledNotification, error)
+	UpdateNotification(ctx context.Context, arg UpdateNotificationParams) (Notification, error)
 }
 
 var _ Querier = (*Queries)(nil)

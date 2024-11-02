@@ -15,10 +15,11 @@ import (
 )
 
 type Router struct {
-	Gin                *gin.Engine
-	config             *config.Config
-	notificationRouter *notificationRouter
-	devRouter          *devRouter
+	Gin                       *gin.Engine
+	config                    *config.Config
+	notificationRouter        *notificationRouter
+	enabledNotificationRouter *enabledNotificationRouter
+	devRouter                 *devRouter
 }
 
 func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
@@ -38,10 +39,11 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 	})
 
 	return &Router{
-		Gin:                ginRouter,
-		config:             config,
-		notificationRouter: newNotificationRouter(controller.NotificationController),
-		devRouter:          newDevRouter(controller.DevController),
+		Gin:                       ginRouter,
+		config:                    config,
+		notificationRouter:        newNotificationRouter(controller.NotificationController),
+		enabledNotificationRouter: newEnabledNotificationRouter(controller.EnabledNotificationController),
+		devRouter:                 newDevRouter(controller.DevController),
 	}
 }
 
@@ -49,6 +51,7 @@ func (r *Router) SetRoutes() {
 	notification := r.Gin.Group("/notification")
 
 	r.notificationRouter.setNotificationRoutes(notification)
+	r.enabledNotificationRouter.setEnabledNotificationRoutes(notification)
 
 	if r.config.EnvType != "prod" {
 		r.devRouter.setDevRoutes(notification)
