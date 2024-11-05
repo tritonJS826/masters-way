@@ -16,93 +16,83 @@ paths:
       summary: resets db
       tags:
       - dev
-  /send:
+  /mail:
     post:
       description: Sending messages to recipients by smtp and saving the log of the
-        sent email
-      operationId: send-email
+        sent mail
+      operationId: send-mail
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            schema:
+              type: string
+        description: Message content to be sent. Can be plain text or HTML-formatted
+          text
+        required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SendMailResponse'
-          description: Mail successfully sent
+                $ref: '#/components/schemas/schemas.SendMailResponse'
+          description: OK
+      summary: Sending messages to recipients and save logs
+      tags:
+      - mail
+      x-codegen-request-body-name: message
 components:
-  requestBodies:
-    inline_object:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-      required: true
   schemas:
-    SendMailResponse:
+    schemas.SendMailResponse:
       example:
-        id: cf8cff0b-ed3e-4885-aacc-d83845637ec5
-        fromEmail: sender@example.com
-        recipients: recipient@example.com
-        subject: Welcome to our service
-        message: This is the plain text or html formatted message.
-      properties:
-        id:
-          example: cf8cff0b-ed3e-4885-aacc-d83845637ec5
-          type: string
-        fromEmail:
-          example: sender@example.com
-          type: string
+        cc:
+        - cc
+        - cc
+        senderName: senderName
+        bcc:
+        - bcc
+        - bcc
+        reply_to:
+        - reply_to
+        - reply_to
         recipients:
-          example: recipient@example.com
-          type: string
-        subject:
-          example: Welcome to our service
-          type: string
-        message:
-          example: This is the plain text or HTML formatted message.
-          type: string
-      type: object
-    inline_object:
+        - recipients
+        - recipients
+        subject: subject
+        id: id
+        message: message
+        senderMail: senderMail
       properties:
-        subject:
-          description: Subject of the email
-          example: Welcome to our service
-          type: string
-        to:
-          description: Recipient email addresses (array)
-          example:
-          - recipient@example.com
+        bcc:
           items:
             type: string
           type: array
         cc:
-          description: CC email addresses (array)
-          example:
-          - cc@example.com
           items:
             type: string
           type: array
-        bcc:
-          description: BCC email addresses (array)
-          example:
-          - bcc@example.com
+        id:
+          type: string
+        message:
+          type: string
+        recipients:
           items:
             type: string
           type: array
         reply_to:
-          description: reply_to email addresses (array)
-          example:
-          - reply@example.com
           items:
             type: string
           type: array
-        message:
-          description: Plain text or HTML formatted message content
-          example: This is the plain text message.
+        senderMail:
+          type: string
+        senderName:
+          type: string
+        subject:
           type: string
       required:
+      - id
       - message
+      - recipients
+      - senderMail
       - subject
-      - to
       type: object
+x-original-swagger-version: "2.0"

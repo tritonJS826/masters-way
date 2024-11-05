@@ -3,11 +3,11 @@ package controllers
 import "mw-notification-bff/internal/services"
 
 type Controller struct {
-	FileController *FileController
+	NotificationController *NotificationController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		FileController: NewFileController(services.GeneralService, services.FileService),
+		NotificationController: NewNotificationController(services.GeneralService, services.FileService),
 	}
 }

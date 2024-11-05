@@ -4,7 +4,7 @@ All URIs are relative to */notification*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DevResetDbGet**](DevAPI.md#DevResetDbGet) | **Get** /dev/reset-db | resets db
+[**DevResetDbGet**](DevAPI.md#DevResetDbGet) | **Get** /dev/resetDb | resets db
 
 
 

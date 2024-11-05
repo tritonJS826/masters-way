@@ -16,9 +16,9 @@ import (
 )
 
 type Router struct {
-	Gin        *gin.Engine
-	config     *config.Config
-	fileRouter *fileRouter
+	Gin                *gin.Engine
+	config             *config.Config
+	notificationRouter *notificationRouter
 }
 
 func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
@@ -38,16 +38,16 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 	})
 
 	return &Router{
-		Gin:        ginRouter,
-		config:     config,
-		fileRouter: newFileRouter(controller.FileController),
+		Gin:                ginRouter,
+		config:             config,
+		notificationRouter: newNotificationRouter(controller.NotificationController),
 	}
 }
 
 func (r *Router) SetRoutes() {
-	chat := r.Gin.Group("/general", auth.HandleHeaders())
+	notification := r.Gin.Group("/notification", auth.HandleHeaders())
 
-	r.fileRouter.setFileRoutes(chat)
+	r.notificationRouter.setNotificationRoutes(notification)
 
 	if r.config.EnvType != "prod" {
 		r.Gin.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

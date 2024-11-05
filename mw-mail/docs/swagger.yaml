@@ -2,8 +2,14 @@ basePath: /mail
 definitions:
   schemas.SendMailResponse:
     properties:
-      fromMail:
-        type: string
+      bcc:
+        items:
+          type: string
+        type: array
+      cc:
+        items:
+          type: string
+        type: array
       id:
         type: string
       message:
@@ -12,13 +18,21 @@ definitions:
         items:
           type: string
         type: array
+      reply_to:
+        items:
+          type: string
+        type: array
+      senderMail:
+        type: string
+      senderName:
+        type: string
       subject:
         type: string
     required:
-    - fromMail
     - id
     - message
     - recipients
+    - senderMail
     - subject
     type: object
 info:
@@ -40,27 +54,27 @@ paths:
       consumes:
       - application/json
       description: Sending messages to recipients by smtp and saving the log of the
-        sent email
-      operationId: send-email
+        sent mail
+      operationId: send-mail
       parameters:
-      - description: Subject of the email
+      - description: Subject of the mail
         in: body
         name: subject
         required: true
         schema:
           type: string
-      - description: Recipient email addresses
+      - description: Recipient mail addresses
         in: body
         name: to
         required: true
         schema:
           type: array
-      - description: CC email addresses
+      - description: CC mail addresses
         in: body
         name: cc
         schema:
           type: array
-      - description: BCC email addresses
+      - description: BCC mail addresses
         in: body
         name: bcc
         schema:

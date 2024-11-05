@@ -1,67 +1,119 @@
 basePath: /notification
 definitions:
-  schemas.UploadFileResponse:
+  schemas.EnabledNotificationResponse:
     properties:
-      id:
+      channel:
         type: string
-      name:
+      isEnabled:
+        type: boolean
+      nature:
         type: string
-      ownerId:
+      userUuid:
         type: string
-      previewUrl:
-        type: string
-      srcUrl:
+      uuid:
         type: string
     required:
-    - id
-    - name
-    - ownerId
-    - previewUrl
-    - srcUrl
+    - channel
+    - isEnabled
+    - nature
+    - userUuid
+    - uuid
+    type: object
+  schemas.GetEnabledNotificationListResponse:
+    properties:
+      enabledNotifications:
+        items:
+          $ref: '#/definitions/schemas.EnabledNotificationResponse'
+        type: array
+    required:
+    - enabledNotifications
+    type: object
+  schemas.GetNotificationListResponse:
+    properties:
+      notifications:
+        items:
+          $ref: '#/definitions/schemas.NotificationResponse'
+        type: array
+      size:
+        type: integer
+    required:
+    - notifications
+    - size
+    type: object
+  schemas.NotificationResponse:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      isRead:
+        type: boolean
+      nature:
+        type: string
+      url:
+        type: string
+      userUuid:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - description
+    - isRead
+    - nature
+    - url
+    - userUuid
+    - uuid
+    type: object
+  schemas.UpdateEnabledNotificationPayload:
+    properties:
+      isEnabled:
+        type: boolean
+    required:
+    - isEnabled
+    type: object
+  schemas.UpdateNotificationPayload:
+    properties:
+      isRead:
+        type: boolean
+    required:
+    - isRead
     type: object
 info:
   contact: {}
   title: Masters way notification-bff API
   version: "1.0"
 paths:
-  /files:
-    delete:
+  /enabledNotifications:
+    get:
       consumes:
       - application/json
-      description: Delete multiple files from the server storage using their IDs
-      operationId: delete-files
-      parameters:
-      - description: List of file IDs to delete
-        in: body
-        name: fileIDs
-        required: true
-        schema:
-          items:
-            type: string
-          type: array
+      operationId: get-enabledNotification-list
       produces:
       - application/json
       responses:
-        "204":
-          description: No Content
-      summary: Delete files by IDs
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.GetEnabledNotificationListResponse'
+      summary: Get enabledNotification list by user id
       tags:
-      - file
-    post:
+      - enabledNotification
+  /enabledNotifications/{enabledNotificationId}:
+    patch:
       consumes:
-      - multipart/form-data
-      description: Uploads a file to the server and stores it in the designated storage
-        path
-      operationId: upload-file
+      - application/json
+      operationId: update-enabledNotification
       parameters:
-      - description: File to upload
-        in: formData
-        name: file
+      - description: query params
+        in: body
+        name: request
         required: true
-        type: file
-      - description: Room id
-        in: query
-        name: roomId
+        schema:
+          $ref: '#/definitions/schemas.UpdateEnabledNotificationPayload'
+      - description: notification id
+        in: path
+        name: enabledNotificationId
         required: true
         type: string
       produces:
@@ -70,8 +122,50 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UploadFileResponse'
-      summary: Upload file to storage
+            $ref: '#/definitions/schemas.EnabledNotificationResponse'
+      summary: Update enabledNotification by id
       tags:
-      - file
+      - enabledNotification
+  /notifications:
+    get:
+      consumes:
+      - application/json
+      operationId: get-notification-list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.GetNotificationListResponse'
+      summary: Get notification list by user id
+      tags:
+      - notification
+  /notifications/{notificationId}:
+    patch:
+      consumes:
+      - application/json
+      operationId: update-notification
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UpdateNotificationPayload'
+      - description: notification id
+        in: path
+        name: notificationId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.NotificationResponse'
+      summary: Update notification by id
+      tags:
+      - notification
 swagger: "2.0"

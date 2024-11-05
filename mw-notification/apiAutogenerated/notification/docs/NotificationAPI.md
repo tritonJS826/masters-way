@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateNotificationPayload("Description_example", "Nature_example", "Url_example", "UserId_example") // SchemasCreateNotificationPayload | query params
+	request := *openapiclient.NewSchemasCreateNotificationPayload("Description_example", "Nature_example", "Url_example") // SchemasCreateNotificationPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

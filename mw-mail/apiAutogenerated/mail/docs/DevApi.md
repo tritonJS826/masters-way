@@ -1,10 +1,10 @@
-# \DevApi
+# \DevAPI
 
 All URIs are relative to */mail*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DevResetDbGet**](DevApi.md#DevResetDbGet) | **Get** /dev/reset-db | resets db
+[**DevResetDbGet**](DevAPI.md#DevResetDbGet) | **Get** /dev/reset-db | resets db
 
 
 
@@ -22,21 +22,21 @@ resets db
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.DevApi.DevResetDbGet(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `DevApi.DevResetDbGet``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.DevAPI.DevResetDbGet(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DevAPI.DevResetDbGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 

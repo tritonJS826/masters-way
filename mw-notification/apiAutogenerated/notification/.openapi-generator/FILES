@@ -12,6 +12,7 @@ docs/EnabledNotificationAPI.md
 docs/NotificationAPI.md
 docs/SchemasCreateNotificationPayload.md
 docs/SchemasEnabledNotificationResponse.md
+docs/SchemasGetEnabledNotificationListResponse.md
 docs/SchemasGetNotificationListResponse.md
 docs/SchemasNotificationResponse.md
 docs/SchemasUpdateEnabledNotificationPayload.md
@@ -21,10 +22,10 @@ go.mod
 go.sum
 model_schemas_create_notification_payload.go
 model_schemas_enabled_notification_response.go
+model_schemas_get_enabled_notification_list_response.go
 model_schemas_get_notification_list_response.go
 model_schemas_notification_response.go
 model_schemas_update_enabled_notification_payload.go
 model_schemas_update_notification_payload.go
 response.go
-test/api_enabled_notification_test.go
 utils.go

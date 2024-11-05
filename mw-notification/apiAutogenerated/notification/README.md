@@ -78,10 +78,10 @@ All URIs are relative to */notification*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
-*EnabledNotificationAPI* | [**CreateEnabledNotification**](docs/EnabledNotificationAPI.md#createenablednotification) | **Post** /enabled-notifications | Create a new enabledNotifications
-*EnabledNotificationAPI* | [**GetEnabledNotificationList**](docs/EnabledNotificationAPI.md#getenablednotificationlist) | **Get** /enabled-notifications | Get enabledNotification list by user id
-*EnabledNotificationAPI* | [**UpdateEnabledNotification**](docs/EnabledNotificationAPI.md#updateenablednotification) | **Patch** /enabled-notifications/{enabledNotificationId} | Update enabledNotification by id
+*DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/resetDb | resets db
+*EnabledNotificationAPI* | [**CreateEnabledNotification**](docs/EnabledNotificationAPI.md#createenablednotification) | **Post** /enabledNotifications | Create a new enabledNotifications
+*EnabledNotificationAPI* | [**GetEnabledNotificationList**](docs/EnabledNotificationAPI.md#getenablednotificationlist) | **Get** /enabledNotifications | Get enabledNotification list by user id
+*EnabledNotificationAPI* | [**UpdateEnabledNotification**](docs/EnabledNotificationAPI.md#updateenablednotification) | **Patch** /enabledNotifications/{enabledNotificationId} | Update enabledNotification by id
 *NotificationAPI* | [**CreateNotification**](docs/NotificationAPI.md#createnotification) | **Post** /notifications | Create a new notification
 *NotificationAPI* | [**GetNotificationList**](docs/NotificationAPI.md#getnotificationlist) | **Get** /notifications | Get notification list by user id
 *NotificationAPI* | [**UpdateNotification**](docs/NotificationAPI.md#updatenotification) | **Patch** /notifications/{notificationId} | Update notification by id
@@ -91,6 +91,7 @@ Class | Method | HTTP request | Description
 
  - [SchemasCreateNotificationPayload](docs/SchemasCreateNotificationPayload.md)
  - [SchemasEnabledNotificationResponse](docs/SchemasEnabledNotificationResponse.md)
+ - [SchemasGetEnabledNotificationListResponse](docs/SchemasGetEnabledNotificationListResponse.md)
  - [SchemasGetNotificationListResponse](docs/SchemasGetNotificationListResponse.md)
  - [SchemasNotificationResponse](docs/SchemasNotificationResponse.md)
  - [SchemasUpdateEnabledNotificationPayload](docs/SchemasUpdateEnabledNotificationPayload.md)

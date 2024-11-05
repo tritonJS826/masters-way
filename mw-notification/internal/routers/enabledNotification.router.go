@@ -19,7 +19,7 @@ func (er *enabledNotificationRouter) setEnabledNotificationRoutes(rg *gin.Router
 	notifications := rg.Group("enabledNotifications", auth.AuthMiddleware())
 	{
 		notifications.POST("", er.enabledNotificationController.CreateEnabledNotifications)
-		notifications.GET("", er.enabledNotificationController.GetEnabledNotificationListByUserID)
+		notifications.GET("", er.enabledNotificationController.GetEnabledNotificationList)
 		notifications.PATCH("/:enabledNotificationId", er.enabledNotificationController.UpdateEnabledNotification)
 	}
 }

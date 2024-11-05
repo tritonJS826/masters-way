@@ -70,6 +70,7 @@ func (ec *EnabledNotificationController) UpdateEnabledNotification(ctx *gin.Cont
 	ctx.JSON(http.StatusOK, response)
 }
 
+// Get enabledNotification list handler
 // @Summary Get enabledNotification list by user id
 // @Description
 // @Tags enabledNotification
@@ -78,7 +79,7 @@ func (ec *EnabledNotificationController) UpdateEnabledNotification(ctx *gin.Cont
 // @Produce json
 // @Success 200 {object} schemas.GetEnabledNotificationListResponse
 // @Router /enabledNotifications [get]
-func (ec *EnabledNotificationController) GetEnabledNotificationListByUserID(ctx *gin.Context) {
+func (ec *EnabledNotificationController) GetEnabledNotificationList(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 

@@ -7,7 +7,7 @@ import (
 
 type Service struct {
 	GeneralService *GeneralService
-	FileService    *FileService
+	FileService    *NotificationService
 }
 
 func NewService(config *config.Config) *Service {
@@ -16,7 +16,7 @@ func NewService(config *config.Config) *Service {
 
 	return &Service{
 		GeneralService: NewGeneralService(notificationBFFApi),
-		FileService:    NewFileService(notificationApi),
+		FileService:    NewNotificationService(notificationApi),
 	}
 }
 

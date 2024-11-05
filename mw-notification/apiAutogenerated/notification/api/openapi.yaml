@@ -6,7 +6,7 @@ info:
 servers:
 - url: /notification
 paths:
-  /dev/reset-db:
+  /dev/resetDb:
     get:
       description: resets db
       responses:
@@ -16,7 +16,7 @@ paths:
       summary: resets db
       tags:
       - dev
-  /enabled-notifications:
+  /enabledNotifications:
     get:
       operationId: get-enabledNotification-list
       responses:
@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.EnabledNotificationResponse'
+                $ref: '#/components/schemas/schemas.GetEnabledNotificationListResponse'
           description: OK
       summary: Get enabledNotification list by user id
       tags:
@@ -38,7 +38,7 @@ paths:
       summary: Create a new enabledNotifications
       tags:
       - enabledNotification
-  /enabled-notifications/{enabledNotificationId}:
+  /enabledNotifications/{enabledNotificationId}:
     patch:
       operationId: update-enabledNotification
       parameters:
@@ -137,38 +137,56 @@ components:
           type: string
         url:
           type: string
-        userId:
-          type: string
       required:
       - description
       - nature
       - url
-      - userId
       type: object
     schemas.EnabledNotificationResponse:
       example:
         nature: nature
         isEnabled: true
         channel: channel
-        id: id
-        userId: userId
+        userUuid: userUuid
+        uuid: uuid
       properties:
         channel:
-          type: string
-        id:
           type: string
         isEnabled:
           type: boolean
         nature:
           type: string
-        userId:
+        userUuid:
+          type: string
+        uuid:
           type: string
       required:
       - channel
-      - id
       - isEnabled
       - nature
-      - userId
+      - userUuid
+      - uuid
+      type: object
+    schemas.GetEnabledNotificationListResponse:
+      example:
+        enabledNotifications:
+        - nature: nature
+          isEnabled: true
+          channel: channel
+          userUuid: userUuid
+          uuid: uuid
+        - nature: nature
+          isEnabled: true
+          channel: channel
+          userUuid: userUuid
+          uuid: uuid
+      properties:
+        enabledNotifications:
+          items:
+            $ref: '#/components/schemas/schemas.EnabledNotificationResponse'
+          type: array
+      required:
+      - enabledNotifications
       type: object
     schemas.GetNotificationListResponse:
       example:
@@ -177,16 +195,16 @@ components:
         - createdAt: createdAt
           nature: nature
           isRead: true
+          userUuid: userUuid
           description: description
-          id: id
-          userId: userId
+          uuid: uuid
           url: url
         - createdAt: createdAt
           nature: nature
           isRead: true
+          userUuid: userUuid
           description: description
-          id: id
-          userId: userId
+          uuid: uuid
           url: url
       properties:
         notifications:
@@ -204,16 +222,14 @@ components:
         createdAt: createdAt
         nature: nature
         isRead: true
+        userUuid: userUuid
         description: description
-        id: id
-        userId: userId
+        uuid: uuid
         url: url
       properties:
         createdAt:
           type: string
         description:
-          type: string
-        id:
           type: string
         isRead:
           type: boolean
@@ -221,16 +237,18 @@ components:
           type: string
         url:
           type: string
-        userId:
+        userUuid:
+          type: string
+        uuid:
           type: string
       required:
       - createdAt
       - description
-      - id
       - isRead
       - nature
       - url
-      - userId
+      - userUuid
+      - uuid
       type: object
     schemas.UpdateEnabledNotificationPayload:
       properties:

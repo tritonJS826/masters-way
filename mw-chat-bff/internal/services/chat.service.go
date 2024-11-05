@@ -21,7 +21,7 @@ func NewChatService(chatAPI *openapiChat.APIClient) *ChatService {
 func (cs *ChatService) GetChatPreview(ctx *gin.Context) (*schemas.GetRoomPreviewResponse, error) {
 	chatPreviewRaw, _, err := cs.chatAPI.RoomAPI.GetChatPreview(ctx).Execute()
 	if err != nil {
-		return &schemas.GetRoomPreviewResponse{}, err
+		return nil, err
 	}
 
 	chatPreview := schemas.GetRoomPreviewResponse{
@@ -34,7 +34,7 @@ func (cs *ChatService) GetChatPreview(ctx *gin.Context) (*schemas.GetRoomPreview
 func (cs *ChatService) GetRooms(ctx *gin.Context, roomType string) (*schemas.GetRoomsResponse, error) {
 	roomsRaw, _, err := cs.chatAPI.RoomAPI.GetRooms(ctx, roomType).Execute()
 	if err != nil {
-		return &schemas.GetRoomsResponse{}, err
+		return nil, err
 	}
 
 	rooms := lo.Map(roomsRaw.Rooms, func(roomRaw openapiChat.SchemasRoomPreviewResponse, i int) schemas.RoomPreviewResponse {
@@ -70,7 +70,7 @@ func (cs *ChatService) GetRooms(ctx *gin.Context, roomType string) (*schemas.Get
 func (cs *ChatService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.RoomPopulatedResponse, error) {
 	roomRaw, _, err := cs.chatAPI.RoomAPI.GetRoomById(ctx, roomUuid).Execute()
 	if err != nil {
-		return &schemas.RoomPopulatedResponse{}, err
+		return nil, err
 	}
 
 	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
@@ -180,7 +180,7 @@ func (cs *ChatService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 func (cs *ChatService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error) {
 	roomRaw, _, err := cs.chatAPI.RoomAPI.UpdateRoom(ctx, roomId).Execute()
 	if err != nil {
-		return &schemas.RoomPopulatedResponse{}, err
+		return nil, err
 	}
 	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
 
@@ -256,7 +256,7 @@ func (cs *ChatService) CreateMessage(ctx *gin.Context, messageText, roomId strin
 func (ChatService *ChatService) AddUserToRoom(ctx *gin.Context, roomId string, userId string) (*schemas.RoomPreviewResponse, error) {
 	rawRoom, _, err := ChatService.chatAPI.RoomAPI.AddUserToRoom(ctx, roomId, userId).Execute()
 	if err != nil {
-		return &schemas.RoomPreviewResponse{}, err
+		return nil, err
 	}
 
 	usersPopulated := lo.Map(rawRoom.Users, func(rawUser openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
