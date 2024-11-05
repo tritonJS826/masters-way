@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define your services
-services=("mw-webapp" "mw-survey" "mw-storage" "mw-notification" "mw-notification-bff" "mw-server" "mw-chat-websocket" "mw-chat-bff" "mw-chat" "grafana")
+services=("mw-webapp" "mw-survey" "mw-storage" "mw-mail" "mw-notification" "mw-notification-bff" "mw-server" "mw-chat-websocket" "mw-chat-bff" "mw-chat" "grafana")
 
 # Define the environment file templates
 if [ "$1" = "local" ]; then

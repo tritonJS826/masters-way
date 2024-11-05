@@ -42,6 +42,20 @@ services:
     networks:
       - app-network
 
+  postgres-mail:
+    build:
+      context: ./postgres
+      dockerfile: postgres-mail.Dockerfile
+    container_name: postgres-mail
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres-mail:/var/lib/postgresql/data
+    env_file:
+      - ./mw-mail/.env
+    networks:
+      - app-network
+
   postgres-survey:
     build:
       context: ./postgres
@@ -83,6 +97,7 @@ services:
       - postgres-general
       - postgres-chat
       - postgres-storage
+      - postgres-mail
       - postgres-survey
     networks:
       - app-network
@@ -105,6 +120,7 @@ volumes:
   postgres-storage:
   postgres-survey:
   postgres-notification:
+  postgres-mail:
 
 networks:
   app-network:

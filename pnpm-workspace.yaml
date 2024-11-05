@@ -7,6 +7,7 @@ packages:
   - 'mw-chat-bff'
   - 'mw-chat-websocket'
   - 'mw-storage'
+  - 'mw-mail'
   - 'mw-survey'
   - 'mw-notification'
   - 'mw-notification-bff'

@@ -1,0 +1,108 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  title: Masters way mail API
+  version: "1.0"
+servers:
+- url: /mail
+paths:
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: resets db
+      tags:
+      - dev
+  /send:
+    post:
+      description: Sending messages to recipients by smtp and saving the log of the
+        sent email
+      operationId: send-email
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMailResponse'
+          description: Mail successfully sent
+components:
+  requestBodies:
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+      required: true
+  schemas:
+    SendMailResponse:
+      example:
+        id: cf8cff0b-ed3e-4885-aacc-d83845637ec5
+        fromEmail: sender@example.com
+        recipients: recipient@example.com
+        subject: Welcome to our service
+        message: This is the plain text or html formatted message.
+      properties:
+        id:
+          example: cf8cff0b-ed3e-4885-aacc-d83845637ec5
+          type: string
+        fromEmail:
+          example: sender@example.com
+          type: string
+        recipients:
+          example: recipient@example.com
+          type: string
+        subject:
+          example: Welcome to our service
+          type: string
+        message:
+          example: This is the plain text or HTML formatted message.
+          type: string
+      type: object
+    inline_object:
+      properties:
+        subject:
+          description: Subject of the email
+          example: Welcome to our service
+          type: string
+        to:
+          description: Recipient email addresses (array)
+          example:
+          - recipient@example.com
+          items:
+            type: string
+          type: array
+        cc:
+          description: CC email addresses (array)
+          example:
+          - cc@example.com
+          items:
+            type: string
+          type: array
+        bcc:
+          description: BCC email addresses (array)
+          example:
+          - bcc@example.com
+          items:
+            type: string
+          type: array
+        reply_to:
+          description: reply_to email addresses (array)
+          example:
+          - reply@example.com
+          items:
+            type: string
+          type: array
+        message:
+          description: Plain text or HTML formatted message content
+          example: This is the plain text message.
+          type: string
+      required:
+      - message
+      - subject
+      - to
+      type: object
