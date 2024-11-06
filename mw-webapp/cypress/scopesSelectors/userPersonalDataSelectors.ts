@@ -8,6 +8,17 @@ export const userPersonalSelectors = {
         getAboutMe: () => cy.get(getDataCy(userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownDisplay)),
         getAboutMeInput: () => cy.get(getDataCy(userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownInput)),
         getAddSkillButton: () => cy.get(getDataCy(userPersonalDataAccessIds.descriptionSection.addSkillButton)),
+        getMentorCheckbox: () => cy.get(getDataCy(userPersonalDataAccessIds.descriptionSection.mentorCheckbox)),
+    },
+
+    findMentor: {
+        getFindMentorButton: () => cy.get(getDataCy(userPersonalDataAccessIds.findMentor.findMentorButton)),
+        getForm: () => cy.get(getDataCy(userPersonalDataAccessIds.findMentor.form)),
+        getSkillsToLearnInput: () => cy.get(getDataCy(userPersonalDataAccessIds.findMentor.skillsToLearnInput)),
+        getCurrentExperienceInput: () => cy.get(getDataCy(userPersonalDataAccessIds.findMentor.currentExperienceInput)),
+        getMentorDescriptionInput: () => cy.get(getDataCy(userPersonalDataAccessIds.findMentor.mentorDescriptionInput)),
+        getSubmitButton: () => cy.get(getDataCy(userPersonalDataAccessIds.findMentor.submitButton)),
+        getRequestSent: () => cy.get(getDataCy(userPersonalDataAccessIds.findMentor.requestSent)),
     },
 
     getConnectButton: () => cy.get(getDataCy(userPersonalDataAccessIds.connectButton)),
