@@ -41,12 +41,6 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 	response, err := cc.generalService.AddWayToCompositeWay(ctx, args)
 	utils.HandleErrorGin(ctx, err)
 
-	// response, err := cc.compositeWayService.AddWayToCompositeWay(ctx, &services.AddWayToCompositeWayParams{
-	// 	ChildWayID:  payload.ChildWayUuid,
-	// 	ParentWayID: payload.ParentWayUuid,
-	// })
-	// util.HandleErrorGin(ctx, err)
-
 	ctx.JSON(http.StatusOK, response)
 }
 
