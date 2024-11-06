@@ -599,12 +599,16 @@ export const UserPage = observer((props: UserPageProps) => {
                           className={styles.findMentorIcon}
                         />
                       }
+                      dataCy={userPersonalDataAccessIds.findMentor.findMentorButton}
                     />
                   }
                   content={
                     !isFindMentorRequestSent
                       ? (
-                        <VerticalContainer className={styles.modalContainer}>
+                        <VerticalContainer
+                          className={styles.modalContainer}
+                          dataCy={userPersonalDataAccessIds.findMentor.form}
+                        >
                           <Form
                             onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
                               await SurveyDAL.surveyFindMentor({
@@ -624,6 +628,7 @@ export const UserPage = observer((props: UserPageProps) => {
                                 value: "",
                                 required: true,
                                 placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
+                                dataCy: userPersonalDataAccessIds.findMentor.skillsToLearnInput,
                               },
                               {
                                 id: 1,
@@ -633,6 +638,7 @@ export const UserPage = observer((props: UserPageProps) => {
                                 required: true,
                                 placeholder:
                                   `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
+                                dataCy: userPersonalDataAccessIds.findMentor.currentExperienceInput,
                               },
                               {
                                 id: 2,
@@ -642,13 +648,18 @@ export const UserPage = observer((props: UserPageProps) => {
                                 required: true,
                                 placeholder:
                                   `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
+                                dataCy: userPersonalDataAccessIds.findMentor.mentorDescriptionInput,
                               },
                             ]}
+                            dataCy={userPersonalDataAccessIds.findMentor.submitButton}
                           />
                         </VerticalContainer>
                       )
                       : (
-                        <VerticalContainer className={styles.modalContainer}>
+                        <VerticalContainer
+                          className={styles.modalContainer}
+                          dataCy={userPersonalDataAccessIds.findMentor.requestSent}
+                        >
                           {LanguageService.survey.findMentor.requestSent[language]}
                         </VerticalContainer>
                       )
@@ -841,6 +852,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       userPageOwner.updateIsMentor(isMentor);
                     },
                   })}
+                  dataCy={userPersonalDataAccessIds.descriptionSection.mentorCheckbox}
                 />
                 <Tooltip content={LanguageService.user.personalInfo.becomeMentorTooltip[language]}>
                   <Title
