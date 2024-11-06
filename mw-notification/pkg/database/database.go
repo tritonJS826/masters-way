@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
-	"mwnotification/internal/config"
+	"mw-notification/internal/config"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )

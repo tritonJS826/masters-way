@@ -8,11 +8,16 @@ import (
 	"mw-notification-bff/internal/controllers"
 	"mw-notification-bff/internal/routers"
 	"mw-notification-bff/internal/services"
+	notification_grpc "mw-notification/pkg/notification_v1/proto"
+
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // @title     Masters way notification-bff API
@@ -25,7 +30,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	newService := services.NewService(&newConfig)
+	conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+
+	a := notification_grpc.NewNotificationV1Client(conn)
+	c := notification_grpc.NewEnabledNotificationV1Client(conn)
+
+	newService := services.NewService(&newConfig, a, c)
 	newController := controllers.NewController(newService)
 
 	newRouter := routers.NewRouter(&newConfig, newController)

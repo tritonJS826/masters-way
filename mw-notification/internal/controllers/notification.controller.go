@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"mwnotification/internal/auth"
-	"mwnotification/internal/schemas"
-	"mwnotification/internal/services"
-	"mwnotification/pkg/utils"
+	"mw-notification/internal/auth"
+	"mw-notification/internal/schemas"
+	"mw-notification/internal/services"
+	"mw-notification/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -62,10 +62,10 @@ func (nc *NotificationController) CreateNotification(ctx *gin.Context) {
 // @Param request body schemas.UpdateNotificationPayload true "query params"
 // @Param notificationId path string true "notification id"
 // @Success 200 {object} schemas.NotificationResponse
-// @Router /notifications/{notificationId} [patch]
+// @Router /notifications/{notificationUuid} [patch]
 func (nc *NotificationController) UpdateNotification(ctx *gin.Context) {
 	var payload *schemas.UpdateNotificationPayload
-	notificationID := ctx.Param("notificationId")
+	notificationID := ctx.Param("notificationUuid")
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})

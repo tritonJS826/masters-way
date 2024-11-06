@@ -1,6 +1,6 @@
 package controllers
 
-import "mwnotification/internal/services"
+import "mw-notification/internal/services"
 
 type Controller struct {
 	NotificationController        *NotificationController

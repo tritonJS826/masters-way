@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"mwnotification/internal/controllers"
+	"mw-notification/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )

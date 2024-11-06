@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"mwnotification/internal/services"
-	"mwnotification/pkg/utils"
+	"mw-notification/internal/services"
+	"mw-notification/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

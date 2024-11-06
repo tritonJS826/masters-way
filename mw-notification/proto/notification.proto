@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+option go_package = "pkg/notification_v1";
+
+// import "google/protobuf/timestamp.proto";
+
+package notification;
+
+service NotificationV1 {
+    rpc Get(GetNotificationListRequest) returns (GetNotificationListResponse);
+    rpc Update(UpdateNotificationRequest) returns (NotificationResponse);
+}
+
+service EnabledNotificationV1 {
+    rpc Get(GetEnabledNotificationListRequest) returns (GetEnabledNotificationListResponse);
+    rpc Update(UpdateEnabledNotificationRequest) returns (EnabledNotificationResponse);
+}
+
+message GetNotificationListRequest {
+    string user_uuid = 1;
+}
+
+message GetNotificationListResponse {
+    int32 size = 1;
+    repeated NotificationResponse notifications = 2;
+}
+
+message CreateNotificationRequest {
+    string user_uuid = 1;
+    string description = 2;
+    string url = 3;
+    string nature = 4;
+}
+
+message UpdateNotificationRequest {
+    string notification_uuid = 1;
+    bool is_read = 2;
+}
+
+message NotificationResponse {
+    string uuid = 1;
+    string user_uuid = 2;
+    bool is_read = 3;
+    string description = 4;
+    string url = 5;
+    string nature = 6;
+    string created_at = 7;
+}
+
+message GetEnabledNotificationListRequest {
+    string user_uuid = 1;
+}
+
+message UpdateEnabledNotificationRequest {
+    string enabled_notification_uuid = 1;
+    bool is_enabled = 2;
+}
+
+message EnabledNotificationResponse {
+    string uuid = 1;
+    string user_uuid = 2;
+    string nature = 3;
+    string channel = 4;
+    bool is_enabled = 5;
+}
+
+message GetEnabledNotificationListResponse {
+    repeated EnabledNotificationResponse enabled_notifications = 1;
+}

@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"mwnotification/internal/auth"
-	"mwnotification/internal/schemas"
-	"mwnotification/internal/services"
-	"mwnotification/pkg/utils"
+	"mw-notification/internal/auth"
+	"mw-notification/internal/schemas"
+	"mw-notification/internal/services"
+	"mw-notification/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -48,7 +48,7 @@ func (ec *EnabledNotificationController) CreateEnabledNotifications(ctx *gin.Con
 // @Param request body schemas.UpdateEnabledNotificationPayload true "query params"
 // @Param enabledNotificationId path string true "notification id"
 // @Success 200 {object} schemas.EnabledNotificationResponse
-// @Router /enabledNotifications/{enabledNotificationId} [patch]
+// @Router /enabledNotifications/{enabledNotificationUuid} [patch]
 func (ec *EnabledNotificationController) UpdateEnabledNotification(ctx *gin.Context) {
 	var payload *schemas.UpdateEnabledNotificationPayload
 
@@ -57,7 +57,7 @@ func (ec *EnabledNotificationController) UpdateEnabledNotification(ctx *gin.Cont
 		return
 	}
 
-	notificationID := ctx.Param("enabledNotificationId")
+	notificationID := ctx.Param("enabledNotificationUuid")
 
 	params := &services.UpdateEnabledNotificationParams{
 		EnabledNotificationUUID: uuid.MustParse(notificationID),

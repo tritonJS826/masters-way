@@ -8,6 +8,6 @@ type Controller struct {
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		NotificationController: NewNotificationController(services.GeneralService, services.FileService),
+		NotificationController: NewNotificationController(services.GeneralService, services.NotificationService),
 	}
 }

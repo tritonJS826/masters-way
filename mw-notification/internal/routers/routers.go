@@ -2,11 +2,11 @@ package routers
 
 import (
 	"fmt"
-	"mwnotification/internal/config"
-	"mwnotification/internal/controllers"
+	"mw-notification/internal/config"
+	"mw-notification/internal/controllers"
 	"net/http"
 
-	_ "mwnotification/docs"
+	_ "mw-notification/docs"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

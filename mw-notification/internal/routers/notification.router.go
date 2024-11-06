@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"mwnotification/internal/auth"
-	"mwnotification/internal/controllers"
+	"mw-notification/internal/auth"
+	"mw-notification/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +20,6 @@ func (rr *notificationRouter) setNotificationRoutes(rg *gin.RouterGroup) {
 	{
 		notifications.POST("", rr.notificationController.CreateNotification)
 		notifications.GET("", rr.notificationController.GetNotificationListByUserID)
-		notifications.PATCH("/:notificationId", rr.notificationController.UpdateNotification)
+		notifications.PATCH("/:notificationUuid", rr.notificationController.UpdateNotification)
 	}
 }
