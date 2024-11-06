@@ -1,6 +1,8 @@
 package controllers
 
-import "mw-general-bff/internal/services"
+import (
+	"mw-general-bff/internal/services"
+)
 
 type Controller struct {
 	FileController                     *FileController
@@ -8,7 +10,6 @@ type Controller struct {
 	CommentController                  *CommentController
 	CompositeWayController             *CompositeWayController
 	DayReportController                *DayReportController
-	DevController                      *DevController
 	FavoriteUserController             *FavoriteUserController
 	FavoriteUserWayController          *FavoriteUserWayController
 	FromUserMentoringRequestController *FromUserMentoringRequestController
@@ -35,12 +36,11 @@ type Controller struct {
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		FileController: NewFileController(services.GeneralService, services.FileService),
-		//AuthController:                     NewAuthController(services.AuthService, services.UserService, config),
+		AuthController:                     NewAuthController(services.AuthService),
+		FileController:                     NewFileController(services.GeneralService, services.FileService),
 		CommentController:                  NewCommentController(services.GeneralService),
 		CompositeWayController:             NewCompositeWayController(services.GeneralService),
 		DayReportController:                NewDayReportController(services.GeneralService),
-		DevController:                      NewDevController(services.GeneralService),
 		FavoriteUserController:             NewFavoriteUserController(services.GeneralService),
 		FavoriteUserWayController:          NewFavoriteUserWayController(services.GeneralService),
 		FromUserMentoringRequestController: NewFromUserMentoringRequestController(services.GeneralService),

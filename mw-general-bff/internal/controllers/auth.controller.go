@@ -1,9 +1,6 @@
 package controllers
 
 import (
-	"github.com/google/uuid"
-	"mw-general-bff/internal/auth"
-	"mw-general-bff/internal/config"
 	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
@@ -13,13 +10,11 @@ import (
 )
 
 type AuthController struct {
-	authService    *services.AuthService
-	generalService *services.GeneralService
-	config         *config.Config
+	authService *services.AuthService
 }
 
-func NewAuthController(authService *services.AuthService, generalService *services.GeneralService, config *config.Config) *AuthController {
-	return &AuthController{authService, generalService, config}
+func NewAuthController(authService *services.AuthService) *AuthController {
+	return &AuthController{authService}
 }
 
 // Log in with google oAuth
@@ -41,28 +36,30 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	// 	return
 	// }
 
-	// googleAuthInfo, err := ac.authService.AuthenticateGoogleUser(ctx, code, state)
-	// util.HandleErrorGin(ctx, err)
+	ac.GetAuthCallbackFunction(ctx)
 
-	// now := time.Now()
-	// args := &services.CreateUserParams{
-	// 	Name:        googleAuthInfo.UserInfo.Name,
-	// 	Email:       googleAuthInfo.UserInfo.Email,
-	// 	Description: "",
-	// 	CreatedAt:   now,
-	// 	ImageUrl:    googleAuthInfo.UserInfo.Picture,
-	// 	IsMentor:    false,
-	// }
+	googleAuthInfo, err := ac.authService.AuthenticateGoogleUser(ctx, code, state)
+	utils.HandleErrorGin(ctx, err)
 
-	// populatedUser, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
-	// util.HandleErrorGin(ctx, err)
+	now := time.Now()
+	args := &services.CreateUserParams{
+		Name:        googleAuthInfo.UserInfo.Name,
+		Email:       googleAuthInfo.UserInfo.Email,
+		Description: "",
+		CreatedAt:   now,
+		ImageUrl:    googleAuthInfo.UserInfo.Picture,
+		IsMentor:    false,
+	}
+
+	populatedUser, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
 	// ac.authService.SetGoogleAccessTokenByUserID(populatedUser.Uuid, googleAuthInfo.Token.AccessToken)
 
-	// jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
-	// util.HandleErrorGin(ctx, err)
+	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
+	util.HandleErrorGin(ctx, err)
 
-	// ctx.Redirect(http.StatusFound, ac.config.WebappBaseUrl+"?token="+jwtToken)
+	ctx.Redirect(http.StatusFound, ac.config.WebappBaseUrl+"?token="+jwtToken)
 }
 
 // Begin auth handler
@@ -76,8 +73,8 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @Success 307
 // @Router /auth/{provider} [get]
 func (ac *AuthController) BeginAuth(ctx *gin.Context) {
-	// url := ac.authService.GetGoogleAuthURL()
-	// ctx.Redirect(http.StatusTemporaryRedirect, url)
+	url := ac.authService.GetGoogleAuthURL()
+	ctx.Redirect(http.StatusTemporaryRedirect, url)
 }
 
 // @Summary Get current authorized user
@@ -86,13 +83,13 @@ func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 // @ID get-current-authorized-user
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} schemas.UserPopulatedResponse
+// @Success 200 {object} openapi.SchemasUserPopulatedResponse
 // @Router /auth/current [get]
 func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userId := userIDRaw.(string)
+	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// userId := userIDRaw.(string)
 
-	populatedUser, err := ac.generalService.GetPopulatedUserById(ctx, uuid.MustParse(userId))
+	populatedUser, err := ac.authService.GetCurrentAuthorizedUserByToken(ctx)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
@@ -109,25 +106,18 @@ func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 // @Success 304 "redirect"
 // @Router /auth/login/local/{userEmail} [get]
 func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
-	userEmail := ctx.Param("userEmail")
+	// userEmail := ctx.Param("userEmail")
 
-	now := time.Now()
-	args := &services.CreateUserParams{
-		Name:        userEmail,
-		Email:       userEmail,
-		Description: "",
-		CreatedAt:   now,
-		ImageUrl:    "",
-		IsMentor:    false,
-	}
+	// now := time.Now()
+	ac.authService.GetUserTokenByEmail()
 
-	populatedUser, err := ac.generalService.FindOrCreateUserByEmail(ctx, args)
-	utils.HandleErrorGin(ctx, err)
+	// populatedUser, err := ac.generalService.FindOrCreateUserByEmail(ctx, args)
+	// utils.HandleErrorGin(ctx, err)
 
-	jwtToken, err := auth.GenerateTestJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
-	utils.HandleErrorGin(ctx, err)
+	// jwtToken, err := auth.GenerateTestJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
+	// utils.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, ac.config.WebappBaseURL+"?token="+jwtToken)
+	// ctx.Redirect(http.StatusFound, ac.config.WebappBaseURL+"?token="+jwtToken)
 }
 
 // @Summary Logout current authorized user

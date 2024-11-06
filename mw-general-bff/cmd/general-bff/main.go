@@ -17,7 +17,7 @@ import (
 
 // @title     Masters way general-bff API
 // @version 1.0
-// @BasePath  /general
+// @BasePath  /general-bff
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {
@@ -29,7 +29,7 @@ func main() {
 	newController := controllers.NewController(newService)
 
 	newRouter := routers.NewRouter(&newConfig, newController)
-	newRouter.SetRoutes()
+	newRouter.SetRoutes(&newConfig)
 
 	newServer := &http.Server{
 		Addr:    ":" + newConfig.ServerPort,

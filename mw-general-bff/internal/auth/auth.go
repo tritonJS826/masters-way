@@ -1,52 +1,80 @@
 package auth
 
 import (
-	"fmt"
+	"errors"
+	"mw-general-bff/internal/config"
 	"net/http"
 	"strings"
 	"time"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
 )
 
-const HeaderKeyAuthorization = "Authorization"
+const (
+	// 30 days
+	MaxAge           = 24 * time.Hour * 30
+	OauthStateString = "auth-state-string"
 
-const ContextKeyAuthorization = "ContextKeyAuthorization"
-const ContextKeyUserID = "userID"
+	HeaderKeyAuthorization = "Authorization"
+
+	ContextKeyUserID        = "userID"
+	ContextKeyAuthorization = "ContextKeyAuthorization"
+)
 
 type Claims struct {
 	UserID string `json:"userID"`
 	jwt.StandardClaims
 }
 
-func GenerateTestJWT(jwtKey string, userID string) (string, error) {
-	expirationTime := time.Now().Add(24 * time.Hour)
+func GenerateJWT(userID string, secretSessionKey string) (string, error) {
+	expirationTime := time.Now().Add(MaxAge)
 	claims := &Claims{
 		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
 	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(jwtKey))
+	return token.SignedString([]byte(secretSessionKey))
 }
 
-func ValidateJWT(tokenString string) (*Claims, error) {
+func ValidateJWT(tokenString string, secretSessionKey string) (*Claims, error) {
 	claims := &Claims{}
-	_, _, err := new(jwt.Parser).ParseUnverified(tokenString, claims)
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretSessionKey), nil
+	})
 	if err != nil {
 		return nil, err
 	}
-
-	if claims.ExpiresAt < time.Now().Unix() {
-		return nil, fmt.Errorf("token is expired")
+	if !token.Valid {
+		return nil, errors.New("invalid token")
 	}
-
 	return claims, nil
 }
 
-func HandleHeaders() gin.HandlerFunc {
+func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		authHeader := ctx.GetHeader(HeaderKeyAuthorization)
+		if authHeader == "" {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
+			return
+		}
+
+		tokenString := authHeader[len("Bearer "):]
+		claims, err := ValidateJWT(tokenString, cfg.SecretSessionKey)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			return
+		}
+
+		ctx.Set(ContextKeyUserID, claims.UserID)
+		ctx.Next()
+	}
+}
+
+func HandleHeaders(cfg *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := ctx.GetHeader(HeaderKeyAuthorization)
 		if authHeader == "" {
@@ -60,7 +88,7 @@ func HandleHeaders() gin.HandlerFunc {
 		}
 
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
-		claims, err := ValidateJWT(tokenString)
+		claims, err := ValidateJWT(tokenString, cfg.SecretSessionKey)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
 			return
