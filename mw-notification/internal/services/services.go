@@ -7,14 +7,16 @@ import (
 )
 
 type Service struct {
-	NotificationService *NotificationService
-	DevService          *DevService
+	NotificationService        *NotificationService
+	EnabledNotificationService *EnabledNotificationService
+	DevService                 *DevService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 	return &Service{
-		NotificationService: NewNotificationService(pool, queries),
-		DevService:          NewDevService(pool, queries),
+		NotificationService:        NewNotificationService(queries),
+		EnabledNotificationService: NewEnabledNotificationService(queries),
+		DevService:                 NewDevService(pool, queries),
 	}
 }

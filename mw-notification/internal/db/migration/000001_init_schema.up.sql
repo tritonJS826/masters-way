@@ -18,7 +18,7 @@ CREATE TABLE notifications (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "user_uuid" UUID NOT NULL,
     -- true if user interact with notification in any channel
-    "is_read" BOOLEAN NOT NULL,
+    "is_read" BOOLEAN NOT NULL DEFAULT FALSE,
     "description" VARCHAR(500),
     "url" VARCHAR(500),
     "nature" notification_nature NOT NULL,
@@ -34,28 +34,28 @@ CREATE TABLE enabled_notifications (
     "nature" notification_nature NOT NULL,
     "channel" notification_channel NOT NULL,
     "is_enabled" BOOLEAN NOT NULL,
-    CONSTRAINT "enabled_notifications_pkey" PRIMARY KEY (uuid)
+    CONSTRAINT "enabled_notifications_pkey" PRIMARY KEY (uuid),
+    CONSTRAINT "unique_user_notification" UNIQUE (user_uuid, nature, channel)
 );
 
-CREATE OR REPLACE FUNCTION remove_old_notifications() 
+CREATE OR REPLACE FUNCTION remove_old_notifications()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Delete old notifications if there are more than 5000 for the user
-    DELETE FROM notification
+    DELETE FROM notifications
     WHERE uuid IN (
-        SELECT uuid FROM notification
+        SELECT uuid FROM notifications
         WHERE user_uuid = NEW.user_uuid
         ORDER BY created_at ASC
         OFFSET 1000
     );
-    
+
     -- Allow the new row to be inserted
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER cleanup_notifications_trigger
-BEFORE INSERT ON notification
+CREATE TRIGGER remove_old_notifications_trigger
+BEFORE INSERT ON notifications
 FOR EACH ROW
-EXECUTE FUNCTION clean_up_old_notifications();
-
+EXECUTE FUNCTION remove_old_notifications();

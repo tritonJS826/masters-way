@@ -50,7 +50,7 @@
 .imageBlock,
 .mainBlock {
   display: flex;
-  max-width: $maxWidthContainer;
+  max-width: $maxWidthLandingContainer;
   flex-direction: column;
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
@@ -132,7 +132,7 @@
 }
 
 .planItems {
-  max-width: $maxWidthContainer;
+  max-width: $maxWidthLandingContainer;
   flex-wrap: wrap;
   justify-content: space-around;
   padding: $paddingBig $paddingMedium;

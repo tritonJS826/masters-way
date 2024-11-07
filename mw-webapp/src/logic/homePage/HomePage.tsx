@@ -32,7 +32,7 @@ const VIDEO_FOR_MENTOR_URL = "https://www.youtube.com/embed/F84cw01AjNo?si=zVUS9
 /**
  * GetStarted button click handler
  */
-const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
+export const getStarted = (navigate: NavigateFunction, userUuid?: string) => {
   return userUuid
     ? navigate(pages.user.getPath({uuid: userUuid}))
     : AuthDAL.authGoogle();
@@ -93,7 +93,7 @@ export const HomePage = observer(() => {
   ];
 
   return (
-    <>
+    <VerticalContainer className={styles.homePageWrapper}>
       <div className={styles.container}>
         <HorizontalGridContainer className={styles.welcomeBlock}>
           <VerticalContainer className={styles.welcomeInfoBlock}>
@@ -269,7 +269,7 @@ export const HomePage = observer(() => {
       </VerticalContainer>
 
       <Footer language={language} />
-    </>
+    </VerticalContainer>
   );
 
 });

@@ -1,10 +1,10 @@
 import {observer} from "mobx-react-lite";
-import {Footer} from "src/component/footer/Footer";
 import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {FooterLanding} from "src/land/footerLanding/FooterLanding";
 import {HeaderLanding} from "src/land/headerLanding/HeaderLanding";
 import {pages} from "src/router/pages";
 import styles from "src/land/allLandingsPage/AllLandingsPage.module.scss";
@@ -44,7 +44,7 @@ export const LandingsPage = observer(() => {
           Landing page for companies
         </Link>
       </VerticalContainer>
-      <Footer language={language} />
+      <FooterLanding language={language} />
     </>
   );
 });

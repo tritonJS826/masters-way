@@ -39,4 +39,5 @@
 
 .waysContent {
   @include regularContainer;
+  display: grid;
 }

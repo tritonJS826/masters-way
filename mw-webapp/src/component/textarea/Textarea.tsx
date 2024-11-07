@@ -5,6 +5,14 @@ import styles from "src/component/textarea/Textarea.module.scss";
 const DEFAULT_ROWS_AMOUNT = 1;
 
 /**
+ *Textarea classes type
+ */
+export enum TextareaType {
+  NoBorder = "noBorder",
+  Border = "border",
+}
+
+/**
  * Textarea props
  */
 interface TextareaProps {
@@ -49,6 +57,19 @@ interface TextareaProps {
    * Data attributes for cypress testing
    */
   cy?: string;
+
+  /**
+   * Textarea type
+   * @default 'noBorder'
+   */
+  typeTextarea?: TextareaType;
+
+  /**
+   * The textarea is un-clickable and unusable if true
+   * @default false
+   */
+  isDisabled?: boolean;
+
 }
 
 /**
@@ -57,6 +78,13 @@ interface TextareaProps {
 export const Textarea = (props: TextareaProps) => {
   const [value, setValue] = useState<string>(props.defaultValue || "");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  /**
+   * Clear input after sending
+   */
+  useEffect(() => {
+    setValue(props.defaultValue ?? "");
+  }, [props.defaultValue]);
 
   /**
    * Handle textarea event
@@ -87,14 +115,19 @@ export const Textarea = (props: TextareaProps) => {
   return (
     <textarea
       data-cy={props.cy}
-      className={clsx(styles.textarea, props.className)}
+      className={clsx(
+        styles.textarea,
+        styles[props.typeTextarea ?? TextareaType.NoBorder],
+        props.className,
+      )}
       placeholder={props.placeholder}
       value={value}
       onChange={handleTextChange}
-      rows={DEFAULT_ROWS_AMOUNT}
+      rows={props.rows ?? DEFAULT_ROWS_AMOUNT}
       autoFocus={props.isAutofocus}
       onKeyDown={props.onKeyPress}
       ref={textareaRef}
+      disabled={props.isDisabled}
     />
   );
 };

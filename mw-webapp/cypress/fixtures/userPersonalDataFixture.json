@@ -1,5 +1,11 @@
 {
     "newUserName": "New user name",
     "aboutMeDescription": "I'm a dedicated beekeeper with a passion for nature and sustainable living. I love spending time with my bees and harvesting honey. In my free time, I enjoy reading about environmental conservation and sharing knowledge with my community.",
-    "skill": "beekeeper"
+    "skill": "beekeeper",
+    "findMentorForm": {
+        "skillsToLearn": "Skills to learn",
+        "currentExperience": "Current experience",
+        "mentorDescription": "Mentor description",
+        "requestSent": "Request sent. We will contact you as soon as we find the right mentor for you!"
+    }
 }

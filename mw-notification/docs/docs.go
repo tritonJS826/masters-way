@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/dev/reset-db": {
+        "/dev/resetDb": {
             "get": {
                 "description": "resets db",
                 "tags": [
@@ -29,7 +29,89 @@ const docTemplate = `{
                 }
             }
         },
-        "/list": {
+        "/enabledNotifications": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "enabledNotification"
+                ],
+                "summary": "Get enabledNotification list by user id",
+                "operationId": "get-enabledNotification-list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetEnabledNotificationListResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "enabledNotification"
+                ],
+                "summary": "Create a new enabledNotifications",
+                "operationId": "create-enabledNotification",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/enabledNotifications/{enabledNotificationId}": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "enabledNotification"
+                ],
+                "summary": "Update enabledNotification by id",
+                "operationId": "update-enabledNotification",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateEnabledNotificationPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "notification id",
+                        "name": "enabledNotificationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EnabledNotificationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -43,9 +125,222 @@ const docTemplate = `{
                 "summary": "Get notification list by user id",
                 "operationId": "get-notification-list",
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetNotificationListResponse"
+                        }
                     }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Create a new notification",
+                "operationId": "create-notification",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateNotificationPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NotificationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/{notificationId}": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Update notification by id",
+                "operationId": "update-notification",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateNotificationPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "notification id",
+                        "name": "notificationId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NotificationResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "schemas.CreateNotificationPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "nature",
+                "url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "nature": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.EnabledNotificationResponse": {
+            "type": "object",
+            "required": [
+                "channel",
+                "isEnabled",
+                "nature",
+                "userUuid",
+                "uuid"
+            ],
+            "properties": {
+                "channel": {
+                    "type": "string"
+                },
+                "isEnabled": {
+                    "type": "boolean"
+                },
+                "nature": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GetEnabledNotificationListResponse": {
+            "type": "object",
+            "required": [
+                "enabledNotifications"
+            ],
+            "properties": {
+                "enabledNotifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.EnabledNotificationResponse"
+                    }
+                }
+            }
+        },
+        "schemas.GetNotificationListResponse": {
+            "type": "object",
+            "required": [
+                "notifications",
+                "size"
+            ],
+            "properties": {
+                "notifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.NotificationResponse"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.NotificationResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "isRead",
+                "nature",
+                "url",
+                "userUuid",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "isRead": {
+                    "type": "boolean"
+                },
+                "nature": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateEnabledNotificationPayload": {
+            "type": "object",
+            "required": [
+                "isEnabled"
+            ],
+            "properties": {
+                "isEnabled": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schemas.UpdateNotificationPayload": {
+            "type": "object",
+            "required": [
+                "isRead"
+            ],
+            "properties": {
+                "isRead": {
+                    "type": "boolean"
                 }
             }
         }

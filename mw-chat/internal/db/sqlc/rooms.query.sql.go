@@ -138,6 +138,7 @@ SELECT
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
 WHERE users_rooms.user_uuid = $1 AND rooms.type = $2
+ORDER BY (SELECT MAX(messages.created_at) FROM messages WHERE messages.room_uuid = rooms.uuid) DESC
 `
 
 type GetRoomsByUserUUIDParams struct {

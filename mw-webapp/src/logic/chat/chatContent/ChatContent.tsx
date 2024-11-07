@@ -9,6 +9,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input, InputType} from "src/component/input/Input";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {Textarea, TextareaType} from "src/component/textarea/Textarea";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -348,7 +349,7 @@ export const ChatContent = observer(() => {
                 >
                   {activeChatStore.activeChat.messages.map((messageItem) => (
                     <MessageItem
-                      key={messageItem.ownerId}
+                      key={messageItem.uuid}
                       src={messageItem.ownerImageUrl}
                       userName={messageItem.ownerName}
                       userUuid={messageItem.ownerId}
@@ -364,52 +365,54 @@ export const ChatContent = observer(() => {
           </HorizontalContainer>
 
           {activeChatStore?.activeChat &&
-          <HorizontalContainer className={styles.messageInputBlock}>
-            <Input
-              dataCy={chatAccessIds.chatContainer.messageInput}
-              value={activeChatStore.message}
-              onChange={activeChatStore.setMessage}
-              placeholder={LanguageService.common.chat.messagePlaceholder[language]}
-              typeInput={InputType.Border}
-              disabled={isInputDisabled}
-              onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
-                if (event.key === KeySymbols.ENTER) {
-                  sendMessage({
+            <HorizontalContainer className={styles.messageInputBlock}>
+              <Textarea
+                cy={chatAccessIds.chatContainer.messageInput}
+                defaultValue={activeChatStore.message}
+                onChange={activeChatStore.setMessage}
+                placeholder={LanguageService.common.chat.messagePlaceholder[language]}
+                isAutofocus
+                isDisabled={isInputDisabled}
+                onKeyPress={(event: React.KeyboardEvent<HTMLElement>) => {
+                  if ((event.key === KeySymbols.ENTER && event.ctrlKey) || (event.key === KeySymbols.ENTER && event.shiftKey)) {
+                    sendMessage({
+                      message: activeChatStore.message,
+                      roomId: activeChatStore.activeChat.roomId,
+                    });
+                  }
+                }}
+                typeTextarea={TextareaType.Border}
+                className={styles.chatTextarea}
+              />
+              <label>
+                <input
+                  type="file"
+                  onChange={async (event) => uploadFile(activeChatStore.activeChat.roomId, event)}
+                  className={styles.uploadFileInput}
+                />
+                <Tooltip
+                  position={PositionTooltip.BOTTOM}
+                  content="Coming soon"
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name={"UploadIcon"}
+                    className={styles.uploadFileIcon}
+                  />
+                </Tooltip>
+              </label>
+              <Button
+                value={LanguageService.common.chat.sendButton[language]}
+                onClick={async () => {
+                  await sendMessage({
                     message: activeChatStore.message,
                     roomId: activeChatStore.activeChat.roomId,
                   });
-                }
-              }}
-            />
-            <label>
-              <input
-                type="file"
-                onChange={async (event) => uploadFile(activeChatStore.activeChat.roomId, event)}
-                className={styles.uploadFileInput}
+                }}
+                buttonType={ButtonType.PRIMARY}
+                dataCy={chatAccessIds.chatContainer.sendMessageButton}
               />
-              <Tooltip
-                position={PositionTooltip.BOTTOM}
-                content="Coming soon"
-              >
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name={"UploadIcon"}
-                  className={styles.uploadFileIcon}
-                />
-              </Tooltip>
-            </label>
-            <Button
-              value={LanguageService.common.chat.sendButton[language]}
-              onClick={async () => {
-                await sendMessage({
-                  message: activeChatStore.message,
-                  roomId: activeChatStore.activeChat.roomId,
-                });
-              }}
-              buttonType={ButtonType.PRIMARY}
-              dataCy={chatAccessIds.chatContainer.sendMessageButton}
-            />
-          </HorizontalContainer>
+            </HorizontalContainer>
           }
 
         </VerticalContainer>

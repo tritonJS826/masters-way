@@ -1,10 +1,8 @@
 @import "src/styles/variables";
 
-.pageLayout {
-  max-width: $maxWidthContainer;
-  padding: 0 $paddingMedium;
-  margin: 0 auto;
-  gap: $gapExtraBig;
+.userPageWrapper {
+  width: 100%;
+  gap: $gapSmall;
 }
 
 .userInfoBlock {
@@ -14,7 +12,7 @@
 }
 
 .userMainInfoBlock {
-  gap: $gapLarge;
+  gap: $gapBig;
 
   grid-template-columns: minmax($minWidthBlock, 1fr) minmax(
       $minWidthBlock,
@@ -22,14 +20,7 @@
     );
 
   @media (max-width: $mediaWidthTabletBig) {
-    grid-template-columns: minmax($minWidthBlock, 1.5fr) minmax(
-        $minWidthBlock,
-        1fr
-      );
-  }
-
-  @media (max-width: $mediaWidthTablet) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax($minWidthBlock, 1fr);
   }
 }
 
@@ -98,7 +89,7 @@
 
 .tabsSectionContainer {
   @include regularContainer;
-  gap: $gapExtraLarge;
+  gap: $gapBig;
 }
 
 .tabsSection {

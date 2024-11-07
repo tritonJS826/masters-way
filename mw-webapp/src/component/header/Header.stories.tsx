@@ -28,6 +28,8 @@ export const Default: Story = {
     },
     theme: themeStore.theme,
     setTheme: () => themeStore.setTheme(getNextSwitchTheme(themeStore.theme)),
+    unreadNotificationsAmount: null,
+    isNotificationBlockOpen: false,
   },
   render: (args) => {
     const [lang, setLang] = useState<Language>(args.language);
@@ -47,6 +49,9 @@ export const Default: Story = {
             setLanguage={setLang}
             theme={args.theme}
             setTheme={args.setTheme}
+            openNotificationBlock={() => { }}
+            unreadNotificationsAmount={null}
+            isNotificationBlockOpen={false}
           />
         </BrowserRouter>
       </div>

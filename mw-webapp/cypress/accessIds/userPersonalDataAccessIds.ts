@@ -4,7 +4,18 @@ export const userPersonalDataAccessIds = {
         nameInput: 'nameInput',
         aboutMeMarkdownDisplay: 'aboutMeMarkdownDisplay',
         aboutMeMarkdownInput: 'aboutMeMarkdownInput',
-        addSkillButton: 'addSkillButton'
+        addSkillButton: 'addSkillButton',
+        mentorCheckbox: 'mentorCheckbox'
+    },
+
+    findMentor: {
+        findMentorButton: 'findMentorButton',
+        form: 'form',
+        skillsToLearnInput: 'skillsToLearnInput',
+        currentExperienceInput: 'currentExperienceInput',
+        mentorDescriptionInput: 'mentorDescriptionInput',
+        submitButton: 'submitButton',
+        requestSent: 'requestSent'
     },
 
     connectButton: "connectButton",

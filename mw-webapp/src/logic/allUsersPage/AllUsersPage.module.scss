@@ -1,8 +1,8 @@
 @import "src/styles/variables";
 
 .allUsersContainer {
+  width: 100%;
   max-width: $maxWidthContainer;
-  padding: 0 $paddingMedium;
   margin: 0 auto;
   gap: $gapSmall;
 }
@@ -34,7 +34,7 @@
 }
 
 .usersContent {
-  width: 100%;
+  display: grid;
   @include regularContainer;
 }
 

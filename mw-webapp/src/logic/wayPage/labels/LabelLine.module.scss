@@ -1,25 +1,40 @@
 @import "src/styles/variables";
 
 .labelLine {
-  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: $gapMedium;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    flex-wrap: wrap;
+  }
 }
 
 .labelContainer {
   display: flex;
   width: 270px;
-
-  @media only screen and (max-width: $mediaWidthTablet) {
-    width: 100%;
-  }
 }
 
 .labelDescription {
   width: 30%;
-  flex-grow: 2;
+  flex: 1;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    width: 100%;
+    order: 3;
+  }
 }
 
 .icon {
-  cursor: pointer;
+  &:hover:enabled {
+    background-color: var(--secondaryBgColor);
+  }
+}
+
+.actionButtons {
+  align-items: center;
+}
+
+.x {
+  flex-wrap: wrap;
 }

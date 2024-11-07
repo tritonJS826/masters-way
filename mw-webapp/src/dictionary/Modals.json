@@ -77,19 +77,40 @@
         "ua": "Студенти"
       },
       "selfLearningWithAI": {
-        "ru": "Самообучение с помощью ИИ",
-        "en": "Self Learning with AI",
-        "ua": "Самонавчання з ШІ"
+        "title": {
+          "ru": "Самообучение с помощью ИИ",
+          "en": "Self Learning with AI",
+          "ua": "Самонавчання з ШІ"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/IW1wU7lW4V4",
+          "en": "https://www.youtube.com/embed/IW1wU7lW4V4",
+          "ua": "https://www.youtube.com/embed/IW1wU7lW4V4"
+        }
       },
       "howToFindMentor": {
+        "title": {
         "ru": "Как найти ментора",
         "en": "How to find a mentor",
         "ua": "Як знайти наставника"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/jjpXH_-_7HA",
+          "en": "https://www.youtube.com/embed/JTn2J82iLRoI",
+          "ua": "https://www.youtube.com/embed/JTn2J82iLRoI"
+        }
       },
       "howToLeadWay": {
-        "ru": "Как вести Путь и что такое Путь, если я учусь у ментора",
-        "en": "How to lead the Way and what is the Way if I study with a mentor",
-        "ua": "Як вести Шлях і що таке Шлях, якщо я навчаюсь у ментора"
+        "title": {
+          "ru": "Как вести Путь и что такое Путь, если я учусь у ментора",
+          "en": "How to lead the Way and what is the Way if I study with a mentor",
+          "ua": "Як вести Шлях і що таке Шлях, якщо я навчаюсь у ментора"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/LfgDgTLydnY",
+          "en": "https://www.youtube.com/embed/EXpr-cSqmZ4",
+          "ua": "https://www.youtube.com/embed/EXpr-cSqmZ4"
+        }
       }
     }, 
     "mentors": {
@@ -99,21 +120,42 @@
         "ua": "Менторы"
       },
       "howToManageStudents": {
-        "ru": "Как управлять студентами, коллекциями",
-        "en": "How to manage students, collections",
-        "ua": "Як керувати студентами, колекціями"
+        "title": {
+          "ru": "Как управлять студентами, коллекциями",
+          "en": "How to manage students, collections",
+          "ua": "Як керувати студентами, колекціями"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
+          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
+          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
+        }
       },
       "howToManageTeam": {
-        "ru": "Как управлять командой",
-        "en": "How to manage a team",
-        "ua": "Як керувати командою"
+        "title": {
+          "ru": "Как управлять командой",
+          "en": "How to manage a team",
+          "ua": "Як керувати командою"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
+          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
+          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
+        }
       },
       "projectsManagement": {
-        "ru": "Управление проектами",
-        "en": "Projects management",
-        "ua": "Управління проектами"
+        "title": {
+          "ru": "Управление проектами",
+          "en": "Projects management",
+          "ua": "Управління проектами"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
+          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
+          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
+        }
       }
-    }, 
+    },
     "business": {
       "title": {
         "ru": "Бизнес",
@@ -121,14 +163,28 @@
         "ua": "Business"
       },
       "howToManageTeam": {
-        "ru": "Как управлять командой",
-        "en": "How to manage a team",
-        "ua": "Як керувати командою"
+        "title": {
+          "ru": "Как управлять командой",
+          "en": "How to manage a team",
+          "ua": "Як керувати командою"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
+          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
+          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
+        }
       },
       "projectsManagement": {
-        "ru": "Управление проектами",
-        "en": "Projects management",
-        "ua": "Управління проектами"
+        "title": {
+          "ru": "Управление проектами",
+          "en": "Projects management",
+          "ua": "Управління проектами"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
+          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
+          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
+        }
       }
     }
   }

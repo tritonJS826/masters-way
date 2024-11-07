@@ -798,11 +798,11 @@ export const WayPage = observer((props: WayPageProps) => {
               </Link>
             </HorizontalContainer>
             {!!way.mentors.size &&
-            <MentorsSection
-              way={way}
-              setWay={() => {}}
-              isOwner={isOwner}
-            />}
+              <MentorsSection
+                way={way}
+                setWay={() => {}}
+                isOwner={isOwner}
+              />}
             {isOwner && !!way.mentorRequests.length && (
               <Modal
                 isOpen={true}

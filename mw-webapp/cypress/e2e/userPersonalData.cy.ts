@@ -14,7 +14,7 @@ afterEach(() => {
 
 describe('IsAuth User personal data scope tests', () => {
 
-  it('IsAuth_UserPersonalData_EditUserName', () => {
+    it('IsAuth_UserPersonalData_EditUserName', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.descriptionSection.getName().dblclick();
     
@@ -32,7 +32,7 @@ describe('IsAuth User personal data scope tests', () => {
 
     });
 
-  it('IsAuth_UserPersonalData_EditAboutSection', () => {
+    it('IsAuth_UserPersonalData_EditAboutSection', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.descriptionSection.getAboutMe().dblclick();
     
@@ -45,7 +45,7 @@ describe('IsAuth User personal data scope tests', () => {
 
     });
 
-  it('IsAuth_UserPersonalData_AddSkillTag', () => {
+    it('IsAuth_UserPersonalData_AddSkillTag', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.descriptionSection.getAddSkillButton().click();
         userPersonalSelectors.userSkillsBlock.skillsModalContent.getSkillInput().type(userPersonalData.skill);
@@ -54,6 +54,23 @@ describe('IsAuth User personal data scope tests', () => {
         userPersonalSelectors.userSkillsBlock.skillTag.getSkillTag()
             .should('be.visible')
             .and('have.text', userPersonalData.skill);
+    });
+
+    it('IsAuth_UserPersonalData_FindMentorButton', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
+        userPersonalSelectors.findMentor.getFindMentorButton().click();
+        userPersonalSelectors.findMentor.getForm().should('exist');
+        userPersonalSelectors.findMentor.getSkillsToLearnInput().type(userPersonalData.findMentorForm.skillsToLearn);
+        userPersonalSelectors.findMentor.getCurrentExperienceInput().type(userPersonalData.findMentorForm.currentExperience);
+        userPersonalSelectors.findMentor.getMentorDescriptionInput().type(userPersonalData.findMentorForm.mentorDescription);
+        userPersonalSelectors.findMentor.getSubmitButton().click();
+
+        userPersonalSelectors.findMentor.getForm().should('not.exist');
+        userPersonalSelectors.findMentor.getRequestSent().should('have.text', userPersonalData.findMentorForm.requestSent)
+
+        headerSelectors.getHeader().click({force: true});
+        
+        userPersonalSelectors.findMentor.getRequestSent().should('not.exist');
     });
 
 });

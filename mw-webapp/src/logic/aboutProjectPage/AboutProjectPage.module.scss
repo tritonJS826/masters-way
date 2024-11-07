@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.aboutProjectPageWrapper {
+  width: 100%;
+}
+
 .title {
   text-align: center;
 }
@@ -12,12 +16,14 @@
 .aboutBlock {
   align-items: center;
   padding: $paddingVerticalBlockBig;
+  border-radius: $containerBorderRadius $containerBorderRadius 0 0;
   background-color: var(--secondaryBgColor);
   gap: $gapExtraSmall;
 }
 
 .aboutDescription {
-  max-width: $maxWidthContainer;
+  width: 100%;
+  max-width: $maxWidthLandingContainer;
   align-items: center;
   justify-content: center;
   margin-top: $marginBig;
@@ -25,13 +31,14 @@
 }
 
 .aboutTextBlock {
-  flex: 1 1 75%;
+  flex: 1 1 70%;
   padding: $paddingMedium;
   gap: $gapBig;
 }
 
 .logoAbout {
-  flex: 1 1 25%;
+  height: auto;
+  flex: 1 1 30%;
   padding: $paddingMedium;
   @media (max-width: $mediaWidthTablet) {
     display: none;
@@ -41,13 +48,15 @@
 .ourTeamBlock {
   width: 100%;
   padding: $paddingExtraMedium $paddingSmall;
-  gap: $gapLarge;
+  gap: $gapBig;
   text-align: center;
 }
 
 .ourTeamMembers {
+  max-width: $maxWidthLandingContainer;
   flex-wrap: wrap;
   justify-content: center;
+  margin: 0 auto;
   gap: $gapLarge;
 }
 
@@ -60,5 +69,6 @@
 
 .accordion {
   width: 100%;
+  max-width: $maxWidthLandingContainer;
   padding: 0 $paddingMedium;
 }

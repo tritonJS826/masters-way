@@ -100,7 +100,7 @@ describe('NoAuth All Ways scope tests', () => {
 
   });
 
-  it('NoAuth_AllWaysCardsClick', () => {
+  it('NoAuth_AllWays_CardsClick', () => {
     
     const checkWayLink = (wayData: {wayName: string, wayId: string}) => {
       allWaysSelectors.allWaysCard.getCardLink(wayData.wayName).first().click();

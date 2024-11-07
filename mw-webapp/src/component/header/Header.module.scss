@@ -14,26 +14,64 @@ $iconSize: 32px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: $paddingBig $paddingMedium;
+  padding: $paddingMedium;
   margin: 0 auto;
 }
 
 .logoSidebar {
-  height: logoSidebarHeight;
+  height: $logoSidebarHeight;
 }
 
 .headerButtonsContainer {
   align-items: center;
   justify-content: space-between;
-  gap: $gapExtraLarge;
+  gap: $gapBig;
 
   @media (max-width: $mediaWidthTablet) {
     gap: $gapMedium;
   }
 }
 
+.logoWithBell {
+  align-items: center;
+  gap: $gapBig;
+}
+
+.logoLink {
+  width: 85px;
+}
+
 .logo {
   cursor: pointer;
+}
+
+.notificationTrigger {
+  &:hover {
+    svg {
+      stroke: var(--generalPrimaryColor);
+    }
+  }
+}
+
+.active {
+  background-color: var(--secondaryBgColor);
+}
+
+.bellWithUnreadNotificationsAmount {
+  gap: 0;
+}
+
+.unreadNotificationAmount {
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: $tertiaryBorderRadius;
+  margin-top: -5px;
+  margin-left: -15px;
+  background-color: var(--generalPrimaryColor);
+  color: var(--primaryTextColor);
+  font-size: $fontSizeSmall;
 }
 
 .headerThemeLanguageBlock {

@@ -26,6 +26,7 @@ $secondaryBorderRadius: 8px;
 $quaternaryBorderRadius: 2px;
 $tertiaryBorderRadius: 50%;
 $tagBorderRadius: 1000px;
+$containerBorderRadius: 20px;
 
 // Stroke, border
 $primaryBorder: 1px;
@@ -48,6 +49,7 @@ $tooltipZIndex: 130;
 $notificationZIndex: 130;
 $chatActionButton: 140;
 $supportModalContent: 140;
+$notificationBLockZIndex: 150;
 $progressIndicatorZIndex: -1;
 
 $marginBig: 24px;
@@ -77,7 +79,8 @@ $iconSizeSmall: 16px;
 $iconSizeMedium: 24px;
 $iconSizeBig: 40px;
 $minWidthBlock: 248px;
-$maxWidthContainer: 1560px;
+$maxWidthContainer: 1920px;
+$maxWidthLandingContainer: 1560px;
 $mediumWidthBlock: 350px;
 $maxWidthFullScreen: 1920px;
 $maxWidthBlock: 600px;
@@ -115,7 +118,7 @@ $blurLight: 2px;
 
 @mixin regularContainer {
   padding: $paddingMedium;
-  border-radius: 20px;
+  border-radius: $containerBorderRadius;
   background-color: var(--secondaryBgColor);
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {

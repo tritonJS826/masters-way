@@ -1,11 +1,30 @@
+@import "src/styles/variables";
+
 .textarea {
   overflow: hidden;
-  padding: 0;
-  border: none;
   background: transparent;
   color: var(--primaryTextColor);
   font: inherit;
   opacity: 0.7;
   outline: none;
   resize: none;
+  white-space: pre-wrap;
+}
+
+.noBorder {
+  padding: 0;
+  border: none;
+}
+
+.border {
+  padding: $paddingSmall;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $secondaryBorderRadius;
+
+  &:focus {
+    &::placeholder {
+      opacity: 0;
+      transition: opacity $primaryTransitionDuration ease-in-out;
+    }
+  }
 }

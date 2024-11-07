@@ -2,6 +2,7 @@ import {PropsWithChildren, useEffect} from "react";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {useGlobalContext} from "src/GlobalContext";
+import {notificationStore} from "src/globalStore/NotificationStore";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
@@ -27,6 +28,9 @@ export const InitializedApp = (props: PropsWithChildren) => {
 
   useEffect(() => {
     if (!user) {
+      // TODO: move here method to clear UserStore instead of clear store in Layout.tsx
+      notificationStore.clearNotificationStore();
+
       return;
     }
 
@@ -67,6 +71,8 @@ export const InitializedApp = (props: PropsWithChildren) => {
       setUser(loadedUser);
       const defaultPagePath = getDefaultPagePath(loadedUser.uuid);
       setIsInitialized(true);
+      const unreadNotificationsAmount = await notificationStore.loadUnreadNotificationsAmount();
+      notificationStore.setUnreadNotificationsAmount(unreadNotificationsAmount);
 
       if (getIsHomePage()) {
         navigate(defaultPagePath);

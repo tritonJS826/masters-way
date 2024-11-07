@@ -3,6 +3,7 @@ import {ActivityIcon} from "src/assets/icons/ActivityIcon";
 import {AppStoreIcon} from "src/assets/icons/AppStoreIcon";
 import {ArrowRightIcon} from "src/assets/icons/ArrowRight";
 import {AwardIcon} from "src/assets/icons/AwardIcon";
+import {BellIcon} from "src/assets/icons/BellIcon";
 import {BookIcon} from "src/assets/icons/BookIcon";
 import {BoxIcon} from "src/assets/icons/BoxIcon";
 import {BurgerMenu} from "src/assets/icons/BurgerMenu";
@@ -33,6 +34,7 @@ import {StarIcon} from "src/assets/icons/StarIcon";
 import {SunIcon} from "src/assets/icons/SunIcon";
 import {SunsetIcon} from "src/assets/icons/SunsetIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
+import {TrashIcon} from "src/assets/icons/TrashIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
 import {UploadIcon} from "src/assets/icons/UploadIcon";
 import {UserIcon} from "src/assets/icons/UserIcon";
@@ -245,6 +247,16 @@ export const IconDictionary = {
    * Sunset icon
    */
   SunsetIcon: (params: IconProps) => <SunsetIcon {...params} />,
+
+  /**
+   * Bell icon
+   */
+  BellIcon: (params: IconProps) => <BellIcon {...params} />,
+
+  /**
+   * Trash icon
+   */
+  TrashIcon: (params: IconProps) => <TrashIcon {...params} />,
 
 };
 

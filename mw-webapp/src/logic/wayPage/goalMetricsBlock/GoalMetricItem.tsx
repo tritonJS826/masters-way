@@ -11,6 +11,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem.module.scss";
 
 /**
@@ -141,7 +142,9 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
             trigger={
               <TrashIcon data-cy={wayMetricsAccessIds.deleteMetric.trashButton} />}
             content={<p>
-              {`${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`}
+              {renderMarkdown(
+                `${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`,
+              )}
             </p>}
             onOk={() => props.deleteMetric(props.metric.uuid)}
             okText={LanguageService.modals.confirmModal.deleteButton[language]}

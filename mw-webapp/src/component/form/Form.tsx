@@ -79,6 +79,10 @@ interface FormField {
    */
   placeholder?: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -172,6 +176,7 @@ export const Form = (props: FormProps) => {
                 formData[field.label] = value;
               }}
               inputMode={field.inputMode}
+              dataCy={field.dataCy}
             />
           </label>
         ))}
@@ -183,6 +188,7 @@ export const Form = (props: FormProps) => {
                 props.onSubmit(formData);
               }}
               value={props.submitButtonValue}
+              dataCy={props.dataCy}
             />
           </DialogClose>
         </Dialog>

@@ -5,11 +5,15 @@
   padding-top: $paddingMedium;
   gap: 0;
 
-  @media (max-width: $mediaWidthMobileBig) {
+  @media (max-width: $mediaWidthTablet) {
     flex-direction: column;
   }
 }
 
-.active {
-  background-color: var(--generalPrimaryColor);
+.video {
+  margin: 0 auto;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
 }

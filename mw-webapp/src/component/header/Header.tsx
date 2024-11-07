@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {navigationMenuIds} from "cypress/accessIds/navigationMenuAccessIds";
 import {observer} from "mobx-react-lite";
@@ -76,6 +77,21 @@ interface HeaderProps {
    * Callback to set theme
    */
   setTheme: (theme: Theme) => void;
+
+  /**
+   * If true notification block is open
+   */
+  isNotificationBlockOpen: boolean;
+
+  /**
+   * Callback to open notifications
+   */
+  openNotificationBlock: (isNotificationBlockOpen: boolean) => void;
+
+  /**
+   * Unread notifications amount
+   */
+  unreadNotificationsAmount: number | null;
 
 }
 
@@ -192,23 +208,53 @@ export const Header = observer((props: HeaderProps) => {
       className={styles.header}
       data-cy={props.dataCy}
     >
-      <Link
-        className={styles.logo}
-        path={pages.home.getPath({})}
-        dataCy={headerAccessIds.logo}
-        onClick={TrackHeader.trackLogoClick}
-      >
-        <ThemedImage
-          className={styles.logo}
-          sources={getMapThemeSources({
-            [Theme.DARK]: logoLight,
-            [Theme.LIGHT]: logo,
-            [Theme.OBSIDIAN]: logoLight,
-          })}
-          theme={props.theme}
-          name={LOGO_TEXT}
-        />
-      </Link>
+      <HorizontalContainer className={styles.logoWithBell}>
+        <Link
+          className={styles.logoLink}
+          path={pages.home.getPath({})}
+          dataCy={headerAccessIds.logo}
+          onClick={TrackHeader.trackLogoClick}
+        >
+          <ThemedImage
+            className={styles.logo}
+            sources={getMapThemeSources({
+              [Theme.DARK]: logoLight,
+              [Theme.LIGHT]: logo,
+              [Theme.OBSIDIAN]: logoLight,
+            })}
+            theme={props.theme}
+            name={LOGO_TEXT}
+          />
+        </Link>
+        {props.user &&
+        <Tooltip
+          position={PositionTooltip.BOTTOM}
+          content="Coming soon..."
+        >
+          <HorizontalContainer className={styles.bellWithUnreadNotificationsAmount}>
+            <Button
+              onClick={() => props.isNotificationBlockOpen
+                ? props.openNotificationBlock(false)
+                : props.openNotificationBlock(true)
+              }
+              buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+              className={clsx(styles.notificationTrigger, props.isNotificationBlockOpen && styles.active)}
+              icon={
+                <Icon
+                  name="BellIcon"
+                  size={IconSize.MEDIUM}
+                />
+              }
+            />
+            {!!props.unreadNotificationsAmount &&
+              <HorizontalContainer className={styles.unreadNotificationAmount}>
+                {props.unreadNotificationsAmount}
+              </HorizontalContainer>
+            }
+          </HorizontalContainer>
+        </Tooltip>
+        }
+      </HorizontalContainer>
       <HorizontalContainer className={styles.headerButtonsContainer}>
         <HorizontalContainer className={styles.headerThemeLanguageBlock}>
           <ThemeSwitcher

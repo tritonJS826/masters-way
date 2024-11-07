@@ -65,14 +65,13 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 		return nil, err
 	}
 
-	rooms := lo.Map(roomsRaw, func(dbRoom db.GetRoomsByUserUUIDRow, i int) schemas.RoomPreviewResponse {
-		users := make([]schemas.UserResponse, len(dbRoom.UserUuids))
-		for i := range dbRoom.UserUuids {
-			users[i] = schemas.UserResponse{
+	rooms := lo.Map(roomsRaw, func(dbRoom db.GetRoomsByUserUUIDRow, _ int) schemas.RoomPreviewResponse {
+		users := lo.Map(dbRoom.UserUuids, func(_ pgtype.UUID, i int) schemas.UserResponse {
+			return schemas.UserResponse{
 				UserID: utils.ConvertPgUUIDToUUID(dbRoom.UserUuids[i]).String(),
 				Role:   dbRoom.UserRoles[i],
 			}
-		}
+		})
 		return schemas.RoomPreviewResponse{
 			RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
 			Name:      utils.MarshalPgText(dbRoom.Name),

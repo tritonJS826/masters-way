@@ -9,6 +9,8 @@
   padding: $paddingSmall;
   border-radius: $primaryBorderRadius;
   background-color: var(--tertiaryBgColor);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
 .own {
@@ -19,5 +21,4 @@
   flex: 1;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
-  word-wrap: break-word;
 }

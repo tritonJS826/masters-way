@@ -2,26 +2,26 @@
 
 .supportTopicsItem {
   width: $minWidthBlock;
+  align-items: center;
+  justify-content: space-between;
   padding: $paddingSmall;
-  border-top: 0;
-  border-right: 1px solid var(--primaryStrokeColor);
-  border-bottom: 1px solid var(--primaryStrokeColor);
-  border-left: 1px solid var(--primaryStrokeColor);
   cursor: pointer;
 
-  &:first-child {
-    border-top: 1px solid var(--primaryStrokeColor);
-  }
-
   &:hover {
-    background-color: var(--primaryBgColor);
+    background-color: var(--tertiaryBgColor);
   }
 
-  @media (max-width: $mediaWidthMobileBig) {
+  @media (max-width: $mediaWidthTablet) {
     width: 100%;
   }
 }
 
 .active {
-  background: red;
+  background-color: var(--tertiaryBgColor);
+  cursor: default;
+}
+
+.topicIconEmpty {
+  width: 16px;
+  height: 16px;
 }

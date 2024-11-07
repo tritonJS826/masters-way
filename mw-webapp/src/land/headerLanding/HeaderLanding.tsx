@@ -12,6 +12,7 @@ import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedI
 import {ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
+import {getStarted} from "src/logic/homePage/HomePage";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/land/headerLanding/HeaderLanding.module.scss";
@@ -61,6 +62,11 @@ interface HeaderLandingProps {
    * Navigation list of anchor links
    */
   navList: NavLink[];
+
+  /**
+   * User's ID if user registered
+   */
+  userUuid?: string;
 
 }
 
@@ -125,7 +131,7 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
         <Button
           buttonType={ButtonType.PRIMARY}
           value={LanguageService.mentorsLanding.callToActionButton[props.language]}
-          onClick={() => navigate(pages.home.getPath({}))}
+          onClick={() => getStarted(navigate, props.userUuid)}
           className={styles.tryHeaderButton}
         />
       </HorizontalContainer>
