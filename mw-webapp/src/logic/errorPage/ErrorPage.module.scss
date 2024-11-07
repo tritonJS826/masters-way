@@ -1,9 +1,8 @@
 @import "src/styles/variables";
 
 .inner {
-    justify-content: end;
+    width: 100%;
     margin: 180px auto 0;
-    height: 100%;
     max-width: $maxWidthContainer;
 }
 
@@ -16,7 +15,7 @@
 }
 
 .buttonGroup {
-    margin-top: 90px;
+    margin-top: $gapExtraExtraLarge;
 }
 
 .button {

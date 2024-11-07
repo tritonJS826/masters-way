@@ -13,13 +13,14 @@ import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/errorPage/ErrorPage.module.scss";
+import { HeadingLevel, Title } from "src/component/title/Title";
 
 const ERROR_404 = "404 NOT FOUND";
 
 /**
- * Page 404 will be displayed if app's address is not correct
+ * Error page will be displayed if app's address is not correct
  */
-export const Page404 = () => {
+export const ErrorPage = () => {
   const {user, clearUser} = userStore;
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
@@ -43,9 +44,10 @@ export const Page404 = () => {
           isNotificationBlockOpen={isNotificationOpen}
         />
         <VerticalContainer className={styles.inner}>
-          <ErrorComponent
+          <Title
+          level={HeadingLevel.h1}
             text={`${error.status} ${error.statusText}`}
-            description=""
+            placeholder=""
           />
           <HorizontalContainer className={styles.buttonGroup}>
             <Button
@@ -61,8 +63,8 @@ export const Page404 = () => {
             />
           </HorizontalContainer>
           <Image
-            alt="group"
-            src={"src/assets/ErrorPage404Image.png"}
+            alt="threeCircle"
+            src={"https://drive.google.com/thumbnail?id=1H1LY6mbpgioMLS95qKRP6aNFAvFQIOCB&sz=w1000"}
             className={styles.imageBackground}
           />
         </VerticalContainer>

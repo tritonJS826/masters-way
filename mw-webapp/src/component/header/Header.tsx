@@ -181,7 +181,7 @@ export const Header = observer((props: HeaderProps) => {
     {
       path: props.user
         ? pages.settings.getPath({})
-        : pages.page404.getPath({}),
+        : pages.errorPage.getPath({}),
       value: LanguageService.sidebar.settings[props.language],
       dataCy: navigationMenuIds.menuItemLinks.settings,
       icon: (

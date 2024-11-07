@@ -56,7 +56,7 @@ const validateParams = (
 };
 
 /**
- * If uuid of user exists in query params redirect to Page and if not navigate to Page404
+ * If uuid of user exists in query params redirect to Page and if not navigate to error page
  */
 export const WithValidatedParams = (props: ValidatedParamsProps) => {
   const params = useParams();
@@ -67,7 +67,7 @@ export const WithValidatedParams = (props: ValidatedParamsProps) => {
     validateParams(params, props.paramsSchema.urlParams);
   } catch (e) {
     alert("Wrong param");
-    navigate(pages.page404.getPath({}));
+    navigate(pages.errorPage.getPath({}));
     // TODO: Navigate() show notification!
     // TODO: navigate to error page with error message
   }
