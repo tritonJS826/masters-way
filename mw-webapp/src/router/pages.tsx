@@ -1,5 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
+import { ErrorPage } from "src/logic/errorPage/ErrorPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -87,10 +88,10 @@ const AboutProjectPageLazy = React.lazy(() => import("src/logic/aboutProjectPage
 const AboutProjectPage = () => (<>
   <AboutProjectPageLazy />
 </>);
-const Page404Lazy = React.lazy(() => import("src/logic/page404/Page404")
-  .then((module) => ({default: module.Page404})));
-const Page404 = () => (<>
-  <Page404Lazy />
+const ErrorPageLazy = React.lazy(() => import("src/logic/errorPage/ErrorPage")
+  .then((module) => ({default: module.ErrorPage})));
+const errorPage = () => (<>
+  <ErrorPageLazy />
 </>);
 const PrivacyPolicyPageLazy = React.lazy(() => import("src/logic/privacyPolicyPage/PrivacyPolicyPage")
   .then((module) => ({default: module.PrivacyPolicyPage})));
@@ -214,9 +215,9 @@ export const pages = {
     getPageComponent: () => suspended(<SmallBusinessLandingPage />),
     urlParams: {},
   } as PageParams,
-  page404: {
+  errorPage: {
     getPath: () => "*",
-    getPageComponent: () => suspended(<Page404 />),
+    getPageComponent: () => suspended(<ErrorPage />),
     urlParams: {},
   } as PageParams,
 };

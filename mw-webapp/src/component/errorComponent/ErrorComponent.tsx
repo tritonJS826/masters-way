@@ -1,27 +1,28 @@
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import styles from "src/component/privateRecourse/PrivateRecourse.module.scss";
+import styles from "src/component/errorComponent/ErrorComponent.module.scss";
+import { HeadingLevel, Title } from "src/component/title/Title";
 
 /**
- * Private recourse props
+ * Error component props
  */
 interface ErrorComponentProps {
 
   /**
-   * Private recourse's text
+   * Error component text
    */
   text: string;
 
   /**
-   * Private recourse's description
+   * Error component description
    */
   description: string;
 }
 
 /**
- * Private recourse render info about private pages
+ * Error component render info about private pages
  */
 export const ErrorComponent = (props: ErrorComponentProps) => {
+
   return (
     <VerticalContainer className={styles.container}>
       <Title

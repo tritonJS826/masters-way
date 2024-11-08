@@ -2,12 +2,12 @@
 
 .container {
   height: 100%;
-  align-items: center;
   justify-content: center;
   margin-top: $marginMedium;
 }
 
 .description {
   max-width: $maxWidthBlock;
-  margin: 0 auto;
+  font-weight: $fontWeightBold;
+  font-size: $fontSizeTitleLarge;
 }

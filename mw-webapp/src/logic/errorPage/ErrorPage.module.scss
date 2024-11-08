@@ -1,0 +1,20 @@
+@import "src/styles/variables";
+
+.inner {
+    width: 100%;
+    margin: 180px auto 0;
+    max-width: $maxWidthContainer;
+}
+
+.imageBackground {
+    top: 155px;
+    width: 70%;
+    right: 0;
+    z-index: $errorPageBackgroundZIndex;
+    position: absolute;
+}
+
+.buttonGroup {
+    gap: $gapExtraLargeMedium;
+    margin-top: $gapExtraExtraLarge;
+}
