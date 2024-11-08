@@ -1,21 +1,11 @@
 openapi: 3.0.1
 info:
   contact: {}
-  title: Masters way notification API
+  title: Masters way notification-bff API
   version: "1.0"
 servers:
 - url: /notification
 paths:
-  /dev/resetDb:
-    get:
-      description: resets db
-      responses:
-        "204":
-          content: {}
-          description: No Content
-      summary: resets db
-      tags:
-      - dev
   /enabledNotifications:
     get:
       operationId: get-enabledNotification-list
@@ -27,15 +17,6 @@ paths:
                 $ref: '#/components/schemas/schemas.GetEnabledNotificationListResponse'
           description: OK
       summary: Get enabledNotification list by user id
-      tags:
-      - enabledNotification
-    post:
-      operationId: create-enabledNotification
-      responses:
-        "204":
-          content: {}
-          description: No Content
-      summary: Create a new enabledNotifications
       tags:
       - enabledNotification
   /enabledNotifications/{enabledNotificationId}:
@@ -79,26 +60,6 @@ paths:
       summary: Get notification list by user id
       tags:
       - notification
-    post:
-      operationId: create-notification
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/schemas.CreateNotificationPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/schemas.NotificationResponse'
-          description: OK
-      summary: Create a new notification
-      tags:
-      - notification
-      x-codegen-request-body-name: request
   /notifications/{notificationId}:
     patch:
       operationId: update-notification
@@ -129,19 +90,6 @@ paths:
       x-codegen-request-body-name: request
 components:
   schemas:
-    schemas.CreateNotificationPayload:
-      properties:
-        description:
-          type: string
-        nature:
-          type: string
-        url:
-          type: string
-      required:
-      - description
-      - nature
-      - url
-      type: object
     schemas.EnabledNotificationResponse:
       example:
         nature: nature

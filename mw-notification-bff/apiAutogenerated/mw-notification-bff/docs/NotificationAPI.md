@@ -4,74 +4,9 @@ All URIs are relative to */notification*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateNotification**](NotificationAPI.md#CreateNotification) | **Post** /notifications | Create a new notification
 [**GetNotificationList**](NotificationAPI.md#GetNotificationList) | **Get** /notifications | Get notification list by user id
 [**UpdateNotification**](NotificationAPI.md#UpdateNotification) | **Patch** /notifications/{notificationId} | Update notification by id
 
-
-
-## CreateNotification
-
-> SchemasNotificationResponse CreateNotification(ctx).Request(request).Execute()
-
-Create a new notification
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	request := *openapiclient.NewSchemasCreateNotificationPayload("Description_example", "Nature_example", "Url_example") // SchemasCreateNotificationPayload | query params
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.NotificationAPI.CreateNotification(context.Background()).Request(request).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `NotificationAPI.CreateNotification``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `CreateNotification`: SchemasNotificationResponse
-	fmt.Fprintf(os.Stdout, "Response from `NotificationAPI.CreateNotification`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiCreateNotificationRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateNotificationPayload**](SchemasCreateNotificationPayload.md) | query params | 
-
-### Return type
-
-[**SchemasNotificationResponse**](SchemasNotificationResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
 
 
 ## GetNotificationList

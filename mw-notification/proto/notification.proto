@@ -1,19 +1,25 @@
 syntax = "proto3";
 
-option go_package = "pkg/notification_v1";
-
-// import "google/protobuf/timestamp.proto";
+option go_package = "pkg/notification";
 
 package notification;
 
-service NotificationV1 {
-    rpc Get(GetNotificationListRequest) returns (GetNotificationListResponse);
-    rpc Update(UpdateNotificationRequest) returns (NotificationResponse);
+import "google/protobuf/empty.proto";
+
+service Notification {
+    rpc CreateNotification(CreateNotificationRequest) returns (NotificationResponse);
+    rpc GetNotificationList(GetNotificationListRequest) returns (GetNotificationListResponse);
+    rpc UpdateNotification(UpdateNotificationRequest) returns (NotificationResponse);
 }
 
-service EnabledNotificationV1 {
-    rpc Get(GetEnabledNotificationListRequest) returns (GetEnabledNotificationListResponse);
-    rpc Update(UpdateEnabledNotificationRequest) returns (EnabledNotificationResponse);
+service EnabledNotification {
+    rpc CreateEnabledNotifications(CreateEnabledNotificationsRequest) returns (google.protobuf.Empty);
+    rpc GetEnabledNotificationList(GetEnabledNotificationListRequest) returns (GetEnabledNotificationListResponse);
+    rpc UpdateEnabledNotification(UpdateEnabledNotificationRequest) returns (EnabledNotificationResponse);
+}
+
+service Dev {
+    rpc ResetDB(google.protobuf.Empty) returns (google.protobuf.Empty);
 }
 
 message GetNotificationListRequest {
@@ -48,6 +54,10 @@ message NotificationResponse {
 }
 
 message GetEnabledNotificationListRequest {
+    string user_uuid = 1;
+}
+
+message CreateEnabledNotificationsRequest {
     string user_uuid = 1;
 }
 
