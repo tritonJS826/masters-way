@@ -54,7 +54,6 @@ export const ErrorPage = () => {
               onClick={() => navigate(pages.home.getPath({}))}
               buttonType={ButtonType.PRIMARY}
               value={LanguageService.common.button.home[language]}
-              className={styles.button}
             />
             <Button
               onClick={() => navigate(navigateBackButton)}
@@ -63,7 +62,7 @@ export const ErrorPage = () => {
             />
           </HorizontalContainer>
           <Image
-            alt="threeCircle"
+            alt="three сircle"
             src={"https://drive.google.com/thumbnail?id=1H1LY6mbpgioMLS95qKRP6aNFAvFQIOCB&sz=w1000"}
             className={styles.imageBackground}
           />
