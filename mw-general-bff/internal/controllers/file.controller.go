@@ -72,15 +72,15 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 // @Success 204
 // @Router /files [delete]
 func (fc *FileController) DeleteFilesByIDs(ctx *gin.Context) {
-	var fileIDs []string
+	// var fileIDs []string
 
-	if err := ctx.ShouldBindJSON(&fileIDs); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	// if err := ctx.ShouldBindJSON(&fileIDs); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
-	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	// userID := userIDRaw.(string)
+	// // userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// // userID := userIDRaw.(string)
 
 	ctx.Status(http.StatusNoContent)
 }
