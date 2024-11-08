@@ -70,6 +70,42 @@ class UserStore {
 
   };
 
+  /**
+   * Update user's customCollections name
+   */
+  public updateCustomCollectionName = (collectionUuid: string, collectionName: string): void => {
+    if (this.user === null) {
+      throw new Error("User is not exist");
+    }
+    this.user.customWayCollections.map((collection) => {
+
+      const updatedCollection = collection.uuid === collectionUuid
+        ? collection.updateWayCollectionName(collectionName)
+        : collection;
+
+      return updatedCollection;
+    });
+
+  };
+
+  /**
+   * Update user's project name
+   */
+  public updateProjectName = (projectId: string, projectName: string): void => {
+    if (this.user === null) {
+      throw new Error("User is not exist");
+    }
+    this.user.projects.map((project) => {
+
+      const updatedProject = project.uuid === projectId
+        ? project.updateName(projectName)
+        : project;
+
+      return updatedProject;
+    });
+
+  };
+
 }
 
 export const userStore = new UserStore();

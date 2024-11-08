@@ -426,7 +426,7 @@ export class User {
   }
 
   /**
-   * Add new collection to user
+   * Add new project to user
    */
   public addProject(newProject: ProjectPreview): void {
     this.projects.push(newProject);
@@ -437,6 +437,13 @@ export class User {
    */
   public deleteCollection(collectionId: string): void {
     this.customWayCollections = this.customWayCollections.filter(collection => collection.uuid !== collectionId);
+  }
+
+  /**
+   * Delete project from user
+   */
+  public deleteProject(projectId: string): void {
+    this.projects = this.projects.filter(project => project.uuid !== projectId);
   }
 
   /**

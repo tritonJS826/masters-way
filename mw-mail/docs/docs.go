@@ -31,7 +31,7 @@ const docTemplate = `{
         },
         "/mail": {
             "post": {
-                "description": "Sending messages to recipients by smtp and saving the log of the sent email",
+                "description": "Sending messages to recipients by smtp and saving the log of the sent mail",
                 "consumes": [
                     "application/json"
                 ],
@@ -42,10 +42,10 @@ const docTemplate = `{
                     "mail"
                 ],
                 "summary": "Sending messages to recipients and save logs",
-                "operationId": "send-email",
+                "operationId": "send-mail",
                 "parameters": [
                     {
-                        "description": "Subject of the email",
+                        "description": "Subject of the mail",
                         "name": "subject",
                         "in": "body",
                         "required": true,
@@ -54,7 +54,7 @@ const docTemplate = `{
                         }
                     },
                     {
-                        "description": "Recipient email addresses",
+                        "description": "Recipient mail addresses",
                         "name": "to",
                         "in": "body",
                         "required": true,
@@ -63,7 +63,7 @@ const docTemplate = `{
                         }
                     },
                     {
-                        "description": "CC email addresses",
+                        "description": "CC mail addresses",
                         "name": "cc",
                         "in": "body",
                         "schema": {
@@ -71,7 +71,7 @@ const docTemplate = `{
                         }
                     },
                     {
-                        "description": "BCC email addresses",
+                        "description": "BCC mail addresses",
                         "name": "bcc",
                         "in": "body",
                         "schema": {
@@ -103,15 +103,24 @@ const docTemplate = `{
         "schemas.SendMailResponse": {
             "type": "object",
             "required": [
-                "fromMail",
                 "id",
                 "message",
                 "recipients",
+                "senderMail",
                 "subject"
             ],
             "properties": {
-                "fromMail": {
-                    "type": "string"
+                "bcc": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "cc": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "id": {
                     "type": "string"
@@ -124,6 +133,18 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                },
+                "reply_to": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "senderMail": {
+                    "type": "string"
+                },
+                "senderName": {
+                    "type": "string"
                 },
                 "subject": {
                     "type": "string"
