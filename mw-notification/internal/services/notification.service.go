@@ -2,8 +2,9 @@ package services
 
 import (
 	"context"
-	"mwnotification/internal/schemas"
-	"mwnotification/pkg/utils"
+	db "mw-notification/internal/db/sqlc"
+	"mw-notification/internal/schemas"
+	"mw-notification/pkg/utils"
 
 	"errors"
 
@@ -11,8 +12,6 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/samber/lo"
-
-	db "mwnotification/internal/db/sqlc"
 )
 
 var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users already exists")

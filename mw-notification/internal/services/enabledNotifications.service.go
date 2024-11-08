@@ -2,9 +2,9 @@ package services
 
 import (
 	"context"
-	db "mwnotification/internal/db/sqlc"
-	"mwnotification/internal/schemas"
-	"mwnotification/pkg/utils"
+	db "mw-notification/internal/db/sqlc"
+	"mw-notification/internal/schemas"
+	"mw-notification/pkg/utils"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"

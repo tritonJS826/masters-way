@@ -7,33 +7,57 @@
     },
     "basePath": "/notification",
     "paths": {
-        "/files": {
-            "post": {
-                "description": "Uploads a file to the server and stores it in the designated storage path",
+        "/enabledNotifications": {
+            "get": {
                 "consumes": [
-                    "multipart/form-data"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "enabledNotification"
                 ],
-                "summary": "Upload file to storage",
-                "operationId": "upload-file",
+                "summary": "Get enabledNotification list by user id",
+                "operationId": "get-enabledNotification-list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetEnabledNotificationListResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/enabledNotifications/{enabledNotificationId}": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "enabledNotification"
+                ],
+                "summary": "Update enabledNotification by id",
+                "operationId": "update-enabledNotification",
                 "parameters": [
                     {
-                        "type": "file",
-                        "description": "File to upload",
-                        "name": "file",
-                        "in": "formData",
-                        "required": true
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UpdateEnabledNotificationPayload"
+                        }
                     },
                     {
                         "type": "string",
-                        "description": "Room id",
-                        "name": "roomId",
-                        "in": "query",
+                        "description": "notification id",
+                        "name": "enabledNotificationId",
+                        "in": "path",
                         "required": true
                     }
                 ],
@@ -41,13 +65,14 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UploadFileResponse"
+                            "$ref": "#/definitions/schemas.EnabledNotificationResponse"
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "Delete multiple files from the server storage using their IDs",
+            }
+        },
+        "/notifications": {
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -55,57 +80,176 @@
                     "application/json"
                 ],
                 "tags": [
-                    "file"
+                    "notification"
                 ],
-                "summary": "Delete files by IDs",
-                "operationId": "delete-files",
+                "summary": "Get notification list by user id",
+                "operationId": "get-notification-list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.GetNotificationListResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications/{notificationId}": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "notification"
+                ],
+                "summary": "Update notification by id",
+                "operationId": "update-notification",
                 "parameters": [
                     {
-                        "description": "List of file IDs to delete",
-                        "name": "fileIDs",
+                        "description": "query params",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/schemas.UpdateNotificationPayload"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "notification id",
+                        "name": "notificationId",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No Content"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NotificationResponse"
+                        }
                     }
                 }
             }
         }
     },
     "definitions": {
-        "schemas.UploadFileResponse": {
+        "schemas.EnabledNotificationResponse": {
             "type": "object",
             "required": [
-                "id",
-                "name",
-                "ownerId",
-                "previewUrl",
-                "srcUrl"
+                "channel",
+                "isEnabled",
+                "nature",
+                "userUuid",
+                "uuid"
             ],
             "properties": {
-                "id": {
+                "channel": {
                     "type": "string"
                 },
-                "name": {
+                "isEnabled": {
+                    "type": "boolean"
+                },
+                "nature": {
                     "type": "string"
                 },
-                "ownerId": {
+                "userUuid": {
                     "type": "string"
                 },
-                "previewUrl": {
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.GetEnabledNotificationListResponse": {
+            "type": "object",
+            "required": [
+                "enabledNotifications"
+            ],
+            "properties": {
+                "enabledNotifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.EnabledNotificationResponse"
+                    }
+                }
+            }
+        },
+        "schemas.GetNotificationListResponse": {
+            "type": "object",
+            "required": [
+                "notifications",
+                "size"
+            ],
+            "properties": {
+                "notifications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.NotificationResponse"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.NotificationResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "isRead",
+                "nature",
+                "url",
+                "userUuid",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
                     "type": "string"
                 },
-                "srcUrl": {
+                "description": {
                     "type": "string"
+                },
+                "isRead": {
+                    "type": "boolean"
+                },
+                "nature": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UpdateEnabledNotificationPayload": {
+            "type": "object",
+            "required": [
+                "isEnabled"
+            ],
+            "properties": {
+                "isEnabled": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "schemas.UpdateNotificationPayload": {
+            "type": "object",
+            "required": [
+                "isRead"
+            ],
+            "properties": {
+                "isRead": {
+                    "type": "boolean"
                 }
             }
         }

@@ -51,6 +51,8 @@ type APIClient struct {
 
 	DevAPI *DevAPIService
 
+	EnabledNotificationAPI *EnabledNotificationAPIService
+
 	NotificationAPI *NotificationAPIService
 }
 
@@ -71,6 +73,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.DevAPI = (*DevAPIService)(&c.common)
+	c.EnabledNotificationAPI = (*EnabledNotificationAPIService)(&c.common)
 	c.NotificationAPI = (*NotificationAPIService)(&c.common)
 
 	return c

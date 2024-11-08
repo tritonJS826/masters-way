@@ -34,6 +34,7 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 - pnpm 8.15.2 (https://pnpm.io)
 - sqlc v1.27.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
 - swag v1.16.3 ([golang package](https://github.com/swaggo/swag))
+- libprotoc 28.3 ([golang package](https://grpc.io/docs/languages/go/quickstart))
 - docker 24.0.7
 - docker-compose 1.29.2
 

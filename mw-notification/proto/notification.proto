@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+option go_package = "pkg/notification";
+
+package notification;
+
+import "google/protobuf/empty.proto";
+
+service Notification {
+    rpc CreateNotification(CreateNotificationRequest) returns (NotificationResponse);
+    rpc GetNotificationList(GetNotificationListRequest) returns (GetNotificationListResponse);
+    rpc UpdateNotification(UpdateNotificationRequest) returns (NotificationResponse);
+}
+
+service EnabledNotification {
+    rpc CreateEnabledNotifications(CreateEnabledNotificationsRequest) returns (google.protobuf.Empty);
+    rpc GetEnabledNotificationList(GetEnabledNotificationListRequest) returns (GetEnabledNotificationListResponse);
+    rpc UpdateEnabledNotification(UpdateEnabledNotificationRequest) returns (EnabledNotificationResponse);
+}
+
+service Dev {
+    rpc ResetDB(google.protobuf.Empty) returns (google.protobuf.Empty);
+}
+
+message GetNotificationListRequest {
+    string user_uuid = 1;
+}
+
+message GetNotificationListResponse {
+    int32 size = 1;
+    repeated NotificationResponse notifications = 2;
+}
+
+message CreateNotificationRequest {
+    string user_uuid = 1;
+    string description = 2;
+    string url = 3;
+    string nature = 4;
+}
+
+message UpdateNotificationRequest {
+    string notification_uuid = 1;
+    bool is_read = 2;
+}
+
+message NotificationResponse {
+    string uuid = 1;
+    string user_uuid = 2;
+    bool is_read = 3;
+    string description = 4;
+    string url = 5;
+    string nature = 6;
+    string created_at = 7;
+}
+
+message GetEnabledNotificationListRequest {
+    string user_uuid = 1;
+}
+
+message CreateEnabledNotificationsRequest {
+    string user_uuid = 1;
+}
+
+message UpdateEnabledNotificationRequest {
+    string enabled_notification_uuid = 1;
+    bool is_enabled = 2;
+}
+
+message EnabledNotificationResponse {
+    string uuid = 1;
+    string user_uuid = 2;
+    string nature = 3;
+    string channel = 4;
+    bool is_enabled = 5;
+}
+
+message GetEnabledNotificationListResponse {
+    repeated EnabledNotificationResponse enabled_notifications = 1;
+}
