@@ -1,7 +1,6 @@
-// Import {useEffect, useState} from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import clsx from "clsx";
-// Import clsx from "clsx";
+import {observer} from "mobx-react-lite";
 import styles from "src/component/tab/Tab.module.scss";
 
 /**
@@ -107,7 +106,7 @@ interface TabProps {
 /**
  * Tab component
  */
-export const Tab = (props: TabProps) => {
+export const Tab = observer((props: TabProps) => {
   return (
     <Tabs.Root
       className={clsx(styles.tabsRoot, styles.className)}
@@ -140,5 +139,5 @@ export const Tab = (props: TabProps) => {
       ))}
     </Tabs.Root>
   );
-};
+});
 

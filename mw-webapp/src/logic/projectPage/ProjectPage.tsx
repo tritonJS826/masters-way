@@ -105,6 +105,7 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
     }
 
     await ProjectDAL.deleteProject(project.uuid);
+    user.deleteProject(project.uuid);
     navigate(pages.user.getPath({uuid: user.uuid}));
   };
 
@@ -142,6 +143,8 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
               text={project.name}
               placeholder=""
               onChangeFinish={(name) => {
+                project.updateName(name);
+                userStore.updateProjectName(project.uuid, name);
                 updateProject({
                   projectToUpdate: {
                     uuid: project.uuid,

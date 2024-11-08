@@ -62,4 +62,25 @@ export class ProjectPreview {
     this.isPrivate = projectPreviewData.isPrivate;
   }
 
+  /**
+   * Update project's name
+   */
+  public updateName(nameToUpdate: string): void {
+    this.name = nameToUpdate;
+  }
+
+  /**
+   * Add user to project
+   */
+  public addUserToProject(userId: string): void {
+    this.userIds.push(userId);
+  }
+
+  /**
+   * Delete user from project
+   */
+  public deleteUserFromProject(userUuid: string): void {
+    this.userIds = this.userIds.filter(userId => userId !== userUuid);
+  }
+
 }

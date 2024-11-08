@@ -12,7 +12,6 @@ import {Dropdown} from "src/component/dropdown/Dropdown";
 import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Form} from "src/component/form/Form";
-// Import {HiddenBlock} from "src/component/hiddenBlock/HiddenBlock";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -45,7 +44,6 @@ import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
 import {chatListStore} from "src/logic/chat/ChatListStore";
 import {chatStore} from "src/logic/chat/ChatStore";
-// Import {notificationStore} from "src/logic/notificationBlock/NotificationStore";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
@@ -176,7 +174,6 @@ export const UserPage = observer((props: UserPageProps) => {
   const {setIsChatOpen} = chatStore;
   const {chatList} = chatListStore;
   const {deviceId, setDeviceId} = deviceStore;
-  // Const {isNotificationOpen, setIsNotificationOpen, notificationList} = notificationStore;
   const navigate = useNavigate();
 
   const userPageStore = useStore<
@@ -409,6 +406,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     isEditable={isPageOwner}
                     onTitleEdit={(name) => {
                       collection.updateWayCollectionName(name);
+                      userStore.updateCustomCollectionName(collection.uuid, name);
                       updateCustomWayCollection({id: openedTabId, name});
                     }}
                     onDelete={() => deleteCustomWayCollections(currentCollection.uuid)}
@@ -488,22 +486,27 @@ export const UserPage = observer((props: UserPageProps) => {
   /**
    * Add to or remove user from project
    */
-  const toggleUserInProject = async (isUserInProject: boolean, projectUuid: string, userUuid: string) => {
+  const toggleUserInProject = async (isUserInProject: boolean, project: ProjectPreview, userUuid: string) => {
     if (!user) {
       throw new Error("User is not exist");
     }
 
     isUserInProject
-      ? await UserProjectDAL.deleteUser({projectId: projectUuid, userId: userUuid})
-      : await UserProjectDAL.addUser({projectId: projectUuid, userId: userUuid});
+      ? await UserProjectDAL.deleteUser({projectId: project.uuid, userId: userUuid})
+      : await UserProjectDAL.addUser({projectId: project.uuid, userId: userUuid});
     displayNotification({
       text: `${LanguageService.user.notifications.projectUpdated[language]}`,
       type: NotificationType.INFO,
     });
 
     isUserInProject
-      ? user.deleteWayFromComposite(projectUuid, userUuid)
-      : user.addWayToComposite(projectUuid, userUuid);
+      ? project.deleteUserFromProject(userUuid)
+      : project.addUserToProject(userUuid);
+
+    isUserInProject
+      ? userPageOwner.deleteProject(project.uuid)
+      : userPageOwner.addProject(project);
+
   };
 
   const renderAddToProjectDropdownItems: DropdownMenuItemType[] = (user?.projects ?? [])
@@ -521,7 +524,7 @@ export const UserPage = observer((props: UserPageProps) => {
          * Add to or remove user from project
          */
         onClick: () => {
-          toggleUserInProject(isUserInProject, project.uuid, userPageOwner.uuid);
+          toggleUserInProject(isUserInProject, project, userPageOwner.uuid);
         },
       };
     });
