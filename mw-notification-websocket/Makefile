@@ -1,9 +1,9 @@
 build: ## Build the project
 	@echo "Building the project..."
-	go build -o main cmd/mw-chat-websocket/main.go
+	go build -o main cmd/mw-notification-websocket/main.go
 
 start: ## Run the project
-	go run cmd/mw-chat-websocket/main.go
+	go run cmd/mw-notification-websocket/main.go
 
 test: ## Run all tests
 	go test ./...
@@ -12,7 +12,7 @@ install: ## Install dependencies
 	go mod tidy
 
 swag: ##  Generate swagger specification
-	swag init -g cmd/mw-chat-websocket/main.go
+	swag init -g cmd/mw-notification-websocket/main.go
 
 help: ## Display help message
 	@echo "Available targets:"
