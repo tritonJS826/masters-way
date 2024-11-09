@@ -1,6 +1,5 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
-import { ErrorPage } from "src/logic/errorPage/ErrorPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -48,51 +47,61 @@ const HomePageLazy = React.lazy(() => import("src/logic/homePage/HomePage")
 const HomePage = () => (<>
   <HomePageLazy />
 </>);
+
 const PricingPageLazy = React.lazy(() => import("src/logic/pricingPage/PricingPage")
   .then((module) => ({default: module.PricingPage})));
 const PricingPage = () => (<>
   <PricingPageLazy />
 </>);
+
 const AlLWaysPageLazy = React.lazy(() => import("src/logic/allWaysPage/AllWaysPage")
   .then((module) => ({default: module.AllWaysPage})));
 const AllWaysPage = () => (<>
   <AlLWaysPageLazy />
 </>);
+
 const UserPageLazy = React.lazy(() => import("src/logic/userPage/UserPage")
   .then((module) => ({default: module.UserPage})));
 const UserPage = (params: {uuid: string}) => (<>
   <UserPageLazy {...params} />
 </>);
+
 const WayPageLazy = React.lazy(() => import("src/logic/wayPage/WayPage")
   .then((module) => ({default: module.WayPage})));
 const WayPage = (params: {uuid: string}) => (<>
   <WayPageLazy {...params} />
 </>);
+
 const ProjectPageLazy = React.lazy(() => import("src/logic/projectPage/ProjectPage")
   .then((module) => ({default: module.ProjectPage})));
 const ProjectPage = (params: {uuid: string}) => (<>
   <ProjectPageLazy {...params} />
 </>);
+
 const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
   .then((module) => ({default: module.AllUsersPage})));
 const AllUsersPage = () => (<>
   <AllUsersPageLazy />
 </>);
+
 const SettingsPageLazy = React.lazy(() => import("src/logic/settingsPage/SettingsPage")
   .then((module) => ({default: module.SettingsPage})));
 const SettingsPage = () => (<>
   <SettingsPageLazy />
 </>);
+
 const AboutProjectPageLazy = React.lazy(() => import("src/logic/aboutProjectPage/AboutProjectPage")
   .then((module) => ({default: module.AboutProjectPage})));
 const AboutProjectPage = () => (<>
   <AboutProjectPageLazy />
 </>);
+
 const ErrorPageLazy = React.lazy(() => import("src/logic/errorPage/ErrorPage")
   .then((module) => ({default: module.ErrorPage})));
-const errorPage = () => (<>
+const ErrorPage = () => (<>
   <ErrorPageLazy />
 </>);
+
 const PrivacyPolicyPageLazy = React.lazy(() => import("src/logic/privacyPolicyPage/PrivacyPolicyPage")
   .then((module) => ({default: module.PrivacyPolicyPage})));
 const PrivacyPolicyPage = () => (<>

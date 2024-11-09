@@ -1,6 +1,6 @@
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import styles from "src/component/errorComponent/ErrorComponent.module.scss";
-import { HeadingLevel, Title } from "src/component/title/Title";
 
 /**
  * Error component props

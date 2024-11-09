@@ -2,18 +2,18 @@ import {isRouteErrorResponse, useNavigate, useRouteError} from "react-router-dom
 import {Button, ButtonType} from "src/component/button/Button";
 import {ErrorComponent} from "src/component/errorComponent/ErrorComponent";
 import {Header} from "src/component/header/Header";
-import {notificationStore} from "src/globalStore/NotificationStore";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Image} from "src/component/image/Image";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {notificationStore} from "src/globalStore/NotificationStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/errorPage/ErrorPage.module.scss";
-import { HeadingLevel, Title } from "src/component/title/Title";
 
 const ERROR_404 = "404 NOT FOUND";
 
@@ -45,7 +45,7 @@ export const ErrorPage = () => {
         />
         <VerticalContainer className={styles.inner}>
           <Title
-          level={HeadingLevel.h1}
+            level={HeadingLevel.h1}
             text={`${error.status} ${error.statusText}`}
             placeholder=""
           />
