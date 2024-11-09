@@ -1,9 +1,9 @@
 {
   "wayInfo": {
     "daysFromStart": {
-      "ru": "дней с начала",
-      "en": "days from start",
-      "ua": "днів від початку"
+      "ru": "дней",
+      "en": "days",
+      "ua": "днів"
     },
     "goal": {
       "ru": "Цель",
@@ -416,11 +416,6 @@
         "en": "Average job time",
         "ua": "Сер. час роботи"
       }
-    },
-    "daysFromStart": {
-      "ru": "Дней от начала пути",
-      "en": "Days from start",
-      "ua": "Днів з початку шляху"
     },
     "showsLevelOfTaskDecomposition": {
       "ru": "Показывает уровень декомпозиции задачи",

@@ -58,7 +58,7 @@ import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDay
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
-import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
+import {DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
 import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -585,12 +585,6 @@ export const WayPage = observer((props: WayPageProps) => {
               </HorizontalContainer>
             </HorizontalContainer>
 
-            <Title
-              level={HeadingLevel.h5}
-              text={`${daysFromStart} ${LanguageService.way.wayInfo.daysFromStart[language]}`}
-              placeholder=""
-            />
-
             <HorizontalContainer className={styles.wayTagsContainer}>
               {way.wayTags.map(tag => (
                 <Tag
@@ -854,51 +848,58 @@ export const WayPage = observer((props: WayPageProps) => {
 
         <VerticalContainer className={styles.statistics}>
           <HorizontalContainer className={styles.horizontalContainer}>
-            <HorizontalContainer>
+            <HorizontalContainer className={styles.horizontalContainer}>
               <Infotip content={LanguageService.way.infotip.statistics[language]} />
               <Title
                 level={HeadingLevel.h3}
                 text={LanguageService.way.statisticsBlock.statistics[language]}
                 placeholder=""
               />
-            </HorizontalContainer>
-            <Tooltip content={wayPageSettings.isStatisticsVisible
-              ? LanguageService.way.statisticsBlock.clickToHideStatistics[language]
-              : LanguageService.way.statisticsBlock.clickToShowStatistics[language]
-            }
-            >
-              <button
-                className={clsx(styles.iconContainer, styles.statisticEyeButton)}
-                onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
+
+              <Tooltip content={wayPageSettings.isStatisticsVisible
+                ? LanguageService.way.statisticsBlock.clickToHideStatistics[language]
+                : LanguageService.way.statisticsBlock.clickToShowStatistics[language]
+              }
               >
-                <Icon
-                  size={IconSize.MEDIUM}
-                  name={wayPageSettings.isStatisticsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-                />
-              </button>
-            </Tooltip>
-            <Modal
-              trigger={
-                <Tooltip content={LanguageService.way.statisticsBlock.allStatisticTooltip[language]}>
-                  <Button
-                    icon={
-                      <Icon
-                        size={IconSize.SMALL}
-                        name="PlusIcon"
-                      />
-                    }
-                    onClick={() => {}}
-                    buttonType={ButtonType.ICON_BUTTON}
+                <button
+                  className={clsx(styles.iconContainer, styles.statisticEyeButton)}
+                  onClick={() => updateWayPageSettings({isStatisticsVisible: !wayPageSettings.isStatisticsVisible})}
+                >
+                  <Icon
+                    size={IconSize.MEDIUM}
+                    name={wayPageSettings.isStatisticsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
                   />
-                </Tooltip>
-              }
-              contentClassName={styles.statisticsModal}
-              content={
-                <WayStatistic
-                  wayStatisticsTriple={wayPageStore.wayStatisticsTriple}
-                  isVisible={wayPageSettings.isStatisticsVisible}
-                />
-              }
+                </button>
+              </Tooltip>
+              <Modal
+                trigger={
+                  <Tooltip content={LanguageService.way.statisticsBlock.allStatisticTooltip[language]}>
+                    <Button
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="PlusIcon"
+                        />
+                      }
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                    />
+                  </Tooltip>
+                }
+                contentClassName={styles.statisticsModal}
+                content={
+                  <WayStatistic
+                    wayStatisticsTriple={wayPageStore.wayStatisticsTriple}
+                    isVisible={wayPageSettings.isStatisticsVisible}
+                  />
+                }
+              />
+            </HorizontalContainer>
+
+            <Title
+              level={HeadingLevel.h5}
+              text={`${daysFromStart} ${LanguageService.way.wayInfo.daysFromStart[language]}`}
+              placeholder=""
             />
           </HorizontalContainer>
           <WayActiveStatistic
