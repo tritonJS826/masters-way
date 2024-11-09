@@ -319,11 +319,13 @@ export const WayPage = observer((props: WayPageProps) => {
   const isWayComposite = way.children.length !== 0;
 
   const isEmptyWay = way.dayReports.length === 0;
-  const currentDate = DateUtils.getShortISODateValue(new Date());
-  const lastReportDate = !isEmptyWay && DateUtils.getShortISODateValue(way.dayReports[0].createdAt);
+  const currentDate = new Date();
+  const lastReportDate = isEmptyWay
+    ? new Date(currentDate)
+    : way.dayReports[0]?.createdAt;
   const isLastReportExistInWay = !isEmptyWay &&
     !!(way.dayReports[0].compositionParticipants.find((item) => item.wayId === way.uuid));
-  const isReportForTodayAlreadyCreated = isLastReportExistInWay && lastReportDate === currentDate;
+  const isReportForTodayAlreadyCreated = isLastReportExistInWay && lastReportDate.getTime() === currentDate.getTime();
   const isReportForTodayIsNotCreated = isEmptyWay || !isReportForTodayAlreadyCreated;
   const isPossibleCreateDayReport = isUserOwnerOrMentor && isReportForTodayIsNotCreated;
 
@@ -337,7 +339,7 @@ export const WayPage = observer((props: WayPageProps) => {
     return newDayReport;
   };
 
-  const daysFromStart = Math.ceil((new Date(currentDate).getTime() -
+  const daysFromStart = Math.ceil((lastReportDate.getTime() -
     way.createdAt.getTime() + SMALL_CORRECTION_MILLISECONDS) / DAY_MILLISECONDS);
 
   const compositeWayParticipantsRaw: UserPlain[] = [];
