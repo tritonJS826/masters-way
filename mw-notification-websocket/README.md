@@ -1,1 +1,1 @@
-mw-chat-websocket
+mw-notification-websocket
