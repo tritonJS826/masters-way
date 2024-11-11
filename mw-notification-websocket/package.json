@@ -1,0 +1,20 @@
+{
+  "name": "mw-chat-websocket",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "make build",
+    "start": "nodemon --watch . --exec 'make start' --signal SIGTERM --ext go,json,yaml,sql,env,sh",
+    "serve": "make start",
+    "test:integration": "make test",
+    "installAll": "make install",
+    "swag": "make swag",
+    "help": "make help"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "3.1.4"
+  }
+}

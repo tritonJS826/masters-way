@@ -1,0 +1,72 @@
+basePath: /mw-notification-websocket
+definitions:
+  schemas.SendNotificationPayload:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      isRead:
+        type: boolean
+      nature:
+        type: string
+      url:
+        type: string
+      userUuid:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - description
+    - isRead
+    - nature
+    - url
+    - userUuid
+    - uuid
+    type: object
+info:
+  contact: {}
+  title: Masters way notification-websocket API
+  version: "1.0"
+paths:
+  /notification:
+    post:
+      consumes:
+      - application/json
+      operationId: send-notification-event
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.SendNotificationPayload'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Send notification to socket
+      tags:
+      - socket
+  /ws:
+    get:
+      consumes:
+      - application/json
+      operationId: connect-socket
+      parameters:
+      - description: token
+        in: path
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Connect to socket
+      tags:
+      - socket
+swagger: "2.0"
