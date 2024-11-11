@@ -25,6 +25,12 @@ export interface MwserverInternalSchemasGetAuthCallbackFunctionResponse {
      * @memberof MwserverInternalSchemasGetAuthCallbackFunctionResponse
      */
     url: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwserverInternalSchemasGetAuthCallbackFunctionResponse
+     */
+    userUuid: string;
 }
 
 /**
@@ -35,6 +41,7 @@ export function instanceOfMwserverInternalSchemasGetAuthCallbackFunctionResponse
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "url" in value;
+    isInstance = isInstance && "userUuid" in value;
 
     return isInstance;
 }
@@ -53,6 +60,7 @@ export function MwserverInternalSchemasGetAuthCallbackFunctionResponseFromJSONTy
     return {
         
         'url': json['url'],
+        'userUuid': json['userUuid'],
     };
 }
 
@@ -67,6 +75,7 @@ export function MwserverInternalSchemasGetAuthCallbackFunctionResponseToJSON(val
     return {
         
         'url': value.url,
+        'userUuid': value.userUuid,
     };
 }
 

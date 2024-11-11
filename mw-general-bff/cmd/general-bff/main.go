@@ -13,6 +13,9 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // @title     Masters way general-bff API
@@ -25,7 +28,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	newService := services.NewService(&newConfig)
+	conn, err := grpc.NewClient(newConfig.NotificationAPIHost, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection: %v", err)
+		os.Exit(1)
+	}
+	defer conn.Close()
+
+	newService := services.NewService(&newConfig, conn)
 	newController := controllers.NewController(newService)
 
 	newRouter := routers.NewRouter(&newConfig, newController)

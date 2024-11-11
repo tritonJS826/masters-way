@@ -5,7 +5,8 @@ type GoogleToken struct {
 }
 
 type GetAuthCallbackFunctionResponse struct {
-	Url string `json:"url" validate:"required"`
+	UserUUID string `json:"userUuid" validate:"required"`
+	Url      string `json:"url" validate:"required"`
 }
 
 type BeginAuthResponse struct {
@@ -13,5 +14,6 @@ type BeginAuthResponse struct {
 }
 
 type GetUserTokenByEmailResponse struct {
-	Url string `json:"url" validate:"required"`
+	UserUUID string `json:"userUuid" validate:"required"`
+	Url      string `json:"url" validate:"required"`
 }

@@ -5,12 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Url** | **string** |  | 
+**UserUuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwserverInternalSchemasGetAuthCallbackFunctionResponse
 
-`func NewMwserverInternalSchemasGetAuthCallbackFunctionResponse(url string, ) *MwserverInternalSchemasGetAuthCallbackFunctionResponse`
+`func NewMwserverInternalSchemasGetAuthCallbackFunctionResponse(url string, userUuid string, ) *MwserverInternalSchemasGetAuthCallbackFunctionResponse`
 
 NewMwserverInternalSchemasGetAuthCallbackFunctionResponse instantiates a new MwserverInternalSchemasGetAuthCallbackFunctionResponse object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) SetUrl(v string)`
 
 SetUrl sets Url field to given value.
+
+
+### GetUserUuid
+
+`func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) GetUserUuid() string`
+
+GetUserUuid returns the UserUuid field if non-nil, zero value otherwise.
+
+### GetUserUuidOk
+
+`func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) GetUserUuidOk() (*string, bool)`
+
+GetUserUuidOk returns a tuple with the UserUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserUuid
+
+`func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) SetUserUuid(v string)`
+
+SetUserUuid sets UserUuid field to given value.
 
 
 
