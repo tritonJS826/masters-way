@@ -10,6 +10,7 @@ import {StatisticLabels} from "src/logic/wayPage/wayStatistics/statisticLabels/S
 import {StatisticWidget} from "src/logic/wayPage/wayStatistics/statisticWidget/StatisticWidget";
 import {WayStatistics} from "src/model/businessModel/WayStatistics";
 import {LanguageService} from "src/service/LanguageService";
+import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/wayStatistics/StatisticPeriod.module.scss";
 
 /**
@@ -86,7 +87,9 @@ export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
         isEditable={props.isCheckboxShown}
       >
         <BarChart
-          itemStats={props.wayStatistics.labelStatistics.labels}
+          itemStats={props.wayStatistics.labelStatistics.labels.map(
+            // Convert minutes to hours
+            stat => ({...stat, time: DateUtils.minutesToHoursFixed1(stat.time)}))}
           title="Total time"
         />
         <StatisticLabels
