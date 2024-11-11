@@ -950,16 +950,16 @@ export const UserPage = observer((props: UserPageProps) => {
               ))}
               {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
             </HorizontalContainer>
-            <HorizontalContainer className={styles.supportTitleBlock}>
-              <Infotip content={LanguageService.user.infotip.support[language]} />
-              <Title
-                level={HeadingLevel.h2}
-                text={LanguageService.user.personalInfo.support[language]}
-                placeholder=""
-              />
-            </HorizontalContainer>
-            <HorizontalContainer className={styles.supportBlock}>
-              {user &&
+            {isPageOwner && <>
+              <HorizontalContainer className={styles.supportTitleBlock}>
+                <Infotip content={LanguageService.user.infotip.support[language]} />
+                <Title
+                  level={HeadingLevel.h2}
+                  text={LanguageService.user.personalInfo.support[language]}
+                  placeholder=""
+                />
+              </HorizontalContainer>
+              <HorizontalContainer className={styles.supportBlock}>
                 <>
                   <Modal
                     trigger={
@@ -996,8 +996,9 @@ export const UserPage = observer((props: UserPageProps) => {
                     buttonType={ButtonType.SECONDARY}
                   />
                 </>
-              }
-            </HorizontalContainer>
+              </HorizontalContainer>
+            </>
+            }
           </VerticalContainer>
 
         </HorizontalGridContainer>
