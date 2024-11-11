@@ -14,11 +14,12 @@ import (
 var _ = &openapiGeneral.MwserverInternalSchemasUserPopulatedResponse{}
 
 type AuthController struct {
-	authService *services.AuthService
+	authService         *services.AuthService
+	notificationService *services.NotificationService
 }
 
-func NewAuthController(authService *services.AuthService) *AuthController {
-	return &AuthController{authService}
+func NewAuthController(authService *services.AuthService, notificationService *services.NotificationService) *AuthController {
+	return &AuthController{authService, notificationService}
 }
 
 // Log in with google oAuth
@@ -42,10 +43,13 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 		return
 	}
 
-	response, err := ac.authService.GetAuthCallbackFunction(ctx, provider, code, state)
+	authCallback, err := ac.authService.GetAuthCallbackFunction(ctx, provider, code, state)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, response.Url)
+	err = ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Redirect(http.StatusFound, authCallback.Url)
 }
 
 // Begin auth handler
@@ -98,10 +102,13 @@ func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	userEmail := ctx.Param("userEmail")
 
-	response, err := ac.authService.GetUserTokenByEmail(ctx, userEmail)
+	authCallback, err := ac.authService.GetUserTokenByEmail(ctx, userEmail)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, response.Url)
+	err = ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Redirect(http.StatusFound, authCallback.Url)
 }
 
 // @Summary Logout current authorized user

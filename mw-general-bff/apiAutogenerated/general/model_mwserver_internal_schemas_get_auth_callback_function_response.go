@@ -22,6 +22,7 @@ var _ MappedNullable = &MwserverInternalSchemasGetAuthCallbackFunctionResponse{}
 // MwserverInternalSchemasGetAuthCallbackFunctionResponse struct for MwserverInternalSchemasGetAuthCallbackFunctionResponse
 type MwserverInternalSchemasGetAuthCallbackFunctionResponse struct {
 	Url string
+	UserUuid string
 }
 
 type _MwserverInternalSchemasGetAuthCallbackFunctionResponse MwserverInternalSchemasGetAuthCallbackFunctionResponse
@@ -30,9 +31,10 @@ type _MwserverInternalSchemasGetAuthCallbackFunctionResponse MwserverInternalSch
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwserverInternalSchemasGetAuthCallbackFunctionResponse(url string) *MwserverInternalSchemasGetAuthCallbackFunctionResponse {
+func NewMwserverInternalSchemasGetAuthCallbackFunctionResponse(url string, userUuid string) *MwserverInternalSchemasGetAuthCallbackFunctionResponse {
 	this := MwserverInternalSchemasGetAuthCallbackFunctionResponse{}
 	this.Url = url
+	this.UserUuid = userUuid
 	return &this
 }
 
@@ -68,6 +70,30 @@ func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) SetUrl(v string
 	o.Url = v
 }
 
+// GetUserUuid returns the UserUuid field value
+func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) GetUserUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserUuid
+}
+
+// GetUserUuidOk returns a tuple with the UserUuid field value
+// and a boolean to check if the value has been set.
+func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) GetUserUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserUuid, true
+}
+
+// SetUserUuid sets field value
+func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) SetUserUuid(v string) {
+	o.UserUuid = v
+}
+
 func (o MwserverInternalSchemasGetAuthCallbackFunctionResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -79,6 +105,7 @@ func (o MwserverInternalSchemasGetAuthCallbackFunctionResponse) MarshalJSON() ([
 func (o MwserverInternalSchemasGetAuthCallbackFunctionResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["url"] = o.Url
+	toSerialize["userUuid"] = o.UserUuid
 	return toSerialize, nil
 }
 
@@ -88,6 +115,7 @@ func (o *MwserverInternalSchemasGetAuthCallbackFunctionResponse) UnmarshalJSON(d
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"url",
+		"userUuid",
 	}
 
 	allProperties := make(map[string]interface{})

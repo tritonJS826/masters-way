@@ -25,6 +25,12 @@ export interface MwserverInternalSchemasGetUserTokenByEmailResponse {
      * @memberof MwserverInternalSchemasGetUserTokenByEmailResponse
      */
     url: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwserverInternalSchemasGetUserTokenByEmailResponse
+     */
+    userUuid: string;
 }
 
 /**
@@ -35,6 +41,7 @@ export function instanceOfMwserverInternalSchemasGetUserTokenByEmailResponse(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "url" in value;
+    isInstance = isInstance && "userUuid" in value;
 
     return isInstance;
 }
@@ -53,6 +60,7 @@ export function MwserverInternalSchemasGetUserTokenByEmailResponseFromJSONTyped(
     return {
         
         'url': json['url'],
+        'userUuid': json['userUuid'],
     };
 }
 
@@ -67,6 +75,7 @@ export function MwserverInternalSchemasGetUserTokenByEmailResponseToJSON(value?:
     return {
         
         'url': value.url,
+        'userUuid': value.userUuid,
     };
 }
 

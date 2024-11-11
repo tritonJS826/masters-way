@@ -3473,10 +3473,14 @@ const docTemplate = `{
         "mwserver_internal_schemas.GetAuthCallbackFunctionResponse": {
             "type": "object",
             "required": [
-                "url"
+                "url",
+                "userUuid"
             ],
             "properties": {
                 "url": {
+                    "type": "string"
+                },
+                "userUuid": {
                     "type": "string"
                 }
             }
@@ -3484,10 +3488,14 @@ const docTemplate = `{
         "mwserver_internal_schemas.GetUserTokenByEmailResponse": {
             "type": "object",
             "required": [
-                "url"
+                "url",
+                "userUuid"
             ],
             "properties": {
                 "url": {
+                    "type": "string"
+                },
+                "userUuid": {
                     "type": "string"
                 }
             }

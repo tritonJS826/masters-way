@@ -22,6 +22,7 @@ var _ MappedNullable = &MwserverInternalSchemasGetUserTokenByEmailResponse{}
 // MwserverInternalSchemasGetUserTokenByEmailResponse struct for MwserverInternalSchemasGetUserTokenByEmailResponse
 type MwserverInternalSchemasGetUserTokenByEmailResponse struct {
 	Url string
+	UserUuid string
 }
 
 type _MwserverInternalSchemasGetUserTokenByEmailResponse MwserverInternalSchemasGetUserTokenByEmailResponse
@@ -30,9 +31,10 @@ type _MwserverInternalSchemasGetUserTokenByEmailResponse MwserverInternalSchemas
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwserverInternalSchemasGetUserTokenByEmailResponse(url string) *MwserverInternalSchemasGetUserTokenByEmailResponse {
+func NewMwserverInternalSchemasGetUserTokenByEmailResponse(url string, userUuid string) *MwserverInternalSchemasGetUserTokenByEmailResponse {
 	this := MwserverInternalSchemasGetUserTokenByEmailResponse{}
 	this.Url = url
+	this.UserUuid = userUuid
 	return &this
 }
 
@@ -68,6 +70,30 @@ func (o *MwserverInternalSchemasGetUserTokenByEmailResponse) SetUrl(v string) {
 	o.Url = v
 }
 
+// GetUserUuid returns the UserUuid field value
+func (o *MwserverInternalSchemasGetUserTokenByEmailResponse) GetUserUuid() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserUuid
+}
+
+// GetUserUuidOk returns a tuple with the UserUuid field value
+// and a boolean to check if the value has been set.
+func (o *MwserverInternalSchemasGetUserTokenByEmailResponse) GetUserUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserUuid, true
+}
+
+// SetUserUuid sets field value
+func (o *MwserverInternalSchemasGetUserTokenByEmailResponse) SetUserUuid(v string) {
+	o.UserUuid = v
+}
+
 func (o MwserverInternalSchemasGetUserTokenByEmailResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -79,6 +105,7 @@ func (o MwserverInternalSchemasGetUserTokenByEmailResponse) MarshalJSON() ([]byt
 func (o MwserverInternalSchemasGetUserTokenByEmailResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["url"] = o.Url
+	toSerialize["userUuid"] = o.UserUuid
 	return toSerialize, nil
 }
 
@@ -88,6 +115,7 @@ func (o *MwserverInternalSchemasGetUserTokenByEmailResponse) UnmarshalJSON(data 
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"url",
+		"userUuid",
 	}
 
 	allProperties := make(map[string]interface{})

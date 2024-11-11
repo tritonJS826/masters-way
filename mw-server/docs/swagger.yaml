@@ -564,15 +564,21 @@ definitions:
     properties:
       url:
         type: string
+      userUuid:
+        type: string
     required:
     - url
+    - userUuid
     type: object
   mwserver_internal_schemas.GetUserTokenByEmailResponse:
     properties:
       url:
         type: string
+      userUuid:
+        type: string
     required:
     - url
+    - userUuid
     type: object
   mwserver_internal_schemas.GetUsersByIDsResponse:
     properties:

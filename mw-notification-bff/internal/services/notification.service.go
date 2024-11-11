@@ -20,7 +20,7 @@ func NewNotificationService(
 	return &NotificationService{notificationGRPC, enabledNotificationGRPC}
 }
 
-func (ns *NotificationService) GetNotificationListGRPC(ctx context.Context, userUUID string) (*schemas.GetNotificationListResponse, error) {
+func (ns *NotificationService) GetNotificationList(ctx context.Context, userUUID string) (*schemas.GetNotificationListResponse, error) {
 	notificationListRaw, err := ns.notificationGRPC.GetNotificationList(ctx, &pb.GetNotificationListRequest{
 		UserUuid: userUUID,
 	})

@@ -2861,21 +2861,29 @@ components:
       type: object
     mwserver_internal_schemas.GetAuthCallbackFunctionResponse:
       example:
+        userUuid: userUuid
         url: url
       properties:
         url:
           type: string
+        userUuid:
+          type: string
       required:
       - url
+      - userUuid
       type: object
     mwserver_internal_schemas.GetUserTokenByEmailResponse:
       example:
+        userUuid: userUuid
         url: url
       properties:
         url:
           type: string
+        userUuid:
+          type: string
       required:
       - url
+      - userUuid
       type: object
     mwserver_internal_schemas.GetUsersByIDsResponse:
       example:
