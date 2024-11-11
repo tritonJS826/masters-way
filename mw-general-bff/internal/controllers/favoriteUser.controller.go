@@ -45,7 +45,7 @@ func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.Status(http.StatusNoContent) // Успешное создание
+	ctx.Status(http.StatusNoContent)
 }
 
 // Deleting favorite user handlers
