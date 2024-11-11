@@ -1,4 +1,4 @@
-import {HealthCheckService} from "src/service/HealthCheckService ";
+import {HealthCheckService} from "src/service/HealthCheckService";
 
 /**
  * HealthCheckDAL
