@@ -27,16 +27,16 @@ type FromUserMentoringRequestAPIService service
 type ApiCreateFromUserMentoringRequestRequest struct {
 	ctx context.Context
 	ApiService *FromUserMentoringRequestAPIService
-	request *SchemasCreateFromUserMentoringRequestPayload
+	request *MwGeneralBffInternalSchemasCreateFromUserMentoringRequestPayload
 }
 
 // query params
-func (r ApiCreateFromUserMentoringRequestRequest) Request(request SchemasCreateFromUserMentoringRequestPayload) ApiCreateFromUserMentoringRequestRequest {
+func (r ApiCreateFromUserMentoringRequestRequest) Request(request MwGeneralBffInternalSchemasCreateFromUserMentoringRequestPayload) ApiCreateFromUserMentoringRequestRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateFromUserMentoringRequestRequest) Execute() (*SchemasFromUserMentoringRequestResponse, *http.Response, error) {
+func (r ApiCreateFromUserMentoringRequestRequest) Execute() (*MwGeneralBffInternalSchemasFromUserMentoringRequestResponse, *http.Response, error) {
 	return r.ApiService.CreateFromUserMentoringRequestExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequest(ctx 
 }
 
 // Execute executes the request
-//  @return SchemasFromUserMentoringRequestResponse
-func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestExecute(r ApiCreateFromUserMentoringRequestRequest) (*SchemasFromUserMentoringRequestResponse, *http.Response, error) {
+//  @return MwGeneralBffInternalSchemasFromUserMentoringRequestResponse
+func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestExecute(r ApiCreateFromUserMentoringRequestRequest) (*MwGeneralBffInternalSchemasFromUserMentoringRequestResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasFromUserMentoringRequestResponse
+		localVarReturnValue  *MwGeneralBffInternalSchemasFromUserMentoringRequestResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FromUserMentoringRequestAPIService.CreateFromUserMentoringRequest")
@@ -134,11 +134,11 @@ func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestExecu
 }
 
 // Execute executes the request
-//  @return SchemasFromUserMentoringRequestResponseStream
-func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestStreamExecute(r ApiCreateFromUserMentoringRequestRequest, request *http.Request, GoogleAccessToken string) (*SchemasFromUserMentoringRequestResponse, *http.Response, error) {
+//  @return MwGeneralBffInternalSchemasFromUserMentoringRequestResponseStream
+func (a *FromUserMentoringRequestAPIService) CreateFromUserMentoringRequestStreamExecute(r ApiCreateFromUserMentoringRequestRequest, request *http.Request, GoogleAccessToken string) (*MwGeneralBffInternalSchemasFromUserMentoringRequestResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasFromUserMentoringRequestResponse
+		localVarReturnValue  *MwGeneralBffInternalSchemasFromUserMentoringRequestResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FromUserMentoringRequestAPIService.CreateFromUserMentoringRequest")

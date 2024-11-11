@@ -27,16 +27,16 @@ type MessageAPIService service
 type ApiCreateMessageRequest struct {
 	ctx context.Context
 	ApiService *MessageAPIService
-	request *SchemasCreateMessagePayload
+	request *MwChatBffInternalSchemasCreateMessagePayload
 }
 
 // query params
-func (r ApiCreateMessageRequest) Request(request SchemasCreateMessagePayload) ApiCreateMessageRequest {
+func (r ApiCreateMessageRequest) Request(request MwChatBffInternalSchemasCreateMessagePayload) ApiCreateMessageRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateMessageRequest) Execute() (*SchemasMessageResponse, *http.Response, error) {
+func (r ApiCreateMessageRequest) Execute() (*MwChatBffInternalSchemasMessageResponse, *http.Response, error) {
 	return r.ApiService.CreateMessageExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *MessageAPIService) CreateMessage(ctx context.Context) ApiCreateMessageR
 }
 
 // Execute executes the request
-//  @return SchemasMessageResponse
-func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*SchemasMessageResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasMessageResponse
+func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*MwChatBffInternalSchemasMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasMessageResponse
+		localVarReturnValue  *MwChatBffInternalSchemasMessageResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MessageAPIService.CreateMessage")
@@ -134,11 +134,11 @@ func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasMessageResponseStream
-func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest, request *http.Request, GoogleAccessToken string) (*SchemasMessageResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasMessageResponseStream
+func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasMessageResponse
+		localVarReturnValue  *MwChatBffInternalSchemasMessageResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MessageAPIService.CreateMessage")
@@ -220,11 +220,11 @@ type ApiUpdateMessageStatusRequest struct {
 	ctx context.Context
 	ApiService *MessageAPIService
 	messageId string
-	request *SchemasUpdateMessageStatusPayload
+	request *MwChatBffInternalSchemasUpdateMessageStatusPayload
 }
 
 // query params
-func (r ApiUpdateMessageStatusRequest) Request(request SchemasUpdateMessageStatusPayload) ApiUpdateMessageStatusRequest {
+func (r ApiUpdateMessageStatusRequest) Request(request MwChatBffInternalSchemasUpdateMessageStatusPayload) ApiUpdateMessageStatusRequest {
 	r.request = &request
 	return r
 }

@@ -1,11 +1,15 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+// Without next lines swagger does not see openapi models
+var _ = &schemas.UploadFileResponse{}
 
 type FileController struct {
 	generalService *services.GeneralService
