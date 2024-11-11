@@ -132,125 +132,16 @@ func (gs *GeneralService) DeleteCompositeWayRelation(ctx context.Context, parent
 //}
 
 type GetDayReportsByWayIdParams struct {
-	ParentWayID    uuid.UUID
-	ChildrenWayIDs []uuid.UUID
-	ReqLimit       int
-	Offset         int
+	WayUUID string
+	Page    int
+	Limit   int
 }
 
-func (gs *GeneralService) GetDayReportsByWayID(ctx context.Context, params *GetDayReportsByWayIdParams) (*schemas.ListDayReportsResponse, error) {
-	reportsRaw, response, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, params.ParentWayID.String()).Page(int32(params.Offset)).Limit(int32(params.ReqLimit)).Execute()
-
+func (gs *GeneralService) GetDayReportsByWayID(ctx context.Context, params *GetDayReportsByWayIdParams) (*openapiGeneral.MwserverInternalSchemasListDayReportsResponse, error) {
+	reports, response, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, params.WayUUID).Page(int32(params.Page)).Limit(int32(params.Limit)).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
-
-	dayReports := lo.Map(reportsRaw.DayReports, func(report openapiGeneral.MwserverInternalSchemasCompositeDayReportPopulatedResponse, _ int) schemas.CompositeDayReportPopulatedResponse {
-		compositionParticipants := lo.Map(report.CompositionParticipants, func(p openapiGeneral.MwserverInternalSchemasDayReportsCompositionParticipants, _ int) schemas.DayReportsCompositionParticipants {
-			return schemas.DayReportsCompositionParticipants{
-				DayReportID: p.DayReportId,
-				WayID:       p.WayId,
-				WayName:     p.WayName,
-			}
-		})
-
-		jobsDone := lo.Map(report.JobsDone, func(job openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse, _ int) schemas.JobDonePopulatedResponse {
-			tags := lo.Map(job.Tags, func(tag openapiGeneral.MwserverInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
-				return schemas.JobTagResponse{
-					Uuid:        tag.Uuid,
-					Name:        tag.Name,
-					Description: tag.Description,
-					Color:       tag.Color,
-				}
-			})
-
-			return schemas.JobDonePopulatedResponse{
-				Uuid:          job.Uuid,
-				CreatedAt:     job.CreatedAt,
-				UpdatedAt:     job.UpdatedAt,
-				Description:   job.Description,
-				Time:          job.Time,
-				OwnerUuid:     job.OwnerUuid,
-				OwnerName:     job.OwnerName,
-				DayReportUuid: job.DayReportUuid,
-				WayUUID:       job.WayUuid,
-				WayName:       job.WayName,
-				Tags:          tags,
-			}
-		})
-
-		plans := lo.Map(report.Plans, func(plan openapiGeneral.MwserverInternalSchemasPlanPopulatedResponse, _ int) schemas.PlanPopulatedResponse {
-			tags := lo.Map(plan.Tags, func(tag openapiGeneral.MwserverInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
-				return schemas.JobTagResponse{
-					Uuid:        tag.Uuid,
-					Name:        tag.Name,
-					Description: tag.Description,
-					Color:       tag.Color,
-				}
-			})
-
-			return schemas.PlanPopulatedResponse{
-				Uuid:          plan.Uuid,
-				CreatedAt:     plan.CreatedAt,
-				UpdatedAt:     plan.UpdatedAt,
-				Description:   plan.Description,
-				Time:          plan.Time,
-				OwnerUuid:     plan.OwnerUuid,
-				OwnerName:     plan.OwnerName,
-				IsDone:        plan.IsDone,
-				DayReportUuid: plan.DayReportUuid,
-				WayUUID:       plan.WayUuid,
-				WayName:       plan.WayName,
-				Tags:          tags,
-			}
-		})
-
-		problems := lo.Map(report.Problems, func(problem openapiGeneral.MwserverInternalSchemasProblemPopulatedResponse, _ int) schemas.ProblemPopulatedResponse {
-			return schemas.ProblemPopulatedResponse{
-				Uuid:          problem.Uuid,
-				CreatedAt:     problem.CreatedAt,
-				UpdatedAt:     problem.UpdatedAt,
-				Description:   problem.Description,
-				IsDone:        problem.IsDone,
-				OwnerUuid:     problem.OwnerUuid,
-				OwnerName:     problem.OwnerName,
-				DayReportUuid: problem.DayReportUuid,
-				WayUUID:       problem.WayUuid,
-				WayName:       problem.WayName,
-			}
-		})
-
-		comments := lo.Map(report.Comments, func(comment openapiGeneral.MwserverInternalSchemasCommentPopulatedResponse, _ int) schemas.CommentPopulatedResponse {
-			return schemas.CommentPopulatedResponse{
-				Uuid:          comment.Uuid,
-				Description:   comment.Description,
-				OwnerUuid:     comment.OwnerUuid,
-				OwnerName:     comment.OwnerName,
-				CreatedAt:     comment.CreatedAt,
-				UpdatedAt:     comment.UpdatedAt,
-				DayReportUuid: comment.DayReportUuid,
-				WayUUID:       comment.WayUuid,
-				WayName:       comment.WayName,
-			}
-		})
-
-		return schemas.CompositeDayReportPopulatedResponse{
-			UUID:                    report.Uuid,
-			CreatedAt:               report.CreatedAt,
-			UpdatedAt:               report.UpdatedAt,
-			CompositionParticipants: compositionParticipants,
-			JobsDone:                jobsDone,
-			Plans:                   plans,
-			Problems:                problems,
-			Comments:                comments,
-		}
-	})
-
-	reports := &schemas.ListDayReportsResponse{
-		DayReports: dayReports,
-		Size:       int(reportsRaw.Size),
-	}
-
 	return reports, nil
 }
 
@@ -263,119 +154,17 @@ func (gs *GeneralService) GetLastDayReportDate(ctx context.Context, wayUUIDs []u
 	return nil, nil
 }
 
-func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*schemas.CompositeDayReportPopulatedResponse, error) {
-	dayReportRaw, response, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateDayReportPayload{
+func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*openapiGeneral.MwserverInternalSchemasCompositeDayReportPopulatedResponse, error) {
+	dayReports, response, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateDayReportPayload{
 		WayId: wayID,
 	}).Execute()
-
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
-
-	compositionParticipants := lo.Map(dayReportRaw.CompositionParticipants, func(p openapiGeneral.MwserverInternalSchemasDayReportsCompositionParticipants, _ int) schemas.DayReportsCompositionParticipants {
-		return schemas.DayReportsCompositionParticipants{
-			DayReportID: p.DayReportId,
-			WayID:       p.WayId,
-			WayName:     p.WayName,
-		}
-	})
-
-	jobsDone := lo.Map(dayReportRaw.JobsDone, func(job openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse, _ int) schemas.JobDonePopulatedResponse {
-		tags := lo.Map(job.Tags, func(tag openapiGeneral.MwserverInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
-			return schemas.JobTagResponse{
-				Uuid:        tag.Uuid,
-				Name:        tag.Name,
-				Description: tag.Description,
-				Color:       tag.Color,
-			}
-		})
-
-		return schemas.JobDonePopulatedResponse{
-			Uuid:          job.Uuid,
-			CreatedAt:     job.CreatedAt,
-			UpdatedAt:     job.UpdatedAt,
-			Description:   job.Description,
-			Time:          job.Time,
-			OwnerUuid:     job.OwnerUuid,
-			OwnerName:     job.OwnerName,
-			DayReportUuid: job.DayReportUuid,
-			WayUUID:       job.WayUuid,
-			WayName:       job.WayName,
-			Tags:          tags,
-		}
-	})
-
-	plans := lo.Map(dayReportRaw.Plans, func(plan openapiGeneral.MwserverInternalSchemasPlanPopulatedResponse, _ int) schemas.PlanPopulatedResponse {
-		tags := lo.Map(plan.Tags, func(tag openapiGeneral.MwserverInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
-			return schemas.JobTagResponse{
-				Uuid:        tag.Uuid,
-				Name:        tag.Name,
-				Description: tag.Description,
-				Color:       tag.Color,
-			}
-		})
-
-		return schemas.PlanPopulatedResponse{
-			Uuid:          plan.Uuid,
-			CreatedAt:     plan.CreatedAt,
-			UpdatedAt:     plan.UpdatedAt,
-			Description:   plan.Description,
-			Time:          plan.Time,
-			OwnerUuid:     plan.OwnerUuid,
-			OwnerName:     plan.OwnerName,
-			IsDone:        plan.IsDone,
-			DayReportUuid: plan.DayReportUuid,
-			WayUUID:       plan.WayUuid,
-			WayName:       plan.WayName,
-			Tags:          tags,
-		}
-	})
-
-	problems := lo.Map(dayReportRaw.Problems, func(problem openapiGeneral.MwserverInternalSchemasProblemPopulatedResponse, _ int) schemas.ProblemPopulatedResponse {
-		return schemas.ProblemPopulatedResponse{
-			Uuid:          problem.Uuid,
-			CreatedAt:     problem.CreatedAt,
-			UpdatedAt:     problem.UpdatedAt,
-			Description:   problem.Description,
-			IsDone:        problem.IsDone,
-			OwnerUuid:     problem.OwnerUuid,
-			OwnerName:     problem.OwnerName,
-			DayReportUuid: problem.DayReportUuid,
-			WayUUID:       problem.WayUuid,
-			WayName:       problem.WayName,
-		}
-	})
-
-	comments := lo.Map(dayReportRaw.Comments, func(comment openapiGeneral.MwserverInternalSchemasCommentPopulatedResponse, _ int) schemas.CommentPopulatedResponse {
-		return schemas.CommentPopulatedResponse{
-			Uuid:          comment.Uuid,
-			Description:   comment.Description,
-			OwnerUuid:     comment.OwnerUuid,
-			OwnerName:     comment.OwnerName,
-			CreatedAt:     comment.CreatedAt,
-			UpdatedAt:     comment.UpdatedAt,
-			DayReportUuid: comment.DayReportUuid,
-			WayUUID:       comment.WayUuid,
-			WayName:       comment.WayName,
-		}
-	})
-
-	dayReports := &schemas.CompositeDayReportPopulatedResponse{
-		UUID:                    dayReportRaw.Uuid,
-		CreatedAt:               dayReportRaw.CreatedAt,
-		UpdatedAt:               dayReportRaw.UpdatedAt,
-		CompositionParticipants: compositionParticipants,
-		JobsDone:                jobsDone,
-		Plans:                   plans,
-		Problems:                problems,
-		Comments:                comments,
-	}
-
 	return dayReports, nil
 }
 
 func (gs *GeneralService) CreateFavoriteUser(ctx context.Context, payload *schemas.CreateFavoriteUserPayload) error {
-
 	response, err := gs.generalAPI.FavoriteUserAPI.CreateFavoriteUser(ctx).
 		Request(openapiGeneral.MwserverInternalSchemasCreateFavoriteUserPayload{
 			DonorUserUuid:    payload.DonorUserUuid.String(),
