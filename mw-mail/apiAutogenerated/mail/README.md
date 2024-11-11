@@ -84,7 +84,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasSendMailResponse](docs/SchemasSendMailResponse.md)
+ - [MwmailInternalSchemasSendMailResponse](docs/MwmailInternalSchemasSendMailResponse.md)
 
 
 ## Documentation For Authorization

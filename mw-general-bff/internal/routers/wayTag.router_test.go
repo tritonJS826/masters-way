@@ -34,7 +34,7 @@ func TestAddWayTagToWay(t *testing.T) {
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
-		request := openapiGeneral.SchemasCreateWayTagPayload{
+		request := openapiGeneral.MwserverInternalSchemasCreateWayTagPayload{
 			Name:    "New WayTag",
 			WayUuid: "9972552a-c0b3-41f3-b464-284d36a36964",
 		}
@@ -44,7 +44,7 @@ func TestAddWayTagToWay(t *testing.T) {
 			t.Fatalf("Failed to create WayTag: %v", err)
 		}
 
-		expectedData := openapiGeneral.SchemasWayTagResponse{
+		expectedData := openapiGeneral.MwserverInternalSchemasWayTagResponse{
 			Name: "New WayTag",
 		}
 
@@ -81,7 +81,7 @@ func TestDeleteWayTagFromWayByTagId(t *testing.T) {
 		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
 		way, _, err := generalApi.WayAPI.GetWayByUuid(ctx, wayID).Execute()
-		var expectedData []openapiGeneral.SchemasWayTagResponse
+		var expectedData []openapiGeneral.MwserverInternalSchemasWayTagResponse
 
 		assert.ElementsMatch(t, expectedData, way.WayTags)
 	})

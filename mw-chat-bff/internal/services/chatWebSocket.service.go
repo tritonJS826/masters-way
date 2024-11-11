@@ -17,11 +17,11 @@ func NewChatWebSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClien
 }
 
 func (cs *ChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, messageResponse *schemas.SendMessagePayload) error {
-	request := openapiMWChatWebSocket.SchemasSendMessagePayload{
-		Message: openapiMWChatWebSocket.SchemasMessageResponse{
+	request := openapiMWChatWebSocket.MwChatWebsocketInternalSchemasSendMessagePayload{
+		Message: openapiMWChatWebSocket.MwChatWebsocketInternalSchemasMessageResponse{
 			MessageId:      messageResponse.Message.MessageID,
 			Message:        messageResponse.Message.Message,
-			MessageReaders: []openapiMWChatWebSocket.SchemasMessageReader{},
+			MessageReaders: []openapiMWChatWebSocket.MwChatWebsocketInternalSchemasMessageReader{},
 			OwnerId:        messageResponse.Message.OwnerID,
 			OwnerImageUrl:  messageResponse.Message.OwnerImageURL,
 			OwnerName:      messageResponse.Message.OwnerName,
@@ -38,8 +38,8 @@ func (cs *ChatWebSocketService) SendMessage(ctx *gin.Context, roomID string, mes
 }
 
 func (cs *ChatWebSocketService) SendRoom(ctx *gin.Context, populatedRoom *schemas.RoomPopulatedResponse) error {
-	openapiUsers := lop.Map(populatedRoom.Users, func(user schemas.UserResponse, _ int) openapiMWChatWebSocket.SchemasUserResponse {
-		return openapiMWChatWebSocket.SchemasUserResponse{
+	openapiUsers := lop.Map(populatedRoom.Users, func(user schemas.UserResponse, _ int) openapiMWChatWebSocket.MwChatWebsocketInternalSchemasUserResponse {
+		return openapiMWChatWebSocket.MwChatWebsocketInternalSchemasUserResponse{
 			ImageUrl: user.ImageURL,
 			Name:     user.Name,
 			Role:     user.Role,
@@ -47,11 +47,11 @@ func (cs *ChatWebSocketService) SendRoom(ctx *gin.Context, populatedRoom *schema
 		}
 	})
 
-	openapiMessages := lop.Map(populatedRoom.Messages, func(message schemas.MessageResponse, _ int) openapiMWChatWebSocket.SchemasMessageResponse {
-		return openapiMWChatWebSocket.SchemasMessageResponse{
+	openapiMessages := lop.Map(populatedRoom.Messages, func(message schemas.MessageResponse, _ int) openapiMWChatWebSocket.MwChatWebsocketInternalSchemasMessageResponse {
+		return openapiMWChatWebSocket.MwChatWebsocketInternalSchemasMessageResponse{
 			MessageId:      message.MessageID,
 			Message:        message.Message,
-			MessageReaders: []openapiMWChatWebSocket.SchemasMessageReader{},
+			MessageReaders: []openapiMWChatWebSocket.MwChatWebsocketInternalSchemasMessageReader{},
 			OwnerId:        message.OwnerID,
 			OwnerImageUrl:  message.OwnerImageURL,
 			OwnerName:      message.OwnerName,
@@ -59,7 +59,7 @@ func (cs *ChatWebSocketService) SendRoom(ctx *gin.Context, populatedRoom *schema
 		}
 	})
 
-	request := openapiMWChatWebSocket.SchemasRoomPopulatedResponse{
+	request := openapiMWChatWebSocket.MwChatWebsocketInternalSchemasRoomPopulatedResponse{
 		ImageUrl: populatedRoom.ImageURL,
 		Messages: openapiMessages,
 		Name:     populatedRoom.Name,

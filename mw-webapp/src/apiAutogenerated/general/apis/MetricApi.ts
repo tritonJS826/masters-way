@@ -15,21 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateMetricPayload,
-  SchemasMetricResponse,
-  SchemasUpdateMetricPayload,
+  MwserverInternalSchemasCreateMetricPayload,
+  MwserverInternalSchemasMetricResponse,
+  MwserverInternalSchemasUpdateMetricPayload,
 } from '../models/index';
 import {
-    SchemasCreateMetricPayloadFromJSON,
-    SchemasCreateMetricPayloadToJSON,
-    SchemasMetricResponseFromJSON,
-    SchemasMetricResponseToJSON,
-    SchemasUpdateMetricPayloadFromJSON,
-    SchemasUpdateMetricPayloadToJSON,
+    MwserverInternalSchemasCreateMetricPayloadFromJSON,
+    MwserverInternalSchemasCreateMetricPayloadToJSON,
+    MwserverInternalSchemasMetricResponseFromJSON,
+    MwserverInternalSchemasMetricResponseToJSON,
+    MwserverInternalSchemasUpdateMetricPayloadFromJSON,
+    MwserverInternalSchemasUpdateMetricPayloadToJSON,
 } from '../models/index';
 
 export interface CreateMetricRequest {
-    request: SchemasCreateMetricPayload;
+    request: MwserverInternalSchemasCreateMetricPayload;
 }
 
 export interface DeleteMetricRequest {
@@ -38,7 +38,7 @@ export interface DeleteMetricRequest {
 
 export interface UpdateMetricRequest {
     metricId: string;
-    request: SchemasUpdateMetricPayload;
+    request: MwserverInternalSchemasUpdateMetricPayload;
 }
 
 /**
@@ -49,7 +49,7 @@ export class MetricApi extends runtime.BaseAPI {
     /**
      * Create a new metric
      */
-    async createMetricRaw(requestParameters: CreateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasMetricResponse>> {
+    async createMetricRaw(requestParameters: CreateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasMetricResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createMetric.');
         }
@@ -65,16 +65,16 @@ export class MetricApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateMetricPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasCreateMetricPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasMetricResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasMetricResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new metric
      */
-    async createMetric(requestParameters: CreateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasMetricResponse> {
+    async createMetric(requestParameters: CreateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasMetricResponse> {
         const response = await this.createMetricRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -111,7 +111,7 @@ export class MetricApi extends runtime.BaseAPI {
     /**
      * Update metric by UUID
      */
-    async updateMetricRaw(requestParameters: UpdateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasMetricResponse>> {
+    async updateMetricRaw(requestParameters: UpdateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasMetricResponse>> {
         if (requestParameters.metricId === null || requestParameters.metricId === undefined) {
             throw new runtime.RequiredError('metricId','Required parameter requestParameters.metricId was null or undefined when calling updateMetric.');
         }
@@ -131,16 +131,16 @@ export class MetricApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateMetricPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasUpdateMetricPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasMetricResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasMetricResponseFromJSON(jsonValue));
     }
 
     /**
      * Update metric by UUID
      */
-    async updateMetric(requestParameters: UpdateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasMetricResponse> {
+    async updateMetric(requestParameters: UpdateMetricRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasMetricResponse> {
         const response = await this.updateMetricRaw(requestParameters, initOverrides);
         return await response.value();
     }

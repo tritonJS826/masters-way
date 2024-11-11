@@ -15,23 +15,23 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasGetAllUsersResponse,
-  SchemasGetUsersByIDsResponse,
-  SchemasUpdateUserPayload,
-  SchemasUserPlainResponse,
-  SchemasUserPopulatedResponse,
+  MwserverInternalSchemasGetAllUsersResponse,
+  MwserverInternalSchemasGetUsersByIDsResponse,
+  MwserverInternalSchemasUpdateUserPayload,
+  MwserverInternalSchemasUserPlainResponse,
+  MwserverInternalSchemasUserPopulatedResponse,
 } from '../models/index';
 import {
-    SchemasGetAllUsersResponseFromJSON,
-    SchemasGetAllUsersResponseToJSON,
-    SchemasGetUsersByIDsResponseFromJSON,
-    SchemasGetUsersByIDsResponseToJSON,
-    SchemasUpdateUserPayloadFromJSON,
-    SchemasUpdateUserPayloadToJSON,
-    SchemasUserPlainResponseFromJSON,
-    SchemasUserPlainResponseToJSON,
-    SchemasUserPopulatedResponseFromJSON,
-    SchemasUserPopulatedResponseToJSON,
+    MwserverInternalSchemasGetAllUsersResponseFromJSON,
+    MwserverInternalSchemasGetAllUsersResponseToJSON,
+    MwserverInternalSchemasGetUsersByIDsResponseFromJSON,
+    MwserverInternalSchemasGetUsersByIDsResponseToJSON,
+    MwserverInternalSchemasUpdateUserPayloadFromJSON,
+    MwserverInternalSchemasUpdateUserPayloadToJSON,
+    MwserverInternalSchemasUserPlainResponseFromJSON,
+    MwserverInternalSchemasUserPlainResponseToJSON,
+    MwserverInternalSchemasUserPopulatedResponseFromJSON,
+    MwserverInternalSchemasUserPopulatedResponseToJSON,
 } from '../models/index';
 
 export interface GetAllUsersRequest {
@@ -52,7 +52,7 @@ export interface GetUsersByIdsRequest {
 
 export interface UpdateUserRequest {
     userId: string;
-    request: SchemasUpdateUserPayload;
+    request: MwserverInternalSchemasUpdateUserPayload;
 }
 
 /**
@@ -64,7 +64,7 @@ export class UserApi extends runtime.BaseAPI {
      * Get users with pagination
      * Get all users
      */
-    async getAllUsersRaw(requestParameters: GetAllUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetAllUsersResponse>> {
+    async getAllUsersRaw(requestParameters: GetAllUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasGetAllUsersResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters.page !== undefined) {
@@ -96,14 +96,14 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetAllUsersResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasGetAllUsersResponseFromJSON(jsonValue));
     }
 
     /**
      * Get users with pagination
      * Get all users
      */
-    async getAllUsers(requestParameters: GetAllUsersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetAllUsersResponse> {
+    async getAllUsers(requestParameters: GetAllUsersRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasGetAllUsersResponse> {
         const response = await this.getAllUsersRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -111,7 +111,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get user by UUID
      */
-    async getUserByUuidRaw(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPopulatedResponse>> {
+    async getUserByUuidRaw(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasUserPopulatedResponse>> {
         if (requestParameters.userId === null || requestParameters.userId === undefined) {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getUserByUuid.');
         }
@@ -127,13 +127,13 @@ export class UserApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasUserPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get user by UUID
      */
-    async getUserByUuid(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPopulatedResponse> {
+    async getUserByUuid(requestParameters: GetUserByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasUserPopulatedResponse> {
         const response = await this.getUserByUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -141,7 +141,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get users by ids
      */
-    async getUsersByIdsRaw(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SchemasGetUsersByIDsResponse>>> {
+    async getUsersByIdsRaw(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MwserverInternalSchemasGetUsersByIDsResponse>>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling getUsersByIds.');
         }
@@ -160,13 +160,13 @@ export class UserApi extends runtime.BaseAPI {
             body: requestParameters.request,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SchemasGetUsersByIDsResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MwserverInternalSchemasGetUsersByIDsResponseFromJSON));
     }
 
     /**
      * Get users by ids
      */
-    async getUsersByIds(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<SchemasGetUsersByIDsResponse>> {
+    async getUsersByIds(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MwserverInternalSchemasGetUsersByIDsResponse>> {
         const response = await this.getUsersByIdsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -174,7 +174,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Update user by UUID
      */
-    async updateUserRaw(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUserPlainResponse>> {
+    async updateUserRaw(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasUserPlainResponse>> {
         if (requestParameters.userId === null || requestParameters.userId === undefined) {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling updateUser.');
         }
@@ -194,16 +194,16 @@ export class UserApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateUserPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasUpdateUserPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUserPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasUserPlainResponseFromJSON(jsonValue));
     }
 
     /**
      * Update user by UUID
      */
-    async updateUser(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUserPlainResponse> {
+    async updateUser(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasUserPlainResponse> {
         const response = await this.updateUserRaw(requestParameters, initOverrides);
         return await response.value();
     }

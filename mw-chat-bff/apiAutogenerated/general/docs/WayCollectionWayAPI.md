@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateWayCollectionWay
 
-> SchemasWayCollectionWayResponse CreateWayCollectionWay(ctx).Request(request).Execute()
+> MwserverInternalSchemasWayCollectionWayResponse CreateWayCollectionWay(ctx).Request(request).Execute()
 
 Create a new wayCollectionWay
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateWayCollectionWay("WayCollectionUuid_example", "WayUuid_example") // SchemasCreateWayCollectionWay | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateWayCollectionWay("WayCollectionUuid_example", "WayUuid_example") // MwserverInternalSchemasCreateWayCollectionWay | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayCollectionWayAPI.CreateWayCollectionWay``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateWayCollectionWay`: SchemasWayCollectionWayResponse
+	// response from `CreateWayCollectionWay`: MwserverInternalSchemasWayCollectionWayResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayCollectionWayAPI.CreateWayCollectionWay`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateWayCollectionWayRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateWayCollectionWay**](SchemasCreateWayCollectionWay.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateWayCollectionWay**](MwserverInternalSchemasCreateWayCollectionWay.md) | query params | 
 
 ### Return type
 
-[**SchemasWayCollectionWayResponse**](SchemasWayCollectionWayResponse.md)
+[**MwserverInternalSchemasWayCollectionWayResponse**](MwserverInternalSchemasWayCollectionWayResponse.md)
 
 ### Authorization
 

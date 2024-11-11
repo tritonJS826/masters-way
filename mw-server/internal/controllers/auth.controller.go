@@ -31,9 +31,10 @@ func NewAuthController(authService *services.AuthService, userService *services.
 // @ID google auth log in callback function
 // @Accept  json
 // @Produce  json
+// @Param code query string true "code param"
 // @Param state query string true "state parameter"
 // @Param provider path string true "google"
-// @Success 302 {string} string "Redirect to frontend with JWT token"
+// @Success 200 {object} schemas.GetAuthCallbackFunctionResponse "Redirect to frontend with JWT token"
 // @Router /auth/{provider}/callback [post]
 func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	code := ctx.Query("code")
@@ -64,7 +65,11 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, ac.config.WebappBaseUrl+"?token="+jwtToken)
+	response := schemas.GetAuthCallbackFunctionResponse{
+		Url: ac.config.WebappBaseUrl + "?token=" + jwtToken,
+	}
+
+	ctx.JSON(http.StatusFound, response)
 }
 
 // Begin auth handler
@@ -75,11 +80,14 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param provider path string true "google"
-// @Success 307
+// @Success 200 {object} schemas.BeginAuthResponse
 // @Router /auth/{provider} [get]
 func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 	url := ac.authService.GetGoogleAuthURL()
-	ctx.Redirect(http.StatusTemporaryRedirect, url)
+	response := schemas.BeginAuthResponse{
+		Url: url,
+	}
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Get current authorized user
@@ -108,7 +116,7 @@ func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userEmail path string true "email"
-// @Success 304 "redirect"
+// @Success 200 {object} schemas.GetUserTokenByEmailResponse
 // @Router /auth/login/local/{userEmail} [get]
 func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	userEmail := ctx.Param("userEmail")
@@ -129,7 +137,11 @@ func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.Redirect(http.StatusFound, ac.config.WebappBaseUrl+"?token="+jwtToken)
+	response := schemas.GetUserTokenByEmailResponse{
+		Url: ac.config.WebappBaseUrl + "?token=" + jwtToken,
+	}
+
+	ctx.JSON(http.StatusFound, response)
 }
 
 // @Summary Logout current authorized user

@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateUserProjectPayload("ProjectId_example", "UserId_example") // SchemasCreateUserProjectPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateUserProjectPayload("ProjectId_example", "UserId_example") // MwserverInternalSchemasCreateUserProjectPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiCreateUserProjectRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateUserProjectPayload**](SchemasCreateUserProjectPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateUserProjectPayload**](MwserverInternalSchemasCreateUserProjectPayload.md) | query params | 
 
 ### Return type
 

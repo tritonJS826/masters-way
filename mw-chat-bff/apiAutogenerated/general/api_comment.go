@@ -27,16 +27,16 @@ type CommentAPIService service
 type ApiCreateCommentRequest struct {
 	ctx context.Context
 	ApiService *CommentAPIService
-	request *SchemasCreateCommentPayload
+	request *MwserverInternalSchemasCreateCommentPayload
 }
 
 // query params
-func (r ApiCreateCommentRequest) Request(request SchemasCreateCommentPayload) ApiCreateCommentRequest {
+func (r ApiCreateCommentRequest) Request(request MwserverInternalSchemasCreateCommentPayload) ApiCreateCommentRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateCommentRequest) Execute() (*SchemasCommentPopulatedResponse, *http.Response, error) {
+func (r ApiCreateCommentRequest) Execute() (*MwserverInternalSchemasCommentPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateCommentExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *CommentAPIService) CreateComment(ctx context.Context) ApiCreateCommentR
 }
 
 // Execute executes the request
-//  @return SchemasCommentPopulatedResponse
-func (a *CommentAPIService) CreateCommentExecute(r ApiCreateCommentRequest) (*SchemasCommentPopulatedResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasCommentPopulatedResponse
+func (a *CommentAPIService) CreateCommentExecute(r ApiCreateCommentRequest) (*MwserverInternalSchemasCommentPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasCommentPopulatedResponse
+		localVarReturnValue  *MwserverInternalSchemasCommentPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CommentAPIService.CreateComment")
@@ -119,7 +119,7 @@ func (a *CommentAPIService) CreateCommentExecute(r ApiCreateCommentRequest) (*Sc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -144,11 +144,11 @@ func (a *CommentAPIService) CreateCommentExecute(r ApiCreateCommentRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasCommentPopulatedResponseStream
-func (a *CommentAPIService) CreateCommentStreamExecute(r ApiCreateCommentRequest, request *http.Request, GoogleAccessToken string) (*SchemasCommentPopulatedResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasCommentPopulatedResponseStream
+func (a *CommentAPIService) CreateCommentStreamExecute(r ApiCreateCommentRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasCommentPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasCommentPopulatedResponse
+		localVarReturnValue  *MwserverInternalSchemasCommentPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CommentAPIService.CreateComment")
@@ -212,7 +212,7 @@ func (a *CommentAPIService) CreateCommentStreamExecute(r ApiCreateCommentRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -321,7 +321,7 @@ func (a *CommentAPIService) DeleteCommentExecute(r ApiDeleteCommentRequest) (*ht
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -404,7 +404,7 @@ func (a *CommentAPIService) DeleteCommentStreamExecute(r ApiDeleteCommentRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -423,16 +423,16 @@ type ApiUpdateCommentRequest struct {
 	ctx context.Context
 	ApiService *CommentAPIService
 	commentId string
-	request *SchemasUpdateCommentPayload
+	request *MwserverInternalSchemasUpdateCommentPayload
 }
 
 // query params
-func (r ApiUpdateCommentRequest) Request(request SchemasUpdateCommentPayload) ApiUpdateCommentRequest {
+func (r ApiUpdateCommentRequest) Request(request MwserverInternalSchemasUpdateCommentPayload) ApiUpdateCommentRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateCommentRequest) Execute() (*SchemasCommentPopulatedResponse, *http.Response, error) {
+func (r ApiUpdateCommentRequest) Execute() (*MwserverInternalSchemasCommentPopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdateCommentExecute(r)
 }
 
@@ -452,13 +452,13 @@ func (a *CommentAPIService) UpdateComment(ctx context.Context, commentId string)
 }
 
 // Execute executes the request
-//  @return SchemasCommentPopulatedResponse
-func (a *CommentAPIService) UpdateCommentExecute(r ApiUpdateCommentRequest) (*SchemasCommentPopulatedResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasCommentPopulatedResponse
+func (a *CommentAPIService) UpdateCommentExecute(r ApiUpdateCommentRequest) (*MwserverInternalSchemasCommentPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasCommentPopulatedResponse
+		localVarReturnValue  *MwserverInternalSchemasCommentPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CommentAPIService.UpdateComment")
@@ -518,7 +518,7 @@ func (a *CommentAPIService) UpdateCommentExecute(r ApiUpdateCommentRequest) (*Sc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -543,11 +543,11 @@ func (a *CommentAPIService) UpdateCommentExecute(r ApiUpdateCommentRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasCommentPopulatedResponseStream
-func (a *CommentAPIService) UpdateCommentStreamExecute(r ApiUpdateCommentRequest, request *http.Request, GoogleAccessToken string) (*SchemasCommentPopulatedResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasCommentPopulatedResponseStream
+func (a *CommentAPIService) UpdateCommentStreamExecute(r ApiUpdateCommentRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasCommentPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasCommentPopulatedResponse
+		localVarReturnValue  *MwserverInternalSchemasCommentPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CommentAPIService.UpdateComment")
@@ -613,7 +613,7 @@ func (a *CommentAPIService) UpdateCommentStreamExecute(r ApiUpdateCommentRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

@@ -27,7 +27,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.SendMessagePayload"
+                            "$ref": "#/definitions/mw-chat-websocket_internal_schemas.SendMessagePayload"
                         }
                     }
                 ],
@@ -58,7 +58,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-websocket_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 ],
@@ -100,7 +100,7 @@
         }
     },
     "definitions": {
-        "schemas.MessageReader": {
+        "mw-chat-websocket_internal_schemas.MessageReader": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -123,7 +123,7 @@
                 }
             }
         },
-        "schemas.MessageResponse": {
+        "mw-chat-websocket_internal_schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
@@ -144,7 +144,7 @@
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReader"
+                        "$ref": "#/definitions/mw-chat-websocket_internal_schemas.MessageReader"
                     }
                 },
                 "ownerId": {
@@ -161,7 +161,7 @@
                 }
             }
         },
-        "schemas.RoomPopulatedResponse": {
+        "mw-chat-websocket_internal_schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -178,7 +178,7 @@
                 "messages": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageResponse"
+                        "$ref": "#/definitions/mw-chat-websocket_internal_schemas.MessageResponse"
                     }
                 },
                 "name": {
@@ -193,12 +193,12 @@
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/mw-chat-websocket_internal_schemas.UserResponse"
                     }
                 }
             }
         },
-        "schemas.SendMessagePayload": {
+        "mw-chat-websocket_internal_schemas.SendMessagePayload": {
             "type": "object",
             "required": [
                 "message",
@@ -206,7 +206,7 @@
             ],
             "properties": {
                 "message": {
-                    "$ref": "#/definitions/schemas.MessageResponse"
+                    "$ref": "#/definitions/mw-chat-websocket_internal_schemas.MessageResponse"
                 },
                 "users": {
                     "type": "array",
@@ -216,7 +216,7 @@
                 }
             }
         },
-        "schemas.UserResponse": {
+        "mw-chat-websocket_internal_schemas.UserResponse": {
             "type": "object",
             "required": [
                 "imageUrl",

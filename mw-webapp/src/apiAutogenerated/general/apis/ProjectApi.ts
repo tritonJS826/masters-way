@@ -15,21 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateProjectPayload,
-  SchemasProjectPopulatedResponse,
-  SchemasUpdateProjectPayload,
+  MwserverInternalSchemasCreateProjectPayload,
+  MwserverInternalSchemasProjectPopulatedResponse,
+  MwserverInternalSchemasUpdateProjectPayload,
 } from '../models/index';
 import {
-    SchemasCreateProjectPayloadFromJSON,
-    SchemasCreateProjectPayloadToJSON,
-    SchemasProjectPopulatedResponseFromJSON,
-    SchemasProjectPopulatedResponseToJSON,
-    SchemasUpdateProjectPayloadFromJSON,
-    SchemasUpdateProjectPayloadToJSON,
+    MwserverInternalSchemasCreateProjectPayloadFromJSON,
+    MwserverInternalSchemasCreateProjectPayloadToJSON,
+    MwserverInternalSchemasProjectPopulatedResponseFromJSON,
+    MwserverInternalSchemasProjectPopulatedResponseToJSON,
+    MwserverInternalSchemasUpdateProjectPayloadFromJSON,
+    MwserverInternalSchemasUpdateProjectPayloadToJSON,
 } from '../models/index';
 
 export interface CreateProjectRequest {
-    request: SchemasCreateProjectPayload;
+    request: MwserverInternalSchemasCreateProjectPayload;
 }
 
 export interface DeleteProjectRequest {
@@ -42,7 +42,7 @@ export interface GetProjectRequest {
 
 export interface UpdateProjectRequest {
     projectId: string;
-    request: SchemasUpdateProjectPayload;
+    request: MwserverInternalSchemasUpdateProjectPayload;
 }
 
 /**
@@ -53,7 +53,7 @@ export class ProjectApi extends runtime.BaseAPI {
     /**
      * Create a new project
      */
-    async createProjectRaw(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectPopulatedResponse>> {
+    async createProjectRaw(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasProjectPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createProject.');
         }
@@ -69,16 +69,16 @@ export class ProjectApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateProjectPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasCreateProjectPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasProjectPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new project
      */
-    async createProject(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectPopulatedResponse> {
+    async createProject(requestParameters: CreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasProjectPopulatedResponse> {
         const response = await this.createProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -115,7 +115,7 @@ export class ProjectApi extends runtime.BaseAPI {
     /**
      * Get project by id
      */
-    async getProjectRaw(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectPopulatedResponse>> {
+    async getProjectRaw(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasProjectPopulatedResponse>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getProject.');
         }
@@ -131,13 +131,13 @@ export class ProjectApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasProjectPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get project by id
      */
-    async getProject(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectPopulatedResponse> {
+    async getProject(requestParameters: GetProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasProjectPopulatedResponse> {
         const response = await this.getProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -145,7 +145,7 @@ export class ProjectApi extends runtime.BaseAPI {
     /**
      * Update project by id
      */
-    async updateProjectRaw(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProjectPopulatedResponse>> {
+    async updateProjectRaw(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasProjectPopulatedResponse>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateProject.');
         }
@@ -165,16 +165,16 @@ export class ProjectApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateProjectPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasUpdateProjectPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProjectPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasProjectPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update project by id
      */
-    async updateProject(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProjectPopulatedResponse> {
+    async updateProject(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasProjectPopulatedResponse> {
         const response = await this.updateProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }

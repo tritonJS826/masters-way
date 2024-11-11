@@ -15,68 +15,68 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasAIChatPayload,
-  SchemasAIChatResponse,
-  SchemasAICommentIssuePayload,
-  SchemasAICommentIssueResponse,
-  SchemasAIDecomposeIssuePayload,
-  SchemasAIDecomposeIssueResponse,
-  SchemasAIEstimateIssuePayload,
-  SchemasAIEstimateIssueResponse,
-  SchemasAIGeneratePlansByMetricPayload,
-  SchemasAIGeneratePlansByMetricResponse,
-  SchemasGenerateMetricsPayload,
-  SchemasGenerateMetricsResponse,
+  MwserverInternalSchemasAIChatPayload,
+  MwserverInternalSchemasAIChatResponse,
+  MwserverInternalSchemasAICommentIssuePayload,
+  MwserverInternalSchemasAICommentIssueResponse,
+  MwserverInternalSchemasAIDecomposeIssuePayload,
+  MwserverInternalSchemasAIDecomposeIssueResponse,
+  MwserverInternalSchemasAIEstimateIssuePayload,
+  MwserverInternalSchemasAIEstimateIssueResponse,
+  MwserverInternalSchemasAIGeneratePlansByMetricPayload,
+  MwserverInternalSchemasAIGeneratePlansByMetricResponse,
+  MwserverInternalSchemasGenerateMetricsPayload,
+  MwserverInternalSchemasGenerateMetricsResponse,
 } from '../models/index';
 import {
-    SchemasAIChatPayloadFromJSON,
-    SchemasAIChatPayloadToJSON,
-    SchemasAIChatResponseFromJSON,
-    SchemasAIChatResponseToJSON,
-    SchemasAICommentIssuePayloadFromJSON,
-    SchemasAICommentIssuePayloadToJSON,
-    SchemasAICommentIssueResponseFromJSON,
-    SchemasAICommentIssueResponseToJSON,
-    SchemasAIDecomposeIssuePayloadFromJSON,
-    SchemasAIDecomposeIssuePayloadToJSON,
-    SchemasAIDecomposeIssueResponseFromJSON,
-    SchemasAIDecomposeIssueResponseToJSON,
-    SchemasAIEstimateIssuePayloadFromJSON,
-    SchemasAIEstimateIssuePayloadToJSON,
-    SchemasAIEstimateIssueResponseFromJSON,
-    SchemasAIEstimateIssueResponseToJSON,
-    SchemasAIGeneratePlansByMetricPayloadFromJSON,
-    SchemasAIGeneratePlansByMetricPayloadToJSON,
-    SchemasAIGeneratePlansByMetricResponseFromJSON,
-    SchemasAIGeneratePlansByMetricResponseToJSON,
-    SchemasGenerateMetricsPayloadFromJSON,
-    SchemasGenerateMetricsPayloadToJSON,
-    SchemasGenerateMetricsResponseFromJSON,
-    SchemasGenerateMetricsResponseToJSON,
+    MwserverInternalSchemasAIChatPayloadFromJSON,
+    MwserverInternalSchemasAIChatPayloadToJSON,
+    MwserverInternalSchemasAIChatResponseFromJSON,
+    MwserverInternalSchemasAIChatResponseToJSON,
+    MwserverInternalSchemasAICommentIssuePayloadFromJSON,
+    MwserverInternalSchemasAICommentIssuePayloadToJSON,
+    MwserverInternalSchemasAICommentIssueResponseFromJSON,
+    MwserverInternalSchemasAICommentIssueResponseToJSON,
+    MwserverInternalSchemasAIDecomposeIssuePayloadFromJSON,
+    MwserverInternalSchemasAIDecomposeIssuePayloadToJSON,
+    MwserverInternalSchemasAIDecomposeIssueResponseFromJSON,
+    MwserverInternalSchemasAIDecomposeIssueResponseToJSON,
+    MwserverInternalSchemasAIEstimateIssuePayloadFromJSON,
+    MwserverInternalSchemasAIEstimateIssuePayloadToJSON,
+    MwserverInternalSchemasAIEstimateIssueResponseFromJSON,
+    MwserverInternalSchemasAIEstimateIssueResponseToJSON,
+    MwserverInternalSchemasAIGeneratePlansByMetricPayloadFromJSON,
+    MwserverInternalSchemasAIGeneratePlansByMetricPayloadToJSON,
+    MwserverInternalSchemasAIGeneratePlansByMetricResponseFromJSON,
+    MwserverInternalSchemasAIGeneratePlansByMetricResponseToJSON,
+    MwserverInternalSchemasGenerateMetricsPayloadFromJSON,
+    MwserverInternalSchemasGenerateMetricsPayloadToJSON,
+    MwserverInternalSchemasGenerateMetricsResponseFromJSON,
+    MwserverInternalSchemasGenerateMetricsResponseToJSON,
 } from '../models/index';
 
 export interface AiChatRequest {
-    request: SchemasAIChatPayload;
+    request: MwserverInternalSchemasAIChatPayload;
 }
 
 export interface AiCommentIssueRequest {
-    request: SchemasAICommentIssuePayload;
+    request: MwserverInternalSchemasAICommentIssuePayload;
 }
 
 export interface AiDecomposeIssueRequest {
-    request: SchemasAIDecomposeIssuePayload;
+    request: MwserverInternalSchemasAIDecomposeIssuePayload;
 }
 
 export interface AiEstimateIssueRequest {
-    request: SchemasAIEstimateIssuePayload;
+    request: MwserverInternalSchemasAIEstimateIssuePayload;
 }
 
 export interface AiPlansByMetricsRequest {
-    request: SchemasAIGeneratePlansByMetricPayload;
+    request: MwserverInternalSchemasAIGeneratePlansByMetricPayload;
 }
 
 export interface GenerateMetricsRequest {
-    request: SchemasGenerateMetricsPayload;
+    request: MwserverInternalSchemasGenerateMetricsPayload;
 }
 
 /**
@@ -88,7 +88,7 @@ export class GeminiApi extends runtime.BaseAPI {
      * This endpoint for talks with AI language model.
      * Just chat with AI
      */
-    async aiChatRaw(requestParameters: AiChatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIChatResponse>> {
+    async aiChatRaw(requestParameters: AiChatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasAIChatResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiChat.');
         }
@@ -104,17 +104,17 @@ export class GeminiApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasAIChatPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasAIChatPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIChatResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasAIChatResponseFromJSON(jsonValue));
     }
 
     /**
      * This endpoint for talks with AI language model.
      * Just chat with AI
      */
-    async aiChat(requestParameters: AiChatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIChatResponse> {
+    async aiChat(requestParameters: AiChatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasAIChatResponse> {
         const response = await this.aiChatRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -123,7 +123,7 @@ export class GeminiApi extends runtime.BaseAPI {
      * Generate a comment for any issue
      * Generate a comment for any issue
      */
-    async aiCommentIssueRaw(requestParameters: AiCommentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAICommentIssueResponse>> {
+    async aiCommentIssueRaw(requestParameters: AiCommentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasAICommentIssueResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiCommentIssue.');
         }
@@ -139,17 +139,17 @@ export class GeminiApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasAICommentIssuePayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasAICommentIssuePayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAICommentIssueResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasAICommentIssueResponseFromJSON(jsonValue));
     }
 
     /**
      * Generate a comment for any issue
      * Generate a comment for any issue
      */
-    async aiCommentIssue(requestParameters: AiCommentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAICommentIssueResponse> {
+    async aiCommentIssue(requestParameters: AiCommentIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasAICommentIssueResponse> {
         const response = await this.aiCommentIssueRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -158,7 +158,7 @@ export class GeminiApi extends runtime.BaseAPI {
      * Decompose issue for 10 plans
      * Decompose issue
      */
-    async aiDecomposeIssueRaw(requestParameters: AiDecomposeIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIDecomposeIssueResponse>> {
+    async aiDecomposeIssueRaw(requestParameters: AiDecomposeIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasAIDecomposeIssueResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiDecomposeIssue.');
         }
@@ -174,17 +174,17 @@ export class GeminiApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasAIDecomposeIssuePayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasAIDecomposeIssuePayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIDecomposeIssueResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasAIDecomposeIssueResponseFromJSON(jsonValue));
     }
 
     /**
      * Decompose issue for 10 plans
      * Decompose issue
      */
-    async aiDecomposeIssue(requestParameters: AiDecomposeIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIDecomposeIssueResponse> {
+    async aiDecomposeIssue(requestParameters: AiDecomposeIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasAIDecomposeIssueResponse> {
         const response = await this.aiDecomposeIssueRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -193,7 +193,7 @@ export class GeminiApi extends runtime.BaseAPI {
      * Estimate issue in minutes
      * Estimate issue in minutes
      */
-    async aiEstimateIssueRaw(requestParameters: AiEstimateIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIEstimateIssueResponse>> {
+    async aiEstimateIssueRaw(requestParameters: AiEstimateIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasAIEstimateIssueResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiEstimateIssue.');
         }
@@ -209,17 +209,17 @@ export class GeminiApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasAIEstimateIssuePayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasAIEstimateIssuePayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIEstimateIssueResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasAIEstimateIssueResponseFromJSON(jsonValue));
     }
 
     /**
      * Estimate issue in minutes
      * Estimate issue in minutes
      */
-    async aiEstimateIssue(requestParameters: AiEstimateIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIEstimateIssueResponse> {
+    async aiEstimateIssue(requestParameters: AiEstimateIssueRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasAIEstimateIssueResponse> {
         const response = await this.aiEstimateIssueRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -228,7 +228,7 @@ export class GeminiApi extends runtime.BaseAPI {
      * Generate plans by metric.
      * Generate plans by metric
      */
-    async aiPlansByMetricsRaw(requestParameters: AiPlansByMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasAIGeneratePlansByMetricResponse>> {
+    async aiPlansByMetricsRaw(requestParameters: AiPlansByMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasAIGeneratePlansByMetricResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiPlansByMetrics.');
         }
@@ -244,17 +244,17 @@ export class GeminiApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasAIGeneratePlansByMetricPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasAIGeneratePlansByMetricPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasAIGeneratePlansByMetricResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasAIGeneratePlansByMetricResponseFromJSON(jsonValue));
     }
 
     /**
      * Generate plans by metric.
      * Generate plans by metric
      */
-    async aiPlansByMetrics(requestParameters: AiPlansByMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasAIGeneratePlansByMetricResponse> {
+    async aiPlansByMetrics(requestParameters: AiPlansByMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasAIGeneratePlansByMetricResponse> {
         const response = await this.aiPlansByMetricsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -263,7 +263,7 @@ export class GeminiApi extends runtime.BaseAPI {
      * This endpoint uses Gemini to generate metrics by analyzing the provided goals.
      * Generate metrics using Gemini
      */
-    async generateMetricsRaw(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGenerateMetricsResponse>> {
+    async generateMetricsRaw(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasGenerateMetricsResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling generateMetrics.');
         }
@@ -279,17 +279,17 @@ export class GeminiApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasGenerateMetricsPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasGenerateMetricsPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGenerateMetricsResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasGenerateMetricsResponseFromJSON(jsonValue));
     }
 
     /**
      * This endpoint uses Gemini to generate metrics by analyzing the provided goals.
      * Generate metrics using Gemini
      */
-    async generateMetrics(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGenerateMetricsResponse> {
+    async generateMetrics(requestParameters: GenerateMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasGenerateMetricsResponse> {
         const response = await this.generateMetricsRaw(requestParameters, initOverrides);
         return await response.value();
     }

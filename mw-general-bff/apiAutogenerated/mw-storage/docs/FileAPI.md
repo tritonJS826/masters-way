@@ -75,7 +75,7 @@ No authorization required
 
 ## UploadFile
 
-> SchemasUploadFileResponse UploadFile(ctx).Multipart(multipart).Execute()
+> MwstorageInternalSchemasUploadFileResponse UploadFile(ctx).Multipart(multipart).Execute()
 
 Upload file to storage
 
@@ -103,7 +103,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FileAPI.UploadFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UploadFile`: SchemasUploadFileResponse
+	// response from `UploadFile`: MwstorageInternalSchemasUploadFileResponse
 	fmt.Fprintf(os.Stdout, "Response from `FileAPI.UploadFile`: %v\n", resp)
 }
 ```
@@ -123,7 +123,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasUploadFileResponse**](SchemasUploadFileResponse.md)
+[**MwstorageInternalSchemasUploadFileResponse**](MwstorageInternalSchemasUploadFileResponse.md)
 
 ### Authorization
 

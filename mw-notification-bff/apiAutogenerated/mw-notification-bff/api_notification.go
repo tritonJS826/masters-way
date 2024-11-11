@@ -29,7 +29,7 @@ type ApiGetNotificationListRequest struct {
 	ApiService *NotificationAPIService
 }
 
-func (r ApiGetNotificationListRequest) Execute() (*SchemasGetNotificationListResponse, *http.Response, error) {
+func (r ApiGetNotificationListRequest) Execute() (*MwNotificationBffInternalSchemasGetNotificationListResponse, *http.Response, error) {
 	return r.ApiService.GetNotificationListExecute(r)
 }
 
@@ -47,13 +47,13 @@ func (a *NotificationAPIService) GetNotificationList(ctx context.Context) ApiGet
 }
 
 // Execute executes the request
-//  @return SchemasGetNotificationListResponse
-func (a *NotificationAPIService) GetNotificationListExecute(r ApiGetNotificationListRequest) (*SchemasGetNotificationListResponse, *http.Response, error) {
+//  @return MwNotificationBffInternalSchemasGetNotificationListResponse
+func (a *NotificationAPIService) GetNotificationListExecute(r ApiGetNotificationListRequest) (*MwNotificationBffInternalSchemasGetNotificationListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetNotificationListResponse
+		localVarReturnValue  *MwNotificationBffInternalSchemasGetNotificationListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.GetNotificationList")
@@ -122,11 +122,11 @@ func (a *NotificationAPIService) GetNotificationListExecute(r ApiGetNotification
 }
 
 // Execute executes the request
-//  @return SchemasGetNotificationListResponseStream
-func (a *NotificationAPIService) GetNotificationListStreamExecute(r ApiGetNotificationListRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetNotificationListResponse, *http.Response, error) {
+//  @return MwNotificationBffInternalSchemasGetNotificationListResponseStream
+func (a *NotificationAPIService) GetNotificationListStreamExecute(r ApiGetNotificationListRequest, request *http.Request, GoogleAccessToken string) (*MwNotificationBffInternalSchemasGetNotificationListResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGetNotificationListResponse
+		localVarReturnValue  *MwNotificationBffInternalSchemasGetNotificationListResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.GetNotificationList")
@@ -207,16 +207,16 @@ type ApiUpdateNotificationRequest struct {
 	ctx context.Context
 	ApiService *NotificationAPIService
 	notificationId string
-	request *SchemasUpdateNotificationPayload
+	request *MwNotificationBffInternalSchemasUpdateNotificationPayload
 }
 
 // query params
-func (r ApiUpdateNotificationRequest) Request(request SchemasUpdateNotificationPayload) ApiUpdateNotificationRequest {
+func (r ApiUpdateNotificationRequest) Request(request MwNotificationBffInternalSchemasUpdateNotificationPayload) ApiUpdateNotificationRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateNotificationRequest) Execute() (*SchemasNotificationResponse, *http.Response, error) {
+func (r ApiUpdateNotificationRequest) Execute() (*MwNotificationBffInternalSchemasNotificationResponse, *http.Response, error) {
 	return r.ApiService.UpdateNotificationExecute(r)
 }
 
@@ -236,13 +236,13 @@ func (a *NotificationAPIService) UpdateNotification(ctx context.Context, notific
 }
 
 // Execute executes the request
-//  @return SchemasNotificationResponse
-func (a *NotificationAPIService) UpdateNotificationExecute(r ApiUpdateNotificationRequest) (*SchemasNotificationResponse, *http.Response, error) {
+//  @return MwNotificationBffInternalSchemasNotificationResponse
+func (a *NotificationAPIService) UpdateNotificationExecute(r ApiUpdateNotificationRequest) (*MwNotificationBffInternalSchemasNotificationResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasNotificationResponse
+		localVarReturnValue  *MwNotificationBffInternalSchemasNotificationResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.UpdateNotification")
@@ -317,11 +317,11 @@ func (a *NotificationAPIService) UpdateNotificationExecute(r ApiUpdateNotificati
 }
 
 // Execute executes the request
-//  @return SchemasNotificationResponseStream
-func (a *NotificationAPIService) UpdateNotificationStreamExecute(r ApiUpdateNotificationRequest, request *http.Request, GoogleAccessToken string) (*SchemasNotificationResponse, *http.Response, error) {
+//  @return MwNotificationBffInternalSchemasNotificationResponseStream
+func (a *NotificationAPIService) UpdateNotificationStreamExecute(r ApiUpdateNotificationRequest, request *http.Request, GoogleAccessToken string) (*MwNotificationBffInternalSchemasNotificationResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasNotificationResponse
+		localVarReturnValue  *MwNotificationBffInternalSchemasNotificationResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationAPIService.UpdateNotification")

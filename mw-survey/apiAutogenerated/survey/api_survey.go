@@ -26,11 +26,11 @@ type SurveyAPIService service
 type ApiSurveyLookingForMentorRequest struct {
 	ctx context.Context
 	ApiService *SurveyAPIService
-	request *SchemasPostSurveyLookingForMentorPayload
+	request *MwsurveyInternalSchemasPostSurveyLookingForMentorPayload
 }
 
 // query params
-func (r ApiSurveyLookingForMentorRequest) Request(request SchemasPostSurveyLookingForMentorPayload) ApiSurveyLookingForMentorRequest {
+func (r ApiSurveyLookingForMentorRequest) Request(request MwsurveyInternalSchemasPostSurveyLookingForMentorPayload) ApiSurveyLookingForMentorRequest {
 	r.request = &request
 	return r
 }
@@ -198,11 +198,11 @@ func (a *SurveyAPIService) SurveyLookingForMentorStreamExecute(r ApiSurveyLookin
 type ApiSurveyUserIntroRequest struct {
 	ctx context.Context
 	ApiService *SurveyAPIService
-	request *SchemasPostSurveyUserIntroPayload
+	request *MwsurveyInternalSchemasPostSurveyUserIntroPayload
 }
 
 // query params
-func (r ApiSurveyUserIntroRequest) Request(request SchemasPostSurveyUserIntroPayload) ApiSurveyUserIntroRequest {
+func (r ApiSurveyUserIntroRequest) Request(request MwsurveyInternalSchemasPostSurveyUserIntroPayload) ApiSurveyUserIntroRequest {
 	r.request = &request
 	return r
 }

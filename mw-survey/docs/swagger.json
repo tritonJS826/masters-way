@@ -42,7 +42,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.PostSurveyLookingForMentorPayload"
+                            "$ref": "#/definitions/mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload"
                         }
                     }
                 ],
@@ -74,7 +74,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.PostSurveyUserIntroPayload"
+                            "$ref": "#/definitions/mwsurvey_internal_schemas.PostSurveyUserIntroPayload"
                         }
                     }
                 ],
@@ -87,7 +87,7 @@
         }
     },
     "definitions": {
-        "schemas.PostSurveyLookingForMentorPayload": {
+        "mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload": {
             "type": "object",
             "required": [
                 "currentExperience",
@@ -110,7 +110,7 @@
                 }
             }
         },
-        "schemas.PostSurveyUserIntroPayload": {
+        "mwsurvey_internal_schemas.PostSurveyUserIntroPayload": {
             "type": "object",
             "required": [
                 "deviceId",

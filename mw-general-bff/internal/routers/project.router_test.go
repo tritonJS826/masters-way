@@ -35,7 +35,7 @@ func TestCreateProject(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.SchemasCreateProjectPayload{
+		request := openapiGeneral.MwserverInternalSchemasCreateProjectPayload{
 			Name:    projectName,
 			OwnerId: userID,
 		}
@@ -46,11 +46,11 @@ func TestCreateProject(t *testing.T) {
 			t.Fatalf("Failed to create project: %v", err)
 		}
 
-		expectedData := openapiGeneral.SchemasProjectPopulatedResponse{
+		expectedData := openapiGeneral.MwserverInternalSchemasProjectPopulatedResponse{
 			Name:      projectName,
 			OwnerId:   userID,
 			IsPrivate: false,
-			Users: []openapiGeneral.SchemasUserPlainResponseWithInfo{
+			Users: []openapiGeneral.MwserverInternalSchemasUserPlainResponseWithInfo{
 				{
 					Uuid:             "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
 					Name:             "Bob Brown",
@@ -63,14 +63,14 @@ func TestCreateProject(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          3,
-					Tags:             []openapiGeneral.SchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
 				},
 			},
-			Ways: []openapiGeneral.SchemasWayPlainResponse{},
+			Ways: []openapiGeneral.MwserverInternalSchemasWayPlainResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		diff := cmp.Diff(expectedData, *project, cmpopts.IgnoreFields(openapiGeneral.SchemasProjectPopulatedResponse{}, "Id"))
+		diff := cmp.Diff(expectedData, *project, cmpopts.IgnoreFields(openapiGeneral.MwserverInternalSchemasProjectPopulatedResponse{}, "Id"))
 		assert.True(t, diff == "", "Structures should match except for Id")
 	})
 }
@@ -98,7 +98,7 @@ func TestUpdateProject(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.SchemasUpdateProjectPayload{
+		request := openapiGeneral.MwserverInternalSchemasUpdateProjectPayload{
 			Name:      &projectName,
 			IsPrivate: &isPrivate,
 		}
@@ -109,12 +109,12 @@ func TestUpdateProject(t *testing.T) {
 			t.Fatalf("Failed to update project: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasProjectPopulatedResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasProjectPopulatedResponse{
 			Id:        projectID,
 			Name:      projectName,
 			OwnerId:   userID,
 			IsPrivate: true,
-			Users: []openapiGeneral.SchemasUserPlainResponseWithInfo{
+			Users: []openapiGeneral.MwserverInternalSchemasUserPlainResponseWithInfo{
 				{
 					Uuid:             "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 					Name:             "John Doe",
@@ -127,7 +127,7 @@ func TestUpdateProject(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          4,
-					Tags:             []openapiGeneral.SchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
@@ -141,7 +141,7 @@ func TestUpdateProject(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    1,
 					OwnWays:          4,
-					Tags: []openapiGeneral.SchemasUserTagResponse{
+					Tags: []openapiGeneral.MwserverInternalSchemasUserTagResponse{
 						{
 							Uuid: "8749d799-0a89-4ffd-b1bd-02ada9234e5a",
 							Name: "some tag",
@@ -160,10 +160,10 @@ func TestUpdateProject(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          0,
-					Tags:             []openapiGeneral.SchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
 				},
 			},
-			Ways: []openapiGeneral.SchemasWayPlainResponse{},
+			Ways: []openapiGeneral.MwserverInternalSchemasWayPlainResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)

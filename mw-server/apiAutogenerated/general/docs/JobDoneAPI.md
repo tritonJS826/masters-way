@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateJobDone
 
-> SchemasJobDonePopulatedResponse CreateJobDone(ctx).Request(request).Execute()
+> MwserverInternalSchemasJobDonePopulatedResponse CreateJobDone(ctx).Request(request).Execute()
 
 Create a new jobDone
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateJobDonePayload("DayReportUuid_example", "Description_example", []string{"JobTagUuids_example"}, "OwnerUuid_example", int32(123)) // SchemasCreateJobDonePayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateJobDonePayload("DayReportUuid_example", "Description_example", []string{"JobTagUuids_example"}, "OwnerUuid_example", int32(123)) // MwserverInternalSchemasCreateJobDonePayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `JobDoneAPI.CreateJobDone``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateJobDone`: SchemasJobDonePopulatedResponse
+	// response from `CreateJobDone`: MwserverInternalSchemasJobDonePopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `JobDoneAPI.CreateJobDone`: %v\n", resp)
 }
 ```
@@ -54,11 +54,11 @@ Other parameters are passed through a pointer to a apiCreateJobDoneRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateJobDonePayload**](SchemasCreateJobDonePayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateJobDonePayload**](MwserverInternalSchemasCreateJobDonePayload.md) | query params | 
 
 ### Return type
 
-[**SchemasJobDonePopulatedResponse**](SchemasJobDonePopulatedResponse.md)
+[**MwserverInternalSchemasJobDonePopulatedResponse**](MwserverInternalSchemasJobDonePopulatedResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## UpdateJobDone
 
-> SchemasJobDonePopulatedResponse UpdateJobDone(ctx, jobDoneId).Request(request).Execute()
+> MwserverInternalSchemasJobDonePopulatedResponse UpdateJobDone(ctx, jobDoneId).Request(request).Execute()
 
 Update jobDone by UUID
 
@@ -160,7 +160,7 @@ import (
 
 func main() {
 	jobDoneId := "jobDoneId_example" // string | jobDone UUID
-	request := *openapiclient.NewSchemasUpdateJobDone() // SchemasUpdateJobDone | query params
+	request := *openapiclient.NewMwserverInternalSchemasUpdateJobDone() // MwserverInternalSchemasUpdateJobDone | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `JobDoneAPI.UpdateJobDone``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateJobDone`: SchemasJobDonePopulatedResponse
+	// response from `UpdateJobDone`: MwserverInternalSchemasJobDonePopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `JobDoneAPI.UpdateJobDone`: %v\n", resp)
 }
 ```
@@ -190,11 +190,11 @@ Other parameters are passed through a pointer to a apiUpdateJobDoneRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateJobDone**](SchemasUpdateJobDone.md) | query params | 
+ **request** | [**MwserverInternalSchemasUpdateJobDone**](MwserverInternalSchemasUpdateJobDone.md) | query params | 
 
 ### Return type
 
-[**SchemasJobDonePopulatedResponse**](SchemasJobDonePopulatedResponse.md)
+[**MwserverInternalSchemasJobDonePopulatedResponse**](MwserverInternalSchemasJobDonePopulatedResponse.md)
 
 ### Authorization
 

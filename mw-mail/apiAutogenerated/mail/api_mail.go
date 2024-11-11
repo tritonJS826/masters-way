@@ -35,7 +35,7 @@ func (r ApiSendMailRequest) Message(message string) ApiSendMailRequest {
 	return r
 }
 
-func (r ApiSendMailRequest) Execute() (*SchemasSendMailResponse, *http.Response, error) {
+func (r ApiSendMailRequest) Execute() (*MwmailInternalSchemasSendMailResponse, *http.Response, error) {
 	return r.ApiService.SendMailExecute(r)
 }
 
@@ -55,13 +55,13 @@ func (a *MailAPIService) SendMail(ctx context.Context) ApiSendMailRequest {
 }
 
 // Execute executes the request
-//  @return SchemasSendMailResponse
-func (a *MailAPIService) SendMailExecute(r ApiSendMailRequest) (*SchemasSendMailResponse, *http.Response, error) {
+//  @return MwmailInternalSchemasSendMailResponse
+func (a *MailAPIService) SendMailExecute(r ApiSendMailRequest) (*MwmailInternalSchemasSendMailResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasSendMailResponse
+		localVarReturnValue  *MwmailInternalSchemasSendMailResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MailAPIService.SendMail")
@@ -135,11 +135,11 @@ func (a *MailAPIService) SendMailExecute(r ApiSendMailRequest) (*SchemasSendMail
 }
 
 // Execute executes the request
-//  @return SchemasSendMailResponseStream
-func (a *MailAPIService) SendMailStreamExecute(r ApiSendMailRequest, request *http.Request, GoogleAccessToken string) (*SchemasSendMailResponse, *http.Response, error) {
+//  @return MwmailInternalSchemasSendMailResponseStream
+func (a *MailAPIService) SendMailStreamExecute(r ApiSendMailRequest, request *http.Request, GoogleAccessToken string) (*MwmailInternalSchemasSendMailResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasSendMailResponse
+		localVarReturnValue  *MwmailInternalSchemasSendMailResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MailAPIService.SendMail")

@@ -33,7 +33,7 @@ func TestCreatePlan(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.SchemasCreatePlanPayload{
+		request := openapiGeneral.MwserverInternalSchemasCreatePlanPayload{
 			DayReportUuid: "25ceb64e-7a57-4ce0-a4fd-45982d9fce38",
 			Description:   "Description",
 			IsDone:        false,
@@ -47,13 +47,13 @@ func TestCreatePlan(t *testing.T) {
 			t.Fatalf("Failed to create plan: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasPlanPopulatedResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasPlanPopulatedResponse{
 			DayReportUuid: "25ceb64e-7a57-4ce0-a4fd-45982d9fce38",
 			Description:   "Description",
 			IsDone:        false,
 			OwnerName:     "Alice Johnson",
 			OwnerUuid:     "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
-			Tags:          []openapiGeneral.SchemasJobTagResponse{},
+			Tags:          []openapiGeneral.MwserverInternalSchemasJobTagResponse{},
 			Time:          0,
 		}
 
@@ -93,7 +93,7 @@ func TestUpdatePlan(t *testing.T) {
 		newIsDoneStatus := true
 		newTime := int32(12)
 
-		request := openapiGeneral.SchemasUpdatePlanPayload{
+		request := openapiGeneral.MwserverInternalSchemasUpdatePlanPayload{
 			Description: &newDescription,
 			IsDone:      &newIsDoneStatus,
 			Time:        &newTime,
@@ -102,7 +102,7 @@ func TestUpdatePlan(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 		plan, response, err := generalApi.PlanAPI.UpdatePlan(ctx, planID).Request(request).Execute()
 
-		expectedData := &openapiGeneral.SchemasPlanPopulatedResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasPlanPopulatedResponse{
 			Uuid:        planID,
 			Description: newDescription,
 			IsDone:      newIsDoneStatus,

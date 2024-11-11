@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## AiChat
 
-> SchemasAIChatResponse AiChat(ctx).Request(request).Execute()
+> MwserverInternalSchemasAIChatResponse AiChat(ctx).Request(request).Execute()
 
 Just chat with AI
 
@@ -34,7 +34,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasAIChatPayload("Message_example") // SchemasAIChatPayload | Request payload
+	request := *openapiclient.NewMwserverInternalSchemasAIChatPayload("Message_example") // MwserverInternalSchemasAIChatPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -43,7 +43,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiChat``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AiChat`: SchemasAIChatResponse
+	// response from `AiChat`: MwserverInternalSchemasAIChatResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiChat`: %v\n", resp)
 }
 ```
@@ -59,11 +59,11 @@ Other parameters are passed through a pointer to a apiAiChatRequest struct via t
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasAIChatPayload**](SchemasAIChatPayload.md) | Request payload | 
+ **request** | [**MwserverInternalSchemasAIChatPayload**](MwserverInternalSchemasAIChatPayload.md) | Request payload | 
 
 ### Return type
 
-[**SchemasAIChatResponse**](SchemasAIChatResponse.md)
+[**MwserverInternalSchemasAIChatResponse**](MwserverInternalSchemasAIChatResponse.md)
 
 ### Authorization
 
@@ -81,7 +81,7 @@ No authorization required
 
 ## AiCommentIssue
 
-> SchemasAICommentIssueResponse AiCommentIssue(ctx).Request(request).Execute()
+> MwserverInternalSchemasAICommentIssueResponse AiCommentIssue(ctx).Request(request).Execute()
 
 Generate a comment for any issue
 
@@ -100,7 +100,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasAICommentIssuePayload("Goal_example", "Message_example") // SchemasAICommentIssuePayload | Request payload
+	request := *openapiclient.NewMwserverInternalSchemasAICommentIssuePayload("Goal_example", "Message_example") // MwserverInternalSchemasAICommentIssuePayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -109,7 +109,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiCommentIssue``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AiCommentIssue`: SchemasAICommentIssueResponse
+	// response from `AiCommentIssue`: MwserverInternalSchemasAICommentIssueResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiCommentIssue`: %v\n", resp)
 }
 ```
@@ -125,11 +125,11 @@ Other parameters are passed through a pointer to a apiAiCommentIssueRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasAICommentIssuePayload**](SchemasAICommentIssuePayload.md) | Request payload | 
+ **request** | [**MwserverInternalSchemasAICommentIssuePayload**](MwserverInternalSchemasAICommentIssuePayload.md) | Request payload | 
 
 ### Return type
 
-[**SchemasAICommentIssueResponse**](SchemasAICommentIssueResponse.md)
+[**MwserverInternalSchemasAICommentIssueResponse**](MwserverInternalSchemasAICommentIssueResponse.md)
 
 ### Authorization
 
@@ -147,7 +147,7 @@ No authorization required
 
 ## AiDecomposeIssue
 
-> SchemasAIDecomposeIssueResponse AiDecomposeIssue(ctx).Request(request).Execute()
+> MwserverInternalSchemasAIDecomposeIssueResponse AiDecomposeIssue(ctx).Request(request).Execute()
 
 Decompose issue
 
@@ -166,7 +166,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasAIDecomposeIssuePayload("Goal_example", "Message_example") // SchemasAIDecomposeIssuePayload | Request payload
+	request := *openapiclient.NewMwserverInternalSchemasAIDecomposeIssuePayload("Goal_example", "Message_example") // MwserverInternalSchemasAIDecomposeIssuePayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -175,7 +175,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiDecomposeIssue``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AiDecomposeIssue`: SchemasAIDecomposeIssueResponse
+	// response from `AiDecomposeIssue`: MwserverInternalSchemasAIDecomposeIssueResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiDecomposeIssue`: %v\n", resp)
 }
 ```
@@ -191,11 +191,11 @@ Other parameters are passed through a pointer to a apiAiDecomposeIssueRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasAIDecomposeIssuePayload**](SchemasAIDecomposeIssuePayload.md) | Request payload | 
+ **request** | [**MwserverInternalSchemasAIDecomposeIssuePayload**](MwserverInternalSchemasAIDecomposeIssuePayload.md) | Request payload | 
 
 ### Return type
 
-[**SchemasAIDecomposeIssueResponse**](SchemasAIDecomposeIssueResponse.md)
+[**MwserverInternalSchemasAIDecomposeIssueResponse**](MwserverInternalSchemasAIDecomposeIssueResponse.md)
 
 ### Authorization
 
@@ -213,7 +213,7 @@ No authorization required
 
 ## AiEstimateIssue
 
-> SchemasAIEstimateIssueResponse AiEstimateIssue(ctx).Request(request).Execute()
+> MwserverInternalSchemasAIEstimateIssueResponse AiEstimateIssue(ctx).Request(request).Execute()
 
 Estimate issue in minutes
 
@@ -232,7 +232,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasAIEstimateIssuePayload("Goal_example", "Issue_example") // SchemasAIEstimateIssuePayload | Request payload
+	request := *openapiclient.NewMwserverInternalSchemasAIEstimateIssuePayload("Goal_example", "Issue_example") // MwserverInternalSchemasAIEstimateIssuePayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -241,7 +241,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiEstimateIssue``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AiEstimateIssue`: SchemasAIEstimateIssueResponse
+	// response from `AiEstimateIssue`: MwserverInternalSchemasAIEstimateIssueResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiEstimateIssue`: %v\n", resp)
 }
 ```
@@ -257,11 +257,11 @@ Other parameters are passed through a pointer to a apiAiEstimateIssueRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasAIEstimateIssuePayload**](SchemasAIEstimateIssuePayload.md) | Request payload | 
+ **request** | [**MwserverInternalSchemasAIEstimateIssuePayload**](MwserverInternalSchemasAIEstimateIssuePayload.md) | Request payload | 
 
 ### Return type
 
-[**SchemasAIEstimateIssueResponse**](SchemasAIEstimateIssueResponse.md)
+[**MwserverInternalSchemasAIEstimateIssueResponse**](MwserverInternalSchemasAIEstimateIssueResponse.md)
 
 ### Authorization
 
@@ -279,7 +279,7 @@ No authorization required
 
 ## AiPlansByMetrics
 
-> SchemasAIGeneratePlansByMetricResponse AiPlansByMetrics(ctx).Request(request).Execute()
+> MwserverInternalSchemasAIGeneratePlansByMetricResponse AiPlansByMetrics(ctx).Request(request).Execute()
 
 Generate plans by metric
 
@@ -298,7 +298,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasAIGeneratePlansByMetricPayload("Goal_example", "Metric_example") // SchemasAIGeneratePlansByMetricPayload | Request payload
+	request := *openapiclient.NewMwserverInternalSchemasAIGeneratePlansByMetricPayload("Goal_example", "Metric_example") // MwserverInternalSchemasAIGeneratePlansByMetricPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -307,7 +307,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiPlansByMetrics``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AiPlansByMetrics`: SchemasAIGeneratePlansByMetricResponse
+	// response from `AiPlansByMetrics`: MwserverInternalSchemasAIGeneratePlansByMetricResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiPlansByMetrics`: %v\n", resp)
 }
 ```
@@ -323,11 +323,11 @@ Other parameters are passed through a pointer to a apiAiPlansByMetricsRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasAIGeneratePlansByMetricPayload**](SchemasAIGeneratePlansByMetricPayload.md) | Request payload | 
+ **request** | [**MwserverInternalSchemasAIGeneratePlansByMetricPayload**](MwserverInternalSchemasAIGeneratePlansByMetricPayload.md) | Request payload | 
 
 ### Return type
 
-[**SchemasAIGeneratePlansByMetricResponse**](SchemasAIGeneratePlansByMetricResponse.md)
+[**MwserverInternalSchemasAIGeneratePlansByMetricResponse**](MwserverInternalSchemasAIGeneratePlansByMetricResponse.md)
 
 ### Authorization
 
@@ -345,7 +345,7 @@ No authorization required
 
 ## GenerateMetrics
 
-> SchemasGenerateMetricsResponse GenerateMetrics(ctx).Request(request).Execute()
+> MwserverInternalSchemasGenerateMetricsResponse GenerateMetrics(ctx).Request(request).Execute()
 
 Generate metrics using Gemini
 
@@ -364,7 +364,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasGenerateMetricsPayload("GoalDescription_example", []string{"Metrics_example"}, "WayName_example") // SchemasGenerateMetricsPayload | Request payload
+	request := *openapiclient.NewMwserverInternalSchemasGenerateMetricsPayload("GoalDescription_example", []string{"Metrics_example"}, "WayName_example") // MwserverInternalSchemasGenerateMetricsPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -373,7 +373,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.GenerateMetrics``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GenerateMetrics`: SchemasGenerateMetricsResponse
+	// response from `GenerateMetrics`: MwserverInternalSchemasGenerateMetricsResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.GenerateMetrics`: %v\n", resp)
 }
 ```
@@ -389,11 +389,11 @@ Other parameters are passed through a pointer to a apiGenerateMetricsRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasGenerateMetricsPayload**](SchemasGenerateMetricsPayload.md) | Request payload | 
+ **request** | [**MwserverInternalSchemasGenerateMetricsPayload**](MwserverInternalSchemasGenerateMetricsPayload.md) | Request payload | 
 
 ### Return type
 
-[**SchemasGenerateMetricsResponse**](SchemasGenerateMetricsResponse.md)
+[**MwserverInternalSchemasGenerateMetricsResponse**](MwserverInternalSchemasGenerateMetricsResponse.md)
 
 ### Authorization
 

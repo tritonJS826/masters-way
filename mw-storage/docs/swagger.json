@@ -48,7 +48,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UploadFileResponse"
+                            "$ref": "#/definitions/mwstorage_internal_schemas.UploadFileResponse"
                         }
                     }
                 }
@@ -89,7 +89,7 @@
         }
     },
     "definitions": {
-        "schemas.UploadFileResponse": {
+        "mwstorage_internal_schemas.UploadFileResponse": {
             "type": "object",
             "required": [
                 "id",

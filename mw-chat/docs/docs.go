@@ -49,7 +49,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
+                            "$ref": "#/definitions/mwchat_internal_schemas.CreateMessagePayload"
                         }
                     }
                 ],
@@ -57,7 +57,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessageResponse"
+                            "$ref": "#/definitions/mwchat_internal_schemas.CreateMessageResponse"
                         }
                     }
                 }
@@ -84,7 +84,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateMessageStatusPayload"
+                            "$ref": "#/definitions/mwchat_internal_schemas.UpdateMessageStatusPayload"
                         }
                     },
                     {
@@ -122,7 +122,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateRoomPayload"
+                            "$ref": "#/definitions/mwchat_internal_schemas.CreateRoomPayload"
                         }
                     }
                 ],
@@ -130,7 +130,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mwchat_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -166,7 +166,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetRoomsResponse"
+                            "$ref": "#/definitions/mwchat_internal_schemas.GetRoomsResponse"
                         }
                     }
                 }
@@ -189,7 +189,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetChatPreviewResponse"
+                            "$ref": "#/definitions/mwchat_internal_schemas.GetChatPreviewResponse"
                         }
                     }
                 }
@@ -221,7 +221,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mwchat_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -251,7 +251,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mwchat_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -290,7 +290,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPreviewResponse"
+                            "$ref": "#/definitions/mwchat_internal_schemas.RoomPreviewResponse"
                         }
                     }
                 }
@@ -332,7 +332,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.CreateMessagePayload": {
+        "mwchat_internal_schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
                 "message",
@@ -347,7 +347,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateMessageResponse": {
+        "mwchat_internal_schemas.CreateMessageResponse": {
             "type": "object",
             "required": [
                 "message",
@@ -355,7 +355,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "message": {
-                    "$ref": "#/definitions/schemas.MessageResponse"
+                    "$ref": "#/definitions/mwchat_internal_schemas.MessageResponse"
                 },
                 "users": {
                     "type": "array",
@@ -365,7 +365,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateRoomPayload": {
+        "mwchat_internal_schemas.CreateRoomPayload": {
             "type": "object",
             "required": [
                 "roomType"
@@ -384,7 +384,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetChatPreviewResponse": {
+        "mwchat_internal_schemas.GetChatPreviewResponse": {
             "type": "object",
             "required": [
                 "unreadMessagesAmount"
@@ -395,7 +395,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetRoomsResponse": {
+        "mwchat_internal_schemas.GetRoomsResponse": {
             "type": "object",
             "required": [
                 "rooms",
@@ -405,7 +405,7 @@ const docTemplate = `{
                 "rooms": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.RoomPreviewResponse"
+                        "$ref": "#/definitions/mwchat_internal_schemas.RoomPreviewResponse"
                     }
                 },
                 "size": {
@@ -413,7 +413,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MessageReader": {
+        "mwchat_internal_schemas.MessageReader": {
             "type": "object",
             "required": [
                 "readDate",
@@ -428,7 +428,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MessageResponse": {
+        "mwchat_internal_schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
@@ -446,7 +446,7 @@ const docTemplate = `{
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReader"
+                        "$ref": "#/definitions/mwchat_internal_schemas.MessageReader"
                     }
                 },
                 "ownerId": {
@@ -454,7 +454,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.RoomPopulatedResponse": {
+        "mwchat_internal_schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
                 "isBlocked",
@@ -471,7 +471,7 @@ const docTemplate = `{
                 "messages": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageResponse"
+                        "$ref": "#/definitions/mwchat_internal_schemas.MessageResponse"
                     }
                 },
                 "name": {
@@ -487,12 +487,12 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/mwchat_internal_schemas.UserResponse"
                     }
                 }
             }
         },
-        "schemas.RoomPreviewResponse": {
+        "mwchat_internal_schemas.RoomPreviewResponse": {
             "type": "object",
             "required": [
                 "isBlocked",
@@ -518,12 +518,12 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/mwchat_internal_schemas.UserResponse"
                     }
                 }
             }
         },
-        "schemas.UpdateMessageStatusPayload": {
+        "mwchat_internal_schemas.UpdateMessageStatusPayload": {
             "type": "object",
             "required": [
                 "isRead"
@@ -534,7 +534,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserResponse": {
+        "mwchat_internal_schemas.UserResponse": {
             "type": "object",
             "required": [
                 "role",

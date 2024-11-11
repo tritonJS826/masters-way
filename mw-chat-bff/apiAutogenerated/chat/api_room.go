@@ -31,7 +31,7 @@ type ApiAddUserToRoomRequest struct {
 	userId string
 }
 
-func (r ApiAddUserToRoomRequest) Execute() (*SchemasRoomPreviewResponse, *http.Response, error) {
+func (r ApiAddUserToRoomRequest) Execute() (*MwchatInternalSchemasRoomPreviewResponse, *http.Response, error) {
 	return r.ApiService.AddUserToRoomExecute(r)
 }
 
@@ -53,13 +53,13 @@ func (a *RoomAPIService) AddUserToRoom(ctx context.Context, roomId string, userI
 }
 
 // Execute executes the request
-//  @return SchemasRoomPreviewResponse
-func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*SchemasRoomPreviewResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPreviewResponse
+func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*MwchatInternalSchemasRoomPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPreviewResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
@@ -130,11 +130,11 @@ func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*Schem
 }
 
 // Execute executes the request
-//  @return SchemasRoomPreviewResponseStream
-func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPreviewResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPreviewResponseStream
+func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, request *http.Request, GoogleAccessToken string) (*MwchatInternalSchemasRoomPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasRoomPreviewResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
@@ -218,16 +218,16 @@ func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, r
 type ApiCreateRoomRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
-	request *SchemasCreateRoomPayload
+	request *MwchatInternalSchemasCreateRoomPayload
 }
 
 // query params
-func (r ApiCreateRoomRequest) Request(request SchemasCreateRoomPayload) ApiCreateRoomRequest {
+func (r ApiCreateRoomRequest) Request(request MwchatInternalSchemasCreateRoomPayload) ApiCreateRoomRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiCreateRoomRequest) Execute() (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateRoomExecute(r)
 }
 
@@ -245,13 +245,13 @@ func (a *RoomAPIService) CreateRoom(ctx context.Context) ApiCreateRoomRequest {
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateRoom")
@@ -325,11 +325,11 @@ func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoom
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateRoom")
@@ -581,7 +581,7 @@ type ApiGetChatPreviewRequest struct {
 	ApiService *RoomAPIService
 }
 
-func (r ApiGetChatPreviewRequest) Execute() (*SchemasGetChatPreviewResponse, *http.Response, error) {
+func (r ApiGetChatPreviewRequest) Execute() (*MwchatInternalSchemasGetChatPreviewResponse, *http.Response, error) {
 	return r.ApiService.GetChatPreviewExecute(r)
 }
 
@@ -599,13 +599,13 @@ func (a *RoomAPIService) GetChatPreview(ctx context.Context) ApiGetChatPreviewRe
 }
 
 // Execute executes the request
-//  @return SchemasGetChatPreviewResponse
-func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*SchemasGetChatPreviewResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasGetChatPreviewResponse
+func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*MwchatInternalSchemasGetChatPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetChatPreviewResponse
+		localVarReturnValue  *MwchatInternalSchemasGetChatPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetChatPreview")
@@ -674,11 +674,11 @@ func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*Sch
 }
 
 // Execute executes the request
-//  @return SchemasGetChatPreviewResponseStream
-func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetChatPreviewResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasGetChatPreviewResponseStream
+func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest, request *http.Request, GoogleAccessToken string) (*MwchatInternalSchemasGetChatPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGetChatPreviewResponse
+		localVarReturnValue  *MwchatInternalSchemasGetChatPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetChatPreview")
@@ -761,7 +761,7 @@ type ApiGetRoomByIdRequest struct {
 	roomId string
 }
 
-func (r ApiGetRoomByIdRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiGetRoomByIdRequest) Execute() (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetRoomByIdExecute(r)
 }
 
@@ -781,13 +781,13 @@ func (a *RoomAPIService) GetRoomById(ctx context.Context, roomId string) ApiGetR
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRoomById")
@@ -857,11 +857,11 @@ func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRo
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, request *http.Request, GoogleAccessToken string) (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRoomById")
@@ -946,7 +946,7 @@ type ApiGetRoomsRequest struct {
 	roomType string
 }
 
-func (r ApiGetRoomsRequest) Execute() (*SchemasGetRoomsResponse, *http.Response, error) {
+func (r ApiGetRoomsRequest) Execute() (*MwchatInternalSchemasGetRoomsResponse, *http.Response, error) {
 	return r.ApiService.GetRoomsExecute(r)
 }
 
@@ -966,13 +966,13 @@ func (a *RoomAPIService) GetRooms(ctx context.Context, roomType string) ApiGetRo
 }
 
 // Execute executes the request
-//  @return SchemasGetRoomsResponse
-func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRoomsResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasGetRoomsResponse
+func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*MwchatInternalSchemasGetRoomsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetRoomsResponse
+		localVarReturnValue  *MwchatInternalSchemasGetRoomsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRooms")
@@ -1042,11 +1042,11 @@ func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRooms
 }
 
 // Execute executes the request
-//  @return SchemasGetRoomsResponseStream
-func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetRoomsResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasGetRoomsResponseStream
+func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *http.Request, GoogleAccessToken string) (*MwchatInternalSchemasGetRoomsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGetRoomsResponse
+		localVarReturnValue  *MwchatInternalSchemasGetRoomsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRooms")
@@ -1131,7 +1131,7 @@ type ApiUpdateRoomRequest struct {
 	roomId string
 }
 
-func (r ApiUpdateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiUpdateRoomRequest) Execute() (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdateRoomExecute(r)
 }
 
@@ -1151,13 +1151,13 @@ func (a *RoomAPIService) UpdateRoom(ctx context.Context, roomId string) ApiUpdat
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.UpdateRoom")
@@ -1227,11 +1227,11 @@ func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoom
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwchatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwchatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.UpdateRoom")

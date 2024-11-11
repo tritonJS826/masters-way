@@ -1,6 +1,6 @@
 basePath: /notification
 definitions:
-  schemas.EnabledNotificationResponse:
+  mw-notification-bff_internal_schemas.EnabledNotificationResponse:
     properties:
       channel:
         type: string
@@ -19,20 +19,20 @@ definitions:
     - userUuid
     - uuid
     type: object
-  schemas.GetEnabledNotificationListResponse:
+  mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse:
     properties:
       enabledNotifications:
         items:
-          $ref: '#/definitions/schemas.EnabledNotificationResponse'
+          $ref: '#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
         type: array
     required:
     - enabledNotifications
     type: object
-  schemas.GetNotificationListResponse:
+  mw-notification-bff_internal_schemas.GetNotificationListResponse:
     properties:
       notifications:
         items:
-          $ref: '#/definitions/schemas.NotificationResponse'
+          $ref: '#/definitions/mw-notification-bff_internal_schemas.NotificationResponse'
         type: array
       size:
         type: integer
@@ -40,7 +40,7 @@ definitions:
     - notifications
     - size
     type: object
-  schemas.NotificationResponse:
+  mw-notification-bff_internal_schemas.NotificationResponse:
     properties:
       createdAt:
         type: string
@@ -65,14 +65,14 @@ definitions:
     - userUuid
     - uuid
     type: object
-  schemas.UpdateEnabledNotificationPayload:
+  mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload:
     properties:
       isEnabled:
         type: boolean
     required:
     - isEnabled
     type: object
-  schemas.UpdateNotificationPayload:
+  mw-notification-bff_internal_schemas.UpdateNotificationPayload:
     properties:
       isRead:
         type: boolean
@@ -95,7 +95,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetEnabledNotificationListResponse'
+            $ref: '#/definitions/mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse'
       summary: Get enabledNotification list by user id
       tags:
       - enabledNotification
@@ -110,7 +110,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateEnabledNotificationPayload'
+          $ref: '#/definitions/mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload'
       - description: notification id
         in: path
         name: enabledNotificationId
@@ -122,7 +122,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.EnabledNotificationResponse'
+            $ref: '#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
       summary: Update enabledNotification by id
       tags:
       - enabledNotification
@@ -137,7 +137,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetNotificationListResponse'
+            $ref: '#/definitions/mw-notification-bff_internal_schemas.GetNotificationListResponse'
       summary: Get notification list by user id
       tags:
       - notification
@@ -152,7 +152,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateNotificationPayload'
+          $ref: '#/definitions/mw-notification-bff_internal_schemas.UpdateNotificationPayload'
       - description: notification id
         in: path
         name: notificationId
@@ -164,7 +164,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.NotificationResponse'
+            $ref: '#/definitions/mw-notification-bff_internal_schemas.NotificationResponse'
       summary: Update notification by id
       tags:
       - notification

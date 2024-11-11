@@ -95,7 +95,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasSendMessagePayload(*openapiclient.NewSchemasMessageResponse("Message_example", "MessageId_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example"), []string{"Users_example"}) // SchemasSendMessagePayload | query params
+	request := *openapiclient.NewMwChatWebsocketInternalSchemasSendMessagePayload(*openapiclient.NewMwChatWebsocketInternalSchemasMessageResponse("Message_example", "MessageId_example", []openapiclient.MwChatWebsocketInternalSchemasMessageReader{*openapiclient.NewMwChatWebsocketInternalSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example"), []string{"Users_example"}) // MwChatWebsocketInternalSchemasSendMessagePayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -118,7 +118,7 @@ Other parameters are passed through a pointer to a apiSendMessageEventRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasSendMessagePayload**](SchemasSendMessagePayload.md) | query params | 
+ **request** | [**MwChatWebsocketInternalSchemasSendMessagePayload**](MwChatWebsocketInternalSchemasSendMessagePayload.md) | query params | 
 
 ### Return type
 
@@ -157,7 +157,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasRoomPopulatedResponse("ImageUrl_example", []openapiclient.SchemasMessageResponse{*openapiclient.NewSchemasMessageResponse("Message_example", "MessageId_example", []openapiclient.SchemasMessageReader{*openapiclient.NewSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example")}, "Name_example", "RoomId_example", "RoomType_example", []openapiclient.SchemasUserResponse{*openapiclient.NewSchemasUserResponse("ImageUrl_example", "Name_example", "Role_example", "UserId_example")}) // SchemasRoomPopulatedResponse | query params
+	request := *openapiclient.NewMwChatWebsocketInternalSchemasRoomPopulatedResponse("ImageUrl_example", []openapiclient.MwChatWebsocketInternalSchemasMessageResponse{*openapiclient.NewMwChatWebsocketInternalSchemasMessageResponse("Message_example", "MessageId_example", []openapiclient.MwChatWebsocketInternalSchemasMessageReader{*openapiclient.NewMwChatWebsocketInternalSchemasMessageReader("ImageUrl_example", "Name_example", "ReadDate_example", "UserId_example")}, "OwnerId_example", "OwnerImageUrl_example", "OwnerName_example", "RoomId_example")}, "Name_example", "RoomId_example", "RoomType_example", []openapiclient.MwChatWebsocketInternalSchemasUserResponse{*openapiclient.NewMwChatWebsocketInternalSchemasUserResponse("ImageUrl_example", "Name_example", "Role_example", "UserId_example")}) // MwChatWebsocketInternalSchemasRoomPopulatedResponse | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -180,7 +180,7 @@ Other parameters are passed through a pointer to a apiSendRoomEventRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md) | query params | 
+ **request** | [**MwChatWebsocketInternalSchemasRoomPopulatedResponse**](MwChatWebsocketInternalSchemasRoomPopulatedResponse.md) | query params | 
 
 ### Return type
 

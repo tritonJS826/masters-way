@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateFromUserMentoringRequest
 
-> SchemasFromUserMentoringRequestResponse CreateFromUserMentoringRequest(ctx).Request(request).Execute()
+> MwserverInternalSchemasFromUserMentoringRequestResponse CreateFromUserMentoringRequest(ctx).Request(request).Execute()
 
 Create a new fromUserMentoringRequest
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateFromUserMentoringRequestPayload("UserUuid_example", "WayUuid_example") // SchemasCreateFromUserMentoringRequestPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateFromUserMentoringRequestPayload("UserUuid_example", "WayUuid_example") // MwserverInternalSchemasCreateFromUserMentoringRequestPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FromUserMentoringRequestAPI.CreateFromUserMentoringRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateFromUserMentoringRequest`: SchemasFromUserMentoringRequestResponse
+	// response from `CreateFromUserMentoringRequest`: MwserverInternalSchemasFromUserMentoringRequestResponse
 	fmt.Fprintf(os.Stdout, "Response from `FromUserMentoringRequestAPI.CreateFromUserMentoringRequest`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateFromUserMentoringReq
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateFromUserMentoringRequestPayload**](SchemasCreateFromUserMentoringRequestPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateFromUserMentoringRequestPayload**](MwserverInternalSchemasCreateFromUserMentoringRequestPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasFromUserMentoringRequestResponse**](SchemasFromUserMentoringRequestResponse.md)
+[**MwserverInternalSchemasFromUserMentoringRequestResponse**](MwserverInternalSchemasFromUserMentoringRequestResponse.md)
 
 ### Authorization
 

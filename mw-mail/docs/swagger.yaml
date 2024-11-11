@@ -1,6 +1,6 @@
 basePath: /mail
 definitions:
-  schemas.SendMailResponse:
+  mwmail_internal_schemas.SendMailResponse:
     properties:
       bcc:
         items:
@@ -92,7 +92,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.SendMailResponse'
+            $ref: '#/definitions/mwmail_internal_schemas.SendMailResponse'
       summary: Sending messages to recipients and save logs
       tags:
       - mail

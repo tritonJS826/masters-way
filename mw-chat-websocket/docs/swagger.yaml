@@ -1,6 +1,6 @@
 basePath: /mw-chat-websocket
 definitions:
-  schemas.MessageReader:
+  mw-chat-websocket_internal_schemas.MessageReader:
     properties:
       imageUrl:
         type: string
@@ -16,7 +16,7 @@ definitions:
     - readDate
     - userId
     type: object
-  schemas.MessageResponse:
+  mw-chat-websocket_internal_schemas.MessageResponse:
     properties:
       message:
         type: string
@@ -24,7 +24,7 @@ definitions:
         type: string
       messageReaders:
         items:
-          $ref: '#/definitions/schemas.MessageReader'
+          $ref: '#/definitions/mw-chat-websocket_internal_schemas.MessageReader'
         type: array
       ownerId:
         type: string
@@ -43,13 +43,13 @@ definitions:
     - ownerName
     - roomId
     type: object
-  schemas.RoomPopulatedResponse:
+  mw-chat-websocket_internal_schemas.RoomPopulatedResponse:
     properties:
       imageUrl:
         type: string
       messages:
         items:
-          $ref: '#/definitions/schemas.MessageResponse'
+          $ref: '#/definitions/mw-chat-websocket_internal_schemas.MessageResponse'
         type: array
       name:
         type: string
@@ -59,7 +59,7 @@ definitions:
         type: string
       users:
         items:
-          $ref: '#/definitions/schemas.UserResponse'
+          $ref: '#/definitions/mw-chat-websocket_internal_schemas.UserResponse'
         type: array
     required:
     - imageUrl
@@ -69,10 +69,10 @@ definitions:
     - roomType
     - users
     type: object
-  schemas.SendMessagePayload:
+  mw-chat-websocket_internal_schemas.SendMessagePayload:
     properties:
       message:
-        $ref: '#/definitions/schemas.MessageResponse'
+        $ref: '#/definitions/mw-chat-websocket_internal_schemas.MessageResponse'
       users:
         items:
           type: string
@@ -81,7 +81,7 @@ definitions:
     - message
     - users
     type: object
-  schemas.UserResponse:
+  mw-chat-websocket_internal_schemas.UserResponse:
     properties:
       imageUrl:
         type: string
@@ -113,7 +113,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.SendMessagePayload'
+          $ref: '#/definitions/mw-chat-websocket_internal_schemas.SendMessagePayload'
       produces:
       - application/json
       responses:
@@ -133,7 +133,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.RoomPopulatedResponse'
+          $ref: '#/definitions/mw-chat-websocket_internal_schemas.RoomPopulatedResponse'
       produces:
       - application/json
       responses:

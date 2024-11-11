@@ -13,7 +13,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.SendMessagePayload'
+              $ref: '#/components/schemas/mw-chat-websocket_internal_schemas.SendMessagePayload'
         description: query params
         required: true
       responses:
@@ -31,7 +31,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.RoomPopulatedResponse'
+              $ref: '#/components/schemas/mw-chat-websocket_internal_schemas.RoomPopulatedResponse'
         description: query params
         required: true
       responses:
@@ -61,7 +61,7 @@ paths:
       - socket
 components:
   schemas:
-    schemas.MessageReader:
+    mw-chat-websocket_internal_schemas.MessageReader:
       properties:
         imageUrl:
           type: string
@@ -77,7 +77,7 @@ components:
       - readDate
       - userId
       type: object
-    schemas.MessageResponse:
+    mw-chat-websocket_internal_schemas.MessageResponse:
       properties:
         message:
           type: string
@@ -85,7 +85,7 @@ components:
           type: string
         messageReaders:
           items:
-            $ref: '#/components/schemas/schemas.MessageReader'
+            $ref: '#/components/schemas/mw-chat-websocket_internal_schemas.MessageReader'
           type: array
         ownerId:
           type: string
@@ -104,13 +104,13 @@ components:
       - ownerName
       - roomId
       type: object
-    schemas.RoomPopulatedResponse:
+    mw-chat-websocket_internal_schemas.RoomPopulatedResponse:
       properties:
         imageUrl:
           type: string
         messages:
           items:
-            $ref: '#/components/schemas/schemas.MessageResponse'
+            $ref: '#/components/schemas/mw-chat-websocket_internal_schemas.MessageResponse'
           type: array
         name:
           type: string
@@ -120,7 +120,7 @@ components:
           type: string
         users:
           items:
-            $ref: '#/components/schemas/schemas.UserResponse'
+            $ref: '#/components/schemas/mw-chat-websocket_internal_schemas.UserResponse'
           type: array
       required:
       - imageUrl
@@ -130,10 +130,10 @@ components:
       - roomType
       - users
       type: object
-    schemas.SendMessagePayload:
+    mw-chat-websocket_internal_schemas.SendMessagePayload:
       properties:
         message:
-          $ref: '#/components/schemas/schemas.MessageResponse'
+          $ref: '#/components/schemas/mw-chat-websocket_internal_schemas.MessageResponse'
         users:
           items:
             type: string
@@ -142,7 +142,7 @@ components:
       - message
       - users
       type: object
-    schemas.UserResponse:
+    mw-chat-websocket_internal_schemas.UserResponse:
       properties:
         imageUrl:
           type: string

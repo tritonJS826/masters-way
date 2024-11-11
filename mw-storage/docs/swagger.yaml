@@ -1,6 +1,6 @@
 basePath: /storage
 definitions:
-  schemas.UploadFileResponse:
+  mwstorage_internal_schemas.UploadFileResponse:
     properties:
       id:
         type: string
@@ -74,7 +74,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UploadFileResponse'
+            $ref: '#/definitions/mwstorage_internal_schemas.UploadFileResponse'
       summary: Upload file to storage
       tags:
       - file

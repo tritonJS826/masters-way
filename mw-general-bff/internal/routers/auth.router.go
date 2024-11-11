@@ -1,9 +1,9 @@
 package routers
 
 import (
-	"mwserver/internal/auth"
-	"mwserver/internal/config"
-	"mwserver/internal/controllers"
+	"mw-general-bff/internal/auth"
+	"mw-general-bff/internal/config"
+	"mw-general-bff/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 ## AddUserToRoom
 
-> SchemasRoomPreviewResponse AddUserToRoom(ctx, roomId, userId).Execute()
+> MwchatInternalSchemasRoomPreviewResponse AddUserToRoom(ctx, roomId, userId).Execute()
 
 Add user to room
 
@@ -43,7 +43,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.AddUserToRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AddUserToRoom`: SchemasRoomPreviewResponse
+	// response from `AddUserToRoom`: MwchatInternalSchemasRoomPreviewResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.AddUserToRoom`: %v\n", resp)
 }
 ```
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPreviewResponse**](SchemasRoomPreviewResponse.md)
+[**MwchatInternalSchemasRoomPreviewResponse**](MwchatInternalSchemasRoomPreviewResponse.md)
 
 ### Authorization
 
@@ -87,7 +87,7 @@ No authorization required
 
 ## CreateRoom
 
-> SchemasRoomPopulatedResponse CreateRoom(ctx).Request(request).Execute()
+> MwchatInternalSchemasRoomPopulatedResponse CreateRoom(ctx).Request(request).Execute()
 
 Create room for user
 
@@ -104,7 +104,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateRoomPayload("RoomType_example") // SchemasCreateRoomPayload | query params
+	request := *openapiclient.NewMwchatInternalSchemasCreateRoomPayload("RoomType_example") // MwchatInternalSchemasCreateRoomPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -113,7 +113,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.CreateRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateRoom`: SchemasRoomPopulatedResponse
+	// response from `CreateRoom`: MwchatInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.CreateRoom`: %v\n", resp)
 }
 ```
@@ -129,11 +129,11 @@ Other parameters are passed through a pointer to a apiCreateRoomRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateRoomPayload**](SchemasCreateRoomPayload.md) | query params | 
+ **request** | [**MwchatInternalSchemasCreateRoomPayload**](MwchatInternalSchemasCreateRoomPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwchatInternalSchemasRoomPopulatedResponse**](MwchatInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -220,7 +220,7 @@ No authorization required
 
 ## GetChatPreview
 
-> SchemasGetChatPreviewResponse GetChatPreview(ctx).Execute()
+> MwchatInternalSchemasGetChatPreviewResponse GetChatPreview(ctx).Execute()
 
 Get chat preview
 
@@ -245,7 +245,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetChatPreview``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetChatPreview`: SchemasGetChatPreviewResponse
+	// response from `GetChatPreview`: MwchatInternalSchemasGetChatPreviewResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetChatPreview`: %v\n", resp)
 }
 ```
@@ -261,7 +261,7 @@ Other parameters are passed through a pointer to a apiGetChatPreviewRequest stru
 
 ### Return type
 
-[**SchemasGetChatPreviewResponse**](SchemasGetChatPreviewResponse.md)
+[**MwchatInternalSchemasGetChatPreviewResponse**](MwchatInternalSchemasGetChatPreviewResponse.md)
 
 ### Authorization
 
@@ -279,7 +279,7 @@ No authorization required
 
 ## GetRoomById
 
-> SchemasRoomPopulatedResponse GetRoomById(ctx, roomId).Execute()
+> MwchatInternalSchemasRoomPopulatedResponse GetRoomById(ctx, roomId).Execute()
 
 Get room by id
 
@@ -305,7 +305,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetRoomById``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetRoomById`: SchemasRoomPopulatedResponse
+	// response from `GetRoomById`: MwchatInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetRoomById`: %v\n", resp)
 }
 ```
@@ -329,7 +329,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwchatInternalSchemasRoomPopulatedResponse**](MwchatInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -347,7 +347,7 @@ No authorization required
 
 ## GetRooms
 
-> SchemasGetRoomsResponse GetRooms(ctx, roomType).Execute()
+> MwchatInternalSchemasGetRoomsResponse GetRooms(ctx, roomType).Execute()
 
 Get rooms for user
 
@@ -373,7 +373,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetRooms``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetRooms`: SchemasGetRoomsResponse
+	// response from `GetRooms`: MwchatInternalSchemasGetRoomsResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetRooms`: %v\n", resp)
 }
 ```
@@ -397,7 +397,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasGetRoomsResponse**](SchemasGetRoomsResponse.md)
+[**MwchatInternalSchemasGetRoomsResponse**](MwchatInternalSchemasGetRoomsResponse.md)
 
 ### Authorization
 
@@ -415,7 +415,7 @@ No authorization required
 
 ## UpdateRoom
 
-> SchemasRoomPopulatedResponse UpdateRoom(ctx, roomId).Execute()
+> MwchatInternalSchemasRoomPopulatedResponse UpdateRoom(ctx, roomId).Execute()
 
 Update room for user
 
@@ -441,7 +441,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.UpdateRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateRoom`: SchemasRoomPopulatedResponse
+	// response from `UpdateRoom`: MwchatInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.UpdateRoom`: %v\n", resp)
 }
 ```
@@ -465,7 +465,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwchatInternalSchemasRoomPopulatedResponse**](MwchatInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 

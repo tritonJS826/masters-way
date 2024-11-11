@@ -74,17 +74,174 @@ ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVari
 
 ## Documentation for API Endpoints
 
-All URIs are relative to */general*
+All URIs are relative to *http://localhost/general-bff*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AuthAPI* | [**BeginAuth**](docs/AuthAPI.md#beginauth) | **Get** /auth/{provider} | Begin oauth
+*AuthAPI* | [**GetCurrentAuthorizedUser**](docs/AuthAPI.md#getcurrentauthorizeduser) | **Get** /auth/current | Get current authorized user
+*AuthAPI* | [**GetGoogleToken**](docs/AuthAPI.md#getgoogletoken) | **Get** /auth/google-token | Retrieve Google Access Token
+*AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
+*AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Post** /auth/{provider}/callback | Log in with google oAuth
+*AuthAPI* | [**LogoutCurrentAuthorizedUser**](docs/AuthAPI.md#logoutcurrentauthorizeduser) | **Get** /auth/logout/{provider} | Logout current authorized user
+*CommentAPI* | [**CreateComment**](docs/CommentAPI.md#createcomment) | **Post** /comments | Create a new comment
+*CommentAPI* | [**DeleteComment**](docs/CommentAPI.md#deletecomment) | **Delete** /comments/{commentId} | Delete comment by UUID
+*CommentAPI* | [**UpdateComment**](docs/CommentAPI.md#updatecomment) | **Patch** /comments/{commentId} | Update comment by UUID
+*CompositeWayAPI* | [**CreateCompositeWay**](docs/CompositeWayAPI.md#createcompositeway) | **Post** /compositeWay | Add a way to composite way
+*CompositeWayAPI* | [**DeleteCompositeWayRelation**](docs/CompositeWayAPI.md#deletecompositewayrelation) | **Delete** /compositeWay/{parentWayId}/{childWayId} | Delete composite way relation
+*DayReportAPI* | [**CreateDayReport**](docs/DayReportAPI.md#createdayreport) | **Post** /dayReports | Create a new dayReport
+*DayReportAPI* | [**GetDayReports**](docs/DayReportAPI.md#getdayreports) | **Get** /dayReports/{wayId} | Get list of day reports by way UUID
+*FavoriteUserAPI* | [**CreateFavoriteUser**](docs/FavoriteUserAPI.md#createfavoriteuser) | **Post** /favoriteUsers | Create a new favorite user
+*FavoriteUserAPI* | [**DeleteFavoriteUser**](docs/FavoriteUserAPI.md#deletefavoriteuser) | **Delete** /favoriteUsers/{donorUserUuid}/{acceptorUserUuid} | Delete favoriteUser by UUID
+*FavoriteUserWayAPI* | [**CreateFavoriteUserWay**](docs/FavoriteUserWayAPI.md#createfavoriteuserway) | **Post** /favoriteUserWays | Create a new favoriteUserWay
+*FavoriteUserWayAPI* | [**DeleteFavoriteUserWay**](docs/FavoriteUserWayAPI.md#deletefavoriteuserway) | **Delete** /favoriteUserWays/{userUuid}/{wayUuid} | Delete favoriteUserWay by UUID
 *FileAPI* | [**DeleteFiles**](docs/FileAPI.md#deletefiles) | **Delete** /files | Delete files by IDs
 *FileAPI* | [**UploadFile**](docs/FileAPI.md#uploadfile) | **Post** /files | Upload file to storage
+*FromUserMentoringRequestAPI* | [**CreateFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#createfromusermentoringrequest) | **Post** /fromUserMentoringRequests | Create a new fromUserMentoringRequest
+*FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
+*GeminiAPI* | [**AiChat**](docs/GeminiAPI.md#aichat) | **Post** /gemini/just-chat | Just chat with AI
+*GeminiAPI* | [**AiCommentIssue**](docs/GeminiAPI.md#aicommentissue) | **Post** /gemini/comment-issue | Generate a comment for any issue
+*GeminiAPI* | [**AiDecomposeIssue**](docs/GeminiAPI.md#aidecomposeissue) | **Post** /gemini/decompose-issue | Decompose issue
+*GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
+*GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
+*GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
+*HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
+*JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
+*JobDoneAPI* | [**CreateJobDone_0**](docs/JobDoneAPI.md#createjobdone_0) | **Post** /jobDones | Create a new jobDone
+*JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
+*JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
+*JobDoneJobTagAPI* | [**CreateJobDoneJobTag**](docs/JobDoneJobTagAPI.md#createjobdonejobtag) | **Post** /jobDoneJobTags | Create a new jobDoneJobTag
+*JobDoneJobTagAPI* | [**DeleteJobDoneJobTag**](docs/JobDoneJobTagAPI.md#deletejobdonejobtag) | **Delete** /jobDoneJobTags/{jobTagId}/{jobDoneId} | Delete jobDoneJobTag by UUID
+*JobTagAPI* | [**CreateJobTag**](docs/JobTagAPI.md#createjobtag) | **Post** /jobTags | Create a new jobTag
+*JobTagAPI* | [**DeleteJobTag**](docs/JobTagAPI.md#deletejobtag) | **Delete** /jobTags/{jobTagId} | Delete jobTag by UUID
+*JobTagAPI* | [**UpdateJobTag**](docs/JobTagAPI.md#updatejobtag) | **Patch** /jobTags/{jobTagId} | Update jobTag by UUID
+*MentorUserWayAPI* | [**CreateMentorUserWay**](docs/MentorUserWayAPI.md#creatementoruserway) | **Post** /mentorUserWays | Create a new mentorUserWay
+*MentorUserWayAPI* | [**DeleteMentorUserWay**](docs/MentorUserWayAPI.md#deletementoruserway) | **Delete** /mentorUserWays | Delete mentorUserWay by UUID
+*MetricAPI* | [**CreateMetric**](docs/MetricAPI.md#createmetric) | **Post** /metrics | Create a new metric
+*MetricAPI* | [**DeleteMetric**](docs/MetricAPI.md#deletemetric) | **Delete** /metrics/{metricId} | Delete metric by UUID
+*MetricAPI* | [**UpdateMetric**](docs/MetricAPI.md#updatemetric) | **Patch** /metrics/{metricId} | Update metric by UUID
+*PlanAPI* | [**CreatePlan**](docs/PlanAPI.md#createplan) | **Post** /plans | Create a new plan
+*PlanAPI* | [**DeletePlan**](docs/PlanAPI.md#deleteplan) | **Delete** /plans/{planId} | Delete plan by UUID
+*PlanAPI* | [**UpdatePlan**](docs/PlanAPI.md#updateplan) | **Patch** /plans/{planId} | Update plan by UUID
+*PlanJobTagAPI* | [**CreatePlanJobTag**](docs/PlanJobTagAPI.md#createplanjobtag) | **Post** /planJobTags | Create a new planJobTag
+*PlanJobTagAPI* | [**DeletePlanJobTag**](docs/PlanJobTagAPI.md#deleteplanjobtag) | **Delete** /planJobTags/{jobTagId}/{planId} | Delete planJobTag by UUID
+*ProblemAPI* | [**CreateProblem**](docs/ProblemAPI.md#createproblem) | **Post** /problems | Create a new problem
+*ProblemAPI* | [**DeleteProblem**](docs/ProblemAPI.md#deleteproblem) | **Delete** /problems/{problemId} | Delete problem by UUID
+*ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
+*ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
+*ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /projects/{projectId} | Delete project by id
+*ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
+*ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
+*ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
+*ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
+*UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
+*UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
+*UserAPI* | [**GetUsersByIds**](docs/UserAPI.md#getusersbyids) | **Get** /users/list-by-ids | Get users by ids
+*UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
+*UserProjectAPI* | [**CreateUserProject**](docs/UserProjectAPI.md#createuserproject) | **Post** /userProjects | Add user to project
+*UserProjectAPI* | [**DeleteUserProject**](docs/UserProjectAPI.md#deleteuserproject) | **Delete** /userProjects/{projectId}/{userId} | Delete userProject by UUID
+*UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
+*UserTagAPI* | [**DeleteUserTag**](docs/UserTagAPI.md#deleteusertag) | **Delete** /userTags/{userTagId}/{userId} | Delete userTag by UUID
+*WayAPI* | [**CreateWay**](docs/WayAPI.md#createway) | **Post** /ways | Create a new way
+*WayAPI* | [**DeleteWay**](docs/WayAPI.md#deleteway) | **Delete** /ways/{wayId} | Delete way by UUID
+*WayAPI* | [**GetAllWays**](docs/WayAPI.md#getallways) | **Get** /ways | Get all ways
+*WayAPI* | [**GetWayByUuid**](docs/WayAPI.md#getwaybyuuid) | **Get** /ways/{wayId} | Get way by UUID
+*WayAPI* | [**GetWayStatisticsByUuid**](docs/WayAPI.md#getwaystatisticsbyuuid) | **Get** /ways/{wayId}/statistics | Get way statistics by UUID
+*WayAPI* | [**UpdateWay**](docs/WayAPI.md#updateway) | **Patch** /ways/{wayId} | Update way by UUID
+*WayCollectionAPI* | [**CreateWayCollection**](docs/WayCollectionAPI.md#createwaycollection) | **Post** /wayCollections | Create a new wayCollection
+*WayCollectionAPI* | [**DeleteWayCollection**](docs/WayCollectionAPI.md#deletewaycollection) | **Delete** /wayCollections/{wayCollectionId} | Delete wayCollection by UUID
+*WayCollectionAPI* | [**UpdateWayCollection**](docs/WayCollectionAPI.md#updatewaycollection) | **Patch** /wayCollections/{wayCollectionId} | Update wayCollection by UUID
+*WayCollectionWayAPI* | [**CreateWayCollectionWay**](docs/WayCollectionWayAPI.md#createwaycollectionway) | **Post** /wayCollectionWays | Create a new wayCollectionWay
+*WayCollectionWayAPI* | [**DeleteWayCollectionWay**](docs/WayCollectionWayAPI.md#deletewaycollectionway) | **Delete** /wayCollectionWays/{wayId}/{wayCollectionId} | Delete wayCollectionWay by UUID
+*WayTagAPI* | [**CreateWayTag**](docs/WayTagAPI.md#createwaytag) | **Post** /wayTags | Create a new wayTag
+*WayTagAPI* | [**DeleteWayTag**](docs/WayTagAPI.md#deletewaytag) | **Delete** /wayTags/{wayTagId}/{wayId} | Delete wayTag by UUID
 
 
 ## Documentation For Models
 
+ - [SchemasAIChatPayload](docs/SchemasAIChatPayload.md)
+ - [SchemasAIChatResponse](docs/SchemasAIChatResponse.md)
+ - [SchemasAICommentIssuePayload](docs/SchemasAICommentIssuePayload.md)
+ - [SchemasAICommentIssueResponse](docs/SchemasAICommentIssueResponse.md)
+ - [SchemasAIDecomposeIssuePayload](docs/SchemasAIDecomposeIssuePayload.md)
+ - [SchemasAIDecomposeIssueResponse](docs/SchemasAIDecomposeIssueResponse.md)
+ - [SchemasAIEstimateIssuePayload](docs/SchemasAIEstimateIssuePayload.md)
+ - [SchemasAIEstimateIssueResponse](docs/SchemasAIEstimateIssueResponse.md)
+ - [SchemasAIGeneratePlansByMetricPayload](docs/SchemasAIGeneratePlansByMetricPayload.md)
+ - [SchemasAIGeneratePlansByMetricResponse](docs/SchemasAIGeneratePlansByMetricResponse.md)
+ - [SchemasAddWayToCompositeWayPayload](docs/SchemasAddWayToCompositeWayPayload.md)
+ - [SchemasCommentPopulatedResponse](docs/SchemasCommentPopulatedResponse.md)
+ - [SchemasCompositeDayReportPopulatedResponse](docs/SchemasCompositeDayReportPopulatedResponse.md)
+ - [SchemasCompositeWayRelation](docs/SchemasCompositeWayRelation.md)
+ - [SchemasCreateCommentPayload](docs/SchemasCreateCommentPayload.md)
+ - [SchemasCreateDayReportPayload](docs/SchemasCreateDayReportPayload.md)
+ - [SchemasCreateFavoriteUserPayload](docs/SchemasCreateFavoriteUserPayload.md)
+ - [SchemasCreateFavoriteUserWayPayload](docs/SchemasCreateFavoriteUserWayPayload.md)
+ - [SchemasCreateFromUserMentoringRequestPayload](docs/SchemasCreateFromUserMentoringRequestPayload.md)
+ - [SchemasCreateJobDoneJobTagPayload](docs/SchemasCreateJobDoneJobTagPayload.md)
+ - [SchemasCreateJobDonePayload](docs/SchemasCreateJobDonePayload.md)
+ - [SchemasCreateJobTagPayload](docs/SchemasCreateJobTagPayload.md)
+ - [SchemasCreateMentorUserWayPayload](docs/SchemasCreateMentorUserWayPayload.md)
+ - [SchemasCreateMetricPayload](docs/SchemasCreateMetricPayload.md)
+ - [SchemasCreatePlanJobTagPayload](docs/SchemasCreatePlanJobTagPayload.md)
+ - [SchemasCreatePlanPayload](docs/SchemasCreatePlanPayload.md)
+ - [SchemasCreateProblemPayload](docs/SchemasCreateProblemPayload.md)
+ - [SchemasCreateProjectPayload](docs/SchemasCreateProjectPayload.md)
+ - [SchemasCreateToUserMentoringRequestPayload](docs/SchemasCreateToUserMentoringRequestPayload.md)
+ - [SchemasCreateUserProjectPayload](docs/SchemasCreateUserProjectPayload.md)
+ - [SchemasCreateUserTagPayload](docs/SchemasCreateUserTagPayload.md)
+ - [SchemasCreateWayCollectionPayload](docs/SchemasCreateWayCollectionPayload.md)
+ - [SchemasCreateWayCollectionWay](docs/SchemasCreateWayCollectionWay.md)
+ - [SchemasCreateWayPayload](docs/SchemasCreateWayPayload.md)
+ - [SchemasCreateWayTagPayload](docs/SchemasCreateWayTagPayload.md)
+ - [SchemasDayReportsCompositionParticipants](docs/SchemasDayReportsCompositionParticipants.md)
+ - [SchemasDefaultWayCollections](docs/SchemasDefaultWayCollections.md)
+ - [SchemasDeleteMentorUserWayPayload](docs/SchemasDeleteMentorUserWayPayload.md)
+ - [SchemasFromUserMentoringRequestResponse](docs/SchemasFromUserMentoringRequestResponse.md)
+ - [SchemasGenerateMetricsPayload](docs/SchemasGenerateMetricsPayload.md)
+ - [SchemasGenerateMetricsResponse](docs/SchemasGenerateMetricsResponse.md)
+ - [SchemasGetAllUsersResponse](docs/SchemasGetAllUsersResponse.md)
+ - [SchemasGetAllWaysResponse](docs/SchemasGetAllWaysResponse.md)
+ - [SchemasGetUsersByIDsResponse](docs/SchemasGetUsersByIDsResponse.md)
+ - [SchemasGoogleToken](docs/SchemasGoogleToken.md)
+ - [SchemasJobDonePopulatedResponse](docs/SchemasJobDonePopulatedResponse.md)
+ - [SchemasJobTagResponse](docs/SchemasJobTagResponse.md)
+ - [SchemasLabel](docs/SchemasLabel.md)
+ - [SchemasLabelInfo](docs/SchemasLabelInfo.md)
+ - [SchemasLabelStatistics](docs/SchemasLabelStatistics.md)
+ - [SchemasListDayReportsResponse](docs/SchemasListDayReportsResponse.md)
+ - [SchemasMetricResponse](docs/SchemasMetricResponse.md)
+ - [SchemasNoRightToChangeDayReportError](docs/SchemasNoRightToChangeDayReportError.md)
+ - [SchemasOverallInformation](docs/SchemasOverallInformation.md)
+ - [SchemasPlanPopulatedResponse](docs/SchemasPlanPopulatedResponse.md)
+ - [SchemasProblemPopulatedResponse](docs/SchemasProblemPopulatedResponse.md)
+ - [SchemasProjectPlainResponse](docs/SchemasProjectPlainResponse.md)
+ - [SchemasProjectPopulatedResponse](docs/SchemasProjectPopulatedResponse.md)
+ - [SchemasTimeSpentByDayPoint](docs/SchemasTimeSpentByDayPoint.md)
+ - [SchemasToUserMentoringRequestResponse](docs/SchemasToUserMentoringRequestResponse.md)
+ - [SchemasUpdateCommentPayload](docs/SchemasUpdateCommentPayload.md)
+ - [SchemasUpdateJobDone](docs/SchemasUpdateJobDone.md)
+ - [SchemasUpdateJobTagPayload](docs/SchemasUpdateJobTagPayload.md)
+ - [SchemasUpdateMetricPayload](docs/SchemasUpdateMetricPayload.md)
+ - [SchemasUpdatePlanPayload](docs/SchemasUpdatePlanPayload.md)
+ - [SchemasUpdateProblemPayload](docs/SchemasUpdateProblemPayload.md)
+ - [SchemasUpdateProjectPayload](docs/SchemasUpdateProjectPayload.md)
+ - [SchemasUpdateUserPayload](docs/SchemasUpdateUserPayload.md)
+ - [SchemasUpdateWayCollectionPayload](docs/SchemasUpdateWayCollectionPayload.md)
+ - [SchemasUpdateWayPayload](docs/SchemasUpdateWayPayload.md)
  - [SchemasUploadFileResponse](docs/SchemasUploadFileResponse.md)
+ - [SchemasUserPlainResponse](docs/SchemasUserPlainResponse.md)
+ - [SchemasUserPlainResponseWithInfo](docs/SchemasUserPlainResponseWithInfo.md)
+ - [SchemasUserPopulatedResponse](docs/SchemasUserPopulatedResponse.md)
+ - [SchemasUserTagResponse](docs/SchemasUserTagResponse.md)
+ - [SchemasWayCollectionPlainResponse](docs/SchemasWayCollectionPlainResponse.md)
+ - [SchemasWayCollectionPopulatedResponse](docs/SchemasWayCollectionPopulatedResponse.md)
+ - [SchemasWayCollectionWayResponse](docs/SchemasWayCollectionWayResponse.md)
+ - [SchemasWayPlainResponse](docs/SchemasWayPlainResponse.md)
+ - [SchemasWayPopulatedResponse](docs/SchemasWayPopulatedResponse.md)
+ - [SchemasWayStatistics](docs/SchemasWayStatistics.md)
+ - [SchemasWayStatisticsTriplePeriod](docs/SchemasWayStatisticsTriplePeriod.md)
+ - [SchemasWayTagResponse](docs/SchemasWayTagResponse.md)
 
 
 ## Documentation For Authorization

@@ -11,16 +11,20 @@ import (
 )
 
 type ResponseError struct {
-	Error string `json:"error"`
+	ErrorMessage string `json:"error"`
 }
 
-func ExtractErrorMessageFromResponse(response *http.Response) (string, error) {
+func (re ResponseError) Error() string {
+	return re.ErrorMessage
+}
+
+func ExtractErrorMessageFromResponse(response *http.Response) error {
 	var message ResponseError
 	decodeErr := json.NewDecoder(response.Body).Decode(&message)
 	if decodeErr != nil {
-		return "", fmt.Errorf("failed to decode response body: %w", decodeErr)
+		return fmt.Errorf("failed to decode response body: %w", decodeErr)
 	}
-	return message.Error, nil
+	return message
 }
 
 func HandleErrorGin(c *gin.Context, err error) {

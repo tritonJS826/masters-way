@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## SendMail
 
-> SchemasSendMailResponse SendMail(ctx).Message(message).Execute()
+> MwmailInternalSchemasSendMailResponse SendMail(ctx).Message(message).Execute()
 
 Sending messages to recipients and save logs
 
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MailAPI.SendMail``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SendMail`: SchemasSendMailResponse
+	// response from `SendMail`: MwmailInternalSchemasSendMailResponse
 	fmt.Fprintf(os.Stdout, "Response from `MailAPI.SendMail`: %v\n", resp)
 }
 ```
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasSendMailResponse**](SchemasSendMailResponse.md)
+[**MwmailInternalSchemasSendMailResponse**](MwmailInternalSchemasSendMailResponse.md)
 
 ### Authorization
 

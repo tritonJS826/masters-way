@@ -86,12 +86,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasEnabledNotificationResponse](docs/SchemasEnabledNotificationResponse.md)
- - [SchemasGetEnabledNotificationListResponse](docs/SchemasGetEnabledNotificationListResponse.md)
- - [SchemasGetNotificationListResponse](docs/SchemasGetNotificationListResponse.md)
- - [SchemasNotificationResponse](docs/SchemasNotificationResponse.md)
- - [SchemasUpdateEnabledNotificationPayload](docs/SchemasUpdateEnabledNotificationPayload.md)
- - [SchemasUpdateNotificationPayload](docs/SchemasUpdateNotificationPayload.md)
+ - [MwNotificationBffInternalSchemasEnabledNotificationResponse](docs/MwNotificationBffInternalSchemasEnabledNotificationResponse.md)
+ - [MwNotificationBffInternalSchemasGetEnabledNotificationListResponse](docs/MwNotificationBffInternalSchemasGetEnabledNotificationListResponse.md)
+ - [MwNotificationBffInternalSchemasGetNotificationListResponse](docs/MwNotificationBffInternalSchemasGetNotificationListResponse.md)
+ - [MwNotificationBffInternalSchemasNotificationResponse](docs/MwNotificationBffInternalSchemasNotificationResponse.md)
+ - [MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload](docs/MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload.md)
+ - [MwNotificationBffInternalSchemasUpdateNotificationPayload](docs/MwNotificationBffInternalSchemasUpdateNotificationPayload.md)
 
 
 ## Documentation For Authorization
