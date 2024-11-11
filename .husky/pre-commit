@@ -4,14 +4,15 @@
 WEBAPP="mw-webapp/"
 SERVER="mw-server/"
 GENERAL_BFF="mw-general-bff/"
-MOBILE="mw-mobile/"
 CHAT="mw-chat/"
 CHAT_BFF="mw-chat-bff/"
+CHAT_WEBSOCKEt="mw-chat-websocket/"
 STORAGE="mw-storage/"
 MAIL="mw-mail/"
 SURVEY="mw-survey/"
 NOTIfICATION="mw-notification/"
 NOTIFICATION_BFF="mw-notification-bff/"
+NOTIFICATION_WEBSOCKET="mw-notification-websocket/"
 
 generateSwaggerDocs () {
   pnpm swag
@@ -81,7 +82,7 @@ runChatBffIfChanged () {
 }
 
 runChatWebsocketIfChanged () {
-  if git diff --name-only --cached | grep "$CHAT_BFF"
+  if git diff --name-only --cached | grep "$CHAT_WEBSOCKEt"
   then
     echo "mw-chat-websocket changed. checking..."
     pnpm chat-websocket:build
@@ -134,14 +135,15 @@ runNotificationBffIfChanged () {
   fi
 }
 
-runMobileIfChanged () {
-  if git diff --name-only --cached | grep "$MOBILE"
+runNotificationWebsocketIfChanged () {
+  if git diff --name-only --cached | grep "$NOTIFICATION_WEBSOCKET"
   then
-    echo "mw-mobile changed. checking..."
-    pnpm mobile:build
-    pnpm mobile:test
+    echo "mw-notification-websocket changed. checking..."
+    pnpm notification-websocket:build
+    pnpm notification-websocket:test
   fi
 }
+
 
 
 runE2E () {
@@ -161,6 +163,8 @@ runChatWebsocketIfChanged
 runStorageIfChanged
 runMailIfChanged
 runSurveyIfChanged
-runMobileIfChanged
+runNotificationIfChanged
+runNotificationBffIfChanged
+runNotificationWebsocketIfChanged
 
 runE2E

@@ -210,6 +210,7 @@ services:
       - postgres-storage
       - postgres-mail
       - postgres-survey
+      - postgres-notification
     networks:
       - app-network
 
@@ -227,6 +228,9 @@ services:
       - mw-chat
       - mw-chat-bff
       - mw-chat-websocket
+      - mw-notification
+      - mw-notification-bff
+      - mw-notification-websocket
       - mw-survey
       - mw-storage
       - mw-mail
