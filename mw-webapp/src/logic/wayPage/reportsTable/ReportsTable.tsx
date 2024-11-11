@@ -25,19 +25,16 @@ interface ReportsTableProps {
  * Render table of reports
  */
 export const ReportsTable = (props: ReportsTableProps) => {
-  const data = props.data;
-  const columns = props.columns;
-
   const table = useReactTable({
-    data,
-    columns,
+    data: props.data,
+    columns: props.columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const headerGroup = table.getHeaderGroups();
-  const rowModel = table.getRowModel();
-
-  const tableContent = {headerGroup, rowModel};
+  const tableContent = {
+    headerGroup: table.getHeaderGroups(),
+    rowModel: table.getRowModel(),
+  };
 
   return (
     <Table
