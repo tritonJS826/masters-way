@@ -104,7 +104,7 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 *GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
-*HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
+*HealthAPI* | [**GeneralHealthCheck**](docs/HealthAPI.md#generalhealthcheck) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
 *JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
 *JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID

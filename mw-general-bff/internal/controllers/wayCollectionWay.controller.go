@@ -25,7 +25,7 @@ func NewWayCollectionWayController(generalService *services.GeneralService) *Way
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayCollectionWay true "query params"
-// @Success 200 {object} schemas.WayCollectionWayResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasWayCollectionWayResponse
 // @Router /wayCollectionWays [post]
 func (wc *WayCollectionWayController) CreateWayCollectionWay(ctx *gin.Context) {
 	var payload *schemas.CreateWayCollectionWay

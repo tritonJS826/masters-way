@@ -22,6 +22,4 @@ func (ur *userRouter) setUserRoutes(rg *gin.RouterGroup) {
 	router.GET("", ur.userController.GetAllUsers)
 	router.GET("/:userId", ur.userController.GetUserById)
 	router.PATCH("/:userId", auth.AuthMiddleware(ur.config), ur.userController.UpdateUser)
-
-	router.GET("/list-by-ids", auth.AuthMiddleware(ur.config), ur.userController.GetUsersByIDs)
 }

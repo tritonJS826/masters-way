@@ -62,6 +62,6 @@ func NewController(services *services.Service) *Controller {
 		UserProjectController:              NewUserProjectController(services.GeneralService),
 		WayCollectionController:            NewWayCollectionController(services.GeneralService),
 		WayCollectionWayController:         NewWayCollectionWayController(services.GeneralService),
-		HealthCheckController:              NewHealthCheckController(),
+		HealthCheckController:              NewHealthCheckController(services.GeneralService),
 	}
 }

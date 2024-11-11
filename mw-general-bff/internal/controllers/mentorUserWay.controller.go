@@ -35,12 +35,6 @@ func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 		return
 	}
 
-	//err := mc.limitService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
-	//	LimitName: services.MaxMentoringsWays,
-	//	UserID:    payload.UserUuid,
-	//})
-	//utils.HandleErrorGin(ctx, err)
-
 	err := mc.generalService.AddMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
 	utils.HandleErrorGin(ctx, err)
 

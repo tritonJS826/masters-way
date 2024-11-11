@@ -25,7 +25,7 @@ func NewProblemController(generalService *services.GeneralService) *ProblemContr
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
-// @Success 200 {object} schemas.ProblemPopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasProblemPopulatedResponse
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to create problem."
 // @Router /problems [post]
 func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
@@ -51,7 +51,7 @@ func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateProblemPayload true "query params"
 // @Param problemId path string true "problem ID"
-// @Success 200 {object} schemas.ProblemPopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasProblemPopulatedResponse
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to update problem."
 // @Router /problems/{problemId} [patch]
 func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {

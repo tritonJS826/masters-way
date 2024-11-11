@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"database/sql"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
@@ -28,7 +27,7 @@ func NewUserController(generalService *services.GeneralService) *UserController 
 // @Produce  json
 // @Param request body schemas.UpdateUserPayload true "query params"
 // @Param userId path string true "user ID"
-// @Success 200 {object} schemas.UserPlainResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasUserPlainResponse
 // @Router /users/{userId} [patch]
 func (uc *UserController) UpdateUser(ctx *gin.Context) {
 	var payload *schemas.UpdateUserPayload
@@ -46,14 +45,7 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 		ImageUrl:    payload.ImageUrl,
 		IsMentor:    payload.IsMentor,
 	})
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, user)
 }
@@ -65,20 +57,12 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userId path string true "user ID"
-// @Success 200 {object} schemas.UserPopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasUserPopulatedResponse
 // @Router /users/{userId} [get]
 func (uc *UserController) GetUserById(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 
 	populatedUser, err := uc.generalService.GetPopulatedUserById(ctx, uuid.MustParse(userID))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
@@ -95,7 +79,7 @@ func (uc *UserController) GetUserById(ctx *gin.Context) {
 // @Param email query string false "Part of user email for filters"
 // @Param name query string false "Part of user name for filters"
 // @Param mentorStatus query string false "'mentor' | 'all' status for filter"
-// @Success 200 {object} schemas.GetAllUsersResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasGetAllUsersResponse
 // @Router /users [get]
 func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 	page := ctx.DefaultQuery("page", "1")
@@ -105,40 +89,16 @@ func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 	// mentorStatus = "mentor" | "all"
 	mentorStatus := ctx.DefaultQuery("mentorStatus", "all")
 
-	reqPageID, _ := strconv.Atoi(page)
+	reqPage, _ := strconv.Atoi(page)
 	reqLimit, _ := strconv.Atoi(limit)
-	offset := (reqPageID - 1) * reqLimit
 
 	response, err := uc.generalService.GetAllUsers(ctx, &services.GetAllUsersParams{
 		MentorStatus: mentorStatus,
 		UserName:     name,
 		UserEmail:    email,
-		Offset:       offset,
-		ReqLimit:     reqLimit,
+		Page:         reqPage,
+		Limit:        reqLimit,
 	})
-	utils.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, response)
-}
-
-// @Summary Get users by ids
-// @Description
-// @Tags user
-// @ID get-users-by-ids
-// @Accept  json
-// @Produce  json
-// @Param request body []string true "query params"
-// @Success 200 {object} []schemas.GetUsersByIDsResponse
-// @Router /users/list-by-ids [get]
-func (uc *UserController) GetUsersByIDs(ctx *gin.Context) {
-	var userIDs []string
-
-	if err := ctx.ShouldBindJSON(&userIDs); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	response, err := uc.generalService.GetUsersByIDs(ctx, userIDs)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

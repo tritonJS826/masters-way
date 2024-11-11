@@ -25,7 +25,7 @@ func NewMetricController(generalService *services.GeneralService) *MetricControl
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateMetricPayload true "query params"
-// @Success 200 {object} schemas.MetricResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasMetricResponse
 // @Router /metrics [post]
 func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 	var payload *schemas.CreateMetricPayload
@@ -38,10 +38,7 @@ func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 	metric, err := mc.generalService.CreateMetric(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
-	err = mc.generalService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
-	utils.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, metric.MetricResponse)
+	ctx.JSON(http.StatusOK, metric)
 }
 
 // Update Metric handler
@@ -53,7 +50,7 @@ func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateMetricPayload true "query params"
 // @Param metricId path string true "metric UUID"
-// @Success 200 {object} schemas.MetricResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasMetricResponse
 // @Router /metrics/{metricId} [patch]
 func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 	var payload *schemas.UpdateMetricPayload
@@ -72,10 +69,7 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 	})
 	utils.HandleErrorGin(ctx, err)
 
-	err = mc.generalService.UpdateWayIsCompletedStatus(ctx, metric.WayID)
-	utils.HandleErrorGin(ctx, err)
-
-	ctx.JSON(http.StatusOK, metric.MetricResponse)
+	ctx.JSON(http.StatusOK, metric)
 }
 
 // Deleting Metric handlers
@@ -91,10 +85,7 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 func (mc *MetricController) DeleteMetricById(ctx *gin.Context) {
 	metricID := ctx.Param("metricId")
 
-	wayID, err := mc.generalService.DeleteMetricById(ctx, metricID)
-	utils.HandleErrorGin(ctx, err)
-
-	err = mc.generalService.UpdateWayIsCompletedStatus(ctx, wayID)
+	err := mc.generalService.DeleteMetricById(ctx, metricID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

@@ -911,6 +911,7 @@ const docTemplate = `{
                     "Health"
                 ],
                 "summary": "Health Check",
+                "operationId": "general-health-check",
                 "responses": {
                     "204": {
                         "description": "No Content"

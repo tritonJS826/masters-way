@@ -16,6 +16,7 @@ func NewHealthCheckController() *HealthCheckController {
 // @Summary Health Check
 // @Description Get the health status of the API
 // @Tags Health
+// @ID general-health-check
 // @Accept json
 // @Produce json
 // @Success 204

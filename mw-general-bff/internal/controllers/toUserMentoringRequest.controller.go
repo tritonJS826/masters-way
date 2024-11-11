@@ -25,7 +25,7 @@ func NewToUserMentoringRequestController(generalService *services.GeneralService
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateToUserMentoringRequestPayload true "query params"
-// @Success 200 {object} schemas.ToUserMentoringRequestResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasToUserMentoringRequestResponse
 // @Router /toUserMentoringRequests [post]
 func (tc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gin.Context) {
 	var payload *schemas.CreateToUserMentoringRequestPayload
@@ -35,10 +35,10 @@ func (tc *ToUserMentoringRequestController) CreateToUserMentoringRequest(ctx *gi
 		return
 	}
 
-	toUserMentoringRequest, err := tc.generalService.CreateToUserMentoringRequest(ctx, payload)
+	userMentoringRequest, err := tc.generalService.CreateToUserMentoringRequest(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, toUserMentoringRequest)
+	ctx.JSON(http.StatusOK, userMentoringRequest)
 }
 
 // Deleting ToUserMentoringRequest handlers
