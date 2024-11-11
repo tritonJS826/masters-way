@@ -27,16 +27,16 @@ type MessageAPIService service
 type ApiCreateMessageRequest struct {
 	ctx context.Context
 	ApiService *MessageAPIService
-	request *SchemasCreateMessagePayload
+	request *MwchatInternalSchemasCreateMessagePayload
 }
 
 // query params
-func (r ApiCreateMessageRequest) Request(request SchemasCreateMessagePayload) ApiCreateMessageRequest {
+func (r ApiCreateMessageRequest) Request(request MwchatInternalSchemasCreateMessagePayload) ApiCreateMessageRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateMessageRequest) Execute() (*SchemasCreateMessageResponse, *http.Response, error) {
+func (r ApiCreateMessageRequest) Execute() (*MwchatInternalSchemasCreateMessageResponse, *http.Response, error) {
 	return r.ApiService.CreateMessageExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *MessageAPIService) CreateMessage(ctx context.Context) ApiCreateMessageR
 }
 
 // Execute executes the request
-//  @return SchemasCreateMessageResponse
-func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*SchemasCreateMessageResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasCreateMessageResponse
+func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*MwchatInternalSchemasCreateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasCreateMessageResponse
+		localVarReturnValue  *MwchatInternalSchemasCreateMessageResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MessageAPIService.CreateMessage")
@@ -134,11 +134,11 @@ func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasCreateMessageResponseStream
-func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest, request *http.Request, GoogleAccessToken string) (*SchemasCreateMessageResponse, *http.Response, error) {
+//  @return MwchatInternalSchemasCreateMessageResponseStream
+func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest, request *http.Request, GoogleAccessToken string) (*MwchatInternalSchemasCreateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasCreateMessageResponse
+		localVarReturnValue  *MwchatInternalSchemasCreateMessageResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MessageAPIService.CreateMessage")
@@ -220,11 +220,11 @@ type ApiUpdateMessageStatusRequest struct {
 	ctx context.Context
 	ApiService *MessageAPIService
 	messageId string
-	request *SchemasUpdateMessageStatusPayload
+	request *MwchatInternalSchemasUpdateMessageStatusPayload
 }
 
 // query params
-func (r ApiUpdateMessageStatusRequest) Request(request SchemasUpdateMessageStatusPayload) ApiUpdateMessageStatusRequest {
+func (r ApiUpdateMessageStatusRequest) Request(request MwchatInternalSchemasUpdateMessageStatusPayload) ApiUpdateMessageStatusRequest {
 	r.request = &request
 	return r
 }

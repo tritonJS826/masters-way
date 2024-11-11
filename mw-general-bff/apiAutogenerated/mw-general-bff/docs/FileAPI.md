@@ -1,6 +1,6 @@
 # \FileAPI
 
-All URIs are relative to */general*
+All URIs are relative to *http://localhost/general-bff*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

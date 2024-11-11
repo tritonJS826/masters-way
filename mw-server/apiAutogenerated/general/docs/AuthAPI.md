@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## BeginAuth
 
-> BeginAuth(ctx, provider).Execute()
+> MwserverInternalSchemasBeginAuthResponse BeginAuth(ctx, provider).Execute()
 
 Begin oauth
 
@@ -36,11 +36,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AuthAPI.BeginAuth(context.Background(), provider).Execute()
+	resp, r, err := apiClient.AuthAPI.BeginAuth(context.Background(), provider).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.BeginAuth``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `BeginAuth`: MwserverInternalSchemasBeginAuthResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.BeginAuth`: %v\n", resp)
 }
 ```
 
@@ -63,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**MwserverInternalSchemasBeginAuthResponse**](MwserverInternalSchemasBeginAuthResponse.md)
 
 ### Authorization
 
@@ -72,7 +74,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -81,7 +83,7 @@ No authorization required
 
 ## GetCurrentAuthorizedUser
 
-> SchemasUserPopulatedResponse GetCurrentAuthorizedUser(ctx).Execute()
+> MwserverInternalSchemasUserPopulatedResponse GetCurrentAuthorizedUser(ctx).Execute()
 
 Get current authorized user
 
@@ -106,7 +108,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetCurrentAuthorizedUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetCurrentAuthorizedUser`: SchemasUserPopulatedResponse
+	// response from `GetCurrentAuthorizedUser`: MwserverInternalSchemasUserPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetCurrentAuthorizedUser`: %v\n", resp)
 }
 ```
@@ -122,7 +124,7 @@ Other parameters are passed through a pointer to a apiGetCurrentAuthorizedUserRe
 
 ### Return type
 
-[**SchemasUserPopulatedResponse**](SchemasUserPopulatedResponse.md)
+[**MwserverInternalSchemasUserPopulatedResponse**](MwserverInternalSchemasUserPopulatedResponse.md)
 
 ### Authorization
 
@@ -140,7 +142,7 @@ No authorization required
 
 ## GetGoogleToken
 
-> SchemasGoogleToken GetGoogleToken(ctx).Execute()
+> MwserverInternalSchemasGoogleToken GetGoogleToken(ctx).Execute()
 
 Retrieve Google Access Token
 
@@ -167,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetGoogleToken``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetGoogleToken`: SchemasGoogleToken
+	// response from `GetGoogleToken`: MwserverInternalSchemasGoogleToken
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetGoogleToken`: %v\n", resp)
 }
 ```
@@ -183,7 +185,7 @@ Other parameters are passed through a pointer to a apiGetGoogleTokenRequest stru
 
 ### Return type
 
-[**SchemasGoogleToken**](SchemasGoogleToken.md)
+[**MwserverInternalSchemasGoogleToken**](MwserverInternalSchemasGoogleToken.md)
 
 ### Authorization
 
@@ -201,7 +203,7 @@ No authorization required
 
 ## GetTokenLocally
 
-> GetTokenLocally(ctx, userEmail).Execute()
+> MwserverInternalSchemasGetUserTokenByEmailResponse GetTokenLocally(ctx, userEmail).Execute()
 
 login locally by email (with no oauth)
 
@@ -224,11 +226,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AuthAPI.GetTokenLocally(context.Background(), userEmail).Execute()
+	resp, r, err := apiClient.AuthAPI.GetTokenLocally(context.Background(), userEmail).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetTokenLocally``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GetTokenLocally`: MwserverInternalSchemasGetUserTokenByEmailResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetTokenLocally`: %v\n", resp)
 }
 ```
 
@@ -251,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+[**MwserverInternalSchemasGetUserTokenByEmailResponse**](MwserverInternalSchemasGetUserTokenByEmailResponse.md)
 
 ### Authorization
 
@@ -260,7 +264,7 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -269,7 +273,7 @@ No authorization required
 
 ## GoogleAuthLogInCallbackFunction
 
-> GoogleAuthLogInCallbackFunction(ctx, provider).State(state).Execute()
+> MwserverInternalSchemasGetAuthCallbackFunctionResponse GoogleAuthLogInCallbackFunction(ctx, provider).Code(code).State(state).Execute()
 
 Log in with google oAuth
 
@@ -286,16 +290,19 @@ import (
 )
 
 func main() {
+	code := "code_example" // string | code param
 	state := "state_example" // string | state parameter
 	provider := "provider_example" // string | google
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.AuthAPI.GoogleAuthLogInCallbackFunction(context.Background(), provider).State(state).Execute()
+	resp, r, err := apiClient.AuthAPI.GoogleAuthLogInCallbackFunction(context.Background(), provider).Code(code).State(state).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GoogleAuthLogInCallbackFunction``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
+	// response from `GoogleAuthLogInCallbackFunction`: MwserverInternalSchemasGetAuthCallbackFunctionResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GoogleAuthLogInCallbackFunction`: %v\n", resp)
 }
 ```
 
@@ -314,12 +321,13 @@ Other parameters are passed through a pointer to a apiGoogleAuthLogInCallbackFun
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **code** | **string** | code param | 
  **state** | **string** | state parameter | 
 
 
 ### Return type
 
- (empty response body)
+[**MwserverInternalSchemasGetAuthCallbackFunctionResponse**](MwserverInternalSchemasGetAuthCallbackFunctionResponse.md)
 
 ### Authorization
 

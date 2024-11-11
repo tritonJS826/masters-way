@@ -84,7 +84,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.SendMailResponse"
+                            "$ref": "#/definitions/mwmail_internal_schemas.SendMailResponse"
                         }
                     }
                 }
@@ -92,7 +92,7 @@
         }
     },
     "definitions": {
-        "schemas.SendMailResponse": {
+        "mwmail_internal_schemas.SendMailResponse": {
             "type": "object",
             "required": [
                 "id",

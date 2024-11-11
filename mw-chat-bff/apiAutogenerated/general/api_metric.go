@@ -27,16 +27,16 @@ type MetricAPIService service
 type ApiCreateMetricRequest struct {
 	ctx context.Context
 	ApiService *MetricAPIService
-	request *SchemasCreateMetricPayload
+	request *MwserverInternalSchemasCreateMetricPayload
 }
 
 // query params
-func (r ApiCreateMetricRequest) Request(request SchemasCreateMetricPayload) ApiCreateMetricRequest {
+func (r ApiCreateMetricRequest) Request(request MwserverInternalSchemasCreateMetricPayload) ApiCreateMetricRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateMetricRequest) Execute() (*SchemasMetricResponse, *http.Response, error) {
+func (r ApiCreateMetricRequest) Execute() (*MwserverInternalSchemasMetricResponse, *http.Response, error) {
 	return r.ApiService.CreateMetricExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *MetricAPIService) CreateMetric(ctx context.Context) ApiCreateMetricRequ
 }
 
 // Execute executes the request
-//  @return SchemasMetricResponse
-func (a *MetricAPIService) CreateMetricExecute(r ApiCreateMetricRequest) (*SchemasMetricResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasMetricResponse
+func (a *MetricAPIService) CreateMetricExecute(r ApiCreateMetricRequest) (*MwserverInternalSchemasMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasMetricResponse
+		localVarReturnValue  *MwserverInternalSchemasMetricResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.CreateMetric")
@@ -134,11 +134,11 @@ func (a *MetricAPIService) CreateMetricExecute(r ApiCreateMetricRequest) (*Schem
 }
 
 // Execute executes the request
-//  @return SchemasMetricResponseStream
-func (a *MetricAPIService) CreateMetricStreamExecute(r ApiCreateMetricRequest, request *http.Request, GoogleAccessToken string) (*SchemasMetricResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasMetricResponseStream
+func (a *MetricAPIService) CreateMetricStreamExecute(r ApiCreateMetricRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasMetricResponse
+		localVarReturnValue  *MwserverInternalSchemasMetricResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.CreateMetric")
@@ -383,16 +383,16 @@ type ApiUpdateMetricRequest struct {
 	ctx context.Context
 	ApiService *MetricAPIService
 	metricId string
-	request *SchemasUpdateMetricPayload
+	request *MwserverInternalSchemasUpdateMetricPayload
 }
 
 // query params
-func (r ApiUpdateMetricRequest) Request(request SchemasUpdateMetricPayload) ApiUpdateMetricRequest {
+func (r ApiUpdateMetricRequest) Request(request MwserverInternalSchemasUpdateMetricPayload) ApiUpdateMetricRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateMetricRequest) Execute() (*SchemasMetricResponse, *http.Response, error) {
+func (r ApiUpdateMetricRequest) Execute() (*MwserverInternalSchemasMetricResponse, *http.Response, error) {
 	return r.ApiService.UpdateMetricExecute(r)
 }
 
@@ -412,13 +412,13 @@ func (a *MetricAPIService) UpdateMetric(ctx context.Context, metricId string) Ap
 }
 
 // Execute executes the request
-//  @return SchemasMetricResponse
-func (a *MetricAPIService) UpdateMetricExecute(r ApiUpdateMetricRequest) (*SchemasMetricResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasMetricResponse
+func (a *MetricAPIService) UpdateMetricExecute(r ApiUpdateMetricRequest) (*MwserverInternalSchemasMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasMetricResponse
+		localVarReturnValue  *MwserverInternalSchemasMetricResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.UpdateMetric")
@@ -493,11 +493,11 @@ func (a *MetricAPIService) UpdateMetricExecute(r ApiUpdateMetricRequest) (*Schem
 }
 
 // Execute executes the request
-//  @return SchemasMetricResponseStream
-func (a *MetricAPIService) UpdateMetricStreamExecute(r ApiUpdateMetricRequest, request *http.Request, GoogleAccessToken string) (*SchemasMetricResponse, *http.Response, error) {
+//  @return MwserverInternalSchemasMetricResponseStream
+func (a *MetricAPIService) UpdateMetricStreamExecute(r ApiUpdateMetricRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasMetricResponse
+		localVarReturnValue  *MwserverInternalSchemasMetricResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.UpdateMetric")

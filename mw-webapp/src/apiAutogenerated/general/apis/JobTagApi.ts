@@ -15,21 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateJobTagPayload,
-  SchemasJobTagResponse,
-  SchemasUpdateJobTagPayload,
+  MwserverInternalSchemasCreateJobTagPayload,
+  MwserverInternalSchemasJobTagResponse,
+  MwserverInternalSchemasUpdateJobTagPayload,
 } from '../models/index';
 import {
-    SchemasCreateJobTagPayloadFromJSON,
-    SchemasCreateJobTagPayloadToJSON,
-    SchemasJobTagResponseFromJSON,
-    SchemasJobTagResponseToJSON,
-    SchemasUpdateJobTagPayloadFromJSON,
-    SchemasUpdateJobTagPayloadToJSON,
+    MwserverInternalSchemasCreateJobTagPayloadFromJSON,
+    MwserverInternalSchemasCreateJobTagPayloadToJSON,
+    MwserverInternalSchemasJobTagResponseFromJSON,
+    MwserverInternalSchemasJobTagResponseToJSON,
+    MwserverInternalSchemasUpdateJobTagPayloadFromJSON,
+    MwserverInternalSchemasUpdateJobTagPayloadToJSON,
 } from '../models/index';
 
 export interface CreateJobTagRequest {
-    request: SchemasCreateJobTagPayload;
+    request: MwserverInternalSchemasCreateJobTagPayload;
 }
 
 export interface DeleteJobTagRequest {
@@ -38,7 +38,7 @@ export interface DeleteJobTagRequest {
 
 export interface UpdateJobTagRequest {
     jobTagId: string;
-    request: SchemasUpdateJobTagPayload;
+    request: MwserverInternalSchemasUpdateJobTagPayload;
 }
 
 /**
@@ -49,7 +49,7 @@ export class JobTagApi extends runtime.BaseAPI {
     /**
      * Create a new jobTag
      */
-    async createJobTagRaw(requestParameters: CreateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobTagResponse>> {
+    async createJobTagRaw(requestParameters: CreateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasJobTagResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createJobTag.');
         }
@@ -65,16 +65,16 @@ export class JobTagApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateJobTagPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasCreateJobTagPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobTagResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasJobTagResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new jobTag
      */
-    async createJobTag(requestParameters: CreateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobTagResponse> {
+    async createJobTag(requestParameters: CreateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasJobTagResponse> {
         const response = await this.createJobTagRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -111,7 +111,7 @@ export class JobTagApi extends runtime.BaseAPI {
     /**
      * Update jobTag by UUID
      */
-    async updateJobTagRaw(requestParameters: UpdateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobTagResponse>> {
+    async updateJobTagRaw(requestParameters: UpdateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasJobTagResponse>> {
         if (requestParameters.jobTagId === null || requestParameters.jobTagId === undefined) {
             throw new runtime.RequiredError('jobTagId','Required parameter requestParameters.jobTagId was null or undefined when calling updateJobTag.');
         }
@@ -131,16 +131,16 @@ export class JobTagApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateJobTagPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasUpdateJobTagPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobTagResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasJobTagResponseFromJSON(jsonValue));
     }
 
     /**
      * Update jobTag by UUID
      */
-    async updateJobTag(requestParameters: UpdateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobTagResponse> {
+    async updateJobTag(requestParameters: UpdateJobTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasJobTagResponse> {
         const response = await this.updateJobTagRaw(requestParameters, initOverrides);
         return await response.value();
     }

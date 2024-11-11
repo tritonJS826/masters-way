@@ -15,7 +15,7 @@ install: ## Install dependencies
 	go mod tidy
 
 swag: ##  Generate swagger specification
-	swag init -g cmd/chat/main.go
+	swag init -g cmd/chat/main.go --parseDependency
 
 db-schema: ## Generate db schema
 	sqlc generate

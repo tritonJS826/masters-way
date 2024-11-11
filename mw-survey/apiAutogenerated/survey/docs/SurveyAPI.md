@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasPostSurveyLookingForMentorPayload("CurrentExperience_example", "MentorDescription_example", "SkillsToLearn_example", "UserEmail_example") // SchemasPostSurveyLookingForMentorPayload | query params
+	request := *openapiclient.NewMwsurveyInternalSchemasPostSurveyLookingForMentorPayload("CurrentExperience_example", "MentorDescription_example", "SkillsToLearn_example", "UserEmail_example") // MwsurveyInternalSchemasPostSurveyLookingForMentorPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -53,7 +53,7 @@ Other parameters are passed through a pointer to a apiSurveyLookingForMentorRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasPostSurveyLookingForMentorPayload**](SchemasPostSurveyLookingForMentorPayload.md) | query params | 
+ **request** | [**MwsurveyInternalSchemasPostSurveyLookingForMentorPayload**](MwsurveyInternalSchemasPostSurveyLookingForMentorPayload.md) | query params | 
 
 ### Return type
 
@@ -94,7 +94,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasPostSurveyUserIntroPayload("DeviceId_example", "PreferredInterfaceLanguage_example", "Role_example", "Source_example", "StudentExperience_example", "StudentGoals_example", "WhyRegistered_example") // SchemasPostSurveyUserIntroPayload | query params
+	request := *openapiclient.NewMwsurveyInternalSchemasPostSurveyUserIntroPayload("DeviceId_example", "PreferredInterfaceLanguage_example", "Role_example", "Source_example", "StudentExperience_example", "StudentGoals_example", "WhyRegistered_example") // MwsurveyInternalSchemasPostSurveyUserIntroPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -117,7 +117,7 @@ Other parameters are passed through a pointer to a apiSurveyUserIntroRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasPostSurveyUserIntroPayload**](SchemasPostSurveyUserIntroPayload.md) | query params | 
+ **request** | [**MwsurveyInternalSchemasPostSurveyUserIntroPayload**](MwsurveyInternalSchemasPostSurveyUserIntroPayload.md) | query params | 
 
 ### Return type
 

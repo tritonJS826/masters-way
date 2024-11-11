@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateMessage
 
-> SchemasCreateMessageResponse CreateMessage(ctx).Request(request).Execute()
+> MwchatInternalSchemasCreateMessageResponse CreateMessage(ctx).Request(request).Execute()
 
 Create message
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateMessagePayload("Message_example", "RoomId_example") // SchemasCreateMessagePayload | query params
+	request := *openapiclient.NewMwchatInternalSchemasCreateMessagePayload("Message_example", "RoomId_example") // MwchatInternalSchemasCreateMessagePayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MessageAPI.CreateMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateMessage`: SchemasCreateMessageResponse
+	// response from `CreateMessage`: MwchatInternalSchemasCreateMessageResponse
 	fmt.Fprintf(os.Stdout, "Response from `MessageAPI.CreateMessage`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateMessageRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateMessagePayload**](SchemasCreateMessagePayload.md) | query params | 
+ **request** | [**MwchatInternalSchemasCreateMessagePayload**](MwchatInternalSchemasCreateMessagePayload.md) | query params | 
 
 ### Return type
 
-[**SchemasCreateMessageResponse**](SchemasCreateMessageResponse.md)
+[**MwchatInternalSchemasCreateMessageResponse**](MwchatInternalSchemasCreateMessageResponse.md)
 
 ### Authorization
 
@@ -95,7 +95,7 @@ import (
 
 func main() {
 	messageId := "messageId_example" // string | message Id
-	request := *openapiclient.NewSchemasUpdateMessageStatusPayload(false) // SchemasUpdateMessageStatusPayload | query params
+	request := *openapiclient.NewMwchatInternalSchemasUpdateMessageStatusPayload(false) // MwchatInternalSchemasUpdateMessageStatusPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -123,7 +123,7 @@ Other parameters are passed through a pointer to a apiUpdateMessageStatusRequest
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateMessageStatusPayload**](SchemasUpdateMessageStatusPayload.md) | query params | 
+ **request** | [**MwchatInternalSchemasUpdateMessageStatusPayload**](MwchatInternalSchemasUpdateMessageStatusPayload.md) | query params | 
 
 ### Return type
 

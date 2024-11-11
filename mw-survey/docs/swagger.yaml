@@ -1,6 +1,6 @@
 basePath: /survey
 definitions:
-  schemas.PostSurveyLookingForMentorPayload:
+  mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload:
     properties:
       currentExperience:
         type: string
@@ -16,7 +16,7 @@ definitions:
     - skillsToLearn
     - userEmail
     type: object
-  schemas.PostSurveyUserIntroPayload:
+  mwsurvey_internal_schemas.PostSurveyUserIntroPayload:
     properties:
       deviceId:
         type: string
@@ -67,7 +67,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.PostSurveyLookingForMentorPayload'
+          $ref: '#/definitions/mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload'
       produces:
       - application/json
       responses:
@@ -88,7 +88,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.PostSurveyUserIntroPayload'
+          $ref: '#/definitions/mwsurvey_internal_schemas.PostSurveyUserIntroPayload'
       produces:
       - application/json
       responses:

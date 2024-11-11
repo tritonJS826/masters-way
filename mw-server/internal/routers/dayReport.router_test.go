@@ -38,15 +38,15 @@ func TestCreateDayReport(t *testing.T) {
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
-		request := openapiGeneral.SchemasCreateDayReportPayload{WayId: wayID}
+		request := openapiGeneral.MwserverInternalSchemasCreateDayReportPayload{WayId: wayID}
 
 		report, response, err := generalApi.DayReportAPI.CreateDayReport(ctx).Request(request).Execute()
 		if err != nil {
 			t.Fatalf("Failed to create report: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasCompositeDayReportPopulatedResponse{
-			CompositionParticipants: []openapiGeneral.SchemasDayReportsCompositionParticipants{
+		expectedData := &openapiGeneral.MwserverInternalSchemasCompositeDayReportPopulatedResponse{
+			CompositionParticipants: []openapiGeneral.MwserverInternalSchemasDayReportsCompositionParticipants{
 				{
 					WayId:   wayID,
 					WayName: "ronnie stanton way",
@@ -108,10 +108,10 @@ func TestGetDayReports(t *testing.T) {
 			t.Fatalf("Failed to create report: %v", err)
 		}
 
-		expectedData := openapiGeneral.SchemasListDayReportsResponse{
-			DayReports: []openapiGeneral.SchemasCompositeDayReportPopulatedResponse{
+		expectedData := openapiGeneral.MwserverInternalSchemasListDayReportsResponse{
+			DayReports: []openapiGeneral.MwserverInternalSchemasCompositeDayReportPopulatedResponse{
 				{
-					Comments: []openapiGeneral.SchemasCommentPopulatedResponse{
+					Comments: []openapiGeneral.MwserverInternalSchemasCommentPopulatedResponse{
 						{
 							CreatedAt:     "2024-08-01T00:00:00.000Z",
 							DayReportUuid: "25ceb64e-7a57-4ce0-a4fd-45982d9fce38",
@@ -124,21 +124,21 @@ func TestGetDayReports(t *testing.T) {
 							WayUuid:       "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
 						},
 					},
-					CompositionParticipants: []openapiGeneral.SchemasDayReportsCompositionParticipants{
+					CompositionParticipants: []openapiGeneral.MwserverInternalSchemasDayReportsCompositionParticipants{
 						{
 							DayReportId: "25ceb64e-7a57-4ce0-a4fd-45982d9fce38",
 							WayId:       "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
 							WayName:     "alice johnson",
 						},
 					},
-					JobsDone: []openapiGeneral.SchemasJobDonePopulatedResponse{
+					JobsDone: []openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse{
 						{
 							CreatedAt:     "2024-08-01T12:40:00.000Z",
 							DayReportUuid: "25ceb64e-7a57-4ce0-a4fd-45982d9fce38",
 							Description:   "this is finished job description",
 							OwnerName:     "Dana Evans",
 							OwnerUuid:     "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
-							Tags:          []openapiGeneral.SchemasJobTagResponse{},
+							Tags:          []openapiGeneral.MwserverInternalSchemasJobTagResponse{},
 							Time:          1000,
 							UpdatedAt:     "2024-08-01T12:40:00.000Z",
 							Uuid:          "8563a330-eedb-4e71-9abc-4db6fbabd13b",
@@ -146,7 +146,7 @@ func TestGetDayReports(t *testing.T) {
 							WayUuid:       "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
 						},
 					},
-					Plans: []openapiGeneral.SchemasPlanPopulatedResponse{
+					Plans: []openapiGeneral.MwserverInternalSchemasPlanPopulatedResponse{
 						{
 							CreatedAt:     "2024-08-01T00:00:00.000Z",
 							DayReportUuid: "25ceb64e-7a57-4ce0-a4fd-45982d9fce38",
@@ -154,7 +154,7 @@ func TestGetDayReports(t *testing.T) {
 							IsDone:        false,
 							OwnerName:     "Dana Evans",
 							OwnerUuid:     "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
-							Tags: []openapiGeneral.SchemasJobTagResponse{
+							Tags: []openapiGeneral.MwserverInternalSchemasJobTagResponse{
 								{
 									Color:       "green",
 									Description: "this is not my tag",
@@ -169,7 +169,7 @@ func TestGetDayReports(t *testing.T) {
 							WayUuid:   "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
 						},
 					},
-					Problems: []openapiGeneral.SchemasProblemPopulatedResponse{
+					Problems: []openapiGeneral.MwserverInternalSchemasProblemPopulatedResponse{
 						{
 							CreatedAt:     "2024-08-01T00:00:00.000Z",
 							DayReportUuid: "25ceb64e-7a57-4ce0-a4fd-45982d9fce38",
@@ -191,9 +191,9 @@ func TestGetDayReports(t *testing.T) {
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		assert.Equal(t, expectedData.Size, report.Size)
 
-		if !cmp.Equal(expectedData, *report, cmpopts.IgnoreFields(openapiGeneral.SchemasCompositeDayReportPopulatedResponse{}, "Uuid", "CreatedAt", "UpdatedAt")) {
+		if !cmp.Equal(expectedData, *report, cmpopts.IgnoreFields(openapiGeneral.MwserverInternalSchemasCompositeDayReportPopulatedResponse{}, "Uuid", "CreatedAt", "UpdatedAt")) {
 			// Print the differences for debugging
-			diff := cmp.Diff(expectedData, *report, cmpopts.IgnoreFields(openapiGeneral.SchemasCompositeDayReportPopulatedResponse{}, "Uuid", "CreatedAt", "UpdatedAt"))
+			diff := cmp.Diff(expectedData, *report, cmpopts.IgnoreFields(openapiGeneral.MwserverInternalSchemasCompositeDayReportPopulatedResponse{}, "Uuid", "CreatedAt", "UpdatedAt"))
 			t.Errorf("Structures should match except for UUID, CreatedAt, and UpdatedAt. Diff: %s", diff)
 		}
 	})

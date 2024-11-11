@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"mwserver/internal/auth"
+	"mwserver/internal/customErrors"
 	"mwserver/internal/schemas"
 	"mwserver/internal/services"
 	"mwserver/pkg/util"
@@ -9,6 +10,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+// Without next lines swagger does not see openapi models
+var _ = &customErrors.NoRightToChangeDayReportError{}
 
 type JobDoneController struct {
 	permissionService    *services.PermissionService

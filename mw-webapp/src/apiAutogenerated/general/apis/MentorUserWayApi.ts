@@ -15,22 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateMentorUserWayPayload,
-  SchemasDeleteMentorUserWayPayload,
+  MwserverInternalSchemasCreateMentorUserWayPayload,
+  MwserverInternalSchemasDeleteMentorUserWayPayload,
 } from '../models/index';
 import {
-    SchemasCreateMentorUserWayPayloadFromJSON,
-    SchemasCreateMentorUserWayPayloadToJSON,
-    SchemasDeleteMentorUserWayPayloadFromJSON,
-    SchemasDeleteMentorUserWayPayloadToJSON,
+    MwserverInternalSchemasCreateMentorUserWayPayloadFromJSON,
+    MwserverInternalSchemasCreateMentorUserWayPayloadToJSON,
+    MwserverInternalSchemasDeleteMentorUserWayPayloadFromJSON,
+    MwserverInternalSchemasDeleteMentorUserWayPayloadToJSON,
 } from '../models/index';
 
 export interface CreateMentorUserWayRequest {
-    request: SchemasCreateMentorUserWayPayload;
+    request: MwserverInternalSchemasCreateMentorUserWayPayload;
 }
 
 export interface DeleteMentorUserWayRequest {
-    request: SchemasDeleteMentorUserWayPayload;
+    request: MwserverInternalSchemasDeleteMentorUserWayPayload;
 }
 
 /**
@@ -58,7 +58,7 @@ export class MentorUserWayApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateMentorUserWayPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasCreateMentorUserWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -91,7 +91,7 @@ export class MentorUserWayApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasDeleteMentorUserWayPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasDeleteMentorUserWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

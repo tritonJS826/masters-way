@@ -24,7 +24,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UserPopulatedResponse"
                         }
                     }
                 }
@@ -48,7 +48,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GoogleToken"
+                            "$ref": "#/definitions/mwserver_internal_schemas.GoogleToken"
                         }
                     }
                 }
@@ -78,8 +78,11 @@
                     }
                 ],
                 "responses": {
-                    "304": {
-                        "description": "redirect"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mwserver_internal_schemas.GetUserTokenByEmailResponse"
+                        }
                     }
                 }
             }
@@ -136,8 +139,11 @@
                     }
                 ],
                 "responses": {
-                    "307": {
-                        "description": "Temporary Redirect"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mwserver_internal_schemas.BeginAuthResponse"
+                        }
                     }
                 }
             }
@@ -158,6 +164,13 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "code param",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "state parameter",
                         "name": "state",
                         "in": "query",
@@ -172,10 +185,10 @@
                     }
                 ],
                 "responses": {
-                    "302": {
+                    "200": {
                         "description": "Redirect to frontend with JWT token",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/mwserver_internal_schemas.GetAuthCallbackFunctionResponse"
                         }
                     }
                 }
@@ -201,7 +214,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateCommentPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateCommentPayload"
                         }
                     }
                 ],
@@ -209,13 +222,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CommentPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create comment.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -250,7 +263,7 @@
                     "403": {
                         "description": "User doesn't have rights to delete comment.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -274,7 +287,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateCommentPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateCommentPayload"
                         }
                     },
                     {
@@ -289,13 +302,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CommentPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update comment.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -321,7 +334,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AddWayToCompositeWayPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AddWayToCompositeWayPayload"
                         }
                     }
                 ],
@@ -329,7 +342,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CompositeWayRelation"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CompositeWayRelation"
                         }
                     }
                 }
@@ -391,7 +404,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateDayReportPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateDayReportPayload"
                         }
                     }
                 ],
@@ -399,7 +412,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CompositeDayReportPopulatedResponse"
                         }
                     }
                 }
@@ -443,7 +456,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ListDayReportsResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.ListDayReportsResponse"
                         }
                     }
                 }
@@ -483,7 +496,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateFavoriteUserWayPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateFavoriteUserWayPayload"
                         }
                     }
                 ],
@@ -550,7 +563,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateFavoriteUserPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateFavoriteUserPayload"
                         }
                     }
                 ],
@@ -617,7 +630,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateFromUserMentoringRequestPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateFromUserMentoringRequestPayload"
                         }
                     }
                 ],
@@ -625,7 +638,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.FromUserMentoringRequestResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.FromUserMentoringRequestResponse"
                         }
                     }
                 }
@@ -688,7 +701,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AICommentIssuePayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AICommentIssuePayload"
                         }
                     }
                 ],
@@ -696,7 +709,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AICommentIssueResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AICommentIssueResponse"
                         }
                     }
                 }
@@ -723,7 +736,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIDecomposeIssuePayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIDecomposeIssuePayload"
                         }
                     }
                 ],
@@ -731,7 +744,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIDecomposeIssueResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIDecomposeIssueResponse"
                         }
                     }
                 }
@@ -758,7 +771,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIEstimateIssuePayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIEstimateIssuePayload"
                         }
                     }
                 ],
@@ -766,7 +779,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIEstimateIssueResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIEstimateIssueResponse"
                         }
                     }
                 }
@@ -793,7 +806,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIGeneratePlansByMetricPayload"
                         }
                     }
                 ],
@@ -801,7 +814,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIGeneratePlansByMetricResponse"
                         }
                     }
                 }
@@ -828,7 +841,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIChatPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIChatPayload"
                         }
                     }
                 ],
@@ -836,7 +849,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIChatResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.AIChatResponse"
                         }
                     }
                 }
@@ -863,7 +876,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.GenerateMetricsPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.GenerateMetricsPayload"
                         }
                     }
                 ],
@@ -871,7 +884,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GenerateMetricsResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.GenerateMetricsResponse"
                         }
                     }
                 }
@@ -917,7 +930,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobDoneJobTagPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateJobDoneJobTagPayload"
                         }
                     }
                 ],
@@ -984,7 +997,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobDonePayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateJobDonePayload"
                         }
                     }
                 ],
@@ -992,13 +1005,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.JobDonePopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create job done.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1033,7 +1046,7 @@
                     "403": {
                         "description": "User doesn't have rights to delete job done.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1057,7 +1070,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateJobDone"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateJobDone"
                         }
                     },
                     {
@@ -1072,13 +1085,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.JobDonePopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update job done.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1104,7 +1117,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobTagPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateJobTagPayload"
                         }
                     }
                 ],
@@ -1112,7 +1125,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobTagResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.JobTagResponse"
                         }
                     }
                 }
@@ -1165,7 +1178,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateJobTagPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateJobTagPayload"
                         }
                     },
                     {
@@ -1180,7 +1193,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobTagResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.JobTagResponse"
                         }
                     }
                 }
@@ -1207,7 +1220,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMentorUserWayPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateMentorUserWayPayload"
                         }
                     }
                 ],
@@ -1236,7 +1249,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.DeleteMentorUserWayPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.DeleteMentorUserWayPayload"
                         }
                     }
                 ],
@@ -1267,7 +1280,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMetricPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateMetricPayload"
                         }
                     }
                 ],
@@ -1275,7 +1288,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MetricResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.MetricResponse"
                         }
                     }
                 }
@@ -1328,7 +1341,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateMetricPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateMetricPayload"
                         }
                     },
                     {
@@ -1343,7 +1356,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MetricResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.MetricResponse"
                         }
                     }
                 }
@@ -1369,7 +1382,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreatePlanJobTagPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreatePlanJobTagPayload"
                         }
                     }
                 ],
@@ -1436,7 +1449,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreatePlanPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreatePlanPayload"
                         }
                     }
                 ],
@@ -1444,13 +1457,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.PlanPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create plan.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1485,7 +1498,7 @@
                     "403": {
                         "description": "User doesn't have rights to delete plan.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1509,7 +1522,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdatePlanPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdatePlanPayload"
                         }
                     },
                     {
@@ -1524,13 +1537,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.PlanPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update plan.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1556,7 +1569,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateProblemPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateProblemPayload"
                         }
                     }
                 ],
@@ -1564,13 +1577,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.ProblemPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create problem.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1605,7 +1618,7 @@
                     "403": {
                         "description": "User doesn't have rights to delete problem.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1629,7 +1642,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateProblemPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateProblemPayload"
                         }
                     },
                     {
@@ -1644,13 +1657,13 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.ProblemPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update problem.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mwserver_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1676,7 +1689,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateProjectPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateProjectPayload"
                         }
                     }
                 ],
@@ -1684,7 +1697,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1716,7 +1729,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1767,7 +1780,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateProjectPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateProjectPayload"
                         }
                     },
                     {
@@ -1782,7 +1795,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1808,7 +1821,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateToUserMentoringRequestPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateToUserMentoringRequestPayload"
                         }
                     }
                 ],
@@ -1816,7 +1829,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ToUserMentoringRequestResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.ToUserMentoringRequestResponse"
                         }
                     }
                 }
@@ -1878,7 +1891,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserProjectPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateUserProjectPayload"
                         }
                     }
                 ],
@@ -1945,7 +1958,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserTagPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateUserTagPayload"
                         }
                     }
                 ],
@@ -1953,7 +1966,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserTagResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UserTagResponse"
                         }
                     }
                 }
@@ -2045,7 +2058,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetAllUsersResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.GetAllUsersResponse"
                         }
                     }
                 }
@@ -2084,7 +2097,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schemas.GetUsersByIDsResponse"
+                                "$ref": "#/definitions/mwserver_internal_schemas.GetUsersByIDsResponse"
                             }
                         }
                     }
@@ -2117,7 +2130,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UserPopulatedResponse"
                         }
                     }
                 }
@@ -2141,7 +2154,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateUserPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateUserPayload"
                         }
                     },
                     {
@@ -2156,7 +2169,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserPlainResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                         }
                     }
                 }
@@ -2182,7 +2195,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayCollectionWay"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateWayCollectionWay"
                         }
                     }
                 ],
@@ -2190,7 +2203,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayCollectionWayResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayCollectionWayResponse"
                         }
                     }
                 }
@@ -2252,7 +2265,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayCollectionPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateWayCollectionPayload"
                         }
                     }
                 ],
@@ -2260,7 +2273,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayCollectionPopulatedResponse"
                         }
                     }
                 }
@@ -2313,7 +2326,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateWayCollectionPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateWayCollectionPayload"
                         }
                     },
                     {
@@ -2328,7 +2341,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayCollectionPlainResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayCollectionPlainResponse"
                         }
                     }
                 }
@@ -2354,7 +2367,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayTagPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateWayTagPayload"
                         }
                     }
                 ],
@@ -2362,7 +2375,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayTagResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayTagResponse"
                         }
                     }
                 }
@@ -2454,7 +2467,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetAllWaysResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.GetAllWaysResponse"
                         }
                     }
                 }
@@ -2478,7 +2491,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.CreateWayPayload"
                         }
                     }
                 ],
@@ -2486,7 +2499,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPlainResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayPlainResponse"
                         }
                     }
                 }
@@ -2518,7 +2531,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayPopulatedResponse"
                         }
                     }
                 }
@@ -2569,7 +2582,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateWayPayload"
+                            "$ref": "#/definitions/mwserver_internal_schemas.UpdateWayPayload"
                         }
                     },
                     {
@@ -2584,7 +2597,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPlainResponse"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayPlainResponse"
                         }
                     }
                 }
@@ -2616,7 +2629,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayStatisticsTriplePeriod"
+                            "$ref": "#/definitions/mwserver_internal_schemas.WayStatisticsTriplePeriod"
                         }
                     }
                 }
@@ -2624,7 +2637,7 @@
         }
     },
     "definitions": {
-        "customErrors.NoRightToChangeDayReportError": {
+        "mwserver_internal_customErrors.NoRightToChangeDayReportError": {
             "type": "object",
             "required": [
                 "error",
@@ -2639,7 +2652,7 @@
                 }
             }
         },
-        "schemas.AIChatPayload": {
+        "mwserver_internal_schemas.AIChatPayload": {
             "type": "object",
             "required": [
                 "message"
@@ -2650,7 +2663,7 @@
                 }
             }
         },
-        "schemas.AIChatResponse": {
+        "mwserver_internal_schemas.AIChatResponse": {
             "type": "object",
             "required": [
                 "message"
@@ -2661,7 +2674,7 @@
                 }
             }
         },
-        "schemas.AICommentIssuePayload": {
+        "mwserver_internal_schemas.AICommentIssuePayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2676,7 +2689,7 @@
                 }
             }
         },
-        "schemas.AICommentIssueResponse": {
+        "mwserver_internal_schemas.AICommentIssueResponse": {
             "type": "object",
             "required": [
                 "goal"
@@ -2687,7 +2700,7 @@
                 }
             }
         },
-        "schemas.AIDecomposeIssuePayload": {
+        "mwserver_internal_schemas.AIDecomposeIssuePayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2702,7 +2715,7 @@
                 }
             }
         },
-        "schemas.AIDecomposeIssueResponse": {
+        "mwserver_internal_schemas.AIDecomposeIssueResponse": {
             "type": "object",
             "required": [
                 "plans"
@@ -2716,7 +2729,7 @@
                 }
             }
         },
-        "schemas.AIEstimateIssuePayload": {
+        "mwserver_internal_schemas.AIEstimateIssuePayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2731,7 +2744,7 @@
                 }
             }
         },
-        "schemas.AIEstimateIssueResponse": {
+        "mwserver_internal_schemas.AIEstimateIssueResponse": {
             "type": "object",
             "required": [
                 "estimation"
@@ -2742,7 +2755,7 @@
                 }
             }
         },
-        "schemas.AIGeneratePlansByMetricPayload": {
+        "mwserver_internal_schemas.AIGeneratePlansByMetricPayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2757,7 +2770,7 @@
                 }
             }
         },
-        "schemas.AIGeneratePlansByMetricResponse": {
+        "mwserver_internal_schemas.AIGeneratePlansByMetricResponse": {
             "type": "object",
             "required": [
                 "plans"
@@ -2771,7 +2784,7 @@
                 }
             }
         },
-        "schemas.AddWayToCompositeWayPayload": {
+        "mwserver_internal_schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
                 "childWayUuid",
@@ -2786,7 +2799,18 @@
                 }
             }
         },
-        "schemas.CommentPopulatedResponse": {
+        "mwserver_internal_schemas.BeginAuthResponse": {
+            "type": "object",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "mwserver_internal_schemas.CommentPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -2829,7 +2853,7 @@
                 }
             }
         },
-        "schemas.CompositeDayReportPopulatedResponse": {
+        "mwserver_internal_schemas.CompositeDayReportPopulatedResponse": {
             "type": "object",
             "required": [
                 "comments",
@@ -2845,13 +2869,13 @@
                 "comments": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.CommentPopulatedResponse"
                     }
                 },
                 "compositionParticipants": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.DayReportsCompositionParticipants"
+                        "$ref": "#/definitions/mwserver_internal_schemas.DayReportsCompositionParticipants"
                     }
                 },
                 "createdAt": {
@@ -2861,19 +2885,19 @@
                 "jobsDone": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.JobDonePopulatedResponse"
                     }
                 },
                 "plans": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.PlanPopulatedResponse"
                     }
                 },
                 "problems": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.ProblemPopulatedResponse"
                     }
                 },
                 "updatedAt": {
@@ -2886,7 +2910,7 @@
                 }
             }
         },
-        "schemas.CompositeWayRelation": {
+        "mwserver_internal_schemas.CompositeWayRelation": {
             "type": "object",
             "required": [
                 "childWayUuid",
@@ -2901,7 +2925,7 @@
                 }
             }
         },
-        "schemas.CreateCommentPayload": {
+        "mwserver_internal_schemas.CreateCommentPayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -2920,7 +2944,7 @@
                 }
             }
         },
-        "schemas.CreateDayReportPayload": {
+        "mwserver_internal_schemas.CreateDayReportPayload": {
             "type": "object",
             "required": [
                 "wayId"
@@ -2931,7 +2955,7 @@
                 }
             }
         },
-        "schemas.CreateFavoriteUserPayload": {
+        "mwserver_internal_schemas.CreateFavoriteUserPayload": {
             "type": "object",
             "required": [
                 "acceptorUserUuid",
@@ -2946,7 +2970,7 @@
                 }
             }
         },
-        "schemas.CreateFavoriteUserWayPayload": {
+        "mwserver_internal_schemas.CreateFavoriteUserWayPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -2961,7 +2985,7 @@
                 }
             }
         },
-        "schemas.CreateFromUserMentoringRequestPayload": {
+        "mwserver_internal_schemas.CreateFromUserMentoringRequestPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -2976,7 +3000,7 @@
                 }
             }
         },
-        "schemas.CreateJobDoneJobTagPayload": {
+        "mwserver_internal_schemas.CreateJobDoneJobTagPayload": {
             "type": "object",
             "required": [
                 "jobDoneUuid",
@@ -2991,7 +3015,7 @@
                 }
             }
         },
-        "schemas.CreateJobDonePayload": {
+        "mwserver_internal_schemas.CreateJobDonePayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -3021,7 +3045,7 @@
                 }
             }
         },
-        "schemas.CreateJobTagPayload": {
+        "mwserver_internal_schemas.CreateJobTagPayload": {
             "type": "object",
             "required": [
                 "color",
@@ -3044,7 +3068,7 @@
                 }
             }
         },
-        "schemas.CreateMentorUserWayPayload": {
+        "mwserver_internal_schemas.CreateMentorUserWayPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -3059,7 +3083,7 @@
                 }
             }
         },
-        "schemas.CreateMetricPayload": {
+        "mwserver_internal_schemas.CreateMetricPayload": {
             "type": "object",
             "required": [
                 "description",
@@ -3086,7 +3110,7 @@
                 }
             }
         },
-        "schemas.CreatePlanJobTagPayload": {
+        "mwserver_internal_schemas.CreatePlanJobTagPayload": {
             "type": "object",
             "required": [
                 "jobTagUuid",
@@ -3101,7 +3125,7 @@
                 }
             }
         },
-        "schemas.CreatePlanPayload": {
+        "mwserver_internal_schemas.CreatePlanPayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -3128,7 +3152,7 @@
                 }
             }
         },
-        "schemas.CreateProblemPayload": {
+        "mwserver_internal_schemas.CreateProblemPayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -3151,7 +3175,7 @@
                 }
             }
         },
-        "schemas.CreateProjectPayload": {
+        "mwserver_internal_schemas.CreateProjectPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3166,7 +3190,7 @@
                 }
             }
         },
-        "schemas.CreateToUserMentoringRequestPayload": {
+        "mwserver_internal_schemas.CreateToUserMentoringRequestPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -3181,7 +3205,7 @@
                 }
             }
         },
-        "schemas.CreateUserProjectPayload": {
+        "mwserver_internal_schemas.CreateUserProjectPayload": {
             "type": "object",
             "required": [
                 "projectId",
@@ -3196,7 +3220,7 @@
                 }
             }
         },
-        "schemas.CreateUserTagPayload": {
+        "mwserver_internal_schemas.CreateUserTagPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3211,7 +3235,7 @@
                 }
             }
         },
-        "schemas.CreateWayCollectionPayload": {
+        "mwserver_internal_schemas.CreateWayCollectionPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3226,7 +3250,7 @@
                 }
             }
         },
-        "schemas.CreateWayCollectionWay": {
+        "mwserver_internal_schemas.CreateWayCollectionWay": {
             "type": "object",
             "required": [
                 "wayCollectionUuid",
@@ -3241,7 +3265,7 @@
                 }
             }
         },
-        "schemas.CreateWayPayload": {
+        "mwserver_internal_schemas.CreateWayPayload": {
             "type": "object",
             "required": [
                 "copiedFromWayId",
@@ -3282,7 +3306,7 @@
                 }
             }
         },
-        "schemas.CreateWayTagPayload": {
+        "mwserver_internal_schemas.CreateWayTagPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3297,7 +3321,7 @@
                 }
             }
         },
-        "schemas.DayReportsCompositionParticipants": {
+        "mwserver_internal_schemas.DayReportsCompositionParticipants": {
             "type": "object",
             "required": [
                 "dayReportId",
@@ -3316,7 +3340,7 @@
                 }
             }
         },
-        "schemas.DefaultWayCollections": {
+        "mwserver_internal_schemas.DefaultWayCollections": {
             "type": "object",
             "required": [
                 "favorite",
@@ -3325,17 +3349,17 @@
             ],
             "properties": {
                 "favorite": {
-                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    "$ref": "#/definitions/mwserver_internal_schemas.WayCollectionPopulatedResponse"
                 },
                 "mentoring": {
-                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    "$ref": "#/definitions/mwserver_internal_schemas.WayCollectionPopulatedResponse"
                 },
                 "own": {
-                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    "$ref": "#/definitions/mwserver_internal_schemas.WayCollectionPopulatedResponse"
                 }
             }
         },
-        "schemas.DeleteMentorUserWayPayload": {
+        "mwserver_internal_schemas.DeleteMentorUserWayPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -3350,7 +3374,7 @@
                 }
             }
         },
-        "schemas.FromUserMentoringRequestResponse": {
+        "mwserver_internal_schemas.FromUserMentoringRequestResponse": {
             "type": "object",
             "required": [
                 "userId",
@@ -3365,7 +3389,7 @@
                 }
             }
         },
-        "schemas.GenerateMetricsPayload": {
+        "mwserver_internal_schemas.GenerateMetricsPayload": {
             "type": "object",
             "required": [
                 "goalDescription",
@@ -3387,7 +3411,7 @@
                 }
             }
         },
-        "schemas.GenerateMetricsResponse": {
+        "mwserver_internal_schemas.GenerateMetricsResponse": {
             "type": "object",
             "required": [
                 "metrics"
@@ -3401,7 +3425,7 @@
                 }
             }
         },
-        "schemas.GetAllUsersResponse": {
+        "mwserver_internal_schemas.GetAllUsersResponse": {
             "type": "object",
             "required": [
                 "size",
@@ -3414,12 +3438,12 @@
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponseWithInfo"
                     }
                 }
             }
         },
-        "schemas.GetAllWaysResponse": {
+        "mwserver_internal_schemas.GetAllWaysResponse": {
             "type": "object",
             "required": [
                 "size",
@@ -3432,12 +3456,34 @@
                 "ways": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.GetUsersByIDsResponse": {
+        "mwserver_internal_schemas.GetAuthCallbackFunctionResponse": {
+            "type": "object",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "mwserver_internal_schemas.GetUserTokenByEmailResponse": {
+            "type": "object",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "mwserver_internal_schemas.GetUsersByIDsResponse": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -3456,7 +3502,7 @@
                 }
             }
         },
-        "schemas.GoogleToken": {
+        "mwserver_internal_schemas.GoogleToken": {
             "type": "object",
             "required": [
                 "accessToken"
@@ -3467,7 +3513,7 @@
                 }
             }
         },
-        "schemas.JobDonePopulatedResponse": {
+        "mwserver_internal_schemas.JobDonePopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -3501,7 +3547,7 @@
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.JobTagResponse"
                     }
                 },
                 "time": {
@@ -3521,7 +3567,7 @@
                 }
             }
         },
-        "schemas.JobTagResponse": {
+        "mwserver_internal_schemas.JobTagResponse": {
             "type": "object",
             "required": [
                 "color",
@@ -3544,7 +3590,7 @@
                 }
             }
         },
-        "schemas.Label": {
+        "mwserver_internal_schemas.Label": {
             "type": "object",
             "required": [
                 "color",
@@ -3567,7 +3613,7 @@
                 }
             }
         },
-        "schemas.LabelInfo": {
+        "mwserver_internal_schemas.LabelInfo": {
             "type": "object",
             "required": [
                 "jobsAmount",
@@ -3584,7 +3630,7 @@
                     "type": "integer"
                 },
                 "label": {
-                    "$ref": "#/definitions/schemas.Label"
+                    "$ref": "#/definitions/mwserver_internal_schemas.Label"
                 },
                 "time": {
                     "type": "integer"
@@ -3594,7 +3640,7 @@
                 }
             }
         },
-        "schemas.LabelStatistics": {
+        "mwserver_internal_schemas.LabelStatistics": {
             "type": "object",
             "required": [
                 "labels"
@@ -3603,12 +3649,12 @@
                 "labels": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.LabelInfo"
+                        "$ref": "#/definitions/mwserver_internal_schemas.LabelInfo"
                     }
                 }
             }
         },
-        "schemas.ListDayReportsResponse": {
+        "mwserver_internal_schemas.ListDayReportsResponse": {
             "type": "object",
             "required": [
                 "dayReports",
@@ -3618,7 +3664,7 @@
                 "dayReports": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.CompositeDayReportPopulatedResponse"
                     }
                 },
                 "size": {
@@ -3626,7 +3672,7 @@
                 }
             }
         },
-        "schemas.MetricResponse": {
+        "mwserver_internal_schemas.MetricResponse": {
             "type": "object",
             "required": [
                 "description",
@@ -3654,7 +3700,7 @@
                 }
             }
         },
-        "schemas.OverallInformation": {
+        "mwserver_internal_schemas.OverallInformation": {
             "type": "object",
             "required": [
                 "averageJobTime",
@@ -3685,7 +3731,7 @@
                 }
             }
         },
-        "schemas.PlanPopulatedResponse": {
+        "mwserver_internal_schemas.PlanPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -3723,7 +3769,7 @@
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.JobTagResponse"
                     }
                 },
                 "time": {
@@ -3743,7 +3789,7 @@
                 }
             }
         },
-        "schemas.ProblemPopulatedResponse": {
+        "mwserver_internal_schemas.ProblemPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -3790,7 +3836,7 @@
                 }
             }
         },
-        "schemas.ProjectPlainResponse": {
+        "mwserver_internal_schemas.ProjectPlainResponse": {
             "type": "object",
             "required": [
                 "id",
@@ -3816,7 +3862,7 @@
                 }
             }
         },
-        "schemas.ProjectPopulatedResponse": {
+        "mwserver_internal_schemas.ProjectPopulatedResponse": {
             "type": "object",
             "required": [
                 "id",
@@ -3842,18 +3888,18 @@
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponseWithInfo"
                     }
                 },
                 "ways": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.TimeSpentByDayPoint": {
+        "mwserver_internal_schemas.TimeSpentByDayPoint": {
             "type": "object",
             "required": [
                 "date",
@@ -3868,7 +3914,7 @@
                 }
             }
         },
-        "schemas.ToUserMentoringRequestResponse": {
+        "mwserver_internal_schemas.ToUserMentoringRequestResponse": {
             "type": "object",
             "required": [
                 "userId",
@@ -3883,7 +3929,7 @@
                 }
             }
         },
-        "schemas.UpdateCommentPayload": {
+        "mwserver_internal_schemas.UpdateCommentPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3891,7 +3937,7 @@
                 }
             }
         },
-        "schemas.UpdateJobDone": {
+        "mwserver_internal_schemas.UpdateJobDone": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3902,7 +3948,7 @@
                 }
             }
         },
-        "schemas.UpdateJobTagPayload": {
+        "mwserver_internal_schemas.UpdateJobTagPayload": {
             "type": "object",
             "properties": {
                 "color": {
@@ -3916,7 +3962,7 @@
                 }
             }
         },
-        "schemas.UpdateMetricPayload": {
+        "mwserver_internal_schemas.UpdateMetricPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3930,7 +3976,7 @@
                 }
             }
         },
-        "schemas.UpdatePlanPayload": {
+        "mwserver_internal_schemas.UpdatePlanPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3944,7 +3990,7 @@
                 }
             }
         },
-        "schemas.UpdateProblemPayload": {
+        "mwserver_internal_schemas.UpdateProblemPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3955,7 +4001,7 @@
                 }
             }
         },
-        "schemas.UpdateProjectPayload": {
+        "mwserver_internal_schemas.UpdateProjectPayload": {
             "type": "object",
             "properties": {
                 "isPrivate": {
@@ -3966,7 +4012,7 @@
                 }
             }
         },
-        "schemas.UpdateUserPayload": {
+        "mwserver_internal_schemas.UpdateUserPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3983,7 +4029,7 @@
                 }
             }
         },
-        "schemas.UpdateWayCollectionPayload": {
+        "mwserver_internal_schemas.UpdateWayCollectionPayload": {
             "type": "object",
             "properties": {
                 "name": {
@@ -3991,7 +4037,7 @@
                 }
             }
         },
-        "schemas.UpdateWayPayload": {
+        "mwserver_internal_schemas.UpdateWayPayload": {
             "type": "object",
             "properties": {
                 "estimationTime": {
@@ -4011,7 +4057,7 @@
                 }
             }
         },
-        "schemas.UserPlainResponse": {
+        "mwserver_internal_schemas.UserPlainResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4046,7 +4092,7 @@
                 }
             }
         },
-        "schemas.UserPlainResponseWithInfo": {
+        "mwserver_internal_schemas.UserPlainResponseWithInfo": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4096,7 +4142,7 @@
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserTagResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserTagResponse"
                     }
                 },
                 "uuid": {
@@ -4104,7 +4150,7 @@
                 }
             }
         },
-        "schemas.UserPopulatedResponse": {
+        "mwserver_internal_schemas.UserPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4129,11 +4175,11 @@
                 "customWayCollections": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayCollectionPopulatedResponse"
                     }
                 },
                 "defaultWayCollections": {
-                    "$ref": "#/definitions/schemas.DefaultWayCollections"
+                    "$ref": "#/definitions/mwserver_internal_schemas.DefaultWayCollections"
                 },
                 "description": {
                     "type": "string"
@@ -4150,7 +4196,7 @@
                 "favoriteUsers": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                     }
                 },
                 "imageUrl": {
@@ -4165,13 +4211,13 @@
                 "projects": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.ProjectPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.ProjectPlainResponse"
                     }
                 },
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserTagResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserTagResponse"
                     }
                 },
                 "uuid": {
@@ -4180,12 +4226,12 @@
                 "wayRequests": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.UserTagResponse": {
+        "mwserver_internal_schemas.UserTagResponse": {
             "type": "object",
             "required": [
                 "name",
@@ -4200,7 +4246,7 @@
                 }
             }
         },
-        "schemas.WayCollectionPlainResponse": {
+        "mwserver_internal_schemas.WayCollectionPlainResponse": {
             "type": "object",
             "required": [
                 "name",
@@ -4215,7 +4261,7 @@
                 }
             }
         },
-        "schemas.WayCollectionPopulatedResponse": {
+        "mwserver_internal_schemas.WayCollectionPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4249,12 +4295,12 @@
                 "ways": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.WayCollectionWayResponse": {
+        "mwserver_internal_schemas.WayCollectionWayResponse": {
             "type": "object",
             "required": [
                 "wayCollectionId",
@@ -4269,7 +4315,7 @@
                 }
             }
         },
-        "schemas.WayPlainResponse": {
+        "mwserver_internal_schemas.WayPlainResponse": {
             "type": "object",
             "required": [
                 "childrenUuids",
@@ -4326,7 +4372,7 @@
                 "mentors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                     }
                 },
                 "metricsDone": {
@@ -4339,7 +4385,7 @@
                     "type": "string"
                 },
                 "owner": {
-                    "$ref": "#/definitions/schemas.UserPlainResponse"
+                    "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                 },
                 "projectUuid": {
                     "type": "string",
@@ -4354,12 +4400,12 @@
                 "wayTags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayTagResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayTagResponse"
                     }
                 }
             }
         },
-        "schemas.WayPopulatedResponse": {
+        "mwserver_internal_schemas.WayPopulatedResponse": {
             "type": "object",
             "required": [
                 "children",
@@ -4386,7 +4432,7 @@
                 "children": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayPopulatedResponse"
                     }
                 },
                 "copiedFromWayUuid": {
@@ -4405,7 +4451,7 @@
                 "formerMentors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                     }
                 },
                 "goalDescription": {
@@ -4420,32 +4466,32 @@
                 "jobTags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.JobTagResponse"
                     }
                 },
                 "mentorRequests": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                     }
                 },
                 "mentors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                     }
                 },
                 "metrics": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MetricResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.MetricResponse"
                     }
                 },
                 "name": {
                     "type": "string"
                 },
                 "owner": {
-                    "$ref": "#/definitions/schemas.UserPlainResponse"
+                    "$ref": "#/definitions/mwserver_internal_schemas.UserPlainResponse"
                 },
                 "projectUuid": {
                     "type": "string",
@@ -4460,12 +4506,12 @@
                 "wayTags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayTagResponse"
+                        "$ref": "#/definitions/mwserver_internal_schemas.WayTagResponse"
                     }
                 }
             }
         },
-        "schemas.WayStatistics": {
+        "mwserver_internal_schemas.WayStatistics": {
             "type": "object",
             "required": [
                 "labelStatistics",
@@ -4474,20 +4520,20 @@
             ],
             "properties": {
                 "labelStatistics": {
-                    "$ref": "#/definitions/schemas.LabelStatistics"
+                    "$ref": "#/definitions/mwserver_internal_schemas.LabelStatistics"
                 },
                 "overallInformation": {
-                    "$ref": "#/definitions/schemas.OverallInformation"
+                    "$ref": "#/definitions/mwserver_internal_schemas.OverallInformation"
                 },
                 "timeSpentByDayChart": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.TimeSpentByDayPoint"
+                        "$ref": "#/definitions/mwserver_internal_schemas.TimeSpentByDayPoint"
                     }
                 }
             }
         },
-        "schemas.WayStatisticsTriplePeriod": {
+        "mwserver_internal_schemas.WayStatisticsTriplePeriod": {
             "type": "object",
             "required": [
                 "lastMonth",
@@ -4496,17 +4542,17 @@
             ],
             "properties": {
                 "lastMonth": {
-                    "$ref": "#/definitions/schemas.WayStatistics"
+                    "$ref": "#/definitions/mwserver_internal_schemas.WayStatistics"
                 },
                 "lastWeek": {
-                    "$ref": "#/definitions/schemas.WayStatistics"
+                    "$ref": "#/definitions/mwserver_internal_schemas.WayStatistics"
                 },
                 "totalTime": {
-                    "$ref": "#/definitions/schemas.WayStatistics"
+                    "$ref": "#/definitions/mwserver_internal_schemas.WayStatistics"
                 }
             }
         },
-        "schemas.WayTagResponse": {
+        "mwserver_internal_schemas.WayTagResponse": {
             "type": "object",
             "required": [
                 "name",

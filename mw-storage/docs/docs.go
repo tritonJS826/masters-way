@@ -56,7 +56,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UploadFileResponse"
+                            "$ref": "#/definitions/mwstorage_internal_schemas.UploadFileResponse"
                         }
                     }
                 }
@@ -97,7 +97,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.UploadFileResponse": {
+        "mwstorage_internal_schemas.UploadFileResponse": {
             "type": "object",
             "required": [
                 "id",

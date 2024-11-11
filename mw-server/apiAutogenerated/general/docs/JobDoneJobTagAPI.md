@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateJobDoneJobTagPayload("JobDoneUuid_example", "JobTagUuid_example") // SchemasCreateJobDoneJobTagPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateJobDoneJobTagPayload("JobDoneUuid_example", "JobTagUuid_example") // MwserverInternalSchemasCreateJobDoneJobTagPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiCreateJobDoneJobTagRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateJobDoneJobTagPayload**](SchemasCreateJobDoneJobTagPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateJobDoneJobTagPayload**](MwserverInternalSchemasCreateJobDoneJobTagPayload.md) | query params | 
 
 ### Return type
 

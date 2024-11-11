@@ -15,24 +15,24 @@
 
 import * as runtime from '../runtime';
 import type {
-  CustomErrorsNoRightToChangeDayReportError,
-  SchemasCreateJobDonePayload,
-  SchemasJobDonePopulatedResponse,
-  SchemasUpdateJobDone,
+  MwserverInternalCustomErrorsNoRightToChangeDayReportError,
+  MwserverInternalSchemasCreateJobDonePayload,
+  MwserverInternalSchemasJobDonePopulatedResponse,
+  MwserverInternalSchemasUpdateJobDone,
 } from '../models/index';
 import {
-    CustomErrorsNoRightToChangeDayReportErrorFromJSON,
-    CustomErrorsNoRightToChangeDayReportErrorToJSON,
-    SchemasCreateJobDonePayloadFromJSON,
-    SchemasCreateJobDonePayloadToJSON,
-    SchemasJobDonePopulatedResponseFromJSON,
-    SchemasJobDonePopulatedResponseToJSON,
-    SchemasUpdateJobDoneFromJSON,
-    SchemasUpdateJobDoneToJSON,
+    MwserverInternalCustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    MwserverInternalCustomErrorsNoRightToChangeDayReportErrorToJSON,
+    MwserverInternalSchemasCreateJobDonePayloadFromJSON,
+    MwserverInternalSchemasCreateJobDonePayloadToJSON,
+    MwserverInternalSchemasJobDonePopulatedResponseFromJSON,
+    MwserverInternalSchemasJobDonePopulatedResponseToJSON,
+    MwserverInternalSchemasUpdateJobDoneFromJSON,
+    MwserverInternalSchemasUpdateJobDoneToJSON,
 } from '../models/index';
 
 export interface CreateJobDoneRequest {
-    request: SchemasCreateJobDonePayload;
+    request: MwserverInternalSchemasCreateJobDonePayload;
 }
 
 export interface DeleteJobDoneRequest {
@@ -41,7 +41,7 @@ export interface DeleteJobDoneRequest {
 
 export interface UpdateJobDoneRequest {
     jobDoneId: string;
-    request: SchemasUpdateJobDone;
+    request: MwserverInternalSchemasUpdateJobDone;
 }
 
 /**
@@ -52,7 +52,7 @@ export class JobDoneApi extends runtime.BaseAPI {
     /**
      * Create a new jobDone
      */
-    async createJobDoneRaw(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobDonePopulatedResponse>> {
+    async createJobDoneRaw(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasJobDonePopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createJobDone.');
         }
@@ -68,16 +68,16 @@ export class JobDoneApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateJobDonePayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasCreateJobDonePayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobDonePopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasJobDonePopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new jobDone
      */
-    async createJobDone(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobDonePopulatedResponse> {
+    async createJobDone(requestParameters: CreateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasJobDonePopulatedResponse> {
         const response = await this.createJobDoneRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -114,7 +114,7 @@ export class JobDoneApi extends runtime.BaseAPI {
     /**
      * Update jobDone by UUID
      */
-    async updateJobDoneRaw(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasJobDonePopulatedResponse>> {
+    async updateJobDoneRaw(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasJobDonePopulatedResponse>> {
         if (requestParameters.jobDoneId === null || requestParameters.jobDoneId === undefined) {
             throw new runtime.RequiredError('jobDoneId','Required parameter requestParameters.jobDoneId was null or undefined when calling updateJobDone.');
         }
@@ -134,16 +134,16 @@ export class JobDoneApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateJobDoneToJSON(requestParameters.request),
+            body: MwserverInternalSchemasUpdateJobDoneToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasJobDonePopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasJobDonePopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update jobDone by UUID
      */
-    async updateJobDone(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasJobDonePopulatedResponse> {
+    async updateJobDone(requestParameters: UpdateJobDoneRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasJobDonePopulatedResponse> {
         const response = await this.updateJobDoneRaw(requestParameters, initOverrides);
         return await response.value();
     }

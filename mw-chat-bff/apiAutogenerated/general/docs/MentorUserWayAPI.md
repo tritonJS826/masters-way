@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateMentorUserWayPayload("UserUuid_example", "WayUuid_example") // SchemasCreateMentorUserWayPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateMentorUserWayPayload("UserUuid_example", "WayUuid_example") // MwserverInternalSchemasCreateMentorUserWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -53,7 +53,7 @@ Other parameters are passed through a pointer to a apiCreateMentorUserWayRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateMentorUserWayPayload**](SchemasCreateMentorUserWayPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateMentorUserWayPayload**](MwserverInternalSchemasCreateMentorUserWayPayload.md) | query params | 
 
 ### Return type
 
@@ -92,7 +92,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasDeleteMentorUserWayPayload("UserUuid_example", "WayUuid_example") // SchemasDeleteMentorUserWayPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasDeleteMentorUserWayPayload("UserUuid_example", "WayUuid_example") // MwserverInternalSchemasDeleteMentorUserWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -115,7 +115,7 @@ Other parameters are passed through a pointer to a apiDeleteMentorUserWayRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasDeleteMentorUserWayPayload**](SchemasDeleteMentorUserWayPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasDeleteMentorUserWayPayload**](MwserverInternalSchemasDeleteMentorUserWayPayload.md) | query params | 
 
 ### Return type
 

@@ -35,7 +35,7 @@ func TestCreateJobDone(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.SchemasCreateJobDonePayload{
+		request := openapiGeneral.MwserverInternalSchemasCreateJobDonePayload{
 			DayReportUuid: dayReportID,
 			Description:   description,
 			JobTagUuids:   []string{},
@@ -49,12 +49,12 @@ func TestCreateJobDone(t *testing.T) {
 			t.Fatalf("Failed to create JobDone: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasJobDonePopulatedResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse{
 			DayReportUuid: dayReportID,
 			Description:   description,
 			OwnerName:     "Dana Evans",
 			OwnerUuid:     ownerID,
-			Tags:          []openapiGeneral.SchemasJobTagResponse{},
+			Tags:          []openapiGeneral.MwserverInternalSchemasJobTagResponse{},
 			Time:          0,
 			WayName:       "alice johnson",
 			WayUuid:       "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
@@ -96,7 +96,7 @@ func TestUpdateJobDone(t *testing.T) {
 		var newTime int32 = 50
 		newDescription := "new description"
 
-		request := openapiGeneral.SchemasUpdateJobDone{
+		request := openapiGeneral.MwserverInternalSchemasUpdateJobDone{
 			Description: &newDescription,
 			Time:        &newTime,
 		}
@@ -107,7 +107,7 @@ func TestUpdateJobDone(t *testing.T) {
 			t.Fatalf("Failed to create JobDone: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasJobDonePopulatedResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse{
 			Uuid:          "40a1d6c8-2932-46bd-8e29-f6886ec171f4",
 			CreatedAt:     "2024-08-14T00:00:01.000Z",
 			Description:   "new description",
@@ -117,7 +117,7 @@ func TestUpdateJobDone(t *testing.T) {
 			DayReportUuid: "7d563ccb-15fc-4d5a-b0cb-27ec86e052ab",
 			WayUuid:       "9230479a-a481-4f83-b770-138ef4f3139c",
 			WayName:       "dana evans way 3",
-			Tags:          []openapiGeneral.SchemasJobTagResponse{},
+			Tags:          []openapiGeneral.MwserverInternalSchemasJobTagResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)

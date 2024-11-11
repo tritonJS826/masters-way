@@ -92,17 +92,17 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
- - [SchemasCreateMessageResponse](docs/SchemasCreateMessageResponse.md)
- - [SchemasCreateRoomPayload](docs/SchemasCreateRoomPayload.md)
- - [SchemasGetChatPreviewResponse](docs/SchemasGetChatPreviewResponse.md)
- - [SchemasGetRoomsResponse](docs/SchemasGetRoomsResponse.md)
- - [SchemasMessageReader](docs/SchemasMessageReader.md)
- - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
- - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
- - [SchemasRoomPreviewResponse](docs/SchemasRoomPreviewResponse.md)
- - [SchemasUpdateMessageStatusPayload](docs/SchemasUpdateMessageStatusPayload.md)
- - [SchemasUserResponse](docs/SchemasUserResponse.md)
+ - [MwchatInternalSchemasCreateMessagePayload](docs/MwchatInternalSchemasCreateMessagePayload.md)
+ - [MwchatInternalSchemasCreateMessageResponse](docs/MwchatInternalSchemasCreateMessageResponse.md)
+ - [MwchatInternalSchemasCreateRoomPayload](docs/MwchatInternalSchemasCreateRoomPayload.md)
+ - [MwchatInternalSchemasGetChatPreviewResponse](docs/MwchatInternalSchemasGetChatPreviewResponse.md)
+ - [MwchatInternalSchemasGetRoomsResponse](docs/MwchatInternalSchemasGetRoomsResponse.md)
+ - [MwchatInternalSchemasMessageReader](docs/MwchatInternalSchemasMessageReader.md)
+ - [MwchatInternalSchemasMessageResponse](docs/MwchatInternalSchemasMessageResponse.md)
+ - [MwchatInternalSchemasRoomPopulatedResponse](docs/MwchatInternalSchemasRoomPopulatedResponse.md)
+ - [MwchatInternalSchemasRoomPreviewResponse](docs/MwchatInternalSchemasRoomPreviewResponse.md)
+ - [MwchatInternalSchemasUpdateMessageStatusPayload](docs/MwchatInternalSchemasUpdateMessageStatusPayload.md)
+ - [MwchatInternalSchemasUserResponse](docs/MwchatInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

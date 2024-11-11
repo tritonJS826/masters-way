@@ -15,7 +15,7 @@ install: ## Install dependencies
 	go mod tidy
 
 swag: ## Generate swagger specification
-	swag init -g cmd/notification/main.go
+	swag init -g cmd/notification/main.go --parseDependency
 
 proto: ## Generate gRPC files
 	@echo "Generating gRPC files..."

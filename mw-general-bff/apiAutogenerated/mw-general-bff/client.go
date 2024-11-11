@@ -49,7 +49,59 @@ type APIClient struct {
 
 	// API Services
 
+	AuthAPI *AuthAPIService
+
+	CommentAPI *CommentAPIService
+
+	CompositeWayAPI *CompositeWayAPIService
+
+	DayReportAPI *DayReportAPIService
+
+	FavoriteUserAPI *FavoriteUserAPIService
+
+	FavoriteUserWayAPI *FavoriteUserWayAPIService
+
 	FileAPI *FileAPIService
+
+	FromUserMentoringRequestAPI *FromUserMentoringRequestAPIService
+
+	GeminiAPI *GeminiAPIService
+
+	HealthAPI *HealthAPIService
+
+	JobDoneAPI *JobDoneAPIService
+
+	JobDoneJobTagAPI *JobDoneJobTagAPIService
+
+	JobTagAPI *JobTagAPIService
+
+	MentorUserWayAPI *MentorUserWayAPIService
+
+	MetricAPI *MetricAPIService
+
+	PlanAPI *PlanAPIService
+
+	PlanJobTagAPI *PlanJobTagAPIService
+
+	ProblemAPI *ProblemAPIService
+
+	ProjectAPI *ProjectAPIService
+
+	ToUserMentoringRequestAPI *ToUserMentoringRequestAPIService
+
+	UserAPI *UserAPIService
+
+	UserProjectAPI *UserProjectAPIService
+
+	UserTagAPI *UserTagAPIService
+
+	WayAPI *WayAPIService
+
+	WayCollectionAPI *WayCollectionAPIService
+
+	WayCollectionWayAPI *WayCollectionWayAPIService
+
+	WayTagAPI *WayTagAPIService
 }
 
 type service struct {
@@ -68,7 +120,33 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.AuthAPI = (*AuthAPIService)(&c.common)
+	c.CommentAPI = (*CommentAPIService)(&c.common)
+	c.CompositeWayAPI = (*CompositeWayAPIService)(&c.common)
+	c.DayReportAPI = (*DayReportAPIService)(&c.common)
+	c.FavoriteUserAPI = (*FavoriteUserAPIService)(&c.common)
+	c.FavoriteUserWayAPI = (*FavoriteUserWayAPIService)(&c.common)
 	c.FileAPI = (*FileAPIService)(&c.common)
+	c.FromUserMentoringRequestAPI = (*FromUserMentoringRequestAPIService)(&c.common)
+	c.GeminiAPI = (*GeminiAPIService)(&c.common)
+	c.HealthAPI = (*HealthAPIService)(&c.common)
+	c.JobDoneAPI = (*JobDoneAPIService)(&c.common)
+	c.JobDoneJobTagAPI = (*JobDoneJobTagAPIService)(&c.common)
+	c.JobTagAPI = (*JobTagAPIService)(&c.common)
+	c.MentorUserWayAPI = (*MentorUserWayAPIService)(&c.common)
+	c.MetricAPI = (*MetricAPIService)(&c.common)
+	c.PlanAPI = (*PlanAPIService)(&c.common)
+	c.PlanJobTagAPI = (*PlanJobTagAPIService)(&c.common)
+	c.ProblemAPI = (*ProblemAPIService)(&c.common)
+	c.ProjectAPI = (*ProjectAPIService)(&c.common)
+	c.ToUserMentoringRequestAPI = (*ToUserMentoringRequestAPIService)(&c.common)
+	c.UserAPI = (*UserAPIService)(&c.common)
+	c.UserProjectAPI = (*UserProjectAPIService)(&c.common)
+	c.UserTagAPI = (*UserTagAPIService)(&c.common)
+	c.WayAPI = (*WayAPIService)(&c.common)
+	c.WayCollectionAPI = (*WayCollectionAPIService)(&c.common)
+	c.WayCollectionWayAPI = (*WayCollectionWayAPIService)(&c.common)
+	c.WayTagAPI = (*WayTagAPIService)(&c.common)
 
 	return c
 }

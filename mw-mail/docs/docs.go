@@ -92,7 +92,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.SendMailResponse"
+                            "$ref": "#/definitions/mwmail_internal_schemas.SendMailResponse"
                         }
                     }
                 }
@@ -100,7 +100,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.SendMailResponse": {
+        "mwmail_internal_schemas.SendMailResponse": {
             "type": "object",
             "required": [
                 "id",

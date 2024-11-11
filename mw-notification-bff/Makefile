@@ -7,12 +7,12 @@ start: ## Run the project
 
 test: ## Run all tests
 	go test ./...
-	
+
 install: ## Install dependencies
 	go mod tidy
 
 swag: ##  Generate swagger specification
-	swag init -g cmd/notification-bff/main.go
+	swag init -g cmd/notification-bff/main.go --parseDependency
 
 help: ## Display help message
 	@echo "Available targets:"

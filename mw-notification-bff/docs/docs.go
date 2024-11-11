@@ -32,7 +32,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetEnabledNotificationListResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse"
                         }
                     }
                 }
@@ -58,7 +58,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateEnabledNotificationPayload"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload"
                         }
                     },
                     {
@@ -73,7 +73,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.EnabledNotificationResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse"
                         }
                     }
                 }
@@ -96,7 +96,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetNotificationListResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.GetNotificationListResponse"
                         }
                     }
                 }
@@ -122,7 +122,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateNotificationPayload"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.UpdateNotificationPayload"
                         }
                     },
                     {
@@ -137,7 +137,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.NotificationResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationResponse"
                         }
                     }
                 }
@@ -145,7 +145,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.EnabledNotificationResponse": {
+        "mw-notification-bff_internal_schemas.EnabledNotificationResponse": {
             "type": "object",
             "required": [
                 "channel",
@@ -172,7 +172,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetEnabledNotificationListResponse": {
+        "mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse": {
             "type": "object",
             "required": [
                 "enabledNotifications"
@@ -181,12 +181,12 @@ const docTemplate = `{
                 "enabledNotifications": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.EnabledNotificationResponse"
+                        "$ref": "#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse"
                     }
                 }
             }
         },
-        "schemas.GetNotificationListResponse": {
+        "mw-notification-bff_internal_schemas.GetNotificationListResponse": {
             "type": "object",
             "required": [
                 "notifications",
@@ -196,7 +196,7 @@ const docTemplate = `{
                 "notifications": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.NotificationResponse"
+                        "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationResponse"
                     }
                 },
                 "size": {
@@ -204,7 +204,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.NotificationResponse": {
+        "mw-notification-bff_internal_schemas.NotificationResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -239,7 +239,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateEnabledNotificationPayload": {
+        "mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload": {
             "type": "object",
             "required": [
                 "isEnabled"
@@ -250,7 +250,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateNotificationPayload": {
+        "mw-notification-bff_internal_schemas.UpdateNotificationPayload": {
             "type": "object",
             "required": [
                 "isRead"

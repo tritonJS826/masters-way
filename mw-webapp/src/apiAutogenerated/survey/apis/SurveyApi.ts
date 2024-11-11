@@ -15,22 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasPostSurveyLookingForMentorPayload,
-  SchemasPostSurveyUserIntroPayload,
+  MwsurveyInternalSchemasPostSurveyLookingForMentorPayload,
+  MwsurveyInternalSchemasPostSurveyUserIntroPayload,
 } from '../models/index';
 import {
-    SchemasPostSurveyLookingForMentorPayloadFromJSON,
-    SchemasPostSurveyLookingForMentorPayloadToJSON,
-    SchemasPostSurveyUserIntroPayloadFromJSON,
-    SchemasPostSurveyUserIntroPayloadToJSON,
+    MwsurveyInternalSchemasPostSurveyLookingForMentorPayloadFromJSON,
+    MwsurveyInternalSchemasPostSurveyLookingForMentorPayloadToJSON,
+    MwsurveyInternalSchemasPostSurveyUserIntroPayloadFromJSON,
+    MwsurveyInternalSchemasPostSurveyUserIntroPayloadToJSON,
 } from '../models/index';
 
 export interface SurveyLookingForMentorRequest {
-    request: SchemasPostSurveyLookingForMentorPayload;
+    request: MwsurveyInternalSchemasPostSurveyLookingForMentorPayload;
 }
 
 export interface SurveyUserIntroRequest {
-    request: SchemasPostSurveyUserIntroPayload;
+    request: MwsurveyInternalSchemasPostSurveyUserIntroPayload;
 }
 
 /**
@@ -58,7 +58,7 @@ export class SurveyApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasPostSurveyLookingForMentorPayloadToJSON(requestParameters.request),
+            body: MwsurveyInternalSchemasPostSurveyLookingForMentorPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -92,7 +92,7 @@ export class SurveyApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasPostSurveyUserIntroPayloadToJSON(requestParameters.request),
+            body: MwsurveyInternalSchemasPostSurveyUserIntroPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

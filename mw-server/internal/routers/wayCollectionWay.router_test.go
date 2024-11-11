@@ -35,7 +35,7 @@ func TestCreateWayCollectionWay(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.SchemasCreateWayCollectionWay{
+		request := openapiGeneral.MwserverInternalSchemasCreateWayCollectionWay{
 			WayCollectionUuid: wayCollectionID,
 			WayUuid:           wayID,
 		}
@@ -46,7 +46,7 @@ func TestCreateWayCollectionWay(t *testing.T) {
 			t.Fatalf("Failed to create WayCollection: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasWayCollectionWayResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasWayCollectionWayResponse{
 			WayCollectionId: wayCollectionID,
 			WayId:           wayID,
 		}
@@ -92,8 +92,8 @@ func TestDeleteWayCollectionWayById(t *testing.T) {
 			t.Fatalf("Failed to get user: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasUserPopulatedResponse{
-			CustomWayCollections: []openapiGeneral.SchemasWayCollectionPopulatedResponse{},
+		expectedData := &openapiGeneral.MwserverInternalSchemasUserPopulatedResponse{
+			CustomWayCollections: []openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse{},
 			Uuid:                 currentUserID,
 		}
 

@@ -34,7 +34,7 @@ func TestCreateWayCollection(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.SchemasCreateWayCollectionPayload{
+		request := openapiGeneral.MwserverInternalSchemasCreateWayCollectionPayload{
 			Name:      wayCollectionName,
 			OwnerUuid: currentUserID,
 		}
@@ -45,11 +45,11 @@ func TestCreateWayCollection(t *testing.T) {
 			t.Fatalf("Failed to create WayCollection: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasWayCollectionPopulatedResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse{
 			Name:      wayCollectionName,
 			OwnerUuid: currentUserID,
 			Type:      "custom",
-			Ways:      []openapiGeneral.SchemasWayPlainResponse{},
+			Ways:      []openapiGeneral.MwserverInternalSchemasWayPlainResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
@@ -82,7 +82,7 @@ func TestUpdateWayCollection(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.SchemasUpdateWayCollectionPayload{
+		request := openapiGeneral.MwserverInternalSchemasUpdateWayCollectionPayload{
 			Name: &wayCollectionName,
 		}
 
@@ -92,7 +92,7 @@ func TestUpdateWayCollection(t *testing.T) {
 			t.Fatalf("Failed to update WayCollection name: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasWayCollectionPlainResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasWayCollectionPlainResponse{
 			Name: wayCollectionName,
 			Uuid: wayCollectionID,
 		}
@@ -132,8 +132,8 @@ func TestDeleteWayCollectionById(t *testing.T) {
 
 		assert.Equal(t, http.StatusNoContent, response.StatusCode)
 
-		expectedData := &openapiGeneral.SchemasUserPopulatedResponse{
-			CustomWayCollections: []openapiGeneral.SchemasWayCollectionPopulatedResponse{},
+		expectedData := &openapiGeneral.MwserverInternalSchemasUserPopulatedResponse{
+			CustomWayCollections: []openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse{},
 			Uuid:                 currentUserID,
 		}
 

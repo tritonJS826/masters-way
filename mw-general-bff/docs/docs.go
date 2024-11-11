@@ -439,20 +439,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/dev/reset-db": {
-            "get": {
-                "description": "resets db",
-                "tags": [
-                    "dev"
-                ],
-                "summary": "resets db",
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    }
-                }
-            }
-        },
         "/favoriteUserWays": {
             "post": {
                 "consumes": [
@@ -1030,17 +1016,29 @@ const docTemplate = `{
         "/jobDones": {
             "post": {
                 "consumes": [
+                    "application/json",
                     "application/json"
                 ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
+                    "jobDone",
                     "jobDone"
                 ],
                 "summary": "Create a new jobDone",
                 "operationId": "create-jobDone",
                 "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CreateJobDonePayload"
+                        }
+                    },
                     {
                         "description": "query params",
                         "name": "request",
@@ -1517,7 +1515,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "plan ID",
+                        "description": "plan UUID",
                         "name": "planId",
                         "in": "path",
                         "required": true
@@ -4593,7 +4591,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/general",
+	BasePath:         "/general-bff",
 	Schemes:          []string{},
 	Title:            "Masters way general-bff API",
 	Description:      "",

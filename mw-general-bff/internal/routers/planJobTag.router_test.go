@@ -36,14 +36,14 @@ func TestCreatePlanTag(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
 		// Create Day Report for Way
-		requestCreateDayReport := openapiGeneral.SchemasCreateDayReportPayload{WayId: wayID}
+		requestCreateDayReport := openapiGeneral.MwserverInternalSchemasCreateDayReportPayload{WayId: wayID}
 		dayReport, _, err := generalApi.DayReportAPI.CreateDayReport(ctx).Request(requestCreateDayReport).Execute()
 		if err != nil {
 			t.Fatalf("Failed to create day report: %v", err)
 		}
 		dayReportID := dayReport.CompositionParticipants[0].DayReportId
 
-		requestCreatePlan := openapiGeneral.SchemasCreatePlanPayload{
+		requestCreatePlan := openapiGeneral.MwserverInternalSchemasCreatePlanPayload{
 			DayReportUuid: dayReportID,
 			Description:   "Description",
 			IsDone:        false,
@@ -55,7 +55,7 @@ func TestCreatePlanTag(t *testing.T) {
 			t.Fatalf("Failed to create plan: %v", err)
 		}
 
-		requestCreateJobTag := openapiGeneral.SchemasCreatePlanJobTagPayload{
+		requestCreateJobTag := openapiGeneral.MwserverInternalSchemasCreatePlanJobTagPayload{
 			JobTagUuid: jobTagID,
 			PlanUuid:   plan.Uuid,
 		}
@@ -64,7 +64,7 @@ func TestCreatePlanTag(t *testing.T) {
 			t.Fatalf("Failed to create plan job tag: %v", err)
 		}
 
-		expectedData := []openapiGeneral.SchemasJobTagResponse{
+		expectedData := []openapiGeneral.MwserverInternalSchemasJobTagResponse{
 			{
 				Color:       "blue",
 				Description: "this is not my tag",

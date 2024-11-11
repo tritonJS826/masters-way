@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## CreateProject
 
-> SchemasProjectPopulatedResponse CreateProject(ctx).Request(request).Execute()
+> MwserverInternalSchemasProjectPopulatedResponse CreateProject(ctx).Request(request).Execute()
 
 Create a new project
 
@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateProjectPayload("Name_example", "OwnerId_example") // SchemasCreateProjectPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateProjectPayload("Name_example", "OwnerId_example") // MwserverInternalSchemasCreateProjectPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -39,7 +39,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.CreateProject``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateProject`: SchemasProjectPopulatedResponse
+	// response from `CreateProject`: MwserverInternalSchemasProjectPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.CreateProject`: %v\n", resp)
 }
 ```
@@ -55,11 +55,11 @@ Other parameters are passed through a pointer to a apiCreateProjectRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateProjectPayload**](SchemasCreateProjectPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateProjectPayload**](MwserverInternalSchemasCreateProjectPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasProjectPopulatedResponse**](SchemasProjectPopulatedResponse.md)
+[**MwserverInternalSchemasProjectPopulatedResponse**](MwserverInternalSchemasProjectPopulatedResponse.md)
 
 ### Authorization
 
@@ -143,7 +143,7 @@ No authorization required
 
 ## GetProject
 
-> SchemasProjectPopulatedResponse GetProject(ctx, projectId).Execute()
+> MwserverInternalSchemasProjectPopulatedResponse GetProject(ctx, projectId).Execute()
 
 Get project by id
 
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.GetProject``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetProject`: SchemasProjectPopulatedResponse
+	// response from `GetProject`: MwserverInternalSchemasProjectPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.GetProject`: %v\n", resp)
 }
 ```
@@ -193,7 +193,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasProjectPopulatedResponse**](SchemasProjectPopulatedResponse.md)
+[**MwserverInternalSchemasProjectPopulatedResponse**](MwserverInternalSchemasProjectPopulatedResponse.md)
 
 ### Authorization
 
@@ -211,7 +211,7 @@ No authorization required
 
 ## UpdateProject
 
-> SchemasProjectPopulatedResponse UpdateProject(ctx, projectId).Request(request).Execute()
+> MwserverInternalSchemasProjectPopulatedResponse UpdateProject(ctx, projectId).Request(request).Execute()
 
 Update project by id
 
@@ -229,7 +229,7 @@ import (
 
 func main() {
 	projectId := "projectId_example" // string | project id
-	request := *openapiclient.NewSchemasUpdateProjectPayload() // SchemasUpdateProjectPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasUpdateProjectPayload() // MwserverInternalSchemasUpdateProjectPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -238,7 +238,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProjectAPI.UpdateProject``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateProject`: SchemasProjectPopulatedResponse
+	// response from `UpdateProject`: MwserverInternalSchemasProjectPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProjectAPI.UpdateProject`: %v\n", resp)
 }
 ```
@@ -259,11 +259,11 @@ Other parameters are passed through a pointer to a apiUpdateProjectRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateProjectPayload**](SchemasUpdateProjectPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasUpdateProjectPayload**](MwserverInternalSchemasUpdateProjectPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasProjectPopulatedResponse**](SchemasProjectPopulatedResponse.md)
+[**MwserverInternalSchemasProjectPopulatedResponse**](MwserverInternalSchemasProjectPopulatedResponse.md)
 
 ### Authorization
 

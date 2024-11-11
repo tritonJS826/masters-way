@@ -24,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.PostSurveyLookingForMentorPayload'
+              $ref: '#/components/schemas/mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload'
         description: query params
         required: true
       responses:
@@ -43,7 +43,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.PostSurveyUserIntroPayload'
+              $ref: '#/components/schemas/mwsurvey_internal_schemas.PostSurveyUserIntroPayload'
         description: query params
         required: true
       responses:
@@ -56,7 +56,7 @@ paths:
       x-codegen-request-body-name: request
 components:
   schemas:
-    schemas.PostSurveyLookingForMentorPayload:
+    mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload:
       properties:
         currentExperience:
           type: string
@@ -72,7 +72,7 @@ components:
       - skillsToLearn
       - userEmail
       type: object
-    schemas.PostSurveyUserIntroPayload:
+    mwsurvey_internal_schemas.PostSurveyUserIntroPayload:
       properties:
         deviceId:
           type: string

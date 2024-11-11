@@ -41,9 +41,9 @@ func TestGetAllWays(t *testing.T) {
 		emptyNullableString := openapiGeneral.NullableString{}
 		emptyNullableString.Set(nil)
 
-		expectedData := &openapiGeneral.SchemasGetAllWaysResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasGetAllWaysResponse{
 			Size: 14,
-			Ways: []openapiGeneral.SchemasWayPlainResponse{
+			Ways: []openapiGeneral.MwserverInternalSchemasWayPlainResponse{
 				{
 					ChildrenUuids:     []string{},
 					CopiedFromWayUuid: emptyNullableString,
@@ -55,11 +55,11 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "dana evans goal 1",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+					Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 					MetricsDone:       0,
 					MetricsTotal:      0,
 					Name:              "dana evans way 1",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-06T05:00:00.000Z",
 						Description: "A brief description about Dana.",
 						Email:       "dana.evans@example.com",
@@ -70,7 +70,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-08-10T00:00:00.000Z",
 					Uuid:      "a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
-					WayTags: []openapiGeneral.SchemasWayTagResponse{
+					WayTags: []openapiGeneral.MwserverInternalSchemasWayTagResponse{
 						{
 							Name: "some tag",
 							Uuid: "46d5dd00-75fc-4563-9616-5252a6fa05d3",
@@ -88,11 +88,11 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "dana evans goal 2",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+					Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 					MetricsDone:       0,
 					MetricsTotal:      0,
 					Name:              "dana evans way 2",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-06T05:00:00.000Z",
 						Description: "A brief description about Dana.",
 						Email:       "dana.evans@example.com",
@@ -103,7 +103,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-08-10T00:00:00.000Z",
 					Uuid:      "aa13eee9-7dca-46ed-a3f7-21d8b7ae3b72",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids:     []string{},
@@ -116,11 +116,11 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "dana evans goal 3",
 					IsCompleted:       true,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+					Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 					MetricsDone:       0,
 					MetricsTotal:      0,
 					Name:              "dana evans way 3",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-06T05:00:00.000Z",
 						Description: "A brief description about Dana.",
 						Email:       "dana.evans@example.com",
@@ -131,7 +131,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-08-10T00:00:00.000Z",
 					Uuid:      "9230479a-a481-4f83-b770-138ef4f3139c",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids:     []string{},
@@ -144,11 +144,11 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "alice johnson goal 1",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+					Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 					MetricsDone:       0,
 					MetricsTotal:      0,
 					Name:              "alice johnson 1",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-08T05:10:00.000Z",
 						Description: "A brief description about Alice.",
 						Email:       "alice.johnson@example.com",
@@ -159,7 +159,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-07-22T00:00:00.000Z",
 					Uuid:      "5cc724a0-383f-45ad-99a1-8514f51717f2",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids:     []string{},
@@ -172,11 +172,11 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "alice johnson goal 2",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+					Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 					MetricsDone:       0,
 					MetricsTotal:      0,
 					Name:              "alice johnson 2",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-08T05:10:00.000Z",
 						Description: "A brief description about Alice.",
 						Email:       "alice.johnson@example.com",
@@ -187,7 +187,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-07-22T00:00:00.000Z",
 					Uuid:      "78f86c77-2018-4511-90dc-d96df77f496a",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids: []string{
@@ -202,7 +202,7 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "jane smith goal",
 					IsCompleted:       true,
 					IsPrivate:         false,
-					Mentors: []openapiGeneral.SchemasUserPlainResponse{
+					Mentors: []openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						{
 							CreatedAt:   "2024-07-08T05:10:00.000Z",
 							Description: "A brief description about Alice.",
@@ -216,7 +216,7 @@ func TestGetAllWays(t *testing.T) {
 					MetricsDone:  0,
 					MetricsTotal: 0,
 					Name:         "jane smith way",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-08T05:50:00.000Z",
 						Description: "A brief description about Jane.",
 						Email:       "jane.smith@example.com",
@@ -227,7 +227,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-07-09T00:00:00.000Z",
 					Uuid:      "9e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids:     []string{},
@@ -240,7 +240,7 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "jane smith goal 1",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors: []openapiGeneral.SchemasUserPlainResponse{
+					Mentors: []openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						{
 							CreatedAt:   "2024-07-08T05:50:00.000Z",
 							Description: "A brief description about Jane.",
@@ -254,7 +254,7 @@ func TestGetAllWays(t *testing.T) {
 					MetricsDone:  0,
 					MetricsTotal: 0,
 					Name:         "jane smith way 1",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-08T05:50:00.000Z",
 						Description: "A brief description about Jane.",
 						Email:       "jane.smith@example.com",
@@ -265,7 +265,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-07-09T00:00:00.000Z",
 					Uuid:      "dce03ca6-f626-4c33-a44b-5a1b4ff62aa7",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids:     []string{},
@@ -278,11 +278,11 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "ronnie stanton goal",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+					Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 					MetricsDone:       0,
 					MetricsTotal:      0,
 					Name:              "ronnie stanton way",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-06T10:00:00.000Z",
 						Description: "A brief description about Ronnie.",
 						Email:       "ronnie.stanton@example.com",
@@ -293,7 +293,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-07-09T00:00:00.000Z",
 					Uuid:      "9972552a-c0b3-41f3-b464-284d36a36964",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids:     []string{},
@@ -306,11 +306,11 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "bob brown goal 2",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors:           []openapiGeneral.SchemasUserPlainResponse{},
+					Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 					MetricsDone:       0,
 					MetricsTotal:      0,
 					Name:              "bob brown way 2",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-07T00:40:00.000Z",
 						Description: "A brief description about Bob.",
 						Email:       "bob.brown@example.com",
@@ -321,7 +321,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-07-09T00:00:00.000Z",
 					Uuid:      "77a9e7c4-edb4-4b61-8065-cfd0c5c2506d",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 				{
 					ChildrenUuids:     []string{},
@@ -334,7 +334,7 @@ func TestGetAllWays(t *testing.T) {
 					GoalDescription:   "bob brown goal 1",
 					IsCompleted:       false,
 					IsPrivate:         false,
-					Mentors: []openapiGeneral.SchemasUserPlainResponse{
+					Mentors: []openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						{
 							CreatedAt:   "2024-07-08T05:50:00.000Z",
 							Description: "A brief description about Jane.",
@@ -357,7 +357,7 @@ func TestGetAllWays(t *testing.T) {
 					MetricsDone:  0,
 					MetricsTotal: 0,
 					Name:         "bob brown way 1",
-					Owner: openapiGeneral.SchemasUserPlainResponse{
+					Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 						CreatedAt:   "2024-07-07T00:40:00.000Z",
 						Description: "A brief description about Bob.",
 						Email:       "bob.brown@example.com",
@@ -368,7 +368,7 @@ func TestGetAllWays(t *testing.T) {
 					},
 					UpdatedAt: "2024-07-09T00:00:00.000Z",
 					Uuid:      "77482c3f-cae6-494d-be1d-d06c1e84450b",
-					WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+					WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 				},
 			},
 		}
@@ -409,7 +409,7 @@ func TestGetWayById(t *testing.T) {
 		emptyNullableString := openapiGeneral.NullableString{}
 		emptyNullableString.Set(nil)
 
-		expectedData := &openapiGeneral.SchemasWayPopulatedResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasWayPopulatedResponse{
 			Uuid:            "9972552a-c0b3-41f3-b464-284d36a36964",
 			Name:            "ronnie stanton way",
 			GoalDescription: "ronnie stanton goal",
@@ -418,7 +418,7 @@ func TestGetWayById(t *testing.T) {
 			EstimationTime:  40404040,
 			IsCompleted:     false,
 			IsPrivate:       false,
-			Owner: openapiGeneral.SchemasUserPlainResponse{
+			Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 				Uuid:        "d63d2f89-6412-4324-8587-7061bf02dca4",
 				Name:        "Ronnie Stanton",
 				Email:       "ronnie.stanton@example.com",
@@ -427,16 +427,16 @@ func TestGetWayById(t *testing.T) {
 				ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAN",
 				IsMentor:    false,
 			},
-			Mentors:                []openapiGeneral.SchemasUserPlainResponse{},
-			FormerMentors:          []openapiGeneral.SchemasUserPlainResponse{},
-			MentorRequests:         []openapiGeneral.SchemasUserPlainResponse{},
+			Mentors:                []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
+			FormerMentors:          []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
+			MentorRequests:         []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 			FavoriteForUsersAmount: 0,
-			WayTags:                []openapiGeneral.SchemasWayTagResponse{},
-			JobTags:                []openapiGeneral.SchemasJobTagResponse{},
-			Metrics:                []openapiGeneral.SchemasMetricResponse{},
+			WayTags:                []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
+			JobTags:                []openapiGeneral.MwserverInternalSchemasJobTagResponse{},
+			Metrics:                []openapiGeneral.MwserverInternalSchemasMetricResponse{},
 			CopiedFromWayUuid:      emptyNullableString,
 			ProjectUuid:            emptyNullableString,
-			Children:               []openapiGeneral.SchemasWayPopulatedResponse{},
+			Children:               []openapiGeneral.MwserverInternalSchemasWayPopulatedResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
@@ -471,9 +471,9 @@ func TestGetWayStatisticsById(t *testing.T) {
 			t.Fatalf("Failed to get way statistics: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasWayStatisticsTriplePeriod{
-			TotalTime: openapiGeneral.SchemasWayStatistics{
-				TimeSpentByDayChart: []openapiGeneral.SchemasTimeSpentByDayPoint{
+		expectedData := &openapiGeneral.MwserverInternalSchemasWayStatisticsTriplePeriod{
+			TotalTime: openapiGeneral.MwserverInternalSchemasWayStatistics{
+				TimeSpentByDayChart: []openapiGeneral.MwserverInternalSchemasTimeSpentByDayPoint{
 					{Date: "2024-07-09T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-10T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-11T00:00:00.000Z", Value: 0},
@@ -513,7 +513,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 					{Date: "2024-08-14T00:00:00.000Z", Value: 0},
 					{Date: "2024-08-15T00:00:00.000Z", Value: 0},
 				},
-				OverallInformation: openapiGeneral.SchemasOverallInformation{
+				OverallInformation: openapiGeneral.MwserverInternalSchemasOverallInformation{
 					TotalTime:                 430,
 					TotalReports:              8,
 					FinishedJobs:              8,
@@ -521,12 +521,12 @@ func TestGetWayStatisticsById(t *testing.T) {
 					AverageTimePerWorkingDay:  53,
 					AverageJobTime:            54,
 				},
-				LabelStatistics: openapiGeneral.SchemasLabelStatistics{
-					Labels: []openapiGeneral.SchemasLabelInfo{
+				LabelStatistics: openapiGeneral.MwserverInternalSchemasLabelStatistics{
+					Labels: []openapiGeneral.MwserverInternalSchemasLabelInfo{
 						{
 							JobsAmount:           1,
 							JobsAmountPercentage: 12,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "2461357d-f2f0-43a7-9f1d-79fd1eaa64f5",
 								Name:        "general meeting",
 								Color:       "yellow",
@@ -538,7 +538,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 						{
 							JobsAmount:           3,
 							JobsAmountPercentage: 37,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "5ebb8d43-b685-4090-8453-ceaa7aad2095",
 								Name:        "database",
 								Color:       "green",
@@ -550,7 +550,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 						{
 							JobsAmount:           2,
 							JobsAmountPercentage: 25,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "c73ff20b-e64e-4e5f-b270-1a40ba1bd81b",
 								Name:        "coding",
 								Color:       "blue",
@@ -562,7 +562,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 						{
 							JobsAmount:           2,
 							JobsAmountPercentage: 25,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "60e7860d-58d9-4035-93d0-9bb825fe734c",
 								Name:        "meeting 1:1",
 								Color:       "red",
@@ -574,8 +574,8 @@ func TestGetWayStatisticsById(t *testing.T) {
 					},
 				},
 			},
-			LastMonth: openapiGeneral.SchemasWayStatistics{
-				TimeSpentByDayChart: []openapiGeneral.SchemasTimeSpentByDayPoint{
+			LastMonth: openapiGeneral.MwserverInternalSchemasWayStatistics{
+				TimeSpentByDayChart: []openapiGeneral.MwserverInternalSchemasTimeSpentByDayPoint{
 					{Date: "2024-07-16T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-17T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-18T00:00:00.000Z", Value: 0},
@@ -608,7 +608,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 					{Date: "2024-08-14T00:00:00.000Z", Value: 0},
 					{Date: "2024-08-15T00:00:00.000Z", Value: 0},
 				},
-				OverallInformation: openapiGeneral.SchemasOverallInformation{
+				OverallInformation: openapiGeneral.MwserverInternalSchemasOverallInformation{
 					AverageJobTime:            54,
 					AverageTimePerCalendarDay: 14,
 					AverageTimePerWorkingDay:  53,
@@ -616,12 +616,12 @@ func TestGetWayStatisticsById(t *testing.T) {
 					TotalReports:              8,
 					TotalTime:                 430,
 				},
-				LabelStatistics: openapiGeneral.SchemasLabelStatistics{
-					Labels: []openapiGeneral.SchemasLabelInfo{
+				LabelStatistics: openapiGeneral.MwserverInternalSchemasLabelStatistics{
+					Labels: []openapiGeneral.MwserverInternalSchemasLabelInfo{
 						{
 							JobsAmount:           1,
 							JobsAmountPercentage: 12,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Color:       "yellow",
 								Description: "this is not my tag",
 								Name:        "general meeting",
@@ -633,7 +633,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 						{
 							JobsAmount:           3,
 							JobsAmountPercentage: 37,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "5ebb8d43-b685-4090-8453-ceaa7aad2095",
 								Name:        "database",
 								Color:       "green",
@@ -643,7 +643,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 							TimePercentage: 30,
 						},
 						{
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "c73ff20b-e64e-4e5f-b270-1a40ba1bd81b",
 								Name:        "coding",
 								Color:       "blue",
@@ -657,7 +657,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 						{
 							JobsAmount:           2,
 							JobsAmountPercentage: 25,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "60e7860d-58d9-4035-93d0-9bb825fe734c",
 								Name:        "meeting 1:1",
 								Color:       "red",
@@ -669,8 +669,8 @@ func TestGetWayStatisticsById(t *testing.T) {
 					},
 				},
 			},
-			LastWeek: openapiGeneral.SchemasWayStatistics{
-				TimeSpentByDayChart: []openapiGeneral.SchemasTimeSpentByDayPoint{
+			LastWeek: openapiGeneral.MwserverInternalSchemasWayStatistics{
+				TimeSpentByDayChart: []openapiGeneral.MwserverInternalSchemasTimeSpentByDayPoint{
 					{Date: "2024-08-09T00:00:00.000Z", Value: 60},
 					{Date: "2024-08-10T00:00:00.000Z", Value: 0},
 					{Date: "2024-08-11T00:00:00.000Z", Value: 60},
@@ -679,7 +679,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 					{Date: "2024-08-14T00:00:00.000Z", Value: 0},
 					{Date: "2024-08-15T00:00:00.000Z", Value: 0},
 				},
-				OverallInformation: openapiGeneral.SchemasOverallInformation{
+				OverallInformation: openapiGeneral.MwserverInternalSchemasOverallInformation{
 					TotalTime:                 180,
 					TotalReports:              4,
 					FinishedJobs:              3,
@@ -687,12 +687,12 @@ func TestGetWayStatisticsById(t *testing.T) {
 					AverageTimePerWorkingDay:  45,
 					AverageJobTime:            60,
 				},
-				LabelStatistics: openapiGeneral.SchemasLabelStatistics{
-					Labels: []openapiGeneral.SchemasLabelInfo{
+				LabelStatistics: openapiGeneral.MwserverInternalSchemasLabelStatistics{
+					Labels: []openapiGeneral.MwserverInternalSchemasLabelInfo{
 						{
 							JobsAmount:           1,
 							JobsAmountPercentage: 33,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "5ebb8d43-b685-4090-8453-ceaa7aad2095",
 								Name:        "database",
 								Color:       "green",
@@ -704,7 +704,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 						{
 							JobsAmount:           1,
 							JobsAmountPercentage: 33,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "c73ff20b-e64e-4e5f-b270-1a40ba1bd81b",
 								Name:        "coding",
 								Color:       "blue",
@@ -716,7 +716,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 						{
 							JobsAmount:           1,
 							JobsAmountPercentage: 33,
-							Label: openapiGeneral.SchemasLabel{
+							Label: openapiGeneral.MwserverInternalSchemasLabel{
 								Uuid:        "60e7860d-58d9-4035-93d0-9bb825fe734c",
 								Name:        "meeting 1:1",
 								Color:       "red",
@@ -757,7 +757,7 @@ func TestCreateWay(t *testing.T) {
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
-		request := openapiGeneral.SchemasCreateWayPayload{
+		request := openapiGeneral.MwserverInternalSchemasCreateWayPayload{
 			CopiedFromWayId: openapiGeneral.NullableString{},
 			EstimationTime:  0,
 			GoalDescription: "Random Description",
@@ -772,18 +772,18 @@ func TestCreateWay(t *testing.T) {
 			t.Fatalf("Failed to create way: %v", err)
 		}
 
-		expectedData := &openapiGeneral.SchemasWayPlainResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasWayPlainResponse{
 			ChildrenUuids:    []string{},
 			DayReportsAmount: 0,
 			FavoriteForUsers: 0,
 			GoalDescription:  "Random Description",
 			IsCompleted:      false,
 			IsPrivate:        false,
-			Mentors:          []openapiGeneral.SchemasUserPlainResponse{},
+			Mentors:          []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
 			MetricsDone:      0,
 			MetricsTotal:     0,
 			Name:             "Random name",
-			Owner: openapiGeneral.SchemasUserPlainResponse{
+			Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 				CreatedAt:   "2024-07-06T05:00:00.000Z",
 				Description: "A brief description about Dana.",
 				Email:       "dana.evans@example.com",
@@ -792,7 +792,7 @@ func TestCreateWay(t *testing.T) {
 				Name:        "Dana Evans",
 				Uuid:        "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
 			},
-			WayTags: []openapiGeneral.SchemasWayTagResponse{},
+			WayTags: []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
@@ -837,7 +837,7 @@ func TestUpdateWay(t *testing.T) {
 		newName := "New newName"
 		newStateIsCompleted := true
 
-		request := openapiGeneral.SchemasUpdateWayPayload{
+		request := openapiGeneral.MwserverInternalSchemasUpdateWayPayload{
 			IsCompleted: &newStateIsCompleted,
 			Name:        &newName,
 		}
@@ -847,7 +847,7 @@ func TestUpdateWay(t *testing.T) {
 		nullableCopiedFromWayUUID := openapiGeneral.NullableString{}
 		nullableCopiedFromWayUUID.Set(nil)
 
-		expectedData := &openapiGeneral.SchemasWayPlainResponse{
+		expectedData := &openapiGeneral.MwserverInternalSchemasWayPlainResponse{
 			ChildrenUuids:     []string{},
 			CopiedFromWayUuid: nullableCopiedFromWayUUID,
 			CreatedAt:         "2024-07-09 00:00:00",
@@ -857,7 +857,7 @@ func TestUpdateWay(t *testing.T) {
 			GoalDescription:   "ronnie stanton goal",
 			IsCompleted:       true,
 			IsPrivate:         false,
-			Mentors: []openapiGeneral.SchemasUserPlainResponse{
+			Mentors: []openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 				{
 					CreatedAt:   "2024-07-09 00:00:00",
 					Description: "A brief description about Ronnie.",
@@ -871,7 +871,7 @@ func TestUpdateWay(t *testing.T) {
 			MetricsDone:  0,
 			MetricsTotal: 0,
 			Name:         "New newName",
-			Owner: openapiGeneral.SchemasUserPlainResponse{
+			Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
 				CreatedAt:   "2024-07-09 00:00:00",
 				Description: "A brief description about Ronnie.",
 				Email:       "ronnie.stanton@example.com",
@@ -882,7 +882,7 @@ func TestUpdateWay(t *testing.T) {
 			},
 			UpdatedAt: "2024-07-09 00:00:00",
 			Uuid:      "9972552a-c0b3-41f3-b464-284d36a36964",
-			WayTags:   []openapiGeneral.SchemasWayTagResponse{},
+			WayTags:   []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)

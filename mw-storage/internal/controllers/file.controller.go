@@ -3,12 +3,16 @@ package controllers
 import (
 	"mwstorage/internal/auth"
 	db "mwstorage/internal/db/sqlc"
+	"mwstorage/internal/schemas"
 	"mwstorage/internal/services"
 	"mwstorage/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+// Without next lines swagger does not see openapi models
+var _ = &schemas.UploadFileResponse{}
 
 type FileController struct {
 	fileService        *services.FileService

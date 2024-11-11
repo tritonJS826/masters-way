@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateFavoriteUserWayPayload,
+  MwserverInternalSchemasCreateFavoriteUserWayPayload,
 } from '../models/index';
 import {
-    SchemasCreateFavoriteUserWayPayloadFromJSON,
-    SchemasCreateFavoriteUserWayPayloadToJSON,
+    MwserverInternalSchemasCreateFavoriteUserWayPayloadFromJSON,
+    MwserverInternalSchemasCreateFavoriteUserWayPayloadToJSON,
 } from '../models/index';
 
 export interface CreateFavoriteUserWayRequest {
-    request: SchemasCreateFavoriteUserWayPayload;
+    request: MwserverInternalSchemasCreateFavoriteUserWayPayload;
 }
 
 export interface DeleteFavoriteUserWayRequest {
@@ -55,7 +55,7 @@ export class FavoriteUserWayApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateFavoriteUserWayPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasCreateFavoriteUserWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

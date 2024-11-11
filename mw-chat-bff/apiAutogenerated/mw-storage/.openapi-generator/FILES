@@ -8,10 +8,10 @@ client.go
 configuration.go
 docs/DevAPI.md
 docs/FileAPI.md
-docs/SchemasUploadFileResponse.md
+docs/MwstorageInternalSchemasUploadFileResponse.md
 git_push.sh
 go.mod
 go.sum
-model_schemas_upload_file_response.go
+model_mwstorage_internal_schemas_upload_file_response.go
 response.go
 utils.go

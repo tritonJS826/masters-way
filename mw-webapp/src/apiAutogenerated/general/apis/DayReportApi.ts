@@ -15,21 +15,21 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCompositeDayReportPopulatedResponse,
-  SchemasCreateDayReportPayload,
-  SchemasListDayReportsResponse,
+  MwserverInternalSchemasCompositeDayReportPopulatedResponse,
+  MwserverInternalSchemasCreateDayReportPayload,
+  MwserverInternalSchemasListDayReportsResponse,
 } from '../models/index';
 import {
-    SchemasCompositeDayReportPopulatedResponseFromJSON,
-    SchemasCompositeDayReportPopulatedResponseToJSON,
-    SchemasCreateDayReportPayloadFromJSON,
-    SchemasCreateDayReportPayloadToJSON,
-    SchemasListDayReportsResponseFromJSON,
-    SchemasListDayReportsResponseToJSON,
+    MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSON,
+    MwserverInternalSchemasCompositeDayReportPopulatedResponseToJSON,
+    MwserverInternalSchemasCreateDayReportPayloadFromJSON,
+    MwserverInternalSchemasCreateDayReportPayloadToJSON,
+    MwserverInternalSchemasListDayReportsResponseFromJSON,
+    MwserverInternalSchemasListDayReportsResponseToJSON,
 } from '../models/index';
 
 export interface CreateDayReportRequest {
-    request: SchemasCreateDayReportPayload;
+    request: MwserverInternalSchemasCreateDayReportPayload;
 }
 
 export interface GetDayReportsRequest {
@@ -46,7 +46,7 @@ export class DayReportApi extends runtime.BaseAPI {
     /**
      * Create a new dayReport
      */
-    async createDayReportRaw(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasCompositeDayReportPopulatedResponse>> {
+    async createDayReportRaw(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasCompositeDayReportPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createDayReport.');
         }
@@ -62,16 +62,16 @@ export class DayReportApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateDayReportPayloadToJSON(requestParameters.request),
+            body: MwserverInternalSchemasCreateDayReportPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasCompositeDayReportPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new dayReport
      */
-    async createDayReport(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasCompositeDayReportPopulatedResponse> {
+    async createDayReport(requestParameters: CreateDayReportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasCompositeDayReportPopulatedResponse> {
         const response = await this.createDayReportRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -79,7 +79,7 @@ export class DayReportApi extends runtime.BaseAPI {
     /**
      * Get list of day reports by way UUID
      */
-    async getDayReportsRaw(requestParameters: GetDayReportsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasListDayReportsResponse>> {
+    async getDayReportsRaw(requestParameters: GetDayReportsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasListDayReportsResponse>> {
         if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
             throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getDayReports.');
         }
@@ -103,13 +103,13 @@ export class DayReportApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasListDayReportsResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasListDayReportsResponseFromJSON(jsonValue));
     }
 
     /**
      * Get list of day reports by way UUID
      */
-    async getDayReports(requestParameters: GetDayReportsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasListDayReportsResponse> {
+    async getDayReports(requestParameters: GetDayReportsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasListDayReportsResponse> {
         const response = await this.getDayReportsRaw(requestParameters, initOverrides);
         return await response.value();
     }

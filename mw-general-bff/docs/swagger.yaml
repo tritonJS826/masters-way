@@ -1,4 +1,4 @@
-basePath: /general
+basePath: /general-bff
 definitions:
   schemas.AIChatPayload:
     properties:
@@ -1612,15 +1612,6 @@ paths:
       summary: Get list of day reports by way UUID
       tags:
       - dayReport
-  /dev/reset-db:
-    get:
-      description: resets db
-      responses:
-        "204":
-          description: No Content
-      summary: resets db
-      tags:
-      - dev
   /favoriteUserWays:
     post:
       consumes:
@@ -2005,6 +1996,7 @@ paths:
     post:
       consumes:
       - application/json
+      - application/json
       operationId: create-jobDone
       parameters:
       - description: query params
@@ -2013,7 +2005,14 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/schemas.CreateJobDonePayload'
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateJobDonePayload'
       produces:
+      - application/json
       - application/json
       responses:
         "200":
@@ -2022,6 +2021,7 @@ paths:
             $ref: '#/definitions/schemas.JobDonePopulatedResponse'
       summary: Create a new jobDone
       tags:
+      - jobDone
       - jobDone
   /jobDones/{jobDoneId}:
     delete:
@@ -2318,7 +2318,7 @@ paths:
       - application/json
       operationId: delete-plan
       parameters:
-      - description: plan ID
+      - description: plan UUID
         in: path
         name: planId
         required: true

@@ -14,7 +14,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.GetEnabledNotificationListResponse'
+                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse'
           description: OK
       summary: Get enabledNotification list by user id
       tags:
@@ -33,7 +33,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.UpdateEnabledNotificationPayload'
+              $ref: '#/components/schemas/mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload'
         description: query params
         required: true
       responses:
@@ -41,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.EnabledNotificationResponse'
+                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
           description: OK
       summary: Update enabledNotification by id
       tags:
@@ -55,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.GetNotificationListResponse'
+                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.GetNotificationListResponse'
           description: OK
       summary: Get notification list by user id
       tags:
@@ -74,7 +74,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/schemas.UpdateNotificationPayload'
+              $ref: '#/components/schemas/mw-notification-bff_internal_schemas.UpdateNotificationPayload'
         description: query params
         required: true
       responses:
@@ -82,7 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.NotificationResponse'
+                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.NotificationResponse'
           description: OK
       summary: Update notification by id
       tags:
@@ -90,7 +90,7 @@ paths:
       x-codegen-request-body-name: request
 components:
   schemas:
-    schemas.EnabledNotificationResponse:
+    mw-notification-bff_internal_schemas.EnabledNotificationResponse:
       example:
         nature: nature
         isEnabled: true
@@ -115,7 +115,7 @@ components:
       - userUuid
       - uuid
       type: object
-    schemas.GetEnabledNotificationListResponse:
+    mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse:
       example:
         enabledNotifications:
         - nature: nature
@@ -131,12 +131,12 @@ components:
       properties:
         enabledNotifications:
           items:
-            $ref: '#/components/schemas/schemas.EnabledNotificationResponse'
+            $ref: '#/components/schemas/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
           type: array
       required:
       - enabledNotifications
       type: object
-    schemas.GetNotificationListResponse:
+    mw-notification-bff_internal_schemas.GetNotificationListResponse:
       example:
         size: 0
         notifications:
@@ -157,7 +157,7 @@ components:
       properties:
         notifications:
           items:
-            $ref: '#/components/schemas/schemas.NotificationResponse'
+            $ref: '#/components/schemas/mw-notification-bff_internal_schemas.NotificationResponse'
           type: array
         size:
           type: integer
@@ -165,7 +165,7 @@ components:
       - notifications
       - size
       type: object
-    schemas.NotificationResponse:
+    mw-notification-bff_internal_schemas.NotificationResponse:
       example:
         createdAt: createdAt
         nature: nature
@@ -198,14 +198,14 @@ components:
       - userUuid
       - uuid
       type: object
-    schemas.UpdateEnabledNotificationPayload:
+    mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload:
       properties:
         isEnabled:
           type: boolean
       required:
       - isEnabled
       type: object
-    schemas.UpdateNotificationPayload:
+    mw-notification-bff_internal_schemas.UpdateNotificationPayload:
       properties:
         isRead:
           type: boolean

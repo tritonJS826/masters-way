@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## CreateWay
 
-> SchemasWayPlainResponse CreateWay(ctx).Request(request).Execute()
+> MwserverInternalSchemasWayPlainResponse CreateWay(ctx).Request(request).Execute()
 
 Create a new way
 
@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateWayPayload("CopiedFromWayId_example", int32(123), "GoalDescription_example", false, false, "Name_example", "OwnerId_example", "ProjectId_example") // SchemasCreateWayPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasCreateWayPayload("CopiedFromWayId_example", int32(123), "GoalDescription_example", false, false, "Name_example", "OwnerId_example", "ProjectId_example") // MwserverInternalSchemasCreateWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -41,7 +41,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayAPI.CreateWay``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateWay`: SchemasWayPlainResponse
+	// response from `CreateWay`: MwserverInternalSchemasWayPlainResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayAPI.CreateWay`: %v\n", resp)
 }
 ```
@@ -57,11 +57,11 @@ Other parameters are passed through a pointer to a apiCreateWayRequest struct vi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateWayPayload**](SchemasCreateWayPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasCreateWayPayload**](MwserverInternalSchemasCreateWayPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasWayPlainResponse**](SchemasWayPlainResponse.md)
+[**MwserverInternalSchemasWayPlainResponse**](MwserverInternalSchemasWayPlainResponse.md)
 
 ### Authorization
 
@@ -145,7 +145,7 @@ No authorization required
 
 ## GetAllWays
 
-> SchemasGetAllWaysResponse GetAllWays(ctx).Page(page).Limit(limit).MinDayReportsAmount(minDayReportsAmount).WayName(wayName).Status(status).Execute()
+> MwserverInternalSchemasGetAllWaysResponse GetAllWays(ctx).Page(page).Limit(limit).MinDayReportsAmount(minDayReportsAmount).WayName(wayName).Status(status).Execute()
 
 Get all ways
 
@@ -177,7 +177,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayAPI.GetAllWays``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetAllWays`: SchemasGetAllWaysResponse
+	// response from `GetAllWays`: MwserverInternalSchemasGetAllWaysResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayAPI.GetAllWays`: %v\n", resp)
 }
 ```
@@ -201,7 +201,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasGetAllWaysResponse**](SchemasGetAllWaysResponse.md)
+[**MwserverInternalSchemasGetAllWaysResponse**](MwserverInternalSchemasGetAllWaysResponse.md)
 
 ### Authorization
 
@@ -219,7 +219,7 @@ No authorization required
 
 ## GetWayByUuid
 
-> SchemasWayPopulatedResponse GetWayByUuid(ctx, wayId).Execute()
+> MwserverInternalSchemasWayPopulatedResponse GetWayByUuid(ctx, wayId).Execute()
 
 Get way by UUID
 
@@ -245,7 +245,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayAPI.GetWayByUuid``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetWayByUuid`: SchemasWayPopulatedResponse
+	// response from `GetWayByUuid`: MwserverInternalSchemasWayPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayAPI.GetWayByUuid`: %v\n", resp)
 }
 ```
@@ -269,7 +269,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasWayPopulatedResponse**](SchemasWayPopulatedResponse.md)
+[**MwserverInternalSchemasWayPopulatedResponse**](MwserverInternalSchemasWayPopulatedResponse.md)
 
 ### Authorization
 
@@ -287,7 +287,7 @@ No authorization required
 
 ## GetWayStatisticsByUuid
 
-> SchemasWayStatisticsTriplePeriod GetWayStatisticsByUuid(ctx, wayId).Execute()
+> MwserverInternalSchemasWayStatisticsTriplePeriod GetWayStatisticsByUuid(ctx, wayId).Execute()
 
 Get way statistics by UUID
 
@@ -313,7 +313,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayAPI.GetWayStatisticsByUuid``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetWayStatisticsByUuid`: SchemasWayStatisticsTriplePeriod
+	// response from `GetWayStatisticsByUuid`: MwserverInternalSchemasWayStatisticsTriplePeriod
 	fmt.Fprintf(os.Stdout, "Response from `WayAPI.GetWayStatisticsByUuid`: %v\n", resp)
 }
 ```
@@ -337,7 +337,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasWayStatisticsTriplePeriod**](SchemasWayStatisticsTriplePeriod.md)
+[**MwserverInternalSchemasWayStatisticsTriplePeriod**](MwserverInternalSchemasWayStatisticsTriplePeriod.md)
 
 ### Authorization
 
@@ -355,7 +355,7 @@ No authorization required
 
 ## UpdateWay
 
-> SchemasWayPlainResponse UpdateWay(ctx, wayId).Request(request).Execute()
+> MwserverInternalSchemasWayPlainResponse UpdateWay(ctx, wayId).Request(request).Execute()
 
 Update way by UUID
 
@@ -373,7 +373,7 @@ import (
 
 func main() {
 	wayId := "wayId_example" // string | way ID
-	request := *openapiclient.NewSchemasUpdateWayPayload() // SchemasUpdateWayPayload | query params
+	request := *openapiclient.NewMwserverInternalSchemasUpdateWayPayload() // MwserverInternalSchemasUpdateWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -382,7 +382,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayAPI.UpdateWay``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateWay`: SchemasWayPlainResponse
+	// response from `UpdateWay`: MwserverInternalSchemasWayPlainResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayAPI.UpdateWay`: %v\n", resp)
 }
 ```
@@ -403,11 +403,11 @@ Other parameters are passed through a pointer to a apiUpdateWayRequest struct vi
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateWayPayload**](SchemasUpdateWayPayload.md) | query params | 
+ **request** | [**MwserverInternalSchemasUpdateWayPayload**](MwserverInternalSchemasUpdateWayPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasWayPlainResponse**](SchemasWayPlainResponse.md)
+[**MwserverInternalSchemasWayPlainResponse**](MwserverInternalSchemasWayPlainResponse.md)
 
 ### Authorization
 
