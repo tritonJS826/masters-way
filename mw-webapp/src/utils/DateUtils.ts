@@ -95,4 +95,13 @@ export class DateUtils {
     return b.getTime() - a.getTime();
   }
 
+  /**
+   * Conver minutes to hours with one digit after do
+   */
+  public static minutesToHoursFixed1(minutes: number): number {
+    const PRECISION = 1;
+
+    return Number((minutes / MINUTES_IN_HOUR).toFixed(PRECISION));
+  }
+
 }

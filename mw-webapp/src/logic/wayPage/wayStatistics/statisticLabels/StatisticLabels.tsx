@@ -8,6 +8,7 @@ import {LabelStat} from "src/logic/wayPage/wayStatistics/LabelStat";
 import {StatisticLine} from "src/logic/wayPage/wayStatistics/statisticLabels/statisticLine/StatisticLine";
 import {Label} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
+import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/logic/wayPage/wayStatistics/statisticLabels/StatisticLabels.module.scss";
 
 /**
@@ -62,7 +63,7 @@ export const StatisticLabels = observer((props: TagStatsProps) => {
               name={tagStat.label.name}
               color={props.labels.find(label => label.uuid === tagStat.label.uuid)?.color ?? tagStat.label.color}
               amount={tagStat.jobsAmount}
-              time={tagStat.time}
+              time={DateUtils.minutesToHoursFixed1(tagStat.time)}
               amountPercentage={tagStat.jobsAmountPercentage}
               timePercentage={tagStat.timePercentage}
             />
