@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type ProjectController struct {
@@ -66,42 +65,41 @@ func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 // @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects/{projectId} [patch]
 func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
-	var payload *schemas.UpdateProjectPayload
-	projectID := ctx.Param("projectId")
+	// var payload *schemas.UpdateProjectPayload
+	// projectID := ctx.Param("projectId")
 
-	if err := ctx.ShouldBindJSON(&payload); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-		return
-	}
+	// if err := ctx.ShouldBindJSON(&payload); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+	// 	return
+	// }
 
-	project, err := pc.generalService.UpdateProject(ctx, &services.UpdateProjectParams{
-		ID:        projectID,
-		Name:      payload.Name,
-		IsPrivate: payload.IsPrivate,
-	})
-	utils.HandleErrorGin(ctx, err)
+	// project, err := pc.generalService.UpdateProject(ctx, &services.UpdateProjectParams{
+	// 	ID:        projectID,
+	// 	Name:      payload.Name,
+	// 	IsPrivate: payload.IsPrivate,
+	// })
+	// utils.HandleErrorGin(ctx, err)
 
-	users, err := pc.generalService.GetPlainUserWithInfoByIDs(ctx, project.ID)
-	utils.HandleErrorGin(ctx, err)
+	// users, err := pc.generalService.GetPlainUserWithInfoByIDs(ctx, project.ID)
+	// utils.HandleErrorGin(ctx, err)
 
-	ways := make([]schemas.WayPlainResponse, 0, len(project.WayIDs))
-	for _, wayID := range project.WayIDs {
-		way, err := pc.generalService.GetPlainWayById(ctx, uuid.MustParse(wayID))
-		utils.HandleErrorGin(ctx, err)
+	// ways := make([]schemas.WayPlainResponse, 0, len(project.WayIDs))
 
-		ways = append(ways, *way)
-	}
+	// ways := lo.Map(project.WayIDs, func(wayId string, _ int) schemas.WayPlainResponse {
+	// 	way, err := pc.generalService.GetPlainWayById(ctx, uuid.MustParse(wayID))
+	// 	utils.HandleErrorGin(ctx, err)
+	// })
 
-	response := schemas.ProjectPopulatedResponse{
-		ID:        project.ID,
-		Name:      project.Name,
-		OwnerID:   project.OwnerID,
-		IsPrivate: project.IsPrivate,
-		Users:     users,
-		Ways:      ways,
-	}
+	// response := schemas.ProjectPopulatedResponse{
+	// 	ID:        project.ID,
+	// 	Name:      project.Name,
+	// 	OwnerID:   project.OwnerID,
+	// 	IsPrivate: project.IsPrivate,
+	// 	Users:     users,
+	// 	Ways:      ways,
+	// }
 
-	ctx.JSON(http.StatusOK, response)
+	// ctx.JSON(http.StatusOK, response)
 }
 
 // Get Project handler
@@ -115,32 +113,32 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 // @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects/{projectId} [get]
 func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
-	projectID := ctx.Param("projectId")
+	// projectID := ctx.Param("projectId")
 
-	project, err := pc.generalService.GetProjectByID(ctx, projectID)
-	utils.HandleErrorGin(ctx, err)
+	// project, err := pc.generalService.GetProjectByID(ctx, projectID)
+	// utils.HandleErrorGin(ctx, err)
 
-	users, err := pc.generalService.GetPlainUserWithInfoByIDs(ctx, project.ID)
-	utils.HandleErrorGin(ctx, err)
+	// users, err := pc.generalService.GetPlainUserWithInfoByIDs(ctx, project.ID)
+	// utils.HandleErrorGin(ctx, err)
 
-	ways := make([]schemas.WayPlainResponse, 0, len(project.WayIDs))
-	for _, wayID := range project.WayIDs {
-		way, err := pc.generalService.GetPlainWayById(ctx, uuid.MustParse(wayID))
-		utils.HandleErrorGin(ctx, err)
+	// ways := make([]schemas.WayPlainResponse, 0, len(project.WayIDs))
+	// for _, wayID := range project.WayIDs {
+	// 	way, err := pc.generalService.GetPlainWayById(ctx, uuid.MustParse(wayID))
+	// 	utils.HandleErrorGin(ctx, err)
 
-		ways = append(ways, *way)
-	}
+	// 	ways = append(ways, *way)
+	// }
 
-	response := schemas.ProjectPopulatedResponse{
-		ID:        project.ID,
-		Name:      project.Name,
-		OwnerID:   project.OwnerID,
-		IsPrivate: project.IsPrivate,
-		Users:     users,
-		Ways:      ways,
-	}
+	// response := schemas.ProjectPopulatedResponse{
+	// 	ID:        project.ID,
+	// 	Name:      project.Name,
+	// 	OwnerID:   project.OwnerID,
+	// 	IsPrivate: project.IsPrivate,
+	// 	Users:     users,
+	// 	Ways:      ways,
+	// }
 
-	ctx.JSON(http.StatusOK, response)
+	// ctx.JSON(http.StatusOK, response)
 }
 
 // Delete Project handler

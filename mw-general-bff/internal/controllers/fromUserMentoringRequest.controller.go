@@ -36,10 +36,7 @@ func (fc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 	}
 
 	fromUserMentoringRequest, err := fc.generalService.CreateFromUserMentoringRequest(ctx, payload.UserUuid, payload.WayUuid)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, fromUserMentoringRequest)
 }
@@ -60,10 +57,7 @@ func (fumrc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestB
 	wayID := ctx.Param("wayUuid")
 
 	err := fumrc.generalService.DeleteFromUserMentoringRequestById(ctx, userID, wayID)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }
