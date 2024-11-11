@@ -35,10 +35,7 @@ func (cc *GeminiController) GenerateMetrics(ctx *gin.Context) {
 	}
 
 	response, err := cc.generalService.CreateMetricsPrompt(ctx, &payload)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -61,10 +58,7 @@ func (cc *GeminiController) AIChat(ctx *gin.Context) {
 	}
 
 	response, err := cc.generalService.AIChat(ctx, &payload)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -110,10 +104,7 @@ func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
 	}
 
 	response, err := cc.generalService.CommentIssue(ctx, &payload)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }

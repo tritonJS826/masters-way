@@ -36,10 +36,7 @@ func (jc *JobTagController) CreateJobTag(ctx *gin.Context) {
 	}
 
 	jobTag, err := jc.generalService.CreateJobTag(ctx, &payload)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, jobTag)
 }

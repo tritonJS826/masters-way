@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type FavoriteUserWayController struct {
@@ -35,10 +36,7 @@ func (fuwc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 	}
 
 	err := fuwc.generalService.CreateFavoriteUserWay(ctx, payload.UserUuid, payload.WayUuid)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }
@@ -59,10 +57,7 @@ func (fuwc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Contex
 	wayID := ctx.Param("wayUuid")
 
 	err := fuwc.generalService.DeleteFavoriteUserWayById(ctx, userID, wayID)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }

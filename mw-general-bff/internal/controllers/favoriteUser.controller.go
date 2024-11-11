@@ -40,10 +40,7 @@ func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		AcceptorUserUuid: payload.AcceptorUserUuid,
 	}
 	err := fuc.generalService.CreateFavoriteUser(ctx, args)
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
 }
