@@ -67,10 +67,7 @@ func (jc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 		Description: payload.Description,
 		Color:       payload.Color,
 	})
-	if err != nil {
-		utils.HandleErrorGin(ctx, err)
-		return
-	}
+	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, jobTag)
 }

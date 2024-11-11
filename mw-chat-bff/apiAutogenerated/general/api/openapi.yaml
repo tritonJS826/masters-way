@@ -574,6 +574,7 @@ paths:
   /healthcheck:
     get:
       description: Get the health status of the API
+      operationId: general-health-check
       responses:
         "204":
           content: {}

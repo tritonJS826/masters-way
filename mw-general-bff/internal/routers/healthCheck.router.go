@@ -16,5 +16,7 @@ func newHealthCheckRouter(healthCheckController *controllers.HealthCheckControll
 
 func (hr *healthCheckRouter) setHealthCheckRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("healthcheck")
-	router.GET("", hr.healthCheckController.GetAPIHealthStatus)
+	{
+		router.GET("", hr.healthCheckController.GetGeneralHealthStatus)
+	}
 }

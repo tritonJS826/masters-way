@@ -25,7 +25,7 @@ func NewWayTagController(generalService *services.GeneralService) *WayTagControl
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayTagPayload true "query params"
-// @Success 200 {object} schemas.WayTagResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasWayTagResponse
 // @Router /wayTags [post]
 func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 	var payload *schemas.CreateWayTagPayload

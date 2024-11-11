@@ -29,7 +29,7 @@ func NewUserTagController(generalService *services.GeneralService) *UserTagContr
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateUserTagPayload true "query params"
-// @Success 200 {object} schemas.UserTagResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasUserTagResponse
 // @Router /userTags [post]
 func (uc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 	var payload *schemas.CreateUserTagPayload
@@ -38,12 +38,6 @@ func (uc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
-
-	//err := uc.generalService.CheckIsLimitReachedByPricingPlan(ctx, &services.LimitReachedParams{
-	//	LimitName: services.MaxUserTags,
-	//	UserID:    payload.OwnerUuid,
-	//})
-	//utils.HandleErrorGin(ctx, err)
 
 	response, err := uc.generalService.AddUserTagByName(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
@@ -66,7 +60,7 @@ func (uc *UserTagController) DeleteUserTagByFromUserByTag(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 	userTagID := ctx.Param("userTagId")
 
-	err := uc.generalService.DeleteUserTagByFromUserByTag(ctx, userID, userTagID)
+	err := uc.generalService.DeleteUserTagByFromUserByTag(ctx, userTagID, userID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

@@ -1927,6 +1927,7 @@ paths:
       consumes:
       - application/json
       description: Get the health status of the API
+      operationId: general-health-check
       produces:
       - application/json
       responses:

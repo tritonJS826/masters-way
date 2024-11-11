@@ -1,14 +1,19 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/services"
+	"mw-general-bff/pkg/utils"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
 type HealthCheckController struct {
+	generalService *services.GeneralService
 }
 
-func NewHealthCheckController() *HealthCheckController {
-	return &HealthCheckController{}
+func NewHealthCheckController(generalService *services.GeneralService) *HealthCheckController {
+	return &HealthCheckController{generalService}
 }
 
 // @Summary Health Check
@@ -18,6 +23,8 @@ func NewHealthCheckController() *HealthCheckController {
 // @Produce json
 // @Success 204
 // @Router /healthcheck [get]
-func (cc *HealthCheckController) GetAPIHealthStatus(ctx *gin.Context) {
-	// ctx.Status(http.StatusNoContent)
+func (cc *HealthCheckController) GetGeneralHealthStatus(ctx *gin.Context) {
+	err := cc.generalService.GeneralHealthCheck(ctx)
+	utils.HandleErrorGin(ctx, err)
+	ctx.Status(http.StatusNoContent)
 }

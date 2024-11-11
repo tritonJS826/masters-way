@@ -25,7 +25,7 @@ func NewWayCollectionController(generalService *services.GeneralService) *WayCol
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayCollectionPayload true "query params"
-// @Success 200 {object} schemas.WayCollectionPopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse
 // @Router /wayCollections [post]
 func (wc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	var payload *schemas.CreateWayCollectionPayload
@@ -54,7 +54,7 @@ func (wc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateWayCollectionPayload true "query params"
 // @Param wayCollectionId path string true "wayCollection ID"
-// @Success 200 {object} schemas.WayCollectionPlainResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasWayCollectionPlainResponse
 // @Router /wayCollections/{wayCollectionId} [patch]
 func (wc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 	var payload *schemas.UpdateWayCollectionPayload

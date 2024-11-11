@@ -25,7 +25,7 @@ func NewPlanController(generalService *services.GeneralService) *PlanController 
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
-// @Success 200 {object} schemas.PlanPopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasCreatePlanPayload
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to create plan."
 // @Router /plans [post]
 func (pc *PlanController) CreatePlan(ctx *gin.Context) {
@@ -51,7 +51,7 @@ func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdatePlanPayload true "query params"
 // @Param planId path string true "plan UUID"
-// @Success 200 {object} schemas.PlanPopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasCreatePlanPayload
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to update plan."
 // @Router /plans/{planId} [patch]
 func (pc *PlanController) UpdatePlan(ctx *gin.Context) {

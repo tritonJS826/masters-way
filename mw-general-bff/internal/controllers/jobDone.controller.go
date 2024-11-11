@@ -17,16 +17,6 @@ func NewJobDoneController(generalService *services.GeneralService) *JobDoneContr
 	return &JobDoneController{generalService}
 }
 
-// Create JobDone  handler
-// @Summary Create a new jobDone
-// @Description
-// @Tags jobDone
-// @ID create-jobDone
-// @Accept  json
-// @Produce  json
-// @Param request body schemas.CreateJobDonePayload true "query params"
-// @Success 200 {object} schemas.JobDonePopulatedResponse
-// @Router /jobDones [post]
 // Create JobDone handler
 // @Summary Create a new jobDone
 // @Description
@@ -35,7 +25,7 @@ func NewJobDoneController(generalService *services.GeneralService) *JobDoneContr
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
-// @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse
 // @Router /jobDones [post]
 func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
@@ -60,7 +50,7 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateJobDone true "query params"
 // @Param jobDoneId path string true "jobDone UUID"
-// @Success 200 {object} schemas.JobDonePopulatedResponse
+// @Success 200 {object} openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse
 // @Router /jobDones/{jobDoneId} [patch]
 func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	var payload *schemas.UpdateJobDone
