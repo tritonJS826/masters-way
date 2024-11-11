@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateRoomPayload,
-  SchemasGetRoomPreviewResponse,
-  SchemasGetRoomsResponse,
-  SchemasRoomPopulatedResponse,
+  MwChatBffInternalSchemasCreateRoomPayload,
+  MwChatBffInternalSchemasGetRoomPreviewResponse,
+  MwChatBffInternalSchemasGetRoomsResponse,
+  MwChatBffInternalSchemasRoomPopulatedResponse,
 } from '../models/index';
 import {
-    SchemasCreateRoomPayloadFromJSON,
-    SchemasCreateRoomPayloadToJSON,
-    SchemasGetRoomPreviewResponseFromJSON,
-    SchemasGetRoomPreviewResponseToJSON,
-    SchemasGetRoomsResponseFromJSON,
-    SchemasGetRoomsResponseToJSON,
-    SchemasRoomPopulatedResponseFromJSON,
-    SchemasRoomPopulatedResponseToJSON,
+    MwChatBffInternalSchemasCreateRoomPayloadFromJSON,
+    MwChatBffInternalSchemasCreateRoomPayloadToJSON,
+    MwChatBffInternalSchemasGetRoomPreviewResponseFromJSON,
+    MwChatBffInternalSchemasGetRoomPreviewResponseToJSON,
+    MwChatBffInternalSchemasGetRoomsResponseFromJSON,
+    MwChatBffInternalSchemasGetRoomsResponseToJSON,
+    MwChatBffInternalSchemasRoomPopulatedResponseFromJSON,
+    MwChatBffInternalSchemasRoomPopulatedResponseToJSON,
 } from '../models/index';
 
 export interface AddUserToRoomRequest {
@@ -37,7 +37,7 @@ export interface AddUserToRoomRequest {
 }
 
 export interface CreateRoomRequest {
-    request: SchemasCreateRoomPayload;
+    request: MwChatBffInternalSchemasCreateRoomPayload;
 }
 
 export interface DeleteUserFromRoomRequest {
@@ -65,7 +65,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Add user to room
      */
-    async addUserToRoomRaw(requestParameters: AddUserToRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
+    async addUserToRoomRaw(requestParameters: AddUserToRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
         if (requestParameters.roomId === null || requestParameters.roomId === undefined) {
             throw new runtime.RequiredError('roomId','Required parameter requestParameters.roomId was null or undefined when calling addUserToRoom.');
         }
@@ -85,13 +85,13 @@ export class RoomApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Add user to room
      */
-    async addUserToRoom(requestParameters: AddUserToRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
+    async addUserToRoom(requestParameters: AddUserToRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
         const response = await this.addUserToRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -99,7 +99,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Create room for user
      */
-    async createRoomRaw(requestParameters: CreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
+    async createRoomRaw(requestParameters: CreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createRoom.');
         }
@@ -115,16 +115,16 @@ export class RoomApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateRoomPayloadToJSON(requestParameters.request),
+            body: MwChatBffInternalSchemasCreateRoomPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create room for user
      */
-    async createRoom(requestParameters: CreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
+    async createRoom(requestParameters: CreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
         const response = await this.createRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -132,7 +132,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Delete user from room
      */
-    async deleteUserFromRoomRaw(requestParameters: DeleteUserFromRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
+    async deleteUserFromRoomRaw(requestParameters: DeleteUserFromRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
         if (requestParameters.roomId === null || requestParameters.roomId === undefined) {
             throw new runtime.RequiredError('roomId','Required parameter requestParameters.roomId was null or undefined when calling deleteUserFromRoom.');
         }
@@ -152,13 +152,13 @@ export class RoomApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Delete user from room
      */
-    async deleteUserFromRoom(requestParameters: DeleteUserFromRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
+    async deleteUserFromRoom(requestParameters: DeleteUserFromRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
         const response = await this.deleteUserFromRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -166,7 +166,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Get chat preview
      */
-    async getChatPreviewRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetRoomPreviewResponse>> {
+    async getChatPreviewRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasGetRoomPreviewResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -178,13 +178,13 @@ export class RoomApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetRoomPreviewResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasGetRoomPreviewResponseFromJSON(jsonValue));
     }
 
     /**
      * Get chat preview
      */
-    async getChatPreview(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetRoomPreviewResponse> {
+    async getChatPreview(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasGetRoomPreviewResponse> {
         const response = await this.getChatPreviewRaw(initOverrides);
         return await response.value();
     }
@@ -192,7 +192,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Get room by id
      */
-    async getRoomByIdRaw(requestParameters: GetRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
+    async getRoomByIdRaw(requestParameters: GetRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
         if (requestParameters.roomId === null || requestParameters.roomId === undefined) {
             throw new runtime.RequiredError('roomId','Required parameter requestParameters.roomId was null or undefined when calling getRoomById.');
         }
@@ -208,13 +208,13 @@ export class RoomApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get room by id
      */
-    async getRoomById(requestParameters: GetRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
+    async getRoomById(requestParameters: GetRoomByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
         const response = await this.getRoomByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -222,7 +222,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Get rooms for user
      */
-    async getRoomsRaw(requestParameters: GetRoomsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetRoomsResponse>> {
+    async getRoomsRaw(requestParameters: GetRoomsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasGetRoomsResponse>> {
         if (requestParameters.roomType === null || requestParameters.roomType === undefined) {
             throw new runtime.RequiredError('roomType','Required parameter requestParameters.roomType was null or undefined when calling getRooms.');
         }
@@ -238,13 +238,13 @@ export class RoomApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetRoomsResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasGetRoomsResponseFromJSON(jsonValue));
     }
 
     /**
      * Get rooms for user
      */
-    async getRooms(requestParameters: GetRoomsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetRoomsResponse> {
+    async getRooms(requestParameters: GetRoomsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasGetRoomsResponse> {
         const response = await this.getRoomsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -252,7 +252,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Update room
      */
-    async updateRoomRaw(requestParameters: UpdateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasRoomPopulatedResponse>> {
+    async updateRoomRaw(requestParameters: UpdateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
         if (requestParameters.roomId === null || requestParameters.roomId === undefined) {
             throw new runtime.RequiredError('roomId','Required parameter requestParameters.roomId was null or undefined when calling updateRoom.');
         }
@@ -268,13 +268,13 @@ export class RoomApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasRoomPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update room
      */
-    async updateRoom(requestParameters: UpdateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasRoomPopulatedResponse> {
+    async updateRoom(requestParameters: UpdateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
         const response = await this.updateRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }

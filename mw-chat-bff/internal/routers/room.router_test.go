@@ -43,7 +43,7 @@ func TestGetChatPreview(t *testing.T) {
 			t.Fatalf("Failed to get chat preview: %v", err)
 		}
 
-		expectedData := openapiChatBFF.SchemasGetRoomPreviewResponse{
+		expectedData := openapiChatBFF.MwChatBffInternalSchemasGetRoomPreviewResponse{
 			UnreadMessagesAmount: 3,
 		}
 
@@ -86,7 +86,7 @@ func TestCreateRoom(t *testing.T) {
 	var nullableName = openapiChatBFF.NullableString{}
 	nullableName.Set(nil)
 
-	request := openapiChatBFF.SchemasCreateRoomPayload{
+	request := openapiChatBFF.MwChatBffInternalSchemasCreateRoomPayload{
 		Name:     nullableName,
 		RoomType: "private",
 		UserId:   userIDNullableString,
@@ -99,13 +99,13 @@ func TestCreateRoom(t *testing.T) {
 			t.Fatalf("Failed to create private room: %v", err)
 		}
 
-		expectedData := openapiChatBFF.SchemasRoomPopulatedResponse{
+		expectedData := openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{
 			Name:      "Bernardo Fallaci",
 			ImageUrl:  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAG",
 			RoomType:  controllers.RoomTypePrivate,
-			Messages:  []openapiChatBFF.SchemasMessageResponse{},
+			Messages:  []openapiChatBFF.MwChatBffInternalSchemasMessageResponse{},
 			IsBlocked: false,
-			Users: []openapiChatBFF.SchemasUserResponse{
+			Users: []openapiChatBFF.MwChatBffInternalSchemasUserResponse{
 				{
 					UserId:   roomCreatorID,
 					Name:     "Celine Vinje",
@@ -122,7 +122,7 @@ func TestCreateRoom(t *testing.T) {
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		diff := cmp.Diff(expectedData, *createRoomResponse, cmpopts.IgnoreFields(openapiChatBFF.SchemasRoomPopulatedResponse{}, "RoomId"))
+		diff := cmp.Diff(expectedData, *createRoomResponse, cmpopts.IgnoreFields(openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{}, "RoomId"))
 		assert.True(t, diff == "", "Structures should match except for RoomId")
 	})
 
@@ -145,7 +145,7 @@ func TestCreateRoom(t *testing.T) {
 		var invalidUserIDNullableString = openapiChatBFF.NullableString{}
 		invalidUserIDNullableString.Set(&invalidUserID)
 
-		invalidRequest := openapiChatBFF.SchemasCreateRoomPayload{
+		invalidRequest := openapiChatBFF.MwChatBffInternalSchemasCreateRoomPayload{
 			Name:     nullableName,
 			RoomType: "private",
 			UserId:   invalidUserIDNullableString,

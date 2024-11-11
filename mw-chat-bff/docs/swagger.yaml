@@ -1,6 +1,6 @@
 basePath: /chat
 definitions:
-  schemas.CreateMessagePayload:
+  mw-chat-bff_internal_schemas.CreateMessagePayload:
     properties:
       message:
         type: string
@@ -10,7 +10,7 @@ definitions:
     - message
     - roomId
     type: object
-  schemas.CreateRoomPayload:
+  mw-chat-bff_internal_schemas.CreateRoomPayload:
     properties:
       name:
         type: string
@@ -23,18 +23,18 @@ definitions:
     required:
     - roomType
     type: object
-  schemas.GetRoomPreviewResponse:
+  mw-chat-bff_internal_schemas.GetRoomPreviewResponse:
     properties:
       unreadMessagesAmount:
         type: integer
     required:
     - unreadMessagesAmount
     type: object
-  schemas.GetRoomsResponse:
+  mw-chat-bff_internal_schemas.GetRoomsResponse:
     properties:
       rooms:
         items:
-          $ref: '#/definitions/schemas.RoomPreviewResponse'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPreviewResponse'
         type: array
       size:
         type: integer
@@ -42,7 +42,7 @@ definitions:
     - rooms
     - size
     type: object
-  schemas.MessageReader:
+  mw-chat-bff_internal_schemas.MessageReader:
     properties:
       ownerImageUrl:
         type: string
@@ -58,7 +58,7 @@ definitions:
     - readDate
     - userId
     type: object
-  schemas.MessageResponse:
+  mw-chat-bff_internal_schemas.MessageResponse:
     properties:
       message:
         type: string
@@ -66,7 +66,7 @@ definitions:
         type: string
       messageReaders:
         items:
-          $ref: '#/definitions/schemas.MessageReader'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.MessageReader'
         type: array
       ownerId:
         type: string
@@ -82,7 +82,7 @@ definitions:
     - ownerImageUrl
     - ownerName
     type: object
-  schemas.RoomPopulatedResponse:
+  mw-chat-bff_internal_schemas.RoomPopulatedResponse:
     properties:
       imageUrl:
         type: string
@@ -90,7 +90,7 @@ definitions:
         type: boolean
       messages:
         items:
-          $ref: '#/definitions/schemas.MessageResponse'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.MessageResponse'
         type: array
       name:
         type: string
@@ -100,7 +100,7 @@ definitions:
         type: string
       users:
         items:
-          $ref: '#/definitions/schemas.UserResponse'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.UserResponse'
         type: array
     required:
     - imageUrl
@@ -111,7 +111,7 @@ definitions:
     - roomType
     - users
     type: object
-  schemas.RoomPreviewResponse:
+  mw-chat-bff_internal_schemas.RoomPreviewResponse:
     properties:
       imageUrl:
         type: string
@@ -125,7 +125,7 @@ definitions:
         type: string
       users:
         items:
-          $ref: '#/definitions/schemas.UserResponse'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.UserResponse'
         type: array
     required:
     - imageUrl
@@ -135,14 +135,14 @@ definitions:
     - roomType
     - users
     type: object
-  schemas.UpdateMessageStatusPayload:
+  mw-chat-bff_internal_schemas.UpdateMessageStatusPayload:
     properties:
       isRead:
         type: boolean
     required:
     - isRead
     type: object
-  schemas.UploadFileResponse:
+  mw-chat-bff_internal_schemas.UploadFileResponse:
     properties:
       id:
         type: string
@@ -161,7 +161,7 @@ definitions:
     - previewUrl
     - srcUrl
     type: object
-  schemas.UserResponse:
+  mw-chat-bff_internal_schemas.UserResponse:
     properties:
       imageUrl:
         type: string
@@ -228,7 +228,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UploadFileResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.UploadFileResponse'
       summary: Upload file to storage
       tags:
       - file
@@ -243,14 +243,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateMessagePayload'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.CreateMessagePayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MessageResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.MessageResponse'
       summary: Create message
       tags:
       - message
@@ -266,7 +266,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateMessageStatusPayload'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.UpdateMessageStatusPayload'
       - description: message Id
         in: path
         name: messageId
@@ -291,14 +291,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateRoomPayload'
+          $ref: '#/definitions/mw-chat-bff_internal_schemas.CreateRoomPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
       summary: Create room for user
       tags:
       - room
@@ -319,7 +319,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
       summary: Get room by id
       tags:
       - room
@@ -339,7 +339,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
       summary: Update room
       tags:
       - room
@@ -365,7 +365,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
       summary: Delete user from room
       tags:
       - room
@@ -390,7 +390,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
       summary: Add user to room
       tags:
       - room
@@ -414,7 +414,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetRoomsResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.GetRoomsResponse'
       summary: Get rooms for user
       tags:
       - room
@@ -429,7 +429,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetRoomPreviewResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.GetRoomPreviewResponse'
       summary: Get chat preview
       tags:
       - room

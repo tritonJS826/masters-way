@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateCompositeWay
 
-> SchemasCompositeWayRelation CreateCompositeWay(ctx).Request(request).Execute()
+> MwGeneralBffInternalSchemasCompositeWayRelation CreateCompositeWay(ctx).Request(request).Execute()
 
 Add a way to composite way
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasAddWayToCompositeWayPayload("ChildWayUuid_example", "ParentWayUuid_example") // SchemasAddWayToCompositeWayPayload | query params
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAddWayToCompositeWayPayload("ChildWayUuid_example", "ParentWayUuid_example") // MwGeneralBffInternalSchemasAddWayToCompositeWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `CompositeWayAPI.CreateCompositeWay``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateCompositeWay`: SchemasCompositeWayRelation
+	// response from `CreateCompositeWay`: MwGeneralBffInternalSchemasCompositeWayRelation
 	fmt.Fprintf(os.Stdout, "Response from `CompositeWayAPI.CreateCompositeWay`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateCompositeWayRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasAddWayToCompositeWayPayload**](SchemasAddWayToCompositeWayPayload.md) | query params | 
+ **request** | [**MwGeneralBffInternalSchemasAddWayToCompositeWayPayload**](MwGeneralBffInternalSchemasAddWayToCompositeWayPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasCompositeWayRelation**](SchemasCompositeWayRelation.md)
+[**MwGeneralBffInternalSchemasCompositeWayRelation**](MwGeneralBffInternalSchemasCompositeWayRelation.md)
 
 ### Authorization
 

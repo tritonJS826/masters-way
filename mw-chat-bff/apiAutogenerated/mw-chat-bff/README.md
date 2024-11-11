@@ -93,17 +93,17 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
- - [SchemasCreateRoomPayload](docs/SchemasCreateRoomPayload.md)
- - [SchemasGetRoomPreviewResponse](docs/SchemasGetRoomPreviewResponse.md)
- - [SchemasGetRoomsResponse](docs/SchemasGetRoomsResponse.md)
- - [SchemasMessageReader](docs/SchemasMessageReader.md)
- - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
- - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
- - [SchemasRoomPreviewResponse](docs/SchemasRoomPreviewResponse.md)
- - [SchemasUpdateMessageStatusPayload](docs/SchemasUpdateMessageStatusPayload.md)
- - [SchemasUploadFileResponse](docs/SchemasUploadFileResponse.md)
- - [SchemasUserResponse](docs/SchemasUserResponse.md)
+ - [MwChatBffInternalSchemasCreateMessagePayload](docs/MwChatBffInternalSchemasCreateMessagePayload.md)
+ - [MwChatBffInternalSchemasCreateRoomPayload](docs/MwChatBffInternalSchemasCreateRoomPayload.md)
+ - [MwChatBffInternalSchemasGetRoomPreviewResponse](docs/MwChatBffInternalSchemasGetRoomPreviewResponse.md)
+ - [MwChatBffInternalSchemasGetRoomsResponse](docs/MwChatBffInternalSchemasGetRoomsResponse.md)
+ - [MwChatBffInternalSchemasMessageReader](docs/MwChatBffInternalSchemasMessageReader.md)
+ - [MwChatBffInternalSchemasMessageResponse](docs/MwChatBffInternalSchemasMessageResponse.md)
+ - [MwChatBffInternalSchemasRoomPopulatedResponse](docs/MwChatBffInternalSchemasRoomPopulatedResponse.md)
+ - [MwChatBffInternalSchemasRoomPreviewResponse](docs/MwChatBffInternalSchemasRoomPreviewResponse.md)
+ - [MwChatBffInternalSchemasUpdateMessageStatusPayload](docs/MwChatBffInternalSchemasUpdateMessageStatusPayload.md)
+ - [MwChatBffInternalSchemasUploadFileResponse](docs/MwChatBffInternalSchemasUploadFileResponse.md)
+ - [MwChatBffInternalSchemasUserResponse](docs/MwChatBffInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

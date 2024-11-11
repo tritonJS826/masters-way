@@ -22,11 +22,11 @@ func Test_openapi_HealthAPIService(t *testing.T) {
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test HealthAPIService HealthcheckGet", func(t *testing.T) {
+	t.Run("Test HealthAPIService GeneralHealthCheck", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		httpRes, err := apiClient.HealthAPI.HealthcheckGet(context.Background()).Execute()
+		httpRes, err := apiClient.HealthAPI.GeneralHealthCheck(context.Background()).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

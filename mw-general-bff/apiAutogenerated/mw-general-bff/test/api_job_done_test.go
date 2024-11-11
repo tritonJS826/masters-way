@@ -34,18 +34,6 @@ func Test_openapi_JobDoneAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test JobDoneAPIService CreateJobDone_1", func(t *testing.T) {
-
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.JobDoneAPI.CreateJobDone_0(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test JobDoneAPIService DeleteJobDone", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

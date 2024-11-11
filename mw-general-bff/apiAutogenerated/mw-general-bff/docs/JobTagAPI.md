@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateJobTag
 
-> SchemasJobTagResponse CreateJobTag(ctx).Request(request).Execute()
+> MwGeneralBffInternalSchemasJobTagResponse CreateJobTag(ctx).Request(request).Execute()
 
 Create a new jobTag
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateJobTagPayload("Color_example", "Description_example", "Name_example", "WayUuid_example") // SchemasCreateJobTagPayload | query params
+	request := *openapiclient.NewMwGeneralBffInternalSchemasCreateJobTagPayload("Color_example", "Description_example", "Name_example", "WayUuid_example") // MwGeneralBffInternalSchemasCreateJobTagPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `JobTagAPI.CreateJobTag``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateJobTag`: SchemasJobTagResponse
+	// response from `CreateJobTag`: MwGeneralBffInternalSchemasJobTagResponse
 	fmt.Fprintf(os.Stdout, "Response from `JobTagAPI.CreateJobTag`: %v\n", resp)
 }
 ```
@@ -54,11 +54,11 @@ Other parameters are passed through a pointer to a apiCreateJobTagRequest struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateJobTagPayload**](SchemasCreateJobTagPayload.md) | query params | 
+ **request** | [**MwGeneralBffInternalSchemasCreateJobTagPayload**](MwGeneralBffInternalSchemasCreateJobTagPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasJobTagResponse**](SchemasJobTagResponse.md)
+[**MwGeneralBffInternalSchemasJobTagResponse**](MwGeneralBffInternalSchemasJobTagResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## UpdateJobTag
 
-> SchemasJobTagResponse UpdateJobTag(ctx, jobTagId).Request(request).Execute()
+> MwGeneralBffInternalSchemasJobTagResponse UpdateJobTag(ctx, jobTagId).Request(request).Execute()
 
 Update jobTag by UUID
 
@@ -160,7 +160,7 @@ import (
 
 func main() {
 	jobTagId := "jobTagId_example" // string | jobTag UUID
-	request := *openapiclient.NewSchemasUpdateJobTagPayload() // SchemasUpdateJobTagPayload | query params
+	request := *openapiclient.NewMwGeneralBffInternalSchemasUpdateJobTagPayload() // MwGeneralBffInternalSchemasUpdateJobTagPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `JobTagAPI.UpdateJobTag``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateJobTag`: SchemasJobTagResponse
+	// response from `UpdateJobTag`: MwGeneralBffInternalSchemasJobTagResponse
 	fmt.Fprintf(os.Stdout, "Response from `JobTagAPI.UpdateJobTag`: %v\n", resp)
 }
 ```
@@ -190,11 +190,11 @@ Other parameters are passed through a pointer to a apiUpdateJobTagRequest struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateJobTagPayload**](SchemasUpdateJobTagPayload.md) | query params | 
+ **request** | [**MwGeneralBffInternalSchemasUpdateJobTagPayload**](MwGeneralBffInternalSchemasUpdateJobTagPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasJobTagResponse**](SchemasJobTagResponse.md)
+[**MwGeneralBffInternalSchemasJobTagResponse**](MwGeneralBffInternalSchemasJobTagResponse.md)
 
 ### Authorization
 

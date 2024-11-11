@@ -215,7 +215,7 @@ func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
 	return r
 }
 
-func (r ApiUploadFileRequest) Execute() (*SchemasUploadFileResponse, *http.Response, error) {
+func (r ApiUploadFileRequest) Execute() (*MwChatBffInternalSchemasUploadFileResponse, *http.Response, error) {
 	return r.ApiService.UploadFileExecute(r)
 }
 
@@ -235,13 +235,13 @@ func (a *FileAPIService) UploadFile(ctx context.Context) ApiUploadFileRequest {
 }
 
 // Execute executes the request
-//  @return SchemasUploadFileResponse
-func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*SchemasUploadFileResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasUploadFileResponse
+func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*MwChatBffInternalSchemasUploadFileResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasUploadFileResponse
+		localVarReturnValue  *MwChatBffInternalSchemasUploadFileResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FileAPIService.UploadFile")
@@ -332,11 +332,11 @@ func (a *FileAPIService) UploadFileExecute(r ApiUploadFileRequest) (*SchemasUplo
 }
 
 // Execute executes the request
-//  @return SchemasUploadFileResponseStream
-func (a *FileAPIService) UploadFileStreamExecute(r ApiUploadFileRequest, request *http.Request, GoogleAccessToken string) (*SchemasUploadFileResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasUploadFileResponseStream
+func (a *FileAPIService) UploadFileStreamExecute(r ApiUploadFileRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasUploadFileResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasUploadFileResponse
+		localVarReturnValue  *MwChatBffInternalSchemasUploadFileResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FileAPIService.UploadFile")
