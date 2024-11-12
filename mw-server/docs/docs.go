@@ -4591,7 +4591,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/api",
+	BasePath:         "/general",
 	Schemes:          []string{},
 	Title:            "Masters way general API",
 	Description:      "",

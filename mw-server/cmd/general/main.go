@@ -22,7 +22,7 @@ import (
 
 // @title Masters way general API
 // @version 1.0
-// @BasePath /api
+// @BasePath /general
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {

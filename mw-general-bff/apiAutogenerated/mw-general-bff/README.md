@@ -74,7 +74,7 @@ ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVari
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost/general-bff*
+All URIs are relative to */general*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

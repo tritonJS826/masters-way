@@ -96,7 +96,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes() {
-	api := r.Gin.Group("/api")
+	api := r.Gin.Group("/general")
 
 	r.authRouter.setAuthRoutes(api)
 	r.commentRouter.setCommentRoutes(api)

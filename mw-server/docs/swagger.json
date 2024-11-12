@@ -5,7 +5,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "basePath": "/api",
+    "basePath": "/general",
     "paths": {
         "/auth/current": {
             "get": {
