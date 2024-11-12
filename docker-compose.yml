@@ -195,6 +195,17 @@ services:
     networks:
       - app-network
 
+  mw-notification-websocket:
+    build:
+      context: ./mw-notification-websocket
+      dockerfile: Dockerfile
+    ports:
+      - "7996:7996"
+    depends_on:
+      - mw-notification-bff
+    networks:
+      - app-network
+
   grafana:
     build:
       context: ./grafana
