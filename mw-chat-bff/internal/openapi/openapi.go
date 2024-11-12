@@ -11,11 +11,11 @@ import (
 	"net/http"
 )
 
-type authTransport struct {
+type AuthTransport struct {
 	rt http.RoundTripper
 }
 
-func (t *authTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+func (t *AuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	ctx := req.Context()
 	if token, ok := ctx.Value(auth.ContextKeyAuthorization).(string); ok {
 		req.Header.Set(auth.HeaderKeyAuthorization, token)
@@ -34,7 +34,7 @@ func MakeGeneralAPIClient(cfg *config.Config) *openapiGeneral.APIClient {
 			},
 		},
 		HTTPClient: &http.Client{
-			Transport: &authTransport{rt: http.DefaultTransport},
+			Transport: &AuthTransport{rt: http.DefaultTransport},
 		},
 	}
 	return openapiGeneral.NewAPIClient(generalAPIConfig)
@@ -51,7 +51,7 @@ func MakeChatAPIClient(cfg *config.Config) *openapiChat.APIClient {
 			},
 		},
 		HTTPClient: &http.Client{
-			Transport: &authTransport{rt: http.DefaultTransport},
+			Transport: &AuthTransport{rt: http.DefaultTransport},
 		},
 	}
 	return openapiChat.NewAPIClient(chatAPIConfig)
@@ -68,7 +68,7 @@ func MakeMWChatWebSocketAPIClient(cfg *config.Config) *openapiChatWebSocket.APIC
 			},
 		},
 		HTTPClient: &http.Client{
-			Transport: &authTransport{rt: http.DefaultTransport},
+			Transport: &AuthTransport{rt: http.DefaultTransport},
 		},
 	}
 	return openapiChatWebSocket.NewAPIClient(mwChatSocketAPIConfig)
@@ -85,7 +85,7 @@ func MakeChatBFFAPIClient(cfg *config.Config) *openapiChatBFF.APIClient {
 			},
 		},
 		HTTPClient: &http.Client{
-			Transport: &authTransport{rt: http.DefaultTransport},
+			Transport: &AuthTransport{rt: http.DefaultTransport},
 		},
 	}
 	return openapiChatBFF.NewAPIClient(chatBFFAPIConfig)
@@ -102,7 +102,7 @@ func MakeStorageAPIClient(cfg *config.Config) *openapiStorage.APIClient {
 			},
 		},
 		HTTPClient: &http.Client{
-			Transport: &authTransport{rt: http.DefaultTransport},
+			Transport: &AuthTransport{rt: http.DefaultTransport},
 		},
 	}
 	return openapiStorage.NewAPIClient(storageAPIConfig)

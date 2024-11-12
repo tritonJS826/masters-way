@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -24,4 +25,6 @@ model_mw_notification_bff_internal_schemas_notification_response.go
 model_mw_notification_bff_internal_schemas_update_enabled_notification_payload.go
 model_mw_notification_bff_internal_schemas_update_notification_payload.go
 response.go
+test/api_enabled_notification_test.go
+test/api_notification_test.go
 utils.go

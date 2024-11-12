@@ -9,7 +9,7 @@ declare namespace Cypress {
       clearAllStorage(): void
       login(user: string): void
       logout(): void
-      resetDb(): void
+      resetGeneralDb(): void
       getFirstLetters(str: string): Chainable<any>
       openAllUsersPage(): void
       openAllWaysPage(): void

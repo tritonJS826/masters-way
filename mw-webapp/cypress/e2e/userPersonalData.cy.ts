@@ -8,7 +8,7 @@ import ServeyModalsContent from "src/dictionary/SurveyModalsContent.json";
 import {Theme, themedVariables} from "src/globalStore/ThemeStore";
 
 beforeEach(() => {
-    cy.resetDb();
+    cy.resetGeneralDb();
     cy.login(testUserData.testUsers.studentJonh.loginLink); 
 });
 
