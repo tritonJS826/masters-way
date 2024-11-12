@@ -2,7 +2,7 @@
 
 login as test user on dev environment
 ```
-http://localhost:8000/api/auth/login/local/chuchuk@gmail.com
+http://localhost:7995/general/auth/login/local/chuchuk@gmail.com
 ```
 
 # The webapp folder structure
