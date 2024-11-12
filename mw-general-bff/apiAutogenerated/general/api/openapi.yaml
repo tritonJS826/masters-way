@@ -4,7 +4,7 @@ info:
   title: Masters way general API
   version: "1.0"
 servers:
-- url: /api
+- url: /general
 paths:
   /auth/current:
     get:

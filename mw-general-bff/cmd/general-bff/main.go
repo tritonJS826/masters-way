@@ -20,7 +20,7 @@ import (
 
 // @title     Masters way general-bff API
 // @version 1.0
-// @BasePath  /general-bff
+// @BasePath  /general
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {

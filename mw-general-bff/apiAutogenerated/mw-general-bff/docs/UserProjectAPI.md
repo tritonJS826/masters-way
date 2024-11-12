@@ -1,6 +1,6 @@
 # \UserProjectAPI
 
-All URIs are relative to *http://localhost/general-bff*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

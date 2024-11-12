@@ -90,7 +90,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "/general-bff",
+				URL: "/general",
 				Description: "No description provided",
 			},
 		},

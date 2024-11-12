@@ -1,4 +1,4 @@
-basePath: /api
+basePath: /general
 definitions:
   mwserver_internal_customErrors.NoRightToChangeDayReportError:
     properties:

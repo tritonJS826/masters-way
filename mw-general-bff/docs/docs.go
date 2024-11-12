@@ -4345,7 +4345,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/general-bff",
+	BasePath:         "/general",
 	Schemes:          []string{},
 	Title:            "Masters way general-bff API",
 	Description:      "",

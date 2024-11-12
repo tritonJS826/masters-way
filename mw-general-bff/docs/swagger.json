@@ -5,7 +5,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "basePath": "/general-bff",
+    "basePath": "/general",
     "paths": {
         "/auth/current": {
             "get": {
