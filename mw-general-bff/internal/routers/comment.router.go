@@ -18,8 +18,10 @@ func newCommentRouter(commentController *controllers.CommentController, config *
 }
 
 func (cr *commentRouter) setCommentRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("comments")
-	router.POST("", auth.AuthMiddleware(cr.config), cr.commentController.CreateComment)
-	router.PATCH("/:commentId", auth.AuthMiddleware(cr.config), cr.commentController.UpdateComment)
-	router.DELETE("/:commentId", auth.AuthMiddleware(cr.config), cr.commentController.DeleteCommentById)
+	router := rg.Group("comments", auth.HandleHeaders(cr.config))
+	{
+		router.POST("", cr.commentController.CreateComment)
+		router.PATCH("/:commentId", cr.commentController.UpdateComment)
+		router.DELETE("/:commentId", cr.commentController.DeleteCommentById)
+	}
 }

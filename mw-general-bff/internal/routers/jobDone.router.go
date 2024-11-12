@@ -18,8 +18,10 @@ func newJobDoneRouter(jobDoneController *controllers.JobDoneController, config *
 }
 
 func (jr *jobDoneRouter) setJobDoneRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("jobDones")
-	router.POST("", auth.AuthMiddleware(jr.config), jr.jobDoneController.CreateJobDone)
-	router.PATCH("/:jobDoneId", auth.AuthMiddleware(jr.config), jr.jobDoneController.UpdateJobDone)
-	router.DELETE("/:jobDoneId", auth.AuthMiddleware(jr.config), jr.jobDoneController.DeleteJobDoneById)
+	router := rg.Group("jobDones", auth.HandleHeaders(jr.config))
+	{
+		router.POST("", jr.jobDoneController.CreateJobDone)
+		router.PATCH("/:jobDoneId", jr.jobDoneController.UpdateJobDone)
+		router.DELETE("/:jobDoneId", jr.jobDoneController.DeleteJobDoneById)
+	}
 }

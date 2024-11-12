@@ -19,7 +19,9 @@ func newUserRouter(userController *controllers.UserController, config *config.Co
 
 func (ur *userRouter) setUserRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("users")
-	router.GET("", ur.userController.GetAllUsers)
-	router.GET("/:userId", ur.userController.GetUserById)
-	router.PATCH("/:userId", auth.AuthMiddleware(ur.config), ur.userController.UpdateUser)
+	{
+		router.GET("", ur.userController.GetAllUsers)
+		router.GET("/:userId", ur.userController.GetUserById)
+		router.PATCH("/:userId", auth.HandleHeaders(ur.config), ur.userController.UpdateUser)
+	}
 }

@@ -18,8 +18,10 @@ func newMetricRouter(metricController *controllers.MetricController, config *con
 }
 
 func (mr *metricRouter) setMetricRouter(rg *gin.RouterGroup) {
-	router := rg.Group("metrics", auth.AuthMiddleware(mr.config))
-	router.POST("", mr.metricController.CreateMetric)
-	router.PATCH("/:metricId", mr.metricController.UpdateMetric)
-	router.DELETE("/:metricId", mr.metricController.DeleteMetricById)
+	router := rg.Group("metrics", auth.HandleHeaders(mr.config))
+	{
+		router.POST("", mr.metricController.CreateMetric)
+		router.PATCH("/:metricId", mr.metricController.UpdateMetric)
+		router.DELETE("/:metricId", mr.metricController.DeleteMetricById)
+	}
 }

@@ -19,10 +19,12 @@ func newWayRouter(wayController *controllers.WayController, config *config.Confi
 
 func (cr *wayRouter) setWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("ways")
-	router.GET("", cr.wayController.GetAllWays)
-	router.GET("/:wayId", cr.wayController.GetWayById)
-	router.GET("/:wayId/statistics", cr.wayController.GetWayStatisticsById)
-	router.POST("", auth.AuthMiddleware(cr.config), cr.wayController.CreateWay)
-	router.PATCH("/:wayId", auth.AuthMiddleware(cr.config), cr.wayController.UpdateWay)
-	router.DELETE("/:wayId", auth.AuthMiddleware(cr.config), cr.wayController.DeleteWayById)
+	{
+		router.GET("", cr.wayController.GetAllWays)
+		router.GET("/:wayId", cr.wayController.GetWayById)
+		router.GET("/:wayId/statistics", cr.wayController.GetWayStatisticsById)
+		router.POST("", auth.HandleHeaders(cr.config), cr.wayController.CreateWay)
+		router.PATCH("/:wayId", auth.HandleHeaders(cr.config), cr.wayController.UpdateWay)
+		router.DELETE("/:wayId", auth.HandleHeaders(cr.config), cr.wayController.DeleteWayById)
+	}
 }

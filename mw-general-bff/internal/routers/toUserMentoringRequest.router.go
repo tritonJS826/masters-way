@@ -18,7 +18,9 @@ func newToUserMentoringRequestRouter(toUserMentoringRequestController *controlle
 }
 
 func (tr *toUserMentoringRequestRouter) setToUserMentoringRequestRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("toUserMentoringRequests")
-	router.POST("", auth.AuthMiddleware(tr.config), tr.toUserMentoringRequestController.CreateToUserMentoringRequest)
-	router.DELETE("/:userUuid/:wayUuid", auth.AuthMiddleware(tr.config), tr.toUserMentoringRequestController.DeleteToUserMentoringRequestById)
+	router := rg.Group("toUserMentoringRequests", auth.HandleHeaders(tr.config))
+	{
+		router.POST("", tr.toUserMentoringRequestController.CreateToUserMentoringRequest)
+		router.DELETE("/:userUuid/:wayUuid", tr.toUserMentoringRequestController.DeleteToUserMentoringRequestById)
+	}
 }

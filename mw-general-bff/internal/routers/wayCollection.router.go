@@ -18,8 +18,10 @@ func newWayCollectionRouter(wayCollectionController *controllers.WayCollectionCo
 }
 
 func (wr *wayCollectionRouter) setWayCollectionRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("wayCollections")
-	router.POST("", auth.AuthMiddleware(wr.config), wr.wayCollectionController.CreateWayCollection)
-	router.PATCH("/:wayCollectionId", auth.AuthMiddleware(wr.config), wr.wayCollectionController.UpdateWayCollection)
-	router.DELETE("/:wayCollectionId", auth.AuthMiddleware(wr.config), wr.wayCollectionController.DeleteWayCollectionById)
+	router := rg.Group("wayCollections", auth.HandleHeaders(wr.config))
+	{
+		router.POST("", wr.wayCollectionController.CreateWayCollection)
+		router.PATCH("/:wayCollectionId", wr.wayCollectionController.UpdateWayCollection)
+		router.DELETE("/:wayCollectionId", wr.wayCollectionController.DeleteWayCollectionById)
+	}
 }

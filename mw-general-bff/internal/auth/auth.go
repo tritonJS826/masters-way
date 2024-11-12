@@ -54,26 +54,6 @@ func ValidateJWT(tokenString string, secretSessionKey string) (*Claims, error) {
 	return claims, nil
 }
 
-func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		authHeader := ctx.GetHeader(HeaderKeyAuthorization)
-		if authHeader == "" {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
-			return
-		}
-
-		tokenString := authHeader[len("Bearer "):]
-		claims, err := ValidateJWT(tokenString, cfg.SecretSessionKey)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
-			return
-		}
-
-		ctx.Set(ContextKeyUserID, claims.UserID)
-		ctx.Next()
-	}
-}
-
 func HandleHeaders(cfg *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := ctx.GetHeader(HeaderKeyAuthorization)

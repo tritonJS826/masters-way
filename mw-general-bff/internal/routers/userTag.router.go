@@ -18,7 +18,9 @@ func newUserTagRouter(userTagController *controllers.UserTagController, config *
 }
 
 func (ur *userTagRouter) setUserTagRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("userTags")
-	router.POST("", auth.AuthMiddleware(ur.config), ur.userTagController.AddUserTagByName)
-	router.DELETE("/:userTagId/:userId", auth.AuthMiddleware(ur.config), ur.userTagController.DeleteUserTagByFromUserByTag)
+	router := rg.Group("userTags", auth.HandleHeaders(ur.config))
+	{
+		router.POST("", ur.userTagController.AddUserTagByName)
+		router.DELETE("/:userTagId/:userId", ur.userTagController.DeleteUserTagByFromUserByTag)
+	}
 }

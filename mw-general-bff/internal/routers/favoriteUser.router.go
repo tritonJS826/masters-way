@@ -18,7 +18,9 @@ func newFavoriteUserRouter(favoriteUserController *controllers.FavoriteUserContr
 }
 
 func (fr *favoriteUserRouter) setFavoriteUserRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("favoriteUsers")
-	router.POST("", auth.AuthMiddleware(fr.config), fr.favoriteUserController.CreateFavoriteUser)
-	router.DELETE("/:donorUserUuid/:acceptorUserUuid", auth.AuthMiddleware(fr.config), fr.favoriteUserController.DeleteFavoriteUserById)
+	router := rg.Group("favoriteUsers", auth.HandleHeaders(fr.config))
+	{
+		router.POST("", fr.favoriteUserController.CreateFavoriteUser)
+		router.DELETE("/:donorUserUuid/:acceptorUserUuid", fr.favoriteUserController.DeleteFavoriteUserById)
+	}
 }

@@ -18,8 +18,10 @@ func newProblemRouter(problemController *controllers.ProblemController, config *
 }
 
 func (pr *problemRouter) setProblemRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("problems")
-	router.POST("", auth.AuthMiddleware(pr.config), pr.problemController.CreateProblem)
-	router.PATCH("/:problemId", auth.AuthMiddleware(pr.config), pr.problemController.UpdateProblem)
-	router.DELETE("/:problemId", auth.AuthMiddleware(pr.config), pr.problemController.DeleteProblemById)
+	router := rg.Group("problems", auth.HandleHeaders(pr.config))
+	{
+		router.POST("", pr.problemController.CreateProblem)
+		router.PATCH("/:problemId", pr.problemController.UpdateProblem)
+		router.DELETE("/:problemId", pr.problemController.DeleteProblemById)
+	}
 }

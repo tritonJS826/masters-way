@@ -23,25 +23,25 @@ type GoogleAuthInfo struct {
 }
 
 func (as *AuthService) GetAuthCallbackFunction(ctx context.Context, provider, code, state string) (*openapiGeneral.MwserverInternalSchemasGetAuthCallbackFunctionResponse, error) {
-	authCallbackFunctionResponse, _, err := as.generalAPI.AuthAPI.GoogleAuthLogInCallbackFunction(ctx, provider).Code(code).State(state).Execute()
+	authCallbackFunctionResponse, response, err := as.generalAPI.AuthAPI.GoogleAuthLogInCallbackFunction(ctx, provider).Code(code).State(state).Execute()
 	if err != nil {
-		return nil, err
+		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
 	return authCallbackFunctionResponse, nil
 }
 
 func (as *AuthService) GetUserTokenByEmail(ctx context.Context, email string) (*openapiGeneral.MwserverInternalSchemasGetUserTokenByEmailResponse, error) {
-	getUserTokenByEmailResponse, _, err := as.generalAPI.AuthAPI.GetTokenLocally(ctx, email).Execute()
+	getUserTokenByEmailResponse, response, err := as.generalAPI.AuthAPI.GetTokenLocally(ctx, email).Execute()
 	if err != nil {
-		return nil, err
+		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
 	return getUserTokenByEmailResponse, nil
 }
 
 func (as *AuthService) GetGoogleAuthURL(ctx context.Context, provider string) (*openapiGeneral.MwserverInternalSchemasBeginAuthResponse, error) {
-	beginAuthResponse, _, err := as.generalAPI.AuthAPI.BeginAuth(ctx, provider).Execute()
+	beginAuthResponse, response, err := as.generalAPI.AuthAPI.BeginAuth(ctx, provider).Execute()
 	if err != nil {
-		return nil, err
+		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
 	return beginAuthResponse, nil
 }
@@ -50,9 +50,9 @@ func (as *AuthService) SetGoogleAccessTokenByUserID(userID, token string) {
 }
 
 func (as *AuthService) GetGoogleAccessTokenByUserID(ctx context.Context) (*openapiGeneral.MwserverInternalSchemasGoogleToken, error) {
-	googleToken, _, err := as.generalAPI.AuthAPI.GetGoogleToken(ctx).Execute()
+	googleToken, response, err := as.generalAPI.AuthAPI.GetGoogleToken(ctx).Execute()
 	if err != nil {
-		return nil, err
+		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
 	return googleToken, nil
 }

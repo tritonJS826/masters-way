@@ -97,7 +97,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes(cfg *config.Config) {
-	general := r.Gin.Group("/general", auth.HandleHeaders(cfg))
+	general := r.Gin.Group("/general")
 	file := r.Gin.Group("/storage", auth.HandleHeaders(cfg))
 
 	r.fileRouter.setFileRoutes(file)

@@ -19,6 +19,8 @@ func newFavoriteUserWayRouter(favoriteUserWayController *controllers.FavoriteUse
 
 func (fr *favoriteUserWayRouter) setFavoriteUserWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("favoriteUserWays")
-	router.POST("", auth.AuthMiddleware(fr.config), fr.favoriteUserWayController.CreateFavoriteUserWay)
-	router.DELETE("/:userUuid/:wayUuid", auth.AuthMiddleware(fr.config), fr.favoriteUserWayController.DeleteFavoriteUserWayById)
+	{
+		router.POST("", auth.HandleHeaders(fr.config), fr.favoriteUserWayController.CreateFavoriteUserWay)
+		router.DELETE("/:userUuid/:wayUuid", auth.HandleHeaders(fr.config), fr.favoriteUserWayController.DeleteFavoriteUserWayById)
+	}
 }

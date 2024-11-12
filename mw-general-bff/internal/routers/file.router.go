@@ -16,6 +16,8 @@ func newFileRouter(fileController *controllers.FileController) *fileRouter {
 
 func (fr *fileRouter) setFileRoutes(rg *gin.RouterGroup) {
 	files := rg.Group("/files")
-	files.POST("", fr.fileController.UploadFile)
-	files.DELETE("", fr.fileController.DeleteFilesByIDs)
+	{
+		files.POST("", fr.fileController.UploadFile)
+		files.DELETE("", fr.fileController.DeleteFilesByIDs)
+	}
 }

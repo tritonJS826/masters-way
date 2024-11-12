@@ -18,7 +18,9 @@ func newPlanJobTagRouter(planJobTagController *controllers.PlanJobTagController,
 }
 
 func (pr *planJobTagRouter) setPlanJobTagRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("planJobTags")
-	router.POST("", auth.AuthMiddleware(pr.config), pr.planJobTagController.CreatePlanJobTag)
-	router.DELETE("/:jobTagId/:planId", auth.AuthMiddleware(pr.config), pr.planJobTagController.DeletePlanJobTagById)
+	router := rg.Group("planJobTags", auth.HandleHeaders(pr.config))
+	{
+		router.POST("", pr.planJobTagController.CreatePlanJobTag)
+		router.DELETE("/:jobTagId/:planId", pr.planJobTagController.DeletePlanJobTagById)
+	}
 }
