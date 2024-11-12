@@ -18,7 +18,9 @@ func newUserProjectRouter(userProjectController *controllers.UserProjectControll
 }
 
 func (ur *userProjectRouter) setUserProjectRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("userProjects", auth.AuthMiddleware(ur.config))
-	router.POST("", ur.userProjectController.CreateUsersProject)
-	router.DELETE("/:projectId/:userId", ur.userProjectController.DeleteUserProject)
+	router := rg.Group("userProjects", auth.HandleHeaders(ur.config))
+	{
+		router.POST("", ur.userProjectController.CreateUsersProject)
+		router.DELETE("/:projectId/:userId", ur.userProjectController.DeleteUserProject)
+	}
 }

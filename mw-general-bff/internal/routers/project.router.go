@@ -18,9 +18,11 @@ func newProjectRouter(projectController *controllers.ProjectController, config *
 }
 
 func (mr *projectRouter) setProjectRouter(rg *gin.RouterGroup) {
-	router := rg.Group("projects", auth.AuthMiddleware(mr.config))
-	router.GET("/:projectId", mr.projectController.GetProjectByID)
-	router.POST("", mr.projectController.CreateProject)
-	router.PATCH("/:projectId", mr.projectController.UpdateProject)
-	router.DELETE("/:projectId", mr.projectController.DeleteProject)
+	router := rg.Group("projects", auth.HandleHeaders(mr.config))
+	{
+		router.GET("/:projectId", mr.projectController.GetProjectByID)
+		router.POST("", mr.projectController.CreateProject)
+		router.PATCH("/:projectId", mr.projectController.UpdateProject)
+		router.DELETE("/:projectId", mr.projectController.DeleteProject)
+	}
 }

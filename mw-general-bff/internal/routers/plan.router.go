@@ -18,8 +18,10 @@ func newPlanRouter(planController *controllers.PlanController, config *config.Co
 }
 
 func (pr *planRouter) setPlanRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("plans")
-	router.POST("", auth.AuthMiddleware(pr.config), pr.planController.CreatePlan)
-	router.PATCH("/:planId", auth.AuthMiddleware(pr.config), pr.planController.UpdatePlan)
-	router.DELETE("/:planId", auth.AuthMiddleware(pr.config), pr.planController.DeletePlanById)
+	router := rg.Group("plans", auth.HandleHeaders(pr.config))
+	{
+		router.POST("", pr.planController.CreatePlan)
+		router.PATCH("/:planId", pr.planController.UpdatePlan)
+		router.DELETE("/:planId", pr.planController.DeletePlanById)
+	}
 }

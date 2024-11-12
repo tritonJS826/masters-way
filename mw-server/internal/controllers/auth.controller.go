@@ -69,7 +69,7 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 		Url: ac.config.WebappBaseUrl + "?token=" + jwtToken,
 	}
 
-	ctx.JSON(http.StatusFound, response)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // Begin auth handler
@@ -141,7 +141,7 @@ func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 		Url: ac.config.WebappBaseUrl + "?token=" + jwtToken,
 	}
 
-	ctx.JSON(http.StatusFound, response)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Logout current authorized user

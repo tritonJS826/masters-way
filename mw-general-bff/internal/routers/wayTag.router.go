@@ -18,7 +18,9 @@ func newWayTagRouter(wayTagController *controllers.WayTagController, config *con
 }
 
 func (wr *wayTagRouter) setWayTagRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("wayTags")
-	router.POST("", auth.AuthMiddleware(wr.config), wr.wayTagController.AddWayTagToWay)
-	router.DELETE("/:wayTagId/:wayId", auth.AuthMiddleware(wr.config), wr.wayTagController.DeleteWayTagFromWayByTagId)
+	router := rg.Group("wayTags", auth.HandleHeaders(wr.config))
+	{
+		router.POST("", wr.wayTagController.AddWayTagToWay)
+		router.DELETE("/:wayTagId/:wayId", wr.wayTagController.DeleteWayTagFromWayByTagId)
+	}
 }

@@ -18,7 +18,9 @@ func newMentorUserWayRouter(mentorUserWayController *controllers.MentorUserWayCo
 }
 
 func (mr *mentorUserWayRouter) setMentorUserWayRoutes(rg *gin.RouterGroup) {
-	router := rg.Group("mentorUserWays")
-	router.POST("", auth.AuthMiddleware(mr.config), mr.mentorUserWayController.AddMentorUserWay)
-	router.DELETE("", auth.AuthMiddleware(mr.config), mr.mentorUserWayController.DeleteMentorUserWay)
+	router := rg.Group("mentorUserWays", auth.HandleHeaders(mr.config))
+	{
+		router.POST("", mr.mentorUserWayController.AddMentorUserWay)
+		router.DELETE("", mr.mentorUserWayController.DeleteMentorUserWay)
+	}
 }
