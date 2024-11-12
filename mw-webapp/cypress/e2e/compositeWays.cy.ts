@@ -7,7 +7,7 @@ import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 beforeEach(() => {
-    cy.resetDb();
+    cy.resetGeneralDb();
 });
 
 afterEach(() => {

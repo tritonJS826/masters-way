@@ -8,7 +8,7 @@ import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSel
 import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 beforeEach(() => {
-    cy.resetDb();
+    cy.resetGeneralDb();
 });
 
 afterEach(() => {

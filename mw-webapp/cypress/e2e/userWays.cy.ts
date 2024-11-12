@@ -27,7 +27,7 @@ function hexToRgb(hex: string): string {
 
 describe("NoAuth User's ways scope tests", () => {
     beforeEach(() => {
-        cy.resetDb();
+        cy.resetGeneralDb();
         cy.visit('/');
         cy.openAllUsersPage();
     });
@@ -84,7 +84,7 @@ describe("NoAuth User's ways scope tests", () => {
 
 describe("IsAuth User's ways scope tests", () => {
     beforeEach(() => {
-        cy.resetDb();
+        cy.resetGeneralDb();
         cy.login(testUserData.testUsers.studentJonh.loginLink);
     });
 

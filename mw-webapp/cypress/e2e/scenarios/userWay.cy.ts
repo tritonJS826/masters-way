@@ -11,7 +11,7 @@ import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import { wayDescriptionSelectors } from "cypress/scopesSelectors/wayDescriptionSelectors";
 
 beforeEach(() => {
-  cy.resetDb();
+  cy.resetGeneralDb();
   cy.login(testUserData.testUsers.studentJonh.loginLink); 
 });
 
