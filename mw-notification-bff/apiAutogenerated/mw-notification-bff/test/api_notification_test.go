@@ -1,5 +1,5 @@
 /*
-Masters way notification API
+Masters way notification-bff API
 
 Testing NotificationAPIService
 
@@ -26,9 +26,24 @@ func Test_openapi_NotificationAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		httpRes, err := apiClient.NotificationAPI.GetNotificationList(context.Background()).Execute()
+		resp, httpRes, err := apiClient.NotificationAPI.GetNotificationList(context.Background()).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test NotificationAPIService UpdateNotification", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var notificationId string
+
+		resp, httpRes, err := apiClient.NotificationAPI.UpdateNotification(context.Background(), notificationId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
