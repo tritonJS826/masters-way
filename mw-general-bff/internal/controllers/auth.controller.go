@@ -46,8 +46,8 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	authCallback, err := ac.authService.GetAuthCallbackFunction(ctx, provider, code, state)
 	utils.HandleErrorGin(ctx, err)
 
-	err = ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
-	utils.HandleErrorGin(ctx, err)
+	// err = ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
+	// utils.HandleErrorGin(ctx, err)
 
 	ctx.Redirect(http.StatusFound, authCallback.Url)
 }
@@ -105,8 +105,8 @@ func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	authCallback, err := ac.authService.GetUserTokenByEmail(ctx, userEmail)
 	utils.HandleErrorGin(ctx, err)
 
-	err = ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
-	utils.HandleErrorGin(ctx, err)
+	// err = ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
+	// utils.HandleErrorGin(ctx, err)
 
 	ctx.Redirect(http.StatusFound, authCallback.Url)
 }
