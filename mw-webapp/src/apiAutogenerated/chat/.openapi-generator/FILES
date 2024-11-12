@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/FileApi.ts
 apis/MessageApi.ts
 apis/RoomApi.ts
