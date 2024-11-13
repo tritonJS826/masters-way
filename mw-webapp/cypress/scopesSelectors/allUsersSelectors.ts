@@ -20,7 +20,8 @@ export const allUsersSelectors = {
     },
 
     card: {
-        getCardLink: (userName: string) => cy.get(getDataCy(allUsersAccessIds.allUsersCard.userCardLink(userName)))
+        getCardLink: (userName: string) => cy.get(getDataCy(allUsersAccessIds.allUsersCard.userCardLink(userName))),
+        getMentorFlag: () => cy.get(getDataCy(allUsersAccessIds.allUsersCard.mentorFlag))
     },
 
     getLoadMoreButton: () => cy.get(getDataCy(allUsersAccessIds.loadMoreButton))

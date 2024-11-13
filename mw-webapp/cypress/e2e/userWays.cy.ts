@@ -4,7 +4,9 @@ import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {Theme, themedVariables} from "src/globalStore/ThemeStore";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
-import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
+import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
+import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
+import testWayData from "cypress/fixtures/testWayDataFixture.json";
 
 afterEach(() => {
     cy.clearAllStorage();
@@ -78,6 +80,23 @@ describe("NoAuth User's ways scope tests", () => {
         userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.favoriteCollection.publicWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
+    });
+
+    it('NoAuth_UserWay_CardViewOpenWay', () => {
+        allUsersSelectors.card.getCardLink(testUserData.users.Jane.userName).click();
+        allWaysSelectors.allWaysCard.getCardLink(testWayData.ways.janeWay.wayName).first().click();
+
+        cy.url().should('include', testWayData.ways.janeWay.wayId);
+        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', testWayData.ways.janeWay.wayName);
+    });
+
+    it('NoAuth_UserWay_TableViewOpenWay', () => {
+        allUsersSelectors.card.getCardLink(testUserData.users.Jane.userName).click();
+        allWaysSelectors.filterViewBlock.getTableViewButton().click();
+        allWaysSelectors.allWaysTable.getWayLink(testWayData.ways.janeWay.wayName).first().click();
+
+        cy.url().should('include', testWayData.ways.janeWay.wayId);
+        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', testWayData.ways.janeWay.wayName);
     });
 
 });

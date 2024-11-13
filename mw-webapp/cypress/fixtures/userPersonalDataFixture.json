@@ -5,7 +5,6 @@
     "findMentorForm": {
         "skillsToLearn": "Skills to learn",
         "currentExperience": "Current experience",
-        "mentorDescription": "Mentor description",
-        "requestSent": "Request sent. We will contact you as soon as we find the right mentor for you!"
+        "mentorDescription": "Mentor description"
     }
 }
