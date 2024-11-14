@@ -1,4 +1,4 @@
-# MwserverInternalSchemasUserTagResponse
+# MwServerInternalSchemasUserTagResponse
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasUserTagResponse
+### NewMwServerInternalSchemasUserTagResponse
 
-`func NewMwserverInternalSchemasUserTagResponse(name string, uuid string, ) *MwserverInternalSchemasUserTagResponse`
+`func NewMwServerInternalSchemasUserTagResponse(name string, uuid string, ) *MwServerInternalSchemasUserTagResponse`
 
-NewMwserverInternalSchemasUserTagResponse instantiates a new MwserverInternalSchemasUserTagResponse object
+NewMwServerInternalSchemasUserTagResponse instantiates a new MwServerInternalSchemasUserTagResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasUserTagResponseWithDefaults
+### NewMwServerInternalSchemasUserTagResponseWithDefaults
 
-`func NewMwserverInternalSchemasUserTagResponseWithDefaults() *MwserverInternalSchemasUserTagResponse`
+`func NewMwServerInternalSchemasUserTagResponseWithDefaults() *MwServerInternalSchemasUserTagResponse`
 
-NewMwserverInternalSchemasUserTagResponseWithDefaults instantiates a new MwserverInternalSchemasUserTagResponse object
+NewMwServerInternalSchemasUserTagResponseWithDefaults instantiates a new MwServerInternalSchemasUserTagResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *MwserverInternalSchemasUserTagResponse) GetName() string`
+`func (o *MwServerInternalSchemasUserTagResponse) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasUserTagResponse) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserTagResponse) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasUserTagResponse) SetName(v string)`
+`func (o *MwServerInternalSchemasUserTagResponse) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetUuid
 
-`func (o *MwserverInternalSchemasUserTagResponse) GetUuid() string`
+`func (o *MwServerInternalSchemasUserTagResponse) GetUuid() string`
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *MwserverInternalSchemasUserTagResponse) GetUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserTagResponse) GetUuidOk() (*string, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *MwserverInternalSchemasUserTagResponse) SetUuid(v string)`
+`func (o *MwServerInternalSchemasUserTagResponse) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
 

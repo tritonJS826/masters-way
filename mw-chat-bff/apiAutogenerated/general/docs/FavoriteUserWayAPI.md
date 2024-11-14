@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateFavoriteUserWayPayload("UserUuid_example", "WayUuid_example") // MwserverInternalSchemasCreateFavoriteUserWayPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateFavoriteUserWayPayload("UserUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateFavoriteUserWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiCreateFavoriteUserWayReque
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateFavoriteUserWayPayload**](MwserverInternalSchemasCreateFavoriteUserWayPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateFavoriteUserWayPayload**](MwServerInternalSchemasCreateFavoriteUserWayPayload.md) | query params | 
 
 ### Return type
 

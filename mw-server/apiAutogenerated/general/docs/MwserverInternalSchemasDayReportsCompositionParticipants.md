@@ -1,4 +1,4 @@
-# MwserverInternalSchemasDayReportsCompositionParticipants
+# MwServerInternalSchemasDayReportsCompositionParticipants
 
 ## Properties
 
@@ -10,79 +10,79 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasDayReportsCompositionParticipants
+### NewMwServerInternalSchemasDayReportsCompositionParticipants
 
-`func NewMwserverInternalSchemasDayReportsCompositionParticipants(dayReportId string, wayId string, wayName string, ) *MwserverInternalSchemasDayReportsCompositionParticipants`
+`func NewMwServerInternalSchemasDayReportsCompositionParticipants(dayReportId string, wayId string, wayName string, ) *MwServerInternalSchemasDayReportsCompositionParticipants`
 
-NewMwserverInternalSchemasDayReportsCompositionParticipants instantiates a new MwserverInternalSchemasDayReportsCompositionParticipants object
+NewMwServerInternalSchemasDayReportsCompositionParticipants instantiates a new MwServerInternalSchemasDayReportsCompositionParticipants object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasDayReportsCompositionParticipantsWithDefaults
+### NewMwServerInternalSchemasDayReportsCompositionParticipantsWithDefaults
 
-`func NewMwserverInternalSchemasDayReportsCompositionParticipantsWithDefaults() *MwserverInternalSchemasDayReportsCompositionParticipants`
+`func NewMwServerInternalSchemasDayReportsCompositionParticipantsWithDefaults() *MwServerInternalSchemasDayReportsCompositionParticipants`
 
-NewMwserverInternalSchemasDayReportsCompositionParticipantsWithDefaults instantiates a new MwserverInternalSchemasDayReportsCompositionParticipants object
+NewMwServerInternalSchemasDayReportsCompositionParticipantsWithDefaults instantiates a new MwServerInternalSchemasDayReportsCompositionParticipants object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetDayReportId
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) GetDayReportId() string`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) GetDayReportId() string`
 
 GetDayReportId returns the DayReportId field if non-nil, zero value otherwise.
 
 ### GetDayReportIdOk
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) GetDayReportIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) GetDayReportIdOk() (*string, bool)`
 
 GetDayReportIdOk returns a tuple with the DayReportId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDayReportId
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) SetDayReportId(v string)`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) SetDayReportId(v string)`
 
 SetDayReportId sets DayReportId field to given value.
 
 
 ### GetWayId
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) GetWayId() string`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) GetWayId() string`
 
 GetWayId returns the WayId field if non-nil, zero value otherwise.
 
 ### GetWayIdOk
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) GetWayIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) GetWayIdOk() (*string, bool)`
 
 GetWayIdOk returns a tuple with the WayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayId
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) SetWayId(v string)`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) SetWayId(v string)`
 
 SetWayId sets WayId field to given value.
 
 
 ### GetWayName
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) GetWayName() string`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) GetWayName() string`
 
 GetWayName returns the WayName field if non-nil, zero value otherwise.
 
 ### GetWayNameOk
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) GetWayNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) GetWayNameOk() (*string, bool)`
 
 GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayName
 
-`func (o *MwserverInternalSchemasDayReportsCompositionParticipants) SetWayName(v string)`
+`func (o *MwServerInternalSchemasDayReportsCompositionParticipants) SetWayName(v string)`
 
 SetWayName sets WayName field to given value.
 

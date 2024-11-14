@@ -27,16 +27,16 @@ type CompositeWayAPIService service
 type ApiCreateCompositeWayRequest struct {
 	ctx context.Context
 	ApiService *CompositeWayAPIService
-	request *MwserverInternalSchemasAddWayToCompositeWayPayload
+	request *MwServerInternalSchemasAddWayToCompositeWayPayload
 }
 
 // query params
-func (r ApiCreateCompositeWayRequest) Request(request MwserverInternalSchemasAddWayToCompositeWayPayload) ApiCreateCompositeWayRequest {
+func (r ApiCreateCompositeWayRequest) Request(request MwServerInternalSchemasAddWayToCompositeWayPayload) ApiCreateCompositeWayRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateCompositeWayRequest) Execute() (*MwserverInternalSchemasCompositeWayRelation, *http.Response, error) {
+func (r ApiCreateCompositeWayRequest) Execute() (*MwServerInternalSchemasCompositeWayRelation, *http.Response, error) {
 	return r.ApiService.CreateCompositeWayExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *CompositeWayAPIService) CreateCompositeWay(ctx context.Context) ApiCrea
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasCompositeWayRelation
-func (a *CompositeWayAPIService) CreateCompositeWayExecute(r ApiCreateCompositeWayRequest) (*MwserverInternalSchemasCompositeWayRelation, *http.Response, error) {
+//  @return MwServerInternalSchemasCompositeWayRelation
+func (a *CompositeWayAPIService) CreateCompositeWayExecute(r ApiCreateCompositeWayRequest) (*MwServerInternalSchemasCompositeWayRelation, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasCompositeWayRelation
+		localVarReturnValue  *MwServerInternalSchemasCompositeWayRelation
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CompositeWayAPIService.CreateCompositeWay")
@@ -134,11 +134,11 @@ func (a *CompositeWayAPIService) CreateCompositeWayExecute(r ApiCreateCompositeW
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasCompositeWayRelationStream
-func (a *CompositeWayAPIService) CreateCompositeWayStreamExecute(r ApiCreateCompositeWayRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasCompositeWayRelation, *http.Response, error) {
+//  @return MwServerInternalSchemasCompositeWayRelationStream
+func (a *CompositeWayAPIService) CreateCompositeWayStreamExecute(r ApiCreateCompositeWayRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasCompositeWayRelation, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasCompositeWayRelation
+		localVarReturnValue  *MwServerInternalSchemasCompositeWayRelation
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CompositeWayAPIService.CreateCompositeWay")

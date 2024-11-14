@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAddWayToCompositeWayPayload
+# MwServerInternalSchemasAddWayToCompositeWayPayload
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAddWayToCompositeWayPayload
+### NewMwServerInternalSchemasAddWayToCompositeWayPayload
 
-`func NewMwserverInternalSchemasAddWayToCompositeWayPayload(childWayUuid string, parentWayUuid string, ) *MwserverInternalSchemasAddWayToCompositeWayPayload`
+`func NewMwServerInternalSchemasAddWayToCompositeWayPayload(childWayUuid string, parentWayUuid string, ) *MwServerInternalSchemasAddWayToCompositeWayPayload`
 
-NewMwserverInternalSchemasAddWayToCompositeWayPayload instantiates a new MwserverInternalSchemasAddWayToCompositeWayPayload object
+NewMwServerInternalSchemasAddWayToCompositeWayPayload instantiates a new MwServerInternalSchemasAddWayToCompositeWayPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAddWayToCompositeWayPayloadWithDefaults
+### NewMwServerInternalSchemasAddWayToCompositeWayPayloadWithDefaults
 
-`func NewMwserverInternalSchemasAddWayToCompositeWayPayloadWithDefaults() *MwserverInternalSchemasAddWayToCompositeWayPayload`
+`func NewMwServerInternalSchemasAddWayToCompositeWayPayloadWithDefaults() *MwServerInternalSchemasAddWayToCompositeWayPayload`
 
-NewMwserverInternalSchemasAddWayToCompositeWayPayloadWithDefaults instantiates a new MwserverInternalSchemasAddWayToCompositeWayPayload object
+NewMwServerInternalSchemasAddWayToCompositeWayPayloadWithDefaults instantiates a new MwServerInternalSchemasAddWayToCompositeWayPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetChildWayUuid
 
-`func (o *MwserverInternalSchemasAddWayToCompositeWayPayload) GetChildWayUuid() string`
+`func (o *MwServerInternalSchemasAddWayToCompositeWayPayload) GetChildWayUuid() string`
 
 GetChildWayUuid returns the ChildWayUuid field if non-nil, zero value otherwise.
 
 ### GetChildWayUuidOk
 
-`func (o *MwserverInternalSchemasAddWayToCompositeWayPayload) GetChildWayUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAddWayToCompositeWayPayload) GetChildWayUuidOk() (*string, bool)`
 
 GetChildWayUuidOk returns a tuple with the ChildWayUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetChildWayUuid
 
-`func (o *MwserverInternalSchemasAddWayToCompositeWayPayload) SetChildWayUuid(v string)`
+`func (o *MwServerInternalSchemasAddWayToCompositeWayPayload) SetChildWayUuid(v string)`
 
 SetChildWayUuid sets ChildWayUuid field to given value.
 
 
 ### GetParentWayUuid
 
-`func (o *MwserverInternalSchemasAddWayToCompositeWayPayload) GetParentWayUuid() string`
+`func (o *MwServerInternalSchemasAddWayToCompositeWayPayload) GetParentWayUuid() string`
 
 GetParentWayUuid returns the ParentWayUuid field if non-nil, zero value otherwise.
 
 ### GetParentWayUuidOk
 
-`func (o *MwserverInternalSchemasAddWayToCompositeWayPayload) GetParentWayUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAddWayToCompositeWayPayload) GetParentWayUuidOk() (*string, bool)`
 
 GetParentWayUuidOk returns a tuple with the ParentWayUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetParentWayUuid
 
-`func (o *MwserverInternalSchemasAddWayToCompositeWayPayload) SetParentWayUuid(v string)`
+`func (o *MwServerInternalSchemasAddWayToCompositeWayPayload) SetParentWayUuid(v string)`
 
 SetParentWayUuid sets ParentWayUuid field to given value.
 

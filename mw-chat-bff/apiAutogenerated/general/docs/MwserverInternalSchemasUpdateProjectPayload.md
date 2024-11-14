@@ -1,4 +1,4 @@
-# MwserverInternalSchemasUpdateProjectPayload
+# MwServerInternalSchemasUpdateProjectPayload
 
 ## Properties
 
@@ -9,70 +9,70 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasUpdateProjectPayload
+### NewMwServerInternalSchemasUpdateProjectPayload
 
-`func NewMwserverInternalSchemasUpdateProjectPayload() *MwserverInternalSchemasUpdateProjectPayload`
+`func NewMwServerInternalSchemasUpdateProjectPayload() *MwServerInternalSchemasUpdateProjectPayload`
 
-NewMwserverInternalSchemasUpdateProjectPayload instantiates a new MwserverInternalSchemasUpdateProjectPayload object
+NewMwServerInternalSchemasUpdateProjectPayload instantiates a new MwServerInternalSchemasUpdateProjectPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasUpdateProjectPayloadWithDefaults
+### NewMwServerInternalSchemasUpdateProjectPayloadWithDefaults
 
-`func NewMwserverInternalSchemasUpdateProjectPayloadWithDefaults() *MwserverInternalSchemasUpdateProjectPayload`
+`func NewMwServerInternalSchemasUpdateProjectPayloadWithDefaults() *MwServerInternalSchemasUpdateProjectPayload`
 
-NewMwserverInternalSchemasUpdateProjectPayloadWithDefaults instantiates a new MwserverInternalSchemasUpdateProjectPayload object
+NewMwServerInternalSchemasUpdateProjectPayloadWithDefaults instantiates a new MwServerInternalSchemasUpdateProjectPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetIsPrivate
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) GetIsPrivate() bool`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) GetIsPrivate() bool`
 
 GetIsPrivate returns the IsPrivate field if non-nil, zero value otherwise.
 
 ### GetIsPrivateOk
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) GetIsPrivateOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) GetIsPrivateOk() (*bool, bool)`
 
 GetIsPrivateOk returns a tuple with the IsPrivate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsPrivate
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) SetIsPrivate(v bool)`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) SetIsPrivate(v bool)`
 
 SetIsPrivate sets IsPrivate field to given value.
 
 ### HasIsPrivate
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) HasIsPrivate() bool`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) HasIsPrivate() bool`
 
 HasIsPrivate returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) GetName() string`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) SetName(v string)`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *MwserverInternalSchemasUpdateProjectPayload) HasName() bool`
+`func (o *MwServerInternalSchemasUpdateProjectPayload) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 

@@ -11,7 +11,7 @@ import (
 type Service struct {
 	AuthService         *AuthService
 	GeneralService      *GeneralService
-	FileService         *FileService
+	StorageService      *StorageService
 	NotificationService *NotificationService
 }
 
@@ -24,8 +24,8 @@ func NewService(config *config.Config, conn *grpc.ClientConn) *Service {
 
 	return &Service{
 		AuthService:         newAuthService(generalApi),
-		GeneralService:      NewGeneralService(generalApi),
-		FileService:         NewFileService(storageApi),
-		NotificationService: NewNotificationService(notificationGRPC, enabledNotificationGRPC),
+		GeneralService:      newGeneralService(generalApi),
+		StorageService:      newStorageService(storageApi),
+		NotificationService: newNotificationService(notificationGRPC, enabledNotificationGRPC),
 	}
 }

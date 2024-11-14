@@ -35,7 +35,7 @@ func TestAddWayToCompositeWay(t *testing.T) {
 		}
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
-		request := openapiGeneral.MwserverInternalSchemasAddWayToCompositeWayPayload{
+		request := openapiGeneral.MwServerInternalSchemasAddWayToCompositeWayPayload{
 			ChildWayUuid:  childWayID,
 			ParentWayUuid: parentWayID,
 		}
@@ -44,7 +44,7 @@ func TestAddWayToCompositeWay(t *testing.T) {
 			t.Fatalf("Failed to create composite Way: %v", err)
 		}
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasCompositeWayRelation{
+		expectedData := &openapiGeneral.MwServerInternalSchemasCompositeWayRelation{
 			ChildWayUuid:  childWayID,
 			ParentWayUuid: parentWayID,
 		}

@@ -2,11 +2,11 @@ package routers
 
 import (
 	"fmt"
-	"mwserver/internal/config"
-	"mwserver/internal/controllers"
+	"mw-server/internal/config"
+	"mw-server/internal/controllers"
 	"net/http"
 
-	_ "mwserver/docs"
+	_ "mw-server/docs"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

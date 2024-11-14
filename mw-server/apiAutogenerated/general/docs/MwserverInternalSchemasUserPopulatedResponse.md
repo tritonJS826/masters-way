@@ -1,319 +1,319 @@
-# MwserverInternalSchemasUserPopulatedResponse
+# MwServerInternalSchemasUserPopulatedResponse
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | **string** |  | 
-**CustomWayCollections** | [**[]MwserverInternalSchemasWayCollectionPopulatedResponse**](MwserverInternalSchemasWayCollectionPopulatedResponse.md) |  | 
-**DefaultWayCollections** | [**MwserverInternalSchemasDefaultWayCollections**](MwserverInternalSchemasDefaultWayCollections.md) |  | 
+**CustomWayCollections** | [**[]MwServerInternalSchemasWayCollectionPopulatedResponse**](MwServerInternalSchemasWayCollectionPopulatedResponse.md) |  | 
+**DefaultWayCollections** | [**MwServerInternalSchemasDefaultWayCollections**](MwServerInternalSchemasDefaultWayCollections.md) |  | 
 **Description** | **string** |  | 
 **Email** | **string** |  | 
 **FavoriteForUsers** | **[]string** |  | 
-**FavoriteUsers** | [**[]MwserverInternalSchemasUserPlainResponse**](MwserverInternalSchemasUserPlainResponse.md) |  | 
+**FavoriteUsers** | [**[]MwServerInternalSchemasUserPlainResponse**](MwServerInternalSchemasUserPlainResponse.md) |  | 
 **ImageUrl** | **string** |  | 
 **IsMentor** | **bool** |  | 
 **Name** | **string** |  | 
-**Projects** | [**[]MwserverInternalSchemasProjectPlainResponse**](MwserverInternalSchemasProjectPlainResponse.md) |  | 
-**Tags** | [**[]MwserverInternalSchemasUserTagResponse**](MwserverInternalSchemasUserTagResponse.md) |  | 
+**Projects** | [**[]MwServerInternalSchemasProjectPlainResponse**](MwServerInternalSchemasProjectPlainResponse.md) |  | 
+**Tags** | [**[]MwServerInternalSchemasUserTagResponse**](MwServerInternalSchemasUserTagResponse.md) |  | 
 **Uuid** | **string** |  | 
-**WayRequests** | [**[]MwserverInternalSchemasWayPlainResponse**](MwserverInternalSchemasWayPlainResponse.md) |  | 
+**WayRequests** | [**[]MwServerInternalSchemasWayPlainResponse**](MwServerInternalSchemasWayPlainResponse.md) |  | 
 
 ## Methods
 
-### NewMwserverInternalSchemasUserPopulatedResponse
+### NewMwServerInternalSchemasUserPopulatedResponse
 
-`func NewMwserverInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwserverInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwserverInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwserverInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwserverInternalSchemasProjectPlainResponse, tags []MwserverInternalSchemasUserTagResponse, uuid string, wayRequests []MwserverInternalSchemasWayPlainResponse, ) *MwserverInternalSchemasUserPopulatedResponse`
+`func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse, ) *MwServerInternalSchemasUserPopulatedResponse`
 
-NewMwserverInternalSchemasUserPopulatedResponse instantiates a new MwserverInternalSchemasUserPopulatedResponse object
+NewMwServerInternalSchemasUserPopulatedResponse instantiates a new MwServerInternalSchemasUserPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasUserPopulatedResponseWithDefaults
+### NewMwServerInternalSchemasUserPopulatedResponseWithDefaults
 
-`func NewMwserverInternalSchemasUserPopulatedResponseWithDefaults() *MwserverInternalSchemasUserPopulatedResponse`
+`func NewMwServerInternalSchemasUserPopulatedResponseWithDefaults() *MwServerInternalSchemasUserPopulatedResponse`
 
-NewMwserverInternalSchemasUserPopulatedResponseWithDefaults instantiates a new MwserverInternalSchemasUserPopulatedResponse object
+NewMwServerInternalSchemasUserPopulatedResponseWithDefaults instantiates a new MwServerInternalSchemasUserPopulatedResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetCreatedAt
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetCreatedAt() string`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetCreatedAtOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetCreatedAt(v string)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 
 
 ### GetCustomWayCollections
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetCustomWayCollections() []MwserverInternalSchemasWayCollectionPopulatedResponse`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetCustomWayCollections() []MwServerInternalSchemasWayCollectionPopulatedResponse`
 
 GetCustomWayCollections returns the CustomWayCollections field if non-nil, zero value otherwise.
 
 ### GetCustomWayCollectionsOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetCustomWayCollectionsOk() (*[]MwserverInternalSchemasWayCollectionPopulatedResponse, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetCustomWayCollectionsOk() (*[]MwServerInternalSchemasWayCollectionPopulatedResponse, bool)`
 
 GetCustomWayCollectionsOk returns a tuple with the CustomWayCollections field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCustomWayCollections
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetCustomWayCollections(v []MwserverInternalSchemasWayCollectionPopulatedResponse)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetCustomWayCollections(v []MwServerInternalSchemasWayCollectionPopulatedResponse)`
 
 SetCustomWayCollections sets CustomWayCollections field to given value.
 
 
 ### GetDefaultWayCollections
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetDefaultWayCollections() MwserverInternalSchemasDefaultWayCollections`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetDefaultWayCollections() MwServerInternalSchemasDefaultWayCollections`
 
 GetDefaultWayCollections returns the DefaultWayCollections field if non-nil, zero value otherwise.
 
 ### GetDefaultWayCollectionsOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetDefaultWayCollectionsOk() (*MwserverInternalSchemasDefaultWayCollections, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetDefaultWayCollectionsOk() (*MwServerInternalSchemasDefaultWayCollections, bool)`
 
 GetDefaultWayCollectionsOk returns a tuple with the DefaultWayCollections field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDefaultWayCollections
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetDefaultWayCollections(v MwserverInternalSchemasDefaultWayCollections)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetDefaultWayCollections(v MwServerInternalSchemasDefaultWayCollections)`
 
 SetDefaultWayCollections sets DefaultWayCollections field to given value.
 
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetDescription() string`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetDescription(v string)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 
 ### GetEmail
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetEmail() string`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetEmail() string`
 
 GetEmail returns the Email field if non-nil, zero value otherwise.
 
 ### GetEmailOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetEmailOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetEmailOk() (*string, bool)`
 
 GetEmailOk returns a tuple with the Email field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmail
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetEmail(v string)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetEmail(v string)`
 
 SetEmail sets Email field to given value.
 
 
 ### GetFavoriteForUsers
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetFavoriteForUsers() []string`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetFavoriteForUsers() []string`
 
 GetFavoriteForUsers returns the FavoriteForUsers field if non-nil, zero value otherwise.
 
 ### GetFavoriteForUsersOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetFavoriteForUsersOk() (*[]string, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetFavoriteForUsersOk() (*[]string, bool)`
 
 GetFavoriteForUsersOk returns a tuple with the FavoriteForUsers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFavoriteForUsers
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetFavoriteForUsers(v []string)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetFavoriteForUsers(v []string)`
 
 SetFavoriteForUsers sets FavoriteForUsers field to given value.
 
 
 ### GetFavoriteUsers
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetFavoriteUsers() []MwserverInternalSchemasUserPlainResponse`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetFavoriteUsers() []MwServerInternalSchemasUserPlainResponse`
 
 GetFavoriteUsers returns the FavoriteUsers field if non-nil, zero value otherwise.
 
 ### GetFavoriteUsersOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetFavoriteUsersOk() (*[]MwserverInternalSchemasUserPlainResponse, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetFavoriteUsersOk() (*[]MwServerInternalSchemasUserPlainResponse, bool)`
 
 GetFavoriteUsersOk returns a tuple with the FavoriteUsers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFavoriteUsers
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetFavoriteUsers(v []MwserverInternalSchemasUserPlainResponse)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetFavoriteUsers(v []MwServerInternalSchemasUserPlainResponse)`
 
 SetFavoriteUsers sets FavoriteUsers field to given value.
 
 
 ### GetImageUrl
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetImageUrl() string`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetImageUrl() string`
 
 GetImageUrl returns the ImageUrl field if non-nil, zero value otherwise.
 
 ### GetImageUrlOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetImageUrlOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetImageUrlOk() (*string, bool)`
 
 GetImageUrlOk returns a tuple with the ImageUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetImageUrl
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetImageUrl(v string)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetImageUrl(v string)`
 
 SetImageUrl sets ImageUrl field to given value.
 
 
 ### GetIsMentor
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetIsMentor() bool`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetIsMentor() bool`
 
 GetIsMentor returns the IsMentor field if non-nil, zero value otherwise.
 
 ### GetIsMentorOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetIsMentorOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetIsMentorOk() (*bool, bool)`
 
 GetIsMentorOk returns a tuple with the IsMentor field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsMentor
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetIsMentor(v bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetIsMentor(v bool)`
 
 SetIsMentor sets IsMentor field to given value.
 
 
 ### GetName
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetName() string`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetName(v string)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetProjects
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetProjects() []MwserverInternalSchemasProjectPlainResponse`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetProjects() []MwServerInternalSchemasProjectPlainResponse`
 
 GetProjects returns the Projects field if non-nil, zero value otherwise.
 
 ### GetProjectsOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetProjectsOk() (*[]MwserverInternalSchemasProjectPlainResponse, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetProjectsOk() (*[]MwServerInternalSchemasProjectPlainResponse, bool)`
 
 GetProjectsOk returns a tuple with the Projects field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProjects
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetProjects(v []MwserverInternalSchemasProjectPlainResponse)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetProjects(v []MwServerInternalSchemasProjectPlainResponse)`
 
 SetProjects sets Projects field to given value.
 
 
 ### GetTags
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetTags() []MwserverInternalSchemasUserTagResponse`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetTags() []MwServerInternalSchemasUserTagResponse`
 
 GetTags returns the Tags field if non-nil, zero value otherwise.
 
 ### GetTagsOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetTagsOk() (*[]MwserverInternalSchemasUserTagResponse, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetTagsOk() (*[]MwServerInternalSchemasUserTagResponse, bool)`
 
 GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTags
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetTags(v []MwserverInternalSchemasUserTagResponse)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetTags(v []MwServerInternalSchemasUserTagResponse)`
 
 SetTags sets Tags field to given value.
 
 
 ### GetUuid
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetUuid() string`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetUuid() string`
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetUuidOk() (*string, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetUuid(v string)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
 
 
 ### GetWayRequests
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetWayRequests() []MwserverInternalSchemasWayPlainResponse`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetWayRequests() []MwServerInternalSchemasWayPlainResponse`
 
 GetWayRequests returns the WayRequests field if non-nil, zero value otherwise.
 
 ### GetWayRequestsOk
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) GetWayRequestsOk() (*[]MwserverInternalSchemasWayPlainResponse, bool)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetWayRequestsOk() (*[]MwServerInternalSchemasWayPlainResponse, bool)`
 
 GetWayRequestsOk returns a tuple with the WayRequests field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayRequests
 
-`func (o *MwserverInternalSchemasUserPopulatedResponse) SetWayRequests(v []MwserverInternalSchemasWayPlainResponse)`
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetWayRequests(v []MwServerInternalSchemasWayPlainResponse)`
 
 SetWayRequests sets WayRequests field to given value.
 

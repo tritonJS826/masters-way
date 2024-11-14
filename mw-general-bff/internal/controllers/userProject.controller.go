@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/pkg/utils"
 	"net/http"
@@ -8,7 +9,7 @@ import (
 	//"fmt"
 	//"mw-general-bff/internal/auth"
 	//"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
+
 	//"mw-general-bff/pkg/utils"
 
 	//"net/http"
@@ -17,11 +18,11 @@ import (
 )
 
 type UserProjectController struct {
-	generalService *services.GeneralService
+	userProjectFacade *facades.UserProjectFacade
 }
 
-func NewUserProjectController(generalService *services.GeneralService) *UserProjectController {
-	return &UserProjectController{generalService}
+func NewUserProjectController(userProjectFacade *facades.UserProjectFacade) *UserProjectController {
+	return &UserProjectController{userProjectFacade}
 }
 
 // Create userProject handler
@@ -42,7 +43,7 @@ func (uc *UserProjectController) CreateUsersProject(ctx *gin.Context) {
 		return
 	}
 
-	err := uc.generalService.CreateUserProject(ctx, payload.UserID, payload.ProjectID)
+	err := uc.userProjectFacade.CreateUserProject(ctx, payload.UserID, payload.ProjectID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
@@ -63,7 +64,7 @@ func (uc *UserProjectController) DeleteUserProject(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 	userID := ctx.Param("userId")
 
-	err := uc.generalService.DeleteUserProject(ctx, projectID, userID)
+	err := uc.userProjectFacade.DeleteUserProject(ctx, projectID, userID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

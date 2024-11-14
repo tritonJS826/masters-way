@@ -1,4 +1,4 @@
-# MwserverInternalCustomErrorsNoRightToChangeDayReportError
+# MwServerInternalCustomErrorsNoRightToChangeDayReportError
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalCustomErrorsNoRightToChangeDayReportError
+### NewMwServerInternalCustomErrorsNoRightToChangeDayReportError
 
-`func NewMwserverInternalCustomErrorsNoRightToChangeDayReportError(error_ string, errorId string, ) *MwserverInternalCustomErrorsNoRightToChangeDayReportError`
+`func NewMwServerInternalCustomErrorsNoRightToChangeDayReportError(error_ string, errorId string, ) *MwServerInternalCustomErrorsNoRightToChangeDayReportError`
 
-NewMwserverInternalCustomErrorsNoRightToChangeDayReportError instantiates a new MwserverInternalCustomErrorsNoRightToChangeDayReportError object
+NewMwServerInternalCustomErrorsNoRightToChangeDayReportError instantiates a new MwServerInternalCustomErrorsNoRightToChangeDayReportError object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalCustomErrorsNoRightToChangeDayReportErrorWithDefaults
+### NewMwServerInternalCustomErrorsNoRightToChangeDayReportErrorWithDefaults
 
-`func NewMwserverInternalCustomErrorsNoRightToChangeDayReportErrorWithDefaults() *MwserverInternalCustomErrorsNoRightToChangeDayReportError`
+`func NewMwServerInternalCustomErrorsNoRightToChangeDayReportErrorWithDefaults() *MwServerInternalCustomErrorsNoRightToChangeDayReportError`
 
-NewMwserverInternalCustomErrorsNoRightToChangeDayReportErrorWithDefaults instantiates a new MwserverInternalCustomErrorsNoRightToChangeDayReportError object
+NewMwServerInternalCustomErrorsNoRightToChangeDayReportErrorWithDefaults instantiates a new MwServerInternalCustomErrorsNoRightToChangeDayReportError object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetError
 
-`func (o *MwserverInternalCustomErrorsNoRightToChangeDayReportError) GetError() string`
+`func (o *MwServerInternalCustomErrorsNoRightToChangeDayReportError) GetError() string`
 
 GetError returns the Error field if non-nil, zero value otherwise.
 
 ### GetErrorOk
 
-`func (o *MwserverInternalCustomErrorsNoRightToChangeDayReportError) GetErrorOk() (*string, bool)`
+`func (o *MwServerInternalCustomErrorsNoRightToChangeDayReportError) GetErrorOk() (*string, bool)`
 
 GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetError
 
-`func (o *MwserverInternalCustomErrorsNoRightToChangeDayReportError) SetError(v string)`
+`func (o *MwServerInternalCustomErrorsNoRightToChangeDayReportError) SetError(v string)`
 
 SetError sets Error field to given value.
 
 
 ### GetErrorId
 
-`func (o *MwserverInternalCustomErrorsNoRightToChangeDayReportError) GetErrorId() string`
+`func (o *MwServerInternalCustomErrorsNoRightToChangeDayReportError) GetErrorId() string`
 
 GetErrorId returns the ErrorId field if non-nil, zero value otherwise.
 
 ### GetErrorIdOk
 
-`func (o *MwserverInternalCustomErrorsNoRightToChangeDayReportError) GetErrorIdOk() (*string, bool)`
+`func (o *MwServerInternalCustomErrorsNoRightToChangeDayReportError) GetErrorIdOk() (*string, bool)`
 
 GetErrorIdOk returns a tuple with the ErrorId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetErrorId
 
-`func (o *MwserverInternalCustomErrorsNoRightToChangeDayReportError) SetErrorId(v string)`
+`func (o *MwServerInternalCustomErrorsNoRightToChangeDayReportError) SetErrorId(v string)`
 
 SetErrorId sets ErrorId field to given value.
 

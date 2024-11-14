@@ -1,4 +1,4 @@
-# MwserverInternalSchemasGoogleToken
+# MwServerInternalSchemasGoogleToken
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasGoogleToken
+### NewMwServerInternalSchemasGoogleToken
 
-`func NewMwserverInternalSchemasGoogleToken(accessToken string, ) *MwserverInternalSchemasGoogleToken`
+`func NewMwServerInternalSchemasGoogleToken(accessToken string, ) *MwServerInternalSchemasGoogleToken`
 
-NewMwserverInternalSchemasGoogleToken instantiates a new MwserverInternalSchemasGoogleToken object
+NewMwServerInternalSchemasGoogleToken instantiates a new MwServerInternalSchemasGoogleToken object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasGoogleTokenWithDefaults
+### NewMwServerInternalSchemasGoogleTokenWithDefaults
 
-`func NewMwserverInternalSchemasGoogleTokenWithDefaults() *MwserverInternalSchemasGoogleToken`
+`func NewMwServerInternalSchemasGoogleTokenWithDefaults() *MwServerInternalSchemasGoogleToken`
 
-NewMwserverInternalSchemasGoogleTokenWithDefaults instantiates a new MwserverInternalSchemasGoogleToken object
+NewMwServerInternalSchemasGoogleTokenWithDefaults instantiates a new MwServerInternalSchemasGoogleToken object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetAccessToken
 
-`func (o *MwserverInternalSchemasGoogleToken) GetAccessToken() string`
+`func (o *MwServerInternalSchemasGoogleToken) GetAccessToken() string`
 
 GetAccessToken returns the AccessToken field if non-nil, zero value otherwise.
 
 ### GetAccessTokenOk
 
-`func (o *MwserverInternalSchemasGoogleToken) GetAccessTokenOk() (*string, bool)`
+`func (o *MwServerInternalSchemasGoogleToken) GetAccessTokenOk() (*string, bool)`
 
 GetAccessTokenOk returns a tuple with the AccessToken field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAccessToken
 
-`func (o *MwserverInternalSchemasGoogleToken) SetAccessToken(v string)`
+`func (o *MwServerInternalSchemasGoogleToken) SetAccessToken(v string)`
 
 SetAccessToken sets AccessToken field to given value.
 

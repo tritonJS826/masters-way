@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAICommentIssueResponse
+# MwServerInternalSchemasAICommentIssueResponse
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAICommentIssueResponse
+### NewMwServerInternalSchemasAICommentIssueResponse
 
-`func NewMwserverInternalSchemasAICommentIssueResponse(goal string, ) *MwserverInternalSchemasAICommentIssueResponse`
+`func NewMwServerInternalSchemasAICommentIssueResponse(goal string, ) *MwServerInternalSchemasAICommentIssueResponse`
 
-NewMwserverInternalSchemasAICommentIssueResponse instantiates a new MwserverInternalSchemasAICommentIssueResponse object
+NewMwServerInternalSchemasAICommentIssueResponse instantiates a new MwServerInternalSchemasAICommentIssueResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAICommentIssueResponseWithDefaults
+### NewMwServerInternalSchemasAICommentIssueResponseWithDefaults
 
-`func NewMwserverInternalSchemasAICommentIssueResponseWithDefaults() *MwserverInternalSchemasAICommentIssueResponse`
+`func NewMwServerInternalSchemasAICommentIssueResponseWithDefaults() *MwServerInternalSchemasAICommentIssueResponse`
 
-NewMwserverInternalSchemasAICommentIssueResponseWithDefaults instantiates a new MwserverInternalSchemasAICommentIssueResponse object
+NewMwServerInternalSchemasAICommentIssueResponseWithDefaults instantiates a new MwServerInternalSchemasAICommentIssueResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetGoal
 
-`func (o *MwserverInternalSchemasAICommentIssueResponse) GetGoal() string`
+`func (o *MwServerInternalSchemasAICommentIssueResponse) GetGoal() string`
 
 GetGoal returns the Goal field if non-nil, zero value otherwise.
 
 ### GetGoalOk
 
-`func (o *MwserverInternalSchemasAICommentIssueResponse) GetGoalOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAICommentIssueResponse) GetGoalOk() (*string, bool)`
 
 GetGoalOk returns a tuple with the Goal field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoal
 
-`func (o *MwserverInternalSchemasAICommentIssueResponse) SetGoal(v string)`
+`func (o *MwServerInternalSchemasAICommentIssueResponse) SetGoal(v string)`
 
 SetGoal sets Goal field to given value.
 

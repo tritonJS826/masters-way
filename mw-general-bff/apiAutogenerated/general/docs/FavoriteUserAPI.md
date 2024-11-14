@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateFavoriteUserPayload("AcceptorUserUuid_example", "DonorUserUuid_example") // MwserverInternalSchemasCreateFavoriteUserPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateFavoriteUserPayload("AcceptorUserUuid_example", "DonorUserUuid_example") // MwServerInternalSchemasCreateFavoriteUserPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiCreateFavoriteUserRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateFavoriteUserPayload**](MwserverInternalSchemasCreateFavoriteUserPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateFavoriteUserPayload**](MwServerInternalSchemasCreateFavoriteUserPayload.md) | query params | 
 
 ### Return type
 

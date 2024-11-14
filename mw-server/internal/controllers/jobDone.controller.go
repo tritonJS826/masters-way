@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"mwserver/internal/auth"
-	"mwserver/internal/customErrors"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-server/internal/auth"
+	"mw-server/internal/customErrors"
+	"mw-server/internal/schemas"
+	"mw-server/internal/services"
+	"mw-server/pkg/util"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

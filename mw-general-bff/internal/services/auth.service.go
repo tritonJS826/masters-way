@@ -22,7 +22,7 @@ type GoogleAuthInfo struct {
 	Token    *oauth2.Token
 }
 
-func (as *AuthService) GetAuthCallbackFunction(ctx context.Context, provider, code, state string) (*openapiGeneral.MwserverInternalSchemasGetAuthCallbackFunctionResponse, error) {
+func (as *AuthService) GetAuthCallbackFunction(ctx context.Context, provider, code, state string) (*openapiGeneral.MwServerInternalSchemasGetAuthCallbackFunctionResponse, error) {
 	authCallbackFunctionResponse, response, err := as.generalAPI.AuthAPI.GoogleAuthLogInCallbackFunction(ctx, provider).Code(code).State(state).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -30,7 +30,7 @@ func (as *AuthService) GetAuthCallbackFunction(ctx context.Context, provider, co
 	return authCallbackFunctionResponse, nil
 }
 
-func (as *AuthService) GetUserTokenByEmail(ctx context.Context, email string) (*openapiGeneral.MwserverInternalSchemasGetUserTokenByEmailResponse, error) {
+func (as *AuthService) GetUserTokenByEmail(ctx context.Context, email string) (*openapiGeneral.MwServerInternalSchemasGetUserTokenByEmailResponse, error) {
 	getUserTokenByEmailResponse, response, err := as.generalAPI.AuthAPI.GetTokenLocally(ctx, email).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -38,7 +38,7 @@ func (as *AuthService) GetUserTokenByEmail(ctx context.Context, email string) (*
 	return getUserTokenByEmailResponse, nil
 }
 
-func (as *AuthService) GetGoogleAuthURL(ctx context.Context, provider string) (*openapiGeneral.MwserverInternalSchemasBeginAuthResponse, error) {
+func (as *AuthService) GetGoogleAuthURL(ctx context.Context, provider string) (*openapiGeneral.MwServerInternalSchemasBeginAuthResponse, error) {
 	beginAuthResponse, response, err := as.generalAPI.AuthAPI.BeginAuth(ctx, provider).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -46,10 +46,7 @@ func (as *AuthService) GetGoogleAuthURL(ctx context.Context, provider string) (*
 	return beginAuthResponse, nil
 }
 
-func (as *AuthService) SetGoogleAccessTokenByUserID(userID, token string) {
-}
-
-func (as *AuthService) GetGoogleAccessTokenByUserID(ctx context.Context) (*openapiGeneral.MwserverInternalSchemasGoogleToken, error) {
+func (as *AuthService) GetGoogleAccessTokenByUserID(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasGoogleToken, error) {
 	googleToken, response, err := as.generalAPI.AuthAPI.GetGoogleToken(ctx).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -57,7 +54,7 @@ func (as *AuthService) GetGoogleAccessTokenByUserID(ctx context.Context) (*opena
 	return googleToken, nil
 }
 
-func (as *AuthService) GetCurrentAuthorizedUserByToken(ctx context.Context) (*openapiGeneral.MwserverInternalSchemasUserPopulatedResponse, error) {
+func (as *AuthService) GetCurrentAuthorizedUserByToken(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasUserPopulatedResponse, error) {
 	userPopulated, response, err := as.generalAPI.AuthAPI.GetCurrentAuthorizedUser(ctx).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -70,6 +67,5 @@ func (as *AuthService) Logout(ctx context.Context, provider string) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }

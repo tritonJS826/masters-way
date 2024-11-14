@@ -1,4 +1,4 @@
-# MwserverInternalSchemasCreateMentorUserWayPayload
+# MwServerInternalSchemasCreateMentorUserWayPayload
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasCreateMentorUserWayPayload
+### NewMwServerInternalSchemasCreateMentorUserWayPayload
 
-`func NewMwserverInternalSchemasCreateMentorUserWayPayload(userUuid string, wayUuid string, ) *MwserverInternalSchemasCreateMentorUserWayPayload`
+`func NewMwServerInternalSchemasCreateMentorUserWayPayload(userUuid string, wayUuid string, ) *MwServerInternalSchemasCreateMentorUserWayPayload`
 
-NewMwserverInternalSchemasCreateMentorUserWayPayload instantiates a new MwserverInternalSchemasCreateMentorUserWayPayload object
+NewMwServerInternalSchemasCreateMentorUserWayPayload instantiates a new MwServerInternalSchemasCreateMentorUserWayPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasCreateMentorUserWayPayloadWithDefaults
+### NewMwServerInternalSchemasCreateMentorUserWayPayloadWithDefaults
 
-`func NewMwserverInternalSchemasCreateMentorUserWayPayloadWithDefaults() *MwserverInternalSchemasCreateMentorUserWayPayload`
+`func NewMwServerInternalSchemasCreateMentorUserWayPayloadWithDefaults() *MwServerInternalSchemasCreateMentorUserWayPayload`
 
-NewMwserverInternalSchemasCreateMentorUserWayPayloadWithDefaults instantiates a new MwserverInternalSchemasCreateMentorUserWayPayload object
+NewMwServerInternalSchemasCreateMentorUserWayPayloadWithDefaults instantiates a new MwServerInternalSchemasCreateMentorUserWayPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserUuid
 
-`func (o *MwserverInternalSchemasCreateMentorUserWayPayload) GetUserUuid() string`
+`func (o *MwServerInternalSchemasCreateMentorUserWayPayload) GetUserUuid() string`
 
 GetUserUuid returns the UserUuid field if non-nil, zero value otherwise.
 
 ### GetUserUuidOk
 
-`func (o *MwserverInternalSchemasCreateMentorUserWayPayload) GetUserUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateMentorUserWayPayload) GetUserUuidOk() (*string, bool)`
 
 GetUserUuidOk returns a tuple with the UserUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserUuid
 
-`func (o *MwserverInternalSchemasCreateMentorUserWayPayload) SetUserUuid(v string)`
+`func (o *MwServerInternalSchemasCreateMentorUserWayPayload) SetUserUuid(v string)`
 
 SetUserUuid sets UserUuid field to given value.
 
 
 ### GetWayUuid
 
-`func (o *MwserverInternalSchemasCreateMentorUserWayPayload) GetWayUuid() string`
+`func (o *MwServerInternalSchemasCreateMentorUserWayPayload) GetWayUuid() string`
 
 GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
 
 ### GetWayUuidOk
 
-`func (o *MwserverInternalSchemasCreateMentorUserWayPayload) GetWayUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateMentorUserWayPayload) GetWayUuidOk() (*string, bool)`
 
 GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayUuid
 
-`func (o *MwserverInternalSchemasCreateMentorUserWayPayload) SetWayUuid(v string)`
+`func (o *MwServerInternalSchemasCreateMentorUserWayPayload) SetWayUuid(v string)`
 
 SetWayUuid sets WayUuid field to given value.
 

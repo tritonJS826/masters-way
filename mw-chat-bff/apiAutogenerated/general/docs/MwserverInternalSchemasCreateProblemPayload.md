@@ -1,4 +1,4 @@
-# MwserverInternalSchemasCreateProblemPayload
+# MwServerInternalSchemasCreateProblemPayload
 
 ## Properties
 
@@ -11,99 +11,99 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasCreateProblemPayload
+### NewMwServerInternalSchemasCreateProblemPayload
 
-`func NewMwserverInternalSchemasCreateProblemPayload(dayReportUuid string, description string, isDone bool, ownerUuid string, ) *MwserverInternalSchemasCreateProblemPayload`
+`func NewMwServerInternalSchemasCreateProblemPayload(dayReportUuid string, description string, isDone bool, ownerUuid string, ) *MwServerInternalSchemasCreateProblemPayload`
 
-NewMwserverInternalSchemasCreateProblemPayload instantiates a new MwserverInternalSchemasCreateProblemPayload object
+NewMwServerInternalSchemasCreateProblemPayload instantiates a new MwServerInternalSchemasCreateProblemPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasCreateProblemPayloadWithDefaults
+### NewMwServerInternalSchemasCreateProblemPayloadWithDefaults
 
-`func NewMwserverInternalSchemasCreateProblemPayloadWithDefaults() *MwserverInternalSchemasCreateProblemPayload`
+`func NewMwServerInternalSchemasCreateProblemPayloadWithDefaults() *MwServerInternalSchemasCreateProblemPayload`
 
-NewMwserverInternalSchemasCreateProblemPayloadWithDefaults instantiates a new MwserverInternalSchemasCreateProblemPayload object
+NewMwServerInternalSchemasCreateProblemPayloadWithDefaults instantiates a new MwServerInternalSchemasCreateProblemPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetDayReportUuid
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetDayReportUuid() string`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetDayReportUuid() string`
 
 GetDayReportUuid returns the DayReportUuid field if non-nil, zero value otherwise.
 
 ### GetDayReportUuidOk
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetDayReportUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetDayReportUuidOk() (*string, bool)`
 
 GetDayReportUuidOk returns a tuple with the DayReportUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDayReportUuid
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) SetDayReportUuid(v string)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) SetDayReportUuid(v string)`
 
 SetDayReportUuid sets DayReportUuid field to given value.
 
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetDescription() string`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) SetDescription(v string)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 
 ### GetIsDone
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetIsDone() bool`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetIsDone() bool`
 
 GetIsDone returns the IsDone field if non-nil, zero value otherwise.
 
 ### GetIsDoneOk
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetIsDoneOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetIsDoneOk() (*bool, bool)`
 
 GetIsDoneOk returns a tuple with the IsDone field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsDone
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) SetIsDone(v bool)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) SetIsDone(v bool)`
 
 SetIsDone sets IsDone field to given value.
 
 
 ### GetOwnerUuid
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetOwnerUuid() string`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetOwnerUuid() string`
 
 GetOwnerUuid returns the OwnerUuid field if non-nil, zero value otherwise.
 
 ### GetOwnerUuidOk
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) GetOwnerUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) GetOwnerUuidOk() (*string, bool)`
 
 GetOwnerUuidOk returns a tuple with the OwnerUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOwnerUuid
 
-`func (o *MwserverInternalSchemasCreateProblemPayload) SetOwnerUuid(v string)`
+`func (o *MwServerInternalSchemasCreateProblemPayload) SetOwnerUuid(v string)`
 
 SetOwnerUuid sets OwnerUuid field to given value.
 

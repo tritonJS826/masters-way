@@ -33,7 +33,7 @@ func TestAddUserTagByName(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.MwserverInternalSchemasCreateUserTagPayload{
+		request := openapiGeneral.MwServerInternalSchemasCreateUserTagPayload{
 			Name:      tagName,
 			OwnerUuid: userID,
 		}
@@ -44,7 +44,7 @@ func TestAddUserTagByName(t *testing.T) {
 			t.Fatalf("Failed to create UserTag: %v", err)
 		}
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasUserTagResponse{
+		expectedData := &openapiGeneral.MwServerInternalSchemasUserTagResponse{
 			Name: tagName,
 		}
 

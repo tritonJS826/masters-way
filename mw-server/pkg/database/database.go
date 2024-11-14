@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
-	"mwserver/internal/config"
+	"mw-server/internal/config"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )

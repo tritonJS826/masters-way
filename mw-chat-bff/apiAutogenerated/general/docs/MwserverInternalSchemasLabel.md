@@ -1,4 +1,4 @@
-# MwserverInternalSchemasLabel
+# MwServerInternalSchemasLabel
 
 ## Properties
 
@@ -11,99 +11,99 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasLabel
+### NewMwServerInternalSchemasLabel
 
-`func NewMwserverInternalSchemasLabel(color string, description string, name string, uuid string, ) *MwserverInternalSchemasLabel`
+`func NewMwServerInternalSchemasLabel(color string, description string, name string, uuid string, ) *MwServerInternalSchemasLabel`
 
-NewMwserverInternalSchemasLabel instantiates a new MwserverInternalSchemasLabel object
+NewMwServerInternalSchemasLabel instantiates a new MwServerInternalSchemasLabel object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasLabelWithDefaults
+### NewMwServerInternalSchemasLabelWithDefaults
 
-`func NewMwserverInternalSchemasLabelWithDefaults() *MwserverInternalSchemasLabel`
+`func NewMwServerInternalSchemasLabelWithDefaults() *MwServerInternalSchemasLabel`
 
-NewMwserverInternalSchemasLabelWithDefaults instantiates a new MwserverInternalSchemasLabel object
+NewMwServerInternalSchemasLabelWithDefaults instantiates a new MwServerInternalSchemasLabel object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetColor
 
-`func (o *MwserverInternalSchemasLabel) GetColor() string`
+`func (o *MwServerInternalSchemasLabel) GetColor() string`
 
 GetColor returns the Color field if non-nil, zero value otherwise.
 
 ### GetColorOk
 
-`func (o *MwserverInternalSchemasLabel) GetColorOk() (*string, bool)`
+`func (o *MwServerInternalSchemasLabel) GetColorOk() (*string, bool)`
 
 GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetColor
 
-`func (o *MwserverInternalSchemasLabel) SetColor(v string)`
+`func (o *MwServerInternalSchemasLabel) SetColor(v string)`
 
 SetColor sets Color field to given value.
 
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasLabel) GetDescription() string`
+`func (o *MwServerInternalSchemasLabel) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasLabel) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasLabel) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasLabel) SetDescription(v string)`
+`func (o *MwServerInternalSchemasLabel) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 
 ### GetName
 
-`func (o *MwserverInternalSchemasLabel) GetName() string`
+`func (o *MwServerInternalSchemasLabel) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasLabel) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasLabel) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasLabel) SetName(v string)`
+`func (o *MwServerInternalSchemasLabel) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetUuid
 
-`func (o *MwserverInternalSchemasLabel) GetUuid() string`
+`func (o *MwServerInternalSchemasLabel) GetUuid() string`
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *MwserverInternalSchemasLabel) GetUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasLabel) GetUuidOk() (*string, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *MwserverInternalSchemasLabel) SetUuid(v string)`
+`func (o *MwServerInternalSchemasLabel) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
 

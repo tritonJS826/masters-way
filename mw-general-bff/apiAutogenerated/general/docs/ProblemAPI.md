@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateProblem
 
-> MwserverInternalSchemasProblemPopulatedResponse CreateProblem(ctx).Request(request).Execute()
+> MwServerInternalSchemasProblemPopulatedResponse CreateProblem(ctx).Request(request).Execute()
 
 Create a new problem
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateProblemPayload("DayReportUuid_example", "Description_example", false, "OwnerUuid_example") // MwserverInternalSchemasCreateProblemPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateProblemPayload("DayReportUuid_example", "Description_example", false, "OwnerUuid_example") // MwServerInternalSchemasCreateProblemPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProblemAPI.CreateProblem``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateProblem`: MwserverInternalSchemasProblemPopulatedResponse
+	// response from `CreateProblem`: MwServerInternalSchemasProblemPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProblemAPI.CreateProblem`: %v\n", resp)
 }
 ```
@@ -54,11 +54,11 @@ Other parameters are passed through a pointer to a apiCreateProblemRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateProblemPayload**](MwserverInternalSchemasCreateProblemPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateProblemPayload**](MwServerInternalSchemasCreateProblemPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasProblemPopulatedResponse**](MwserverInternalSchemasProblemPopulatedResponse.md)
+[**MwServerInternalSchemasProblemPopulatedResponse**](MwServerInternalSchemasProblemPopulatedResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## UpdateProblem
 
-> MwserverInternalSchemasProblemPopulatedResponse UpdateProblem(ctx, problemId).Request(request).Execute()
+> MwServerInternalSchemasProblemPopulatedResponse UpdateProblem(ctx, problemId).Request(request).Execute()
 
 Update problem by UUID
 
@@ -160,7 +160,7 @@ import (
 
 func main() {
 	problemId := "problemId_example" // string | problem ID
-	request := *openapiclient.NewMwserverInternalSchemasUpdateProblemPayload() // MwserverInternalSchemasUpdateProblemPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasUpdateProblemPayload() // MwServerInternalSchemasUpdateProblemPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ProblemAPI.UpdateProblem``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateProblem`: MwserverInternalSchemasProblemPopulatedResponse
+	// response from `UpdateProblem`: MwServerInternalSchemasProblemPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `ProblemAPI.UpdateProblem`: %v\n", resp)
 }
 ```
@@ -190,11 +190,11 @@ Other parameters are passed through a pointer to a apiUpdateProblemRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**MwserverInternalSchemasUpdateProblemPayload**](MwserverInternalSchemasUpdateProblemPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasUpdateProblemPayload**](MwServerInternalSchemasUpdateProblemPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasProblemPopulatedResponse**](MwserverInternalSchemasProblemPopulatedResponse.md)
+[**MwServerInternalSchemasProblemPopulatedResponse**](MwServerInternalSchemasProblemPopulatedResponse.md)
 
 ### Authorization
 

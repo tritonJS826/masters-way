@@ -27,16 +27,16 @@ type WayCollectionAPIService service
 type ApiCreateWayCollectionRequest struct {
 	ctx context.Context
 	ApiService *WayCollectionAPIService
-	request *MwserverInternalSchemasCreateWayCollectionPayload
+	request *MwServerInternalSchemasCreateWayCollectionPayload
 }
 
 // query params
-func (r ApiCreateWayCollectionRequest) Request(request MwserverInternalSchemasCreateWayCollectionPayload) ApiCreateWayCollectionRequest {
+func (r ApiCreateWayCollectionRequest) Request(request MwServerInternalSchemasCreateWayCollectionPayload) ApiCreateWayCollectionRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateWayCollectionRequest) Execute() (*MwserverInternalSchemasWayCollectionPopulatedResponse, *http.Response, error) {
+func (r ApiCreateWayCollectionRequest) Execute() (*MwServerInternalSchemasWayCollectionPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateWayCollectionExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *WayCollectionAPIService) CreateWayCollection(ctx context.Context) ApiCr
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayCollectionPopulatedResponse
-func (a *WayCollectionAPIService) CreateWayCollectionExecute(r ApiCreateWayCollectionRequest) (*MwserverInternalSchemasWayCollectionPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayCollectionPopulatedResponse
+func (a *WayCollectionAPIService) CreateWayCollectionExecute(r ApiCreateWayCollectionRequest) (*MwServerInternalSchemasWayCollectionPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasWayCollectionPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasWayCollectionPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayCollectionAPIService.CreateWayCollection")
@@ -134,11 +134,11 @@ func (a *WayCollectionAPIService) CreateWayCollectionExecute(r ApiCreateWayColle
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayCollectionPopulatedResponseStream
-func (a *WayCollectionAPIService) CreateWayCollectionStreamExecute(r ApiCreateWayCollectionRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasWayCollectionPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayCollectionPopulatedResponseStream
+func (a *WayCollectionAPIService) CreateWayCollectionStreamExecute(r ApiCreateWayCollectionRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayCollectionPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasWayCollectionPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasWayCollectionPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayCollectionAPIService.CreateWayCollection")
@@ -383,16 +383,16 @@ type ApiUpdateWayCollectionRequest struct {
 	ctx context.Context
 	ApiService *WayCollectionAPIService
 	wayCollectionId string
-	request *MwserverInternalSchemasUpdateWayCollectionPayload
+	request *MwServerInternalSchemasUpdateWayCollectionPayload
 }
 
 // query params
-func (r ApiUpdateWayCollectionRequest) Request(request MwserverInternalSchemasUpdateWayCollectionPayload) ApiUpdateWayCollectionRequest {
+func (r ApiUpdateWayCollectionRequest) Request(request MwServerInternalSchemasUpdateWayCollectionPayload) ApiUpdateWayCollectionRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateWayCollectionRequest) Execute() (*MwserverInternalSchemasWayCollectionPlainResponse, *http.Response, error) {
+func (r ApiUpdateWayCollectionRequest) Execute() (*MwServerInternalSchemasWayCollectionPlainResponse, *http.Response, error) {
 	return r.ApiService.UpdateWayCollectionExecute(r)
 }
 
@@ -412,13 +412,13 @@ func (a *WayCollectionAPIService) UpdateWayCollection(ctx context.Context, wayCo
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayCollectionPlainResponse
-func (a *WayCollectionAPIService) UpdateWayCollectionExecute(r ApiUpdateWayCollectionRequest) (*MwserverInternalSchemasWayCollectionPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayCollectionPlainResponse
+func (a *WayCollectionAPIService) UpdateWayCollectionExecute(r ApiUpdateWayCollectionRequest) (*MwServerInternalSchemasWayCollectionPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasWayCollectionPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasWayCollectionPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayCollectionAPIService.UpdateWayCollection")
@@ -493,11 +493,11 @@ func (a *WayCollectionAPIService) UpdateWayCollectionExecute(r ApiUpdateWayColle
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayCollectionPlainResponseStream
-func (a *WayCollectionAPIService) UpdateWayCollectionStreamExecute(r ApiUpdateWayCollectionRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasWayCollectionPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayCollectionPlainResponseStream
+func (a *WayCollectionAPIService) UpdateWayCollectionStreamExecute(r ApiUpdateWayCollectionRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayCollectionPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *MwserverInternalSchemasWayCollectionPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasWayCollectionPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayCollectionAPIService.UpdateWayCollection")

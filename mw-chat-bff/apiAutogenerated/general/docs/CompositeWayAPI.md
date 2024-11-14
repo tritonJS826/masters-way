@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateCompositeWay
 
-> MwserverInternalSchemasCompositeWayRelation CreateCompositeWay(ctx).Request(request).Execute()
+> MwServerInternalSchemasCompositeWayRelation CreateCompositeWay(ctx).Request(request).Execute()
 
 Add a way to composite way
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasAddWayToCompositeWayPayload("ChildWayUuid_example", "ParentWayUuid_example") // MwserverInternalSchemasAddWayToCompositeWayPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasAddWayToCompositeWayPayload("ChildWayUuid_example", "ParentWayUuid_example") // MwServerInternalSchemasAddWayToCompositeWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `CompositeWayAPI.CreateCompositeWay``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateCompositeWay`: MwserverInternalSchemasCompositeWayRelation
+	// response from `CreateCompositeWay`: MwServerInternalSchemasCompositeWayRelation
 	fmt.Fprintf(os.Stdout, "Response from `CompositeWayAPI.CreateCompositeWay`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateCompositeWayRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasAddWayToCompositeWayPayload**](MwserverInternalSchemasAddWayToCompositeWayPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasAddWayToCompositeWayPayload**](MwServerInternalSchemasAddWayToCompositeWayPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasCompositeWayRelation**](MwserverInternalSchemasCompositeWayRelation.md)
+[**MwServerInternalSchemasCompositeWayRelation**](MwServerInternalSchemasCompositeWayRelation.md)
 
 ### Authorization
 

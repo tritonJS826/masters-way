@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAIChatPayload
+# MwServerInternalSchemasAIChatPayload
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAIChatPayload
+### NewMwServerInternalSchemasAIChatPayload
 
-`func NewMwserverInternalSchemasAIChatPayload(message string, ) *MwserverInternalSchemasAIChatPayload`
+`func NewMwServerInternalSchemasAIChatPayload(message string, ) *MwServerInternalSchemasAIChatPayload`
 
-NewMwserverInternalSchemasAIChatPayload instantiates a new MwserverInternalSchemasAIChatPayload object
+NewMwServerInternalSchemasAIChatPayload instantiates a new MwServerInternalSchemasAIChatPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAIChatPayloadWithDefaults
+### NewMwServerInternalSchemasAIChatPayloadWithDefaults
 
-`func NewMwserverInternalSchemasAIChatPayloadWithDefaults() *MwserverInternalSchemasAIChatPayload`
+`func NewMwServerInternalSchemasAIChatPayloadWithDefaults() *MwServerInternalSchemasAIChatPayload`
 
-NewMwserverInternalSchemasAIChatPayloadWithDefaults instantiates a new MwserverInternalSchemasAIChatPayload object
+NewMwServerInternalSchemasAIChatPayloadWithDefaults instantiates a new MwServerInternalSchemasAIChatPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMessage
 
-`func (o *MwserverInternalSchemasAIChatPayload) GetMessage() string`
+`func (o *MwServerInternalSchemasAIChatPayload) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *MwserverInternalSchemasAIChatPayload) GetMessageOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIChatPayload) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *MwserverInternalSchemasAIChatPayload) SetMessage(v string)`
+`func (o *MwServerInternalSchemasAIChatPayload) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 

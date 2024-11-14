@@ -27,16 +27,16 @@ type DayReportAPIService service
 type ApiCreateDayReportRequest struct {
 	ctx context.Context
 	ApiService *DayReportAPIService
-	request *MwserverInternalSchemasCreateDayReportPayload
+	request *MwServerInternalSchemasCreateDayReportPayload
 }
 
 // query params
-func (r ApiCreateDayReportRequest) Request(request MwserverInternalSchemasCreateDayReportPayload) ApiCreateDayReportRequest {
+func (r ApiCreateDayReportRequest) Request(request MwServerInternalSchemasCreateDayReportPayload) ApiCreateDayReportRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateDayReportRequest) Execute() (*MwserverInternalSchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
+func (r ApiCreateDayReportRequest) Execute() (*MwServerInternalSchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateDayReportExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *DayReportAPIService) CreateDayReport(ctx context.Context) ApiCreateDayR
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasCompositeDayReportPopulatedResponse
-func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest) (*MwserverInternalSchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasCompositeDayReportPopulatedResponse
+func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest) (*MwServerInternalSchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasCompositeDayReportPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasCompositeDayReportPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.CreateDayReport")
@@ -134,11 +134,11 @@ func (a *DayReportAPIService) CreateDayReportExecute(r ApiCreateDayReportRequest
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasCompositeDayReportPopulatedResponseStream
-func (a *DayReportAPIService) CreateDayReportStreamExecute(r ApiCreateDayReportRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasCompositeDayReportPopulatedResponseStream
+func (a *DayReportAPIService) CreateDayReportStreamExecute(r ApiCreateDayReportRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasCompositeDayReportPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasCompositeDayReportPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasCompositeDayReportPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.CreateDayReport")
@@ -236,7 +236,7 @@ func (r ApiGetDayReportsRequest) Limit(limit int32) ApiGetDayReportsRequest {
 	return r
 }
 
-func (r ApiGetDayReportsRequest) Execute() (*MwserverInternalSchemasListDayReportsResponse, *http.Response, error) {
+func (r ApiGetDayReportsRequest) Execute() (*MwServerInternalSchemasListDayReportsResponse, *http.Response, error) {
 	return r.ApiService.GetDayReportsExecute(r)
 }
 
@@ -256,13 +256,13 @@ func (a *DayReportAPIService) GetDayReports(ctx context.Context, wayId string) A
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasListDayReportsResponse
-func (a *DayReportAPIService) GetDayReportsExecute(r ApiGetDayReportsRequest) (*MwserverInternalSchemasListDayReportsResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasListDayReportsResponse
+func (a *DayReportAPIService) GetDayReportsExecute(r ApiGetDayReportsRequest) (*MwServerInternalSchemasListDayReportsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasListDayReportsResponse
+		localVarReturnValue  *MwServerInternalSchemasListDayReportsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.GetDayReports")
@@ -338,11 +338,11 @@ func (a *DayReportAPIService) GetDayReportsExecute(r ApiGetDayReportsRequest) (*
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasListDayReportsResponseStream
-func (a *DayReportAPIService) GetDayReportsStreamExecute(r ApiGetDayReportsRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasListDayReportsResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasListDayReportsResponseStream
+func (a *DayReportAPIService) GetDayReportsStreamExecute(r ApiGetDayReportsRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasListDayReportsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasListDayReportsResponse
+		localVarReturnValue  *MwServerInternalSchemasListDayReportsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DayReportAPIService.GetDayReports")

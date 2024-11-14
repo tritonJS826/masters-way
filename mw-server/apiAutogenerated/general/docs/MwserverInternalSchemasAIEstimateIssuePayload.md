@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAIEstimateIssuePayload
+# MwServerInternalSchemasAIEstimateIssuePayload
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAIEstimateIssuePayload
+### NewMwServerInternalSchemasAIEstimateIssuePayload
 
-`func NewMwserverInternalSchemasAIEstimateIssuePayload(goal string, issue string, ) *MwserverInternalSchemasAIEstimateIssuePayload`
+`func NewMwServerInternalSchemasAIEstimateIssuePayload(goal string, issue string, ) *MwServerInternalSchemasAIEstimateIssuePayload`
 
-NewMwserverInternalSchemasAIEstimateIssuePayload instantiates a new MwserverInternalSchemasAIEstimateIssuePayload object
+NewMwServerInternalSchemasAIEstimateIssuePayload instantiates a new MwServerInternalSchemasAIEstimateIssuePayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAIEstimateIssuePayloadWithDefaults
+### NewMwServerInternalSchemasAIEstimateIssuePayloadWithDefaults
 
-`func NewMwserverInternalSchemasAIEstimateIssuePayloadWithDefaults() *MwserverInternalSchemasAIEstimateIssuePayload`
+`func NewMwServerInternalSchemasAIEstimateIssuePayloadWithDefaults() *MwServerInternalSchemasAIEstimateIssuePayload`
 
-NewMwserverInternalSchemasAIEstimateIssuePayloadWithDefaults instantiates a new MwserverInternalSchemasAIEstimateIssuePayload object
+NewMwServerInternalSchemasAIEstimateIssuePayloadWithDefaults instantiates a new MwServerInternalSchemasAIEstimateIssuePayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetGoal
 
-`func (o *MwserverInternalSchemasAIEstimateIssuePayload) GetGoal() string`
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetGoal() string`
 
 GetGoal returns the Goal field if non-nil, zero value otherwise.
 
 ### GetGoalOk
 
-`func (o *MwserverInternalSchemasAIEstimateIssuePayload) GetGoalOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetGoalOk() (*string, bool)`
 
 GetGoalOk returns a tuple with the Goal field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoal
 
-`func (o *MwserverInternalSchemasAIEstimateIssuePayload) SetGoal(v string)`
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) SetGoal(v string)`
 
 SetGoal sets Goal field to given value.
 
 
 ### GetIssue
 
-`func (o *MwserverInternalSchemasAIEstimateIssuePayload) GetIssue() string`
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetIssue() string`
 
 GetIssue returns the Issue field if non-nil, zero value otherwise.
 
 ### GetIssueOk
 
-`func (o *MwserverInternalSchemasAIEstimateIssuePayload) GetIssueOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetIssueOk() (*string, bool)`
 
 GetIssueOk returns a tuple with the Issue field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIssue
 
-`func (o *MwserverInternalSchemasAIEstimateIssuePayload) SetIssue(v string)`
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) SetIssue(v string)`
 
 SetIssue sets Issue field to given value.
 

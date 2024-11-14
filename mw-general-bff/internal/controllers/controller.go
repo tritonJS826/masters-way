@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"mw-general-bff/internal/services"
+	"mw-general-bff/internal/facades"
 )
 
 type Controller struct {
@@ -34,34 +34,34 @@ type Controller struct {
 	HealthCheckController              *HealthCheckController
 }
 
-func NewController(services *services.Service) *Controller {
+func NewController(facade *facades.Facade) *Controller {
 	return &Controller{
-		AuthController:                     NewAuthController(services.AuthService, services.NotificationService),
-		FileController:                     NewFileController(services.GeneralService, services.FileService),
-		CommentController:                  NewCommentController(services.GeneralService),
-		CompositeWayController:             NewCompositeWayController(services.GeneralService),
-		DayReportController:                NewDayReportController(services.GeneralService),
-		FavoriteUserController:             NewFavoriteUserController(services.GeneralService),
-		FavoriteUserWayController:          NewFavoriteUserWayController(services.GeneralService),
-		FromUserMentoringRequestController: NewFromUserMentoringRequestController(services.GeneralService),
-		GeminiController:                   NewGeminiController(services.GeneralService),
-		JobDoneController:                  NewJobDoneController(services.GeneralService),
-		JobDoneJobTagController:            NewJobDoneJobTagController(services.GeneralService),
-		JobTagController:                   NewJobTagController(services.GeneralService),
-		MentorUserWayController:            NewMentorUserWayController(services.GeneralService),
-		MetricController:                   NewMetricController(services.GeneralService),
-		PlanController:                     NewPlanController(services.GeneralService),
-		PlanJobTagController:               NewPlanJobTagController(services.GeneralService),
-		ProblemController:                  NewProblemController(services.GeneralService),
-		ProjectController:                  NewProjectController(services.GeneralService),
-		WayController:                      NewWayController(services.GeneralService),
-		WayTagController:                   NewWayTagController(services.GeneralService),
-		ToUserMentoringRequestController:   NewToUserMentoringRequestController(services.GeneralService),
-		UserController:                     NewUserController(services.GeneralService),
-		UserTagController:                  NewUserTagController(services.GeneralService),
-		UserProjectController:              NewUserProjectController(services.GeneralService),
-		WayCollectionController:            NewWayCollectionController(services.GeneralService),
-		WayCollectionWayController:         NewWayCollectionWayController(services.GeneralService),
-		HealthCheckController:              NewHealthCheckController(services.GeneralService),
+		AuthController:                     NewAuthController(facade.AuthFacade),
+		FileController:                     NewFileController(facade.FileFacade),
+		CommentController:                  NewCommentController(facade.CommentFacade),
+		CompositeWayController:             NewCompositeWayController(facade.CompositeWayFacade),
+		DayReportController:                NewDayReportController(facade.DayReportFacade),
+		FavoriteUserController:             NewFavoriteUserController(facade.FavoriteUserFacade),
+		FavoriteUserWayController:          NewFavoriteUserWayController(facade.FavoriteUserWayFacade),
+		FromUserMentoringRequestController: NewFromUserMentoringRequestController(facade.FromUserMentoringRequestFacade),
+		GeminiController:                   NewGeminiController(facade.GeminiFacade),
+		JobDoneController:                  NewJobDoneController(facade.JobDoneFacade),
+		JobDoneJobTagController:            NewJobDoneJobTagController(facade.JobDoneJobTagFacade),
+		JobTagController:                   NewJobTagController(facade.JobTagFacade),
+		MentorUserWayController:            NewMentorUserWayController(facade.MentorUserWayFacade),
+		MetricController:                   NewMetricController(facade.MetricFacade),
+		PlanController:                     NewPlanController(facade.PlanFacade),
+		PlanJobTagController:               NewPlanJobTagController(facade.PlanJobTagFacade),
+		ProblemController:                  NewProblemController(facade.ProblemFacade),
+		ProjectController:                  NewProjectController(facade.ProjectFacade),
+		WayController:                      NewWayController(facade.WayFacade),
+		WayTagController:                   NewWayTagController(facade.WayTagFacade),
+		ToUserMentoringRequestController:   NewToUserMentoringRequestController(facade.ToUserMentoringRequestFacade),
+		UserController:                     NewUserController(facade.UserFacade),
+		UserTagController:                  NewUserTagController(facade.UserTagFacade),
+		UserProjectController:              NewUserProjectController(facade.UserProjectFacade),
+		WayCollectionController:            NewWayCollectionController(facade.WayCollectionFacade),
+		WayCollectionWayController:         NewWayCollectionWayController(facade.WayCollectionWayFacade),
+		HealthCheckController:              NewHealthCheckController(facade.HealthCheckFacade),
 	}
 }

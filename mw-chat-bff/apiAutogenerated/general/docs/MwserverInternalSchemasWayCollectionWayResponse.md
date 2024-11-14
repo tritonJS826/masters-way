@@ -1,4 +1,4 @@
-# MwserverInternalSchemasWayCollectionWayResponse
+# MwServerInternalSchemasWayCollectionWayResponse
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasWayCollectionWayResponse
+### NewMwServerInternalSchemasWayCollectionWayResponse
 
-`func NewMwserverInternalSchemasWayCollectionWayResponse(wayCollectionId string, wayId string, ) *MwserverInternalSchemasWayCollectionWayResponse`
+`func NewMwServerInternalSchemasWayCollectionWayResponse(wayCollectionId string, wayId string, ) *MwServerInternalSchemasWayCollectionWayResponse`
 
-NewMwserverInternalSchemasWayCollectionWayResponse instantiates a new MwserverInternalSchemasWayCollectionWayResponse object
+NewMwServerInternalSchemasWayCollectionWayResponse instantiates a new MwServerInternalSchemasWayCollectionWayResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasWayCollectionWayResponseWithDefaults
+### NewMwServerInternalSchemasWayCollectionWayResponseWithDefaults
 
-`func NewMwserverInternalSchemasWayCollectionWayResponseWithDefaults() *MwserverInternalSchemasWayCollectionWayResponse`
+`func NewMwServerInternalSchemasWayCollectionWayResponseWithDefaults() *MwServerInternalSchemasWayCollectionWayResponse`
 
-NewMwserverInternalSchemasWayCollectionWayResponseWithDefaults instantiates a new MwserverInternalSchemasWayCollectionWayResponse object
+NewMwServerInternalSchemasWayCollectionWayResponseWithDefaults instantiates a new MwServerInternalSchemasWayCollectionWayResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetWayCollectionId
 
-`func (o *MwserverInternalSchemasWayCollectionWayResponse) GetWayCollectionId() string`
+`func (o *MwServerInternalSchemasWayCollectionWayResponse) GetWayCollectionId() string`
 
 GetWayCollectionId returns the WayCollectionId field if non-nil, zero value otherwise.
 
 ### GetWayCollectionIdOk
 
-`func (o *MwserverInternalSchemasWayCollectionWayResponse) GetWayCollectionIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasWayCollectionWayResponse) GetWayCollectionIdOk() (*string, bool)`
 
 GetWayCollectionIdOk returns a tuple with the WayCollectionId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayCollectionId
 
-`func (o *MwserverInternalSchemasWayCollectionWayResponse) SetWayCollectionId(v string)`
+`func (o *MwServerInternalSchemasWayCollectionWayResponse) SetWayCollectionId(v string)`
 
 SetWayCollectionId sets WayCollectionId field to given value.
 
 
 ### GetWayId
 
-`func (o *MwserverInternalSchemasWayCollectionWayResponse) GetWayId() string`
+`func (o *MwServerInternalSchemasWayCollectionWayResponse) GetWayId() string`
 
 GetWayId returns the WayId field if non-nil, zero value otherwise.
 
 ### GetWayIdOk
 
-`func (o *MwserverInternalSchemasWayCollectionWayResponse) GetWayIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasWayCollectionWayResponse) GetWayIdOk() (*string, bool)`
 
 GetWayIdOk returns a tuple with the WayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayId
 
-`func (o *MwserverInternalSchemasWayCollectionWayResponse) SetWayId(v string)`
+`func (o *MwServerInternalSchemasWayCollectionWayResponse) SetWayId(v string)`
 
 SetWayId sets WayId field to given value.
 

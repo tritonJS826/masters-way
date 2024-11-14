@@ -1,4 +1,4 @@
-# MwserverInternalSchemasUpdateCommentPayload
+# MwServerInternalSchemasUpdateCommentPayload
 
 ## Properties
 
@@ -8,45 +8,45 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasUpdateCommentPayload
+### NewMwServerInternalSchemasUpdateCommentPayload
 
-`func NewMwserverInternalSchemasUpdateCommentPayload() *MwserverInternalSchemasUpdateCommentPayload`
+`func NewMwServerInternalSchemasUpdateCommentPayload() *MwServerInternalSchemasUpdateCommentPayload`
 
-NewMwserverInternalSchemasUpdateCommentPayload instantiates a new MwserverInternalSchemasUpdateCommentPayload object
+NewMwServerInternalSchemasUpdateCommentPayload instantiates a new MwServerInternalSchemasUpdateCommentPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasUpdateCommentPayloadWithDefaults
+### NewMwServerInternalSchemasUpdateCommentPayloadWithDefaults
 
-`func NewMwserverInternalSchemasUpdateCommentPayloadWithDefaults() *MwserverInternalSchemasUpdateCommentPayload`
+`func NewMwServerInternalSchemasUpdateCommentPayloadWithDefaults() *MwServerInternalSchemasUpdateCommentPayload`
 
-NewMwserverInternalSchemasUpdateCommentPayloadWithDefaults instantiates a new MwserverInternalSchemasUpdateCommentPayload object
+NewMwServerInternalSchemasUpdateCommentPayloadWithDefaults instantiates a new MwServerInternalSchemasUpdateCommentPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasUpdateCommentPayload) GetDescription() string`
+`func (o *MwServerInternalSchemasUpdateCommentPayload) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasUpdateCommentPayload) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUpdateCommentPayload) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasUpdateCommentPayload) SetDescription(v string)`
+`func (o *MwServerInternalSchemasUpdateCommentPayload) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 ### HasDescription
 
-`func (o *MwserverInternalSchemasUpdateCommentPayload) HasDescription() bool`
+`func (o *MwServerInternalSchemasUpdateCommentPayload) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
 

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateWayTag
 
-> MwserverInternalSchemasWayTagResponse CreateWayTag(ctx).Request(request).Execute()
+> MwServerInternalSchemasWayTagResponse CreateWayTag(ctx).Request(request).Execute()
 
 Create a new wayTag
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateWayTagPayload("Name_example", "WayUuid_example") // MwserverInternalSchemasCreateWayTagPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateWayTagPayload("Name_example", "WayUuid_example") // MwServerInternalSchemasCreateWayTagPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayTagAPI.CreateWayTag``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateWayTag`: MwserverInternalSchemasWayTagResponse
+	// response from `CreateWayTag`: MwServerInternalSchemasWayTagResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayTagAPI.CreateWayTag`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateWayTagRequest struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateWayTagPayload**](MwserverInternalSchemasCreateWayTagPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateWayTagPayload**](MwServerInternalSchemasCreateWayTagPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasWayTagResponse**](MwserverInternalSchemasWayTagResponse.md)
+[**MwServerInternalSchemasWayTagResponse**](MwServerInternalSchemasWayTagResponse.md)
 
 ### Authorization
 

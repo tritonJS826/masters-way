@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,12 +12,11 @@ import (
 var _ = &schemas.UploadFileResponse{}
 
 type FileController struct {
-	generalService *services.GeneralService
-	fileService    *services.FileService
+	fileFacade *facades.FileFacade
 }
 
-func NewFileController(generalService *services.GeneralService, fileService *services.FileService) *FileController {
-	return &FileController{generalService, fileService}
+func NewFileController(fileFacade *facades.FileFacade) *FileController {
+	return &FileController{fileFacade}
 }
 
 // @Summary Upload file to storage

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateWayCollection
 
-> MwserverInternalSchemasWayCollectionPopulatedResponse CreateWayCollection(ctx).Request(request).Execute()
+> MwServerInternalSchemasWayCollectionPopulatedResponse CreateWayCollection(ctx).Request(request).Execute()
 
 Create a new wayCollection
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateWayCollectionPayload("Name_example", "OwnerUuid_example") // MwserverInternalSchemasCreateWayCollectionPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateWayCollectionPayload("Name_example", "OwnerUuid_example") // MwServerInternalSchemasCreateWayCollectionPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayCollectionAPI.CreateWayCollection``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateWayCollection`: MwserverInternalSchemasWayCollectionPopulatedResponse
+	// response from `CreateWayCollection`: MwServerInternalSchemasWayCollectionPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayCollectionAPI.CreateWayCollection`: %v\n", resp)
 }
 ```
@@ -54,11 +54,11 @@ Other parameters are passed through a pointer to a apiCreateWayCollectionRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateWayCollectionPayload**](MwserverInternalSchemasCreateWayCollectionPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateWayCollectionPayload**](MwServerInternalSchemasCreateWayCollectionPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasWayCollectionPopulatedResponse**](MwserverInternalSchemasWayCollectionPopulatedResponse.md)
+[**MwServerInternalSchemasWayCollectionPopulatedResponse**](MwServerInternalSchemasWayCollectionPopulatedResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## UpdateWayCollection
 
-> MwserverInternalSchemasWayCollectionPlainResponse UpdateWayCollection(ctx, wayCollectionId).Request(request).Execute()
+> MwServerInternalSchemasWayCollectionPlainResponse UpdateWayCollection(ctx, wayCollectionId).Request(request).Execute()
 
 Update wayCollection by UUID
 
@@ -160,7 +160,7 @@ import (
 
 func main() {
 	wayCollectionId := "wayCollectionId_example" // string | wayCollection ID
-	request := *openapiclient.NewMwserverInternalSchemasUpdateWayCollectionPayload() // MwserverInternalSchemasUpdateWayCollectionPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasUpdateWayCollectionPayload() // MwServerInternalSchemasUpdateWayCollectionPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayCollectionAPI.UpdateWayCollection``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateWayCollection`: MwserverInternalSchemasWayCollectionPlainResponse
+	// response from `UpdateWayCollection`: MwServerInternalSchemasWayCollectionPlainResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayCollectionAPI.UpdateWayCollection`: %v\n", resp)
 }
 ```
@@ -190,11 +190,11 @@ Other parameters are passed through a pointer to a apiUpdateWayCollectionRequest
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**MwserverInternalSchemasUpdateWayCollectionPayload**](MwserverInternalSchemasUpdateWayCollectionPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasUpdateWayCollectionPayload**](MwServerInternalSchemasUpdateWayCollectionPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasWayCollectionPlainResponse**](MwserverInternalSchemasWayCollectionPlainResponse.md)
+[**MwServerInternalSchemasWayCollectionPlainResponse**](MwServerInternalSchemasWayCollectionPlainResponse.md)
 
 ### Authorization
 
