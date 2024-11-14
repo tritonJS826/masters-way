@@ -34,7 +34,7 @@ func TestCreateFromUserMentoringRequest(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.MwserverInternalSchemasCreateFromUserMentoringRequestPayload{
+		request := openapiGeneral.MwServerInternalSchemasCreateFromUserMentoringRequestPayload{
 			UserUuid: currentUserID,
 			WayUuid:  wayID,
 		}
@@ -45,7 +45,7 @@ func TestCreateFromUserMentoringRequest(t *testing.T) {
 			t.Fatalf("Failed to create FromUserMentoringRequest: %v", err)
 		}
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasFromUserMentoringRequestResponse{
+		expectedData := &openapiGeneral.MwServerInternalSchemasFromUserMentoringRequestResponse{
 			UserId: currentUserID,
 			WayId:  wayID,
 		}

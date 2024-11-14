@@ -1,9 +1,9 @@
 package routers
 
 import (
-	"mwserver/internal/auth"
-	"mwserver/internal/config"
-	"mwserver/internal/controllers"
+	"mw-server/internal/auth"
+	"mw-server/internal/config"
+	"mw-server/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +21,7 @@ func (cr *wayRouter) setWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("ways")
 	router.GET("", cr.wayController.GetAllWays)
 	router.GET("/:wayId", cr.wayController.GetWayById)
+	router.GET("/:wayId/notification", cr.wayController.GetWayPlainForNotificationById)
 	router.GET("/:wayId/statistics", cr.wayController.GetWayStatisticsById)
 	router.POST("", auth.AuthMiddleware(cr.config), cr.wayController.CreateWay)
 	router.PATCH("/:wayId", auth.AuthMiddleware(cr.config), cr.wayController.UpdateWay)

@@ -2,9 +2,9 @@ package services
 
 import (
 	"context"
-	"mwserver/internal/customErrors"
-	db "mwserver/internal/db/sqlc"
-	"mwserver/pkg/util"
+	"mw-server/internal/customErrors"
+	db "mw-server/internal/db/sqlc"
+	"mw-server/pkg/util"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"

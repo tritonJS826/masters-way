@@ -11,7 +11,7 @@ type NotificationService struct {
 	enabledNotificationGRPC pb.EnabledNotificationClient
 }
 
-func NewNotificationService(
+func newNotificationService(
 	notificationGRPC pb.NotificationClient,
 	enabledNotificationGRPC pb.EnabledNotificationClient,
 ) *NotificationService {

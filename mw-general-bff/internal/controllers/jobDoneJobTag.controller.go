@@ -1,19 +1,20 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type JobDoneJobTagController struct {
-	generalService *services.GeneralService
+	jobDoneJobTagFacade *facades.JobDoneJobTagFacade
 }
 
-func NewJobDoneJobTagController(generalService *services.GeneralService) *JobDoneJobTagController {
-	return &JobDoneJobTagController{generalService}
+func NewJobDoneJobTagController(jobDoneJobTagFacade *facades.JobDoneJobTagFacade) *JobDoneJobTagController {
+	return &JobDoneJobTagController{jobDoneJobTagFacade}
 }
 
 // Create jobDoneJobTag handler
@@ -34,7 +35,7 @@ func (cc *JobDoneJobTagController) CreateJobDoneJobTag(ctx *gin.Context) {
 		return
 	}
 
-	err := cc.generalService.CreateJobDoneJobTag(ctx, payload)
+	err := cc.jobDoneJobTagFacade.CreateJobDoneJobTag(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
@@ -55,7 +56,7 @@ func (jc *JobDoneJobTagController) DeleteJobDoneJobTagById(ctx *gin.Context) {
 	jobTagID := ctx.Param("jobTagId")
 	jobDoneID := ctx.Param("jobDoneId")
 
-	err := jc.generalService.DeleteJobDoneJobTagById(ctx, jobDoneID, jobTagID)
+	err := jc.jobDoneJobTagFacade.DeleteJobDoneJobTagById(ctx, jobDoneID, jobTagID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

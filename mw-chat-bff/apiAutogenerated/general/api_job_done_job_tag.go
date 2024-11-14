@@ -27,11 +27,11 @@ type JobDoneJobTagAPIService service
 type ApiCreateJobDoneJobTagRequest struct {
 	ctx context.Context
 	ApiService *JobDoneJobTagAPIService
-	request *MwserverInternalSchemasCreateJobDoneJobTagPayload
+	request *MwServerInternalSchemasCreateJobDoneJobTagPayload
 }
 
 // query params
-func (r ApiCreateJobDoneJobTagRequest) Request(request MwserverInternalSchemasCreateJobDoneJobTagPayload) ApiCreateJobDoneJobTagRequest {
+func (r ApiCreateJobDoneJobTagRequest) Request(request MwServerInternalSchemasCreateJobDoneJobTagPayload) ApiCreateJobDoneJobTagRequest {
 	r.request = &request
 	return r
 }

@@ -1,4 +1,4 @@
-# MwserverInternalSchemasMetricResponse
+# MwServerInternalSchemasMetricResponse
 
 ## Properties
 
@@ -12,129 +12,129 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasMetricResponse
+### NewMwServerInternalSchemasMetricResponse
 
-`func NewMwserverInternalSchemasMetricResponse(description string, doneDate NullableString, estimationTime int32, isDone bool, uuid string, ) *MwserverInternalSchemasMetricResponse`
+`func NewMwServerInternalSchemasMetricResponse(description string, doneDate NullableString, estimationTime int32, isDone bool, uuid string, ) *MwServerInternalSchemasMetricResponse`
 
-NewMwserverInternalSchemasMetricResponse instantiates a new MwserverInternalSchemasMetricResponse object
+NewMwServerInternalSchemasMetricResponse instantiates a new MwServerInternalSchemasMetricResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasMetricResponseWithDefaults
+### NewMwServerInternalSchemasMetricResponseWithDefaults
 
-`func NewMwserverInternalSchemasMetricResponseWithDefaults() *MwserverInternalSchemasMetricResponse`
+`func NewMwServerInternalSchemasMetricResponseWithDefaults() *MwServerInternalSchemasMetricResponse`
 
-NewMwserverInternalSchemasMetricResponseWithDefaults instantiates a new MwserverInternalSchemasMetricResponse object
+NewMwServerInternalSchemasMetricResponseWithDefaults instantiates a new MwServerInternalSchemasMetricResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasMetricResponse) GetDescription() string`
+`func (o *MwServerInternalSchemasMetricResponse) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasMetricResponse) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasMetricResponse) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasMetricResponse) SetDescription(v string)`
+`func (o *MwServerInternalSchemasMetricResponse) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 
 ### GetDoneDate
 
-`func (o *MwserverInternalSchemasMetricResponse) GetDoneDate() string`
+`func (o *MwServerInternalSchemasMetricResponse) GetDoneDate() string`
 
 GetDoneDate returns the DoneDate field if non-nil, zero value otherwise.
 
 ### GetDoneDateOk
 
-`func (o *MwserverInternalSchemasMetricResponse) GetDoneDateOk() (*string, bool)`
+`func (o *MwServerInternalSchemasMetricResponse) GetDoneDateOk() (*string, bool)`
 
 GetDoneDateOk returns a tuple with the DoneDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDoneDate
 
-`func (o *MwserverInternalSchemasMetricResponse) SetDoneDate(v string)`
+`func (o *MwServerInternalSchemasMetricResponse) SetDoneDate(v string)`
 
 SetDoneDate sets DoneDate field to given value.
 
 
 ### SetDoneDateNil
 
-`func (o *MwserverInternalSchemasMetricResponse) SetDoneDateNil(b bool)`
+`func (o *MwServerInternalSchemasMetricResponse) SetDoneDateNil(b bool)`
 
  SetDoneDateNil sets the value for DoneDate to be an explicit nil
 
 ### UnsetDoneDate
-`func (o *MwserverInternalSchemasMetricResponse) UnsetDoneDate()`
+`func (o *MwServerInternalSchemasMetricResponse) UnsetDoneDate()`
 
 UnsetDoneDate ensures that no value is present for DoneDate, not even an explicit nil
 ### GetEstimationTime
 
-`func (o *MwserverInternalSchemasMetricResponse) GetEstimationTime() int32`
+`func (o *MwServerInternalSchemasMetricResponse) GetEstimationTime() int32`
 
 GetEstimationTime returns the EstimationTime field if non-nil, zero value otherwise.
 
 ### GetEstimationTimeOk
 
-`func (o *MwserverInternalSchemasMetricResponse) GetEstimationTimeOk() (*int32, bool)`
+`func (o *MwServerInternalSchemasMetricResponse) GetEstimationTimeOk() (*int32, bool)`
 
 GetEstimationTimeOk returns a tuple with the EstimationTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEstimationTime
 
-`func (o *MwserverInternalSchemasMetricResponse) SetEstimationTime(v int32)`
+`func (o *MwServerInternalSchemasMetricResponse) SetEstimationTime(v int32)`
 
 SetEstimationTime sets EstimationTime field to given value.
 
 
 ### GetIsDone
 
-`func (o *MwserverInternalSchemasMetricResponse) GetIsDone() bool`
+`func (o *MwServerInternalSchemasMetricResponse) GetIsDone() bool`
 
 GetIsDone returns the IsDone field if non-nil, zero value otherwise.
 
 ### GetIsDoneOk
 
-`func (o *MwserverInternalSchemasMetricResponse) GetIsDoneOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasMetricResponse) GetIsDoneOk() (*bool, bool)`
 
 GetIsDoneOk returns a tuple with the IsDone field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsDone
 
-`func (o *MwserverInternalSchemasMetricResponse) SetIsDone(v bool)`
+`func (o *MwServerInternalSchemasMetricResponse) SetIsDone(v bool)`
 
 SetIsDone sets IsDone field to given value.
 
 
 ### GetUuid
 
-`func (o *MwserverInternalSchemasMetricResponse) GetUuid() string`
+`func (o *MwServerInternalSchemasMetricResponse) GetUuid() string`
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *MwserverInternalSchemasMetricResponse) GetUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasMetricResponse) GetUuidOk() (*string, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *MwserverInternalSchemasMetricResponse) SetUuid(v string)`
+`func (o *MwServerInternalSchemasMetricResponse) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
 

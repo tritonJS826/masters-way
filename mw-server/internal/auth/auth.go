@@ -2,7 +2,7 @@ package auth
 
 import (
 	"errors"
-	"mwserver/internal/config"
+	"mw-server/internal/config"
 	"net/http"
 	"time"
 

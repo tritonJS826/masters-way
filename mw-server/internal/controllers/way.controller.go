@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"errors"
-	"mwserver/internal/auth"
-	"mwserver/internal/customErrors"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-server/internal/auth"
+	"mw-server/internal/customErrors"
+	"mw-server/internal/schemas"
+	"mw-server/internal/services"
+	"mw-server/pkg/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -125,6 +125,26 @@ func (wc *WayController) GetWayById(ctx *gin.Context) {
 		CurrentChildrenDepth: 1,
 	}
 	response, err := wc.wayService.GetPopulatedWayById(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// Get way plain for notificaiton handler
+// @Summary Get way plain for notification by UUID
+// @Description
+// @Tags way
+// @ID get-way-plain-for-notification-by-uuid
+// @Accept  json
+// @Produce  json
+// @Param wayId path string true "way ID"
+// @Success 200 {object} schemas.WayPlainForNotificationResponse
+// @Router /ways/{wayId}/notification [get]
+func (wc *WayController) GetWayPlainForNotificationById(ctx *gin.Context) {
+	wayUUIDRaw := ctx.Param("wayId")
+	wayUUID := uuid.MustParse(wayUUIDRaw)
+
+	response, err := wc.wayService.GetWayPlainForNotificationById(ctx, wayUUID)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

@@ -30,9 +30,9 @@ func TestGetAllUsers(t *testing.T) {
 			t.Fatalf("Failed to get all Users: %v", err)
 		}
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasGetAllUsersResponse{
+		expectedData := &openapiGeneral.MwServerInternalSchemasGetAllUsersResponse{
 			Size: 12,
-			Users: []openapiGeneral.MwserverInternalSchemasUserPlainResponseWithInfo{
+			Users: []openapiGeneral.MwServerInternalSchemasUserPlainResponseWithInfo{
 				{
 					Uuid:             "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 					Name:             "John Doe",
@@ -45,7 +45,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          4,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
@@ -59,7 +59,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    2,
 					OwnWays:          2,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "3d922e8a-5d58-4b82-9a3d-83e2e73b3f91",
@@ -73,7 +73,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     1,
 					MentoringWays:    1,
 					OwnWays:          3,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2",
@@ -87,7 +87,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          3,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e",
@@ -101,7 +101,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          0,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "d63d2f89-6412-4324-8587-7061bf02dca4",
@@ -115,7 +115,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    1,
 					OwnWays:          1,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1",
@@ -129,7 +129,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    1,
 					OwnWays:          4,
-					Tags: []openapiGeneral.MwserverInternalSchemasUserTagResponse{
+					Tags: []openapiGeneral.MwServerInternalSchemasUserTagResponse{
 						{
 							Name: "some tag",
 							Uuid: "8749d799-0a89-4ffd-b1bd-02ada9234e5a",
@@ -148,7 +148,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          0,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "c31384a6-b811-4a1f-befa-95dd53e3f4b9",
@@ -162,7 +162,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          0,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 				{
 					Uuid:             "45bf9107-83fd-4fc4-8173-a13b8a100f2a",
@@ -176,7 +176,7 @@ func TestGetAllUsers(t *testing.T) {
 					FavoriteWays:     0,
 					MentoringWays:    0,
 					OwnWays:          0,
-					Tags:             []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+					Tags:             []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 				},
 			},
 		}
@@ -209,14 +209,14 @@ func TestGetUserById(t *testing.T) {
 		emptyNullableString := openapiGeneral.NullableString{}
 		emptyNullableString.Set(nil)
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasUserPopulatedResponse{
+		expectedData := &openapiGeneral.MwServerInternalSchemasUserPopulatedResponse{
 			CreatedAt:            "2024-07-08T10:00:00.000Z",
-			CustomWayCollections: []openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse{},
-			DefaultWayCollections: openapiGeneral.MwserverInternalSchemasDefaultWayCollections{
-				Own: openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse{
+			CustomWayCollections: []openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse{},
+			DefaultWayCollections: openapiGeneral.MwServerInternalSchemasDefaultWayCollections{
+				Own: openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse{
 					Uuid: "00000000-0000-0000-0000-00000000001",
 					Name: "Own",
-					Ways: []openapiGeneral.MwserverInternalSchemasWayPlainResponse{
+					Ways: []openapiGeneral.MwServerInternalSchemasWayPlainResponse{
 						{
 							Uuid:            "550e8400-e29b-41d4-a716-446655440000",
 							Name:            "john doe way",
@@ -225,7 +225,7 @@ func TestGetUserById(t *testing.T) {
 							CreatedAt:       "2024-07-09T00:00:00.000Z",
 							EstimationTime:  10101010,
 							IsCompleted:     false,
-							Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
+							Owner: openapiGeneral.MwServerInternalSchemasUserPlainResponse{
 								Uuid:        "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 								Name:        "John Doe",
 								Email:       "john.doe@example.com",
@@ -239,7 +239,7 @@ func TestGetUserById(t *testing.T) {
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  8,
-							Mentors: []openapiGeneral.MwserverInternalSchemasUserPlainResponse{
+							Mentors: []openapiGeneral.MwServerInternalSchemasUserPlainResponse{
 								{
 									Uuid:        "d63d2f89-6412-4324-8587-7061bf02dca4",
 									Name:        "Ronnie Stanton",
@@ -250,7 +250,7 @@ func TestGetUserById(t *testing.T) {
 									IsMentor:    false,
 								},
 							},
-							WayTags:       []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
+							WayTags:       []openapiGeneral.MwServerInternalSchemasWayTagResponse{},
 							MetricsDone:   0,
 							MetricsTotal:  0,
 							ChildrenUuids: []string{},
@@ -263,7 +263,7 @@ func TestGetUserById(t *testing.T) {
 							CreatedAt:       "2024-07-09T00:00:00.000Z",
 							EstimationTime:  10101010,
 							IsCompleted:     false,
-							Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
+							Owner: openapiGeneral.MwServerInternalSchemasUserPlainResponse{
 								Uuid:        "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 								Name:        "John Doe",
 								Email:       "john.doe@example.com",
@@ -277,8 +277,8 @@ func TestGetUserById(t *testing.T) {
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  8,
-							Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
-							WayTags:           []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
+							Mentors:           []openapiGeneral.MwServerInternalSchemasUserPlainResponse{},
+							WayTags:           []openapiGeneral.MwServerInternalSchemasWayTagResponse{},
 							MetricsDone:       0,
 							MetricsTotal:      0,
 							ChildrenUuids:     []string{},
@@ -291,7 +291,7 @@ func TestGetUserById(t *testing.T) {
 							CreatedAt:       "2024-07-09T00:00:00.000Z",
 							EstimationTime:  10101010,
 							IsCompleted:     false,
-							Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
+							Owner: openapiGeneral.MwServerInternalSchemasUserPlainResponse{
 								Uuid:        "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 								Name:        "John Doe",
 								Email:       "john.doe@example.com",
@@ -305,8 +305,8 @@ func TestGetUserById(t *testing.T) {
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  1,
-							Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
-							WayTags:           []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
+							Mentors:           []openapiGeneral.MwServerInternalSchemasUserPlainResponse{},
+							WayTags:           []openapiGeneral.MwServerInternalSchemasWayTagResponse{},
 							MetricsDone:       0,
 							MetricsTotal:      0,
 							ChildrenUuids: []string{
@@ -322,7 +322,7 @@ func TestGetUserById(t *testing.T) {
 							CreatedAt:       "2024-07-09T00:00:00.000Z",
 							EstimationTime:  10101010,
 							IsCompleted:     false,
-							Owner: openapiGeneral.MwserverInternalSchemasUserPlainResponse{
+							Owner: openapiGeneral.MwServerInternalSchemasUserPlainResponse{
 								Uuid:        "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 								Name:        "John Doe",
 								Email:       "john.doe@example.com",
@@ -336,8 +336,8 @@ func TestGetUserById(t *testing.T) {
 							IsPrivate:         false,
 							FavoriteForUsers:  0,
 							DayReportsAmount:  0,
-							Mentors:           []openapiGeneral.MwserverInternalSchemasUserPlainResponse{},
-							WayTags:           []openapiGeneral.MwserverInternalSchemasWayTagResponse{},
+							Mentors:           []openapiGeneral.MwServerInternalSchemasUserPlainResponse{},
+							WayTags:           []openapiGeneral.MwServerInternalSchemasWayTagResponse{},
 							MetricsDone:       0,
 							MetricsTotal:      0,
 							ChildrenUuids:     []string{},
@@ -348,19 +348,19 @@ func TestGetUserById(t *testing.T) {
 					OwnerUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 					Type:      "own",
 				},
-				Favorite: openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse{
+				Favorite: openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse{
 					Uuid:      "00000000-0000-0000-0000-00000000003",
 					Name:      "Favorite",
-					Ways:      []openapiGeneral.MwserverInternalSchemasWayPlainResponse{},
+					Ways:      []openapiGeneral.MwServerInternalSchemasWayPlainResponse{},
 					CreatedAt: "2024-07-08T10:00:00.000Z",
 					UpdatedAt: "2024-07-08T10:00:00.000Z",
 					OwnerUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e94",
 					Type:      "favorite",
 				},
-				Mentoring: openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse{
+				Mentoring: openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse{
 					Uuid:      "00000000-0000-0000-0000-00000000002",
 					Name:      "Mentoring",
-					Ways:      []openapiGeneral.MwserverInternalSchemasWayPlainResponse{},
+					Ways:      []openapiGeneral.MwServerInternalSchemasWayPlainResponse{},
 					CreatedAt: "2024-07-08T10:00:00.000Z",
 					UpdatedAt: "2024-07-08T10:00:00.000Z",
 					OwnerUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e94",
@@ -370,7 +370,7 @@ func TestGetUserById(t *testing.T) {
 			Description:      "A brief description about John.",
 			Email:            "john.doe@example.com",
 			FavoriteForUsers: []string{},
-			FavoriteUsers: []openapiGeneral.MwserverInternalSchemasUserPlainResponse{
+			FavoriteUsers: []openapiGeneral.MwServerInternalSchemasUserPlainResponse{
 				{
 					Uuid:        "8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b",
 					Name:        "Jane Smith",
@@ -384,10 +384,10 @@ func TestGetUserById(t *testing.T) {
 			ImageUrl:    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 			IsMentor:    false,
 			Name:        "John Doe",
-			Tags:        []openapiGeneral.MwserverInternalSchemasUserTagResponse{},
+			Tags:        []openapiGeneral.MwServerInternalSchemasUserTagResponse{},
 			Uuid:        "7cdb041b-4574-4f7b-a500-c53e74c72e94",
-			WayRequests: []openapiGeneral.MwserverInternalSchemasWayPlainResponse{},
-			Projects: []openapiGeneral.MwserverInternalSchemasProjectPlainResponse{
+			WayRequests: []openapiGeneral.MwServerInternalSchemasWayPlainResponse{},
+			Projects: []openapiGeneral.MwServerInternalSchemasProjectPlainResponse{
 				{
 					Id:        "afb02990-7e8c-4353-a724-ea8de5fb6cfc",
 					Name:      "Project 1",
@@ -431,7 +431,7 @@ func TestUpdateUser(t *testing.T) {
 		newName := "new name"
 		newIsMentor := false
 
-		request := openapiGeneral.MwserverInternalSchemasUpdateUserPayload{
+		request := openapiGeneral.MwServerInternalSchemasUpdateUserPayload{
 			Description: &newDescription,
 			ImageUrl:    &newImageUrl,
 			Name:        &newName,
@@ -444,7 +444,7 @@ func TestUpdateUser(t *testing.T) {
 			t.Fatalf("Failed to update User: %v", err)
 		}
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasUserPlainResponse{
+		expectedData := &openapiGeneral.MwServerInternalSchemasUserPlainResponse{
 			CreatedAt:   "2024-07-08T10:00:00.000Z",
 			Description: newDescription,
 			Email:       "john.doe@example.com",
@@ -491,7 +491,7 @@ func TestGetUsersByIDs(t *testing.T) {
 			t.Fatalf("Failed to get users by ids: %v", err)
 		}
 
-		expectedData := []openapiGeneral.MwserverInternalSchemasGetUsersByIDsResponse{
+		expectedData := []openapiGeneral.MwServerInternalSchemasGetUsersByIDsResponse{
 			{
 				ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 				Name:     "John Doe",

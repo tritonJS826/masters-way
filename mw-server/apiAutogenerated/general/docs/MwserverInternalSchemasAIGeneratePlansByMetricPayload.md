@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAIGeneratePlansByMetricPayload
+# MwServerInternalSchemasAIGeneratePlansByMetricPayload
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAIGeneratePlansByMetricPayload
+### NewMwServerInternalSchemasAIGeneratePlansByMetricPayload
 
-`func NewMwserverInternalSchemasAIGeneratePlansByMetricPayload(goal string, metric string, ) *MwserverInternalSchemasAIGeneratePlansByMetricPayload`
+`func NewMwServerInternalSchemasAIGeneratePlansByMetricPayload(goal string, metric string, ) *MwServerInternalSchemasAIGeneratePlansByMetricPayload`
 
-NewMwserverInternalSchemasAIGeneratePlansByMetricPayload instantiates a new MwserverInternalSchemasAIGeneratePlansByMetricPayload object
+NewMwServerInternalSchemasAIGeneratePlansByMetricPayload instantiates a new MwServerInternalSchemasAIGeneratePlansByMetricPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAIGeneratePlansByMetricPayloadWithDefaults
+### NewMwServerInternalSchemasAIGeneratePlansByMetricPayloadWithDefaults
 
-`func NewMwserverInternalSchemasAIGeneratePlansByMetricPayloadWithDefaults() *MwserverInternalSchemasAIGeneratePlansByMetricPayload`
+`func NewMwServerInternalSchemasAIGeneratePlansByMetricPayloadWithDefaults() *MwServerInternalSchemasAIGeneratePlansByMetricPayload`
 
-NewMwserverInternalSchemasAIGeneratePlansByMetricPayloadWithDefaults instantiates a new MwserverInternalSchemasAIGeneratePlansByMetricPayload object
+NewMwServerInternalSchemasAIGeneratePlansByMetricPayloadWithDefaults instantiates a new MwServerInternalSchemasAIGeneratePlansByMetricPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetGoal
 
-`func (o *MwserverInternalSchemasAIGeneratePlansByMetricPayload) GetGoal() string`
+`func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) GetGoal() string`
 
 GetGoal returns the Goal field if non-nil, zero value otherwise.
 
 ### GetGoalOk
 
-`func (o *MwserverInternalSchemasAIGeneratePlansByMetricPayload) GetGoalOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) GetGoalOk() (*string, bool)`
 
 GetGoalOk returns a tuple with the Goal field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoal
 
-`func (o *MwserverInternalSchemasAIGeneratePlansByMetricPayload) SetGoal(v string)`
+`func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) SetGoal(v string)`
 
 SetGoal sets Goal field to given value.
 
 
 ### GetMetric
 
-`func (o *MwserverInternalSchemasAIGeneratePlansByMetricPayload) GetMetric() string`
+`func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) GetMetric() string`
 
 GetMetric returns the Metric field if non-nil, zero value otherwise.
 
 ### GetMetricOk
 
-`func (o *MwserverInternalSchemasAIGeneratePlansByMetricPayload) GetMetricOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) GetMetricOk() (*string, bool)`
 
 GetMetricOk returns a tuple with the Metric field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetric
 
-`func (o *MwserverInternalSchemasAIGeneratePlansByMetricPayload) SetMetric(v string)`
+`func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) SetMetric(v string)`
 
 SetMetric sets Metric field to given value.
 

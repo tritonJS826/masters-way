@@ -1,4 +1,4 @@
-# MwserverInternalSchemasUserPlainResponse
+# MwServerInternalSchemasUserPlainResponse
 
 ## Properties
 
@@ -14,159 +14,159 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasUserPlainResponse
+### NewMwServerInternalSchemasUserPlainResponse
 
-`func NewMwserverInternalSchemasUserPlainResponse(createdAt string, description string, email string, imageUrl string, isMentor bool, name string, uuid string, ) *MwserverInternalSchemasUserPlainResponse`
+`func NewMwServerInternalSchemasUserPlainResponse(createdAt string, description string, email string, imageUrl string, isMentor bool, name string, uuid string, ) *MwServerInternalSchemasUserPlainResponse`
 
-NewMwserverInternalSchemasUserPlainResponse instantiates a new MwserverInternalSchemasUserPlainResponse object
+NewMwServerInternalSchemasUserPlainResponse instantiates a new MwServerInternalSchemasUserPlainResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasUserPlainResponseWithDefaults
+### NewMwServerInternalSchemasUserPlainResponseWithDefaults
 
-`func NewMwserverInternalSchemasUserPlainResponseWithDefaults() *MwserverInternalSchemasUserPlainResponse`
+`func NewMwServerInternalSchemasUserPlainResponseWithDefaults() *MwServerInternalSchemasUserPlainResponse`
 
-NewMwserverInternalSchemasUserPlainResponseWithDefaults instantiates a new MwserverInternalSchemasUserPlainResponse object
+NewMwServerInternalSchemasUserPlainResponseWithDefaults instantiates a new MwServerInternalSchemasUserPlainResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetCreatedAt
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetCreatedAt() string`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetCreatedAt() string`
 
 GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
 
 ### GetCreatedAtOk
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetCreatedAtOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetCreatedAtOk() (*string, bool)`
 
 GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCreatedAt
 
-`func (o *MwserverInternalSchemasUserPlainResponse) SetCreatedAt(v string)`
+`func (o *MwServerInternalSchemasUserPlainResponse) SetCreatedAt(v string)`
 
 SetCreatedAt sets CreatedAt field to given value.
 
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetDescription() string`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasUserPlainResponse) SetDescription(v string)`
+`func (o *MwServerInternalSchemasUserPlainResponse) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 
 ### GetEmail
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetEmail() string`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetEmail() string`
 
 GetEmail returns the Email field if non-nil, zero value otherwise.
 
 ### GetEmailOk
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetEmailOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetEmailOk() (*string, bool)`
 
 GetEmailOk returns a tuple with the Email field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEmail
 
-`func (o *MwserverInternalSchemasUserPlainResponse) SetEmail(v string)`
+`func (o *MwServerInternalSchemasUserPlainResponse) SetEmail(v string)`
 
 SetEmail sets Email field to given value.
 
 
 ### GetImageUrl
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetImageUrl() string`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetImageUrl() string`
 
 GetImageUrl returns the ImageUrl field if non-nil, zero value otherwise.
 
 ### GetImageUrlOk
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetImageUrlOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetImageUrlOk() (*string, bool)`
 
 GetImageUrlOk returns a tuple with the ImageUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetImageUrl
 
-`func (o *MwserverInternalSchemasUserPlainResponse) SetImageUrl(v string)`
+`func (o *MwServerInternalSchemasUserPlainResponse) SetImageUrl(v string)`
 
 SetImageUrl sets ImageUrl field to given value.
 
 
 ### GetIsMentor
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetIsMentor() bool`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetIsMentor() bool`
 
 GetIsMentor returns the IsMentor field if non-nil, zero value otherwise.
 
 ### GetIsMentorOk
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetIsMentorOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetIsMentorOk() (*bool, bool)`
 
 GetIsMentorOk returns a tuple with the IsMentor field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsMentor
 
-`func (o *MwserverInternalSchemasUserPlainResponse) SetIsMentor(v bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) SetIsMentor(v bool)`
 
 SetIsMentor sets IsMentor field to given value.
 
 
 ### GetName
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetName() string`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasUserPlainResponse) SetName(v string)`
+`func (o *MwServerInternalSchemasUserPlainResponse) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetUuid
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetUuid() string`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetUuid() string`
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *MwserverInternalSchemasUserPlainResponse) GetUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUserPlainResponse) GetUuidOk() (*string, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *MwserverInternalSchemasUserPlainResponse) SetUuid(v string)`
+`func (o *MwServerInternalSchemasUserPlainResponse) SetUuid(v string)`
 
 SetUuid sets Uuid field to given value.
 

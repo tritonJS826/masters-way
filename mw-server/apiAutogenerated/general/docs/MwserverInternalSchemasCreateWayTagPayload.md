@@ -1,4 +1,4 @@
-# MwserverInternalSchemasCreateWayTagPayload
+# MwServerInternalSchemasCreateWayTagPayload
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasCreateWayTagPayload
+### NewMwServerInternalSchemasCreateWayTagPayload
 
-`func NewMwserverInternalSchemasCreateWayTagPayload(name string, wayUuid string, ) *MwserverInternalSchemasCreateWayTagPayload`
+`func NewMwServerInternalSchemasCreateWayTagPayload(name string, wayUuid string, ) *MwServerInternalSchemasCreateWayTagPayload`
 
-NewMwserverInternalSchemasCreateWayTagPayload instantiates a new MwserverInternalSchemasCreateWayTagPayload object
+NewMwServerInternalSchemasCreateWayTagPayload instantiates a new MwServerInternalSchemasCreateWayTagPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasCreateWayTagPayloadWithDefaults
+### NewMwServerInternalSchemasCreateWayTagPayloadWithDefaults
 
-`func NewMwserverInternalSchemasCreateWayTagPayloadWithDefaults() *MwserverInternalSchemasCreateWayTagPayload`
+`func NewMwServerInternalSchemasCreateWayTagPayloadWithDefaults() *MwServerInternalSchemasCreateWayTagPayload`
 
-NewMwserverInternalSchemasCreateWayTagPayloadWithDefaults instantiates a new MwserverInternalSchemasCreateWayTagPayload object
+NewMwServerInternalSchemasCreateWayTagPayloadWithDefaults instantiates a new MwServerInternalSchemasCreateWayTagPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *MwserverInternalSchemasCreateWayTagPayload) GetName() string`
+`func (o *MwServerInternalSchemasCreateWayTagPayload) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasCreateWayTagPayload) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateWayTagPayload) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasCreateWayTagPayload) SetName(v string)`
+`func (o *MwServerInternalSchemasCreateWayTagPayload) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetWayUuid
 
-`func (o *MwserverInternalSchemasCreateWayTagPayload) GetWayUuid() string`
+`func (o *MwServerInternalSchemasCreateWayTagPayload) GetWayUuid() string`
 
 GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
 
 ### GetWayUuidOk
 
-`func (o *MwserverInternalSchemasCreateWayTagPayload) GetWayUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateWayTagPayload) GetWayUuidOk() (*string, bool)`
 
 GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayUuid
 
-`func (o *MwserverInternalSchemasCreateWayTagPayload) SetWayUuid(v string)`
+`func (o *MwServerInternalSchemasCreateWayTagPayload) SetWayUuid(v string)`
 
 SetWayUuid sets WayUuid field to given value.
 

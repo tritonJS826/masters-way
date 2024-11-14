@@ -36,7 +36,7 @@ func TestCreateUserProject(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.MwserverInternalSchemasCreateUserProjectPayload{
+		request := openapiGeneral.MwServerInternalSchemasCreateUserProjectPayload{
 			ProjectId: projectID,
 			UserId:    firstNewProjectUserID,
 		}
@@ -56,7 +56,7 @@ func TestCreateUserProject(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, projectResponse.StatusCode)
 
-		_, found := lo.Find(project.Users, func(user openapiGeneral.MwserverInternalSchemasUserPlainResponseWithInfo) bool {
+		_, found := lo.Find(project.Users, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponseWithInfo) bool {
 			return user.Uuid == firstNewProjectUserID
 		})
 
@@ -102,7 +102,7 @@ func TestDeleteUserProject(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, projectResponse.StatusCode)
 
-		_, found := lo.Find(project.Users, func(user openapiGeneral.MwserverInternalSchemasUserPlainResponseWithInfo) bool {
+		_, found := lo.Find(project.Users, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponseWithInfo) bool {
 			return user.Uuid == userID
 		})
 

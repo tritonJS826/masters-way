@@ -1,4 +1,4 @@
-# MwserverInternalSchemasGenerateMetricsPayload
+# MwServerInternalSchemasGenerateMetricsPayload
 
 ## Properties
 
@@ -10,79 +10,79 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasGenerateMetricsPayload
+### NewMwServerInternalSchemasGenerateMetricsPayload
 
-`func NewMwserverInternalSchemasGenerateMetricsPayload(goalDescription string, metrics []string, wayName string, ) *MwserverInternalSchemasGenerateMetricsPayload`
+`func NewMwServerInternalSchemasGenerateMetricsPayload(goalDescription string, metrics []string, wayName string, ) *MwServerInternalSchemasGenerateMetricsPayload`
 
-NewMwserverInternalSchemasGenerateMetricsPayload instantiates a new MwserverInternalSchemasGenerateMetricsPayload object
+NewMwServerInternalSchemasGenerateMetricsPayload instantiates a new MwServerInternalSchemasGenerateMetricsPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasGenerateMetricsPayloadWithDefaults
+### NewMwServerInternalSchemasGenerateMetricsPayloadWithDefaults
 
-`func NewMwserverInternalSchemasGenerateMetricsPayloadWithDefaults() *MwserverInternalSchemasGenerateMetricsPayload`
+`func NewMwServerInternalSchemasGenerateMetricsPayloadWithDefaults() *MwServerInternalSchemasGenerateMetricsPayload`
 
-NewMwserverInternalSchemasGenerateMetricsPayloadWithDefaults instantiates a new MwserverInternalSchemasGenerateMetricsPayload object
+NewMwServerInternalSchemasGenerateMetricsPayloadWithDefaults instantiates a new MwServerInternalSchemasGenerateMetricsPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetGoalDescription
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) GetGoalDescription() string`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) GetGoalDescription() string`
 
 GetGoalDescription returns the GoalDescription field if non-nil, zero value otherwise.
 
 ### GetGoalDescriptionOk
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) GetGoalDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) GetGoalDescriptionOk() (*string, bool)`
 
 GetGoalDescriptionOk returns a tuple with the GoalDescription field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoalDescription
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) SetGoalDescription(v string)`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) SetGoalDescription(v string)`
 
 SetGoalDescription sets GoalDescription field to given value.
 
 
 ### GetMetrics
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) GetMetrics() []string`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) GetMetrics() []string`
 
 GetMetrics returns the Metrics field if non-nil, zero value otherwise.
 
 ### GetMetricsOk
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) GetMetricsOk() (*[]string, bool)`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) GetMetricsOk() (*[]string, bool)`
 
 GetMetricsOk returns a tuple with the Metrics field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetrics
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) SetMetrics(v []string)`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) SetMetrics(v []string)`
 
 SetMetrics sets Metrics field to given value.
 
 
 ### GetWayName
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) GetWayName() string`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) GetWayName() string`
 
 GetWayName returns the WayName field if non-nil, zero value otherwise.
 
 ### GetWayNameOk
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) GetWayNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) GetWayNameOk() (*string, bool)`
 
 GetWayNameOk returns a tuple with the WayName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayName
 
-`func (o *MwserverInternalSchemasGenerateMetricsPayload) SetWayName(v string)`
+`func (o *MwServerInternalSchemasGenerateMetricsPayload) SetWayName(v string)`
 
 SetWayName sets WayName field to given value.
 

@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAIDecomposeIssuePayload
+# MwServerInternalSchemasAIDecomposeIssuePayload
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAIDecomposeIssuePayload
+### NewMwServerInternalSchemasAIDecomposeIssuePayload
 
-`func NewMwserverInternalSchemasAIDecomposeIssuePayload(goal string, message string, ) *MwserverInternalSchemasAIDecomposeIssuePayload`
+`func NewMwServerInternalSchemasAIDecomposeIssuePayload(goal string, message string, ) *MwServerInternalSchemasAIDecomposeIssuePayload`
 
-NewMwserverInternalSchemasAIDecomposeIssuePayload instantiates a new MwserverInternalSchemasAIDecomposeIssuePayload object
+NewMwServerInternalSchemasAIDecomposeIssuePayload instantiates a new MwServerInternalSchemasAIDecomposeIssuePayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAIDecomposeIssuePayloadWithDefaults
+### NewMwServerInternalSchemasAIDecomposeIssuePayloadWithDefaults
 
-`func NewMwserverInternalSchemasAIDecomposeIssuePayloadWithDefaults() *MwserverInternalSchemasAIDecomposeIssuePayload`
+`func NewMwServerInternalSchemasAIDecomposeIssuePayloadWithDefaults() *MwServerInternalSchemasAIDecomposeIssuePayload`
 
-NewMwserverInternalSchemasAIDecomposeIssuePayloadWithDefaults instantiates a new MwserverInternalSchemasAIDecomposeIssuePayload object
+NewMwServerInternalSchemasAIDecomposeIssuePayloadWithDefaults instantiates a new MwServerInternalSchemasAIDecomposeIssuePayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetGoal
 
-`func (o *MwserverInternalSchemasAIDecomposeIssuePayload) GetGoal() string`
+`func (o *MwServerInternalSchemasAIDecomposeIssuePayload) GetGoal() string`
 
 GetGoal returns the Goal field if non-nil, zero value otherwise.
 
 ### GetGoalOk
 
-`func (o *MwserverInternalSchemasAIDecomposeIssuePayload) GetGoalOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIDecomposeIssuePayload) GetGoalOk() (*string, bool)`
 
 GetGoalOk returns a tuple with the Goal field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoal
 
-`func (o *MwserverInternalSchemasAIDecomposeIssuePayload) SetGoal(v string)`
+`func (o *MwServerInternalSchemasAIDecomposeIssuePayload) SetGoal(v string)`
 
 SetGoal sets Goal field to given value.
 
 
 ### GetMessage
 
-`func (o *MwserverInternalSchemasAIDecomposeIssuePayload) GetMessage() string`
+`func (o *MwServerInternalSchemasAIDecomposeIssuePayload) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *MwserverInternalSchemasAIDecomposeIssuePayload) GetMessageOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIDecomposeIssuePayload) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *MwserverInternalSchemasAIDecomposeIssuePayload) SetMessage(v string)`
+`func (o *MwServerInternalSchemasAIDecomposeIssuePayload) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 

@@ -1,4 +1,4 @@
-# MwserverInternalSchemasUpdateJobTagPayload
+# MwServerInternalSchemasUpdateJobTagPayload
 
 ## Properties
 
@@ -10,95 +10,95 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasUpdateJobTagPayload
+### NewMwServerInternalSchemasUpdateJobTagPayload
 
-`func NewMwserverInternalSchemasUpdateJobTagPayload() *MwserverInternalSchemasUpdateJobTagPayload`
+`func NewMwServerInternalSchemasUpdateJobTagPayload() *MwServerInternalSchemasUpdateJobTagPayload`
 
-NewMwserverInternalSchemasUpdateJobTagPayload instantiates a new MwserverInternalSchemasUpdateJobTagPayload object
+NewMwServerInternalSchemasUpdateJobTagPayload instantiates a new MwServerInternalSchemasUpdateJobTagPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasUpdateJobTagPayloadWithDefaults
+### NewMwServerInternalSchemasUpdateJobTagPayloadWithDefaults
 
-`func NewMwserverInternalSchemasUpdateJobTagPayloadWithDefaults() *MwserverInternalSchemasUpdateJobTagPayload`
+`func NewMwServerInternalSchemasUpdateJobTagPayloadWithDefaults() *MwServerInternalSchemasUpdateJobTagPayload`
 
-NewMwserverInternalSchemasUpdateJobTagPayloadWithDefaults instantiates a new MwserverInternalSchemasUpdateJobTagPayload object
+NewMwServerInternalSchemasUpdateJobTagPayloadWithDefaults instantiates a new MwServerInternalSchemasUpdateJobTagPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetColor
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) GetColor() string`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) GetColor() string`
 
 GetColor returns the Color field if non-nil, zero value otherwise.
 
 ### GetColorOk
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) GetColorOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) GetColorOk() (*string, bool)`
 
 GetColorOk returns a tuple with the Color field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetColor
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) SetColor(v string)`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) SetColor(v string)`
 
 SetColor sets Color field to given value.
 
 ### HasColor
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) HasColor() bool`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) HasColor() bool`
 
 HasColor returns a boolean if a field has been set.
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) GetDescription() string`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) SetDescription(v string)`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 ### HasDescription
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) HasDescription() bool`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
 
 ### GetName
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) GetName() string`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) SetName(v string)`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *MwserverInternalSchemasUpdateJobTagPayload) HasName() bool`
+`func (o *MwServerInternalSchemasUpdateJobTagPayload) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 

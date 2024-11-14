@@ -1,4 +1,4 @@
-# MwserverInternalSchemasCreateDayReportPayload
+# MwServerInternalSchemasCreateDayReportPayload
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasCreateDayReportPayload
+### NewMwServerInternalSchemasCreateDayReportPayload
 
-`func NewMwserverInternalSchemasCreateDayReportPayload(wayId string, ) *MwserverInternalSchemasCreateDayReportPayload`
+`func NewMwServerInternalSchemasCreateDayReportPayload(wayId string, ) *MwServerInternalSchemasCreateDayReportPayload`
 
-NewMwserverInternalSchemasCreateDayReportPayload instantiates a new MwserverInternalSchemasCreateDayReportPayload object
+NewMwServerInternalSchemasCreateDayReportPayload instantiates a new MwServerInternalSchemasCreateDayReportPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasCreateDayReportPayloadWithDefaults
+### NewMwServerInternalSchemasCreateDayReportPayloadWithDefaults
 
-`func NewMwserverInternalSchemasCreateDayReportPayloadWithDefaults() *MwserverInternalSchemasCreateDayReportPayload`
+`func NewMwServerInternalSchemasCreateDayReportPayloadWithDefaults() *MwServerInternalSchemasCreateDayReportPayload`
 
-NewMwserverInternalSchemasCreateDayReportPayloadWithDefaults instantiates a new MwserverInternalSchemasCreateDayReportPayload object
+NewMwServerInternalSchemasCreateDayReportPayloadWithDefaults instantiates a new MwServerInternalSchemasCreateDayReportPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetWayId
 
-`func (o *MwserverInternalSchemasCreateDayReportPayload) GetWayId() string`
+`func (o *MwServerInternalSchemasCreateDayReportPayload) GetWayId() string`
 
 GetWayId returns the WayId field if non-nil, zero value otherwise.
 
 ### GetWayIdOk
 
-`func (o *MwserverInternalSchemasCreateDayReportPayload) GetWayIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateDayReportPayload) GetWayIdOk() (*string, bool)`
 
 GetWayIdOk returns a tuple with the WayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayId
 
-`func (o *MwserverInternalSchemasCreateDayReportPayload) SetWayId(v string)`
+`func (o *MwServerInternalSchemasCreateDayReportPayload) SetWayId(v string)`
 
 SetWayId sets WayId field to given value.
 

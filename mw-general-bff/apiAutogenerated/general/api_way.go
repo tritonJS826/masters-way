@@ -27,16 +27,16 @@ type WayAPIService service
 type ApiCreateWayRequest struct {
 	ctx context.Context
 	ApiService *WayAPIService
-	request *MwserverInternalSchemasCreateWayPayload
+	request *MwServerInternalSchemasCreateWayPayload
 }
 
 // query params
-func (r ApiCreateWayRequest) Request(request MwserverInternalSchemasCreateWayPayload) ApiCreateWayRequest {
+func (r ApiCreateWayRequest) Request(request MwServerInternalSchemasCreateWayPayload) ApiCreateWayRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateWayRequest) Execute() (*MwserverInternalSchemasWayPlainResponse, *http.Response, error) {
+func (r ApiCreateWayRequest) Execute() (*MwServerInternalSchemasWayPlainResponse, *http.Response, error) {
 	return r.ApiService.CreateWayExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *WayAPIService) CreateWay(ctx context.Context) ApiCreateWayRequest {
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayPlainResponse
-func (a *WayAPIService) CreateWayExecute(r ApiCreateWayRequest) (*MwserverInternalSchemasWayPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayPlainResponse
+func (a *WayAPIService) CreateWayExecute(r ApiCreateWayRequest) (*MwServerInternalSchemasWayPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasWayPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasWayPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.CreateWay")
@@ -134,11 +134,11 @@ func (a *WayAPIService) CreateWayExecute(r ApiCreateWayRequest) (*MwserverIntern
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayPlainResponseStream
-func (a *WayAPIService) CreateWayStreamExecute(r ApiCreateWayRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasWayPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayPlainResponseStream
+func (a *WayAPIService) CreateWayStreamExecute(r ApiCreateWayRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasWayPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasWayPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.CreateWay")
@@ -419,7 +419,7 @@ func (r ApiGetAllWaysRequest) Status(status string) ApiGetAllWaysRequest {
 	return r
 }
 
-func (r ApiGetAllWaysRequest) Execute() (*MwserverInternalSchemasGetAllWaysResponse, *http.Response, error) {
+func (r ApiGetAllWaysRequest) Execute() (*MwServerInternalSchemasGetAllWaysResponse, *http.Response, error) {
 	return r.ApiService.GetAllWaysExecute(r)
 }
 
@@ -439,13 +439,13 @@ func (a *WayAPIService) GetAllWays(ctx context.Context) ApiGetAllWaysRequest {
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGetAllWaysResponse
-func (a *WayAPIService) GetAllWaysExecute(r ApiGetAllWaysRequest) (*MwserverInternalSchemasGetAllWaysResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAllWaysResponse
+func (a *WayAPIService) GetAllWaysExecute(r ApiGetAllWaysRequest) (*MwServerInternalSchemasGetAllWaysResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasGetAllWaysResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAllWaysResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetAllWays")
@@ -529,11 +529,11 @@ func (a *WayAPIService) GetAllWaysExecute(r ApiGetAllWaysRequest) (*MwserverInte
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGetAllWaysResponseStream
-func (a *WayAPIService) GetAllWaysStreamExecute(r ApiGetAllWaysRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasGetAllWaysResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAllWaysResponseStream
+func (a *WayAPIService) GetAllWaysStreamExecute(r ApiGetAllWaysRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetAllWaysResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasGetAllWaysResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAllWaysResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetAllWays")
@@ -636,7 +636,7 @@ type ApiGetWayByUuidRequest struct {
 	wayId string
 }
 
-func (r ApiGetWayByUuidRequest) Execute() (*MwserverInternalSchemasWayPopulatedResponse, *http.Response, error) {
+func (r ApiGetWayByUuidRequest) Execute() (*MwServerInternalSchemasWayPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetWayByUuidExecute(r)
 }
 
@@ -656,13 +656,13 @@ func (a *WayAPIService) GetWayByUuid(ctx context.Context, wayId string) ApiGetWa
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayPopulatedResponse
-func (a *WayAPIService) GetWayByUuidExecute(r ApiGetWayByUuidRequest) (*MwserverInternalSchemasWayPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayPopulatedResponse
+func (a *WayAPIService) GetWayByUuidExecute(r ApiGetWayByUuidRequest) (*MwServerInternalSchemasWayPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasWayPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasWayPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetWayByUuid")
@@ -732,11 +732,11 @@ func (a *WayAPIService) GetWayByUuidExecute(r ApiGetWayByUuidRequest) (*Mwserver
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayPopulatedResponseStream
-func (a *WayAPIService) GetWayByUuidStreamExecute(r ApiGetWayByUuidRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasWayPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayPopulatedResponseStream
+func (a *WayAPIService) GetWayByUuidStreamExecute(r ApiGetWayByUuidRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasWayPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasWayPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetWayByUuid")
@@ -815,13 +815,198 @@ func (a *WayAPIService) GetWayByUuidStreamExecute(r ApiGetWayByUuidRequest, requ
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetWayPlainForNotificationByUuidRequest struct {
+	ctx context.Context
+	ApiService *WayAPIService
+	wayId string
+}
+
+func (r ApiGetWayPlainForNotificationByUuidRequest) Execute() (*MwServerInternalSchemasWayPlainForNotificationResponse, *http.Response, error) {
+	return r.ApiService.GetWayPlainForNotificationByUuidExecute(r)
+}
+
+/*
+GetWayPlainForNotificationByUuid Get way plain for notification by UUID
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param wayId way ID
+ @return ApiGetWayPlainForNotificationByUuidRequest
+*/
+func (a *WayAPIService) GetWayPlainForNotificationByUuid(ctx context.Context, wayId string) ApiGetWayPlainForNotificationByUuidRequest {
+	return ApiGetWayPlainForNotificationByUuidRequest{
+		ApiService: a,
+		ctx: ctx,
+		wayId: wayId,
+	}
+}
+
+// Execute executes the request
+//  @return MwServerInternalSchemasWayPlainForNotificationResponse
+func (a *WayAPIService) GetWayPlainForNotificationByUuidExecute(r ApiGetWayPlainForNotificationByUuidRequest) (*MwServerInternalSchemasWayPlainForNotificationResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *MwServerInternalSchemasWayPlainForNotificationResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetWayPlainForNotificationByUuid")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/ways/{wayId}/notification"
+	localVarPath = strings.Replace(localVarPath, "{"+"wayId"+"}", url.PathEscape(parameterValueToString(r.wayId, "wayId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// Execute executes the request
+//  @return MwServerInternalSchemasWayPlainForNotificationResponseStream
+func (a *WayAPIService) GetWayPlainForNotificationByUuidStreamExecute(r ApiGetWayPlainForNotificationByUuidRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayPlainForNotificationResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarReturnValue  *MwServerInternalSchemasWayPlainForNotificationResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetWayPlainForNotificationByUuid")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/ways/{wayId}/notification"
+	localVarPath = strings.Replace(localVarPath, "{"+"wayId"+"}", url.PathEscape(parameterValueToString(r.wayId, "wayId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetWayStatisticsByUuidRequest struct {
 	ctx context.Context
 	ApiService *WayAPIService
 	wayId string
 }
 
-func (r ApiGetWayStatisticsByUuidRequest) Execute() (*MwserverInternalSchemasWayStatisticsTriplePeriod, *http.Response, error) {
+func (r ApiGetWayStatisticsByUuidRequest) Execute() (*MwServerInternalSchemasWayStatisticsTriplePeriod, *http.Response, error) {
 	return r.ApiService.GetWayStatisticsByUuidExecute(r)
 }
 
@@ -841,13 +1026,13 @@ func (a *WayAPIService) GetWayStatisticsByUuid(ctx context.Context, wayId string
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayStatisticsTriplePeriod
-func (a *WayAPIService) GetWayStatisticsByUuidExecute(r ApiGetWayStatisticsByUuidRequest) (*MwserverInternalSchemasWayStatisticsTriplePeriod, *http.Response, error) {
+//  @return MwServerInternalSchemasWayStatisticsTriplePeriod
+func (a *WayAPIService) GetWayStatisticsByUuidExecute(r ApiGetWayStatisticsByUuidRequest) (*MwServerInternalSchemasWayStatisticsTriplePeriod, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasWayStatisticsTriplePeriod
+		localVarReturnValue  *MwServerInternalSchemasWayStatisticsTriplePeriod
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetWayStatisticsByUuid")
@@ -917,11 +1102,11 @@ func (a *WayAPIService) GetWayStatisticsByUuidExecute(r ApiGetWayStatisticsByUui
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayStatisticsTriplePeriodStream
-func (a *WayAPIService) GetWayStatisticsByUuidStreamExecute(r ApiGetWayStatisticsByUuidRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasWayStatisticsTriplePeriod, *http.Response, error) {
+//  @return MwServerInternalSchemasWayStatisticsTriplePeriodStream
+func (a *WayAPIService) GetWayStatisticsByUuidStreamExecute(r ApiGetWayStatisticsByUuidRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayStatisticsTriplePeriod, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasWayStatisticsTriplePeriod
+		localVarReturnValue  *MwServerInternalSchemasWayStatisticsTriplePeriod
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.GetWayStatisticsByUuid")
@@ -1004,16 +1189,16 @@ type ApiUpdateWayRequest struct {
 	ctx context.Context
 	ApiService *WayAPIService
 	wayId string
-	request *MwserverInternalSchemasUpdateWayPayload
+	request *MwServerInternalSchemasUpdateWayPayload
 }
 
 // query params
-func (r ApiUpdateWayRequest) Request(request MwserverInternalSchemasUpdateWayPayload) ApiUpdateWayRequest {
+func (r ApiUpdateWayRequest) Request(request MwServerInternalSchemasUpdateWayPayload) ApiUpdateWayRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateWayRequest) Execute() (*MwserverInternalSchemasWayPlainResponse, *http.Response, error) {
+func (r ApiUpdateWayRequest) Execute() (*MwServerInternalSchemasWayPlainResponse, *http.Response, error) {
 	return r.ApiService.UpdateWayExecute(r)
 }
 
@@ -1033,13 +1218,13 @@ func (a *WayAPIService) UpdateWay(ctx context.Context, wayId string) ApiUpdateWa
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayPlainResponse
-func (a *WayAPIService) UpdateWayExecute(r ApiUpdateWayRequest) (*MwserverInternalSchemasWayPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayPlainResponse
+func (a *WayAPIService) UpdateWayExecute(r ApiUpdateWayRequest) (*MwServerInternalSchemasWayPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasWayPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasWayPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.UpdateWay")
@@ -1114,11 +1299,11 @@ func (a *WayAPIService) UpdateWayExecute(r ApiUpdateWayRequest) (*MwserverIntern
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayPlainResponseStream
-func (a *WayAPIService) UpdateWayStreamExecute(r ApiUpdateWayRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasWayPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayPlainResponseStream
+func (a *WayAPIService) UpdateWayStreamExecute(r ApiUpdateWayRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *MwserverInternalSchemasWayPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasWayPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayAPIService.UpdateWay")

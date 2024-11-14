@@ -27,16 +27,16 @@ type ProjectAPIService service
 type ApiCreateProjectRequest struct {
 	ctx context.Context
 	ApiService *ProjectAPIService
-	request *MwserverInternalSchemasCreateProjectPayload
+	request *MwServerInternalSchemasCreateProjectPayload
 }
 
 // query params
-func (r ApiCreateProjectRequest) Request(request MwserverInternalSchemasCreateProjectPayload) ApiCreateProjectRequest {
+func (r ApiCreateProjectRequest) Request(request MwServerInternalSchemasCreateProjectPayload) ApiCreateProjectRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateProjectRequest) Execute() (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+func (r ApiCreateProjectRequest) Execute() (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateProjectExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *ProjectAPIService) CreateProject(ctx context.Context) ApiCreateProjectR
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasProjectPopulatedResponse
-func (a *ProjectAPIService) CreateProjectExecute(r ApiCreateProjectRequest) (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProjectPopulatedResponse
+func (a *ProjectAPIService) CreateProjectExecute(r ApiCreateProjectRequest) (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasProjectPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProjectPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProjectAPIService.CreateProject")
@@ -134,11 +134,11 @@ func (a *ProjectAPIService) CreateProjectExecute(r ApiCreateProjectRequest) (*Mw
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasProjectPopulatedResponseStream
-func (a *ProjectAPIService) CreateProjectStreamExecute(r ApiCreateProjectRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProjectPopulatedResponseStream
+func (a *ProjectAPIService) CreateProjectStreamExecute(r ApiCreateProjectRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasProjectPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProjectPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProjectAPIService.CreateProject")
@@ -385,7 +385,7 @@ type ApiGetProjectRequest struct {
 	projectId string
 }
 
-func (r ApiGetProjectRequest) Execute() (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+func (r ApiGetProjectRequest) Execute() (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetProjectExecute(r)
 }
 
@@ -405,13 +405,13 @@ func (a *ProjectAPIService) GetProject(ctx context.Context, projectId string) Ap
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasProjectPopulatedResponse
-func (a *ProjectAPIService) GetProjectExecute(r ApiGetProjectRequest) (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProjectPopulatedResponse
+func (a *ProjectAPIService) GetProjectExecute(r ApiGetProjectRequest) (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasProjectPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProjectPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProjectAPIService.GetProject")
@@ -481,11 +481,11 @@ func (a *ProjectAPIService) GetProjectExecute(r ApiGetProjectRequest) (*Mwserver
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasProjectPopulatedResponseStream
-func (a *ProjectAPIService) GetProjectStreamExecute(r ApiGetProjectRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProjectPopulatedResponseStream
+func (a *ProjectAPIService) GetProjectStreamExecute(r ApiGetProjectRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasProjectPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProjectPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProjectAPIService.GetProject")
@@ -568,16 +568,16 @@ type ApiUpdateProjectRequest struct {
 	ctx context.Context
 	ApiService *ProjectAPIService
 	projectId string
-	request *MwserverInternalSchemasUpdateProjectPayload
+	request *MwServerInternalSchemasUpdateProjectPayload
 }
 
 // query params
-func (r ApiUpdateProjectRequest) Request(request MwserverInternalSchemasUpdateProjectPayload) ApiUpdateProjectRequest {
+func (r ApiUpdateProjectRequest) Request(request MwServerInternalSchemasUpdateProjectPayload) ApiUpdateProjectRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateProjectRequest) Execute() (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+func (r ApiUpdateProjectRequest) Execute() (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdateProjectExecute(r)
 }
 
@@ -597,13 +597,13 @@ func (a *ProjectAPIService) UpdateProject(ctx context.Context, projectId string)
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasProjectPopulatedResponse
-func (a *ProjectAPIService) UpdateProjectExecute(r ApiUpdateProjectRequest) (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProjectPopulatedResponse
+func (a *ProjectAPIService) UpdateProjectExecute(r ApiUpdateProjectRequest) (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasProjectPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProjectPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProjectAPIService.UpdateProject")
@@ -678,11 +678,11 @@ func (a *ProjectAPIService) UpdateProjectExecute(r ApiUpdateProjectRequest) (*Mw
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasProjectPopulatedResponseStream
-func (a *ProjectAPIService) UpdateProjectStreamExecute(r ApiUpdateProjectRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasProjectPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProjectPopulatedResponseStream
+func (a *ProjectAPIService) UpdateProjectStreamExecute(r ApiUpdateProjectRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasProjectPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *MwserverInternalSchemasProjectPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProjectPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProjectAPIService.UpdateProject")

@@ -48,7 +48,7 @@ func TestCreateJobTag(t *testing.T) {
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
-		requestCreateJobTag := openapiGeneral.MwserverInternalSchemasCreateJobTagPayload{
+		requestCreateJobTag := openapiGeneral.MwServerInternalSchemasCreateJobTagPayload{
 			Color:       requestData.Color,
 			Description: requestData.Description,
 			Name:        requestData.Name,
@@ -59,7 +59,7 @@ func TestCreateJobTag(t *testing.T) {
 			t.Fatalf("Failed to create job tag: %v", err)
 		}
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasJobTagResponse{
+		expectedData := &openapiGeneral.MwServerInternalSchemasJobTagResponse{
 			Color:       requestData.Color,
 			Description: requestData.Description,
 			Name:        requestData.Name,
@@ -107,7 +107,7 @@ func TestUpdateJobTag(t *testing.T) {
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 
-		request := openapiGeneral.MwserverInternalSchemasUpdateJobTagPayload{
+		request := openapiGeneral.MwServerInternalSchemasUpdateJobTagPayload{
 			Color:       &requestData.Color,
 			Description: &requestData.Description,
 			Name:        &requestData.Name,
@@ -117,7 +117,7 @@ func TestUpdateJobTag(t *testing.T) {
 			t.Fatalf("Failed to create job tag: %v", err)
 		}
 
-		expectedData := &openapiGeneral.MwserverInternalSchemasJobTagResponse{
+		expectedData := &openapiGeneral.MwServerInternalSchemasJobTagResponse{
 			Color:       requestData.Color,
 			Description: requestData.Description,
 			Name:        requestData.Name,

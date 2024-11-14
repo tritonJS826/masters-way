@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"mw-general-bff/internal/services"
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -9,11 +9,11 @@ import (
 )
 
 type HealthCheckController struct {
-	generalService *services.GeneralService
+	healthCheckFacade *facades.HealthCheckFacade
 }
 
-func NewHealthCheckController(generalService *services.GeneralService) *HealthCheckController {
-	return &HealthCheckController{generalService}
+func NewHealthCheckController(healthCheckFacade *facades.HealthCheckFacade) *HealthCheckController {
+	return &HealthCheckController{healthCheckFacade}
 }
 
 // @Summary Health Check
@@ -24,7 +24,7 @@ func NewHealthCheckController(generalService *services.GeneralService) *HealthCh
 // @Success 204
 // @Router /healthcheck [get]
 func (cc *HealthCheckController) GetGeneralHealthStatus(ctx *gin.Context) {
-	err := cc.generalService.GeneralHealthCheck(ctx)
+	err := cc.healthCheckFacade.GeneralHealthCheck(ctx)
 	utils.HandleErrorGin(ctx, err)
 	ctx.Status(http.StatusNoContent)
 }

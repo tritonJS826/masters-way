@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -10,11 +10,11 @@ import (
 )
 
 type PlanJobTagController struct {
-	generalService *services.GeneralService
+	planJobTagFacade *facades.PlanJobTagFacade
 }
 
-func NewPlanJobTagController(generalService *services.GeneralService) *PlanJobTagController {
-	return &PlanJobTagController{generalService}
+func NewPlanJobTagController(planJobTagFacade *facades.PlanJobTagFacade) *PlanJobTagController {
+	return &PlanJobTagController{planJobTagFacade}
 }
 
 // Create planJobTag  handler
@@ -35,7 +35,7 @@ func (pc *PlanJobTagController) CreatePlanJobTag(ctx *gin.Context) {
 		return
 	}
 
-	err := pc.generalService.CreatePlanJobTag(ctx, payload)
+	err := pc.planJobTagFacade.CreatePlanJobTag(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
@@ -56,7 +56,7 @@ func (pc *PlanJobTagController) DeletePlanJobTagById(ctx *gin.Context) {
 	planID := ctx.Param("planId")
 	jobTagID := ctx.Param("jobTagId")
 
-	err := pc.generalService.DeletePlanJobTagById(ctx, planID, jobTagID)
+	err := pc.planJobTagFacade.DeletePlanJobTagById(ctx, planID, jobTagID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

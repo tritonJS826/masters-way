@@ -1,4 +1,4 @@
-# MwserverInternalSchemasBeginAuthResponse
+# MwServerInternalSchemasBeginAuthResponse
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasBeginAuthResponse
+### NewMwServerInternalSchemasBeginAuthResponse
 
-`func NewMwserverInternalSchemasBeginAuthResponse(url string, ) *MwserverInternalSchemasBeginAuthResponse`
+`func NewMwServerInternalSchemasBeginAuthResponse(url string, ) *MwServerInternalSchemasBeginAuthResponse`
 
-NewMwserverInternalSchemasBeginAuthResponse instantiates a new MwserverInternalSchemasBeginAuthResponse object
+NewMwServerInternalSchemasBeginAuthResponse instantiates a new MwServerInternalSchemasBeginAuthResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasBeginAuthResponseWithDefaults
+### NewMwServerInternalSchemasBeginAuthResponseWithDefaults
 
-`func NewMwserverInternalSchemasBeginAuthResponseWithDefaults() *MwserverInternalSchemasBeginAuthResponse`
+`func NewMwServerInternalSchemasBeginAuthResponseWithDefaults() *MwServerInternalSchemasBeginAuthResponse`
 
-NewMwserverInternalSchemasBeginAuthResponseWithDefaults instantiates a new MwserverInternalSchemasBeginAuthResponse object
+NewMwServerInternalSchemasBeginAuthResponseWithDefaults instantiates a new MwServerInternalSchemasBeginAuthResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUrl
 
-`func (o *MwserverInternalSchemasBeginAuthResponse) GetUrl() string`
+`func (o *MwServerInternalSchemasBeginAuthResponse) GetUrl() string`
 
 GetUrl returns the Url field if non-nil, zero value otherwise.
 
 ### GetUrlOk
 
-`func (o *MwserverInternalSchemasBeginAuthResponse) GetUrlOk() (*string, bool)`
+`func (o *MwServerInternalSchemasBeginAuthResponse) GetUrlOk() (*string, bool)`
 
 GetUrlOk returns a tuple with the Url field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUrl
 
-`func (o *MwserverInternalSchemasBeginAuthResponse) SetUrl(v string)`
+`func (o *MwServerInternalSchemasBeginAuthResponse) SetUrl(v string)`
 
 SetUrl sets Url field to given value.
 

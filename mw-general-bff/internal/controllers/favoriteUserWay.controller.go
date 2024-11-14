@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -10,11 +10,11 @@ import (
 )
 
 type FavoriteUserWayController struct {
-	generalService *services.GeneralService
+	favoriteUserWayFacade *facades.FavoriteUserWayFacade
 }
 
-func NewFavoriteUserWayController(generalService *services.GeneralService) *FavoriteUserWayController {
-	return &FavoriteUserWayController{generalService}
+func NewFavoriteUserWayController(favoriteUserWayFacade *facades.FavoriteUserWayFacade) *FavoriteUserWayController {
+	return &FavoriteUserWayController{favoriteUserWayFacade}
 }
 
 // Create favoriteUserWay handler
@@ -27,7 +27,7 @@ func NewFavoriteUserWayController(generalService *services.GeneralService) *Favo
 // @Param request body schemas.CreateFavoriteUserWayPayload true "query params"
 // @Success 204
 // @Router /favoriteUserWays [post]
-func (fuwc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
+func (fc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 	var payload schemas.CreateFavoriteUserWayPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -35,7 +35,7 @@ func (fuwc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 		return
 	}
 
-	err := fuwc.generalService.CreateFavoriteUserWay(ctx, payload.UserUuid, payload.WayUuid)
+	err := fc.favoriteUserWayFacade.CreateFavoriteUserWay(ctx, payload.UserUuid, payload.WayUuid)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
@@ -52,11 +52,11 @@ func (fuwc *FavoriteUserWayController) CreateFavoriteUserWay(ctx *gin.Context) {
 // @Param wayUuid path string true "way ID"
 // @Success 204
 // @Router /favoriteUserWays/{userUuid}/{wayUuid} [delete]
-func (fuwc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Context) {
+func (fc *FavoriteUserWayController) DeleteFavoriteUserWayById(ctx *gin.Context) {
 	userID := ctx.Param("userUuid")
 	wayID := ctx.Param("wayUuid")
 
-	err := fuwc.generalService.DeleteFavoriteUserWayById(ctx, userID, wayID)
+	err := fc.favoriteUserWayFacade.DeleteFavoriteUserWayById(ctx, userID, wayID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

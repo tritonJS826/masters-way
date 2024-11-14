@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAIChatResponse
+# MwServerInternalSchemasAIChatResponse
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAIChatResponse
+### NewMwServerInternalSchemasAIChatResponse
 
-`func NewMwserverInternalSchemasAIChatResponse(message string, ) *MwserverInternalSchemasAIChatResponse`
+`func NewMwServerInternalSchemasAIChatResponse(message string, ) *MwServerInternalSchemasAIChatResponse`
 
-NewMwserverInternalSchemasAIChatResponse instantiates a new MwserverInternalSchemasAIChatResponse object
+NewMwServerInternalSchemasAIChatResponse instantiates a new MwServerInternalSchemasAIChatResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAIChatResponseWithDefaults
+### NewMwServerInternalSchemasAIChatResponseWithDefaults
 
-`func NewMwserverInternalSchemasAIChatResponseWithDefaults() *MwserverInternalSchemasAIChatResponse`
+`func NewMwServerInternalSchemasAIChatResponseWithDefaults() *MwServerInternalSchemasAIChatResponse`
 
-NewMwserverInternalSchemasAIChatResponseWithDefaults instantiates a new MwserverInternalSchemasAIChatResponse object
+NewMwServerInternalSchemasAIChatResponseWithDefaults instantiates a new MwServerInternalSchemasAIChatResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMessage
 
-`func (o *MwserverInternalSchemasAIChatResponse) GetMessage() string`
+`func (o *MwServerInternalSchemasAIChatResponse) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *MwserverInternalSchemasAIChatResponse) GetMessageOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIChatResponse) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *MwserverInternalSchemasAIChatResponse) SetMessage(v string)`
+`func (o *MwServerInternalSchemasAIChatResponse) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 

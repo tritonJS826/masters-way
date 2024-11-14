@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
@@ -10,11 +11,11 @@ import (
 )
 
 type JobTagController struct {
-	generalService *services.GeneralService
+	jobTagFacade *facades.JobTagFacade
 }
 
-func NewJobTagController(generalService *services.GeneralService) *JobTagController {
-	return &JobTagController{generalService}
+func NewJobTagController(jobTagFacade *facades.JobTagFacade) *JobTagController {
+	return &JobTagController{jobTagFacade}
 }
 
 // Create wayTag  handler
@@ -35,7 +36,7 @@ func (jc *JobTagController) CreateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	jobTag, err := jc.generalService.CreateJobTag(ctx, &payload)
+	jobTag, err := jc.jobTagFacade.CreateJobTag(ctx, &payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, jobTag)
@@ -61,7 +62,7 @@ func (jc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 		return
 	}
 
-	jobTag, err := jc.generalService.UpdateJobTag(ctx, &services.UpdateJobTagParams{
+	jobTag, err := jc.jobTagFacade.UpdateJobTag(ctx, &services.UpdateJobTagParams{
 		JobTagID:    jobTagID,
 		Name:        payload.Name,
 		Description: payload.Description,
@@ -85,7 +86,7 @@ func (jc *JobTagController) UpdateJobTag(ctx *gin.Context) {
 func (jc *JobTagController) DeleteJobTagById(ctx *gin.Context) {
 	jobTagID := ctx.Param("jobTagId")
 
-	err := jc.generalService.DeleteJobTagById(ctx, jobTagID)
+	err := jc.jobTagFacade.DeleteJobTagById(ctx, jobTagID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

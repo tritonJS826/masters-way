@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"fmt"
-	"mwserver/internal/auth"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-server/internal/auth"
+	"mw-server/internal/schemas"
+	"mw-server/internal/services"
+	"mw-server/pkg/util"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

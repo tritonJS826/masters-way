@@ -1,4 +1,4 @@
-# MwserverInternalSchemasGetUsersByIDsResponse
+# MwServerInternalSchemasGetUsersByIDsResponse
 
 ## Properties
 
@@ -10,79 +10,79 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasGetUsersByIDsResponse
+### NewMwServerInternalSchemasGetUsersByIDsResponse
 
-`func NewMwserverInternalSchemasGetUsersByIDsResponse(imageUrl string, name string, userId string, ) *MwserverInternalSchemasGetUsersByIDsResponse`
+`func NewMwServerInternalSchemasGetUsersByIDsResponse(imageUrl string, name string, userId string, ) *MwServerInternalSchemasGetUsersByIDsResponse`
 
-NewMwserverInternalSchemasGetUsersByIDsResponse instantiates a new MwserverInternalSchemasGetUsersByIDsResponse object
+NewMwServerInternalSchemasGetUsersByIDsResponse instantiates a new MwServerInternalSchemasGetUsersByIDsResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasGetUsersByIDsResponseWithDefaults
+### NewMwServerInternalSchemasGetUsersByIDsResponseWithDefaults
 
-`func NewMwserverInternalSchemasGetUsersByIDsResponseWithDefaults() *MwserverInternalSchemasGetUsersByIDsResponse`
+`func NewMwServerInternalSchemasGetUsersByIDsResponseWithDefaults() *MwServerInternalSchemasGetUsersByIDsResponse`
 
-NewMwserverInternalSchemasGetUsersByIDsResponseWithDefaults instantiates a new MwserverInternalSchemasGetUsersByIDsResponse object
+NewMwServerInternalSchemasGetUsersByIDsResponseWithDefaults instantiates a new MwServerInternalSchemasGetUsersByIDsResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetImageUrl
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) GetImageUrl() string`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetImageUrl() string`
 
 GetImageUrl returns the ImageUrl field if non-nil, zero value otherwise.
 
 ### GetImageUrlOk
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) GetImageUrlOk() (*string, bool)`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetImageUrlOk() (*string, bool)`
 
 GetImageUrlOk returns a tuple with the ImageUrl field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetImageUrl
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) SetImageUrl(v string)`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) SetImageUrl(v string)`
 
 SetImageUrl sets ImageUrl field to given value.
 
 
 ### GetName
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) GetName() string`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) SetName(v string)`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetUserId
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) GetUserId() string`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetUserId() string`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) GetUserIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetUserIdOk() (*string, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *MwserverInternalSchemasGetUsersByIDsResponse) SetUserId(v string)`
+`func (o *MwServerInternalSchemasGetUsersByIDsResponse) SetUserId(v string)`
 
 SetUserId sets UserId field to given value.
 

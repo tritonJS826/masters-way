@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
@@ -11,11 +12,11 @@ import (
 )
 
 type CommentController struct {
-	generalService *services.GeneralService
+	commentFacade *facades.CommentFacade
 }
 
-func NewCommentController(generalService *services.GeneralService) *CommentController {
-	return &CommentController{generalService}
+func NewCommentController(commentFacade *facades.CommentFacade) *CommentController {
+	return &CommentController{commentFacade}
 }
 
 // Create Comment  handler
@@ -41,7 +42,7 @@ func (cc *CommentController) CreateComment(ctx *gin.Context) {
 		DayReportUuid: payload.DayReportUuid,
 		OwnerUuid:     payload.OwnerUuid,
 	}
-	response, err := cc.generalService.CreateComment(ctx, args)
+	response, err := cc.commentFacade.CreateComment(ctx, args)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -71,7 +72,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 		CommentID:   commentID,
 		Description: payload.Description,
 	}
-	response, err := cc.generalService.UpdateComment(ctx, args)
+	response, err := cc.commentFacade.UpdateComment(ctx, args)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -90,7 +91,7 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 func (cc *CommentController) DeleteCommentById(ctx *gin.Context) {
 	commentID := ctx.Param("commentId")
 
-	err := cc.generalService.DeleteCommentById(ctx, commentID)
+	err := cc.commentFacade.DeleteCommentById(ctx, commentID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "successfully deleted"})

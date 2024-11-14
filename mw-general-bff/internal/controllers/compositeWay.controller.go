@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -10,11 +10,11 @@ import (
 )
 
 type CompositeWayController struct {
-	generalService *services.GeneralService
+	compositeWayFacade *facades.CompositeWayFacade
 }
 
-func NewCompositeWayController(generalService *services.GeneralService) *CompositeWayController {
-	return &CompositeWayController{generalService}
+func NewCompositeWayController(compositeWayFacade *facades.CompositeWayFacade) *CompositeWayController {
+	return &CompositeWayController{compositeWayFacade}
 }
 
 // Create compositeWay handler
@@ -38,7 +38,7 @@ func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
 		ChildWayUuid:  payload.ChildWayUuid,
 		ParentWayUuid: payload.ParentWayUuid,
 	}
-	response, err := cc.generalService.AddWayToCompositeWay(ctx, args)
+	response, err := cc.compositeWayFacade.AddWayToCompositeWay(ctx, args)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -59,7 +59,7 @@ func (cwc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) 
 	parentWayID := ctx.Param("parentWayId")
 	childWayID := ctx.Param("childWayId")
 
-	err := cwc.generalService.DeleteCompositeWayRelation(ctx, parentWayID, childWayID)
+	err := cwc.compositeWayFacade.DeleteCompositeWayRelation(ctx, parentWayID, childWayID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

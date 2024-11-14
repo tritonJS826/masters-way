@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -10,11 +10,11 @@ import (
 )
 
 type FavoriteUserController struct {
-	generalService *services.GeneralService
+	favoriteUserFacade *facades.FavoriteUserFacade
 }
 
-func NewFavoriteUserController(generalService *services.GeneralService) *FavoriteUserController {
-	return &FavoriteUserController{generalService}
+func NewFavoriteUserController(favoriteUserFacade *facades.FavoriteUserFacade) *FavoriteUserController {
+	return &FavoriteUserController{favoriteUserFacade}
 }
 
 // Create favoriteUser handler
@@ -27,7 +27,7 @@ func NewFavoriteUserController(generalService *services.GeneralService) *Favorit
 // @Param request body schemas.CreateFavoriteUserPayload true "query params"
 // @Success 204
 // @Router /favoriteUsers [post]
-func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
+func (fc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 	var payload schemas.CreateFavoriteUserPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -39,7 +39,7 @@ func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 		DonorUserUuid:    payload.DonorUserUuid,
 		AcceptorUserUuid: payload.AcceptorUserUuid,
 	}
-	err := fuc.generalService.CreateFavoriteUser(ctx, args)
+	err := fc.favoriteUserFacade.CreateFavoriteUser(ctx, args)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
@@ -56,11 +56,11 @@ func (fuc *FavoriteUserController) CreateFavoriteUser(ctx *gin.Context) {
 // @Param acceptorUserUuid path string true "acceptorUser UUID"
 // @Success 204
 // @Router /favoriteUsers/{donorUserUuid}/{acceptorUserUuid} [delete]
-func (fuc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
+func (fc *FavoriteUserController) DeleteFavoriteUserById(ctx *gin.Context) {
 	donorUserUuid := ctx.Param("donorUserUuid")
 	acceptorUserUuid := ctx.Param("acceptorUserUuid")
 
-	err := fuc.generalService.DeleteFavoriteUserById(ctx, donorUserUuid, acceptorUserUuid)
+	err := fc.favoriteUserFacade.DeleteFavoriteUserById(ctx, donorUserUuid, acceptorUserUuid)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

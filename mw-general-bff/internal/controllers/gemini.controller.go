@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -10,11 +10,11 @@ import (
 )
 
 type GeminiController struct {
-	generalService *services.GeneralService
+	geminiFacade *facades.GeminiFacade
 }
 
-func NewGeminiController(generalService *services.GeneralService) *GeminiController {
-	return &GeminiController{generalService}
+func NewGeminiController(geminiFacade *facades.GeminiFacade) *GeminiController {
+	return &GeminiController{geminiFacade}
 }
 
 // Generate metrics handler
@@ -27,14 +27,14 @@ func NewGeminiController(generalService *services.GeneralService) *GeminiControl
 // @Param request body schemas.GenerateMetricsPayload true "Request payload"
 // @Success 200 {object} schemas.GenerateMetricsResponse
 // @Router /gemini/metrics [post]
-func (cc *GeminiController) GenerateMetrics(ctx *gin.Context) {
+func (gc *GeminiController) GenerateMetrics(ctx *gin.Context) {
 	var payload schemas.GenerateMetricsPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.generalService.CreateMetricsPrompt(ctx, &payload)
+	response, err := gc.geminiFacade.CreateMetricsPrompt(ctx, &payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -50,14 +50,14 @@ func (cc *GeminiController) GenerateMetrics(ctx *gin.Context) {
 // @Param request body schemas.AIChatPayload true "Request payload"
 // @Success 200 {object} schemas.AIChatResponse
 // @Router /gemini/just-chat [post]
-func (cc *GeminiController) AIChat(ctx *gin.Context) {
+func (gc *GeminiController) AIChat(ctx *gin.Context) {
 	var payload schemas.AIChatPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.generalService.AIChat(ctx, &payload)
+	response, err := gc.geminiFacade.AIChat(ctx, &payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -73,14 +73,14 @@ func (cc *GeminiController) AIChat(ctx *gin.Context) {
 // @Param request body schemas.AIGeneratePlansByMetricPayload true "Request payload"
 // @Success 200 {object} schemas.AIGeneratePlansByMetricResponse
 // @Router /gemini/generate-plans-by-metric [post]
-func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
+func (gc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 	var payload *schemas.AIGeneratePlansByMetricPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.generalService.GeneratePlansByMetric(ctx, payload)
+	response, err := gc.geminiFacade.GeneratePlansByMetric(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -96,14 +96,14 @@ func (cc *GeminiController) GeneratePlansByMetric(ctx *gin.Context) {
 // @Param request body schemas.AICommentIssuePayload true "Request payload"
 // @Success 200 {object} schemas.AICommentIssueResponse
 // @Router /gemini/comment-issue [post]
-func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
+func (gc *GeminiController) CommentIssue(ctx *gin.Context) {
 	var payload schemas.AICommentIssuePayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.generalService.CommentIssue(ctx, &payload)
+	response, err := gc.geminiFacade.CommentIssue(ctx, &payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -119,14 +119,14 @@ func (cc *GeminiController) CommentIssue(ctx *gin.Context) {
 // @Param request body schemas.AIDecomposeIssuePayload true "Request payload"
 // @Success 200 {object} schemas.AIDecomposeIssueResponse
 // @Router /gemini/decompose-issue [post]
-func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
+func (gc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 	var payload *schemas.AIDecomposeIssuePayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.generalService.DecomposeIssue(ctx, payload)
+	response, err := gc.geminiFacade.DecomposeIssue(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -142,14 +142,14 @@ func (cc *GeminiController) DecomposeIssue(ctx *gin.Context) {
 // @Param request body schemas.AIEstimateIssuePayload true "Request payload"
 // @Success 200 {object} schemas.AIEstimateIssueResponse
 // @Router /gemini/estimate-issue [post]
-func (cc *GeminiController) EstimateIssue(ctx *gin.Context) {
+func (gc *GeminiController) EstimateIssue(ctx *gin.Context) {
 	var payload *schemas.AIEstimateIssuePayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.generalService.EstimateIssue(ctx, payload)
+	response, err := gc.geminiFacade.EstimateIssue(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

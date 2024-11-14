@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateMetric
 
-> MwserverInternalSchemasMetricResponse CreateMetric(ctx).Request(request).Execute()
+> MwServerInternalSchemasMetricResponse CreateMetric(ctx).Request(request).Execute()
 
 Create a new metric
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateMetricPayload("Description_example", "DoneDate_example", int32(123), false, "WayUuid_example") // MwserverInternalSchemasCreateMetricPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateMetricPayload("Description_example", "DoneDate_example", int32(123), false, "WayUuid_example") // MwServerInternalSchemasCreateMetricPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.CreateMetric``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateMetric`: MwserverInternalSchemasMetricResponse
+	// response from `CreateMetric`: MwServerInternalSchemasMetricResponse
 	fmt.Fprintf(os.Stdout, "Response from `MetricAPI.CreateMetric`: %v\n", resp)
 }
 ```
@@ -54,11 +54,11 @@ Other parameters are passed through a pointer to a apiCreateMetricRequest struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateMetricPayload**](MwserverInternalSchemasCreateMetricPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateMetricPayload**](MwServerInternalSchemasCreateMetricPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasMetricResponse**](MwserverInternalSchemasMetricResponse.md)
+[**MwServerInternalSchemasMetricResponse**](MwServerInternalSchemasMetricResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## UpdateMetric
 
-> MwserverInternalSchemasMetricResponse UpdateMetric(ctx, metricId).Request(request).Execute()
+> MwServerInternalSchemasMetricResponse UpdateMetric(ctx, metricId).Request(request).Execute()
 
 Update metric by UUID
 
@@ -160,7 +160,7 @@ import (
 
 func main() {
 	metricId := "metricId_example" // string | metric UUID
-	request := *openapiclient.NewMwserverInternalSchemasUpdateMetricPayload() // MwserverInternalSchemasUpdateMetricPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasUpdateMetricPayload() // MwServerInternalSchemasUpdateMetricPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.UpdateMetric``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateMetric`: MwserverInternalSchemasMetricResponse
+	// response from `UpdateMetric`: MwServerInternalSchemasMetricResponse
 	fmt.Fprintf(os.Stdout, "Response from `MetricAPI.UpdateMetric`: %v\n", resp)
 }
 ```
@@ -190,11 +190,11 @@ Other parameters are passed through a pointer to a apiUpdateMetricRequest struct
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**MwserverInternalSchemasUpdateMetricPayload**](MwserverInternalSchemasUpdateMetricPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasUpdateMetricPayload**](MwServerInternalSchemasUpdateMetricPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasMetricResponse**](MwserverInternalSchemasMetricResponse.md)
+[**MwServerInternalSchemasMetricResponse**](MwServerInternalSchemasMetricResponse.md)
 
 ### Authorization
 

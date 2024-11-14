@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateWayCollectionWay
 
-> MwserverInternalSchemasWayCollectionWayResponse CreateWayCollectionWay(ctx).Request(request).Execute()
+> MwServerInternalSchemasWayCollectionWayResponse CreateWayCollectionWay(ctx).Request(request).Execute()
 
 Create a new wayCollectionWay
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateWayCollectionWay("WayCollectionUuid_example", "WayUuid_example") // MwserverInternalSchemasCreateWayCollectionWay | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateWayCollectionWay("WayCollectionUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateWayCollectionWay | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayCollectionWayAPI.CreateWayCollectionWay``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateWayCollectionWay`: MwserverInternalSchemasWayCollectionWayResponse
+	// response from `CreateWayCollectionWay`: MwServerInternalSchemasWayCollectionWayResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayCollectionWayAPI.CreateWayCollectionWay`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateWayCollectionWayRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateWayCollectionWay**](MwserverInternalSchemasCreateWayCollectionWay.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateWayCollectionWay**](MwServerInternalSchemasCreateWayCollectionWay.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasWayCollectionWayResponse**](MwserverInternalSchemasWayCollectionWayResponse.md)
+[**MwServerInternalSchemasWayCollectionWayResponse**](MwServerInternalSchemasWayCollectionWayResponse.md)
 
 ### Authorization
 

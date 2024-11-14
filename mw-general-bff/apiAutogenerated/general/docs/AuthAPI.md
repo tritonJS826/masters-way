@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## BeginAuth
 
-> MwserverInternalSchemasBeginAuthResponse BeginAuth(ctx, provider).Execute()
+> MwServerInternalSchemasBeginAuthResponse BeginAuth(ctx, provider).Execute()
 
 Begin oauth
 
@@ -41,7 +41,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.BeginAuth``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `BeginAuth`: MwserverInternalSchemasBeginAuthResponse
+	// response from `BeginAuth`: MwServerInternalSchemasBeginAuthResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.BeginAuth`: %v\n", resp)
 }
 ```
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwserverInternalSchemasBeginAuthResponse**](MwserverInternalSchemasBeginAuthResponse.md)
+[**MwServerInternalSchemasBeginAuthResponse**](MwServerInternalSchemasBeginAuthResponse.md)
 
 ### Authorization
 
@@ -83,7 +83,7 @@ No authorization required
 
 ## GetCurrentAuthorizedUser
 
-> MwserverInternalSchemasUserPopulatedResponse GetCurrentAuthorizedUser(ctx).Execute()
+> MwServerInternalSchemasUserPopulatedResponse GetCurrentAuthorizedUser(ctx).Execute()
 
 Get current authorized user
 
@@ -108,7 +108,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetCurrentAuthorizedUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetCurrentAuthorizedUser`: MwserverInternalSchemasUserPopulatedResponse
+	// response from `GetCurrentAuthorizedUser`: MwServerInternalSchemasUserPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetCurrentAuthorizedUser`: %v\n", resp)
 }
 ```
@@ -124,7 +124,7 @@ Other parameters are passed through a pointer to a apiGetCurrentAuthorizedUserRe
 
 ### Return type
 
-[**MwserverInternalSchemasUserPopulatedResponse**](MwserverInternalSchemasUserPopulatedResponse.md)
+[**MwServerInternalSchemasUserPopulatedResponse**](MwServerInternalSchemasUserPopulatedResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## GetGoogleToken
 
-> MwserverInternalSchemasGoogleToken GetGoogleToken(ctx).Execute()
+> MwServerInternalSchemasGoogleToken GetGoogleToken(ctx).Execute()
 
 Retrieve Google Access Token
 
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetGoogleToken``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetGoogleToken`: MwserverInternalSchemasGoogleToken
+	// response from `GetGoogleToken`: MwServerInternalSchemasGoogleToken
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetGoogleToken`: %v\n", resp)
 }
 ```
@@ -185,7 +185,7 @@ Other parameters are passed through a pointer to a apiGetGoogleTokenRequest stru
 
 ### Return type
 
-[**MwserverInternalSchemasGoogleToken**](MwserverInternalSchemasGoogleToken.md)
+[**MwServerInternalSchemasGoogleToken**](MwServerInternalSchemasGoogleToken.md)
 
 ### Authorization
 
@@ -203,7 +203,7 @@ No authorization required
 
 ## GetTokenLocally
 
-> MwserverInternalSchemasGetUserTokenByEmailResponse GetTokenLocally(ctx, userEmail).Execute()
+> MwServerInternalSchemasGetUserTokenByEmailResponse GetTokenLocally(ctx, userEmail).Execute()
 
 login locally by email (with no oauth)
 
@@ -231,7 +231,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetTokenLocally``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetTokenLocally`: MwserverInternalSchemasGetUserTokenByEmailResponse
+	// response from `GetTokenLocally`: MwServerInternalSchemasGetUserTokenByEmailResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetTokenLocally`: %v\n", resp)
 }
 ```
@@ -255,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwserverInternalSchemasGetUserTokenByEmailResponse**](MwserverInternalSchemasGetUserTokenByEmailResponse.md)
+[**MwServerInternalSchemasGetUserTokenByEmailResponse**](MwServerInternalSchemasGetUserTokenByEmailResponse.md)
 
 ### Authorization
 
@@ -273,7 +273,7 @@ No authorization required
 
 ## GoogleAuthLogInCallbackFunction
 
-> MwserverInternalSchemasGetAuthCallbackFunctionResponse GoogleAuthLogInCallbackFunction(ctx, provider).Code(code).State(state).Execute()
+> MwServerInternalSchemasGetAuthCallbackFunctionResponse GoogleAuthLogInCallbackFunction(ctx, provider).Code(code).State(state).Execute()
 
 Log in with google oAuth
 
@@ -301,7 +301,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GoogleAuthLogInCallbackFunction``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GoogleAuthLogInCallbackFunction`: MwserverInternalSchemasGetAuthCallbackFunctionResponse
+	// response from `GoogleAuthLogInCallbackFunction`: MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GoogleAuthLogInCallbackFunction`: %v\n", resp)
 }
 ```
@@ -327,7 +327,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwserverInternalSchemasGetAuthCallbackFunctionResponse**](MwserverInternalSchemasGetAuthCallbackFunctionResponse.md)
+[**MwServerInternalSchemasGetAuthCallbackFunctionResponse**](MwServerInternalSchemasGetAuthCallbackFunctionResponse.md)
 
 ### Authorization
 

@@ -1,4 +1,4 @@
-# MwserverInternalSchemasCompositeWayRelation
+# MwServerInternalSchemasCompositeWayRelation
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasCompositeWayRelation
+### NewMwServerInternalSchemasCompositeWayRelation
 
-`func NewMwserverInternalSchemasCompositeWayRelation(childWayUuid string, parentWayUuid string, ) *MwserverInternalSchemasCompositeWayRelation`
+`func NewMwServerInternalSchemasCompositeWayRelation(childWayUuid string, parentWayUuid string, ) *MwServerInternalSchemasCompositeWayRelation`
 
-NewMwserverInternalSchemasCompositeWayRelation instantiates a new MwserverInternalSchemasCompositeWayRelation object
+NewMwServerInternalSchemasCompositeWayRelation instantiates a new MwServerInternalSchemasCompositeWayRelation object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasCompositeWayRelationWithDefaults
+### NewMwServerInternalSchemasCompositeWayRelationWithDefaults
 
-`func NewMwserverInternalSchemasCompositeWayRelationWithDefaults() *MwserverInternalSchemasCompositeWayRelation`
+`func NewMwServerInternalSchemasCompositeWayRelationWithDefaults() *MwServerInternalSchemasCompositeWayRelation`
 
-NewMwserverInternalSchemasCompositeWayRelationWithDefaults instantiates a new MwserverInternalSchemasCompositeWayRelation object
+NewMwServerInternalSchemasCompositeWayRelationWithDefaults instantiates a new MwServerInternalSchemasCompositeWayRelation object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetChildWayUuid
 
-`func (o *MwserverInternalSchemasCompositeWayRelation) GetChildWayUuid() string`
+`func (o *MwServerInternalSchemasCompositeWayRelation) GetChildWayUuid() string`
 
 GetChildWayUuid returns the ChildWayUuid field if non-nil, zero value otherwise.
 
 ### GetChildWayUuidOk
 
-`func (o *MwserverInternalSchemasCompositeWayRelation) GetChildWayUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCompositeWayRelation) GetChildWayUuidOk() (*string, bool)`
 
 GetChildWayUuidOk returns a tuple with the ChildWayUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetChildWayUuid
 
-`func (o *MwserverInternalSchemasCompositeWayRelation) SetChildWayUuid(v string)`
+`func (o *MwServerInternalSchemasCompositeWayRelation) SetChildWayUuid(v string)`
 
 SetChildWayUuid sets ChildWayUuid field to given value.
 
 
 ### GetParentWayUuid
 
-`func (o *MwserverInternalSchemasCompositeWayRelation) GetParentWayUuid() string`
+`func (o *MwServerInternalSchemasCompositeWayRelation) GetParentWayUuid() string`
 
 GetParentWayUuid returns the ParentWayUuid field if non-nil, zero value otherwise.
 
 ### GetParentWayUuidOk
 
-`func (o *MwserverInternalSchemasCompositeWayRelation) GetParentWayUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCompositeWayRelation) GetParentWayUuidOk() (*string, bool)`
 
 GetParentWayUuidOk returns a tuple with the ParentWayUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetParentWayUuid
 
-`func (o *MwserverInternalSchemasCompositeWayRelation) SetParentWayUuid(v string)`
+`func (o *MwServerInternalSchemasCompositeWayRelation) SetParentWayUuid(v string)`
 
 SetParentWayUuid sets ParentWayUuid field to given value.
 

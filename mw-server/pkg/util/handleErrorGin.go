@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"log"
-	"mwserver/internal/customErrors"
+	"mw-server/internal/customErrors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
