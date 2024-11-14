@@ -78,6 +78,20 @@ export class NotificationStore {
     this.unreadNotificationsAmount = null;
   };
 
+  /**
+   * Add notification to notificationList
+   */
+  public addNotification = (newNotification: Notification) => {
+    this.notificationList = this.notificationList && [newNotification, ...this.notificationList];
+  };
+
+  /**
+   * Add one unread notification to amount
+   */
+  public addUnreadNotificationToAmount = () => {
+    this.unreadNotificationsAmount && this.unreadNotificationsAmount++;
+  };
+
 }
 
 export const notificationStore = new NotificationStore();

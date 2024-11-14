@@ -11,18 +11,18 @@ export class NotificationDAL {
    * Get unread notification amount
    */
   public static async getNotificationPreview(): Promise<number> {
-    const unreadMessageAmountDTO = await NotificationService.getNotificationPreview();
-    const unreadMessageAmount = unreadMessageAmountDTO;
+    const notificationDTO = await NotificationService.getNotificationList();
+    const unreadNotificationAmount = notificationDTO.size;
 
-    return unreadMessageAmount;
+    return unreadNotificationAmount;
   }
 
   /**
    * Get notification list by user ID
    */
   public static async getNotificationListById(): Promise<Notification[]> {
-    const notificationListDTO = await NotificationService.getNotificationListById();
-    const notificationList = notificationListDTO.map(notificationDTOToNotification);
+    const notificationListDTO = await NotificationService.getNotificationList();
+    const notificationList = notificationListDTO.notifications.map(notificationDTOToNotification);
 
     return notificationList;
   }

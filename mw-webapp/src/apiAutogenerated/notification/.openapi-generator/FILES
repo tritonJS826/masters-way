@@ -1,0 +1,13 @@
+.openapi-generator-ignore
+apis/EnabledNotificationApi.ts
+apis/NotificationApi.ts
+apis/index.ts
+index.ts
+models/MwNotificationBffInternalSchemasEnabledNotificationResponse.ts
+models/MwNotificationBffInternalSchemasGetEnabledNotificationListResponse.ts
+models/MwNotificationBffInternalSchemasGetNotificationListResponse.ts
+models/MwNotificationBffInternalSchemasNotificationResponse.ts
+models/MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload.ts
+models/MwNotificationBffInternalSchemasUpdateNotificationPayload.ts
+models/index.ts
+runtime.ts
