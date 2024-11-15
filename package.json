@@ -12,7 +12,6 @@
     "web:build-storybook": "pnpm --filter mw-webapp build-storybook",
     "web:cypress:component:run": "pnpm --filter mw-webapp cypress:component:run",
     "web:cypress:e2e:run": "pnpm --filter mw-webapp cypress:e2e:run",
-    "web:cypress:e2e:open": "pnpm --filter mw-webapp cypress:e2e:open",
     "web:test": "pnpm --filter mw-webapp test",
     "server:start": "pnpm --filter 'mw-server' start",
     "server:build": "pnpm --filter 'mw-server' build",
