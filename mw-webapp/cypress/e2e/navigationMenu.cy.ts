@@ -21,7 +21,7 @@ import {settingsSelectors} from "cypress/scopesSelectors/settingsSelectors";
 import settingsPageContent from "src/dictionary/SettingsPageContent.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
-import { pricingSelectors } from "cypress/scopesSelectors/pricingSelectors";
+import {pricingSelectors} from "cypress/scopesSelectors/pricingSelectors";
 
 describe('NoAuth Navigation menu scope tests', () => {
 

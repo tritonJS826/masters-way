@@ -2,6 +2,10 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import userPersonalData from "cypress/fixtures/userPersonalDataFixture.json"
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
+import {allWaysSelectors}  from "cypress/scopesSelectors/allWaysSelectors";
+import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
+import ServeyModalsContent from "src/dictionary/SurveyModalsContent.json";
+import {Theme, themedVariables} from "src/globalStore/ThemeStore";
 
 beforeEach(() => {
     cy.resetDb();
@@ -11,6 +15,21 @@ beforeEach(() => {
 afterEach(() => {
     cy.clearAllStorage();
 });
+
+function hexToRgb(hex: string): string {
+    hex = hex.replace(/^#/, '');
+
+    if (hex.length === 3) {
+        hex = hex.split('').map(x => x + x).join('');
+    }
+
+    const bigint = parseInt(hex, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 describe('IsAuth User personal data scope tests', () => {
 
@@ -56,7 +75,7 @@ describe('IsAuth User personal data scope tests', () => {
             .and('have.text', userPersonalData.skill);
     });
 
-    it('IsAuth_UserPersonalData_FindMentorButton', () => {
+    it('IsAuth_UserPersonalData_RequestToFindMentorWindow', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.findMentor.getFindMentorButton().click();
         userPersonalSelectors.findMentor.getForm().should('exist');
@@ -66,11 +85,26 @@ describe('IsAuth User personal data scope tests', () => {
         userPersonalSelectors.findMentor.getSubmitButton().click();
 
         userPersonalSelectors.findMentor.getForm().should('not.exist');
-        userPersonalSelectors.findMentor.getRequestSent().should('have.text', userPersonalData.findMentorForm.requestSent)
+        userPersonalSelectors.findMentor.getRequestSent().should('have.text', ServeyModalsContent.findMentor.requestSent.en)
 
         headerSelectors.getHeader().click({force: true});
         
         userPersonalSelectors.findMentor.getRequestSent().should('not.exist');
+    });
+
+    it('IsAuth_UserPersonalData_MentorOption', () => {
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
+
+        userPersonalSelectors.descriptionSection.getMentorCheckbox().check();
+        userPersonalSelectors.descriptionSection.getMentorCheckbox().should('be.checked');
+
+        cy.logout();
+        cy.openAllUsersPage();
+        allWaysSelectors.filterViewBlock.getTableViewButton().click();
+        allUsersSelectors.allUsersTable.getUserContact()
+            .filter((_, el) => el.innerText.includes(testUserData.testUsers.mentorMax.email))
+            .should('have.css', 'background-color', hexToRgb(themedVariables.attentionColor[Theme.LIGHT]));
     });
 
 });

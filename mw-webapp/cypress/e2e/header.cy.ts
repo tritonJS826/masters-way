@@ -5,7 +5,7 @@ import homePageContent from "src/dictionary/HomePageContent.json";
 import {Theme} from "src/globalStore/ThemeStore";
 import sideBarContent from "src/dictionary/Sidebar.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
+import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 
 describe('NoAuth Header scope tests', () => {
 

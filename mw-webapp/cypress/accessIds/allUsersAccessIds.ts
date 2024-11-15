@@ -17,7 +17,8 @@ export const allUsersAccessIds = {
     },
 
     allUsersCard: {
-        userCardLink: (userName: string) => `userCardLink_${userName}`
+        userCardLink: (userName: string) => `userCardLink_${userName}`,
+        mentorFlag: 'mentorFlag'
     },
 
     loadMoreButton: 'loadMoreButton'
