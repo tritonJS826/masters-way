@@ -1,6 +1,7 @@
 package facades
 
 import (
+	"mw-general-bff/internal/config"
 	"mw-general-bff/internal/services"
 )
 
@@ -34,7 +35,7 @@ type Facade struct {
 	HealthCheckFacade              *HealthCheckFacade
 }
 
-func NewFacade(service *services.Service) *Facade {
+func NewFacade(service *services.Service, config *config.Config) *Facade {
 	return &Facade{
 		FileFacade:                     newFileFacade(service.StorageService),
 		AuthFacade:                     newAuthFacade(service.AuthService, service.NotificationService),
@@ -45,7 +46,7 @@ func NewFacade(service *services.Service) *Facade {
 		FavoriteUserWayFacade:          newFavoriteUserWayFacade(service.GeneralService),
 		FromUserMentoringRequestFacade: newFromUserMentoringRequestFacade(service.GeneralService),
 		GeminiFacade:                   newGeminiFacade(service.GeneralService),
-		JobDoneFacade:                  newJobDoneFacade(service.GeneralService, service.NotificationService),
+		JobDoneFacade:                  newJobDoneFacade(service.GeneralService, service.NotificationService, config),
 		JobDoneJobTagFacade:            newJobDoneJobTagFacade(service.GeneralService),
 		JobTagFacade:                   newJobTagFacade(service.GeneralService),
 		MentorUserWayFacade:            newMentorUserWayFacade(service.GeneralService),
