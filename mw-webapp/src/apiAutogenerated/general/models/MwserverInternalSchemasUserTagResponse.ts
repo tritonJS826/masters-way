@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUserTagResponse
+ * @interface MwServerInternalSchemasUserTagResponse
  */
-export interface MwserverInternalSchemasUserTagResponse {
+export interface MwServerInternalSchemasUserTagResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserTagResponse
+     * @memberof MwServerInternalSchemasUserTagResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserTagResponse
+     * @memberof MwServerInternalSchemasUserTagResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUserTagResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasUserTagResponse interface.
  */
-export function instanceOfMwserverInternalSchemasUserTagResponse(
+export function instanceOfMwServerInternalSchemasUserTagResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasUserTagResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUserTagResponseFromJSON(json: any): MwserverInternalSchemasUserTagResponse {
-    return MwserverInternalSchemasUserTagResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasUserTagResponseFromJSON(json: any): MwServerInternalSchemasUserTagResponse {
+    return MwServerInternalSchemasUserTagResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUserTagResponseFromJSONTyped(
+export function MwServerInternalSchemasUserTagResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUserTagResponse {
+): MwServerInternalSchemasUserTagResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasUserTagResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUserTagResponseToJSON(value?: MwserverInternalSchemasUserTagResponse | null): any {
+export function MwServerInternalSchemasUserTagResponseToJSON(value?: MwServerInternalSchemasUserTagResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

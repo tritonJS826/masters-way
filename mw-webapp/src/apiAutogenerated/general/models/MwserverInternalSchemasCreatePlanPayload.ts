@@ -16,45 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreatePlanPayload
+ * @interface MwServerInternalSchemasCreatePlanPayload
  */
-export interface MwserverInternalSchemasCreatePlanPayload {
+export interface MwServerInternalSchemasCreatePlanPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreatePlanPayload
+     * @memberof MwServerInternalSchemasCreatePlanPayload
      */
     dayReportUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreatePlanPayload
+     * @memberof MwServerInternalSchemasCreatePlanPayload
      */
     description: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasCreatePlanPayload
+     * @memberof MwServerInternalSchemasCreatePlanPayload
      */
     isDone: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreatePlanPayload
+     * @memberof MwServerInternalSchemasCreatePlanPayload
      */
     ownerUuid: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasCreatePlanPayload
+     * @memberof MwServerInternalSchemasCreatePlanPayload
      */
     time: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreatePlanPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreatePlanPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreatePlanPayload(
+export function instanceOfMwServerInternalSchemasCreatePlanPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -67,14 +67,14 @@ export function instanceOfMwserverInternalSchemasCreatePlanPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreatePlanPayloadFromJSON(json: any): MwserverInternalSchemasCreatePlanPayload {
-    return MwserverInternalSchemasCreatePlanPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreatePlanPayloadFromJSON(json: any): MwServerInternalSchemasCreatePlanPayload {
+    return MwServerInternalSchemasCreatePlanPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreatePlanPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreatePlanPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreatePlanPayload {
+): MwServerInternalSchemasCreatePlanPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -89,7 +89,7 @@ export function MwserverInternalSchemasCreatePlanPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreatePlanPayloadToJSON(value?: MwserverInternalSchemasCreatePlanPayload | null): any {
+export function MwServerInternalSchemasCreatePlanPayloadToJSON(value?: MwServerInternalSchemasCreatePlanPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

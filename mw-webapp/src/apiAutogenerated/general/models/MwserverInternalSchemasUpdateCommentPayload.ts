@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUpdateCommentPayload
+ * @interface MwServerInternalSchemasUpdateCommentPayload
  */
-export interface MwserverInternalSchemasUpdateCommentPayload {
+export interface MwServerInternalSchemasUpdateCommentPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateCommentPayload
+     * @memberof MwServerInternalSchemasUpdateCommentPayload
      */
     description?: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUpdateCommentPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasUpdateCommentPayload interface.
  */
-export function instanceOfMwserverInternalSchemasUpdateCommentPayload(
+export function instanceOfMwServerInternalSchemasUpdateCommentPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -38,14 +38,14 @@ export function instanceOfMwserverInternalSchemasUpdateCommentPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUpdateCommentPayloadFromJSON(json: any): MwserverInternalSchemasUpdateCommentPayload {
-    return MwserverInternalSchemasUpdateCommentPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasUpdateCommentPayloadFromJSON(json: any): MwServerInternalSchemasUpdateCommentPayload {
+    return MwServerInternalSchemasUpdateCommentPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUpdateCommentPayloadFromJSONTyped(
+export function MwServerInternalSchemasUpdateCommentPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUpdateCommentPayload {
+): MwServerInternalSchemasUpdateCommentPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -56,7 +56,7 @@ export function MwserverInternalSchemasUpdateCommentPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUpdateCommentPayloadToJSON(value?: MwserverInternalSchemasUpdateCommentPayload | null): any {
+export function MwServerInternalSchemasUpdateCommentPayloadToJSON(value?: MwServerInternalSchemasUpdateCommentPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

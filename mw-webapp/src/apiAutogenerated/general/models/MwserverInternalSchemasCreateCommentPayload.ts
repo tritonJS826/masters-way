@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateCommentPayload
+ * @interface MwServerInternalSchemasCreateCommentPayload
  */
-export interface MwserverInternalSchemasCreateCommentPayload {
+export interface MwServerInternalSchemasCreateCommentPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateCommentPayload
+     * @memberof MwServerInternalSchemasCreateCommentPayload
      */
     dayReportUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateCommentPayload
+     * @memberof MwServerInternalSchemasCreateCommentPayload
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateCommentPayload
+     * @memberof MwServerInternalSchemasCreateCommentPayload
      */
     ownerUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateCommentPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateCommentPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateCommentPayload(
+export function instanceOfMwServerInternalSchemasCreateCommentPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -53,14 +53,14 @@ export function instanceOfMwserverInternalSchemasCreateCommentPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateCommentPayloadFromJSON(json: any): MwserverInternalSchemasCreateCommentPayload {
-    return MwserverInternalSchemasCreateCommentPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateCommentPayloadFromJSON(json: any): MwServerInternalSchemasCreateCommentPayload {
+    return MwServerInternalSchemasCreateCommentPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateCommentPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateCommentPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateCommentPayload {
+): MwServerInternalSchemasCreateCommentPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,7 +73,7 @@ export function MwserverInternalSchemasCreateCommentPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateCommentPayloadToJSON(value?: MwserverInternalSchemasCreateCommentPayload | null): any {
+export function MwServerInternalSchemasCreateCommentPayloadToJSON(value?: MwServerInternalSchemasCreateCommentPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

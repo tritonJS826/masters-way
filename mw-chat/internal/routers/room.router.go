@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"mwchat/internal/auth"
-	"mwchat/internal/controllers"
+	"mw-chat/internal/auth"
+	"mw-chat/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )

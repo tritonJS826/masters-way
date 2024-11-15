@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAIChatResponse
+ * @interface MwServerInternalSchemasAIChatResponse
  */
-export interface MwserverInternalSchemasAIChatResponse {
+export interface MwServerInternalSchemasAIChatResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAIChatResponse
+     * @memberof MwServerInternalSchemasAIChatResponse
      */
     message: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAIChatResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasAIChatResponse interface.
  */
-export function instanceOfMwserverInternalSchemasAIChatResponse(
+export function instanceOfMwServerInternalSchemasAIChatResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasAIChatResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAIChatResponseFromJSON(json: any): MwserverInternalSchemasAIChatResponse {
-    return MwserverInternalSchemasAIChatResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasAIChatResponseFromJSON(json: any): MwServerInternalSchemasAIChatResponse {
+    return MwServerInternalSchemasAIChatResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAIChatResponseFromJSONTyped(
+export function MwServerInternalSchemasAIChatResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAIChatResponse {
+): MwServerInternalSchemasAIChatResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasAIChatResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAIChatResponseToJSON(value?: MwserverInternalSchemasAIChatResponse | null): any {
+export function MwServerInternalSchemasAIChatResponseToJSON(value?: MwServerInternalSchemasAIChatResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -16,69 +16,69 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCommentPopulatedResponse
+ * @interface MwServerInternalSchemasCommentPopulatedResponse
  */
-export interface MwserverInternalSchemasCommentPopulatedResponse {
+export interface MwServerInternalSchemasCommentPopulatedResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     createdAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     dayReportUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     ownerName: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     ownerUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     updatedAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     uuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     wayName: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCommentPopulatedResponse
+     * @memberof MwServerInternalSchemasCommentPopulatedResponse
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCommentPopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasCommentPopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasCommentPopulatedResponse(
+export function instanceOfMwServerInternalSchemasCommentPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -95,14 +95,14 @@ export function instanceOfMwserverInternalSchemasCommentPopulatedResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCommentPopulatedResponseFromJSON(json: any): MwserverInternalSchemasCommentPopulatedResponse {
-    return MwserverInternalSchemasCommentPopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasCommentPopulatedResponseFromJSON(json: any): MwServerInternalSchemasCommentPopulatedResponse {
+    return MwServerInternalSchemasCommentPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCommentPopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasCommentPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCommentPopulatedResponse {
+): MwServerInternalSchemasCommentPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -121,7 +121,7 @@ export function MwserverInternalSchemasCommentPopulatedResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCommentPopulatedResponseToJSON(value?: MwserverInternalSchemasCommentPopulatedResponse | null): any {
+export function MwServerInternalSchemasCommentPopulatedResponseToJSON(value?: MwServerInternalSchemasCommentPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

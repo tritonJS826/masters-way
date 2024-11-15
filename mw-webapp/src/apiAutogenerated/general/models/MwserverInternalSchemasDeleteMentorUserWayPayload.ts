@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasDeleteMentorUserWayPayload
+ * @interface MwServerInternalSchemasDeleteMentorUserWayPayload
  */
-export interface MwserverInternalSchemasDeleteMentorUserWayPayload {
+export interface MwServerInternalSchemasDeleteMentorUserWayPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasDeleteMentorUserWayPayload
+     * @memberof MwServerInternalSchemasDeleteMentorUserWayPayload
      */
     userUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasDeleteMentorUserWayPayload
+     * @memberof MwServerInternalSchemasDeleteMentorUserWayPayload
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasDeleteMentorUserWayPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasDeleteMentorUserWayPayload interface.
  */
-export function instanceOfMwserverInternalSchemasDeleteMentorUserWayPayload(
+export function instanceOfMwServerInternalSchemasDeleteMentorUserWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasDeleteMentorUserWayPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasDeleteMentorUserWayPayloadFromJSON(json: any): MwserverInternalSchemasDeleteMentorUserWayPayload {
-    return MwserverInternalSchemasDeleteMentorUserWayPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasDeleteMentorUserWayPayloadFromJSON(json: any): MwServerInternalSchemasDeleteMentorUserWayPayload {
+    return MwServerInternalSchemasDeleteMentorUserWayPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasDeleteMentorUserWayPayloadFromJSONTyped(
+export function MwServerInternalSchemasDeleteMentorUserWayPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasDeleteMentorUserWayPayload {
+): MwServerInternalSchemasDeleteMentorUserWayPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasDeleteMentorUserWayPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasDeleteMentorUserWayPayloadToJSON(value?: MwserverInternalSchemasDeleteMentorUserWayPayload | null): any {
+export function MwServerInternalSchemasDeleteMentorUserWayPayloadToJSON(value?: MwServerInternalSchemasDeleteMentorUserWayPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

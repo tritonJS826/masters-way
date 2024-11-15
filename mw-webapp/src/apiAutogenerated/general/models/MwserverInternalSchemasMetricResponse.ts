@@ -16,45 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasMetricResponse
+ * @interface MwServerInternalSchemasMetricResponse
  */
-export interface MwserverInternalSchemasMetricResponse {
+export interface MwServerInternalSchemasMetricResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasMetricResponse
+     * @memberof MwServerInternalSchemasMetricResponse
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasMetricResponse
+     * @memberof MwServerInternalSchemasMetricResponse
      */
     doneDate: string | null;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasMetricResponse
+     * @memberof MwServerInternalSchemasMetricResponse
      */
     estimationTime: number;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasMetricResponse
+     * @memberof MwServerInternalSchemasMetricResponse
      */
     isDone: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasMetricResponse
+     * @memberof MwServerInternalSchemasMetricResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasMetricResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasMetricResponse interface.
  */
-export function instanceOfMwserverInternalSchemasMetricResponse(
+export function instanceOfMwServerInternalSchemasMetricResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -67,14 +67,14 @@ export function instanceOfMwserverInternalSchemasMetricResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasMetricResponseFromJSON(json: any): MwserverInternalSchemasMetricResponse {
-    return MwserverInternalSchemasMetricResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasMetricResponseFromJSON(json: any): MwServerInternalSchemasMetricResponse {
+    return MwServerInternalSchemasMetricResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasMetricResponseFromJSONTyped(
+export function MwServerInternalSchemasMetricResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasMetricResponse {
+): MwServerInternalSchemasMetricResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -89,7 +89,7 @@ export function MwserverInternalSchemasMetricResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasMetricResponseToJSON(value?: MwserverInternalSchemasMetricResponse | null): any {
+export function MwServerInternalSchemasMetricResponseToJSON(value?: MwServerInternalSchemasMetricResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

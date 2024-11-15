@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCompositeWayRelation
+ * @interface MwServerInternalSchemasCompositeWayRelation
  */
-export interface MwserverInternalSchemasCompositeWayRelation {
+export interface MwServerInternalSchemasCompositeWayRelation {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCompositeWayRelation
+     * @memberof MwServerInternalSchemasCompositeWayRelation
      */
     childWayUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCompositeWayRelation
+     * @memberof MwServerInternalSchemasCompositeWayRelation
      */
     parentWayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCompositeWayRelation interface.
+ * Check if a given object implements the MwServerInternalSchemasCompositeWayRelation interface.
  */
-export function instanceOfMwserverInternalSchemasCompositeWayRelation(
+export function instanceOfMwServerInternalSchemasCompositeWayRelation(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCompositeWayRelation(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCompositeWayRelationFromJSON(json: any): MwserverInternalSchemasCompositeWayRelation {
-    return MwserverInternalSchemasCompositeWayRelationFromJSONTyped(json, false);
+export function MwServerInternalSchemasCompositeWayRelationFromJSON(json: any): MwServerInternalSchemasCompositeWayRelation {
+    return MwServerInternalSchemasCompositeWayRelationFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCompositeWayRelationFromJSONTyped(
+export function MwServerInternalSchemasCompositeWayRelationFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCompositeWayRelation {
+): MwServerInternalSchemasCompositeWayRelation {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCompositeWayRelationFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCompositeWayRelationToJSON(value?: MwserverInternalSchemasCompositeWayRelation | null): any {
+export function MwServerInternalSchemasCompositeWayRelationToJSON(value?: MwServerInternalSchemasCompositeWayRelation | null): any {
     if (value === undefined) {
         return undefined;
     }

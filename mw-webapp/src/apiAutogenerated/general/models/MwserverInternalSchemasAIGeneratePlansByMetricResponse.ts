@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAIGeneratePlansByMetricResponse
+ * @interface MwServerInternalSchemasAIGeneratePlansByMetricResponse
  */
-export interface MwserverInternalSchemasAIGeneratePlansByMetricResponse {
+export interface MwServerInternalSchemasAIGeneratePlansByMetricResponse {
     /**
      * 
      * @type {Array<string>}
-     * @memberof MwserverInternalSchemasAIGeneratePlansByMetricResponse
+     * @memberof MwServerInternalSchemasAIGeneratePlansByMetricResponse
      */
     plans: Array<string>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAIGeneratePlansByMetricResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasAIGeneratePlansByMetricResponse interface.
  */
-export function instanceOfMwserverInternalSchemasAIGeneratePlansByMetricResponse(
+export function instanceOfMwServerInternalSchemasAIGeneratePlansByMetricResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasAIGeneratePlansByMetricResponse
     return isInstance;
 }
 
-export function MwserverInternalSchemasAIGeneratePlansByMetricResponseFromJSON(json: any): MwserverInternalSchemasAIGeneratePlansByMetricResponse {
-    return MwserverInternalSchemasAIGeneratePlansByMetricResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasAIGeneratePlansByMetricResponseFromJSON(json: any): MwServerInternalSchemasAIGeneratePlansByMetricResponse {
+    return MwServerInternalSchemasAIGeneratePlansByMetricResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAIGeneratePlansByMetricResponseFromJSONTyped(
+export function MwServerInternalSchemasAIGeneratePlansByMetricResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAIGeneratePlansByMetricResponse {
+): MwServerInternalSchemasAIGeneratePlansByMetricResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasAIGeneratePlansByMetricResponseFromJSONTy
 }
 
 
-export function MwserverInternalSchemasAIGeneratePlansByMetricResponseToJSON(value?: MwserverInternalSchemasAIGeneratePlansByMetricResponse | null): any {
+export function MwServerInternalSchemasAIGeneratePlansByMetricResponseToJSON(value?: MwServerInternalSchemasAIGeneratePlansByMetricResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

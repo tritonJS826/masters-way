@@ -16,45 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateJobDonePayload
+ * @interface MwServerInternalSchemasCreateJobDonePayload
  */
-export interface MwserverInternalSchemasCreateJobDonePayload {
+export interface MwServerInternalSchemasCreateJobDonePayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobDonePayload
+     * @memberof MwServerInternalSchemasCreateJobDonePayload
      */
     dayReportUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobDonePayload
+     * @memberof MwServerInternalSchemasCreateJobDonePayload
      */
     description: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof MwserverInternalSchemasCreateJobDonePayload
+     * @memberof MwServerInternalSchemasCreateJobDonePayload
      */
     jobTagUuids: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobDonePayload
+     * @memberof MwServerInternalSchemasCreateJobDonePayload
      */
     ownerUuid: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasCreateJobDonePayload
+     * @memberof MwServerInternalSchemasCreateJobDonePayload
      */
     time: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateJobDonePayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateJobDonePayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateJobDonePayload(
+export function instanceOfMwServerInternalSchemasCreateJobDonePayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -67,14 +67,14 @@ export function instanceOfMwserverInternalSchemasCreateJobDonePayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateJobDonePayloadFromJSON(json: any): MwserverInternalSchemasCreateJobDonePayload {
-    return MwserverInternalSchemasCreateJobDonePayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateJobDonePayloadFromJSON(json: any): MwServerInternalSchemasCreateJobDonePayload {
+    return MwServerInternalSchemasCreateJobDonePayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateJobDonePayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateJobDonePayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateJobDonePayload {
+): MwServerInternalSchemasCreateJobDonePayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -89,7 +89,7 @@ export function MwserverInternalSchemasCreateJobDonePayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateJobDonePayloadToJSON(value?: MwserverInternalSchemasCreateJobDonePayload | null): any {
+export function MwServerInternalSchemasCreateJobDonePayloadToJSON(value?: MwServerInternalSchemasCreateJobDonePayload | null): any {
     if (value === undefined) {
         return undefined;
     }

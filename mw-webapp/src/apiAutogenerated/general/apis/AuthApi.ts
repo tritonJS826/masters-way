@@ -15,23 +15,23 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalSchemasBeginAuthResponse,
-  MwserverInternalSchemasGetAuthCallbackFunctionResponse,
-  MwserverInternalSchemasGetUserTokenByEmailResponse,
-  MwserverInternalSchemasGoogleToken,
-  MwserverInternalSchemasUserPopulatedResponse,
+  MwServerInternalSchemasBeginAuthResponse,
+  MwServerInternalSchemasGetAuthCallbackFunctionResponse,
+  MwServerInternalSchemasGetUserTokenByEmailResponse,
+  MwServerInternalSchemasGoogleToken,
+  MwServerInternalSchemasUserPopulatedResponse,
 } from '../models/index';
 import {
-    MwserverInternalSchemasBeginAuthResponseFromJSON,
-    MwserverInternalSchemasBeginAuthResponseToJSON,
-    MwserverInternalSchemasGetAuthCallbackFunctionResponseFromJSON,
-    MwserverInternalSchemasGetAuthCallbackFunctionResponseToJSON,
-    MwserverInternalSchemasGetUserTokenByEmailResponseFromJSON,
-    MwserverInternalSchemasGetUserTokenByEmailResponseToJSON,
-    MwserverInternalSchemasGoogleTokenFromJSON,
-    MwserverInternalSchemasGoogleTokenToJSON,
-    MwserverInternalSchemasUserPopulatedResponseFromJSON,
-    MwserverInternalSchemasUserPopulatedResponseToJSON,
+    MwServerInternalSchemasBeginAuthResponseFromJSON,
+    MwServerInternalSchemasBeginAuthResponseToJSON,
+    MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSON,
+    MwServerInternalSchemasGetAuthCallbackFunctionResponseToJSON,
+    MwServerInternalSchemasGetUserTokenByEmailResponseFromJSON,
+    MwServerInternalSchemasGetUserTokenByEmailResponseToJSON,
+    MwServerInternalSchemasGoogleTokenFromJSON,
+    MwServerInternalSchemasGoogleTokenToJSON,
+    MwServerInternalSchemasUserPopulatedResponseFromJSON,
+    MwServerInternalSchemasUserPopulatedResponseToJSON,
 } from '../models/index';
 
 export interface BeginAuthRequest {
@@ -60,7 +60,7 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Begin oauth
      */
-    async beginAuthRaw(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasBeginAuthResponse>> {
+    async beginAuthRaw(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasBeginAuthResponse>> {
         if (requestParameters.provider === null || requestParameters.provider === undefined) {
             throw new runtime.RequiredError('provider','Required parameter requestParameters.provider was null or undefined when calling beginAuth.');
         }
@@ -76,13 +76,13 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasBeginAuthResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasBeginAuthResponseFromJSON(jsonValue));
     }
 
     /**
      * Begin oauth
      */
-    async beginAuth(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasBeginAuthResponse> {
+    async beginAuth(requestParameters: BeginAuthRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasBeginAuthResponse> {
         const response = await this.beginAuthRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -90,7 +90,7 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Get current authorized user
      */
-    async getCurrentAuthorizedUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasUserPopulatedResponse>> {
+    async getCurrentAuthorizedUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasUserPopulatedResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -102,13 +102,13 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasUserPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasUserPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get current authorized user
      */
-    async getCurrentAuthorizedUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasUserPopulatedResponse> {
+    async getCurrentAuthorizedUser(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasUserPopulatedResponse> {
         const response = await this.getCurrentAuthorizedUserRaw(initOverrides);
         return await response.value();
     }
@@ -117,7 +117,7 @@ export class AuthApi extends runtime.BaseAPI {
      * This endpoint retrieves the Google access token for an authenticated user.
      * Retrieve Google Access Token
      */
-    async getGoogleTokenRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasGoogleToken>> {
+    async getGoogleTokenRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasGoogleToken>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -129,14 +129,14 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasGoogleTokenFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasGoogleTokenFromJSON(jsonValue));
     }
 
     /**
      * This endpoint retrieves the Google access token for an authenticated user.
      * Retrieve Google Access Token
      */
-    async getGoogleToken(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasGoogleToken> {
+    async getGoogleToken(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasGoogleToken> {
         const response = await this.getGoogleTokenRaw(initOverrides);
         return await response.value();
     }
@@ -145,7 +145,7 @@ export class AuthApi extends runtime.BaseAPI {
      * Login locally by providing an email address.
      * login locally by email (with no oauth)
      */
-    async getTokenLocallyRaw(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasGetUserTokenByEmailResponse>> {
+    async getTokenLocallyRaw(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasGetUserTokenByEmailResponse>> {
         if (requestParameters.userEmail === null || requestParameters.userEmail === undefined) {
             throw new runtime.RequiredError('userEmail','Required parameter requestParameters.userEmail was null or undefined when calling getTokenLocally.');
         }
@@ -161,14 +161,14 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasGetUserTokenByEmailResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasGetUserTokenByEmailResponseFromJSON(jsonValue));
     }
 
     /**
      * Login locally by providing an email address.
      * login locally by email (with no oauth)
      */
-    async getTokenLocally(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasGetUserTokenByEmailResponse> {
+    async getTokenLocally(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasGetUserTokenByEmailResponse> {
         const response = await this.getTokenLocallyRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -176,7 +176,7 @@ export class AuthApi extends runtime.BaseAPI {
     /**
      * Log in with google oAuth
      */
-    async googleAuthLogInCallbackFunctionRaw(requestParameters: GoogleAuthLogInCallbackFunctionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasGetAuthCallbackFunctionResponse>> {
+    async googleAuthLogInCallbackFunctionRaw(requestParameters: GoogleAuthLogInCallbackFunctionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasGetAuthCallbackFunctionResponse>> {
         if (requestParameters.code === null || requestParameters.code === undefined) {
             throw new runtime.RequiredError('code','Required parameter requestParameters.code was null or undefined when calling googleAuthLogInCallbackFunction.');
         }
@@ -208,13 +208,13 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasGetAuthCallbackFunctionResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSON(jsonValue));
     }
 
     /**
      * Log in with google oAuth
      */
-    async googleAuthLogInCallbackFunction(requestParameters: GoogleAuthLogInCallbackFunctionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasGetAuthCallbackFunctionResponse> {
+    async googleAuthLogInCallbackFunction(requestParameters: GoogleAuthLogInCallbackFunctionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasGetAuthCallbackFunctionResponse> {
         const response = await this.googleAuthLogInCallbackFunctionRaw(requestParameters, initOverrides);
         return await response.value();
     }

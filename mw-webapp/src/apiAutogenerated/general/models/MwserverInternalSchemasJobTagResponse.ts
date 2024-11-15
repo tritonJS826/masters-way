@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasJobTagResponse
+ * @interface MwServerInternalSchemasJobTagResponse
  */
-export interface MwserverInternalSchemasJobTagResponse {
+export interface MwServerInternalSchemasJobTagResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobTagResponse
+     * @memberof MwServerInternalSchemasJobTagResponse
      */
     color: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobTagResponse
+     * @memberof MwServerInternalSchemasJobTagResponse
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobTagResponse
+     * @memberof MwServerInternalSchemasJobTagResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobTagResponse
+     * @memberof MwServerInternalSchemasJobTagResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasJobTagResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasJobTagResponse interface.
  */
-export function instanceOfMwserverInternalSchemasJobTagResponse(
+export function instanceOfMwServerInternalSchemasJobTagResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -60,14 +60,14 @@ export function instanceOfMwserverInternalSchemasJobTagResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasJobTagResponseFromJSON(json: any): MwserverInternalSchemasJobTagResponse {
-    return MwserverInternalSchemasJobTagResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasJobTagResponseFromJSON(json: any): MwServerInternalSchemasJobTagResponse {
+    return MwServerInternalSchemasJobTagResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasJobTagResponseFromJSONTyped(
+export function MwServerInternalSchemasJobTagResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasJobTagResponse {
+): MwServerInternalSchemasJobTagResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,7 +81,7 @@ export function MwserverInternalSchemasJobTagResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasJobTagResponseToJSON(value?: MwserverInternalSchemasJobTagResponse | null): any {
+export function MwServerInternalSchemasJobTagResponseToJSON(value?: MwServerInternalSchemasJobTagResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

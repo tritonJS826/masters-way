@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAIChatPayload
+ * @interface MwServerInternalSchemasAIChatPayload
  */
-export interface MwserverInternalSchemasAIChatPayload {
+export interface MwServerInternalSchemasAIChatPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAIChatPayload
+     * @memberof MwServerInternalSchemasAIChatPayload
      */
     message: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAIChatPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasAIChatPayload interface.
  */
-export function instanceOfMwserverInternalSchemasAIChatPayload(
+export function instanceOfMwServerInternalSchemasAIChatPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasAIChatPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAIChatPayloadFromJSON(json: any): MwserverInternalSchemasAIChatPayload {
-    return MwserverInternalSchemasAIChatPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasAIChatPayloadFromJSON(json: any): MwServerInternalSchemasAIChatPayload {
+    return MwServerInternalSchemasAIChatPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAIChatPayloadFromJSONTyped(
+export function MwServerInternalSchemasAIChatPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAIChatPayload {
+): MwServerInternalSchemasAIChatPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasAIChatPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAIChatPayloadToJSON(value?: MwserverInternalSchemasAIChatPayload | null): any {
+export function MwServerInternalSchemasAIChatPayloadToJSON(value?: MwServerInternalSchemasAIChatPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

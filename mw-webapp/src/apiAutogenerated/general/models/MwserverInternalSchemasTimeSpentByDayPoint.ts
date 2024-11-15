@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasTimeSpentByDayPoint
+ * @interface MwServerInternalSchemasTimeSpentByDayPoint
  */
-export interface MwserverInternalSchemasTimeSpentByDayPoint {
+export interface MwServerInternalSchemasTimeSpentByDayPoint {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasTimeSpentByDayPoint
+     * @memberof MwServerInternalSchemasTimeSpentByDayPoint
      */
     date: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasTimeSpentByDayPoint
+     * @memberof MwServerInternalSchemasTimeSpentByDayPoint
      */
     value: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasTimeSpentByDayPoint interface.
+ * Check if a given object implements the MwServerInternalSchemasTimeSpentByDayPoint interface.
  */
-export function instanceOfMwserverInternalSchemasTimeSpentByDayPoint(
+export function instanceOfMwServerInternalSchemasTimeSpentByDayPoint(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasTimeSpentByDayPoint(
     return isInstance;
 }
 
-export function MwserverInternalSchemasTimeSpentByDayPointFromJSON(json: any): MwserverInternalSchemasTimeSpentByDayPoint {
-    return MwserverInternalSchemasTimeSpentByDayPointFromJSONTyped(json, false);
+export function MwServerInternalSchemasTimeSpentByDayPointFromJSON(json: any): MwServerInternalSchemasTimeSpentByDayPoint {
+    return MwServerInternalSchemasTimeSpentByDayPointFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasTimeSpentByDayPointFromJSONTyped(
+export function MwServerInternalSchemasTimeSpentByDayPointFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasTimeSpentByDayPoint {
+): MwServerInternalSchemasTimeSpentByDayPoint {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasTimeSpentByDayPointFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasTimeSpentByDayPointToJSON(value?: MwserverInternalSchemasTimeSpentByDayPoint | null): any {
+export function MwServerInternalSchemasTimeSpentByDayPointToJSON(value?: MwServerInternalSchemasTimeSpentByDayPoint | null): any {
     if (value === undefined) {
         return undefined;
     }

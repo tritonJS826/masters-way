@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalCustomErrorsNoRightToChangeDayReportError
+ * @interface MwServerInternalCustomErrorsNoRightToChangeDayReportError
  */
-export interface MwserverInternalCustomErrorsNoRightToChangeDayReportError {
+export interface MwServerInternalCustomErrorsNoRightToChangeDayReportError {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalCustomErrorsNoRightToChangeDayReportError
+     * @memberof MwServerInternalCustomErrorsNoRightToChangeDayReportError
      */
     error: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalCustomErrorsNoRightToChangeDayReportError
+     * @memberof MwServerInternalCustomErrorsNoRightToChangeDayReportError
      */
     errorId: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalCustomErrorsNoRightToChangeDayReportError interface.
+ * Check if a given object implements the MwServerInternalCustomErrorsNoRightToChangeDayReportError interface.
  */
-export function instanceOfMwserverInternalCustomErrorsNoRightToChangeDayReportError(
+export function instanceOfMwServerInternalCustomErrorsNoRightToChangeDayReportError(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalCustomErrorsNoRightToChangeDayReportEr
     return isInstance;
 }
 
-export function MwserverInternalCustomErrorsNoRightToChangeDayReportErrorFromJSON(json: any): MwserverInternalCustomErrorsNoRightToChangeDayReportError {
-    return MwserverInternalCustomErrorsNoRightToChangeDayReportErrorFromJSONTyped(json, false);
+export function MwServerInternalCustomErrorsNoRightToChangeDayReportErrorFromJSON(json: any): MwServerInternalCustomErrorsNoRightToChangeDayReportError {
+    return MwServerInternalCustomErrorsNoRightToChangeDayReportErrorFromJSONTyped(json, false);
 }
 
-export function MwserverInternalCustomErrorsNoRightToChangeDayReportErrorFromJSONTyped(
+export function MwServerInternalCustomErrorsNoRightToChangeDayReportErrorFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalCustomErrorsNoRightToChangeDayReportError {
+): MwServerInternalCustomErrorsNoRightToChangeDayReportError {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalCustomErrorsNoRightToChangeDayReportErrorFromJSO
 }
 
 
-export function MwserverInternalCustomErrorsNoRightToChangeDayReportErrorToJSON(value?: MwserverInternalCustomErrorsNoRightToChangeDayReportError | null): any {
+export function MwServerInternalCustomErrorsNoRightToChangeDayReportErrorToJSON(value?: MwServerInternalCustomErrorsNoRightToChangeDayReportError | null): any {
     if (value === undefined) {
         return undefined;
     }

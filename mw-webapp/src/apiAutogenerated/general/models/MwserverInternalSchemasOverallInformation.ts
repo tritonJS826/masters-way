@@ -16,51 +16,51 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasOverallInformation
+ * @interface MwServerInternalSchemasOverallInformation
  */
-export interface MwserverInternalSchemasOverallInformation {
+export interface MwServerInternalSchemasOverallInformation {
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasOverallInformation
+     * @memberof MwServerInternalSchemasOverallInformation
      */
     averageJobTime: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasOverallInformation
+     * @memberof MwServerInternalSchemasOverallInformation
      */
     averageTimePerCalendarDay: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasOverallInformation
+     * @memberof MwServerInternalSchemasOverallInformation
      */
     averageTimePerWorkingDay: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasOverallInformation
+     * @memberof MwServerInternalSchemasOverallInformation
      */
     finishedJobs: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasOverallInformation
+     * @memberof MwServerInternalSchemasOverallInformation
      */
     totalReports: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasOverallInformation
+     * @memberof MwServerInternalSchemasOverallInformation
      */
     totalTime: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasOverallInformation interface.
+ * Check if a given object implements the MwServerInternalSchemasOverallInformation interface.
  */
-export function instanceOfMwserverInternalSchemasOverallInformation(
+export function instanceOfMwServerInternalSchemasOverallInformation(
     value: object
 ): boolean {
     let isInstance = true;
@@ -74,14 +74,14 @@ export function instanceOfMwserverInternalSchemasOverallInformation(
     return isInstance;
 }
 
-export function MwserverInternalSchemasOverallInformationFromJSON(json: any): MwserverInternalSchemasOverallInformation {
-    return MwserverInternalSchemasOverallInformationFromJSONTyped(json, false);
+export function MwServerInternalSchemasOverallInformationFromJSON(json: any): MwServerInternalSchemasOverallInformation {
+    return MwServerInternalSchemasOverallInformationFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasOverallInformationFromJSONTyped(
+export function MwServerInternalSchemasOverallInformationFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasOverallInformation {
+): MwServerInternalSchemasOverallInformation {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -97,7 +97,7 @@ export function MwserverInternalSchemasOverallInformationFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasOverallInformationToJSON(value?: MwserverInternalSchemasOverallInformation | null): any {
+export function MwServerInternalSchemasOverallInformationToJSON(value?: MwServerInternalSchemasOverallInformation | null): any {
     if (value === undefined) {
         return undefined;
     }

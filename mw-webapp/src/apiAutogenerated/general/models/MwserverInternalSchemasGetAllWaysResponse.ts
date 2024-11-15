@@ -13,37 +13,37 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasWayPlainResponse } from './MwserverInternalSchemasWayPlainResponse';
+import type { MwServerInternalSchemasWayPlainResponse } from './MwServerInternalSchemasWayPlainResponse';
 import {
-    MwserverInternalSchemasWayPlainResponseFromJSON,
-    MwserverInternalSchemasWayPlainResponseFromJSONTyped,
-    MwserverInternalSchemasWayPlainResponseToJSON,
-} from './MwserverInternalSchemasWayPlainResponse';
+    MwServerInternalSchemasWayPlainResponseFromJSON,
+    MwServerInternalSchemasWayPlainResponseFromJSONTyped,
+    MwServerInternalSchemasWayPlainResponseToJSON,
+} from './MwServerInternalSchemasWayPlainResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGetAllWaysResponse
+ * @interface MwServerInternalSchemasGetAllWaysResponse
  */
-export interface MwserverInternalSchemasGetAllWaysResponse {
+export interface MwServerInternalSchemasGetAllWaysResponse {
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasGetAllWaysResponse
+     * @memberof MwServerInternalSchemasGetAllWaysResponse
      */
     size: number;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasWayPlainResponse>}
-     * @memberof MwserverInternalSchemasGetAllWaysResponse
+     * @type {Array<MwServerInternalSchemasWayPlainResponse>}
+     * @memberof MwServerInternalSchemasGetAllWaysResponse
      */
-    ways: Array<MwserverInternalSchemasWayPlainResponse>;
+    ways: Array<MwServerInternalSchemasWayPlainResponse>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGetAllWaysResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasGetAllWaysResponse interface.
  */
-export function instanceOfMwserverInternalSchemasGetAllWaysResponse(
+export function instanceOfMwServerInternalSchemasGetAllWaysResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -53,26 +53,26 @@ export function instanceOfMwserverInternalSchemasGetAllWaysResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasGetAllWaysResponseFromJSON(json: any): MwserverInternalSchemasGetAllWaysResponse {
-    return MwserverInternalSchemasGetAllWaysResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasGetAllWaysResponseFromJSON(json: any): MwServerInternalSchemasGetAllWaysResponse {
+    return MwServerInternalSchemasGetAllWaysResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGetAllWaysResponseFromJSONTyped(
+export function MwServerInternalSchemasGetAllWaysResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGetAllWaysResponse {
+): MwServerInternalSchemasGetAllWaysResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'size': json['size'],
-        'ways': ((json['ways'] as Array<any>).map(MwserverInternalSchemasWayPlainResponseFromJSON)),
+        'ways': ((json['ways'] as Array<any>).map(MwServerInternalSchemasWayPlainResponseFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasGetAllWaysResponseToJSON(value?: MwserverInternalSchemasGetAllWaysResponse | null): any {
+export function MwServerInternalSchemasGetAllWaysResponseToJSON(value?: MwServerInternalSchemasGetAllWaysResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -82,7 +82,7 @@ export function MwserverInternalSchemasGetAllWaysResponseToJSON(value?: Mwserver
     return {
         
         'size': value.size,
-        'ways': ((value.ways as Array<any>).map(MwserverInternalSchemasWayPlainResponseToJSON)),
+        'ways': ((value.ways as Array<any>).map(MwServerInternalSchemasWayPlainResponseToJSON)),
     };
 }
 

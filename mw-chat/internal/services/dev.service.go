@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
-	db "mwchat/internal/db/sqlc"
+	db "mw-chat/internal/db/sqlc"
 )
 
 type DevRepository interface {

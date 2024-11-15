@@ -13,55 +13,55 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasLabel } from './MwserverInternalSchemasLabel';
+import type { MwServerInternalSchemasLabel } from './MwServerInternalSchemasLabel';
 import {
-    MwserverInternalSchemasLabelFromJSON,
-    MwserverInternalSchemasLabelFromJSONTyped,
-    MwserverInternalSchemasLabelToJSON,
-} from './MwserverInternalSchemasLabel';
+    MwServerInternalSchemasLabelFromJSON,
+    MwServerInternalSchemasLabelFromJSONTyped,
+    MwServerInternalSchemasLabelToJSON,
+} from './MwServerInternalSchemasLabel';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasLabelInfo
+ * @interface MwServerInternalSchemasLabelInfo
  */
-export interface MwserverInternalSchemasLabelInfo {
+export interface MwServerInternalSchemasLabelInfo {
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasLabelInfo
+     * @memberof MwServerInternalSchemasLabelInfo
      */
     jobsAmount: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasLabelInfo
+     * @memberof MwServerInternalSchemasLabelInfo
      */
     jobsAmountPercentage: number;
     /**
      * 
-     * @type {MwserverInternalSchemasLabel}
-     * @memberof MwserverInternalSchemasLabelInfo
+     * @type {MwServerInternalSchemasLabel}
+     * @memberof MwServerInternalSchemasLabelInfo
      */
-    label: MwserverInternalSchemasLabel;
+    label: MwServerInternalSchemasLabel;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasLabelInfo
+     * @memberof MwServerInternalSchemasLabelInfo
      */
     time: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasLabelInfo
+     * @memberof MwServerInternalSchemasLabelInfo
      */
     timePercentage: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasLabelInfo interface.
+ * Check if a given object implements the MwServerInternalSchemasLabelInfo interface.
  */
-export function instanceOfMwserverInternalSchemasLabelInfo(
+export function instanceOfMwServerInternalSchemasLabelInfo(
     value: object
 ): boolean {
     let isInstance = true;
@@ -74,14 +74,14 @@ export function instanceOfMwserverInternalSchemasLabelInfo(
     return isInstance;
 }
 
-export function MwserverInternalSchemasLabelInfoFromJSON(json: any): MwserverInternalSchemasLabelInfo {
-    return MwserverInternalSchemasLabelInfoFromJSONTyped(json, false);
+export function MwServerInternalSchemasLabelInfoFromJSON(json: any): MwServerInternalSchemasLabelInfo {
+    return MwServerInternalSchemasLabelInfoFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasLabelInfoFromJSONTyped(
+export function MwServerInternalSchemasLabelInfoFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasLabelInfo {
+): MwServerInternalSchemasLabelInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -89,14 +89,14 @@ export function MwserverInternalSchemasLabelInfoFromJSONTyped(
         
         'jobsAmount': json['jobsAmount'],
         'jobsAmountPercentage': json['jobsAmountPercentage'],
-        'label': MwserverInternalSchemasLabelFromJSON(json['label']),
+        'label': MwServerInternalSchemasLabelFromJSON(json['label']),
         'time': json['time'],
         'timePercentage': json['timePercentage'],
     };
 }
 
 
-export function MwserverInternalSchemasLabelInfoToJSON(value?: MwserverInternalSchemasLabelInfo | null): any {
+export function MwServerInternalSchemasLabelInfoToJSON(value?: MwServerInternalSchemasLabelInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -107,7 +107,7 @@ export function MwserverInternalSchemasLabelInfoToJSON(value?: MwserverInternalS
         
         'jobsAmount': value.jobsAmount,
         'jobsAmountPercentage': value.jobsAmountPercentage,
-        'label': MwserverInternalSchemasLabelToJSON(value.label),
+        'label': MwServerInternalSchemasLabelToJSON(value.label),
         'time': value.time,
         'timePercentage': value.timePercentage,
     };

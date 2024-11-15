@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasBeginAuthResponse
+ * @interface MwServerInternalSchemasBeginAuthResponse
  */
-export interface MwserverInternalSchemasBeginAuthResponse {
+export interface MwServerInternalSchemasBeginAuthResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasBeginAuthResponse
+     * @memberof MwServerInternalSchemasBeginAuthResponse
      */
     url: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasBeginAuthResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasBeginAuthResponse interface.
  */
-export function instanceOfMwserverInternalSchemasBeginAuthResponse(
+export function instanceOfMwServerInternalSchemasBeginAuthResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasBeginAuthResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasBeginAuthResponseFromJSON(json: any): MwserverInternalSchemasBeginAuthResponse {
-    return MwserverInternalSchemasBeginAuthResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasBeginAuthResponseFromJSON(json: any): MwServerInternalSchemasBeginAuthResponse {
+    return MwServerInternalSchemasBeginAuthResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasBeginAuthResponseFromJSONTyped(
+export function MwServerInternalSchemasBeginAuthResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasBeginAuthResponse {
+): MwServerInternalSchemasBeginAuthResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasBeginAuthResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasBeginAuthResponseToJSON(value?: MwserverInternalSchemasBeginAuthResponse | null): any {
+export function MwServerInternalSchemasBeginAuthResponseToJSON(value?: MwServerInternalSchemasBeginAuthResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

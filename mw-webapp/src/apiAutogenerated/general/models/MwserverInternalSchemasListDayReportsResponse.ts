@@ -13,37 +13,37 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasCompositeDayReportPopulatedResponse } from './MwserverInternalSchemasCompositeDayReportPopulatedResponse';
+import type { MwServerInternalSchemasCompositeDayReportPopulatedResponse } from './MwServerInternalSchemasCompositeDayReportPopulatedResponse';
 import {
-    MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSON,
-    MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSONTyped,
-    MwserverInternalSchemasCompositeDayReportPopulatedResponseToJSON,
-} from './MwserverInternalSchemasCompositeDayReportPopulatedResponse';
+    MwServerInternalSchemasCompositeDayReportPopulatedResponseFromJSON,
+    MwServerInternalSchemasCompositeDayReportPopulatedResponseFromJSONTyped,
+    MwServerInternalSchemasCompositeDayReportPopulatedResponseToJSON,
+} from './MwServerInternalSchemasCompositeDayReportPopulatedResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasListDayReportsResponse
+ * @interface MwServerInternalSchemasListDayReportsResponse
  */
-export interface MwserverInternalSchemasListDayReportsResponse {
+export interface MwServerInternalSchemasListDayReportsResponse {
     /**
      * 
-     * @type {Array<MwserverInternalSchemasCompositeDayReportPopulatedResponse>}
-     * @memberof MwserverInternalSchemasListDayReportsResponse
+     * @type {Array<MwServerInternalSchemasCompositeDayReportPopulatedResponse>}
+     * @memberof MwServerInternalSchemasListDayReportsResponse
      */
-    dayReports: Array<MwserverInternalSchemasCompositeDayReportPopulatedResponse>;
+    dayReports: Array<MwServerInternalSchemasCompositeDayReportPopulatedResponse>;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasListDayReportsResponse
+     * @memberof MwServerInternalSchemasListDayReportsResponse
      */
     size: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasListDayReportsResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasListDayReportsResponse interface.
  */
-export function instanceOfMwserverInternalSchemasListDayReportsResponse(
+export function instanceOfMwServerInternalSchemasListDayReportsResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -53,26 +53,26 @@ export function instanceOfMwserverInternalSchemasListDayReportsResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasListDayReportsResponseFromJSON(json: any): MwserverInternalSchemasListDayReportsResponse {
-    return MwserverInternalSchemasListDayReportsResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasListDayReportsResponseFromJSON(json: any): MwServerInternalSchemasListDayReportsResponse {
+    return MwServerInternalSchemasListDayReportsResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasListDayReportsResponseFromJSONTyped(
+export function MwServerInternalSchemasListDayReportsResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasListDayReportsResponse {
+): MwServerInternalSchemasListDayReportsResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'dayReports': ((json['dayReports'] as Array<any>).map(MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSON)),
+        'dayReports': ((json['dayReports'] as Array<any>).map(MwServerInternalSchemasCompositeDayReportPopulatedResponseFromJSON)),
         'size': json['size'],
     };
 }
 
 
-export function MwserverInternalSchemasListDayReportsResponseToJSON(value?: MwserverInternalSchemasListDayReportsResponse | null): any {
+export function MwServerInternalSchemasListDayReportsResponseToJSON(value?: MwServerInternalSchemasListDayReportsResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -81,7 +81,7 @@ export function MwserverInternalSchemasListDayReportsResponseToJSON(value?: Mwse
     }
     return {
         
-        'dayReports': ((value.dayReports as Array<any>).map(MwserverInternalSchemasCompositeDayReportPopulatedResponseToJSON)),
+        'dayReports': ((value.dayReports as Array<any>).map(MwServerInternalSchemasCompositeDayReportPopulatedResponseToJSON)),
         'size': value.size,
     };
 }

@@ -13,43 +13,43 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasWayStatistics } from './MwserverInternalSchemasWayStatistics';
+import type { MwServerInternalSchemasWayStatistics } from './MwServerInternalSchemasWayStatistics';
 import {
-    MwserverInternalSchemasWayStatisticsFromJSON,
-    MwserverInternalSchemasWayStatisticsFromJSONTyped,
-    MwserverInternalSchemasWayStatisticsToJSON,
-} from './MwserverInternalSchemasWayStatistics';
+    MwServerInternalSchemasWayStatisticsFromJSON,
+    MwServerInternalSchemasWayStatisticsFromJSONTyped,
+    MwServerInternalSchemasWayStatisticsToJSON,
+} from './MwServerInternalSchemasWayStatistics';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasWayStatisticsTriplePeriod
+ * @interface MwServerInternalSchemasWayStatisticsTriplePeriod
  */
-export interface MwserverInternalSchemasWayStatisticsTriplePeriod {
+export interface MwServerInternalSchemasWayStatisticsTriplePeriod {
     /**
      * 
-     * @type {MwserverInternalSchemasWayStatistics}
-     * @memberof MwserverInternalSchemasWayStatisticsTriplePeriod
+     * @type {MwServerInternalSchemasWayStatistics}
+     * @memberof MwServerInternalSchemasWayStatisticsTriplePeriod
      */
-    lastMonth: MwserverInternalSchemasWayStatistics;
+    lastMonth: MwServerInternalSchemasWayStatistics;
     /**
      * 
-     * @type {MwserverInternalSchemasWayStatistics}
-     * @memberof MwserverInternalSchemasWayStatisticsTriplePeriod
+     * @type {MwServerInternalSchemasWayStatistics}
+     * @memberof MwServerInternalSchemasWayStatisticsTriplePeriod
      */
-    lastWeek: MwserverInternalSchemasWayStatistics;
+    lastWeek: MwServerInternalSchemasWayStatistics;
     /**
      * 
-     * @type {MwserverInternalSchemasWayStatistics}
-     * @memberof MwserverInternalSchemasWayStatisticsTriplePeriod
+     * @type {MwServerInternalSchemasWayStatistics}
+     * @memberof MwServerInternalSchemasWayStatisticsTriplePeriod
      */
-    totalTime: MwserverInternalSchemasWayStatistics;
+    totalTime: MwServerInternalSchemasWayStatistics;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasWayStatisticsTriplePeriod interface.
+ * Check if a given object implements the MwServerInternalSchemasWayStatisticsTriplePeriod interface.
  */
-export function instanceOfMwserverInternalSchemasWayStatisticsTriplePeriod(
+export function instanceOfMwServerInternalSchemasWayStatisticsTriplePeriod(
     value: object
 ): boolean {
     let isInstance = true;
@@ -60,27 +60,27 @@ export function instanceOfMwserverInternalSchemasWayStatisticsTriplePeriod(
     return isInstance;
 }
 
-export function MwserverInternalSchemasWayStatisticsTriplePeriodFromJSON(json: any): MwserverInternalSchemasWayStatisticsTriplePeriod {
-    return MwserverInternalSchemasWayStatisticsTriplePeriodFromJSONTyped(json, false);
+export function MwServerInternalSchemasWayStatisticsTriplePeriodFromJSON(json: any): MwServerInternalSchemasWayStatisticsTriplePeriod {
+    return MwServerInternalSchemasWayStatisticsTriplePeriodFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasWayStatisticsTriplePeriodFromJSONTyped(
+export function MwServerInternalSchemasWayStatisticsTriplePeriodFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasWayStatisticsTriplePeriod {
+): MwServerInternalSchemasWayStatisticsTriplePeriod {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'lastMonth': MwserverInternalSchemasWayStatisticsFromJSON(json['lastMonth']),
-        'lastWeek': MwserverInternalSchemasWayStatisticsFromJSON(json['lastWeek']),
-        'totalTime': MwserverInternalSchemasWayStatisticsFromJSON(json['totalTime']),
+        'lastMonth': MwServerInternalSchemasWayStatisticsFromJSON(json['lastMonth']),
+        'lastWeek': MwServerInternalSchemasWayStatisticsFromJSON(json['lastWeek']),
+        'totalTime': MwServerInternalSchemasWayStatisticsFromJSON(json['totalTime']),
     };
 }
 
 
-export function MwserverInternalSchemasWayStatisticsTriplePeriodToJSON(value?: MwserverInternalSchemasWayStatisticsTriplePeriod | null): any {
+export function MwServerInternalSchemasWayStatisticsTriplePeriodToJSON(value?: MwServerInternalSchemasWayStatisticsTriplePeriod | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,9 +89,9 @@ export function MwserverInternalSchemasWayStatisticsTriplePeriodToJSON(value?: M
     }
     return {
         
-        'lastMonth': MwserverInternalSchemasWayStatisticsToJSON(value.lastMonth),
-        'lastWeek': MwserverInternalSchemasWayStatisticsToJSON(value.lastWeek),
-        'totalTime': MwserverInternalSchemasWayStatisticsToJSON(value.totalTime),
+        'lastMonth': MwServerInternalSchemasWayStatisticsToJSON(value.lastMonth),
+        'lastWeek': MwServerInternalSchemasWayStatisticsToJSON(value.lastWeek),
+        'totalTime': MwServerInternalSchemasWayStatisticsToJSON(value.totalTime),
     };
 }
 

@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUpdateProblemPayload
+ * @interface MwServerInternalSchemasUpdateProblemPayload
  */
-export interface MwserverInternalSchemasUpdateProblemPayload {
+export interface MwServerInternalSchemasUpdateProblemPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateProblemPayload
+     * @memberof MwServerInternalSchemasUpdateProblemPayload
      */
     description?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUpdateProblemPayload
+     * @memberof MwServerInternalSchemasUpdateProblemPayload
      */
     isDone?: boolean;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUpdateProblemPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasUpdateProblemPayload interface.
  */
-export function instanceOfMwserverInternalSchemasUpdateProblemPayload(
+export function instanceOfMwServerInternalSchemasUpdateProblemPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -44,14 +44,14 @@ export function instanceOfMwserverInternalSchemasUpdateProblemPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUpdateProblemPayloadFromJSON(json: any): MwserverInternalSchemasUpdateProblemPayload {
-    return MwserverInternalSchemasUpdateProblemPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasUpdateProblemPayloadFromJSON(json: any): MwServerInternalSchemasUpdateProblemPayload {
+    return MwServerInternalSchemasUpdateProblemPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUpdateProblemPayloadFromJSONTyped(
+export function MwServerInternalSchemasUpdateProblemPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUpdateProblemPayload {
+): MwServerInternalSchemasUpdateProblemPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,7 +63,7 @@ export function MwserverInternalSchemasUpdateProblemPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUpdateProblemPayloadToJSON(value?: MwserverInternalSchemasUpdateProblemPayload | null): any {
+export function MwServerInternalSchemasUpdateProblemPayloadToJSON(value?: MwServerInternalSchemasUpdateProblemPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

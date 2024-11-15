@@ -13,97 +13,97 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasCommentPopulatedResponse } from './MwserverInternalSchemasCommentPopulatedResponse';
+import type { MwServerInternalSchemasCommentPopulatedResponse } from './MwServerInternalSchemasCommentPopulatedResponse';
 import {
-    MwserverInternalSchemasCommentPopulatedResponseFromJSON,
-    MwserverInternalSchemasCommentPopulatedResponseFromJSONTyped,
-    MwserverInternalSchemasCommentPopulatedResponseToJSON,
-} from './MwserverInternalSchemasCommentPopulatedResponse';
-import type { MwserverInternalSchemasDayReportsCompositionParticipants } from './MwserverInternalSchemasDayReportsCompositionParticipants';
+    MwServerInternalSchemasCommentPopulatedResponseFromJSON,
+    MwServerInternalSchemasCommentPopulatedResponseFromJSONTyped,
+    MwServerInternalSchemasCommentPopulatedResponseToJSON,
+} from './MwServerInternalSchemasCommentPopulatedResponse';
+import type { MwServerInternalSchemasDayReportsCompositionParticipants } from './MwServerInternalSchemasDayReportsCompositionParticipants';
 import {
-    MwserverInternalSchemasDayReportsCompositionParticipantsFromJSON,
-    MwserverInternalSchemasDayReportsCompositionParticipantsFromJSONTyped,
-    MwserverInternalSchemasDayReportsCompositionParticipantsToJSON,
-} from './MwserverInternalSchemasDayReportsCompositionParticipants';
-import type { MwserverInternalSchemasJobDonePopulatedResponse } from './MwserverInternalSchemasJobDonePopulatedResponse';
+    MwServerInternalSchemasDayReportsCompositionParticipantsFromJSON,
+    MwServerInternalSchemasDayReportsCompositionParticipantsFromJSONTyped,
+    MwServerInternalSchemasDayReportsCompositionParticipantsToJSON,
+} from './MwServerInternalSchemasDayReportsCompositionParticipants';
+import type { MwServerInternalSchemasJobDonePopulatedResponse } from './MwServerInternalSchemasJobDonePopulatedResponse';
 import {
-    MwserverInternalSchemasJobDonePopulatedResponseFromJSON,
-    MwserverInternalSchemasJobDonePopulatedResponseFromJSONTyped,
-    MwserverInternalSchemasJobDonePopulatedResponseToJSON,
-} from './MwserverInternalSchemasJobDonePopulatedResponse';
-import type { MwserverInternalSchemasPlanPopulatedResponse } from './MwserverInternalSchemasPlanPopulatedResponse';
+    MwServerInternalSchemasJobDonePopulatedResponseFromJSON,
+    MwServerInternalSchemasJobDonePopulatedResponseFromJSONTyped,
+    MwServerInternalSchemasJobDonePopulatedResponseToJSON,
+} from './MwServerInternalSchemasJobDonePopulatedResponse';
+import type { MwServerInternalSchemasPlanPopulatedResponse } from './MwServerInternalSchemasPlanPopulatedResponse';
 import {
-    MwserverInternalSchemasPlanPopulatedResponseFromJSON,
-    MwserverInternalSchemasPlanPopulatedResponseFromJSONTyped,
-    MwserverInternalSchemasPlanPopulatedResponseToJSON,
-} from './MwserverInternalSchemasPlanPopulatedResponse';
-import type { MwserverInternalSchemasProblemPopulatedResponse } from './MwserverInternalSchemasProblemPopulatedResponse';
+    MwServerInternalSchemasPlanPopulatedResponseFromJSON,
+    MwServerInternalSchemasPlanPopulatedResponseFromJSONTyped,
+    MwServerInternalSchemasPlanPopulatedResponseToJSON,
+} from './MwServerInternalSchemasPlanPopulatedResponse';
+import type { MwServerInternalSchemasProblemPopulatedResponse } from './MwServerInternalSchemasProblemPopulatedResponse';
 import {
-    MwserverInternalSchemasProblemPopulatedResponseFromJSON,
-    MwserverInternalSchemasProblemPopulatedResponseFromJSONTyped,
-    MwserverInternalSchemasProblemPopulatedResponseToJSON,
-} from './MwserverInternalSchemasProblemPopulatedResponse';
+    MwServerInternalSchemasProblemPopulatedResponseFromJSON,
+    MwServerInternalSchemasProblemPopulatedResponseFromJSONTyped,
+    MwServerInternalSchemasProblemPopulatedResponseToJSON,
+} from './MwServerInternalSchemasProblemPopulatedResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCompositeDayReportPopulatedResponse
+ * @interface MwServerInternalSchemasCompositeDayReportPopulatedResponse
  */
-export interface MwserverInternalSchemasCompositeDayReportPopulatedResponse {
+export interface MwServerInternalSchemasCompositeDayReportPopulatedResponse {
     /**
      * 
-     * @type {Array<MwserverInternalSchemasCommentPopulatedResponse>}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @type {Array<MwServerInternalSchemasCommentPopulatedResponse>}
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
-    comments: Array<MwserverInternalSchemasCommentPopulatedResponse>;
+    comments: Array<MwServerInternalSchemasCommentPopulatedResponse>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasDayReportsCompositionParticipants>}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @type {Array<MwServerInternalSchemasDayReportsCompositionParticipants>}
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
-    compositionParticipants: Array<MwserverInternalSchemasDayReportsCompositionParticipants>;
+    compositionParticipants: Array<MwServerInternalSchemasDayReportsCompositionParticipants>;
     /**
      * Calculated by - just date
      * @type {string}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
     createdAt: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasJobDonePopulatedResponse>}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @type {Array<MwServerInternalSchemasJobDonePopulatedResponse>}
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
-    jobsDone: Array<MwserverInternalSchemasJobDonePopulatedResponse>;
+    jobsDone: Array<MwServerInternalSchemasJobDonePopulatedResponse>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasPlanPopulatedResponse>}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @type {Array<MwServerInternalSchemasPlanPopulatedResponse>}
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
-    plans: Array<MwserverInternalSchemasPlanPopulatedResponse>;
+    plans: Array<MwServerInternalSchemasPlanPopulatedResponse>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasProblemPopulatedResponse>}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @type {Array<MwServerInternalSchemasProblemPopulatedResponse>}
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
-    problems: Array<MwserverInternalSchemasProblemPopulatedResponse>;
+    problems: Array<MwServerInternalSchemasProblemPopulatedResponse>;
     /**
      * Calculated by - just last date
      * @type {string}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
     updatedAt: string;
     /**
      * Always generated
      * @type {string}
-     * @memberof MwserverInternalSchemasCompositeDayReportPopulatedResponse
+     * @memberof MwServerInternalSchemasCompositeDayReportPopulatedResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCompositeDayReportPopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasCompositeDayReportPopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasCompositeDayReportPopulatedResponse(
+export function instanceOfMwServerInternalSchemasCompositeDayReportPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -119,32 +119,32 @@ export function instanceOfMwserverInternalSchemasCompositeDayReportPopulatedResp
     return isInstance;
 }
 
-export function MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSON(json: any): MwserverInternalSchemasCompositeDayReportPopulatedResponse {
-    return MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasCompositeDayReportPopulatedResponseFromJSON(json: any): MwServerInternalSchemasCompositeDayReportPopulatedResponse {
+    return MwServerInternalSchemasCompositeDayReportPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCompositeDayReportPopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasCompositeDayReportPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCompositeDayReportPopulatedResponse {
+): MwServerInternalSchemasCompositeDayReportPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'comments': ((json['comments'] as Array<any>).map(MwserverInternalSchemasCommentPopulatedResponseFromJSON)),
-        'compositionParticipants': ((json['compositionParticipants'] as Array<any>).map(MwserverInternalSchemasDayReportsCompositionParticipantsFromJSON)),
+        'comments': ((json['comments'] as Array<any>).map(MwServerInternalSchemasCommentPopulatedResponseFromJSON)),
+        'compositionParticipants': ((json['compositionParticipants'] as Array<any>).map(MwServerInternalSchemasDayReportsCompositionParticipantsFromJSON)),
         'createdAt': json['createdAt'],
-        'jobsDone': ((json['jobsDone'] as Array<any>).map(MwserverInternalSchemasJobDonePopulatedResponseFromJSON)),
-        'plans': ((json['plans'] as Array<any>).map(MwserverInternalSchemasPlanPopulatedResponseFromJSON)),
-        'problems': ((json['problems'] as Array<any>).map(MwserverInternalSchemasProblemPopulatedResponseFromJSON)),
+        'jobsDone': ((json['jobsDone'] as Array<any>).map(MwServerInternalSchemasJobDonePopulatedResponseFromJSON)),
+        'plans': ((json['plans'] as Array<any>).map(MwServerInternalSchemasPlanPopulatedResponseFromJSON)),
+        'problems': ((json['problems'] as Array<any>).map(MwServerInternalSchemasProblemPopulatedResponseFromJSON)),
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
 }
 
 
-export function MwserverInternalSchemasCompositeDayReportPopulatedResponseToJSON(value?: MwserverInternalSchemasCompositeDayReportPopulatedResponse | null): any {
+export function MwServerInternalSchemasCompositeDayReportPopulatedResponseToJSON(value?: MwServerInternalSchemasCompositeDayReportPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -153,12 +153,12 @@ export function MwserverInternalSchemasCompositeDayReportPopulatedResponseToJSON
     }
     return {
         
-        'comments': ((value.comments as Array<any>).map(MwserverInternalSchemasCommentPopulatedResponseToJSON)),
-        'compositionParticipants': ((value.compositionParticipants as Array<any>).map(MwserverInternalSchemasDayReportsCompositionParticipantsToJSON)),
+        'comments': ((value.comments as Array<any>).map(MwServerInternalSchemasCommentPopulatedResponseToJSON)),
+        'compositionParticipants': ((value.compositionParticipants as Array<any>).map(MwServerInternalSchemasDayReportsCompositionParticipantsToJSON)),
         'createdAt': value.createdAt,
-        'jobsDone': ((value.jobsDone as Array<any>).map(MwserverInternalSchemasJobDonePopulatedResponseToJSON)),
-        'plans': ((value.plans as Array<any>).map(MwserverInternalSchemasPlanPopulatedResponseToJSON)),
-        'problems': ((value.problems as Array<any>).map(MwserverInternalSchemasProblemPopulatedResponseToJSON)),
+        'jobsDone': ((value.jobsDone as Array<any>).map(MwServerInternalSchemasJobDonePopulatedResponseToJSON)),
+        'plans': ((value.plans as Array<any>).map(MwServerInternalSchemasPlanPopulatedResponseToJSON)),
+        'problems': ((value.problems as Array<any>).map(MwServerInternalSchemasProblemPopulatedResponseToJSON)),
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };

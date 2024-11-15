@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateProblemPayload
+ * @interface MwServerInternalSchemasCreateProblemPayload
  */
-export interface MwserverInternalSchemasCreateProblemPayload {
+export interface MwServerInternalSchemasCreateProblemPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateProblemPayload
+     * @memberof MwServerInternalSchemasCreateProblemPayload
      */
     dayReportUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateProblemPayload
+     * @memberof MwServerInternalSchemasCreateProblemPayload
      */
     description: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasCreateProblemPayload
+     * @memberof MwServerInternalSchemasCreateProblemPayload
      */
     isDone: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateProblemPayload
+     * @memberof MwServerInternalSchemasCreateProblemPayload
      */
     ownerUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateProblemPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateProblemPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateProblemPayload(
+export function instanceOfMwServerInternalSchemasCreateProblemPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -60,14 +60,14 @@ export function instanceOfMwserverInternalSchemasCreateProblemPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateProblemPayloadFromJSON(json: any): MwserverInternalSchemasCreateProblemPayload {
-    return MwserverInternalSchemasCreateProblemPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateProblemPayloadFromJSON(json: any): MwServerInternalSchemasCreateProblemPayload {
+    return MwServerInternalSchemasCreateProblemPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateProblemPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateProblemPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateProblemPayload {
+): MwServerInternalSchemasCreateProblemPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,7 +81,7 @@ export function MwserverInternalSchemasCreateProblemPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateProblemPayloadToJSON(value?: MwserverInternalSchemasCreateProblemPayload | null): any {
+export function MwServerInternalSchemasCreateProblemPayloadToJSON(value?: MwServerInternalSchemasCreateProblemPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

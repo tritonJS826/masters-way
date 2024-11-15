@@ -1,6 +1,6 @@
 basePath: /chat
 definitions:
-  mwchat_internal_schemas.CreateMessagePayload:
+  mw-chat_internal_schemas.CreateMessagePayload:
     properties:
       message:
         type: string
@@ -10,10 +10,10 @@ definitions:
     - message
     - roomId
     type: object
-  mwchat_internal_schemas.CreateMessageResponse:
+  mw-chat_internal_schemas.CreateMessageResponse:
     properties:
       message:
-        $ref: '#/definitions/mwchat_internal_schemas.MessageResponse'
+        $ref: '#/definitions/mw-chat_internal_schemas.MessageResponse'
       users:
         items:
           type: string
@@ -22,7 +22,7 @@ definitions:
     - message
     - users
     type: object
-  mwchat_internal_schemas.CreateRoomPayload:
+  mw-chat_internal_schemas.CreateRoomPayload:
     properties:
       name:
         type: string
@@ -35,18 +35,18 @@ definitions:
     required:
     - roomType
     type: object
-  mwchat_internal_schemas.GetChatPreviewResponse:
+  mw-chat_internal_schemas.GetChatPreviewResponse:
     properties:
       unreadMessagesAmount:
         type: integer
     required:
     - unreadMessagesAmount
     type: object
-  mwchat_internal_schemas.GetRoomsResponse:
+  mw-chat_internal_schemas.GetRoomsResponse:
     properties:
       rooms:
         items:
-          $ref: '#/definitions/mwchat_internal_schemas.RoomPreviewResponse'
+          $ref: '#/definitions/mw-chat_internal_schemas.RoomPreviewResponse'
         type: array
       size:
         type: integer
@@ -54,7 +54,7 @@ definitions:
     - rooms
     - size
     type: object
-  mwchat_internal_schemas.MessageReader:
+  mw-chat_internal_schemas.MessageReader:
     properties:
       readDate:
         type: string
@@ -64,7 +64,7 @@ definitions:
     - readDate
     - userId
     type: object
-  mwchat_internal_schemas.MessageResponse:
+  mw-chat_internal_schemas.MessageResponse:
     properties:
       message:
         type: string
@@ -72,7 +72,7 @@ definitions:
         type: string
       messageReaders:
         items:
-          $ref: '#/definitions/mwchat_internal_schemas.MessageReader'
+          $ref: '#/definitions/mw-chat_internal_schemas.MessageReader'
         type: array
       ownerId:
         type: string
@@ -82,13 +82,13 @@ definitions:
     - messageReaders
     - ownerId
     type: object
-  mwchat_internal_schemas.RoomPopulatedResponse:
+  mw-chat_internal_schemas.RoomPopulatedResponse:
     properties:
       isBlocked:
         type: boolean
       messages:
         items:
-          $ref: '#/definitions/mwchat_internal_schemas.MessageResponse'
+          $ref: '#/definitions/mw-chat_internal_schemas.MessageResponse'
         type: array
       name:
         type: string
@@ -99,7 +99,7 @@ definitions:
         type: string
       users:
         items:
-          $ref: '#/definitions/mwchat_internal_schemas.UserResponse'
+          $ref: '#/definitions/mw-chat_internal_schemas.UserResponse'
         type: array
     required:
     - isBlocked
@@ -109,7 +109,7 @@ definitions:
     - roomType
     - users
     type: object
-  mwchat_internal_schemas.RoomPreviewResponse:
+  mw-chat_internal_schemas.RoomPreviewResponse:
     properties:
       isBlocked:
         type: boolean
@@ -122,7 +122,7 @@ definitions:
         type: string
       users:
         items:
-          $ref: '#/definitions/mwchat_internal_schemas.UserResponse'
+          $ref: '#/definitions/mw-chat_internal_schemas.UserResponse'
         type: array
     required:
     - isBlocked
@@ -131,14 +131,14 @@ definitions:
     - roomType
     - users
     type: object
-  mwchat_internal_schemas.UpdateMessageStatusPayload:
+  mw-chat_internal_schemas.UpdateMessageStatusPayload:
     properties:
       isRead:
         type: boolean
     required:
     - isRead
     type: object
-  mwchat_internal_schemas.UserResponse:
+  mw-chat_internal_schemas.UserResponse:
     properties:
       role:
         type: string
@@ -173,14 +173,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mwchat_internal_schemas.CreateMessagePayload'
+          $ref: '#/definitions/mw-chat_internal_schemas.CreateMessagePayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mwchat_internal_schemas.CreateMessageResponse'
+            $ref: '#/definitions/mw-chat_internal_schemas.CreateMessageResponse'
       summary: Create message
       tags:
       - message
@@ -196,7 +196,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mwchat_internal_schemas.UpdateMessageStatusPayload'
+          $ref: '#/definitions/mw-chat_internal_schemas.UpdateMessageStatusPayload'
       - description: message Id
         in: path
         name: messageId
@@ -221,14 +221,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mwchat_internal_schemas.CreateRoomPayload'
+          $ref: '#/definitions/mw-chat_internal_schemas.CreateRoomPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mwchat_internal_schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat_internal_schemas.RoomPopulatedResponse'
       summary: Create room for user
       tags:
       - room
@@ -249,7 +249,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mwchat_internal_schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat_internal_schemas.RoomPopulatedResponse'
       summary: Get room by id
       tags:
       - room
@@ -269,7 +269,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mwchat_internal_schemas.RoomPopulatedResponse'
+            $ref: '#/definitions/mw-chat_internal_schemas.RoomPopulatedResponse'
       summary: Update room for user
       tags:
       - room
@@ -318,7 +318,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mwchat_internal_schemas.RoomPreviewResponse'
+            $ref: '#/definitions/mw-chat_internal_schemas.RoomPreviewResponse'
       summary: Add user to room
       tags:
       - room
@@ -342,7 +342,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mwchat_internal_schemas.GetRoomsResponse'
+            $ref: '#/definitions/mw-chat_internal_schemas.GetRoomsResponse'
       summary: Get rooms for user
       tags:
       - room
@@ -357,7 +357,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mwchat_internal_schemas.GetChatPreviewResponse'
+            $ref: '#/definitions/mw-chat_internal_schemas.GetChatPreviewResponse'
       summary: Get chat preview
       tags:
       - room

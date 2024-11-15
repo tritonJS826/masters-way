@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasWayCollectionPlainResponse
+ * @interface MwServerInternalSchemasWayCollectionPlainResponse
  */
-export interface MwserverInternalSchemasWayCollectionPlainResponse {
+export interface MwServerInternalSchemasWayCollectionPlainResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPlainResponse
+     * @memberof MwServerInternalSchemasWayCollectionPlainResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPlainResponse
+     * @memberof MwServerInternalSchemasWayCollectionPlainResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasWayCollectionPlainResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasWayCollectionPlainResponse interface.
  */
-export function instanceOfMwserverInternalSchemasWayCollectionPlainResponse(
+export function instanceOfMwServerInternalSchemasWayCollectionPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasWayCollectionPlainResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasWayCollectionPlainResponseFromJSON(json: any): MwserverInternalSchemasWayCollectionPlainResponse {
-    return MwserverInternalSchemasWayCollectionPlainResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasWayCollectionPlainResponseFromJSON(json: any): MwServerInternalSchemasWayCollectionPlainResponse {
+    return MwServerInternalSchemasWayCollectionPlainResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasWayCollectionPlainResponseFromJSONTyped(
+export function MwServerInternalSchemasWayCollectionPlainResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasWayCollectionPlainResponse {
+): MwServerInternalSchemasWayCollectionPlainResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasWayCollectionPlainResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasWayCollectionPlainResponseToJSON(value?: MwserverInternalSchemasWayCollectionPlainResponse | null): any {
+export function MwServerInternalSchemasWayCollectionPlainResponseToJSON(value?: MwServerInternalSchemasWayCollectionPlainResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGetUsersByIDsResponse
+ * @interface MwServerInternalSchemasGetUsersByIDsResponse
  */
-export interface MwserverInternalSchemasGetUsersByIDsResponse {
+export interface MwServerInternalSchemasGetUsersByIDsResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGetUsersByIDsResponse
+     * @memberof MwServerInternalSchemasGetUsersByIDsResponse
      */
     imageUrl: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGetUsersByIDsResponse
+     * @memberof MwServerInternalSchemasGetUsersByIDsResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGetUsersByIDsResponse
+     * @memberof MwServerInternalSchemasGetUsersByIDsResponse
      */
     userId: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGetUsersByIDsResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasGetUsersByIDsResponse interface.
  */
-export function instanceOfMwserverInternalSchemasGetUsersByIDsResponse(
+export function instanceOfMwServerInternalSchemasGetUsersByIDsResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -53,14 +53,14 @@ export function instanceOfMwserverInternalSchemasGetUsersByIDsResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasGetUsersByIDsResponseFromJSON(json: any): MwserverInternalSchemasGetUsersByIDsResponse {
-    return MwserverInternalSchemasGetUsersByIDsResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasGetUsersByIDsResponseFromJSON(json: any): MwServerInternalSchemasGetUsersByIDsResponse {
+    return MwServerInternalSchemasGetUsersByIDsResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGetUsersByIDsResponseFromJSONTyped(
+export function MwServerInternalSchemasGetUsersByIDsResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGetUsersByIDsResponse {
+): MwServerInternalSchemasGetUsersByIDsResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,7 +73,7 @@ export function MwserverInternalSchemasGetUsersByIDsResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasGetUsersByIDsResponseToJSON(value?: MwserverInternalSchemasGetUsersByIDsResponse | null): any {
+export function MwServerInternalSchemasGetUsersByIDsResponseToJSON(value?: MwServerInternalSchemasGetUsersByIDsResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

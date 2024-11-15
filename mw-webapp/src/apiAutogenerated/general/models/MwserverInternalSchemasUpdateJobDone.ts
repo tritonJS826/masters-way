@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUpdateJobDone
+ * @interface MwServerInternalSchemasUpdateJobDone
  */
-export interface MwserverInternalSchemasUpdateJobDone {
+export interface MwServerInternalSchemasUpdateJobDone {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateJobDone
+     * @memberof MwServerInternalSchemasUpdateJobDone
      */
     description?: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUpdateJobDone
+     * @memberof MwServerInternalSchemasUpdateJobDone
      */
     time?: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUpdateJobDone interface.
+ * Check if a given object implements the MwServerInternalSchemasUpdateJobDone interface.
  */
-export function instanceOfMwserverInternalSchemasUpdateJobDone(
+export function instanceOfMwServerInternalSchemasUpdateJobDone(
     value: object
 ): boolean {
     let isInstance = true;
@@ -44,14 +44,14 @@ export function instanceOfMwserverInternalSchemasUpdateJobDone(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUpdateJobDoneFromJSON(json: any): MwserverInternalSchemasUpdateJobDone {
-    return MwserverInternalSchemasUpdateJobDoneFromJSONTyped(json, false);
+export function MwServerInternalSchemasUpdateJobDoneFromJSON(json: any): MwServerInternalSchemasUpdateJobDone {
+    return MwServerInternalSchemasUpdateJobDoneFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUpdateJobDoneFromJSONTyped(
+export function MwServerInternalSchemasUpdateJobDoneFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUpdateJobDone {
+): MwServerInternalSchemasUpdateJobDone {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,7 +63,7 @@ export function MwserverInternalSchemasUpdateJobDoneFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUpdateJobDoneToJSON(value?: MwserverInternalSchemasUpdateJobDone | null): any {
+export function MwServerInternalSchemasUpdateJobDoneToJSON(value?: MwServerInternalSchemasUpdateJobDone | null): any {
     if (value === undefined) {
         return undefined;
     }

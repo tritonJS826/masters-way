@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateJobTagPayload
+ * @interface MwServerInternalSchemasCreateJobTagPayload
  */
-export interface MwserverInternalSchemasCreateJobTagPayload {
+export interface MwServerInternalSchemasCreateJobTagPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobTagPayload
+     * @memberof MwServerInternalSchemasCreateJobTagPayload
      */
     color: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobTagPayload
+     * @memberof MwServerInternalSchemasCreateJobTagPayload
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobTagPayload
+     * @memberof MwServerInternalSchemasCreateJobTagPayload
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobTagPayload
+     * @memberof MwServerInternalSchemasCreateJobTagPayload
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateJobTagPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateJobTagPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateJobTagPayload(
+export function instanceOfMwServerInternalSchemasCreateJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -60,14 +60,14 @@ export function instanceOfMwserverInternalSchemasCreateJobTagPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateJobTagPayloadFromJSON(json: any): MwserverInternalSchemasCreateJobTagPayload {
-    return MwserverInternalSchemasCreateJobTagPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateJobTagPayloadFromJSON(json: any): MwServerInternalSchemasCreateJobTagPayload {
+    return MwServerInternalSchemasCreateJobTagPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateJobTagPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateJobTagPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateJobTagPayload {
+): MwServerInternalSchemasCreateJobTagPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,7 +81,7 @@ export function MwserverInternalSchemasCreateJobTagPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateJobTagPayloadToJSON(value?: MwserverInternalSchemasCreateJobTagPayload | null): any {
+export function MwServerInternalSchemasCreateJobTagPayloadToJSON(value?: MwServerInternalSchemasCreateJobTagPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

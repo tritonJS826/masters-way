@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGetUserTokenByEmailResponse
+ * @interface MwServerInternalSchemasGetUserTokenByEmailResponse
  */
-export interface MwserverInternalSchemasGetUserTokenByEmailResponse {
+export interface MwServerInternalSchemasGetUserTokenByEmailResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGetUserTokenByEmailResponse
+     * @memberof MwServerInternalSchemasGetUserTokenByEmailResponse
      */
     url: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGetUserTokenByEmailResponse
+     * @memberof MwServerInternalSchemasGetUserTokenByEmailResponse
      */
     userUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGetUserTokenByEmailResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasGetUserTokenByEmailResponse interface.
  */
-export function instanceOfMwserverInternalSchemasGetUserTokenByEmailResponse(
+export function instanceOfMwServerInternalSchemasGetUserTokenByEmailResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasGetUserTokenByEmailResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasGetUserTokenByEmailResponseFromJSON(json: any): MwserverInternalSchemasGetUserTokenByEmailResponse {
-    return MwserverInternalSchemasGetUserTokenByEmailResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasGetUserTokenByEmailResponseFromJSON(json: any): MwServerInternalSchemasGetUserTokenByEmailResponse {
+    return MwServerInternalSchemasGetUserTokenByEmailResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGetUserTokenByEmailResponseFromJSONTyped(
+export function MwServerInternalSchemasGetUserTokenByEmailResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGetUserTokenByEmailResponse {
+): MwServerInternalSchemasGetUserTokenByEmailResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasGetUserTokenByEmailResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasGetUserTokenByEmailResponseToJSON(value?: MwserverInternalSchemasGetUserTokenByEmailResponse | null): any {
+export function MwServerInternalSchemasGetUserTokenByEmailResponseToJSON(value?: MwServerInternalSchemasGetUserTokenByEmailResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

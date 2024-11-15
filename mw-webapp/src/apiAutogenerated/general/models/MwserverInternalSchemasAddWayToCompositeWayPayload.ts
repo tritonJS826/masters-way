@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAddWayToCompositeWayPayload
+ * @interface MwServerInternalSchemasAddWayToCompositeWayPayload
  */
-export interface MwserverInternalSchemasAddWayToCompositeWayPayload {
+export interface MwServerInternalSchemasAddWayToCompositeWayPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAddWayToCompositeWayPayload
+     * @memberof MwServerInternalSchemasAddWayToCompositeWayPayload
      */
     childWayUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAddWayToCompositeWayPayload
+     * @memberof MwServerInternalSchemasAddWayToCompositeWayPayload
      */
     parentWayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAddWayToCompositeWayPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasAddWayToCompositeWayPayload interface.
  */
-export function instanceOfMwserverInternalSchemasAddWayToCompositeWayPayload(
+export function instanceOfMwServerInternalSchemasAddWayToCompositeWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasAddWayToCompositeWayPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAddWayToCompositeWayPayloadFromJSON(json: any): MwserverInternalSchemasAddWayToCompositeWayPayload {
-    return MwserverInternalSchemasAddWayToCompositeWayPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasAddWayToCompositeWayPayloadFromJSON(json: any): MwServerInternalSchemasAddWayToCompositeWayPayload {
+    return MwServerInternalSchemasAddWayToCompositeWayPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAddWayToCompositeWayPayloadFromJSONTyped(
+export function MwServerInternalSchemasAddWayToCompositeWayPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAddWayToCompositeWayPayload {
+): MwServerInternalSchemasAddWayToCompositeWayPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasAddWayToCompositeWayPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAddWayToCompositeWayPayloadToJSON(value?: MwserverInternalSchemasAddWayToCompositeWayPayload | null): any {
+export function MwServerInternalSchemasAddWayToCompositeWayPayloadToJSON(value?: MwServerInternalSchemasAddWayToCompositeWayPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

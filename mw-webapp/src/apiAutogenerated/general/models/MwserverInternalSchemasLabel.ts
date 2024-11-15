@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasLabel
+ * @interface MwServerInternalSchemasLabel
  */
-export interface MwserverInternalSchemasLabel {
+export interface MwServerInternalSchemasLabel {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasLabel
+     * @memberof MwServerInternalSchemasLabel
      */
     color: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasLabel
+     * @memberof MwServerInternalSchemasLabel
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasLabel
+     * @memberof MwServerInternalSchemasLabel
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasLabel
+     * @memberof MwServerInternalSchemasLabel
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasLabel interface.
+ * Check if a given object implements the MwServerInternalSchemasLabel interface.
  */
-export function instanceOfMwserverInternalSchemasLabel(
+export function instanceOfMwServerInternalSchemasLabel(
     value: object
 ): boolean {
     let isInstance = true;
@@ -60,14 +60,14 @@ export function instanceOfMwserverInternalSchemasLabel(
     return isInstance;
 }
 
-export function MwserverInternalSchemasLabelFromJSON(json: any): MwserverInternalSchemasLabel {
-    return MwserverInternalSchemasLabelFromJSONTyped(json, false);
+export function MwServerInternalSchemasLabelFromJSON(json: any): MwServerInternalSchemasLabel {
+    return MwServerInternalSchemasLabelFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasLabelFromJSONTyped(
+export function MwServerInternalSchemasLabelFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasLabel {
+): MwServerInternalSchemasLabel {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,7 +81,7 @@ export function MwserverInternalSchemasLabelFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasLabelToJSON(value?: MwserverInternalSchemasLabel | null): any {
+export function MwServerInternalSchemasLabelToJSON(value?: MwServerInternalSchemasLabel | null): any {
     if (value === undefined) {
         return undefined;
     }

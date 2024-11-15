@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateMentorUserWayPayload
+ * @interface MwServerInternalSchemasCreateMentorUserWayPayload
  */
-export interface MwserverInternalSchemasCreateMentorUserWayPayload {
+export interface MwServerInternalSchemasCreateMentorUserWayPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateMentorUserWayPayload
+     * @memberof MwServerInternalSchemasCreateMentorUserWayPayload
      */
     userUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateMentorUserWayPayload
+     * @memberof MwServerInternalSchemasCreateMentorUserWayPayload
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateMentorUserWayPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateMentorUserWayPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateMentorUserWayPayload(
+export function instanceOfMwServerInternalSchemasCreateMentorUserWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateMentorUserWayPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateMentorUserWayPayloadFromJSON(json: any): MwserverInternalSchemasCreateMentorUserWayPayload {
-    return MwserverInternalSchemasCreateMentorUserWayPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateMentorUserWayPayloadFromJSON(json: any): MwServerInternalSchemasCreateMentorUserWayPayload {
+    return MwServerInternalSchemasCreateMentorUserWayPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateMentorUserWayPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateMentorUserWayPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateMentorUserWayPayload {
+): MwServerInternalSchemasCreateMentorUserWayPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateMentorUserWayPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateMentorUserWayPayloadToJSON(value?: MwserverInternalSchemasCreateMentorUserWayPayload | null): any {
+export function MwServerInternalSchemasCreateMentorUserWayPayloadToJSON(value?: MwServerInternalSchemasCreateMentorUserWayPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

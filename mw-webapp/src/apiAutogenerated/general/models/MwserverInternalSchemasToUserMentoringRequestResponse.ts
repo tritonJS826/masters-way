@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasToUserMentoringRequestResponse
+ * @interface MwServerInternalSchemasToUserMentoringRequestResponse
  */
-export interface MwserverInternalSchemasToUserMentoringRequestResponse {
+export interface MwServerInternalSchemasToUserMentoringRequestResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasToUserMentoringRequestResponse
+     * @memberof MwServerInternalSchemasToUserMentoringRequestResponse
      */
     userId: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasToUserMentoringRequestResponse
+     * @memberof MwServerInternalSchemasToUserMentoringRequestResponse
      */
     wayId: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasToUserMentoringRequestResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasToUserMentoringRequestResponse interface.
  */
-export function instanceOfMwserverInternalSchemasToUserMentoringRequestResponse(
+export function instanceOfMwServerInternalSchemasToUserMentoringRequestResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasToUserMentoringRequestResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasToUserMentoringRequestResponseFromJSON(json: any): MwserverInternalSchemasToUserMentoringRequestResponse {
-    return MwserverInternalSchemasToUserMentoringRequestResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasToUserMentoringRequestResponseFromJSON(json: any): MwServerInternalSchemasToUserMentoringRequestResponse {
+    return MwServerInternalSchemasToUserMentoringRequestResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasToUserMentoringRequestResponseFromJSONTyped(
+export function MwServerInternalSchemasToUserMentoringRequestResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasToUserMentoringRequestResponse {
+): MwServerInternalSchemasToUserMentoringRequestResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasToUserMentoringRequestResponseFromJSONTyp
 }
 
 
-export function MwserverInternalSchemasToUserMentoringRequestResponseToJSON(value?: MwserverInternalSchemasToUserMentoringRequestResponse | null): any {
+export function MwServerInternalSchemasToUserMentoringRequestResponseToJSON(value?: MwServerInternalSchemasToUserMentoringRequestResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

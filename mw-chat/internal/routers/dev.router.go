@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"mwchat/internal/controllers"
+	"mw-chat/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )
