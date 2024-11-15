@@ -18,11 +18,22 @@ func newNotificationService(
 	return &NotificationService{notificationGRPC, enabledNotificationGRPC}
 }
 
+type Nature string
+
+const (
+	PrivateChat      Nature = "private_chat"
+	GroupChat        Nature = "group_chat"
+	OwnWay           Nature = "own_way"
+	MentoringWay     Nature = "mentoring_way"
+	MentoringRequest Nature = "mentoring_request"
+	FavoriteWay      Nature = "favorite_way"
+)
+
 type CreateNotificationsParams struct {
 	UserUUID    string
 	Description string
 	Url         string
-	Nature      string
+	Nature      Nature
 }
 
 func (ns *NotificationService) CreateNotifications(ctx context.Context, params *CreateNotificationsParams) (*schemas.NotificationResponse, error) {
@@ -30,7 +41,7 @@ func (ns *NotificationService) CreateNotifications(ctx context.Context, params *
 		UserUuid:    params.UserUUID,
 		Description: params.Description,
 		Url:         params.Url,
-		Nature:      params.Nature,
+		Nature:      pb.Nature(pb.Nature_value[string(params.Nature)]),
 	}
 
 	notification, err := ns.notificationGRPC.CreateNotification(ctx, in)
@@ -44,7 +55,7 @@ func (ns *NotificationService) CreateNotifications(ctx context.Context, params *
 		IsRead:      notification.IsRead,
 		Description: notification.Description,
 		Url:         notification.Url,
-		Nature:      notification.Nature,
+		Nature:      notification.Nature.String(),
 		CreatedAt:   notification.CreatedAt,
 	}, nil
 }
