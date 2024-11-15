@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateWayTagPayload
+ * @interface MwServerInternalSchemasCreateWayTagPayload
  */
-export interface MwserverInternalSchemasCreateWayTagPayload {
+export interface MwServerInternalSchemasCreateWayTagPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayTagPayload
+     * @memberof MwServerInternalSchemasCreateWayTagPayload
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayTagPayload
+     * @memberof MwServerInternalSchemasCreateWayTagPayload
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateWayTagPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateWayTagPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateWayTagPayload(
+export function instanceOfMwServerInternalSchemasCreateWayTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateWayTagPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateWayTagPayloadFromJSON(json: any): MwserverInternalSchemasCreateWayTagPayload {
-    return MwserverInternalSchemasCreateWayTagPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateWayTagPayloadFromJSON(json: any): MwServerInternalSchemasCreateWayTagPayload {
+    return MwServerInternalSchemasCreateWayTagPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateWayTagPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateWayTagPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateWayTagPayload {
+): MwServerInternalSchemasCreateWayTagPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateWayTagPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateWayTagPayloadToJSON(value?: MwserverInternalSchemasCreateWayTagPayload | null): any {
+export function MwServerInternalSchemasCreateWayTagPayloadToJSON(value?: MwServerInternalSchemasCreateWayTagPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

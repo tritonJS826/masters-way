@@ -16,45 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateMetricPayload
+ * @interface MwServerInternalSchemasCreateMetricPayload
  */
-export interface MwserverInternalSchemasCreateMetricPayload {
+export interface MwServerInternalSchemasCreateMetricPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateMetricPayload
+     * @memberof MwServerInternalSchemasCreateMetricPayload
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateMetricPayload
+     * @memberof MwServerInternalSchemasCreateMetricPayload
      */
     doneDate: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasCreateMetricPayload
+     * @memberof MwServerInternalSchemasCreateMetricPayload
      */
     estimationTime: number;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasCreateMetricPayload
+     * @memberof MwServerInternalSchemasCreateMetricPayload
      */
     isDone: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateMetricPayload
+     * @memberof MwServerInternalSchemasCreateMetricPayload
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateMetricPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateMetricPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateMetricPayload(
+export function instanceOfMwServerInternalSchemasCreateMetricPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -67,14 +67,14 @@ export function instanceOfMwserverInternalSchemasCreateMetricPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateMetricPayloadFromJSON(json: any): MwserverInternalSchemasCreateMetricPayload {
-    return MwserverInternalSchemasCreateMetricPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateMetricPayloadFromJSON(json: any): MwServerInternalSchemasCreateMetricPayload {
+    return MwServerInternalSchemasCreateMetricPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateMetricPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateMetricPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateMetricPayload {
+): MwServerInternalSchemasCreateMetricPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -89,7 +89,7 @@ export function MwserverInternalSchemasCreateMetricPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateMetricPayloadToJSON(value?: MwserverInternalSchemasCreateMetricPayload | null): any {
+export function MwServerInternalSchemasCreateMetricPayloadToJSON(value?: MwServerInternalSchemasCreateMetricPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

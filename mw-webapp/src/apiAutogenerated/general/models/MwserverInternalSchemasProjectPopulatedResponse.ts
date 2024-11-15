@@ -13,67 +13,67 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasUserPlainResponseWithInfo } from './MwserverInternalSchemasUserPlainResponseWithInfo';
+import type { MwServerInternalSchemasUserPlainResponseWithInfo } from './MwServerInternalSchemasUserPlainResponseWithInfo';
 import {
-    MwserverInternalSchemasUserPlainResponseWithInfoFromJSON,
-    MwserverInternalSchemasUserPlainResponseWithInfoFromJSONTyped,
-    MwserverInternalSchemasUserPlainResponseWithInfoToJSON,
-} from './MwserverInternalSchemasUserPlainResponseWithInfo';
-import type { MwserverInternalSchemasWayPlainResponse } from './MwserverInternalSchemasWayPlainResponse';
+    MwServerInternalSchemasUserPlainResponseWithInfoFromJSON,
+    MwServerInternalSchemasUserPlainResponseWithInfoFromJSONTyped,
+    MwServerInternalSchemasUserPlainResponseWithInfoToJSON,
+} from './MwServerInternalSchemasUserPlainResponseWithInfo';
+import type { MwServerInternalSchemasWayPlainResponse } from './MwServerInternalSchemasWayPlainResponse';
 import {
-    MwserverInternalSchemasWayPlainResponseFromJSON,
-    MwserverInternalSchemasWayPlainResponseFromJSONTyped,
-    MwserverInternalSchemasWayPlainResponseToJSON,
-} from './MwserverInternalSchemasWayPlainResponse';
+    MwServerInternalSchemasWayPlainResponseFromJSON,
+    MwServerInternalSchemasWayPlainResponseFromJSONTyped,
+    MwServerInternalSchemasWayPlainResponseToJSON,
+} from './MwServerInternalSchemasWayPlainResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasProjectPopulatedResponse
+ * @interface MwServerInternalSchemasProjectPopulatedResponse
  */
-export interface MwserverInternalSchemasProjectPopulatedResponse {
+export interface MwServerInternalSchemasProjectPopulatedResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProjectPopulatedResponse
+     * @memberof MwServerInternalSchemasProjectPopulatedResponse
      */
     id: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasProjectPopulatedResponse
+     * @memberof MwServerInternalSchemasProjectPopulatedResponse
      */
     isPrivate: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProjectPopulatedResponse
+     * @memberof MwServerInternalSchemasProjectPopulatedResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProjectPopulatedResponse
+     * @memberof MwServerInternalSchemasProjectPopulatedResponse
      */
     ownerId: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserPlainResponseWithInfo>}
-     * @memberof MwserverInternalSchemasProjectPopulatedResponse
+     * @type {Array<MwServerInternalSchemasUserPlainResponseWithInfo>}
+     * @memberof MwServerInternalSchemasProjectPopulatedResponse
      */
-    users: Array<MwserverInternalSchemasUserPlainResponseWithInfo>;
+    users: Array<MwServerInternalSchemasUserPlainResponseWithInfo>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasWayPlainResponse>}
-     * @memberof MwserverInternalSchemasProjectPopulatedResponse
+     * @type {Array<MwServerInternalSchemasWayPlainResponse>}
+     * @memberof MwServerInternalSchemasProjectPopulatedResponse
      */
-    ways: Array<MwserverInternalSchemasWayPlainResponse>;
+    ways: Array<MwServerInternalSchemasWayPlainResponse>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasProjectPopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasProjectPopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasProjectPopulatedResponse(
+export function instanceOfMwServerInternalSchemasProjectPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -87,14 +87,14 @@ export function instanceOfMwserverInternalSchemasProjectPopulatedResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasProjectPopulatedResponseFromJSON(json: any): MwserverInternalSchemasProjectPopulatedResponse {
-    return MwserverInternalSchemasProjectPopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasProjectPopulatedResponseFromJSON(json: any): MwServerInternalSchemasProjectPopulatedResponse {
+    return MwServerInternalSchemasProjectPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasProjectPopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasProjectPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasProjectPopulatedResponse {
+): MwServerInternalSchemasProjectPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -104,13 +104,13 @@ export function MwserverInternalSchemasProjectPopulatedResponseFromJSONTyped(
         'isPrivate': json['isPrivate'],
         'name': json['name'],
         'ownerId': json['ownerId'],
-        'users': ((json['users'] as Array<any>).map(MwserverInternalSchemasUserPlainResponseWithInfoFromJSON)),
-        'ways': ((json['ways'] as Array<any>).map(MwserverInternalSchemasWayPlainResponseFromJSON)),
+        'users': ((json['users'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseWithInfoFromJSON)),
+        'ways': ((json['ways'] as Array<any>).map(MwServerInternalSchemasWayPlainResponseFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasProjectPopulatedResponseToJSON(value?: MwserverInternalSchemasProjectPopulatedResponse | null): any {
+export function MwServerInternalSchemasProjectPopulatedResponseToJSON(value?: MwServerInternalSchemasProjectPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -123,8 +123,8 @@ export function MwserverInternalSchemasProjectPopulatedResponseToJSON(value?: Mw
         'isPrivate': value.isPrivate,
         'name': value.name,
         'ownerId': value.ownerId,
-        'users': ((value.users as Array<any>).map(MwserverInternalSchemasUserPlainResponseWithInfoToJSON)),
-        'ways': ((value.ways as Array<any>).map(MwserverInternalSchemasWayPlainResponseToJSON)),
+        'users': ((value.users as Array<any>).map(MwServerInternalSchemasUserPlainResponseWithInfoToJSON)),
+        'ways': ((value.ways as Array<any>).map(MwServerInternalSchemasWayPlainResponseToJSON)),
     };
 }
 

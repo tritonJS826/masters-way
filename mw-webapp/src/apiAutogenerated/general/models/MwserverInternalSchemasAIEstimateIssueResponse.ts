@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAIEstimateIssueResponse
+ * @interface MwServerInternalSchemasAIEstimateIssueResponse
  */
-export interface MwserverInternalSchemasAIEstimateIssueResponse {
+export interface MwServerInternalSchemasAIEstimateIssueResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAIEstimateIssueResponse
+     * @memberof MwServerInternalSchemasAIEstimateIssueResponse
      */
     estimation: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAIEstimateIssueResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasAIEstimateIssueResponse interface.
  */
-export function instanceOfMwserverInternalSchemasAIEstimateIssueResponse(
+export function instanceOfMwServerInternalSchemasAIEstimateIssueResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasAIEstimateIssueResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAIEstimateIssueResponseFromJSON(json: any): MwserverInternalSchemasAIEstimateIssueResponse {
-    return MwserverInternalSchemasAIEstimateIssueResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasAIEstimateIssueResponseFromJSON(json: any): MwServerInternalSchemasAIEstimateIssueResponse {
+    return MwServerInternalSchemasAIEstimateIssueResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAIEstimateIssueResponseFromJSONTyped(
+export function MwServerInternalSchemasAIEstimateIssueResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAIEstimateIssueResponse {
+): MwServerInternalSchemasAIEstimateIssueResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasAIEstimateIssueResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAIEstimateIssueResponseToJSON(value?: MwserverInternalSchemasAIEstimateIssueResponse | null): any {
+export function MwServerInternalSchemasAIEstimateIssueResponseToJSON(value?: MwServerInternalSchemasAIEstimateIssueResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUpdateJobTagPayload
+ * @interface MwServerInternalSchemasUpdateJobTagPayload
  */
-export interface MwserverInternalSchemasUpdateJobTagPayload {
+export interface MwServerInternalSchemasUpdateJobTagPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateJobTagPayload
+     * @memberof MwServerInternalSchemasUpdateJobTagPayload
      */
     color?: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateJobTagPayload
+     * @memberof MwServerInternalSchemasUpdateJobTagPayload
      */
     description?: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateJobTagPayload
+     * @memberof MwServerInternalSchemasUpdateJobTagPayload
      */
     name?: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUpdateJobTagPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasUpdateJobTagPayload interface.
  */
-export function instanceOfMwserverInternalSchemasUpdateJobTagPayload(
+export function instanceOfMwServerInternalSchemasUpdateJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -50,14 +50,14 @@ export function instanceOfMwserverInternalSchemasUpdateJobTagPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUpdateJobTagPayloadFromJSON(json: any): MwserverInternalSchemasUpdateJobTagPayload {
-    return MwserverInternalSchemasUpdateJobTagPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasUpdateJobTagPayloadFromJSON(json: any): MwServerInternalSchemasUpdateJobTagPayload {
+    return MwServerInternalSchemasUpdateJobTagPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUpdateJobTagPayloadFromJSONTyped(
+export function MwServerInternalSchemasUpdateJobTagPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUpdateJobTagPayload {
+): MwServerInternalSchemasUpdateJobTagPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,7 +70,7 @@ export function MwserverInternalSchemasUpdateJobTagPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUpdateJobTagPayloadToJSON(value?: MwserverInternalSchemasUpdateJobTagPayload | null): any {
+export function MwServerInternalSchemasUpdateJobTagPayloadToJSON(value?: MwServerInternalSchemasUpdateJobTagPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

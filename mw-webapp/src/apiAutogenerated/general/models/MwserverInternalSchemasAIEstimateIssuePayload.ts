@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAIEstimateIssuePayload
+ * @interface MwServerInternalSchemasAIEstimateIssuePayload
  */
-export interface MwserverInternalSchemasAIEstimateIssuePayload {
+export interface MwServerInternalSchemasAIEstimateIssuePayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAIEstimateIssuePayload
+     * @memberof MwServerInternalSchemasAIEstimateIssuePayload
      */
     goal: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAIEstimateIssuePayload
+     * @memberof MwServerInternalSchemasAIEstimateIssuePayload
      */
     issue: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAIEstimateIssuePayload interface.
+ * Check if a given object implements the MwServerInternalSchemasAIEstimateIssuePayload interface.
  */
-export function instanceOfMwserverInternalSchemasAIEstimateIssuePayload(
+export function instanceOfMwServerInternalSchemasAIEstimateIssuePayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasAIEstimateIssuePayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAIEstimateIssuePayloadFromJSON(json: any): MwserverInternalSchemasAIEstimateIssuePayload {
-    return MwserverInternalSchemasAIEstimateIssuePayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasAIEstimateIssuePayloadFromJSON(json: any): MwServerInternalSchemasAIEstimateIssuePayload {
+    return MwServerInternalSchemasAIEstimateIssuePayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAIEstimateIssuePayloadFromJSONTyped(
+export function MwServerInternalSchemasAIEstimateIssuePayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAIEstimateIssuePayload {
+): MwServerInternalSchemasAIEstimateIssuePayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasAIEstimateIssuePayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAIEstimateIssuePayloadToJSON(value?: MwserverInternalSchemasAIEstimateIssuePayload | null): any {
+export function MwServerInternalSchemasAIEstimateIssuePayloadToJSON(value?: MwServerInternalSchemasAIEstimateIssuePayload | null): any {
     if (value === undefined) {
         return undefined;
     }

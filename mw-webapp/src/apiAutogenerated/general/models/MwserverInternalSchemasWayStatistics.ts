@@ -13,55 +13,55 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasLabelStatistics } from './MwserverInternalSchemasLabelStatistics';
+import type { MwServerInternalSchemasLabelStatistics } from './MwServerInternalSchemasLabelStatistics';
 import {
-    MwserverInternalSchemasLabelStatisticsFromJSON,
-    MwserverInternalSchemasLabelStatisticsFromJSONTyped,
-    MwserverInternalSchemasLabelStatisticsToJSON,
-} from './MwserverInternalSchemasLabelStatistics';
-import type { MwserverInternalSchemasOverallInformation } from './MwserverInternalSchemasOverallInformation';
+    MwServerInternalSchemasLabelStatisticsFromJSON,
+    MwServerInternalSchemasLabelStatisticsFromJSONTyped,
+    MwServerInternalSchemasLabelStatisticsToJSON,
+} from './MwServerInternalSchemasLabelStatistics';
+import type { MwServerInternalSchemasOverallInformation } from './MwServerInternalSchemasOverallInformation';
 import {
-    MwserverInternalSchemasOverallInformationFromJSON,
-    MwserverInternalSchemasOverallInformationFromJSONTyped,
-    MwserverInternalSchemasOverallInformationToJSON,
-} from './MwserverInternalSchemasOverallInformation';
-import type { MwserverInternalSchemasTimeSpentByDayPoint } from './MwserverInternalSchemasTimeSpentByDayPoint';
+    MwServerInternalSchemasOverallInformationFromJSON,
+    MwServerInternalSchemasOverallInformationFromJSONTyped,
+    MwServerInternalSchemasOverallInformationToJSON,
+} from './MwServerInternalSchemasOverallInformation';
+import type { MwServerInternalSchemasTimeSpentByDayPoint } from './MwServerInternalSchemasTimeSpentByDayPoint';
 import {
-    MwserverInternalSchemasTimeSpentByDayPointFromJSON,
-    MwserverInternalSchemasTimeSpentByDayPointFromJSONTyped,
-    MwserverInternalSchemasTimeSpentByDayPointToJSON,
-} from './MwserverInternalSchemasTimeSpentByDayPoint';
+    MwServerInternalSchemasTimeSpentByDayPointFromJSON,
+    MwServerInternalSchemasTimeSpentByDayPointFromJSONTyped,
+    MwServerInternalSchemasTimeSpentByDayPointToJSON,
+} from './MwServerInternalSchemasTimeSpentByDayPoint';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasWayStatistics
+ * @interface MwServerInternalSchemasWayStatistics
  */
-export interface MwserverInternalSchemasWayStatistics {
+export interface MwServerInternalSchemasWayStatistics {
     /**
      * 
-     * @type {MwserverInternalSchemasLabelStatistics}
-     * @memberof MwserverInternalSchemasWayStatistics
+     * @type {MwServerInternalSchemasLabelStatistics}
+     * @memberof MwServerInternalSchemasWayStatistics
      */
-    labelStatistics: MwserverInternalSchemasLabelStatistics;
+    labelStatistics: MwServerInternalSchemasLabelStatistics;
     /**
      * 
-     * @type {MwserverInternalSchemasOverallInformation}
-     * @memberof MwserverInternalSchemasWayStatistics
+     * @type {MwServerInternalSchemasOverallInformation}
+     * @memberof MwServerInternalSchemasWayStatistics
      */
-    overallInformation: MwserverInternalSchemasOverallInformation;
+    overallInformation: MwServerInternalSchemasOverallInformation;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasTimeSpentByDayPoint>}
-     * @memberof MwserverInternalSchemasWayStatistics
+     * @type {Array<MwServerInternalSchemasTimeSpentByDayPoint>}
+     * @memberof MwServerInternalSchemasWayStatistics
      */
-    timeSpentByDayChart: Array<MwserverInternalSchemasTimeSpentByDayPoint>;
+    timeSpentByDayChart: Array<MwServerInternalSchemasTimeSpentByDayPoint>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasWayStatistics interface.
+ * Check if a given object implements the MwServerInternalSchemasWayStatistics interface.
  */
-export function instanceOfMwserverInternalSchemasWayStatistics(
+export function instanceOfMwServerInternalSchemasWayStatistics(
     value: object
 ): boolean {
     let isInstance = true;
@@ -72,27 +72,27 @@ export function instanceOfMwserverInternalSchemasWayStatistics(
     return isInstance;
 }
 
-export function MwserverInternalSchemasWayStatisticsFromJSON(json: any): MwserverInternalSchemasWayStatistics {
-    return MwserverInternalSchemasWayStatisticsFromJSONTyped(json, false);
+export function MwServerInternalSchemasWayStatisticsFromJSON(json: any): MwServerInternalSchemasWayStatistics {
+    return MwServerInternalSchemasWayStatisticsFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasWayStatisticsFromJSONTyped(
+export function MwServerInternalSchemasWayStatisticsFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasWayStatistics {
+): MwServerInternalSchemasWayStatistics {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'labelStatistics': MwserverInternalSchemasLabelStatisticsFromJSON(json['labelStatistics']),
-        'overallInformation': MwserverInternalSchemasOverallInformationFromJSON(json['overallInformation']),
-        'timeSpentByDayChart': ((json['timeSpentByDayChart'] as Array<any>).map(MwserverInternalSchemasTimeSpentByDayPointFromJSON)),
+        'labelStatistics': MwServerInternalSchemasLabelStatisticsFromJSON(json['labelStatistics']),
+        'overallInformation': MwServerInternalSchemasOverallInformationFromJSON(json['overallInformation']),
+        'timeSpentByDayChart': ((json['timeSpentByDayChart'] as Array<any>).map(MwServerInternalSchemasTimeSpentByDayPointFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasWayStatisticsToJSON(value?: MwserverInternalSchemasWayStatistics | null): any {
+export function MwServerInternalSchemasWayStatisticsToJSON(value?: MwServerInternalSchemasWayStatistics | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -101,9 +101,9 @@ export function MwserverInternalSchemasWayStatisticsToJSON(value?: MwserverInter
     }
     return {
         
-        'labelStatistics': MwserverInternalSchemasLabelStatisticsToJSON(value.labelStatistics),
-        'overallInformation': MwserverInternalSchemasOverallInformationToJSON(value.overallInformation),
-        'timeSpentByDayChart': ((value.timeSpentByDayChart as Array<any>).map(MwserverInternalSchemasTimeSpentByDayPointToJSON)),
+        'labelStatistics': MwServerInternalSchemasLabelStatisticsToJSON(value.labelStatistics),
+        'overallInformation': MwServerInternalSchemasOverallInformationToJSON(value.overallInformation),
+        'timeSpentByDayChart': ((value.timeSpentByDayChart as Array<any>).map(MwServerInternalSchemasTimeSpentByDayPointToJSON)),
     };
 }
 

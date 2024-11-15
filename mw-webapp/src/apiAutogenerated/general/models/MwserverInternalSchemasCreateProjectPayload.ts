@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateProjectPayload
+ * @interface MwServerInternalSchemasCreateProjectPayload
  */
-export interface MwserverInternalSchemasCreateProjectPayload {
+export interface MwServerInternalSchemasCreateProjectPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateProjectPayload
+     * @memberof MwServerInternalSchemasCreateProjectPayload
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateProjectPayload
+     * @memberof MwServerInternalSchemasCreateProjectPayload
      */
     ownerId: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateProjectPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateProjectPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateProjectPayload(
+export function instanceOfMwServerInternalSchemasCreateProjectPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateProjectPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateProjectPayloadFromJSON(json: any): MwserverInternalSchemasCreateProjectPayload {
-    return MwserverInternalSchemasCreateProjectPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateProjectPayloadFromJSON(json: any): MwServerInternalSchemasCreateProjectPayload {
+    return MwServerInternalSchemasCreateProjectPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateProjectPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateProjectPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateProjectPayload {
+): MwServerInternalSchemasCreateProjectPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateProjectPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateProjectPayloadToJSON(value?: MwserverInternalSchemasCreateProjectPayload | null): any {
+export function MwServerInternalSchemasCreateProjectPayloadToJSON(value?: MwServerInternalSchemasCreateProjectPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

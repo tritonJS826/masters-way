@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAICommentIssueResponse
+ * @interface MwServerInternalSchemasAICommentIssueResponse
  */
-export interface MwserverInternalSchemasAICommentIssueResponse {
+export interface MwServerInternalSchemasAICommentIssueResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAICommentIssueResponse
+     * @memberof MwServerInternalSchemasAICommentIssueResponse
      */
     goal: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAICommentIssueResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasAICommentIssueResponse interface.
  */
-export function instanceOfMwserverInternalSchemasAICommentIssueResponse(
+export function instanceOfMwServerInternalSchemasAICommentIssueResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasAICommentIssueResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAICommentIssueResponseFromJSON(json: any): MwserverInternalSchemasAICommentIssueResponse {
-    return MwserverInternalSchemasAICommentIssueResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasAICommentIssueResponseFromJSON(json: any): MwServerInternalSchemasAICommentIssueResponse {
+    return MwServerInternalSchemasAICommentIssueResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAICommentIssueResponseFromJSONTyped(
+export function MwServerInternalSchemasAICommentIssueResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAICommentIssueResponse {
+): MwServerInternalSchemasAICommentIssueResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasAICommentIssueResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAICommentIssueResponseToJSON(value?: MwserverInternalSchemasAICommentIssueResponse | null): any {
+export function MwServerInternalSchemasAICommentIssueResponseToJSON(value?: MwServerInternalSchemasAICommentIssueResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateWayCollectionWay
+ * @interface MwServerInternalSchemasCreateWayCollectionWay
  */
-export interface MwserverInternalSchemasCreateWayCollectionWay {
+export interface MwServerInternalSchemasCreateWayCollectionWay {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayCollectionWay
+     * @memberof MwServerInternalSchemasCreateWayCollectionWay
      */
     wayCollectionUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayCollectionWay
+     * @memberof MwServerInternalSchemasCreateWayCollectionWay
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateWayCollectionWay interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateWayCollectionWay interface.
  */
-export function instanceOfMwserverInternalSchemasCreateWayCollectionWay(
+export function instanceOfMwServerInternalSchemasCreateWayCollectionWay(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateWayCollectionWay(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateWayCollectionWayFromJSON(json: any): MwserverInternalSchemasCreateWayCollectionWay {
-    return MwserverInternalSchemasCreateWayCollectionWayFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateWayCollectionWayFromJSON(json: any): MwServerInternalSchemasCreateWayCollectionWay {
+    return MwServerInternalSchemasCreateWayCollectionWayFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateWayCollectionWayFromJSONTyped(
+export function MwServerInternalSchemasCreateWayCollectionWayFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateWayCollectionWay {
+): MwServerInternalSchemasCreateWayCollectionWay {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateWayCollectionWayFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateWayCollectionWayToJSON(value?: MwserverInternalSchemasCreateWayCollectionWay | null): any {
+export function MwServerInternalSchemasCreateWayCollectionWayToJSON(value?: MwServerInternalSchemasCreateWayCollectionWay | null): any {
     if (value === undefined) {
         return undefined;
     }

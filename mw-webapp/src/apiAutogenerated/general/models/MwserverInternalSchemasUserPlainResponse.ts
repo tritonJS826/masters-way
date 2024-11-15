@@ -16,57 +16,57 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUserPlainResponse
+ * @interface MwServerInternalSchemasUserPlainResponse
  */
-export interface MwserverInternalSchemasUserPlainResponse {
+export interface MwServerInternalSchemasUserPlainResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponse
+     * @memberof MwServerInternalSchemasUserPlainResponse
      */
     createdAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponse
+     * @memberof MwServerInternalSchemasUserPlainResponse
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponse
+     * @memberof MwServerInternalSchemasUserPlainResponse
      */
     email: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponse
+     * @memberof MwServerInternalSchemasUserPlainResponse
      */
     imageUrl: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUserPlainResponse
+     * @memberof MwServerInternalSchemasUserPlainResponse
      */
     isMentor: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponse
+     * @memberof MwServerInternalSchemasUserPlainResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponse
+     * @memberof MwServerInternalSchemasUserPlainResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUserPlainResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasUserPlainResponse interface.
  */
-export function instanceOfMwserverInternalSchemasUserPlainResponse(
+export function instanceOfMwServerInternalSchemasUserPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -81,14 +81,14 @@ export function instanceOfMwserverInternalSchemasUserPlainResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUserPlainResponseFromJSON(json: any): MwserverInternalSchemasUserPlainResponse {
-    return MwserverInternalSchemasUserPlainResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasUserPlainResponseFromJSON(json: any): MwServerInternalSchemasUserPlainResponse {
+    return MwServerInternalSchemasUserPlainResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUserPlainResponseFromJSONTyped(
+export function MwServerInternalSchemasUserPlainResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUserPlainResponse {
+): MwServerInternalSchemasUserPlainResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -105,7 +105,7 @@ export function MwserverInternalSchemasUserPlainResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUserPlainResponseToJSON(value?: MwserverInternalSchemasUserPlainResponse | null): any {
+export function MwServerInternalSchemasUserPlainResponseToJSON(value?: MwServerInternalSchemasUserPlainResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

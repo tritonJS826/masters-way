@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateUserTagPayload
+ * @interface MwServerInternalSchemasCreateUserTagPayload
  */
-export interface MwserverInternalSchemasCreateUserTagPayload {
+export interface MwServerInternalSchemasCreateUserTagPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateUserTagPayload
+     * @memberof MwServerInternalSchemasCreateUserTagPayload
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateUserTagPayload
+     * @memberof MwServerInternalSchemasCreateUserTagPayload
      */
     ownerUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateUserTagPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateUserTagPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateUserTagPayload(
+export function instanceOfMwServerInternalSchemasCreateUserTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateUserTagPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateUserTagPayloadFromJSON(json: any): MwserverInternalSchemasCreateUserTagPayload {
-    return MwserverInternalSchemasCreateUserTagPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateUserTagPayloadFromJSON(json: any): MwServerInternalSchemasCreateUserTagPayload {
+    return MwServerInternalSchemasCreateUserTagPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateUserTagPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateUserTagPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateUserTagPayload {
+): MwServerInternalSchemasCreateUserTagPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateUserTagPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateUserTagPayloadToJSON(value?: MwserverInternalSchemasCreateUserTagPayload | null): any {
+export function MwServerInternalSchemasCreateUserTagPayloadToJSON(value?: MwServerInternalSchemasCreateUserTagPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

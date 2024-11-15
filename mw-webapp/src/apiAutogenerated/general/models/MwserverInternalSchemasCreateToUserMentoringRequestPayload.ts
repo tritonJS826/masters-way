@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateToUserMentoringRequestPayload
+ * @interface MwServerInternalSchemasCreateToUserMentoringRequestPayload
  */
-export interface MwserverInternalSchemasCreateToUserMentoringRequestPayload {
+export interface MwServerInternalSchemasCreateToUserMentoringRequestPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateToUserMentoringRequestPayload
+     * @memberof MwServerInternalSchemasCreateToUserMentoringRequestPayload
      */
     userUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateToUserMentoringRequestPayload
+     * @memberof MwServerInternalSchemasCreateToUserMentoringRequestPayload
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateToUserMentoringRequestPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateToUserMentoringRequestPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateToUserMentoringRequestPayload(
+export function instanceOfMwServerInternalSchemasCreateToUserMentoringRequestPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateToUserMentoringRequestPay
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateToUserMentoringRequestPayloadFromJSON(json: any): MwserverInternalSchemasCreateToUserMentoringRequestPayload {
-    return MwserverInternalSchemasCreateToUserMentoringRequestPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateToUserMentoringRequestPayloadFromJSON(json: any): MwServerInternalSchemasCreateToUserMentoringRequestPayload {
+    return MwServerInternalSchemasCreateToUserMentoringRequestPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateToUserMentoringRequestPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateToUserMentoringRequestPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateToUserMentoringRequestPayload {
+): MwServerInternalSchemasCreateToUserMentoringRequestPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateToUserMentoringRequestPayloadFromJS
 }
 
 
-export function MwserverInternalSchemasCreateToUserMentoringRequestPayloadToJSON(value?: MwserverInternalSchemasCreateToUserMentoringRequestPayload | null): any {
+export function MwServerInternalSchemasCreateToUserMentoringRequestPayloadToJSON(value?: MwServerInternalSchemasCreateToUserMentoringRequestPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

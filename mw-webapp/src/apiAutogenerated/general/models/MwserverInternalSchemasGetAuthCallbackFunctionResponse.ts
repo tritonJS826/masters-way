@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGetAuthCallbackFunctionResponse
+ * @interface MwServerInternalSchemasGetAuthCallbackFunctionResponse
  */
-export interface MwserverInternalSchemasGetAuthCallbackFunctionResponse {
+export interface MwServerInternalSchemasGetAuthCallbackFunctionResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGetAuthCallbackFunctionResponse
+     * @memberof MwServerInternalSchemasGetAuthCallbackFunctionResponse
      */
     url: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGetAuthCallbackFunctionResponse
+     * @memberof MwServerInternalSchemasGetAuthCallbackFunctionResponse
      */
     userUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGetAuthCallbackFunctionResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasGetAuthCallbackFunctionResponse interface.
  */
-export function instanceOfMwserverInternalSchemasGetAuthCallbackFunctionResponse(
+export function instanceOfMwServerInternalSchemasGetAuthCallbackFunctionResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasGetAuthCallbackFunctionResponse
     return isInstance;
 }
 
-export function MwserverInternalSchemasGetAuthCallbackFunctionResponseFromJSON(json: any): MwserverInternalSchemasGetAuthCallbackFunctionResponse {
-    return MwserverInternalSchemasGetAuthCallbackFunctionResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSON(json: any): MwServerInternalSchemasGetAuthCallbackFunctionResponse {
+    return MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGetAuthCallbackFunctionResponseFromJSONTyped(
+export function MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGetAuthCallbackFunctionResponse {
+): MwServerInternalSchemasGetAuthCallbackFunctionResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasGetAuthCallbackFunctionResponseFromJSONTy
 }
 
 
-export function MwserverInternalSchemasGetAuthCallbackFunctionResponseToJSON(value?: MwserverInternalSchemasGetAuthCallbackFunctionResponse | null): any {
+export function MwServerInternalSchemasGetAuthCallbackFunctionResponseToJSON(value?: MwServerInternalSchemasGetAuthCallbackFunctionResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

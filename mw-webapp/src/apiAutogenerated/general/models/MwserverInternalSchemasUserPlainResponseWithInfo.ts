@@ -13,97 +13,97 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasUserTagResponse } from './MwserverInternalSchemasUserTagResponse';
+import type { MwServerInternalSchemasUserTagResponse } from './MwServerInternalSchemasUserTagResponse';
 import {
-    MwserverInternalSchemasUserTagResponseFromJSON,
-    MwserverInternalSchemasUserTagResponseFromJSONTyped,
-    MwserverInternalSchemasUserTagResponseToJSON,
-} from './MwserverInternalSchemasUserTagResponse';
+    MwServerInternalSchemasUserTagResponseFromJSON,
+    MwServerInternalSchemasUserTagResponseFromJSONTyped,
+    MwServerInternalSchemasUserTagResponseToJSON,
+} from './MwServerInternalSchemasUserTagResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUserPlainResponseWithInfo
+ * @interface MwServerInternalSchemasUserPlainResponseWithInfo
  */
-export interface MwserverInternalSchemasUserPlainResponseWithInfo {
+export interface MwServerInternalSchemasUserPlainResponseWithInfo {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     createdAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     email: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     favoriteForUsers: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     favoriteWays: number;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     imageUrl: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     isMentor: boolean;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     mentoringWays: number;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     name: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     ownWays: number;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserTagResponse>}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @type {Array<MwServerInternalSchemasUserTagResponse>}
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
-    tags: Array<MwserverInternalSchemasUserTagResponse>;
+    tags: Array<MwServerInternalSchemasUserTagResponse>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPlainResponseWithInfo
+     * @memberof MwServerInternalSchemasUserPlainResponseWithInfo
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUserPlainResponseWithInfo interface.
+ * Check if a given object implements the MwServerInternalSchemasUserPlainResponseWithInfo interface.
  */
-export function instanceOfMwserverInternalSchemasUserPlainResponseWithInfo(
+export function instanceOfMwServerInternalSchemasUserPlainResponseWithInfo(
     value: object
 ): boolean {
     let isInstance = true;
@@ -123,14 +123,14 @@ export function instanceOfMwserverInternalSchemasUserPlainResponseWithInfo(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUserPlainResponseWithInfoFromJSON(json: any): MwserverInternalSchemasUserPlainResponseWithInfo {
-    return MwserverInternalSchemasUserPlainResponseWithInfoFromJSONTyped(json, false);
+export function MwServerInternalSchemasUserPlainResponseWithInfoFromJSON(json: any): MwServerInternalSchemasUserPlainResponseWithInfo {
+    return MwServerInternalSchemasUserPlainResponseWithInfoFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUserPlainResponseWithInfoFromJSONTyped(
+export function MwServerInternalSchemasUserPlainResponseWithInfoFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUserPlainResponseWithInfo {
+): MwServerInternalSchemasUserPlainResponseWithInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -146,13 +146,13 @@ export function MwserverInternalSchemasUserPlainResponseWithInfoFromJSONTyped(
         'mentoringWays': json['mentoringWays'],
         'name': json['name'],
         'ownWays': json['ownWays'],
-        'tags': ((json['tags'] as Array<any>).map(MwserverInternalSchemasUserTagResponseFromJSON)),
+        'tags': ((json['tags'] as Array<any>).map(MwServerInternalSchemasUserTagResponseFromJSON)),
         'uuid': json['uuid'],
     };
 }
 
 
-export function MwserverInternalSchemasUserPlainResponseWithInfoToJSON(value?: MwserverInternalSchemasUserPlainResponseWithInfo | null): any {
+export function MwServerInternalSchemasUserPlainResponseWithInfoToJSON(value?: MwServerInternalSchemasUserPlainResponseWithInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -171,7 +171,7 @@ export function MwserverInternalSchemasUserPlainResponseWithInfoToJSON(value?: M
         'mentoringWays': value.mentoringWays,
         'name': value.name,
         'ownWays': value.ownWays,
-        'tags': ((value.tags as Array<any>).map(MwserverInternalSchemasUserTagResponseToJSON)),
+        'tags': ((value.tags as Array<any>).map(MwServerInternalSchemasUserTagResponseToJSON)),
         'uuid': value.uuid,
     };
 }

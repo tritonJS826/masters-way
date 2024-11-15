@@ -13,157 +13,157 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasJobTagResponse } from './MwserverInternalSchemasJobTagResponse';
+import type { MwServerInternalSchemasJobTagResponse } from './MwServerInternalSchemasJobTagResponse';
 import {
-    MwserverInternalSchemasJobTagResponseFromJSON,
-    MwserverInternalSchemasJobTagResponseFromJSONTyped,
-    MwserverInternalSchemasJobTagResponseToJSON,
-} from './MwserverInternalSchemasJobTagResponse';
-import type { MwserverInternalSchemasMetricResponse } from './MwserverInternalSchemasMetricResponse';
+    MwServerInternalSchemasJobTagResponseFromJSON,
+    MwServerInternalSchemasJobTagResponseFromJSONTyped,
+    MwServerInternalSchemasJobTagResponseToJSON,
+} from './MwServerInternalSchemasJobTagResponse';
+import type { MwServerInternalSchemasMetricResponse } from './MwServerInternalSchemasMetricResponse';
 import {
-    MwserverInternalSchemasMetricResponseFromJSON,
-    MwserverInternalSchemasMetricResponseFromJSONTyped,
-    MwserverInternalSchemasMetricResponseToJSON,
-} from './MwserverInternalSchemasMetricResponse';
-import type { MwserverInternalSchemasUserPlainResponse } from './MwserverInternalSchemasUserPlainResponse';
+    MwServerInternalSchemasMetricResponseFromJSON,
+    MwServerInternalSchemasMetricResponseFromJSONTyped,
+    MwServerInternalSchemasMetricResponseToJSON,
+} from './MwServerInternalSchemasMetricResponse';
+import type { MwServerInternalSchemasUserPlainResponse } from './MwServerInternalSchemasUserPlainResponse';
 import {
-    MwserverInternalSchemasUserPlainResponseFromJSON,
-    MwserverInternalSchemasUserPlainResponseFromJSONTyped,
-    MwserverInternalSchemasUserPlainResponseToJSON,
-} from './MwserverInternalSchemasUserPlainResponse';
-import type { MwserverInternalSchemasWayTagResponse } from './MwserverInternalSchemasWayTagResponse';
+    MwServerInternalSchemasUserPlainResponseFromJSON,
+    MwServerInternalSchemasUserPlainResponseFromJSONTyped,
+    MwServerInternalSchemasUserPlainResponseToJSON,
+} from './MwServerInternalSchemasUserPlainResponse';
+import type { MwServerInternalSchemasWayTagResponse } from './MwServerInternalSchemasWayTagResponse';
 import {
-    MwserverInternalSchemasWayTagResponseFromJSON,
-    MwserverInternalSchemasWayTagResponseFromJSONTyped,
-    MwserverInternalSchemasWayTagResponseToJSON,
-} from './MwserverInternalSchemasWayTagResponse';
+    MwServerInternalSchemasWayTagResponseFromJSON,
+    MwServerInternalSchemasWayTagResponseFromJSONTyped,
+    MwServerInternalSchemasWayTagResponseToJSON,
+} from './MwServerInternalSchemasWayTagResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasWayPopulatedResponse
+ * @interface MwServerInternalSchemasWayPopulatedResponse
  */
-export interface MwserverInternalSchemasWayPopulatedResponse {
+export interface MwServerInternalSchemasWayPopulatedResponse {
     /**
      * 
-     * @type {Array<MwserverInternalSchemasWayPopulatedResponse>}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {Array<MwServerInternalSchemasWayPopulatedResponse>}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    children: Array<MwserverInternalSchemasWayPopulatedResponse>;
+    children: Array<MwServerInternalSchemasWayPopulatedResponse>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     copiedFromWayUuid: string | null;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     createdAt: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     estimationTime: number;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     favoriteForUsersAmount: number;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserPlainResponse>}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {Array<MwServerInternalSchemasUserPlainResponse>}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    formerMentors: Array<MwserverInternalSchemasUserPlainResponse>;
+    formerMentors: Array<MwServerInternalSchemasUserPlainResponse>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     goalDescription: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     isCompleted: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     isPrivate: boolean;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasJobTagResponse>}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {Array<MwServerInternalSchemasJobTagResponse>}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    jobTags: Array<MwserverInternalSchemasJobTagResponse>;
+    jobTags: Array<MwServerInternalSchemasJobTagResponse>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserPlainResponse>}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {Array<MwServerInternalSchemasUserPlainResponse>}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    mentorRequests: Array<MwserverInternalSchemasUserPlainResponse>;
+    mentorRequests: Array<MwServerInternalSchemasUserPlainResponse>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserPlainResponse>}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {Array<MwServerInternalSchemasUserPlainResponse>}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    mentors: Array<MwserverInternalSchemasUserPlainResponse>;
+    mentors: Array<MwServerInternalSchemasUserPlainResponse>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasMetricResponse>}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {Array<MwServerInternalSchemasMetricResponse>}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    metrics: Array<MwserverInternalSchemasMetricResponse>;
+    metrics: Array<MwServerInternalSchemasMetricResponse>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     name: string;
     /**
      * 
-     * @type {MwserverInternalSchemasUserPlainResponse}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {MwServerInternalSchemasUserPlainResponse}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    owner: MwserverInternalSchemasUserPlainResponse;
+    owner: MwServerInternalSchemasUserPlainResponse;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     projectUuid: string | null;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     updatedAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
     uuid: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasWayTagResponse>}
-     * @memberof MwserverInternalSchemasWayPopulatedResponse
+     * @type {Array<MwServerInternalSchemasWayTagResponse>}
+     * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    wayTags: Array<MwserverInternalSchemasWayTagResponse>;
+    wayTags: Array<MwServerInternalSchemasWayTagResponse>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasWayPopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasWayPopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasWayPopulatedResponse(
+export function instanceOfMwServerInternalSchemasWayPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -190,43 +190,43 @@ export function instanceOfMwserverInternalSchemasWayPopulatedResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasWayPopulatedResponseFromJSON(json: any): MwserverInternalSchemasWayPopulatedResponse {
-    return MwserverInternalSchemasWayPopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasWayPopulatedResponseFromJSON(json: any): MwServerInternalSchemasWayPopulatedResponse {
+    return MwServerInternalSchemasWayPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasWayPopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasWayPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasWayPopulatedResponse {
+): MwServerInternalSchemasWayPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'children': ((json['children'] as Array<any>).map(MwserverInternalSchemasWayPopulatedResponseFromJSON)),
+        'children': ((json['children'] as Array<any>).map(MwServerInternalSchemasWayPopulatedResponseFromJSON)),
         'copiedFromWayUuid': json['copiedFromWayUuid'],
         'createdAt': json['createdAt'],
         'estimationTime': json['estimationTime'],
         'favoriteForUsersAmount': json['favoriteForUsersAmount'],
-        'formerMentors': ((json['formerMentors'] as Array<any>).map(MwserverInternalSchemasUserPlainResponseFromJSON)),
+        'formerMentors': ((json['formerMentors'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseFromJSON)),
         'goalDescription': json['goalDescription'],
         'isCompleted': json['isCompleted'],
         'isPrivate': json['isPrivate'],
-        'jobTags': ((json['jobTags'] as Array<any>).map(MwserverInternalSchemasJobTagResponseFromJSON)),
-        'mentorRequests': ((json['mentorRequests'] as Array<any>).map(MwserverInternalSchemasUserPlainResponseFromJSON)),
-        'mentors': ((json['mentors'] as Array<any>).map(MwserverInternalSchemasUserPlainResponseFromJSON)),
-        'metrics': ((json['metrics'] as Array<any>).map(MwserverInternalSchemasMetricResponseFromJSON)),
+        'jobTags': ((json['jobTags'] as Array<any>).map(MwServerInternalSchemasJobTagResponseFromJSON)),
+        'mentorRequests': ((json['mentorRequests'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseFromJSON)),
+        'mentors': ((json['mentors'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseFromJSON)),
+        'metrics': ((json['metrics'] as Array<any>).map(MwServerInternalSchemasMetricResponseFromJSON)),
         'name': json['name'],
-        'owner': MwserverInternalSchemasUserPlainResponseFromJSON(json['owner']),
+        'owner': MwServerInternalSchemasUserPlainResponseFromJSON(json['owner']),
         'projectUuid': json['projectUuid'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
-        'wayTags': ((json['wayTags'] as Array<any>).map(MwserverInternalSchemasWayTagResponseFromJSON)),
+        'wayTags': ((json['wayTags'] as Array<any>).map(MwServerInternalSchemasWayTagResponseFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasWayPopulatedResponseToJSON(value?: MwserverInternalSchemasWayPopulatedResponse | null): any {
+export function MwServerInternalSchemasWayPopulatedResponseToJSON(value?: MwServerInternalSchemasWayPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -235,25 +235,25 @@ export function MwserverInternalSchemasWayPopulatedResponseToJSON(value?: Mwserv
     }
     return {
         
-        'children': ((value.children as Array<any>).map(MwserverInternalSchemasWayPopulatedResponseToJSON)),
+        'children': ((value.children as Array<any>).map(MwServerInternalSchemasWayPopulatedResponseToJSON)),
         'copiedFromWayUuid': value.copiedFromWayUuid,
         'createdAt': value.createdAt,
         'estimationTime': value.estimationTime,
         'favoriteForUsersAmount': value.favoriteForUsersAmount,
-        'formerMentors': ((value.formerMentors as Array<any>).map(MwserverInternalSchemasUserPlainResponseToJSON)),
+        'formerMentors': ((value.formerMentors as Array<any>).map(MwServerInternalSchemasUserPlainResponseToJSON)),
         'goalDescription': value.goalDescription,
         'isCompleted': value.isCompleted,
         'isPrivate': value.isPrivate,
-        'jobTags': ((value.jobTags as Array<any>).map(MwserverInternalSchemasJobTagResponseToJSON)),
-        'mentorRequests': ((value.mentorRequests as Array<any>).map(MwserverInternalSchemasUserPlainResponseToJSON)),
-        'mentors': ((value.mentors as Array<any>).map(MwserverInternalSchemasUserPlainResponseToJSON)),
-        'metrics': ((value.metrics as Array<any>).map(MwserverInternalSchemasMetricResponseToJSON)),
+        'jobTags': ((value.jobTags as Array<any>).map(MwServerInternalSchemasJobTagResponseToJSON)),
+        'mentorRequests': ((value.mentorRequests as Array<any>).map(MwServerInternalSchemasUserPlainResponseToJSON)),
+        'mentors': ((value.mentors as Array<any>).map(MwServerInternalSchemasUserPlainResponseToJSON)),
+        'metrics': ((value.metrics as Array<any>).map(MwServerInternalSchemasMetricResponseToJSON)),
         'name': value.name,
-        'owner': MwserverInternalSchemasUserPlainResponseToJSON(value.owner),
+        'owner': MwServerInternalSchemasUserPlainResponseToJSON(value.owner),
         'projectUuid': value.projectUuid,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
-        'wayTags': ((value.wayTags as Array<any>).map(MwserverInternalSchemasWayTagResponseToJSON)),
+        'wayTags': ((value.wayTags as Array<any>).map(MwServerInternalSchemasWayTagResponseToJSON)),
     };
 }
 

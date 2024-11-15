@@ -16,63 +16,63 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateWayPayload
+ * @interface MwServerInternalSchemasCreateWayPayload
  */
-export interface MwserverInternalSchemasCreateWayPayload {
+export interface MwServerInternalSchemasCreateWayPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     copiedFromWayId: string | null;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     estimationTime: number;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     goalDescription: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     isCompleted: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     isPrivate: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     ownerId: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayPayload
+     * @memberof MwServerInternalSchemasCreateWayPayload
      */
     projectId: string | null;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateWayPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateWayPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateWayPayload(
+export function instanceOfMwServerInternalSchemasCreateWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -88,14 +88,14 @@ export function instanceOfMwserverInternalSchemasCreateWayPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateWayPayloadFromJSON(json: any): MwserverInternalSchemasCreateWayPayload {
-    return MwserverInternalSchemasCreateWayPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateWayPayloadFromJSON(json: any): MwServerInternalSchemasCreateWayPayload {
+    return MwServerInternalSchemasCreateWayPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateWayPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateWayPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateWayPayload {
+): MwServerInternalSchemasCreateWayPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -113,7 +113,7 @@ export function MwserverInternalSchemasCreateWayPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateWayPayloadToJSON(value?: MwserverInternalSchemasCreateWayPayload | null): any {
+export function MwServerInternalSchemasCreateWayPayloadToJSON(value?: MwServerInternalSchemasCreateWayPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

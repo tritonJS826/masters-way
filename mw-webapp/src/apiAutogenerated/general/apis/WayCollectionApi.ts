@@ -15,24 +15,24 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalSchemasCreateWayCollectionPayload,
-  MwserverInternalSchemasUpdateWayCollectionPayload,
-  MwserverInternalSchemasWayCollectionPlainResponse,
-  MwserverInternalSchemasWayCollectionPopulatedResponse,
+  MwServerInternalSchemasCreateWayCollectionPayload,
+  MwServerInternalSchemasUpdateWayCollectionPayload,
+  MwServerInternalSchemasWayCollectionPlainResponse,
+  MwServerInternalSchemasWayCollectionPopulatedResponse,
 } from '../models/index';
 import {
-    MwserverInternalSchemasCreateWayCollectionPayloadFromJSON,
-    MwserverInternalSchemasCreateWayCollectionPayloadToJSON,
-    MwserverInternalSchemasUpdateWayCollectionPayloadFromJSON,
-    MwserverInternalSchemasUpdateWayCollectionPayloadToJSON,
-    MwserverInternalSchemasWayCollectionPlainResponseFromJSON,
-    MwserverInternalSchemasWayCollectionPlainResponseToJSON,
-    MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON,
-    MwserverInternalSchemasWayCollectionPopulatedResponseToJSON,
+    MwServerInternalSchemasCreateWayCollectionPayloadFromJSON,
+    MwServerInternalSchemasCreateWayCollectionPayloadToJSON,
+    MwServerInternalSchemasUpdateWayCollectionPayloadFromJSON,
+    MwServerInternalSchemasUpdateWayCollectionPayloadToJSON,
+    MwServerInternalSchemasWayCollectionPlainResponseFromJSON,
+    MwServerInternalSchemasWayCollectionPlainResponseToJSON,
+    MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON,
+    MwServerInternalSchemasWayCollectionPopulatedResponseToJSON,
 } from '../models/index';
 
 export interface CreateWayCollectionRequest {
-    request: MwserverInternalSchemasCreateWayCollectionPayload;
+    request: MwServerInternalSchemasCreateWayCollectionPayload;
 }
 
 export interface DeleteWayCollectionRequest {
@@ -41,7 +41,7 @@ export interface DeleteWayCollectionRequest {
 
 export interface UpdateWayCollectionRequest {
     wayCollectionId: string;
-    request: MwserverInternalSchemasUpdateWayCollectionPayload;
+    request: MwServerInternalSchemasUpdateWayCollectionPayload;
 }
 
 /**
@@ -52,7 +52,7 @@ export class WayCollectionApi extends runtime.BaseAPI {
     /**
      * Create a new wayCollection
      */
-    async createWayCollectionRaw(requestParameters: CreateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasWayCollectionPopulatedResponse>> {
+    async createWayCollectionRaw(requestParameters: CreateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayCollectionPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createWayCollection.');
         }
@@ -68,16 +68,16 @@ export class WayCollectionApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasCreateWayCollectionPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateWayCollectionPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new wayCollection
      */
-    async createWayCollection(requestParameters: CreateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasWayCollectionPopulatedResponse> {
+    async createWayCollection(requestParameters: CreateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayCollectionPopulatedResponse> {
         const response = await this.createWayCollectionRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -114,7 +114,7 @@ export class WayCollectionApi extends runtime.BaseAPI {
     /**
      * Update wayCollection by UUID
      */
-    async updateWayCollectionRaw(requestParameters: UpdateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasWayCollectionPlainResponse>> {
+    async updateWayCollectionRaw(requestParameters: UpdateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayCollectionPlainResponse>> {
         if (requestParameters.wayCollectionId === null || requestParameters.wayCollectionId === undefined) {
             throw new runtime.RequiredError('wayCollectionId','Required parameter requestParameters.wayCollectionId was null or undefined when calling updateWayCollection.');
         }
@@ -134,16 +134,16 @@ export class WayCollectionApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasUpdateWayCollectionPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasUpdateWayCollectionPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasWayCollectionPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayCollectionPlainResponseFromJSON(jsonValue));
     }
 
     /**
      * Update wayCollection by UUID
      */
-    async updateWayCollection(requestParameters: UpdateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasWayCollectionPlainResponse> {
+    async updateWayCollection(requestParameters: UpdateWayCollectionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayCollectionPlainResponse> {
         const response = await this.updateWayCollectionRaw(requestParameters, initOverrides);
         return await response.value();
     }

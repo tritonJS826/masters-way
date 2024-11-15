@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAIDecomposeIssuePayload
+ * @interface MwServerInternalSchemasAIDecomposeIssuePayload
  */
-export interface MwserverInternalSchemasAIDecomposeIssuePayload {
+export interface MwServerInternalSchemasAIDecomposeIssuePayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAIDecomposeIssuePayload
+     * @memberof MwServerInternalSchemasAIDecomposeIssuePayload
      */
     goal: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasAIDecomposeIssuePayload
+     * @memberof MwServerInternalSchemasAIDecomposeIssuePayload
      */
     message: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAIDecomposeIssuePayload interface.
+ * Check if a given object implements the MwServerInternalSchemasAIDecomposeIssuePayload interface.
  */
-export function instanceOfMwserverInternalSchemasAIDecomposeIssuePayload(
+export function instanceOfMwServerInternalSchemasAIDecomposeIssuePayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasAIDecomposeIssuePayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAIDecomposeIssuePayloadFromJSON(json: any): MwserverInternalSchemasAIDecomposeIssuePayload {
-    return MwserverInternalSchemasAIDecomposeIssuePayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasAIDecomposeIssuePayloadFromJSON(json: any): MwServerInternalSchemasAIDecomposeIssuePayload {
+    return MwServerInternalSchemasAIDecomposeIssuePayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAIDecomposeIssuePayloadFromJSONTyped(
+export function MwServerInternalSchemasAIDecomposeIssuePayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAIDecomposeIssuePayload {
+): MwServerInternalSchemasAIDecomposeIssuePayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasAIDecomposeIssuePayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAIDecomposeIssuePayloadToJSON(value?: MwserverInternalSchemasAIDecomposeIssuePayload | null): any {
+export function MwServerInternalSchemasAIDecomposeIssuePayloadToJSON(value?: MwServerInternalSchemasAIDecomposeIssuePayload | null): any {
     if (value === undefined) {
         return undefined;
     }

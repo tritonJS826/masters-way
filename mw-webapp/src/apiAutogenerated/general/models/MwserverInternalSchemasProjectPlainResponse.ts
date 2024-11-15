@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasProjectPlainResponse
+ * @interface MwServerInternalSchemasProjectPlainResponse
  */
-export interface MwserverInternalSchemasProjectPlainResponse {
+export interface MwServerInternalSchemasProjectPlainResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProjectPlainResponse
+     * @memberof MwServerInternalSchemasProjectPlainResponse
      */
     id: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasProjectPlainResponse
+     * @memberof MwServerInternalSchemasProjectPlainResponse
      */
     isPrivate: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProjectPlainResponse
+     * @memberof MwServerInternalSchemasProjectPlainResponse
      */
     name: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof MwserverInternalSchemasProjectPlainResponse
+     * @memberof MwServerInternalSchemasProjectPlainResponse
      */
     userIds: Array<string>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasProjectPlainResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasProjectPlainResponse interface.
  */
-export function instanceOfMwserverInternalSchemasProjectPlainResponse(
+export function instanceOfMwServerInternalSchemasProjectPlainResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -60,14 +60,14 @@ export function instanceOfMwserverInternalSchemasProjectPlainResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasProjectPlainResponseFromJSON(json: any): MwserverInternalSchemasProjectPlainResponse {
-    return MwserverInternalSchemasProjectPlainResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasProjectPlainResponseFromJSON(json: any): MwServerInternalSchemasProjectPlainResponse {
+    return MwServerInternalSchemasProjectPlainResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasProjectPlainResponseFromJSONTyped(
+export function MwServerInternalSchemasProjectPlainResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasProjectPlainResponse {
+): MwServerInternalSchemasProjectPlainResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,7 +81,7 @@ export function MwserverInternalSchemasProjectPlainResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasProjectPlainResponseToJSON(value?: MwserverInternalSchemasProjectPlainResponse | null): any {
+export function MwServerInternalSchemasProjectPlainResponseToJSON(value?: MwServerInternalSchemasProjectPlainResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

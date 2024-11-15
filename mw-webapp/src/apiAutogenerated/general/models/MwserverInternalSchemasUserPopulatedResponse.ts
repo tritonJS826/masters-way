@@ -13,139 +13,139 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasDefaultWayCollections } from './MwserverInternalSchemasDefaultWayCollections';
+import type { MwServerInternalSchemasDefaultWayCollections } from './MwServerInternalSchemasDefaultWayCollections';
 import {
-    MwserverInternalSchemasDefaultWayCollectionsFromJSON,
-    MwserverInternalSchemasDefaultWayCollectionsFromJSONTyped,
-    MwserverInternalSchemasDefaultWayCollectionsToJSON,
-} from './MwserverInternalSchemasDefaultWayCollections';
-import type { MwserverInternalSchemasProjectPlainResponse } from './MwserverInternalSchemasProjectPlainResponse';
+    MwServerInternalSchemasDefaultWayCollectionsFromJSON,
+    MwServerInternalSchemasDefaultWayCollectionsFromJSONTyped,
+    MwServerInternalSchemasDefaultWayCollectionsToJSON,
+} from './MwServerInternalSchemasDefaultWayCollections';
+import type { MwServerInternalSchemasProjectPlainResponse } from './MwServerInternalSchemasProjectPlainResponse';
 import {
-    MwserverInternalSchemasProjectPlainResponseFromJSON,
-    MwserverInternalSchemasProjectPlainResponseFromJSONTyped,
-    MwserverInternalSchemasProjectPlainResponseToJSON,
-} from './MwserverInternalSchemasProjectPlainResponse';
-import type { MwserverInternalSchemasUserPlainResponse } from './MwserverInternalSchemasUserPlainResponse';
+    MwServerInternalSchemasProjectPlainResponseFromJSON,
+    MwServerInternalSchemasProjectPlainResponseFromJSONTyped,
+    MwServerInternalSchemasProjectPlainResponseToJSON,
+} from './MwServerInternalSchemasProjectPlainResponse';
+import type { MwServerInternalSchemasUserPlainResponse } from './MwServerInternalSchemasUserPlainResponse';
 import {
-    MwserverInternalSchemasUserPlainResponseFromJSON,
-    MwserverInternalSchemasUserPlainResponseFromJSONTyped,
-    MwserverInternalSchemasUserPlainResponseToJSON,
-} from './MwserverInternalSchemasUserPlainResponse';
-import type { MwserverInternalSchemasUserTagResponse } from './MwserverInternalSchemasUserTagResponse';
+    MwServerInternalSchemasUserPlainResponseFromJSON,
+    MwServerInternalSchemasUserPlainResponseFromJSONTyped,
+    MwServerInternalSchemasUserPlainResponseToJSON,
+} from './MwServerInternalSchemasUserPlainResponse';
+import type { MwServerInternalSchemasUserTagResponse } from './MwServerInternalSchemasUserTagResponse';
 import {
-    MwserverInternalSchemasUserTagResponseFromJSON,
-    MwserverInternalSchemasUserTagResponseFromJSONTyped,
-    MwserverInternalSchemasUserTagResponseToJSON,
-} from './MwserverInternalSchemasUserTagResponse';
-import type { MwserverInternalSchemasWayCollectionPopulatedResponse } from './MwserverInternalSchemasWayCollectionPopulatedResponse';
+    MwServerInternalSchemasUserTagResponseFromJSON,
+    MwServerInternalSchemasUserTagResponseFromJSONTyped,
+    MwServerInternalSchemasUserTagResponseToJSON,
+} from './MwServerInternalSchemasUserTagResponse';
+import type { MwServerInternalSchemasWayCollectionPopulatedResponse } from './MwServerInternalSchemasWayCollectionPopulatedResponse';
 import {
-    MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON,
-    MwserverInternalSchemasWayCollectionPopulatedResponseFromJSONTyped,
-    MwserverInternalSchemasWayCollectionPopulatedResponseToJSON,
-} from './MwserverInternalSchemasWayCollectionPopulatedResponse';
-import type { MwserverInternalSchemasWayPlainResponse } from './MwserverInternalSchemasWayPlainResponse';
+    MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON,
+    MwServerInternalSchemasWayCollectionPopulatedResponseFromJSONTyped,
+    MwServerInternalSchemasWayCollectionPopulatedResponseToJSON,
+} from './MwServerInternalSchemasWayCollectionPopulatedResponse';
+import type { MwServerInternalSchemasWayPlainResponse } from './MwServerInternalSchemasWayPlainResponse';
 import {
-    MwserverInternalSchemasWayPlainResponseFromJSON,
-    MwserverInternalSchemasWayPlainResponseFromJSONTyped,
-    MwserverInternalSchemasWayPlainResponseToJSON,
-} from './MwserverInternalSchemasWayPlainResponse';
+    MwServerInternalSchemasWayPlainResponseFromJSON,
+    MwServerInternalSchemasWayPlainResponseFromJSONTyped,
+    MwServerInternalSchemasWayPlainResponseToJSON,
+} from './MwServerInternalSchemasWayPlainResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUserPopulatedResponse
+ * @interface MwServerInternalSchemasUserPopulatedResponse
  */
-export interface MwserverInternalSchemasUserPopulatedResponse {
+export interface MwServerInternalSchemasUserPopulatedResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     createdAt: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasWayCollectionPopulatedResponse>}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @type {Array<MwServerInternalSchemasWayCollectionPopulatedResponse>}
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
-    customWayCollections: Array<MwserverInternalSchemasWayCollectionPopulatedResponse>;
+    customWayCollections: Array<MwServerInternalSchemasWayCollectionPopulatedResponse>;
     /**
      * 
-     * @type {MwserverInternalSchemasDefaultWayCollections}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @type {MwServerInternalSchemasDefaultWayCollections}
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
-    defaultWayCollections: MwserverInternalSchemasDefaultWayCollections;
+    defaultWayCollections: MwServerInternalSchemasDefaultWayCollections;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     email: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     favoriteForUsers: Array<string>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserPlainResponse>}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @type {Array<MwServerInternalSchemasUserPlainResponse>}
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
-    favoriteUsers: Array<MwserverInternalSchemasUserPlainResponse>;
+    favoriteUsers: Array<MwServerInternalSchemasUserPlainResponse>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     imageUrl: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     isMentor: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     name: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasProjectPlainResponse>}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @type {Array<MwServerInternalSchemasProjectPlainResponse>}
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
-    projects: Array<MwserverInternalSchemasProjectPlainResponse>;
+    projects: Array<MwServerInternalSchemasProjectPlainResponse>;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserTagResponse>}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @type {Array<MwServerInternalSchemasUserTagResponse>}
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
-    tags: Array<MwserverInternalSchemasUserTagResponse>;
+    tags: Array<MwServerInternalSchemasUserTagResponse>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
     uuid: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasWayPlainResponse>}
-     * @memberof MwserverInternalSchemasUserPopulatedResponse
+     * @type {Array<MwServerInternalSchemasWayPlainResponse>}
+     * @memberof MwServerInternalSchemasUserPopulatedResponse
      */
-    wayRequests: Array<MwserverInternalSchemasWayPlainResponse>;
+    wayRequests: Array<MwServerInternalSchemasWayPlainResponse>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUserPopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasUserPopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasUserPopulatedResponse(
+export function instanceOfMwServerInternalSchemasUserPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -167,38 +167,38 @@ export function instanceOfMwserverInternalSchemasUserPopulatedResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUserPopulatedResponseFromJSON(json: any): MwserverInternalSchemasUserPopulatedResponse {
-    return MwserverInternalSchemasUserPopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasUserPopulatedResponseFromJSON(json: any): MwServerInternalSchemasUserPopulatedResponse {
+    return MwServerInternalSchemasUserPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUserPopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasUserPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUserPopulatedResponse {
+): MwServerInternalSchemasUserPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'createdAt': json['createdAt'],
-        'customWayCollections': ((json['customWayCollections'] as Array<any>).map(MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON)),
-        'defaultWayCollections': MwserverInternalSchemasDefaultWayCollectionsFromJSON(json['defaultWayCollections']),
+        'customWayCollections': ((json['customWayCollections'] as Array<any>).map(MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON)),
+        'defaultWayCollections': MwServerInternalSchemasDefaultWayCollectionsFromJSON(json['defaultWayCollections']),
         'description': json['description'],
         'email': json['email'],
         'favoriteForUsers': json['favoriteForUsers'],
-        'favoriteUsers': ((json['favoriteUsers'] as Array<any>).map(MwserverInternalSchemasUserPlainResponseFromJSON)),
+        'favoriteUsers': ((json['favoriteUsers'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseFromJSON)),
         'imageUrl': json['imageUrl'],
         'isMentor': json['isMentor'],
         'name': json['name'],
-        'projects': ((json['projects'] as Array<any>).map(MwserverInternalSchemasProjectPlainResponseFromJSON)),
-        'tags': ((json['tags'] as Array<any>).map(MwserverInternalSchemasUserTagResponseFromJSON)),
+        'projects': ((json['projects'] as Array<any>).map(MwServerInternalSchemasProjectPlainResponseFromJSON)),
+        'tags': ((json['tags'] as Array<any>).map(MwServerInternalSchemasUserTagResponseFromJSON)),
         'uuid': json['uuid'],
-        'wayRequests': ((json['wayRequests'] as Array<any>).map(MwserverInternalSchemasWayPlainResponseFromJSON)),
+        'wayRequests': ((json['wayRequests'] as Array<any>).map(MwServerInternalSchemasWayPlainResponseFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasUserPopulatedResponseToJSON(value?: MwserverInternalSchemasUserPopulatedResponse | null): any {
+export function MwServerInternalSchemasUserPopulatedResponseToJSON(value?: MwServerInternalSchemasUserPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -208,19 +208,19 @@ export function MwserverInternalSchemasUserPopulatedResponseToJSON(value?: Mwser
     return {
         
         'createdAt': value.createdAt,
-        'customWayCollections': ((value.customWayCollections as Array<any>).map(MwserverInternalSchemasWayCollectionPopulatedResponseToJSON)),
-        'defaultWayCollections': MwserverInternalSchemasDefaultWayCollectionsToJSON(value.defaultWayCollections),
+        'customWayCollections': ((value.customWayCollections as Array<any>).map(MwServerInternalSchemasWayCollectionPopulatedResponseToJSON)),
+        'defaultWayCollections': MwServerInternalSchemasDefaultWayCollectionsToJSON(value.defaultWayCollections),
         'description': value.description,
         'email': value.email,
         'favoriteForUsers': value.favoriteForUsers,
-        'favoriteUsers': ((value.favoriteUsers as Array<any>).map(MwserverInternalSchemasUserPlainResponseToJSON)),
+        'favoriteUsers': ((value.favoriteUsers as Array<any>).map(MwServerInternalSchemasUserPlainResponseToJSON)),
         'imageUrl': value.imageUrl,
         'isMentor': value.isMentor,
         'name': value.name,
-        'projects': ((value.projects as Array<any>).map(MwserverInternalSchemasProjectPlainResponseToJSON)),
-        'tags': ((value.tags as Array<any>).map(MwserverInternalSchemasUserTagResponseToJSON)),
+        'projects': ((value.projects as Array<any>).map(MwServerInternalSchemasProjectPlainResponseToJSON)),
+        'tags': ((value.tags as Array<any>).map(MwServerInternalSchemasUserTagResponseToJSON)),
         'uuid': value.uuid,
-        'wayRequests': ((value.wayRequests as Array<any>).map(MwserverInternalSchemasWayPlainResponseToJSON)),
+        'wayRequests': ((value.wayRequests as Array<any>).map(MwServerInternalSchemasWayPlainResponseToJSON)),
     };
 }
 

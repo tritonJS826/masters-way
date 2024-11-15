@@ -16,75 +16,75 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasProblemPopulatedResponse
+ * @interface MwServerInternalSchemasProblemPopulatedResponse
  */
-export interface MwserverInternalSchemasProblemPopulatedResponse {
+export interface MwServerInternalSchemasProblemPopulatedResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     createdAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     dayReportUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     description: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     isDone: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     ownerName: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     ownerUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     updatedAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     uuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     wayName: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasProblemPopulatedResponse
+     * @memberof MwServerInternalSchemasProblemPopulatedResponse
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasProblemPopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasProblemPopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasProblemPopulatedResponse(
+export function instanceOfMwServerInternalSchemasProblemPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -102,14 +102,14 @@ export function instanceOfMwserverInternalSchemasProblemPopulatedResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasProblemPopulatedResponseFromJSON(json: any): MwserverInternalSchemasProblemPopulatedResponse {
-    return MwserverInternalSchemasProblemPopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasProblemPopulatedResponseFromJSON(json: any): MwServerInternalSchemasProblemPopulatedResponse {
+    return MwServerInternalSchemasProblemPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasProblemPopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasProblemPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasProblemPopulatedResponse {
+): MwServerInternalSchemasProblemPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -129,7 +129,7 @@ export function MwserverInternalSchemasProblemPopulatedResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasProblemPopulatedResponseToJSON(value?: MwserverInternalSchemasProblemPopulatedResponse | null): any {
+export function MwServerInternalSchemasProblemPopulatedResponseToJSON(value?: MwServerInternalSchemasProblemPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -15,22 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalSchemasCreateMentorUserWayPayload,
-  MwserverInternalSchemasDeleteMentorUserWayPayload,
+  MwServerInternalSchemasCreateMentorUserWayPayload,
+  MwServerInternalSchemasDeleteMentorUserWayPayload,
 } from '../models/index';
 import {
-    MwserverInternalSchemasCreateMentorUserWayPayloadFromJSON,
-    MwserverInternalSchemasCreateMentorUserWayPayloadToJSON,
-    MwserverInternalSchemasDeleteMentorUserWayPayloadFromJSON,
-    MwserverInternalSchemasDeleteMentorUserWayPayloadToJSON,
+    MwServerInternalSchemasCreateMentorUserWayPayloadFromJSON,
+    MwServerInternalSchemasCreateMentorUserWayPayloadToJSON,
+    MwServerInternalSchemasDeleteMentorUserWayPayloadFromJSON,
+    MwServerInternalSchemasDeleteMentorUserWayPayloadToJSON,
 } from '../models/index';
 
 export interface CreateMentorUserWayRequest {
-    request: MwserverInternalSchemasCreateMentorUserWayPayload;
+    request: MwServerInternalSchemasCreateMentorUserWayPayload;
 }
 
 export interface DeleteMentorUserWayRequest {
-    request: MwserverInternalSchemasDeleteMentorUserWayPayload;
+    request: MwServerInternalSchemasDeleteMentorUserWayPayload;
 }
 
 /**
@@ -58,7 +58,7 @@ export class MentorUserWayApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasCreateMentorUserWayPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateMentorUserWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -91,7 +91,7 @@ export class MentorUserWayApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasDeleteMentorUserWayPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasDeleteMentorUserWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

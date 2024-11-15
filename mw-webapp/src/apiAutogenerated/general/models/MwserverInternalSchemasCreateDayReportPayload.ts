@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateDayReportPayload
+ * @interface MwServerInternalSchemasCreateDayReportPayload
  */
-export interface MwserverInternalSchemasCreateDayReportPayload {
+export interface MwServerInternalSchemasCreateDayReportPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateDayReportPayload
+     * @memberof MwServerInternalSchemasCreateDayReportPayload
      */
     wayId: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateDayReportPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateDayReportPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateDayReportPayload(
+export function instanceOfMwServerInternalSchemasCreateDayReportPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasCreateDayReportPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateDayReportPayloadFromJSON(json: any): MwserverInternalSchemasCreateDayReportPayload {
-    return MwserverInternalSchemasCreateDayReportPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateDayReportPayloadFromJSON(json: any): MwServerInternalSchemasCreateDayReportPayload {
+    return MwServerInternalSchemasCreateDayReportPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateDayReportPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateDayReportPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateDayReportPayload {
+): MwServerInternalSchemasCreateDayReportPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasCreateDayReportPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateDayReportPayloadToJSON(value?: MwserverInternalSchemasCreateDayReportPayload | null): any {
+export function MwServerInternalSchemasCreateDayReportPayloadToJSON(value?: MwServerInternalSchemasCreateDayReportPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

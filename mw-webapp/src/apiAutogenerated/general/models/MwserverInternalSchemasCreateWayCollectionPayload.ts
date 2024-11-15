@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateWayCollectionPayload
+ * @interface MwServerInternalSchemasCreateWayCollectionPayload
  */
-export interface MwserverInternalSchemasCreateWayCollectionPayload {
+export interface MwServerInternalSchemasCreateWayCollectionPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayCollectionPayload
+     * @memberof MwServerInternalSchemasCreateWayCollectionPayload
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateWayCollectionPayload
+     * @memberof MwServerInternalSchemasCreateWayCollectionPayload
      */
     ownerUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateWayCollectionPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateWayCollectionPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateWayCollectionPayload(
+export function instanceOfMwServerInternalSchemasCreateWayCollectionPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateWayCollectionPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateWayCollectionPayloadFromJSON(json: any): MwserverInternalSchemasCreateWayCollectionPayload {
-    return MwserverInternalSchemasCreateWayCollectionPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateWayCollectionPayloadFromJSON(json: any): MwServerInternalSchemasCreateWayCollectionPayload {
+    return MwServerInternalSchemasCreateWayCollectionPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateWayCollectionPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateWayCollectionPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateWayCollectionPayload {
+): MwServerInternalSchemasCreateWayCollectionPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateWayCollectionPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateWayCollectionPayloadToJSON(value?: MwserverInternalSchemasCreateWayCollectionPayload | null): any {
+export function MwServerInternalSchemasCreateWayCollectionPayloadToJSON(value?: MwServerInternalSchemasCreateWayCollectionPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

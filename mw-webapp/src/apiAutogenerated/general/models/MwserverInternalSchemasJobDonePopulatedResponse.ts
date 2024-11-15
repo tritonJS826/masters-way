@@ -13,91 +13,91 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasJobTagResponse } from './MwserverInternalSchemasJobTagResponse';
+import type { MwServerInternalSchemasJobTagResponse } from './MwServerInternalSchemasJobTagResponse';
 import {
-    MwserverInternalSchemasJobTagResponseFromJSON,
-    MwserverInternalSchemasJobTagResponseFromJSONTyped,
-    MwserverInternalSchemasJobTagResponseToJSON,
-} from './MwserverInternalSchemasJobTagResponse';
+    MwServerInternalSchemasJobTagResponseFromJSON,
+    MwServerInternalSchemasJobTagResponseFromJSONTyped,
+    MwServerInternalSchemasJobTagResponseToJSON,
+} from './MwServerInternalSchemasJobTagResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasJobDonePopulatedResponse
+ * @interface MwServerInternalSchemasJobDonePopulatedResponse
  */
-export interface MwserverInternalSchemasJobDonePopulatedResponse {
+export interface MwServerInternalSchemasJobDonePopulatedResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     createdAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     dayReportUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     description: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     ownerName: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     ownerUuid: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasJobTagResponse>}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @type {Array<MwServerInternalSchemasJobTagResponse>}
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
-    tags: Array<MwserverInternalSchemasJobTagResponse>;
+    tags: Array<MwServerInternalSchemasJobTagResponse>;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     time: number;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     updatedAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     uuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     wayName: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasJobDonePopulatedResponse
+     * @memberof MwServerInternalSchemasJobDonePopulatedResponse
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasJobDonePopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasJobDonePopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasJobDonePopulatedResponse(
+export function instanceOfMwServerInternalSchemasJobDonePopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -116,14 +116,14 @@ export function instanceOfMwserverInternalSchemasJobDonePopulatedResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasJobDonePopulatedResponseFromJSON(json: any): MwserverInternalSchemasJobDonePopulatedResponse {
-    return MwserverInternalSchemasJobDonePopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasJobDonePopulatedResponseFromJSON(json: any): MwServerInternalSchemasJobDonePopulatedResponse {
+    return MwServerInternalSchemasJobDonePopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasJobDonePopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasJobDonePopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasJobDonePopulatedResponse {
+): MwServerInternalSchemasJobDonePopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -134,7 +134,7 @@ export function MwserverInternalSchemasJobDonePopulatedResponseFromJSONTyped(
         'description': json['description'],
         'ownerName': json['ownerName'],
         'ownerUuid': json['ownerUuid'],
-        'tags': ((json['tags'] as Array<any>).map(MwserverInternalSchemasJobTagResponseFromJSON)),
+        'tags': ((json['tags'] as Array<any>).map(MwServerInternalSchemasJobTagResponseFromJSON)),
         'time': json['time'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
@@ -144,7 +144,7 @@ export function MwserverInternalSchemasJobDonePopulatedResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasJobDonePopulatedResponseToJSON(value?: MwserverInternalSchemasJobDonePopulatedResponse | null): any {
+export function MwServerInternalSchemasJobDonePopulatedResponseToJSON(value?: MwServerInternalSchemasJobDonePopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -158,7 +158,7 @@ export function MwserverInternalSchemasJobDonePopulatedResponseToJSON(value?: Mw
         'description': value.description,
         'ownerName': value.ownerName,
         'ownerUuid': value.ownerUuid,
-        'tags': ((value.tags as Array<any>).map(MwserverInternalSchemasJobTagResponseToJSON)),
+        'tags': ((value.tags as Array<any>).map(MwServerInternalSchemasJobTagResponseToJSON)),
         'time': value.time,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,

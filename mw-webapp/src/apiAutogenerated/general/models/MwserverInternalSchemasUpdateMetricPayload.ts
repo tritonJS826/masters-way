@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUpdateMetricPayload
+ * @interface MwServerInternalSchemasUpdateMetricPayload
  */
-export interface MwserverInternalSchemasUpdateMetricPayload {
+export interface MwServerInternalSchemasUpdateMetricPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateMetricPayload
+     * @memberof MwServerInternalSchemasUpdateMetricPayload
      */
     description?: string;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUpdateMetricPayload
+     * @memberof MwServerInternalSchemasUpdateMetricPayload
      */
     estimationTime?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUpdateMetricPayload
+     * @memberof MwServerInternalSchemasUpdateMetricPayload
      */
     isDone?: boolean;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUpdateMetricPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasUpdateMetricPayload interface.
  */
-export function instanceOfMwserverInternalSchemasUpdateMetricPayload(
+export function instanceOfMwServerInternalSchemasUpdateMetricPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -50,14 +50,14 @@ export function instanceOfMwserverInternalSchemasUpdateMetricPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUpdateMetricPayloadFromJSON(json: any): MwserverInternalSchemasUpdateMetricPayload {
-    return MwserverInternalSchemasUpdateMetricPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasUpdateMetricPayloadFromJSON(json: any): MwServerInternalSchemasUpdateMetricPayload {
+    return MwServerInternalSchemasUpdateMetricPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUpdateMetricPayloadFromJSONTyped(
+export function MwServerInternalSchemasUpdateMetricPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUpdateMetricPayload {
+): MwServerInternalSchemasUpdateMetricPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,7 +70,7 @@ export function MwserverInternalSchemasUpdateMetricPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUpdateMetricPayloadToJSON(value?: MwserverInternalSchemasUpdateMetricPayload | null): any {
+export function MwServerInternalSchemasUpdateMetricPayloadToJSON(value?: MwServerInternalSchemasUpdateMetricPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

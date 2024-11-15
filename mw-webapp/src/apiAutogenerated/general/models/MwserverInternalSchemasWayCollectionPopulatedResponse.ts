@@ -13,67 +13,67 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasWayPlainResponse } from './MwserverInternalSchemasWayPlainResponse';
+import type { MwServerInternalSchemasWayPlainResponse } from './MwServerInternalSchemasWayPlainResponse';
 import {
-    MwserverInternalSchemasWayPlainResponseFromJSON,
-    MwserverInternalSchemasWayPlainResponseFromJSONTyped,
-    MwserverInternalSchemasWayPlainResponseToJSON,
-} from './MwserverInternalSchemasWayPlainResponse';
+    MwServerInternalSchemasWayPlainResponseFromJSON,
+    MwServerInternalSchemasWayPlainResponseFromJSONTyped,
+    MwServerInternalSchemasWayPlainResponseToJSON,
+} from './MwServerInternalSchemasWayPlainResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasWayCollectionPopulatedResponse
+ * @interface MwServerInternalSchemasWayCollectionPopulatedResponse
  */
-export interface MwserverInternalSchemasWayCollectionPopulatedResponse {
+export interface MwServerInternalSchemasWayCollectionPopulatedResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPopulatedResponse
+     * @memberof MwServerInternalSchemasWayCollectionPopulatedResponse
      */
     createdAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPopulatedResponse
+     * @memberof MwServerInternalSchemasWayCollectionPopulatedResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPopulatedResponse
+     * @memberof MwServerInternalSchemasWayCollectionPopulatedResponse
      */
     ownerUuid: string;
     /**
      * should be removed after separation custom collections and default pseudocollections
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPopulatedResponse
+     * @memberof MwServerInternalSchemasWayCollectionPopulatedResponse
      */
     type: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPopulatedResponse
+     * @memberof MwServerInternalSchemasWayCollectionPopulatedResponse
      */
     updatedAt: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayCollectionPopulatedResponse
+     * @memberof MwServerInternalSchemasWayCollectionPopulatedResponse
      */
     uuid: string;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasWayPlainResponse>}
-     * @memberof MwserverInternalSchemasWayCollectionPopulatedResponse
+     * @type {Array<MwServerInternalSchemasWayPlainResponse>}
+     * @memberof MwServerInternalSchemasWayCollectionPopulatedResponse
      */
-    ways: Array<MwserverInternalSchemasWayPlainResponse>;
+    ways: Array<MwServerInternalSchemasWayPlainResponse>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasWayCollectionPopulatedResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasWayCollectionPopulatedResponse interface.
  */
-export function instanceOfMwserverInternalSchemasWayCollectionPopulatedResponse(
+export function instanceOfMwServerInternalSchemasWayCollectionPopulatedResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -88,14 +88,14 @@ export function instanceOfMwserverInternalSchemasWayCollectionPopulatedResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON(json: any): MwserverInternalSchemasWayCollectionPopulatedResponse {
-    return MwserverInternalSchemasWayCollectionPopulatedResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON(json: any): MwServerInternalSchemasWayCollectionPopulatedResponse {
+    return MwServerInternalSchemasWayCollectionPopulatedResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasWayCollectionPopulatedResponseFromJSONTyped(
+export function MwServerInternalSchemasWayCollectionPopulatedResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasWayCollectionPopulatedResponse {
+): MwServerInternalSchemasWayCollectionPopulatedResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -107,12 +107,12 @@ export function MwserverInternalSchemasWayCollectionPopulatedResponseFromJSONTyp
         'type': json['type'],
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
-        'ways': ((json['ways'] as Array<any>).map(MwserverInternalSchemasWayPlainResponseFromJSON)),
+        'ways': ((json['ways'] as Array<any>).map(MwServerInternalSchemasWayPlainResponseFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasWayCollectionPopulatedResponseToJSON(value?: MwserverInternalSchemasWayCollectionPopulatedResponse | null): any {
+export function MwServerInternalSchemasWayCollectionPopulatedResponseToJSON(value?: MwServerInternalSchemasWayCollectionPopulatedResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -127,7 +127,7 @@ export function MwserverInternalSchemasWayCollectionPopulatedResponseToJSON(valu
         'type': value.type,
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
-        'ways': ((value.ways as Array<any>).map(MwserverInternalSchemasWayPlainResponseToJSON)),
+        'ways': ((value.ways as Array<any>).map(MwServerInternalSchemasWayPlainResponseToJSON)),
     };
 }
 

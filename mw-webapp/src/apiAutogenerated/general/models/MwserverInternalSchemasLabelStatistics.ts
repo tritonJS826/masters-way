@@ -13,31 +13,31 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasLabelInfo } from './MwserverInternalSchemasLabelInfo';
+import type { MwServerInternalSchemasLabelInfo } from './MwServerInternalSchemasLabelInfo';
 import {
-    MwserverInternalSchemasLabelInfoFromJSON,
-    MwserverInternalSchemasLabelInfoFromJSONTyped,
-    MwserverInternalSchemasLabelInfoToJSON,
-} from './MwserverInternalSchemasLabelInfo';
+    MwServerInternalSchemasLabelInfoFromJSON,
+    MwServerInternalSchemasLabelInfoFromJSONTyped,
+    MwServerInternalSchemasLabelInfoToJSON,
+} from './MwServerInternalSchemasLabelInfo';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasLabelStatistics
+ * @interface MwServerInternalSchemasLabelStatistics
  */
-export interface MwserverInternalSchemasLabelStatistics {
+export interface MwServerInternalSchemasLabelStatistics {
     /**
      * 
-     * @type {Array<MwserverInternalSchemasLabelInfo>}
-     * @memberof MwserverInternalSchemasLabelStatistics
+     * @type {Array<MwServerInternalSchemasLabelInfo>}
+     * @memberof MwServerInternalSchemasLabelStatistics
      */
-    labels: Array<MwserverInternalSchemasLabelInfo>;
+    labels: Array<MwServerInternalSchemasLabelInfo>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasLabelStatistics interface.
+ * Check if a given object implements the MwServerInternalSchemasLabelStatistics interface.
  */
-export function instanceOfMwserverInternalSchemasLabelStatistics(
+export function instanceOfMwServerInternalSchemasLabelStatistics(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,25 +46,25 @@ export function instanceOfMwserverInternalSchemasLabelStatistics(
     return isInstance;
 }
 
-export function MwserverInternalSchemasLabelStatisticsFromJSON(json: any): MwserverInternalSchemasLabelStatistics {
-    return MwserverInternalSchemasLabelStatisticsFromJSONTyped(json, false);
+export function MwServerInternalSchemasLabelStatisticsFromJSON(json: any): MwServerInternalSchemasLabelStatistics {
+    return MwServerInternalSchemasLabelStatisticsFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasLabelStatisticsFromJSONTyped(
+export function MwServerInternalSchemasLabelStatisticsFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasLabelStatistics {
+): MwServerInternalSchemasLabelStatistics {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'labels': ((json['labels'] as Array<any>).map(MwserverInternalSchemasLabelInfoFromJSON)),
+        'labels': ((json['labels'] as Array<any>).map(MwServerInternalSchemasLabelInfoFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasLabelStatisticsToJSON(value?: MwserverInternalSchemasLabelStatistics | null): any {
+export function MwServerInternalSchemasLabelStatisticsToJSON(value?: MwServerInternalSchemasLabelStatistics | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -73,7 +73,7 @@ export function MwserverInternalSchemasLabelStatisticsToJSON(value?: MwserverInt
     }
     return {
         
-        'labels': ((value.labels as Array<any>).map(MwserverInternalSchemasLabelInfoToJSON)),
+        'labels': ((value.labels as Array<any>).map(MwServerInternalSchemasLabelInfoToJSON)),
     };
 }
 

@@ -13,43 +13,43 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasWayCollectionPopulatedResponse } from './MwserverInternalSchemasWayCollectionPopulatedResponse';
+import type { MwServerInternalSchemasWayCollectionPopulatedResponse } from './MwServerInternalSchemasWayCollectionPopulatedResponse';
 import {
-    MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON,
-    MwserverInternalSchemasWayCollectionPopulatedResponseFromJSONTyped,
-    MwserverInternalSchemasWayCollectionPopulatedResponseToJSON,
-} from './MwserverInternalSchemasWayCollectionPopulatedResponse';
+    MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON,
+    MwServerInternalSchemasWayCollectionPopulatedResponseFromJSONTyped,
+    MwServerInternalSchemasWayCollectionPopulatedResponseToJSON,
+} from './MwServerInternalSchemasWayCollectionPopulatedResponse';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasDefaultWayCollections
+ * @interface MwServerInternalSchemasDefaultWayCollections
  */
-export interface MwserverInternalSchemasDefaultWayCollections {
+export interface MwServerInternalSchemasDefaultWayCollections {
     /**
      * 
-     * @type {MwserverInternalSchemasWayCollectionPopulatedResponse}
-     * @memberof MwserverInternalSchemasDefaultWayCollections
+     * @type {MwServerInternalSchemasWayCollectionPopulatedResponse}
+     * @memberof MwServerInternalSchemasDefaultWayCollections
      */
-    favorite: MwserverInternalSchemasWayCollectionPopulatedResponse;
+    favorite: MwServerInternalSchemasWayCollectionPopulatedResponse;
     /**
      * 
-     * @type {MwserverInternalSchemasWayCollectionPopulatedResponse}
-     * @memberof MwserverInternalSchemasDefaultWayCollections
+     * @type {MwServerInternalSchemasWayCollectionPopulatedResponse}
+     * @memberof MwServerInternalSchemasDefaultWayCollections
      */
-    mentoring: MwserverInternalSchemasWayCollectionPopulatedResponse;
+    mentoring: MwServerInternalSchemasWayCollectionPopulatedResponse;
     /**
      * 
-     * @type {MwserverInternalSchemasWayCollectionPopulatedResponse}
-     * @memberof MwserverInternalSchemasDefaultWayCollections
+     * @type {MwServerInternalSchemasWayCollectionPopulatedResponse}
+     * @memberof MwServerInternalSchemasDefaultWayCollections
      */
-    own: MwserverInternalSchemasWayCollectionPopulatedResponse;
+    own: MwServerInternalSchemasWayCollectionPopulatedResponse;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasDefaultWayCollections interface.
+ * Check if a given object implements the MwServerInternalSchemasDefaultWayCollections interface.
  */
-export function instanceOfMwserverInternalSchemasDefaultWayCollections(
+export function instanceOfMwServerInternalSchemasDefaultWayCollections(
     value: object
 ): boolean {
     let isInstance = true;
@@ -60,27 +60,27 @@ export function instanceOfMwserverInternalSchemasDefaultWayCollections(
     return isInstance;
 }
 
-export function MwserverInternalSchemasDefaultWayCollectionsFromJSON(json: any): MwserverInternalSchemasDefaultWayCollections {
-    return MwserverInternalSchemasDefaultWayCollectionsFromJSONTyped(json, false);
+export function MwServerInternalSchemasDefaultWayCollectionsFromJSON(json: any): MwServerInternalSchemasDefaultWayCollections {
+    return MwServerInternalSchemasDefaultWayCollectionsFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasDefaultWayCollectionsFromJSONTyped(
+export function MwServerInternalSchemasDefaultWayCollectionsFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasDefaultWayCollections {
+): MwServerInternalSchemasDefaultWayCollections {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'favorite': MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON(json['favorite']),
-        'mentoring': MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON(json['mentoring']),
-        'own': MwserverInternalSchemasWayCollectionPopulatedResponseFromJSON(json['own']),
+        'favorite': MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON(json['favorite']),
+        'mentoring': MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON(json['mentoring']),
+        'own': MwServerInternalSchemasWayCollectionPopulatedResponseFromJSON(json['own']),
     };
 }
 
 
-export function MwserverInternalSchemasDefaultWayCollectionsToJSON(value?: MwserverInternalSchemasDefaultWayCollections | null): any {
+export function MwServerInternalSchemasDefaultWayCollectionsToJSON(value?: MwServerInternalSchemasDefaultWayCollections | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,9 +89,9 @@ export function MwserverInternalSchemasDefaultWayCollectionsToJSON(value?: Mwser
     }
     return {
         
-        'favorite': MwserverInternalSchemasWayCollectionPopulatedResponseToJSON(value.favorite),
-        'mentoring': MwserverInternalSchemasWayCollectionPopulatedResponseToJSON(value.mentoring),
-        'own': MwserverInternalSchemasWayCollectionPopulatedResponseToJSON(value.own),
+        'favorite': MwServerInternalSchemasWayCollectionPopulatedResponseToJSON(value.favorite),
+        'mentoring': MwServerInternalSchemasWayCollectionPopulatedResponseToJSON(value.mentoring),
+        'own': MwServerInternalSchemasWayCollectionPopulatedResponseToJSON(value.own),
     };
 }
 

@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUpdatePlanPayload
+ * @interface MwServerInternalSchemasUpdatePlanPayload
  */
-export interface MwserverInternalSchemasUpdatePlanPayload {
+export interface MwServerInternalSchemasUpdatePlanPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdatePlanPayload
+     * @memberof MwServerInternalSchemasUpdatePlanPayload
      */
     description?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUpdatePlanPayload
+     * @memberof MwServerInternalSchemasUpdatePlanPayload
      */
     isDone?: boolean;
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUpdatePlanPayload
+     * @memberof MwServerInternalSchemasUpdatePlanPayload
      */
     time?: number;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUpdatePlanPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasUpdatePlanPayload interface.
  */
-export function instanceOfMwserverInternalSchemasUpdatePlanPayload(
+export function instanceOfMwServerInternalSchemasUpdatePlanPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -50,14 +50,14 @@ export function instanceOfMwserverInternalSchemasUpdatePlanPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUpdatePlanPayloadFromJSON(json: any): MwserverInternalSchemasUpdatePlanPayload {
-    return MwserverInternalSchemasUpdatePlanPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasUpdatePlanPayloadFromJSON(json: any): MwServerInternalSchemasUpdatePlanPayload {
+    return MwServerInternalSchemasUpdatePlanPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUpdatePlanPayloadFromJSONTyped(
+export function MwServerInternalSchemasUpdatePlanPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUpdatePlanPayload {
+): MwServerInternalSchemasUpdatePlanPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,7 +70,7 @@ export function MwserverInternalSchemasUpdatePlanPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUpdatePlanPayloadToJSON(value?: MwserverInternalSchemasUpdatePlanPayload | null): any {
+export function MwServerInternalSchemasUpdatePlanPayloadToJSON(value?: MwServerInternalSchemasUpdatePlanPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

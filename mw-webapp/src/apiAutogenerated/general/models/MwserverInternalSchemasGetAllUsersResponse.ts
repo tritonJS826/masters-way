@@ -13,37 +13,37 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwserverInternalSchemasUserPlainResponseWithInfo } from './MwserverInternalSchemasUserPlainResponseWithInfo';
+import type { MwServerInternalSchemasUserPlainResponseWithInfo } from './MwServerInternalSchemasUserPlainResponseWithInfo';
 import {
-    MwserverInternalSchemasUserPlainResponseWithInfoFromJSON,
-    MwserverInternalSchemasUserPlainResponseWithInfoFromJSONTyped,
-    MwserverInternalSchemasUserPlainResponseWithInfoToJSON,
-} from './MwserverInternalSchemasUserPlainResponseWithInfo';
+    MwServerInternalSchemasUserPlainResponseWithInfoFromJSON,
+    MwServerInternalSchemasUserPlainResponseWithInfoFromJSONTyped,
+    MwServerInternalSchemasUserPlainResponseWithInfoToJSON,
+} from './MwServerInternalSchemasUserPlainResponseWithInfo';
 
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGetAllUsersResponse
+ * @interface MwServerInternalSchemasGetAllUsersResponse
  */
-export interface MwserverInternalSchemasGetAllUsersResponse {
+export interface MwServerInternalSchemasGetAllUsersResponse {
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasGetAllUsersResponse
+     * @memberof MwServerInternalSchemasGetAllUsersResponse
      */
     size: number;
     /**
      * 
-     * @type {Array<MwserverInternalSchemasUserPlainResponseWithInfo>}
-     * @memberof MwserverInternalSchemasGetAllUsersResponse
+     * @type {Array<MwServerInternalSchemasUserPlainResponseWithInfo>}
+     * @memberof MwServerInternalSchemasGetAllUsersResponse
      */
-    users: Array<MwserverInternalSchemasUserPlainResponseWithInfo>;
+    users: Array<MwServerInternalSchemasUserPlainResponseWithInfo>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGetAllUsersResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasGetAllUsersResponse interface.
  */
-export function instanceOfMwserverInternalSchemasGetAllUsersResponse(
+export function instanceOfMwServerInternalSchemasGetAllUsersResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -53,26 +53,26 @@ export function instanceOfMwserverInternalSchemasGetAllUsersResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasGetAllUsersResponseFromJSON(json: any): MwserverInternalSchemasGetAllUsersResponse {
-    return MwserverInternalSchemasGetAllUsersResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasGetAllUsersResponseFromJSON(json: any): MwServerInternalSchemasGetAllUsersResponse {
+    return MwServerInternalSchemasGetAllUsersResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGetAllUsersResponseFromJSONTyped(
+export function MwServerInternalSchemasGetAllUsersResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGetAllUsersResponse {
+): MwServerInternalSchemasGetAllUsersResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'size': json['size'],
-        'users': ((json['users'] as Array<any>).map(MwserverInternalSchemasUserPlainResponseWithInfoFromJSON)),
+        'users': ((json['users'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseWithInfoFromJSON)),
     };
 }
 
 
-export function MwserverInternalSchemasGetAllUsersResponseToJSON(value?: MwserverInternalSchemasGetAllUsersResponse | null): any {
+export function MwServerInternalSchemasGetAllUsersResponseToJSON(value?: MwServerInternalSchemasGetAllUsersResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -82,7 +82,7 @@ export function MwserverInternalSchemasGetAllUsersResponseToJSON(value?: Mwserve
     return {
         
         'size': value.size,
-        'users': ((value.users as Array<any>).map(MwserverInternalSchemasUserPlainResponseWithInfoToJSON)),
+        'users': ((value.users as Array<any>).map(MwServerInternalSchemasUserPlainResponseWithInfoToJSON)),
     };
 }
 

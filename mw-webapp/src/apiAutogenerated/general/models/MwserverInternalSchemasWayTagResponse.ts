@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasWayTagResponse
+ * @interface MwServerInternalSchemasWayTagResponse
  */
-export interface MwserverInternalSchemasWayTagResponse {
+export interface MwServerInternalSchemasWayTagResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayTagResponse
+     * @memberof MwServerInternalSchemasWayTagResponse
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasWayTagResponse
+     * @memberof MwServerInternalSchemasWayTagResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasWayTagResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasWayTagResponse interface.
  */
-export function instanceOfMwserverInternalSchemasWayTagResponse(
+export function instanceOfMwServerInternalSchemasWayTagResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasWayTagResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasWayTagResponseFromJSON(json: any): MwserverInternalSchemasWayTagResponse {
-    return MwserverInternalSchemasWayTagResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasWayTagResponseFromJSON(json: any): MwServerInternalSchemasWayTagResponse {
+    return MwServerInternalSchemasWayTagResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasWayTagResponseFromJSONTyped(
+export function MwServerInternalSchemasWayTagResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasWayTagResponse {
+): MwServerInternalSchemasWayTagResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasWayTagResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasWayTagResponseToJSON(value?: MwserverInternalSchemasWayTagResponse | null): any {
+export function MwServerInternalSchemasWayTagResponseToJSON(value?: MwServerInternalSchemasWayTagResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

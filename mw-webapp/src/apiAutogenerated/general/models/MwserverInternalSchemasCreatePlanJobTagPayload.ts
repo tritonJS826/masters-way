@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreatePlanJobTagPayload
+ * @interface MwServerInternalSchemasCreatePlanJobTagPayload
  */
-export interface MwserverInternalSchemasCreatePlanJobTagPayload {
+export interface MwServerInternalSchemasCreatePlanJobTagPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreatePlanJobTagPayload
+     * @memberof MwServerInternalSchemasCreatePlanJobTagPayload
      */
     jobTagUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreatePlanJobTagPayload
+     * @memberof MwServerInternalSchemasCreatePlanJobTagPayload
      */
     planUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreatePlanJobTagPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreatePlanJobTagPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreatePlanJobTagPayload(
+export function instanceOfMwServerInternalSchemasCreatePlanJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreatePlanJobTagPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreatePlanJobTagPayloadFromJSON(json: any): MwserverInternalSchemasCreatePlanJobTagPayload {
-    return MwserverInternalSchemasCreatePlanJobTagPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreatePlanJobTagPayloadFromJSON(json: any): MwServerInternalSchemasCreatePlanJobTagPayload {
+    return MwServerInternalSchemasCreatePlanJobTagPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreatePlanJobTagPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreatePlanJobTagPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreatePlanJobTagPayload {
+): MwServerInternalSchemasCreatePlanJobTagPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreatePlanJobTagPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreatePlanJobTagPayloadToJSON(value?: MwserverInternalSchemasCreatePlanJobTagPayload | null): any {
+export function MwServerInternalSchemasCreatePlanJobTagPayloadToJSON(value?: MwServerInternalSchemasCreatePlanJobTagPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

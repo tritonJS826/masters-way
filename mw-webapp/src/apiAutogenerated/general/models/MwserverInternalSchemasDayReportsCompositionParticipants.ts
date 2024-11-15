@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasDayReportsCompositionParticipants
+ * @interface MwServerInternalSchemasDayReportsCompositionParticipants
  */
-export interface MwserverInternalSchemasDayReportsCompositionParticipants {
+export interface MwServerInternalSchemasDayReportsCompositionParticipants {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasDayReportsCompositionParticipants
+     * @memberof MwServerInternalSchemasDayReportsCompositionParticipants
      */
     dayReportId: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasDayReportsCompositionParticipants
+     * @memberof MwServerInternalSchemasDayReportsCompositionParticipants
      */
     wayId: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasDayReportsCompositionParticipants
+     * @memberof MwServerInternalSchemasDayReportsCompositionParticipants
      */
     wayName: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasDayReportsCompositionParticipants interface.
+ * Check if a given object implements the MwServerInternalSchemasDayReportsCompositionParticipants interface.
  */
-export function instanceOfMwserverInternalSchemasDayReportsCompositionParticipants(
+export function instanceOfMwServerInternalSchemasDayReportsCompositionParticipants(
     value: object
 ): boolean {
     let isInstance = true;
@@ -53,14 +53,14 @@ export function instanceOfMwserverInternalSchemasDayReportsCompositionParticipan
     return isInstance;
 }
 
-export function MwserverInternalSchemasDayReportsCompositionParticipantsFromJSON(json: any): MwserverInternalSchemasDayReportsCompositionParticipants {
-    return MwserverInternalSchemasDayReportsCompositionParticipantsFromJSONTyped(json, false);
+export function MwServerInternalSchemasDayReportsCompositionParticipantsFromJSON(json: any): MwServerInternalSchemasDayReportsCompositionParticipants {
+    return MwServerInternalSchemasDayReportsCompositionParticipantsFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasDayReportsCompositionParticipantsFromJSONTyped(
+export function MwServerInternalSchemasDayReportsCompositionParticipantsFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasDayReportsCompositionParticipants {
+): MwServerInternalSchemasDayReportsCompositionParticipants {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,7 +73,7 @@ export function MwserverInternalSchemasDayReportsCompositionParticipantsFromJSON
 }
 
 
-export function MwserverInternalSchemasDayReportsCompositionParticipantsToJSON(value?: MwserverInternalSchemasDayReportsCompositionParticipants | null): any {
+export function MwServerInternalSchemasDayReportsCompositionParticipantsToJSON(value?: MwServerInternalSchemasDayReportsCompositionParticipants | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateJobDoneJobTagPayload
+ * @interface MwServerInternalSchemasCreateJobDoneJobTagPayload
  */
-export interface MwserverInternalSchemasCreateJobDoneJobTagPayload {
+export interface MwServerInternalSchemasCreateJobDoneJobTagPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobDoneJobTagPayload
+     * @memberof MwServerInternalSchemasCreateJobDoneJobTagPayload
      */
     jobDoneUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateJobDoneJobTagPayload
+     * @memberof MwServerInternalSchemasCreateJobDoneJobTagPayload
      */
     jobTagUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateJobDoneJobTagPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateJobDoneJobTagPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateJobDoneJobTagPayload(
+export function instanceOfMwServerInternalSchemasCreateJobDoneJobTagPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateJobDoneJobTagPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateJobDoneJobTagPayloadFromJSON(json: any): MwserverInternalSchemasCreateJobDoneJobTagPayload {
-    return MwserverInternalSchemasCreateJobDoneJobTagPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateJobDoneJobTagPayloadFromJSON(json: any): MwServerInternalSchemasCreateJobDoneJobTagPayload {
+    return MwServerInternalSchemasCreateJobDoneJobTagPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateJobDoneJobTagPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateJobDoneJobTagPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateJobDoneJobTagPayload {
+): MwServerInternalSchemasCreateJobDoneJobTagPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateJobDoneJobTagPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasCreateJobDoneJobTagPayloadToJSON(value?: MwserverInternalSchemasCreateJobDoneJobTagPayload | null): any {
+export function MwServerInternalSchemasCreateJobDoneJobTagPayloadToJSON(value?: MwServerInternalSchemasCreateJobDoneJobTagPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

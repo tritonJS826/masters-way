@@ -16,33 +16,33 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGenerateMetricsPayload
+ * @interface MwServerInternalSchemasGenerateMetricsPayload
  */
-export interface MwserverInternalSchemasGenerateMetricsPayload {
+export interface MwServerInternalSchemasGenerateMetricsPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGenerateMetricsPayload
+     * @memberof MwServerInternalSchemasGenerateMetricsPayload
      */
     goalDescription: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof MwserverInternalSchemasGenerateMetricsPayload
+     * @memberof MwServerInternalSchemasGenerateMetricsPayload
      */
     metrics: Array<string>;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGenerateMetricsPayload
+     * @memberof MwServerInternalSchemasGenerateMetricsPayload
      */
     wayName: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGenerateMetricsPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasGenerateMetricsPayload interface.
  */
-export function instanceOfMwserverInternalSchemasGenerateMetricsPayload(
+export function instanceOfMwServerInternalSchemasGenerateMetricsPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -53,14 +53,14 @@ export function instanceOfMwserverInternalSchemasGenerateMetricsPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasGenerateMetricsPayloadFromJSON(json: any): MwserverInternalSchemasGenerateMetricsPayload {
-    return MwserverInternalSchemasGenerateMetricsPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasGenerateMetricsPayloadFromJSON(json: any): MwServerInternalSchemasGenerateMetricsPayload {
+    return MwServerInternalSchemasGenerateMetricsPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGenerateMetricsPayloadFromJSONTyped(
+export function MwServerInternalSchemasGenerateMetricsPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGenerateMetricsPayload {
+): MwServerInternalSchemasGenerateMetricsPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,7 +73,7 @@ export function MwserverInternalSchemasGenerateMetricsPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasGenerateMetricsPayloadToJSON(value?: MwserverInternalSchemasGenerateMetricsPayload | null): any {
+export function MwServerInternalSchemasGenerateMetricsPayloadToJSON(value?: MwServerInternalSchemasGenerateMetricsPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

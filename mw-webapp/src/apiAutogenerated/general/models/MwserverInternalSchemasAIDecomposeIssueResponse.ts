@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasAIDecomposeIssueResponse
+ * @interface MwServerInternalSchemasAIDecomposeIssueResponse
  */
-export interface MwserverInternalSchemasAIDecomposeIssueResponse {
+export interface MwServerInternalSchemasAIDecomposeIssueResponse {
     /**
      * 
      * @type {Array<string>}
-     * @memberof MwserverInternalSchemasAIDecomposeIssueResponse
+     * @memberof MwServerInternalSchemasAIDecomposeIssueResponse
      */
     plans: Array<string>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasAIDecomposeIssueResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasAIDecomposeIssueResponse interface.
  */
-export function instanceOfMwserverInternalSchemasAIDecomposeIssueResponse(
+export function instanceOfMwServerInternalSchemasAIDecomposeIssueResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasAIDecomposeIssueResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasAIDecomposeIssueResponseFromJSON(json: any): MwserverInternalSchemasAIDecomposeIssueResponse {
-    return MwserverInternalSchemasAIDecomposeIssueResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasAIDecomposeIssueResponseFromJSON(json: any): MwServerInternalSchemasAIDecomposeIssueResponse {
+    return MwServerInternalSchemasAIDecomposeIssueResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasAIDecomposeIssueResponseFromJSONTyped(
+export function MwServerInternalSchemasAIDecomposeIssueResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasAIDecomposeIssueResponse {
+): MwServerInternalSchemasAIDecomposeIssueResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasAIDecomposeIssueResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasAIDecomposeIssueResponseToJSON(value?: MwserverInternalSchemasAIDecomposeIssueResponse | null): any {
+export function MwServerInternalSchemasAIDecomposeIssueResponseToJSON(value?: MwServerInternalSchemasAIDecomposeIssueResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

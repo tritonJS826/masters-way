@@ -16,45 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasUpdateWayPayload
+ * @interface MwServerInternalSchemasUpdateWayPayload
  */
-export interface MwserverInternalSchemasUpdateWayPayload {
+export interface MwServerInternalSchemasUpdateWayPayload {
     /**
      * 
      * @type {number}
-     * @memberof MwserverInternalSchemasUpdateWayPayload
+     * @memberof MwServerInternalSchemasUpdateWayPayload
      */
     estimationTime?: number;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateWayPayload
+     * @memberof MwServerInternalSchemasUpdateWayPayload
      */
     goalDescription?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUpdateWayPayload
+     * @memberof MwServerInternalSchemasUpdateWayPayload
      */
     isCompleted?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof MwserverInternalSchemasUpdateWayPayload
+     * @memberof MwServerInternalSchemasUpdateWayPayload
      */
     isPrivate?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasUpdateWayPayload
+     * @memberof MwServerInternalSchemasUpdateWayPayload
      */
     name?: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasUpdateWayPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasUpdateWayPayload interface.
  */
-export function instanceOfMwserverInternalSchemasUpdateWayPayload(
+export function instanceOfMwServerInternalSchemasUpdateWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -62,14 +62,14 @@ export function instanceOfMwserverInternalSchemasUpdateWayPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasUpdateWayPayloadFromJSON(json: any): MwserverInternalSchemasUpdateWayPayload {
-    return MwserverInternalSchemasUpdateWayPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasUpdateWayPayloadFromJSON(json: any): MwServerInternalSchemasUpdateWayPayload {
+    return MwServerInternalSchemasUpdateWayPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasUpdateWayPayloadFromJSONTyped(
+export function MwServerInternalSchemasUpdateWayPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasUpdateWayPayload {
+): MwServerInternalSchemasUpdateWayPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -84,7 +84,7 @@ export function MwserverInternalSchemasUpdateWayPayloadFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasUpdateWayPayloadToJSON(value?: MwserverInternalSchemasUpdateWayPayload | null): any {
+export function MwServerInternalSchemasUpdateWayPayloadToJSON(value?: MwServerInternalSchemasUpdateWayPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

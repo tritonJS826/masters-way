@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalSchemasCreateFromUserMentoringRequestPayload,
-  MwserverInternalSchemasFromUserMentoringRequestResponse,
+  MwServerInternalSchemasCreateFromUserMentoringRequestPayload,
+  MwServerInternalSchemasFromUserMentoringRequestResponse,
 } from '../models/index';
 import {
-    MwserverInternalSchemasCreateFromUserMentoringRequestPayloadFromJSON,
-    MwserverInternalSchemasCreateFromUserMentoringRequestPayloadToJSON,
-    MwserverInternalSchemasFromUserMentoringRequestResponseFromJSON,
-    MwserverInternalSchemasFromUserMentoringRequestResponseToJSON,
+    MwServerInternalSchemasCreateFromUserMentoringRequestPayloadFromJSON,
+    MwServerInternalSchemasCreateFromUserMentoringRequestPayloadToJSON,
+    MwServerInternalSchemasFromUserMentoringRequestResponseFromJSON,
+    MwServerInternalSchemasFromUserMentoringRequestResponseToJSON,
 } from '../models/index';
 
 export interface CreateFromUserMentoringRequestRequest {
-    request: MwserverInternalSchemasCreateFromUserMentoringRequestPayload;
+    request: MwServerInternalSchemasCreateFromUserMentoringRequestPayload;
 }
 
 export interface DeleteFromUserMentoringRequestRequest {
@@ -42,7 +42,7 @@ export class FromUserMentoringRequestApi extends runtime.BaseAPI {
     /**
      * Create a new fromUserMentoringRequest
      */
-    async createFromUserMentoringRequestRaw(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasFromUserMentoringRequestResponse>> {
+    async createFromUserMentoringRequestRaw(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasFromUserMentoringRequestResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createFromUserMentoringRequest.');
         }
@@ -58,16 +58,16 @@ export class FromUserMentoringRequestApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasCreateFromUserMentoringRequestPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateFromUserMentoringRequestPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasFromUserMentoringRequestResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasFromUserMentoringRequestResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new fromUserMentoringRequest
      */
-    async createFromUserMentoringRequest(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasFromUserMentoringRequestResponse> {
+    async createFromUserMentoringRequest(requestParameters: CreateFromUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasFromUserMentoringRequestResponse> {
         const response = await this.createFromUserMentoringRequestRaw(requestParameters, initOverrides);
         return await response.value();
     }

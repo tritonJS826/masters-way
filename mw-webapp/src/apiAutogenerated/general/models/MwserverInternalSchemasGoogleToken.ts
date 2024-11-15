@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGoogleToken
+ * @interface MwServerInternalSchemasGoogleToken
  */
-export interface MwserverInternalSchemasGoogleToken {
+export interface MwServerInternalSchemasGoogleToken {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasGoogleToken
+     * @memberof MwServerInternalSchemasGoogleToken
      */
     accessToken: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGoogleToken interface.
+ * Check if a given object implements the MwServerInternalSchemasGoogleToken interface.
  */
-export function instanceOfMwserverInternalSchemasGoogleToken(
+export function instanceOfMwServerInternalSchemasGoogleToken(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasGoogleToken(
     return isInstance;
 }
 
-export function MwserverInternalSchemasGoogleTokenFromJSON(json: any): MwserverInternalSchemasGoogleToken {
-    return MwserverInternalSchemasGoogleTokenFromJSONTyped(json, false);
+export function MwServerInternalSchemasGoogleTokenFromJSON(json: any): MwServerInternalSchemasGoogleToken {
+    return MwServerInternalSchemasGoogleTokenFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGoogleTokenFromJSONTyped(
+export function MwServerInternalSchemasGoogleTokenFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGoogleToken {
+): MwServerInternalSchemasGoogleToken {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasGoogleTokenFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasGoogleTokenToJSON(value?: MwserverInternalSchemasGoogleToken | null): any {
+export function MwServerInternalSchemasGoogleTokenToJSON(value?: MwServerInternalSchemasGoogleToken | null): any {
     if (value === undefined) {
         return undefined;
     }

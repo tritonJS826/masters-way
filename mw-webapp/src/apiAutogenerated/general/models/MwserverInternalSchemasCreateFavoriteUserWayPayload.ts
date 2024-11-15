@@ -16,27 +16,27 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasCreateFavoriteUserWayPayload
+ * @interface MwServerInternalSchemasCreateFavoriteUserWayPayload
  */
-export interface MwserverInternalSchemasCreateFavoriteUserWayPayload {
+export interface MwServerInternalSchemasCreateFavoriteUserWayPayload {
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateFavoriteUserWayPayload
+     * @memberof MwServerInternalSchemasCreateFavoriteUserWayPayload
      */
     userUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwserverInternalSchemasCreateFavoriteUserWayPayload
+     * @memberof MwServerInternalSchemasCreateFavoriteUserWayPayload
      */
     wayUuid: string;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasCreateFavoriteUserWayPayload interface.
+ * Check if a given object implements the MwServerInternalSchemasCreateFavoriteUserWayPayload interface.
  */
-export function instanceOfMwserverInternalSchemasCreateFavoriteUserWayPayload(
+export function instanceOfMwServerInternalSchemasCreateFavoriteUserWayPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -46,14 +46,14 @@ export function instanceOfMwserverInternalSchemasCreateFavoriteUserWayPayload(
     return isInstance;
 }
 
-export function MwserverInternalSchemasCreateFavoriteUserWayPayloadFromJSON(json: any): MwserverInternalSchemasCreateFavoriteUserWayPayload {
-    return MwserverInternalSchemasCreateFavoriteUserWayPayloadFromJSONTyped(json, false);
+export function MwServerInternalSchemasCreateFavoriteUserWayPayloadFromJSON(json: any): MwServerInternalSchemasCreateFavoriteUserWayPayload {
+    return MwServerInternalSchemasCreateFavoriteUserWayPayloadFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasCreateFavoriteUserWayPayloadFromJSONTyped(
+export function MwServerInternalSchemasCreateFavoriteUserWayPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasCreateFavoriteUserWayPayload {
+): MwServerInternalSchemasCreateFavoriteUserWayPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,7 +65,7 @@ export function MwserverInternalSchemasCreateFavoriteUserWayPayloadFromJSONTyped
 }
 
 
-export function MwserverInternalSchemasCreateFavoriteUserWayPayloadToJSON(value?: MwserverInternalSchemasCreateFavoriteUserWayPayload | null): any {
+export function MwServerInternalSchemasCreateFavoriteUserWayPayloadToJSON(value?: MwServerInternalSchemasCreateFavoriteUserWayPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

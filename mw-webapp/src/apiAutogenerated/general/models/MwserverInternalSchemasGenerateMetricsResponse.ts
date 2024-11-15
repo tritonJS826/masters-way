@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwserverInternalSchemasGenerateMetricsResponse
+ * @interface MwServerInternalSchemasGenerateMetricsResponse
  */
-export interface MwserverInternalSchemasGenerateMetricsResponse {
+export interface MwServerInternalSchemasGenerateMetricsResponse {
     /**
      * 
      * @type {Array<string>}
-     * @memberof MwserverInternalSchemasGenerateMetricsResponse
+     * @memberof MwServerInternalSchemasGenerateMetricsResponse
      */
     metrics: Array<string>;
 }
 
 /**
- * Check if a given object implements the MwserverInternalSchemasGenerateMetricsResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasGenerateMetricsResponse interface.
  */
-export function instanceOfMwserverInternalSchemasGenerateMetricsResponse(
+export function instanceOfMwServerInternalSchemasGenerateMetricsResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwserverInternalSchemasGenerateMetricsResponse(
     return isInstance;
 }
 
-export function MwserverInternalSchemasGenerateMetricsResponseFromJSON(json: any): MwserverInternalSchemasGenerateMetricsResponse {
-    return MwserverInternalSchemasGenerateMetricsResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasGenerateMetricsResponseFromJSON(json: any): MwServerInternalSchemasGenerateMetricsResponse {
+    return MwServerInternalSchemasGenerateMetricsResponseFromJSONTyped(json, false);
 }
 
-export function MwserverInternalSchemasGenerateMetricsResponseFromJSONTyped(
+export function MwServerInternalSchemasGenerateMetricsResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwserverInternalSchemasGenerateMetricsResponse {
+): MwServerInternalSchemasGenerateMetricsResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwserverInternalSchemasGenerateMetricsResponseFromJSONTyped(
 }
 
 
-export function MwserverInternalSchemasGenerateMetricsResponseToJSON(value?: MwserverInternalSchemasGenerateMetricsResponse | null): any {
+export function MwServerInternalSchemasGenerateMetricsResponseToJSON(value?: MwServerInternalSchemasGenerateMetricsResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
