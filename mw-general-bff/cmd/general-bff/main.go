@@ -37,7 +37,7 @@ func main() {
 	defer conn.Close()
 
 	newService := services.NewService(&newConfig, conn)
-	newFacade := facades.NewFacade(newService)
+	newFacade := facades.NewFacade(newService, &newConfig)
 	newController := controllers.NewController(newFacade)
 
 	newRouter := routers.NewRouter(&newConfig, newController)
