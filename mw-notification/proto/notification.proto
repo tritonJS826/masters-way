@@ -31,11 +31,20 @@ message GetNotificationListResponse {
     repeated NotificationResponse notifications = 2;
 }
 
+enum Nature {
+    private_chat = 0;
+    group_chat = 1;
+    own_way = 2;
+    mentoring_way = 3;
+    mentoring_request = 4;
+    favorite_way = 5;
+}
+
 message CreateNotificationRequest {
     string user_uuid = 1;
     string description = 2;
     string url = 3;
-    string nature = 4;
+    Nature nature = 4;
 }
 
 message UpdateNotificationRequest {
@@ -49,7 +58,7 @@ message NotificationResponse {
     bool is_read = 3;
     string description = 4;
     string url = 5;
-    string nature = 6;
+    Nature nature = 6;
     string created_at = 7;
 }
 
@@ -69,7 +78,7 @@ message UpdateEnabledNotificationRequest {
 message EnabledNotificationResponse {
     string uuid = 1;
     string user_uuid = 2;
-    string nature = 3;
+    Nature nature = 3;
     string channel = 4;
     bool is_enabled = 5;
 }
