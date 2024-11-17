@@ -1,67 +1,67 @@
-# MwchatInternalSchemasCreateMessageResponse
+# MwChatInternalSchemasCreateMessageResponse
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Message** | [**MwchatInternalSchemasMessageResponse**](MwchatInternalSchemasMessageResponse.md) |  | 
+**Message** | [**MwChatInternalSchemasMessageResponse**](MwChatInternalSchemasMessageResponse.md) |  | 
 **Users** | **[]string** |  | 
 
 ## Methods
 
-### NewMwchatInternalSchemasCreateMessageResponse
+### NewMwChatInternalSchemasCreateMessageResponse
 
-`func NewMwchatInternalSchemasCreateMessageResponse(message MwchatInternalSchemasMessageResponse, users []string, ) *MwchatInternalSchemasCreateMessageResponse`
+`func NewMwChatInternalSchemasCreateMessageResponse(message MwChatInternalSchemasMessageResponse, users []string, ) *MwChatInternalSchemasCreateMessageResponse`
 
-NewMwchatInternalSchemasCreateMessageResponse instantiates a new MwchatInternalSchemasCreateMessageResponse object
+NewMwChatInternalSchemasCreateMessageResponse instantiates a new MwChatInternalSchemasCreateMessageResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwchatInternalSchemasCreateMessageResponseWithDefaults
+### NewMwChatInternalSchemasCreateMessageResponseWithDefaults
 
-`func NewMwchatInternalSchemasCreateMessageResponseWithDefaults() *MwchatInternalSchemasCreateMessageResponse`
+`func NewMwChatInternalSchemasCreateMessageResponseWithDefaults() *MwChatInternalSchemasCreateMessageResponse`
 
-NewMwchatInternalSchemasCreateMessageResponseWithDefaults instantiates a new MwchatInternalSchemasCreateMessageResponse object
+NewMwChatInternalSchemasCreateMessageResponseWithDefaults instantiates a new MwChatInternalSchemasCreateMessageResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMessage
 
-`func (o *MwchatInternalSchemasCreateMessageResponse) GetMessage() MwchatInternalSchemasMessageResponse`
+`func (o *MwChatInternalSchemasCreateMessageResponse) GetMessage() MwChatInternalSchemasMessageResponse`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *MwchatInternalSchemasCreateMessageResponse) GetMessageOk() (*MwchatInternalSchemasMessageResponse, bool)`
+`func (o *MwChatInternalSchemasCreateMessageResponse) GetMessageOk() (*MwChatInternalSchemasMessageResponse, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *MwchatInternalSchemasCreateMessageResponse) SetMessage(v MwchatInternalSchemasMessageResponse)`
+`func (o *MwChatInternalSchemasCreateMessageResponse) SetMessage(v MwChatInternalSchemasMessageResponse)`
 
 SetMessage sets Message field to given value.
 
 
 ### GetUsers
 
-`func (o *MwchatInternalSchemasCreateMessageResponse) GetUsers() []string`
+`func (o *MwChatInternalSchemasCreateMessageResponse) GetUsers() []string`
 
 GetUsers returns the Users field if non-nil, zero value otherwise.
 
 ### GetUsersOk
 
-`func (o *MwchatInternalSchemasCreateMessageResponse) GetUsersOk() (*[]string, bool)`
+`func (o *MwChatInternalSchemasCreateMessageResponse) GetUsersOk() (*[]string, bool)`
 
 GetUsersOk returns a tuple with the Users field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsers
 
-`func (o *MwchatInternalSchemasCreateMessageResponse) SetUsers(v []string)`
+`func (o *MwChatInternalSchemasCreateMessageResponse) SetUsers(v []string)`
 
 SetUsers sets Users field to given value.
 

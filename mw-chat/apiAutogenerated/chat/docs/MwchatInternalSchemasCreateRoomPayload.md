@@ -1,4 +1,4 @@
-# MwchatInternalSchemasCreateRoomPayload
+# MwChatInternalSchemasCreateRoomPayload
 
 ## Properties
 
@@ -10,111 +10,111 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwchatInternalSchemasCreateRoomPayload
+### NewMwChatInternalSchemasCreateRoomPayload
 
-`func NewMwchatInternalSchemasCreateRoomPayload(roomType string, ) *MwchatInternalSchemasCreateRoomPayload`
+`func NewMwChatInternalSchemasCreateRoomPayload(roomType string, ) *MwChatInternalSchemasCreateRoomPayload`
 
-NewMwchatInternalSchemasCreateRoomPayload instantiates a new MwchatInternalSchemasCreateRoomPayload object
+NewMwChatInternalSchemasCreateRoomPayload instantiates a new MwChatInternalSchemasCreateRoomPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwchatInternalSchemasCreateRoomPayloadWithDefaults
+### NewMwChatInternalSchemasCreateRoomPayloadWithDefaults
 
-`func NewMwchatInternalSchemasCreateRoomPayloadWithDefaults() *MwchatInternalSchemasCreateRoomPayload`
+`func NewMwChatInternalSchemasCreateRoomPayloadWithDefaults() *MwChatInternalSchemasCreateRoomPayload`
 
-NewMwchatInternalSchemasCreateRoomPayloadWithDefaults instantiates a new MwchatInternalSchemasCreateRoomPayload object
+NewMwChatInternalSchemasCreateRoomPayloadWithDefaults instantiates a new MwChatInternalSchemasCreateRoomPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) GetName() string`
+`func (o *MwChatInternalSchemasCreateRoomPayload) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) GetNameOk() (*string, bool)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) SetName(v string)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) SetName(v string)`
 
 SetName sets Name field to given value.
 
 ### HasName
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) HasName() bool`
+`func (o *MwChatInternalSchemasCreateRoomPayload) HasName() bool`
 
 HasName returns a boolean if a field has been set.
 
 ### SetNameNil
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) SetNameNil(b bool)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) SetNameNil(b bool)`
 
  SetNameNil sets the value for Name to be an explicit nil
 
 ### UnsetName
-`func (o *MwchatInternalSchemasCreateRoomPayload) UnsetName()`
+`func (o *MwChatInternalSchemasCreateRoomPayload) UnsetName()`
 
 UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetRoomType
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) GetRoomType() string`
+`func (o *MwChatInternalSchemasCreateRoomPayload) GetRoomType() string`
 
 GetRoomType returns the RoomType field if non-nil, zero value otherwise.
 
 ### GetRoomTypeOk
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) GetRoomTypeOk() (*string, bool)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) GetRoomTypeOk() (*string, bool)`
 
 GetRoomTypeOk returns a tuple with the RoomType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRoomType
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) SetRoomType(v string)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) SetRoomType(v string)`
 
 SetRoomType sets RoomType field to given value.
 
 
 ### GetUserId
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) GetUserId() string`
+`func (o *MwChatInternalSchemasCreateRoomPayload) GetUserId() string`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) GetUserIdOk() (*string, bool)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) GetUserIdOk() (*string, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) SetUserId(v string)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) SetUserId(v string)`
 
 SetUserId sets UserId field to given value.
 
 ### HasUserId
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) HasUserId() bool`
+`func (o *MwChatInternalSchemasCreateRoomPayload) HasUserId() bool`
 
 HasUserId returns a boolean if a field has been set.
 
 ### SetUserIdNil
 
-`func (o *MwchatInternalSchemasCreateRoomPayload) SetUserIdNil(b bool)`
+`func (o *MwChatInternalSchemasCreateRoomPayload) SetUserIdNil(b bool)`
 
  SetUserIdNil sets the value for UserId to be an explicit nil
 
 ### UnsetUserId
-`func (o *MwchatInternalSchemasCreateRoomPayload) UnsetUserId()`
+`func (o *MwChatInternalSchemasCreateRoomPayload) UnsetUserId()`
 
 UnsetUserId ensures that no value is present for UserId, not even an explicit nil
 

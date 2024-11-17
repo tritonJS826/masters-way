@@ -9,6 +9,7 @@ import (
 	"mw-chat-websocket/internal/services"
 	"mw-chat-websocket/pkg/utils"
 	"net/http"
+	"sync"
 	"time"
 
 	lop "github.com/samber/lo/parallel"
@@ -36,7 +37,10 @@ type CurrentSocketConnection struct {
 // key: userID
 // val: session and user details
 // var users = make(map[string]*User)
-var sessionPool = make(map[string]*CurrentSocketConnection)
+var (
+	sessionPool = make(map[string]*CurrentSocketConnection)
+	mu          sync.RWMutex
+)
 
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
@@ -67,32 +71,50 @@ func (cc *SocketController) ConnectSocket(ctx *gin.Context) {
 	connectionID := time.Now().Format(time.RFC3339Nano)
 	fmt.Println(connectionID)
 
-	if sessionPool[userID] == nil {
-		sessionPool[userID] = &CurrentSocketConnection{
-			Connections: map[string]*websocket.Conn{},
-		}
+	mu.Lock()
+	session, exists := sessionPool[userID]
+	if !exists {
+		session = &CurrentSocketConnection{Connections: map[string]*websocket.Conn{}}
+		sessionPool[userID] = session
 	}
-	sessionPool[userID].Connections[connectionID] = conn
+	session.Connections[connectionID] = conn
+	mu.Unlock()
 
 	totalConnections := 0
+	totalUsers := 0
+	mu.RLock()
 	for _, session := range sessionPool {
 		totalConnections += len(session.Connections)
+		totalUsers++
 	}
+	mu.RUnlock()
 
-	fmt.Println("Current amount of users: ", len(sessionPool))
+	fmt.Println("Current amount of users: ", totalUsers)
 	fmt.Println("Total Connections: ", totalConnections)
 
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {
-
-			delete(sessionPool[userID].Connections, connectionID)
+			mu.Lock()
+			if session, exists := sessionPool[userID]; exists {
+				delete(session.Connections, connectionID)
+				if len(session.Connections) == 0 {
+					delete(sessionPool, userID)
+				}
+			}
+			mu.Unlock()
 
 			totalConnections := 0
+			totalUsers := 0
+
+			mu.RLock()
 			for _, session := range sessionPool {
 				totalConnections += len(session.Connections)
+				totalUsers++
 			}
-			fmt.Println("Current amount of users: ", len(sessionPool))
+			mu.RUnlock()
+
+			fmt.Println("Current amount of users: ", totalUsers)
 			fmt.Println("Total Connections: ", totalConnections)
 			return
 		}
@@ -119,7 +141,9 @@ func (cc *SocketController) SendMessageReceivedEvent(ctx *gin.Context) {
 	}
 
 	lop.ForEach(payload.Users, func(userID string, _ int) {
+		mu.RLock()
 		session, exists := sessionPool[userID]
+		mu.RUnlock()
 		if exists {
 			for _, connection := range session.Connections {
 				newMessage := eventfactory.MakeMessageReceivedEvent(payload.Message)
@@ -150,7 +174,9 @@ func (cc *SocketController) SendRoomCreatedEvent(ctx *gin.Context) {
 	}
 
 	lop.ForEach(payload.Users, func(user schemas.UserResponse, _ int) {
+		mu.RLock()
 		session, exists := sessionPool[user.UserID]
+		mu.RUnlock()
 		if exists {
 			if payload.RoomType == RoomTypePrivate {
 				name, err := getPrivateRoomName(user.UserID, payload.Users)

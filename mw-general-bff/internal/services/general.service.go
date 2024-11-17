@@ -1008,7 +1008,7 @@ type UpdateWayParams struct {
 	Name            string
 	GoalDescription string
 	EstimationTime  int32
-	IsPrivate       bool
+	IsPrivate       *bool
 	IsCompleted     bool
 }
 
@@ -1017,7 +1017,7 @@ func (gs *GeneralService) UpdateWay(ctx context.Context, params *UpdateWayParams
 		EstimationTime:  &params.EstimationTime,
 		GoalDescription: &params.GoalDescription,
 		IsCompleted:     &params.IsCompleted,
-		IsPrivate:       &params.IsPrivate,
+		IsPrivate:       params.IsPrivate,
 		Name:            &params.Name,
 	}).Execute()
 	if err != nil {

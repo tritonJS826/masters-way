@@ -1,4 +1,4 @@
-# MwchatInternalSchemasUpdateMessageStatusPayload
+# MwChatInternalSchemasUpdateMessageStatusPayload
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwchatInternalSchemasUpdateMessageStatusPayload
+### NewMwChatInternalSchemasUpdateMessageStatusPayload
 
-`func NewMwchatInternalSchemasUpdateMessageStatusPayload(isRead bool, ) *MwchatInternalSchemasUpdateMessageStatusPayload`
+`func NewMwChatInternalSchemasUpdateMessageStatusPayload(isRead bool, ) *MwChatInternalSchemasUpdateMessageStatusPayload`
 
-NewMwchatInternalSchemasUpdateMessageStatusPayload instantiates a new MwchatInternalSchemasUpdateMessageStatusPayload object
+NewMwChatInternalSchemasUpdateMessageStatusPayload instantiates a new MwChatInternalSchemasUpdateMessageStatusPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwchatInternalSchemasUpdateMessageStatusPayloadWithDefaults
+### NewMwChatInternalSchemasUpdateMessageStatusPayloadWithDefaults
 
-`func NewMwchatInternalSchemasUpdateMessageStatusPayloadWithDefaults() *MwchatInternalSchemasUpdateMessageStatusPayload`
+`func NewMwChatInternalSchemasUpdateMessageStatusPayloadWithDefaults() *MwChatInternalSchemasUpdateMessageStatusPayload`
 
-NewMwchatInternalSchemasUpdateMessageStatusPayloadWithDefaults instantiates a new MwchatInternalSchemasUpdateMessageStatusPayload object
+NewMwChatInternalSchemasUpdateMessageStatusPayloadWithDefaults instantiates a new MwChatInternalSchemasUpdateMessageStatusPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetIsRead
 
-`func (o *MwchatInternalSchemasUpdateMessageStatusPayload) GetIsRead() bool`
+`func (o *MwChatInternalSchemasUpdateMessageStatusPayload) GetIsRead() bool`
 
 GetIsRead returns the IsRead field if non-nil, zero value otherwise.
 
 ### GetIsReadOk
 
-`func (o *MwchatInternalSchemasUpdateMessageStatusPayload) GetIsReadOk() (*bool, bool)`
+`func (o *MwChatInternalSchemasUpdateMessageStatusPayload) GetIsReadOk() (*bool, bool)`
 
 GetIsReadOk returns a tuple with the IsRead field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsRead
 
-`func (o *MwchatInternalSchemasUpdateMessageStatusPayload) SetIsRead(v bool)`
+`func (o *MwChatInternalSchemasUpdateMessageStatusPayload) SetIsRead(v bool)`
 
 SetIsRead sets IsRead field to given value.
 

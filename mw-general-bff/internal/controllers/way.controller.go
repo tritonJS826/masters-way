@@ -73,7 +73,7 @@ func (wc *WayController) UpdateWay(ctx *gin.Context) {
 		Name:            payload.Name,
 		GoalDescription: payload.GoalDescription,
 		EstimationTime:  payload.EstimationTime,
-		IsPrivate:       *payload.IsPrivate,
+		IsPrivate:       payload.IsPrivate,
 		IsCompleted:     payload.IsCompleted,
 	}
 

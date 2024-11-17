@@ -1,67 +1,67 @@
-# MwchatInternalSchemasGetRoomsResponse
+# MwChatInternalSchemasGetRoomsResponse
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Rooms** | [**[]MwchatInternalSchemasRoomPreviewResponse**](MwchatInternalSchemasRoomPreviewResponse.md) |  | 
+**Rooms** | [**[]MwChatInternalSchemasRoomPreviewResponse**](MwChatInternalSchemasRoomPreviewResponse.md) |  | 
 **Size** | **int32** |  | 
 
 ## Methods
 
-### NewMwchatInternalSchemasGetRoomsResponse
+### NewMwChatInternalSchemasGetRoomsResponse
 
-`func NewMwchatInternalSchemasGetRoomsResponse(rooms []MwchatInternalSchemasRoomPreviewResponse, size int32, ) *MwchatInternalSchemasGetRoomsResponse`
+`func NewMwChatInternalSchemasGetRoomsResponse(rooms []MwChatInternalSchemasRoomPreviewResponse, size int32, ) *MwChatInternalSchemasGetRoomsResponse`
 
-NewMwchatInternalSchemasGetRoomsResponse instantiates a new MwchatInternalSchemasGetRoomsResponse object
+NewMwChatInternalSchemasGetRoomsResponse instantiates a new MwChatInternalSchemasGetRoomsResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwchatInternalSchemasGetRoomsResponseWithDefaults
+### NewMwChatInternalSchemasGetRoomsResponseWithDefaults
 
-`func NewMwchatInternalSchemasGetRoomsResponseWithDefaults() *MwchatInternalSchemasGetRoomsResponse`
+`func NewMwChatInternalSchemasGetRoomsResponseWithDefaults() *MwChatInternalSchemasGetRoomsResponse`
 
-NewMwchatInternalSchemasGetRoomsResponseWithDefaults instantiates a new MwchatInternalSchemasGetRoomsResponse object
+NewMwChatInternalSchemasGetRoomsResponseWithDefaults instantiates a new MwChatInternalSchemasGetRoomsResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetRooms
 
-`func (o *MwchatInternalSchemasGetRoomsResponse) GetRooms() []MwchatInternalSchemasRoomPreviewResponse`
+`func (o *MwChatInternalSchemasGetRoomsResponse) GetRooms() []MwChatInternalSchemasRoomPreviewResponse`
 
 GetRooms returns the Rooms field if non-nil, zero value otherwise.
 
 ### GetRoomsOk
 
-`func (o *MwchatInternalSchemasGetRoomsResponse) GetRoomsOk() (*[]MwchatInternalSchemasRoomPreviewResponse, bool)`
+`func (o *MwChatInternalSchemasGetRoomsResponse) GetRoomsOk() (*[]MwChatInternalSchemasRoomPreviewResponse, bool)`
 
 GetRoomsOk returns a tuple with the Rooms field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRooms
 
-`func (o *MwchatInternalSchemasGetRoomsResponse) SetRooms(v []MwchatInternalSchemasRoomPreviewResponse)`
+`func (o *MwChatInternalSchemasGetRoomsResponse) SetRooms(v []MwChatInternalSchemasRoomPreviewResponse)`
 
 SetRooms sets Rooms field to given value.
 
 
 ### GetSize
 
-`func (o *MwchatInternalSchemasGetRoomsResponse) GetSize() int32`
+`func (o *MwChatInternalSchemasGetRoomsResponse) GetSize() int32`
 
 GetSize returns the Size field if non-nil, zero value otherwise.
 
 ### GetSizeOk
 
-`func (o *MwchatInternalSchemasGetRoomsResponse) GetSizeOk() (*int32, bool)`
+`func (o *MwChatInternalSchemasGetRoomsResponse) GetSizeOk() (*int32, bool)`
 
 GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSize
 
-`func (o *MwchatInternalSchemasGetRoomsResponse) SetSize(v int32)`
+`func (o *MwChatInternalSchemasGetRoomsResponse) SetSize(v int32)`
 
 SetSize sets Size field to given value.
 
