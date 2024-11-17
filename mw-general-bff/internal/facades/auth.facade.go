@@ -32,17 +32,17 @@ func (as *AuthFacade) GetUserTokenByEmail(ctx context.Context, email string) (*o
 }
 
 func (as *AuthFacade) GetGoogleAuthURL(ctx context.Context, provider string) (*openapiGeneral.MwServerInternalSchemasBeginAuthResponse, error) {
-	return as.GetGoogleAuthURL(ctx, provider)
+	return as.authService.GetGoogleAuthURL(ctx, provider)
 }
 
 func (as *AuthFacade) GetGoogleAccessTokenByUserID(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasGoogleToken, error) {
-	return as.GetGoogleAccessTokenByUserID(ctx)
+	return as.authService.GetGoogleAccessTokenByUserID(ctx)
 }
 
 func (as *AuthFacade) GetCurrentAuthorizedUserByToken(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasUserPopulatedResponse, error) {
-	return as.GetCurrentAuthorizedUserByToken(ctx)
+	return as.authService.GetCurrentAuthorizedUserByToken(ctx)
 }
 
 func (as *AuthFacade) Logout(ctx context.Context, provider string) error {
-	return as.Logout(ctx, provider)
+	return as.authService.Logout(ctx, provider)
 }

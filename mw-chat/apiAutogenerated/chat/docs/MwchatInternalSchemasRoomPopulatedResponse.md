@@ -1,161 +1,161 @@
-# MwchatInternalSchemasRoomPopulatedResponse
+# MwChatInternalSchemasRoomPopulatedResponse
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **IsBlocked** | **bool** |  | 
-**Messages** | [**[]MwchatInternalSchemasMessageResponse**](MwchatInternalSchemasMessageResponse.md) |  | 
+**Messages** | [**[]MwChatInternalSchemasMessageResponse**](MwChatInternalSchemasMessageResponse.md) |  | 
 **Name** | **NullableString** |  | 
 **RoomId** | **string** |  | 
 **RoomType** | **string** |  | 
-**Users** | [**[]MwchatInternalSchemasUserResponse**](MwchatInternalSchemasUserResponse.md) |  | 
+**Users** | [**[]MwChatInternalSchemasUserResponse**](MwChatInternalSchemasUserResponse.md) |  | 
 
 ## Methods
 
-### NewMwchatInternalSchemasRoomPopulatedResponse
+### NewMwChatInternalSchemasRoomPopulatedResponse
 
-`func NewMwchatInternalSchemasRoomPopulatedResponse(isBlocked bool, messages []MwchatInternalSchemasMessageResponse, name NullableString, roomId string, roomType string, users []MwchatInternalSchemasUserResponse, ) *MwchatInternalSchemasRoomPopulatedResponse`
+`func NewMwChatInternalSchemasRoomPopulatedResponse(isBlocked bool, messages []MwChatInternalSchemasMessageResponse, name NullableString, roomId string, roomType string, users []MwChatInternalSchemasUserResponse, ) *MwChatInternalSchemasRoomPopulatedResponse`
 
-NewMwchatInternalSchemasRoomPopulatedResponse instantiates a new MwchatInternalSchemasRoomPopulatedResponse object
+NewMwChatInternalSchemasRoomPopulatedResponse instantiates a new MwChatInternalSchemasRoomPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwchatInternalSchemasRoomPopulatedResponseWithDefaults
+### NewMwChatInternalSchemasRoomPopulatedResponseWithDefaults
 
-`func NewMwchatInternalSchemasRoomPopulatedResponseWithDefaults() *MwchatInternalSchemasRoomPopulatedResponse`
+`func NewMwChatInternalSchemasRoomPopulatedResponseWithDefaults() *MwChatInternalSchemasRoomPopulatedResponse`
 
-NewMwchatInternalSchemasRoomPopulatedResponseWithDefaults instantiates a new MwchatInternalSchemasRoomPopulatedResponse object
+NewMwChatInternalSchemasRoomPopulatedResponseWithDefaults instantiates a new MwChatInternalSchemasRoomPopulatedResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetIsBlocked
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetIsBlocked() bool`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetIsBlocked() bool`
 
 GetIsBlocked returns the IsBlocked field if non-nil, zero value otherwise.
 
 ### GetIsBlockedOk
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetIsBlockedOk() (*bool, bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetIsBlockedOk() (*bool, bool)`
 
 GetIsBlockedOk returns a tuple with the IsBlocked field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsBlocked
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) SetIsBlocked(v bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetIsBlocked(v bool)`
 
 SetIsBlocked sets IsBlocked field to given value.
 
 
 ### GetMessages
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetMessages() []MwchatInternalSchemasMessageResponse`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetMessages() []MwChatInternalSchemasMessageResponse`
 
 GetMessages returns the Messages field if non-nil, zero value otherwise.
 
 ### GetMessagesOk
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetMessagesOk() (*[]MwchatInternalSchemasMessageResponse, bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetMessagesOk() (*[]MwChatInternalSchemasMessageResponse, bool)`
 
 GetMessagesOk returns a tuple with the Messages field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessages
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) SetMessages(v []MwchatInternalSchemasMessageResponse)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetMessages(v []MwChatInternalSchemasMessageResponse)`
 
 SetMessages sets Messages field to given value.
 
 
 ### GetName
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetName() string`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetNameOk() (*string, bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) SetName(v string)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### SetNameNil
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) SetNameNil(b bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetNameNil(b bool)`
 
  SetNameNil sets the value for Name to be an explicit nil
 
 ### UnsetName
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) UnsetName()`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) UnsetName()`
 
 UnsetName ensures that no value is present for Name, not even an explicit nil
 ### GetRoomId
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetRoomId() string`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetRoomId() string`
 
 GetRoomId returns the RoomId field if non-nil, zero value otherwise.
 
 ### GetRoomIdOk
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetRoomIdOk() (*string, bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetRoomIdOk() (*string, bool)`
 
 GetRoomIdOk returns a tuple with the RoomId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRoomId
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) SetRoomId(v string)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetRoomId(v string)`
 
 SetRoomId sets RoomId field to given value.
 
 
 ### GetRoomType
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetRoomType() string`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetRoomType() string`
 
 GetRoomType returns the RoomType field if non-nil, zero value otherwise.
 
 ### GetRoomTypeOk
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetRoomTypeOk() (*string, bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetRoomTypeOk() (*string, bool)`
 
 GetRoomTypeOk returns a tuple with the RoomType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRoomType
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) SetRoomType(v string)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetRoomType(v string)`
 
 SetRoomType sets RoomType field to given value.
 
 
 ### GetUsers
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetUsers() []MwchatInternalSchemasUserResponse`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetUsers() []MwChatInternalSchemasUserResponse`
 
 GetUsers returns the Users field if non-nil, zero value otherwise.
 
 ### GetUsersOk
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) GetUsersOk() (*[]MwchatInternalSchemasUserResponse, bool)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetUsersOk() (*[]MwChatInternalSchemasUserResponse, bool)`
 
 GetUsersOk returns a tuple with the Users field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUsers
 
-`func (o *MwchatInternalSchemasRoomPopulatedResponse) SetUsers(v []MwchatInternalSchemasUserResponse)`
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetUsers(v []MwChatInternalSchemasUserResponse)`
 
 SetUsers sets Users field to given value.
 
