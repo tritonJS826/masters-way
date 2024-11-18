@@ -1,4 +1,4 @@
-module mwchat
+module mw-chat
 
 go 1.21
 

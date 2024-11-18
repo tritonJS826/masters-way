@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -10,11 +10,11 @@ import (
 )
 
 type FromUserMentoringRequestController struct {
-	generalService *services.GeneralService
+	fromUserMentoringRequestFacade *facades.FromUserMentoringRequestFacade
 }
 
-func NewFromUserMentoringRequestController(generalService *services.GeneralService) *FromUserMentoringRequestController {
-	return &FromUserMentoringRequestController{generalService}
+func NewFromUserMentoringRequestController(fromUserMentoringRequestFacade *facades.FromUserMentoringRequestFacade) *FromUserMentoringRequestController {
+	return &FromUserMentoringRequestController{fromUserMentoringRequestFacade}
 }
 
 // Create fromUserMentoringRequest handler
@@ -35,7 +35,7 @@ func (fc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 		return
 	}
 
-	fromUserMentoringRequest, err := fc.generalService.CreateFromUserMentoringRequest(ctx, payload.UserUuid, payload.WayUuid)
+	fromUserMentoringRequest, err := fc.fromUserMentoringRequestFacade.CreateFromUserMentoringRequest(ctx, payload.UserUuid, payload.WayUuid)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, fromUserMentoringRequest)
@@ -52,11 +52,11 @@ func (fc *FromUserMentoringRequestController) CreateFromUserMentoringRequest(ctx
 // @Param wayUuid path string true "way UUID"
 // @Success 204
 // @Router /fromUserMentoringRequests/{userUuid}/{wayUuid} [delete]
-func (fumrc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestById(ctx *gin.Context) {
+func (fc *FromUserMentoringRequestController) DeleteFromUserMentoringRequestById(ctx *gin.Context) {
 	userID := ctx.Param("userUuid")
 	wayID := ctx.Param("wayUuid")
 
-	err := fumrc.generalService.DeleteFromUserMentoringRequestById(ctx, userID, wayID)
+	err := fc.fromUserMentoringRequestFacade.DeleteFromUserMentoringRequestById(ctx, userID, wayID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

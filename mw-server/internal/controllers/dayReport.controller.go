@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"mwserver/internal/auth"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-server/internal/auth"
+	"mw-server/internal/schemas"
+	"mw-server/internal/services"
+	"mw-server/pkg/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"

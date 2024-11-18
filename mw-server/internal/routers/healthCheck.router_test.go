@@ -2,8 +2,8 @@ package routers
 
 import (
 	"context"
-	"mwserver/internal/config"
-	"mwserver/internal/openapi"
+	"mw-server/internal/config"
+	"mw-server/internal/openapi"
 	"net/http"
 	"testing"
 

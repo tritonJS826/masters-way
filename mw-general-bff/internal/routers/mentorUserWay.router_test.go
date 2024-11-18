@@ -34,7 +34,7 @@ func TestAddMentorUserWay(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.MwserverInternalSchemasCreateMentorUserWayPayload{
+		request := openapiGeneral.MwServerInternalSchemasCreateMentorUserWayPayload{
 			UserUuid: newMentorID,
 			WayUuid:  wayID,
 		}
@@ -88,7 +88,7 @@ func TestDeleteMentorUserWay(t *testing.T) {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
 
-		request := openapiGeneral.MwserverInternalSchemasDeleteMentorUserWayPayload{
+		request := openapiGeneral.MwServerInternalSchemasDeleteMentorUserWayPayload{
 			UserUuid: newMentorID,
 			WayUuid:  wayID,
 		}

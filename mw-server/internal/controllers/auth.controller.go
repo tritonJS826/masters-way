@@ -2,11 +2,11 @@ package controllers
 
 import (
 	"fmt"
-	"mwserver/internal/auth"
-	"mwserver/internal/config"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-server/internal/auth"
+	"mw-server/internal/config"
+	"mw-server/internal/schemas"
+	"mw-server/internal/services"
+	"mw-server/pkg/util"
 	"net/http"
 	"time"
 

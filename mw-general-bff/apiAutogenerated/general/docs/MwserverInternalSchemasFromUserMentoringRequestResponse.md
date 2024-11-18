@@ -1,4 +1,4 @@
-# MwserverInternalSchemasFromUserMentoringRequestResponse
+# MwServerInternalSchemasFromUserMentoringRequestResponse
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasFromUserMentoringRequestResponse
+### NewMwServerInternalSchemasFromUserMentoringRequestResponse
 
-`func NewMwserverInternalSchemasFromUserMentoringRequestResponse(userId string, wayId string, ) *MwserverInternalSchemasFromUserMentoringRequestResponse`
+`func NewMwServerInternalSchemasFromUserMentoringRequestResponse(userId string, wayId string, ) *MwServerInternalSchemasFromUserMentoringRequestResponse`
 
-NewMwserverInternalSchemasFromUserMentoringRequestResponse instantiates a new MwserverInternalSchemasFromUserMentoringRequestResponse object
+NewMwServerInternalSchemasFromUserMentoringRequestResponse instantiates a new MwServerInternalSchemasFromUserMentoringRequestResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasFromUserMentoringRequestResponseWithDefaults
+### NewMwServerInternalSchemasFromUserMentoringRequestResponseWithDefaults
 
-`func NewMwserverInternalSchemasFromUserMentoringRequestResponseWithDefaults() *MwserverInternalSchemasFromUserMentoringRequestResponse`
+`func NewMwServerInternalSchemasFromUserMentoringRequestResponseWithDefaults() *MwServerInternalSchemasFromUserMentoringRequestResponse`
 
-NewMwserverInternalSchemasFromUserMentoringRequestResponseWithDefaults instantiates a new MwserverInternalSchemasFromUserMentoringRequestResponse object
+NewMwServerInternalSchemasFromUserMentoringRequestResponseWithDefaults instantiates a new MwServerInternalSchemasFromUserMentoringRequestResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetUserId
 
-`func (o *MwserverInternalSchemasFromUserMentoringRequestResponse) GetUserId() string`
+`func (o *MwServerInternalSchemasFromUserMentoringRequestResponse) GetUserId() string`
 
 GetUserId returns the UserId field if non-nil, zero value otherwise.
 
 ### GetUserIdOk
 
-`func (o *MwserverInternalSchemasFromUserMentoringRequestResponse) GetUserIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasFromUserMentoringRequestResponse) GetUserIdOk() (*string, bool)`
 
 GetUserIdOk returns a tuple with the UserId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUserId
 
-`func (o *MwserverInternalSchemasFromUserMentoringRequestResponse) SetUserId(v string)`
+`func (o *MwServerInternalSchemasFromUserMentoringRequestResponse) SetUserId(v string)`
 
 SetUserId sets UserId field to given value.
 
 
 ### GetWayId
 
-`func (o *MwserverInternalSchemasFromUserMentoringRequestResponse) GetWayId() string`
+`func (o *MwServerInternalSchemasFromUserMentoringRequestResponse) GetWayId() string`
 
 GetWayId returns the WayId field if non-nil, zero value otherwise.
 
 ### GetWayIdOk
 
-`func (o *MwserverInternalSchemasFromUserMentoringRequestResponse) GetWayIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasFromUserMentoringRequestResponse) GetWayIdOk() (*string, bool)`
 
 GetWayIdOk returns a tuple with the WayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayId
 
-`func (o *MwserverInternalSchemasFromUserMentoringRequestResponse) SetWayId(v string)`
+`func (o *MwServerInternalSchemasFromUserMentoringRequestResponse) SetWayId(v string)`
 
 SetWayId sets WayId field to given value.
 

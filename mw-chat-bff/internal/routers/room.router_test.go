@@ -23,7 +23,7 @@ func TestGetChatPreview(t *testing.T) {
 		t.Fatalf("Failed to load config: %v", err)
 	}
 
-	chatApi := openapi.MakeChatAPIClient(&newConfig)
+	chatApi := openapi.MakeTestChatAPIClient(&newConfig)
 	_, err = chatApi.DevAPI.DevResetDbGet(context.Background()).Execute()
 	if err != nil {
 		t.Fatalf("Failed to reset chat db: %v", err)
@@ -58,19 +58,19 @@ func TestCreateRoom(t *testing.T) {
 		t.Fatalf("Failed to load config: %v", err)
 	}
 
-	chatAPI := openapi.MakeChatAPIClient(&newConfig)
+	chatAPI := openapi.MakeTestChatAPIClient(&newConfig)
 	_, err = chatAPI.DevAPI.DevResetDbGet(context.Background()).Execute()
 	if err != nil {
 		t.Fatalf("Failed to reset chat db: %v", err)
 	}
 
-	generalAPI := openapi.MakeGeneralAPIClient(&newConfig)
+	generalAPI := openapi.MakeTestGeneralAPIClient(&newConfig)
 	_, err = generalAPI.DevAPI.DevResetDbGet(context.Background()).Execute()
 	if err != nil {
 		t.Fatalf("Failed to reset general db: %v", err)
 	}
 
-	chatBFFAPI := openapi.MakeChatBFFAPIClient(&newConfig)
+	chatBFFAPI := openapi.MakeTestChatBFFAPIClient(&newConfig)
 
 	roomCreatorID := "c31384a6-b811-4a1f-befa-95dd53e3f4b9"
 	userID := "45bf9107-83fd-4fc4-8173-a13b8a100f2a"

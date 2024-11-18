@@ -2,8 +2,8 @@ package services
 
 import (
 	"context"
-	db "mwserver/internal/db/sqlc"
-	"mwserver/internal/schemas"
+	db "mw-server/internal/db/sqlc"
+	"mw-server/internal/schemas"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"

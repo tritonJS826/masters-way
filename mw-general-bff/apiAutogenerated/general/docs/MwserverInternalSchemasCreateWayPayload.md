@@ -1,4 +1,4 @@
-# MwserverInternalSchemasCreateWayPayload
+# MwServerInternalSchemasCreateWayPayload
 
 ## Properties
 
@@ -15,201 +15,201 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasCreateWayPayload
+### NewMwServerInternalSchemasCreateWayPayload
 
-`func NewMwserverInternalSchemasCreateWayPayload(copiedFromWayId NullableString, estimationTime int32, goalDescription string, isCompleted bool, isPrivate bool, name string, ownerId string, projectId NullableString, ) *MwserverInternalSchemasCreateWayPayload`
+`func NewMwServerInternalSchemasCreateWayPayload(copiedFromWayId NullableString, estimationTime int32, goalDescription string, isCompleted bool, isPrivate bool, name string, ownerId string, projectId NullableString, ) *MwServerInternalSchemasCreateWayPayload`
 
-NewMwserverInternalSchemasCreateWayPayload instantiates a new MwserverInternalSchemasCreateWayPayload object
+NewMwServerInternalSchemasCreateWayPayload instantiates a new MwServerInternalSchemasCreateWayPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasCreateWayPayloadWithDefaults
+### NewMwServerInternalSchemasCreateWayPayloadWithDefaults
 
-`func NewMwserverInternalSchemasCreateWayPayloadWithDefaults() *MwserverInternalSchemasCreateWayPayload`
+`func NewMwServerInternalSchemasCreateWayPayloadWithDefaults() *MwServerInternalSchemasCreateWayPayload`
 
-NewMwserverInternalSchemasCreateWayPayloadWithDefaults instantiates a new MwserverInternalSchemasCreateWayPayload object
+NewMwServerInternalSchemasCreateWayPayloadWithDefaults instantiates a new MwServerInternalSchemasCreateWayPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetCopiedFromWayId
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetCopiedFromWayId() string`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetCopiedFromWayId() string`
 
 GetCopiedFromWayId returns the CopiedFromWayId field if non-nil, zero value otherwise.
 
 ### GetCopiedFromWayIdOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetCopiedFromWayIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetCopiedFromWayIdOk() (*string, bool)`
 
 GetCopiedFromWayIdOk returns a tuple with the CopiedFromWayId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCopiedFromWayId
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetCopiedFromWayId(v string)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetCopiedFromWayId(v string)`
 
 SetCopiedFromWayId sets CopiedFromWayId field to given value.
 
 
 ### SetCopiedFromWayIdNil
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetCopiedFromWayIdNil(b bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetCopiedFromWayIdNil(b bool)`
 
  SetCopiedFromWayIdNil sets the value for CopiedFromWayId to be an explicit nil
 
 ### UnsetCopiedFromWayId
-`func (o *MwserverInternalSchemasCreateWayPayload) UnsetCopiedFromWayId()`
+`func (o *MwServerInternalSchemasCreateWayPayload) UnsetCopiedFromWayId()`
 
 UnsetCopiedFromWayId ensures that no value is present for CopiedFromWayId, not even an explicit nil
 ### GetEstimationTime
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetEstimationTime() int32`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetEstimationTime() int32`
 
 GetEstimationTime returns the EstimationTime field if non-nil, zero value otherwise.
 
 ### GetEstimationTimeOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetEstimationTimeOk() (*int32, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetEstimationTimeOk() (*int32, bool)`
 
 GetEstimationTimeOk returns a tuple with the EstimationTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEstimationTime
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetEstimationTime(v int32)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetEstimationTime(v int32)`
 
 SetEstimationTime sets EstimationTime field to given value.
 
 
 ### GetGoalDescription
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetGoalDescription() string`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetGoalDescription() string`
 
 GetGoalDescription returns the GoalDescription field if non-nil, zero value otherwise.
 
 ### GetGoalDescriptionOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetGoalDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetGoalDescriptionOk() (*string, bool)`
 
 GetGoalDescriptionOk returns a tuple with the GoalDescription field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetGoalDescription
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetGoalDescription(v string)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetGoalDescription(v string)`
 
 SetGoalDescription sets GoalDescription field to given value.
 
 
 ### GetIsCompleted
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetIsCompleted() bool`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetIsCompleted() bool`
 
 GetIsCompleted returns the IsCompleted field if non-nil, zero value otherwise.
 
 ### GetIsCompletedOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetIsCompletedOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetIsCompletedOk() (*bool, bool)`
 
 GetIsCompletedOk returns a tuple with the IsCompleted field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsCompleted
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetIsCompleted(v bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetIsCompleted(v bool)`
 
 SetIsCompleted sets IsCompleted field to given value.
 
 
 ### GetIsPrivate
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetIsPrivate() bool`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetIsPrivate() bool`
 
 GetIsPrivate returns the IsPrivate field if non-nil, zero value otherwise.
 
 ### GetIsPrivateOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetIsPrivateOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetIsPrivateOk() (*bool, bool)`
 
 GetIsPrivateOk returns a tuple with the IsPrivate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsPrivate
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetIsPrivate(v bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetIsPrivate(v bool)`
 
 SetIsPrivate sets IsPrivate field to given value.
 
 
 ### GetName
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetName() string`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetName() string`
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetNameOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetNameOk() (*string, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetName(v string)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetName(v string)`
 
 SetName sets Name field to given value.
 
 
 ### GetOwnerId
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetOwnerId() string`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetOwnerId() string`
 
 GetOwnerId returns the OwnerId field if non-nil, zero value otherwise.
 
 ### GetOwnerIdOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetOwnerIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetOwnerIdOk() (*string, bool)`
 
 GetOwnerIdOk returns a tuple with the OwnerId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOwnerId
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetOwnerId(v string)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetOwnerId(v string)`
 
 SetOwnerId sets OwnerId field to given value.
 
 
 ### GetProjectId
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetProjectId() string`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetProjectId() string`
 
 GetProjectId returns the ProjectId field if non-nil, zero value otherwise.
 
 ### GetProjectIdOk
 
-`func (o *MwserverInternalSchemasCreateWayPayload) GetProjectIdOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) GetProjectIdOk() (*string, bool)`
 
 GetProjectIdOk returns a tuple with the ProjectId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProjectId
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetProjectId(v string)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetProjectId(v string)`
 
 SetProjectId sets ProjectId field to given value.
 
 
 ### SetProjectIdNil
 
-`func (o *MwserverInternalSchemasCreateWayPayload) SetProjectIdNil(b bool)`
+`func (o *MwServerInternalSchemasCreateWayPayload) SetProjectIdNil(b bool)`
 
  SetProjectIdNil sets the value for ProjectId to be an explicit nil
 
 ### UnsetProjectId
-`func (o *MwserverInternalSchemasCreateWayPayload) UnsetProjectId()`
+`func (o *MwServerInternalSchemasCreateWayPayload) UnsetProjectId()`
 
 UnsetProjectId ensures that no value is present for ProjectId, not even an explicit nil
 

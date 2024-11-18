@@ -6,6 +6,7 @@ import (
 	"log"
 	"mw-general-bff/internal/config"
 	"mw-general-bff/internal/controllers"
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/routers"
 	"mw-general-bff/internal/services"
 	"net/http"
@@ -36,7 +37,8 @@ func main() {
 	defer conn.Close()
 
 	newService := services.NewService(&newConfig, conn)
-	newController := controllers.NewController(newService)
+	newFacade := facades.NewFacade(newService, &newConfig)
+	newController := controllers.NewController(newFacade)
 
 	newRouter := routers.NewRouter(&newConfig, newController)
 	newRouter.SetRoutes(&newConfig)

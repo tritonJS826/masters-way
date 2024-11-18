@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalSchemasAddWayToCompositeWayPayload,
-  MwserverInternalSchemasCompositeWayRelation,
+  MwServerInternalSchemasAddWayToCompositeWayPayload,
+  MwServerInternalSchemasCompositeWayRelation,
 } from '../models/index';
 import {
-    MwserverInternalSchemasAddWayToCompositeWayPayloadFromJSON,
-    MwserverInternalSchemasAddWayToCompositeWayPayloadToJSON,
-    MwserverInternalSchemasCompositeWayRelationFromJSON,
-    MwserverInternalSchemasCompositeWayRelationToJSON,
+    MwServerInternalSchemasAddWayToCompositeWayPayloadFromJSON,
+    MwServerInternalSchemasAddWayToCompositeWayPayloadToJSON,
+    MwServerInternalSchemasCompositeWayRelationFromJSON,
+    MwServerInternalSchemasCompositeWayRelationToJSON,
 } from '../models/index';
 
 export interface CreateCompositeWayRequest {
-    request: MwserverInternalSchemasAddWayToCompositeWayPayload;
+    request: MwServerInternalSchemasAddWayToCompositeWayPayload;
 }
 
 export interface DeleteCompositeWayRelationRequest {
@@ -42,7 +42,7 @@ export class CompositeWayApi extends runtime.BaseAPI {
     /**
      * Add a way to composite way
      */
-    async createCompositeWayRaw(requestParameters: CreateCompositeWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasCompositeWayRelation>> {
+    async createCompositeWayRaw(requestParameters: CreateCompositeWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasCompositeWayRelation>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createCompositeWay.');
         }
@@ -58,16 +58,16 @@ export class CompositeWayApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasAddWayToCompositeWayPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasAddWayToCompositeWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasCompositeWayRelationFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasCompositeWayRelationFromJSON(jsonValue));
     }
 
     /**
      * Add a way to composite way
      */
-    async createCompositeWay(requestParameters: CreateCompositeWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasCompositeWayRelation> {
+    async createCompositeWay(requestParameters: CreateCompositeWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasCompositeWayRelation> {
         const response = await this.createCompositeWayRaw(requestParameters, initOverrides);
         return await response.value();
     }

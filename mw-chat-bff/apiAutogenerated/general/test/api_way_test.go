@@ -73,6 +73,20 @@ func Test_openapi_WayAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test WayAPIService GetWayPlainForNotificationByUuid", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var wayId string
+
+		resp, httpRes, err := apiClient.WayAPI.GetWayPlainForNotificationByUuid(context.Background(), wayId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test WayAPIService GetWayStatisticsByUuid", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

@@ -1,4 +1,4 @@
-# MwserverInternalSchemasAIEstimateIssueResponse
+# MwServerInternalSchemasAIEstimateIssueResponse
 
 ## Properties
 
@@ -8,39 +8,39 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasAIEstimateIssueResponse
+### NewMwServerInternalSchemasAIEstimateIssueResponse
 
-`func NewMwserverInternalSchemasAIEstimateIssueResponse(estimation string, ) *MwserverInternalSchemasAIEstimateIssueResponse`
+`func NewMwServerInternalSchemasAIEstimateIssueResponse(estimation string, ) *MwServerInternalSchemasAIEstimateIssueResponse`
 
-NewMwserverInternalSchemasAIEstimateIssueResponse instantiates a new MwserverInternalSchemasAIEstimateIssueResponse object
+NewMwServerInternalSchemasAIEstimateIssueResponse instantiates a new MwServerInternalSchemasAIEstimateIssueResponse object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasAIEstimateIssueResponseWithDefaults
+### NewMwServerInternalSchemasAIEstimateIssueResponseWithDefaults
 
-`func NewMwserverInternalSchemasAIEstimateIssueResponseWithDefaults() *MwserverInternalSchemasAIEstimateIssueResponse`
+`func NewMwServerInternalSchemasAIEstimateIssueResponseWithDefaults() *MwServerInternalSchemasAIEstimateIssueResponse`
 
-NewMwserverInternalSchemasAIEstimateIssueResponseWithDefaults instantiates a new MwserverInternalSchemasAIEstimateIssueResponse object
+NewMwServerInternalSchemasAIEstimateIssueResponseWithDefaults instantiates a new MwServerInternalSchemasAIEstimateIssueResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetEstimation
 
-`func (o *MwserverInternalSchemasAIEstimateIssueResponse) GetEstimation() string`
+`func (o *MwServerInternalSchemasAIEstimateIssueResponse) GetEstimation() string`
 
 GetEstimation returns the Estimation field if non-nil, zero value otherwise.
 
 ### GetEstimationOk
 
-`func (o *MwserverInternalSchemasAIEstimateIssueResponse) GetEstimationOk() (*string, bool)`
+`func (o *MwServerInternalSchemasAIEstimateIssueResponse) GetEstimationOk() (*string, bool)`
 
 GetEstimationOk returns a tuple with the Estimation field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEstimation
 
-`func (o *MwserverInternalSchemasAIEstimateIssueResponse) SetEstimation(v string)`
+`func (o *MwServerInternalSchemasAIEstimateIssueResponse) SetEstimation(v string)`
 
 SetEstimation sets Estimation field to given value.
 

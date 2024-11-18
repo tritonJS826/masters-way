@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateDayReport
 
-> MwserverInternalSchemasCompositeDayReportPopulatedResponse CreateDayReport(ctx).Request(request).Execute()
+> MwServerInternalSchemasCompositeDayReportPopulatedResponse CreateDayReport(ctx).Request(request).Execute()
 
 Create a new dayReport
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwserverInternalSchemasCreateDayReportPayload("WayId_example") // MwserverInternalSchemasCreateDayReportPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateDayReportPayload("WayId_example") // MwServerInternalSchemasCreateDayReportPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.CreateDayReport``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateDayReport`: MwserverInternalSchemasCompositeDayReportPopulatedResponse
+	// response from `CreateDayReport`: MwServerInternalSchemasCompositeDayReportPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.CreateDayReport`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateDayReportRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwserverInternalSchemasCreateDayReportPayload**](MwserverInternalSchemasCreateDayReportPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateDayReportPayload**](MwServerInternalSchemasCreateDayReportPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasCompositeDayReportPopulatedResponse**](MwserverInternalSchemasCompositeDayReportPopulatedResponse.md)
+[**MwServerInternalSchemasCompositeDayReportPopulatedResponse**](MwServerInternalSchemasCompositeDayReportPopulatedResponse.md)
 
 ### Authorization
 
@@ -75,7 +75,7 @@ No authorization required
 
 ## GetDayReports
 
-> MwserverInternalSchemasListDayReportsResponse GetDayReports(ctx, wayId).Page(page).Limit(limit).Execute()
+> MwServerInternalSchemasListDayReportsResponse GetDayReports(ctx, wayId).Page(page).Limit(limit).Execute()
 
 Get list of day reports by way UUID
 
@@ -103,7 +103,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `DayReportAPI.GetDayReports``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetDayReports`: MwserverInternalSchemasListDayReportsResponse
+	// response from `GetDayReports`: MwServerInternalSchemasListDayReportsResponse
 	fmt.Fprintf(os.Stdout, "Response from `DayReportAPI.GetDayReports`: %v\n", resp)
 }
 ```
@@ -129,7 +129,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwserverInternalSchemasListDayReportsResponse**](MwserverInternalSchemasListDayReportsResponse.md)
+[**MwServerInternalSchemasListDayReportsResponse**](MwServerInternalSchemasListDayReportsResponse.md)
 
 ### Authorization
 

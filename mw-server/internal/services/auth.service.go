@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
-	"mwserver/internal/auth"
+	"mw-server/internal/auth"
 
 	"golang.org/x/oauth2"
 	oauthGoogle "google.golang.org/api/oauth2/v2"

@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"mwserver/internal/controllers"
+	"mw-server/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )

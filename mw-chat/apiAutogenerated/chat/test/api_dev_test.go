@@ -1,5 +1,5 @@
 /*
-Masters way general API
+Masters way chat API
 
 Testing DevAPIService
 

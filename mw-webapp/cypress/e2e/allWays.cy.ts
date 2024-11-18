@@ -9,7 +9,7 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import allWayData from "cypress/fixtures/allWaysFixture.json";
 
 beforeEach(() => {
-  cy.resetDb();
+  cy.resetGeneralDb();
   cy.visit('/');
   headerSelectors.getBurgerMenu().click();
   navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();

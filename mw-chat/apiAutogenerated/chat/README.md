@@ -74,174 +74,35 @@ ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVari
 
 ## Documentation for API Endpoints
 
-All URIs are relative to */general*
+All URIs are relative to */chat*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AuthAPI* | [**BeginAuth**](docs/AuthAPI.md#beginauth) | **Get** /auth/{provider} | Begin oauth
-*AuthAPI* | [**GetCurrentAuthorizedUser**](docs/AuthAPI.md#getcurrentauthorizeduser) | **Get** /auth/current | Get current authorized user
-*AuthAPI* | [**GetGoogleToken**](docs/AuthAPI.md#getgoogletoken) | **Get** /auth/google-token | Retrieve Google Access Token
-*AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
-*AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Post** /auth/{provider}/callback | Log in with google oAuth
-*AuthAPI* | [**LogoutCurrentAuthorizedUser**](docs/AuthAPI.md#logoutcurrentauthorizeduser) | **Get** /auth/logout/{provider} | Logout current authorized user
-*CommentAPI* | [**CreateComment**](docs/CommentAPI.md#createcomment) | **Post** /comments | Create a new comment
-*CommentAPI* | [**DeleteComment**](docs/CommentAPI.md#deletecomment) | **Delete** /comments/{commentId} | Delete comment by UUID
-*CommentAPI* | [**UpdateComment**](docs/CommentAPI.md#updatecomment) | **Patch** /comments/{commentId} | Update comment by UUID
-*CompositeWayAPI* | [**CreateCompositeWay**](docs/CompositeWayAPI.md#createcompositeway) | **Post** /compositeWay | Add a way to composite way
-*CompositeWayAPI* | [**DeleteCompositeWayRelation**](docs/CompositeWayAPI.md#deletecompositewayrelation) | **Delete** /compositeWay/{parentWayId}/{childWayId} | Delete composite way relation
-*DayReportAPI* | [**CreateDayReport**](docs/DayReportAPI.md#createdayreport) | **Post** /dayReports | Create a new dayReport
-*DayReportAPI* | [**GetDayReports**](docs/DayReportAPI.md#getdayreports) | **Get** /dayReports/{wayId} | Get list of day reports by way UUID
 *DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
-*FavoriteUserAPI* | [**CreateFavoriteUser**](docs/FavoriteUserAPI.md#createfavoriteuser) | **Post** /favoriteUsers | Create a new favorite user
-*FavoriteUserAPI* | [**DeleteFavoriteUser**](docs/FavoriteUserAPI.md#deletefavoriteuser) | **Delete** /favoriteUsers/{donorUserUuid}/{acceptorUserUuid} | Delete favoriteUser by UUID
-*FavoriteUserWayAPI* | [**CreateFavoriteUserWay**](docs/FavoriteUserWayAPI.md#createfavoriteuserway) | **Post** /favoriteUserWays | Create a new favoriteUserWay
-*FavoriteUserWayAPI* | [**DeleteFavoriteUserWay**](docs/FavoriteUserWayAPI.md#deletefavoriteuserway) | **Delete** /favoriteUserWays/{userUuid}/{wayUuid} | Delete favoriteUserWay by UUID
-*FromUserMentoringRequestAPI* | [**CreateFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#createfromusermentoringrequest) | **Post** /fromUserMentoringRequests | Create a new fromUserMentoringRequest
-*FromUserMentoringRequestAPI* | [**DeleteFromUserMentoringRequest**](docs/FromUserMentoringRequestAPI.md#deletefromusermentoringrequest) | **Delete** /fromUserMentoringRequests/{userUuid}/{wayUuid} | Delete fromUserMentoringRequest by UUID
-*GeminiAPI* | [**AiChat**](docs/GeminiAPI.md#aichat) | **Post** /gemini/just-chat | Just chat with AI
-*GeminiAPI* | [**AiCommentIssue**](docs/GeminiAPI.md#aicommentissue) | **Post** /gemini/comment-issue | Generate a comment for any issue
-*GeminiAPI* | [**AiDecomposeIssue**](docs/GeminiAPI.md#aidecomposeissue) | **Post** /gemini/decompose-issue | Decompose issue
-*GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
-*GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
-*GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
-*HealthAPI* | [**GeneralHealthCheck**](docs/HealthAPI.md#generalhealthcheck) | **Get** /healthcheck | Health Check
-*JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
-*JobDoneAPI* | [**DeleteJobDone**](docs/JobDoneAPI.md#deletejobdone) | **Delete** /jobDones/{jobDoneId} | Delete jobDone by UUID
-*JobDoneAPI* | [**UpdateJobDone**](docs/JobDoneAPI.md#updatejobdone) | **Patch** /jobDones/{jobDoneId} | Update jobDone by UUID
-*JobDoneJobTagAPI* | [**CreateJobDoneJobTag**](docs/JobDoneJobTagAPI.md#createjobdonejobtag) | **Post** /jobDoneJobTags | Create a new jobDoneJobTag
-*JobDoneJobTagAPI* | [**DeleteJobDoneJobTag**](docs/JobDoneJobTagAPI.md#deletejobdonejobtag) | **Delete** /jobDoneJobTags/{jobTagId}/{jobDoneId} | Delete jobDoneJobTag by UUID
-*JobTagAPI* | [**CreateJobTag**](docs/JobTagAPI.md#createjobtag) | **Post** /jobTags | Create a new jobTag
-*JobTagAPI* | [**DeleteJobTag**](docs/JobTagAPI.md#deletejobtag) | **Delete** /jobTags/{jobTagId} | Delete jobTag by UUID
-*JobTagAPI* | [**UpdateJobTag**](docs/JobTagAPI.md#updatejobtag) | **Patch** /jobTags/{jobTagId} | Update jobTag by UUID
-*MentorUserWayAPI* | [**CreateMentorUserWay**](docs/MentorUserWayAPI.md#creatementoruserway) | **Post** /mentorUserWays | Create a new mentorUserWay
-*MentorUserWayAPI* | [**DeleteMentorUserWay**](docs/MentorUserWayAPI.md#deletementoruserway) | **Delete** /mentorUserWays | Delete mentorUserWay by UUID
-*MetricAPI* | [**CreateMetric**](docs/MetricAPI.md#createmetric) | **Post** /metrics | Create a new metric
-*MetricAPI* | [**DeleteMetric**](docs/MetricAPI.md#deletemetric) | **Delete** /metrics/{metricId} | Delete metric by UUID
-*MetricAPI* | [**UpdateMetric**](docs/MetricAPI.md#updatemetric) | **Patch** /metrics/{metricId} | Update metric by UUID
-*PlanAPI* | [**CreatePlan**](docs/PlanAPI.md#createplan) | **Post** /plans | Create a new plan
-*PlanAPI* | [**DeletePlan**](docs/PlanAPI.md#deleteplan) | **Delete** /plans/{planId} | Delete plan by UUID
-*PlanAPI* | [**UpdatePlan**](docs/PlanAPI.md#updateplan) | **Patch** /plans/{planId} | Update plan by UUID
-*PlanJobTagAPI* | [**CreatePlanJobTag**](docs/PlanJobTagAPI.md#createplanjobtag) | **Post** /planJobTags | Create a new planJobTag
-*PlanJobTagAPI* | [**DeletePlanJobTag**](docs/PlanJobTagAPI.md#deleteplanjobtag) | **Delete** /planJobTags/{jobTagId}/{planId} | Delete planJobTag by UUID
-*ProblemAPI* | [**CreateProblem**](docs/ProblemAPI.md#createproblem) | **Post** /problems | Create a new problem
-*ProblemAPI* | [**DeleteProblem**](docs/ProblemAPI.md#deleteproblem) | **Delete** /problems/{problemId} | Delete problem by UUID
-*ProblemAPI* | [**UpdateProblem**](docs/ProblemAPI.md#updateproblem) | **Patch** /problems/{problemId} | Update problem by UUID
-*ProjectAPI* | [**CreateProject**](docs/ProjectAPI.md#createproject) | **Post** /projects | Create a new project
-*ProjectAPI* | [**DeleteProject**](docs/ProjectAPI.md#deleteproject) | **Delete** /projects/{projectId} | Delete project by id
-*ProjectAPI* | [**GetProject**](docs/ProjectAPI.md#getproject) | **Get** /projects/{projectId} | Get project by id
-*ProjectAPI* | [**UpdateProject**](docs/ProjectAPI.md#updateproject) | **Patch** /projects/{projectId} | Update project by id
-*ToUserMentoringRequestAPI* | [**CreateUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#createusermentoringrequest) | **Post** /toUserMentoringRequests | Create a new userMentoringRequest
-*ToUserMentoringRequestAPI* | [**DeleteToUserMentoringRequest**](docs/ToUserMentoringRequestAPI.md#deletetousermentoringrequest) | **Delete** /toUserMentoringRequests/{userUuid}/{wayUuid} | Delete toUserMentoringReques by UUID
-*UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
-*UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
-*UserAPI* | [**GetUsersByIds**](docs/UserAPI.md#getusersbyids) | **Get** /users/list-by-ids | Get users by ids
-*UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
-*UserProjectAPI* | [**CreateUserProject**](docs/UserProjectAPI.md#createuserproject) | **Post** /userProjects | Add user to project
-*UserProjectAPI* | [**DeleteUserProject**](docs/UserProjectAPI.md#deleteuserproject) | **Delete** /userProjects/{projectId}/{userId} | Delete userProject by UUID
-*UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
-*UserTagAPI* | [**DeleteUserTag**](docs/UserTagAPI.md#deleteusertag) | **Delete** /userTags/{userTagId}/{userId} | Delete userTag by UUID
-*WayAPI* | [**CreateWay**](docs/WayAPI.md#createway) | **Post** /ways | Create a new way
-*WayAPI* | [**DeleteWay**](docs/WayAPI.md#deleteway) | **Delete** /ways/{wayId} | Delete way by UUID
-*WayAPI* | [**GetAllWays**](docs/WayAPI.md#getallways) | **Get** /ways | Get all ways
-*WayAPI* | [**GetWayByUuid**](docs/WayAPI.md#getwaybyuuid) | **Get** /ways/{wayId} | Get way by UUID
-*WayAPI* | [**GetWayStatisticsByUuid**](docs/WayAPI.md#getwaystatisticsbyuuid) | **Get** /ways/{wayId}/statistics | Get way statistics by UUID
-*WayAPI* | [**UpdateWay**](docs/WayAPI.md#updateway) | **Patch** /ways/{wayId} | Update way by UUID
-*WayCollectionAPI* | [**CreateWayCollection**](docs/WayCollectionAPI.md#createwaycollection) | **Post** /wayCollections | Create a new wayCollection
-*WayCollectionAPI* | [**DeleteWayCollection**](docs/WayCollectionAPI.md#deletewaycollection) | **Delete** /wayCollections/{wayCollectionId} | Delete wayCollection by UUID
-*WayCollectionAPI* | [**UpdateWayCollection**](docs/WayCollectionAPI.md#updatewaycollection) | **Patch** /wayCollections/{wayCollectionId} | Update wayCollection by UUID
-*WayCollectionWayAPI* | [**CreateWayCollectionWay**](docs/WayCollectionWayAPI.md#createwaycollectionway) | **Post** /wayCollectionWays | Create a new wayCollectionWay
-*WayCollectionWayAPI* | [**DeleteWayCollectionWay**](docs/WayCollectionWayAPI.md#deletewaycollectionway) | **Delete** /wayCollectionWays/{wayId}/{wayCollectionId} | Delete wayCollectionWay by UUID
-*WayTagAPI* | [**CreateWayTag**](docs/WayTagAPI.md#createwaytag) | **Post** /wayTags | Create a new wayTag
-*WayTagAPI* | [**DeleteWayTag**](docs/WayTagAPI.md#deletewaytag) | **Delete** /wayTags/{wayTagId}/{wayId} | Delete wayTag by UUID
+*MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message
+*MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
+*RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
+*RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
+*RoomAPI* | [**DeleteUserFromRoom**](docs/RoomAPI.md#deleteuserfromroom) | **Delete** /rooms/{roomId}/users/{userId} | Delete user from room
+*RoomAPI* | [**GetChatPreview**](docs/RoomAPI.md#getchatpreview) | **Get** /rooms/preview | Get chat preview
+*RoomAPI* | [**GetRoomById**](docs/RoomAPI.md#getroombyid) | **Get** /rooms/{roomId} | Get room by id
+*RoomAPI* | [**GetRooms**](docs/RoomAPI.md#getrooms) | **Get** /rooms/list/{roomType} | Get rooms for user
+*RoomAPI* | [**UpdateRoom**](docs/RoomAPI.md#updateroom) | **Patch** /rooms/{roomId} | Update room for user
 
 
 ## Documentation For Models
 
- - [MwserverInternalCustomErrorsNoRightToChangeDayReportError](docs/MwserverInternalCustomErrorsNoRightToChangeDayReportError.md)
- - [MwserverInternalSchemasAIChatPayload](docs/MwserverInternalSchemasAIChatPayload.md)
- - [MwserverInternalSchemasAIChatResponse](docs/MwserverInternalSchemasAIChatResponse.md)
- - [MwserverInternalSchemasAICommentIssuePayload](docs/MwserverInternalSchemasAICommentIssuePayload.md)
- - [MwserverInternalSchemasAICommentIssueResponse](docs/MwserverInternalSchemasAICommentIssueResponse.md)
- - [MwserverInternalSchemasAIDecomposeIssuePayload](docs/MwserverInternalSchemasAIDecomposeIssuePayload.md)
- - [MwserverInternalSchemasAIDecomposeIssueResponse](docs/MwserverInternalSchemasAIDecomposeIssueResponse.md)
- - [MwserverInternalSchemasAIEstimateIssuePayload](docs/MwserverInternalSchemasAIEstimateIssuePayload.md)
- - [MwserverInternalSchemasAIEstimateIssueResponse](docs/MwserverInternalSchemasAIEstimateIssueResponse.md)
- - [MwserverInternalSchemasAIGeneratePlansByMetricPayload](docs/MwserverInternalSchemasAIGeneratePlansByMetricPayload.md)
- - [MwserverInternalSchemasAIGeneratePlansByMetricResponse](docs/MwserverInternalSchemasAIGeneratePlansByMetricResponse.md)
- - [MwserverInternalSchemasAddWayToCompositeWayPayload](docs/MwserverInternalSchemasAddWayToCompositeWayPayload.md)
- - [MwserverInternalSchemasBeginAuthResponse](docs/MwserverInternalSchemasBeginAuthResponse.md)
- - [MwserverInternalSchemasCommentPopulatedResponse](docs/MwserverInternalSchemasCommentPopulatedResponse.md)
- - [MwserverInternalSchemasCompositeDayReportPopulatedResponse](docs/MwserverInternalSchemasCompositeDayReportPopulatedResponse.md)
- - [MwserverInternalSchemasCompositeWayRelation](docs/MwserverInternalSchemasCompositeWayRelation.md)
- - [MwserverInternalSchemasCreateCommentPayload](docs/MwserverInternalSchemasCreateCommentPayload.md)
- - [MwserverInternalSchemasCreateDayReportPayload](docs/MwserverInternalSchemasCreateDayReportPayload.md)
- - [MwserverInternalSchemasCreateFavoriteUserPayload](docs/MwserverInternalSchemasCreateFavoriteUserPayload.md)
- - [MwserverInternalSchemasCreateFavoriteUserWayPayload](docs/MwserverInternalSchemasCreateFavoriteUserWayPayload.md)
- - [MwserverInternalSchemasCreateFromUserMentoringRequestPayload](docs/MwserverInternalSchemasCreateFromUserMentoringRequestPayload.md)
- - [MwserverInternalSchemasCreateJobDoneJobTagPayload](docs/MwserverInternalSchemasCreateJobDoneJobTagPayload.md)
- - [MwserverInternalSchemasCreateJobDonePayload](docs/MwserverInternalSchemasCreateJobDonePayload.md)
- - [MwserverInternalSchemasCreateJobTagPayload](docs/MwserverInternalSchemasCreateJobTagPayload.md)
- - [MwserverInternalSchemasCreateMentorUserWayPayload](docs/MwserverInternalSchemasCreateMentorUserWayPayload.md)
- - [MwserverInternalSchemasCreateMetricPayload](docs/MwserverInternalSchemasCreateMetricPayload.md)
- - [MwserverInternalSchemasCreatePlanJobTagPayload](docs/MwserverInternalSchemasCreatePlanJobTagPayload.md)
- - [MwserverInternalSchemasCreatePlanPayload](docs/MwserverInternalSchemasCreatePlanPayload.md)
- - [MwserverInternalSchemasCreateProblemPayload](docs/MwserverInternalSchemasCreateProblemPayload.md)
- - [MwserverInternalSchemasCreateProjectPayload](docs/MwserverInternalSchemasCreateProjectPayload.md)
- - [MwserverInternalSchemasCreateToUserMentoringRequestPayload](docs/MwserverInternalSchemasCreateToUserMentoringRequestPayload.md)
- - [MwserverInternalSchemasCreateUserProjectPayload](docs/MwserverInternalSchemasCreateUserProjectPayload.md)
- - [MwserverInternalSchemasCreateUserTagPayload](docs/MwserverInternalSchemasCreateUserTagPayload.md)
- - [MwserverInternalSchemasCreateWayCollectionPayload](docs/MwserverInternalSchemasCreateWayCollectionPayload.md)
- - [MwserverInternalSchemasCreateWayCollectionWay](docs/MwserverInternalSchemasCreateWayCollectionWay.md)
- - [MwserverInternalSchemasCreateWayPayload](docs/MwserverInternalSchemasCreateWayPayload.md)
- - [MwserverInternalSchemasCreateWayTagPayload](docs/MwserverInternalSchemasCreateWayTagPayload.md)
- - [MwserverInternalSchemasDayReportsCompositionParticipants](docs/MwserverInternalSchemasDayReportsCompositionParticipants.md)
- - [MwserverInternalSchemasDefaultWayCollections](docs/MwserverInternalSchemasDefaultWayCollections.md)
- - [MwserverInternalSchemasDeleteMentorUserWayPayload](docs/MwserverInternalSchemasDeleteMentorUserWayPayload.md)
- - [MwserverInternalSchemasFromUserMentoringRequestResponse](docs/MwserverInternalSchemasFromUserMentoringRequestResponse.md)
- - [MwserverInternalSchemasGenerateMetricsPayload](docs/MwserverInternalSchemasGenerateMetricsPayload.md)
- - [MwserverInternalSchemasGenerateMetricsResponse](docs/MwserverInternalSchemasGenerateMetricsResponse.md)
- - [MwserverInternalSchemasGetAllUsersResponse](docs/MwserverInternalSchemasGetAllUsersResponse.md)
- - [MwserverInternalSchemasGetAllWaysResponse](docs/MwserverInternalSchemasGetAllWaysResponse.md)
- - [MwserverInternalSchemasGetAuthCallbackFunctionResponse](docs/MwserverInternalSchemasGetAuthCallbackFunctionResponse.md)
- - [MwserverInternalSchemasGetUserTokenByEmailResponse](docs/MwserverInternalSchemasGetUserTokenByEmailResponse.md)
- - [MwserverInternalSchemasGetUsersByIDsResponse](docs/MwserverInternalSchemasGetUsersByIDsResponse.md)
- - [MwserverInternalSchemasGoogleToken](docs/MwserverInternalSchemasGoogleToken.md)
- - [MwserverInternalSchemasJobDonePopulatedResponse](docs/MwserverInternalSchemasJobDonePopulatedResponse.md)
- - [MwserverInternalSchemasJobTagResponse](docs/MwserverInternalSchemasJobTagResponse.md)
- - [MwserverInternalSchemasLabel](docs/MwserverInternalSchemasLabel.md)
- - [MwserverInternalSchemasLabelInfo](docs/MwserverInternalSchemasLabelInfo.md)
- - [MwserverInternalSchemasLabelStatistics](docs/MwserverInternalSchemasLabelStatistics.md)
- - [MwserverInternalSchemasListDayReportsResponse](docs/MwserverInternalSchemasListDayReportsResponse.md)
- - [MwserverInternalSchemasMetricResponse](docs/MwserverInternalSchemasMetricResponse.md)
- - [MwserverInternalSchemasOverallInformation](docs/MwserverInternalSchemasOverallInformation.md)
- - [MwserverInternalSchemasPlanPopulatedResponse](docs/MwserverInternalSchemasPlanPopulatedResponse.md)
- - [MwserverInternalSchemasProblemPopulatedResponse](docs/MwserverInternalSchemasProblemPopulatedResponse.md)
- - [MwserverInternalSchemasProjectPlainResponse](docs/MwserverInternalSchemasProjectPlainResponse.md)
- - [MwserverInternalSchemasProjectPopulatedResponse](docs/MwserverInternalSchemasProjectPopulatedResponse.md)
- - [MwserverInternalSchemasTimeSpentByDayPoint](docs/MwserverInternalSchemasTimeSpentByDayPoint.md)
- - [MwserverInternalSchemasToUserMentoringRequestResponse](docs/MwserverInternalSchemasToUserMentoringRequestResponse.md)
- - [MwserverInternalSchemasUpdateCommentPayload](docs/MwserverInternalSchemasUpdateCommentPayload.md)
- - [MwserverInternalSchemasUpdateJobDone](docs/MwserverInternalSchemasUpdateJobDone.md)
- - [MwserverInternalSchemasUpdateJobTagPayload](docs/MwserverInternalSchemasUpdateJobTagPayload.md)
- - [MwserverInternalSchemasUpdateMetricPayload](docs/MwserverInternalSchemasUpdateMetricPayload.md)
- - [MwserverInternalSchemasUpdatePlanPayload](docs/MwserverInternalSchemasUpdatePlanPayload.md)
- - [MwserverInternalSchemasUpdateProblemPayload](docs/MwserverInternalSchemasUpdateProblemPayload.md)
- - [MwserverInternalSchemasUpdateProjectPayload](docs/MwserverInternalSchemasUpdateProjectPayload.md)
- - [MwserverInternalSchemasUpdateUserPayload](docs/MwserverInternalSchemasUpdateUserPayload.md)
- - [MwserverInternalSchemasUpdateWayCollectionPayload](docs/MwserverInternalSchemasUpdateWayCollectionPayload.md)
- - [MwserverInternalSchemasUpdateWayPayload](docs/MwserverInternalSchemasUpdateWayPayload.md)
- - [MwserverInternalSchemasUserPlainResponse](docs/MwserverInternalSchemasUserPlainResponse.md)
- - [MwserverInternalSchemasUserPlainResponseWithInfo](docs/MwserverInternalSchemasUserPlainResponseWithInfo.md)
- - [MwserverInternalSchemasUserPopulatedResponse](docs/MwserverInternalSchemasUserPopulatedResponse.md)
- - [MwserverInternalSchemasUserTagResponse](docs/MwserverInternalSchemasUserTagResponse.md)
- - [MwserverInternalSchemasWayCollectionPlainResponse](docs/MwserverInternalSchemasWayCollectionPlainResponse.md)
- - [MwserverInternalSchemasWayCollectionPopulatedResponse](docs/MwserverInternalSchemasWayCollectionPopulatedResponse.md)
- - [MwserverInternalSchemasWayCollectionWayResponse](docs/MwserverInternalSchemasWayCollectionWayResponse.md)
- - [MwserverInternalSchemasWayPlainResponse](docs/MwserverInternalSchemasWayPlainResponse.md)
- - [MwserverInternalSchemasWayPopulatedResponse](docs/MwserverInternalSchemasWayPopulatedResponse.md)
- - [MwserverInternalSchemasWayStatistics](docs/MwserverInternalSchemasWayStatistics.md)
- - [MwserverInternalSchemasWayStatisticsTriplePeriod](docs/MwserverInternalSchemasWayStatisticsTriplePeriod.md)
- - [MwserverInternalSchemasWayTagResponse](docs/MwserverInternalSchemasWayTagResponse.md)
+ - [MwChatInternalSchemasCreateMessagePayload](docs/MwChatInternalSchemasCreateMessagePayload.md)
+ - [MwChatInternalSchemasCreateMessageResponse](docs/MwChatInternalSchemasCreateMessageResponse.md)
+ - [MwChatInternalSchemasCreateRoomPayload](docs/MwChatInternalSchemasCreateRoomPayload.md)
+ - [MwChatInternalSchemasGetChatPreviewResponse](docs/MwChatInternalSchemasGetChatPreviewResponse.md)
+ - [MwChatInternalSchemasGetRoomsResponse](docs/MwChatInternalSchemasGetRoomsResponse.md)
+ - [MwChatInternalSchemasMessageReader](docs/MwChatInternalSchemasMessageReader.md)
+ - [MwChatInternalSchemasMessageResponse](docs/MwChatInternalSchemasMessageResponse.md)
+ - [MwChatInternalSchemasRoomPopulatedResponse](docs/MwChatInternalSchemasRoomPopulatedResponse.md)
+ - [MwChatInternalSchemasRoomPreviewResponse](docs/MwChatInternalSchemasRoomPreviewResponse.md)
+ - [MwChatInternalSchemasUpdateMessageStatusPayload](docs/MwChatInternalSchemasUpdateMessageStatusPayload.md)
+ - [MwChatInternalSchemasUserResponse](docs/MwChatInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

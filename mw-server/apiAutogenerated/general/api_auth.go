@@ -30,7 +30,7 @@ type ApiBeginAuthRequest struct {
 	provider string
 }
 
-func (r ApiBeginAuthRequest) Execute() (*MwserverInternalSchemasBeginAuthResponse, *http.Response, error) {
+func (r ApiBeginAuthRequest) Execute() (*MwServerInternalSchemasBeginAuthResponse, *http.Response, error) {
 	return r.ApiService.BeginAuthExecute(r)
 }
 
@@ -50,13 +50,13 @@ func (a *AuthAPIService) BeginAuth(ctx context.Context, provider string) ApiBegi
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasBeginAuthResponse
-func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*MwserverInternalSchemasBeginAuthResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasBeginAuthResponse
+func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*MwServerInternalSchemasBeginAuthResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasBeginAuthResponse
+		localVarReturnValue  *MwServerInternalSchemasBeginAuthResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.BeginAuth")
@@ -126,11 +126,11 @@ func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*MwserverInter
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasBeginAuthResponseStream
-func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasBeginAuthResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasBeginAuthResponseStream
+func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasBeginAuthResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasBeginAuthResponse
+		localVarReturnValue  *MwServerInternalSchemasBeginAuthResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.BeginAuth")
@@ -214,7 +214,7 @@ type ApiGetCurrentAuthorizedUserRequest struct {
 	ApiService *AuthAPIService
 }
 
-func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*MwserverInternalSchemasUserPopulatedResponse, *http.Response, error) {
+func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetCurrentAuthorizedUserExecute(r)
 }
 
@@ -232,13 +232,13 @@ func (a *AuthAPIService) GetCurrentAuthorizedUser(ctx context.Context) ApiGetCur
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasUserPopulatedResponse
-func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*MwserverInternalSchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPopulatedResponse
+func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")
@@ -307,11 +307,11 @@ func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthoriz
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasUserPopulatedResponseStream
-func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPopulatedResponseStream
+func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")
@@ -393,7 +393,7 @@ type ApiGetGoogleTokenRequest struct {
 	ApiService *AuthAPIService
 }
 
-func (r ApiGetGoogleTokenRequest) Execute() (*MwserverInternalSchemasGoogleToken, *http.Response, error) {
+func (r ApiGetGoogleTokenRequest) Execute() (*MwServerInternalSchemasGoogleToken, *http.Response, error) {
 	return r.ApiService.GetGoogleTokenExecute(r)
 }
 
@@ -413,13 +413,13 @@ func (a *AuthAPIService) GetGoogleToken(ctx context.Context) ApiGetGoogleTokenRe
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGoogleToken
-func (a *AuthAPIService) GetGoogleTokenExecute(r ApiGetGoogleTokenRequest) (*MwserverInternalSchemasGoogleToken, *http.Response, error) {
+//  @return MwServerInternalSchemasGoogleToken
+func (a *AuthAPIService) GetGoogleTokenExecute(r ApiGetGoogleTokenRequest) (*MwServerInternalSchemasGoogleToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasGoogleToken
+		localVarReturnValue  *MwServerInternalSchemasGoogleToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleToken")
@@ -488,11 +488,11 @@ func (a *AuthAPIService) GetGoogleTokenExecute(r ApiGetGoogleTokenRequest) (*Mws
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGoogleTokenStream
-func (a *AuthAPIService) GetGoogleTokenStreamExecute(r ApiGetGoogleTokenRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasGoogleToken, *http.Response, error) {
+//  @return MwServerInternalSchemasGoogleTokenStream
+func (a *AuthAPIService) GetGoogleTokenStreamExecute(r ApiGetGoogleTokenRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGoogleToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasGoogleToken
+		localVarReturnValue  *MwServerInternalSchemasGoogleToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleToken")
@@ -575,7 +575,7 @@ type ApiGetTokenLocallyRequest struct {
 	userEmail string
 }
 
-func (r ApiGetTokenLocallyRequest) Execute() (*MwserverInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
+func (r ApiGetTokenLocallyRequest) Execute() (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
 	return r.ApiService.GetTokenLocallyExecute(r)
 }
 
@@ -597,13 +597,13 @@ func (a *AuthAPIService) GetTokenLocally(ctx context.Context, userEmail string) 
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGetUserTokenByEmailResponse
-func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*MwserverInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetUserTokenByEmailResponse
+func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasGetUserTokenByEmailResponse
+		localVarReturnValue  *MwServerInternalSchemasGetUserTokenByEmailResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetTokenLocally")
@@ -673,11 +673,11 @@ func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*M
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGetUserTokenByEmailResponseStream
-func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetUserTokenByEmailResponseStream
+func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwserverInternalSchemasGetUserTokenByEmailResponse
+		localVarReturnValue  *MwServerInternalSchemasGetUserTokenByEmailResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetTokenLocally")
@@ -776,7 +776,7 @@ func (r ApiGoogleAuthLogInCallbackFunctionRequest) State(state string) ApiGoogle
 	return r
 }
 
-func (r ApiGoogleAuthLogInCallbackFunctionRequest) Execute() (*MwserverInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
+func (r ApiGoogleAuthLogInCallbackFunctionRequest) Execute() (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	return r.ApiService.GoogleAuthLogInCallbackFunctionExecute(r)
 }
 
@@ -796,13 +796,13 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunction(ctx context.Context, pr
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGetAuthCallbackFunctionResponse
-func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthLogInCallbackFunctionRequest) (*MwserverInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAuthCallbackFunctionResponse
+func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthLogInCallbackFunctionRequest) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasGetAuthCallbackFunctionResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GoogleAuthLogInCallbackFunction")
@@ -880,11 +880,11 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasGetAuthCallbackFunctionResponseStream
-func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAuthCallbackFunctionResponseStream
+func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasGetAuthCallbackFunctionResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GoogleAuthLogInCallbackFunction")

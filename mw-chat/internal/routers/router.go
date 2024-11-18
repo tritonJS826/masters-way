@@ -2,11 +2,11 @@ package routers
 
 import (
 	"fmt"
-	"mwchat/internal/config"
-	"mwchat/internal/controllers"
+	"mw-chat/internal/config"
+	"mw-chat/internal/controllers"
 	"net/http"
 
-	_ "mwchat/docs"
+	_ "mw-chat/docs"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"

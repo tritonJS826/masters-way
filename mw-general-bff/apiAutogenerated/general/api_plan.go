@@ -27,16 +27,16 @@ type PlanAPIService service
 type ApiCreatePlanRequest struct {
 	ctx context.Context
 	ApiService *PlanAPIService
-	request *MwserverInternalSchemasCreatePlanPayload
+	request *MwServerInternalSchemasCreatePlanPayload
 }
 
 // query params
-func (r ApiCreatePlanRequest) Request(request MwserverInternalSchemasCreatePlanPayload) ApiCreatePlanRequest {
+func (r ApiCreatePlanRequest) Request(request MwServerInternalSchemasCreatePlanPayload) ApiCreatePlanRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreatePlanRequest) Execute() (*MwserverInternalSchemasPlanPopulatedResponse, *http.Response, error) {
+func (r ApiCreatePlanRequest) Execute() (*MwServerInternalSchemasPlanPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreatePlanExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *PlanAPIService) CreatePlan(ctx context.Context) ApiCreatePlanRequest {
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasPlanPopulatedResponse
-func (a *PlanAPIService) CreatePlanExecute(r ApiCreatePlanRequest) (*MwserverInternalSchemasPlanPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasPlanPopulatedResponse
+func (a *PlanAPIService) CreatePlanExecute(r ApiCreatePlanRequest) (*MwServerInternalSchemasPlanPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasPlanPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasPlanPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanAPIService.CreatePlan")
@@ -119,7 +119,7 @@ func (a *PlanAPIService) CreatePlanExecute(r ApiCreatePlanRequest) (*MwserverInt
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -144,11 +144,11 @@ func (a *PlanAPIService) CreatePlanExecute(r ApiCreatePlanRequest) (*MwserverInt
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasPlanPopulatedResponseStream
-func (a *PlanAPIService) CreatePlanStreamExecute(r ApiCreatePlanRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasPlanPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasPlanPopulatedResponseStream
+func (a *PlanAPIService) CreatePlanStreamExecute(r ApiCreatePlanRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasPlanPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasPlanPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasPlanPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanAPIService.CreatePlan")
@@ -212,7 +212,7 @@ func (a *PlanAPIService) CreatePlanStreamExecute(r ApiCreatePlanRequest, request
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -321,7 +321,7 @@ func (a *PlanAPIService) DeletePlanExecute(r ApiDeletePlanRequest) (*http.Respon
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -404,7 +404,7 @@ func (a *PlanAPIService) DeletePlanStreamExecute(r ApiDeletePlanRequest, request
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -423,16 +423,16 @@ type ApiUpdatePlanRequest struct {
 	ctx context.Context
 	ApiService *PlanAPIService
 	planId string
-	request *MwserverInternalSchemasUpdatePlanPayload
+	request *MwServerInternalSchemasUpdatePlanPayload
 }
 
 // query params
-func (r ApiUpdatePlanRequest) Request(request MwserverInternalSchemasUpdatePlanPayload) ApiUpdatePlanRequest {
+func (r ApiUpdatePlanRequest) Request(request MwServerInternalSchemasUpdatePlanPayload) ApiUpdatePlanRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdatePlanRequest) Execute() (*MwserverInternalSchemasPlanPopulatedResponse, *http.Response, error) {
+func (r ApiUpdatePlanRequest) Execute() (*MwServerInternalSchemasPlanPopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdatePlanExecute(r)
 }
 
@@ -452,13 +452,13 @@ func (a *PlanAPIService) UpdatePlan(ctx context.Context, planId string) ApiUpdat
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasPlanPopulatedResponse
-func (a *PlanAPIService) UpdatePlanExecute(r ApiUpdatePlanRequest) (*MwserverInternalSchemasPlanPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasPlanPopulatedResponse
+func (a *PlanAPIService) UpdatePlanExecute(r ApiUpdatePlanRequest) (*MwServerInternalSchemasPlanPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasPlanPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasPlanPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanAPIService.UpdatePlan")
@@ -518,7 +518,7 @@ func (a *PlanAPIService) UpdatePlanExecute(r ApiUpdatePlanRequest) (*MwserverInt
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -543,11 +543,11 @@ func (a *PlanAPIService) UpdatePlanExecute(r ApiUpdatePlanRequest) (*MwserverInt
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasPlanPopulatedResponseStream
-func (a *PlanAPIService) UpdatePlanStreamExecute(r ApiUpdatePlanRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasPlanPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasPlanPopulatedResponseStream
+func (a *PlanAPIService) UpdatePlanStreamExecute(r ApiUpdatePlanRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasPlanPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *MwserverInternalSchemasPlanPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasPlanPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PlanAPIService.UpdatePlan")
@@ -613,7 +613,7 @@ func (a *PlanAPIService) UpdatePlanStreamExecute(r ApiUpdatePlanRequest, request
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v MwserverInternalCustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

@@ -1,7 +1,7 @@
 package services
 
 import (
-	db "mwchat/internal/db/sqlc"
+	db "mw-chat/internal/db/sqlc"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )

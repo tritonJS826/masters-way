@@ -1,46 +1,46 @@
-# MwserverInternalSchemasLabelStatistics
+# MwServerInternalSchemasLabelStatistics
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Labels** | [**[]MwserverInternalSchemasLabelInfo**](MwserverInternalSchemasLabelInfo.md) |  | 
+**Labels** | [**[]MwServerInternalSchemasLabelInfo**](MwServerInternalSchemasLabelInfo.md) |  | 
 
 ## Methods
 
-### NewMwserverInternalSchemasLabelStatistics
+### NewMwServerInternalSchemasLabelStatistics
 
-`func NewMwserverInternalSchemasLabelStatistics(labels []MwserverInternalSchemasLabelInfo, ) *MwserverInternalSchemasLabelStatistics`
+`func NewMwServerInternalSchemasLabelStatistics(labels []MwServerInternalSchemasLabelInfo, ) *MwServerInternalSchemasLabelStatistics`
 
-NewMwserverInternalSchemasLabelStatistics instantiates a new MwserverInternalSchemasLabelStatistics object
+NewMwServerInternalSchemasLabelStatistics instantiates a new MwServerInternalSchemasLabelStatistics object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasLabelStatisticsWithDefaults
+### NewMwServerInternalSchemasLabelStatisticsWithDefaults
 
-`func NewMwserverInternalSchemasLabelStatisticsWithDefaults() *MwserverInternalSchemasLabelStatistics`
+`func NewMwServerInternalSchemasLabelStatisticsWithDefaults() *MwServerInternalSchemasLabelStatistics`
 
-NewMwserverInternalSchemasLabelStatisticsWithDefaults instantiates a new MwserverInternalSchemasLabelStatistics object
+NewMwServerInternalSchemasLabelStatisticsWithDefaults instantiates a new MwServerInternalSchemasLabelStatistics object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetLabels
 
-`func (o *MwserverInternalSchemasLabelStatistics) GetLabels() []MwserverInternalSchemasLabelInfo`
+`func (o *MwServerInternalSchemasLabelStatistics) GetLabels() []MwServerInternalSchemasLabelInfo`
 
 GetLabels returns the Labels field if non-nil, zero value otherwise.
 
 ### GetLabelsOk
 
-`func (o *MwserverInternalSchemasLabelStatistics) GetLabelsOk() (*[]MwserverInternalSchemasLabelInfo, bool)`
+`func (o *MwServerInternalSchemasLabelStatistics) GetLabelsOk() (*[]MwServerInternalSchemasLabelInfo, bool)`
 
 GetLabelsOk returns a tuple with the Labels field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLabels
 
-`func (o *MwserverInternalSchemasLabelStatistics) SetLabels(v []MwserverInternalSchemasLabelInfo)`
+`func (o *MwServerInternalSchemasLabelStatistics) SetLabels(v []MwServerInternalSchemasLabelInfo)`
 
 SetLabels sets Labels field to given value.
 

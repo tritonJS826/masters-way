@@ -1,8 +1,8 @@
 package controllers
 
 import (
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
-	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"net/http"
 
@@ -10,11 +10,11 @@ import (
 )
 
 type MentorUserWayController struct {
-	generalService *services.GeneralService
+	mentorUserWayFacade *facades.MentorUserWayFacade
 }
 
-func NewMentorUserWayController(generalService *services.GeneralService) *MentorUserWayController {
-	return &MentorUserWayController{generalService}
+func NewMentorUserWayController(mentorUserWayFacade *facades.MentorUserWayFacade) *MentorUserWayController {
+	return &MentorUserWayController{mentorUserWayFacade}
 }
 
 // Create mentorUserWay handler
@@ -35,7 +35,7 @@ func (mc *MentorUserWayController) AddMentorUserWay(ctx *gin.Context) {
 		return
 	}
 
-	err := mc.generalService.AddMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
+	err := mc.mentorUserWayFacade.AddMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)
@@ -59,7 +59,7 @@ func (mc *MentorUserWayController) DeleteMentorUserWay(ctx *gin.Context) {
 		return
 	}
 
-	err := mc.generalService.DeleteMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
+	err := mc.mentorUserWayFacade.DeleteMentorUserWay(ctx, payload.UserUuid, payload.WayUuid)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusNoContent)

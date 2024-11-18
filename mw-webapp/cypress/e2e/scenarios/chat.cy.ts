@@ -6,7 +6,7 @@ import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import chatData from "cypress/fixtures/chatFixture.json"
 
 beforeEach(() => {
-    cy.resetDb();
+    cy.resetGeneralDb();
     cy.login(testUserData.testUsers.mentorMax.loginLink); 
 });
 

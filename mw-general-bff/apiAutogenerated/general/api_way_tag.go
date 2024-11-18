@@ -27,16 +27,16 @@ type WayTagAPIService service
 type ApiCreateWayTagRequest struct {
 	ctx context.Context
 	ApiService *WayTagAPIService
-	request *MwserverInternalSchemasCreateWayTagPayload
+	request *MwServerInternalSchemasCreateWayTagPayload
 }
 
 // query params
-func (r ApiCreateWayTagRequest) Request(request MwserverInternalSchemasCreateWayTagPayload) ApiCreateWayTagRequest {
+func (r ApiCreateWayTagRequest) Request(request MwServerInternalSchemasCreateWayTagPayload) ApiCreateWayTagRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateWayTagRequest) Execute() (*MwserverInternalSchemasWayTagResponse, *http.Response, error) {
+func (r ApiCreateWayTagRequest) Execute() (*MwServerInternalSchemasWayTagResponse, *http.Response, error) {
 	return r.ApiService.CreateWayTagExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *WayTagAPIService) CreateWayTag(ctx context.Context) ApiCreateWayTagRequ
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayTagResponse
-func (a *WayTagAPIService) CreateWayTagExecute(r ApiCreateWayTagRequest) (*MwserverInternalSchemasWayTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayTagResponse
+func (a *WayTagAPIService) CreateWayTagExecute(r ApiCreateWayTagRequest) (*MwServerInternalSchemasWayTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwserverInternalSchemasWayTagResponse
+		localVarReturnValue  *MwServerInternalSchemasWayTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayTagAPIService.CreateWayTag")
@@ -134,11 +134,11 @@ func (a *WayTagAPIService) CreateWayTagExecute(r ApiCreateWayTagRequest) (*Mwser
 }
 
 // Execute executes the request
-//  @return MwserverInternalSchemasWayTagResponseStream
-func (a *WayTagAPIService) CreateWayTagStreamExecute(r ApiCreateWayTagRequest, request *http.Request, GoogleAccessToken string) (*MwserverInternalSchemasWayTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayTagResponseStream
+func (a *WayTagAPIService) CreateWayTagStreamExecute(r ApiCreateWayTagRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwserverInternalSchemasWayTagResponse
+		localVarReturnValue  *MwServerInternalSchemasWayTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayTagAPIService.CreateWayTag")

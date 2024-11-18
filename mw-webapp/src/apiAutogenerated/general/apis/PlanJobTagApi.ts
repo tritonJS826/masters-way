@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalSchemasCreatePlanJobTagPayload,
+  MwServerInternalSchemasCreatePlanJobTagPayload,
 } from '../models/index';
 import {
-    MwserverInternalSchemasCreatePlanJobTagPayloadFromJSON,
-    MwserverInternalSchemasCreatePlanJobTagPayloadToJSON,
+    MwServerInternalSchemasCreatePlanJobTagPayloadFromJSON,
+    MwServerInternalSchemasCreatePlanJobTagPayloadToJSON,
 } from '../models/index';
 
 export interface CreatePlanJobTagRequest {
-    request: MwserverInternalSchemasCreatePlanJobTagPayload;
+    request: MwServerInternalSchemasCreatePlanJobTagPayload;
 }
 
 export interface DeletePlanJobTagRequest {
@@ -55,7 +55,7 @@ export class PlanJobTagApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasCreatePlanJobTagPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreatePlanJobTagPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

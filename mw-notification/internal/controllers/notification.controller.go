@@ -24,7 +24,7 @@ func (nc *NotificationController) CreateNotification(ctx context.Context, in *pb
 		UserID:      uuid.MustParse(in.GetUserUuid()),
 		Description: in.Description,
 		Url:         in.Url,
-		Nature:      in.Nature,
+		Nature:      in.Nature.String(),
 	}
 	notification, err := nc.notificationService.CreateNotification(ctx, params)
 	if err != nil {
@@ -37,7 +37,7 @@ func (nc *NotificationController) CreateNotification(ctx context.Context, in *pb
 		IsRead:      notification.IsRead,
 		Description: notification.Description,
 		Url:         notification.Url,
-		Nature:      notification.Nature,
+		Nature:      pb.Nature(pb.Nature_value[notification.Nature]),
 		CreatedAt:   notification.CreatedAt,
 	}, nil
 }
@@ -57,7 +57,7 @@ func (nc *NotificationController) UpdateNotification(ctx context.Context, in *pb
 		IsRead:      notification.IsRead,
 		Description: notification.Description,
 		Url:         notification.Url,
-		Nature:      notification.Nature,
+		Nature:      pb.Nature(pb.Nature_value[notification.Nature]),
 		CreatedAt:   notification.CreatedAt,
 	}, nil
 }
@@ -75,7 +75,7 @@ func (nc *NotificationController) GetNotificationList(ctx context.Context, in *p
 			IsRead:      notificationRaw.IsRead,
 			Description: notificationRaw.Description,
 			Url:         notificationRaw.Url,
-			Nature:      notificationRaw.Nature,
+			Nature:      pb.Nature(pb.Nature_value[notificationRaw.Nature]),
 			CreatedAt:   notificationRaw.CreatedAt,
 		}
 	})

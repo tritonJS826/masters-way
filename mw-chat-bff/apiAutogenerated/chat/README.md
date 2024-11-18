@@ -92,17 +92,17 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MwchatInternalSchemasCreateMessagePayload](docs/MwchatInternalSchemasCreateMessagePayload.md)
- - [MwchatInternalSchemasCreateMessageResponse](docs/MwchatInternalSchemasCreateMessageResponse.md)
- - [MwchatInternalSchemasCreateRoomPayload](docs/MwchatInternalSchemasCreateRoomPayload.md)
- - [MwchatInternalSchemasGetChatPreviewResponse](docs/MwchatInternalSchemasGetChatPreviewResponse.md)
- - [MwchatInternalSchemasGetRoomsResponse](docs/MwchatInternalSchemasGetRoomsResponse.md)
- - [MwchatInternalSchemasMessageReader](docs/MwchatInternalSchemasMessageReader.md)
- - [MwchatInternalSchemasMessageResponse](docs/MwchatInternalSchemasMessageResponse.md)
- - [MwchatInternalSchemasRoomPopulatedResponse](docs/MwchatInternalSchemasRoomPopulatedResponse.md)
- - [MwchatInternalSchemasRoomPreviewResponse](docs/MwchatInternalSchemasRoomPreviewResponse.md)
- - [MwchatInternalSchemasUpdateMessageStatusPayload](docs/MwchatInternalSchemasUpdateMessageStatusPayload.md)
- - [MwchatInternalSchemasUserResponse](docs/MwchatInternalSchemasUserResponse.md)
+ - [MwChatInternalSchemasCreateMessagePayload](docs/MwChatInternalSchemasCreateMessagePayload.md)
+ - [MwChatInternalSchemasCreateMessageResponse](docs/MwChatInternalSchemasCreateMessageResponse.md)
+ - [MwChatInternalSchemasCreateRoomPayload](docs/MwChatInternalSchemasCreateRoomPayload.md)
+ - [MwChatInternalSchemasGetChatPreviewResponse](docs/MwChatInternalSchemasGetChatPreviewResponse.md)
+ - [MwChatInternalSchemasGetRoomsResponse](docs/MwChatInternalSchemasGetRoomsResponse.md)
+ - [MwChatInternalSchemasMessageReader](docs/MwChatInternalSchemasMessageReader.md)
+ - [MwChatInternalSchemasMessageResponse](docs/MwChatInternalSchemasMessageResponse.md)
+ - [MwChatInternalSchemasRoomPopulatedResponse](docs/MwChatInternalSchemasRoomPopulatedResponse.md)
+ - [MwChatInternalSchemasRoomPreviewResponse](docs/MwChatInternalSchemasRoomPreviewResponse.md)
+ - [MwChatInternalSchemasUpdateMessageStatusPayload](docs/MwChatInternalSchemasUpdateMessageStatusPayload.md)
+ - [MwChatInternalSchemasUserResponse](docs/MwChatInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

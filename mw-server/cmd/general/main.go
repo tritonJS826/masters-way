@@ -10,11 +10,11 @@ import (
 	"syscall"
 	"time"
 
-	"mwserver/internal/config"
-	"mwserver/internal/controllers"
-	"mwserver/internal/routers"
-	"mwserver/internal/services"
-	"mwserver/pkg/database"
+	"mw-server/internal/config"
+	"mw-server/internal/controllers"
+	"mw-server/internal/routers"
+	"mw-server/internal/services"
+	"mw-server/pkg/database"
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/option"

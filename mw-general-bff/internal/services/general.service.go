@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/pkg/utils"
@@ -20,12 +19,12 @@ type GeneralService struct {
 	generalAPI *openapiGeneral.APIClient
 }
 
-func NewGeneralService(generalAPI *openapiGeneral.APIClient) *GeneralService {
+func newGeneralService(generalAPI *openapiGeneral.APIClient) *GeneralService {
 	return &GeneralService{generalAPI}
 }
 
 func (gs *GeneralService) CreateComment(ctx context.Context, payload *schemas.CreateCommentPayload) (*schemas.CommentPopulatedResponse, error) {
-	commentRaw, response, err := gs.generalAPI.CommentAPI.CreateComment(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateCommentPayload{
+	commentRaw, response, err := gs.generalAPI.CommentAPI.CreateComment(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateCommentPayload{
 		DayReportUuid: payload.DayReportUuid,
 		Description:   payload.Description,
 		OwnerUuid:     payload.OwnerUuid,
@@ -55,7 +54,7 @@ type UpdateCommentParams struct {
 }
 
 func (gs *GeneralService) UpdateComment(ctx context.Context, params *UpdateCommentParams) (*schemas.CommentPopulatedResponse, error) {
-	updateReq := openapiGeneral.MwserverInternalSchemasUpdateCommentPayload{
+	updateReq := openapiGeneral.MwServerInternalSchemasUpdateCommentPayload{
 		Description: params.Description,
 	}
 
@@ -96,7 +95,7 @@ type AddWayToCompositeWayParams struct {
 }
 
 func (gs *GeneralService) AddWayToCompositeWay(ctx context.Context, params *schemas.AddWayToCompositeWayPayload) (*schemas.CompositeWayRelation, error) {
-	relationRaw, response, err := gs.generalAPI.CompositeWayAPI.CreateCompositeWay(ctx).Request(openapiGeneral.MwserverInternalSchemasAddWayToCompositeWayPayload{
+	relationRaw, response, err := gs.generalAPI.CompositeWayAPI.CreateCompositeWay(ctx).Request(openapiGeneral.MwServerInternalSchemasAddWayToCompositeWayPayload{
 		ChildWayUuid:  params.ChildWayUuid,
 		ParentWayUuid: params.ParentWayUuid,
 	}).Execute()
@@ -136,7 +135,7 @@ type GetDayReportsByWayIdParams struct {
 	Limit   int
 }
 
-func (gs *GeneralService) GetDayReportsByWayID(ctx context.Context, params *GetDayReportsByWayIdParams) (*openapiGeneral.MwserverInternalSchemasListDayReportsResponse, error) {
+func (gs *GeneralService) GetDayReportsByWayID(ctx context.Context, params *GetDayReportsByWayIdParams) (*openapiGeneral.MwServerInternalSchemasListDayReportsResponse, error) {
 	reports, response, err := gs.generalAPI.DayReportAPI.GetDayReports(ctx, params.WayUUID).Page(int32(params.Page)).Limit(int32(params.Limit)).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -149,12 +148,8 @@ type GetLastDayReportDateResponse struct {
 	EndDate        time.Time
 }
 
-func (gs *GeneralService) GetLastDayReportDate(ctx context.Context, wayUUIDs []uuid.UUID) (*GetLastDayReportDateResponse, error) {
-	return nil, nil
-}
-
-func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*openapiGeneral.MwserverInternalSchemasCompositeDayReportPopulatedResponse, error) {
-	dayReports, response, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateDayReportPayload{
+func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*openapiGeneral.MwServerInternalSchemasCompositeDayReportPopulatedResponse, error) {
+	dayReports, response, err := gs.generalAPI.DayReportAPI.CreateDayReport(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateDayReportPayload{
 		WayId: wayID,
 	}).Execute()
 	if err != nil {
@@ -165,7 +160,7 @@ func (gs *GeneralService) CreateDayReport(ctx context.Context, wayID string) (*o
 
 func (gs *GeneralService) CreateFavoriteUser(ctx context.Context, payload *schemas.CreateFavoriteUserPayload) error {
 	response, err := gs.generalAPI.FavoriteUserAPI.CreateFavoriteUser(ctx).
-		Request(openapiGeneral.MwserverInternalSchemasCreateFavoriteUserPayload{
+		Request(openapiGeneral.MwServerInternalSchemasCreateFavoriteUserPayload{
 			DonorUserUuid:    payload.DonorUserUuid.String(),
 			AcceptorUserUuid: payload.AcceptorUserUuid.String(),
 		}).Execute()
@@ -188,7 +183,7 @@ func (gs *GeneralService) DeleteFavoriteUserById(ctx context.Context, donorUserU
 }
 
 func (gs *GeneralService) CreateFavoriteUserWay(ctx context.Context, userUUID, wayUUID uuid.UUID) error {
-	response, err := gs.generalAPI.FavoriteUserWayAPI.CreateFavoriteUserWay(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateFavoriteUserWayPayload{
+	response, err := gs.generalAPI.FavoriteUserWayAPI.CreateFavoriteUserWay(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateFavoriteUserWayPayload{
 		UserUuid: userUUID.String(),
 		WayUuid:  wayUUID.String(),
 	}).Execute()
@@ -211,7 +206,7 @@ func (fuws *GeneralService) DeleteFavoriteUserWayById(ctx context.Context, userI
 }
 
 func (gs *GeneralService) CreateFromUserMentoringRequest(ctx context.Context, userID, wayID string) (*schemas.FromUserMentoringRequestResponse, error) {
-	fromUserMentoringRaw, response, err := gs.generalAPI.FromUserMentoringRequestAPI.CreateFromUserMentoringRequest(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateFromUserMentoringRequestPayload{
+	fromUserMentoringRaw, response, err := gs.generalAPI.FromUserMentoringRequestAPI.CreateFromUserMentoringRequest(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateFromUserMentoringRequestPayload{
 		UserUuid: userID,
 		WayUuid:  wayID,
 	}).Execute()
@@ -239,7 +234,7 @@ func (gs *GeneralService) DeleteFromUserMentoringRequestById(ctx context.Context
 }
 
 func (gs *GeneralService) CreateMetricsPrompt(ctx context.Context, payload *schemas.GenerateMetricsPayload) (*schemas.GenerateMetricsResponse, error) {
-	metricsRow, response, err := gs.generalAPI.GeminiAPI.GenerateMetrics(ctx).Request(openapiGeneral.MwserverInternalSchemasGenerateMetricsPayload{
+	metricsRow, response, err := gs.generalAPI.GeminiAPI.GenerateMetrics(ctx).Request(openapiGeneral.MwServerInternalSchemasGenerateMetricsPayload{
 		GoalDescription: payload.GoalDescription,
 		Metrics:         payload.Metrics,
 		WayName:         payload.WayName,
@@ -257,7 +252,7 @@ func (gs *GeneralService) CreateMetricsPrompt(ctx context.Context, payload *sche
 }
 
 func (gs *GeneralService) AIChat(ctx context.Context, payload *schemas.AIChatPayload) (*schemas.AIChatResponse, error) {
-	aiChatRow, response, err := gs.generalAPI.GeminiAPI.AiChat(ctx).Request(openapiGeneral.MwserverInternalSchemasAIChatPayload{
+	aiChatRow, response, err := gs.generalAPI.GeminiAPI.AiChat(ctx).Request(openapiGeneral.MwServerInternalSchemasAIChatPayload{
 		Message: payload.Message,
 	}).Execute()
 
@@ -272,7 +267,7 @@ func (gs *GeneralService) AIChat(ctx context.Context, payload *schemas.AIChatPay
 }
 
 func (gs *GeneralService) GeneratePlansByMetric(ctx context.Context, payload *schemas.AIGeneratePlansByMetricPayload) (*schemas.AIGeneratePlansByMetricResponse, error) {
-	plansRaw, response, err := gs.generalAPI.GeminiAPI.AiPlansByMetrics(ctx).Request(openapiGeneral.MwserverInternalSchemasAIGeneratePlansByMetricPayload{
+	plansRaw, response, err := gs.generalAPI.GeminiAPI.AiPlansByMetrics(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGeneratePlansByMetricPayload{
 		Goal:   payload.Goal,
 		Metric: payload.Metric,
 	}).Execute()
@@ -289,7 +284,7 @@ func (gs *GeneralService) GeneratePlansByMetric(ctx context.Context, payload *sc
 }
 
 func (gs *GeneralService) CommentIssue(ctx context.Context, payload *schemas.AICommentIssuePayload) (*schemas.AICommentIssueResponse, error) {
-	commentRaw, response, err := gs.generalAPI.GeminiAPI.AiCommentIssue(ctx).Request(openapiGeneral.MwserverInternalSchemasAICommentIssuePayload{
+	commentRaw, response, err := gs.generalAPI.GeminiAPI.AiCommentIssue(ctx).Request(openapiGeneral.MwServerInternalSchemasAICommentIssuePayload{
 		Goal:    payload.Goal,
 		Message: payload.Message,
 	}).Execute()
@@ -306,7 +301,7 @@ func (gs *GeneralService) CommentIssue(ctx context.Context, payload *schemas.AIC
 }
 
 func (gs *GeneralService) DecomposeIssue(ctx context.Context, payload *schemas.AIDecomposeIssuePayload) (*schemas.AIDecomposeIssueResponse, error) {
-	plansRaw, response, err := gs.generalAPI.GeminiAPI.AiDecomposeIssue(ctx).Request(openapiGeneral.MwserverInternalSchemasAIDecomposeIssuePayload{
+	plansRaw, response, err := gs.generalAPI.GeminiAPI.AiDecomposeIssue(ctx).Request(openapiGeneral.MwServerInternalSchemasAIDecomposeIssuePayload{
 		Goal:    payload.Goal,
 		Message: payload.Message,
 	}).Execute()
@@ -323,7 +318,7 @@ func (gs *GeneralService) DecomposeIssue(ctx context.Context, payload *schemas.A
 }
 
 func (gs *GeneralService) EstimateIssue(ctx context.Context, payload *schemas.AIEstimateIssuePayload) (*schemas.AIEstimateIssueResponse, error) {
-	estimateRaw, response, err := gs.generalAPI.GeminiAPI.AiEstimateIssue(ctx).Request(openapiGeneral.MwserverInternalSchemasAIEstimateIssuePayload{
+	estimateRaw, response, err := gs.generalAPI.GeminiAPI.AiEstimateIssue(ctx).Request(openapiGeneral.MwServerInternalSchemasAIEstimateIssuePayload{
 		Goal:  payload.Goal,
 		Issue: payload.Issue,
 	}).Execute()
@@ -339,8 +334,8 @@ func (gs *GeneralService) EstimateIssue(ctx context.Context, payload *schemas.AI
 	return estimate, nil
 }
 
-func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse, error) {
-	jobDone, response, err := gs.generalAPI.JobDoneAPI.CreateJobDone(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateJobDonePayload{
+func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
+	jobDone, response, err := gs.generalAPI.JobDoneAPI.CreateJobDone(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateJobDonePayload{
 		DayReportUuid: payload.DayReportUuid,
 		Description:   payload.Description,
 		JobTagUuids:   payload.JobTagUuids,
@@ -361,8 +356,8 @@ type UpdateJobDoneParams struct {
 	Time        *int32
 }
 
-func (gs *GeneralService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*openapiGeneral.MwserverInternalSchemasJobDonePopulatedResponse, error) {
-	jobDone, response, err := gs.generalAPI.JobDoneAPI.UpdateJobDone(ctx, params.JobDoneID).Request(openapiGeneral.MwserverInternalSchemasUpdateJobDone{
+func (gs *GeneralService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
+	jobDone, response, err := gs.generalAPI.JobDoneAPI.UpdateJobDone(ctx, params.JobDoneID).Request(openapiGeneral.MwServerInternalSchemasUpdateJobDone{
 		Description: params.Description,
 		Time:        params.Time,
 	}).Execute()
@@ -385,7 +380,7 @@ func (gs *GeneralService) DeleteJobDoneByID(ctx context.Context, jobDoneID strin
 }
 
 func (gs *GeneralService) CreateJobDoneJobTag(ctx context.Context, payload *schemas.CreateJobDoneJobTagPayload) error {
-	response, err := gs.generalAPI.JobDoneJobTagAPI.CreateJobDoneJobTag(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateJobDoneJobTagPayload{
+	response, err := gs.generalAPI.JobDoneJobTagAPI.CreateJobDoneJobTag(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateJobDoneJobTagPayload{
 		JobDoneUuid: payload.JobDoneUuid,
 		JobTagUuid:  payload.JobTagUuid,
 	}).Execute()
@@ -408,7 +403,7 @@ func (gs *GeneralService) DeleteJobDoneJobTagById(ctx context.Context, jobDoneID
 }
 
 func (gs *GeneralService) CreateJobTag(ctx context.Context, payload *schemas.CreateJobTagPayload) (*schemas.JobTagResponse, error) {
-	jobTagRaw, response, err := gs.generalAPI.JobTagAPI.CreateJobTag(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateJobTagPayload{
+	jobTagRaw, response, err := gs.generalAPI.JobTagAPI.CreateJobTag(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateJobTagPayload{
 		Color:       payload.Color,
 		Description: payload.Description,
 		Name:        payload.Name,
@@ -430,11 +425,6 @@ func (gs *GeneralService) CreateJobTag(ctx context.Context, payload *schemas.Cre
 
 }
 
-// TODO
-func (gs *GeneralService) GetLabelsByIDs(ctx context.Context, jobTagIDs []string) ([]schemas.JobTagResponse, error) {
-	return nil, nil
-}
-
 type UpdateJobTagParams struct {
 	JobTagID    string
 	Name        string
@@ -443,7 +433,7 @@ type UpdateJobTagParams struct {
 }
 
 func (gs *GeneralService) UpdateJobTag(ctx context.Context, params *UpdateJobTagParams) (*schemas.JobTagResponse, error) {
-	jobTagRaw, response, err := gs.generalAPI.JobTagAPI.UpdateJobTag(ctx, params.JobTagID).Request(openapiGeneral.MwserverInternalSchemasUpdateJobTagPayload{
+	jobTagRaw, response, err := gs.generalAPI.JobTagAPI.UpdateJobTag(ctx, params.JobTagID).Request(openapiGeneral.MwServerInternalSchemasUpdateJobTagPayload{
 		Name:        &params.Name,
 		Description: &params.Description,
 		Color:       &params.Color,
@@ -473,7 +463,7 @@ func (gs *GeneralService) DeleteJobTagById(ctx context.Context, jobTagID string)
 }
 
 func (gs *GeneralService) AddMentorUserWay(ctx context.Context, userID, wayID string) error {
-	response, err := gs.generalAPI.MentorUserWayAPI.CreateMentorUserWay(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateMentorUserWayPayload{
+	response, err := gs.generalAPI.MentorUserWayAPI.CreateMentorUserWay(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateMentorUserWayPayload{
 		UserUuid: userID,
 		WayUuid:  wayID,
 	}).Execute()
@@ -486,7 +476,7 @@ func (gs *GeneralService) AddMentorUserWay(ctx context.Context, userID, wayID st
 }
 
 func (gs *GeneralService) DeleteMentorUserWay(ctx context.Context, userID, wayID string) error {
-	response, err := gs.generalAPI.MentorUserWayAPI.DeleteMentorUserWay(ctx).Request(openapiGeneral.MwserverInternalSchemasDeleteMentorUserWayPayload{
+	response, err := gs.generalAPI.MentorUserWayAPI.DeleteMentorUserWay(ctx).Request(openapiGeneral.MwServerInternalSchemasDeleteMentorUserWayPayload{
 		UserUuid: userID,
 		WayUuid:  wayID,
 	}).Execute()
@@ -498,8 +488,8 @@ func (gs *GeneralService) DeleteMentorUserWay(ctx context.Context, userID, wayID
 	return nil
 }
 
-func (gs *GeneralService) CreateMetric(ctx context.Context, payload *schemas.CreateMetricPayload) (*openapiGeneral.MwserverInternalSchemasMetricResponse, error) {
-	metric, response, err := gs.generalAPI.MetricAPI.CreateMetric(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateMetricPayload{
+func (gs *GeneralService) CreateMetric(ctx context.Context, payload *schemas.CreateMetricPayload) (*openapiGeneral.MwServerInternalSchemasMetricResponse, error) {
+	metric, response, err := gs.generalAPI.MetricAPI.CreateMetric(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateMetricPayload{
 		Description:    payload.Description,
 		DoneDate:       payload.DoneDate,
 		EstimationTime: payload.MetricEstimation,
@@ -521,8 +511,8 @@ type UpdateMetricParams struct {
 	MetricEstimation *int32
 }
 
-func (gs *GeneralService) UpdateMetric(ctx context.Context, params *UpdateMetricParams) (*openapiGeneral.MwserverInternalSchemasMetricResponse, error) {
-	metric, response, err := gs.generalAPI.MetricAPI.UpdateMetric(ctx, params.MetricID).Request(openapiGeneral.MwserverInternalSchemasUpdateMetricPayload{
+func (gs *GeneralService) UpdateMetric(ctx context.Context, params *UpdateMetricParams) (*openapiGeneral.MwServerInternalSchemasMetricResponse, error) {
+	metric, response, err := gs.generalAPI.MetricAPI.UpdateMetric(ctx, params.MetricID).Request(openapiGeneral.MwServerInternalSchemasUpdateMetricPayload{
 		Description:    params.Description,
 		EstimationTime: params.MetricEstimation,
 		IsDone:         params.IsDone,
@@ -545,8 +535,8 @@ func (gs *GeneralService) DeleteMetricById(ctx context.Context, metricID string)
 	return nil
 }
 
-func (gs *GeneralService) CreatePlan(ctx context.Context, payload *schemas.CreatePlanPayload) (*openapiGeneral.MwserverInternalSchemasPlanPopulatedResponse, error) {
-	plan, response, err := gs.generalAPI.PlanAPI.CreatePlan(ctx).Request(openapiGeneral.MwserverInternalSchemasCreatePlanPayload{
+func (gs *GeneralService) CreatePlan(ctx context.Context, payload *schemas.CreatePlanPayload) (*openapiGeneral.MwServerInternalSchemasPlanPopulatedResponse, error) {
+	plan, response, err := gs.generalAPI.PlanAPI.CreatePlan(ctx).Request(openapiGeneral.MwServerInternalSchemasCreatePlanPayload{
 		DayReportUuid: payload.DayReportUuid,
 		Description:   payload.Description,
 		IsDone:        payload.IsDone,
@@ -568,8 +558,8 @@ type UpdatePlanParams struct {
 	IsDone      *bool
 }
 
-func (gs *GeneralService) UpdatePlan(ctx context.Context, params *UpdatePlanParams) (*openapiGeneral.MwserverInternalSchemasPlanPopulatedResponse, error) {
-	plan, response, err := gs.generalAPI.PlanAPI.UpdatePlan(ctx, params.PlanID).Request(openapiGeneral.MwserverInternalSchemasUpdatePlanPayload{
+func (gs *GeneralService) UpdatePlan(ctx context.Context, params *UpdatePlanParams) (*openapiGeneral.MwServerInternalSchemasPlanPopulatedResponse, error) {
+	plan, response, err := gs.generalAPI.PlanAPI.UpdatePlan(ctx, params.PlanID).Request(openapiGeneral.MwServerInternalSchemasUpdatePlanPayload{
 		Description: params.Description,
 		IsDone:      params.IsDone,
 		Time:        params.Time,
@@ -593,7 +583,7 @@ func (gs *GeneralService) DeletePlanById(ctx context.Context, planID string) err
 }
 
 func (gs *GeneralService) CreatePlanJobTag(ctx context.Context, payload *schemas.CreatePlanJobTagPayload) error {
-	response, err := gs.generalAPI.PlanJobTagAPI.CreatePlanJobTag(ctx).Request(openapiGeneral.MwserverInternalSchemasCreatePlanJobTagPayload{
+	response, err := gs.generalAPI.PlanJobTagAPI.CreatePlanJobTag(ctx).Request(openapiGeneral.MwServerInternalSchemasCreatePlanJobTagPayload{
 		JobTagUuid: payload.JobTagUuid,
 		PlanUuid:   payload.PlanUuid,
 	}).Execute()
@@ -616,8 +606,8 @@ func (gs *GeneralService) DeletePlanJobTagById(ctx context.Context, planID, jobT
 	return nil
 }
 
-func (gs *GeneralService) CreateProblem(ctx context.Context, payload *schemas.CreateProblemPayload) (*openapiGeneral.MwserverInternalSchemasProblemPopulatedResponse, error) {
-	problem, response, err := gs.generalAPI.ProblemAPI.CreateProblem(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateProblemPayload{
+func (gs *GeneralService) CreateProblem(ctx context.Context, payload *schemas.CreateProblemPayload) (*openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse, error) {
+	problem, response, err := gs.generalAPI.ProblemAPI.CreateProblem(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateProblemPayload{
 		DayReportUuid: payload.DayReportUuid,
 		Description:   payload.Description,
 		IsDone:        payload.IsDone,
@@ -637,8 +627,8 @@ type UpdateProblemParams struct {
 	IsDone      *bool
 }
 
-func (gs *GeneralService) UpdateProblem(ctx context.Context, params *UpdateProblemParams) (*openapiGeneral.MwserverInternalSchemasProblemPopulatedResponse, error) {
-	problem, response, err := gs.generalAPI.ProblemAPI.UpdateProblem(ctx, params.ProblemID).Request(openapiGeneral.MwserverInternalSchemasUpdateProblemPayload{
+func (gs *GeneralService) UpdateProblem(ctx context.Context, params *UpdateProblemParams) (*openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse, error) {
+	problem, response, err := gs.generalAPI.ProblemAPI.UpdateProblem(ctx, params.ProblemID).Request(openapiGeneral.MwServerInternalSchemasUpdateProblemPayload{
 		Description: params.Description,
 		IsDone:      params.IsDone,
 	}).Execute()
@@ -660,8 +650,8 @@ func (gs *GeneralService) DeleteProblemById(ctx context.Context, problemID strin
 	return nil
 }
 
-func (gs *GeneralService) CreateProject(ctx context.Context, payload *schemas.CreateProjectPayload) (*openapiGeneral.MwserverInternalSchemasProjectPopulatedResponse, error) {
-	project, response, err := gs.generalAPI.ProjectAPI.CreateProject(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateProjectPayload{
+func (gs *GeneralService) CreateProject(ctx context.Context, payload *schemas.CreateProjectPayload) (*openapiGeneral.MwServerInternalSchemasProjectPopulatedResponse, error) {
+	project, response, err := gs.generalAPI.ProjectAPI.CreateProject(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateProjectPayload{
 		Name:    payload.Name,
 		OwnerId: payload.OwnerID,
 	}).Execute()
@@ -679,8 +669,8 @@ type UpdateProjectParams struct {
 	IsPrivate *bool
 }
 
-func (gs *GeneralService) UpdateProject(ctx context.Context, params *UpdateProjectParams) (*openapiGeneral.MwserverInternalSchemasProjectPopulatedResponse, error) {
-	project, response, err := gs.generalAPI.ProjectAPI.UpdateProject(ctx, params.ID).Request(openapiGeneral.MwserverInternalSchemasUpdateProjectPayload{
+func (gs *GeneralService) UpdateProject(ctx context.Context, params *UpdateProjectParams) (*openapiGeneral.MwServerInternalSchemasProjectPopulatedResponse, error) {
+	project, response, err := gs.generalAPI.ProjectAPI.UpdateProject(ctx, params.ID).Request(openapiGeneral.MwServerInternalSchemasUpdateProjectPayload{
 		IsPrivate: params.IsPrivate,
 		Name:      params.Name,
 	}).Execute()
@@ -692,7 +682,7 @@ func (gs *GeneralService) UpdateProject(ctx context.Context, params *UpdateProje
 	return project, nil
 }
 
-func (gs *GeneralService) GetProjectByID(ctx context.Context, projectID string) (*openapiGeneral.MwserverInternalSchemasProjectPopulatedResponse, error) {
+func (gs *GeneralService) GetProjectByID(ctx context.Context, projectID string) (*openapiGeneral.MwServerInternalSchemasProjectPopulatedResponse, error) {
 	project, response, err := gs.generalAPI.ProjectAPI.GetProject(ctx, projectID).Execute()
 
 	if err != nil {
@@ -711,8 +701,8 @@ func (gs *GeneralService) DeleteProjectByID(ctx context.Context, projectID strin
 	return nil
 }
 
-func (gs *GeneralService) CreateToUserMentoringRequest(ctx context.Context, payload *schemas.CreateToUserMentoringRequestPayload) (*openapiGeneral.MwserverInternalSchemasToUserMentoringRequestResponse, error) {
-	userMentoringRequest, response, err := gs.generalAPI.ToUserMentoringRequestAPI.CreateUserMentoringRequest(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateToUserMentoringRequestPayload{
+func (gs *GeneralService) CreateToUserMentoringRequest(ctx context.Context, payload *schemas.CreateToUserMentoringRequestPayload) (*openapiGeneral.MwServerInternalSchemasToUserMentoringRequestResponse, error) {
+	userMentoringRequest, response, err := gs.generalAPI.ToUserMentoringRequestAPI.CreateUserMentoringRequest(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateToUserMentoringRequestPayload{
 		UserUuid: payload.UserUuid,
 		WayUuid:  payload.WayUuid,
 	}).Execute()
@@ -742,8 +732,8 @@ type UpdateUserParams struct {
 	IsMentor    *bool
 }
 
-func (gs *GeneralService) UpdateUser(ctx context.Context, params *UpdateUserParams) (*openapiGeneral.MwserverInternalSchemasUserPlainResponse, error) {
-	user, response, err := gs.generalAPI.UserAPI.UpdateUser(ctx, params.UserID).Request(openapiGeneral.MwserverInternalSchemasUpdateUserPayload{
+func (gs *GeneralService) UpdateUser(ctx context.Context, params *UpdateUserParams) (*openapiGeneral.MwServerInternalSchemasUserPlainResponse, error) {
+	user, response, err := gs.generalAPI.UserAPI.UpdateUser(ctx, params.UserID).Request(openapiGeneral.MwServerInternalSchemasUpdateUserPayload{
 		Description: params.Description,
 		ImageUrl:    params.ImageUrl,
 		IsMentor:    params.IsMentor,
@@ -765,7 +755,7 @@ type GetAllUsersParams struct {
 	Limit        int
 }
 
-func (gs *GeneralService) GetAllUsers(ctx context.Context, params *GetAllUsersParams) (*openapiGeneral.MwserverInternalSchemasGetAllUsersResponse, error) {
+func (gs *GeneralService) GetAllUsers(ctx context.Context, params *GetAllUsersParams) (*openapiGeneral.MwServerInternalSchemasGetAllUsersResponse, error) {
 	users, response, err := gs.generalAPI.UserAPI.GetAllUsers(ctx).
 		MentorStatus(params.MentorStatus).
 		Name(params.UserName).
@@ -800,24 +790,6 @@ func (gs *GeneralService) GetUsersByIDs(ctx context.Context, userIDs []string) (
 	return users, nil
 }
 
-type CreateUserParams struct {
-	Name        string
-	Email       string
-	Description string
-	CreatedAt   time.Time
-	ImageUrl    string
-	IsMentor    bool
-}
-
-func (gs *GeneralService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
-
-	return nil, nil
-}
-
-func (gs *GeneralService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {
-	return nil, nil
-}
-
 type dbWay struct {
 	Uuid                uuid.UUID
 	Name                string
@@ -837,7 +809,7 @@ type dbWay struct {
 	ChildrenUuids       []string
 }
 
-func (gs *GeneralService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*openapiGeneral.MwserverInternalSchemasUserPopulatedResponse, error) {
+func (gs *GeneralService) GetPopulatedUserById(ctx context.Context, userUuid uuid.UUID) (*openapiGeneral.MwServerInternalSchemasUserPopulatedResponse, error) {
 	user, response, err := gs.generalAPI.UserAPI.GetUserByUuid(ctx, userUuid.String()).Execute()
 
 	if err != nil {
@@ -847,7 +819,7 @@ func (gs *GeneralService) GetPopulatedUserById(ctx context.Context, userUuid uui
 	return user, nil
 }
 
-func mapWayCollection(collection openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse) schemas.WayCollectionPopulatedResponse {
+func mapWayCollection(collection openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse) schemas.WayCollectionPopulatedResponse {
 	return schemas.WayCollectionPopulatedResponse{
 		Uuid:      collection.Uuid,
 		Name:      collection.Name,
@@ -859,7 +831,7 @@ func mapWayCollection(collection openapiGeneral.MwserverInternalSchemasWayCollec
 	}
 }
 
-func mapWayPlainResponse(way openapiGeneral.MwserverInternalSchemasWayPlainResponse, _ int) schemas.WayPlainResponse {
+func mapWayPlainResponse(way openapiGeneral.MwServerInternalSchemasWayPlainResponse, _ int) schemas.WayPlainResponse {
 	return schemas.WayPlainResponse{
 		Uuid:              way.Uuid,
 		Name:              way.Name,
@@ -882,7 +854,7 @@ func mapWayPlainResponse(way openapiGeneral.MwserverInternalSchemasWayPlainRespo
 	}
 }
 
-func mapUserPlainResponse(user openapiGeneral.MwserverInternalSchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+func mapUserPlainResponse(user openapiGeneral.MwServerInternalSchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
 	return schemas.UserPlainResponse{
 		Uuid:        user.Uuid,
 		Name:        user.Name,
@@ -894,21 +866,21 @@ func mapUserPlainResponse(user openapiGeneral.MwserverInternalSchemasUserPlainRe
 	}
 }
 
-func mapUserTagResponse(tag openapiGeneral.MwserverInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
+func mapUserTagResponse(tag openapiGeneral.MwServerInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
 	return schemas.UserTagResponse{
 		Uuid: tag.Uuid,
 		Name: tag.Name,
 	}
 }
 
-func mapWayTagResponse(tag openapiGeneral.MwserverInternalSchemasWayTagResponse, _ int) schemas.WayTagResponse {
+func mapWayTagResponse(tag openapiGeneral.MwServerInternalSchemasWayTagResponse, _ int) schemas.WayTagResponse {
 	return schemas.WayTagResponse{
 		Uuid: tag.Uuid,
 		Name: tag.Name,
 	}
 }
 
-func mapProjectPlainResponse(project openapiGeneral.MwserverInternalSchemasProjectPlainResponse, _ int) schemas.ProjectPlainResponse {
+func mapProjectPlainResponse(project openapiGeneral.MwServerInternalSchemasProjectPlainResponse, _ int) schemas.ProjectPlainResponse {
 	return schemas.ProjectPlainResponse{
 		ID:        project.Id,
 		Name:      project.Name,
@@ -917,63 +889,8 @@ func mapProjectPlainResponse(project openapiGeneral.MwserverInternalSchemasProje
 	}
 }
 
-//
-//func (us *GeneralService) convertDbWaysToPlainWays(ctx context.Context, dbWays []dbWay) []schemas.WayPlainResponse {
-//	return nil
-//}
-//
-////
-//func (us *GeneralService) dbCollectionWaysToDbWays(rawWay []db.GetWaysByCollectionIdRow) []dbWay {
-//	return nil
-//}
-//
-//func (us *GeneralService) dbMentoringWaysToDbWays(rawWay []db.GetMentoringWaysByMentorIdRow) []dbWay {
-//	return nil
-//}
-//
-//func (us *GeneralService) dbFavoriteWaysToDbWays(rawWay []db.GetFavoriteWaysByUserIdRow) []dbWay {
-//	return nil
-//}
-
-func (gs *GeneralService) GetPlainUserWithInfoByIDs(ctx context.Context, projectID string) ([]schemas.UserPlainResponseWithInfo, error) {
-	usersRaw, response, err := gs.generalAPI.ProjectAPI.GetProject(ctx, projectID).Execute()
-
-	if err != nil {
-		return nil, utils.ExtractErrorMessageFromResponse(response)
-	}
-
-	users := make([]schemas.UserPlainResponseWithInfo, len(usersRaw.Users))
-
-	for i, user := range usersRaw.Users {
-		tags := make([]schemas.UserTagResponse, len(user.Tags))
-		for j, tag := range user.Tags {
-			tags[j] = schemas.UserTagResponse{
-				Uuid: tag.Uuid,
-				Name: tag.Name,
-			}
-		}
-
-		users[i] = schemas.UserPlainResponseWithInfo{
-			Uuid:             user.Uuid,
-			Name:             user.Name,
-			Email:            user.Email,
-			Description:      user.Description,
-			CreatedAt:        user.CreatedAt,
-			ImageUrl:         user.ImageUrl,
-			IsMentor:         user.IsMentor,
-			FavoriteForUsers: user.FavoriteForUsers,
-			FavoriteWays:     user.FavoriteWays,
-			MentoringWays:    user.MentoringWays,
-			OwnWays:          user.OwnWays,
-			Tags:             tags,
-		}
-	}
-
-	return users, nil
-}
-
 func (gs *GeneralService) CreateUserProject(ctx context.Context, userID, projectID string) error {
-	response, err := gs.generalAPI.UserProjectAPI.CreateUserProject(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateUserProjectPayload{
+	response, err := gs.generalAPI.UserProjectAPI.CreateUserProject(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateUserProjectPayload{
 		ProjectId: projectID,
 		UserId:    userID,
 	}).Execute()
@@ -995,8 +912,8 @@ func (gs *GeneralService) DeleteUserProject(ctx context.Context, projectID, user
 	return nil
 }
 
-func (gs *GeneralService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*openapiGeneral.MwserverInternalSchemasUserTagResponse, error) {
-	userTag, response, err := gs.generalAPI.UserTagAPI.CreateUserTag(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateUserTagPayload{
+func (gs *GeneralService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*openapiGeneral.MwServerInternalSchemasUserTagResponse, error) {
+	userTag, response, err := gs.generalAPI.UserTagAPI.CreateUserTag(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateUserTagPayload{
 		Name:      payload.Name,
 		OwnerUuid: payload.OwnerUuid,
 	}).Execute()
@@ -1023,62 +940,13 @@ type GetPopulatedWayByIdParams struct {
 	CurrentChildrenDepth int32
 }
 
-func (gs *GeneralService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainResponse, error) {
-	wayRaw, response, err := gs.generalAPI.WayAPI.GetWayByUuid(ctx, wayUUID.String()).Execute()
-
-	if err != nil {
-		return nil, utils.ExtractErrorMessageFromResponse(response)
-	}
-
-	owner := mapOwner(wayRaw.Owner)
-	mentors := mapMentors(wayRaw.Mentors)
-	wayTags := mapWayTags(wayRaw.WayTags)
-
-	var metricsDone int32 = 0
-	var metricsTotal int32 = 0
-
-	for _, metric := range wayRaw.Metrics {
-		if metric.IsDone {
-			metricsDone++
-		}
-		metricsTotal += metric.EstimationTime
-	}
-
-	childrenUuids := make([]string, len(wayRaw.Children))
-	for i, child := range wayRaw.Children {
-		childrenUuids[i] = child.Uuid
-	}
-
-	way := &schemas.WayPlainResponse{
-		Uuid:              wayRaw.Uuid,
-		Name:              wayRaw.Name,
-		GoalDescription:   wayRaw.GoalDescription,
-		UpdatedAt:         wayRaw.UpdatedAt,
-		CreatedAt:         wayRaw.CreatedAt,
-		EstimationTime:    wayRaw.EstimationTime,
-		IsCompleted:       wayRaw.IsCompleted,
-		Owner:             owner,
-		CopiedFromWayUuid: wayRaw.CopiedFromWayUuid.Get(),
-		ProjectUuid:       wayRaw.ProjectUuid.Get(),
-		IsPrivate:         wayRaw.IsPrivate,
-		FavoriteForUsers:  wayRaw.FavoriteForUsersAmount,
-		Mentors:           mentors,
-		WayTags:           wayTags,
-		MetricsDone:       metricsDone,
-		MetricsTotal:      metricsTotal,
-		ChildrenUuids:     childrenUuids,
-	}
-
-	return way, nil
-}
-
-func (gs *GeneralService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*openapiGeneral.MwserverInternalSchemasWayPlainResponse, error) {
+func (gs *GeneralService) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*openapiGeneral.MwServerInternalSchemasWayPlainResponse, error) {
 	var CopiedFromWayID, ProjectID openapiGeneral.NullableString
 
 	CopiedFromWayID.Set(payload.CopiedFromWayID)
 	ProjectID.Set(payload.ProjectID)
 
-	way, response, err := gs.generalAPI.WayAPI.CreateWay(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateWayPayload{
+	way, response, err := gs.generalAPI.WayAPI.CreateWay(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateWayPayload{
 		CopiedFromWayId: CopiedFromWayID,
 		EstimationTime:  payload.EstimationTime,
 		GoalDescription: payload.GoalDescription,
@@ -1096,7 +964,7 @@ func (gs *GeneralService) CreateWay(ctx context.Context, payload *schemas.Create
 	return way, nil
 }
 
-func mapOwner(ownerRaw openapiGeneral.MwserverInternalSchemasUserPlainResponse) schemas.UserPlainResponse {
+func mapOwner(ownerRaw openapiGeneral.MwServerInternalSchemasUserPlainResponse) schemas.UserPlainResponse {
 	return schemas.UserPlainResponse{
 		Uuid:        ownerRaw.Uuid,
 		Name:        ownerRaw.Name,
@@ -1108,7 +976,7 @@ func mapOwner(ownerRaw openapiGeneral.MwserverInternalSchemasUserPlainResponse) 
 	}
 }
 
-func mapMentors(mentorsRaw []openapiGeneral.MwserverInternalSchemasUserPlainResponse) []schemas.UserPlainResponse {
+func mapMentors(mentorsRaw []openapiGeneral.MwServerInternalSchemasUserPlainResponse) []schemas.UserPlainResponse {
 	mentors := make([]schemas.UserPlainResponse, len(mentorsRaw))
 	for i, mentor := range mentorsRaw {
 		mentors[i] = schemas.UserPlainResponse{
@@ -1124,7 +992,7 @@ func mapMentors(mentorsRaw []openapiGeneral.MwserverInternalSchemasUserPlainResp
 	return mentors
 }
 
-func mapWayTags(tagsRaw []openapiGeneral.MwserverInternalSchemasWayTagResponse) []schemas.WayTagResponse {
+func mapWayTags(tagsRaw []openapiGeneral.MwServerInternalSchemasWayTagResponse) []schemas.WayTagResponse {
 	wayTags := make([]schemas.WayTagResponse, len(tagsRaw))
 	for i, tag := range tagsRaw {
 		wayTags[i] = schemas.WayTagResponse{
@@ -1140,16 +1008,16 @@ type UpdateWayParams struct {
 	Name            string
 	GoalDescription string
 	EstimationTime  int32
-	IsPrivate       bool
+	IsPrivate       *bool
 	IsCompleted     bool
 }
 
-func (gs *GeneralService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*openapiGeneral.MwserverInternalSchemasWayPlainResponse, error) {
-	way, response, err := gs.generalAPI.WayAPI.UpdateWay(ctx, params.WayID).Request(openapiGeneral.MwserverInternalSchemasUpdateWayPayload{
+func (gs *GeneralService) UpdateWay(ctx context.Context, params *UpdateWayParams) (*openapiGeneral.MwServerInternalSchemasWayPlainResponse, error) {
+	way, response, err := gs.generalAPI.WayAPI.UpdateWay(ctx, params.WayID).Request(openapiGeneral.MwServerInternalSchemasUpdateWayPayload{
 		EstimationTime:  &params.EstimationTime,
 		GoalDescription: &params.GoalDescription,
 		IsCompleted:     &params.IsCompleted,
-		IsPrivate:       &params.IsPrivate,
+		IsPrivate:       params.IsPrivate,
 		Name:            &params.Name,
 	}).Execute()
 	if err != nil {
@@ -1167,7 +1035,7 @@ type GetAllWaysParams struct {
 	Limit                  int
 }
 
-func (gs *GeneralService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*openapiGeneral.MwserverInternalSchemasGetAllWaysResponse, error) {
+func (gs *GeneralService) GetAllWays(ctx context.Context, params *GetAllWaysParams) (*openapiGeneral.MwServerInternalSchemasGetAllWaysResponse, error) {
 	ways, response, err := gs.generalAPI.WayAPI.GetAllWays(ctx).
 		WayName(params.WayName).
 		MinDayReportsAmount(int32(params.ReqMinDayReportsAmount)).
@@ -1183,7 +1051,7 @@ func (gs *GeneralService) GetAllWays(ctx context.Context, params *GetAllWaysPara
 	return ways, nil
 }
 
-func mapWayPlainRes(wayRaw openapiGeneral.MwserverInternalSchemasWayPlainResponse) schemas.WayPlainResponse {
+func mapWayPlainRes(wayRaw openapiGeneral.MwServerInternalSchemasWayPlainResponse) schemas.WayPlainResponse {
 	return schemas.WayPlainResponse{
 		Uuid:              wayRaw.Uuid,
 		Name:              wayRaw.Name,
@@ -1215,42 +1083,7 @@ func (gs *GeneralService) DeleteWayById(ctx *gin.Context, wayID string) error {
 	return nil
 }
 
-func (gs *GeneralService) GetChildrenWayIDs(ctx context.Context, wayID uuid.UUID, maxDepth int) ([]uuid.UUID, error) {
-	var collectChildren func(ctx context.Context, wayID uuid.UUID, currentDepth int) ([]uuid.UUID, error)
-	collectChildren = func(ctx context.Context, wayID uuid.UUID, currentDepth int) ([]uuid.UUID, error) {
-		if currentDepth >= maxDepth {
-			return nil, nil
-		}
-
-		wayRaw, response, err := gs.generalAPI.WayAPI.GetWayByUuid(ctx, wayID.String()).Execute()
-		if err != nil {
-			return nil, utils.ExtractErrorMessageFromResponse(response)
-		}
-
-		children := make([]uuid.UUID, len(wayRaw.Children))
-		for i, child := range wayRaw.Children {
-			childUUID, parseErr := uuid.Parse(child.GetUuid())
-			if parseErr != nil {
-				return nil, fmt.Errorf("failed to parse child UUID: %w", parseErr)
-			}
-			children[i] = childUUID
-		}
-
-		for _, childID := range children {
-			subChildren, err := collectChildren(ctx, childID, currentDepth+1)
-			if err != nil {
-				return nil, err
-			}
-			children = append(children, subChildren...)
-		}
-
-		return children, nil
-	}
-
-	return collectChildren(ctx, wayID, 0)
-}
-
-func (gs *GeneralService) GetWayById(ctx context.Context, wayUUID string) (*openapiGeneral.MwserverInternalSchemasWayPopulatedResponse, error) {
+func (gs *GeneralService) GetWayById(ctx context.Context, wayUUID string) (*openapiGeneral.MwServerInternalSchemasWayPopulatedResponse, error) {
 	way, response, err := gs.generalAPI.WayAPI.GetWayByUuid(ctx, wayUUID).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
@@ -1258,8 +1091,16 @@ func (gs *GeneralService) GetWayById(ctx context.Context, wayUUID string) (*open
 	return way, nil
 }
 
-func (gs *GeneralService) CreateWayCollection(ctx context.Context, payload *schemas.CreateWayCollectionPayload) (*openapiGeneral.MwserverInternalSchemasWayCollectionPopulatedResponse, error) {
-	wayCollection, response, err := gs.generalAPI.WayCollectionAPI.CreateWayCollection(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateWayCollectionPayload{
+func (gs *GeneralService) GetWayPlainForNotificationById(ctx context.Context, wayUUID string) (*openapiGeneral.MwServerInternalSchemasWayPlainForNotificationResponse, error) {
+	way, response, err := gs.generalAPI.WayAPI.GetWayPlainForNotificationByUuid(ctx, wayUUID).Execute()
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+	return way, nil
+}
+
+func (gs *GeneralService) CreateWayCollection(ctx context.Context, payload *schemas.CreateWayCollectionPayload) (*openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse, error) {
+	wayCollection, response, err := gs.generalAPI.WayCollectionAPI.CreateWayCollection(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateWayCollectionPayload{
 		Name:      payload.Name,
 		OwnerUuid: payload.OwnerUuid,
 	}).Execute()
@@ -1271,8 +1112,8 @@ func (gs *GeneralService) CreateWayCollection(ctx context.Context, payload *sche
 	return wayCollection, nil
 }
 
-func (gs *GeneralService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*openapiGeneral.MwserverInternalSchemasWayCollectionPlainResponse, error) {
-	wayCollection, response, err := gs.generalAPI.WayCollectionAPI.UpdateWayCollection(ctx, wayCollectionID).Request(openapiGeneral.MwserverInternalSchemasUpdateWayCollectionPayload{
+func (gs *GeneralService) UpdateWayCollection(ctx context.Context, wayCollectionID, wayCollectionName string) (*openapiGeneral.MwServerInternalSchemasWayCollectionPlainResponse, error) {
+	wayCollection, response, err := gs.generalAPI.WayCollectionAPI.UpdateWayCollection(ctx, wayCollectionID).Request(openapiGeneral.MwServerInternalSchemasUpdateWayCollectionPayload{
 		Name: &wayCollectionName,
 	}).Execute()
 
@@ -1291,8 +1132,8 @@ func (gs *GeneralService) DeleteWayCollectionById(ctx context.Context, wayCollec
 	return nil
 }
 
-func (gs *GeneralService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*openapiGeneral.MwserverInternalSchemasWayCollectionWayResponse, error) {
-	wayCollectionWay, response, err := gs.generalAPI.WayCollectionWayAPI.CreateWayCollectionWay(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateWayCollectionWay{
+func (gs *GeneralService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*openapiGeneral.MwServerInternalSchemasWayCollectionWayResponse, error) {
+	wayCollectionWay, response, err := gs.generalAPI.WayCollectionWayAPI.CreateWayCollectionWay(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateWayCollectionWay{
 		WayUuid:           payload.WayCollectionUuid,
 		WayCollectionUuid: payload.WayCollectionUuid,
 	}).Execute()
@@ -1320,7 +1161,7 @@ type GetWayStatisticsTriplePeriodParams struct {
 	EndDate        time.Time
 }
 
-func (gs *GeneralService) GetWayStatisticsById(ctx context.Context, wayUUID string) (*openapiGeneral.MwserverInternalSchemasWayStatisticsTriplePeriod, error) {
+func (gs *GeneralService) GetWayStatisticsById(ctx context.Context, wayUUID string) (*openapiGeneral.MwServerInternalSchemasWayStatisticsTriplePeriod, error) {
 	wayStatistics, response, err := gs.generalAPI.WayAPI.GetWayStatisticsByUuid(ctx, wayUUID).Execute()
 
 	if err != nil {
@@ -1330,8 +1171,8 @@ func (gs *GeneralService) GetWayStatisticsById(ctx context.Context, wayUUID stri
 	return wayStatistics, nil
 }
 
-func (gs *GeneralService) AddWayTagToWay(ctx context.Context, name string, wayID string) (*openapiGeneral.MwserverInternalSchemasWayTagResponse, error) {
-	wayTag, response, err := gs.generalAPI.WayTagAPI.CreateWayTag(ctx).Request(openapiGeneral.MwserverInternalSchemasCreateWayTagPayload{
+func (gs *GeneralService) AddWayTagToWay(ctx context.Context, name, wayID string) (*openapiGeneral.MwServerInternalSchemasWayTagResponse, error) {
+	wayTag, response, err := gs.generalAPI.WayTagAPI.CreateWayTag(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateWayTagPayload{
 		WayUuid: wayID,
 		Name:    name,
 	}).Execute()
@@ -1343,7 +1184,7 @@ func (gs *GeneralService) AddWayTagToWay(ctx context.Context, name string, wayID
 	return wayTag, nil
 }
 
-func (gs *GeneralService) DeleteWayTagFromWayByTagID(ctx context.Context, wayTagID string, wayID string) error {
+func (gs *GeneralService) DeleteWayTagFromWayByTagID(ctx context.Context, wayTagID, wayID string) error {
 	response, err := gs.generalAPI.WayTagAPI.DeleteWayTag(ctx, wayTagID, wayID).Execute()
 
 	if err != nil {

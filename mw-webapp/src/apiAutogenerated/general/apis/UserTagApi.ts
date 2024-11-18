@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalSchemasCreateUserTagPayload,
-  MwserverInternalSchemasUserTagResponse,
+  MwServerInternalSchemasCreateUserTagPayload,
+  MwServerInternalSchemasUserTagResponse,
 } from '../models/index';
 import {
-    MwserverInternalSchemasCreateUserTagPayloadFromJSON,
-    MwserverInternalSchemasCreateUserTagPayloadToJSON,
-    MwserverInternalSchemasUserTagResponseFromJSON,
-    MwserverInternalSchemasUserTagResponseToJSON,
+    MwServerInternalSchemasCreateUserTagPayloadFromJSON,
+    MwServerInternalSchemasCreateUserTagPayloadToJSON,
+    MwServerInternalSchemasUserTagResponseFromJSON,
+    MwServerInternalSchemasUserTagResponseToJSON,
 } from '../models/index';
 
 export interface CreateUserTagRequest {
-    request: MwserverInternalSchemasCreateUserTagPayload;
+    request: MwServerInternalSchemasCreateUserTagPayload;
 }
 
 export interface DeleteUserTagRequest {
@@ -42,7 +42,7 @@ export class UserTagApi extends runtime.BaseAPI {
     /**
      * Create a new userTag
      */
-    async createUserTagRaw(requestParameters: CreateUserTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasUserTagResponse>> {
+    async createUserTagRaw(requestParameters: CreateUserTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasUserTagResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createUserTag.');
         }
@@ -58,16 +58,16 @@ export class UserTagApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasCreateUserTagPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateUserTagPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasUserTagResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasUserTagResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new userTag
      */
-    async createUserTag(requestParameters: CreateUserTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasUserTagResponse> {
+    async createUserTag(requestParameters: CreateUserTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasUserTagResponse> {
         const response = await this.createUserTagRaw(requestParameters, initOverrides);
         return await response.value();
     }

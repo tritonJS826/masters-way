@@ -1,4 +1,4 @@
-# MwserverInternalSchemasCreateMetricPayload
+# MwServerInternalSchemasCreateMetricPayload
 
 ## Properties
 
@@ -12,119 +12,119 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMwserverInternalSchemasCreateMetricPayload
+### NewMwServerInternalSchemasCreateMetricPayload
 
-`func NewMwserverInternalSchemasCreateMetricPayload(description string, doneDate string, estimationTime int32, isDone bool, wayUuid string, ) *MwserverInternalSchemasCreateMetricPayload`
+`func NewMwServerInternalSchemasCreateMetricPayload(description string, doneDate string, estimationTime int32, isDone bool, wayUuid string, ) *MwServerInternalSchemasCreateMetricPayload`
 
-NewMwserverInternalSchemasCreateMetricPayload instantiates a new MwserverInternalSchemasCreateMetricPayload object
+NewMwServerInternalSchemasCreateMetricPayload instantiates a new MwServerInternalSchemasCreateMetricPayload object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMwserverInternalSchemasCreateMetricPayloadWithDefaults
+### NewMwServerInternalSchemasCreateMetricPayloadWithDefaults
 
-`func NewMwserverInternalSchemasCreateMetricPayloadWithDefaults() *MwserverInternalSchemasCreateMetricPayload`
+`func NewMwServerInternalSchemasCreateMetricPayloadWithDefaults() *MwServerInternalSchemasCreateMetricPayload`
 
-NewMwserverInternalSchemasCreateMetricPayloadWithDefaults instantiates a new MwserverInternalSchemasCreateMetricPayload object
+NewMwServerInternalSchemasCreateMetricPayloadWithDefaults instantiates a new MwServerInternalSchemasCreateMetricPayload object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetDescription
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetDescription() string`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetDescriptionOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) SetDescription(v string)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 
 ### GetDoneDate
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetDoneDate() string`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetDoneDate() string`
 
 GetDoneDate returns the DoneDate field if non-nil, zero value otherwise.
 
 ### GetDoneDateOk
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetDoneDateOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetDoneDateOk() (*string, bool)`
 
 GetDoneDateOk returns a tuple with the DoneDate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDoneDate
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) SetDoneDate(v string)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) SetDoneDate(v string)`
 
 SetDoneDate sets DoneDate field to given value.
 
 
 ### GetEstimationTime
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetEstimationTime() int32`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetEstimationTime() int32`
 
 GetEstimationTime returns the EstimationTime field if non-nil, zero value otherwise.
 
 ### GetEstimationTimeOk
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetEstimationTimeOk() (*int32, bool)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetEstimationTimeOk() (*int32, bool)`
 
 GetEstimationTimeOk returns a tuple with the EstimationTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEstimationTime
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) SetEstimationTime(v int32)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) SetEstimationTime(v int32)`
 
 SetEstimationTime sets EstimationTime field to given value.
 
 
 ### GetIsDone
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetIsDone() bool`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetIsDone() bool`
 
 GetIsDone returns the IsDone field if non-nil, zero value otherwise.
 
 ### GetIsDoneOk
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetIsDoneOk() (*bool, bool)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetIsDoneOk() (*bool, bool)`
 
 GetIsDoneOk returns a tuple with the IsDone field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIsDone
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) SetIsDone(v bool)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) SetIsDone(v bool)`
 
 SetIsDone sets IsDone field to given value.
 
 
 ### GetWayUuid
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetWayUuid() string`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetWayUuid() string`
 
 GetWayUuid returns the WayUuid field if non-nil, zero value otherwise.
 
 ### GetWayUuidOk
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) GetWayUuidOk() (*string, bool)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) GetWayUuidOk() (*string, bool)`
 
 GetWayUuidOk returns a tuple with the WayUuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWayUuid
 
-`func (o *MwserverInternalSchemasCreateMetricPayload) SetWayUuid(v string)`
+`func (o *MwServerInternalSchemasCreateMetricPayload) SetWayUuid(v string)`
 
 SetWayUuid sets WayUuid field to given value.
 

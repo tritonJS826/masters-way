@@ -123,6 +123,7 @@ type Querier interface {
 	GetWayCollectionJoinWayByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]GetWayCollectionJoinWayByUserIdRow, error)
 	GetWayCollectionsByUserId(ctx context.Context, ownerUuid pgtype.UUID) ([]WayCollection, error)
 	GetWayCollectionsCountByUserId(ctx context.Context, userUuid pgtype.UUID) (int64, error)
+	GetWayPlainForNotification(ctx context.Context, wayUuid pgtype.UUID) (GetWayPlainForNotificationRow, error)
 	GetWayRelatedUsers(ctx context.Context, wayUuids []pgtype.UUID) ([]GetWayRelatedUsersRow, error)
 	GetWayTagByName(ctx context.Context, wayTagName string) (WayTag, error)
 	// TODO exclude ways from private projects for initiator user

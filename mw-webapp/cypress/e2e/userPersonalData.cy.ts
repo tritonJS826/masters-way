@@ -4,7 +4,7 @@ import userPersonalData from "cypress/fixtures/userPersonalDataFixture.json"
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 
 beforeEach(() => {
-    cy.resetDb();
+    cy.resetGeneralDb();
     cy.login(testUserData.testUsers.studentJonh.loginLink); 
 });
 

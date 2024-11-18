@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## GetAllUsers
 
-> MwserverInternalSchemasGetAllUsersResponse GetAllUsers(ctx).Page(page).Limit(limit).Email(email).Name(name).MentorStatus(mentorStatus).Execute()
+> MwServerInternalSchemasGetAllUsersResponse GetAllUsers(ctx).Page(page).Limit(limit).Email(email).Name(name).MentorStatus(mentorStatus).Execute()
 
 Get all users
 
@@ -45,7 +45,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetAllUsers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetAllUsers`: MwserverInternalSchemasGetAllUsersResponse
+	// response from `GetAllUsers`: MwServerInternalSchemasGetAllUsersResponse
 	fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetAllUsers`: %v\n", resp)
 }
 ```
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwserverInternalSchemasGetAllUsersResponse**](MwserverInternalSchemasGetAllUsersResponse.md)
+[**MwServerInternalSchemasGetAllUsersResponse**](MwServerInternalSchemasGetAllUsersResponse.md)
 
 ### Authorization
 
@@ -87,7 +87,7 @@ No authorization required
 
 ## GetUserByUuid
 
-> MwserverInternalSchemasUserPopulatedResponse GetUserByUuid(ctx, userId).Execute()
+> MwServerInternalSchemasUserPopulatedResponse GetUserByUuid(ctx, userId).Execute()
 
 Get user by UUID
 
@@ -113,7 +113,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetUserByUuid``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetUserByUuid`: MwserverInternalSchemasUserPopulatedResponse
+	// response from `GetUserByUuid`: MwServerInternalSchemasUserPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetUserByUuid`: %v\n", resp)
 }
 ```
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwserverInternalSchemasUserPopulatedResponse**](MwserverInternalSchemasUserPopulatedResponse.md)
+[**MwServerInternalSchemasUserPopulatedResponse**](MwServerInternalSchemasUserPopulatedResponse.md)
 
 ### Authorization
 
@@ -155,7 +155,7 @@ No authorization required
 
 ## GetUsersByIds
 
-> []MwserverInternalSchemasGetUsersByIDsResponse GetUsersByIds(ctx).Request(request).Execute()
+> []MwServerInternalSchemasGetUsersByIDsResponse GetUsersByIds(ctx).Request(request).Execute()
 
 Get users by ids
 
@@ -181,7 +181,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetUsersByIds``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetUsersByIds`: []MwserverInternalSchemasGetUsersByIDsResponse
+	// response from `GetUsersByIds`: []MwServerInternalSchemasGetUsersByIDsResponse
 	fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetUsersByIds`: %v\n", resp)
 }
 ```
@@ -201,7 +201,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]MwserverInternalSchemasGetUsersByIDsResponse**](MwserverInternalSchemasGetUsersByIDsResponse.md)
+[**[]MwServerInternalSchemasGetUsersByIDsResponse**](MwServerInternalSchemasGetUsersByIDsResponse.md)
 
 ### Authorization
 
@@ -219,7 +219,7 @@ No authorization required
 
 ## UpdateUser
 
-> MwserverInternalSchemasUserPlainResponse UpdateUser(ctx, userId).Request(request).Execute()
+> MwServerInternalSchemasUserPlainResponse UpdateUser(ctx, userId).Request(request).Execute()
 
 Update user by UUID
 
@@ -237,7 +237,7 @@ import (
 
 func main() {
 	userId := "userId_example" // string | user ID
-	request := *openapiclient.NewMwserverInternalSchemasUpdateUserPayload() // MwserverInternalSchemasUpdateUserPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasUpdateUserPayload() // MwServerInternalSchemasUpdateUserPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -246,7 +246,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.UpdateUser``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateUser`: MwserverInternalSchemasUserPlainResponse
+	// response from `UpdateUser`: MwServerInternalSchemasUserPlainResponse
 	fmt.Fprintf(os.Stdout, "Response from `UserAPI.UpdateUser`: %v\n", resp)
 }
 ```
@@ -267,11 +267,11 @@ Other parameters are passed through a pointer to a apiUpdateUserRequest struct v
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**MwserverInternalSchemasUpdateUserPayload**](MwserverInternalSchemasUpdateUserPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasUpdateUserPayload**](MwServerInternalSchemasUpdateUserPayload.md) | query params | 
 
 ### Return type
 
-[**MwserverInternalSchemasUserPlainResponse**](MwserverInternalSchemasUserPlainResponse.md)
+[**MwServerInternalSchemasUserPlainResponse**](MwServerInternalSchemasUserPlainResponse.md)
 
 ### Authorization
 

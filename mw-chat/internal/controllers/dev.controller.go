@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"mwchat/internal/services"
-	"mwchat/pkg/utils"
+	"mw-chat/internal/services"
+	"mw-chat/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

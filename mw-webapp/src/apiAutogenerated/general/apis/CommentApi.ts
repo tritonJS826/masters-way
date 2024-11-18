@@ -15,24 +15,24 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwserverInternalCustomErrorsNoRightToChangeDayReportError,
-  MwserverInternalSchemasCommentPopulatedResponse,
-  MwserverInternalSchemasCreateCommentPayload,
-  MwserverInternalSchemasUpdateCommentPayload,
+  MwServerInternalCustomErrorsNoRightToChangeDayReportError,
+  MwServerInternalSchemasCommentPopulatedResponse,
+  MwServerInternalSchemasCreateCommentPayload,
+  MwServerInternalSchemasUpdateCommentPayload,
 } from '../models/index';
 import {
-    MwserverInternalCustomErrorsNoRightToChangeDayReportErrorFromJSON,
-    MwserverInternalCustomErrorsNoRightToChangeDayReportErrorToJSON,
-    MwserverInternalSchemasCommentPopulatedResponseFromJSON,
-    MwserverInternalSchemasCommentPopulatedResponseToJSON,
-    MwserverInternalSchemasCreateCommentPayloadFromJSON,
-    MwserverInternalSchemasCreateCommentPayloadToJSON,
-    MwserverInternalSchemasUpdateCommentPayloadFromJSON,
-    MwserverInternalSchemasUpdateCommentPayloadToJSON,
+    MwServerInternalCustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    MwServerInternalCustomErrorsNoRightToChangeDayReportErrorToJSON,
+    MwServerInternalSchemasCommentPopulatedResponseFromJSON,
+    MwServerInternalSchemasCommentPopulatedResponseToJSON,
+    MwServerInternalSchemasCreateCommentPayloadFromJSON,
+    MwServerInternalSchemasCreateCommentPayloadToJSON,
+    MwServerInternalSchemasUpdateCommentPayloadFromJSON,
+    MwServerInternalSchemasUpdateCommentPayloadToJSON,
 } from '../models/index';
 
 export interface CreateCommentRequest {
-    request: MwserverInternalSchemasCreateCommentPayload;
+    request: MwServerInternalSchemasCreateCommentPayload;
 }
 
 export interface DeleteCommentRequest {
@@ -41,7 +41,7 @@ export interface DeleteCommentRequest {
 
 export interface UpdateCommentRequest {
     commentId: string;
-    request: MwserverInternalSchemasUpdateCommentPayload;
+    request: MwServerInternalSchemasUpdateCommentPayload;
 }
 
 /**
@@ -52,7 +52,7 @@ export class CommentApi extends runtime.BaseAPI {
     /**
      * Create a new comment
      */
-    async createCommentRaw(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasCommentPopulatedResponse>> {
+    async createCommentRaw(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasCommentPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createComment.');
         }
@@ -68,16 +68,16 @@ export class CommentApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasCreateCommentPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateCommentPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasCommentPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasCommentPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new comment
      */
-    async createComment(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasCommentPopulatedResponse> {
+    async createComment(requestParameters: CreateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasCommentPopulatedResponse> {
         const response = await this.createCommentRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -114,7 +114,7 @@ export class CommentApi extends runtime.BaseAPI {
     /**
      * Update comment by UUID
      */
-    async updateCommentRaw(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwserverInternalSchemasCommentPopulatedResponse>> {
+    async updateCommentRaw(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasCommentPopulatedResponse>> {
         if (requestParameters.commentId === null || requestParameters.commentId === undefined) {
             throw new runtime.RequiredError('commentId','Required parameter requestParameters.commentId was null or undefined when calling updateComment.');
         }
@@ -134,16 +134,16 @@ export class CommentApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: MwserverInternalSchemasUpdateCommentPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasUpdateCommentPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwserverInternalSchemasCommentPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasCommentPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update comment by UUID
      */
-    async updateComment(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwserverInternalSchemasCommentPopulatedResponse> {
+    async updateComment(requestParameters: UpdateCommentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasCommentPopulatedResponse> {
         const response = await this.updateCommentRaw(requestParameters, initOverrides);
         return await response.value();
     }

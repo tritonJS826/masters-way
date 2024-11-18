@@ -3,9 +3,9 @@ package services
 import (
 	"context"
 
-	db "mwchat/internal/db/sqlc"
-	"mwchat/internal/schemas"
-	"mwchat/pkg/utils"
+	db "mw-chat/internal/db/sqlc"
+	"mw-chat/internal/schemas"
+	"mw-chat/pkg/utils"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"

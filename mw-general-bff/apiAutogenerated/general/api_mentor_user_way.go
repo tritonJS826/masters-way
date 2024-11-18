@@ -26,11 +26,11 @@ type MentorUserWayAPIService service
 type ApiCreateMentorUserWayRequest struct {
 	ctx context.Context
 	ApiService *MentorUserWayAPIService
-	request *MwserverInternalSchemasCreateMentorUserWayPayload
+	request *MwServerInternalSchemasCreateMentorUserWayPayload
 }
 
 // query params
-func (r ApiCreateMentorUserWayRequest) Request(request MwserverInternalSchemasCreateMentorUserWayPayload) ApiCreateMentorUserWayRequest {
+func (r ApiCreateMentorUserWayRequest) Request(request MwServerInternalSchemasCreateMentorUserWayPayload) ApiCreateMentorUserWayRequest {
 	r.request = &request
 	return r
 }
@@ -198,11 +198,11 @@ func (a *MentorUserWayAPIService) CreateMentorUserWayStreamExecute(r ApiCreateMe
 type ApiDeleteMentorUserWayRequest struct {
 	ctx context.Context
 	ApiService *MentorUserWayAPIService
-	request *MwserverInternalSchemasDeleteMentorUserWayPayload
+	request *MwServerInternalSchemasDeleteMentorUserWayPayload
 }
 
 // query params
-func (r ApiDeleteMentorUserWayRequest) Request(request MwserverInternalSchemasDeleteMentorUserWayPayload) ApiDeleteMentorUserWayRequest {
+func (r ApiDeleteMentorUserWayRequest) Request(request MwServerInternalSchemasDeleteMentorUserWayPayload) ApiDeleteMentorUserWayRequest {
 	r.request = &request
 	return r
 }
