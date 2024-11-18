@@ -132,7 +132,7 @@ describe('NoAuth Navigation menu scope tests', () => {
         cy.checkThemeColors(Theme.LIGHT);
     });
 
-    it.only('NoAuth_NavMenu_LinkedinLink', () => {
+    it('NoAuth_NavMenu_LinkedinLink', () => {
         navigationMenuSelectors.socialMedia.getText().should('have.text', sideBarContent.socialMedia.en);
 
         cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedinLink);

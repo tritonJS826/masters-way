@@ -198,8 +198,9 @@ type UserTag struct {
 }
 
 type UsersProject struct {
-	UserUuid    pgtype.UUID `json:"user_uuid"`
-	ProjectUuid pgtype.UUID `json:"project_uuid"`
+	UserUuid    pgtype.UUID      `json:"user_uuid"`
+	ProjectUuid pgtype.UUID      `json:"project_uuid"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
 }
 
 type UsersUserTag struct {

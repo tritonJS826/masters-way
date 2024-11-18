@@ -30,6 +30,7 @@ CREATE TABLE projects (
 CREATE TABLE users_projects (
     "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "project_uuid" UUID NOT NULL REFERENCES projects("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "users_projects_pkey" PRIMARY KEY (user_uuid, project_uuid)
 );
 
