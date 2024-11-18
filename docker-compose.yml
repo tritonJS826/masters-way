@@ -128,7 +128,7 @@ services:
       context: ./mw-mail
       dockerfile: Dockerfile
     ports:
-      -"8006:8006"
+      - "8006:8006"
     depends_on:
       - postgres-mail
     networks:
