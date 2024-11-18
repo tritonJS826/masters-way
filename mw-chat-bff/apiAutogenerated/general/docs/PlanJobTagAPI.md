@@ -1,6 +1,6 @@
 # \PlanJobTagAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreatePlanJobTagPayload("JobTagUuid_example", "PlanUuid_example") // SchemasCreatePlanJobTagPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreatePlanJobTagPayload("JobTagUuid_example", "PlanUuid_example") // MwServerInternalSchemasCreatePlanJobTagPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiCreatePlanJobTagRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreatePlanJobTagPayload**](SchemasCreatePlanJobTagPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreatePlanJobTagPayload**](MwServerInternalSchemasCreatePlanJobTagPayload.md) | query params | 
 
 ### Return type
 

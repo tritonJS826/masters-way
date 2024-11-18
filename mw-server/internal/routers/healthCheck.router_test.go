@@ -2,8 +2,8 @@ package routers
 
 import (
 	"context"
-	"mwserver/internal/config"
-	"mwserver/internal/openapi"
+	"mw-server/internal/config"
+	"mw-server/internal/openapi"
 	"net/http"
 	"testing"
 
@@ -19,7 +19,7 @@ func TestGetAPIHealthStatus(t *testing.T) {
 	generalApi := openapi.MakeGeneralAPIClient(&newConfig)
 
 	t.Run("should return a successful health check status and validate the response message", func(t *testing.T) {
-		response, err := generalApi.HealthAPI.HealthcheckGet(context.Background()).Execute()
+		response, err := generalApi.HealthAPI.GeneralHealthCheck(context.Background()).Execute()
 		if err != nil {
 			t.Fatalf("Failed to get healthcheck: %v", err)
 		}

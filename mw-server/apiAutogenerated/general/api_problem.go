@@ -27,16 +27,16 @@ type ProblemAPIService service
 type ApiCreateProblemRequest struct {
 	ctx context.Context
 	ApiService *ProblemAPIService
-	request *SchemasCreateProblemPayload
+	request *MwServerInternalSchemasCreateProblemPayload
 }
 
 // query params
-func (r ApiCreateProblemRequest) Request(request SchemasCreateProblemPayload) ApiCreateProblemRequest {
+func (r ApiCreateProblemRequest) Request(request MwServerInternalSchemasCreateProblemPayload) ApiCreateProblemRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateProblemRequest) Execute() (*SchemasProblemPopulatedResponse, *http.Response, error) {
+func (r ApiCreateProblemRequest) Execute() (*MwServerInternalSchemasProblemPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateProblemExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *ProblemAPIService) CreateProblem(ctx context.Context) ApiCreateProblemR
 }
 
 // Execute executes the request
-//  @return SchemasProblemPopulatedResponse
-func (a *ProblemAPIService) CreateProblemExecute(r ApiCreateProblemRequest) (*SchemasProblemPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProblemPopulatedResponse
+func (a *ProblemAPIService) CreateProblemExecute(r ApiCreateProblemRequest) (*MwServerInternalSchemasProblemPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasProblemPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProblemPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProblemAPIService.CreateProblem")
@@ -119,7 +119,7 @@ func (a *ProblemAPIService) CreateProblemExecute(r ApiCreateProblemRequest) (*Sc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -144,11 +144,11 @@ func (a *ProblemAPIService) CreateProblemExecute(r ApiCreateProblemRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasProblemPopulatedResponseStream
-func (a *ProblemAPIService) CreateProblemStreamExecute(r ApiCreateProblemRequest, request *http.Request, GoogleAccessToken string) (*SchemasProblemPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProblemPopulatedResponseStream
+func (a *ProblemAPIService) CreateProblemStreamExecute(r ApiCreateProblemRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasProblemPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasProblemPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProblemPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProblemAPIService.CreateProblem")
@@ -212,7 +212,7 @@ func (a *ProblemAPIService) CreateProblemStreamExecute(r ApiCreateProblemRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -321,7 +321,7 @@ func (a *ProblemAPIService) DeleteProblemExecute(r ApiDeleteProblemRequest) (*ht
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -404,7 +404,7 @@ func (a *ProblemAPIService) DeleteProblemStreamExecute(r ApiDeleteProblemRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -423,16 +423,16 @@ type ApiUpdateProblemRequest struct {
 	ctx context.Context
 	ApiService *ProblemAPIService
 	problemId string
-	request *SchemasUpdateProblemPayload
+	request *MwServerInternalSchemasUpdateProblemPayload
 }
 
 // query params
-func (r ApiUpdateProblemRequest) Request(request SchemasUpdateProblemPayload) ApiUpdateProblemRequest {
+func (r ApiUpdateProblemRequest) Request(request MwServerInternalSchemasUpdateProblemPayload) ApiUpdateProblemRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateProblemRequest) Execute() (*SchemasProblemPopulatedResponse, *http.Response, error) {
+func (r ApiUpdateProblemRequest) Execute() (*MwServerInternalSchemasProblemPopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdateProblemExecute(r)
 }
 
@@ -452,13 +452,13 @@ func (a *ProblemAPIService) UpdateProblem(ctx context.Context, problemId string)
 }
 
 // Execute executes the request
-//  @return SchemasProblemPopulatedResponse
-func (a *ProblemAPIService) UpdateProblemExecute(r ApiUpdateProblemRequest) (*SchemasProblemPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProblemPopulatedResponse
+func (a *ProblemAPIService) UpdateProblemExecute(r ApiUpdateProblemRequest) (*MwServerInternalSchemasProblemPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasProblemPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProblemPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProblemAPIService.UpdateProblem")
@@ -518,7 +518,7 @@ func (a *ProblemAPIService) UpdateProblemExecute(r ApiUpdateProblemRequest) (*Sc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -543,11 +543,11 @@ func (a *ProblemAPIService) UpdateProblemExecute(r ApiUpdateProblemRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasProblemPopulatedResponseStream
-func (a *ProblemAPIService) UpdateProblemStreamExecute(r ApiUpdateProblemRequest, request *http.Request, GoogleAccessToken string) (*SchemasProblemPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasProblemPopulatedResponseStream
+func (a *ProblemAPIService) UpdateProblemStreamExecute(r ApiUpdateProblemRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasProblemPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasProblemPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasProblemPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProblemAPIService.UpdateProblem")
@@ -613,7 +613,7 @@ func (a *ProblemAPIService) UpdateProblemStreamExecute(r ApiUpdateProblemRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

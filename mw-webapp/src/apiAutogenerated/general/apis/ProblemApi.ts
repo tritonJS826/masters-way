@@ -15,24 +15,24 @@
 
 import * as runtime from '../runtime';
 import type {
-  CustomErrorsNoRightToChangeDayReportError,
-  SchemasCreateProblemPayload,
-  SchemasProblemPopulatedResponse,
-  SchemasUpdateProblemPayload,
+  MwServerInternalCustomErrorsNoRightToChangeDayReportError,
+  MwServerInternalSchemasCreateProblemPayload,
+  MwServerInternalSchemasProblemPopulatedResponse,
+  MwServerInternalSchemasUpdateProblemPayload,
 } from '../models/index';
 import {
-    CustomErrorsNoRightToChangeDayReportErrorFromJSON,
-    CustomErrorsNoRightToChangeDayReportErrorToJSON,
-    SchemasCreateProblemPayloadFromJSON,
-    SchemasCreateProblemPayloadToJSON,
-    SchemasProblemPopulatedResponseFromJSON,
-    SchemasProblemPopulatedResponseToJSON,
-    SchemasUpdateProblemPayloadFromJSON,
-    SchemasUpdateProblemPayloadToJSON,
+    MwServerInternalCustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    MwServerInternalCustomErrorsNoRightToChangeDayReportErrorToJSON,
+    MwServerInternalSchemasCreateProblemPayloadFromJSON,
+    MwServerInternalSchemasCreateProblemPayloadToJSON,
+    MwServerInternalSchemasProblemPopulatedResponseFromJSON,
+    MwServerInternalSchemasProblemPopulatedResponseToJSON,
+    MwServerInternalSchemasUpdateProblemPayloadFromJSON,
+    MwServerInternalSchemasUpdateProblemPayloadToJSON,
 } from '../models/index';
 
 export interface CreateProblemRequest {
-    request: SchemasCreateProblemPayload;
+    request: MwServerInternalSchemasCreateProblemPayload;
 }
 
 export interface DeleteProblemRequest {
@@ -41,7 +41,7 @@ export interface DeleteProblemRequest {
 
 export interface UpdateProblemRequest {
     problemId: string;
-    request: SchemasUpdateProblemPayload;
+    request: MwServerInternalSchemasUpdateProblemPayload;
 }
 
 /**
@@ -52,7 +52,7 @@ export class ProblemApi extends runtime.BaseAPI {
     /**
      * Create a new problem
      */
-    async createProblemRaw(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProblemPopulatedResponse>> {
+    async createProblemRaw(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasProblemPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createProblem.');
         }
@@ -68,16 +68,16 @@ export class ProblemApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateProblemPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateProblemPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProblemPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasProblemPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new problem
      */
-    async createProblem(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProblemPopulatedResponse> {
+    async createProblem(requestParameters: CreateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasProblemPopulatedResponse> {
         const response = await this.createProblemRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -114,7 +114,7 @@ export class ProblemApi extends runtime.BaseAPI {
     /**
      * Update problem by UUID
      */
-    async updateProblemRaw(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasProblemPopulatedResponse>> {
+    async updateProblemRaw(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasProblemPopulatedResponse>> {
         if (requestParameters.problemId === null || requestParameters.problemId === undefined) {
             throw new runtime.RequiredError('problemId','Required parameter requestParameters.problemId was null or undefined when calling updateProblem.');
         }
@@ -134,16 +134,16 @@ export class ProblemApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateProblemPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasUpdateProblemPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasProblemPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasProblemPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update problem by UUID
      */
-    async updateProblem(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasProblemPopulatedResponse> {
+    async updateProblem(requestParameters: UpdateProblemRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasProblemPopulatedResponse> {
         const response = await this.updateProblemRaw(requestParameters, initOverrides);
         return await response.value();
     }

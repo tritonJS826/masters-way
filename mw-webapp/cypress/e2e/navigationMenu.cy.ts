@@ -26,7 +26,7 @@ import {pricingSelectors} from "cypress/scopesSelectors/pricingSelectors";
 describe('NoAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
-        cy.resetDb();
+        cy.resetGeneralDb();
         cy.visit('/');        
         headerSelectors.getBurgerMenu().click();
     });
@@ -132,7 +132,7 @@ describe('NoAuth Navigation menu scope tests', () => {
         cy.checkThemeColors(Theme.LIGHT);
     });
 
-    it.only('NoAuth_NavMenu_LinkedinLink', () => {
+    it('NoAuth_NavMenu_LinkedinLink', () => {
         navigationMenuSelectors.socialMedia.getText().should('have.text', sideBarContent.socialMedia.en);
 
         cy.checkLinkAttributes(navigationMenuSelectors.socialMedia.getLinkedinLink(), navigationMenuFixture.linkedinLink);
@@ -150,7 +150,7 @@ describe('NoAuth Navigation menu scope tests', () => {
   describe('IsAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
-        cy.resetDb();
+        cy.resetGeneralDb();
         cy.login(testUserData.testUsers.studentJonh.loginLink); 
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         headerSelectors.getBurgerMenu().click();

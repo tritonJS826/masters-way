@@ -30,7 +30,7 @@ func NewNotificationController(generalService *services.GeneralService, notifica
 func (nc *NotificationController) GetNotificationList(ctx *gin.Context) {
 	// TODO: token
 	userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	response, err := nc.notificationService.GetNotificationListGRPC(ctx, userUUID)
+	response, err := nc.notificationService.GetNotificationList(ctx, userUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

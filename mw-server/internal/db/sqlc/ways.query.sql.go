@@ -742,6 +742,51 @@ func (q *Queries) GetWayChildren(ctx context.Context, wayUuid pgtype.UUID) ([]pg
 	return items, nil
 }
 
+const getWayPlainForNotification = `-- name: GetWayPlainForNotification :one
+SELECT
+    ways.uuid,
+    ways.name,
+    users.uuid AS owner_uuid,
+    users.name AS owner_name,
+    users.email AS owner_email,
+    users.description AS owner_description,
+    users.created_at AS owner_created_at,
+    users.image_url AS owner_image_url,
+    users.is_mentor AS owner_is_mentor
+FROM ways
+JOIN users ON users.uuid = ways.owner_uuid
+WHERE ways.uuid = $1
+`
+
+type GetWayPlainForNotificationRow struct {
+	Uuid             pgtype.UUID      `json:"uuid"`
+	Name             string           `json:"name"`
+	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
+	OwnerName        string           `json:"owner_name"`
+	OwnerEmail       string           `json:"owner_email"`
+	OwnerDescription string           `json:"owner_description"`
+	OwnerCreatedAt   pgtype.Timestamp `json:"owner_created_at"`
+	OwnerImageUrl    string           `json:"owner_image_url"`
+	OwnerIsMentor    bool             `json:"owner_is_mentor"`
+}
+
+func (q *Queries) GetWayPlainForNotification(ctx context.Context, wayUuid pgtype.UUID) (GetWayPlainForNotificationRow, error) {
+	row := q.db.QueryRow(ctx, getWayPlainForNotification, wayUuid)
+	var i GetWayPlainForNotificationRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.OwnerUuid,
+		&i.OwnerName,
+		&i.OwnerEmail,
+		&i.OwnerDescription,
+		&i.OwnerCreatedAt,
+		&i.OwnerImageUrl,
+		&i.OwnerIsMentor,
+	)
+	return i, err
+}
+
 const getWayRelatedUsers = `-- name: GetWayRelatedUsers :many
 SELECT
     users.uuid, users.name, users.email, users.description, users.created_at, users.image_url, users.is_mentor

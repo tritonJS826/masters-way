@@ -1,6 +1,6 @@
 # \FavoriteUserWayAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateFavoriteUserWayPayload("UserUuid_example", "WayUuid_example") // SchemasCreateFavoriteUserWayPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateFavoriteUserWayPayload("UserUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateFavoriteUserWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiCreateFavoriteUserWayReque
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateFavoriteUserWayPayload**](SchemasCreateFavoriteUserWayPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateFavoriteUserWayPayload**](MwServerInternalSchemasCreateFavoriteUserWayPayload.md) | query params | 
 
 ### Return type
 

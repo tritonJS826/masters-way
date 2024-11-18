@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateWayCollectionWay,
-  SchemasWayCollectionWayResponse,
+  MwServerInternalSchemasCreateWayCollectionWay,
+  MwServerInternalSchemasWayCollectionWayResponse,
 } from '../models/index';
 import {
-    SchemasCreateWayCollectionWayFromJSON,
-    SchemasCreateWayCollectionWayToJSON,
-    SchemasWayCollectionWayResponseFromJSON,
-    SchemasWayCollectionWayResponseToJSON,
+    MwServerInternalSchemasCreateWayCollectionWayFromJSON,
+    MwServerInternalSchemasCreateWayCollectionWayToJSON,
+    MwServerInternalSchemasWayCollectionWayResponseFromJSON,
+    MwServerInternalSchemasWayCollectionWayResponseToJSON,
 } from '../models/index';
 
 export interface CreateWayCollectionWayRequest {
-    request: SchemasCreateWayCollectionWay;
+    request: MwServerInternalSchemasCreateWayCollectionWay;
 }
 
 export interface DeleteWayCollectionWayRequest {
@@ -42,7 +42,7 @@ export class WayCollectionWayApi extends runtime.BaseAPI {
     /**
      * Create a new wayCollectionWay
      */
-    async createWayCollectionWayRaw(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayCollectionWayResponse>> {
+    async createWayCollectionWayRaw(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayCollectionWayResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createWayCollectionWay.');
         }
@@ -58,16 +58,16 @@ export class WayCollectionWayApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateWayCollectionWayToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateWayCollectionWayToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayCollectionWayResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayCollectionWayResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new wayCollectionWay
      */
-    async createWayCollectionWay(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayCollectionWayResponse> {
+    async createWayCollectionWay(requestParameters: CreateWayCollectionWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayCollectionWayResponse> {
         const response = await this.createWayCollectionWayRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -34,7 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.SendMailResponse'
+                $ref: '#/components/schemas/mwmail_internal_schemas.SendMailResponse'
           description: OK
       summary: Sending messages to recipients and save logs
       tags:
@@ -42,7 +42,7 @@ paths:
       x-codegen-request-body-name: message
 components:
   schemas:
-    schemas.SendMailResponse:
+    mwmail_internal_schemas.SendMailResponse:
       example:
         cc:
         - cc

@@ -1,8 +1,9 @@
+.openapi-generator-ignore
 apis/DevApi.ts
 apis/SurveyApi.ts
 apis/index.ts
 index.ts
-models/SchemasPostSurveyLookingForMentorPayload.ts
-models/SchemasPostSurveyUserIntroPayload.ts
+models/MwsurveyInternalSchemasPostSurveyLookingForMentorPayload.ts
+models/MwsurveyInternalSchemasPostSurveyUserIntroPayload.ts
 models/index.ts
 runtime.ts

@@ -75,7 +75,7 @@ No authorization required
 
 ## UploadFile
 
-> SchemasUploadFileResponse UploadFile(ctx).RoomId(roomId).File(file).Execute()
+> MwGeneralBffInternalSchemasUploadFileResponse UploadFile(ctx).RoomId(roomId).File(file).Execute()
 
 Upload file to storage
 
@@ -104,7 +104,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FileAPI.UploadFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UploadFile`: SchemasUploadFileResponse
+	// response from `UploadFile`: MwGeneralBffInternalSchemasUploadFileResponse
 	fmt.Fprintf(os.Stdout, "Response from `FileAPI.UploadFile`: %v\n", resp)
 }
 ```
@@ -125,7 +125,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasUploadFileResponse**](SchemasUploadFileResponse.md)
+[**MwGeneralBffInternalSchemasUploadFileResponse**](MwGeneralBffInternalSchemasUploadFileResponse.md)
 
 ### Authorization
 

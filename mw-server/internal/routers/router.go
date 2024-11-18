@@ -2,11 +2,11 @@ package routers
 
 import (
 	"fmt"
-	"mwserver/internal/config"
-	"mwserver/internal/controllers"
+	"mw-server/internal/config"
+	"mw-server/internal/controllers"
 	"net/http"
 
-	_ "mwserver/docs"
+	_ "mw-server/docs"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -96,7 +96,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes() {
-	api := r.Gin.Group("/api")
+	api := r.Gin.Group("/general")
 
 	r.authRouter.setAuthRoutes(api)
 	r.commentRouter.setCommentRoutes(api)

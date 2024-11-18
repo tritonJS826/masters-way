@@ -27,16 +27,16 @@ type JobDoneAPIService service
 type ApiCreateJobDoneRequest struct {
 	ctx context.Context
 	ApiService *JobDoneAPIService
-	request *SchemasCreateJobDonePayload
+	request *MwServerInternalSchemasCreateJobDonePayload
 }
 
 // query params
-func (r ApiCreateJobDoneRequest) Request(request SchemasCreateJobDonePayload) ApiCreateJobDoneRequest {
+func (r ApiCreateJobDoneRequest) Request(request MwServerInternalSchemasCreateJobDonePayload) ApiCreateJobDoneRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateJobDoneRequest) Execute() (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+func (r ApiCreateJobDoneRequest) Execute() (*MwServerInternalSchemasJobDonePopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateJobDoneExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *JobDoneAPIService) CreateJobDone(ctx context.Context) ApiCreateJobDoneR
 }
 
 // Execute executes the request
-//  @return SchemasJobDonePopulatedResponse
-func (a *JobDoneAPIService) CreateJobDoneExecute(r ApiCreateJobDoneRequest) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobDonePopulatedResponse
+func (a *JobDoneAPIService) CreateJobDoneExecute(r ApiCreateJobDoneRequest) (*MwServerInternalSchemasJobDonePopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasJobDonePopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasJobDonePopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneAPIService.CreateJobDone")
@@ -119,7 +119,7 @@ func (a *JobDoneAPIService) CreateJobDoneExecute(r ApiCreateJobDoneRequest) (*Sc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -144,11 +144,11 @@ func (a *JobDoneAPIService) CreateJobDoneExecute(r ApiCreateJobDoneRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasJobDonePopulatedResponseStream
-func (a *JobDoneAPIService) CreateJobDoneStreamExecute(r ApiCreateJobDoneRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobDonePopulatedResponseStream
+func (a *JobDoneAPIService) CreateJobDoneStreamExecute(r ApiCreateJobDoneRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasJobDonePopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasJobDonePopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasJobDonePopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneAPIService.CreateJobDone")
@@ -212,7 +212,7 @@ func (a *JobDoneAPIService) CreateJobDoneStreamExecute(r ApiCreateJobDoneRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -321,7 +321,7 @@ func (a *JobDoneAPIService) DeleteJobDoneExecute(r ApiDeleteJobDoneRequest) (*ht
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -404,7 +404,7 @@ func (a *JobDoneAPIService) DeleteJobDoneStreamExecute(r ApiDeleteJobDoneRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -423,16 +423,16 @@ type ApiUpdateJobDoneRequest struct {
 	ctx context.Context
 	ApiService *JobDoneAPIService
 	jobDoneId string
-	request *SchemasUpdateJobDone
+	request *MwServerInternalSchemasUpdateJobDone
 }
 
 // query params
-func (r ApiUpdateJobDoneRequest) Request(request SchemasUpdateJobDone) ApiUpdateJobDoneRequest {
+func (r ApiUpdateJobDoneRequest) Request(request MwServerInternalSchemasUpdateJobDone) ApiUpdateJobDoneRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateJobDoneRequest) Execute() (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+func (r ApiUpdateJobDoneRequest) Execute() (*MwServerInternalSchemasJobDonePopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdateJobDoneExecute(r)
 }
 
@@ -452,13 +452,13 @@ func (a *JobDoneAPIService) UpdateJobDone(ctx context.Context, jobDoneId string)
 }
 
 // Execute executes the request
-//  @return SchemasJobDonePopulatedResponse
-func (a *JobDoneAPIService) UpdateJobDoneExecute(r ApiUpdateJobDoneRequest) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobDonePopulatedResponse
+func (a *JobDoneAPIService) UpdateJobDoneExecute(r ApiUpdateJobDoneRequest) (*MwServerInternalSchemasJobDonePopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasJobDonePopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasJobDonePopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneAPIService.UpdateJobDone")
@@ -518,7 +518,7 @@ func (a *JobDoneAPIService) UpdateJobDoneExecute(r ApiUpdateJobDoneRequest) (*Sc
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -543,11 +543,11 @@ func (a *JobDoneAPIService) UpdateJobDoneExecute(r ApiUpdateJobDoneRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasJobDonePopulatedResponseStream
-func (a *JobDoneAPIService) UpdateJobDoneStreamExecute(r ApiUpdateJobDoneRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobDonePopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobDonePopulatedResponseStream
+func (a *JobDoneAPIService) UpdateJobDoneStreamExecute(r ApiUpdateJobDoneRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasJobDonePopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasJobDonePopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasJobDonePopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobDoneAPIService.UpdateJobDone")
@@ -613,7 +613,7 @@ func (a *JobDoneAPIService) UpdateJobDoneStreamExecute(r ApiUpdateJobDoneRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 403 {
-			var v CustomErrorsNoRightToChangeDayReportError
+			var v MwServerInternalCustomErrorsNoRightToChangeDayReportError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

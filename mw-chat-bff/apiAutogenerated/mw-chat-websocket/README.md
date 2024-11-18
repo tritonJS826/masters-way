@@ -85,11 +85,11 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasMessageReader](docs/SchemasMessageReader.md)
- - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
- - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
- - [SchemasSendMessagePayload](docs/SchemasSendMessagePayload.md)
- - [SchemasUserResponse](docs/SchemasUserResponse.md)
+ - [MwChatWebsocketInternalSchemasMessageReader](docs/MwChatWebsocketInternalSchemasMessageReader.md)
+ - [MwChatWebsocketInternalSchemasMessageResponse](docs/MwChatWebsocketInternalSchemasMessageResponse.md)
+ - [MwChatWebsocketInternalSchemasRoomPopulatedResponse](docs/MwChatWebsocketInternalSchemasRoomPopulatedResponse.md)
+ - [MwChatWebsocketInternalSchemasSendMessagePayload](docs/MwChatWebsocketInternalSchemasSendMessagePayload.md)
+ - [MwChatWebsocketInternalSchemasUserResponse](docs/MwChatWebsocketInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

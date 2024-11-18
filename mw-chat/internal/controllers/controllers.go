@@ -1,6 +1,6 @@
 package controllers
 
-import "mwchat/internal/services"
+import "mw-chat/internal/services"
 
 type Controller struct {
 	RoomsController    *RoomController

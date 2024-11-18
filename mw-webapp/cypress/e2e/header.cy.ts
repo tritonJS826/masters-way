@@ -10,7 +10,7 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 describe('NoAuth Header scope tests', () => {
 
     beforeEach(() => {
-      cy.resetDb();
+      cy.resetGeneralDb();
       cy.visit('/');
     });
   
@@ -86,7 +86,7 @@ describe('NoAuth Header scope tests', () => {
 describe('IsAuth Header scope tests', () => {
 
     beforeEach(() => {
-        cy.resetDb();
+        cy.resetGeneralDb();
         cy.login(testUserData.testUsers.studentJonh.loginLink);  
     });
 

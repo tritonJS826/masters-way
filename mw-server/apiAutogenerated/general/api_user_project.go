@@ -27,11 +27,11 @@ type UserProjectAPIService service
 type ApiCreateUserProjectRequest struct {
 	ctx context.Context
 	ApiService *UserProjectAPIService
-	request *SchemasCreateUserProjectPayload
+	request *MwServerInternalSchemasCreateUserProjectPayload
 }
 
 // query params
-func (r ApiCreateUserProjectRequest) Request(request SchemasCreateUserProjectPayload) ApiCreateUserProjectRequest {
+func (r ApiCreateUserProjectRequest) Request(request MwServerInternalSchemasCreateUserProjectPayload) ApiCreateUserProjectRequest {
 	r.request = &request
 	return r
 }

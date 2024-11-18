@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"mwchat/internal/auth"
-	"mwchat/internal/schemas"
-	"mwchat/internal/services"
-	"mwchat/pkg/utils"
+	"mw-chat/internal/auth"
+	"mw-chat/internal/schemas"
+	"mw-chat/internal/services"
+	"mw-chat/pkg/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

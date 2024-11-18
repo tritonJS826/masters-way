@@ -85,8 +85,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasPostSurveyLookingForMentorPayload](docs/SchemasPostSurveyLookingForMentorPayload.md)
- - [SchemasPostSurveyUserIntroPayload](docs/SchemasPostSurveyUserIntroPayload.md)
+ - [MwsurveyInternalSchemasPostSurveyLookingForMentorPayload](docs/MwsurveyInternalSchemasPostSurveyLookingForMentorPayload.md)
+ - [MwsurveyInternalSchemasPostSurveyUserIntroPayload](docs/MwsurveyInternalSchemasPostSurveyUserIntroPayload.md)
 
 
 ## Documentation For Authorization

@@ -1,6 +1,6 @@
 # \MentorUserWayAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateMentorUserWayPayload("UserUuid_example", "WayUuid_example") // SchemasCreateMentorUserWayPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateMentorUserWayPayload("UserUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateMentorUserWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -53,7 +53,7 @@ Other parameters are passed through a pointer to a apiCreateMentorUserWayRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateMentorUserWayPayload**](SchemasCreateMentorUserWayPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateMentorUserWayPayload**](MwServerInternalSchemasCreateMentorUserWayPayload.md) | query params | 
 
 ### Return type
 
@@ -92,7 +92,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasDeleteMentorUserWayPayload("UserUuid_example", "WayUuid_example") // SchemasDeleteMentorUserWayPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasDeleteMentorUserWayPayload("UserUuid_example", "WayUuid_example") // MwServerInternalSchemasDeleteMentorUserWayPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -115,7 +115,7 @@ Other parameters are passed through a pointer to a apiDeleteMentorUserWayRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasDeleteMentorUserWayPayload**](SchemasDeleteMentorUserWayPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasDeleteMentorUserWayPayload**](MwServerInternalSchemasDeleteMentorUserWayPayload.md) | query params | 
 
 ### Return type
 

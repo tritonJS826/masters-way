@@ -1,5 +1,5 @@
 /*
-Masters way notification API
+Masters way notification-bff API
 
 Testing EnabledNotificationAPIService
 
@@ -21,17 +21,6 @@ func Test_openapi_EnabledNotificationAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-
-	t.Run("Test EnabledNotificationAPIService CreateEnabledNotification", func(t *testing.T) {
-
-		t.Skip("skip test")  // remove to run test
-
-		httpRes, err := apiClient.EnabledNotificationAPI.CreateEnabledNotification(context.Background()).Execute()
-
-		require.Nil(t, err)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
 
 	t.Run("Test EnabledNotificationAPIService GetEnabledNotificationList", func(t *testing.T) {
 

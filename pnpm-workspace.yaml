@@ -11,3 +11,4 @@ packages:
   - 'mw-survey'
   - 'mw-notification'
   - 'mw-notification-bff'
+  - 'mw-notification-websocket'

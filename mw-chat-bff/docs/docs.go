@@ -49,7 +49,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UploadFileResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.UploadFileResponse"
                         }
                     }
                 }
@@ -108,7 +108,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMessagePayload"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.CreateMessagePayload"
                         }
                     }
                 ],
@@ -116,7 +116,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MessageResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.MessageResponse"
                         }
                     }
                 }
@@ -143,7 +143,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateMessageStatusPayload"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.UpdateMessageStatusPayload"
                         }
                     },
                     {
@@ -181,7 +181,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateRoomPayload"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.CreateRoomPayload"
                         }
                     }
                 ],
@@ -189,7 +189,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -225,7 +225,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetRoomsResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.GetRoomsResponse"
                         }
                     }
                 }
@@ -248,7 +248,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetRoomPreviewResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.GetRoomPreviewResponse"
                         }
                     }
                 }
@@ -280,7 +280,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -310,7 +310,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -349,7 +349,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -386,7 +386,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 }
@@ -394,7 +394,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.CreateMessagePayload": {
+        "mw-chat-bff_internal_schemas.CreateMessagePayload": {
             "type": "object",
             "required": [
                 "message",
@@ -409,7 +409,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateRoomPayload": {
+        "mw-chat-bff_internal_schemas.CreateRoomPayload": {
             "type": "object",
             "required": [
                 "roomType"
@@ -428,7 +428,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetRoomPreviewResponse": {
+        "mw-chat-bff_internal_schemas.GetRoomPreviewResponse": {
             "type": "object",
             "required": [
                 "unreadMessagesAmount"
@@ -439,7 +439,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetRoomsResponse": {
+        "mw-chat-bff_internal_schemas.GetRoomsResponse": {
             "type": "object",
             "required": [
                 "rooms",
@@ -449,7 +449,7 @@ const docTemplate = `{
                 "rooms": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.RoomPreviewResponse"
+                        "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPreviewResponse"
                     }
                 },
                 "size": {
@@ -457,7 +457,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MessageReader": {
+        "mw-chat-bff_internal_schemas.MessageReader": {
             "type": "object",
             "required": [
                 "ownerImageUrl",
@@ -480,7 +480,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MessageResponse": {
+        "mw-chat-bff_internal_schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
@@ -500,7 +500,7 @@ const docTemplate = `{
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReader"
+                        "$ref": "#/definitions/mw-chat-bff_internal_schemas.MessageReader"
                     }
                 },
                 "ownerId": {
@@ -514,7 +514,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.RoomPopulatedResponse": {
+        "mw-chat-bff_internal_schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -535,7 +535,7 @@ const docTemplate = `{
                 "messages": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageResponse"
+                        "$ref": "#/definitions/mw-chat-bff_internal_schemas.MessageResponse"
                     }
                 },
                 "name": {
@@ -550,12 +550,12 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/mw-chat-bff_internal_schemas.UserResponse"
                     }
                 }
             }
         },
-        "schemas.RoomPreviewResponse": {
+        "mw-chat-bff_internal_schemas.RoomPreviewResponse": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -584,12 +584,12 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/mw-chat-bff_internal_schemas.UserResponse"
                     }
                 }
             }
         },
-        "schemas.UpdateMessageStatusPayload": {
+        "mw-chat-bff_internal_schemas.UpdateMessageStatusPayload": {
             "type": "object",
             "required": [
                 "isRead"
@@ -600,7 +600,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UploadFileResponse": {
+        "mw-chat-bff_internal_schemas.UploadFileResponse": {
             "type": "object",
             "required": [
                 "id",
@@ -627,7 +627,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserResponse": {
+        "mw-chat-bff_internal_schemas.UserResponse": {
             "type": "object",
             "required": [
                 "imageUrl",

@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
-	"mwchat/internal/config"
+	"mw-chat/internal/config"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )

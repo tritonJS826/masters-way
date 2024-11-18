@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 ## AddUserToRoom
 
-> SchemasRoomPopulatedResponse AddUserToRoom(ctx, roomId, userId).Execute()
+> MwChatBffInternalSchemasRoomPopulatedResponse AddUserToRoom(ctx, roomId, userId).Execute()
 
 Add user to room
 
@@ -43,7 +43,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.AddUserToRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AddUserToRoom`: SchemasRoomPopulatedResponse
+	// response from `AddUserToRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.AddUserToRoom`: %v\n", resp)
 }
 ```
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -87,7 +87,7 @@ No authorization required
 
 ## CreateRoom
 
-> SchemasRoomPopulatedResponse CreateRoom(ctx).Request(request).Execute()
+> MwChatBffInternalSchemasRoomPopulatedResponse CreateRoom(ctx).Request(request).Execute()
 
 Create room for user
 
@@ -104,7 +104,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateRoomPayload("RoomType_example") // SchemasCreateRoomPayload | query params
+	request := *openapiclient.NewMwChatBffInternalSchemasCreateRoomPayload("RoomType_example") // MwChatBffInternalSchemasCreateRoomPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -113,7 +113,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.CreateRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateRoom`: SchemasRoomPopulatedResponse
+	// response from `CreateRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.CreateRoom`: %v\n", resp)
 }
 ```
@@ -129,11 +129,11 @@ Other parameters are passed through a pointer to a apiCreateRoomRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateRoomPayload**](SchemasCreateRoomPayload.md) | query params | 
+ **request** | [**MwChatBffInternalSchemasCreateRoomPayload**](MwChatBffInternalSchemasCreateRoomPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -151,7 +151,7 @@ No authorization required
 
 ## DeleteUserFromRoom
 
-> SchemasRoomPopulatedResponse DeleteUserFromRoom(ctx, roomId, userId).Execute()
+> MwChatBffInternalSchemasRoomPopulatedResponse DeleteUserFromRoom(ctx, roomId, userId).Execute()
 
 Delete user from room
 
@@ -178,7 +178,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.DeleteUserFromRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteUserFromRoom`: SchemasRoomPopulatedResponse
+	// response from `DeleteUserFromRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.DeleteUserFromRoom`: %v\n", resp)
 }
 ```
@@ -204,7 +204,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -222,7 +222,7 @@ No authorization required
 
 ## GetChatPreview
 
-> SchemasGetRoomPreviewResponse GetChatPreview(ctx).Execute()
+> MwChatBffInternalSchemasGetRoomPreviewResponse GetChatPreview(ctx).Execute()
 
 Get chat preview
 
@@ -247,7 +247,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetChatPreview``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetChatPreview`: SchemasGetRoomPreviewResponse
+	// response from `GetChatPreview`: MwChatBffInternalSchemasGetRoomPreviewResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetChatPreview`: %v\n", resp)
 }
 ```
@@ -263,7 +263,7 @@ Other parameters are passed through a pointer to a apiGetChatPreviewRequest stru
 
 ### Return type
 
-[**SchemasGetRoomPreviewResponse**](SchemasGetRoomPreviewResponse.md)
+[**MwChatBffInternalSchemasGetRoomPreviewResponse**](MwChatBffInternalSchemasGetRoomPreviewResponse.md)
 
 ### Authorization
 
@@ -281,7 +281,7 @@ No authorization required
 
 ## GetRoomById
 
-> SchemasRoomPopulatedResponse GetRoomById(ctx, roomId).Execute()
+> MwChatBffInternalSchemasRoomPopulatedResponse GetRoomById(ctx, roomId).Execute()
 
 Get room by id
 
@@ -307,7 +307,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetRoomById``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetRoomById`: SchemasRoomPopulatedResponse
+	// response from `GetRoomById`: MwChatBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetRoomById`: %v\n", resp)
 }
 ```
@@ -331,7 +331,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -349,7 +349,7 @@ No authorization required
 
 ## GetRooms
 
-> SchemasGetRoomsResponse GetRooms(ctx, roomType).Execute()
+> MwChatBffInternalSchemasGetRoomsResponse GetRooms(ctx, roomType).Execute()
 
 Get rooms for user
 
@@ -375,7 +375,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetRooms``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetRooms`: SchemasGetRoomsResponse
+	// response from `GetRooms`: MwChatBffInternalSchemasGetRoomsResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetRooms`: %v\n", resp)
 }
 ```
@@ -399,7 +399,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasGetRoomsResponse**](SchemasGetRoomsResponse.md)
+[**MwChatBffInternalSchemasGetRoomsResponse**](MwChatBffInternalSchemasGetRoomsResponse.md)
 
 ### Authorization
 
@@ -417,7 +417,7 @@ No authorization required
 
 ## UpdateRoom
 
-> SchemasRoomPopulatedResponse UpdateRoom(ctx, roomId).Execute()
+> MwChatBffInternalSchemasRoomPopulatedResponse UpdateRoom(ctx, roomId).Execute()
 
 Update room
 
@@ -443,7 +443,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.UpdateRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateRoom`: SchemasRoomPopulatedResponse
+	// response from `UpdateRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.UpdateRoom`: %v\n", resp)
 }
 ```
@@ -467,7 +467,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SchemasRoomPopulatedResponse**](SchemasRoomPopulatedResponse.md)
+[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 

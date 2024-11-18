@@ -1,6 +1,6 @@
 # \ToUserMentoringRequestAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateUserMentoringRequest
 
-> SchemasToUserMentoringRequestResponse CreateUserMentoringRequest(ctx).Request(request).Execute()
+> MwServerInternalSchemasToUserMentoringRequestResponse CreateUserMentoringRequest(ctx).Request(request).Execute()
 
 Create a new userMentoringRequest
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateToUserMentoringRequestPayload("UserUuid_example", "WayUuid_example") // SchemasCreateToUserMentoringRequestPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateToUserMentoringRequestPayload("UserUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateToUserMentoringRequestPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `ToUserMentoringRequestAPI.CreateUserMentoringRequest``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateUserMentoringRequest`: SchemasToUserMentoringRequestResponse
+	// response from `CreateUserMentoringRequest`: MwServerInternalSchemasToUserMentoringRequestResponse
 	fmt.Fprintf(os.Stdout, "Response from `ToUserMentoringRequestAPI.CreateUserMentoringRequest`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateUserMentoringRequest
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateToUserMentoringRequestPayload**](SchemasCreateToUserMentoringRequestPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateToUserMentoringRequestPayload**](MwServerInternalSchemasCreateToUserMentoringRequestPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasToUserMentoringRequestResponse**](SchemasToUserMentoringRequestResponse.md)
+[**MwServerInternalSchemasToUserMentoringRequestResponse**](MwServerInternalSchemasToUserMentoringRequestResponse.md)
 
 ### Authorization
 

@@ -27,16 +27,16 @@ type WayCollectionWayAPIService service
 type ApiCreateWayCollectionWayRequest struct {
 	ctx context.Context
 	ApiService *WayCollectionWayAPIService
-	request *SchemasCreateWayCollectionWay
+	request *MwServerInternalSchemasCreateWayCollectionWay
 }
 
 // query params
-func (r ApiCreateWayCollectionWayRequest) Request(request SchemasCreateWayCollectionWay) ApiCreateWayCollectionWayRequest {
+func (r ApiCreateWayCollectionWayRequest) Request(request MwServerInternalSchemasCreateWayCollectionWay) ApiCreateWayCollectionWayRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateWayCollectionWayRequest) Execute() (*SchemasWayCollectionWayResponse, *http.Response, error) {
+func (r ApiCreateWayCollectionWayRequest) Execute() (*MwServerInternalSchemasWayCollectionWayResponse, *http.Response, error) {
 	return r.ApiService.CreateWayCollectionWayExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *WayCollectionWayAPIService) CreateWayCollectionWay(ctx context.Context)
 }
 
 // Execute executes the request
-//  @return SchemasWayCollectionWayResponse
-func (a *WayCollectionWayAPIService) CreateWayCollectionWayExecute(r ApiCreateWayCollectionWayRequest) (*SchemasWayCollectionWayResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayCollectionWayResponse
+func (a *WayCollectionWayAPIService) CreateWayCollectionWayExecute(r ApiCreateWayCollectionWayRequest) (*MwServerInternalSchemasWayCollectionWayResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasWayCollectionWayResponse
+		localVarReturnValue  *MwServerInternalSchemasWayCollectionWayResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayCollectionWayAPIService.CreateWayCollectionWay")
@@ -134,11 +134,11 @@ func (a *WayCollectionWayAPIService) CreateWayCollectionWayExecute(r ApiCreateWa
 }
 
 // Execute executes the request
-//  @return SchemasWayCollectionWayResponseStream
-func (a *WayCollectionWayAPIService) CreateWayCollectionWayStreamExecute(r ApiCreateWayCollectionWayRequest, request *http.Request, GoogleAccessToken string) (*SchemasWayCollectionWayResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasWayCollectionWayResponseStream
+func (a *WayCollectionWayAPIService) CreateWayCollectionWayStreamExecute(r ApiCreateWayCollectionWayRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasWayCollectionWayResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasWayCollectionWayResponse
+		localVarReturnValue  *MwServerInternalSchemasWayCollectionWayResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WayCollectionWayAPIService.CreateWayCollectionWay")

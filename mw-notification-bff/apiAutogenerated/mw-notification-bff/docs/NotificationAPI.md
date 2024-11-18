@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## GetNotificationList
 
-> SchemasGetNotificationListResponse GetNotificationList(ctx).Execute()
+> MwNotificationBffInternalSchemasGetNotificationListResponse GetNotificationList(ctx).Execute()
 
 Get notification list by user id
 
@@ -36,7 +36,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `NotificationAPI.GetNotificationList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetNotificationList`: SchemasGetNotificationListResponse
+	// response from `GetNotificationList`: MwNotificationBffInternalSchemasGetNotificationListResponse
 	fmt.Fprintf(os.Stdout, "Response from `NotificationAPI.GetNotificationList`: %v\n", resp)
 }
 ```
@@ -52,7 +52,7 @@ Other parameters are passed through a pointer to a apiGetNotificationListRequest
 
 ### Return type
 
-[**SchemasGetNotificationListResponse**](SchemasGetNotificationListResponse.md)
+[**MwNotificationBffInternalSchemasGetNotificationListResponse**](MwNotificationBffInternalSchemasGetNotificationListResponse.md)
 
 ### Authorization
 
@@ -70,7 +70,7 @@ No authorization required
 
 ## UpdateNotification
 
-> SchemasNotificationResponse UpdateNotification(ctx, notificationId).Request(request).Execute()
+> MwNotificationBffInternalSchemasNotificationResponse UpdateNotification(ctx, notificationId).Request(request).Execute()
 
 Update notification by id
 
@@ -88,7 +88,7 @@ import (
 
 func main() {
 	notificationId := "notificationId_example" // string | notification id
-	request := *openapiclient.NewSchemasUpdateNotificationPayload(false) // SchemasUpdateNotificationPayload | query params
+	request := *openapiclient.NewMwNotificationBffInternalSchemasUpdateNotificationPayload(false) // MwNotificationBffInternalSchemasUpdateNotificationPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -97,7 +97,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `NotificationAPI.UpdateNotification``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateNotification`: SchemasNotificationResponse
+	// response from `UpdateNotification`: MwNotificationBffInternalSchemasNotificationResponse
 	fmt.Fprintf(os.Stdout, "Response from `NotificationAPI.UpdateNotification`: %v\n", resp)
 }
 ```
@@ -118,11 +118,11 @@ Other parameters are passed through a pointer to a apiUpdateNotificationRequest 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateNotificationPayload**](SchemasUpdateNotificationPayload.md) | query params | 
+ **request** | [**MwNotificationBffInternalSchemasUpdateNotificationPayload**](MwNotificationBffInternalSchemasUpdateNotificationPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasNotificationResponse**](SchemasNotificationResponse.md)
+[**MwNotificationBffInternalSchemasNotificationResponse**](MwNotificationBffInternalSchemasNotificationResponse.md)
 
 ### Authorization
 

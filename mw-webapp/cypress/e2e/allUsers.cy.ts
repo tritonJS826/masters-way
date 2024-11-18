@@ -7,7 +7,7 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 import allUsersData from "cypress/fixtures/allUsersFixture.json";
 
 beforeEach(() => {
-    cy.resetDb();
+    cy.resetGeneralDb();
     cy.visit('/');
     headerSelectors.getBurgerMenu().click();
     navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();

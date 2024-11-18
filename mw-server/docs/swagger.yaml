@@ -1,6 +1,6 @@
-basePath: /api
+basePath: /general
 definitions:
-  customErrors.NoRightToChangeDayReportError:
+  mw-server_internal_customErrors.NoRightToChangeDayReportError:
     properties:
       error:
         type: string
@@ -10,21 +10,21 @@ definitions:
     - error
     - errorId
     type: object
-  schemas.AIChatPayload:
+  mw-server_internal_schemas.AIChatPayload:
     properties:
       message:
         type: string
     required:
     - message
     type: object
-  schemas.AIChatResponse:
+  mw-server_internal_schemas.AIChatResponse:
     properties:
       message:
         type: string
     required:
     - message
     type: object
-  schemas.AICommentIssuePayload:
+  mw-server_internal_schemas.AICommentIssuePayload:
     properties:
       goal:
         type: string
@@ -34,14 +34,14 @@ definitions:
     - goal
     - message
     type: object
-  schemas.AICommentIssueResponse:
+  mw-server_internal_schemas.AICommentIssueResponse:
     properties:
       goal:
         type: string
     required:
     - goal
     type: object
-  schemas.AIDecomposeIssuePayload:
+  mw-server_internal_schemas.AIDecomposeIssuePayload:
     properties:
       goal:
         type: string
@@ -51,7 +51,7 @@ definitions:
     - goal
     - message
     type: object
-  schemas.AIDecomposeIssueResponse:
+  mw-server_internal_schemas.AIDecomposeIssueResponse:
     properties:
       plans:
         items:
@@ -60,7 +60,7 @@ definitions:
     required:
     - plans
     type: object
-  schemas.AIEstimateIssuePayload:
+  mw-server_internal_schemas.AIEstimateIssuePayload:
     properties:
       goal:
         type: string
@@ -70,14 +70,14 @@ definitions:
     - goal
     - issue
     type: object
-  schemas.AIEstimateIssueResponse:
+  mw-server_internal_schemas.AIEstimateIssueResponse:
     properties:
       estimation:
         type: string
     required:
     - estimation
     type: object
-  schemas.AIGeneratePlansByMetricPayload:
+  mw-server_internal_schemas.AIGeneratePlansByMetricPayload:
     properties:
       goal:
         type: string
@@ -87,7 +87,7 @@ definitions:
     - goal
     - metric
     type: object
-  schemas.AIGeneratePlansByMetricResponse:
+  mw-server_internal_schemas.AIGeneratePlansByMetricResponse:
     properties:
       plans:
         items:
@@ -96,7 +96,7 @@ definitions:
     required:
     - plans
     type: object
-  schemas.AddWayToCompositeWayPayload:
+  mw-server_internal_schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
         type: string
@@ -106,7 +106,14 @@ definitions:
     - childWayUuid
     - parentWayUuid
     type: object
-  schemas.CommentPopulatedResponse:
+  mw-server_internal_schemas.BeginAuthResponse:
+    properties:
+      url:
+        type: string
+    required:
+    - url
+    type: object
+  mw-server_internal_schemas.CommentPopulatedResponse:
     properties:
       createdAt:
         type: string
@@ -137,30 +144,30 @@ definitions:
     - wayName
     - wayUuid
     type: object
-  schemas.CompositeDayReportPopulatedResponse:
+  mw-server_internal_schemas.CompositeDayReportPopulatedResponse:
     properties:
       comments:
         items:
-          $ref: '#/definitions/schemas.CommentPopulatedResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.CommentPopulatedResponse'
         type: array
       compositionParticipants:
         items:
-          $ref: '#/definitions/schemas.DayReportsCompositionParticipants'
+          $ref: '#/definitions/mw-server_internal_schemas.DayReportsCompositionParticipants'
         type: array
       createdAt:
         description: Calculated by - just date
         type: string
       jobsDone:
         items:
-          $ref: '#/definitions/schemas.JobDonePopulatedResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse'
         type: array
       plans:
         items:
-          $ref: '#/definitions/schemas.PlanPopulatedResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.PlanPopulatedResponse'
         type: array
       problems:
         items:
-          $ref: '#/definitions/schemas.ProblemPopulatedResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.ProblemPopulatedResponse'
         type: array
       updatedAt:
         description: Calculated by - just last date
@@ -178,7 +185,7 @@ definitions:
     - updatedAt
     - uuid
     type: object
-  schemas.CompositeWayRelation:
+  mw-server_internal_schemas.CompositeWayRelation:
     properties:
       childWayUuid:
         type: string
@@ -188,7 +195,7 @@ definitions:
     - childWayUuid
     - parentWayUuid
     type: object
-  schemas.CreateCommentPayload:
+  mw-server_internal_schemas.CreateCommentPayload:
     properties:
       dayReportUuid:
         type: string
@@ -201,14 +208,14 @@ definitions:
     - description
     - ownerUuid
     type: object
-  schemas.CreateDayReportPayload:
+  mw-server_internal_schemas.CreateDayReportPayload:
     properties:
       wayId:
         type: string
     required:
     - wayId
     type: object
-  schemas.CreateFavoriteUserPayload:
+  mw-server_internal_schemas.CreateFavoriteUserPayload:
     properties:
       acceptorUserUuid:
         type: string
@@ -218,7 +225,7 @@ definitions:
     - acceptorUserUuid
     - donorUserUuid
     type: object
-  schemas.CreateFavoriteUserWayPayload:
+  mw-server_internal_schemas.CreateFavoriteUserWayPayload:
     properties:
       userUuid:
         type: string
@@ -228,7 +235,7 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.CreateFromUserMentoringRequestPayload:
+  mw-server_internal_schemas.CreateFromUserMentoringRequestPayload:
     properties:
       userUuid:
         type: string
@@ -238,7 +245,7 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.CreateJobDoneJobTagPayload:
+  mw-server_internal_schemas.CreateJobDoneJobTagPayload:
     properties:
       jobDoneUuid:
         type: string
@@ -248,7 +255,7 @@ definitions:
     - jobDoneUuid
     - jobTagUuid
     type: object
-  schemas.CreateJobDonePayload:
+  mw-server_internal_schemas.CreateJobDonePayload:
     properties:
       dayReportUuid:
         type: string
@@ -269,7 +276,7 @@ definitions:
     - ownerUuid
     - time
     type: object
-  schemas.CreateJobTagPayload:
+  mw-server_internal_schemas.CreateJobTagPayload:
     properties:
       color:
         type: string
@@ -285,7 +292,7 @@ definitions:
     - name
     - wayUuid
     type: object
-  schemas.CreateMentorUserWayPayload:
+  mw-server_internal_schemas.CreateMentorUserWayPayload:
     properties:
       userUuid:
         type: string
@@ -295,7 +302,7 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.CreateMetricPayload:
+  mw-server_internal_schemas.CreateMetricPayload:
     properties:
       description:
         type: string
@@ -314,7 +321,7 @@ definitions:
     - isDone
     - wayUuid
     type: object
-  schemas.CreatePlanJobTagPayload:
+  mw-server_internal_schemas.CreatePlanJobTagPayload:
     properties:
       jobTagUuid:
         type: string
@@ -324,7 +331,7 @@ definitions:
     - jobTagUuid
     - planUuid
     type: object
-  schemas.CreatePlanPayload:
+  mw-server_internal_schemas.CreatePlanPayload:
     properties:
       dayReportUuid:
         type: string
@@ -343,7 +350,7 @@ definitions:
     - ownerUuid
     - time
     type: object
-  schemas.CreateProblemPayload:
+  mw-server_internal_schemas.CreateProblemPayload:
     properties:
       dayReportUuid:
         type: string
@@ -359,7 +366,7 @@ definitions:
     - isDone
     - ownerUuid
     type: object
-  schemas.CreateProjectPayload:
+  mw-server_internal_schemas.CreateProjectPayload:
     properties:
       name:
         type: string
@@ -369,7 +376,7 @@ definitions:
     - name
     - ownerId
     type: object
-  schemas.CreateToUserMentoringRequestPayload:
+  mw-server_internal_schemas.CreateToUserMentoringRequestPayload:
     properties:
       userUuid:
         type: string
@@ -379,7 +386,7 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.CreateUserProjectPayload:
+  mw-server_internal_schemas.CreateUserProjectPayload:
     properties:
       projectId:
         type: string
@@ -389,7 +396,7 @@ definitions:
     - projectId
     - userId
     type: object
-  schemas.CreateUserTagPayload:
+  mw-server_internal_schemas.CreateUserTagPayload:
     properties:
       name:
         type: string
@@ -399,7 +406,7 @@ definitions:
     - name
     - ownerUuid
     type: object
-  schemas.CreateWayCollectionPayload:
+  mw-server_internal_schemas.CreateWayCollectionPayload:
     properties:
       name:
         type: string
@@ -409,7 +416,7 @@ definitions:
     - name
     - ownerUuid
     type: object
-  schemas.CreateWayCollectionWay:
+  mw-server_internal_schemas.CreateWayCollectionWay:
     properties:
       wayCollectionUuid:
         type: string
@@ -419,7 +426,7 @@ definitions:
     - wayCollectionUuid
     - wayUuid
     type: object
-  schemas.CreateWayPayload:
+  mw-server_internal_schemas.CreateWayPayload:
     properties:
       copiedFromWayId:
         type: string
@@ -449,7 +456,7 @@ definitions:
     - ownerId
     - projectId
     type: object
-  schemas.CreateWayTagPayload:
+  mw-server_internal_schemas.CreateWayTagPayload:
     properties:
       name:
         type: string
@@ -459,7 +466,7 @@ definitions:
     - name
     - wayUuid
     type: object
-  schemas.DayReportsCompositionParticipants:
+  mw-server_internal_schemas.DayReportsCompositionParticipants:
     properties:
       dayReportId:
         type: string
@@ -472,20 +479,20 @@ definitions:
     - wayId
     - wayName
     type: object
-  schemas.DefaultWayCollections:
+  mw-server_internal_schemas.DefaultWayCollections:
     properties:
       favorite:
-        $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+        $ref: '#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse'
       mentoring:
-        $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+        $ref: '#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse'
       own:
-        $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+        $ref: '#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse'
     required:
     - favorite
     - mentoring
     - own
     type: object
-  schemas.DeleteMentorUserWayPayload:
+  mw-server_internal_schemas.DeleteMentorUserWayPayload:
     properties:
       userUuid:
         type: string
@@ -495,7 +502,7 @@ definitions:
     - userUuid
     - wayUuid
     type: object
-  schemas.FromUserMentoringRequestResponse:
+  mw-server_internal_schemas.FromUserMentoringRequestResponse:
     properties:
       userId:
         type: string
@@ -505,7 +512,7 @@ definitions:
     - userId
     - wayId
     type: object
-  schemas.GenerateMetricsPayload:
+  mw-server_internal_schemas.GenerateMetricsPayload:
     properties:
       goalDescription:
         type: string
@@ -520,7 +527,7 @@ definitions:
     - metrics
     - wayName
     type: object
-  schemas.GenerateMetricsResponse:
+  mw-server_internal_schemas.GenerateMetricsResponse:
     properties:
       metrics:
         items:
@@ -529,31 +536,51 @@ definitions:
     required:
     - metrics
     type: object
-  schemas.GetAllUsersResponse:
+  mw-server_internal_schemas.GetAllUsersResponse:
     properties:
       size:
         type: integer
       users:
         items:
-          $ref: '#/definitions/schemas.UserPlainResponseWithInfo'
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponseWithInfo'
         type: array
     required:
     - size
     - users
     type: object
-  schemas.GetAllWaysResponse:
+  mw-server_internal_schemas.GetAllWaysResponse:
     properties:
       size:
         type: integer
       ways:
         items:
-          $ref: '#/definitions/schemas.WayPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayPlainResponse'
         type: array
     required:
     - size
     - ways
     type: object
-  schemas.GetUsersByIDsResponse:
+  mw-server_internal_schemas.GetAuthCallbackFunctionResponse:
+    properties:
+      url:
+        type: string
+      userUuid:
+        type: string
+    required:
+    - url
+    - userUuid
+    type: object
+  mw-server_internal_schemas.GetUserTokenByEmailResponse:
+    properties:
+      url:
+        type: string
+      userUuid:
+        type: string
+    required:
+    - url
+    - userUuid
+    type: object
+  mw-server_internal_schemas.GetUsersByIDsResponse:
     properties:
       imageUrl:
         type: string
@@ -566,14 +593,14 @@ definitions:
     - name
     - userId
     type: object
-  schemas.GoogleToken:
+  mw-server_internal_schemas.GoogleToken:
     properties:
       accessToken:
         type: string
     required:
     - accessToken
     type: object
-  schemas.JobDonePopulatedResponse:
+  mw-server_internal_schemas.JobDonePopulatedResponse:
     properties:
       createdAt:
         type: string
@@ -587,7 +614,7 @@ definitions:
         type: string
       tags:
         items:
-          $ref: '#/definitions/schemas.JobTagResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.JobTagResponse'
         type: array
       time:
         type: integer
@@ -612,7 +639,7 @@ definitions:
     - wayName
     - wayUuid
     type: object
-  schemas.JobTagResponse:
+  mw-server_internal_schemas.JobTagResponse:
     properties:
       color:
         type: string
@@ -628,7 +655,7 @@ definitions:
     - name
     - uuid
     type: object
-  schemas.Label:
+  mw-server_internal_schemas.Label:
     properties:
       color:
         type: string
@@ -644,14 +671,14 @@ definitions:
     - name
     - uuid
     type: object
-  schemas.LabelInfo:
+  mw-server_internal_schemas.LabelInfo:
     properties:
       jobsAmount:
         type: integer
       jobsAmountPercentage:
         type: integer
       label:
-        $ref: '#/definitions/schemas.Label'
+        $ref: '#/definitions/mw-server_internal_schemas.Label'
       time:
         type: integer
       timePercentage:
@@ -663,20 +690,20 @@ definitions:
     - time
     - timePercentage
     type: object
-  schemas.LabelStatistics:
+  mw-server_internal_schemas.LabelStatistics:
     properties:
       labels:
         items:
-          $ref: '#/definitions/schemas.LabelInfo'
+          $ref: '#/definitions/mw-server_internal_schemas.LabelInfo'
         type: array
     required:
     - labels
     type: object
-  schemas.ListDayReportsResponse:
+  mw-server_internal_schemas.ListDayReportsResponse:
     properties:
       dayReports:
         items:
-          $ref: '#/definitions/schemas.CompositeDayReportPopulatedResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.CompositeDayReportPopulatedResponse'
         type: array
       size:
         type: integer
@@ -684,7 +711,7 @@ definitions:
     - dayReports
     - size
     type: object
-  schemas.MetricResponse:
+  mw-server_internal_schemas.MetricResponse:
     properties:
       description:
         type: string
@@ -704,7 +731,7 @@ definitions:
     - isDone
     - uuid
     type: object
-  schemas.OverallInformation:
+  mw-server_internal_schemas.OverallInformation:
     properties:
       averageJobTime:
         type: integer
@@ -726,7 +753,7 @@ definitions:
     - totalReports
     - totalTime
     type: object
-  schemas.PlanPopulatedResponse:
+  mw-server_internal_schemas.PlanPopulatedResponse:
     properties:
       createdAt:
         type: string
@@ -742,7 +769,7 @@ definitions:
         type: string
       tags:
         items:
-          $ref: '#/definitions/schemas.JobTagResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.JobTagResponse'
         type: array
       time:
         type: integer
@@ -768,7 +795,7 @@ definitions:
     - wayName
     - wayUuid
     type: object
-  schemas.ProblemPopulatedResponse:
+  mw-server_internal_schemas.ProblemPopulatedResponse:
     properties:
       createdAt:
         type: string
@@ -802,7 +829,7 @@ definitions:
     - wayName
     - wayUuid
     type: object
-  schemas.ProjectPlainResponse:
+  mw-server_internal_schemas.ProjectPlainResponse:
     properties:
       id:
         type: string
@@ -820,7 +847,7 @@ definitions:
     - name
     - userIds
     type: object
-  schemas.ProjectPopulatedResponse:
+  mw-server_internal_schemas.ProjectPopulatedResponse:
     properties:
       id:
         type: string
@@ -832,11 +859,11 @@ definitions:
         type: string
       users:
         items:
-          $ref: '#/definitions/schemas.UserPlainResponseWithInfo'
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponseWithInfo'
         type: array
       ways:
         items:
-          $ref: '#/definitions/schemas.WayPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayPlainResponse'
         type: array
     required:
     - id
@@ -846,7 +873,7 @@ definitions:
     - users
     - ways
     type: object
-  schemas.TimeSpentByDayPoint:
+  mw-server_internal_schemas.TimeSpentByDayPoint:
     properties:
       date:
         type: string
@@ -856,7 +883,7 @@ definitions:
     - date
     - value
     type: object
-  schemas.ToUserMentoringRequestResponse:
+  mw-server_internal_schemas.ToUserMentoringRequestResponse:
     properties:
       userId:
         type: string
@@ -866,19 +893,19 @@ definitions:
     - userId
     - wayId
     type: object
-  schemas.UpdateCommentPayload:
+  mw-server_internal_schemas.UpdateCommentPayload:
     properties:
       description:
         type: string
     type: object
-  schemas.UpdateJobDone:
+  mw-server_internal_schemas.UpdateJobDone:
     properties:
       description:
         type: string
       time:
         type: integer
     type: object
-  schemas.UpdateJobTagPayload:
+  mw-server_internal_schemas.UpdateJobTagPayload:
     properties:
       color:
         type: string
@@ -887,7 +914,7 @@ definitions:
       name:
         type: string
     type: object
-  schemas.UpdateMetricPayload:
+  mw-server_internal_schemas.UpdateMetricPayload:
     properties:
       description:
         type: string
@@ -896,7 +923,7 @@ definitions:
       isDone:
         type: boolean
     type: object
-  schemas.UpdatePlanPayload:
+  mw-server_internal_schemas.UpdatePlanPayload:
     properties:
       description:
         type: string
@@ -905,21 +932,21 @@ definitions:
       time:
         type: integer
     type: object
-  schemas.UpdateProblemPayload:
+  mw-server_internal_schemas.UpdateProblemPayload:
     properties:
       description:
         type: string
       isDone:
         type: boolean
     type: object
-  schemas.UpdateProjectPayload:
+  mw-server_internal_schemas.UpdateProjectPayload:
     properties:
       isPrivate:
         type: boolean
       name:
         type: string
     type: object
-  schemas.UpdateUserPayload:
+  mw-server_internal_schemas.UpdateUserPayload:
     properties:
       description:
         type: string
@@ -930,12 +957,12 @@ definitions:
       name:
         type: string
     type: object
-  schemas.UpdateWayCollectionPayload:
+  mw-server_internal_schemas.UpdateWayCollectionPayload:
     properties:
       name:
         type: string
     type: object
-  schemas.UpdateWayPayload:
+  mw-server_internal_schemas.UpdateWayPayload:
     properties:
       estimationTime:
         type: integer
@@ -948,7 +975,7 @@ definitions:
       name:
         type: string
     type: object
-  schemas.UserPlainResponse:
+  mw-server_internal_schemas.UserPlainResponse:
     properties:
       createdAt:
         type: string
@@ -973,7 +1000,7 @@ definitions:
     - name
     - uuid
     type: object
-  schemas.UserPlainResponseWithInfo:
+  mw-server_internal_schemas.UserPlainResponseWithInfo:
     properties:
       createdAt:
         type: string
@@ -997,7 +1024,7 @@ definitions:
         type: integer
       tags:
         items:
-          $ref: '#/definitions/schemas.UserTagResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.UserTagResponse'
         type: array
       uuid:
         type: string
@@ -1015,16 +1042,16 @@ definitions:
     - tags
     - uuid
     type: object
-  schemas.UserPopulatedResponse:
+  mw-server_internal_schemas.UserPopulatedResponse:
     properties:
       createdAt:
         type: string
       customWayCollections:
         items:
-          $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse'
         type: array
       defaultWayCollections:
-        $ref: '#/definitions/schemas.DefaultWayCollections'
+        $ref: '#/definitions/mw-server_internal_schemas.DefaultWayCollections'
       description:
         type: string
       email:
@@ -1035,7 +1062,7 @@ definitions:
         type: array
       favoriteUsers:
         items:
-          $ref: '#/definitions/schemas.UserPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
         type: array
       imageUrl:
         type: string
@@ -1045,17 +1072,17 @@ definitions:
         type: string
       projects:
         items:
-          $ref: '#/definitions/schemas.ProjectPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.ProjectPlainResponse'
         type: array
       tags:
         items:
-          $ref: '#/definitions/schemas.UserTagResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.UserTagResponse'
         type: array
       uuid:
         type: string
       wayRequests:
         items:
-          $ref: '#/definitions/schemas.WayPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayPlainResponse'
         type: array
     required:
     - createdAt
@@ -1073,7 +1100,7 @@ definitions:
     - uuid
     - wayRequests
     type: object
-  schemas.UserTagResponse:
+  mw-server_internal_schemas.UserTagResponse:
     properties:
       name:
         type: string
@@ -1083,7 +1110,7 @@ definitions:
     - name
     - uuid
     type: object
-  schemas.WayCollectionPlainResponse:
+  mw-server_internal_schemas.WayCollectionPlainResponse:
     properties:
       name:
         type: string
@@ -1093,7 +1120,7 @@ definitions:
     - name
     - uuid
     type: object
-  schemas.WayCollectionPopulatedResponse:
+  mw-server_internal_schemas.WayCollectionPopulatedResponse:
     properties:
       createdAt:
         type: string
@@ -1111,7 +1138,7 @@ definitions:
         type: string
       ways:
         items:
-          $ref: '#/definitions/schemas.WayPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayPlainResponse'
         type: array
     required:
     - createdAt
@@ -1122,7 +1149,7 @@ definitions:
     - uuid
     - ways
     type: object
-  schemas.WayCollectionWayResponse:
+  mw-server_internal_schemas.WayCollectionWayResponse:
     properties:
       wayCollectionId:
         type: string
@@ -1132,7 +1159,25 @@ definitions:
     - wayCollectionId
     - wayId
     type: object
-  schemas.WayPlainResponse:
+  mw-server_internal_schemas.WayPlainForNotificationResponse:
+    properties:
+      mentors:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
+        type: array
+      name:
+        type: string
+      owner:
+        $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
+      uuid:
+        type: string
+    required:
+    - mentors
+    - name
+    - owner
+    - uuid
+    type: object
+  mw-server_internal_schemas.WayPlainResponse:
     properties:
       childrenUuids:
         items:
@@ -1157,7 +1202,7 @@ definitions:
         type: boolean
       mentors:
         items:
-          $ref: '#/definitions/schemas.UserPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
         type: array
       metricsDone:
         type: integer
@@ -1166,7 +1211,7 @@ definitions:
       name:
         type: string
       owner:
-        $ref: '#/definitions/schemas.UserPlainResponse'
+        $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
       projectUuid:
         type: string
         x-nullable: true
@@ -1176,7 +1221,7 @@ definitions:
         type: string
       wayTags:
         items:
-          $ref: '#/definitions/schemas.WayTagResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayTagResponse'
         type: array
     required:
     - childrenUuids
@@ -1198,11 +1243,11 @@ definitions:
     - uuid
     - wayTags
     type: object
-  schemas.WayPopulatedResponse:
+  mw-server_internal_schemas.WayPopulatedResponse:
     properties:
       children:
         items:
-          $ref: '#/definitions/schemas.WayPopulatedResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayPopulatedResponse'
         type: array
       copiedFromWayUuid:
         type: string
@@ -1215,7 +1260,7 @@ definitions:
         type: integer
       formerMentors:
         items:
-          $ref: '#/definitions/schemas.UserPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
         type: array
       goalDescription:
         type: string
@@ -1225,24 +1270,24 @@ definitions:
         type: boolean
       jobTags:
         items:
-          $ref: '#/definitions/schemas.JobTagResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.JobTagResponse'
         type: array
       mentorRequests:
         items:
-          $ref: '#/definitions/schemas.UserPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
         type: array
       mentors:
         items:
-          $ref: '#/definitions/schemas.UserPlainResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
         type: array
       metrics:
         items:
-          $ref: '#/definitions/schemas.MetricResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.MetricResponse'
         type: array
       name:
         type: string
       owner:
-        $ref: '#/definitions/schemas.UserPlainResponse'
+        $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
       projectUuid:
         type: string
         x-nullable: true
@@ -1252,7 +1297,7 @@ definitions:
         type: string
       wayTags:
         items:
-          $ref: '#/definitions/schemas.WayTagResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.WayTagResponse'
         type: array
     required:
     - children
@@ -1275,35 +1320,35 @@ definitions:
     - uuid
     - wayTags
     type: object
-  schemas.WayStatistics:
+  mw-server_internal_schemas.WayStatistics:
     properties:
       labelStatistics:
-        $ref: '#/definitions/schemas.LabelStatistics'
+        $ref: '#/definitions/mw-server_internal_schemas.LabelStatistics'
       overallInformation:
-        $ref: '#/definitions/schemas.OverallInformation'
+        $ref: '#/definitions/mw-server_internal_schemas.OverallInformation'
       timeSpentByDayChart:
         items:
-          $ref: '#/definitions/schemas.TimeSpentByDayPoint'
+          $ref: '#/definitions/mw-server_internal_schemas.TimeSpentByDayPoint'
         type: array
     required:
     - labelStatistics
     - overallInformation
     - timeSpentByDayChart
     type: object
-  schemas.WayStatisticsTriplePeriod:
+  mw-server_internal_schemas.WayStatisticsTriplePeriod:
     properties:
       lastMonth:
-        $ref: '#/definitions/schemas.WayStatistics'
+        $ref: '#/definitions/mw-server_internal_schemas.WayStatistics'
       lastWeek:
-        $ref: '#/definitions/schemas.WayStatistics'
+        $ref: '#/definitions/mw-server_internal_schemas.WayStatistics'
       totalTime:
-        $ref: '#/definitions/schemas.WayStatistics'
+        $ref: '#/definitions/mw-server_internal_schemas.WayStatistics'
     required:
     - lastMonth
     - lastWeek
     - totalTime
     type: object
-  schemas.WayTagResponse:
+  mw-server_internal_schemas.WayTagResponse:
     properties:
       name:
         type: string
@@ -1332,8 +1377,10 @@ paths:
       produces:
       - application/json
       responses:
-        "307":
-          description: Temporary Redirect
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.BeginAuthResponse'
       summary: Begin oauth
       tags:
       - auth
@@ -1343,6 +1390,11 @@ paths:
       - application/json
       operationId: google auth log in callback function
       parameters:
+      - description: code param
+        in: query
+        name: code
+        required: true
+        type: string
       - description: state parameter
         in: query
         name: state
@@ -1356,10 +1408,10 @@ paths:
       produces:
       - application/json
       responses:
-        "302":
+        "200":
           description: Redirect to frontend with JWT token
           schema:
-            type: string
+            $ref: '#/definitions/mw-server_internal_schemas.GetAuthCallbackFunctionResponse'
       summary: Log in with google oAuth
       tags:
       - auth
@@ -1374,7 +1426,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.UserPopulatedResponse'
       summary: Get current authorized user
       tags:
       - auth
@@ -1391,7 +1443,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GoogleToken'
+            $ref: '#/definitions/mw-server_internal_schemas.GoogleToken'
       summary: Retrieve Google Access Token
       tags:
       - auth
@@ -1410,8 +1462,10 @@ paths:
       produces:
       - application/json
       responses:
-        "304":
-          description: redirect
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.GetUserTokenByEmailResponse'
       summary: login locally by email (with no oauth)
       tags:
       - auth
@@ -1445,18 +1499,18 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateCommentPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateCommentPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.CommentPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.CommentPopulatedResponse'
         "403":
           description: User doesn't have rights to create comment.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Create a new comment
       tags:
       - comment
@@ -1479,7 +1533,7 @@ paths:
         "403":
           description: User doesn't have rights to delete comment.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Delete comment by UUID
       tags:
       - comment
@@ -1493,7 +1547,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateCommentPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateCommentPayload'
       - description: comment ID
         in: path
         name: commentId
@@ -1505,11 +1559,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.CommentPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.CommentPopulatedResponse'
         "403":
           description: User doesn't have rights to update comment.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Update comment by UUID
       tags:
       - comment
@@ -1524,14 +1578,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.AddWayToCompositeWayPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AddWayToCompositeWayPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.CompositeWayRelation'
+            $ref: '#/definitions/mw-server_internal_schemas.CompositeWayRelation'
       summary: Add a way to composite way
       tags:
       - compositeWay
@@ -1570,14 +1624,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateDayReportPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateDayReportPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.CompositeDayReportPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.CompositeDayReportPopulatedResponse'
       summary: Create a new dayReport
       tags:
       - dayReport
@@ -1606,7 +1660,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ListDayReportsResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.ListDayReportsResponse'
       summary: Get list of day reports by way UUID
       tags:
       - dayReport
@@ -1630,7 +1684,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateFavoriteUserWayPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateFavoriteUserWayPayload'
       produces:
       - application/json
       responses:
@@ -1674,7 +1728,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateFavoriteUserPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateFavoriteUserPayload'
       produces:
       - application/json
       responses:
@@ -1718,14 +1772,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateFromUserMentoringRequestPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateFromUserMentoringRequestPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.FromUserMentoringRequestResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.FromUserMentoringRequestResponse'
       summary: Create a new fromUserMentoringRequest
       tags:
       - fromUserMentoringRequest
@@ -1765,14 +1819,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.AICommentIssuePayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AICommentIssuePayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.AICommentIssueResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.AICommentIssueResponse'
       summary: Generate a comment for any issue
       tags:
       - gemini
@@ -1788,14 +1842,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.AIDecomposeIssuePayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AIDecomposeIssuePayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.AIDecomposeIssueResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.AIDecomposeIssueResponse'
       summary: Decompose issue
       tags:
       - gemini
@@ -1811,14 +1865,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.AIEstimateIssuePayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AIEstimateIssuePayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.AIEstimateIssueResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.AIEstimateIssueResponse'
       summary: Estimate issue in minutes
       tags:
       - gemini
@@ -1834,14 +1888,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.AIGeneratePlansByMetricPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePlansByMetricPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.AIGeneratePlansByMetricResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePlansByMetricResponse'
       summary: Generate plans by metric
       tags:
       - gemini
@@ -1857,14 +1911,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.AIChatPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AIChatPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.AIChatResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.AIChatResponse'
       summary: Just chat with AI
       tags:
       - gemini
@@ -1881,14 +1935,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.GenerateMetricsPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.GenerateMetricsPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GenerateMetricsResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.GenerateMetricsResponse'
       summary: Generate metrics using Gemini
       tags:
       - gemini
@@ -1897,6 +1951,7 @@ paths:
       consumes:
       - application/json
       description: Get the health status of the API
+      operationId: general-health-check
       produces:
       - application/json
       responses:
@@ -1916,7 +1971,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateJobDoneJobTagPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateJobDoneJobTagPayload'
       produces:
       - application/json
       responses:
@@ -1960,18 +2015,18 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateJobDonePayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateJobDonePayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.JobDonePopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse'
         "403":
           description: User doesn't have rights to create job done.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Create a new jobDone
       tags:
       - jobDone
@@ -1994,7 +2049,7 @@ paths:
         "403":
           description: User doesn't have rights to delete job done.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Delete jobDone by UUID
       tags:
       - jobDone
@@ -2008,7 +2063,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateJobDone'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateJobDone'
       - description: jobDone UUID
         in: path
         name: jobDoneId
@@ -2020,11 +2075,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.JobDonePopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse'
         "403":
           description: User doesn't have rights to update job done.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Update jobDone by UUID
       tags:
       - jobDone
@@ -2039,14 +2094,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateJobTagPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateJobTagPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.JobTagResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.JobTagResponse'
       summary: Create a new jobTag
       tags:
       - jobTag
@@ -2079,7 +2134,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateJobTagPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateJobTagPayload'
       - description: jobTag UUID
         in: path
         name: jobTagId
@@ -2091,7 +2146,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.JobTagResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.JobTagResponse'
       summary: Update jobTag by UUID
       tags:
       - jobTag
@@ -2106,7 +2161,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.DeleteMentorUserWayPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.DeleteMentorUserWayPayload'
       produces:
       - application/json
       responses:
@@ -2126,7 +2181,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateMentorUserWayPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateMentorUserWayPayload'
       produces:
       - application/json
       responses:
@@ -2146,14 +2201,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateMetricPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateMetricPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MetricResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.MetricResponse'
       summary: Create a new metric
       tags:
       - metric
@@ -2186,7 +2241,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateMetricPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateMetricPayload'
       - description: metric UUID
         in: path
         name: metricId
@@ -2198,7 +2253,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.MetricResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.MetricResponse'
       summary: Update metric by UUID
       tags:
       - metric
@@ -2213,7 +2268,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreatePlanJobTagPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreatePlanJobTagPayload'
       produces:
       - application/json
       responses:
@@ -2257,18 +2312,18 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreatePlanPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreatePlanPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.PlanPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.PlanPopulatedResponse'
         "403":
           description: User doesn't have rights to create plan.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Create a new plan
       tags:
       - plan
@@ -2291,7 +2346,7 @@ paths:
         "403":
           description: User doesn't have rights to delete plan.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Delete plan by UUID
       tags:
       - plan
@@ -2305,7 +2360,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdatePlanPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdatePlanPayload'
       - description: plan UUID
         in: path
         name: planId
@@ -2317,11 +2372,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.PlanPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.PlanPopulatedResponse'
         "403":
           description: User doesn't have rights to update plan.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Update plan by UUID
       tags:
       - plan
@@ -2336,18 +2391,18 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateProblemPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateProblemPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProblemPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.ProblemPopulatedResponse'
         "403":
           description: User doesn't have rights to create problem.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Create a new problem
       tags:
       - problem
@@ -2370,7 +2425,7 @@ paths:
         "403":
           description: User doesn't have rights to delete problem.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Delete problem by UUID
       tags:
       - problem
@@ -2384,7 +2439,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateProblemPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateProblemPayload'
       - description: problem ID
         in: path
         name: problemId
@@ -2396,11 +2451,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProblemPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.ProblemPopulatedResponse'
         "403":
           description: User doesn't have rights to update problem.
           schema:
-            $ref: '#/definitions/customErrors.NoRightToChangeDayReportError'
+            $ref: '#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError'
       summary: Update problem by UUID
       tags:
       - problem
@@ -2415,14 +2470,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateProjectPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateProjectPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProjectPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.ProjectPopulatedResponse'
       summary: Create a new project
       tags:
       - project
@@ -2461,7 +2516,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProjectPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.ProjectPopulatedResponse'
       summary: Get project by id
       tags:
       - project
@@ -2475,7 +2530,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateProjectPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateProjectPayload'
       - description: project id
         in: path
         name: projectId
@@ -2487,7 +2542,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ProjectPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.ProjectPopulatedResponse'
       summary: Update project by id
       tags:
       - project
@@ -2502,14 +2557,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateToUserMentoringRequestPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateToUserMentoringRequestPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.ToUserMentoringRequestResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.ToUserMentoringRequestResponse'
       summary: Create a new userMentoringRequest
       tags:
       - toUserMentoringRequest
@@ -2548,7 +2603,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateUserProjectPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateUserProjectPayload'
       produces:
       - application/json
       responses:
@@ -2592,14 +2647,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateUserTagPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateUserTagPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserTagResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.UserTagResponse'
       summary: Create a new userTag
       tags:
       - userTag
@@ -2660,7 +2715,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetAllUsersResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.GetAllUsersResponse'
       summary: Get all users
       tags:
       - user
@@ -2681,7 +2736,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.UserPopulatedResponse'
       summary: Get user by UUID
       tags:
       - user
@@ -2695,7 +2750,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateUserPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateUserPayload'
       - description: user ID
         in: path
         name: userId
@@ -2707,7 +2762,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.UserPlainResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.UserPlainResponse'
       summary: Update user by UUID
       tags:
       - user
@@ -2732,7 +2787,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/schemas.GetUsersByIDsResponse'
+              $ref: '#/definitions/mw-server_internal_schemas.GetUsersByIDsResponse'
             type: array
       summary: Get users by ids
       tags:
@@ -2748,14 +2803,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateWayCollectionWay'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateWayCollectionWay'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayCollectionWayResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.WayCollectionWayResponse'
       summary: Create a new wayCollectionWay
       tags:
       - wayCollectionWay
@@ -2794,14 +2849,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateWayCollectionPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateWayCollectionPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayCollectionPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse'
       summary: Create a new wayCollection
       tags:
       - wayCollection
@@ -2834,7 +2889,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateWayCollectionPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateWayCollectionPayload'
       - description: wayCollection ID
         in: path
         name: wayCollectionId
@@ -2846,7 +2901,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayCollectionPlainResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.WayCollectionPlainResponse'
       summary: Update wayCollection by UUID
       tags:
       - wayCollection
@@ -2861,14 +2916,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateWayTagPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateWayTagPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayTagResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.WayTagResponse'
       summary: Create a new wayTag
       tags:
       - wayTag
@@ -2929,7 +2984,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.GetAllWaysResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.GetAllWaysResponse'
       summary: Get all ways
       tags:
       - way
@@ -2943,14 +2998,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.CreateWayPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.CreateWayPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayPlainResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.WayPlainResponse'
       summary: Create a new way
       tags:
       - way
@@ -2989,7 +3044,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayPopulatedResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.WayPopulatedResponse'
       summary: Get way by UUID
       tags:
       - way
@@ -3003,7 +3058,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/schemas.UpdateWayPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateWayPayload'
       - description: way ID
         in: path
         name: wayId
@@ -3015,8 +3070,29 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayPlainResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.WayPlainResponse'
       summary: Update way by UUID
+      tags:
+      - way
+  /ways/{wayId}/notification:
+    get:
+      consumes:
+      - application/json
+      operationId: get-way-plain-for-notification-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.WayPlainForNotificationResponse'
+      summary: Get way plain for notification by UUID
       tags:
       - way
   /ways/{wayId}/statistics:
@@ -3036,7 +3112,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/schemas.WayStatisticsTriplePeriod'
+            $ref: '#/definitions/mw-server_internal_schemas.WayStatisticsTriplePeriod'
       summary: Get way statistics by UUID
       tags:
       - way

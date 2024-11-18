@@ -18,7 +18,7 @@ INSERT INTO users_projects(
 ) VALUES (
     $1,
     $2
-) RETURNING user_uuid, project_uuid
+) RETURNING user_uuid, project_uuid, created_at
 `
 
 type CreateUsersProjectsParams struct {
@@ -29,7 +29,7 @@ type CreateUsersProjectsParams struct {
 func (q *Queries) CreateUsersProjects(ctx context.Context, arg CreateUsersProjectsParams) (UsersProject, error) {
 	row := q.db.QueryRow(ctx, createUsersProjects, arg.UserUuid, arg.ProjectUuid)
 	var i UsersProject
-	err := row.Scan(&i.UserUuid, &i.ProjectUuid)
+	err := row.Scan(&i.UserUuid, &i.ProjectUuid, &i.CreatedAt)
 	return i, err
 }
 

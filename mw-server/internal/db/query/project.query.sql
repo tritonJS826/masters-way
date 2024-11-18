@@ -15,6 +15,7 @@ INSERT INTO projects(
             SELECT user_uuid
             FROM users_projects
             WHERE users_projects.project_uuid = uuid
+	    ORDER BY created_at
         ),
         '{}'
     )::VARCHAR[] AS user_uuids;
@@ -38,6 +39,7 @@ SELECT
             SELECT user_uuid
             FROM users_projects
             WHERE users_projects.project_uuid = projects.uuid
+	    ORDER BY created_at
         ),
         '{}'
     )::VARCHAR[] AS user_uuids
@@ -54,6 +56,7 @@ SELECT
             SELECT user_uuid
             FROM users_projects
             WHERE users_projects.project_uuid = projects.uuid
+	    ORDER BY created_at
         ),
         '{}'
         )::VARCHAR[] AS user_uuids
@@ -88,6 +91,7 @@ RETURNING
             SELECT user_uuid
             FROM users_projects
             WHERE users_projects.project_uuid = projects.uuid
+	    ORDER BY created_at
         ),
         '{}'
     )::VARCHAR[] AS user_uuids;

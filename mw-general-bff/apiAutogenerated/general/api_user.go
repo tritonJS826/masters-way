@@ -64,7 +64,7 @@ func (r ApiGetAllUsersRequest) MentorStatus(mentorStatus string) ApiGetAllUsersR
 	return r
 }
 
-func (r ApiGetAllUsersRequest) Execute() (*SchemasGetAllUsersResponse, *http.Response, error) {
+func (r ApiGetAllUsersRequest) Execute() (*MwServerInternalSchemasGetAllUsersResponse, *http.Response, error) {
 	return r.ApiService.GetAllUsersExecute(r)
 }
 
@@ -84,13 +84,13 @@ func (a *UserAPIService) GetAllUsers(ctx context.Context) ApiGetAllUsersRequest 
 }
 
 // Execute executes the request
-//  @return SchemasGetAllUsersResponse
-func (a *UserAPIService) GetAllUsersExecute(r ApiGetAllUsersRequest) (*SchemasGetAllUsersResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAllUsersResponse
+func (a *UserAPIService) GetAllUsersExecute(r ApiGetAllUsersRequest) (*MwServerInternalSchemasGetAllUsersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetAllUsersResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAllUsersResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetAllUsers")
@@ -174,11 +174,11 @@ func (a *UserAPIService) GetAllUsersExecute(r ApiGetAllUsersRequest) (*SchemasGe
 }
 
 // Execute executes the request
-//  @return SchemasGetAllUsersResponseStream
-func (a *UserAPIService) GetAllUsersStreamExecute(r ApiGetAllUsersRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetAllUsersResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAllUsersResponseStream
+func (a *UserAPIService) GetAllUsersStreamExecute(r ApiGetAllUsersRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetAllUsersResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGetAllUsersResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAllUsersResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetAllUsers")
@@ -281,7 +281,7 @@ type ApiGetUserByUuidRequest struct {
 	userId string
 }
 
-func (r ApiGetUserByUuidRequest) Execute() (*SchemasUserPopulatedResponse, *http.Response, error) {
+func (r ApiGetUserByUuidRequest) Execute() (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetUserByUuidExecute(r)
 }
 
@@ -301,13 +301,13 @@ func (a *UserAPIService) GetUserByUuid(ctx context.Context, userId string) ApiGe
 }
 
 // Execute executes the request
-//  @return SchemasUserPopulatedResponse
-func (a *UserAPIService) GetUserByUuidExecute(r ApiGetUserByUuidRequest) (*SchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPopulatedResponse
+func (a *UserAPIService) GetUserByUuidExecute(r ApiGetUserByUuidRequest) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetUserByUuid")
@@ -377,11 +377,11 @@ func (a *UserAPIService) GetUserByUuidExecute(r ApiGetUserByUuidRequest) (*Schem
 }
 
 // Execute executes the request
-//  @return SchemasUserPopulatedResponseStream
-func (a *UserAPIService) GetUserByUuidStreamExecute(r ApiGetUserByUuidRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPopulatedResponseStream
+func (a *UserAPIService) GetUserByUuidStreamExecute(r ApiGetUserByUuidRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetUserByUuid")
@@ -472,7 +472,7 @@ func (r ApiGetUsersByIdsRequest) Request(request []string) ApiGetUsersByIdsReque
 	return r
 }
 
-func (r ApiGetUsersByIdsRequest) Execute() ([]SchemasGetUsersByIDsResponse, *http.Response, error) {
+func (r ApiGetUsersByIdsRequest) Execute() ([]MwServerInternalSchemasGetUsersByIDsResponse, *http.Response, error) {
 	return r.ApiService.GetUsersByIdsExecute(r)
 }
 
@@ -490,13 +490,13 @@ func (a *UserAPIService) GetUsersByIds(ctx context.Context) ApiGetUsersByIdsRequ
 }
 
 // Execute executes the request
-//  @return []SchemasGetUsersByIDsResponse
-func (a *UserAPIService) GetUsersByIdsExecute(r ApiGetUsersByIdsRequest) ([]SchemasGetUsersByIDsResponse, *http.Response, error) {
+//  @return []MwServerInternalSchemasGetUsersByIDsResponse
+func (a *UserAPIService) GetUsersByIdsExecute(r ApiGetUsersByIdsRequest) ([]MwServerInternalSchemasGetUsersByIDsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []SchemasGetUsersByIDsResponse
+		localVarReturnValue  []MwServerInternalSchemasGetUsersByIDsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetUsersByIds")
@@ -570,11 +570,11 @@ func (a *UserAPIService) GetUsersByIdsExecute(r ApiGetUsersByIdsRequest) ([]Sche
 }
 
 // Execute executes the request
-//  @return []SchemasGetUsersByIDsResponseStream
-func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, request *http.Request, GoogleAccessToken string) ([]SchemasGetUsersByIDsResponse, *http.Response, error) {
+//  @return []MwServerInternalSchemasGetUsersByIDsResponseStream
+func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, request *http.Request, GoogleAccessToken string) ([]MwServerInternalSchemasGetUsersByIDsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  []SchemasGetUsersByIDsResponse
+		localVarReturnValue  []MwServerInternalSchemasGetUsersByIDsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetUsersByIds")
@@ -656,16 +656,16 @@ type ApiUpdateUserRequest struct {
 	ctx context.Context
 	ApiService *UserAPIService
 	userId string
-	request *SchemasUpdateUserPayload
+	request *MwServerInternalSchemasUpdateUserPayload
 }
 
 // query params
-func (r ApiUpdateUserRequest) Request(request SchemasUpdateUserPayload) ApiUpdateUserRequest {
+func (r ApiUpdateUserRequest) Request(request MwServerInternalSchemasUpdateUserPayload) ApiUpdateUserRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateUserRequest) Execute() (*SchemasUserPlainResponse, *http.Response, error) {
+func (r ApiUpdateUserRequest) Execute() (*MwServerInternalSchemasUserPlainResponse, *http.Response, error) {
 	return r.ApiService.UpdateUserExecute(r)
 }
 
@@ -685,13 +685,13 @@ func (a *UserAPIService) UpdateUser(ctx context.Context, userId string) ApiUpdat
 }
 
 // Execute executes the request
-//  @return SchemasUserPlainResponse
-func (a *UserAPIService) UpdateUserExecute(r ApiUpdateUserRequest) (*SchemasUserPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPlainResponse
+func (a *UserAPIService) UpdateUserExecute(r ApiUpdateUserRequest) (*MwServerInternalSchemasUserPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasUserPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.UpdateUser")
@@ -766,11 +766,11 @@ func (a *UserAPIService) UpdateUserExecute(r ApiUpdateUserRequest) (*SchemasUser
 }
 
 // Execute executes the request
-//  @return SchemasUserPlainResponseStream
-func (a *UserAPIService) UpdateUserStreamExecute(r ApiUpdateUserRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserPlainResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPlainResponseStream
+func (a *UserAPIService) UpdateUserStreamExecute(r ApiUpdateUserRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasUserPlainResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasUserPlainResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPlainResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.UpdateUser")

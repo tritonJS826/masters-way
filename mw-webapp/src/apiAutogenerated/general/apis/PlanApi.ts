@@ -15,24 +15,24 @@
 
 import * as runtime from '../runtime';
 import type {
-  CustomErrorsNoRightToChangeDayReportError,
-  SchemasCreatePlanPayload,
-  SchemasPlanPopulatedResponse,
-  SchemasUpdatePlanPayload,
+  MwServerInternalCustomErrorsNoRightToChangeDayReportError,
+  MwServerInternalSchemasCreatePlanPayload,
+  MwServerInternalSchemasPlanPopulatedResponse,
+  MwServerInternalSchemasUpdatePlanPayload,
 } from '../models/index';
 import {
-    CustomErrorsNoRightToChangeDayReportErrorFromJSON,
-    CustomErrorsNoRightToChangeDayReportErrorToJSON,
-    SchemasCreatePlanPayloadFromJSON,
-    SchemasCreatePlanPayloadToJSON,
-    SchemasPlanPopulatedResponseFromJSON,
-    SchemasPlanPopulatedResponseToJSON,
-    SchemasUpdatePlanPayloadFromJSON,
-    SchemasUpdatePlanPayloadToJSON,
+    MwServerInternalCustomErrorsNoRightToChangeDayReportErrorFromJSON,
+    MwServerInternalCustomErrorsNoRightToChangeDayReportErrorToJSON,
+    MwServerInternalSchemasCreatePlanPayloadFromJSON,
+    MwServerInternalSchemasCreatePlanPayloadToJSON,
+    MwServerInternalSchemasPlanPopulatedResponseFromJSON,
+    MwServerInternalSchemasPlanPopulatedResponseToJSON,
+    MwServerInternalSchemasUpdatePlanPayloadFromJSON,
+    MwServerInternalSchemasUpdatePlanPayloadToJSON,
 } from '../models/index';
 
 export interface CreatePlanRequest {
-    request: SchemasCreatePlanPayload;
+    request: MwServerInternalSchemasCreatePlanPayload;
 }
 
 export interface DeletePlanRequest {
@@ -41,7 +41,7 @@ export interface DeletePlanRequest {
 
 export interface UpdatePlanRequest {
     planId: string;
-    request: SchemasUpdatePlanPayload;
+    request: MwServerInternalSchemasUpdatePlanPayload;
 }
 
 /**
@@ -52,7 +52,7 @@ export class PlanApi extends runtime.BaseAPI {
     /**
      * Create a new plan
      */
-    async createPlanRaw(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasPlanPopulatedResponse>> {
+    async createPlanRaw(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasPlanPopulatedResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createPlan.');
         }
@@ -68,16 +68,16 @@ export class PlanApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreatePlanPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreatePlanPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasPlanPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasPlanPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new plan
      */
-    async createPlan(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasPlanPopulatedResponse> {
+    async createPlan(requestParameters: CreatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasPlanPopulatedResponse> {
         const response = await this.createPlanRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -114,7 +114,7 @@ export class PlanApi extends runtime.BaseAPI {
     /**
      * Update plan by UUID
      */
-    async updatePlanRaw(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasPlanPopulatedResponse>> {
+    async updatePlanRaw(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasPlanPopulatedResponse>> {
         if (requestParameters.planId === null || requestParameters.planId === undefined) {
             throw new runtime.RequiredError('planId','Required parameter requestParameters.planId was null or undefined when calling updatePlan.');
         }
@@ -134,16 +134,16 @@ export class PlanApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdatePlanPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasUpdatePlanPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasPlanPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasPlanPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Update plan by UUID
      */
-    async updatePlan(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasPlanPopulatedResponse> {
+    async updatePlan(requestParameters: UpdatePlanRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasPlanPopulatedResponse> {
         const response = await this.updatePlanRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"mwserver/internal/config"
-	"mwserver/internal/services"
+	"mw-server/internal/config"
+	"mw-server/internal/services"
 )
 
 type Controller struct {

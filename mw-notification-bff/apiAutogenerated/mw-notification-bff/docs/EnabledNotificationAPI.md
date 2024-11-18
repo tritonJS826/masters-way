@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## GetEnabledNotificationList
 
-> SchemasGetEnabledNotificationListResponse GetEnabledNotificationList(ctx).Execute()
+> MwNotificationBffInternalSchemasGetEnabledNotificationListResponse GetEnabledNotificationList(ctx).Execute()
 
 Get enabledNotification list by user id
 
@@ -36,7 +36,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `EnabledNotificationAPI.GetEnabledNotificationList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetEnabledNotificationList`: SchemasGetEnabledNotificationListResponse
+	// response from `GetEnabledNotificationList`: MwNotificationBffInternalSchemasGetEnabledNotificationListResponse
 	fmt.Fprintf(os.Stdout, "Response from `EnabledNotificationAPI.GetEnabledNotificationList`: %v\n", resp)
 }
 ```
@@ -52,7 +52,7 @@ Other parameters are passed through a pointer to a apiGetEnabledNotificationList
 
 ### Return type
 
-[**SchemasGetEnabledNotificationListResponse**](SchemasGetEnabledNotificationListResponse.md)
+[**MwNotificationBffInternalSchemasGetEnabledNotificationListResponse**](MwNotificationBffInternalSchemasGetEnabledNotificationListResponse.md)
 
 ### Authorization
 
@@ -70,7 +70,7 @@ No authorization required
 
 ## UpdateEnabledNotification
 
-> SchemasEnabledNotificationResponse UpdateEnabledNotification(ctx, enabledNotificationId).Request(request).Execute()
+> MwNotificationBffInternalSchemasEnabledNotificationResponse UpdateEnabledNotification(ctx, enabledNotificationId).Request(request).Execute()
 
 Update enabledNotification by id
 
@@ -88,7 +88,7 @@ import (
 
 func main() {
 	enabledNotificationId := "enabledNotificationId_example" // string | notification id
-	request := *openapiclient.NewSchemasUpdateEnabledNotificationPayload(false) // SchemasUpdateEnabledNotificationPayload | query params
+	request := *openapiclient.NewMwNotificationBffInternalSchemasUpdateEnabledNotificationPayload(false) // MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -97,7 +97,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `EnabledNotificationAPI.UpdateEnabledNotification``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateEnabledNotification`: SchemasEnabledNotificationResponse
+	// response from `UpdateEnabledNotification`: MwNotificationBffInternalSchemasEnabledNotificationResponse
 	fmt.Fprintf(os.Stdout, "Response from `EnabledNotificationAPI.UpdateEnabledNotification`: %v\n", resp)
 }
 ```
@@ -118,11 +118,11 @@ Other parameters are passed through a pointer to a apiUpdateEnabledNotificationR
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateEnabledNotificationPayload**](SchemasUpdateEnabledNotificationPayload.md) | query params | 
+ **request** | [**MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload**](MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasEnabledNotificationResponse**](SchemasEnabledNotificationResponse.md)
+[**MwNotificationBffInternalSchemasEnabledNotificationResponse**](MwNotificationBffInternalSchemasEnabledNotificationResponse.md)
 
 ### Authorization
 

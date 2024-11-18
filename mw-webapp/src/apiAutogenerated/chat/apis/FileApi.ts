@@ -15,11 +15,11 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasUploadFileResponse,
+  MwChatBffInternalSchemasUploadFileResponse,
 } from '../models/index';
 import {
-    SchemasUploadFileResponseFromJSON,
-    SchemasUploadFileResponseToJSON,
+    MwChatBffInternalSchemasUploadFileResponseFromJSON,
+    MwChatBffInternalSchemasUploadFileResponseToJSON,
 } from '../models/index';
 
 export interface DeleteFilesRequest {
@@ -74,7 +74,7 @@ export class FileApi extends runtime.BaseAPI {
      * Uploads a file to the server and stores it in the designated storage path
      * Upload file to storage
      */
-    async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasUploadFileResponse>> {
+    async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasUploadFileResponse>> {
         if (requestParameters.roomId === null || requestParameters.roomId === undefined) {
             throw new runtime.RequiredError('roomId','Required parameter requestParameters.roomId was null or undefined when calling uploadFile.');
         }
@@ -119,14 +119,14 @@ export class FileApi extends runtime.BaseAPI {
             body: formParams,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasUploadFileResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasUploadFileResponseFromJSON(jsonValue));
     }
 
     /**
      * Uploads a file to the server and stores it in the designated storage path
      * Upload file to storage
      */
-    async uploadFile(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasUploadFileResponse> {
+    async uploadFile(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasUploadFileResponse> {
         const response = await this.uploadFileRaw(requestParameters, initOverrides);
         return await response.value();
     }

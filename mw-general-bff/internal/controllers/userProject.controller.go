@@ -1,0 +1,71 @@
+package controllers
+
+import (
+	"mw-general-bff/internal/facades"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/pkg/utils"
+	"net/http"
+
+	//"fmt"
+	//"mw-general-bff/internal/auth"
+	//"mw-general-bff/internal/schemas"
+
+	//"mw-general-bff/pkg/utils"
+
+	//"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+type UserProjectController struct {
+	userProjectFacade *facades.UserProjectFacade
+}
+
+func NewUserProjectController(userProjectFacade *facades.UserProjectFacade) *UserProjectController {
+	return &UserProjectController{userProjectFacade}
+}
+
+// Create userProject handler
+// @Summary Add user to project
+// @Description
+// @Tags userProject
+// @ID create-userProject
+// @Accept json
+// @Produce json
+// @Param request body schemas.CreateUserProjectPayload true "query params"
+// @Success 204
+// @Router /userProjects [post]
+func (uc *UserProjectController) CreateUsersProject(ctx *gin.Context) {
+	var payload *schemas.CreateUserProjectPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	err := uc.userProjectFacade.CreateUserProject(ctx, payload.UserID, payload.ProjectID)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Status(http.StatusNoContent)
+}
+
+// Deleting userProject handlers
+// @Summary Delete userProject by UUID
+// @Description
+// @Tags userProject
+// @ID delete-userProject
+// @Accept  json
+// @Produce  json
+// @Param projectId path string true "project ID"
+// @Param userId path string true "user ID"
+// @Success 204
+// @Router /userProjects/{projectId}/{userId} [delete]
+func (uc *UserProjectController) DeleteUserProject(ctx *gin.Context) {
+	projectID := ctx.Param("projectId")
+	userID := ctx.Param("userId")
+
+	err := uc.userProjectFacade.DeleteUserProject(ctx, projectID, userID)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Status(http.StatusNoContent)
+}

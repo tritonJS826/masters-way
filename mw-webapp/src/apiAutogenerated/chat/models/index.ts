@@ -1,13 +1,13 @@
 // @ts-nocheck
 /* eslint-disable */
-export * from './SchemasCreateMessagePayload';
-export * from './SchemasCreateRoomPayload';
-export * from './SchemasGetRoomPreviewResponse';
-export * from './SchemasGetRoomsResponse';
-export * from './SchemasMessageReader';
-export * from './SchemasMessageResponse';
-export * from './SchemasRoomPopulatedResponse';
-export * from './SchemasRoomPreviewResponse';
-export * from './SchemasUpdateMessageStatusPayload';
-export * from './SchemasUploadFileResponse';
-export * from './SchemasUserResponse';
+export * from './MwChatBffInternalSchemasCreateMessagePayload';
+export * from './MwChatBffInternalSchemasCreateRoomPayload';
+export * from './MwChatBffInternalSchemasGetRoomPreviewResponse';
+export * from './MwChatBffInternalSchemasGetRoomsResponse';
+export * from './MwChatBffInternalSchemasMessageReader';
+export * from './MwChatBffInternalSchemasMessageResponse';
+export * from './MwChatBffInternalSchemasRoomPopulatedResponse';
+export * from './MwChatBffInternalSchemasRoomPreviewResponse';
+export * from './MwChatBffInternalSchemasUpdateMessageStatusPayload';
+export * from './MwChatBffInternalSchemasUploadFileResponse';
+export * from './MwChatBffInternalSchemasUserResponse';

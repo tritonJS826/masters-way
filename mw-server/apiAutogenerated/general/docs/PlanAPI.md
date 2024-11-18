@@ -1,6 +1,6 @@
 # \PlanAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreatePlan
 
-> SchemasPlanPopulatedResponse CreatePlan(ctx).Request(request).Execute()
+> MwServerInternalSchemasPlanPopulatedResponse CreatePlan(ctx).Request(request).Execute()
 
 Create a new plan
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreatePlanPayload("DayReportUuid_example", "Description_example", false, "OwnerUuid_example", int32(123)) // SchemasCreatePlanPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreatePlanPayload("DayReportUuid_example", "Description_example", false, "OwnerUuid_example", int32(123)) // MwServerInternalSchemasCreatePlanPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `PlanAPI.CreatePlan``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreatePlan`: SchemasPlanPopulatedResponse
+	// response from `CreatePlan`: MwServerInternalSchemasPlanPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `PlanAPI.CreatePlan`: %v\n", resp)
 }
 ```
@@ -54,11 +54,11 @@ Other parameters are passed through a pointer to a apiCreatePlanRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreatePlanPayload**](SchemasCreatePlanPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreatePlanPayload**](MwServerInternalSchemasCreatePlanPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasPlanPopulatedResponse**](SchemasPlanPopulatedResponse.md)
+[**MwServerInternalSchemasPlanPopulatedResponse**](MwServerInternalSchemasPlanPopulatedResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## UpdatePlan
 
-> SchemasPlanPopulatedResponse UpdatePlan(ctx, planId).Request(request).Execute()
+> MwServerInternalSchemasPlanPopulatedResponse UpdatePlan(ctx, planId).Request(request).Execute()
 
 Update plan by UUID
 
@@ -160,7 +160,7 @@ import (
 
 func main() {
 	planId := "planId_example" // string | plan UUID
-	request := *openapiclient.NewSchemasUpdatePlanPayload() // SchemasUpdatePlanPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasUpdatePlanPayload() // MwServerInternalSchemasUpdatePlanPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `PlanAPI.UpdatePlan``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdatePlan`: SchemasPlanPopulatedResponse
+	// response from `UpdatePlan`: MwServerInternalSchemasPlanPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `PlanAPI.UpdatePlan`: %v\n", resp)
 }
 ```
@@ -190,11 +190,11 @@ Other parameters are passed through a pointer to a apiUpdatePlanRequest struct v
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdatePlanPayload**](SchemasUpdatePlanPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasUpdatePlanPayload**](MwServerInternalSchemasUpdatePlanPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasPlanPopulatedResponse**](SchemasPlanPopulatedResponse.md)
+[**MwServerInternalSchemasPlanPopulatedResponse**](MwServerInternalSchemasPlanPopulatedResponse.md)
 
 ### Authorization
 

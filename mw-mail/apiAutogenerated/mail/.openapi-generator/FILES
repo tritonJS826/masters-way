@@ -8,10 +8,10 @@ client.go
 configuration.go
 docs/DevAPI.md
 docs/MailAPI.md
-docs/SchemasSendMailResponse.md
+docs/MwmailInternalSchemasSendMailResponse.md
 git_push.sh
 go.mod
 go.sum
-model_schemas_send_mail_response.go
+model_mwmail_internal_schemas_send_mail_response.go
 response.go
 utils.go

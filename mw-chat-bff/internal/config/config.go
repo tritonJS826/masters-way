@@ -8,23 +8,31 @@ import (
 )
 
 type Config struct {
-	ServerPort             string `mapstructure:"SERVER_PORT"`
-	WebappBaseURL          string `mapstructure:"WEBAPP_BASE_URL"`
-	EnvType                string `mapstructure:"ENV_TYPE"`
-	GeneralAPIHost         string `mapstructure:"GENERAL_API_HOST"`
-	GeneralBaseURL         string `mapstructure:"GENERAL_BASE_URL"`
-	ChatAPIHost            string `mapstructure:"CHAT_API_HOST"`
-	ChatBaseURL            string `mapstructure:"CHAT_BASE_URL"`
-	MWChatWebSocketAPIHost string `mapstructure:"MW_CHAT_WEBSOCKET_API_HOST"`
-	MWChatWebSocketBaseURL string `mapstructure:"MW_CHAT_WEBSOCKET_BASE_URL"`
-	TestChatBFFAPIHost     string `mapstructure:"TEST_CHAT_BFF_API_HOST"`
-	TestChatBFFBaseURL     string `mapstructure:"TEST_CHAT_BFF_BASE_URL"`
-	StorageAPIHost         string `mapstructure:"STORAGE_API_HOST"`
-	StorageBaseURL         string `mapstructure:"STORAGE_BASE_URL"`
-	SecretSessionKey       string `mapstructure:"SECRET_SESSION_KEY"`
+	ServerPort                 string `mapstructure:"SERVER_PORT"`
+	WebappBaseURL              string `mapstructure:"WEBAPP_BASE_URL"`
+	EnvType                    string `mapstructure:"ENV_TYPE"`
+	GeneralAPIHost             string `mapstructure:"GENERAL_API_HOST"`
+	GeneralBaseURL             string `mapstructure:"GENERAL_BASE_URL"`
+	ChatAPIHost                string `mapstructure:"CHAT_API_HOST"`
+	ChatBaseURL                string `mapstructure:"CHAT_BASE_URL"`
+	MWChatWebSocketAPIHost     string `mapstructure:"MW_CHAT_WEBSOCKET_API_HOST"`
+	MWChatWebSocketBaseURL     string `mapstructure:"MW_CHAT_WEBSOCKET_BASE_URL"`
+	TestStorageAPIHost         string `mapstructure:"TEST_STORAGE_API_HOST"`
+	TestStorageBaseURL         string `mapstructure:"TEST_STORAGE_BASE_URL"`
+	TestMWChatWebSocketAPIHost string `mapstructure:"TEST_CHAT_WEBSOCKET_API_HOST"`
+	TestMWChatWebSocketBaseURL string `mapstructure:"TEST_CHAT_WEBSOCKET_BASE_URL"`
+	TestGeneralAPIHost         string `mapstructure:"TEST_GENERAL_API_HOST"`
+	TestGeneralBaseURL         string `mapstructure:"TEST_GENERAL_BASE_URL"`
+	TestChatAPIHost            string `mapstructure:"TEST_CHAT_API_HOST"`
+	TestChatBaseURL            string `mapstructure:"TEST_CHAT_BASE_URL"`
+	TestChatBFFAPIHost         string `mapstructure:"TEST_CHAT_BFF_API_HOST"`
+	TestChatBFFBaseURL         string `mapstructure:"TEST_CHAT_BFF_BASE_URL"`
+	StorageAPIHost             string `mapstructure:"STORAGE_API_HOST"`
+	StorageBaseURL             string `mapstructure:"STORAGE_BASE_URL"`
+	SecretSessionKey           string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [14]string{
+var prodRequiredVariables = [22]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -34,6 +42,14 @@ var prodRequiredVariables = [14]string{
 	"CHAT_BASE_URL",
 	"MW_CHAT_WEBSOCKET_API_HOST",
 	"MW_CHAT_WEBSOCKET_BASE_URL",
+	"TEST_STORAGE_API_HOST",
+	"TEST_STORAGE_BASE_URL",
+	"TEST_CHAT_WEBSOCKET_API_HOST",
+	"TEST_CHAT_WEBSOCKET_BASE_URL",
+	"TEST_GENERAL_API_HOST",
+	"TEST_GENERAL_BASE_URL",
+	"TEST_CHAT_API_HOST",
+	"TEST_CHAT_BASE_URL",
 	"TEST_CHAT_BFF_API_HOST",
 	"TEST_CHAT_BFF_BASE_URL",
 	"STORAGE_API_HOST",
@@ -41,7 +57,7 @@ var prodRequiredVariables = [14]string{
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [14]string{
+var devRequiredVariables = [22]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -51,6 +67,14 @@ var devRequiredVariables = [14]string{
 	"CHAT_BASE_URL",
 	"MW_CHAT_WEBSOCKET_API_HOST",
 	"MW_CHAT_WEBSOCKET_BASE_URL",
+	"TEST_STORAGE_API_HOST",
+	"TEST_STORAGE_BASE_URL",
+	"TEST_CHAT_WEBSOCKET_API_HOST",
+	"TEST_CHAT_WEBSOCKET_BASE_URL",
+	"TEST_GENERAL_API_HOST",
+	"TEST_GENERAL_BASE_URL",
+	"TEST_CHAT_API_HOST",
+	"TEST_CHAT_BASE_URL",
 	"TEST_CHAT_BFF_API_HOST",
 	"TEST_CHAT_BFF_BASE_URL",
 	"STORAGE_API_HOST",

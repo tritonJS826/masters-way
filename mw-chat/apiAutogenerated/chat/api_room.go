@@ -14,6 +14,7 @@ import (
 	"bytes"
 	"context"
 	"io"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -30,7 +31,7 @@ type ApiAddUserToRoomRequest struct {
 	userId string
 }
 
-func (r ApiAddUserToRoomRequest) Execute() (*SchemasRoomPreviewResponse, *http.Response, error) {
+func (r ApiAddUserToRoomRequest) Execute() (*MwChatInternalSchemasRoomPreviewResponse, *http.Response, error) {
 	return r.ApiService.AddUserToRoomExecute(r)
 }
 
@@ -52,13 +53,13 @@ func (a *RoomAPIService) AddUserToRoom(ctx context.Context, roomId string, userI
 }
 
 // Execute executes the request
-//  @return SchemasRoomPreviewResponse
-func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*SchemasRoomPreviewResponse, *http.Response, error) {
+//  @return MwChatInternalSchemasRoomPreviewResponse
+func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*MwChatInternalSchemasRoomPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPreviewResponse
+		localVarReturnValue  *MwChatInternalSchemasRoomPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
@@ -128,19 +129,105 @@ func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*Schem
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// Execute executes the request
+//  @return MwChatInternalSchemasRoomPreviewResponseStream
+func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatInternalSchemasRoomPreviewResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarReturnValue  *MwChatInternalSchemasRoomPreviewResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/{roomId}/users/{userId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiCreateRoomRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
-	request *SchemasCreateRoomPayload
+	request *MwChatInternalSchemasCreateRoomPayload
 }
 
 // query params
-func (r ApiCreateRoomRequest) Request(request SchemasCreateRoomPayload) ApiCreateRoomRequest {
+func (r ApiCreateRoomRequest) Request(request MwChatInternalSchemasCreateRoomPayload) ApiCreateRoomRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiCreateRoomRequest) Execute() (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateRoomExecute(r)
 }
 
@@ -158,13 +245,13 @@ func (a *RoomAPIService) CreateRoom(ctx context.Context) ApiCreateRoomRequest {
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateRoom")
@@ -204,6 +291,89 @@ func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoom
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// Execute executes the request
+//  @return MwChatInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarReturnValue  *MwChatInternalSchemasRoomPopulatedResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateRoom")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
@@ -331,12 +501,87 @@ func (a *RoomAPIService) DeleteUserFromRoomExecute(r ApiDeleteUserFromRoomReques
 	return localVarHTTPResponse, nil
 }
 
+// Execute executes the request
+func (a *RoomAPIService) DeleteUserFromRoomStreamExecute(r ApiDeleteUserFromRoomRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.DeleteUserFromRoom")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/{roomId}/users/{userId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiGetChatPreviewRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
 }
 
-func (r ApiGetChatPreviewRequest) Execute() (*SchemasGetChatPreviewResponse, *http.Response, error) {
+func (r ApiGetChatPreviewRequest) Execute() (*MwChatInternalSchemasGetChatPreviewResponse, *http.Response, error) {
 	return r.ApiService.GetChatPreviewExecute(r)
 }
 
@@ -354,13 +599,13 @@ func (a *RoomAPIService) GetChatPreview(ctx context.Context) ApiGetChatPreviewRe
 }
 
 // Execute executes the request
-//  @return SchemasGetChatPreviewResponse
-func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*SchemasGetChatPreviewResponse, *http.Response, error) {
+//  @return MwChatInternalSchemasGetChatPreviewResponse
+func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*MwChatInternalSchemasGetChatPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetChatPreviewResponse
+		localVarReturnValue  *MwChatInternalSchemasGetChatPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetChatPreview")
@@ -428,13 +673,95 @@ func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*Sch
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// Execute executes the request
+//  @return MwChatInternalSchemasGetChatPreviewResponseStream
+func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest, request *http.Request, GoogleAccessToken string) (*MwChatInternalSchemasGetChatPreviewResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarReturnValue  *MwChatInternalSchemasGetChatPreviewResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetChatPreview")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/preview"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetRoomByIdRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
 	roomId string
 }
 
-func (r ApiGetRoomByIdRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiGetRoomByIdRequest) Execute() (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetRoomByIdExecute(r)
 }
 
@@ -454,13 +781,13 @@ func (a *RoomAPIService) GetRoomById(ctx context.Context, roomId string) ApiGetR
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRoomById")
@@ -529,13 +856,97 @@ func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRo
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// Execute executes the request
+//  @return MwChatInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, request *http.Request, GoogleAccessToken string) (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarReturnValue  *MwChatInternalSchemasRoomPopulatedResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRoomById")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/{roomId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetRoomsRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
 	roomType string
 }
 
-func (r ApiGetRoomsRequest) Execute() (*SchemasGetRoomsResponse, *http.Response, error) {
+func (r ApiGetRoomsRequest) Execute() (*MwChatInternalSchemasGetRoomsResponse, *http.Response, error) {
 	return r.ApiService.GetRoomsExecute(r)
 }
 
@@ -555,13 +966,13 @@ func (a *RoomAPIService) GetRooms(ctx context.Context, roomType string) ApiGetRo
 }
 
 // Execute executes the request
-//  @return SchemasGetRoomsResponse
-func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRoomsResponse, *http.Response, error) {
+//  @return MwChatInternalSchemasGetRoomsResponse
+func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*MwChatInternalSchemasGetRoomsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetRoomsResponse
+		localVarReturnValue  *MwChatInternalSchemasGetRoomsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRooms")
@@ -630,13 +1041,97 @@ func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRooms
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// Execute executes the request
+//  @return MwChatInternalSchemasGetRoomsResponseStream
+func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *http.Request, GoogleAccessToken string) (*MwChatInternalSchemasGetRoomsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarReturnValue  *MwChatInternalSchemasGetRoomsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRooms")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/list/{roomType}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomType"+"}", url.PathEscape(parameterValueToString(r.roomType, "roomType")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpdateRoomRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
 	roomId string
 }
 
-func (r ApiUpdateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiUpdateRoomRequest) Execute() (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdateRoomExecute(r)
 }
 
@@ -656,13 +1151,13 @@ func (a *RoomAPIService) UpdateRoom(ctx context.Context, roomId string) ApiUpdat
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.UpdateRoom")
@@ -698,6 +1193,90 @@ func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoom
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// Execute executes the request
+//  @return MwChatInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatInternalSchemasRoomPopulatedResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPatch
+		localVarReturnValue  *MwChatInternalSchemasRoomPopulatedResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.UpdateRoom")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/rooms/{roomId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"roomId"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

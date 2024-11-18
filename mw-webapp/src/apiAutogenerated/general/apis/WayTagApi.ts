@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateWayTagPayload,
-  SchemasWayTagResponse,
+  MwServerInternalSchemasCreateWayTagPayload,
+  MwServerInternalSchemasWayTagResponse,
 } from '../models/index';
 import {
-    SchemasCreateWayTagPayloadFromJSON,
-    SchemasCreateWayTagPayloadToJSON,
-    SchemasWayTagResponseFromJSON,
-    SchemasWayTagResponseToJSON,
+    MwServerInternalSchemasCreateWayTagPayloadFromJSON,
+    MwServerInternalSchemasCreateWayTagPayloadToJSON,
+    MwServerInternalSchemasWayTagResponseFromJSON,
+    MwServerInternalSchemasWayTagResponseToJSON,
 } from '../models/index';
 
 export interface CreateWayTagRequest {
-    request: SchemasCreateWayTagPayload;
+    request: MwServerInternalSchemasCreateWayTagPayload;
 }
 
 export interface DeleteWayTagRequest {
@@ -42,7 +42,7 @@ export class WayTagApi extends runtime.BaseAPI {
     /**
      * Create a new wayTag
      */
-    async createWayTagRaw(requestParameters: CreateWayTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayTagResponse>> {
+    async createWayTagRaw(requestParameters: CreateWayTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayTagResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createWayTag.');
         }
@@ -58,16 +58,16 @@ export class WayTagApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateWayTagPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateWayTagPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayTagResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayTagResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new wayTag
      */
-    async createWayTag(requestParameters: CreateWayTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayTagResponse> {
+    async createWayTag(requestParameters: CreateWayTagRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayTagResponse> {
         const response = await this.createWayTagRaw(requestParameters, initOverrides);
         return await response.value();
     }

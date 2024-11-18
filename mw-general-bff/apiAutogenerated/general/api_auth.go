@@ -30,7 +30,7 @@ type ApiBeginAuthRequest struct {
 	provider string
 }
 
-func (r ApiBeginAuthRequest) Execute() (*http.Response, error) {
+func (r ApiBeginAuthRequest) Execute() (*MwServerInternalSchemasBeginAuthResponse, *http.Response, error) {
 	return r.ApiService.BeginAuthExecute(r)
 }
 
@@ -50,16 +50,18 @@ func (a *AuthAPIService) BeginAuth(ctx context.Context, provider string) ApiBegi
 }
 
 // Execute executes the request
-func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*http.Response, error) {
+//  @return MwServerInternalSchemasBeginAuthResponse
+func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*MwServerInternalSchemasBeginAuthResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *MwServerInternalSchemasBeginAuthResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.BeginAuth")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/auth/{provider}"
@@ -79,7 +81,7 @@ func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*http.Response
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -88,19 +90,19 @@ func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*http.Response
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -108,21 +110,32 @@ func (a *AuthAPIService) BeginAuthExecute(r ApiBeginAuthRequest) (*http.Response
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // Execute executes the request
-func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
+//  @return MwServerInternalSchemasBeginAuthResponseStream
+func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasBeginAuthResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
+		localVarReturnValue  *MwServerInternalSchemasBeginAuthResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.BeginAuth")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/auth/{provider}"
@@ -143,7 +156,7 @@ func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -152,7 +165,7 @@ func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *
 	}
 	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	for key, values := range request.Header {
@@ -166,14 +179,14 @@ func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -181,10 +194,19 @@ func (a *AuthAPIService) BeginAuthStreamExecute(r ApiBeginAuthRequest, request *
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetCurrentAuthorizedUserRequest struct {
@@ -192,7 +214,7 @@ type ApiGetCurrentAuthorizedUserRequest struct {
 	ApiService *AuthAPIService
 }
 
-func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*SchemasUserPopulatedResponse, *http.Response, error) {
+func (r ApiGetCurrentAuthorizedUserRequest) Execute() (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetCurrentAuthorizedUserExecute(r)
 }
 
@@ -210,13 +232,13 @@ func (a *AuthAPIService) GetCurrentAuthorizedUser(ctx context.Context) ApiGetCur
 }
 
 // Execute executes the request
-//  @return SchemasUserPopulatedResponse
-func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*SchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPopulatedResponse
+func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthorizedUserRequest) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")
@@ -285,11 +307,11 @@ func (a *AuthAPIService) GetCurrentAuthorizedUserExecute(r ApiGetCurrentAuthoriz
 }
 
 // Execute executes the request
-//  @return SchemasUserPopulatedResponseStream
-func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserPopulatedResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserPopulatedResponseStream
+func (a *AuthAPIService) GetCurrentAuthorizedUserStreamExecute(r ApiGetCurrentAuthorizedUserRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasUserPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasUserPopulatedResponse
+		localVarReturnValue  *MwServerInternalSchemasUserPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetCurrentAuthorizedUser")
@@ -371,7 +393,7 @@ type ApiGetGoogleTokenRequest struct {
 	ApiService *AuthAPIService
 }
 
-func (r ApiGetGoogleTokenRequest) Execute() (*SchemasGoogleToken, *http.Response, error) {
+func (r ApiGetGoogleTokenRequest) Execute() (*MwServerInternalSchemasGoogleToken, *http.Response, error) {
 	return r.ApiService.GetGoogleTokenExecute(r)
 }
 
@@ -391,13 +413,13 @@ func (a *AuthAPIService) GetGoogleToken(ctx context.Context) ApiGetGoogleTokenRe
 }
 
 // Execute executes the request
-//  @return SchemasGoogleToken
-func (a *AuthAPIService) GetGoogleTokenExecute(r ApiGetGoogleTokenRequest) (*SchemasGoogleToken, *http.Response, error) {
+//  @return MwServerInternalSchemasGoogleToken
+func (a *AuthAPIService) GetGoogleTokenExecute(r ApiGetGoogleTokenRequest) (*MwServerInternalSchemasGoogleToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGoogleToken
+		localVarReturnValue  *MwServerInternalSchemasGoogleToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleToken")
@@ -466,11 +488,11 @@ func (a *AuthAPIService) GetGoogleTokenExecute(r ApiGetGoogleTokenRequest) (*Sch
 }
 
 // Execute executes the request
-//  @return SchemasGoogleTokenStream
-func (a *AuthAPIService) GetGoogleTokenStreamExecute(r ApiGetGoogleTokenRequest, request *http.Request, GoogleAccessToken string) (*SchemasGoogleToken, *http.Response, error) {
+//  @return MwServerInternalSchemasGoogleTokenStream
+func (a *AuthAPIService) GetGoogleTokenStreamExecute(r ApiGetGoogleTokenRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGoogleToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGoogleToken
+		localVarReturnValue  *MwServerInternalSchemasGoogleToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetGoogleToken")
@@ -553,7 +575,7 @@ type ApiGetTokenLocallyRequest struct {
 	userEmail string
 }
 
-func (r ApiGetTokenLocallyRequest) Execute() (*http.Response, error) {
+func (r ApiGetTokenLocallyRequest) Execute() (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
 	return r.ApiService.GetTokenLocallyExecute(r)
 }
 
@@ -575,16 +597,18 @@ func (a *AuthAPIService) GetTokenLocally(ctx context.Context, userEmail string) 
 }
 
 // Execute executes the request
-func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*http.Response, error) {
+//  @return MwServerInternalSchemasGetUserTokenByEmailResponse
+func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *MwServerInternalSchemasGetUserTokenByEmailResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetTokenLocally")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/auth/login/local/{userEmail}"
@@ -604,7 +628,7 @@ func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*h
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -613,19 +637,19 @@ func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*h
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -633,21 +657,32 @@ func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*h
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // Execute executes the request
-func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
+//  @return MwServerInternalSchemasGetUserTokenByEmailResponseStream
+func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
+		localVarReturnValue  *MwServerInternalSchemasGetUserTokenByEmailResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetTokenLocally")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/auth/login/local/{userEmail}"
@@ -668,7 +703,7 @@ func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyReques
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -677,7 +712,7 @@ func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyReques
 	}
 	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	for key, values := range request.Header {
@@ -691,14 +726,14 @@ func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyReques
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -706,17 +741,33 @@ func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyReques
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGoogleAuthLogInCallbackFunctionRequest struct {
 	ctx context.Context
 	ApiService *AuthAPIService
+	code *string
 	state *string
 	provider string
+}
+
+// code param
+func (r ApiGoogleAuthLogInCallbackFunctionRequest) Code(code string) ApiGoogleAuthLogInCallbackFunctionRequest {
+	r.code = &code
+	return r
 }
 
 // state parameter
@@ -725,7 +776,7 @@ func (r ApiGoogleAuthLogInCallbackFunctionRequest) State(state string) ApiGoogle
 	return r
 }
 
-func (r ApiGoogleAuthLogInCallbackFunctionRequest) Execute() (*http.Response, error) {
+func (r ApiGoogleAuthLogInCallbackFunctionRequest) Execute() (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	return r.ApiService.GoogleAuthLogInCallbackFunctionExecute(r)
 }
 
@@ -745,16 +796,18 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunction(ctx context.Context, pr
 }
 
 // Execute executes the request
-func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthLogInCallbackFunctionRequest) (*http.Response, error) {
+//  @return MwServerInternalSchemasGetAuthCallbackFunctionResponse
+func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthLogInCallbackFunctionRequest) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GoogleAuthLogInCallbackFunction")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/auth/{provider}/callback"
@@ -763,10 +816,14 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.code == nil {
+		return localVarReturnValue, nil, reportError("code is required and must be specified")
+	}
 	if r.state == nil {
-		return nil, reportError("state is required and must be specified")
+		return localVarReturnValue, nil, reportError("state is required and must be specified")
 	}
 
+	parameterAddToHeaderOrQuery(localVarQueryParams, "code", r.code, "", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -787,19 +844,19 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -807,31 +864,32 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 302 {
-			var v string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // Execute executes the request
-func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
+//  @return MwServerInternalSchemasGetAuthCallbackFunctionResponseStream
+func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
+		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GoogleAuthLogInCallbackFunction")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/auth/{provider}/callback"
@@ -843,6 +901,8 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogl
 
 
 
+
+		parameterAddToHeaderOrQuery(localVarQueryParams, "code", r.code, "", "")
 		parameterAddToHeaderOrQuery(localVarQueryParams, "state", r.state, "", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -863,7 +923,7 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogl
 	}
 	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	for key, values := range request.Header {
@@ -877,14 +937,14 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogl
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -892,20 +952,19 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogl
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 302 {
-			var v string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
-					newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiLogoutCurrentAuthorizedUserRequest struct {

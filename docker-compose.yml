@@ -195,6 +195,17 @@ services:
     networks:
       - app-network
 
+  mw-notification-websocket:
+    build:
+      context: ./mw-notification-websocket
+      dockerfile: Dockerfile
+    ports:
+      - "7996:7996"
+    depends_on:
+      - mw-notification-bff
+    networks:
+      - app-network
+
   grafana:
     build:
       context: ./grafana
@@ -210,6 +221,7 @@ services:
       - postgres-storage
       - postgres-mail
       - postgres-survey
+      - postgres-notification
     networks:
       - app-network
 
@@ -227,6 +239,9 @@ services:
       - mw-chat
       - mw-chat-bff
       - mw-chat-websocket
+      - mw-notification
+      - mw-notification-bff
+      - mw-notification-websocket
       - mw-survey
       - mw-storage
       - mw-mail

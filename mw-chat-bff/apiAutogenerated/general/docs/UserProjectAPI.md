@@ -1,6 +1,6 @@
 # \UserProjectAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateUserProjectPayload("ProjectId_example", "UserId_example") // SchemasCreateUserProjectPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateUserProjectPayload("ProjectId_example", "UserId_example") // MwServerInternalSchemasCreateUserProjectPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ Other parameters are passed through a pointer to a apiCreateUserProjectRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateUserProjectPayload**](SchemasCreateUserProjectPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateUserProjectPayload**](MwServerInternalSchemasCreateUserProjectPayload.md) | query params | 
 
 ### Return type
 

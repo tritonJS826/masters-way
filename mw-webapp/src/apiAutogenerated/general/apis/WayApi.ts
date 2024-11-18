@@ -15,30 +15,33 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateWayPayload,
-  SchemasGetAllWaysResponse,
-  SchemasUpdateWayPayload,
-  SchemasWayPlainResponse,
-  SchemasWayPopulatedResponse,
-  SchemasWayStatisticsTriplePeriod,
+  MwServerInternalSchemasCreateWayPayload,
+  MwServerInternalSchemasGetAllWaysResponse,
+  MwServerInternalSchemasUpdateWayPayload,
+  MwServerInternalSchemasWayPlainForNotificationResponse,
+  MwServerInternalSchemasWayPlainResponse,
+  MwServerInternalSchemasWayPopulatedResponse,
+  MwServerInternalSchemasWayStatisticsTriplePeriod,
 } from '../models/index';
 import {
-    SchemasCreateWayPayloadFromJSON,
-    SchemasCreateWayPayloadToJSON,
-    SchemasGetAllWaysResponseFromJSON,
-    SchemasGetAllWaysResponseToJSON,
-    SchemasUpdateWayPayloadFromJSON,
-    SchemasUpdateWayPayloadToJSON,
-    SchemasWayPlainResponseFromJSON,
-    SchemasWayPlainResponseToJSON,
-    SchemasWayPopulatedResponseFromJSON,
-    SchemasWayPopulatedResponseToJSON,
-    SchemasWayStatisticsTriplePeriodFromJSON,
-    SchemasWayStatisticsTriplePeriodToJSON,
+    MwServerInternalSchemasCreateWayPayloadFromJSON,
+    MwServerInternalSchemasCreateWayPayloadToJSON,
+    MwServerInternalSchemasGetAllWaysResponseFromJSON,
+    MwServerInternalSchemasGetAllWaysResponseToJSON,
+    MwServerInternalSchemasUpdateWayPayloadFromJSON,
+    MwServerInternalSchemasUpdateWayPayloadToJSON,
+    MwServerInternalSchemasWayPlainForNotificationResponseFromJSON,
+    MwServerInternalSchemasWayPlainForNotificationResponseToJSON,
+    MwServerInternalSchemasWayPlainResponseFromJSON,
+    MwServerInternalSchemasWayPlainResponseToJSON,
+    MwServerInternalSchemasWayPopulatedResponseFromJSON,
+    MwServerInternalSchemasWayPopulatedResponseToJSON,
+    MwServerInternalSchemasWayStatisticsTriplePeriodFromJSON,
+    MwServerInternalSchemasWayStatisticsTriplePeriodToJSON,
 } from '../models/index';
 
 export interface CreateWayRequest {
-    request: SchemasCreateWayPayload;
+    request: MwServerInternalSchemasCreateWayPayload;
 }
 
 export interface DeleteWayRequest {
@@ -57,13 +60,17 @@ export interface GetWayByUuidRequest {
     wayId: string;
 }
 
+export interface GetWayPlainForNotificationByUuidRequest {
+    wayId: string;
+}
+
 export interface GetWayStatisticsByUuidRequest {
     wayId: string;
 }
 
 export interface UpdateWayRequest {
     wayId: string;
-    request: SchemasUpdateWayPayload;
+    request: MwServerInternalSchemasUpdateWayPayload;
 }
 
 /**
@@ -74,7 +81,7 @@ export class WayApi extends runtime.BaseAPI {
     /**
      * Create a new way
      */
-    async createWayRaw(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayPlainResponse>> {
+    async createWayRaw(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayPlainResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createWay.');
         }
@@ -90,16 +97,16 @@ export class WayApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateWayPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayPlainResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new way
      */
-    async createWay(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayPlainResponse> {
+    async createWay(requestParameters: CreateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayPlainResponse> {
         const response = await this.createWayRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -137,7 +144,7 @@ export class WayApi extends runtime.BaseAPI {
      * Get ways with pagination
      * Get all ways
      */
-    async getAllWaysRaw(requestParameters: GetAllWaysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasGetAllWaysResponse>> {
+    async getAllWaysRaw(requestParameters: GetAllWaysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasGetAllWaysResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters.page !== undefined) {
@@ -169,14 +176,14 @@ export class WayApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasGetAllWaysResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasGetAllWaysResponseFromJSON(jsonValue));
     }
 
     /**
      * Get ways with pagination
      * Get all ways
      */
-    async getAllWays(requestParameters: GetAllWaysRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasGetAllWaysResponse> {
+    async getAllWays(requestParameters: GetAllWaysRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasGetAllWaysResponse> {
         const response = await this.getAllWaysRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -184,7 +191,7 @@ export class WayApi extends runtime.BaseAPI {
     /**
      * Get way by UUID
      */
-    async getWayByUuidRaw(requestParameters: GetWayByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayPopulatedResponse>> {
+    async getWayByUuidRaw(requestParameters: GetWayByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayPopulatedResponse>> {
         if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
             throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getWayByUuid.');
         }
@@ -200,21 +207,51 @@ export class WayApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayPopulatedResponseFromJSON(jsonValue));
     }
 
     /**
      * Get way by UUID
      */
-    async getWayByUuid(requestParameters: GetWayByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayPopulatedResponse> {
+    async getWayByUuid(requestParameters: GetWayByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayPopulatedResponse> {
         const response = await this.getWayByUuidRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get way plain for notification by UUID
+     */
+    async getWayPlainForNotificationByUuidRaw(requestParameters: GetWayPlainForNotificationByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayPlainForNotificationResponse>> {
+        if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
+            throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getWayPlainForNotificationByUuid.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/ways/{wayId}/notification`.replace(`{${"wayId"}}`, encodeURIComponent(String(requestParameters.wayId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayPlainForNotificationResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get way plain for notification by UUID
+     */
+    async getWayPlainForNotificationByUuid(requestParameters: GetWayPlainForNotificationByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayPlainForNotificationResponse> {
+        const response = await this.getWayPlainForNotificationByUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get way statistics by UUID
      */
-    async getWayStatisticsByUuidRaw(requestParameters: GetWayStatisticsByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayStatisticsTriplePeriod>> {
+    async getWayStatisticsByUuidRaw(requestParameters: GetWayStatisticsByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayStatisticsTriplePeriod>> {
         if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
             throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling getWayStatisticsByUuid.');
         }
@@ -230,13 +267,13 @@ export class WayApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayStatisticsTriplePeriodFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayStatisticsTriplePeriodFromJSON(jsonValue));
     }
 
     /**
      * Get way statistics by UUID
      */
-    async getWayStatisticsByUuid(requestParameters: GetWayStatisticsByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayStatisticsTriplePeriod> {
+    async getWayStatisticsByUuid(requestParameters: GetWayStatisticsByUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayStatisticsTriplePeriod> {
         const response = await this.getWayStatisticsByUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -244,7 +281,7 @@ export class WayApi extends runtime.BaseAPI {
     /**
      * Update way by UUID
      */
-    async updateWayRaw(requestParameters: UpdateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasWayPlainResponse>> {
+    async updateWayRaw(requestParameters: UpdateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasWayPlainResponse>> {
         if (requestParameters.wayId === null || requestParameters.wayId === undefined) {
             throw new runtime.RequiredError('wayId','Required parameter requestParameters.wayId was null or undefined when calling updateWay.');
         }
@@ -264,16 +301,16 @@ export class WayApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateWayPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasUpdateWayPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasWayPlainResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasWayPlainResponseFromJSON(jsonValue));
     }
 
     /**
      * Update way by UUID
      */
-    async updateWay(requestParameters: UpdateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasWayPlainResponse> {
+    async updateWay(requestParameters: UpdateWayRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasWayPlainResponse> {
         const response = await this.updateWayRaw(requestParameters, initOverrides);
         return await response.value();
     }

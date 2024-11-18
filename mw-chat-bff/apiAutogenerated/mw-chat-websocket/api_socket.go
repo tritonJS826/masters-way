@@ -190,11 +190,11 @@ func (a *SocketAPIService) ConnectSocketStreamExecute(r ApiConnectSocketRequest,
 type ApiSendMessageEventRequest struct {
 	ctx context.Context
 	ApiService *SocketAPIService
-	request *SchemasSendMessagePayload
+	request *MwChatWebsocketInternalSchemasSendMessagePayload
 }
 
 // query params
-func (r ApiSendMessageEventRequest) Request(request SchemasSendMessagePayload) ApiSendMessageEventRequest {
+func (r ApiSendMessageEventRequest) Request(request MwChatWebsocketInternalSchemasSendMessagePayload) ApiSendMessageEventRequest {
 	r.request = &request
 	return r
 }
@@ -360,11 +360,11 @@ func (a *SocketAPIService) SendMessageEventStreamExecute(r ApiSendMessageEventRe
 type ApiSendRoomEventRequest struct {
 	ctx context.Context
 	ApiService *SocketAPIService
-	request *SchemasRoomPopulatedResponse
+	request *MwChatWebsocketInternalSchemasRoomPopulatedResponse
 }
 
 // query params
-func (r ApiSendRoomEventRequest) Request(request SchemasRoomPopulatedResponse) ApiSendRoomEventRequest {
+func (r ApiSendRoomEventRequest) Request(request MwChatWebsocketInternalSchemasRoomPopulatedResponse) ApiSendRoomEventRequest {
 	r.request = &request
 	return r
 }

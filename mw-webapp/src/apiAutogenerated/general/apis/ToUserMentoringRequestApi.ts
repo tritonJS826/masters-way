@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateToUserMentoringRequestPayload,
-  SchemasToUserMentoringRequestResponse,
+  MwServerInternalSchemasCreateToUserMentoringRequestPayload,
+  MwServerInternalSchemasToUserMentoringRequestResponse,
 } from '../models/index';
 import {
-    SchemasCreateToUserMentoringRequestPayloadFromJSON,
-    SchemasCreateToUserMentoringRequestPayloadToJSON,
-    SchemasToUserMentoringRequestResponseFromJSON,
-    SchemasToUserMentoringRequestResponseToJSON,
+    MwServerInternalSchemasCreateToUserMentoringRequestPayloadFromJSON,
+    MwServerInternalSchemasCreateToUserMentoringRequestPayloadToJSON,
+    MwServerInternalSchemasToUserMentoringRequestResponseFromJSON,
+    MwServerInternalSchemasToUserMentoringRequestResponseToJSON,
 } from '../models/index';
 
 export interface CreateUserMentoringRequestRequest {
-    request: SchemasCreateToUserMentoringRequestPayload;
+    request: MwServerInternalSchemasCreateToUserMentoringRequestPayload;
 }
 
 export interface DeleteToUserMentoringRequestRequest {
@@ -42,7 +42,7 @@ export class ToUserMentoringRequestApi extends runtime.BaseAPI {
     /**
      * Create a new userMentoringRequest
      */
-    async createUserMentoringRequestRaw(requestParameters: CreateUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasToUserMentoringRequestResponse>> {
+    async createUserMentoringRequestRaw(requestParameters: CreateUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasToUserMentoringRequestResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createUserMentoringRequest.');
         }
@@ -58,16 +58,16 @@ export class ToUserMentoringRequestApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateToUserMentoringRequestPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateToUserMentoringRequestPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasToUserMentoringRequestResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasToUserMentoringRequestResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new userMentoringRequest
      */
-    async createUserMentoringRequest(requestParameters: CreateUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasToUserMentoringRequestResponse> {
+    async createUserMentoringRequest(requestParameters: CreateUserMentoringRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasToUserMentoringRequestResponse> {
         const response = await this.createUserMentoringRequestRaw(requestParameters, initOverrides);
         return await response.value();
     }

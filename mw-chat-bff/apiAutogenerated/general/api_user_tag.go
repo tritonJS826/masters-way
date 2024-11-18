@@ -27,16 +27,16 @@ type UserTagAPIService service
 type ApiCreateUserTagRequest struct {
 	ctx context.Context
 	ApiService *UserTagAPIService
-	request *SchemasCreateUserTagPayload
+	request *MwServerInternalSchemasCreateUserTagPayload
 }
 
 // query params
-func (r ApiCreateUserTagRequest) Request(request SchemasCreateUserTagPayload) ApiCreateUserTagRequest {
+func (r ApiCreateUserTagRequest) Request(request MwServerInternalSchemasCreateUserTagPayload) ApiCreateUserTagRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateUserTagRequest) Execute() (*SchemasUserTagResponse, *http.Response, error) {
+func (r ApiCreateUserTagRequest) Execute() (*MwServerInternalSchemasUserTagResponse, *http.Response, error) {
 	return r.ApiService.CreateUserTagExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *UserTagAPIService) CreateUserTag(ctx context.Context) ApiCreateUserTagR
 }
 
 // Execute executes the request
-//  @return SchemasUserTagResponse
-func (a *UserTagAPIService) CreateUserTagExecute(r ApiCreateUserTagRequest) (*SchemasUserTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserTagResponse
+func (a *UserTagAPIService) CreateUserTagExecute(r ApiCreateUserTagRequest) (*MwServerInternalSchemasUserTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasUserTagResponse
+		localVarReturnValue  *MwServerInternalSchemasUserTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserTagAPIService.CreateUserTag")
@@ -134,11 +134,11 @@ func (a *UserTagAPIService) CreateUserTagExecute(r ApiCreateUserTagRequest) (*Sc
 }
 
 // Execute executes the request
-//  @return SchemasUserTagResponseStream
-func (a *UserTagAPIService) CreateUserTagStreamExecute(r ApiCreateUserTagRequest, request *http.Request, GoogleAccessToken string) (*SchemasUserTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasUserTagResponseStream
+func (a *UserTagAPIService) CreateUserTagStreamExecute(r ApiCreateUserTagRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasUserTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasUserTagResponse
+		localVarReturnValue  *MwServerInternalSchemasUserTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserTagAPIService.CreateUserTag")

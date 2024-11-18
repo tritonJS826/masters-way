@@ -6,6 +6,7 @@ import (
 	"log"
 	"mw-general-bff/internal/config"
 	"mw-general-bff/internal/controllers"
+	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/routers"
 	"mw-general-bff/internal/services"
 	"net/http"
@@ -13,6 +14,9 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // @title     Masters way general-bff API
@@ -25,11 +29,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	newService := services.NewService(&newConfig)
-	newController := controllers.NewController(newService)
+	conn, err := grpc.NewClient(newConfig.NotificationAPIHost, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection: %v", err)
+		os.Exit(1)
+	}
+	defer conn.Close()
+
+	newService := services.NewService(&newConfig, conn)
+	newFacade := facades.NewFacade(newService, &newConfig)
+	newController := controllers.NewController(newFacade)
 
 	newRouter := routers.NewRouter(&newConfig, newController)
-	newRouter.SetRoutes()
+	newRouter.SetRoutes(&newConfig)
 
 	newServer := &http.Server{
 		Addr:    ":" + newConfig.ServerPort,

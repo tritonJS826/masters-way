@@ -27,16 +27,16 @@ type JobTagAPIService service
 type ApiCreateJobTagRequest struct {
 	ctx context.Context
 	ApiService *JobTagAPIService
-	request *SchemasCreateJobTagPayload
+	request *MwServerInternalSchemasCreateJobTagPayload
 }
 
 // query params
-func (r ApiCreateJobTagRequest) Request(request SchemasCreateJobTagPayload) ApiCreateJobTagRequest {
+func (r ApiCreateJobTagRequest) Request(request MwServerInternalSchemasCreateJobTagPayload) ApiCreateJobTagRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateJobTagRequest) Execute() (*SchemasJobTagResponse, *http.Response, error) {
+func (r ApiCreateJobTagRequest) Execute() (*MwServerInternalSchemasJobTagResponse, *http.Response, error) {
 	return r.ApiService.CreateJobTagExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *JobTagAPIService) CreateJobTag(ctx context.Context) ApiCreateJobTagRequ
 }
 
 // Execute executes the request
-//  @return SchemasJobTagResponse
-func (a *JobTagAPIService) CreateJobTagExecute(r ApiCreateJobTagRequest) (*SchemasJobTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobTagResponse
+func (a *JobTagAPIService) CreateJobTagExecute(r ApiCreateJobTagRequest) (*MwServerInternalSchemasJobTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasJobTagResponse
+		localVarReturnValue  *MwServerInternalSchemasJobTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobTagAPIService.CreateJobTag")
@@ -134,11 +134,11 @@ func (a *JobTagAPIService) CreateJobTagExecute(r ApiCreateJobTagRequest) (*Schem
 }
 
 // Execute executes the request
-//  @return SchemasJobTagResponseStream
-func (a *JobTagAPIService) CreateJobTagStreamExecute(r ApiCreateJobTagRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobTagResponseStream
+func (a *JobTagAPIService) CreateJobTagStreamExecute(r ApiCreateJobTagRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasJobTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasJobTagResponse
+		localVarReturnValue  *MwServerInternalSchemasJobTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobTagAPIService.CreateJobTag")
@@ -383,16 +383,16 @@ type ApiUpdateJobTagRequest struct {
 	ctx context.Context
 	ApiService *JobTagAPIService
 	jobTagId string
-	request *SchemasUpdateJobTagPayload
+	request *MwServerInternalSchemasUpdateJobTagPayload
 }
 
 // query params
-func (r ApiUpdateJobTagRequest) Request(request SchemasUpdateJobTagPayload) ApiUpdateJobTagRequest {
+func (r ApiUpdateJobTagRequest) Request(request MwServerInternalSchemasUpdateJobTagPayload) ApiUpdateJobTagRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiUpdateJobTagRequest) Execute() (*SchemasJobTagResponse, *http.Response, error) {
+func (r ApiUpdateJobTagRequest) Execute() (*MwServerInternalSchemasJobTagResponse, *http.Response, error) {
 	return r.ApiService.UpdateJobTagExecute(r)
 }
 
@@ -412,13 +412,13 @@ func (a *JobTagAPIService) UpdateJobTag(ctx context.Context, jobTagId string) Ap
 }
 
 // Execute executes the request
-//  @return SchemasJobTagResponse
-func (a *JobTagAPIService) UpdateJobTagExecute(r ApiUpdateJobTagRequest) (*SchemasJobTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobTagResponse
+func (a *JobTagAPIService) UpdateJobTagExecute(r ApiUpdateJobTagRequest) (*MwServerInternalSchemasJobTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasJobTagResponse
+		localVarReturnValue  *MwServerInternalSchemasJobTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobTagAPIService.UpdateJobTag")
@@ -493,11 +493,11 @@ func (a *JobTagAPIService) UpdateJobTagExecute(r ApiUpdateJobTagRequest) (*Schem
 }
 
 // Execute executes the request
-//  @return SchemasJobTagResponseStream
-func (a *JobTagAPIService) UpdateJobTagStreamExecute(r ApiUpdateJobTagRequest, request *http.Request, GoogleAccessToken string) (*SchemasJobTagResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasJobTagResponseStream
+func (a *JobTagAPIService) UpdateJobTagStreamExecute(r ApiUpdateJobTagRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasJobTagResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasJobTagResponse
+		localVarReturnValue  *MwServerInternalSchemasJobTagResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "JobTagAPIService.UpdateJobTag")

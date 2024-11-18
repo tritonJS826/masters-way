@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"mwserver/internal/config"
-	"mwserver/internal/schemas"
+	"mw-server/internal/config"
+	"mw-server/internal/schemas"
 	"strings"
 
 	"github.com/google/generative-ai-go/genai"

@@ -14,6 +14,7 @@ import (
 	"bytes"
 	"context"
 	"io"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -26,21 +27,21 @@ type MessageAPIService service
 type ApiCreateMessageRequest struct {
 	ctx context.Context
 	ApiService *MessageAPIService
-	request *SchemasCreateMessagePayload
+	request *MwChatInternalSchemasCreateMessagePayload
 }
 
 // query params
-func (r ApiCreateMessageRequest) Request(request SchemasCreateMessagePayload) ApiCreateMessageRequest {
+func (r ApiCreateMessageRequest) Request(request MwChatInternalSchemasCreateMessagePayload) ApiCreateMessageRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateMessageRequest) Execute() (*SchemasCreateMessageResponse, *http.Response, error) {
+func (r ApiCreateMessageRequest) Execute() (*MwChatInternalSchemasCreateMessageResponse, *http.Response, error) {
 	return r.ApiService.CreateMessageExecute(r)
 }
 
 /*
-CreateMessage Create message in room
+CreateMessage Create message
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateMessageRequest
@@ -53,13 +54,13 @@ func (a *MessageAPIService) CreateMessage(ctx context.Context) ApiCreateMessageR
 }
 
 // Execute executes the request
-//  @return SchemasCreateMessageResponse
-func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*SchemasCreateMessageResponse, *http.Response, error) {
+//  @return MwChatInternalSchemasCreateMessageResponse
+func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*MwChatInternalSchemasCreateMessageResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasCreateMessageResponse
+		localVarReturnValue  *MwChatInternalSchemasCreateMessageResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MessageAPIService.CreateMessage")
@@ -132,15 +133,98 @@ func (a *MessageAPIService) CreateMessageExecute(r ApiCreateMessageRequest) (*Sc
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// Execute executes the request
+//  @return MwChatInternalSchemasCreateMessageResponseStream
+func (a *MessageAPIService) CreateMessageStreamExecute(r ApiCreateMessageRequest, request *http.Request, GoogleAccessToken string) (*MwChatInternalSchemasCreateMessageResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarReturnValue  *MwChatInternalSchemasCreateMessageResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MessageAPIService.CreateMessage")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpdateMessageStatusRequest struct {
 	ctx context.Context
 	ApiService *MessageAPIService
 	messageId string
-	request *SchemasUpdateMessageStatusPayload
+	request *MwChatInternalSchemasUpdateMessageStatusPayload
 }
 
 // query params
-func (r ApiUpdateMessageStatusRequest) Request(request SchemasUpdateMessageStatusPayload) ApiUpdateMessageStatusRequest {
+func (r ApiUpdateMessageStatusRequest) Request(request MwChatInternalSchemasUpdateMessageStatusPayload) ApiUpdateMessageStatusRequest {
 	r.request = &request
 	return r
 }
@@ -212,6 +296,80 @@ func (a *MessageAPIService) UpdateMessageStatusExecute(r ApiUpdateMessageStatusR
 	if err != nil {
 		return nil, err
 	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+// Execute executes the request
+func (a *MessageAPIService) UpdateMessageStatusStreamExecute(r ApiUpdateMessageStatusRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPatch
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MessageAPIService.UpdateMessageStatus")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/messages/{messageId}/message-status"
+	localVarPath = strings.Replace(localVarPath, "{"+"messageId"+"}", url.PathEscape(parameterValueToString(r.messageId, "messageId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {

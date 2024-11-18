@@ -28,9 +28,10 @@ func Test_openapi_AuthAPIService(t *testing.T) {
 
 		var provider string
 
-		httpRes, err := apiClient.AuthAPI.BeginAuth(context.Background(), provider).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.BeginAuth(context.Background(), provider).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -65,9 +66,10 @@ func Test_openapi_AuthAPIService(t *testing.T) {
 
 		var userEmail string
 
-		httpRes, err := apiClient.AuthAPI.GetTokenLocally(context.Background(), userEmail).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GetTokenLocally(context.Background(), userEmail).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
@@ -78,9 +80,10 @@ func Test_openapi_AuthAPIService(t *testing.T) {
 
 		var provider string
 
-		httpRes, err := apiClient.AuthAPI.GoogleAuthLogInCallbackFunction(context.Background(), provider).Execute()
+		resp, httpRes, err := apiClient.AuthAPI.GoogleAuthLogInCallbackFunction(context.Background(), provider).Execute()
 
 		require.Nil(t, err)
+		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})

@@ -1,19 +1,22 @@
 package controllers
 
 import (
-	"mw-general-bff/internal/services"
+	"mw-general-bff/internal/facades"
+	"mw-general-bff/internal/schemas"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+// Without next lines swagger does not see openapi models
+var _ = &schemas.UploadFileResponse{}
+
 type FileController struct {
-	generalService *services.GeneralService
-	fileService    *services.FileService
+	fileFacade *facades.FileFacade
 }
 
-func NewFileController(generalService *services.GeneralService, fileService *services.FileService) *FileController {
-	return &FileController{generalService, fileService}
+func NewFileController(fileFacade *facades.FileFacade) *FileController {
+	return &FileController{fileFacade}
 }
 
 // @Summary Upload file to storage
@@ -72,15 +75,15 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 // @Success 204
 // @Router /files [delete]
 func (fc *FileController) DeleteFilesByIDs(ctx *gin.Context) {
-	var fileIDs []string
+	// var fileIDs []string
 
-	if err := ctx.ShouldBindJSON(&fileIDs); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	// if err := ctx.ShouldBindJSON(&fileIDs); err != nil {
+	// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
-	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	// userID := userIDRaw.(string)
+	// // userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// // userID := userIDRaw.(string)
 
 	ctx.Status(http.StatusNoContent)
 }

@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateUserProjectPayload,
+  MwServerInternalSchemasCreateUserProjectPayload,
 } from '../models/index';
 import {
-    SchemasCreateUserProjectPayloadFromJSON,
-    SchemasCreateUserProjectPayloadToJSON,
+    MwServerInternalSchemasCreateUserProjectPayloadFromJSON,
+    MwServerInternalSchemasCreateUserProjectPayloadToJSON,
 } from '../models/index';
 
 export interface CreateUserProjectRequest {
-    request: SchemasCreateUserProjectPayload;
+    request: MwServerInternalSchemasCreateUserProjectPayload;
 }
 
 export interface DeleteUserProjectRequest {
@@ -55,7 +55,7 @@ export class UserProjectApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateUserProjectPayloadToJSON(requestParameters.request),
+            body: MwServerInternalSchemasCreateUserProjectPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

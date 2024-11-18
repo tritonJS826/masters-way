@@ -23,39 +23,39 @@ import (
 // HealthAPIService HealthAPI service
 type HealthAPIService service
 
-type ApiHealthcheckGetRequest struct {
+type ApiGeneralHealthCheckRequest struct {
 	ctx context.Context
 	ApiService *HealthAPIService
 }
 
-func (r ApiHealthcheckGetRequest) Execute() (*http.Response, error) {
-	return r.ApiService.HealthcheckGetExecute(r)
+func (r ApiGeneralHealthCheckRequest) Execute() (*http.Response, error) {
+	return r.ApiService.GeneralHealthCheckExecute(r)
 }
 
 /*
-HealthcheckGet Health Check
+GeneralHealthCheck Health Check
 
 Get the health status of the API
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiHealthcheckGetRequest
+ @return ApiGeneralHealthCheckRequest
 */
-func (a *HealthAPIService) HealthcheckGet(ctx context.Context) ApiHealthcheckGetRequest {
-	return ApiHealthcheckGetRequest{
+func (a *HealthAPIService) GeneralHealthCheck(ctx context.Context) ApiGeneralHealthCheckRequest {
+	return ApiGeneralHealthCheckRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-func (a *HealthAPIService) HealthcheckGetExecute(r ApiHealthcheckGetRequest) (*http.Response, error) {
+func (a *HealthAPIService) GeneralHealthCheckExecute(r ApiGeneralHealthCheckRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthAPIService.HealthcheckGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthAPIService.GeneralHealthCheck")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -112,12 +112,12 @@ func (a *HealthAPIService) HealthcheckGetExecute(r ApiHealthcheckGetRequest) (*h
 }
 
 // Execute executes the request
-func (a *HealthAPIService) HealthcheckGetStreamExecute(r ApiHealthcheckGetRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
+func (a *HealthAPIService) GeneralHealthCheckStreamExecute(r ApiGeneralHealthCheckRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthAPIService.HealthcheckGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthAPIService.GeneralHealthCheck")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}

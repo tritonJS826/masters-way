@@ -41,7 +41,7 @@ func (ec *EnabledNotificationController) UpdateEnabledNotification(ctx context.C
 	return &pb.EnabledNotificationResponse{
 		Uuid:      enabledNotification.UUID,
 		UserUuid:  enabledNotification.UserUUID,
-		Nature:    enabledNotification.Nature,
+		Nature:    pb.Nature(pb.Nature_value[enabledNotification.Nature]),
 		Channel:   enabledNotification.Channel,
 		IsEnabled: enabledNotification.IsEnabled,
 	}, nil
@@ -53,17 +53,17 @@ func (ec *EnabledNotificationController) GetEnabledNotificationList(ctx context.
 		return nil, err
 	}
 
-	notifications := lo.Map(getEnabledNotificationListRaw.EnabledNotifications, func(notificationRaw schemas.EnabledNotificationResponse, _ int) *pb.EnabledNotificationResponse {
+	enabledNotifications := lo.Map(getEnabledNotificationListRaw.EnabledNotifications, func(enabledNotificationRaw schemas.EnabledNotificationResponse, _ int) *pb.EnabledNotificationResponse {
 		return &pb.EnabledNotificationResponse{
-			Uuid:      notificationRaw.UUID,
-			UserUuid:  notificationRaw.UserUUID,
-			Nature:    notificationRaw.Nature,
-			Channel:   notificationRaw.Channel,
-			IsEnabled: notificationRaw.IsEnabled,
+			Uuid:      enabledNotificationRaw.UUID,
+			UserUuid:  enabledNotificationRaw.UserUUID,
+			Nature:    pb.Nature(pb.Nature_value[enabledNotificationRaw.Nature]),
+			Channel:   enabledNotificationRaw.Channel,
+			IsEnabled: enabledNotificationRaw.IsEnabled,
 		}
 	})
 
 	return &pb.GetEnabledNotificationListResponse{
-		EnabledNotifications: notifications,
+		EnabledNotifications: enabledNotifications,
 	}, nil
 }

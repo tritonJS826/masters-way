@@ -1,4 +1,4 @@
 // @ts-nocheck
 /* eslint-disable */
-export * from './SchemasPostSurveyLookingForMentorPayload';
-export * from './SchemasPostSurveyUserIntroPayload';
+export * from './MwsurveyInternalSchemasPostSurveyLookingForMentorPayload';
+export * from './MwsurveyInternalSchemasPostSurveyUserIntroPayload';

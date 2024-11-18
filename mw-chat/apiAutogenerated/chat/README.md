@@ -79,7 +79,7 @@ All URIs are relative to */chat*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
-*MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message in room
+*MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message
 *MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
 *RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
 *RoomAPI* | [**CreateRoom**](docs/RoomAPI.md#createroom) | **Post** /rooms | Create room for user
@@ -92,17 +92,17 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasCreateMessagePayload](docs/SchemasCreateMessagePayload.md)
- - [SchemasCreateMessageResponse](docs/SchemasCreateMessageResponse.md)
- - [SchemasCreateRoomPayload](docs/SchemasCreateRoomPayload.md)
- - [SchemasGetChatPreviewResponse](docs/SchemasGetChatPreviewResponse.md)
- - [SchemasGetRoomsResponse](docs/SchemasGetRoomsResponse.md)
- - [SchemasMessageReader](docs/SchemasMessageReader.md)
- - [SchemasMessageResponse](docs/SchemasMessageResponse.md)
- - [SchemasRoomPopulatedResponse](docs/SchemasRoomPopulatedResponse.md)
- - [SchemasRoomPreviewResponse](docs/SchemasRoomPreviewResponse.md)
- - [SchemasUpdateMessageStatusPayload](docs/SchemasUpdateMessageStatusPayload.md)
- - [SchemasUserResponse](docs/SchemasUserResponse.md)
+ - [MwChatInternalSchemasCreateMessagePayload](docs/MwChatInternalSchemasCreateMessagePayload.md)
+ - [MwChatInternalSchemasCreateMessageResponse](docs/MwChatInternalSchemasCreateMessageResponse.md)
+ - [MwChatInternalSchemasCreateRoomPayload](docs/MwChatInternalSchemasCreateRoomPayload.md)
+ - [MwChatInternalSchemasGetChatPreviewResponse](docs/MwChatInternalSchemasGetChatPreviewResponse.md)
+ - [MwChatInternalSchemasGetRoomsResponse](docs/MwChatInternalSchemasGetRoomsResponse.md)
+ - [MwChatInternalSchemasMessageReader](docs/MwChatInternalSchemasMessageReader.md)
+ - [MwChatInternalSchemasMessageResponse](docs/MwChatInternalSchemasMessageResponse.md)
+ - [MwChatInternalSchemasRoomPopulatedResponse](docs/MwChatInternalSchemasRoomPopulatedResponse.md)
+ - [MwChatInternalSchemasRoomPreviewResponse](docs/MwChatInternalSchemasRoomPreviewResponse.md)
+ - [MwChatInternalSchemasUpdateMessageStatusPayload](docs/MwChatInternalSchemasUpdateMessageStatusPayload.md)
+ - [MwChatInternalSchemasUserResponse](docs/MwChatInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

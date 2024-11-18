@@ -16,14 +16,13 @@ type Config struct {
 	SecretSessionKey   string `mapstructure:"SECRET_SESSION_KEY"`
 	ApiBaseUrl         string `mapstructure:"API_BASE_URL"`
 	WebappBaseUrl      string `mapstructure:"WEBAPP_BASE_URL"`
-	Domain             string `mapstructure:"WEBAPP_DOMAIN"`
 	GeminiApiKey       string `mapstructure:"GEMINI_API_KEY"`
 	GeminiModel        string `mapstructure:"GEMINI_MODEL"`
 	TestGeneralAPIHost string `mapstructure:"TEST_GENERAL_API_HOST"`
 	TestGeneralBaseURL string `mapstructure:"TEST_GENERAL_BASE_URL"`
 }
 
-var prodRequiredVariables = [13]string{
+var prodRequiredVariables = [12]string{
 	"DB_SOURCE",
 	"SERVER_PORT",
 	"ENV_TYPE",
@@ -32,14 +31,13 @@ var prodRequiredVariables = [13]string{
 	"SECRET_SESSION_KEY",
 	"API_BASE_URL",
 	"WEBAPP_BASE_URL",
-	"WEBAPP_DOMAIN",
 	"GEMINI_API_KEY",
 	"GEMINI_MODEL",
 	"TEST_GENERAL_API_HOST",
 	"TEST_GENERAL_BASE_URL",
 }
 
-var devRequiredVariables = [13]string{
+var devRequiredVariables = [12]string{
 	"DB_SOURCE",
 	"SERVER_PORT",
 	"ENV_TYPE",
@@ -48,7 +46,6 @@ var devRequiredVariables = [13]string{
 	"SECRET_SESSION_KEY",
 	"API_BASE_URL",
 	"WEBAPP_BASE_URL",
-	"WEBAPP_DOMAIN",
 	"GEMINI_API_KEY",
 	"GEMINI_MODEL",
 	"TEST_GENERAL_API_HOST",

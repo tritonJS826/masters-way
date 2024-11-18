@@ -3,13 +3,17 @@ package controllers
 import (
 	"net/http"
 
-	"mwserver/internal/auth"
-	"mwserver/internal/schemas"
-	"mwserver/internal/services"
-	"mwserver/pkg/util"
+	"mw-server/internal/auth"
+	"mw-server/internal/customErrors"
+	"mw-server/internal/schemas"
+	"mw-server/internal/services"
+	"mw-server/pkg/util"
 
 	"github.com/gin-gonic/gin"
 )
+
+// Without next lines swagger does not see openapi models
+var _ = &customErrors.NoRightToChangeDayReportError{}
 
 type CommentController struct {
 	permissionService *services.PermissionService

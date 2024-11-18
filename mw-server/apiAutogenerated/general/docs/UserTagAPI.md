@@ -1,6 +1,6 @@
 # \UserTagAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateUserTag
 
-> SchemasUserTagResponse CreateUserTag(ctx).Request(request).Execute()
+> MwServerInternalSchemasUserTagResponse CreateUserTag(ctx).Request(request).Execute()
 
 Create a new userTag
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateUserTagPayload("Name_example", "OwnerUuid_example") // SchemasCreateUserTagPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateUserTagPayload("Name_example", "OwnerUuid_example") // MwServerInternalSchemasCreateUserTagPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `UserTagAPI.CreateUserTag``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateUserTag`: SchemasUserTagResponse
+	// response from `CreateUserTag`: MwServerInternalSchemasUserTagResponse
 	fmt.Fprintf(os.Stdout, "Response from `UserTagAPI.CreateUserTag`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateUserTagRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateUserTagPayload**](SchemasCreateUserTagPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateUserTagPayload**](MwServerInternalSchemasCreateUserTagPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasUserTagResponse**](SchemasUserTagResponse.md)
+[**MwServerInternalSchemasUserTagResponse**](MwServerInternalSchemasUserTagResponse.md)
 
 ### Authorization
 

@@ -2,10 +2,10 @@ package services
 
 import (
 	"context"
-	"mwserver/internal/customErrors"
-	db "mwserver/internal/db/sqlc"
-	"mwserver/internal/schemas"
-	"mwserver/pkg/util"
+	"mw-server/internal/customErrors"
+	db "mw-server/internal/db/sqlc"
+	"mw-server/internal/schemas"
+	"mw-server/pkg/util"
 	"time"
 
 	"github.com/google/uuid"

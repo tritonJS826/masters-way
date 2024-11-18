@@ -5,7 +5,7 @@
       "studentJonh": {
         "name": "studentJonh@gmail.com",
         "email": "studentJonh@gmail.com",
-        "loginLink": "http://localhost:8000/api/auth/login/local/studentJonh@gmail.com",
+        "loginLink": "http://localhost:7995/general/auth/login/local/studentJonh@gmail.com",
         "editedName": "John Perry Student",
         "aboutMeDescription": "I'm a student learning JavaScript with a focus on React and Node.js. I'm eager to enhance my skills and seeking a mentor to guide me in becoming a proficient front-end developer. Let's connect!",
         "skill": "JS",
@@ -17,7 +17,7 @@
       "mentorMax": {
         "name": "mentorMax@gmail.com",
         "email": "mentorMax@gmail.com",
-        "loginLink": "http://localhost:8000/api/auth/login/local/mentorMax@gmail.com",
+        "loginLink": "http://localhost:7995/general/auth/login/local/mentorMax@gmail.com",
         "mentoringWaysNumberCollectionButton": "1 Ways",
         "wayTitle": "Way of mentorMax@gmail.com"
       }

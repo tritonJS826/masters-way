@@ -1,9 +1,9 @@
 package services
 
 import (
-	"mwserver/internal/auth"
-	"mwserver/internal/config"
-	db "mwserver/internal/db/sqlc"
+	"mw-server/internal/auth"
+	"mw-server/internal/config"
+	db "mw-server/internal/db/sqlc"
 
 	"github.com/google/generative-ai-go/genai"
 	"github.com/jackc/pgx/v5/pgxpool"

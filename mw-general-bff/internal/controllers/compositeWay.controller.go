@@ -1,0 +1,66 @@
+package controllers
+
+import (
+	"mw-general-bff/internal/facades"
+	"mw-general-bff/internal/schemas"
+	"mw-general-bff/pkg/utils"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+type CompositeWayController struct {
+	compositeWayFacade *facades.CompositeWayFacade
+}
+
+func NewCompositeWayController(compositeWayFacade *facades.CompositeWayFacade) *CompositeWayController {
+	return &CompositeWayController{compositeWayFacade}
+}
+
+// Create compositeWay handler
+// @Summary Add a way to composite way
+// @Description
+// @Tags compositeWay
+// @ID create-compositeWay
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.AddWayToCompositeWayPayload true "query params"
+// @Success 200 {object} schemas.CompositeWayRelation
+// @Router /compositeWay [post]
+func (cc *CompositeWayController) AddWayToCompositeWay(ctx *gin.Context) {
+	var payload *schemas.AddWayToCompositeWayPayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+	args := &schemas.AddWayToCompositeWayPayload{
+		ChildWayUuid:  payload.ChildWayUuid,
+		ParentWayUuid: payload.ParentWayUuid,
+	}
+	response, err := cc.compositeWayFacade.AddWayToCompositeWay(ctx, args)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// Deleting compositeWay handlers
+// @Summary Delete composite way relation
+// @Description
+// @Tags compositeWay
+// @ID delete-compositeWay relation
+// @Accept  json
+// @Produce  json
+// @Param parentWayId path string true "parentWay ID"
+// @Param childWayId path string true "childWay ID"
+// @Success 204
+// @Router /compositeWay/{parentWayId}/{childWayId} [delete]
+func (cwc *CompositeWayController) DeleteCompositeWayRelation(ctx *gin.Context) {
+	parentWayID := ctx.Param("parentWayId")
+	childWayID := ctx.Param("childWayId")
+
+	err := cwc.compositeWayFacade.DeleteCompositeWayRelation(ctx, parentWayID, childWayID)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Status(http.StatusNoContent)
+}

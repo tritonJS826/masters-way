@@ -1,6 +1,6 @@
 # \CommentAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateComment
 
-> SchemasCommentPopulatedResponse CreateComment(ctx).Request(request).Execute()
+> MwServerInternalSchemasCommentPopulatedResponse CreateComment(ctx).Request(request).Execute()
 
 Create a new comment
 
@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateCommentPayload("DayReportUuid_example", "Description_example", "OwnerUuid_example") // SchemasCreateCommentPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateCommentPayload("DayReportUuid_example", "Description_example", "OwnerUuid_example") // MwServerInternalSchemasCreateCommentPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -38,7 +38,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `CommentAPI.CreateComment``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateComment`: SchemasCommentPopulatedResponse
+	// response from `CreateComment`: MwServerInternalSchemasCommentPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `CommentAPI.CreateComment`: %v\n", resp)
 }
 ```
@@ -54,11 +54,11 @@ Other parameters are passed through a pointer to a apiCreateCommentRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateCommentPayload**](SchemasCreateCommentPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateCommentPayload**](MwServerInternalSchemasCreateCommentPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasCommentPopulatedResponse**](SchemasCommentPopulatedResponse.md)
+[**MwServerInternalSchemasCommentPopulatedResponse**](MwServerInternalSchemasCommentPopulatedResponse.md)
 
 ### Authorization
 
@@ -142,7 +142,7 @@ No authorization required
 
 ## UpdateComment
 
-> SchemasCommentPopulatedResponse UpdateComment(ctx, commentId).Request(request).Execute()
+> MwServerInternalSchemasCommentPopulatedResponse UpdateComment(ctx, commentId).Request(request).Execute()
 
 Update comment by UUID
 
@@ -160,7 +160,7 @@ import (
 
 func main() {
 	commentId := "commentId_example" // string | comment ID
-	request := *openapiclient.NewSchemasUpdateCommentPayload() // SchemasUpdateCommentPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasUpdateCommentPayload() // MwServerInternalSchemasUpdateCommentPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `CommentAPI.UpdateComment``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateComment`: SchemasCommentPopulatedResponse
+	// response from `UpdateComment`: MwServerInternalSchemasCommentPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `CommentAPI.UpdateComment`: %v\n", resp)
 }
 ```
@@ -190,11 +190,11 @@ Other parameters are passed through a pointer to a apiUpdateCommentRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**SchemasUpdateCommentPayload**](SchemasUpdateCommentPayload.md) | query params | 
+ **request** | [**MwServerInternalSchemasUpdateCommentPayload**](MwServerInternalSchemasUpdateCommentPayload.md) | query params | 
 
 ### Return type
 
-[**SchemasCommentPopulatedResponse**](SchemasCommentPopulatedResponse.md)
+[**MwServerInternalSchemasCommentPopulatedResponse**](MwServerInternalSchemasCommentPopulatedResponse.md)
 
 ### Authorization
 

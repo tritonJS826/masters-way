@@ -37,9 +37,9 @@ func (cs *ChatService) GetRooms(ctx *gin.Context, roomType string) (*schemas.Get
 		return nil, err
 	}
 
-	rooms := lo.Map(roomsRaw.Rooms, func(roomRaw openapiChat.SchemasRoomPreviewResponse, i int) schemas.RoomPreviewResponse {
+	rooms := lo.Map(roomsRaw.Rooms, func(roomRaw openapiChat.MwChatInternalSchemasRoomPreviewResponse, i int) schemas.RoomPreviewResponse {
 
-		usersPopulated := lo.Map(roomRaw.Users, func(rawUser openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+		usersPopulated := lo.Map(roomRaw.Users, func(rawUser openapiChat.MwChatInternalSchemasUserResponse, i int) schemas.UserResponse {
 			return schemas.UserResponse{
 				UserID: rawUser.UserId,
 				Role:   rawUser.Role,
@@ -73,9 +73,9 @@ func (cs *ChatService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.
 		return nil, err
 	}
 
-	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
+	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.MwChatInternalSchemasMessageResponse, i int) schemas.MessageResponse {
 
-		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReader, i int) schemas.MessageReader {
+		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.MwChatInternalSchemasMessageReader, i int) schemas.MessageReader {
 			return schemas.MessageReader{
 				UserID:   messageReaderRaw.UserId,
 				ReadDate: messageReaderRaw.ReadDate,
@@ -92,7 +92,7 @@ func (cs *ChatService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.
 		return message
 	})
 
-	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.MwChatInternalSchemasUserResponse, i int) schemas.UserResponse {
 		return schemas.UserResponse{
 			UserID: userRaw.UserId,
 			Role:   userRaw.Role,
@@ -125,7 +125,7 @@ func (cs *ChatService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 		userId.Set(createRoomPayload.UserID)
 	}
 
-	roomRaw, response, err := cs.chatAPI.RoomAPI.CreateRoom(ctx).Request(openapiChat.SchemasCreateRoomPayload{
+	roomRaw, response, err := cs.chatAPI.RoomAPI.CreateRoom(ctx).Request(openapiChat.MwChatInternalSchemasCreateRoomPayload{
 		Name:     name,
 		RoomType: createRoomPayload.RoomType,
 		UserId:   userId,
@@ -138,8 +138,8 @@ func (cs *ChatService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 		return nil, fmt.Errorf(message)
 	}
 
-	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
-		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReader, i int) schemas.MessageReader {
+	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.MwChatInternalSchemasMessageResponse, i int) schemas.MessageResponse {
+		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.MwChatInternalSchemasMessageReader, i int) schemas.MessageReader {
 			return schemas.MessageReader{
 				UserID:   messageReaderRaw.UserId,
 				ReadDate: messageReaderRaw.ReadDate,
@@ -154,7 +154,7 @@ func (cs *ChatService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 		return message
 	})
 
-	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.MwChatInternalSchemasUserResponse, i int) schemas.UserResponse {
 		return schemas.UserResponse{
 			UserID: userRaw.UserId,
 			Role:   userRaw.Role,
@@ -182,9 +182,9 @@ func (cs *ChatService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.Roo
 	if err != nil {
 		return nil, err
 	}
-	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.SchemasMessageResponse, i int) schemas.MessageResponse {
+	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.MwChatInternalSchemasMessageResponse, i int) schemas.MessageResponse {
 
-		readers := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReader, i int) schemas.MessageReader {
+		readers := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.MwChatInternalSchemasMessageReader, i int) schemas.MessageReader {
 			return schemas.MessageReader{
 				UserID:   messageReaderRaw.UserId,
 				ReadDate: messageReaderRaw.ReadDate,
@@ -201,7 +201,7 @@ func (cs *ChatService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.Roo
 		return message
 	})
 
-	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.MwChatInternalSchemasUserResponse, i int) schemas.UserResponse {
 		return schemas.UserResponse{
 			UserID: userRaw.UserId,
 			Role:   userRaw.Role,
@@ -225,7 +225,7 @@ func (cs *ChatService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.Roo
 }
 
 func (cs *ChatService) CreateMessage(ctx *gin.Context, messageText, roomId string) (*schemas.SendMessagePayload, error) {
-	messageRaw, _, err := cs.chatAPI.MessageAPI.CreateMessage(ctx).Request(openapiChat.SchemasCreateMessagePayload{
+	messageRaw, _, err := cs.chatAPI.MessageAPI.CreateMessage(ctx).Request(openapiChat.MwChatInternalSchemasCreateMessagePayload{
 		Message: messageText,
 		RoomId:  roomId,
 	}).Execute()
@@ -233,7 +233,7 @@ func (cs *ChatService) CreateMessage(ctx *gin.Context, messageText, roomId strin
 		return nil, err
 	}
 
-	messageReaders := lo.Map(messageRaw.Message.MessageReaders, func(messageReaderRaw openapiChat.SchemasMessageReader, i int) schemas.MessageReader {
+	messageReaders := lo.Map(messageRaw.Message.MessageReaders, func(messageReaderRaw openapiChat.MwChatInternalSchemasMessageReader, i int) schemas.MessageReader {
 		return schemas.MessageReader{
 			UserID:   messageReaderRaw.UserId,
 			ReadDate: messageReaderRaw.ReadDate,
@@ -259,7 +259,7 @@ func (ChatService *ChatService) AddUserToRoom(ctx *gin.Context, roomId string, u
 		return nil, err
 	}
 
-	usersPopulated := lo.Map(rawRoom.Users, func(rawUser openapiChat.SchemasUserResponse, i int) schemas.UserResponse {
+	usersPopulated := lo.Map(rawRoom.Users, func(rawUser openapiChat.MwChatInternalSchemasUserResponse, i int) schemas.UserResponse {
 		return schemas.UserResponse{
 			UserID: rawUser.UserId,
 			Role:   rawUser.Role,
@@ -286,7 +286,7 @@ func (cs *ChatService) DeleteUserFromRoom(ctx *gin.Context, roomId string, userI
 }
 
 func (cs *ChatService) UpdateMessageStatus(ctx *gin.Context, messageID string, isRead bool) error {
-	payload := openapiChat.SchemasUpdateMessageStatusPayload{
+	payload := openapiChat.MwChatInternalSchemasUpdateMessageStatusPayload{
 		IsRead: isRead,
 	}
 

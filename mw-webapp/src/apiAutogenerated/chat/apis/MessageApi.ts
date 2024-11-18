@@ -15,26 +15,26 @@
 
 import * as runtime from '../runtime';
 import type {
-  SchemasCreateMessagePayload,
-  SchemasMessageResponse,
-  SchemasUpdateMessageStatusPayload,
+  MwChatBffInternalSchemasCreateMessagePayload,
+  MwChatBffInternalSchemasMessageResponse,
+  MwChatBffInternalSchemasUpdateMessageStatusPayload,
 } from '../models/index';
 import {
-    SchemasCreateMessagePayloadFromJSON,
-    SchemasCreateMessagePayloadToJSON,
-    SchemasMessageResponseFromJSON,
-    SchemasMessageResponseToJSON,
-    SchemasUpdateMessageStatusPayloadFromJSON,
-    SchemasUpdateMessageStatusPayloadToJSON,
+    MwChatBffInternalSchemasCreateMessagePayloadFromJSON,
+    MwChatBffInternalSchemasCreateMessagePayloadToJSON,
+    MwChatBffInternalSchemasMessageResponseFromJSON,
+    MwChatBffInternalSchemasMessageResponseToJSON,
+    MwChatBffInternalSchemasUpdateMessageStatusPayloadFromJSON,
+    MwChatBffInternalSchemasUpdateMessageStatusPayloadToJSON,
 } from '../models/index';
 
 export interface CreateMessageRequest {
-    request: SchemasCreateMessagePayload;
+    request: MwChatBffInternalSchemasCreateMessagePayload;
 }
 
 export interface UpdateMessageStatusRequest {
     messageId: string;
-    request: SchemasUpdateMessageStatusPayload;
+    request: MwChatBffInternalSchemasUpdateMessageStatusPayload;
 }
 
 /**
@@ -45,7 +45,7 @@ export class MessageApi extends runtime.BaseAPI {
     /**
      * Create message
      */
-    async createMessageRaw(requestParameters: CreateMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SchemasMessageResponse>> {
+    async createMessageRaw(requestParameters: CreateMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasMessageResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createMessage.');
         }
@@ -61,16 +61,16 @@ export class MessageApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasCreateMessagePayloadToJSON(requestParameters.request),
+            body: MwChatBffInternalSchemasCreateMessagePayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SchemasMessageResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasMessageResponseFromJSON(jsonValue));
     }
 
     /**
      * Create message
      */
-    async createMessage(requestParameters: CreateMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SchemasMessageResponse> {
+    async createMessage(requestParameters: CreateMessageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasMessageResponse> {
         const response = await this.createMessageRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -99,7 +99,7 @@ export class MessageApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: SchemasUpdateMessageStatusPayloadToJSON(requestParameters.request),
+            body: MwChatBffInternalSchemasUpdateMessageStatusPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

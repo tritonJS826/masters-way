@@ -20,7 +20,7 @@ func NewNotificationService(
 	return &NotificationService{notificationGRPC, enabledNotificationGRPC}
 }
 
-func (ns *NotificationService) GetNotificationListGRPC(ctx context.Context, userUUID string) (*schemas.GetNotificationListResponse, error) {
+func (ns *NotificationService) GetNotificationList(ctx context.Context, userUUID string) (*schemas.GetNotificationListResponse, error) {
 	notificationListRaw, err := ns.notificationGRPC.GetNotificationList(ctx, &pb.GetNotificationListRequest{
 		UserUuid: userUUID,
 	})
@@ -35,7 +35,7 @@ func (ns *NotificationService) GetNotificationListGRPC(ctx context.Context, user
 			IsRead:      notificationRaw.IsRead,
 			Description: notificationRaw.Description,
 			Url:         notificationRaw.Url,
-			Nature:      notificationRaw.Nature,
+			Nature:      notificationRaw.Nature.String(),
 			CreatedAt:   notificationRaw.CreatedAt,
 		}
 	})
@@ -61,7 +61,7 @@ func (ns *NotificationService) UpdateNotification(ctx context.Context, notificat
 		IsRead:      notification.IsRead,
 		Description: notification.Description,
 		Url:         notification.Url,
-		Nature:      notification.Nature,
+		Nature:      notification.Nature.String(),
 		CreatedAt:   notification.CreatedAt,
 	}, nil
 }
@@ -81,7 +81,7 @@ func (ns *NotificationService) GetEnabledNotificationList(ctx context.Context, u
 		return schemas.EnabledNotificationResponse{
 			UUID:      enabledNotificationRaw.Uuid,
 			UserUUID:  enabledNotificationRaw.UserUuid,
-			Nature:    enabledNotificationRaw.Nature,
+			Nature:    enabledNotificationRaw.Nature.String(),
 			Channel:   enabledNotificationRaw.Channel,
 			IsEnabled: enabledNotificationRaw.IsEnabled,
 		}
@@ -105,7 +105,7 @@ func (ns *NotificationService) UpdateEnabledNotification(ctx context.Context, en
 	return &schemas.EnabledNotificationResponse{
 		UUID:      enabledNotification.Uuid,
 		UserUUID:  enabledNotification.UserUuid,
-		Nature:    enabledNotification.Nature,
+		Nature:    enabledNotification.Nature.String(),
 		Channel:   enabledNotification.Channel,
 		IsEnabled: enabledNotification.IsEnabled,
 	}, nil

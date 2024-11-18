@@ -1,6 +1,6 @@
 # \WayCollectionWayAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateWayCollectionWay
 
-> SchemasWayCollectionWayResponse CreateWayCollectionWay(ctx).Request(request).Execute()
+> MwServerInternalSchemasWayCollectionWayResponse CreateWayCollectionWay(ctx).Request(request).Execute()
 
 Create a new wayCollectionWay
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewSchemasCreateWayCollectionWay("WayCollectionUuid_example", "WayUuid_example") // SchemasCreateWayCollectionWay | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateWayCollectionWay("WayCollectionUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateWayCollectionWay | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `WayCollectionWayAPI.CreateWayCollectionWay``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateWayCollectionWay`: SchemasWayCollectionWayResponse
+	// response from `CreateWayCollectionWay`: MwServerInternalSchemasWayCollectionWayResponse
 	fmt.Fprintf(os.Stdout, "Response from `WayCollectionWayAPI.CreateWayCollectionWay`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateWayCollectionWayRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**SchemasCreateWayCollectionWay**](SchemasCreateWayCollectionWay.md) | query params | 
+ **request** | [**MwServerInternalSchemasCreateWayCollectionWay**](MwServerInternalSchemasCreateWayCollectionWay.md) | query params | 
 
 ### Return type
 
-[**SchemasWayCollectionWayResponse**](SchemasWayCollectionWayResponse.md)
+[**MwServerInternalSchemasWayCollectionWayResponse**](MwServerInternalSchemasWayCollectionWayResponse.md)
 
 ### Authorization
 

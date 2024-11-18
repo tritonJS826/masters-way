@@ -27,11 +27,11 @@ type FavoriteUserWayAPIService service
 type ApiCreateFavoriteUserWayRequest struct {
 	ctx context.Context
 	ApiService *FavoriteUserWayAPIService
-	request *SchemasCreateFavoriteUserWayPayload
+	request *MwServerInternalSchemasCreateFavoriteUserWayPayload
 }
 
 // query params
-func (r ApiCreateFavoriteUserWayRequest) Request(request SchemasCreateFavoriteUserWayPayload) ApiCreateFavoriteUserWayRequest {
+func (r ApiCreateFavoriteUserWayRequest) Request(request MwServerInternalSchemasCreateFavoriteUserWayPayload) ApiCreateFavoriteUserWayRequest {
 	r.request = &request
 	return r
 }

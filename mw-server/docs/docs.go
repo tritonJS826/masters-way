@@ -32,7 +32,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UserPopulatedResponse"
                         }
                     }
                 }
@@ -56,7 +56,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GoogleToken"
+                            "$ref": "#/definitions/mw-server_internal_schemas.GoogleToken"
                         }
                     }
                 }
@@ -86,8 +86,11 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "304": {
-                        "description": "redirect"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.GetUserTokenByEmailResponse"
+                        }
                     }
                 }
             }
@@ -144,8 +147,11 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "307": {
-                        "description": "Temporary Redirect"
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.BeginAuthResponse"
+                        }
                     }
                 }
             }
@@ -166,6 +172,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "code param",
+                        "name": "code",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "state parameter",
                         "name": "state",
                         "in": "query",
@@ -180,10 +193,10 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "302": {
+                    "200": {
                         "description": "Redirect to frontend with JWT token",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/mw-server_internal_schemas.GetAuthCallbackFunctionResponse"
                         }
                     }
                 }
@@ -209,7 +222,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateCommentPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateCommentPayload"
                         }
                     }
                 ],
@@ -217,13 +230,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CommentPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create comment.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -258,7 +271,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to delete comment.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -282,7 +295,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateCommentPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateCommentPayload"
                         }
                     },
                     {
@@ -297,13 +310,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CommentPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update comment.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -329,7 +342,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AddWayToCompositeWayPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AddWayToCompositeWayPayload"
                         }
                     }
                 ],
@@ -337,7 +350,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CompositeWayRelation"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CompositeWayRelation"
                         }
                     }
                 }
@@ -399,7 +412,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateDayReportPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateDayReportPayload"
                         }
                     }
                 ],
@@ -407,7 +420,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CompositeDayReportPopulatedResponse"
                         }
                     }
                 }
@@ -451,7 +464,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ListDayReportsResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.ListDayReportsResponse"
                         }
                     }
                 }
@@ -491,7 +504,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateFavoriteUserWayPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateFavoriteUserWayPayload"
                         }
                     }
                 ],
@@ -558,7 +571,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateFavoriteUserPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateFavoriteUserPayload"
                         }
                     }
                 ],
@@ -625,7 +638,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateFromUserMentoringRequestPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateFromUserMentoringRequestPayload"
                         }
                     }
                 ],
@@ -633,7 +646,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.FromUserMentoringRequestResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.FromUserMentoringRequestResponse"
                         }
                     }
                 }
@@ -696,7 +709,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AICommentIssuePayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AICommentIssuePayload"
                         }
                     }
                 ],
@@ -704,7 +717,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AICommentIssueResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AICommentIssueResponse"
                         }
                     }
                 }
@@ -731,7 +744,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIDecomposeIssuePayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIDecomposeIssuePayload"
                         }
                     }
                 ],
@@ -739,7 +752,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIDecomposeIssueResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIDecomposeIssueResponse"
                         }
                     }
                 }
@@ -766,7 +779,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIEstimateIssuePayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIEstimateIssuePayload"
                         }
                     }
                 ],
@@ -774,7 +787,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIEstimateIssueResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIEstimateIssueResponse"
                         }
                     }
                 }
@@ -801,7 +814,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePlansByMetricPayload"
                         }
                     }
                 ],
@@ -809,7 +822,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIGeneratePlansByMetricResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePlansByMetricResponse"
                         }
                     }
                 }
@@ -836,7 +849,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIChatPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIChatPayload"
                         }
                     }
                 ],
@@ -844,7 +857,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.AIChatResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIChatResponse"
                         }
                     }
                 }
@@ -871,7 +884,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.GenerateMetricsPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.GenerateMetricsPayload"
                         }
                     }
                 ],
@@ -879,7 +892,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GenerateMetricsResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.GenerateMetricsResponse"
                         }
                     }
                 }
@@ -898,6 +911,7 @@ const docTemplate = `{
                     "Health"
                 ],
                 "summary": "Health Check",
+                "operationId": "general-health-check",
                 "responses": {
                     "204": {
                         "description": "No Content"
@@ -925,7 +939,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobDoneJobTagPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateJobDoneJobTagPayload"
                         }
                     }
                 ],
@@ -992,7 +1006,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobDonePayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateJobDonePayload"
                         }
                     }
                 ],
@@ -1000,13 +1014,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create job done.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1041,7 +1055,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to delete job done.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1065,7 +1079,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateJobDone"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateJobDone"
                         }
                     },
                     {
@@ -1080,13 +1094,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update job done.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1112,7 +1126,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateJobTagPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateJobTagPayload"
                         }
                     }
                 ],
@@ -1120,7 +1134,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobTagResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.JobTagResponse"
                         }
                     }
                 }
@@ -1173,7 +1187,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateJobTagPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateJobTagPayload"
                         }
                     },
                     {
@@ -1188,7 +1202,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.JobTagResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.JobTagResponse"
                         }
                     }
                 }
@@ -1215,7 +1229,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMentorUserWayPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateMentorUserWayPayload"
                         }
                     }
                 ],
@@ -1244,7 +1258,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.DeleteMentorUserWayPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.DeleteMentorUserWayPayload"
                         }
                     }
                 ],
@@ -1275,7 +1289,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateMetricPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateMetricPayload"
                         }
                     }
                 ],
@@ -1283,7 +1297,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MetricResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.MetricResponse"
                         }
                     }
                 }
@@ -1336,7 +1350,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateMetricPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateMetricPayload"
                         }
                     },
                     {
@@ -1351,7 +1365,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.MetricResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.MetricResponse"
                         }
                     }
                 }
@@ -1377,7 +1391,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreatePlanJobTagPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreatePlanJobTagPayload"
                         }
                     }
                 ],
@@ -1444,7 +1458,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreatePlanPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreatePlanPayload"
                         }
                     }
                 ],
@@ -1452,13 +1466,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.PlanPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create plan.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1493,7 +1507,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to delete plan.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1517,7 +1531,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdatePlanPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdatePlanPayload"
                         }
                     },
                     {
@@ -1532,13 +1546,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.PlanPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update plan.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1564,7 +1578,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateProblemPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateProblemPayload"
                         }
                     }
                 ],
@@ -1572,13 +1586,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.ProblemPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to create problem.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1613,7 +1627,7 @@ const docTemplate = `{
                     "403": {
                         "description": "User doesn't have rights to delete problem.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1637,7 +1651,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateProblemPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateProblemPayload"
                         }
                     },
                     {
@@ -1652,13 +1666,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.ProblemPopulatedResponse"
                         }
                     },
                     "403": {
                         "description": "User doesn't have rights to update problem.",
                         "schema": {
-                            "$ref": "#/definitions/customErrors.NoRightToChangeDayReportError"
+                            "$ref": "#/definitions/mw-server_internal_customErrors.NoRightToChangeDayReportError"
                         }
                     }
                 }
@@ -1684,7 +1698,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateProjectPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateProjectPayload"
                         }
                     }
                 ],
@@ -1692,7 +1706,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1724,7 +1738,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1775,7 +1789,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateProjectPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateProjectPayload"
                         }
                     },
                     {
@@ -1790,7 +1804,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ProjectPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.ProjectPopulatedResponse"
                         }
                     }
                 }
@@ -1816,7 +1830,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateToUserMentoringRequestPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateToUserMentoringRequestPayload"
                         }
                     }
                 ],
@@ -1824,7 +1838,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.ToUserMentoringRequestResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.ToUserMentoringRequestResponse"
                         }
                     }
                 }
@@ -1886,7 +1900,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserProjectPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateUserProjectPayload"
                         }
                     }
                 ],
@@ -1953,7 +1967,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateUserTagPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateUserTagPayload"
                         }
                     }
                 ],
@@ -1961,7 +1975,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserTagResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UserTagResponse"
                         }
                     }
                 }
@@ -2053,7 +2067,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetAllUsersResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.GetAllUsersResponse"
                         }
                     }
                 }
@@ -2092,7 +2106,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/schemas.GetUsersByIDsResponse"
+                                "$ref": "#/definitions/mw-server_internal_schemas.GetUsersByIDsResponse"
                             }
                         }
                     }
@@ -2125,7 +2139,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UserPopulatedResponse"
                         }
                     }
                 }
@@ -2149,7 +2163,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateUserPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateUserPayload"
                         }
                     },
                     {
@@ -2164,7 +2178,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.UserPlainResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                         }
                     }
                 }
@@ -2190,7 +2204,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayCollectionWay"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateWayCollectionWay"
                         }
                     }
                 ],
@@ -2198,7 +2212,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayCollectionWayResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionWayResponse"
                         }
                     }
                 }
@@ -2260,7 +2274,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayCollectionPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateWayCollectionPayload"
                         }
                     }
                 ],
@@ -2268,7 +2282,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse"
                         }
                     }
                 }
@@ -2321,7 +2335,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateWayCollectionPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateWayCollectionPayload"
                         }
                     },
                     {
@@ -2336,7 +2350,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayCollectionPlainResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionPlainResponse"
                         }
                     }
                 }
@@ -2362,7 +2376,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayTagPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateWayTagPayload"
                         }
                     }
                 ],
@@ -2370,7 +2384,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayTagResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayTagResponse"
                         }
                     }
                 }
@@ -2462,7 +2476,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetAllWaysResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.GetAllWaysResponse"
                         }
                     }
                 }
@@ -2486,7 +2500,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.CreateWayPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.CreateWayPayload"
                         }
                     }
                 ],
@@ -2494,7 +2508,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPlainResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                         }
                     }
                 }
@@ -2526,7 +2540,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayPopulatedResponse"
                         }
                     }
                 }
@@ -2577,7 +2591,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateWayPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateWayPayload"
                         }
                     },
                     {
@@ -2592,7 +2606,39 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayPlainResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ways/{wayId}/notification": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "way"
+                ],
+                "summary": "Get way plain for notification by UUID",
+                "operationId": "get-way-plain-for-notification-by-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "way ID",
+                        "name": "wayId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayPlainForNotificationResponse"
                         }
                     }
                 }
@@ -2624,7 +2670,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.WayStatisticsTriplePeriod"
+                            "$ref": "#/definitions/mw-server_internal_schemas.WayStatisticsTriplePeriod"
                         }
                     }
                 }
@@ -2632,7 +2678,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "customErrors.NoRightToChangeDayReportError": {
+        "mw-server_internal_customErrors.NoRightToChangeDayReportError": {
             "type": "object",
             "required": [
                 "error",
@@ -2647,7 +2693,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIChatPayload": {
+        "mw-server_internal_schemas.AIChatPayload": {
             "type": "object",
             "required": [
                 "message"
@@ -2658,7 +2704,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIChatResponse": {
+        "mw-server_internal_schemas.AIChatResponse": {
             "type": "object",
             "required": [
                 "message"
@@ -2669,7 +2715,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AICommentIssuePayload": {
+        "mw-server_internal_schemas.AICommentIssuePayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2684,7 +2730,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AICommentIssueResponse": {
+        "mw-server_internal_schemas.AICommentIssueResponse": {
             "type": "object",
             "required": [
                 "goal"
@@ -2695,7 +2741,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIDecomposeIssuePayload": {
+        "mw-server_internal_schemas.AIDecomposeIssuePayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2710,7 +2756,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIDecomposeIssueResponse": {
+        "mw-server_internal_schemas.AIDecomposeIssueResponse": {
             "type": "object",
             "required": [
                 "plans"
@@ -2724,7 +2770,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIEstimateIssuePayload": {
+        "mw-server_internal_schemas.AIEstimateIssuePayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2739,7 +2785,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIEstimateIssueResponse": {
+        "mw-server_internal_schemas.AIEstimateIssueResponse": {
             "type": "object",
             "required": [
                 "estimation"
@@ -2750,7 +2796,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIGeneratePlansByMetricPayload": {
+        "mw-server_internal_schemas.AIGeneratePlansByMetricPayload": {
             "type": "object",
             "required": [
                 "goal",
@@ -2765,7 +2811,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AIGeneratePlansByMetricResponse": {
+        "mw-server_internal_schemas.AIGeneratePlansByMetricResponse": {
             "type": "object",
             "required": [
                 "plans"
@@ -2779,7 +2825,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.AddWayToCompositeWayPayload": {
+        "mw-server_internal_schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
                 "childWayUuid",
@@ -2794,7 +2840,18 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CommentPopulatedResponse": {
+        "mw-server_internal_schemas.BeginAuthResponse": {
+            "type": "object",
+            "required": [
+                "url"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.CommentPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -2837,7 +2894,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CompositeDayReportPopulatedResponse": {
+        "mw-server_internal_schemas.CompositeDayReportPopulatedResponse": {
             "type": "object",
             "required": [
                 "comments",
@@ -2853,13 +2910,13 @@ const docTemplate = `{
                 "comments": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.CommentPopulatedResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.CommentPopulatedResponse"
                     }
                 },
                 "compositionParticipants": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.DayReportsCompositionParticipants"
+                        "$ref": "#/definitions/mw-server_internal_schemas.DayReportsCompositionParticipants"
                     }
                 },
                 "createdAt": {
@@ -2869,19 +2926,19 @@ const docTemplate = `{
                 "jobsDone": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobDonePopulatedResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.JobDonePopulatedResponse"
                     }
                 },
                 "plans": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.PlanPopulatedResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.PlanPopulatedResponse"
                     }
                 },
                 "problems": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.ProblemPopulatedResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.ProblemPopulatedResponse"
                     }
                 },
                 "updatedAt": {
@@ -2894,7 +2951,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CompositeWayRelation": {
+        "mw-server_internal_schemas.CompositeWayRelation": {
             "type": "object",
             "required": [
                 "childWayUuid",
@@ -2909,7 +2966,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateCommentPayload": {
+        "mw-server_internal_schemas.CreateCommentPayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -2928,7 +2985,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateDayReportPayload": {
+        "mw-server_internal_schemas.CreateDayReportPayload": {
             "type": "object",
             "required": [
                 "wayId"
@@ -2939,7 +2996,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateFavoriteUserPayload": {
+        "mw-server_internal_schemas.CreateFavoriteUserPayload": {
             "type": "object",
             "required": [
                 "acceptorUserUuid",
@@ -2954,7 +3011,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateFavoriteUserWayPayload": {
+        "mw-server_internal_schemas.CreateFavoriteUserWayPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -2969,7 +3026,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateFromUserMentoringRequestPayload": {
+        "mw-server_internal_schemas.CreateFromUserMentoringRequestPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -2984,7 +3041,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateJobDoneJobTagPayload": {
+        "mw-server_internal_schemas.CreateJobDoneJobTagPayload": {
             "type": "object",
             "required": [
                 "jobDoneUuid",
@@ -2999,7 +3056,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateJobDonePayload": {
+        "mw-server_internal_schemas.CreateJobDonePayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -3029,7 +3086,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateJobTagPayload": {
+        "mw-server_internal_schemas.CreateJobTagPayload": {
             "type": "object",
             "required": [
                 "color",
@@ -3052,7 +3109,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateMentorUserWayPayload": {
+        "mw-server_internal_schemas.CreateMentorUserWayPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -3067,7 +3124,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateMetricPayload": {
+        "mw-server_internal_schemas.CreateMetricPayload": {
             "type": "object",
             "required": [
                 "description",
@@ -3094,7 +3151,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreatePlanJobTagPayload": {
+        "mw-server_internal_schemas.CreatePlanJobTagPayload": {
             "type": "object",
             "required": [
                 "jobTagUuid",
@@ -3109,7 +3166,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreatePlanPayload": {
+        "mw-server_internal_schemas.CreatePlanPayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -3136,7 +3193,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateProblemPayload": {
+        "mw-server_internal_schemas.CreateProblemPayload": {
             "type": "object",
             "required": [
                 "dayReportUuid",
@@ -3159,7 +3216,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateProjectPayload": {
+        "mw-server_internal_schemas.CreateProjectPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3174,7 +3231,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateToUserMentoringRequestPayload": {
+        "mw-server_internal_schemas.CreateToUserMentoringRequestPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -3189,7 +3246,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateUserProjectPayload": {
+        "mw-server_internal_schemas.CreateUserProjectPayload": {
             "type": "object",
             "required": [
                 "projectId",
@@ -3204,7 +3261,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateUserTagPayload": {
+        "mw-server_internal_schemas.CreateUserTagPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3219,7 +3276,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateWayCollectionPayload": {
+        "mw-server_internal_schemas.CreateWayCollectionPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3234,7 +3291,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateWayCollectionWay": {
+        "mw-server_internal_schemas.CreateWayCollectionWay": {
             "type": "object",
             "required": [
                 "wayCollectionUuid",
@@ -3249,7 +3306,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateWayPayload": {
+        "mw-server_internal_schemas.CreateWayPayload": {
             "type": "object",
             "required": [
                 "copiedFromWayId",
@@ -3290,7 +3347,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.CreateWayTagPayload": {
+        "mw-server_internal_schemas.CreateWayTagPayload": {
             "type": "object",
             "required": [
                 "name",
@@ -3305,7 +3362,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.DayReportsCompositionParticipants": {
+        "mw-server_internal_schemas.DayReportsCompositionParticipants": {
             "type": "object",
             "required": [
                 "dayReportId",
@@ -3324,7 +3381,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.DefaultWayCollections": {
+        "mw-server_internal_schemas.DefaultWayCollections": {
             "type": "object",
             "required": [
                 "favorite",
@@ -3333,17 +3390,17 @@ const docTemplate = `{
             ],
             "properties": {
                 "favorite": {
-                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse"
                 },
                 "mentoring": {
-                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse"
                 },
                 "own": {
-                    "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                    "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse"
                 }
             }
         },
-        "schemas.DeleteMentorUserWayPayload": {
+        "mw-server_internal_schemas.DeleteMentorUserWayPayload": {
             "type": "object",
             "required": [
                 "userUuid",
@@ -3358,7 +3415,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.FromUserMentoringRequestResponse": {
+        "mw-server_internal_schemas.FromUserMentoringRequestResponse": {
             "type": "object",
             "required": [
                 "userId",
@@ -3373,7 +3430,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GenerateMetricsPayload": {
+        "mw-server_internal_schemas.GenerateMetricsPayload": {
             "type": "object",
             "required": [
                 "goalDescription",
@@ -3395,7 +3452,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GenerateMetricsResponse": {
+        "mw-server_internal_schemas.GenerateMetricsResponse": {
             "type": "object",
             "required": [
                 "metrics"
@@ -3409,7 +3466,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GetAllUsersResponse": {
+        "mw-server_internal_schemas.GetAllUsersResponse": {
             "type": "object",
             "required": [
                 "size",
@@ -3422,12 +3479,12 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponseWithInfo"
                     }
                 }
             }
         },
-        "schemas.GetAllWaysResponse": {
+        "mw-server_internal_schemas.GetAllWaysResponse": {
             "type": "object",
             "required": [
                 "size",
@@ -3440,12 +3497,42 @@ const docTemplate = `{
                 "ways": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.GetUsersByIDsResponse": {
+        "mw-server_internal_schemas.GetAuthCallbackFunctionResponse": {
+            "type": "object",
+            "required": [
+                "url",
+                "userUuid"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.GetUserTokenByEmailResponse": {
+            "type": "object",
+            "required": [
+                "url",
+                "userUuid"
+            ],
+            "properties": {
+                "url": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.GetUsersByIDsResponse": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -3464,7 +3551,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.GoogleToken": {
+        "mw-server_internal_schemas.GoogleToken": {
             "type": "object",
             "required": [
                 "accessToken"
@@ -3475,7 +3562,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.JobDonePopulatedResponse": {
+        "mw-server_internal_schemas.JobDonePopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -3509,7 +3596,7 @@ const docTemplate = `{
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.JobTagResponse"
                     }
                 },
                 "time": {
@@ -3529,7 +3616,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.JobTagResponse": {
+        "mw-server_internal_schemas.JobTagResponse": {
             "type": "object",
             "required": [
                 "color",
@@ -3552,7 +3639,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.Label": {
+        "mw-server_internal_schemas.Label": {
             "type": "object",
             "required": [
                 "color",
@@ -3575,7 +3662,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.LabelInfo": {
+        "mw-server_internal_schemas.LabelInfo": {
             "type": "object",
             "required": [
                 "jobsAmount",
@@ -3592,7 +3679,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "label": {
-                    "$ref": "#/definitions/schemas.Label"
+                    "$ref": "#/definitions/mw-server_internal_schemas.Label"
                 },
                 "time": {
                     "type": "integer"
@@ -3602,7 +3689,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.LabelStatistics": {
+        "mw-server_internal_schemas.LabelStatistics": {
             "type": "object",
             "required": [
                 "labels"
@@ -3611,12 +3698,12 @@ const docTemplate = `{
                 "labels": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.LabelInfo"
+                        "$ref": "#/definitions/mw-server_internal_schemas.LabelInfo"
                     }
                 }
             }
         },
-        "schemas.ListDayReportsResponse": {
+        "mw-server_internal_schemas.ListDayReportsResponse": {
             "type": "object",
             "required": [
                 "dayReports",
@@ -3626,7 +3713,7 @@ const docTemplate = `{
                 "dayReports": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.CompositeDayReportPopulatedResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.CompositeDayReportPopulatedResponse"
                     }
                 },
                 "size": {
@@ -3634,7 +3721,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MetricResponse": {
+        "mw-server_internal_schemas.MetricResponse": {
             "type": "object",
             "required": [
                 "description",
@@ -3662,7 +3749,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.OverallInformation": {
+        "mw-server_internal_schemas.OverallInformation": {
             "type": "object",
             "required": [
                 "averageJobTime",
@@ -3693,7 +3780,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.PlanPopulatedResponse": {
+        "mw-server_internal_schemas.PlanPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -3731,7 +3818,7 @@ const docTemplate = `{
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.JobTagResponse"
                     }
                 },
                 "time": {
@@ -3751,7 +3838,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.ProblemPopulatedResponse": {
+        "mw-server_internal_schemas.ProblemPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -3798,7 +3885,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.ProjectPlainResponse": {
+        "mw-server_internal_schemas.ProjectPlainResponse": {
             "type": "object",
             "required": [
                 "id",
@@ -3824,7 +3911,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.ProjectPopulatedResponse": {
+        "mw-server_internal_schemas.ProjectPopulatedResponse": {
             "type": "object",
             "required": [
                 "id",
@@ -3850,18 +3937,18 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponseWithInfo"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponseWithInfo"
                     }
                 },
                 "ways": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.TimeSpentByDayPoint": {
+        "mw-server_internal_schemas.TimeSpentByDayPoint": {
             "type": "object",
             "required": [
                 "date",
@@ -3876,7 +3963,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.ToUserMentoringRequestResponse": {
+        "mw-server_internal_schemas.ToUserMentoringRequestResponse": {
             "type": "object",
             "required": [
                 "userId",
@@ -3891,7 +3978,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateCommentPayload": {
+        "mw-server_internal_schemas.UpdateCommentPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3899,7 +3986,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateJobDone": {
+        "mw-server_internal_schemas.UpdateJobDone": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3910,7 +3997,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateJobTagPayload": {
+        "mw-server_internal_schemas.UpdateJobTagPayload": {
             "type": "object",
             "properties": {
                 "color": {
@@ -3924,7 +4011,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateMetricPayload": {
+        "mw-server_internal_schemas.UpdateMetricPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3938,7 +4025,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdatePlanPayload": {
+        "mw-server_internal_schemas.UpdatePlanPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3952,7 +4039,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateProblemPayload": {
+        "mw-server_internal_schemas.UpdateProblemPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3963,7 +4050,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateProjectPayload": {
+        "mw-server_internal_schemas.UpdateProjectPayload": {
             "type": "object",
             "properties": {
                 "isPrivate": {
@@ -3974,7 +4061,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateUserPayload": {
+        "mw-server_internal_schemas.UpdateUserPayload": {
             "type": "object",
             "properties": {
                 "description": {
@@ -3991,7 +4078,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateWayCollectionPayload": {
+        "mw-server_internal_schemas.UpdateWayCollectionPayload": {
             "type": "object",
             "properties": {
                 "name": {
@@ -3999,7 +4086,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UpdateWayPayload": {
+        "mw-server_internal_schemas.UpdateWayPayload": {
             "type": "object",
             "properties": {
                 "estimationTime": {
@@ -4019,7 +4106,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserPlainResponse": {
+        "mw-server_internal_schemas.UserPlainResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4054,7 +4141,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserPlainResponseWithInfo": {
+        "mw-server_internal_schemas.UserPlainResponseWithInfo": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4104,7 +4191,7 @@ const docTemplate = `{
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserTagResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserTagResponse"
                     }
                 },
                 "uuid": {
@@ -4112,7 +4199,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserPopulatedResponse": {
+        "mw-server_internal_schemas.UserPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4137,11 +4224,11 @@ const docTemplate = `{
                 "customWayCollections": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayCollectionPopulatedResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayCollectionPopulatedResponse"
                     }
                 },
                 "defaultWayCollections": {
-                    "$ref": "#/definitions/schemas.DefaultWayCollections"
+                    "$ref": "#/definitions/mw-server_internal_schemas.DefaultWayCollections"
                 },
                 "description": {
                     "type": "string"
@@ -4158,7 +4245,7 @@ const docTemplate = `{
                 "favoriteUsers": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                     }
                 },
                 "imageUrl": {
@@ -4173,13 +4260,13 @@ const docTemplate = `{
                 "projects": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.ProjectPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.ProjectPlainResponse"
                     }
                 },
                 "tags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserTagResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserTagResponse"
                     }
                 },
                 "uuid": {
@@ -4188,12 +4275,12 @@ const docTemplate = `{
                 "wayRequests": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.UserTagResponse": {
+        "mw-server_internal_schemas.UserTagResponse": {
             "type": "object",
             "required": [
                 "name",
@@ -4208,7 +4295,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.WayCollectionPlainResponse": {
+        "mw-server_internal_schemas.WayCollectionPlainResponse": {
             "type": "object",
             "required": [
                 "name",
@@ -4223,7 +4310,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.WayCollectionPopulatedResponse": {
+        "mw-server_internal_schemas.WayCollectionPopulatedResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -4257,12 +4344,12 @@ const docTemplate = `{
                 "ways": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                     }
                 }
             }
         },
-        "schemas.WayCollectionWayResponse": {
+        "mw-server_internal_schemas.WayCollectionWayResponse": {
             "type": "object",
             "required": [
                 "wayCollectionId",
@@ -4277,7 +4364,33 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.WayPlainResponse": {
+        "mw-server_internal_schemas.WayPlainForNotificationResponse": {
+            "type": "object",
+            "required": [
+                "mentors",
+                "name",
+                "owner",
+                "uuid"
+            ],
+            "properties": {
+                "mentors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.WayPlainResponse": {
             "type": "object",
             "required": [
                 "childrenUuids",
@@ -4334,7 +4447,7 @@ const docTemplate = `{
                 "mentors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                     }
                 },
                 "metricsDone": {
@@ -4347,7 +4460,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "owner": {
-                    "$ref": "#/definitions/schemas.UserPlainResponse"
+                    "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                 },
                 "projectUuid": {
                     "type": "string",
@@ -4362,12 +4475,12 @@ const docTemplate = `{
                 "wayTags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayTagResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayTagResponse"
                     }
                 }
             }
         },
-        "schemas.WayPopulatedResponse": {
+        "mw-server_internal_schemas.WayPopulatedResponse": {
             "type": "object",
             "required": [
                 "children",
@@ -4394,7 +4507,7 @@ const docTemplate = `{
                 "children": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayPopulatedResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayPopulatedResponse"
                     }
                 },
                 "copiedFromWayUuid": {
@@ -4413,7 +4526,7 @@ const docTemplate = `{
                 "formerMentors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                     }
                 },
                 "goalDescription": {
@@ -4428,32 +4541,32 @@ const docTemplate = `{
                 "jobTags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.JobTagResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.JobTagResponse"
                     }
                 },
                 "mentorRequests": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                     }
                 },
                 "mentors": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserPlainResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                     }
                 },
                 "metrics": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MetricResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.MetricResponse"
                     }
                 },
                 "name": {
                     "type": "string"
                 },
                 "owner": {
-                    "$ref": "#/definitions/schemas.UserPlainResponse"
+                    "$ref": "#/definitions/mw-server_internal_schemas.UserPlainResponse"
                 },
                 "projectUuid": {
                     "type": "string",
@@ -4468,12 +4581,12 @@ const docTemplate = `{
                 "wayTags": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.WayTagResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.WayTagResponse"
                     }
                 }
             }
         },
-        "schemas.WayStatistics": {
+        "mw-server_internal_schemas.WayStatistics": {
             "type": "object",
             "required": [
                 "labelStatistics",
@@ -4482,20 +4595,20 @@ const docTemplate = `{
             ],
             "properties": {
                 "labelStatistics": {
-                    "$ref": "#/definitions/schemas.LabelStatistics"
+                    "$ref": "#/definitions/mw-server_internal_schemas.LabelStatistics"
                 },
                 "overallInformation": {
-                    "$ref": "#/definitions/schemas.OverallInformation"
+                    "$ref": "#/definitions/mw-server_internal_schemas.OverallInformation"
                 },
                 "timeSpentByDayChart": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.TimeSpentByDayPoint"
+                        "$ref": "#/definitions/mw-server_internal_schemas.TimeSpentByDayPoint"
                     }
                 }
             }
         },
-        "schemas.WayStatisticsTriplePeriod": {
+        "mw-server_internal_schemas.WayStatisticsTriplePeriod": {
             "type": "object",
             "required": [
                 "lastMonth",
@@ -4504,17 +4617,17 @@ const docTemplate = `{
             ],
             "properties": {
                 "lastMonth": {
-                    "$ref": "#/definitions/schemas.WayStatistics"
+                    "$ref": "#/definitions/mw-server_internal_schemas.WayStatistics"
                 },
                 "lastWeek": {
-                    "$ref": "#/definitions/schemas.WayStatistics"
+                    "$ref": "#/definitions/mw-server_internal_schemas.WayStatistics"
                 },
                 "totalTime": {
-                    "$ref": "#/definitions/schemas.WayStatistics"
+                    "$ref": "#/definitions/mw-server_internal_schemas.WayStatistics"
                 }
             }
         },
-        "schemas.WayTagResponse": {
+        "mw-server_internal_schemas.WayTagResponse": {
             "type": "object",
             "required": [
                 "name",
@@ -4536,7 +4649,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/api",
+	BasePath:         "/general",
 	Schemes:          []string{},
 	Title:            "Masters way general API",
 	Description:      "",

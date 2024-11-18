@@ -2,7 +2,7 @@ import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {Theme, themedVariables} from "src/globalStore/ThemeStore";
 
-const apiUrl = Cypress.env('API_BASE_PATH');
+const apiDevGeneralResetDb = Cypress.env('API_DEV_GENERAL_RESET_DB');
 
 // ***********************************************
 // This example commands.ts shows you how to
@@ -88,8 +88,8 @@ Cypress.Commands.add('logout', () => {
   navigationMenuSelectors.getLogoutButton().click();
 });
 
-Cypress.Commands.add('resetDb', () => {
-  cy.request('GET', `${apiUrl}/dev/reset-db`);
+Cypress.Commands.add('resetGeneralDb', () => {
+  cy.request('GET', apiDevGeneralResetDb);
 });
 
 Cypress.Commands.add("getFirstLetters", (str: any) => {

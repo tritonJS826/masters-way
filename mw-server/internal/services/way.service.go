@@ -2,9 +2,9 @@ package services
 
 import (
 	"context"
-	db "mwserver/internal/db/sqlc"
-	"mwserver/internal/schemas"
-	"mwserver/pkg/util"
+	db "mw-server/internal/db/sqlc"
+	"mw-server/internal/schemas"
+	"mw-server/pkg/util"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -30,6 +30,7 @@ type IWayRepository interface {
 	GetUserByID(ctx context.Context, userUuid pgtype.UUID) (db.User, error)
 	GetWayById(ctx context.Context, wayUuid pgtype.UUID) (db.GetWayByIdRow, error)
 	GetWayChildren(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
+	GetWayPlainForNotification(ctx context.Context, wayUuid pgtype.UUID) (db.GetWayPlainForNotificationRow, error)
 	ListWays(ctx context.Context, arg db.ListWaysParams) ([]db.ListWaysRow, error)
 	UpdateWay(ctx context.Context, arg db.UpdateWayParams) (db.UpdateWayRow, error)
 	IsAllMetricsDone(ctx context.Context, wayUuid pgtype.UUID) (bool, error)
@@ -237,24 +238,24 @@ func (ws *WayService) GetPlainWayById(ctx context.Context, wayUUID uuid.UUID) (*
 	})
 
 	return &schemas.WayPlainResponse{
-		Uuid:              util.ConvertPgUUIDToUUID(way.Uuid).String(),
-		Name:              way.Name,
-		GoalDescription:   way.GoalDescription,
-		UpdatedAt:         way.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		CreatedAt:         way.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
-		EstimationTime:    way.EstimationTime,
-		IsCompleted:       way.IsCompleted,
-		Owner:             owner,
-		CopiedFromWayUuid: util.MarshalPgUUID(way.CopiedFromWayUuid),
-		ProjectUuid:       util.MarshalPgUUID(way.ProjectUuid),
-		IsPrivate:         way.IsPrivate,
-		FavoriteForUsers:  int32(way.WayFavoriteForUsers),
-		DayReportsAmount:  int32(way.WayDayReportsAmount),
-		Mentors:           mentors,
-		WayTags:           wayTags,
-		MetricsDone:       int32(way.WayMetricsDone),
-		MetricsTotal:      int32(way.WayMetricsTotal),
-		ChildrenUuids:     way.ChildrenUuids,
+		Uuid:                   util.ConvertPgUUIDToUUID(way.Uuid).String(),
+		Name:                   way.Name,
+		GoalDescription:        way.GoalDescription,
+		UpdatedAt:              way.UpdatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		CreatedAt:              way.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+		EstimationTime:         way.EstimationTime,
+		IsCompleted:            way.IsCompleted,
+		Owner:                  owner,
+		CopiedFromWayUuid:      util.MarshalPgUUID(way.CopiedFromWayUuid),
+		ProjectUuid:            util.MarshalPgUUID(way.ProjectUuid),
+		IsPrivate:              way.IsPrivate,
+		FavoriteForUsersAmount: int32(way.WayFavoriteForUsers),
+		DayReportsAmount:       int32(way.WayDayReportsAmount),
+		Mentors:                mentors,
+		WayTags:                wayTags,
+		MetricsDone:            int32(way.WayMetricsDone),
+		MetricsTotal:           int32(way.WayMetricsTotal),
+		ChildrenUuids:          way.ChildrenUuids,
 	}, nil
 }
 
@@ -469,4 +470,45 @@ func (ws *WayService) GetNestedWayIDs(ctx context.Context, parentWayUUID pgtype.
 	}
 
 	return children, nil
+}
+
+func (ws *WayService) GetWayPlainForNotificationById(ctx context.Context, wayUUID uuid.UUID) (*schemas.WayPlainForNotificationResponse, error) {
+	wayPgUUID := pgtype.UUID{Bytes: wayUUID, Valid: true}
+
+	mentorsRaw, err := ws.wayRepository.GetMentorUsersByWayId(ctx, wayPgUUID)
+	if err != nil {
+		return nil, err
+	}
+
+	mentors := lo.Map(mentorsRaw, func(user db.User, _ int) schemas.UserPlainResponse {
+		return schemas.UserPlainResponse{
+			Uuid:        util.ConvertPgUUIDToUUID(user.Uuid).String(),
+			Name:        user.Name,
+			Email:       user.Email,
+			Description: user.Description,
+			CreatedAt:   user.CreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+			ImageUrl:    user.ImageUrl,
+			IsMentor:    user.IsMentor,
+		}
+	})
+
+	way, err := ws.wayRepository.GetWayPlainForNotification(ctx, wayPgUUID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &schemas.WayPlainForNotificationResponse{
+		Uuid: util.ConvertPgUUIDToUUID(way.Uuid).String(),
+		Name: way.Name,
+		Owner: schemas.UserPlainResponse{
+			Uuid:        util.ConvertPgUUIDToUUID(way.OwnerUuid).String(),
+			Name:        way.OwnerName,
+			Email:       way.OwnerEmail,
+			Description: way.OwnerDescription,
+			CreatedAt:   way.OwnerCreatedAt.Time.Format(util.DEFAULT_STRING_LAYOUT),
+			ImageUrl:    way.OwnerImageUrl,
+			IsMentor:    way.OwnerIsMentor,
+		},
+		Mentors: mentors,
+	}, nil
 }

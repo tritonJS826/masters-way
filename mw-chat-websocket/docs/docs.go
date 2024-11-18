@@ -35,7 +35,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.SendMessagePayload"
+                            "$ref": "#/definitions/mw-chat-websocket_internal_schemas.SendMessagePayload"
                         }
                     }
                 ],
@@ -66,7 +66,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-websocket_internal_schemas.RoomPopulatedResponse"
                         }
                     }
                 ],
@@ -108,7 +108,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.MessageReader": {
+        "mw-chat-websocket_internal_schemas.MessageReader": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -131,7 +131,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.MessageResponse": {
+        "mw-chat-websocket_internal_schemas.MessageResponse": {
             "type": "object",
             "required": [
                 "message",
@@ -152,7 +152,7 @@ const docTemplate = `{
                 "messageReaders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageReader"
+                        "$ref": "#/definitions/mw-chat-websocket_internal_schemas.MessageReader"
                     }
                 },
                 "ownerId": {
@@ -169,7 +169,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.RoomPopulatedResponse": {
+        "mw-chat-websocket_internal_schemas.RoomPopulatedResponse": {
             "type": "object",
             "required": [
                 "imageUrl",
@@ -186,7 +186,7 @@ const docTemplate = `{
                 "messages": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.MessageResponse"
+                        "$ref": "#/definitions/mw-chat-websocket_internal_schemas.MessageResponse"
                     }
                 },
                 "name": {
@@ -201,12 +201,12 @@ const docTemplate = `{
                 "users": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.UserResponse"
+                        "$ref": "#/definitions/mw-chat-websocket_internal_schemas.UserResponse"
                     }
                 }
             }
         },
-        "schemas.SendMessagePayload": {
+        "mw-chat-websocket_internal_schemas.SendMessagePayload": {
             "type": "object",
             "required": [
                 "message",
@@ -214,7 +214,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "message": {
-                    "$ref": "#/definitions/schemas.MessageResponse"
+                    "$ref": "#/definitions/mw-chat-websocket_internal_schemas.MessageResponse"
                 },
                 "users": {
                     "type": "array",
@@ -224,7 +224,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.UserResponse": {
+        "mw-chat-websocket_internal_schemas.UserResponse": {
             "type": "object",
             "required": [
                 "imageUrl",

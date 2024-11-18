@@ -27,16 +27,16 @@ type ToUserMentoringRequestAPIService service
 type ApiCreateUserMentoringRequestRequest struct {
 	ctx context.Context
 	ApiService *ToUserMentoringRequestAPIService
-	request *SchemasCreateToUserMentoringRequestPayload
+	request *MwServerInternalSchemasCreateToUserMentoringRequestPayload
 }
 
 // query params
-func (r ApiCreateUserMentoringRequestRequest) Request(request SchemasCreateToUserMentoringRequestPayload) ApiCreateUserMentoringRequestRequest {
+func (r ApiCreateUserMentoringRequestRequest) Request(request MwServerInternalSchemasCreateToUserMentoringRequestPayload) ApiCreateUserMentoringRequestRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateUserMentoringRequestRequest) Execute() (*SchemasToUserMentoringRequestResponse, *http.Response, error) {
+func (r ApiCreateUserMentoringRequestRequest) Execute() (*MwServerInternalSchemasToUserMentoringRequestResponse, *http.Response, error) {
 	return r.ApiService.CreateUserMentoringRequestExecute(r)
 }
 
@@ -54,13 +54,13 @@ func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequest(ctx contex
 }
 
 // Execute executes the request
-//  @return SchemasToUserMentoringRequestResponse
-func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r ApiCreateUserMentoringRequestRequest) (*SchemasToUserMentoringRequestResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasToUserMentoringRequestResponse
+func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r ApiCreateUserMentoringRequestRequest) (*MwServerInternalSchemasToUserMentoringRequestResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasToUserMentoringRequestResponse
+		localVarReturnValue  *MwServerInternalSchemasToUserMentoringRequestResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ToUserMentoringRequestAPIService.CreateUserMentoringRequest")
@@ -134,11 +134,11 @@ func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestExecute(r A
 }
 
 // Execute executes the request
-//  @return SchemasToUserMentoringRequestResponseStream
-func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestStreamExecute(r ApiCreateUserMentoringRequestRequest, request *http.Request, GoogleAccessToken string) (*SchemasToUserMentoringRequestResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasToUserMentoringRequestResponseStream
+func (a *ToUserMentoringRequestAPIService) CreateUserMentoringRequestStreamExecute(r ApiCreateUserMentoringRequestRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasToUserMentoringRequestResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasToUserMentoringRequestResponse
+		localVarReturnValue  *MwServerInternalSchemasToUserMentoringRequestResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ToUserMentoringRequestAPIService.CreateUserMentoringRequest")

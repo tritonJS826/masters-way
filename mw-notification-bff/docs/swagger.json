@@ -24,7 +24,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetEnabledNotificationListResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse"
                         }
                     }
                 }
@@ -50,7 +50,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateEnabledNotificationPayload"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload"
                         }
                     },
                     {
@@ -65,7 +65,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.EnabledNotificationResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse"
                         }
                     }
                 }
@@ -88,7 +88,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.GetNotificationListResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.GetNotificationListResponse"
                         }
                     }
                 }
@@ -114,7 +114,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.UpdateNotificationPayload"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.UpdateNotificationPayload"
                         }
                     },
                     {
@@ -129,7 +129,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/schemas.NotificationResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationResponse"
                         }
                     }
                 }
@@ -137,7 +137,7 @@
         }
     },
     "definitions": {
-        "schemas.EnabledNotificationResponse": {
+        "mw-notification-bff_internal_schemas.EnabledNotificationResponse": {
             "type": "object",
             "required": [
                 "channel",
@@ -164,7 +164,7 @@
                 }
             }
         },
-        "schemas.GetEnabledNotificationListResponse": {
+        "mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse": {
             "type": "object",
             "required": [
                 "enabledNotifications"
@@ -173,12 +173,12 @@
                 "enabledNotifications": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.EnabledNotificationResponse"
+                        "$ref": "#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse"
                     }
                 }
             }
         },
-        "schemas.GetNotificationListResponse": {
+        "mw-notification-bff_internal_schemas.GetNotificationListResponse": {
             "type": "object",
             "required": [
                 "notifications",
@@ -188,7 +188,7 @@
                 "notifications": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/schemas.NotificationResponse"
+                        "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationResponse"
                     }
                 },
                 "size": {
@@ -196,7 +196,7 @@
                 }
             }
         },
-        "schemas.NotificationResponse": {
+        "mw-notification-bff_internal_schemas.NotificationResponse": {
             "type": "object",
             "required": [
                 "createdAt",
@@ -231,7 +231,7 @@
                 }
             }
         },
-        "schemas.UpdateEnabledNotificationPayload": {
+        "mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload": {
             "type": "object",
             "required": [
                 "isEnabled"
@@ -242,7 +242,7 @@
                 }
             }
         },
-        "schemas.UpdateNotificationPayload": {
+        "mw-notification-bff_internal_schemas.UpdateNotificationPayload": {
             "type": "object",
             "required": [
                 "isRead"

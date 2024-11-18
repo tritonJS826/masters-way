@@ -50,7 +50,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.PostSurveyLookingForMentorPayload"
+                            "$ref": "#/definitions/mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload"
                         }
                     }
                 ],
@@ -82,7 +82,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/schemas.PostSurveyUserIntroPayload"
+                            "$ref": "#/definitions/mwsurvey_internal_schemas.PostSurveyUserIntroPayload"
                         }
                     }
                 ],
@@ -95,7 +95,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "schemas.PostSurveyLookingForMentorPayload": {
+        "mwsurvey_internal_schemas.PostSurveyLookingForMentorPayload": {
             "type": "object",
             "required": [
                 "currentExperience",
@@ -118,7 +118,7 @@ const docTemplate = `{
                 }
             }
         },
-        "schemas.PostSurveyUserIntroPayload": {
+        "mwsurvey_internal_schemas.PostSurveyUserIntroPayload": {
             "type": "object",
             "required": [
                 "deviceId",

@@ -1,16 +1,16 @@
 # \HealthAPI
 
-All URIs are relative to */api*
+All URIs are relative to */general*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**HealthcheckGet**](HealthAPI.md#HealthcheckGet) | **Get** /healthcheck | Health Check
+[**GeneralHealthCheck**](HealthAPI.md#GeneralHealthCheck) | **Get** /healthcheck | Health Check
 
 
 
-## HealthcheckGet
+## GeneralHealthCheck
 
-> HealthcheckGet(ctx).Execute()
+> GeneralHealthCheck(ctx).Execute()
 
 Health Check
 
@@ -32,9 +32,9 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.HealthAPI.HealthcheckGet(context.Background()).Execute()
+	r, err := apiClient.HealthAPI.GeneralHealthCheck(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.HealthcheckGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `HealthAPI.GeneralHealthCheck``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
 }
@@ -46,7 +46,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiHealthcheckGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGeneralHealthCheckRequest struct via the builder pattern
 
 
 ### Return type

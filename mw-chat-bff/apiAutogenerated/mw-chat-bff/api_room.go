@@ -31,7 +31,7 @@ type ApiAddUserToRoomRequest struct {
 	userId string
 }
 
-func (r ApiAddUserToRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiAddUserToRoomRequest) Execute() (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.AddUserToRoomExecute(r)
 }
 
@@ -53,13 +53,13 @@ func (a *RoomAPIService) AddUserToRoom(ctx context.Context, roomId string, userI
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
@@ -130,11 +130,11 @@ func (a *RoomAPIService) AddUserToRoomExecute(r ApiAddUserToRoomRequest) (*Schem
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.AddUserToRoom")
@@ -218,16 +218,16 @@ func (a *RoomAPIService) AddUserToRoomStreamExecute(r ApiAddUserToRoomRequest, r
 type ApiCreateRoomRequest struct {
 	ctx context.Context
 	ApiService *RoomAPIService
-	request *SchemasCreateRoomPayload
+	request *MwChatBffInternalSchemasCreateRoomPayload
 }
 
 // query params
-func (r ApiCreateRoomRequest) Request(request SchemasCreateRoomPayload) ApiCreateRoomRequest {
+func (r ApiCreateRoomRequest) Request(request MwChatBffInternalSchemasCreateRoomPayload) ApiCreateRoomRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiCreateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiCreateRoomRequest) Execute() (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.CreateRoomExecute(r)
 }
 
@@ -245,13 +245,13 @@ func (a *RoomAPIService) CreateRoom(ctx context.Context) ApiCreateRoomRequest {
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateRoom")
@@ -325,11 +325,11 @@ func (a *RoomAPIService) CreateRoomExecute(r ApiCreateRoomRequest) (*SchemasRoom
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) CreateRoomStreamExecute(r ApiCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.CreateRoom")
@@ -414,7 +414,7 @@ type ApiDeleteUserFromRoomRequest struct {
 	userId string
 }
 
-func (r ApiDeleteUserFromRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiDeleteUserFromRoomRequest) Execute() (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.DeleteUserFromRoomExecute(r)
 }
 
@@ -436,13 +436,13 @@ func (a *RoomAPIService) DeleteUserFromRoom(ctx context.Context, roomId string, 
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) DeleteUserFromRoomExecute(r ApiDeleteUserFromRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) DeleteUserFromRoomExecute(r ApiDeleteUserFromRoomRequest) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.DeleteUserFromRoom")
@@ -513,11 +513,11 @@ func (a *RoomAPIService) DeleteUserFromRoomExecute(r ApiDeleteUserFromRoomReques
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) DeleteUserFromRoomStreamExecute(r ApiDeleteUserFromRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) DeleteUserFromRoomStreamExecute(r ApiDeleteUserFromRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.DeleteUserFromRoom")
@@ -603,7 +603,7 @@ type ApiGetChatPreviewRequest struct {
 	ApiService *RoomAPIService
 }
 
-func (r ApiGetChatPreviewRequest) Execute() (*SchemasGetRoomPreviewResponse, *http.Response, error) {
+func (r ApiGetChatPreviewRequest) Execute() (*MwChatBffInternalSchemasGetRoomPreviewResponse, *http.Response, error) {
 	return r.ApiService.GetChatPreviewExecute(r)
 }
 
@@ -621,13 +621,13 @@ func (a *RoomAPIService) GetChatPreview(ctx context.Context) ApiGetChatPreviewRe
 }
 
 // Execute executes the request
-//  @return SchemasGetRoomPreviewResponse
-func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*SchemasGetRoomPreviewResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasGetRoomPreviewResponse
+func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*MwChatBffInternalSchemasGetRoomPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetRoomPreviewResponse
+		localVarReturnValue  *MwChatBffInternalSchemasGetRoomPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetChatPreview")
@@ -696,11 +696,11 @@ func (a *RoomAPIService) GetChatPreviewExecute(r ApiGetChatPreviewRequest) (*Sch
 }
 
 // Execute executes the request
-//  @return SchemasGetRoomPreviewResponseStream
-func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetRoomPreviewResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasGetRoomPreviewResponseStream
+func (a *RoomAPIService) GetChatPreviewStreamExecute(r ApiGetChatPreviewRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasGetRoomPreviewResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGetRoomPreviewResponse
+		localVarReturnValue  *MwChatBffInternalSchemasGetRoomPreviewResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetChatPreview")
@@ -783,7 +783,7 @@ type ApiGetRoomByIdRequest struct {
 	roomId string
 }
 
-func (r ApiGetRoomByIdRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiGetRoomByIdRequest) Execute() (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.GetRoomByIdExecute(r)
 }
 
@@ -803,13 +803,13 @@ func (a *RoomAPIService) GetRoomById(ctx context.Context, roomId string) ApiGetR
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRoomById")
@@ -879,11 +879,11 @@ func (a *RoomAPIService) GetRoomByIdExecute(r ApiGetRoomByIdRequest) (*SchemasRo
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) GetRoomByIdStreamExecute(r ApiGetRoomByIdRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRoomById")
@@ -968,7 +968,7 @@ type ApiGetRoomsRequest struct {
 	roomType string
 }
 
-func (r ApiGetRoomsRequest) Execute() (*SchemasGetRoomsResponse, *http.Response, error) {
+func (r ApiGetRoomsRequest) Execute() (*MwChatBffInternalSchemasGetRoomsResponse, *http.Response, error) {
 	return r.ApiService.GetRoomsExecute(r)
 }
 
@@ -988,13 +988,13 @@ func (a *RoomAPIService) GetRooms(ctx context.Context, roomType string) ApiGetRo
 }
 
 // Execute executes the request
-//  @return SchemasGetRoomsResponse
-func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRoomsResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasGetRoomsResponse
+func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*MwChatBffInternalSchemasGetRoomsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGetRoomsResponse
+		localVarReturnValue  *MwChatBffInternalSchemasGetRoomsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRooms")
@@ -1064,11 +1064,11 @@ func (a *RoomAPIService) GetRoomsExecute(r ApiGetRoomsRequest) (*SchemasGetRooms
 }
 
 // Execute executes the request
-//  @return SchemasGetRoomsResponseStream
-func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *http.Request, GoogleAccessToken string) (*SchemasGetRoomsResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasGetRoomsResponseStream
+func (a *RoomAPIService) GetRoomsStreamExecute(r ApiGetRoomsRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasGetRoomsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *SchemasGetRoomsResponse
+		localVarReturnValue  *MwChatBffInternalSchemasGetRoomsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.GetRooms")
@@ -1153,7 +1153,7 @@ type ApiUpdateRoomRequest struct {
 	roomId string
 }
 
-func (r ApiUpdateRoomRequest) Execute() (*SchemasRoomPopulatedResponse, *http.Response, error) {
+func (r ApiUpdateRoomRequest) Execute() (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.UpdateRoomExecute(r)
 }
 
@@ -1173,13 +1173,13 @@ func (a *RoomAPIService) UpdateRoom(ctx context.Context, roomId string) ApiUpdat
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponse
-func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.UpdateRoom")
@@ -1249,11 +1249,11 @@ func (a *RoomAPIService) UpdateRoomExecute(r ApiUpdateRoomRequest) (*SchemasRoom
 }
 
 // Execute executes the request
-//  @return SchemasRoomPopulatedResponseStream
-func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request *http.Request, GoogleAccessToken string) (*SchemasRoomPopulatedResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) UpdateRoomStreamExecute(r ApiUpdateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *SchemasRoomPopulatedResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.UpdateRoom")

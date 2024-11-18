@@ -26,16 +26,16 @@ type GeminiAPIService service
 type ApiAiChatRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *SchemasAIChatPayload
+	request *MwServerInternalSchemasAIChatPayload
 }
 
 // Request payload
-func (r ApiAiChatRequest) Request(request SchemasAIChatPayload) ApiAiChatRequest {
+func (r ApiAiChatRequest) Request(request MwServerInternalSchemasAIChatPayload) ApiAiChatRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiAiChatRequest) Execute() (*SchemasAIChatResponse, *http.Response, error) {
+func (r ApiAiChatRequest) Execute() (*MwServerInternalSchemasAIChatResponse, *http.Response, error) {
 	return r.ApiService.AiChatExecute(r)
 }
 
@@ -55,13 +55,13 @@ func (a *GeminiAPIService) AiChat(ctx context.Context) ApiAiChatRequest {
 }
 
 // Execute executes the request
-//  @return SchemasAIChatResponse
-func (a *GeminiAPIService) AiChatExecute(r ApiAiChatRequest) (*SchemasAIChatResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIChatResponse
+func (a *GeminiAPIService) AiChatExecute(r ApiAiChatRequest) (*MwServerInternalSchemasAIChatResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasAIChatResponse
+		localVarReturnValue  *MwServerInternalSchemasAIChatResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiChat")
@@ -135,11 +135,11 @@ func (a *GeminiAPIService) AiChatExecute(r ApiAiChatRequest) (*SchemasAIChatResp
 }
 
 // Execute executes the request
-//  @return SchemasAIChatResponseStream
-func (a *GeminiAPIService) AiChatStreamExecute(r ApiAiChatRequest, request *http.Request, GoogleAccessToken string) (*SchemasAIChatResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIChatResponseStream
+func (a *GeminiAPIService) AiChatStreamExecute(r ApiAiChatRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIChatResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasAIChatResponse
+		localVarReturnValue  *MwServerInternalSchemasAIChatResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiChat")
@@ -220,16 +220,16 @@ func (a *GeminiAPIService) AiChatStreamExecute(r ApiAiChatRequest, request *http
 type ApiAiCommentIssueRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *SchemasAICommentIssuePayload
+	request *MwServerInternalSchemasAICommentIssuePayload
 }
 
 // Request payload
-func (r ApiAiCommentIssueRequest) Request(request SchemasAICommentIssuePayload) ApiAiCommentIssueRequest {
+func (r ApiAiCommentIssueRequest) Request(request MwServerInternalSchemasAICommentIssuePayload) ApiAiCommentIssueRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiAiCommentIssueRequest) Execute() (*SchemasAICommentIssueResponse, *http.Response, error) {
+func (r ApiAiCommentIssueRequest) Execute() (*MwServerInternalSchemasAICommentIssueResponse, *http.Response, error) {
 	return r.ApiService.AiCommentIssueExecute(r)
 }
 
@@ -249,13 +249,13 @@ func (a *GeminiAPIService) AiCommentIssue(ctx context.Context) ApiAiCommentIssue
 }
 
 // Execute executes the request
-//  @return SchemasAICommentIssueResponse
-func (a *GeminiAPIService) AiCommentIssueExecute(r ApiAiCommentIssueRequest) (*SchemasAICommentIssueResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAICommentIssueResponse
+func (a *GeminiAPIService) AiCommentIssueExecute(r ApiAiCommentIssueRequest) (*MwServerInternalSchemasAICommentIssueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasAICommentIssueResponse
+		localVarReturnValue  *MwServerInternalSchemasAICommentIssueResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiCommentIssue")
@@ -329,11 +329,11 @@ func (a *GeminiAPIService) AiCommentIssueExecute(r ApiAiCommentIssueRequest) (*S
 }
 
 // Execute executes the request
-//  @return SchemasAICommentIssueResponseStream
-func (a *GeminiAPIService) AiCommentIssueStreamExecute(r ApiAiCommentIssueRequest, request *http.Request, GoogleAccessToken string) (*SchemasAICommentIssueResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAICommentIssueResponseStream
+func (a *GeminiAPIService) AiCommentIssueStreamExecute(r ApiAiCommentIssueRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAICommentIssueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasAICommentIssueResponse
+		localVarReturnValue  *MwServerInternalSchemasAICommentIssueResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiCommentIssue")
@@ -414,16 +414,16 @@ func (a *GeminiAPIService) AiCommentIssueStreamExecute(r ApiAiCommentIssueReques
 type ApiAiDecomposeIssueRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *SchemasAIDecomposeIssuePayload
+	request *MwServerInternalSchemasAIDecomposeIssuePayload
 }
 
 // Request payload
-func (r ApiAiDecomposeIssueRequest) Request(request SchemasAIDecomposeIssuePayload) ApiAiDecomposeIssueRequest {
+func (r ApiAiDecomposeIssueRequest) Request(request MwServerInternalSchemasAIDecomposeIssuePayload) ApiAiDecomposeIssueRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiAiDecomposeIssueRequest) Execute() (*SchemasAIDecomposeIssueResponse, *http.Response, error) {
+func (r ApiAiDecomposeIssueRequest) Execute() (*MwServerInternalSchemasAIDecomposeIssueResponse, *http.Response, error) {
 	return r.ApiService.AiDecomposeIssueExecute(r)
 }
 
@@ -443,13 +443,13 @@ func (a *GeminiAPIService) AiDecomposeIssue(ctx context.Context) ApiAiDecomposeI
 }
 
 // Execute executes the request
-//  @return SchemasAIDecomposeIssueResponse
-func (a *GeminiAPIService) AiDecomposeIssueExecute(r ApiAiDecomposeIssueRequest) (*SchemasAIDecomposeIssueResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIDecomposeIssueResponse
+func (a *GeminiAPIService) AiDecomposeIssueExecute(r ApiAiDecomposeIssueRequest) (*MwServerInternalSchemasAIDecomposeIssueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasAIDecomposeIssueResponse
+		localVarReturnValue  *MwServerInternalSchemasAIDecomposeIssueResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiDecomposeIssue")
@@ -523,11 +523,11 @@ func (a *GeminiAPIService) AiDecomposeIssueExecute(r ApiAiDecomposeIssueRequest)
 }
 
 // Execute executes the request
-//  @return SchemasAIDecomposeIssueResponseStream
-func (a *GeminiAPIService) AiDecomposeIssueStreamExecute(r ApiAiDecomposeIssueRequest, request *http.Request, GoogleAccessToken string) (*SchemasAIDecomposeIssueResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIDecomposeIssueResponseStream
+func (a *GeminiAPIService) AiDecomposeIssueStreamExecute(r ApiAiDecomposeIssueRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIDecomposeIssueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasAIDecomposeIssueResponse
+		localVarReturnValue  *MwServerInternalSchemasAIDecomposeIssueResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiDecomposeIssue")
@@ -608,16 +608,16 @@ func (a *GeminiAPIService) AiDecomposeIssueStreamExecute(r ApiAiDecomposeIssueRe
 type ApiAiEstimateIssueRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *SchemasAIEstimateIssuePayload
+	request *MwServerInternalSchemasAIEstimateIssuePayload
 }
 
 // Request payload
-func (r ApiAiEstimateIssueRequest) Request(request SchemasAIEstimateIssuePayload) ApiAiEstimateIssueRequest {
+func (r ApiAiEstimateIssueRequest) Request(request MwServerInternalSchemasAIEstimateIssuePayload) ApiAiEstimateIssueRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiAiEstimateIssueRequest) Execute() (*SchemasAIEstimateIssueResponse, *http.Response, error) {
+func (r ApiAiEstimateIssueRequest) Execute() (*MwServerInternalSchemasAIEstimateIssueResponse, *http.Response, error) {
 	return r.ApiService.AiEstimateIssueExecute(r)
 }
 
@@ -637,13 +637,13 @@ func (a *GeminiAPIService) AiEstimateIssue(ctx context.Context) ApiAiEstimateIss
 }
 
 // Execute executes the request
-//  @return SchemasAIEstimateIssueResponse
-func (a *GeminiAPIService) AiEstimateIssueExecute(r ApiAiEstimateIssueRequest) (*SchemasAIEstimateIssueResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIEstimateIssueResponse
+func (a *GeminiAPIService) AiEstimateIssueExecute(r ApiAiEstimateIssueRequest) (*MwServerInternalSchemasAIEstimateIssueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasAIEstimateIssueResponse
+		localVarReturnValue  *MwServerInternalSchemasAIEstimateIssueResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiEstimateIssue")
@@ -717,11 +717,11 @@ func (a *GeminiAPIService) AiEstimateIssueExecute(r ApiAiEstimateIssueRequest) (
 }
 
 // Execute executes the request
-//  @return SchemasAIEstimateIssueResponseStream
-func (a *GeminiAPIService) AiEstimateIssueStreamExecute(r ApiAiEstimateIssueRequest, request *http.Request, GoogleAccessToken string) (*SchemasAIEstimateIssueResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIEstimateIssueResponseStream
+func (a *GeminiAPIService) AiEstimateIssueStreamExecute(r ApiAiEstimateIssueRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIEstimateIssueResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasAIEstimateIssueResponse
+		localVarReturnValue  *MwServerInternalSchemasAIEstimateIssueResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiEstimateIssue")
@@ -802,16 +802,16 @@ func (a *GeminiAPIService) AiEstimateIssueStreamExecute(r ApiAiEstimateIssueRequ
 type ApiAiPlansByMetricsRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *SchemasAIGeneratePlansByMetricPayload
+	request *MwServerInternalSchemasAIGeneratePlansByMetricPayload
 }
 
 // Request payload
-func (r ApiAiPlansByMetricsRequest) Request(request SchemasAIGeneratePlansByMetricPayload) ApiAiPlansByMetricsRequest {
+func (r ApiAiPlansByMetricsRequest) Request(request MwServerInternalSchemasAIGeneratePlansByMetricPayload) ApiAiPlansByMetricsRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiAiPlansByMetricsRequest) Execute() (*SchemasAIGeneratePlansByMetricResponse, *http.Response, error) {
+func (r ApiAiPlansByMetricsRequest) Execute() (*MwServerInternalSchemasAIGeneratePlansByMetricResponse, *http.Response, error) {
 	return r.ApiService.AiPlansByMetricsExecute(r)
 }
 
@@ -831,13 +831,13 @@ func (a *GeminiAPIService) AiPlansByMetrics(ctx context.Context) ApiAiPlansByMet
 }
 
 // Execute executes the request
-//  @return SchemasAIGeneratePlansByMetricResponse
-func (a *GeminiAPIService) AiPlansByMetricsExecute(r ApiAiPlansByMetricsRequest) (*SchemasAIGeneratePlansByMetricResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIGeneratePlansByMetricResponse
+func (a *GeminiAPIService) AiPlansByMetricsExecute(r ApiAiPlansByMetricsRequest) (*MwServerInternalSchemasAIGeneratePlansByMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasAIGeneratePlansByMetricResponse
+		localVarReturnValue  *MwServerInternalSchemasAIGeneratePlansByMetricResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiPlansByMetrics")
@@ -911,11 +911,11 @@ func (a *GeminiAPIService) AiPlansByMetricsExecute(r ApiAiPlansByMetricsRequest)
 }
 
 // Execute executes the request
-//  @return SchemasAIGeneratePlansByMetricResponseStream
-func (a *GeminiAPIService) AiPlansByMetricsStreamExecute(r ApiAiPlansByMetricsRequest, request *http.Request, GoogleAccessToken string) (*SchemasAIGeneratePlansByMetricResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIGeneratePlansByMetricResponseStream
+func (a *GeminiAPIService) AiPlansByMetricsStreamExecute(r ApiAiPlansByMetricsRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIGeneratePlansByMetricResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasAIGeneratePlansByMetricResponse
+		localVarReturnValue  *MwServerInternalSchemasAIGeneratePlansByMetricResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiPlansByMetrics")
@@ -996,16 +996,16 @@ func (a *GeminiAPIService) AiPlansByMetricsStreamExecute(r ApiAiPlansByMetricsRe
 type ApiGenerateMetricsRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *SchemasGenerateMetricsPayload
+	request *MwServerInternalSchemasGenerateMetricsPayload
 }
 
 // Request payload
-func (r ApiGenerateMetricsRequest) Request(request SchemasGenerateMetricsPayload) ApiGenerateMetricsRequest {
+func (r ApiGenerateMetricsRequest) Request(request MwServerInternalSchemasGenerateMetricsPayload) ApiGenerateMetricsRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiGenerateMetricsRequest) Execute() (*SchemasGenerateMetricsResponse, *http.Response, error) {
+func (r ApiGenerateMetricsRequest) Execute() (*MwServerInternalSchemasGenerateMetricsResponse, *http.Response, error) {
 	return r.ApiService.GenerateMetricsExecute(r)
 }
 
@@ -1025,13 +1025,13 @@ func (a *GeminiAPIService) GenerateMetrics(ctx context.Context) ApiGenerateMetri
 }
 
 // Execute executes the request
-//  @return SchemasGenerateMetricsResponse
-func (a *GeminiAPIService) GenerateMetricsExecute(r ApiGenerateMetricsRequest) (*SchemasGenerateMetricsResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGenerateMetricsResponse
+func (a *GeminiAPIService) GenerateMetricsExecute(r ApiGenerateMetricsRequest) (*MwServerInternalSchemasGenerateMetricsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *SchemasGenerateMetricsResponse
+		localVarReturnValue  *MwServerInternalSchemasGenerateMetricsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.GenerateMetrics")
@@ -1105,11 +1105,11 @@ func (a *GeminiAPIService) GenerateMetricsExecute(r ApiGenerateMetricsRequest) (
 }
 
 // Execute executes the request
-//  @return SchemasGenerateMetricsResponseStream
-func (a *GeminiAPIService) GenerateMetricsStreamExecute(r ApiGenerateMetricsRequest, request *http.Request, GoogleAccessToken string) (*SchemasGenerateMetricsResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGenerateMetricsResponseStream
+func (a *GeminiAPIService) GenerateMetricsStreamExecute(r ApiGenerateMetricsRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGenerateMetricsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *SchemasGenerateMetricsResponse
+		localVarReturnValue  *MwServerInternalSchemasGenerateMetricsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.GenerateMetrics")

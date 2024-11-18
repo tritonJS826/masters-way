@@ -2,8 +2,8 @@ package services
 
 import (
 	"context"
-	"mwchat/internal/schemas"
-	"mwchat/pkg/utils"
+	"mw-chat/internal/schemas"
+	"mw-chat/pkg/utils"
 	"time"
 
 	"errors"
@@ -14,7 +14,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/samber/lo"
 
-	db "mwchat/internal/db/sqlc"
+	db "mw-chat/internal/db/sqlc"
 )
 
 var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users already exists")

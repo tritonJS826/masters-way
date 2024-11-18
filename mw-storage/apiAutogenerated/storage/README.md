@@ -85,7 +85,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SchemasUploadFileResponse](docs/SchemasUploadFileResponse.md)
+ - [MwstorageInternalSchemasUploadFileResponse](docs/MwstorageInternalSchemasUploadFileResponse.md)
 
 
 ## Documentation For Authorization

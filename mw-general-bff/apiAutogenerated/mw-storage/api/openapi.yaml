@@ -52,14 +52,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/schemas.UploadFileResponse'
+                $ref: '#/components/schemas/mwstorage_internal_schemas.UploadFileResponse'
           description: OK
       summary: Upload file to storage
       tags:
       - file
 components:
   schemas:
-    schemas.UploadFileResponse:
+    mwstorage_internal_schemas.UploadFileResponse:
       example:
         previewUrl: previewUrl
         name: name
