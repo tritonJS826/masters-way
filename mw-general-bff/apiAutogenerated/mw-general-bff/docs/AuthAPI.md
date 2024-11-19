@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**GetCurrentAuthorizedUser**](AuthAPI.md#GetCurrentAuthorizedUser) | **Get** /auth/current | Get current authorized user
 [**GetGoogleToken**](AuthAPI.md#GetGoogleToken) | **Get** /auth/google-token | Retrieve Google Access Token
 [**GetTokenLocally**](AuthAPI.md#GetTokenLocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
-[**GoogleAuthLogInCallbackFunction**](AuthAPI.md#GoogleAuthLogInCallbackFunction) | **Post** /auth/{provider}/callback | Log in with google oAuth
+[**GoogleAuthLogInCallbackFunction**](AuthAPI.md#GoogleAuthLogInCallbackFunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
 [**LogoutCurrentAuthorizedUser**](AuthAPI.md#LogoutCurrentAuthorizedUser) | **Get** /auth/logout/{provider} | Logout current authorized user
 
 

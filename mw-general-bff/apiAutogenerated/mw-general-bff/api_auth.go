@@ -747,7 +747,7 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunction(ctx context.Context, pr
 // Execute executes the request
 func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthLogInCallbackFunctionRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
 	)
@@ -826,7 +826,7 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 // Execute executes the request
 func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request, GoogleAccessToken string) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GoogleAuthLogInCallbackFunction")

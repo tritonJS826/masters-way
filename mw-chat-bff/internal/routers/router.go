@@ -36,7 +36,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 	}))
 
 	ginRouter.NoRoute(func(ctx *gin.Context) {
-		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "message": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
+		ctx.JSON(http.StatusNotFound, gin.H{"status": "failed", "error": fmt.Sprintf("The specified route %s not found", ctx.Request.URL)})
 	})
 
 	return &Router{

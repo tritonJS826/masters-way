@@ -82,7 +82,7 @@ Class | Method | HTTP request | Description
 *AuthAPI* | [**GetCurrentAuthorizedUser**](docs/AuthAPI.md#getcurrentauthorizeduser) | **Get** /auth/current | Get current authorized user
 *AuthAPI* | [**GetGoogleToken**](docs/AuthAPI.md#getgoogletoken) | **Get** /auth/google-token | Retrieve Google Access Token
 *AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
-*AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Post** /auth/{provider}/callback | Log in with google oAuth
+*AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
 *AuthAPI* | [**LogoutCurrentAuthorizedUser**](docs/AuthAPI.md#logoutcurrentauthorizeduser) | **Get** /auth/logout/{provider} | Logout current authorized user
 *CommentAPI* | [**CreateComment**](docs/CommentAPI.md#createcomment) | **Post** /comments | Create a new comment
 *CommentAPI* | [**DeleteComment**](docs/CommentAPI.md#deletecomment) | **Delete** /comments/{commentId} | Delete comment by UUID

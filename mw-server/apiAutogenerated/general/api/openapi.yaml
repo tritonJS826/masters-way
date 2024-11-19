@@ -93,7 +93,7 @@ paths:
       tags:
       - auth
   /auth/{provider}/callback:
-    post:
+    get:
       operationId: google auth log in callback function
       parameters:
       - description: code param
