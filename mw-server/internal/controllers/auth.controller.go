@@ -35,7 +35,7 @@ func NewAuthController(authService *services.AuthService, userService *services.
 // @Param state query string true "state parameter"
 // @Param provider path string true "google"
 // @Success 200 {object} schemas.GetAuthCallbackFunctionResponse "Redirect to frontend with JWT token"
-// @Router /auth/{provider}/callback [post]
+// @Router /auth/{provider}/callback [get]
 func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	code := ctx.Query("code")
 	state := ctx.Query("state")

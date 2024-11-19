@@ -151,7 +151,7 @@ const docTemplate = `{
             }
         },
         "/auth/{provider}/callback": {
-            "post": {
+            "get": {
                 "consumes": [
                     "application/json"
                 ],

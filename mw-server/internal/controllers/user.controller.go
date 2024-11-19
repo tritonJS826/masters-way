@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"database/sql"
 	"net/http"
 	"strconv"
 
@@ -47,14 +46,7 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 		ImageUrl:    payload.ImageUrl,
 		IsMentor:    payload.IsMentor,
 	})
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, user)
 }
@@ -72,14 +64,7 @@ func (uc *UserController) GetUserById(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 
 	populatedUser, err := uc.userService.GetPopulatedUserById(ctx, uuid.MustParse(userID))
-	if err != nil {
-		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusNotFound, gin.H{"error": "Failed to retrieve user with this ID"})
-			return
-		}
-		ctx.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
-		return
-	}
+	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, populatedUser)
 }

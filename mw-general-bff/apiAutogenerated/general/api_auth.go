@@ -799,7 +799,7 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunction(ctx context.Context, pr
 //  @return MwServerInternalSchemasGetAuthCallbackFunctionResponse
 func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthLogInCallbackFunctionRequest) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
 		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
@@ -883,7 +883,7 @@ func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionExecute(r ApiGoogleAuthL
 //  @return MwServerInternalSchemasGetAuthCallbackFunctionResponseStream
 func (a *AuthAPIService) GoogleAuthLogInCallbackFunctionStreamExecute(r ApiGoogleAuthLogInCallbackFunctionRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	)
 

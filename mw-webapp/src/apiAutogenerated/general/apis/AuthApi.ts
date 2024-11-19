@@ -203,7 +203,7 @@ export class AuthApi extends runtime.BaseAPI {
 
         const response = await this.request({
             path: `/auth/{provider}/callback`.replace(`{${"provider"}}`, encodeURIComponent(String(requestParameters.provider))),
-            method: 'POST',
+            method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);

@@ -31,7 +31,7 @@ func NewAuthController(authFacade *facades.AuthFacade) *AuthController {
 // @Param state query string true "state parameter"
 // @Param provider path string true "google"
 // @Success 302 {string} string "Redirect to frontend with JWT token"
-// @Router /auth/{provider}/callback [post]
+// @Router /auth/{provider}/callback [get]
 func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	provider := ctx.Param("provider")
 

@@ -1170,7 +1170,7 @@ paths:
       tags:
       - auth
   /auth/{provider}/callback:
-    post:
+    get:
       consumes:
       - application/json
       operationId: google auth log in callback function
