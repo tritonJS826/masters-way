@@ -51,6 +51,7 @@ export class NotificationStore {
 
   /**
    * Load unread notifications amount
+   * @deprecated
    */
   public loadUnreadNotificationsAmount = async (): Promise<number> => {
     const unreadNotificationsAmount = await NotificationDAL.getNotificationPreview();
@@ -63,7 +64,7 @@ export class NotificationStore {
    * Load notifications
    */
   public loadNotifications = async (): Promise<Notification[]> => {
-    const notifications = await NotificationDAL.getNotificationListById();
+    const notifications = await NotificationDAL.getOwnNotificationList();
 
     return notifications;
 

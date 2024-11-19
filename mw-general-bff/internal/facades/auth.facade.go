@@ -17,10 +17,15 @@ func newAuthFacade(authService *services.AuthService, notificationService *servi
 
 func (af *AuthFacade) GetAuthCallbackFunction(ctx context.Context, provider, code, state string) (*openapiGeneral.MwServerInternalSchemasGetAuthCallbackFunctionResponse, error) {
 
-	// err = ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
-	// utils.HandleErrorGin(ctx, err)
-
+	// TODO: handle errors
 	return af.authService.GetAuthCallbackFunction(ctx, provider, code, state)
+	// is it a first login
+
+	// if first then {
+	// get userId
+	// ac.notificationService.CreateEnabledNotifications(ctx, authCallback.UserUuid)
+	//}
+
 }
 
 func (as *AuthFacade) GetUserTokenByEmail(ctx context.Context, email string) (*openapiGeneral.MwServerInternalSchemasGetUserTokenByEmailResponse, error) {
