@@ -14,7 +14,7 @@ import (
 
 func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
 	return &oauth2.Config{
-		RedirectURL:  cfg.ApiBaseUrl + "/api/auth/google/callback",
+		RedirectURL:  cfg.ApiBaseUrl + "/general/auth/google/callback",
 		ClientID:     cfg.GooglClientId,
 		ClientSecret: cfg.GooglClientSecret,
 		Scopes: []string{

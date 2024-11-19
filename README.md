@@ -3,16 +3,16 @@
 Application to track any process that helps people develop.
 
 Deploy demo masters way status:
-[![Demo storybook](https://api.netlify.com/api/v1/badges/fba15c04-f28a-4a13-9430-087d9a76ab84/deploy-status)](https://app.netlify.com/sites/mastersway/deploys)
+[![Demo storybook](https://api.netlify.com/general/v1/badges/fba15c04-f28a-4a13-9430-087d9a76ab84/deploy-status)](https://app.netlify.com/sites/mastersway/deploys)
 
 Deploy demo storybook status:
-[![Netlify Status](https://api.netlify.com/api/v1/badges/004b24b2-f693-4ee8-8321-7a9c1a086261/deploy-status)](https://app.netlify.com/sites/mastersways-storybook/deploys)
+[![Netlify Status](https://api.netlify.com/general/v1/badges/004b24b2-f693-4ee8-8321-7a9c1a086261/deploy-status)](https://app.netlify.com/sites/mastersways-storybook/deploys)
 
 DNS status:
-[![DNS Status](https://mastersway.duckdns.org/api/healthcheck)](https://mastersway.duckdns.org/api/healthcheck)
+[![DNS Status](https://mastersway.duckdns.org/general/healthcheck)](https://mastersway.duckdns.org/general/healthcheck)
 
 Server direct status:
-[![Server status](http://34.82.43.122/api/healthcheck)](http://34.82.43.122/api/healthcheck)
+[![Server status](http://34.82.43.122/general/healthcheck)](http://34.82.43.122/general/healthcheck)
 
 [Demo Master's Way](https://mastersway.netlify.app/)
 
