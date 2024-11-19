@@ -3,6 +3,22 @@ import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 import {Notification} from "src/model/businessModel/Notification";
 
 /**
+ * Notifications params
+ */
+export interface NotificationsParams {
+
+  /**
+   * Notifications amount
+   */
+  size: number;
+
+  /**
+   * Array of notifications
+   */
+  notificationList: Notification[];
+}
+
+/**
  * Notification related methods
  */
 export class NotificationStore {
@@ -50,20 +66,9 @@ export class NotificationStore {
   };
 
   /**
-   * Load unread notifications amount
-   * @deprecated
-   */
-  public loadUnreadNotificationsAmount = async (): Promise<number> => {
-    const unreadNotificationsAmount = await NotificationDAL.getNotificationPreview();
-
-    return unreadNotificationsAmount;
-
-  };
-
-  /**
    * Load notifications
    */
-  public loadNotifications = async (): Promise<Notification[]> => {
+  public loadNotifications = async (): Promise<NotificationsParams> => {
     const notifications = await NotificationDAL.getOwnNotificationList();
 
     return notifications;
@@ -77,6 +82,20 @@ export class NotificationStore {
     this.isNotificationOpen = false;
     this.notificationList = null;
     this.unreadNotificationsAmount = null;
+  };
+
+  /**
+   * Add notification to notificationList
+   */
+  public addNotification = (newNotification: Notification) => {
+    this.notificationList = this.notificationList && [newNotification, ...this.notificationList];
+  };
+
+  /**
+   * Add one unread notification to amount
+   */
+  public addUnreadNotificationToAmount = () => {
+    this.unreadNotificationsAmount && this.unreadNotificationsAmount++;
   };
 
 }

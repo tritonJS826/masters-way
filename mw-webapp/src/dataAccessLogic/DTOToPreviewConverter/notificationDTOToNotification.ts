@@ -8,9 +8,7 @@ export const notificationDTOToNotification = (
   notificationDTO: MwNotificationBffInternalSchemasNotificationResponse,
 ): Notification => {
   return new Notification({
-    description: notificationDTO.description,
-    id: notificationDTO.uuid,
-    isRead: notificationDTO.isRead,
-    title: notificationDTO.description,
+    ...notificationDTO,
+    createdAt: new Date(notificationDTO.createdAt),
   });
 };

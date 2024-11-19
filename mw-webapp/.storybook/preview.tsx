@@ -1,10 +1,7 @@
 import React from "react";
 import type {Preview} from "@storybook/react";
-import { ThemeSwitcher, getNextSwitchTheme } from "../src/component/themeSwitcher/ThemeSwitcher";
-import {
-  DEFAULT_NOTIFICATION_SETTINGS,
-  globalContext,
-} from "../src/GlobalContext";
+import {ThemeSwitcher, getNextSwitchTheme} from "../src/component/themeSwitcher/ThemeSwitcher";
+import {globalContext} from "../src/GlobalContext";
 import {languageStore} from "../src/globalStore/LanguageStore";
 import {themeStore} from "../src/globalStore/ThemeStore";
 
@@ -19,8 +16,6 @@ export const ThemeComponent = () => {
     <globalContext.Provider value={{
       isInitialized: true,
       setIsInitialized: () => {},
-      // TODO: load from local storage
-      notification: DEFAULT_NOTIFICATION_SETTINGS,
     }}
     >
       <ThemeSwitcher language={language} theme={theme} onClick={() => setTheme(getNextSwitchTheme(themeStore.theme))} />

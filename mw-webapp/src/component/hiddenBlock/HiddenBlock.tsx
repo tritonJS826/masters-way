@@ -47,8 +47,8 @@ export const HiddenBlock = observer((props: HiddenBlockProps) => {
       />
       {props.isOpen && props.notificationList?.map((notificationItem) => (
         <NotificationItem
-          key={notificationItem.title}
-          title={notificationItem.title}
+          key={notificationItem.description}
+          title={notificationItem.description}
           description={notificationItem.description}
         />
       ))}

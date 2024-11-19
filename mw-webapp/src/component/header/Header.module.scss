@@ -61,6 +61,18 @@ $iconSize: 32px;
   gap: 0;
 }
 
+.onlineIndicator {
+  width: 20px;
+  height: 20px;
+  background-color: var(--activeColor);
+}
+
+.offlineIndicator {
+  width: 20px;
+  height: 20px;
+  background-color: var(--dangerColor);
+}
+
 .unreadNotificationAmount {
   width: 20px;
   height: 20px;

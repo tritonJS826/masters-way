@@ -3,29 +3,39 @@ import {Notification} from "src/model/businessModel/Notification";
 import {NotificationService} from "src/service/NotificationService";
 
 /**
+ * All notifications params
+ */
+export interface AllNotificationsParams {
+
+  /**
+   * Notifications amount
+   */
+  size: number;
+
+  /**
+   * Array of notifications
+   */
+  notificationList: Notification[];
+}
+
+/**
  * Provides methods to interact with the Notification model
  */
 export class NotificationDAL {
 
   /**
-   * Get unread notification amount
-   * @deprecated
-   */
-  public static async getNotificationPreview(): Promise<number> {
-    const unreadMessageAmountDTO = await NotificationService.getNotificationPreview();
-    const unreadMessageAmount = unreadMessageAmountDTO;
-
-    return unreadMessageAmount;
-  }
-
-  /**
    * Get notification list by user ID
    */
-  public static async getOwnNotificationList(): Promise<Notification[]> {
-    const notificationListDTO = await NotificationService.getOwnNotificationList();
-    const notificationList = notificationListDTO.notifications.map(notificationDTOToNotification);
+  public static async getOwnNotificationList(): Promise<AllNotificationsParams> {
+    const notificationDTO = await NotificationService.getOwnNotificationList();
+    const notificationList = notificationDTO.notifications.map(notificationDTOToNotification);
 
-    return notificationList;
+    const notifications = {
+      size: notificationDTO.size,
+      notificationList,
+    };
+
+    return notifications;
   }
 
 }

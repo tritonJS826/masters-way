@@ -42,6 +42,7 @@ export const ErrorPage = () => {
           openNotificationBlock={() => setIsNotificationOpen(true)}
           unreadNotificationsAmount={unreadNotificationsAmount}
           isNotificationBlockOpen={isNotificationOpen}
+          isConnectionEstablished={false}
         />
         <VerticalContainer className={styles.inner}>
           <Title
