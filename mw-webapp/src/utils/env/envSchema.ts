@@ -8,4 +8,5 @@ export const envSchema = {
   ENV_TYPE: str(),
   AMPLITUDE_KEY: str(),
   API_MW_CHAT_WEBSOCKET_PATH: str(),
+  API_NOTIFICATION_BASE_PATH: str(),
 };

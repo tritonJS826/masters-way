@@ -3,7 +3,7 @@ import {makeAutoObservable} from "mobx";
 /**
  * Notification's props
  */
-interface NotificationProps {
+interface NotificationDTO {
 
   /**
    * If true - notification was read
@@ -52,7 +52,7 @@ export class Notification {
    */
   public id: string;
 
-  constructor(chatData: NotificationProps) {
+  constructor(chatData: NotificationDTO) {
     makeAutoObservable(this);
     this.id = chatData.id;
     this.title = chatData.title;
