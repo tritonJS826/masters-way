@@ -124,5 +124,5 @@
 - reset db
 
 ```
-curl http://localhost:8000/api/dev/reset-db
+curl http://localhost:8000/general/dev/reset-db
 ```
