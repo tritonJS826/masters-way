@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
+import {projectsAccessIds} from "cypress/accessIds/projectsAccessIds";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
@@ -410,6 +411,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       updateCustomWayCollection({id: openedTabId, name});
                     }}
                     onDelete={() => deleteCustomWayCollections(currentCollection.uuid)}
+                    dataCy={userWaysAccessIds.wayCollectionButtonsBlock.customerCollectionButton}
                   />
                 ))}
 
@@ -419,6 +421,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     onClick={createCustomWayCollection}
                     buttonType={ButtonType.SECONDARY}
                     className={styles.collectionButton}
+                    dataCy={userWaysAccessIds.wayCollectionButtonsBlock.addCollectionButton}
                   />
                 )}
 
@@ -441,6 +444,7 @@ export const UserPage = observer((props: UserPageProps) => {
       tabTrigger: {
         id: "1",
         value: LanguageService.user.tabs.projects[language],
+        dataCy: projectsAccessIds.projectsButton,
       },
       tabContent: {
         id: "1",
@@ -457,6 +461,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   }
                   onClick={() => navigate(pages.project.getPath({uuid: project.uuid}))}
                   language={language}
+                  dataCy={projectsAccessIds.projectCardButton}
                 />
               ))}
 
@@ -466,6 +471,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   onClick={createProject}
                   buttonType={ButtonType.SECONDARY}
                   className={styles.collectionButton}
+                  dataCy={projectsAccessIds.addProjectButton}
                 />
               )}
 
@@ -767,9 +773,17 @@ export const UserPage = observer((props: UserPageProps) => {
                                 name={"MoreVertical"}
                               />
                             }
+                            dataCy={userPersonalDataAccessIds.userActionMenu.menuButton}
                           />
                         </Tooltip>
                       )}
+
+                      cy={{
+                        dataCyContent: userPersonalDataAccessIds.userActionMenu.projectItems.addToProject,
+                        dataCyContentList: userPersonalDataAccessIds.userActionMenu.menuList,
+                        dataCySubContent: userPersonalDataAccessIds.userActionMenu.projectItems.addToProject,
+                        dataCySubTrigger: userPersonalDataAccessIds.userActionMenu.projectItems.projects,
+                      }}
 
                       dropdownMenuItems={[
                         {

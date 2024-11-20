@@ -1,5 +1,4 @@
-import {aboutProjectAccessIds} from "cypress/accessIds/aboutProjectAccessIds";
-import { pricingAccessIds } from "cypress/accessIds/pricingAccessIds";
+import {pricingAccessIds} from "cypress/accessIds/pricingAccessIds";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const pricingSelectors = {

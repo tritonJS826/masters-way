@@ -7,6 +7,8 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
+import {LanguageService} from "src/service/LanguageService";
+import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 
 afterEach(() => {
     cy.clearAllStorage();
@@ -113,6 +115,28 @@ describe("IsAuth User's ways scope tests", () => {
 
         cy.url().should('match', new RegExp(`\\/way\\/${testUserData.urlPattern}`));
         wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.testUsers.studentJonh.email}`);
+    });
+
+    it('IsAuth_UserWays_AddWayToCustomerCollection', () => {
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
+        userWaysSelectors.wayCollectionButtonsBlock.getAddCollectionButton().click();
+        userWaysSelectors.getCreateNewWayButton().click();
+
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${LanguageService.user.collections.newCollection.en}`).click();
+        headerSelectors.getAvatar().click();
+        userWaysSelectors.wayCollectionButtonsBlock.getCustomerCollectionButton().click();
+
+        userWaysSelectors.wayCollectionButtonsBlock
+            .getCustomerCollectionButton()
+            .within(() => {
+                userWaysSelectors.wayCollectionButtonsBlock
+                .getWayAmountCollectionButton()
+                .should('have.text', 'Ways: 1');
+            });
+        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist');
+        userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${LanguageService.user.collections.newCollection.en} (1)`);
     });
 
 });

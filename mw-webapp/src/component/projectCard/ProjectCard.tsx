@@ -1,3 +1,4 @@
+import {projectsAccessIds} from "cypress/accessIds/projectsAccessIds";
 import {Button} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -54,14 +55,19 @@ export const ProjectCard = (props: ProjectProps) => {
                 text={props.projectTitle}
                 className={styles.title}
                 placeholder=""
+                cy={{dataCyTitleContainer: projectsAccessIds.projectTitle}}
               />
             </HorizontalContainer>
           </VerticalContainer>
-          <HorizontalContainer className={styles.additionalInfo}>
+          <HorizontalContainer
+            className={styles.additionalInfo}
+            dataCy={projectsAccessIds.projectStatus}
+          >
             {props.projectType}
           </HorizontalContainer>
         </VerticalContainer>
       }
+      dataCy={props.dataCy}
     />
   );
 };
