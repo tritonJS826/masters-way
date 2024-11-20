@@ -1134,7 +1134,7 @@ func (gs *GeneralService) DeleteWayCollectionById(ctx context.Context, wayCollec
 
 func (gs *GeneralService) CreateWayCollectionWay(ctx context.Context, payload *schemas.CreateWayCollectionWay) (*openapiGeneral.MwServerInternalSchemasWayCollectionWayResponse, error) {
 	wayCollectionWay, response, err := gs.generalAPI.WayCollectionWayAPI.CreateWayCollectionWay(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateWayCollectionWay{
-		WayUuid:           payload.WayCollectionUuid,
+		WayUuid:           payload.WayUuid,
 		WayCollectionUuid: payload.WayCollectionUuid,
 	}).Execute()
 
