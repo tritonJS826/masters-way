@@ -8,6 +8,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";
 import {connectChatSocket} from "src/service/socket/ChatSocket";
+import {connectNotificationSocket} from "src/service/socket/NotificationSocket";
 
 const TOKEN_SEARCH_PARAM = "token";
 
@@ -35,9 +36,11 @@ export const InitializedApp = (props: PropsWithChildren) => {
     }
 
     const socket = connectChatSocket();
+    const notificationSocket = connectNotificationSocket();
 
     return () => {
       socket.close();
+      notificationSocket.close();
     };
   }, [user?.uuid]);
 

@@ -74,7 +74,7 @@ export type NotificationConnectionEstablishedPayload = Record<string, never>;
  * Factory for {@link NotificationConnectionEstablishedPayload} event
  * Used for creating new event objects
  */
-export const makeChatConnectionEstablishedEvent = (payload: NotificationConnectionEstablishedPayload) => {
+export const makeNotificationConnectionEstablishedEvent = (payload: NotificationConnectionEstablishedPayload) => {
   const populatedEvent = populateWithBaseEvent(
     payload,
     ChannelId.NOTIFICATION,
@@ -94,7 +94,7 @@ export type NotificationConnectionClosedPayload = Record<string, never>;
  * Factory for {@link NotificationConnectionEstablishedPayload} event
  * Used for creating new event objects
  */
-export const makeChatConnectionClosedEvent = (payload: NotificationConnectionClosedPayload) => {
+export const makeNotificationConnectionClosedEvent = (payload: NotificationConnectionClosedPayload) => {
   const populatedEvent = populateWithBaseEvent(
     payload,
     ChannelId.NOTIFICATION,

@@ -5,7 +5,7 @@ import {
 } from "src/eventBus/events/notification/NotificationEvents";
 
 /**
- * All event ids for chat channel.
+ * All event ids for notification channel.
  *
  * Every event should be business oriented, not technical.
  *
@@ -21,7 +21,7 @@ export enum NotificationEventId {
 }
 
 /**
- * Dictionary of all events for chat channel.
+ * Dictionary of all events for notification channel.
  * Key is event type, value is event payload.
  */
 export type NotificationEventDict = {

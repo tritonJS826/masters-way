@@ -61,15 +61,19 @@ $iconSize: 32px;
   gap: 0;
 }
 
+.indicator {
+  width: 10px;
+  height: 10px;
+  padding: $paddingExtraSmall;
+  border-radius: $tagBorderRadius;
+  margin: 0 -25px $marginMedium;
+}
+
 .onlineIndicator {
-  width: 20px;
-  height: 20px;
   background-color: var(--activeColor);
 }
 
 .offlineIndicator {
-  width: 20px;
-  height: 20px;
   background-color: var(--dangerColor);
 }
 
