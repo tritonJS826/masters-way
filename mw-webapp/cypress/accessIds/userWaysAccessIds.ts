@@ -1,5 +1,7 @@
 export const userWaysAccessIds = {
-    wayStatusTitle: 'wayStatusTitle',
+    wayTitles: {
+        wayStatusTitle: 'wayStatusTitle',
+    },    
 
     wayCollectionButtonsBlock: {
         wayAmountCollectionButton: "wayAmountCollectionButton",
@@ -9,6 +11,8 @@ export const userWaysAccessIds = {
         ownWayCollectionButton: "ownWayCollectionButton",
         mentoringWayCollectionButton: "mentoringWayCollectionButton",
         favoriteWayCollectionButton: "favoriteWayCollectionButton",
+        addCollectionButton: "addCollectionButton",
+        customerCollectionButton: "customerCollectionButton",
 
         wayCollectionButtonMainInfo: "wayCollectionButtonMainInfo",
     },

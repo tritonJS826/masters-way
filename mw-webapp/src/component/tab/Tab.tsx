@@ -22,6 +22,11 @@ interface TabTriggerProps {
    * Additional className for tab trigger
    */
   className?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -101,6 +106,10 @@ interface TabProps {
    */
   className?: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -122,6 +131,7 @@ export const Tab = observer((props: TabProps) => {
             className={styles.tabsTrigger}
             value={tab.value}
             onClick={tab.onCLick}
+            data-cy={tab.tabTrigger.dataCy}
           >
             {tab.tabTrigger.value}
           </Tabs.Trigger>

@@ -30,5 +30,14 @@ export const userPersonalDataAccessIds = {
             tag: "userSkillTag",
             removeTagButton: "removeTagButton"
         }
+    },
+
+    userActionMenu: {
+        menuButton: "actionMenuButton",
+        menuList: "userActionMenuList",
+        projectItems: {
+            projects: "projectItems",
+            addToProject: "addToProject",
+        }
     }
 };

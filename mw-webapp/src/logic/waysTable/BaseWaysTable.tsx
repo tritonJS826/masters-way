@@ -233,7 +233,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
         }).length})`}
         level={HeadingLevel.h2}
         placeholder=""
-        cy={{dataCyTitleContainer: userWaysAccessIds.wayStatusTitle}}
+        cy={{dataCyTitleContainer: userWaysAccessIds.wayTitles.wayStatusTitle}}
       />
 
       <VerticalContainer className={styles.waysContent}>

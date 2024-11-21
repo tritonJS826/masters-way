@@ -1,4 +1,5 @@
 import {useNavigate} from "react-router-dom";
+import {projectsAccessIds} from "cypress/accessIds/projectsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -137,7 +138,7 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
     <VerticalContainer className={styles.pageLayout}>
       <VerticalContainer className={styles.projectInfoBlock}>
         <HorizontalContainer className={styles.projectTitleActions}>
-          <VerticalContainer>
+          <VerticalContainer dataCy={projectsAccessIds.projectPageContent.infoBlock.status}>
             <Title
               level={HeadingLevel.h2}
               text={project.name}
@@ -162,6 +163,12 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
                 minLengthValidator(MIN_LENGTH_PROJECT_NAME, LanguageService.project.notifications.projectNameMinLength[language]),
                 maxLengthValidator(MAX_LENGTH_PROJECT_NAME, LanguageService.project.notifications.projectNameMaxLength[language]),
               ]}
+              cy={
+                {
+                  dataCyInput: projectsAccessIds.projectPageContent.infoBlock.titleInput,
+                  dataCyTitleContainer: projectsAccessIds.projectPageContent.infoBlock.title,
+                }
+              }
             />
             {project.isPrivate
               ? LanguageService.project.projectPrivacy.private[language]
@@ -186,9 +193,14 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
                       name={"MoreVertical"}
                     />
                   }
+                  dataCy={projectsAccessIds.projectPageContent.projectActionMenu.menuButton}
                 />
               </Tooltip>
             )}
+            cy={{
+              dataCyContent: projectsAccessIds.projectPageContent.projectActionMenu.menuItem,
+              dataCyContentList: projectsAccessIds.projectPageContent.projectActionMenu.menuList,
+            }}
             dropdownMenuItems={[
               {
                 dropdownSubMenuItems: [
@@ -268,6 +280,7 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
                       src={participant.imageUrl}
                       size={AvatarSize.MEDIUM}
                       className={styles.avatar}
+                      dataCy={projectsAccessIds.projectPageContent.infoBlock.participantsBlock.avatar}
                     />
                   </Link>
                 </Tooltip>

@@ -3,7 +3,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const userWaysSelectors = {
     wayTitles: {
-        getWayStatusTitle: () => cy.get(getDataCy(userWaysAccessIds.wayStatusTitle)),
+        getWayStatusTitle: () => cy.get(getDataCy(userWaysAccessIds.wayTitles.wayStatusTitle)),
     },
 
     wayCollectionButtonsBlock: {
@@ -14,6 +14,8 @@ export const userWaysSelectors = {
         getOwnWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton)),
         getMentoringWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton)),
         getFavoriteWayCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.favoriteWayCollectionButton)),
+        getAddCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.addCollectionButton)),
+        getCustomerCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.customerCollectionButton)),
 
         getWayCollectionButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.wayCollectionButtonsBlock.wayCollectionButtonMainInfo)),
     },
