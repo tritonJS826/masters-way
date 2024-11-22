@@ -50,7 +50,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-server_internal_schemas.GetUserTokenByEmailResponse'
+                $ref: '#/components/schemas/mw-server_internal_schemas.GetAuthCallbackFunctionResponse'
           description: OK
       summary: login locally by email (with no oauth)
       tags:
@@ -2881,29 +2881,16 @@ components:
       type: object
     mw-server_internal_schemas.GetAuthCallbackFunctionResponse:
       example:
-        userUuid: userUuid
+        isAlreadyCreated: true
         url: url
       properties:
+        isAlreadyCreated:
+          type: boolean
         url:
           type: string
-        userUuid:
-          type: string
       required:
+      - isAlreadyCreated
       - url
-      - userUuid
-      type: object
-    mw-server_internal_schemas.GetUserTokenByEmailResponse:
-      example:
-        userUuid: userUuid
-        url: url
-      properties:
-        url:
-          type: string
-        userUuid:
-          type: string
-      required:
-      - url
-      - userUuid
       type: object
     mw-server_internal_schemas.GetUsersByIDsResponse:
       example:

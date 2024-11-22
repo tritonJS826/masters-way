@@ -203,7 +203,7 @@ No authorization required
 
 ## GetTokenLocally
 
-> MwServerInternalSchemasGetUserTokenByEmailResponse GetTokenLocally(ctx, userEmail).Execute()
+> MwServerInternalSchemasGetAuthCallbackFunctionResponse GetTokenLocally(ctx, userEmail).Execute()
 
 login locally by email (with no oauth)
 
@@ -231,7 +231,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.GetTokenLocally``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetTokenLocally`: MwServerInternalSchemasGetUserTokenByEmailResponse
+	// response from `GetTokenLocally`: MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.GetTokenLocally`: %v\n", resp)
 }
 ```
@@ -255,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwServerInternalSchemasGetUserTokenByEmailResponse**](MwServerInternalSchemasGetUserTokenByEmailResponse.md)
+[**MwServerInternalSchemasGetAuthCallbackFunctionResponse**](MwServerInternalSchemasGetAuthCallbackFunctionResponse.md)
 
 ### Authorization
 

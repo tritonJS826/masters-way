@@ -17,7 +17,6 @@ import * as runtime from '../runtime';
 import type {
   MwServerInternalSchemasBeginAuthResponse,
   MwServerInternalSchemasGetAuthCallbackFunctionResponse,
-  MwServerInternalSchemasGetUserTokenByEmailResponse,
   MwServerInternalSchemasGoogleToken,
   MwServerInternalSchemasUserPopulatedResponse,
 } from '../models/index';
@@ -26,8 +25,6 @@ import {
     MwServerInternalSchemasBeginAuthResponseToJSON,
     MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSON,
     MwServerInternalSchemasGetAuthCallbackFunctionResponseToJSON,
-    MwServerInternalSchemasGetUserTokenByEmailResponseFromJSON,
-    MwServerInternalSchemasGetUserTokenByEmailResponseToJSON,
     MwServerInternalSchemasGoogleTokenFromJSON,
     MwServerInternalSchemasGoogleTokenToJSON,
     MwServerInternalSchemasUserPopulatedResponseFromJSON,
@@ -145,7 +142,7 @@ export class AuthApi extends runtime.BaseAPI {
      * Login locally by providing an email address.
      * login locally by email (with no oauth)
      */
-    async getTokenLocallyRaw(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasGetUserTokenByEmailResponse>> {
+    async getTokenLocallyRaw(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasGetAuthCallbackFunctionResponse>> {
         if (requestParameters.userEmail === null || requestParameters.userEmail === undefined) {
             throw new runtime.RequiredError('userEmail','Required parameter requestParameters.userEmail was null or undefined when calling getTokenLocally.');
         }
@@ -161,14 +158,14 @@ export class AuthApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasGetUserTokenByEmailResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSON(jsonValue));
     }
 
     /**
      * Login locally by providing an email address.
      * login locally by email (with no oauth)
      */
-    async getTokenLocally(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasGetUserTokenByEmailResponse> {
+    async getTokenLocally(requestParameters: GetTokenLocallyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasGetAuthCallbackFunctionResponse> {
         const response = await this.getTokenLocallyRaw(requestParameters, initOverrides);
         return await response.value();
     }

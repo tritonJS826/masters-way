@@ -30,12 +30,12 @@ func (as *AuthService) GetAuthCallbackFunction(ctx context.Context, provider, co
 	return authCallbackFunctionResponse, nil
 }
 
-func (as *AuthService) GetUserTokenByEmail(ctx context.Context, email string) (*openapiGeneral.MwServerInternalSchemasGetUserTokenByEmailResponse, error) {
-	getUserTokenByEmailResponse, response, err := as.generalAPI.AuthAPI.GetTokenLocally(ctx, email).Execute()
+func (as *AuthService) GetUserTokenByEmail(ctx context.Context, email string) (*openapiGeneral.MwServerInternalSchemasGetAuthCallbackFunctionResponse, error) {
+	authCallbackFunctionResponse, response, err := as.generalAPI.AuthAPI.GetTokenLocally(ctx, email).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
-	return getUserTokenByEmailResponse, nil
+	return authCallbackFunctionResponse, nil
 }
 
 func (as *AuthService) GetGoogleAuthURL(ctx context.Context, provider string) (*openapiGeneral.MwServerInternalSchemasBeginAuthResponse, error) {

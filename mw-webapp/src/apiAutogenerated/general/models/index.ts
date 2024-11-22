@@ -46,7 +46,6 @@ export * from './MwServerInternalSchemasGenerateMetricsResponse';
 export * from './MwServerInternalSchemasGetAllUsersResponse';
 export * from './MwServerInternalSchemasGetAllWaysResponse';
 export * from './MwServerInternalSchemasGetAuthCallbackFunctionResponse';
-export * from './MwServerInternalSchemasGetUserTokenByEmailResponse';
 export * from './MwServerInternalSchemasGetUsersByIDsResponse';
 export * from './MwServerInternalSchemasGoogleToken';
 export * from './MwServerInternalSchemasJobDonePopulatedResponse';
