@@ -110,7 +110,10 @@ export const SettingsPage = observer(() => {
               <Toggle
                 onChange={() => {
                   enabledNotification.isEnabled = !enabledNotification.isEnabled;
-                  EnabledNotificationDAL.updateEnabledNotification;
+                  EnabledNotificationDAL.updateEnabledNotification(
+                    enabledNotification.uuid,
+                    !enabledNotification.isEnabled,
+                  );
                 }}
                 isDefaultChecked={enabledNotification.isEnabled}
               />
