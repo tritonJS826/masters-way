@@ -47,6 +47,7 @@ func (sc *SurveyController) PostSurveyUserIntro(ctx *gin.Context) {
 		StudentExperience:          payload.StudentExperience,
 		WhyRegistered:              payload.WhyRegistered,
 		Source:                     payload.Source,
+		PromoCode:                  payload.PromoCode,
 	}
 
 	err := sc.surveyService.CreateUserIntroSurvey(ctx, params)

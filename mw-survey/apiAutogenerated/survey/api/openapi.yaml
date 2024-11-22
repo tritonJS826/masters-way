@@ -78,6 +78,8 @@ components:
           type: string
         preferredInterfaceLanguage:
           type: string
+        promoCode:
+          type: string
         role:
           type: string
         source:
@@ -91,6 +93,7 @@ components:
       required:
       - deviceId
       - preferredInterfaceLanguage
+      - promoCode
       - role
       - source
       - studentExperience

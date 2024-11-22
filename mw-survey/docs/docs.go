@@ -123,6 +123,7 @@ const docTemplate = `{
             "required": [
                 "deviceId",
                 "preferredInterfaceLanguage",
+                "promoCode",
                 "role",
                 "source",
                 "studentExperience",
@@ -134,6 +135,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "preferredInterfaceLanguage": {
+                    "type": "string"
+                },
+                "promoCode": {
                     "type": "string"
                 },
                 "role": {

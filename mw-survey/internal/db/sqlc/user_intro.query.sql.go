@@ -20,7 +20,8 @@ INSERT INTO user_intro (
     student_goals,
     student_experience,
     why_registered,
-    source
+    source,
+    promo_code
 ) VALUES (
     $1,
     $2,
@@ -29,9 +30,10 @@ INSERT INTO user_intro (
     $5,
     $6,
     $7,
-    $8
+    $8,
+    $9
 )
-RETURNING uuid, user_uuid, device_uuid, role, preferred_interface_language, student_goals, student_experience, why_registered, source, created_at
+RETURNING uuid, user_uuid, device_uuid, role, preferred_interface_language, student_goals, student_experience, why_registered, source, promo_code, created_at
 `
 
 type CreateUserIntroSurveyParams struct {
@@ -43,6 +45,7 @@ type CreateUserIntroSurveyParams struct {
 	StudentExperience          string      `json:"student_experience"`
 	WhyRegistered              string      `json:"why_registered"`
 	Source                     string      `json:"source"`
+	PromoCode                  string      `json:"promo_code"`
 }
 
 func (q *Queries) CreateUserIntroSurvey(ctx context.Context, arg CreateUserIntroSurveyParams) (UserIntro, error) {
@@ -55,6 +58,7 @@ func (q *Queries) CreateUserIntroSurvey(ctx context.Context, arg CreateUserIntro
 		arg.StudentExperience,
 		arg.WhyRegistered,
 		arg.Source,
+		arg.PromoCode,
 	)
 	var i UserIntro
 	err := row.Scan(
@@ -67,6 +71,7 @@ func (q *Queries) CreateUserIntroSurvey(ctx context.Context, arg CreateUserIntro
 		&i.StudentExperience,
 		&i.WhyRegistered,
 		&i.Source,
+		&i.PromoCode,
 		&i.CreatedAt,
 	)
 	return i, err

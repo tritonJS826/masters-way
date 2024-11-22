@@ -40,6 +40,10 @@ export interface SurveyUserIntroParams {
    */
   whyRegistered: string;
 
+  /**
+   * Promo code (show where from user come)
+   */
+  promoCode: string;
 }
 
 /**

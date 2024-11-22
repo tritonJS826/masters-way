@@ -36,6 +36,12 @@ export interface MwsurveyInternalSchemasPostSurveyUserIntroPayload {
      * @type {string}
      * @memberof MwsurveyInternalSchemasPostSurveyUserIntroPayload
      */
+    promoCode: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwsurveyInternalSchemasPostSurveyUserIntroPayload
+     */
     role: string;
     /**
      * 
@@ -72,6 +78,7 @@ export function instanceOfMwsurveyInternalSchemasPostSurveyUserIntroPayload(
     let isInstance = true;
     isInstance = isInstance && "deviceId" in value;
     isInstance = isInstance && "preferredInterfaceLanguage" in value;
+    isInstance = isInstance && "promoCode" in value;
     isInstance = isInstance && "role" in value;
     isInstance = isInstance && "source" in value;
     isInstance = isInstance && "studentExperience" in value;
@@ -96,6 +103,7 @@ export function MwsurveyInternalSchemasPostSurveyUserIntroPayloadFromJSONTyped(
         
         'deviceId': json['deviceId'],
         'preferredInterfaceLanguage': json['preferredInterfaceLanguage'],
+        'promoCode': json['promoCode'],
         'role': json['role'],
         'source': json['source'],
         'studentExperience': json['studentExperience'],
@@ -116,6 +124,7 @@ export function MwsurveyInternalSchemasPostSurveyUserIntroPayloadToJSON(value?: 
         
         'deviceId': value.deviceId,
         'preferredInterfaceLanguage': value.preferredInterfaceLanguage,
+        'promoCode': value.promoCode,
         'role': value.role,
         'source': value.source,
         'studentExperience': value.studentExperience,

@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/DevApi.ts
 apis/SurveyApi.ts
 apis/index.ts

@@ -14,6 +14,7 @@ CREATE TABLE user_intro (
     "why_registered" VARCHAR(255) NOT NULL,
     -- Как пользователь узнал о платформе (реклама, социальные сети, рекомендации, поисковые системы).
     "source" VARCHAR(255) NOT NULL,
+    "promo_code" VARCHAR (255) NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "user_intro_pkey" PRIMARY KEY (uuid)
 );

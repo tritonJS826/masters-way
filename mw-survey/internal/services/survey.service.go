@@ -33,6 +33,7 @@ type SaveUserIntroSurveyParams struct {
 	StudentExperience          string
 	WhyRegistered              string
 	Source                     string
+	PromoCode                  string
 }
 
 func (ss *SurveyService) CreateUserIntroSurvey(ctx context.Context, userInfoSurveyParams *SaveUserIntroSurveyParams) error {
@@ -45,6 +46,7 @@ func (ss *SurveyService) CreateUserIntroSurvey(ctx context.Context, userInfoSurv
 		StudentExperience:          userInfoSurveyParams.StudentExperience,
 		WhyRegistered:              userInfoSurveyParams.WhyRegistered,
 		Source:                     userInfoSurveyParams.Source,
+		PromoCode:                  userInfoSurveyParams.PromoCode,
 	}
 
 	_, err := ss.surveyRepository.CreateUserIntroSurvey(ctx, args)
