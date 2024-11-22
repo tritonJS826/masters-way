@@ -115,6 +115,7 @@
             "required": [
                 "deviceId",
                 "preferredInterfaceLanguage",
+                "promoCode",
                 "role",
                 "source",
                 "studentExperience",
@@ -126,6 +127,9 @@
                     "type": "string"
                 },
                 "preferredInterfaceLanguage": {
+                    "type": "string"
+                },
+                "promoCode": {
                     "type": "string"
                 },
                 "role": {

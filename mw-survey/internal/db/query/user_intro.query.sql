@@ -7,7 +7,8 @@ INSERT INTO user_intro (
     student_goals,
     student_experience,
     why_registered,
-    source
+    source,
+    promo_code
 ) VALUES (
     @user_uuid,
     @device_uuid,
@@ -16,6 +17,7 @@ INSERT INTO user_intro (
     @student_goals,
     @student_experience,
     @why_registered,
-    @source
+    @source,
+    @promo_code
 )
 RETURNING *;

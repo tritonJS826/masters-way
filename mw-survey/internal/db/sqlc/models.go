@@ -29,5 +29,6 @@ type UserIntro struct {
 	StudentExperience          string           `json:"student_experience"`
 	WhyRegistered              string           `json:"why_registered"`
 	Source                     string           `json:"source"`
+	PromoCode                  string           `json:"promo_code"`
 	CreatedAt                  pgtype.Timestamp `json:"created_at"`
 }

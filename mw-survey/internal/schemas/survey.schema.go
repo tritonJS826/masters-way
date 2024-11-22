@@ -8,6 +8,7 @@ type PostSurveyUserIntroPayload struct {
 	StudentExperience          string `json:"studentExperience" validate:"required"`
 	WhyRegistered              string `json:"whyRegistered" validate:"required"`
 	Source                     string `json:"source" validate:"required"`
+	PromoCode                  string `json:"promoCode" validate:"required"`
 }
 
 type PostSurveyLookingForMentorPayload struct {

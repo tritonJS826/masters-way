@@ -22,6 +22,8 @@ definitions:
         type: string
       preferredInterfaceLanguage:
         type: string
+      promoCode:
+        type: string
       role:
         type: string
       source:
@@ -35,6 +37,7 @@ definitions:
     required:
     - deviceId
     - preferredInterfaceLanguage
+    - promoCode
     - role
     - source
     - studentExperience

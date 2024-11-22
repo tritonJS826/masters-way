@@ -23,6 +23,7 @@ var _ MappedNullable = &MwsurveyInternalSchemasPostSurveyUserIntroPayload{}
 type MwsurveyInternalSchemasPostSurveyUserIntroPayload struct {
 	DeviceId string
 	PreferredInterfaceLanguage string
+	PromoCode string
 	Role string
 	Source string
 	StudentExperience string
@@ -36,10 +37,11 @@ type _MwsurveyInternalSchemasPostSurveyUserIntroPayload MwsurveyInternalSchemasP
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwsurveyInternalSchemasPostSurveyUserIntroPayload(deviceId string, preferredInterfaceLanguage string, role string, source string, studentExperience string, studentGoals string, whyRegistered string) *MwsurveyInternalSchemasPostSurveyUserIntroPayload {
+func NewMwsurveyInternalSchemasPostSurveyUserIntroPayload(deviceId string, preferredInterfaceLanguage string, promoCode string, role string, source string, studentExperience string, studentGoals string, whyRegistered string) *MwsurveyInternalSchemasPostSurveyUserIntroPayload {
 	this := MwsurveyInternalSchemasPostSurveyUserIntroPayload{}
 	this.DeviceId = deviceId
 	this.PreferredInterfaceLanguage = preferredInterfaceLanguage
+	this.PromoCode = promoCode
 	this.Role = role
 	this.Source = source
 	this.StudentExperience = studentExperience
@@ -102,6 +104,30 @@ func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) GetPreferredInterfac
 // SetPreferredInterfaceLanguage sets field value
 func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) SetPreferredInterfaceLanguage(v string) {
 	o.PreferredInterfaceLanguage = v
+}
+
+// GetPromoCode returns the PromoCode field value
+func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) GetPromoCode() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.PromoCode
+}
+
+// GetPromoCodeOk returns a tuple with the PromoCode field value
+// and a boolean to check if the value has been set.
+func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) GetPromoCodeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.PromoCode, true
+}
+
+// SetPromoCode sets field value
+func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) SetPromoCode(v string) {
+	o.PromoCode = v
 }
 
 // GetRole returns the Role field value
@@ -236,6 +262,7 @@ func (o MwsurveyInternalSchemasPostSurveyUserIntroPayload) ToMap() (map[string]i
 	toSerialize := map[string]interface{}{}
 	toSerialize["deviceId"] = o.DeviceId
 	toSerialize["preferredInterfaceLanguage"] = o.PreferredInterfaceLanguage
+	toSerialize["promoCode"] = o.PromoCode
 	toSerialize["role"] = o.Role
 	toSerialize["source"] = o.Source
 	toSerialize["studentExperience"] = o.StudentExperience
@@ -251,6 +278,7 @@ func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) UnmarshalJSON(data [
 	requiredProperties := []string{
 		"deviceId",
 		"preferredInterfaceLanguage",
+		"promoCode",
 		"role",
 		"source",
 		"studentExperience",

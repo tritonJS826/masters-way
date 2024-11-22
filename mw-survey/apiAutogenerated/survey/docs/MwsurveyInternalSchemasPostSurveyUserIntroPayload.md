@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DeviceId** | **string** |  | 
 **PreferredInterfaceLanguage** | **string** |  | 
+**PromoCode** | **string** |  | 
 **Role** | **string** |  | 
 **Source** | **string** |  | 
 **StudentExperience** | **string** |  | 
@@ -16,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewMwsurveyInternalSchemasPostSurveyUserIntroPayload
 
-`func NewMwsurveyInternalSchemasPostSurveyUserIntroPayload(deviceId string, preferredInterfaceLanguage string, role string, source string, studentExperience string, studentGoals string, whyRegistered string, ) *MwsurveyInternalSchemasPostSurveyUserIntroPayload`
+`func NewMwsurveyInternalSchemasPostSurveyUserIntroPayload(deviceId string, preferredInterfaceLanguage string, promoCode string, role string, source string, studentExperience string, studentGoals string, whyRegistered string, ) *MwsurveyInternalSchemasPostSurveyUserIntroPayload`
 
 NewMwsurveyInternalSchemasPostSurveyUserIntroPayload instantiates a new MwsurveyInternalSchemasPostSurveyUserIntroPayload object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +70,26 @@ and a boolean to check if the value has been set.
 `func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) SetPreferredInterfaceLanguage(v string)`
 
 SetPreferredInterfaceLanguage sets PreferredInterfaceLanguage field to given value.
+
+
+### GetPromoCode
+
+`func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) GetPromoCode() string`
+
+GetPromoCode returns the PromoCode field if non-nil, zero value otherwise.
+
+### GetPromoCodeOk
+
+`func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) GetPromoCodeOk() (*string, bool)`
+
+GetPromoCodeOk returns a tuple with the PromoCode field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPromoCode
+
+`func (o *MwsurveyInternalSchemasPostSurveyUserIntroPayload) SetPromoCode(v string)`
+
+SetPromoCode sets PromoCode field to given value.
 
 
 ### GetRole

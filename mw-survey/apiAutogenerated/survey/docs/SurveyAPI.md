@@ -94,7 +94,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwsurveyInternalSchemasPostSurveyUserIntroPayload("DeviceId_example", "PreferredInterfaceLanguage_example", "Role_example", "Source_example", "StudentExperience_example", "StudentGoals_example", "WhyRegistered_example") // MwsurveyInternalSchemasPostSurveyUserIntroPayload | query params
+	request := *openapiclient.NewMwsurveyInternalSchemasPostSurveyUserIntroPayload("DeviceId_example", "PreferredInterfaceLanguage_example", "PromoCode_example", "Role_example", "Source_example", "StudentExperience_example", "StudentGoals_example", "WhyRegistered_example") // MwsurveyInternalSchemasPostSurveyUserIntroPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

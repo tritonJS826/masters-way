@@ -87,6 +87,18 @@
           "en": "For example: interest in a topic, recommendations from friends, work needs, etc.",
           "ua": "Наприклад: інтерес до теми, рекомендації друзів, потреби роботи та ін."
         }
+      },
+      "promoCode": {
+        "name": {
+          "ru": "Если у вас есть промокод, введите его здесь.",
+          "en": "If you have a promo code, enter it here.",
+          "ua": "Якщо у вас є промокод, введіть його тут."
+        }, 
+        "placeholder": {
+          "ru": "Промокод",
+          "en": "Promo code",
+          "ua": "Промокод"
+        }
       }
     }
   },

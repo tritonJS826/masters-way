@@ -1122,6 +1122,14 @@ export const UserPage = observer((props: UserPageProps) => {
                     required: true,
                     placeholder: `${LanguageService.survey.cohortAnalysis.fields.whyRegistered.placeholder[language]}`,
                   },
+                  {
+                    id: 6,
+                    label: "promoCode",
+                    name: `${LanguageService.survey.cohortAnalysis.fields.promoCode.name[language]}`,
+                    value: "",
+                    required: true,
+                    placeholder: `${LanguageService.survey.cohortAnalysis.fields.promoCode.placeholder[language]}`,
+                  },
                 ]}
               />
             </VerticalContainer>
