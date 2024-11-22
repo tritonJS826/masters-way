@@ -20,9 +20,9 @@ func (nr *notificationRouter) setNotificationRoutes(rg *gin.RouterGroup) {
 		notifications.GET("", nr.notificationController.GetNotificationList)
 		notifications.PATCH("/:notificationId", nr.notificationController.UpdateNotification)
 	}
-	enabledNotifications := rg.Group("/enabledNotifications")
+	notificationSettings := rg.Group("/notificationSettings")
 	{
-		enabledNotifications.GET("", nr.notificationController.GetEnabledNotificationList)
-		enabledNotifications.PATCH("/:enabledNotificationId", nr.notificationController.UpdateEnabledNotification)
+		notificationSettings.GET("", nr.notificationController.GetNotificationSettingList)
+		notificationSettings.PATCH("/:notificationSettingId", nr.notificationController.UpdateNotificationSetting)
 	}
 }

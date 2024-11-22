@@ -28,13 +28,13 @@ CREATE TABLE notifications (
 -- TODO: check does this index used in remove_old_notifications function
 CREATE UNIQUE INDEX "user_uuid_key" ON "notifications"("user_uuid", "created_at");
 
-CREATE TABLE enabled_notifications (
+CREATE TABLE notification_settings (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "user_uuid" UUID NOT NULL,
     "nature" notification_nature NOT NULL,
     "channel" notification_channel NOT NULL,
     "is_enabled" BOOLEAN NOT NULL,
-    CONSTRAINT "enabled_notifications_pkey" PRIMARY KEY (uuid),
+    CONSTRAINT "notification_settings_pkey" PRIMARY KEY (uuid),
     CONSTRAINT "unique_user_notification" UNIQUE (user_uuid, nature, channel)
 );
 

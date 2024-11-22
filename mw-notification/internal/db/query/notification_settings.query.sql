@@ -1,5 +1,5 @@
--- name: CreateEnabledNotifications :exec
-INSERT INTO enabled_notifications (
+-- name: CreateNotificationSettings :exec
+INSERT INTO notification_settings (
     user_uuid,
     nature,
     channel,
@@ -18,13 +18,19 @@ INSERT INTO enabled_notifications (
     (@user_uuid, 'mentoring_request', 'webapp', TRUE),
     (@user_uuid, 'favorite_way', 'webapp', TRUE);
 
--- name: GetEnabledNotificationListByUserID :many
+-- name: GetNotificationSettingListByUserID :many
 SELECT *
-FROM enabled_notifications
+FROM notification_settings
 WHERE user_uuid = @user_uuid;
 
--- name: UpdateEnabledNotification :one
-UPDATE enabled_notifications
+-- name: GetEnabledNotificationSettingListByUserID :many
+SELECT *
+FROM notification_settings
+WHERE user_uuid = @user_uuid
+    AND is_enabled = TRUE;
+
+-- name: UpdateNotificationSetting :one
+UPDATE notification_settings
 SET is_enabled = COALESCE(sqlc.narg('is_enabled'), is_enabled)
-WHERE uuid = @enabled_notifications_uuid
+WHERE uuid = @notification_setting_uuid
 RETURNING *;

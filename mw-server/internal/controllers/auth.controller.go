@@ -57,16 +57,17 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 		IsMentor:    false,
 	}
 
-	populatedUser, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
+	findOrCreateUserByEmailResponse, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	ac.authService.SetGoogleAccessTokenByUserID(populatedUser.Uuid, googleAuthInfo.Token.AccessToken)
+	ac.authService.SetGoogleAccessTokenByUserID(findOrCreateUserByEmailResponse.User.Uuid, googleAuthInfo.Token.AccessToken)
 
-	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
+	jwtToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.GetAuthCallbackFunctionResponse{
-		Url: ac.config.WebappBaseUrl + "?token=" + jwtToken,
+		IsAlreadyCreated: findOrCreateUserByEmailResponse.IsAlreadyCreated,
+		Url:              ac.config.WebappBaseUrl + "?token=" + jwtToken,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -116,7 +117,7 @@ func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userEmail path string true "email"
-// @Success 200 {object} schemas.GetUserTokenByEmailResponse
+// @Success 200 {object} schemas.GetAuthCallbackFunctionResponse
 // @Router /auth/login/local/{userEmail} [get]
 func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	userEmail := ctx.Param("userEmail")
@@ -131,14 +132,15 @@ func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 		IsMentor:    false,
 	}
 
-	populatedUser, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
+	findOrCreateUserByEmailResponse, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	jwtToken, err := auth.GenerateJWT(populatedUser.Uuid, ac.config.SecretSessionKey)
+	jwtToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey)
 	util.HandleErrorGin(ctx, err)
 
-	response := schemas.GetUserTokenByEmailResponse{
-		Url: ac.config.WebappBaseUrl + "?token=" + jwtToken,
+	response := schemas.GetAuthCallbackFunctionResponse{
+		IsAlreadyCreated: findOrCreateUserByEmailResponse.IsAlreadyCreated,
+		Url:              ac.config.WebappBaseUrl + "?token=" + jwtToken,
 	}
 
 	ctx.JSON(http.StatusOK, response)

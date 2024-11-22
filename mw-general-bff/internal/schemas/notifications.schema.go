@@ -24,3 +24,12 @@ type GetNotificationListResponse struct {
 	Size          int                    `json:"size" validate:"required"`
 	Notifications []NotificationResponse `json:"notifications" validate:"required"`
 }
+
+type CreateNotificationsResponse struct {
+	CreateNotificationResponse []CreateNotificationResponse
+}
+
+type CreateNotificationResponse struct {
+	Notification            NotificationResponse          `json:"size" validate:"required"`
+	NotificationSettingList []NotificationSettingResponse `json:"notifications" validate:"required"`
+}

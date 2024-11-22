@@ -99,14 +99,6 @@ func (ns NullNotificationNature) Value() (driver.Value, error) {
 	return string(ns.NotificationNature), nil
 }
 
-type EnabledNotification struct {
-	Uuid      pgtype.UUID         `json:"uuid"`
-	UserUuid  pgtype.UUID         `json:"user_uuid"`
-	Nature    NotificationNature  `json:"nature"`
-	Channel   NotificationChannel `json:"channel"`
-	IsEnabled bool                `json:"is_enabled"`
-}
-
 type Notification struct {
 	Uuid        pgtype.UUID        `json:"uuid"`
 	UserUuid    pgtype.UUID        `json:"user_uuid"`
@@ -115,4 +107,12 @@ type Notification struct {
 	Url         pgtype.Text        `json:"url"`
 	Nature      NotificationNature `json:"nature"`
 	CreatedAt   pgtype.Timestamp   `json:"created_at"`
+}
+
+type NotificationSetting struct {
+	Uuid      pgtype.UUID         `json:"uuid"`
+	UserUuid  pgtype.UUID         `json:"user_uuid"`
+	Nature    NotificationNature  `json:"nature"`
+	Channel   NotificationChannel `json:"channel"`
+	IsEnabled bool                `json:"is_enabled"`
 }

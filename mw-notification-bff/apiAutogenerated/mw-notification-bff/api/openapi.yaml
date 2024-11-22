@@ -6,26 +6,26 @@ info:
 servers:
 - url: /notification
 paths:
-  /enabledNotifications:
+  /notificationSettings:
     get:
-      operationId: get-enabledNotification-list
+      operationId: get-notificationSetting-list
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse'
+                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.GetNotificationSettingListResponse'
           description: OK
-      summary: Get enabledNotification list by user id
+      summary: Get notificationSetting list by user id
       tags:
-      - enabledNotification
-  /enabledNotifications/{enabledNotificationId}:
+      - notificationSetting
+  /notificationSettings/{notificationSettingId}:
     patch:
-      operationId: update-enabledNotification
+      operationId: update-notificationSetting
       parameters:
       - description: notification id
         in: path
-        name: enabledNotificationId
+        name: notificationSettingId
         required: true
         schema:
           type: string
@@ -33,7 +33,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload'
+              $ref: '#/components/schemas/mw-notification-bff_internal_schemas.UpdateNotificationSettingPayload'
         description: query params
         required: true
       responses:
@@ -41,11 +41,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
+                $ref: '#/components/schemas/mw-notification-bff_internal_schemas.NotificationSettingResponse'
           description: OK
-      summary: Update enabledNotification by id
+      summary: Update notificationSetting by id
       tags:
-      - enabledNotification
+      - notificationSetting
       x-codegen-request-body-name: request
   /notifications:
     get:
@@ -90,52 +90,6 @@ paths:
       x-codegen-request-body-name: request
 components:
   schemas:
-    mw-notification-bff_internal_schemas.EnabledNotificationResponse:
-      example:
-        nature: nature
-        isEnabled: true
-        channel: channel
-        userUuid: userUuid
-        uuid: uuid
-      properties:
-        channel:
-          type: string
-        isEnabled:
-          type: boolean
-        nature:
-          type: string
-        userUuid:
-          type: string
-        uuid:
-          type: string
-      required:
-      - channel
-      - isEnabled
-      - nature
-      - userUuid
-      - uuid
-      type: object
-    mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse:
-      example:
-        enabledNotifications:
-        - nature: nature
-          isEnabled: true
-          channel: channel
-          userUuid: userUuid
-          uuid: uuid
-        - nature: nature
-          isEnabled: true
-          channel: channel
-          userUuid: userUuid
-          uuid: uuid
-      properties:
-        enabledNotifications:
-          items:
-            $ref: '#/components/schemas/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
-          type: array
-      required:
-      - enabledNotifications
-      type: object
     mw-notification-bff_internal_schemas.GetNotificationListResponse:
       example:
         size: 0
@@ -164,6 +118,27 @@ components:
       required:
       - notifications
       - size
+      type: object
+    mw-notification-bff_internal_schemas.GetNotificationSettingListResponse:
+      example:
+        NotificationSettings:
+        - nature: nature
+          isEnabled: true
+          channel: channel
+          userUuid: userUuid
+          uuid: uuid
+        - nature: nature
+          isEnabled: true
+          channel: channel
+          userUuid: userUuid
+          uuid: uuid
+      properties:
+        NotificationSettings:
+          items:
+            $ref: '#/components/schemas/mw-notification-bff_internal_schemas.NotificationSettingResponse'
+          type: array
+      required:
+      - NotificationSettings
       type: object
     mw-notification-bff_internal_schemas.NotificationResponse:
       example:
@@ -198,12 +173,30 @@ components:
       - userUuid
       - uuid
       type: object
-    mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload:
+    mw-notification-bff_internal_schemas.NotificationSettingResponse:
+      example:
+        nature: nature
+        isEnabled: true
+        channel: channel
+        userUuid: userUuid
+        uuid: uuid
       properties:
+        channel:
+          type: string
         isEnabled:
           type: boolean
+        nature:
+          type: string
+        userUuid:
+          type: string
+        uuid:
+          type: string
       required:
+      - channel
       - isEnabled
+      - nature
+      - userUuid
+      - uuid
       type: object
     mw-notification-bff_internal_schemas.UpdateNotificationPayload:
       properties:
@@ -211,5 +204,12 @@ components:
           type: boolean
       required:
       - isRead
+      type: object
+    mw-notification-bff_internal_schemas.UpdateNotificationSettingPayload:
+      properties:
+        isEnabled:
+          type: boolean
+      required:
+      - isEnabled
       type: object
 x-original-swagger-version: "2.0"

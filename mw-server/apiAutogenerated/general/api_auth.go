@@ -575,7 +575,7 @@ type ApiGetTokenLocallyRequest struct {
 	userEmail string
 }
 
-func (r ApiGetTokenLocallyRequest) Execute() (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
+func (r ApiGetTokenLocallyRequest) Execute() (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	return r.ApiService.GetTokenLocallyExecute(r)
 }
 
@@ -597,13 +597,13 @@ func (a *AuthAPIService) GetTokenLocally(ctx context.Context, userEmail string) 
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasGetUserTokenByEmailResponse
-func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAuthCallbackFunctionResponse
+func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwServerInternalSchemasGetUserTokenByEmailResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetTokenLocally")
@@ -673,11 +673,11 @@ func (a *AuthAPIService) GetTokenLocallyExecute(r ApiGetTokenLocallyRequest) (*M
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasGetUserTokenByEmailResponseStream
-func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetUserTokenByEmailResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasGetAuthCallbackFunctionResponseStream
+func (a *AuthAPIService) GetTokenLocallyStreamExecute(r ApiGetTokenLocallyRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasGetAuthCallbackFunctionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  *MwServerInternalSchemasGetUserTokenByEmailResponse
+		localVarReturnValue  *MwServerInternalSchemasGetAuthCallbackFunctionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AuthAPIService.GetTokenLocally")

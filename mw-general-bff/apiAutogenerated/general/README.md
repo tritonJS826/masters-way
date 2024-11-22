@@ -204,7 +204,6 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasGetAllUsersResponse](docs/MwServerInternalSchemasGetAllUsersResponse.md)
  - [MwServerInternalSchemasGetAllWaysResponse](docs/MwServerInternalSchemasGetAllWaysResponse.md)
  - [MwServerInternalSchemasGetAuthCallbackFunctionResponse](docs/MwServerInternalSchemasGetAuthCallbackFunctionResponse.md)
- - [MwServerInternalSchemasGetUserTokenByEmailResponse](docs/MwServerInternalSchemasGetUserTokenByEmailResponse.md)
  - [MwServerInternalSchemasGetUsersByIDsResponse](docs/MwServerInternalSchemasGetUsersByIDsResponse.md)
  - [MwServerInternalSchemasGoogleToken](docs/MwServerInternalSchemasGoogleToken.md)
  - [MwServerInternalSchemasJobDonePopulatedResponse](docs/MwServerInternalSchemasJobDonePopulatedResponse.md)

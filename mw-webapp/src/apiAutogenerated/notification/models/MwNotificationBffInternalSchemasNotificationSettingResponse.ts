@@ -16,45 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwNotificationBffInternalSchemasEnabledNotificationResponse
+ * @interface MwNotificationBffInternalSchemasNotificationSettingResponse
  */
-export interface MwNotificationBffInternalSchemasEnabledNotificationResponse {
+export interface MwNotificationBffInternalSchemasNotificationSettingResponse {
     /**
      * 
      * @type {string}
-     * @memberof MwNotificationBffInternalSchemasEnabledNotificationResponse
+     * @memberof MwNotificationBffInternalSchemasNotificationSettingResponse
      */
     channel: string;
     /**
      * 
      * @type {boolean}
-     * @memberof MwNotificationBffInternalSchemasEnabledNotificationResponse
+     * @memberof MwNotificationBffInternalSchemasNotificationSettingResponse
      */
     isEnabled: boolean;
     /**
      * 
      * @type {string}
-     * @memberof MwNotificationBffInternalSchemasEnabledNotificationResponse
+     * @memberof MwNotificationBffInternalSchemasNotificationSettingResponse
      */
     nature: string;
     /**
      * 
      * @type {string}
-     * @memberof MwNotificationBffInternalSchemasEnabledNotificationResponse
+     * @memberof MwNotificationBffInternalSchemasNotificationSettingResponse
      */
     userUuid: string;
     /**
      * 
      * @type {string}
-     * @memberof MwNotificationBffInternalSchemasEnabledNotificationResponse
+     * @memberof MwNotificationBffInternalSchemasNotificationSettingResponse
      */
     uuid: string;
 }
 
 /**
- * Check if a given object implements the MwNotificationBffInternalSchemasEnabledNotificationResponse interface.
+ * Check if a given object implements the MwNotificationBffInternalSchemasNotificationSettingResponse interface.
  */
-export function instanceOfMwNotificationBffInternalSchemasEnabledNotificationResponse(
+export function instanceOfMwNotificationBffInternalSchemasNotificationSettingResponse(
     value: object
 ): boolean {
     let isInstance = true;
@@ -67,14 +67,14 @@ export function instanceOfMwNotificationBffInternalSchemasEnabledNotificationRes
     return isInstance;
 }
 
-export function MwNotificationBffInternalSchemasEnabledNotificationResponseFromJSON(json: any): MwNotificationBffInternalSchemasEnabledNotificationResponse {
-    return MwNotificationBffInternalSchemasEnabledNotificationResponseFromJSONTyped(json, false);
+export function MwNotificationBffInternalSchemasNotificationSettingResponseFromJSON(json: any): MwNotificationBffInternalSchemasNotificationSettingResponse {
+    return MwNotificationBffInternalSchemasNotificationSettingResponseFromJSONTyped(json, false);
 }
 
-export function MwNotificationBffInternalSchemasEnabledNotificationResponseFromJSONTyped(
+export function MwNotificationBffInternalSchemasNotificationSettingResponseFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwNotificationBffInternalSchemasEnabledNotificationResponse {
+): MwNotificationBffInternalSchemasNotificationSettingResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -89,7 +89,7 @@ export function MwNotificationBffInternalSchemasEnabledNotificationResponseFromJ
 }
 
 
-export function MwNotificationBffInternalSchemasEnabledNotificationResponseToJSON(value?: MwNotificationBffInternalSchemasEnabledNotificationResponse | null): any {
+export function MwNotificationBffInternalSchemasNotificationSettingResponseToJSON(value?: MwNotificationBffInternalSchemasNotificationSettingResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

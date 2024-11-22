@@ -193,13 +193,21 @@ type CreateUserParams struct {
 	IsMentor    bool
 }
 
-func (us *UserService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*schemas.UserPopulatedResponse, error) {
+type FindOrCreateUserByEmailResponse struct {
+	User             *schemas.UserPopulatedResponse
+	IsAlreadyCreated bool
+}
+
+func (us *UserService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*FindOrCreateUserByEmailResponse, error) {
 	user, err := us.IUserRepository.GetUserByEmail(ctx, params.Email)
+	isAlreadyCreated := false
 
 	var userUUID uuid.UUID
 	if err == nil {
+		isAlreadyCreated = true
 		userUUID = user.Uuid.Bytes
 	} else {
+		isAlreadyCreated = false
 		dbUser, _ := us.CreateUser(ctx, params)
 		userUUID = uuid.MustParse(dbUser.Uuid)
 	}
@@ -209,7 +217,10 @@ func (us *UserService) FindOrCreateUserByEmail(ctx context.Context, params *Crea
 		return nil, err
 	}
 
-	return populatedUser, nil
+	return &FindOrCreateUserByEmailResponse{
+		User:             populatedUser,
+		IsAlreadyCreated: isAlreadyCreated,
+	}, nil
 }
 
 func (us *UserService) CreateUser(ctx context.Context, params *CreateUserParams) (*schemas.UserPlainResponse, error) {

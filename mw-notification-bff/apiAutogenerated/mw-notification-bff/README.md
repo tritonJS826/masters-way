@@ -78,20 +78,20 @@ All URIs are relative to */notification*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*EnabledNotificationAPI* | [**GetEnabledNotificationList**](docs/EnabledNotificationAPI.md#getenablednotificationlist) | **Get** /enabledNotifications | Get enabledNotification list by user id
-*EnabledNotificationAPI* | [**UpdateEnabledNotification**](docs/EnabledNotificationAPI.md#updateenablednotification) | **Patch** /enabledNotifications/{enabledNotificationId} | Update enabledNotification by id
 *NotificationAPI* | [**GetNotificationList**](docs/NotificationAPI.md#getnotificationlist) | **Get** /notifications | Get notification list by user id
 *NotificationAPI* | [**UpdateNotification**](docs/NotificationAPI.md#updatenotification) | **Patch** /notifications/{notificationId} | Update notification by id
+*NotificationSettingAPI* | [**GetNotificationSettingList**](docs/NotificationSettingAPI.md#getnotificationsettinglist) | **Get** /notificationSettings | Get notificationSetting list by user id
+*NotificationSettingAPI* | [**UpdateNotificationSetting**](docs/NotificationSettingAPI.md#updatenotificationsetting) | **Patch** /notificationSettings/{notificationSettingId} | Update notificationSetting by id
 
 
 ## Documentation For Models
 
- - [MwNotificationBffInternalSchemasEnabledNotificationResponse](docs/MwNotificationBffInternalSchemasEnabledNotificationResponse.md)
- - [MwNotificationBffInternalSchemasGetEnabledNotificationListResponse](docs/MwNotificationBffInternalSchemasGetEnabledNotificationListResponse.md)
  - [MwNotificationBffInternalSchemasGetNotificationListResponse](docs/MwNotificationBffInternalSchemasGetNotificationListResponse.md)
+ - [MwNotificationBffInternalSchemasGetNotificationSettingListResponse](docs/MwNotificationBffInternalSchemasGetNotificationSettingListResponse.md)
  - [MwNotificationBffInternalSchemasNotificationResponse](docs/MwNotificationBffInternalSchemasNotificationResponse.md)
- - [MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload](docs/MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload.md)
+ - [MwNotificationBffInternalSchemasNotificationSettingResponse](docs/MwNotificationBffInternalSchemasNotificationSettingResponse.md)
  - [MwNotificationBffInternalSchemasUpdateNotificationPayload](docs/MwNotificationBffInternalSchemasUpdateNotificationPayload.md)
+ - [MwNotificationBffInternalSchemasUpdateNotificationSettingPayload](docs/MwNotificationBffInternalSchemasUpdateNotificationSettingPayload.md)
 
 
 ## Documentation For Authorization

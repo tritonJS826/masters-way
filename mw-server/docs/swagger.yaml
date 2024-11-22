@@ -562,23 +562,13 @@ definitions:
     type: object
   mw-server_internal_schemas.GetAuthCallbackFunctionResponse:
     properties:
+      isAlreadyCreated:
+        type: boolean
       url:
         type: string
-      userUuid:
-        type: string
     required:
+    - isAlreadyCreated
     - url
-    - userUuid
-    type: object
-  mw-server_internal_schemas.GetUserTokenByEmailResponse:
-    properties:
-      url:
-        type: string
-      userUuid:
-        type: string
-    required:
-    - url
-    - userUuid
     type: object
   mw-server_internal_schemas.GetUsersByIDsResponse:
     properties:
@@ -1465,7 +1455,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-server_internal_schemas.GetUserTokenByEmailResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.GetAuthCallbackFunctionResponse'
       summary: login locally by email (with no oauth)
       tags:
       - auth

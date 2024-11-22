@@ -16,21 +16,21 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload
+ * @interface MwNotificationBffInternalSchemasUpdateNotificationSettingPayload
  */
-export interface MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload {
+export interface MwNotificationBffInternalSchemasUpdateNotificationSettingPayload {
     /**
      * 
      * @type {boolean}
-     * @memberof MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload
+     * @memberof MwNotificationBffInternalSchemasUpdateNotificationSettingPayload
      */
     isEnabled: boolean;
 }
 
 /**
- * Check if a given object implements the MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload interface.
+ * Check if a given object implements the MwNotificationBffInternalSchemasUpdateNotificationSettingPayload interface.
  */
-export function instanceOfMwNotificationBffInternalSchemasUpdateEnabledNotificationPayload(
+export function instanceOfMwNotificationBffInternalSchemasUpdateNotificationSettingPayload(
     value: object
 ): boolean {
     let isInstance = true;
@@ -39,14 +39,14 @@ export function instanceOfMwNotificationBffInternalSchemasUpdateEnabledNotificat
     return isInstance;
 }
 
-export function MwNotificationBffInternalSchemasUpdateEnabledNotificationPayloadFromJSON(json: any): MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload {
-    return MwNotificationBffInternalSchemasUpdateEnabledNotificationPayloadFromJSONTyped(json, false);
+export function MwNotificationBffInternalSchemasUpdateNotificationSettingPayloadFromJSON(json: any): MwNotificationBffInternalSchemasUpdateNotificationSettingPayload {
+    return MwNotificationBffInternalSchemasUpdateNotificationSettingPayloadFromJSONTyped(json, false);
 }
 
-export function MwNotificationBffInternalSchemasUpdateEnabledNotificationPayloadFromJSONTyped(
+export function MwNotificationBffInternalSchemasUpdateNotificationSettingPayloadFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload {
+): MwNotificationBffInternalSchemasUpdateNotificationSettingPayload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,7 +57,7 @@ export function MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload
 }
 
 
-export function MwNotificationBffInternalSchemasUpdateEnabledNotificationPayloadToJSON(value?: MwNotificationBffInternalSchemasUpdateEnabledNotificationPayload | null): any {
+export function MwNotificationBffInternalSchemasUpdateNotificationSettingPayloadToJSON(value?: MwNotificationBffInternalSchemasUpdateNotificationSettingPayload | null): any {
     if (value === undefined) {
         return undefined;
     }

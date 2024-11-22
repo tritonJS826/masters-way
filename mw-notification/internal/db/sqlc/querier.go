@@ -11,14 +11,15 @@ import (
 )
 
 type Querier interface {
-	CreateEnabledNotifications(ctx context.Context, userUuid pgtype.UUID) error
 	CreateNotification(ctx context.Context, arg CreateNotificationParams) (Notification, error)
-	GetEnabledNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]EnabledNotification, error)
+	CreateNotificationSettings(ctx context.Context, userUuid pgtype.UUID) error
+	GetEnabledNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
 	GetNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]Notification, error)
+	GetNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
-	UpdateEnabledNotification(ctx context.Context, arg UpdateEnabledNotificationParams) (EnabledNotification, error)
 	UpdateNotification(ctx context.Context, arg UpdateNotificationParams) (Notification, error)
+	UpdateNotificationSetting(ctx context.Context, arg UpdateNotificationSettingParams) (NotificationSetting, error)
 }
 
 var _ Querier = (*Queries)(nil)

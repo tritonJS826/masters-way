@@ -21,9 +21,9 @@
   },
   "notification": {
     "notificationLabel": {
-      "ru": "Нотификации",
-      "en": "Notifications",
-      "ua": "Сповіщення"
+      "ru": "Нотификации ОС",
+      "en": "Notifications OS",
+      "ua": "Сповіщення ОС"
     },
     "enableSystemNotificationsButton": {
       "ru": "Включить",
@@ -34,6 +34,11 @@
       "ru": "Отключить",
       "en": "Turn off",
       "ua": "Вимкнути"
+    },
+    "enabledNotificationTitle": {
+      "ru": "Настройки уведомлений",
+      "en": "Notification settings",
+      "ua": "Налаштування сповіщень"
     },
     "enableSystemNotificationsTitle": {
       "ru": "Masters way",

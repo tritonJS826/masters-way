@@ -21,8 +21,8 @@ var _ MappedNullable = &MwServerInternalSchemasGetAuthCallbackFunctionResponse{}
 
 // MwServerInternalSchemasGetAuthCallbackFunctionResponse struct for MwServerInternalSchemasGetAuthCallbackFunctionResponse
 type MwServerInternalSchemasGetAuthCallbackFunctionResponse struct {
+	IsAlreadyCreated bool
 	Url string
-	UserUuid string
 }
 
 type _MwServerInternalSchemasGetAuthCallbackFunctionResponse MwServerInternalSchemasGetAuthCallbackFunctionResponse
@@ -31,10 +31,10 @@ type _MwServerInternalSchemasGetAuthCallbackFunctionResponse MwServerInternalSch
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasGetAuthCallbackFunctionResponse(url string, userUuid string) *MwServerInternalSchemasGetAuthCallbackFunctionResponse {
+func NewMwServerInternalSchemasGetAuthCallbackFunctionResponse(isAlreadyCreated bool, url string) *MwServerInternalSchemasGetAuthCallbackFunctionResponse {
 	this := MwServerInternalSchemasGetAuthCallbackFunctionResponse{}
+	this.IsAlreadyCreated = isAlreadyCreated
 	this.Url = url
-	this.UserUuid = userUuid
 	return &this
 }
 
@@ -44,6 +44,30 @@ func NewMwServerInternalSchemasGetAuthCallbackFunctionResponse(url string, userU
 func NewMwServerInternalSchemasGetAuthCallbackFunctionResponseWithDefaults() *MwServerInternalSchemasGetAuthCallbackFunctionResponse {
 	this := MwServerInternalSchemasGetAuthCallbackFunctionResponse{}
 	return &this
+}
+
+// GetIsAlreadyCreated returns the IsAlreadyCreated field value
+func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) GetIsAlreadyCreated() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.IsAlreadyCreated
+}
+
+// GetIsAlreadyCreatedOk returns a tuple with the IsAlreadyCreated field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) GetIsAlreadyCreatedOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IsAlreadyCreated, true
+}
+
+// SetIsAlreadyCreated sets field value
+func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) SetIsAlreadyCreated(v bool) {
+	o.IsAlreadyCreated = v
 }
 
 // GetUrl returns the Url field value
@@ -70,30 +94,6 @@ func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) SetUrl(v string
 	o.Url = v
 }
 
-// GetUserUuid returns the UserUuid field value
-func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) GetUserUuid() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.UserUuid
-}
-
-// GetUserUuidOk returns a tuple with the UserUuid field value
-// and a boolean to check if the value has been set.
-func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) GetUserUuidOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.UserUuid, true
-}
-
-// SetUserUuid sets field value
-func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) SetUserUuid(v string) {
-	o.UserUuid = v
-}
-
 func (o MwServerInternalSchemasGetAuthCallbackFunctionResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -104,8 +104,8 @@ func (o MwServerInternalSchemasGetAuthCallbackFunctionResponse) MarshalJSON() ([
 
 func (o MwServerInternalSchemasGetAuthCallbackFunctionResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["isAlreadyCreated"] = o.IsAlreadyCreated
 	toSerialize["url"] = o.Url
-	toSerialize["userUuid"] = o.UserUuid
 	return toSerialize, nil
 }
 
@@ -114,8 +114,8 @@ func (o *MwServerInternalSchemasGetAuthCallbackFunctionResponse) UnmarshalJSON(d
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"isAlreadyCreated",
 		"url",
-		"userUuid",
 	}
 
 	allProperties := make(map[string]interface{})

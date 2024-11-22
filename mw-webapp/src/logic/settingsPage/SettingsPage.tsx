@@ -5,11 +5,15 @@ import {languageOptions} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {EnabledNotificationSettingsDAL as NotificationSettingsDAL} from "src/dataAccessLogic/NotificationSettingsDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
+import {useStore} from "src/hooks/useStore";
+import {SettingsPageStore} from "src/logic/settingsPage/SettingsPageStore";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
@@ -19,6 +23,14 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 export const SettingsPage = observer(() => {
   const {language, setLanguage} = languageStore;
   const {isOSNotificationAllowedByUser, setIsOSNotificationAllowedByUser} = serviceWorkerStore;
+
+  const settingsPageStore = useStore<
+  new () => SettingsPageStore,
+  [], SettingsPageStore>({
+      storeForInitialize: SettingsPageStore,
+      dataForInitialization: [],
+      dependency: [],
+    });
 
   return (
     <VerticalContainer className={styles.container}>
@@ -84,6 +96,41 @@ export const SettingsPage = observer(() => {
             />
           </Tooltip>
         </HorizontalContainer>
+
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.settings.notification.enabledNotificationTitle[language]}
+          className={styles.loginTitle}
+          placeholder=""
+        />
+        {settingsPageStore.isInitialized && (
+          <VerticalContainer>
+            {settingsPageStore.notificationSettingList.map(notificationSetting => (
+              <HorizontalContainer
+                className={styles.line}
+                key={notificationSetting.uuid}
+              >
+                <span>
+                  {notificationSetting.channel}
+                </span>
+                {" "}
+                <span>
+                  {notificationSetting.nature}
+                </span>
+                <Toggle
+                  onChange={() => {
+                    NotificationSettingsDAL.updateNotificationSetting(
+                      notificationSetting.uuid,
+                      !notificationSetting.isEnabled,
+                    );
+                    notificationSetting.isEnabled = !notificationSetting.isEnabled;
+                  }}
+                  isDefaultChecked={notificationSetting.isEnabled}
+                />
+              </HorizontalContainer>
+            ))}
+          </VerticalContainer>
+        )}
 
       </div>
     </VerticalContainer>

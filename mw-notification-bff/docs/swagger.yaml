@@ -1,33 +1,5 @@
 basePath: /notification
 definitions:
-  mw-notification-bff_internal_schemas.EnabledNotificationResponse:
-    properties:
-      channel:
-        type: string
-      isEnabled:
-        type: boolean
-      nature:
-        type: string
-      userUuid:
-        type: string
-      uuid:
-        type: string
-    required:
-    - channel
-    - isEnabled
-    - nature
-    - userUuid
-    - uuid
-    type: object
-  mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse:
-    properties:
-      enabledNotifications:
-        items:
-          $ref: '#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
-        type: array
-    required:
-    - enabledNotifications
-    type: object
   mw-notification-bff_internal_schemas.GetNotificationListResponse:
     properties:
       notifications:
@@ -39,6 +11,15 @@ definitions:
     required:
     - notifications
     - size
+    type: object
+  mw-notification-bff_internal_schemas.GetNotificationSettingListResponse:
+    properties:
+      NotificationSettings:
+        items:
+          $ref: '#/definitions/mw-notification-bff_internal_schemas.NotificationSettingResponse'
+        type: array
+    required:
+    - NotificationSettings
     type: object
   mw-notification-bff_internal_schemas.NotificationResponse:
     properties:
@@ -65,12 +46,24 @@ definitions:
     - userUuid
     - uuid
     type: object
-  mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload:
+  mw-notification-bff_internal_schemas.NotificationSettingResponse:
     properties:
+      channel:
+        type: string
       isEnabled:
         type: boolean
+      nature:
+        type: string
+      userUuid:
+        type: string
+      uuid:
+        type: string
     required:
+    - channel
     - isEnabled
+    - nature
+    - userUuid
+    - uuid
     type: object
   mw-notification-bff_internal_schemas.UpdateNotificationPayload:
     properties:
@@ -79,41 +72,48 @@ definitions:
     required:
     - isRead
     type: object
+  mw-notification-bff_internal_schemas.UpdateNotificationSettingPayload:
+    properties:
+      isEnabled:
+        type: boolean
+    required:
+    - isEnabled
+    type: object
 info:
   contact: {}
   title: Masters way notification-bff API
   version: "1.0"
 paths:
-  /enabledNotifications:
+  /notificationSettings:
     get:
       consumes:
       - application/json
-      operationId: get-enabledNotification-list
+      operationId: get-notificationSetting-list
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse'
-      summary: Get enabledNotification list by user id
+            $ref: '#/definitions/mw-notification-bff_internal_schemas.GetNotificationSettingListResponse'
+      summary: Get notificationSetting list by user id
       tags:
-      - enabledNotification
-  /enabledNotifications/{enabledNotificationId}:
+      - notificationSetting
+  /notificationSettings/{notificationSettingId}:
     patch:
       consumes:
       - application/json
-      operationId: update-enabledNotification
+      operationId: update-notificationSetting
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload'
+          $ref: '#/definitions/mw-notification-bff_internal_schemas.UpdateNotificationSettingPayload'
       - description: notification id
         in: path
-        name: enabledNotificationId
+        name: notificationSettingId
         required: true
         type: string
       produces:
@@ -122,10 +122,10 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse'
-      summary: Update enabledNotification by id
+            $ref: '#/definitions/mw-notification-bff_internal_schemas.NotificationSettingResponse'
+      summary: Update notificationSetting by id
       tags:
-      - enabledNotification
+      - notificationSetting
   /notifications:
     get:
       consumes:

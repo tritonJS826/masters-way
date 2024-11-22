@@ -21,16 +21,16 @@ import { exists, mapValues } from '../runtime';
 export interface MwServerInternalSchemasGetAuthCallbackFunctionResponse {
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof MwServerInternalSchemasGetAuthCallbackFunctionResponse
      */
-    url: string;
+    isAlreadyCreated: boolean;
     /**
      * 
      * @type {string}
      * @memberof MwServerInternalSchemasGetAuthCallbackFunctionResponse
      */
-    userUuid: string;
+    url: string;
 }
 
 /**
@@ -40,8 +40,8 @@ export function instanceOfMwServerInternalSchemasGetAuthCallbackFunctionResponse
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "isAlreadyCreated" in value;
     isInstance = isInstance && "url" in value;
-    isInstance = isInstance && "userUuid" in value;
 
     return isInstance;
 }
@@ -59,8 +59,8 @@ export function MwServerInternalSchemasGetAuthCallbackFunctionResponseFromJSONTy
     }
     return {
         
+        'isAlreadyCreated': json['isAlreadyCreated'],
         'url': json['url'],
-        'userUuid': json['userUuid'],
     };
 }
 
@@ -74,8 +74,8 @@ export function MwServerInternalSchemasGetAuthCallbackFunctionResponseToJSON(val
     }
     return {
         
+        'isAlreadyCreated': value.isAlreadyCreated,
         'url': value.url,
-        'userUuid': value.userUuid,
     };
 }
 

@@ -19,12 +19,12 @@ func NewService(
 ) *Service {
 	notificationBFFApi := openapi.MakeNotificationBFFAPIClient(config)
 
-	notificationGRPC := pb.NewNotificationClient(conn)
-	enabledNotificationGRPC := pb.NewEnabledNotificationClient(conn)
+	notificationGRPC := pb.NewNotificationServiceClient(conn)
+	notificationSettingGRPC := pb.NewNotificationSettingServiceClient(conn)
 
 	return &Service{
 		GeneralService:      NewGeneralService(notificationBFFApi),
-		NotificationService: NewNotificationService(notificationGRPC, enabledNotificationGRPC),
+		NotificationService: NewNotificationService(notificationGRPC, notificationSettingGRPC),
 	}
 }
 

@@ -28,7 +28,6 @@ func NewNotificationController(generalService *services.GeneralService, notifica
 // @Success 200 {object} schemas.GetNotificationListResponse
 // @Router /notifications [get]
 func (nc *NotificationController) GetNotificationList(ctx *gin.Context) {
-	// TODO: token
 	userUUID := ctx.Value(auth.ContextKeyUserID).(string)
 	response, err := nc.notificationService.GetNotificationList(ctx, userUUID)
 	utils.HandleErrorGin(ctx, err)
@@ -56,52 +55,51 @@ func (nc *NotificationController) UpdateNotification(ctx *gin.Context) {
 		return
 	}
 
-	// TODO: token
 	response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Get enabledNotification list handler
-// @Summary Get enabledNotification list by user id
+// Get notificationSetting list handler
+// @Summary Get notificationSetting list by user id
 // @Description
-// @Tags enabledNotification
-// @ID get-enabledNotification-list
+// @Tags notificationSetting
+// @ID get-notificationSetting-list
 // @Accept json
 // @Produce json
-// @Success 200 {object} schemas.GetEnabledNotificationListResponse
-// @Router /enabledNotifications [get]
-func (nc *NotificationController) GetEnabledNotificationList(ctx *gin.Context) {
+// @Success 200 {object} schemas.GetNotificationSettingListResponse
+// @Router /notificationSettings [get]
+func (nc *NotificationController) GetNotificationSettingList(ctx *gin.Context) {
 	userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	response, err := nc.notificationService.GetEnabledNotificationList(ctx, userUUID)
+	response, err := nc.notificationService.GetNotificationSettingList(ctx, userUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
 }
 
-// Update enabledNotification handler
-// @Summary Update enabledNotification by id
+// Update notificationSetting handler
+// @Summary Update notificationSetting by id
 // @Description
-// @Tags enabledNotification
-// @ID update-enabledNotification
+// @Tags notificationSetting
+// @ID update-notificationSetting
 // @Accept json
 // @Produce json
-// @Param request body schemas.UpdateEnabledNotificationPayload true "query params"
-// @Param enabledNotificationId path string true "notification id"
-// @Success 200 {object} schemas.EnabledNotificationResponse
-// @Router /enabledNotifications/{enabledNotificationId} [patch]
-func (nc *NotificationController) UpdateEnabledNotification(ctx *gin.Context) {
-	var payload *schemas.UpdateEnabledNotificationPayload
+// @Param request body schemas.UpdateNotificationSettingPayload true "query params"
+// @Param notificationSettingId path string true "notification id"
+// @Success 200 {object} schemas.NotificationSettingResponse
+// @Router /notificationSettings/{notificationSettingId} [patch]
+func (nc *NotificationController) UpdateNotificationSetting(ctx *gin.Context) {
+	var payload *schemas.UpdateNotificationSettingPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
 
-	notificationID := ctx.Param("enabledNotificationId")
+	notificationID := ctx.Param("notificationSettingId")
 
-	response, err := nc.notificationService.UpdateEnabledNotification(ctx, notificationID, payload.IsEnabled)
+	response, err := nc.notificationService.UpdateNotificationSetting(ctx, notificationID, payload.IsEnabled)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

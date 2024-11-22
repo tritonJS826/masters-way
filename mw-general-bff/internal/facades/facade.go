@@ -38,7 +38,7 @@ type Facade struct {
 func NewFacade(service *services.Service, config *config.Config) *Facade {
 	return &Facade{
 		FileFacade:                     newFileFacade(service.StorageService),
-		AuthFacade:                     newAuthFacade(service.AuthService, service.NotificationService),
+		AuthFacade:                     newAuthFacade(service.AuthService, service.NotificationService, config),
 		CommentFacade:                  newCommentFacade(service.GeneralService),
 		CompositeWayFacade:             newCompositeWayFacade(service.GeneralService),
 		DayReportFacade:                newDayReportFacade(service.GeneralService),

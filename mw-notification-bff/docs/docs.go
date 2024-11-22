@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/enabledNotifications": {
+        "/notificationSettings": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -24,21 +24,21 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "enabledNotification"
+                    "notificationSetting"
                 ],
-                "summary": "Get enabledNotification list by user id",
-                "operationId": "get-enabledNotification-list",
+                "summary": "Get notificationSetting list by user id",
+                "operationId": "get-notificationSetting-list",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.GetNotificationSettingListResponse"
                         }
                     }
                 }
             }
         },
-        "/enabledNotifications/{enabledNotificationId}": {
+        "/notificationSettings/{notificationSettingId}": {
             "patch": {
                 "consumes": [
                     "application/json"
@@ -47,10 +47,10 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "enabledNotification"
+                    "notificationSetting"
                 ],
-                "summary": "Update enabledNotification by id",
-                "operationId": "update-enabledNotification",
+                "summary": "Update notificationSetting by id",
+                "operationId": "update-notificationSetting",
                 "parameters": [
                     {
                         "description": "query params",
@@ -58,13 +58,13 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.UpdateNotificationSettingPayload"
                         }
                     },
                     {
                         "type": "string",
                         "description": "notification id",
-                        "name": "enabledNotificationId",
+                        "name": "notificationSettingId",
                         "in": "path",
                         "required": true
                     }
@@ -73,7 +73,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse"
+                            "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationSettingResponse"
                         }
                     }
                 }
@@ -145,47 +145,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "mw-notification-bff_internal_schemas.EnabledNotificationResponse": {
-            "type": "object",
-            "required": [
-                "channel",
-                "isEnabled",
-                "nature",
-                "userUuid",
-                "uuid"
-            ],
-            "properties": {
-                "channel": {
-                    "type": "string"
-                },
-                "isEnabled": {
-                    "type": "boolean"
-                },
-                "nature": {
-                    "type": "string"
-                },
-                "userUuid": {
-                    "type": "string"
-                },
-                "uuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "mw-notification-bff_internal_schemas.GetEnabledNotificationListResponse": {
-            "type": "object",
-            "required": [
-                "enabledNotifications"
-            ],
-            "properties": {
-                "enabledNotifications": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/mw-notification-bff_internal_schemas.EnabledNotificationResponse"
-                    }
-                }
-            }
-        },
         "mw-notification-bff_internal_schemas.GetNotificationListResponse": {
             "type": "object",
             "required": [
@@ -201,6 +160,20 @@ const docTemplate = `{
                 },
                 "size": {
                     "type": "integer"
+                }
+            }
+        },
+        "mw-notification-bff_internal_schemas.GetNotificationSettingListResponse": {
+            "type": "object",
+            "required": [
+                "NotificationSettings"
+            ],
+            "properties": {
+                "NotificationSettings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationSettingResponse"
+                    }
                 }
             }
         },
@@ -239,14 +212,30 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-notification-bff_internal_schemas.UpdateEnabledNotificationPayload": {
+        "mw-notification-bff_internal_schemas.NotificationSettingResponse": {
             "type": "object",
             "required": [
-                "isEnabled"
+                "channel",
+                "isEnabled",
+                "nature",
+                "userUuid",
+                "uuid"
             ],
             "properties": {
+                "channel": {
+                    "type": "string"
+                },
                 "isEnabled": {
                     "type": "boolean"
+                },
+                "nature": {
+                    "type": "string"
+                },
+                "userUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
                 }
             }
         },
@@ -257,6 +246,17 @@ const docTemplate = `{
             ],
             "properties": {
                 "isRead": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "mw-notification-bff_internal_schemas.UpdateNotificationSettingPayload": {
+            "type": "object",
+            "required": [
+                "isEnabled"
+            ],
+            "properties": {
+                "isEnabled": {
                     "type": "boolean"
                 }
             }

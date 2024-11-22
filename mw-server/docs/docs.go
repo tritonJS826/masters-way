@@ -89,7 +89,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.GetUserTokenByEmailResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.GetAuthCallbackFunctionResponse"
                         }
                     }
                 }
@@ -3505,29 +3505,14 @@ const docTemplate = `{
         "mw-server_internal_schemas.GetAuthCallbackFunctionResponse": {
             "type": "object",
             "required": [
-                "url",
-                "userUuid"
+                "isAlreadyCreated",
+                "url"
             ],
             "properties": {
-                "url": {
-                    "type": "string"
+                "isAlreadyCreated": {
+                    "type": "boolean"
                 },
-                "userUuid": {
-                    "type": "string"
-                }
-            }
-        },
-        "mw-server_internal_schemas.GetUserTokenByEmailResponse": {
-            "type": "object",
-            "required": [
-                "url",
-                "userUuid"
-            ],
-            "properties": {
                 "url": {
-                    "type": "string"
-                },
-                "userUuid": {
                     "type": "string"
                 }
             }
