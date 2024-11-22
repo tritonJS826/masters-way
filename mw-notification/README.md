@@ -3,5 +3,5 @@
 
 - reset db
 ```
-curl http://localhost:8002/notification/dev/reset-db
+grpcurl -plaintext localhost:8002 notification.Dev/ResetDB
 ```

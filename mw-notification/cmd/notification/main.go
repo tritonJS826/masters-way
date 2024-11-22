@@ -46,6 +46,7 @@ func main() {
 
 	pb.RegisterNotificationServer(grpcServer, newController.NotificationController)
 	pb.RegisterEnabledNotificationServer(grpcServer, newController.EnabledNotificationController)
+	pb.RegisterDevServer(grpcServer, newController.DevController)
 
 	go func() {
 		log.Printf("gRPC server listening at %v", lis.Addr())
