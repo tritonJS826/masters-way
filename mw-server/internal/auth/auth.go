@@ -27,8 +27,7 @@ func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
 }
 
 const (
-	// 30 days
-	MaxAge           = 24 * time.Hour * 30
+	MaxAge           = 1 * time.Hour
 	OauthStateString = "auth-state-string"
 
 	HeaderKeyAuthorization = "Authorization"
