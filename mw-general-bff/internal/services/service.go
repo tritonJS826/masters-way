@@ -19,13 +19,13 @@ func NewService(config *config.Config, conn *grpc.ClientConn) *Service {
 	var generalApi = openapi.MakeGeneralAPIClient(config)
 	var storageApi = openapi.MakeStorageAPIClient(config)
 
-	notificationGRPC := pb.NewNotificationClient(conn)
-	enabledNotificationGRPC := pb.NewEnabledNotificationClient(conn)
+	notificationGRPC := pb.NewNotificationServiceClient(conn)
+	notificationSettingGRPC := pb.NewNotificationSettingServiceClient(conn)
 
 	return &Service{
 		AuthService:         newAuthService(generalApi),
 		GeneralService:      newGeneralService(generalApi),
 		StorageService:      newStorageService(storageApi),
-		NotificationService: newNotificationService(notificationGRPC, enabledNotificationGRPC),
+		NotificationService: newNotificationService(notificationGRPC, notificationSettingGRPC),
 	}
 }

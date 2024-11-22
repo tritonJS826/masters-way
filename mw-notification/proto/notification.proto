@@ -6,16 +6,16 @@ package notification;
 
 import "google/protobuf/empty.proto";
 
-service Notification {
-    rpc CreateNotification(CreateNotificationRequest) returns (NotificationResponse);
+service NotificationService {
+    rpc CreateNotifications(CreateNotificationRequest) returns (CreateNotificationsResponse);
     rpc GetNotificationList(GetNotificationListRequest) returns (GetNotificationListResponse);
-    rpc UpdateNotification(UpdateNotificationRequest) returns (NotificationResponse);
+    rpc UpdateNotification(UpdateNotificationRequest) returns (Notification);
 }
 
-service EnabledNotification {
-    rpc CreateEnabledNotifications(CreateEnabledNotificationsRequest) returns (google.protobuf.Empty);
-    rpc GetEnabledNotificationList(GetEnabledNotificationListRequest) returns (GetEnabledNotificationListResponse);
-    rpc UpdateEnabledNotification(UpdateEnabledNotificationRequest) returns (EnabledNotificationResponse);
+service NotificationSettingService {
+    rpc CreateNotificationSettings(CreateNotificationSettingsRequest) returns (google.protobuf.Empty);
+    rpc GetNotificationSettingList(GetNotificationSettingListRequest) returns (GetNotificationSettingListResponse);
+    rpc UpdateNotificationSetting(UpdateNotificationSettingRequest) returns (NotificationSettingResponse);
 }
 
 service Dev {
@@ -28,7 +28,7 @@ message GetNotificationListRequest {
 
 message GetNotificationListResponse {
     int32 size = 1;
-    repeated NotificationResponse notifications = 2;
+    repeated Notification notifications = 2;
 }
 
 enum Nature {
@@ -41,10 +41,19 @@ enum Nature {
 }
 
 message CreateNotificationRequest {
-    string user_uuid = 1;
+    repeated string user_uuids = 1;
     string description = 2;
     string url = 3;
     Nature nature = 4;
+}
+
+message CreateNotificationResponse {
+    Notification notification = 1;
+    repeated NotificationSettingResponse notification_setting_list = 2;
+}
+
+message CreateNotificationsResponse {
+    repeated CreateNotificationResponse create_notification_list = 1;
 }
 
 message UpdateNotificationRequest {
@@ -52,7 +61,7 @@ message UpdateNotificationRequest {
     bool is_read = 2;
 }
 
-message NotificationResponse {
+message Notification {
     string uuid = 1;
     string user_uuid = 2;
     bool is_read = 3;
@@ -62,20 +71,20 @@ message NotificationResponse {
     string created_at = 7;
 }
 
-message GetEnabledNotificationListRequest {
+message GetNotificationSettingListRequest {
     string user_uuid = 1;
 }
 
-message CreateEnabledNotificationsRequest {
+message CreateNotificationSettingsRequest {
     string user_uuid = 1;
 }
 
-message UpdateEnabledNotificationRequest {
-    string enabled_notification_uuid = 1;
+message UpdateNotificationSettingRequest {
+    string notification_setting_uuid = 1;
     bool is_enabled = 2;
 }
 
-message EnabledNotificationResponse {
+message NotificationSettingResponse {
     string uuid = 1;
     string user_uuid = 2;
     Nature nature = 3;
@@ -83,6 +92,6 @@ message EnabledNotificationResponse {
     bool is_enabled = 5;
 }
 
-message GetEnabledNotificationListResponse {
-    repeated EnabledNotificationResponse enabled_notifications = 1;
+message GetNotificationSettingListResponse {
+    repeated NotificationSettingResponse notification_settings = 1;
 }

@@ -44,8 +44,8 @@ func main() {
 	grpcServer := grpc.NewServer()
 	reflection.Register(grpcServer)
 
-	pb.RegisterNotificationServer(grpcServer, newController.NotificationController)
-	pb.RegisterEnabledNotificationServer(grpcServer, newController.EnabledNotificationController)
+	pb.RegisterNotificationServiceServer(grpcServer, newController.NotificationController)
+	pb.RegisterNotificationSettingServiceServer(grpcServer, newController.NotificationSettingController)
 	pb.RegisterDevServer(grpcServer, newController.DevController)
 
 	go func() {

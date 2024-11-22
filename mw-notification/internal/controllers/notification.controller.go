@@ -11,38 +11,72 @@ import (
 )
 
 type NotificationController struct {
-	notificationService *services.NotificationService
-	pb.UnimplementedNotificationServer
+	notificationService        *services.NotificationService
+	notificationSettingService *services.NotificationSettingService
+	pb.UnimplementedNotificationServiceServer
 }
 
-func NewNotificationController(notificationService *services.NotificationService) *NotificationController {
-	return &NotificationController{notificationService: notificationService}
+func NewNotificationController(
+	notificationService *services.NotificationService,
+	notificationSettingService *services.NotificationSettingService,
+) *NotificationController {
+	return &NotificationController{
+		notificationService:        notificationService,
+		notificationSettingService: notificationSettingService,
+	}
 }
 
-func (nc *NotificationController) CreateNotification(ctx context.Context, in *pb.CreateNotificationRequest) (*pb.NotificationResponse, error) {
-	params := &services.CreateNotificationParams{
-		UserID:      uuid.MustParse(in.GetUserUuid()),
-		Description: in.Description,
-		Url:         in.Url,
-		Nature:      in.Nature.String(),
-	}
-	notification, err := nc.notificationService.CreateNotification(ctx, params)
-	if err != nil {
-		return nil, err
+func (nc *NotificationController) CreateNotifications(ctx context.Context, in *pb.CreateNotificationRequest) (*pb.CreateNotificationsResponse, error) {
+	userUUIDs := in.GetUserUuids()
+	createNotificationList := make([]*pb.CreateNotificationResponse, 0, len(userUUIDs))
+	for _, userUUID := range userUUIDs {
+		params := &services.CreateNotificationParams{
+			UserID:      uuid.MustParse(userUUID),
+			Description: in.Description,
+			Url:         in.Url,
+			Nature:      in.Nature.String(),
+		}
+		notificationRaw, err := nc.notificationService.CreateNotification(ctx, params)
+		if err != nil {
+			return nil, err
+		}
+
+		notification := &pb.Notification{
+			Uuid:        notificationRaw.UUID,
+			UserUuid:    notificationRaw.UserUUID,
+			IsRead:      notificationRaw.IsRead,
+			Description: notificationRaw.Description,
+			Url:         notificationRaw.Url,
+			Nature:      pb.Nature(pb.Nature_value[notificationRaw.Nature]),
+			CreatedAt:   notificationRaw.CreatedAt,
+		}
+
+		enabledNotificationSettingList, err := nc.notificationSettingService.GetEnabledNotificationSettingListByUserID(ctx, uuid.MustParse(userUUID))
+		if err != nil {
+			return nil, err
+		}
+		notificationSettingList := lo.Map(enabledNotificationSettingList.NotificationSettings, func(enabledNotificationSetting schemas.NotificationSettingResponse, _ int) *pb.NotificationSettingResponse {
+			return &pb.NotificationSettingResponse{
+				Uuid:      enabledNotificationSetting.UUID,
+				UserUuid:  enabledNotificationSetting.UserUUID,
+				Nature:    pb.Nature(pb.Nature_value[notificationRaw.Nature]),
+				Channel:   enabledNotificationSetting.Channel,
+				IsEnabled: enabledNotificationSetting.IsEnabled,
+			}
+		})
+
+		createNotificationList = append(createNotificationList, &pb.CreateNotificationResponse{
+			Notification:            notification,
+			NotificationSettingList: notificationSettingList,
+		})
 	}
 
-	return &pb.NotificationResponse{
-		Uuid:        notification.UUID,
-		UserUuid:    notification.UserUUID,
-		IsRead:      notification.IsRead,
-		Description: notification.Description,
-		Url:         notification.Url,
-		Nature:      pb.Nature(pb.Nature_value[notification.Nature]),
-		CreatedAt:   notification.CreatedAt,
+	return &pb.CreateNotificationsResponse{
+		CreateNotificationList: createNotificationList,
 	}, nil
 }
 
-func (nc *NotificationController) UpdateNotification(ctx context.Context, in *pb.UpdateNotificationRequest) (*pb.NotificationResponse, error) {
+func (nc *NotificationController) UpdateNotification(ctx context.Context, in *pb.UpdateNotificationRequest) (*pb.Notification, error) {
 	notification, err := nc.notificationService.UpdateNotification(ctx, &services.UpdateNotificationParams{
 		NotificationID: uuid.MustParse(in.GetNotificationUuid()),
 		IsRead:         in.GetIsRead(),
@@ -51,7 +85,7 @@ func (nc *NotificationController) UpdateNotification(ctx context.Context, in *pb
 		return nil, err
 	}
 
-	return &pb.NotificationResponse{
+	return &pb.Notification{
 		Uuid:        notification.UUID,
 		UserUuid:    notification.UserUUID,
 		IsRead:      notification.IsRead,
@@ -68,8 +102,8 @@ func (nc *NotificationController) GetNotificationList(ctx context.Context, in *p
 		return nil, err
 	}
 
-	notifications := lo.Map(getNotificationResponseRaw.Notifications, func(notificationRaw schemas.NotificationResponse, _ int) *pb.NotificationResponse {
-		return &pb.NotificationResponse{
+	notifications := lo.Map(getNotificationResponseRaw.Notifications, func(notificationRaw schemas.NotificationResponse, _ int) *pb.Notification {
+		return &pb.Notification{
 			Uuid:        notificationRaw.UUID,
 			UserUuid:    notificationRaw.UserUUID,
 			IsRead:      notificationRaw.IsRead,

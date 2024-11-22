@@ -1,10 +1,10 @@
 package schemas
 
-type UpdateEnabledNotificationPayload struct {
+type UpdateNotificationSettingPayload struct {
 	IsEnabled bool `json:"isEnabled" validate:"required"`
 }
 
-type EnabledNotificationResponse struct {
+type NotificationSettingResponse struct {
 	UUID      string `json:"uuid" validate:"required"`
 	UserUUID  string `json:"userUuid" validate:"required"`
 	Nature    string `json:"nature" validate:"required"`
@@ -12,6 +12,6 @@ type EnabledNotificationResponse struct {
 	IsEnabled bool   `json:"isEnabled" validate:"required"`
 }
 
-type GetEnabledNotificationListResponse struct {
-	EnabledNotifications []EnabledNotificationResponse `json:"enabledNotifications" validate:"required"`
+type GetNotificationSettingListResponse struct {
+	NotificationSettings []NotificationSettingResponse `json:"NotificationSettings" validate:"required"`
 }

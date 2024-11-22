@@ -4,14 +4,14 @@ import "mw-notification/internal/services"
 
 type Controller struct {
 	NotificationController        *NotificationController
-	EnabledNotificationController *EnabledNotificationController
+	NotificationSettingController *NotificationSettingController
 	DevController                 *DevController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		NotificationController:        NewNotificationController(services.NotificationService),
-		EnabledNotificationController: NewEnabledNotificationController(services.EnabledNotificationService),
+		NotificationController:        NewNotificationController(services.NotificationService, services.NotificationSettingService),
+		NotificationSettingController: NewNotificationSettingController(services.NotificationSettingService),
 		DevController:                 NewDevController(services.DevService),
 	}
 }
