@@ -47,7 +47,7 @@ export class NotificationSettingApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/notificationSetting`,
+            path: `/notificationSettings`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -83,7 +83,7 @@ export class NotificationSettingApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/notificationSetting/{notificationSettingId}`.replace(`{${"notificationSettingId"}}`, encodeURIComponent(String(requestParameters.notificationSettingId))),
+            path: `/notificationSettings/{notificationSettingId}`.replace(`{${"notificationSettingId"}}`, encodeURIComponent(String(requestParameters.notificationSettingId))),
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,

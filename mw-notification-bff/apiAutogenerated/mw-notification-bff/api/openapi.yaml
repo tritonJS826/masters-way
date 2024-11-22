@@ -6,7 +6,7 @@ info:
 servers:
 - url: /notification
 paths:
-  /notificationSetting:
+  /notificationSettings:
     get:
       operationId: get-notificationSetting-list
       responses:
@@ -19,7 +19,7 @@ paths:
       summary: Get notificationSetting list by user id
       tags:
       - notificationSetting
-  /notificationSetting/{notificationSettingId}:
+  /notificationSettings/{notificationSettingId}:
     patch:
       operationId: update-notificationSetting
       parameters:

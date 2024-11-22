@@ -7,7 +7,7 @@
     },
     "basePath": "/notification",
     "paths": {
-        "/notificationSetting": {
+        "/notificationSettings": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -30,7 +30,7 @@
                 }
             }
         },
-        "/notificationSetting/{notificationSettingId}": {
+        "/notificationSettings/{notificationSettingId}": {
             "patch": {
                 "consumes": [
                     "application/json"

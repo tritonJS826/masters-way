@@ -61,7 +61,7 @@ func (a *NotificationSettingAPIService) GetNotificationSettingListExecute(r ApiG
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notificationSetting"
+	localVarPath := localBasePath + "/notificationSettings"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -134,7 +134,7 @@ func (a *NotificationSettingAPIService) GetNotificationSettingListStreamExecute(
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notificationSetting"
+	localVarPath := localBasePath + "/notificationSettings"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -250,7 +250,7 @@ func (a *NotificationSettingAPIService) UpdateNotificationSettingExecute(r ApiUp
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notificationSetting/{notificationSettingId}"
+	localVarPath := localBasePath + "/notificationSettings/{notificationSettingId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"notificationSettingId"+"}", url.PathEscape(parameterValueToString(r.notificationSettingId, "notificationSettingId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -329,7 +329,7 @@ func (a *NotificationSettingAPIService) UpdateNotificationSettingStreamExecute(r
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/notificationSetting/{notificationSettingId}"
+	localVarPath := localBasePath + "/notificationSettings/{notificationSettingId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"notificationSettingId"+"}", url.PathEscape(parameterValueToString(r.notificationSettingId, "notificationSettingId")), -1)
 
 	localVarHeaderParams := make(map[string]string)

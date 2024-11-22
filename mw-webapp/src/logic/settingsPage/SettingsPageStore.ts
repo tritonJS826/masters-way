@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
-import {EnabledNotificationDAL} from "src/dataAccessLogic/EnabledNotificationDAL";
+import {EnabledNotificationSettingsDAL} from "src/dataAccessLogic/NotificationSettingsDAL";
 import {load} from "src/hooks/useLoad";
-import {EnabledNotification} from "src/model/businessModel/EnabledNotification";
+import {NotificationSetting} from "src/model/businessModel/EnabledNotification";
 
 /**
  * SettingsPage related methods
@@ -11,7 +11,7 @@ export class SettingsPageStore {
   /**
    * User value
    */
-  public enabledNotificationList!: EnabledNotification[];
+  public notificationSettingList!: NotificationSetting[];
 
   /**
    * If it is false - store is not initialized and can't be used safely
@@ -27,16 +27,16 @@ export class SettingsPageStore {
    * Set user
    */
   public setEnabledNotificationList = (
-    enabledNotificationList: EnabledNotification[],
+    enabledNotificationList: NotificationSetting[],
   ) => {
-    this.enabledNotificationList = enabledNotificationList;
+    this.notificationSettingList = enabledNotificationList;
   };
 
   /**
    * Initialize
    */
   private async initialize() {
-    await load<EnabledNotification[]>({
+    await load<NotificationSetting[]>({
 
       /**
        * Load data
@@ -54,8 +54,8 @@ export class SettingsPageStore {
   /**
    * Load data
    */
-  private loadData = async (): Promise<EnabledNotification[]> => {
-    const enabledNotificationList = await EnabledNotificationDAL.getEnabledNotificationList();
+  private loadData = async (): Promise<NotificationSetting[]> => {
+    const enabledNotificationList = await EnabledNotificationSettingsDAL.getNotificationSettingList();
 
     return enabledNotificationList;
   };
@@ -63,7 +63,7 @@ export class SettingsPageStore {
   /**
    * Validate data
    */
-  private validateData = (data: EnabledNotification[]) => {
+  private validateData = (data: NotificationSetting[]) => {
     return !!data.length;
   };
 

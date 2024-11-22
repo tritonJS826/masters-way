@@ -4,8 +4,8 @@ All URIs are relative to */notification*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetNotificationSettingList**](NotificationSettingAPI.md#GetNotificationSettingList) | **Get** /notificationSetting | Get notificationSetting list by user id
-[**UpdateNotificationSetting**](NotificationSettingAPI.md#UpdateNotificationSetting) | **Patch** /notificationSetting/{notificationSettingId} | Update notificationSetting by id
+[**GetNotificationSettingList**](NotificationSettingAPI.md#GetNotificationSettingList) | **Get** /notificationSettings | Get notificationSetting list by user id
+[**UpdateNotificationSetting**](NotificationSettingAPI.md#UpdateNotificationSetting) | **Patch** /notificationSettings/{notificationSettingId} | Update notificationSetting by id
 
 
 

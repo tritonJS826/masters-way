@@ -80,8 +80,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *NotificationAPI* | [**GetNotificationList**](docs/NotificationAPI.md#getnotificationlist) | **Get** /notifications | Get notification list by user id
 *NotificationAPI* | [**UpdateNotification**](docs/NotificationAPI.md#updatenotification) | **Patch** /notifications/{notificationId} | Update notification by id
-*NotificationSettingAPI* | [**GetNotificationSettingList**](docs/NotificationSettingAPI.md#getnotificationsettinglist) | **Get** /notificationSetting | Get notificationSetting list by user id
-*NotificationSettingAPI* | [**UpdateNotificationSetting**](docs/NotificationSettingAPI.md#updatenotificationsetting) | **Patch** /notificationSetting/{notificationSettingId} | Update notificationSetting by id
+*NotificationSettingAPI* | [**GetNotificationSettingList**](docs/NotificationSettingAPI.md#getnotificationsettinglist) | **Get** /notificationSettings | Get notificationSetting list by user id
+*NotificationSettingAPI* | [**UpdateNotificationSetting**](docs/NotificationSettingAPI.md#updatenotificationsetting) | **Patch** /notificationSettings/{notificationSettingId} | Update notificationSetting by id
 
 
 ## Documentation For Models

@@ -84,7 +84,7 @@ info:
   title: Masters way notification-bff API
   version: "1.0"
 paths:
-  /notificationSetting:
+  /notificationSettings:
     get:
       consumes:
       - application/json
@@ -99,7 +99,7 @@ paths:
       summary: Get notificationSetting list by user id
       tags:
       - notificationSetting
-  /notificationSetting/{notificationSettingId}:
+  /notificationSettings/{notificationSettingId}:
     patch:
       consumes:
       - application/json

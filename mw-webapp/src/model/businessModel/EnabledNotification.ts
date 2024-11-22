@@ -1,9 +1,9 @@
 import {makeAutoObservable} from "mobx";
 
 /**
- * Enabled notification model
+ * Notification setting model
  */
-export class EnabledNotification {
+export class NotificationSetting {
 
   /**
    * Enabled notification uuid
@@ -25,7 +25,7 @@ export class EnabledNotification {
    */
   public isEnabled: boolean;
 
-  constructor(params: EnabledNotification) {
+  constructor(params: NotificationSetting) {
     makeAutoObservable(this);
     this.channel = params.channel;
     this.isEnabled = params.isEnabled;

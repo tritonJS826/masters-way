@@ -9,7 +9,7 @@ import {Toggle} from "src/component/toggle/Toggle";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {EnabledNotificationDAL} from "src/dataAccessLogic/EnabledNotificationDAL";
+import {EnabledNotificationSettingsDAL as NotificationSettingsDAL} from "src/dataAccessLogic/NotificationSettingsDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
 import {useStore} from "src/hooks/useStore";
@@ -105,27 +105,27 @@ export const SettingsPage = observer(() => {
         />
         {settingsPageStore.isInitialized && (
           <VerticalContainer>
-            {settingsPageStore.enabledNotificationList.map(enabledNotification => (
+            {settingsPageStore.notificationSettingList.map(notificationSetting => (
               <HorizontalContainer
                 className={styles.line}
-                key={enabledNotification.uuid}
+                key={notificationSetting.uuid}
               >
                 <span>
-                  {enabledNotification.channel}
+                  {notificationSetting.channel}
                 </span>
                 {" "}
                 <span>
-                  {enabledNotification.nature}
+                  {notificationSetting.nature}
                 </span>
                 <Toggle
                   onChange={() => {
-                    EnabledNotificationDAL.updateEnabledNotification(
-                      enabledNotification.uuid,
-                      !enabledNotification.isEnabled,
+                    NotificationSettingsDAL.updateNotificationSetting(
+                      notificationSetting.uuid,
+                      !notificationSetting.isEnabled,
                     );
-                    enabledNotification.isEnabled = !enabledNotification.isEnabled;
+                    notificationSetting.isEnabled = !notificationSetting.isEnabled;
                   }}
-                  isDefaultChecked={enabledNotification.isEnabled}
+                  isDefaultChecked={notificationSetting.isEnabled}
                 />
               </HorizontalContainer>
             ))}

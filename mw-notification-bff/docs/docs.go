@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/notificationSetting": {
+        "/notificationSettings": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -38,7 +38,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/notificationSetting/{notificationSettingId}": {
+        "/notificationSettings/{notificationSettingId}": {
             "patch": {
                 "consumes": [
                     "application/json"
