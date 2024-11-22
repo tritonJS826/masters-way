@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"mw-server/internal/auth"
+	"sync"
 
 	"golang.org/x/oauth2"
 	oauthGoogle "google.golang.org/api/oauth2/v2"
@@ -11,13 +12,18 @@ import (
 )
 
 type AuthService struct {
-	googleTokenMap    map[string]string
+	googleTokenMap map[string]string
+	sync.RWMutex
 	googleOAuthConfig *oauth2.Config
 	jwtKey            []byte
 }
 
 func newAuthService(googleOAuthConfig *oauth2.Config, jwtKey []byte) *AuthService {
-	return &AuthService{map[string]string{}, googleOAuthConfig, jwtKey}
+	return &AuthService{
+		googleTokenMap:    map[string]string{},
+		googleOAuthConfig: googleOAuthConfig,
+		jwtKey:            jwtKey,
+	}
 }
 
 type GoogleAuthInfo struct {
@@ -54,11 +60,15 @@ func (as *AuthService) GetGoogleAuthURL() string {
 }
 
 func (as *AuthService) SetGoogleAccessTokenByUserID(userID, token string) {
+	as.Lock()
 	as.googleTokenMap[userID] = token
+	as.Unlock()
 }
 
 func (as *AuthService) GetGoogleAccessTokenByUserID(userID string) (string, error) {
+	as.RLock()
 	token, exists := as.googleTokenMap[userID]
+	as.RUnlock()
 	if !exists {
 		return "", fmt.Errorf("access token not found for user ID: %s", userID)
 	}
