@@ -97,29 +97,40 @@ export const SettingsPage = observer(() => {
           </Tooltip>
         </HorizontalContainer>
 
-        <VerticalContainer>
-          {settingsPageStore.enabledNotificationList.map(enabledNotification => (
-            <HorizontalContainer key={enabledNotification.uuid}>
-              <span>
-                {enabledNotification.channel}
-              </span>
-              {" "}
-              <span>
-                {enabledNotification.nature}
-              </span>
-              <Toggle
-                onChange={() => {
-                  enabledNotification.isEnabled = !enabledNotification.isEnabled;
-                  EnabledNotificationDAL.updateEnabledNotification(
-                    enabledNotification.uuid,
-                    !enabledNotification.isEnabled,
-                  );
-                }}
-                isDefaultChecked={enabledNotification.isEnabled}
-              />
-            </HorizontalContainer>
-          ))}
-        </VerticalContainer>
+        <Title
+          level={HeadingLevel.h2}
+          text={LanguageService.settings.notification.enabledNotificationTitle[language]}
+          className={styles.loginTitle}
+          placeholder=""
+        />
+        {settingsPageStore.isInitialized && (
+          <VerticalContainer>
+            {settingsPageStore.enabledNotificationList.map(enabledNotification => (
+              <HorizontalContainer
+                className={styles.line}
+                key={enabledNotification.uuid}
+              >
+                <span>
+                  {enabledNotification.channel}
+                </span>
+                {" "}
+                <span>
+                  {enabledNotification.nature}
+                </span>
+                <Toggle
+                  onChange={() => {
+                    EnabledNotificationDAL.updateEnabledNotification(
+                      enabledNotification.uuid,
+                      !enabledNotification.isEnabled,
+                    );
+                    enabledNotification.isEnabled = !enabledNotification.isEnabled;
+                  }}
+                  isDefaultChecked={enabledNotification.isEnabled}
+                />
+              </HorizontalContainer>
+            ))}
+          </VerticalContainer>
+        )}
 
       </div>
     </VerticalContainer>

@@ -33,27 +33,6 @@ export class SettingsPageStore {
   };
 
   /**
-   * Add user to favorite
-   */
-  //   public addUserToFavoriteForUser = (userUuid: string): void => {
-  //     if (!this.userPageOwner) {
-  //       throw new Error("Page is not initialized");
-  //     }
-  //     this.userPageOwner.favoriteForUserUuids.push(userUuid);
-  //   };
-
-  /**
-   * Delete user from favorite
-   */
-  //   public deleteUserFromFavoriteForUser = (userUuid: string): void => {
-  //     if (!this.userPageOwner) {
-  //       throw new Error("Page is not initialized");
-  //     }
-  //     this.userPageOwner.favoriteForUserUuids = this.userPageOwner.favoriteForUserUuids
-  //       .filter(favoriteForUserUuid => favoriteForUserUuid !== userUuid);
-  //   };
-
-  /**
    * Initialize
    */
   private async initialize() {
@@ -85,7 +64,7 @@ export class SettingsPageStore {
    * Validate data
    */
   private validateData = (data: EnabledNotification[]) => {
-    return !!data;
+    return !!data.length;
   };
 
   /**
