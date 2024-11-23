@@ -200,14 +200,12 @@ type FindOrCreateUserByEmailResponse struct {
 
 func (us *UserService) FindOrCreateUserByEmail(ctx context.Context, params *CreateUserParams) (*FindOrCreateUserByEmailResponse, error) {
 	user, err := us.IUserRepository.GetUserByEmail(ctx, params.Email)
-	isAlreadyCreated := false
+	isAlreadyCreated := err == nil
 
 	var userUUID uuid.UUID
-	if err == nil {
-		isAlreadyCreated = true
+	if isAlreadyCreated {
 		userUUID = user.Uuid.Bytes
 	} else {
-		isAlreadyCreated = false
 		dbUser, _ := us.CreateUser(ctx, params)
 		userUUID = uuid.MustParse(dbUser.Uuid)
 	}

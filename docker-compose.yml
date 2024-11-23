@@ -2,8 +2,8 @@ version: "3.9"
 services:
   postgres-general:
     build:
-      context: ./postgres
-      dockerfile: postgres-general.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-general.Dockerfile
     container_name: postgres-general
     ports:
       - "5432:5432"
@@ -17,8 +17,8 @@ services:
   # mw-general
   mw-server:
     build:
-      context: ./mw-server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-server/Dockerfile
     ports:
       - "8000:8000"
     depends_on:
@@ -28,8 +28,8 @@ services:
 
   mw-general-bff:
     build:
-      context: ./mw-general-bff
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-general-bff/Dockerfile
     ports:
       - "7995:7995"
     depends_on:
@@ -39,8 +39,8 @@ services:
 
   postgres-chat:
     build:
-      context: ./postgres
-      dockerfile: postgres-chat.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-chat.Dockerfile
     container_name: postgres-chat
     ports:
       - "5433:5432"
@@ -53,8 +53,8 @@ services:
 
   mw-chat:
     build:
-      context: ./mw-chat
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-chat/Dockerfile
     ports:
       - "8001:8001"
     depends_on:
@@ -64,8 +64,8 @@ services:
 
   mw-chat-bff:
     build:
-      context: ./mw-chat-bff
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-chat-bff/Dockerfile
     ports:
       - "7999:7999"
     depends_on:
@@ -75,8 +75,8 @@ services:
 
   mw-chat-websocket:
     build:
-      context: ./mw-chat-websocket
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-chat-websocket/Dockerfile
     ports:
       - "7994:7994"
     depends_on:
@@ -86,8 +86,8 @@ services:
 
   postgres-storage:
     build:
-      context: ./postgres
-      dockerfile: postgres-storage.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-storage.Dockerfile
     container_name: postgres-storage
     ports:
       - "5435:5432"
@@ -100,8 +100,8 @@ services:
 
   mw-storage:
     build:
-      context: ./mw-storage
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-storage/Dockerfile
     ports:
       - "8003:8003"
     depends_on:
@@ -111,8 +111,8 @@ services:
 
   postgres-mail:
     build:
-      context: ./postgres
-      dockerfile: postgres-mail.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-mail.Dockerfile
     container_name: postgres-mail
     ports:
       - "5438:5432"
@@ -125,8 +125,8 @@ services:
   
   mw-mail:
     build:
-      context: ./mw-mail
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-mail/Dockerfile
     ports:
       - "8006:8006"
     depends_on:
@@ -136,8 +136,8 @@ services:
 
   postgres-survey:
     build:
-      context: ./postgres
-      dockerfile: postgres-survey.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-survey.Dockerfile
     container_name: postgres-survey
     ports:
       - "5436:5432"
@@ -150,8 +150,8 @@ services:
 
   mw-survey:
     build:
-      context: ./mw-survey
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-survey/Dockerfile
     ports:
       - "8004:8004"
     depends_on:
@@ -161,8 +161,8 @@ services:
 
   postgres-notification:
     build:
-      context: ./postgres
-      dockerfile: postgres-notification.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-notification.Dockerfile
     container_name: postgres-notification
     ports:
       - "5434:5432"
@@ -175,8 +175,8 @@ services:
 
   mw-notification-bff:
     build:
-      context: ./mw-notification-bff
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-notification-bff/Dockerfile
     ports:
       - "7993:7993"
     depends_on:
@@ -186,8 +186,8 @@ services:
 
   mw-notification:
     build:
-      context: ./mw-notification
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-notification/Dockerfile
     ports:
       - "8002:8002"
     depends_on:
@@ -197,8 +197,8 @@ services:
 
   mw-notification-websocket:
     build:
-      context: ./mw-notification-websocket
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./mw-notification-websocket/Dockerfile
     ports:
       - "7996:7996"
     depends_on:
@@ -208,8 +208,8 @@ services:
 
   grafana:
     build:
-      context: ./grafana
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./grafana/Dockerfile
     container_name: grafana
     ports:
       - "9876:3000"
