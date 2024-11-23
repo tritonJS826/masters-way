@@ -28,6 +28,7 @@ describe("Header component", () => {
           openNotificationBlock={() => { }}
           unreadNotificationsAmount={null}
           isNotificationBlockOpen={false}
+          isConnectionEstablished={false}
         />
       </BrowserRouter>,
     );

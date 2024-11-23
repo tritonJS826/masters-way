@@ -6,14 +6,29 @@ import {makeAutoObservable} from "mobx";
 interface NotificationDTO {
 
   /**
+   * Date when Notification was created
+   */
+  createdAt: Date;
+
+  /**
    * If true - notification was read
    */
   isRead: boolean;
 
   /**
-   * Notification's title
+   * Notification's nature
    */
-  title: string;
+  nature: string;
+
+  /**
+   * Path to info mentioned in the notification
+   */
+  url: string;
+
+  /**
+   * User UUID that mentioned in the notification
+   */
+  userUuid: string;
 
   /**
    * Notification's description
@@ -21,9 +36,9 @@ interface NotificationDTO {
   description: string;
 
   /**
-   * Notification ID
+   * Notification UUID
    */
-  id: string;
+  uuid: string;
 
 }
 
@@ -33,14 +48,9 @@ interface NotificationDTO {
 export class Notification {
 
   /**
-   * If true - notification was read
+   * Date when Notification was created
    */
-  public isRead: boolean;
-
-  /**
-   * Notification's title
-   */
-  public title: string;
+  public createdAt: Date;
 
   /**
    * Notification's description
@@ -48,16 +58,39 @@ export class Notification {
   public description: string;
 
   /**
-   * Notification ID
+   * If true - notification was read
    */
-  public id: string;
+  public isRead: boolean;
 
-  constructor(chatData: NotificationDTO) {
+  /**
+   * Notification's nature
+   */
+  public nature: string;
+
+  /**
+   * Path to info mentioned in the notification
+   */
+  public url: string;
+
+  /**
+   * User UUID that mentioned in the notification
+   */
+  public userUuid: string;
+
+  /**
+   * Notification UUID
+   */
+  public uuid: string;
+
+  constructor(notificationData: NotificationDTO) {
     makeAutoObservable(this);
-    this.id = chatData.id;
-    this.title = chatData.title;
-    this.description = chatData.description;
-    this.isRead = chatData.isRead;
+    this.uuid = notificationData.uuid;
+    this.userUuid = notificationData.userUuid;
+    this.description = notificationData.description;
+    this.isRead = notificationData.isRead;
+    this.createdAt = notificationData.createdAt;
+    this.nature = notificationData.nature;
+    this.url = notificationData.url;
   }
 
   /**

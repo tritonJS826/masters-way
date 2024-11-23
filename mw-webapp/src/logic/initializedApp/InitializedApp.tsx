@@ -8,6 +8,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";
 import {connectChatSocket} from "src/service/socket/ChatSocket";
+// Import {connectNotificationSocket} from "src/service/socket/NotificationSocket";
 
 const TOKEN_SEARCH_PARAM = "token";
 
@@ -35,9 +36,11 @@ export const InitializedApp = (props: PropsWithChildren) => {
     }
 
     const socket = connectChatSocket();
+    // Const notificationSocket = connectNotificationSocket();
 
     return () => {
       socket.close();
+      // NotificationSocket.close();
     };
   }, [user?.uuid]);
 
@@ -71,8 +74,9 @@ export const InitializedApp = (props: PropsWithChildren) => {
       setUser(loadedUser);
       const defaultPagePath = getDefaultPagePath(loadedUser.uuid);
       setIsInitialized(true);
-      const unreadNotificationsAmount = await notificationStore.loadUnreadNotificationsAmount();
-      notificationStore.setUnreadNotificationsAmount(unreadNotificationsAmount);
+      const notifications = await notificationStore.loadNotifications();
+      notificationStore.setUnreadNotificationsAmount(notifications.size);
+      notificationStore.setNotifications(notifications.notificationList);
 
       if (getIsHomePage()) {
         navigate(defaultPagePath);

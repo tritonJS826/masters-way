@@ -93,6 +93,11 @@ interface HeaderProps {
    */
   unreadNotificationsAmount: number | null;
 
+  /**
+   * Check websocket connection
+   */
+  isConnectionEstablished: boolean;
+
 }
 
 /**
@@ -245,6 +250,12 @@ export const Header = observer((props: HeaderProps) => {
                   size={IconSize.MEDIUM}
                 />
               }
+            />
+            <div className={clsx(
+              styles.indicator,
+              props.isConnectionEstablished
+                ? styles.onlineIndicator
+                : styles.offlineIndicator)}
             />
             {!!props.unreadNotificationsAmount &&
               <HorizontalContainer className={styles.unreadNotificationAmount}>

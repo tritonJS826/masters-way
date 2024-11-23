@@ -1,4 +1,5 @@
 import {ChatEventDict} from "src/eventBus/events/chat/ChatEventDict";
+import {NotificationEventDict} from "src/eventBus/events/notification/NotificationEventDict";
 import {TempExampleEventDict} from "src/eventBus/events/tempExample/TempExampleEventDict";
 
 /**
@@ -7,7 +8,7 @@ import {TempExampleEventDict} from "src/eventBus/events/tempExample/TempExampleE
  */
 export enum ChannelId {
   CHAT = "CHAT",
-  // NOTIFICATION = "NOTIFICATION",
+  NOTIFICATION = "NOTIFICATION",
   // WAY = "WAY",
   TEMP_EXAMPLE = "TEMP_EXAMPLE"
 }
@@ -29,7 +30,7 @@ export type EventBusChannelDict = {
   /**
    * Notification dictionary
    */
-  // [ChannelId.NOTIFICATION]: NotificationEventDict;
+  [ChannelId.NOTIFICATION]: NotificationEventDict;
 
   /**
    * Way dictionary

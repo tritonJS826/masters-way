@@ -7,17 +7,7 @@ import {notificationService} from "src/service/services";
 export class NotificationService {
 
   /**
-   * Get unread notification amount
-   * @deprecated use NotificationService.getOwnNotificationList().size
-   */
-  public static async getNotificationPreview(): Promise<number> {
-    const unreadNotificationAmount = await 0;
-
-    return unreadNotificationAmount;
-  }
-
-  /**
-   * Get notification list by user ID
+   * Get notification list and size by user ID
    */
   public static async getOwnNotificationList(): Promise<MwNotificationBffInternalSchemasGetNotificationListResponse> {
     const notificationList = await notificationService.getNotificationList();
