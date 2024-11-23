@@ -10,11 +10,11 @@ import (
 	"syscall"
 	"time"
 
+	database "go-common/database"
 	"mw-server/internal/config"
 	"mw-server/internal/controllers"
 	"mw-server/internal/routers"
 	"mw-server/internal/services"
-	"mw-server/pkg/database"
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/option"
@@ -30,7 +30,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	newPool, err := database.NewPostgresDB(&newConfig)
+	// This line executed with no errors only with empty db
+	// So it is important for first microservice deploy
+	database.RunMigrations(newConfig.DBSource)
+
+	newPool, err := database.NewPostgresDB(newConfig.DBSource)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
 		os.Exit(1)

@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	database "go-common/database"
 	"log"
 	"mwstorage/internal/config"
 	"mwstorage/internal/controllers"
 	"mwstorage/internal/routers"
 	"mwstorage/internal/services"
-	"mwstorage/pkg/database"
 	"net/http"
 	"os"
 	"os/signal"
@@ -26,7 +26,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	newPool, err := database.NewPostgresDB(&newConfig)
+	// This line executed with no errors only with empty db
+	// So it is important for first microservice deploy
+	database.RunMigrations(newConfig.DBSource)
+
+	newPool, err := database.NewPostgresDB(newConfig.DBSource)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
 		os.Exit(1)
