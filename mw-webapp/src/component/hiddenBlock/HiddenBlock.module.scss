@@ -1,5 +1,7 @@
 @import "src/styles/variables";
 
+$headerHeight: 74px;
+
 .hiddenBlockContainer {
   @include regularContainer;
   width: $minWidthBlock;
