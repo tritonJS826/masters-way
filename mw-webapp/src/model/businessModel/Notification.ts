@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 
 /**
  * Notification's props
@@ -18,7 +19,7 @@ interface NotificationDTO {
   /**
    * Notification's nature
    */
-  nature: string;
+  nature: NotificationNature;
 
   /**
    * Path to info mentioned in the notification
@@ -63,9 +64,9 @@ export class Notification {
   public isRead: boolean;
 
   /**
-   * Notification's nature
+   * Nature of the notification (like jobDone created, mentor request applied etc.)
    */
-  public nature: string;
+  public nature: NotificationNature;
 
   /**
    * Path to info mentioned in the notification
@@ -96,8 +97,8 @@ export class Notification {
   /**
    * Update isRead value
    */
-  // public updateIsRead(isReadToUpdate: boolean): void {
-  //   this.isRead = isReadToUpdate;
-  // }
+  public updateIsRead(isReadToUpdate: boolean): void {
+    this.isRead = isReadToUpdate;
+  }
 
 }

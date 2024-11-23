@@ -1,0 +1,34 @@
+{
+  "nature": {
+    "private_chat": {
+      "ru": "Приватный чат обновлен",
+      "en": "Private chat updated",
+      "ua": "Приватний чат оновлено"
+    },
+    "group_chat": {
+      "ru": "Групповой чат обновлен",
+      "en": "Group chat updated",
+      "ua": "Груповий чат оновлено"
+    },
+    "own_way": {
+      "ru": "Собственный путь обновлен",
+      "en": "The own way is updated",
+      "ua": "Власний шлях оновлено"
+    },
+    "mentoring_way": {
+      "ru": "Наставнический путь обновлен",
+      "en": "The mentoring way is updated",
+      "ua": "Наставницький шлях оновлено"
+    },
+    "mentoring_request": {
+      "ru": "Запрос от ментора",
+      "en": "Request from a mentor",
+      "ua": "Запит від ментора"
+    },
+    "favorite_way": {
+      "ru": "Любимый путь обновлен",
+      "en": "The favorite way is updated",
+      "ua": "Улюблений шлях оновлено"
+    }
+  }
+}

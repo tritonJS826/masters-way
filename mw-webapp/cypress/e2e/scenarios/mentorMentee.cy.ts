@@ -47,7 +47,7 @@ describe('Mentor-mentee tests', () => {
         wayDescriptionSelectors.peopleBlock.getMentorOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);
         wayDescriptionSelectors.peopleBlock.getWayMentorLink().should('have.text', testUserData.testUsers.mentorMax.name);
 
-        cy.scrollTo('top');
+        // cy.scrollTo('top');
         cy.logout();
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();

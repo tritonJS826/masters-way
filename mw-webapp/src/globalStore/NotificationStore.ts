@@ -98,6 +98,13 @@ export class NotificationStore {
     this.unreadNotificationsAmount && this.unreadNotificationsAmount++;
   };
 
+  /**
+   * Add one unread notification to amount
+   */
+  public deleteUnreadNotificationFromAmount = () => {
+    this.unreadNotificationsAmount && this.unreadNotificationsAmount--;
+  };
+
 }
 
 export const notificationStore = new NotificationStore();

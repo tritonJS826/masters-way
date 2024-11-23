@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 
 /**
  * Notification setting model
@@ -18,7 +19,7 @@ export class NotificationSetting {
   /**
    * Nature of the notification (like jobDone created, mentor request applied etc.)
    */
-  public nature: string;
+  public nature: NotificationNature;
 
   /**
    * If true - use will receive such notifications

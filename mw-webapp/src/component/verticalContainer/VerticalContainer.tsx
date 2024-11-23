@@ -21,6 +21,11 @@ interface VerticalContainerProps {
    * Property need for the anchor links
    */
   id?: string;
+
+  /**
+   * Callback triggered on div click
+   */
+  onClick?: () => void;
 }
 
 /**
@@ -31,6 +36,7 @@ export const VerticalContainer = (props: PropsWithChildren<VerticalContainerProp
     <div
       className={clsx(styles.verticalContainer, props.className)}
       data-cy={props.dataCy}
+      onClick={props.onClick}
     >
       {props.children}
     </div>

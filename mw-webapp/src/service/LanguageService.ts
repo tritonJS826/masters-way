@@ -10,6 +10,7 @@ import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
 import modals from "src/dictionary/Modals.json";
+import notificationBlockContent from "src/dictionary/NotificationBLockContent.json";
 import pricing from "src/dictionary/PricingContent.json";
 import project from "src/dictionary/ProjectPageContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
@@ -98,6 +99,13 @@ export class LanguageService {
    */
   public static get modals() {
     return modals;
+  }
+
+  /**
+   * Notification block content
+   */
+  public static get notifications() {
+    return notificationBlockContent;
   }
 
   /**

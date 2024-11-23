@@ -1,10 +1,14 @@
 @import "src/styles/variables";
 
+$headerHeight: 74px;
+
 .hiddenBlockContainer {
   @include regularContainer;
-  width: $mediumWidthBlock;
   width: $minWidthBlock;
+  max-height: calc(100vh - $headerHeight);
   flex-shrink: 0;
+  gap: $gapExtraSmall;
+  overflow-y: auto;
 
   @media (max-width: $mediaWidthMobileBig) {
     width: 100%;

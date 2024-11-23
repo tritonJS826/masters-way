@@ -6,7 +6,13 @@ $labelMaxWidthBlock: 650px;
 .container {
   width: 100%;
   max-width: $maxWidthContainer;
+  max-height: calc(100vh - $headerHeight);
   gap: $gapSmall;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .wayInfo {

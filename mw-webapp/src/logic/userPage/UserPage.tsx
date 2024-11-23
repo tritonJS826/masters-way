@@ -535,33 +535,6 @@ export const UserPage = observer((props: UserPageProps) => {
       };
     });
 
-  // Const notificationList = [
-  //   {
-  //     id: "0",
-  //     title: "haha",
-  //     description: "desciption",
-  //     isRead: false,
-  //   },
-  //   {
-  //     id: "1",
-  //     title: "haha",
-  //     description: "desciption",
-  //     isRead: false,
-  //   },
-  //   {
-  //     id: "2",
-  //     title: "haha",
-  //     description: "desciption",
-  //     isRead: false,
-  //   },
-  //   {
-  //     id: "3",
-  //     title: "haha",
-  //     description: "desciption",
-  //     isRead: false,
-  //   },
-  // ];
-
   return (
     <VerticalContainer className={styles.userPageWrapper}>
       <VerticalContainer className={styles.userInfoBlock}>

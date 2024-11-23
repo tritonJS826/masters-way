@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
-import {NotificationItem} from "src/component/hiddenBlock/notificationItem/NotificationItem";
+import {NotificationItem, NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Notification} from "src/model/businessModel/Notification";
@@ -31,6 +31,16 @@ interface HiddenBlockProps {
    * @default false
    */
   isOpen?: boolean;
+
+  /**
+   * Callback triggered when notification clicked
+   */
+  getTitle: (notificationNature: NotificationNature) => string;
+
+  /**
+   * Callback triggered when notification clicked
+   */
+  onClick: (notificationId: string, isRead: boolean) => void;
 }
 
 /**
@@ -48,11 +58,17 @@ export const HiddenBlock = observer((props: HiddenBlockProps) => {
       {props.isOpen && props.notificationList?.map((notificationItem) => (
         <NotificationItem
           key={notificationItem.description}
-          title={notificationItem.description}
+          title={props.getTitle(notificationItem.nature)}
+          nature={notificationItem.nature}
           description={notificationItem.description}
+          originalUrl={notificationItem.url}
+          isNotificationRead={!notificationItem.isRead}
+          onClick={() => {
+            !notificationItem.isRead && notificationItem.updateIsRead(true);
+            props.onClick(notificationItem.uuid, notificationItem.isRead);
+          }}
         />
       ))}
-      Coming soon...
     </VerticalContainer>
   );
 });

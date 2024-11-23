@@ -2,8 +2,23 @@
 
 .notificationItem {
   width: 100%;
+  border-radius: $secondaryBorderRadius;
   cursor: pointer;
   gap: $gapExtraSmall;
+
+  &:hover {
+    background-color: var(--hoverBgColor);
+  }
+}
+
+.notificationBlock {
+  align-items: center;
+  justify-content: space-between;
+  padding: $paddingExtraSmall;
+}
+
+.notRead {
+  background-color: var(--tertiaryBgColor);
 }
 
 .notificationTexts {
@@ -14,7 +29,7 @@
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  font-size: $fontSizeMedium;
+  font-size: $fontSizeSmall;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
 }

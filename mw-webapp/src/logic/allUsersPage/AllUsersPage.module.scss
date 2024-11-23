@@ -3,8 +3,14 @@
 .allUsersContainer {
   width: 100%;
   max-width: $maxWidthContainer;
+  max-height: calc(100vh - $headerHeight);
   margin: 0 auto;
   gap: $gapSmall;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .filterView {
