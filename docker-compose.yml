@@ -226,7 +226,7 @@ services:
       - app-network
 
   nginx:
-    image: nginx:1.24.0
+    image: nginx:1.24.0-alpine
     container_name: nginx
     ports:
       - "443:443"
