@@ -17,7 +17,8 @@ const RECONNECT_INTERVAL = 3000;
  */
 export const connectNotificationSocket = () => {
   const socket = new WebSocket(
-    env.API_MW_NOTIFICATION_WEBSOCKET_PATH +
+    // Env.API_MW_NOTIFICATION_WEBSOCKET_PATH
+    env.API_MW_CHAT_WEBSOCKET_PATH +
       `?token=${encodeURIComponent(tokenStore.accessToken ?? "")}`,
   );
 
