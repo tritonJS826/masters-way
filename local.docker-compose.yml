@@ -2,8 +2,8 @@ version: "3.9"
 services:
   postgres-general:
     build:
-      context: ./postgres
-      dockerfile: postgres-general.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-general.Dockerfile
     container_name: postgres-general
     ports:
       - "5432:5432"
@@ -16,8 +16,8 @@ services:
 
   postgres-chat:
     build:
-      context: ./postgres
-      dockerfile: postgres-chat.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-chat.Dockerfile
     container_name: postgres-chat
     ports:
       - "5433:5432"
@@ -30,8 +30,8 @@ services:
 
   postgres-storage:
     build:
-      context: ./postgres
-      dockerfile: postgres-storage.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-storage.Dockerfile
     container_name: postgres-storage
     ports:
       - "5435:5432"
@@ -44,8 +44,8 @@ services:
 
   postgres-mail:
     build:
-      context: ./postgres
-      dockerfile: postgres-mail.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-mail.Dockerfile
     container_name: postgres-mail
     ports:
       - "5438:5432"
@@ -58,8 +58,8 @@ services:
 
   postgres-survey:
     build:
-      context: ./postgres
-      dockerfile: postgres-survey.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-survey.Dockerfile
     container_name: postgres-survey
     ports:
       - "5436:5432"
@@ -72,8 +72,8 @@ services:
 
   postgres-notification:
     build:
-      context: ./postgres
-      dockerfile: postgres-notification.Dockerfile
+      context: .
+      dockerfile: ./postgres/postgres-notification.Dockerfile
     container_name: postgres-notification
     ports:
       - "5434:5432"
@@ -86,8 +86,8 @@ services:
 
   grafana:
     build:
-      context: ./grafana
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./grafana/Dockerfile
     container_name: grafana
     ports:
       - "9876:3000"
