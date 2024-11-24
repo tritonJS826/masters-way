@@ -55,7 +55,7 @@ func (q *Queries) CreateNotification(ctx context.Context, arg CreateNotification
 const getAmountOfUnreadNotificationsByUserID = `-- name: GetAmountOfUnreadNotificationsByUserID :one
 SELECT count(*)
 FROM notifications
-WHERE user_uuid = $1 AND id_read = false
+WHERE user_uuid = $1 AND is_read = false
 ORDER BY created_at DESC
 `
 

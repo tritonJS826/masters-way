@@ -20,7 +20,7 @@ ORDER BY created_at DESC;
 -- name: GetAmountOfUnreadNotificationsByUserID :one
 SELECT count(*)
 FROM notifications
-WHERE user_uuid = @user_uuid AND id_read = false
+WHERE user_uuid = @user_uuid AND is_read = false
 ORDER BY created_at DESC;
 
 -- name: UpdateNotification :one
