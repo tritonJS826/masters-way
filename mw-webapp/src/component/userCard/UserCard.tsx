@@ -72,18 +72,20 @@ export const UserCard = observer((props: UserCardProps) => {
         )}
         <VerticalContainer className={styles.mainInfo}>
           <HorizontalContainer className={styles.nameLikes}>
-            <Avatar
-              alt={props.userPreview.name}
-              src={props.userPreview.imageUrl}
-              size={AvatarSize.MEDIUM}
-              className={styles.avatar}
-            />
-            <Title
-              text={props.userPreview.name}
-              level={HeadingLevel.h3}
-              className={styles.title}
-              placeholder=""
-            />
+            <HorizontalContainer className={styles.avatarName}>
+              <Avatar
+                alt={props.userPreview.name}
+                src={props.userPreview.imageUrl}
+                size={AvatarSize.MEDIUM}
+                className={styles.avatar}
+              />
+              <Title
+                text={props.userPreview.name}
+                level={HeadingLevel.h3}
+                className={styles.title}
+                placeholder=""
+              />
+            </HorizontalContainer>
             <VerticalContainer>
               <Tooltip
                 position={PositionTooltip.BOTTOM}

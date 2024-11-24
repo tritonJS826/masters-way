@@ -68,6 +68,7 @@ $wayCardAdditionalHeight: 118px;
 }
 
 .likes {
+  flex-shrink: 0;
   align-items: center;
   color: var(--secondaryTextColor);
   gap: $gapMedium;
