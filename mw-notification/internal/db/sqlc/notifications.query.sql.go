@@ -56,7 +56,6 @@ const getAmountOfUnreadNotificationsByUserID = `-- name: GetAmountOfUnreadNotifi
 SELECT count(*)
 FROM notifications
 WHERE user_uuid = $1 AND is_read = false
-ORDER BY created_at DESC
 `
 
 func (q *Queries) GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
