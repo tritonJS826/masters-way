@@ -13,6 +13,7 @@ import (
 type Querier interface {
 	CreateNotification(ctx context.Context, arg CreateNotificationParams) (Notification, error)
 	CreateNotificationSettings(ctx context.Context, userUuid pgtype.UUID) error
+	GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	GetEnabledNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
 	GetNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]Notification, error)
 	GetNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
