@@ -3,6 +3,8 @@ import clsx from "clsx";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import styles from "src/component/hiddenBlock/notificationItem/NotificationItem.module.scss";
 
@@ -95,9 +97,14 @@ export const NotificationItem = (props: NotificationItemProps) => {
             text={props.title}
             placeholder=""
           />
-          <div className={styles.notificationDescription}>
-            {props.description}
-          </div>
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={props.description}
+          >
+            <div className={styles.notificationDescription}>
+              {props.description}
+            </div>
+          </Tooltip>
         </VerticalContainer>
         <Icon
           name="ArrowRightIcon"
