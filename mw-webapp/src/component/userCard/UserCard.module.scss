@@ -26,6 +26,12 @@ $flagMenorRightOffset: 24px;
 
 .nameLikes {
   align-items: center;
+  justify-content: space-between;
+  gap: $gapMedium;
+}
+
+.avatarName {
+  align-items: center;
   gap: $gapMedium;
 }
 
@@ -44,6 +50,7 @@ $flagMenorRightOffset: 24px;
 }
 
 .likes {
+  flex-shrink: 0;
   align-items: center;
   color: var(--secondaryTextColor);
   gap: $gapExtraSmall;
