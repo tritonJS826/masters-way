@@ -64,8 +64,8 @@ export const HiddenBlock = observer((props: HiddenBlockProps) => {
           originalUrl={notificationItem.url}
           isNotificationRead={!notificationItem.isRead}
           onClick={() => {
-            !notificationItem.isRead && notificationItem.updateIsRead(true);
             props.onClick(notificationItem.uuid, notificationItem.isRead);
+            !notificationItem.isRead && notificationItem.updateIsRead(true);
           }}
         />
       ))}
