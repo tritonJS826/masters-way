@@ -2,7 +2,13 @@
 
 .pageLayout {
   width: 100%;
+  max-height: calc(100vh - $headerHeight);
   gap: $gapExtraBig;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .projectInfoBlock {

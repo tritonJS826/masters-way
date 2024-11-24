@@ -4,7 +4,9 @@ import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {observer} from "mobx-react-lite";
 import {Header} from "src/component/header/Header";
 import {HiddenBlock} from "src/component/hiddenBlock/HiddenBlock";
+import {NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 // Import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 // import {ChannelId} from "src/eventBus/EventBusChannelDict";
 // import {NotificationEventId} from "src/eventBus/events/notification/NotificationEventDict";
@@ -84,8 +86,13 @@ export const Layout = observer(() => {
         {user &&
         <HiddenBlock
           title={LanguageService.common.notifications.title[language]}
+          getTitle={(nature: NotificationNature) => LanguageService.notifications.nature[nature][language]}
           notificationList={notificationList}
           isOpen={isNotificationOpen}
+          onClick={async (notificationId: string, isRead: boolean) => {
+            !isRead && notificationStore.deleteUnreadNotificationFromAmount();
+            !isRead && await NotificationDAL.updateNotification(notificationId);
+          }}
         />
         }
 

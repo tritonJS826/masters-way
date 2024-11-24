@@ -38,4 +38,17 @@ export class NotificationDAL {
     return notifications;
   }
 
+  /**
+   * Update notification
+   */
+  public static async updateNotification(notificationId: string): Promise<Notification> {
+    const notificationDTO = await NotificationService.updateNotification({
+      notificationId,
+      request: {isRead: true},
+    });
+    const updatedNotification = notificationDTOToNotification(notificationDTO);
+
+    return updatedNotification;
+  }
+
 }

@@ -1,3 +1,4 @@
+import {useNavigate} from "react-router-dom";
 import {settingsAccessIds} from "cypress/accessIds/settingsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
@@ -12,8 +13,10 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {EnabledNotificationSettingsDAL as NotificationSettingsDAL} from "src/dataAccessLogic/NotificationSettingsDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
+import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {SettingsPageStore} from "src/logic/settingsPage/SettingsPageStore";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 
@@ -23,6 +26,9 @@ import styles from "src/logic/settingsPage/SettingsPage.module.scss";
 export const SettingsPage = observer(() => {
   const {language, setLanguage} = languageStore;
   const {isOSNotificationAllowedByUser, setIsOSNotificationAllowedByUser} = serviceWorkerStore;
+  const {user} = userStore;
+
+  const navigate = useNavigate();
 
   const settingsPageStore = useStore<
   new () => SettingsPageStore,
@@ -31,6 +37,10 @@ export const SettingsPage = observer(() => {
       dataForInitialization: [],
       dependency: [],
     });
+
+  if (!user) {
+    navigate(pages.home.getPath({}));
+  }
 
   return (
     <VerticalContainer className={styles.container}>

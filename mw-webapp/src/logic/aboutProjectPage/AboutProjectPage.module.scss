@@ -2,6 +2,12 @@
 
 .aboutProjectPageWrapper {
   width: 100%;
+  max-height: calc(100vh - $headerHeight);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .title {

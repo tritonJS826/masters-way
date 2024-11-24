@@ -2,9 +2,11 @@
 
 .hiddenBlockContainer {
   @include regularContainer;
-  width: $mediumWidthBlock;
   width: $minWidthBlock;
+  max-height: calc(100vh - $headerHeight - $gapSmall);
   flex-shrink: 0;
+  gap: $gapExtraSmall;
+  overflow-y: auto;
 
   @media (max-width: $mediaWidthMobileBig) {
     width: 100%;

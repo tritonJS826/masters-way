@@ -3,6 +3,7 @@
  * because they will be used in unpredictable places and with comments it will be easier to
  * understand context and meaning of event.
  */
+import {NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 import {currentWindowEventConfig} from "src/eventBus/eventBus";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {NotificationEventId} from "src/eventBus/events/notification/NotificationEventDict";
@@ -24,9 +25,9 @@ export type NotificationMessageReceivedPayload = {
   isRead: boolean;
 
   /**
-   * Notification's nature
+   * Nature of the notification (like jobDone created, mentor request applied etc.)
    */
-  nature: string;
+  nature: NotificationNature;
 
   /**
    * Path to info mentioned in the notification
