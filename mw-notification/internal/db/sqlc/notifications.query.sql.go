@@ -52,6 +52,20 @@ func (q *Queries) CreateNotification(ctx context.Context, arg CreateNotification
 	return i, err
 }
 
+const getAmountOfUnreadNotificationsByUserID = `-- name: GetAmountOfUnreadNotificationsByUserID :one
+SELECT count(*)
+FROM notifications
+WHERE user_uuid = $1 AND id_read = false
+ORDER BY created_at DESC
+`
+
+func (q *Queries) GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+	row := q.db.QueryRow(ctx, getAmountOfUnreadNotificationsByUserID, userUuid)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getNotificationListByUserID = `-- name: GetNotificationListByUserID :many
 SELECT uuid, user_uuid, is_read, description, url, nature, created_at
 FROM notifications
