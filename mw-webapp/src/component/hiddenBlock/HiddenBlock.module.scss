@@ -1,11 +1,9 @@
 @import "src/styles/variables";
 
-$headerHeight: 74px;
-
 .hiddenBlockContainer {
   @include regularContainer;
   width: $minWidthBlock;
-  max-height: calc(100vh - $headerHeight);
+  max-height: calc(100vh - $headerHeight - $gapSmall);
   flex-shrink: 0;
   gap: $gapExtraSmall;
   overflow-y: auto;

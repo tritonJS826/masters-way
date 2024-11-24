@@ -33,7 +33,7 @@ interface HiddenBlockProps {
   isOpen?: boolean;
 
   /**
-   * Callback triggered when notification clicked
+   * Get title for notification to show
    */
   getTitle: (notificationNature: NotificationNature) => string;
 

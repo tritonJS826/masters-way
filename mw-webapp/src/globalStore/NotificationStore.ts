@@ -92,14 +92,14 @@ export class NotificationStore {
   };
 
   /**
-   * Add one unread notification to amount
+   * Increase notifications amount
    */
   public addUnreadNotificationToAmount = () => {
     this.unreadNotificationsAmount && this.unreadNotificationsAmount++;
   };
 
   /**
-   * Add one unread notification to amount
+   * Decrease notifications amount
    */
   public deleteUnreadNotificationFromAmount = () => {
     this.unreadNotificationsAmount && this.unreadNotificationsAmount--;
