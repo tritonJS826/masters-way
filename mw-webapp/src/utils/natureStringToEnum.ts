@@ -4,7 +4,7 @@ import {NotificationNature} from "src/component/hiddenBlock/notificationItem/Not
  * Convert nature string to enum
  */
 export const convertNatureStringToEnum = (nature: string): NotificationNature => {
-  switch (nature.toUpperCase()) {
+  switch (nature) {
     case NotificationNature.favorite_way:
       return NotificationNature.favorite_way;
       break;
