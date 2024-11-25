@@ -1,37 +1,5 @@
 @import "src/styles/variables";
 
-.chatTrigger {
-  position: fixed;
-  z-index: $chatZIndex;
-  right: 0;
-  bottom: calc(3 * $marginBig);
-  width: 50px;
-  height: 160px;
-  padding: $paddingBig $paddingMedium;
-  border: $primaryBorder solid var(--secondaryStrokeColor);
-  border-radius: $primaryBorderRadius;
-  background-color: var(--generalPrimaryColor);
-  color: var(--secondaryTextColor);
-
-  & svg {
-    stroke: var(--secondaryStrokeColor);
-  }
-
-  &:hover {
-    background-color: var(--quaternaryBgColor);
-    cursor: pointer;
-  }
-}
-
-.chatIcon {
-  margin-bottom: $marginMedium;
-}
-
-.chatTriggerText {
-  text-wrap: nowrap;
-  transform: rotate(90deg);
-}
-
 .chatHeader {
   align-items: center;
   justify-content: space-between;
@@ -71,7 +39,7 @@ $modal-animation-time: 150ms;
   bottom: 0;
   display: flex;
   width: 70%;
-  height: 100vh;
+  height: 100%;
   border: $primaryBorder solid var(--primaryStrokeColor);
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
 }
