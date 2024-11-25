@@ -1,9 +1,9 @@
 import {IconProps} from "src/component/icon/Icon";
 
 /**
- * User icon
+ * UserCheck icon
  */
-export const UserIcon = (props: IconProps) => {
+export const UserCheckIcon = (props: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,12 +18,13 @@ export const UserIcon = (props: IconProps) => {
       className={props.className}
       data-cy={props.dataCy}
     >
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
       <circle
-        cx="12"
+        cx="8.5"
         cy="7"
         r="4"
       />
+      <polyline points="17 11 19 13 23 9" />
     </svg>
   );
 };

@@ -1,0 +1,58 @@
+@import "src/styles/variables";
+
+.problemItem {
+  gap: 0;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
+}
+
+.number {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  color: var(--generalPrimaryColor);
+  font-size: 128px;
+  font-weight: $fontWeightBold;
+}
+
+.problemContentBlock {
+  flex: 2;
+  justify-content: center;
+  padding: calc($paddingBig * 2);
+  background-color: var(--secondaryBgColor);
+  border-bottom-right-radius: $primaryBorderRadius;
+  border-top-right-radius: $primaryBorderRadius;
+  gap: $gapBig;
+
+  @media (max-width: $mediaWidthTablet) {
+    padding: $paddingLarge;
+  }
+}
+
+.problemContentBlockReversed {
+  align-items: flex-end;
+  border-bottom-left-radius: $primaryBorderRadius;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: $primaryBorderRadius;
+  border-top-right-radius: 0;
+}
+
+.problemTitleDescription,
+.problemTitle {
+  width: 50%;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    width: 80%;
+  }
+}
+
+.reversed {
+  flex-direction: row-reverse;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
+}

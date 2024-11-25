@@ -11,6 +11,7 @@ import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMento
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
 import modals from "src/dictionary/Modals.json";
 import notificationBlockContent from "src/dictionary/NotificationBLockContent.json";
+import partnershipPageContent from "src/dictionary/PartnershipPageContent.json";
 import pricing from "src/dictionary/PricingContent.json";
 import project from "src/dictionary/ProjectPageContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
@@ -113,6 +114,13 @@ export class LanguageService {
    */
   public static get common() {
     return common;
+  }
+
+  /**
+   * Partners page content
+   */
+  public static get partnership() {
+    return partnershipPageContent;
   }
 
   /**

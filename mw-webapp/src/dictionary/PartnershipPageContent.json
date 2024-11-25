@@ -1,0 +1,310 @@
+{
+  "partnershipMainBlock": {
+    "title": {
+      "ru": "Партнёрская программа\nMaster's Way",
+      "en": "Master’s Way\nPartner Program",
+      "ua": "Партнерська програма\nMaster's Way"
+    },
+    "description": {
+      "ru": "Получай доход с партнёрской программой Master's Way.\nМы гарантруем высокий процент вознаграждений и доход от каждого заказа.\nСтань частью нашей команды!",
+      "en": "Earn money with the Master’s Way partner program.\nWe guarantee a high percentage of rewards and income from each order.\nBecome part of our team!",
+      "ua": "Отримуй дохід із партнерською програмою Master's Way.\nМи гарантуємо високий відсоток винагород та дохід від кожного замовлення.\nСтань частиною нашої команди!"
+    }
+  },
+  "buttonCTA": {
+    "ru": "Стать партнёром",
+    "en": "Become a partner",
+    "ua": "Стати партнером"
+  },
+  "whyBlock": {
+    "title": {  
+    "ru": "Почему стоит выбрать Master's Way?",
+    "en": "Why choose Master's Way?",
+    "ua": "Чому варто вибрати Master's Way?"
+    },
+    "advantages": {
+      "referralBonuses": {
+        "title": {
+          "ru": "Большие реферальные бонусы",
+          "en": "Big referral bonuses",
+          "ua": "Великі реферальні бонуси"
+        },
+        "description": {
+          "ru": "Зарабатывай 30% от каждой покупки, сделанной по твоему промокоду",
+          "en": "Earn 30% of every purchase made on your promotion code",
+          "ua": "Заробляй 30% від кожної покупки, зробленої на твій промокод"
+        }
+      },
+      "customerDiscount": {
+        "title": {
+          "ru": "Скидка для клиентов",
+          "en": "Customer discount",
+          "ua": "Знижка для клієнтів"
+        },
+        "description": {
+          "ru": "Твои клиенты получат 20% скидку на все курсы и следовательно будут чаще пользоваться промокодом и распространять его среди друзей и знакомых",
+          "en": "Your clients will get 20% off all courses and therefore will use the promo code more often and distribute it to friends and acquaintances",
+          "ua": "Твої клієнти отримають 20% знижку на всі курси і відтак частіше користуватимуться промокодом і поширюватимуть його серед друзів і знайомих"
+        }
+      },
+      "incomePotential": {
+        "title": {
+          "ru": "Высокий потенциал дохода",
+          "en": "High income potential",
+          "ua": "Високий потенціал доходу"
+        },
+        "description": {
+          "ru": "Получай от 1200$ за 100 продаж и выше",
+          "en": "Get from $1200 for 100 sales and above",
+          "ua": "Отримуй від 1200$ за 100 продажів і вище"
+        }
+      },
+      "regularPayments": {
+        "title": {
+          "ru": "Регулярные выплаты",
+          "en": "Regular payments",
+          "ua": "Регулярні виплати"
+        },
+        "description": {
+          "ru": "Деньги приходят вовремя, без задержек. Периодичность оговаривается дополнительно",
+          "en": "Money arrives on time, without delay. Frequency is agreed upon",
+          "ua": "Гроші приходять вчасно, без затримок. Періодичність обговорюється додатково"
+        }
+      },
+      "supportStatistics": {
+        "title": {
+          "ru": "Поддержка и статистика",
+          "en": "Support and statistics",
+          "ua": "Підтримка та статистика"
+        },
+        "description": {
+          "ru": "Предоставление детальных отчетов о продажах и возможность получить квалифицированную помощь от нашей команды в любое время",
+          "en": "Provide detailed sales reports and get expert help from our team at any time",
+          "ua": "Надання детальних звітів про продаж та можливість отримати кваліфіковану допомогу від нашої команди у будь-який час"
+        }
+      }
+    }
+  },
+  "reviews": {
+    "title": {
+      "ru": "Наши партнёры уже зарабатывают!",
+      "en": "Our partners are already making money!",
+      "ua": "Наші партнери вже заробляють!"
+    },
+    "kirillReview": {
+      "review": {
+        "ru": "Если вы, как и я, помогаете разработчикам расти в сфере Go, то реферальная программа Master's Way станет отличным дополнением к вашим услугам. Платформа помогает студентам повысить свою квалификацию и найти работу мечты. Партнёрская программа позволит вам не только делиться знаниями, но и получать стабильный доход. Я уже успел оценить все преимущества сотрудничества.",
+        "en": "If you are like me, helping developers grow in the Go field, then the Master’s Way reference program will be a great addition to your service. The platform helps students to upgrade their skills and find a dream job. The Partner Program will allow you to share knowledge and earn a stable income. I have already seen all the benefits of cooperation.",
+        "ua": "Якщо ви, як і я, допомагаєте розробникам зростати у сфері Go, то реферальна програма Master's Way стане чудовим доповненням до ваших послуг. Платформа допомагає студентам підвищити свою кваліфікацію та знайти роботу мрії. Партнерська програма дозволить вам не лише ділитися знаннями, а й отримувати стабільний дохід. Я вже встиг оцінити усі переваги співпраці."
+      },
+      "mentorName": {
+        "ru": "Kirill",
+        "en": "Kirill",
+        "ua": "Kirill"
+      },
+      "mentorProfession": {
+        "ru": "ментор по Golang",
+        "en": "Golang mentor",
+        "ua": "ментор по Golang"
+      }
+    },
+    "viktarReview": {
+      "review": {
+        "ru": "Я активно менторю разработчиков по направлению React и TypeScript. Реферальная программа Master's Way помогает мне в этом. Платформа предоставляет отличные инструменты для обучения и развития, а также надежную поддержку. Я уверен, что мои студенты оценят возможность получить скидку.",
+        "en": "I am an active mentor for React and TypeScript developers. Master’s Way reference program helps me with this. The platform provides excellent tools for learning and development as well as reliable support. I am sure my students will appreciate the opportunity to get a discount.",
+        "ua": "Я активно менторю розробників у напрямку React та TypeScript. Реферальна програма Master's Way допомагає мені у цьому. Платформа надає відмінні інструменти для навчання та розвитку, а також надійну підтримку. Я впевнений, що мої студенти оцінять можливість отримати знижку."
+      },
+      "mentorName": {
+        "ru": "Victar",
+        "en": "Victar",
+        "ua": "Victar"
+      },
+      "mentorProfession": {
+        "ru": "ментор по React, TS",
+        "en": "React, TS mentor",
+        "ua": "ментор з React, TS"
+      }
+    },
+    "ekaterinaReview": {
+      "review": {
+        "ru": "Я всегда стремлюсь помочь своим ученикам достичь новых высот. Благодаря реферальной программе Master's Way, мои студенты могут получить доступ к качественной менторской поддержке со скидкой, а я, в свою очередь, расширяю свое профессиональное сообщество. Удобная платформа и регулярные выплаты делают сотрудничество приятным и эффективным.",
+        "en": "I always strive to help my students reach new heights. With the Master’s Way referral program, my students can access quality mentoring support at a discount and I in turn expand my professional community. The convenient platform and regular payments make cooperation pleasant and effective.",
+        "ua": "Я завжди прагну допомогти своїм учням досягти нових висот. Завдяки реферальній програмі Master's Way, мої студенти можуть отримати доступ до якісної менторської підтримки зі знижкою, а я, своєю чергою, розширюю свою професійну спільноту. Зручна платформа та регулярні виплати роблять співпрацю приємною та ефективною."
+      },
+      "mentorName": {
+        "ru": "Ekaterina",
+        "en": "Ekaterina",
+        "ua": "Ekaterina"
+      },
+      "mentorProfession": {
+        "ru": "ментор по manual QA",
+        "en": "manual QA mentor",
+        "ua": "ментор по manual QA"
+      }
+    }
+  },
+  "becomePartner": {
+    "title": {
+      "ru": "Как стать партнёром?",
+      "en": "How to become a partner?",
+      "ua": "Як стати партнером?"
+    },
+    "steps": {
+      "fillForm": {
+        "ru": "Заполни форму ниже, указав контактные данные",
+        "en": "Fill in the form below with contact details",
+        "ua": "Заповни форму нижче, вказавши контактні дані"
+      },
+      "waitForResponse": {
+        "ru": "Дождись нашего ответа, чтобы мы могли создать личный промокод и предоставить необходимые для работы данные",
+        "en": "Wait for our response so we can create a personal promo code and provide the necessary data to work",
+        "ua": "Дочекайся нашої відповіді, щоб ми могли створити особистий промокод та надати необхідні для роботи дані"
+      },
+      "startPromote": {
+        "ru": "Начинай продвигать курсы любым удобным способом",
+        "en": "Start promoting courses in any convenient way",
+        "ua": "Починай просувати курси будь-яким зручним способом"
+      },
+      "trackResults": {
+        "ru": "Отслеживай свои результаты",
+        "en": "Track your results",
+        "ua": "Слідкуй за своїми результатами"
+      },
+      "receivePayments": {
+        "ru": "Получай регулярные выплаты",
+        "en": "Receive regular payments",
+        "ua": "Отримуй регулярні виплати"
+      }
+    }
+  },
+  "promotion": {
+    "title": {
+      "ru": "Методы продвижения",
+      "en": "Promotion methods",
+      "ua": "Методи просування"
+    },
+    "methods": {
+      "socialNetworks": {
+        "ru": "Социальные сети",
+        "en": "Social networks",
+        "ua": "Соціальні мережі"
+      },
+      "newsletters": {
+        "ru": "Рассылки",
+        "en": "Newsletters",
+        "ua": "Розсилки"
+      },
+      "websitePromotion": {
+        "ru": "Продвижение сайта",
+        "en": "Website promotion",
+        "ua": "Просування сайту"
+      },
+      "contextualAdvertising": {
+        "ru": "Контекстная реклама",
+        "en": "Contextual advertising",
+        "ua": "Контекстна реклама"
+      },
+      "blog": {
+        "ru": "Ведение блога или канала",
+        "en": "Blog or channel management",
+        "ua": "Ведення блогу чи каналу"
+      },
+      "recommedations": {
+        "ru": "Рекомендации друзьям и знакомым",
+        "en": "Recommendations friends and familiar",
+        "ua": "Рекомендації друзям та знайомим"
+      }
+    }
+  },
+  "questions": {
+    "title": {
+      "ru": "Часто задаваемые вопросы",
+      "en": "Frequently asked questions",
+      "ua": "Часті питання"
+    },
+    "accordion": [
+      {
+        "id": 0,
+        "question": {
+          "ru": "Как часто происходят выплаты?",
+          "en": "How often do I make payments?",
+          "ua": "Як часто відбуваються виплати?"
+        },
+        "answer": {
+          "ru": "Выплаты осуществляются ежемесячно. При необходимости частоту выплат можно обсудить в персональной беседе.",
+          "en": "Payments are made monthly. If necessary, the frequency of payments can be discussed in a personal interview.",
+          "ua": "Виплати здійснюються щомісячно. При необхідності частоту виплат можна обговорити у персональній розмові."
+        }
+      },
+      {
+        "id": 1,
+        "question": {
+          "ru": "Как я смогу отслеживать статистику продаж?",
+          "en": "How can I track sales statistics?",
+          "ua": "Як я зможу відстежувати статистику з продажу?"
+        },
+        "answer": {
+          "ru": "Все данные о продажах будут автоматически добавляться в Google Таблицу, привязанную к вашему промокоду.",
+          "en": "All sales data will be automatically added to the Google Spreadsheet linked to your promotion.",
+          "ua": "Всі дані про продаж будуть автоматично додаватися в Google Таблицю, прив'язану до вашого промокоду."
+        }
+      },
+      {
+        "id": 2,
+        "question": {
+          "ru": "Какие услуги доступны к продаже?",
+          "en": "What services are available for sale?",
+          "ua": "Які послуги доступні для продажу?"
+        },
+        "answer": {
+          "ru": "На данный момент вы можете продавать доступ к платформе Master's Way и менторскую поддержку по направлениям:\n\n * ***IT***: front-end, Python, Java, SQL, Golang, QA, AQA, SQL, C# (gamedev), Unity , Linux (bash), Git \n\n * ***Английский***: работаем с уровнями A1, A2, B1, B2, разговорный, бизнес, IT \n\n * ***Школьная программа***: математика, физика, информатика, химия",
+          "en": "You can currently sell access to the Master’s Way platform and the Mentor support by: n n * **IT****: front-end, Python, Java, SQL, Golang, QA, AQA, SQL, C# (gamedev), Unity , Linux (bash), Git n * **English***: work with A1 levels, A2, B1, B2, Conversational, Business, IT n n * ***School curriculum***: Mathematics, Physics, Informatics, Chemistry",
+          "ua": "На даний момент ви можете продавати доступ до платформи Master's Way та менторську підтримку за напрямками: \n\n * ***IT***: front-end, Python, Java, SQL, Golang, QA, AQA, SQL, C# ( gamedev), Unity , Linux (bash), Git \n\n * ***Англійська***: працюємо з рівнями A1, A2, B1, B2, розмовний, бізнес, IT \n\n * ***Шкільна програма***: математика, фізика, інформатика, хімія"
+        }
+      },
+      {
+        "id": 3,
+        "question": {
+          "ru": "Могу ли я изменить свой реферальный код?",
+          "en": "Can I change my referral code?",
+          "ua": "Чи можу я змінити свій реферальний код?"
+        },
+        "answer": {
+          "ru": "Да, но это нужно согласовать с командой поддержки.",
+          "en": "Yes, but this has to be coordinated with the support team.",
+          "ua": "Так, але це потрібно узгодити з командою підтримки."
+        }
+      },
+      {
+        "id": 4,
+        "question": {
+          "ru": "Как долго действует скидка для клиента?",
+          "en": "How long does the discount last for the customer?",
+          "ua": "Як довго діє знижка для клієнта?"
+        },
+        "answer": {
+          "ru": "Скидка действует бессрочно при использовании вашего промокода.",
+          "en": "Discount is valid indefinitely when using your promo code.",
+          "ua": "Знижка діє безстроково при використанні вашого промокоду."
+        }
+      }
+    ]
+  },
+  "formBlock": {
+    "title": {
+      "ru": "Время действовать — присоединяйся к Master's Way!",
+      "en": "Time to act - join the Master’s Way!",
+      "ua": "Час діяти – приєднуйся до Master's Way!"
+    },
+    "description": {
+      "ru": "Присоединяйтесь к нашей команде и вместе мы достигнем успеха!\nМы ищем активных и целеустремленных людей, которые хотят развиваться вместе с нами.\nСтаньте нашим партнёром и получите все инструменты для успешных продаж.",
+      "en": "Join our team and together we will achieve success!\nWe are looking for active and committed people who want to grow with us.\nBecome our partner and get all the tools for successful sales.",
+      "ua": "Приєднуйтесь до нашої команди і разом ми досягнемо успіху!\nМи шукаємо активних та цілеспрямованих людей, які хочуть розвиватися разом із нами.\nСтати нашим партнером і отримати всі інструменти для успішного продажу."
+    },
+    "formLink": {
+      "ru": "https://forms.gle/XBJZT4wp2t7R3q658",
+      "en": "https://forms.gle/7QTBGvn2xS6xEHV49",
+      "ua": "https://forms.gle/7QTBGvn2xS6xEHV49"
+    }
+  }
+}

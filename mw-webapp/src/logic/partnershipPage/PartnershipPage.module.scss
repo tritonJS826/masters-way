@@ -1,0 +1,128 @@
+@import "src/styles/variables";
+
+$buttonBlockPadding: 10px;
+
+.partnershipPageWrapper {
+  width: 100%;
+  max-height: calc(100vh - $headerHeight);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.aboutPartnershipMainBlock {
+  width: 100%;
+  align-items: center;
+  padding: $paddingVerticalBlockBig;
+  border-radius: $containerBorderRadius $containerBorderRadius 0 0;
+  background-color: var(--secondaryBgColor);
+  gap: $gapLarge;
+  white-space: pre-wrap;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    padding: $paddingExtraBig $paddingSmall;
+  }
+}
+
+.title {
+  text-align: center;
+}
+
+.subtitle {
+  margin-bottom: $marginSmall;
+  text-align: center;
+}
+
+.whyBlock,
+.reviewBlock,
+.becomePartnerBlock,
+.promotionBlock,
+.formBlock {
+  width: 100%;
+  padding: $paddingVerticalBlockBig;
+  gap: $gapLarge;
+  white-space: pre-wrap;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    padding: $paddingExtraBig $paddingSmall;
+  }
+}
+
+.whyBlockTitle {
+  text-align: center;
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
+}
+
+.accordionSection {
+  align-items: center;
+  padding: $paddingExtraMedium $paddingSmall;
+  background-color: var(--tertiaryBgColor);
+  gap: $gapBig;
+}
+
+.accordion {
+  width: 100%;
+  max-width: $maxWidthLandingContainer;
+  padding: 0 $paddingMedium;
+}
+
+.advantages {
+  max-width: $maxWidthLandingContainer;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: $paddingBig $paddingMedium;
+  gap: $gapLarge;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
+}
+
+.promotionList {
+  flex-wrap: wrap;
+}
+
+.becomePartnerButton {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.formLink {
+  width: fit-content;
+  margin: 0 auto;
+  color: var(--generalPrimaryColor);
+  font-size: $fontSizeTitleSmall;
+  font-size: $fontSizeTitleMedium;
+  text-align: center;
+}
+
+.actionButton {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  padding: $buttonBlockPadding $paddingExtraBig;
+  border: none;
+  border-radius: $primaryBorderRadius;
+  margin: 0 auto;
+  background-color: var(--generalPrimaryColor);
+  color: var(--secondaryTextColor);
+  cursor: pointer;
+  font-family: $primaryFontFamily;
+  font-size: $fontSizeBig;
+  gap: $gapSmall;
+  text-decoration: none;
+  transition-duration: $primaryTransitionDuration;
+
+  &:hover:enabled {
+    background-color: var(--primaryBgBtnHoverColor);
+  }
+
+  &:active:enabled {
+    background-color: var(--primaryBgBtnActiveColor);
+  }
+}

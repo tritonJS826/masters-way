@@ -96,6 +96,12 @@ const AboutProjectPage = () => (<>
   <AboutProjectPageLazy />
 </>);
 
+const PartnershipPageLazy = React.lazy(() => import("src/logic/partnershipPage/PartnershipPage")
+  .then((module) => ({default: module.PartnershipPage})));
+const PartnershipPage = () => (<>
+  <PartnershipPageLazy />
+</>);
+
 const ErrorPageLazy = React.lazy(() => import("src/logic/errorPage/ErrorPage")
   .then((module) => ({default: module.ErrorPage})));
 const ErrorPage = () => (<>
@@ -149,6 +155,11 @@ export const pages = {
   home: {
     getPath: () => "/",
     getPageComponent: () => suspended(<HomePage />),
+    urlParams: {},
+  } as PageParams,
+  partnership: {
+    getPath: () => "/partnership",
+    getPageComponent: () => suspended(<PartnershipPage />),
     urlParams: {},
   } as PageParams,
   pricing: {
@@ -243,4 +254,5 @@ export const INDEPENDENT_ROUTES = [
   pages.aboutProject.getPath({}),
   pages.home.getPath({}),
   pages.privacyPolicy.getPath({}),
+  pages.partnership.getPath({}),
 ];
