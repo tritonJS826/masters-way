@@ -173,6 +173,17 @@ export const Header = observer((props: HeaderProps) => {
         />),
     },
     {
+      path: pages.partnership.getPath({}),
+      value: LanguageService.sidebar.partnership[props.language],
+      dataCy: navigationMenuIds.menuItemLinks.partnership,
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="UserCheckIcon"
+          className={styles.linkIcon}
+        />),
+    },
+    {
       path: pages.pricing.getPath({}),
       value: LanguageService.sidebar.pricing[props.language],
       dataCy: navigationMenuIds.menuItemLinks.pricing,

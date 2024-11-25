@@ -9,7 +9,8 @@ export const navigationMenuIds = {
         allUsers: 'allUsers',
         aboutProject: 'aboutProject',
         pricing: 'pricing',
-        settings: 'settings'
+        settings: 'settings',
+        partnership: 'partnership'
     },
 
     language: {
@@ -17,8 +18,7 @@ export const navigationMenuIds = {
         select: 'sidebarLanguageSelect',
         ruItem: 'ruItem',
         enItem: 'enItem',
-        uaItem: 'uaItem',
-        kaItem: 'kaItem'
+        uaItem: 'uaItem'
     },
 
     nightMode: {

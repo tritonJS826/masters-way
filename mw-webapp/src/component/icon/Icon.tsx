@@ -37,6 +37,7 @@ import {TableViewIcon} from "src/assets/icons/TableViewIcon";
 import {TrashIcon} from "src/assets/icons/TrashIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
 import {UploadIcon} from "src/assets/icons/UploadIcon";
+import {UserCheckIcon} from "src/assets/icons/UserCheckIcon";
 import {UserIcon} from "src/assets/icons/UserIcon";
 import {UsersIcon} from "src/assets/icons/UsersIcon";
 import {WayIcon} from "src/assets/icons/WayIcon";
@@ -257,6 +258,11 @@ export const IconDictionary = {
    * Trash icon
    */
   TrashIcon: (params: IconProps) => <TrashIcon {...params} />,
+
+  /**
+   * UserCheck icon
+   */
+  UserCheckIcon: (params: IconProps) => <UserCheckIcon {...params} />,
 
 };
 
