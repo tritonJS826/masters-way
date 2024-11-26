@@ -9,16 +9,14 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {ChatAiModal} from "src/logic/wayPage/reportsTable/chatAiModal/ChatAiModal";
-import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReports/AccesErrorStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
@@ -30,12 +28,12 @@ import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import styles from "src/component/reportCard/commentCard/CommentCard.module.scss";
+import styles from "src/logic/wayPage/commentReportList/CommentReportList.module.scss";
 
 /**
- * Reports table comments cell props
+ * Comment report list props
  */
-interface ReportsTableCommentsCellProps {
+interface CommentReportListProps {
 
   /**
    * Way
@@ -65,9 +63,9 @@ interface ReportsTableCommentsCellProps {
 }
 
 /**
- * CommentCard component
+ * Comments report list
  */
-export const CommentCard = observer((props: ReportsTableCommentsCellProps) => {
+export const CommentReportList = observer((props: CommentReportListProps) => {
   const {language} = languageStore;
 
   const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
@@ -118,32 +116,26 @@ export const CommentCard = observer((props: ReportsTableCommentsCellProps) => {
   };
 
   return (
-    <VerticalContainer className={styles.wrap}>
-      <Title
-        level={HeadingLevel.h3}
-        placeholder=""
-        text="Comments"
-      />
-      <VerticalContainer className={styles.list}>
-        <ol className={styles.numberedList}>
-          {props.dayReport.comments
-            .map((comment, index) => (
-              <li
-                key={comment.uuid}
-                className={styles.numberedListItem}
-              >
-                <HorizontalContainer className={styles.recordInfo}>
-                  {getListNumberByIndex(index)}
-                  <Avatar
-                    alt={props.wayParticipantsMap.getValue(comment.ownerUuid).name}
-                    src={props.wayParticipantsMap.getValue(comment.ownerUuid).imageUrl}
-                  />
-                  <div className={styles.ownerName}>
-                    <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
-                      {getFirstName(props.wayParticipantsMap.getValue(comment.ownerUuid).name)}
-                    </Link>
-                  </div>
-                  {props.way.children.length !== 0 &&
+    <>
+      <ol className={styles.numberedList}>
+        {props.dayReport.comments
+          .map((comment, index) => (
+            <li
+              key={comment.uuid}
+              className={styles.numberedListItem}
+            >
+              <HorizontalContainer className={styles.recordInfo}>
+                {getListNumberByIndex(index)}
+                <Avatar
+                  alt={props.wayParticipantsMap.getValue(comment.ownerUuid).name}
+                  src={props.wayParticipantsMap.getValue(comment.ownerUuid).imageUrl}
+                />
+                <div className={styles.ownerName}>
+                  <Link path={pages.user.getPath({uuid: comment.ownerUuid})}>
+                    {getFirstName(props.wayParticipantsMap.getValue(comment.ownerUuid).name)}
+                  </Link>
+                </div>
+                {props.way.children.length !== 0 &&
                   <Link
                     path={pages.way.getPath({uuid: comment.wayUuid})}
                     className={styles.linkToOwnerWay}
@@ -160,8 +152,8 @@ export const CommentCard = observer((props: ReportsTableCommentsCellProps) => {
                       />
                     </Tooltip>
                   </Link>
-                  }
-                  {props.user && props.isEditable &&
+                }
+                {props.user && props.isEditable &&
                   <Modal
                     trigger={
                       <Tooltip
@@ -192,60 +184,59 @@ export const CommentCard = observer((props: ReportsTableCommentsCellProps) => {
                       />
                     }
                   />
-                  }
-                  {comment.ownerUuid === props.user?.uuid ?
-                    <Trash
-                      tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
-                      tooltipPosition={PositionTooltip.LEFT}
-                      okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                      onOk={() => deleteComment(comment.uuid)}
-                      confirmContent={renderMarkdown(
-                        `${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
+                }
+                {comment.ownerUuid === props.user?.uuid ?
+                  <Trash
+                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteComment[language]}
+                    tooltipPosition={PositionTooltip.LEFT}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    onOk={() => deleteComment(comment.uuid)}
+                    confirmContent={renderMarkdown(
+                      `${LanguageService.way.reportsTable.modalWindow.deleteCommentQuestion[language]}
                     "${comment.description}"?`,
-                      )}
-                    />
-                    : (
-                      <div className={styles.trashReservation} />
-                    )
+                    )}
+                  />
+                  : (
+                    <div className={styles.trashReservation} />
+                  )
+                }
+              </HorizontalContainer>
+              <EditableTextarea
+                text={comment.description}
+                onChangeFinish={async (description) => {
+                  const commentToUpdate = new Comment({
+                    ...comment,
+                    description,
+                  });
+                  comment.updateDescription(description);
+                  await CommentDAL.updateComment({comment: commentToUpdate});
+                }}
+                isEditable={comment.ownerUuid === props.user?.uuid}
+                placeholder={props.isEditable
+                  ? LanguageService.common.emptyMarkdownAction[language]
+                  : LanguageService.common.emptyMarkdown[language]}
+                cy={
+                  {
+                    textArea: dayReportsAccessIds.dayReportsContent.comments.commentDescriptionInput,
+                    trigger: dayReportsAccessIds.dayReportsContent.comments.commentDescription,
                   }
-                </HorizontalContainer>
-                <EditableTextarea
-                  text={comment.description}
-                  onChangeFinish={async (description) => {
-                    const commentToUpdate = new Comment({
-                      ...comment,
-                      description,
-                    });
-                    comment.updateDescription(description);
-                    await CommentDAL.updateComment({comment: commentToUpdate});
-                  }}
-                  isEditable={comment.ownerUuid === props.user?.uuid}
-                  placeholder={props.isEditable
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                  cy={
-                    {
-                      textArea: dayReportsAccessIds.dayReportsContent.comments.commentDescriptionInput,
-                      trigger: dayReportsAccessIds.dayReportsContent.comments.commentDescription,
-                    }
-                  }
-                />
-                <Separator />
-              </li>
-            ),
-            )}
-        </ol>
-        <SummarySection
-          wayId={props.way.uuid}
-          compositionParticipants={props.dayReport.compositionParticipants}
-          isEditable={props.isEditable}
-          tooltipContent={LanguageService.way.reportsTable.columnTooltip.addComment[language]}
-          tooltipPosition={PositionTooltip.LEFT}
-          onClick={(compositionParticipant: DayReportCompositionParticipant) =>
-            createComment(compositionParticipant, props.user?.uuid)}
-        />
-      </VerticalContainer>
-    </VerticalContainer>
+                }
+              />
+              <Separator />
+            </li>
+          ),
+          )}
+      </ol>
+      <SummarySection
+        wayId={props.way.uuid}
+        compositionParticipants={props.dayReport.compositionParticipants}
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addComment[language]}
+        tooltipPosition={PositionTooltip.LEFT}
+        onClick={(compositionParticipant: DayReportCompositionParticipant) =>
+          createComment(compositionParticipant, props.user?.uuid)}
+      />
+    </>
   );
 });

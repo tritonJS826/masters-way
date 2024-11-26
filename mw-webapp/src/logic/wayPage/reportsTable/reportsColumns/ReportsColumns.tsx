@@ -1,17 +1,15 @@
 import {createColumnHelper} from "@tanstack/react-table";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Infotip} from "src/component/infotip/Infotip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
-import {ReportsTableCommentsCell}
-  from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableCommentsCell/ReportsTableCommentsCell";
+import {CommentReportList} from "src/logic/wayPage/commentReportList/CommentReportList";
+import {JobsReportList} from "src/logic/wayPage/jobsReportList/JobsReportList";
+import {PlanReportList} from "src/logic/wayPage/planReportList/PlansReportList";
+import {ProblemReportList} from "src/logic/wayPage/problemReportList/ProblemReportList";
 import {ReportsTableDateCell} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableDateCell/ReportsTableDateCell";
-import {ReportsTableJobsDoneCell}
-  from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableJobsDoneCell/ReportsTableJobsDoneCell";
-import {ReportsTablePlansCell} from "src/logic/wayPage/reportsTable/reportsColumns/reportsTablePlansCell/ReportsTablePlansCell";
-import {ReportsTableProblemsCell}
-  from "src/logic/wayPage/reportsTable/reportsColumns/reportsTableProblemsCell/ReportsTableProblemsCell";
 import {DayReport} from "src/model/businessModel/DayReport";
 import {UserPlain} from "src/model/businessModel/User";
 import {Way} from "src/model/businessModel/Way";
@@ -131,21 +129,26 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with JobsDone items
        */
       cell: ({row}) => (
-        <ReportsTableJobsDoneCell
-          user={user}
-          dayReport={row.original}
-          isEditable={isUserOwnerOrMentor}
-          waysMap={waysSafeMap}
-          labels={ArrayUtils.removeDuplicatesByField(
-            TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
-            "uuid",
-          )}
-          wayUuid={props.way.uuid}
-          wayName={props.way.name}
-          setWayStatisticsTriple={props.setWayStatisticsTriple}
-          isWayComposite={isWayComposite}
-          wayParticipantsMap={participantsSafeMap}
-        />
+        <VerticalContainer className={styles.list}>
+          <JobsReportList
+            user={user}
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            waysMap={waysSafeMap}
+            labels={ArrayUtils.removeDuplicatesByField(
+              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              "uuid",
+            )}
+            wayUuid={props.way.uuid}
+            wayName={props.way.name}
+            setWayStatisticsTriple={props.setWayStatisticsTriple}
+            isWayComposite={isWayComposite}
+            wayParticipantsMap={participantsSafeMap}
+          />
+          {/* <ReportsTableJobsDoneCell
+
+          /> */}
+        </VerticalContainer>
       ),
     }),
     columnHelper.accessor("plans", {
@@ -164,19 +167,21 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with Plan items
        */
       cell: ({row}) => (
-        <ReportsTablePlansCell
-          dayReport={row.original}
-          isEditable={isUserOwnerOrMentor}
-          labels={ArrayUtils.removeDuplicatesByField(
-            TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
-            "uuid",
-          )}
-          waysMap={waysSafeMap}
-          way={props.way}
-          createDayReport={props.createDayReport}
-          user={user}
-          wayParticipantsMap={participantsSafeMap}
-        />
+        <VerticalContainer className={styles.list}>
+          <PlanReportList
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            labels={ArrayUtils.removeDuplicatesByField(
+              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              "uuid",
+            )}
+            waysMap={waysSafeMap}
+            way={props.way}
+            createDayReport={props.createDayReport}
+            user={user}
+            wayParticipantsMap={participantsSafeMap}
+          />
+        </VerticalContainer>
       ),
     }),
     columnHelper.accessor("problems", {
@@ -195,13 +200,15 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with Problems items
        */
       cell: ({row}) => (
-        <ReportsTableProblemsCell
-          dayReport={row.original}
-          isEditable={isUserOwnerOrMentor}
-          way={props.way}
-          user={user}
-          wayParticipantsMap={participantsSafeMap}
-        />
+        <VerticalContainer className={styles.list}>
+          <ProblemReportList
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            way={props.way}
+            user={user}
+            wayParticipantsMap={participantsSafeMap}
+          />
+        </VerticalContainer>
       ),
     }),
     columnHelper.accessor("comments", {
@@ -220,13 +227,15 @@ export const Columns = (props: ColumnsProps) => {
        * Cell with Comments items
        */
       cell: ({row}) => (
-        <ReportsTableCommentsCell
-          dayReport={row.original}
-          isEditable={isUserOwnerOrMentor}
-          way={props.way}
-          user={user}
-          wayParticipantsMap={participantsSafeMap}
-        />
+        <VerticalContainer className={styles.list}>
+          <CommentReportList
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            way={props.way}
+            user={user}
+            wayParticipantsMap={participantsSafeMap}
+          />
+        </VerticalContainer>
       ),
     }),
   ];

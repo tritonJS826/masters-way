@@ -7,6 +7,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {ReportCard} from "src/logic/wayPage/reportCard/ReportCard";
 import {Columns} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {ReportsTable} from "src/logic/wayPage/reportsTable/ReportsTable";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -15,7 +16,8 @@ import {Way} from "src/model/businessModel/Way";
 import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
 import {LanguageService} from "src/service/LanguageService";
 import {arrayToHashMap} from "src/utils/arrayToHashMap";
-import styles from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable.module.scss";
+import {View} from "src/utils/LocalStorageWorker";
+import styles from "src/logic/wayPage/reportsTable/dayReports/DayReports.module.scss";
 
 const DEFAULT_DAY_REPORTS_PAGINATION_VALUE = 1;
 
@@ -28,6 +30,11 @@ interface DayReportsTableProps {
    * Way of DayReports
    */
   way: Way;
+
+  /**
+   * Day reports view
+   */
+  reportsView: View;
 
   /**
    * Callback triggered to update way statistics triple
@@ -51,7 +58,7 @@ interface DayReportsTableProps {
  * TODO:  get rid statistics in this component,
  * move load logic to the parent component and share data with other components
  */
-export const DayReportsTable = observer((props: DayReportsTableProps) => {
+export const DayReports = observer((props: DayReportsTableProps) => {
   const {language} = languageStore;
   const [dayReportsPagination, setDayReportsPagination] = useState<number>(DEFAULT_DAY_REPORTS_PAGINATION_VALUE);
 
@@ -85,17 +92,33 @@ export const DayReportsTable = observer((props: DayReportsTableProps) => {
         />
       </HorizontalContainer>
       <VerticalContainer className={styles.dayReportsContent}>
-        <ScrollableBlock>
-          <ReportsTable
-            data={props.way.dayReports}
-            columns={Columns({
-              way: props.way,
-              setWayStatisticsTriple: props.setWayStatisticsTriple,
-              createDayReport: props.createDayReport,
-              wayParticipantsMap,
-            })}
-          />
-        </ScrollableBlock>
+        {props.reportsView === View.Table ?
+          <ScrollableBlock>
+            <ReportsTable
+              data={props.way.dayReports}
+              columns={Columns({
+                way: props.way,
+                setWayStatisticsTriple: props.setWayStatisticsTriple,
+                createDayReport: props.createDayReport,
+                wayParticipantsMap,
+              })}
+            />
+          </ScrollableBlock>
+          :
+          props.way.dayReports.map((dayReport) => {
+            return (
+              <ReportCard
+                key={dayReport.uuid}
+                dayReport={dayReport}
+                way={props.way}
+                createDayReport={props.createDayReport}
+                setWayStatisticsTriple={props.setWayStatisticsTriple}
+                wayParticipantsMap={wayParticipantsMap}
+              />
+            );
+          })
+        }
+
         {isMoreDayReportsExist &&
         <Button
           onClick={loadMoreDayReports}

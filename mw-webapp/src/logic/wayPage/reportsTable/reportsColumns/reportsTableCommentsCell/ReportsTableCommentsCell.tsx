@@ -17,7 +17,7 @@ import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {ChatAiModal} from "src/logic/wayPage/reportsTable/chatAiModal/ChatAiModal";
-import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReports/AccesErrorStore";
 import {getListNumberByIndex} from "src/logic/wayPage/reportsTable/reportsColumns/ReportsColumns";
 import {SummarySection} from "src/logic/wayPage/reportsTable/reportsColumns/summarySection/SummarySection";
 import {getFirstName} from "src/logic/waysTable/waysColumns";

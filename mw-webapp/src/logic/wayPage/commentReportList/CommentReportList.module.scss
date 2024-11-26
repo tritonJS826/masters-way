@@ -1,24 +1,5 @@
 @import "src/styles/variables";
 
-.wrap {
-  gap: $gapSmall;
-}
-
-.list {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-wrap: wrap;
-  padding: $paddingSmall;
-  border-radius: $primaryBorderRadius;
-  background-color: var(--primaryBgColor);
-
-  @media (max-width: $mediaWidthMobileMedium) {
-    width: 100%;
-    min-width: 100%;
-  }
-}
-
 .numberedList {
   display: flex;
   flex: 1 0 auto;

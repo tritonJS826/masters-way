@@ -10,17 +10,15 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CommentDAL} from "src/dataAccessLogic/CommentDAL";
 import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {CommentIssueAiModal} from "src/logic/wayPage/reportsTable/commentIssueAiModal/CommentIssueAiModal";
-import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReports/AccesErrorStore";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal";
 import {EstimateIssueAiModal} from
   "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal";
@@ -35,12 +33,12 @@ import {Way} from "src/model/businessModel/Way";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
-import styles from "src/component/reportCard/problemCard/ProblemCard.module.scss";
+import styles from "src/logic/wayPage/problemReportList/ProblemReportList.module.scss";
 
 /**
- * Reports table problems cell props
+ * Problem report list props
  */
-interface ReportsTableProblemsCellProps {
+interface ProblemReportListProps {
 
   /**
    * Way
@@ -70,9 +68,9 @@ interface ReportsTableProblemsCellProps {
 }
 
 /**
- * ProblemCard component
+ * ProblemReportList
  */
-export const ProblemCard = observer((props: ReportsTableProblemsCellProps) => {
+export const ProblemReportList = observer((props: ProblemReportListProps) => {
   const {language} = languageStore;
 
   const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
@@ -123,31 +121,25 @@ export const ProblemCard = observer((props: ReportsTableProblemsCellProps) => {
   };
 
   return (
-    <VerticalContainer className={styles.wrap}>
-      <Title
-        level={HeadingLevel.h3}
-        placeholder=""
-        text="Problems"
-      />
-      <VerticalContainer className={styles.list}>
-        <ol className={styles.numberedList}>
-          {props.dayReport.problems.map((problem, index) => (
-            <li
-              key={problem.uuid}
-              className={styles.numberedListItem}
-            >
-              <HorizontalContainer className={styles.recordInfo}>
-                {getListNumberByIndex(index)}
-                <Avatar
-                  alt={props.wayParticipantsMap.getValue(problem.ownerUuid).name}
-                  src={props.wayParticipantsMap.getValue(problem.ownerUuid).imageUrl}
-                />
-                <div className={styles.ownerName}>
-                  <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
-                    {getFirstName(props.wayParticipantsMap.getValue(problem.ownerUuid).name)}
-                  </Link>
-                </div>
-                {props.way.children.length !== 0 &&
+    <>
+      <ol className={styles.numberedList}>
+        {props.dayReport.problems.map((problem, index) => (
+          <li
+            key={problem.uuid}
+            className={styles.numberedListItem}
+          >
+            <HorizontalContainer className={styles.recordInfo}>
+              {getListNumberByIndex(index)}
+              <Avatar
+                alt={props.wayParticipantsMap.getValue(problem.ownerUuid).name}
+                src={props.wayParticipantsMap.getValue(problem.ownerUuid).imageUrl}
+              />
+              <div className={styles.ownerName}>
+                <Link path={pages.user.getPath({uuid: problem.ownerUuid})}>
+                  {getFirstName(props.wayParticipantsMap.getValue(problem.ownerUuid).name)}
+                </Link>
+              </div>
+              {props.way.children.length !== 0 &&
                 <Link
                   path={pages.way.getPath({uuid: problem.wayUuid})}
                   className={styles.linkToOwnerWay}
@@ -164,8 +156,8 @@ export const ProblemCard = observer((props: ReportsTableProblemsCellProps) => {
                     />
                   </Tooltip>
                 </Link>
-                }
-                {props.user && props.isEditable &&
+              }
+              {props.user && props.isEditable &&
                 <>
                   <Modal
                     trigger={
@@ -244,8 +236,8 @@ export const ProblemCard = observer((props: ReportsTableProblemsCellProps) => {
                     }
                   />
                 </>
-                }
-                {props.isEditable &&
+              }
+              {props.isEditable &&
                 <Tooltip
                   position={PositionTooltip.RIGHT}
                   content={LanguageService.way.reportsTable.columnTooltip.problemCheckbox[language]}
@@ -263,60 +255,59 @@ export const ProblemCard = observer((props: ReportsTableProblemsCellProps) => {
                     className={styles.checkbox}
                   />
                 </Tooltip>
-                }
-                {problem.ownerUuid === props.user?.uuid ?
-                  <Trash
-                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteProblem[language]}
-                    tooltipPosition={PositionTooltip.BOTTOM}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                    onOk={() => deleteProblem(problem.uuid)}
-                    confirmContent={
-                      renderMarkdown(`${LanguageService.way.reportsTable.modalWindow.deleteProblemQuestion[language]}
+              }
+              {problem.ownerUuid === props.user?.uuid ?
+                <Trash
+                  tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteProblem[language]}
+                  tooltipPosition={PositionTooltip.BOTTOM}
+                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  onOk={() => deleteProblem(problem.uuid)}
+                  confirmContent={
+                    renderMarkdown(`${LanguageService.way.reportsTable.modalWindow.deleteProblemQuestion[language]}
                     "${problem.description}"?`)
-                    }
-                  />
-                  : (
-                    <div className={styles.trashReservation} />
-                  )
-                }
-              </HorizontalContainer>
-              <EditableTextarea
-                text={problem.description}
-                onChangeFinish={async (description) => {
-                  const problemToUpdate = {
-                    uuid: problem.uuid,
-                    description,
-                  };
-                  problem.updateDescription(description);
-                  await ProblemDAL.updateProblem({problem: problemToUpdate});
-                }}
-                isEditable={problem.ownerUuid === props.user?.uuid}
-                placeholder={props.isEditable
-                  ? LanguageService.common.emptyMarkdownAction[language]
-                  : LanguageService.common.emptyMarkdown[language]
-                }
-                cy={
-                  {
-                    textArea: dayReportsAccessIds.dayReportsContent.problems.problemDescriptionInput,
-                    trigger: dayReportsAccessIds.dayReportsContent.problems.problemDescription,
                   }
+                />
+                : (
+                  <div className={styles.trashReservation} />
+                )
+              }
+            </HorizontalContainer>
+            <EditableTextarea
+              text={problem.description}
+              onChangeFinish={async (description) => {
+                const problemToUpdate = {
+                  uuid: problem.uuid,
+                  description,
+                };
+                problem.updateDescription(description);
+                await ProblemDAL.updateProblem({problem: problemToUpdate});
+              }}
+              isEditable={problem.ownerUuid === props.user?.uuid}
+              placeholder={props.isEditable
+                ? LanguageService.common.emptyMarkdownAction[language]
+                : LanguageService.common.emptyMarkdown[language]
+              }
+              cy={
+                {
+                  textArea: dayReportsAccessIds.dayReportsContent.problems.problemDescriptionInput,
+                  trigger: dayReportsAccessIds.dayReportsContent.problems.problemDescription,
                 }
-              />
-              <Separator />
-            </li>
-          ))}
-        </ol>
-        <SummarySection
-          wayId={props.way.uuid}
-          compositionParticipants={props.dayReport.compositionParticipants}
-          isEditable={props.isEditable}
-          tooltipContent={LanguageService.way.reportsTable.columnTooltip.addProblem[language]}
-          tooltipPosition={PositionTooltip.RIGHT}
-          onClick={(compositionParticipant: DayReportCompositionParticipant) =>
-            createProblem(compositionParticipant, props.user?.uuid)}
-        />
-      </VerticalContainer>
-    </VerticalContainer>
+              }
+            />
+            <Separator />
+          </li>
+        ))}
+      </ol>
+      <SummarySection
+        wayId={props.way.uuid}
+        compositionParticipants={props.dayReport.compositionParticipants}
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addProblem[language]}
+        tooltipPosition={PositionTooltip.RIGHT}
+        onClick={(compositionParticipant: DayReportCompositionParticipant) =>
+          createProblem(compositionParticipant, props.user?.uuid)}
+      />
+    </>
   );
 });

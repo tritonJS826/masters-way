@@ -18,7 +18,6 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
-import {ReportCard} from "src/component/reportCard/ReportCard";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -45,7 +44,7 @@ import {AdjustLabelsBlock} from "src/logic/wayPage/labels/AdjustLabelsModalConte
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
-import {DayReportsTable} from "src/logic/wayPage/reportsTable/dayReportsTable/DayReportsTable";
+import {DayReports} from "src/logic/wayPage/reportsTable/dayReports/DayReports";
 import {WayChildrenList} from "src/logic/wayPage/WayChildrenList/WayChildrenList";
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
@@ -59,7 +58,6 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
 import {View, WayPageSettings} from "src/utils/LocalStorageWorker";
@@ -369,8 +367,6 @@ export const WayPage = observer((props: WayPageProps) => {
   const favoriteTooltipText = !user
     ? LanguageService.way.wayInfo.favoriteAmountTooltip[language]
     : favoriteTooltipTextForLoggedUser;
-
-  const wayParticipantsMap = arrayToHashMap({keyField: "uuid", list: compositeWayParticipants});
 
   return (
     <VerticalContainer className={styles.container}>
@@ -969,28 +965,13 @@ export const WayPage = observer((props: WayPageProps) => {
         />
       </HorizontalContainer>
 
-      {wayPageSettings.view === View.Table ?
-        <DayReportsTable
-          way={way}
-          setWayStatisticsTriple={setWayStatisticsTriple}
-          createDayReport={createDayReport}
-          compositeWayParticipant={compositeWayParticipants}
-        />
-        :
-        way.dayReports.map((dayReport) => {
-          return (
-            <ReportCard
-              key={dayReport.uuid}
-              dayReport={dayReport}
-              way={way}
-              createDayReport={createDayReport}
-              setWayStatisticsTriple={setWayStatisticsTriple}
-              wayParticipantsMap={wayParticipantsMap}
-            />
-          );
-        })
-      }
-
+      <DayReports
+        way={way}
+        setWayStatisticsTriple={setWayStatisticsTriple}
+        createDayReport={createDayReport}
+        compositeWayParticipant={compositeWayParticipants}
+        reportsView={wayPageSettings.view}
+      />
     </VerticalContainer>
   );
 });

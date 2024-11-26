@@ -11,7 +11,6 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -21,7 +20,7 @@ import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
 import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReports/AccesErrorStore";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal";
 import {EstimateIssueAiModal} from "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
@@ -44,12 +43,12 @@ import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
-import styles from "src/component/reportCard/planCard/PlanCard.module.scss";
+import styles from "src/logic/wayPage/planReportList/PlanReportList.module.scss";
 
 /**
- * Reports table plans cell props
+ * Plan report list props
  */
-interface ReportsTablePlansCellProps {
+interface PlanReportListProps {
 
   /**
    * Day report's uuid for update
@@ -94,9 +93,9 @@ interface ReportsTablePlansCellProps {
 }
 
 /**
- * PlanCard component
+ * PlanReportList
  */
-export const PlanCard = observer((props: ReportsTablePlansCellProps) => {
+export const PlanReportList = observer((props: PlanReportListProps) => {
   const {language} = languageStore;
 
   const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
@@ -223,32 +222,26 @@ export const PlanCard = observer((props: ReportsTablePlansCellProps) => {
   };
 
   return (
-    <VerticalContainer className={styles.wrap}>
-      <Title
-        level={HeadingLevel.h3}
-        placeholder=""
-        text="Plans"
-      />
-      <VerticalContainer className={styles.list}>
-        <ol className={styles.numberedList}>
-          {props.dayReport.plans.map((plan, index) => (
-            <li
-              key={plan.uuid}
-              className={styles.numberedListItem}
-            >
-              <VerticalContainer className={styles.contentBlock}>
-                <HorizontalContainer className={styles.recordInfo}>
-                  {getListNumberByIndex(index)}
-                  <Avatar
-                    alt={props.wayParticipantsMap.getValue(plan.ownerUuid).name}
-                    src={props.wayParticipantsMap.getValue(plan.ownerUuid).imageUrl}
-                  />
-                  <div className={styles.ownerName}>
-                    <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
-                      {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
-                    </Link>
-                  </div>
-                  {props.way.children.length !== 0 &&
+    <>
+      <ol className={styles.numberedList}>
+        {props.dayReport.plans.map((plan, index) => (
+          <li
+            key={plan.uuid}
+            className={styles.numberedListItem}
+          >
+            <VerticalContainer className={styles.contentBlock}>
+              <HorizontalContainer className={styles.recordInfo}>
+                {getListNumberByIndex(index)}
+                <Avatar
+                  alt={props.wayParticipantsMap.getValue(plan.ownerUuid).name}
+                  src={props.wayParticipantsMap.getValue(plan.ownerUuid).imageUrl}
+                />
+                <div className={styles.ownerName}>
+                  <Link path={pages.user.getPath({uuid: plan.ownerUuid})}>
+                    {getFirstName(props.wayParticipantsMap.getValue(plan.ownerUuid).name)}
+                  </Link>
+                </div>
+                {props.way.children.length !== 0 &&
                   <Link
                     path={pages.way.getPath({uuid: plan.wayUuid})}
                     className={styles.linkToOwnerWay}
@@ -265,8 +258,8 @@ export const PlanCard = observer((props: ReportsTablePlansCellProps) => {
                       />
                     </Tooltip>
                   </Link>
-                  }
-                  {props.user && props.isEditable &&
+                }
+                {props.user && props.isEditable &&
                   <>
                     <Modal
                       trigger={
@@ -313,37 +306,37 @@ export const PlanCard = observer((props: ReportsTablePlansCellProps) => {
                       }
                     />
                   </>
-                  }
-                  <Tooltip
-                    position={PositionTooltip.BOTTOM}
-                    content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
-                  >
-                    <EditableText
-                      value={plan.time}
-                      type="number"
-                      max={MAX_TIME}
-                      min={MIN_TIME}
-                      onChangeFinish={async (time) => {
-                        const planToUpdate = {
-                          uuid: plan.uuid,
-                          time: getValidatedTime(Number(time)),
-                        };
-                        await PlanDAL.updatePlan({plan: planToUpdate});
-                        plan.updateTime(getValidatedTime(Number(time)));
-                      }}
-                      className={styles.editableTime}
-                      isEditable={plan.ownerUuid === props.user?.uuid}
-                      placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                      cy={
-                        {
-                          trigger: dayReportsAccessIds.dayReportsContent.plans.estimatedPlanTime,
-                          placeholder: "",
-                          inputCy: dayReportsAccessIds.dayReportsContent.plans.estimatedPlanTimeInput,
-                        }
+                }
+                <Tooltip
+                  position={PositionTooltip.BOTTOM}
+                  content={LanguageService.way.reportsTable.columnTooltip.planTime[language]}
+                >
+                  <EditableText
+                    value={plan.time}
+                    type="number"
+                    max={MAX_TIME}
+                    min={MIN_TIME}
+                    onChangeFinish={async (time) => {
+                      const planToUpdate = {
+                        uuid: plan.uuid,
+                        time: getValidatedTime(Number(time)),
+                      };
+                      await PlanDAL.updatePlan({plan: planToUpdate});
+                      plan.updateTime(getValidatedTime(Number(time)));
+                    }}
+                    className={styles.editableTime}
+                    isEditable={plan.ownerUuid === props.user?.uuid}
+                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                    cy={
+                      {
+                        trigger: dayReportsAccessIds.dayReportsContent.plans.estimatedPlanTime,
+                        placeholder: "",
+                        inputCy: dayReportsAccessIds.dayReportsContent.plans.estimatedPlanTimeInput,
                       }
-                    />
-                  </Tooltip>
-                  {props.isEditable &&
+                    }
+                  />
+                </Tooltip>
+                {props.isEditable &&
                   <Tooltip
                     content={
                       plan.isDone
@@ -376,101 +369,100 @@ export const PlanCard = observer((props: ReportsTablePlansCellProps) => {
                     />
 
                   </Tooltip>
-                  }
-                  {plan.ownerUuid === props.user?.uuid ?
-                    <Trash
-                      tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
-                      tooltipPosition={PositionTooltip.BOTTOM}
-                      okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                      onOk={() => deletePlan(plan.uuid)}
-                      confirmContent={
-                        renderMarkdown(`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
+                }
+                {plan.ownerUuid === props.user?.uuid ?
+                  <Trash
+                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deletePlan[language]}
+                    tooltipPosition={PositionTooltip.BOTTOM}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    onOk={() => deletePlan(plan.uuid)}
+                    confirmContent={
+                      renderMarkdown(`${LanguageService.way.reportsTable.modalWindow.deletePlanQuestion[language]} 
                     "${plan.description}"?`)
-                      }
-                    />
-                    : (
-                      <div className={styles.trashReservation} />
-                    )
-                  }
-                </HorizontalContainer>
-                {props.isEditable ?
-                  <Modal
-                    trigger={plan.tags.length === 0 ?
-                      <div className={styles.tagsBlockTrigger}>
-                        {LanguageService.way.reportsTable.column.addLabel[language]}
-                      </div>
-                      :
-                      <div className={styles.tagsBlockTrigger}>
-                        <JobDoneTags
-                          jobDoneTags={plan.tags}
-                          labels={props.labels}
-                        />
-                      </div>
                     }
-                    content={
-                      <ModalContentLabels
-                        labels={props.waysMap.getValue(plan.wayUuid).jobTags}
-                        labelsDone={plan.tags}
-                        isEditable={props.isEditable}
-                        updateLabels={(labelsToUpdate: Label[]) => updateLabelsInPlan({
-                          plan,
-                          updatedTags: labelsToUpdate,
-                        })}
+                  />
+                  : (
+                    <div className={styles.trashReservation} />
+                  )
+                }
+              </HorizontalContainer>
+              {props.isEditable ?
+                <Modal
+                  trigger={plan.tags.length === 0 ?
+                    <div className={styles.tagsBlockTrigger}>
+                      {LanguageService.way.reportsTable.column.addLabel[language]}
+                    </div>
+                    :
+                    <div className={styles.tagsBlockTrigger}>
+                      <JobDoneTags
+                        jobDoneTags={plan.tags}
+                        labels={props.labels}
                       />
-                    }
-                  />
-                  :
-                  <JobDoneTags
-                    jobDoneTags={plan.tags}
-                    labels={props.labels}
-                  />
-                }
-              </VerticalContainer>
-              <EditableTextarea
-                text={plan.description}
-                onChangeFinish={async (description) => {
-                  const planToUpdate = {
-                    uuid: plan.uuid,
-                    description,
-                  };
-                  plan.updateDescription(description);
-                  await PlanDAL.updatePlan({plan: planToUpdate});
-                }}
-                isEditable={plan.ownerUuid === props.user?.uuid}
-                placeholder={props.isEditable
-                  ? LanguageService.common.emptyMarkdownAction[language]
-                  : LanguageService.common.emptyMarkdown[language]}
-                cy={
-                  {
-                    textArea: dayReportsAccessIds.dayReportsContent.plans.planDescriptionInput,
-                    trigger: dayReportsAccessIds.dayReportsContent.plans.planDescription,
+                    </div>
                   }
+                  content={
+                    <ModalContentLabels
+                      labels={props.waysMap.getValue(plan.wayUuid).jobTags}
+                      labelsDone={plan.tags}
+                      isEditable={props.isEditable}
+                      updateLabels={(labelsToUpdate: Label[]) => updateLabelsInPlan({
+                        plan,
+                        updatedTags: labelsToUpdate,
+                      })}
+                    />
+                  }
+                />
+                :
+                <JobDoneTags
+                  jobDoneTags={plan.tags}
+                  labels={props.labels}
+                />
+              }
+            </VerticalContainer>
+            <EditableTextarea
+              text={plan.description}
+              onChangeFinish={async (description) => {
+                const planToUpdate = {
+                  uuid: plan.uuid,
+                  description,
+                };
+                plan.updateDescription(description);
+                await PlanDAL.updatePlan({plan: planToUpdate});
+              }}
+              isEditable={plan.ownerUuid === props.user?.uuid}
+              placeholder={props.isEditable
+                ? LanguageService.common.emptyMarkdownAction[language]
+                : LanguageService.common.emptyMarkdown[language]}
+              cy={
+                {
+                  textArea: dayReportsAccessIds.dayReportsContent.plans.planDescriptionInput,
+                  trigger: dayReportsAccessIds.dayReportsContent.plans.planDescription,
                 }
-              />
-              <Separator />
-            </li>
-          ))}
-        </ol>
-        <SummarySection
-          wayId={props.way.uuid}
-          compositionParticipants={props.dayReport.compositionParticipants}
-          isEditable={props.isEditable}
-          tooltipContent={LanguageService.way.reportsTable.columnTooltip.addPlan[language]}
-          tooltipPosition={PositionTooltip.RIGHT}
-          onClick={(compositionParticipant: DayReportCompositionParticipant) =>
-            createPlan(compositionParticipant, props.user?.uuid)}
-          total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
+              }
+            />
+            <Separator />
+          </li>
+        ))}
+      </ol>
+      <SummarySection
+        wayId={props.way.uuid}
+        compositionParticipants={props.dayReport.compositionParticipants}
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addPlan[language]}
+        tooltipPosition={PositionTooltip.RIGHT}
+        onClick={(compositionParticipant: DayReportCompositionParticipant) =>
+          createPlan(compositionParticipant, props.user?.uuid)}
+        total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
           ${props.dayReport.plans.reduce((summaryTime, plan) => plan.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
-          }
-          goalDescription={props.way.goalDescription}
-          addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
-          metrics={props.way.metrics}
-          ownerUuid={props.user?.uuid}
-          generatePlanTooltip={LanguageService.way.reportsTable.generatePlansByAI[language]}
-          isPlanColumn={true}
-        />
-      </VerticalContainer>
-    </VerticalContainer>
+        }
+        goalDescription={props.way.goalDescription}
+        addPlan={(generatedPlan: Plan) => props.dayReport.addPlan(generatedPlan)}
+        metrics={props.way.metrics}
+        ownerUuid={props.user?.uuid}
+        generatePlanTooltip={LanguageService.way.reportsTable.generatePlansByAI[language]}
+        isPlanColumn={true}
+      />
+    </>
   );
 });

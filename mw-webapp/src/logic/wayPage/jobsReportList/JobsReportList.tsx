@@ -9,7 +9,6 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
 import {Modal} from "src/component/modal/Modal";
 import {Separator} from "src/component/separator/Separator";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
@@ -19,7 +18,7 @@ import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReports/AccesErrorStore";
 import {JobDoneTags} from "src/logic/wayPage/reportsTable/jobDoneTags/JobDoneTags";
 import {ModalContentLabels} from "src/logic/wayPage/reportsTable/modalContentLabels/ModalContentLabels";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
@@ -37,7 +36,7 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
-import styles from "src/component/reportCard/jobCard/JobCard.module.scss";
+import styles from "src/logic/wayPage/jobsReportList/JobsReportList.module.scss";
 
 /**
  * Reports table jobsDone cell props
@@ -90,16 +89,16 @@ interface ReportsTableJobsDoneCellProps {
   setWayStatisticsTriple: (wayStatisticsTriple: WayStatisticsTriple) => void;
 
   /**
-   * Sdf
+   * Ways withput day reports map
    */
   waysMap: SafeMap<string, WayWithoutDayReports>;
 
 }
 
 /**
- * Jobs Done card component
+ * Jobs report list
  */
-export const JobsDoneCard = observer((props: ReportsTableJobsDoneCellProps) => {
+export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) => {
   const {language} = languageStore;
 
   const [accessErrorStore] = useState<AccessErrorStore>(new AccessErrorStore());
@@ -205,35 +204,29 @@ export const JobsDoneCard = observer((props: ReportsTableJobsDoneCellProps) => {
   };
 
   return (
-    <VerticalContainer className={styles.wrap}>
-      <Title
-        level={HeadingLevel.h3}
-        placeholder=""
-        text="Jobs"
-      />
-      <VerticalContainer className={styles.list}>
-        <ol className={styles.numberedList}>
-          {props.dayReport.jobsDone.map((jobDone, index) => (
-            <li
-              key={jobDone.uuid}
-              className={styles.numberedListItem}
-            >
-              <VerticalContainer className={styles.contentBlock}>
-                <HorizontalContainer className={styles.recordInfo}>
-                  {getListNumberByIndex(index)}
-                  <Avatar
-                    alt={props.wayParticipantsMap.getValue(jobDone.ownerUuid).name}
-                    src={props.wayParticipantsMap.getValue(jobDone.ownerUuid).imageUrl}
-                  />
-                  <div className={styles.ownerName}>
-                    <Link
-                      path={pages.user.getPath({uuid: jobDone.ownerUuid})}
-                      dataCy={dayReportsAccessIds.dayReportsContent.jobDone.reporterName}
-                    >
-                      {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
-                    </Link>
-                  </div>
-                  {props.isWayComposite &&
+    <>
+      <ol className={styles.numberedList}>
+        {props.dayReport.jobsDone.map((jobDone, index) => (
+          <li
+            key={jobDone.uuid}
+            className={styles.numberedListItem}
+          >
+            <VerticalContainer className={styles.contentBlock}>
+              <HorizontalContainer className={styles.recordInfo}>
+                {getListNumberByIndex(index)}
+                <Avatar
+                  alt={props.wayParticipantsMap.getValue(jobDone.ownerUuid).name}
+                  src={props.wayParticipantsMap.getValue(jobDone.ownerUuid).imageUrl}
+                />
+                <div className={styles.ownerName}>
+                  <Link
+                    path={pages.user.getPath({uuid: jobDone.ownerUuid})}
+                    dataCy={dayReportsAccessIds.dayReportsContent.jobDone.reporterName}
+                  >
+                    {getFirstName(props.wayParticipantsMap.getValue(jobDone.ownerUuid).name)}
+                  </Link>
+                </div>
+                {props.isWayComposite &&
                   <Link
                     path={pages.way.getPath({uuid: jobDone.wayUuid})}
                     className={styles.linkToOwnerWay}
@@ -250,126 +243,125 @@ export const JobsDoneCard = observer((props: ReportsTableJobsDoneCellProps) => {
                       />
                     </Tooltip>
                   </Link>
-                  }
+                }
 
-                  <Tooltip
-                    position={PositionTooltip.BOTTOM}
-                    content={LanguageService.way.reportsTable.columnTooltip.jobTime[language]}
-                  >
-                    <EditableText
-                      value={jobDone.time}
-                      type="number"
-                      max={MAX_TIME}
-                      min={MIN_TIME}
-                      onChangeFinish={async (time) => {
-                        const jobDoneToUpdate = {
-                          uuid: jobDone.uuid,
-                          time: getValidatedTime(Number(time)),
-                        };
-                        await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
-                        jobDone.updateTime(getValidatedTime(Number(time)));
+                <Tooltip
+                  position={PositionTooltip.BOTTOM}
+                  content={LanguageService.way.reportsTable.columnTooltip.jobTime[language]}
+                >
+                  <EditableText
+                    value={jobDone.time}
+                    type="number"
+                    max={MAX_TIME}
+                    min={MIN_TIME}
+                    onChangeFinish={async (time) => {
+                      const jobDoneToUpdate = {
+                        uuid: jobDone.uuid,
+                        time: getValidatedTime(Number(time)),
+                      };
+                      await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
+                      jobDone.updateTime(getValidatedTime(Number(time)));
 
-                        const updatedStatistics = await loadWayStatistics();
-                        props.setWayStatisticsTriple(updatedStatistics);
-                      }}
-                      className={styles.editableTime}
-                      isEditable={props.isEditable}
-                      placeholder={LanguageService.common.emptyMarkdownAction[language]}
-                      cy={
-                        {
-                          trigger: dayReportsAccessIds.dayReportsContent.jobDone.timeSpentOnJob,
-                          placeholder: "",
-                          inputCy: dayReportsAccessIds.dayReportsContent.jobDone.timeSpentOnJobInput,
-                        }
+                      const updatedStatistics = await loadWayStatistics();
+                      props.setWayStatisticsTriple(updatedStatistics);
+                    }}
+                    className={styles.editableTime}
+                    isEditable={props.isEditable}
+                    placeholder={LanguageService.common.emptyMarkdownAction[language]}
+                    cy={
+                      {
+                        trigger: dayReportsAccessIds.dayReportsContent.jobDone.timeSpentOnJob,
+                        placeholder: "",
+                        inputCy: dayReportsAccessIds.dayReportsContent.jobDone.timeSpentOnJobInput,
                       }
-                    />
-                  </Tooltip>
-                  {props.isEditable && jobDone.ownerUuid === props.user?.uuid ?
-                    <Trash
-                      tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
-                      tooltipPosition={PositionTooltip.BOTTOM}
-                      okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                      onOk={() => deleteJobDone(jobDone.uuid)}
-                      confirmContent={renderMarkdown(`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
+                    }
+                  />
+                </Tooltip>
+                {props.isEditable && jobDone.ownerUuid === props.user?.uuid ?
+                  <Trash
+                    tooltipContent={LanguageService.way.reportsTable.columnTooltip.deleteJob[language]}
+                    tooltipPosition={PositionTooltip.BOTTOM}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    onOk={() => deleteJobDone(jobDone.uuid)}
+                    confirmContent={renderMarkdown(`${LanguageService.way.reportsTable.modalWindow.deleteJobQuestion[language]}
                     "${jobDone.description}"?`)}
-                    />
-                    : (
-                      <div className={styles.trashReservation} />
-                    )
-                  }
-                </HorizontalContainer>
-                {props.isEditable ?
-                  <Modal
-                    trigger={jobDone.tags.length === 0 ?
-                      <div className={styles.tagsBlockTrigger}>
-                        {LanguageService.way.reportsTable.column.addLabel[language]}
-                      </div>
-                      :
-                      <div className={styles.tagsBlockTrigger}>
-                        <JobDoneTags
-                          jobDoneTags={jobDone.tags}
-                          labels={props.labels}
-                        />
-                      </div>
-                    }
-                    content={
-                      <ModalContentLabels
-                        labels={props.waysMap.getValue(jobDone.wayUuid).jobTags}
-                        labelsDone={jobDone.tags}
-                        isEditable={props.isEditable}
-                        updateLabels={(labelsToUpdate: Label[]) => updateLabelsInJobDone({
-                          jobDone,
-                          updatedTags: labelsToUpdate,
-                        })}
+                  />
+                  : (
+                    <div className={styles.trashReservation} />
+                  )
+                }
+              </HorizontalContainer>
+              {props.isEditable ?
+                <Modal
+                  trigger={jobDone.tags.length === 0 ?
+                    <div className={styles.tagsBlockTrigger}>
+                      {LanguageService.way.reportsTable.column.addLabel[language]}
+                    </div>
+                    :
+                    <div className={styles.tagsBlockTrigger}>
+                      <JobDoneTags
+                        jobDoneTags={jobDone.tags}
+                        labels={props.labels}
                       />
-                    }
-                  />
-                  :
-                  <JobDoneTags
-                    jobDoneTags={jobDone.tags}
-                    labels={props.labels}
-                  />
-                }
-              </VerticalContainer>
-              <EditableTextarea
-                text={jobDone.description}
-                onChangeFinish={async (description) => {
-                  const jobDoneToUpdate = {
-                    uuid: jobDone.uuid,
-                    description,
-                  };
-                  await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
-                  jobDone.updateDescription(description);
-                }}
-                isEditable={props.isEditable}
-                placeholder={props.isEditable
-                  ? LanguageService.common.emptyMarkdownAction[language]
-                  : LanguageService.common.emptyMarkdown[language]}
-                cy={
-                  {
-                    textArea: dayReportsAccessIds.dayReportsContent.jobDone.jobDoneDescriptionInput,
-                    trigger: dayReportsAccessIds.dayReportsContent.jobDone.jobDoneDescription,
+                    </div>
                   }
+                  content={
+                    <ModalContentLabels
+                      labels={props.waysMap.getValue(jobDone.wayUuid).jobTags}
+                      labelsDone={jobDone.tags}
+                      isEditable={props.isEditable}
+                      updateLabels={(labelsToUpdate: Label[]) => updateLabelsInJobDone({
+                        jobDone,
+                        updatedTags: labelsToUpdate,
+                      })}
+                    />
+                  }
+                />
+                :
+                <JobDoneTags
+                  jobDoneTags={jobDone.tags}
+                  labels={props.labels}
+                />
+              }
+            </VerticalContainer>
+            <EditableTextarea
+              text={jobDone.description}
+              onChangeFinish={async (description) => {
+                const jobDoneToUpdate = {
+                  uuid: jobDone.uuid,
+                  description,
+                };
+                await JobDoneDAL.updateJobDone({jobDone: jobDoneToUpdate});
+                jobDone.updateDescription(description);
+              }}
+              isEditable={props.isEditable}
+              placeholder={props.isEditable
+                ? LanguageService.common.emptyMarkdownAction[language]
+                : LanguageService.common.emptyMarkdown[language]}
+              cy={
+                {
+                  textArea: dayReportsAccessIds.dayReportsContent.jobDone.jobDoneDescriptionInput,
+                  trigger: dayReportsAccessIds.dayReportsContent.jobDone.jobDoneDescription,
                 }
-              />
-              <Separator />
-            </li>
-          ))}
-        </ol>
-        <SummarySection
-          wayId={props.wayUuid}
-          compositionParticipants={props.dayReport.compositionParticipants}
-          isEditable={props.isEditable}
-          tooltipContent={LanguageService.way.reportsTable.columnTooltip.addJob[language]}
-          tooltipPosition={PositionTooltip.RIGHT}
-          onClick={(compositionParticipant: DayReportCompositionParticipant) =>
-            createJobDone(compositionParticipant, props.user?.uuid)}
-          total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
+              }
+            />
+            <Separator />
+          </li>
+        ))}
+      </ol>
+      <SummarySection
+        wayId={props.wayUuid}
+        compositionParticipants={props.dayReport.compositionParticipants}
+        isEditable={props.isEditable}
+        tooltipContent={LanguageService.way.reportsTable.columnTooltip.addJob[language]}
+        tooltipPosition={PositionTooltip.RIGHT}
+        onClick={(compositionParticipant: DayReportCompositionParticipant) =>
+          createJobDone(compositionParticipant, props.user?.uuid)}
+        total={`${LanguageService.way.reportsTable.total[language]}${Symbols.NO_BREAK_SPACE}
           ${props.dayReport.jobsDone.reduce((summaryTime, jobDone) => jobDone.time + summaryTime, DEFAULT_SUMMARY_TIME)}`
-          }
-        />
-      </VerticalContainer>
-    </VerticalContainer>
+        }
+      />
+    </>
   );
 });

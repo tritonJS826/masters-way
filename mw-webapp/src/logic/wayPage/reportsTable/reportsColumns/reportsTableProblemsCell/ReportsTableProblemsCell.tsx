@@ -19,7 +19,7 @@ import {ProblemDAL} from "src/dataAccessLogic/ProblemDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {CommentIssueAiModal} from "src/logic/wayPage/reportsTable/commentIssueAiModal/CommentIssueAiModal";
-import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReportsTable/AccesErrorStore";
+import {AccessErrorStore} from "src/logic/wayPage/reportsTable/dayReports/AccesErrorStore";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reportsTable/decomposeIssueAiModal/DecomposeIssueAiModal";
 import {EstimateIssueAiModal} from
   "src/logic/wayPage/reportsTable/estimateIssueAiModal/EstimateIssueAiModal";
