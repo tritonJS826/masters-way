@@ -18,11 +18,13 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {ReportCard} from "src/component/reportCard/ReportCard";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {wayToWayPreview} from "src/dataAccessLogic/BusinessToBusinessPreviewConverter/wayToWayPreview";
 import {CompositeWayDAL} from "src/dataAccessLogic/CompositeWayDAL";
 import {DayReportDAL} from "src/dataAccessLogic/DayReportDAL";
@@ -57,9 +59,10 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
-import {WayPageSettings} from "src/utils/LocalStorageWorker";
+import {View, WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {TreeUtils} from "src/utils/TreeUtils";
@@ -83,6 +86,12 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
    * @default true
    */
   isStatisticsVisible: true,
+
+  /**
+   * Default day reports view is Table
+   * @default View.Table
+   */
+  view: View.Table,
 };
 
 /**
@@ -166,7 +175,7 @@ export const WayPage = observer((props: WayPageProps) => {
   if (!isUserOwnerOrMentor && way.isPrivate) {
     return (
       <ErrorComponent
-        text={LanguageService.way.privateInfo.title[language]}
+        title={LanguageService.way.privateInfo.title[language]}
         description={LanguageService.way.privateInfo.description[language]}
       />
     );
@@ -360,6 +369,8 @@ export const WayPage = observer((props: WayPageProps) => {
   const favoriteTooltipText = !user
     ? LanguageService.way.wayInfo.favoriteAmountTooltip[language]
     : favoriteTooltipTextForLoggedUser;
+
+  const wayParticipantsMap = arrayToHashMap({keyField: "uuid", list: compositeWayParticipants});
 
   return (
     <VerticalContainer className={styles.container}>
@@ -910,51 +921,75 @@ export const WayPage = observer((props: WayPageProps) => {
 
       </HorizontalGridContainer>
 
-      {isUserOwnerOrMentor &&
-        <HorizontalContainer className={styles.dayReportActions}>
-          <HorizontalContainer>
-            {isPossibleCreateDayReport &&
+      <HorizontalContainer className={styles.dayReportActions}>
+        {isUserOwnerOrMentor &&
+        <HorizontalContainer>
+          {isPossibleCreateDayReport &&
+          <Button
+            value={LanguageService.way.filterBlock.createNewDayReport[language]}
+            onClick={async () => {
+              createDayReport(way.uuid);
+              const updatedStatistics = await WayDAL.getWayStatisticTripleById(way.uuid);
+              wayPageStore.setWayStatisticsTriple(updatedStatistics);
+            }}
+            buttonType={ButtonType.PRIMARY}
+            dataCy={dayReportsAccessIds.createNewDayReportButton}
+          />
+          }
+          <Modal
+            trigger={
               <Button
-                value={LanguageService.way.filterBlock.createNewDayReport[language]}
-                onClick={async () => {
-                  createDayReport(way.uuid);
-                  const updatedStatistics = await WayDAL.getWayStatisticTripleById(way.uuid);
-                  wayPageStore.setWayStatisticsTriple(updatedStatistics);
-                }}
-                buttonType={ButtonType.PRIMARY}
-                dataCy={dayReportsAccessIds.createNewDayReportButton}
+                value={LanguageService.way.filterBlock.adjustLabels[language]}
+                buttonType={ButtonType.SECONDARY}
+                onClick={() => { }}
               />
             }
-            <Modal
-              trigger={
-                <Button
-                  value={LanguageService.way.filterBlock.adjustLabels[language]}
-                  buttonType={ButtonType.SECONDARY}
-                  onClick={() => { }}
+            content={
+              <div className={styles.labelsWrapper}>
+                <AdjustLabelsBlock
+                  wayUuid={way.uuid}
+                  jobTags={way.jobTags}
+                  isEditable={isUserOwnerOrMentor}
+                  addLabel={(label: Label) => way.addLabel(label)}
+                  deleteLabel={(labelUuid: string) => way.deleteLabel(labelUuid)}
                 />
-              }
-              content={
-                <div className={styles.labelsWrapper}>
-                  <AdjustLabelsBlock
-                    wayUuid={way.uuid}
-                    jobTags={way.jobTags}
-                    isEditable={isUserOwnerOrMentor}
-                    addLabel={(label: Label) => way.addLabel(label)}
-                    deleteLabel={(labelUuid: string) => way.deleteLabel(labelUuid)}
-                  />
-                </div>
-              }
-            />
-          </HorizontalContainer>
+              </div>
+            }
+          />
         </HorizontalContainer>
-      }
+        }
+        <ViewSwitcher
+          className={styles.viewSwitcher}
+          view={wayPageSettings.view}
+          setView={(view) => updateWayPageSettings({view})}
+          options={[
+            renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
+            renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
+          ]}
+        />
+      </HorizontalContainer>
 
-      <DayReportsTable
-        way={way}
-        setWayStatisticsTriple={setWayStatisticsTriple}
-        createDayReport={createDayReport}
-        compositeWayParticipant={compositeWayParticipants}
-      />
+      {wayPageSettings.view === View.Table ?
+        <DayReportsTable
+          way={way}
+          setWayStatisticsTriple={setWayStatisticsTriple}
+          createDayReport={createDayReport}
+          compositeWayParticipant={compositeWayParticipants}
+        />
+        :
+        way.dayReports.map((dayReport) => {
+          return (
+            <ReportCard
+              key={dayReport.uuid}
+              dayReport={dayReport}
+              way={way}
+              createDayReport={createDayReport}
+              setWayStatisticsTriple={setWayStatisticsTriple}
+              wayParticipantsMap={wayParticipantsMap}
+            />
+          );
+        })
+      }
 
     </VerticalContainer>
   );

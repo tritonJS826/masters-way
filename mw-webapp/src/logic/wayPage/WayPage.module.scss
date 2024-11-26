@@ -36,6 +36,10 @@ $labelMaxWidthBlock: 650px;
   align-items: center;
 }
 
+.viewSwitcher {
+  margin-left: auto;
+}
+
 .metricsBlock {
   @include regularContainer;
   min-width: $minWidthBlock;
