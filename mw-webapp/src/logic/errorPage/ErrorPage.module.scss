@@ -1,20 +1,35 @@
 @import "src/styles/variables";
 
-.inner {
-    width: 100%;
-    margin: 180px auto 0;
-    max-width: $maxWidthContainer;
+.pageLayout {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  flex-grow: 1;
+  margin: 0 auto;
+  gap: $gapSmall;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
 }
 
-.imageBackground {
-    top: 155px;
-    width: 70%;
-    right: 0;
-    z-index: $errorPageBackgroundZIndex;
-    position: absolute;
+.errorInfoContainer {
+  width: 100%;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  border-radius: $containerBorderRadius $containerBorderRadius 0 0;
+  background-color: var(--secondaryBgColor);
+  gap: $gapExtraBig;
+  @include backgroundImageError;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    gap: $gapMedium;
+  }
+}
+
+.errorDescription,
+.errorTitle {
+  white-space: pre-wrap;
 }
 
 .buttonGroup {
-    gap: $gapExtraLargeMedium;
-    margin-top: $gapExtraExtraLarge;
+  gap: $gapExtraBig;
 }

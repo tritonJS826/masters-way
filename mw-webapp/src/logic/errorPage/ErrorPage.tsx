@@ -1,9 +1,10 @@
 import {isRouteErrorResponse, useNavigate, useRouteError} from "react-router-dom";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {ErrorComponent} from "src/component/errorComponent/ErrorComponent";
+import {Footer} from "src/component/footer/Footer";
 import {Header} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Image} from "src/component/image/Image";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -15,12 +16,10 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/errorPage/ErrorPage.module.scss";
 
-const ERROR_404 = "404 NOT FOUND";
-
 /**
  * Error page will be displayed if app's address is not correct
  */
-export const ErrorPage = () => {
+export const ErrorPage = observer(() => {
   const {user, clearUser} = userStore;
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
@@ -44,30 +43,37 @@ export const ErrorPage = () => {
           isNotificationBlockOpen={isNotificationOpen}
           isConnectionEstablished={false}
         />
-        <VerticalContainer className={styles.inner}>
-          <Title
-            level={HeadingLevel.h1}
-            text={`${error.status} ${error.statusText}`}
-            placeholder=""
-          />
-          <HorizontalContainer className={styles.buttonGroup}>
-            <Button
-              onClick={() => navigate(pages.home.getPath({}))}
-              buttonType={ButtonType.PRIMARY}
-              value={LanguageService.common.button.home[language]}
+
+        <HorizontalContainer className={styles.pageLayout}>
+          <VerticalContainer className={styles.errorInfoContainer}>
+            <Title
+              level={HeadingLevel.h1}
+              text={LanguageService.error.error404.title[language]}
+              placeholder=""
+              className={styles.errorTitle}
             />
-            <Button
-              onClick={() => navigate(navigateBackButton)}
-              buttonType={ButtonType.SECONDARY}
-              value={LanguageService.common.button.back[language]}
+            <Title
+              level={HeadingLevel.h3}
+              text={LanguageService.error.error404.description[language]}
+              placeholder=""
+              className={styles.errorDescription}
             />
-          </HorizontalContainer>
-          <Image
-            alt="three сircle"
-            src={"https://drive.google.com/thumbnail?id=1H1LY6mbpgioMLS95qKRP6aNFAvFQIOCB&sz=w1000"}
-            className={styles.imageBackground}
-          />
-        </VerticalContainer>
+            <HorizontalContainer className={styles.buttonGroup}>
+              <Button
+                onClick={() => navigate(pages.home.getPath({}))}
+                buttonType={ButtonType.PRIMARY}
+                value={LanguageService.common.button.home[language]}
+              />
+              <Button
+                onClick={() => navigate(navigateBackButton)}
+                buttonType={ButtonType.SECONDARY}
+                value={LanguageService.common.button.back[language]}
+              />
+            </HorizontalContainer>
+          </VerticalContainer>
+        </HorizontalContainer>
+
+        <Footer language={language} />
       </InitializedApp>
     );
   }
@@ -83,8 +89,8 @@ export const ErrorPage = () => {
 
   return (
     <ErrorComponent
-      text={ERROR_404}
-      description=""
+      text={LanguageService.error.error404.title[language]}
+      description={LanguageService.error.error404.description[language]}
     />
   );
-};
+});
