@@ -140,6 +140,17 @@ $blurLight: 2px;
   background-size: contain;
 }
 
+@mixin backgroundImageError {
+  background-image: linear-gradient(
+      var(--opacityBgColor),
+      var(--opacityBgColor)
+    ),
+    url("https://drive.google.com/thumbnail?id=1H1LY6mbpgioMLS95qKRP6aNFAvFQIOCB&sz=w1000");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 @mixin scaleOnHover {
   &:hover {
     transform: scale(1.02);

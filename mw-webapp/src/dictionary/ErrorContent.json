@@ -3,5 +3,17 @@
     "ru": "Недостаточно прав! Вы можете запросить права на редактирование пути ",
     "en": "Not enough rights! You can request editing rights on the way ",
     "ua": "Прав не вистачає! Ви можете запросити права редагування шляхa "
+  },
+  "error404": {
+    "title": {
+      "ru": "Ошибка 404.\nСтраница не найдена",
+      "en": "Error 404.\nPage not found",
+      "ua": "Помилка 404.\nСторінку не знайдено"
+    },
+    "description": {
+      "ru": "Упс, данная страница была удалена, перенесена или вы ввели неверный адрес.\nСвяжитесь с нашей командой, если вам нужна помощь.\nИли отправьте письмо на почту: victorveretennikov58@gmail.com (с темой - 'Mastersway:error').",
+      "en": "Oops, this page has been deleted, moved or you entered the wrong address.\nContact our team if you need help.\nOr send an email to: victorveretennikov58@gmail.com (with the theme 'Mastersway:error')",
+      "ua": "Упс, ця сторінка була видалена, переміщена або ви ввели неправильну адресу.\nЗв'яжіться з нашою командою, якщо вам потрібна допомога.\nАбо надішліть листа: victorveretennikov58@gmail.com (з темою -'Mastersway:error')."
+    }
   }
 }
