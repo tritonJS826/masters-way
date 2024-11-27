@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -62,32 +63,43 @@ export interface NotificationItemProps {
 }
 
 /**
+ * Url parser
+ */
+const urlParser = (
+  url: string,
+  nature: NotificationNature,
+) => {
+  const path = new URL(url).pathname;
+
+  switch (nature) {
+    case "own_way":
+      return path;
+    default:
+      // TODO if something wrong maybe it is better to navigate to error page
+      displayNotification({
+        text: "Ups! Url does not exist",
+        type: NotificationType.ERROR,
+      });
+
+      return "";
+  }
+};
+
+/**
  * NotificationItem component
  */
 export const NotificationItem = (props: NotificationItemProps) => {
   const navigate = useNavigate();
+  const url = urlParser(props.originalUrl, props.nature);
 
-  /**
-   * Url parser
-   */
-  const urlParser = (url: string, nature: NotificationNature) => {
-    const path = new URL(url).pathname;
-
-    switch (nature) {
-      case "own_way":
-        navigate(path);
-        break;
-      default:
-        return null;
-    }
-  };
+  const isUrlWillTransfer = url !== window.location.pathname;
 
   return (
     <VerticalContainer
       className={clsx(styles.notificationItem, props.isNotificationRead && styles.notRead, props.className)}
       onClick={() => {
-        urlParser(props.originalUrl, props.nature);
         props.onClick();
+        navigate(url);
       }}
     >
       <HorizontalContainer className={styles.notificationBlock}>
@@ -106,10 +118,12 @@ export const NotificationItem = (props: NotificationItemProps) => {
             </div>
           </Tooltip>
         </VerticalContainer>
-        <Icon
-          name="ArrowRightIcon"
-          size={IconSize.SMALL}
-        />
+        {isUrlWillTransfer && (
+          <Icon
+            name="ArrowRightIcon"
+            size={IconSize.SMALL}
+          />
+        )}
       </HorizontalContainer>
     </VerticalContainer>
   );
