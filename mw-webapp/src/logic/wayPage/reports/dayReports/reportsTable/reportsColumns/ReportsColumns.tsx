@@ -1,0 +1,252 @@
+import {createColumnHelper} from "@tanstack/react-table";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Infotip} from "src/component/infotip/Infotip";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {SafeMap} from "src/dataAccessLogic/SafeMap";
+import {languageStore} from "src/globalStore/LanguageStore";
+import {userStore} from "src/globalStore/UserStore";
+import {CommentReportList} from "src/logic/wayPage/reports/dayReports/reportItem/commentReportList/CommentReportList";
+import {JobsReportList} from "src/logic/wayPage/reports/dayReports/reportItem/jobsReportList/JobsReportList";
+import {PlanReportList} from "src/logic/wayPage/reports/dayReports/reportItem/planReportList/PlansReportList";
+import {ProblemReportList} from "src/logic/wayPage/reports/dayReports/reportItem/problemReportList/ProblemReportList";
+import {DayReport} from "src/model/businessModel/DayReport";
+import {UserPlain} from "src/model/businessModel/User";
+import {Way} from "src/model/businessModel/Way";
+import {WayStatisticsTriple} from "src/model/businessModel/WayStatistics";
+import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
+import {LanguageService} from "src/service/LanguageService";
+import {arrayToHashMap} from "src/utils/arrayToHashMap";
+import {ArrayUtils} from "src/utils/ArrayUtils";
+import {DateUtils} from "src/utils/DateUtils";
+import {Symbols} from "src/utils/Symbols";
+import {TreeUtils} from "src/utils/TreeUtils";
+import styles from "src/logic/wayPage/reports/dayReports/reportsTable/reportsColumns/ReportsColumns.module.scss";
+
+export const DEFAULT_SUMMARY_TIME = 0;
+export const MAX_TIME = 9999;
+export const MIN_TIME = 0;
+const columnHelper = createColumnHelper<DayReport>();
+const DIFFERENCE_INDEX_LIST_NUMBER = 1;
+
+/**
+ * Get time in minutes till {@link MAX_TIME}
+ */
+export const getValidatedTime = (time: number) => {
+  return time <= MAX_TIME
+    ? time
+    : MAX_TIME;
+};
+
+/**
+ * Convert index of element to list number
+ */
+export const getListNumberByIndex = (index: number) => {
+  const listNumber = `${index + DIFFERENCE_INDEX_LIST_NUMBER}.${Symbols.NO_BREAK_SPACE}`;
+
+  return listNumber;
+};
+
+/**
+ * Columns props
+ */
+interface ColumnsProps {
+
+  /**
+   * Way
+   */
+  way: Way;
+
+  /**
+   * Callback triggered to update way statistics triple
+   */
+  setWayStatisticsTriple: (wayStatisticsTriple: WayStatisticsTriple) => void;
+
+  /**
+   * Way's participants
+   */
+  wayParticipantsMap: Map<string, UserPlain>;
+
+  /**
+   * Create new day report
+   */
+  createDayReport: (wayUuid: string, dayReportUuids: DayReport[]) => Promise<DayReport>;
+}
+
+/**
+ * Table columns
+ * Don't get rid of any https://github.com/TanStack/table/issues/4382
+ */
+export const Columns = (props: ColumnsProps) => {
+  const {user} = userStore;
+  const {language} = languageStore;
+  const ownerUuid = props.way.owner.uuid;
+  const isOwner = user?.uuid === ownerUuid;
+  const isMentor = !!user && !!user.uuid && props.way.mentors.has(user.uuid);
+  const isUserOwnerOrMentor = isOwner || isMentor;
+  const isWayComposite = props.way.children.length !== 0;
+
+  const participantsSafeMap = new SafeMap(props.wayParticipantsMap);
+
+  const allParticipants: WayWithoutDayReports[] = [];
+  TreeUtils.forEach(props.way, (node) => {
+    allParticipants.push(node);
+  });
+  const waysMapRaw =
+    arrayToHashMap({keyField: "uuid", list: allParticipants});
+  const waysSafeMap = new SafeMap(waysMapRaw);
+
+  const columns = [
+    columnHelper.accessor("createdAt", {
+
+      /**
+       * Header
+       */
+      header: () => (
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.createdDate[language]} />
+          {LanguageService.way.reportsTable.column.date[language]}
+        </HorizontalContainer>
+      ),
+
+      /**
+       * Cell  with date value
+       */
+      cell: ({row}) => (
+        <VerticalContainer
+          className={styles.dateCell}
+          dataCy={dayReportsAccessIds.dayReportsContent.reportDate}
+        >
+          {DateUtils.getShortISODateValue(row.original.createdAt)}
+        </VerticalContainer>
+      ),
+    }),
+    columnHelper.accessor("jobsDone", {
+
+      /**
+       * Header
+       */
+      header: () => (
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.jobs[language]} />
+          {LanguageService.way.reportsTable.column.jobsDone[language]}
+        </HorizontalContainer>
+      ),
+
+      /**
+       * Cell with JobsDone items
+       */
+      cell: ({row}) => (
+        <VerticalContainer className={styles.list}>
+          <JobsReportList
+            user={user}
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            waysMap={waysSafeMap}
+            labels={ArrayUtils.removeDuplicatesByField(
+              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              "uuid",
+            )}
+            wayUuid={props.way.uuid}
+            wayName={props.way.name}
+            setWayStatisticsTriple={props.setWayStatisticsTriple}
+            isWayComposite={isWayComposite}
+            wayParticipantsMap={participantsSafeMap}
+          />
+          {/* <ReportsTableJobsDoneCell
+
+          /> */}
+        </VerticalContainer>
+      ),
+    }),
+    columnHelper.accessor("plans", {
+
+      /**
+       * Header
+       */
+      header: () => (
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.plans[language]} />
+          {LanguageService.way.reportsTable.column.plans[language]}
+        </HorizontalContainer>
+      ),
+
+      /**
+       * Cell with Plan items
+       */
+      cell: ({row}) => (
+        <VerticalContainer className={styles.list}>
+          <PlanReportList
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            labels={ArrayUtils.removeDuplicatesByField(
+              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              "uuid",
+            )}
+            waysMap={waysSafeMap}
+            way={props.way}
+            createDayReport={props.createDayReport}
+            user={user}
+            wayParticipantsMap={participantsSafeMap}
+          />
+        </VerticalContainer>
+      ),
+    }),
+    columnHelper.accessor("problems", {
+
+      /**
+       * Header
+       */
+      header: () => (
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.problems[language]} />
+          {LanguageService.way.reportsTable.column.problems[language]}
+        </HorizontalContainer>
+      ),
+
+      /**
+       * Cell with Problems items
+       */
+      cell: ({row}) => (
+        <VerticalContainer className={styles.list}>
+          <ProblemReportList
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            way={props.way}
+            user={user}
+            wayParticipantsMap={participantsSafeMap}
+          />
+        </VerticalContainer>
+      ),
+    }),
+    columnHelper.accessor("comments", {
+
+      /**
+       * Header
+       */
+      header: () => (
+        <HorizontalContainer className={styles.columnTitle}>
+          <Infotip content={LanguageService.way.infotip.comments[language]} />
+          {LanguageService.way.reportsTable.column.comments[language]}
+        </HorizontalContainer>
+      ),
+
+      /**
+       * Cell with Comments items
+       */
+      cell: ({row}) => (
+        <VerticalContainer className={styles.list}>
+          <CommentReportList
+            dayReport={row.original}
+            isEditable={isUserOwnerOrMentor}
+            way={props.way}
+            user={user}
+            wayParticipantsMap={participantsSafeMap}
+          />
+        </VerticalContainer>
+      ),
+    }),
+  ];
+
+  return columns;
+};

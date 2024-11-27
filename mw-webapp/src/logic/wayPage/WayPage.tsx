@@ -44,7 +44,7 @@ import {AdjustLabelsBlock} from "src/logic/wayPage/labels/AdjustLabelsModalConte
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
-import {DayReports} from "src/logic/wayPage/reportsTable/dayReports/DayReports";
+import {DayReports} from "src/logic/wayPage/reports/dayReports/DayReports";
 import {WayChildrenList} from "src/logic/wayPage/WayChildrenList/WayChildrenList";
 import {WayPageStore} from "src/logic/wayPage/WayPageStore";
 import {WayActiveStatistic} from "src/logic/wayPage/wayStatistics/WayActiveStatistic";
