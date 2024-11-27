@@ -348,7 +348,6 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
                     <Modal
                       trigger={
                         <Checkbox
-                          isDisabled={true}
                           isDefaultChecked={plan.isDone}
                           onChange={() => {}}
                           className={styles.checkbox}

@@ -6,6 +6,7 @@
   background-color: var(--secondaryBgColor);
   gap: $gapSmall;
 }
+
 .reportItemWrapper {
   gap: $gapSmall;
   grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));

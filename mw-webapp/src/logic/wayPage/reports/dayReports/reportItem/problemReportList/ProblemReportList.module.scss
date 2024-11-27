@@ -2,10 +2,16 @@
 
 .numberedList {
   display: flex;
+  width: 100%;
   flex: 1 0 auto;
   flex-direction: column;
   gap: $gapSmall;
   list-style-type: none;
+  word-wrap: break-word;
+
+  pre {
+    overflow-x: auto;
+  }
 }
 
 .numberedListItem {
