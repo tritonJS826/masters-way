@@ -48,7 +48,7 @@ func (jf *JobDoneFacade) UpdateJobDone(ctx context.Context, params *services.Upd
 
 	notificationResponse, err := jf.notificationService.CreateNotifications(ctx, &services.CreateNotificationsParams{
 		UserUUIDs:   notificationReceivers,
-		Description: "JobDone test notification",
+		Description: jobDone.Description,
 		Url:         jf.config.WebappBaseURL + "/way/" + jobDone.WayUuid,
 		Nature:      services.OwnWay,
 	})
