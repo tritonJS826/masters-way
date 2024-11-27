@@ -1,10 +1,10 @@
 @import "src/styles/variables";
 
 .reportCard {
-  padding: $paddingMedium;
+  padding-bottom: $paddingMedium;
   border-radius: $containerBorderRadius;
   background-color: var(--secondaryBgColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 .reportItemWrapper {
   gap: $gapSmall;
