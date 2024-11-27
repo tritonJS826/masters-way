@@ -8,9 +8,9 @@ import styles from "src/component/errorComponent/ErrorComponent.module.scss";
 interface ErrorComponentProps {
 
   /**
-   * Error component text
+   * Error component title
    */
-  text: string;
+  title: string;
 
   /**
    * Error component description
@@ -19,14 +19,14 @@ interface ErrorComponentProps {
 }
 
 /**
- * Error component render info about private pages
+ * Error component
  */
 export const ErrorComponent = (props: ErrorComponentProps) => {
 
   return (
     <VerticalContainer className={styles.container}>
       <Title
-        text={props.text}
+        text={props.title}
         level={HeadingLevel.h1}
         placeholder={""}
       />

@@ -160,6 +160,11 @@ export type WayPageSettings = {
    */
   isStatisticsVisible: boolean;
 
+  /**
+   * Day reports view
+   */
+  view: View;
+
 }
 
 export type UserPageSettings = {

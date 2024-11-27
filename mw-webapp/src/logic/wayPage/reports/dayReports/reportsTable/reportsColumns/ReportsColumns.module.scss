@@ -1,0 +1,22 @@
+@import "src/styles/variables";
+
+.columnTitle {
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  width: 100%;
+  min-width: 80px;
+  height: 100%;
+  padding: $paddingSmall;
+}
+
+.dateCell {
+  display: block;
+  min-width: $minWidthDate;
+  padding: $paddingSmall;
+  hyphens: none;
+  text-align: center;
+  white-space: nowrap;
+}

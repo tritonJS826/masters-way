@@ -1,0 +1,35 @@
+@import "src/styles/variables";
+
+.reportCard {
+  padding: $paddingMedium;
+  border-radius: $containerBorderRadius;
+  background-color: var(--secondaryBgColor);
+  gap: $gapMedium;
+}
+.reportItemWrapper {
+  gap: $gapSmall;
+  grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
+
+  @media (max-width: $mediaWidthDesktopMedium) {
+    grid-template-columns: repeat(auto-fit, minmax(49%, 1fr));
+  }
+
+  @media (max-width: $mediaWidthMobileBig) {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  }
+}
+
+.gradeItem {
+  fill: var(--favoriteActiveIconColor);
+  stroke: var(--favoriteActiveIconColor);
+}
+
+.review {
+  text-align: center;
+}
+
+.reviewerBlock {
+  align-items: center;
+  justify-content: space-between;
+  gap: $gapMedium;
+}

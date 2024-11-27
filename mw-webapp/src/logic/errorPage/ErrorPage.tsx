@@ -81,7 +81,7 @@ export const ErrorPage = observer(() => {
   if (error instanceof Error) {
     return (
       <ErrorComponent
-        text={error.name}
+        title={error.name}
         description={error.message}
       />
     );
@@ -89,7 +89,7 @@ export const ErrorPage = observer(() => {
 
   return (
     <ErrorComponent
-      text={LanguageService.error.error404.title[language]}
+      title={LanguageService.error.error404.title[language]}
       description={LanguageService.error.error404.description[language]}
     />
   );
