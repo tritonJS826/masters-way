@@ -89,7 +89,10 @@ export const ReportCard = observer((props: ReportCardProps) => {
         {DateUtils.getShortISODateValue(props.dayReport.createdAt)}
       </div>
       <HorizontalGridContainer className={styles.reportItemWrapper}>
-        <ReportItemCard title={LanguageService.way.reportsTable.column.jobsDone[language]}>
+        <ReportItemCard
+          title={LanguageService.way.reportsTable.column.jobsDone[language]}
+          infotipText={LanguageService.way.infotip.jobs[language]}
+        >
           <JobsReportList
             user={user}
             dayReport={props.dayReport}
@@ -106,7 +109,10 @@ export const ReportCard = observer((props: ReportCardProps) => {
             wayParticipantsMap={participantsSafeMap}
           />
         </ReportItemCard>
-        <ReportItemCard title={LanguageService.way.reportsTable.column.plans[language]}>
+        <ReportItemCard
+          title={LanguageService.way.reportsTable.column.plans[language]}
+          infotipText={LanguageService.way.infotip.plans[language]}
+        >
           <PlanReportList
             dayReport={props.dayReport}
             isEditable={isUserOwnerOrMentor}
@@ -121,7 +127,10 @@ export const ReportCard = observer((props: ReportCardProps) => {
             wayParticipantsMap={participantsSafeMap}
           />
         </ReportItemCard>
-        <ReportItemCard title={LanguageService.way.reportsTable.column.problems[language]}>
+        <ReportItemCard
+          title={LanguageService.way.reportsTable.column.problems[language]}
+          infotipText={LanguageService.way.infotip.problems[language]}
+        >
           <ProblemReportList
             dayReport={props.dayReport}
             isEditable={isUserOwnerOrMentor}
@@ -130,7 +139,10 @@ export const ReportCard = observer((props: ReportCardProps) => {
             wayParticipantsMap={participantsSafeMap}
           />
         </ReportItemCard>
-        <ReportItemCard title={LanguageService.way.reportsTable.column.comments[language]}>
+        <ReportItemCard
+          title={LanguageService.way.reportsTable.column.comments[language]}
+          infotipText={LanguageService.way.infotip.comments[language]}
+        >
           <CommentReportList
             dayReport={props.dayReport}
             isEditable={isUserOwnerOrMentor}
