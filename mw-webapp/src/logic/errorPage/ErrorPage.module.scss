@@ -6,10 +6,6 @@
   flex-grow: 1;
   margin: 0 auto;
   gap: $gapSmall;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    flex-direction: column;
-  }
 }
 
 .errorInfoContainer {

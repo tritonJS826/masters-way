@@ -11,6 +11,7 @@
 }
 
 .pricingBlock {
+  flex-grow: 1;
   align-items: center;
   padding: $paddingVerticalBlockBig $paddingMedium;
   border-radius: $containerBorderRadius $containerBorderRadius 0 0;
