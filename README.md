@@ -36,6 +36,7 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 - swag v1.16.4 ([golang package](https://github.com/swaggo/swag))
 - libprotoc 28.3 ([golang package](https://grpc.io/docs/languages/go/quickstart))
 - protobuf 3.14.0 (exist in snap)
+- grpcurl (go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest)
 - docker 24.0.7
 - docker-compose 1.29.2
 
