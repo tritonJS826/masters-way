@@ -22,11 +22,11 @@ afterEach(() => {
 describe('User Way tests', () => {
 
   it('Scenario_Student_CreateNewWay', () => {
-    cy.viewport(1200, 900);
     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
 
     userWaysSelectors.getCreateNewWayButton().click();
-    wayDescriptionSelectors.wayDashBoardLeft.getTitle().dblclick().type('{selectall}').type(testUserData.testUsers.studentJonh.newWayTitle + '{enter}');
+    wayDescriptionSelectors.wayDashBoardLeft.getTitle().dblclick()
+    wayDescriptionSelectors.wayDashBoardLeft.getTitleInput().type('{selectall}').type(testUserData.testUsers.studentJonh.newWayTitle + '{enter}');
     wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('contain', testUserData.testUsers.studentJonh.newWayTitle);
 
     wayDescriptionSelectors.wayDashBoardLeft.getGoal().dblclick().type(testUserData.testUsers.studentJonh.goal + '{enter}');

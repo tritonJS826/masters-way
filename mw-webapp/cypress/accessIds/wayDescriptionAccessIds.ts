@@ -1,6 +1,7 @@
 export const wayDescriptionAccessIds = {
     wayDashBoardLeft: {
         title : 'wayTitle',
+        titleInput: 'titleInput',
         goal: 'wayGoal',
         tag: {
             addTagButton: 'addTagButton',
