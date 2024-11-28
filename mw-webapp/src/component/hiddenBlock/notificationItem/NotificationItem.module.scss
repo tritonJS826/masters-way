@@ -12,6 +12,8 @@
 }
 
 .notificationBlock {
+  max-width: 100%;
+  overflow: hidden;
   align-items: center;
   justify-content: space-between;
   padding: $paddingExtraSmall;
@@ -22,7 +24,7 @@
 }
 
 .notificationTexts {
-  width: 100%;
+  width: calc(100% - $iconSizeSmall - $gapSmall);
   padding: $paddingExtraSmall 0;
 }
 
@@ -33,4 +35,9 @@
   font-size: $fontSizeSmall;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
+}
+
+.spaceForArrow {
+  flex-shrink: 1;
+  width: $iconSizeSmall;
 }
