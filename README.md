@@ -35,8 +35,12 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 - sqlc v1.27.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
 - swag v1.16.4 ([golang package](https://github.com/swaggo/swag))
 - libprotoc 28.3 ([golang package](https://grpc.io/docs/languages/go/quickstart))
+    ```bash
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+    ```
 - protobuf 3.14.0 (exist in snap)
-- grpcurl (go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest)
+- grpcurl ([golang package](https://github.com/fullstorydev/grpcurl))
 - docker 24.0.7
 - docker-compose 1.29.2
 
