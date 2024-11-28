@@ -2,8 +2,7 @@
 
 .pricingPageWrapper {
   width: 100%;
-  max-height: calc(100vh - $headerHeight);
-  overflow-y: auto;
+  margin-top: $headerHeight;
 
   &::-webkit-scrollbar {
     display: none;

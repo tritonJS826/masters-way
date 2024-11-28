@@ -3,9 +3,8 @@
 .container {
   width: 100%;
   max-width: $maxWidthContainer;
-  max-height: calc(100vh - $headerHeight);
   margin: 0 auto;
-  overflow-y: auto;
+  margin-top: $headerHeight;
 
   &::-webkit-scrollbar {
     display: none;

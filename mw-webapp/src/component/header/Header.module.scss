@@ -8,6 +8,10 @@ $loginModalMaxWidth: 914px;
 $iconSize: 32px;
 
 .header {
+  position: fixed;
+  z-index: $headerLandingZIndex;
+  top: 0;
+  left: 0;
   display: flex;
   width: 100%;
   max-width: $maxWidthContainer;
@@ -16,6 +20,7 @@ $iconSize: 32px;
   justify-content: space-between;
   padding: $paddingMedium;
   margin: 0 auto;
+  background-color: var(--primaryBgColor);
 }
 
 .logoSidebar {
