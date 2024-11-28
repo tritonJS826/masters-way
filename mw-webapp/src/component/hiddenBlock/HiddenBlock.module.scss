@@ -2,6 +2,8 @@
 
 .hiddenBlockContainer {
   @include regularContainer;
+  position: sticky;
+  top: $headerHeight;
   width: $minWidthBlock;
   max-height: calc(100vh - $headerHeight - $gapSmall);
   flex-shrink: 0;
