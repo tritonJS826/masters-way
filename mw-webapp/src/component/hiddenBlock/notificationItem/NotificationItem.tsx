@@ -118,12 +118,16 @@ export const NotificationItem = (props: NotificationItemProps) => {
             </div>
           </Tooltip>
         </VerticalContainer>
-        {isUrlWillTransfer && (
-          <Icon
-            name="ArrowRightIcon"
-            size={IconSize.SMALL}
-          />
-        )}
+        {isUrlWillTransfer
+          ? (
+            <Icon
+              name="ArrowRightIcon"
+              size={IconSize.SMALL}
+            />
+          )
+          : (
+            <div className={styles.spaceForArrow} />
+          )}
       </HorizontalContainer>
     </VerticalContainer>
   );
