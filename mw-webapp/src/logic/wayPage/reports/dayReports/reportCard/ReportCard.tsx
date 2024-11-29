@@ -1,6 +1,9 @@
 import {observer} from "mobx-react-lite";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Infotip} from "src/component/infotip/Infotip";
 import {ReportItemCard} from "src/component/reportItemCard/ReportItemCard";
+import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -85,9 +88,15 @@ export const ReportCard = observer((props: ReportCardProps) => {
       className={styles.reportCard}
       dataCy={props.dataCy}
     >
-      <div>
-        {DateUtils.getShortISODateValue(props.dayReport.createdAt)}
-      </div>
+      <HorizontalContainer>
+        <Infotip content={LanguageService.way.infotip.createdDate[language]} />
+        <Title
+          level={HeadingLevel.h3}
+          placeholder=""
+          text={`${LanguageService.way.reportsTable.column.date[language]}: 
+            ${DateUtils.getShortISODateValue(props.dayReport.createdAt)}`}
+        />
+      </HorizontalContainer>
       <HorizontalGridContainer className={styles.reportItemWrapper}>
         <ReportItemCard
           title={LanguageService.way.reportsTable.column.jobsDone[language]}
