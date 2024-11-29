@@ -101,6 +101,11 @@ describe('IsAuth User personal data scope tests', () => {
 
         cy.logout();
         cy.openAllUsersPage();
+        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).within(() => {
+            allUsersSelectors.card.getMentorFlag()
+                .should('exist')
+                .and('be.visible');
+        });
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
         allUsersSelectors.allUsersTable.getUserContact()
             .filter((_, el) => el.innerText.includes(testUserData.testUsers.mentorMax.email))

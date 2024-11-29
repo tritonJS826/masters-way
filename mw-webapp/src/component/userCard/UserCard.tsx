@@ -1,3 +1,4 @@
+import {allUsersAccessIds} from "cypress/accessIds/allUsersAccessIds";
 import {observer} from "mobx-react-lite";
 import {Tag, TagType} from "src/component//tag/Tag";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
@@ -68,6 +69,7 @@ export const UserCard = observer((props: UserCardProps) => {
             size={IconSize.MEDIUM}
             name="FlagIcon"
             className={styles.flagMentor}
+            dataCy={allUsersAccessIds.allUsersCard.mentorFlag}
           />
         )}
         <VerticalContainer className={styles.mainInfo}>
