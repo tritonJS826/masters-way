@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  title: Masters way mail API
+  version: "1.0"
+servers:
+- url: /mail
+paths:
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: resets db
+      tags:
+      - dev
+  /mail:
+    post:
+      description: Sending messages to recipients by smtp and saving the log of the
+        sent mail
+      operationId: send-mail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mwmail_internal_schemas.MailRequest'
+        description: Message content to be sent. Can be plain text or HTML-formatted
+          text
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mwmail_internal_schemas.SendMailResponse'
+          description: OK
+      summary: Sending messages to recipients and save logs
+      tags:
+      - mail
+      x-codegen-request-body-name: message
+components:
+  schemas:
+    mwmail_internal_schemas.SendMailResponse:
+      example:
+        cc:
+        - cc
+        - cc
+        senderName: senderName
+        bcc:
+        - bcc
+        - bcc
+        reply_to:
+        - reply_to
+        - reply_to
+        recipients:
+        - recipients
+        - recipients
+        subject: subject
+        id: id
+        message: message
+        senderMail: senderMail
+      properties:
+        bcc:
+          items:
+            type: string
+          type: array
+        cc:
+          items:
+            type: string
+          type: array
+        id:
+          type: string
+        message:
+          type: string
+        recipients:
+          items:
+            type: string
+          type: array
+        reply_to:
+          items:
+            type: string
+          type: array
+        senderMail:
+          type: string
+        senderName:
+          type: string
+        subject:
+          type: string
+      required:
+      - id
+      - message
+      - recipients
+      - senderMail
+      - subject
+      type: object
+    mwmail_internal_schemas.MailRequest:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Subject of the email
+          example: "Test Subject"
+        to:
+          type: array
+          items:
+            type: string
+          description: List of email recipients
+          example: ["recipient1@example.com", "recipient2@example.com"]
+        cc:
+          type: array
+          items:
+            type: string
+          description: List of email CC recipients
+          example: ["cc@example.com"]
+        bcc:
+          type: array
+          items:
+            type: string
+          description: List of email BCC recipients
+          example: ["bcc@example.com"]
+        replyTo:
+          type: array
+          items:
+            type: string
+          description: List of email reply-to addresses
+          example: ["reply@example.com"]
+        message:
+          type: string
+          description: The body of the email
+          example: "This is a test message."
+      required:
+        - subject
+        - to
+        - message
+x-original-swagger-version: "2.0"

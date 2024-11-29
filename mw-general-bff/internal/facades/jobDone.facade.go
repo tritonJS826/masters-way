@@ -11,22 +11,66 @@ import (
 	"github.com/samber/lo"
 )
 
+const (
+	jobDoneMailSubject         = "New job done created."
+	jobDoneMailMessage         = "https://mastersway.netlify.app/way/"
+	jobDoneNotificationNature  = "mentoring_way"
+	jobDoneNotificationChannel = "mail"
+)
+
 type JobDoneFacade struct {
 	generalService      *services.GeneralService
 	notificationService *services.NotificationService
+	mailService         *services.MailService
 	config              *config.Config
 }
 
 func newJobDoneFacade(
 	generalService *services.GeneralService,
 	notificationService *services.NotificationService,
+	mailService *services.MailService,
 	config *config.Config,
 ) *JobDoneFacade {
-	return &JobDoneFacade{generalService, notificationService, config}
+	return &JobDoneFacade{generalService, notificationService, mailService, config}
 }
 
 func (jf *JobDoneFacade) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
-	return jf.generalService.CreateJobDone(ctx, payload)
+	jobDoneResponse, err := jf.generalService.CreateJobDone(ctx, payload)
+	if err != nil {
+		return nil, err
+	}
+
+	WayPlain, err := jf.generalService.GetWayPlainForNotificationById(ctx, jobDoneResponse.WayUuid)
+	if err != nil {
+		return nil, err
+	}
+
+	var recipientMailSlice []string
+
+	for _, c := range WayPlain.Mentors {
+		settingList, err := jf.notificationService.GetNotificationSettingList(ctx, c.Uuid)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, NotificationSetting := range settingList {
+			if NotificationSetting.Nature == jobDoneNotificationNature &&
+				NotificationSetting.Channel == jobDoneNotificationChannel &&
+				NotificationSetting.IsEnabled {
+
+				recipientMailSlice = append(recipientMailSlice, c.Email)
+			}
+		}
+	}
+
+	jobDoneUrlMessage := fmt.Sprintf(jobDoneMailMessage + jobDoneResponse.WayUuid)
+
+	err = jf.mailService.SendMail(ctx, recipientMailSlice, jobDoneMailSubject, jobDoneUrlMessage)
+	if err != nil {
+		return nil, err
+	}
+
+	return jobDoneResponse, nil // Не знаю что по итогу возвращать
 }
 
 func (jf *JobDoneFacade) UpdateJobDone(ctx context.Context, params *services.UpdateJobDoneParams) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
@@ -48,7 +92,7 @@ func (jf *JobDoneFacade) UpdateJobDone(ctx context.Context, params *services.Upd
 
 	notificationResponse, err := jf.notificationService.CreateNotifications(ctx, &services.CreateNotificationsParams{
 		UserUUIDs:   notificationReceivers,
-		Description: jobDone.Description,
+		Description: "JobDone test notification",
 		Url:         jf.config.WebappBaseURL + "/way/" + jobDone.WayUuid,
 		Nature:      services.OwnWay,
 	})
