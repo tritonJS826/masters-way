@@ -59,7 +59,7 @@ import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDay
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
-import {DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
+import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
 import {View, WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
@@ -326,7 +326,7 @@ export const WayPage = observer((props: WayPageProps) => {
   const isWayComposite = way.children.length !== 0;
 
   const isEmptyWay = way.dayReports.length === 0;
-  const currentDate = new Date();
+  const currentDate = new Date(DateUtils.getShortISODateValue(new Date()));
   const lastReportDate = isEmptyWay
     ? new Date(currentDate)
     : way.dayReports[0]?.createdAt;

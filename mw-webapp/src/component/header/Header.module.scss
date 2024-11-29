@@ -11,7 +11,7 @@ $iconSize: 32px;
   position: fixed;
   z-index: $headerLandingZIndex;
   top: 0;
-  left: 0;
+  left: 50%;
   display: flex;
   width: 100%;
   max-width: $maxWidthContainer;
@@ -21,6 +21,7 @@ $iconSize: 32px;
   padding: $paddingMedium;
   margin: 0 auto;
   background-color: var(--primaryBgColor);
+  transform: translateX(-50%);
 }
 
 .logoSidebar {
