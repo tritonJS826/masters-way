@@ -15,8 +15,10 @@
 .SelectTrigger {
   all: unset;
   display: flex;
+  height: $inputHeight;
+  box-sizing: border-box;
   align-items: center;
-  padding: 0 $paddingMedium;
+  padding: $paddingSmall;
   border: solid $primaryBorder var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
@@ -32,8 +34,8 @@
 
 .SelectTriggerValue {
   font-weight: $fontWeightRegular;
-  white-space: nowrap;
   text-wrap: wrap;
+  white-space: nowrap;
 }
 
 .SelectContent {
@@ -42,7 +44,7 @@
   overflow: hidden;
   width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
-  padding: $paddingSmall $paddingMedium;
+  padding: $paddingSmall;
   border: solid $primaryBorder var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);
@@ -54,17 +56,4 @@
   display: flex;
   flex-direction: column;
   gap: $gapSmall;
-}
-
-.SelectItem {
-  color: var(--primaryTextColor);
-  cursor: pointer;
-  font-size: $fontSizeMedium;
-  text-overflow: ellipsis;
-  text-wrap: nowrap;
-}
-
-.SelectItem[data-highlighted] {
-  color: var(--tertiaryTextColor);
-  outline: none;
 }

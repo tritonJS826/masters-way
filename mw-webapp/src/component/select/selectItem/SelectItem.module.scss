@@ -1,0 +1,17 @@
+@import "src/styles/variables";
+
+.SelectItem {
+  position: relative;
+  padding: 0 0 0 $paddingBig;
+  color: var(--primaryTextColor);
+  cursor: pointer;
+  font-size: $fontSizeMedium;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  user-select: none;
+}
+
+.SelectItem[data-highlighted] {
+  color: var(--tertiaryTextColor);
+  outline: none;
+}

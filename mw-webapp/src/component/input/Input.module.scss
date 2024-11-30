@@ -1,18 +1,12 @@
 @import "src/styles/variables";
 
-$leftPosition: 12px;
-
 .inputWrapper {
-  position: relative;
-  width: 100%;
+  height: $inputHeight;
+  align-items: center;
 }
 
 .inputIcon {
-  position: absolute;
-  top: 50%;
-  left: $leftPosition;
   stroke: var(--secondaryIconColor);
-  transform: translateY(-50%);
 }
 
 .input {
@@ -46,8 +40,4 @@ $leftPosition: 12px;
       transition: opacity $primaryTransitionDuration ease-in-out;
     }
   }
-}
-
-.inputFilterIcon {
-  padding-left: $paddingExtraBig;
 }
