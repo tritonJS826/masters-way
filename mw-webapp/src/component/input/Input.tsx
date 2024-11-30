@@ -1,5 +1,6 @@
 import {HTMLInputTypeAttribute, useEffect, useState} from "react";
 import clsx from "clsx";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 import {InputMode} from "src/component/input/InputMode";
 import {ParserInputValue} from "src/component/input/parsers";
@@ -152,7 +153,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
   const inputTypeStyles = props.typeInput ? styles[props.typeInput] : styles[InputType.Editable];
 
   return (
-    <div className={styles.inputWrapper}>
+    <HorizontalContainer className={clsx(styles.inputWrapper, inputTypeStyles)}>
       {props.typeInputIcon && (
         <Icon
           size={IconSize.SMALL}
@@ -166,7 +167,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         max={props.max}
         min={props.min}
         placeholder={props.placeholder}
-        className={clsx(styles.input, props.typeInputIcon && styles.inputFilterIcon, inputTypeStyles, props.className)}
+        className={clsx(styles.input, props.className)}
         inputMode={props.inputMode}
         disabled={!!props.disabled}
         required={!!props.required}
@@ -176,6 +177,6 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         onKeyDown={props.onKeyDown}
         multiple={props.type === "file" && true}
       />
-    </div>
+    </HorizontalContainer>
   );
 };

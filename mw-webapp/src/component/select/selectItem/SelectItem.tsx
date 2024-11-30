@@ -2,7 +2,7 @@
 import {ForwardedRef, forwardRef} from "react";
 import * as SelectComponent from "@radix-ui/react-select";
 import clsx from "clsx";
-import styles from "src/component/select/Select.module.scss";
+import styles from "src/component/select/selectItem/SelectItem.module.scss";
 
 /**
  * Select item's props
