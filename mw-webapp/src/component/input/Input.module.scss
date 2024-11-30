@@ -1,7 +1,6 @@
 @import "src/styles/variables";
 
 .inputWrapper {
-  height: $inputHeight;
   align-items: center;
 }
 
@@ -16,6 +15,7 @@
   background: transparent;
   color: var(--primaryTextColor);
   font: inherit;
+  font-size: $fontSizeMedium;
   outline: none;
 
   &::placeholder {
@@ -30,7 +30,7 @@
 }
 
 .border {
-  padding: $paddingSmall;
+  padding: $paddingExtraSmall $paddingSmall;
   border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $secondaryBorderRadius;
 

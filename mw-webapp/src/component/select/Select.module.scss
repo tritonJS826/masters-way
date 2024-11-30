@@ -15,10 +15,9 @@
 .SelectTrigger {
   all: unset;
   display: flex;
-  height: $inputHeight;
   box-sizing: border-box;
   align-items: center;
-  padding: $paddingSmall;
+  padding: 0 $paddingSmall;
   border: solid $primaryBorder var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--secondaryBgColor);

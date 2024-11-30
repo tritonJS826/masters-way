@@ -54,7 +54,7 @@ export class ChatListStore {
    * Add chat to chat list
    */
   public addChatToChatList = (chatPreview: ChatPreview) => {
-    this.chatList.push(chatPreview);
+    this.chatList = [chatPreview, ...this.chatList];
   };
 
 }

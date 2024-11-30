@@ -1,8 +1,6 @@
 @import "src/styles/variables";
 
 .SelectItem {
-  position: relative;
-  padding: 0 0 0 $paddingBig;
   color: var(--primaryTextColor);
   cursor: pointer;
   font-size: $fontSizeMedium;
