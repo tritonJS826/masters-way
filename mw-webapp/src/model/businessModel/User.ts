@@ -151,24 +151,24 @@ export class WayCollection {
 }
 
 /**
- * User tag data
+ * Skill data
  */
-export class UserTag {
+export class Skill {
 
   /**
-   * User tag uuid
+   * User skill uuid
    */
   public uuid: string;
 
   /**
-   * User tag name
+   * User skill name
    */
   public name: string;
 
-  constructor(userTag: UserTag) {
+  constructor(skill: Skill) {
     makeAutoObservable(this);
-    this.name = userTag.name;
-    this.uuid = userTag.uuid;
+    this.name = skill.name;
+    this.uuid = skill.uuid;
   }
 
 }
@@ -277,9 +277,9 @@ interface UserProps {
   favoriteUsers: UserPlain[];
 
   /**
-   * User's tags {@link UserTag}
+   * User's skills {@link Skill}
    */
-  tags: UserTag[];
+  skills: Skill[];
 
   /**
    * User's image path
@@ -353,9 +353,9 @@ export class User {
   public favoriteUsers: UserPlain[];
 
   /**
-   * User's tags {@link UserTag}
+   * User's skills {@link Skill}
    */
-  public tags: UserTag[];
+  public skills: Skill[];
 
   /**
    * User's image path
@@ -388,7 +388,7 @@ export class User {
     this.defaultWayCollections = new DefaultWayCollections(userData.defaultWayCollections);
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUsers = userData.favoriteUsers;
-    this.tags = userData.tags.map(tag => new UserTag(tag));
+    this.skills = userData.skills.map(skill => new Skill(skill));
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;
     this.wayRequests = userData.wayRequests;
@@ -449,15 +449,15 @@ export class User {
   /**
    * Add new skill to user
    */
-  public addTag(newTag: UserTag): void {
-    this.tags.push(newTag);
+  public addSkill(newSkill: Skill): void {
+    this.skills.push(newSkill);
   }
 
   /**
    * Delete skill from user
    */
-  public deleteTag(skillUuid: string): void {
-    this.tags = this.tags.filter(tag => tag.uuid !== skillUuid);
+  public deleteSkill(skillUuid: string): void {
+    this.skills = this.skills.filter(skill => skill.uuid !== skillUuid);
   }
 
   /**

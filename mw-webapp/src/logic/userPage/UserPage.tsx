@@ -32,10 +32,10 @@ import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCa
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
+import {SkillDAL} from "src/dataAccessLogic/SkillDAL";
 import {SurveyDAL, SurveyFindMentorParams, SurveyUserIntroParams} from "src/dataAccessLogic/SurveyDAL";
 import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {UserProjectDAL} from "src/dataAccessLogic/UserProjectDAL";
-import {UserTagDAL} from "src/dataAccessLogic/UserTagDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {deviceStore} from "src/globalStore/DeviceStore";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -187,7 +187,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
   const {language} = languageStore;
   const {theme} = themeStore;
-  const [isAddUserTagModalOpen, setIsAddUserTagModalOpen] = useState(false);
+  const [isAddSkillModalOpen, setIsAddSkillModalOpen] = useState(false);
   const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
 
@@ -866,7 +866,7 @@ export const UserPage = observer((props: UserPageProps) => {
               />
               {isPageOwner && (
                 <Modal
-                  isOpen={isAddUserTagModalOpen}
+                  isOpen={isAddSkillModalOpen}
                   trigger={
                     <Tooltip content={LanguageService.user.personalInfo.addSkills[language]}>
                       <Button
@@ -893,18 +893,18 @@ export const UserPage = observer((props: UserPageProps) => {
                       defaultValue=""
                       title={LanguageService.user.personalInfo.addSkillModalTitle[language]}
                       placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
-                      close={() => setIsAddUserTagModalOpen(false)}
-                      onOk={async (tagName: string) => {
-                        const isSkillDuplicate = user.tags.some((tag) => tag.name === tagName);
+                      close={() => setIsAddSkillModalOpen(false)}
+                      onOk={async (skillName: string) => {
+                        const isSkillDuplicate = user.skills.some((skill) => skill.name === skillName);
                         if (isSkillDuplicate) {
                           displayNotification({
                             text: `${LanguageService.user.personalInfo.duplicateSkillModal[language]}`,
                             type: NotificationType.INFO,
                           });
                         } else {
-                          const newTag = await UserTagDAL.createUserTag({name: tagName, ownerUuid: user.uuid});
-                          user.addTag(newTag);
-                          userPageOwner.addTag(newTag);
+                          const skill = await SkillDAL.createSkill({name: skillName, ownerUuid: user.uuid});
+                          user.addSkill(skill);
+                          userPageOwner.addSkill(skill);
                         }
                       }}
                       okButtonValue={LanguageService.user.personalInfo.addSkillModalButton[language]}
@@ -914,8 +914,8 @@ export const UserPage = observer((props: UserPageProps) => {
                 />
               )}
             </HorizontalContainer>
-            <HorizontalContainer className={styles.userTagsContainer}>
-              {userPageOwner?.tags.map(tag => (
+            <HorizontalContainer className={styles.skillsContainer}>
+              {userPageOwner?.skills.map(tag => (
                 <Tag
                   cy={
                     {
@@ -929,13 +929,13 @@ export const UserPage = observer((props: UserPageProps) => {
                   type={TagType.PRIMARY_TAG}
                   removeTooltipText={LanguageService.common.removeTag[language]}
                   onDelete={async () => {
-                    user && user.deleteTag(tag.uuid);
-                    userPageOwner.deleteTag(tag.uuid);
-                    await UserTagDAL.deleteUserTag({userTagId: tag.uuid, userId: userPageOwner.uuid});
+                    user && user.deleteSkill(tag.uuid);
+                    userPageOwner.deleteSkill(tag.uuid);
+                    await SkillDAL.deleteSkill({userTagId: tag.uuid, userId: userPageOwner.uuid});
                   }}
                 />
               ))}
-              {!userPageOwner?.tags.length && LanguageService.user.personalInfo.noSkills[language]}
+              {!userPageOwner?.skills.length && LanguageService.user.personalInfo.noSkills[language]}
             </HorizontalContainer>
             {isPageOwner && <>
               <HorizontalContainer className={styles.supportTitleBlock}>

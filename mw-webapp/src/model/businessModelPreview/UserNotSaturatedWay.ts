@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {UserTag} from "src/model/businessModel/User";
+import {Skill} from "src/model/businessModel/User";
 
 /**
  * User preview model
@@ -47,9 +47,9 @@ export class UserNotSaturatedWay {
   public createdAt: Date;
 
   /**
-   * User's tags {@link UserTag}
+   * User's tags {@link Skill}
    */
-  public tags: UserTag[];
+  public tags: Skill[];
 
   /**
    * User's image path

@@ -21,5 +21,6 @@ export const userDTOToUserConverter = (userDTO: MwServerInternalSchemasUserPopul
     imageUrl: userDTO.imageUrl ?? "",
     wayRequests: userDTO.wayRequests.map(wayDTOToWayPreview),
     projects: userDTO.projects.map(projectPlainDTOToProjectPreview),
+    skills: userDTO.tags,
   });
 };
