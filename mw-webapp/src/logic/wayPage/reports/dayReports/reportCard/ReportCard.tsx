@@ -108,7 +108,7 @@ export const ReportCard = observer((props: ReportCardProps) => {
             isEditable={isUserOwnerOrMentor}
             waysMap={waysSafeMap}
             labels={ArrayUtils.removeDuplicatesByField(
-              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              TreeUtils.flattenTree(props.way).flatMap(node => node.labels),
               "uuid",
             )}
             wayUuid={props.way.uuid}
@@ -126,7 +126,7 @@ export const ReportCard = observer((props: ReportCardProps) => {
             dayReport={props.dayReport}
             isEditable={isUserOwnerOrMentor}
             labels={ArrayUtils.removeDuplicatesByField(
-              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              TreeUtils.flattenTree(props.way).flatMap(node => node.labels),
               "uuid",
             )}
             waysMap={waysSafeMap}

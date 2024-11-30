@@ -17,7 +17,7 @@ import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
 import {PlanDAL} from "src/dataAccessLogic/PlanDAL";
-import {PlanJobTagDAL} from "src/dataAccessLogic/PlanJobTagDAL";
+import {PlanLabelDAL} from "src/dataAccessLogic/PlanLabelDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {DecomposeIssueAiModal} from "src/logic/wayPage/reports/aiModal/decomposeIssueAiModal/DecomposeIssueAiModal";
@@ -28,7 +28,7 @@ import {CopyPlanToJobDoneModalContent} from
 import {SummarySection} from "src/logic/wayPage/reports/dayReports/reportItem/summarySection/SummarySection";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reports/dayReports/reportsTable/reportsColumns/ReportsColumns";
-import {JobDoneTags} from "src/logic/wayPage/reports/jobDoneTags/JobDoneTags";
+import {JobDoneLabels} from "src/logic/wayPage/reports/jobDoneLabels/JobDoneLabels";
 import {ModalContentLabels} from "src/logic/wayPage/reports/modalContentLabels/ModalContentLabels";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -188,11 +188,11 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
     const labelsToDelete: Label[] = params.plan.tags
       .filter(label => !params.updatedTags.includes(label));
 
-    const addPromises = labelsToAdd.map(label => PlanJobTagDAL.createPlanJobTag({
+    const addPromises = labelsToAdd.map(label => PlanLabelDAL.createPlanLabel({
       planUuid: params.plan.uuid,
       jobTagUuid: label.uuid,
     }));
-    const deletePromises = labelsToDelete.map(label => PlanJobTagDAL.deletePlanJobTag({
+    const deletePromises = labelsToDelete.map(label => PlanLabelDAL.deletePlanLabel({
       planUuid: params.plan.uuid,
       jobTagUuid: label.uuid,
     }));
@@ -394,15 +394,15 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
                     </div>
                     :
                     <div className={styles.tagsBlockTrigger}>
-                      <JobDoneTags
-                        jobDoneTags={plan.tags}
+                      <JobDoneLabels
+                        jobDoneLabels={plan.tags}
                         labels={props.labels}
                       />
                     </div>
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.waysMap.getValue(plan.wayUuid).jobTags}
+                      labels={props.waysMap.getValue(plan.wayUuid).labels}
                       labelsDone={plan.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: Label[]) => updateLabelsInPlan({
@@ -413,8 +413,8 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
                   }
                 />
                 :
-                <JobDoneTags
-                  jobDoneTags={plan.tags}
+                <JobDoneLabels
+                  jobDoneLabels={plan.tags}
                   labels={props.labels}
                 />
               }

@@ -16,14 +16,14 @@ import {getColorByString} from "src/utils/getColorByString";
 import styles from "src/logic/wayPage/labels/AdjustLabelsModalContent.module.scss";
 
 /**
- * Job tags props
+ * Labels block props
  */
-interface JobTagsProps {
+interface LabelsBlockProps {
 
   /**
    * Labels
    */
-  jobTags: Label[];
+  labels: Label[];
 
   /**
    * Is editable
@@ -50,7 +50,7 @@ interface JobTagsProps {
 /**
  * Adjust labels modal content
  */
-export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
+export const AdjustLabelsBlock = observer((props: LabelsBlockProps) => {
   const {language} = languageStore;
   const [isJobDoneModalOpen, setIsJobDoneModalOpen] = useState<boolean>(false);
 
@@ -81,7 +81,7 @@ export const AdjustLabelsBlock = observer((props: JobTagsProps) => {
       />
 
       <VerticalContainer className={styles.labelsContainer}>
-        {props.jobTags.map((label) => {
+        {props.labels.map((label) => {
           return (
             <LabelLine
               onRemoveLabel={removeLabelFromWay}

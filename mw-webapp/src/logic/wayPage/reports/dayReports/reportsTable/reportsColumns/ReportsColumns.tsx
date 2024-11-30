@@ -144,7 +144,7 @@ export const Columns = (props: ColumnsProps) => {
             isEditable={isUserOwnerOrMentor}
             waysMap={waysSafeMap}
             labels={ArrayUtils.removeDuplicatesByField(
-              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              TreeUtils.flattenTree(props.way).flatMap(node => node.labels),
               "uuid",
             )}
             wayUuid={props.way.uuid}
@@ -180,7 +180,7 @@ export const Columns = (props: ColumnsProps) => {
             dayReport={row.original}
             isEditable={isUserOwnerOrMentor}
             labels={ArrayUtils.removeDuplicatesByField(
-              TreeUtils.flattenTree(props.way).flatMap(node => node.jobTags),
+              TreeUtils.flattenTree(props.way).flatMap(node => node.labels),
               "uuid",
             )}
             waysMap={waysSafeMap}
