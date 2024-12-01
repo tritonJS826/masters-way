@@ -7,7 +7,6 @@ import (
 	"mw-chat/internal/config"
 	db "mw-chat/internal/db/sqlc"
 	"mw-chat/internal/openapi"
-	"mw-chat/pkg/utils"
 	"net/http"
 	"testing"
 
@@ -252,9 +251,9 @@ func TestCreateRoom(t *testing.T) {
 
 	t.Run("should create a private room and return it successfully", func(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		createRoomResponse, response, err := chatApi.RoomAPI.CreateRoom(ctx).Request(request).Execute()
+		createRoomResponse, response, err := chatApi.RoomAPI.FindOrCreateRoom(ctx).Request(request).Execute()
 		if err != nil {
-			t.Fatalf("Failed to get chat preview: %v", err)
+			t.Fatalf("Failed to get private room: %v", err)
 		}
 
 		nullableName := openapiChat.NullableString{}
@@ -283,19 +282,5 @@ func TestCreateRoom(t *testing.T) {
 		assert.Equal(t, expectedData.Name, createRoomResponse.Name)
 		assert.Equal(t, expectedData.Messages, createRoomResponse.Messages)
 		assert.Equal(t, expectedData.IsBlocked, createRoomResponse.IsBlocked)
-	})
-
-	t.Run("should return error if private room already exists", func(t *testing.T) {
-		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		_, response, err := chatApi.RoomAPI.CreateRoom(ctx).Request(request).Execute()
-		if err != nil {
-			message, extractErr := utils.ExtractErrorMessageFromResponse(response)
-			if extractErr != nil {
-				t.Fatalf(extractErr.Error())
-			}
-
-			assert.Equal(t, http.StatusInternalServerError, response.StatusCode)
-			assert.Equal(t, "A private room for these users already exists", message)
-		}
 	})
 }

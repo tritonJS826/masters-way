@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -24,12 +25,15 @@ func ExtractErrorMessageFromResponse(response *http.Response) (string, error) {
 }
 
 func HandleErrorGin(c *gin.Context, err error) {
-	if err != nil {
-		if err == pgx.ErrNoRows {
-			c.JSON(http.StatusNotFound, gin.H{"error": err.Error(), "message": "Failed to retrieve entity with this ID"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	if err == nil {
+		return
+	}
+
+	if errors.Is(err, pgx.ErrNoRows) {
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"error": err.Error(), "message": "Failed to retrieve entity with this ID"})
 		log.Panic(err)
 	}
+
+	c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	log.Panic(err)
 }

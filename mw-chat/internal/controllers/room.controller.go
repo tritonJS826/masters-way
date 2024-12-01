@@ -73,22 +73,22 @@ func (rc *RoomController) GetRoomById(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	room, err := rc.roomService.GetRoomByUuid(ctx, userUUID, roomUUID)
+	room, err := rc.roomService.GetRoomByUUID(ctx, userUUID, roomUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, room)
 }
 
-// @Summary Create room for user
+// @Summary Find or create room for user
 // @Description
 // @Tags room
-// @ID create-room
+// @ID find-or-create-room
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
-func (rc *RoomController) CreateRoom(ctx *gin.Context) {
+func (rc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -105,10 +105,13 @@ func (rc *RoomController) CreateRoom(ctx *gin.Context) {
 		Name:            payload.Name,
 		Type:            payload.RoomType,
 	}
-	newP2PRoom, err := rc.roomService.CreateRoom(ctx, params)
+	roomUUID, err := rc.roomService.FindOrCreateRoomUUID(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, newP2PRoom)
+	room, err := rc.roomService.GetRoomByUUID(ctx, creatorUUID, roomUUID)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, room)
 }
 
 // @Summary Update room for user

@@ -18,7 +18,7 @@ func newRoomRouter(roomController *controllers.RoomController) *roomRouter {
 func (rr *roomRouter) setRoomRoutes(rg *gin.RouterGroup) {
 	rooms := rg.Group("/rooms", auth.AuthMiddleware())
 	rooms.GET("/preview", rr.roomsController.GetChatPreview)
-	rooms.POST("", rr.roomsController.CreateRoom)
+	rooms.POST("", rr.roomsController.FindOrCreateRoom)
 	rooms.GET("/list/:roomType", rr.roomsController.GetRooms)
 	rooms.GET("/:roomId", rr.roomsController.GetRoomById)
 	rooms.PATCH("/:roomId", rr.roomsController.UpdateRoom)

@@ -125,7 +125,7 @@ func (cs *ChatService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.C
 		userId.Set(createRoomPayload.UserID)
 	}
 
-	roomRaw, response, err := cs.chatAPI.RoomAPI.CreateRoom(ctx).Request(openapiChat.MwChatInternalSchemasCreateRoomPayload{
+	roomRaw, response, err := cs.chatAPI.RoomAPI.FindOrCreateRoom(ctx).Request(openapiChat.MwChatInternalSchemasCreateRoomPayload{
 		Name:     name,
 		RoomType: createRoomPayload.RoomType,
 		UserId:   userId,

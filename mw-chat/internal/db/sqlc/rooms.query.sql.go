@@ -36,34 +36,26 @@ func (q *Queries) CreateRoom(ctx context.Context, arg CreateRoomParams) (CreateR
 	return i, err
 }
 
-const getIsPrivateRoomAlreadyExists = `-- name: GetIsPrivateRoomAlreadyExists :one
-SELECT EXISTS (
-    SELECT 1
-    FROM (
-        SELECT DISTINCT room_uuid
-        FROM users_rooms
-        WHERE users_rooms.user_uuid = $1
-    ) AS user1_rooms
-    JOIN (
-        SELECT DISTINCT room_uuid
-        FROM users_rooms
-        WHERE users_rooms.user_uuid = $2
-    ) AS user2_rooms ON user1_rooms.room_uuid = user2_rooms.room_uuid
-    JOIN rooms ON rooms.uuid = user1_rooms.room_uuid
-    WHERE rooms.type = 'private'
-) AS is_private_room_already_exists
+const getPrivateRoomByUserUUIDs = `-- name: GetPrivateRoomByUserUUIDs :one
+SELECT rooms.uuid
+FROM rooms
+	JOIN users_rooms AS user1 on user1.room_uuid = rooms.uuid
+		and user1.user_uuid = $1
+	JOIN users_rooms AS user2 on user2.room_uuid = rooms.uuid
+		and user2.user_uuid = $2
+WHERE rooms.type = 'private'
 `
 
-type GetIsPrivateRoomAlreadyExistsParams struct {
+type GetPrivateRoomByUserUUIDsParams struct {
 	User1 pgtype.UUID `json:"user_1"`
 	User2 pgtype.UUID `json:"user_2"`
 }
 
-func (q *Queries) GetIsPrivateRoomAlreadyExists(ctx context.Context, arg GetIsPrivateRoomAlreadyExistsParams) (bool, error) {
-	row := q.db.QueryRow(ctx, getIsPrivateRoomAlreadyExists, arg.User1, arg.User2)
-	var is_private_room_already_exists bool
-	err := row.Scan(&is_private_room_already_exists)
-	return is_private_room_already_exists, err
+func (q *Queries) GetPrivateRoomByUserUUIDs(ctx context.Context, arg GetPrivateRoomByUserUUIDsParams) (pgtype.UUID, error) {
+	row := q.db.QueryRow(ctx, getPrivateRoomByUserUUIDs, arg.User1, arg.User2)
+	var uuid pgtype.UUID
+	err := row.Scan(&uuid)
+	return uuid, err
 }
 
 const getRoomByUUID = `-- name: GetRoomByUUID :one
@@ -77,12 +69,14 @@ SELECT
             users_rooms.user_uuid
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
+        ORDER BY joined_at DESC
     )::UUID[] AS user_uuids,
     ARRAY(
-            SELECT
-                users_rooms.user_role
-            FROM users_rooms
-            WHERE users_rooms.room_uuid = rooms.uuid
+        SELECT
+            users_rooms.user_role
+        FROM users_rooms
+        WHERE users_rooms.room_uuid = rooms.uuid
+        ORDER BY joined_at DESC
     )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
@@ -128,12 +122,14 @@ SELECT
             users_rooms.user_uuid
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
+        ORDER BY joined_at DESC
     )::UUID[] AS user_uuids,
     ARRAY(
-            SELECT
-                users_rooms.user_role
-            FROM users_rooms
-            WHERE users_rooms.room_uuid = rooms.uuid
+        SELECT
+            users_rooms.user_role
+        FROM users_rooms
+        WHERE users_rooms.room_uuid = rooms.uuid
+        ORDER BY joined_at DESC
     )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid

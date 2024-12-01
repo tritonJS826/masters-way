@@ -5,8 +5,8 @@ All URIs are relative to */chat*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddUserToRoom**](RoomAPI.md#AddUserToRoom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
-[**CreateRoom**](RoomAPI.md#CreateRoom) | **Post** /rooms | Create room for user
 [**DeleteUserFromRoom**](RoomAPI.md#DeleteUserFromRoom) | **Delete** /rooms/{roomId}/users/{userId} | Delete user from room
+[**FindOrCreateRoom**](RoomAPI.md#FindOrCreateRoom) | **Post** /rooms | Find or create room for user
 [**GetChatPreview**](RoomAPI.md#GetChatPreview) | **Get** /rooms/preview | Get chat preview
 [**GetRoomById**](RoomAPI.md#GetRoomById) | **Get** /rooms/{roomId} | Get room by id
 [**GetRooms**](RoomAPI.md#GetRooms) | **Get** /rooms/list/{roomType} | Get rooms for user
@@ -85,70 +85,6 @@ No authorization required
 [[Back to README]](../README.md)
 
 
-## CreateRoom
-
-> MwChatInternalSchemasRoomPopulatedResponse CreateRoom(ctx).Request(request).Execute()
-
-Create room for user
-
-### Example
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
-)
-
-func main() {
-	request := *openapiclient.NewMwChatInternalSchemasCreateRoomPayload("RoomType_example") // MwChatInternalSchemasCreateRoomPayload | query params
-
-	configuration := openapiclient.NewConfiguration()
-	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.RoomAPI.CreateRoom(context.Background()).Request(request).Execute()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.CreateRoom``: %v\n", err)
-		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-	}
-	// response from `CreateRoom`: MwChatInternalSchemasRoomPopulatedResponse
-	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.CreateRoom`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiCreateRoomRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **request** | [**MwChatInternalSchemasCreateRoomPayload**](MwChatInternalSchemasCreateRoomPayload.md) | query params | 
-
-### Return type
-
-[**MwChatInternalSchemasRoomPopulatedResponse**](MwChatInternalSchemasRoomPopulatedResponse.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## DeleteUserFromRoom
 
 > DeleteUserFromRoom(ctx, roomId, userId).Execute()
@@ -212,6 +148,70 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## FindOrCreateRoom
+
+> MwChatInternalSchemasRoomPopulatedResponse FindOrCreateRoom(ctx).Request(request).Execute()
+
+Find or create room for user
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwChatInternalSchemasCreateRoomPayload("RoomType_example") // MwChatInternalSchemasCreateRoomPayload | query params
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.RoomAPI.FindOrCreateRoom(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.FindOrCreateRoom``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `FindOrCreateRoom`: MwChatInternalSchemasRoomPopulatedResponse
+	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.FindOrCreateRoom`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFindOrCreateRoomRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwChatInternalSchemasCreateRoomPayload**](MwChatInternalSchemasCreateRoomPayload.md) | query params | 
+
+### Return type
+
+[**MwChatInternalSchemasRoomPopulatedResponse**](MwChatInternalSchemasRoomPopulatedResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

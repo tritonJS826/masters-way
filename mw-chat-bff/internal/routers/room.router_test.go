@@ -96,7 +96,7 @@ func TestCreateRoom(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
 		createRoomResponse, response, err := chatBFFAPI.RoomAPI.CreateRoom(ctx).Request(request).Execute()
 		if err != nil {
-			t.Fatalf("Failed to create private room: %v", err)
+			t.Fatalf("Failed to get private room: %v", err)
 		}
 
 		expectedData := openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{
@@ -124,20 +124,6 @@ func TestCreateRoom(t *testing.T) {
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		diff := cmp.Diff(expectedData, *createRoomResponse, cmpopts.IgnoreFields(openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{}, "RoomId"))
 		assert.True(t, diff == "", "Structures should match except for RoomId")
-	})
-
-	t.Run("should return error if private room already exists", func(t *testing.T) {
-		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		_, response, err := chatBFFAPI.RoomAPI.CreateRoom(ctx).Request(request).Execute()
-		if err != nil {
-			message, extractErr := util.ExtractErrorMessageFromResponse(response)
-			if extractErr != nil {
-				t.Fatalf(extractErr.Error())
-			}
-
-			assert.Equal(t, http.StatusInternalServerError, response.StatusCode)
-			assert.Equal(t, "chat service error: A private room for these users already exists", message)
-		}
 	})
 
 	t.Run("should return error if private room is created with a non-existent user", func(t *testing.T) {
