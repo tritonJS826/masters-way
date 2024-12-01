@@ -144,16 +144,16 @@ func (cc *RoomController) GetRoomById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &room)
 }
 
-// @Summary Create room for user
+// @Summary Find or create room for user
 // @Description
 // @Tags room
-// @ID create-room
+// @ID find-or-create-room
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
-func (cc *RoomController) CreateRoom(ctx *gin.Context) {
+func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -174,7 +174,7 @@ func (cc *RoomController) CreateRoom(ctx *gin.Context) {
 		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
 	}
 
-	room, err := cc.chatService.CreateRoom(ctx, payload)
+	room, err := cc.chatService.FindOrCreateRoom(ctx, payload)
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("chat service error: %w", err))
 	}

@@ -19,7 +19,7 @@ func (rr *roomRouter) setRoomRoutes(rg *gin.RouterGroup) {
 	rooms.GET("/preview", rr.roomsController.GetChatPreview)
 	rooms.GET("/list/:roomType", rr.roomsController.GetRooms)
 	rooms.GET("/:roomId", rr.roomsController.GetRoomById)
-	rooms.POST("", rr.roomsController.CreateRoom)
+	rooms.POST("", rr.roomsController.FindOrCreateRoom)
 	rooms.PATCH("/:roomId", rr.roomsController.UpdateRoom)
 	rooms.POST("/:roomId/users/:userId", rr.roomsController.AddUserToRoom)
 	rooms.DELETE("/:roomId/users/:userId", rr.roomsController.DeleteUserFromRoom)

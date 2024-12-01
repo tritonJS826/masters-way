@@ -115,7 +115,7 @@ func (cs *ChatService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.
 
 }
 
-func (cs *ChatService) CreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
+func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
 	var name = openapiChat.NullableString{}
 	if createRoomPayload.Name != nil {
 		name.Set(createRoomPayload.Name)

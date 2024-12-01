@@ -172,8 +172,8 @@ const docTemplate = `{
                 "tags": [
                     "room"
                 ],
-                "summary": "Create room for user",
-                "operationId": "create-room",
+                "summary": "Find or create room for user",
+                "operationId": "find-or-create-room",
                 "parameters": [
                     {
                         "description": "query params",

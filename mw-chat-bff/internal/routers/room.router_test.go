@@ -94,7 +94,7 @@ func TestCreateRoom(t *testing.T) {
 
 	t.Run("should create a private room and return it successfully", func(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		createRoomResponse, response, err := chatBFFAPI.RoomAPI.CreateRoom(ctx).Request(request).Execute()
+		createRoomResponse, response, err := chatBFFAPI.RoomAPI.FindOrCreateRoom(ctx).Request(request).Execute()
 		if err != nil {
 			t.Fatalf("Failed to get private room: %v", err)
 		}
@@ -138,7 +138,7 @@ func TestCreateRoom(t *testing.T) {
 		}
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		_, response, err := chatBFFAPI.RoomAPI.CreateRoom(ctx).Request(invalidRequest).Execute()
+		_, response, err := chatBFFAPI.RoomAPI.FindOrCreateRoom(ctx).Request(invalidRequest).Execute()
 		if err != nil {
 			message, extractErr := util.ExtractErrorMessageFromResponse(response)
 			if extractErr != nil {
