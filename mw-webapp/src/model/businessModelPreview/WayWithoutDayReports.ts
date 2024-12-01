@@ -72,7 +72,7 @@ interface WayWithoutDayReportsProps {
   /**
    * Tags that was used for jobDone {@link Label}
    */
-  jobTags: Label[];
+  labels: Label[];
 
   /**
    * Way's uuid that was copied
@@ -173,7 +173,7 @@ export class WayWithoutDayReports {
   /**
    * Tags that was used for jobDone {@link Label}
    */
-  public jobTags: Label[];
+  public labels: Label[];
 
   /**
    * Way's uuid that was copied
@@ -218,7 +218,7 @@ export class WayWithoutDayReports {
     this.favoriteForUsersAmount = wayData.favoriteForUsersAmount;
     this.createdAt = wayData.createdAt;
     this.wayTags = wayData.wayTags.map(wayTag => new WayTag(wayTag));
-    this.jobTags = wayData.jobTags.map(jobTag => new Label(jobTag));
+    this.labels = wayData.labels.map(label => new Label(label));
     this.formerMentors = new Map<string, UserPlain>(wayData.formerMentors);
     this.copiedFromWayUuid = wayData.copiedFromWayUuid;
     this.goalDescription = wayData.goalDescription;
@@ -284,14 +284,14 @@ export class WayWithoutDayReports {
    * Add new label to way
    */
   public addLabel(newLabel: Label): void {
-    this.jobTags.push(newLabel);
+    this.labels.push(newLabel);
   }
 
   /**
    * Delete label from way
    */
   public deleteLabel(labelUuid: string): void {
-    this.jobTags = this.jobTags.filter(label => label.uuid !== labelUuid);
+    this.labels = this.labels.filter(label => label.uuid !== labelUuid);
   }
 
   /**

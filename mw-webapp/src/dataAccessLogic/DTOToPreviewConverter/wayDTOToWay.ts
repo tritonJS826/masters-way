@@ -55,6 +55,6 @@ export const wayDTOToWay = (wayDTO: MwServerInternalSchemasWayPopulatedResponse,
     lastUpdate: new Date(wayDTO.updatedAt),
     owner,
     children: wayDTO.children.map(wayWithoutDayReportsDTOToWayWithoutDayReports),
-    jobTags: wayDTO.jobTags.map(label => new Label(label)),
+    labels: wayDTO.jobTags.map(label => new Label(label)),
   });
 };

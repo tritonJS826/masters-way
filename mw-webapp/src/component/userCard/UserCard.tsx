@@ -10,7 +10,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {UserTag} from "src/model/businessModel/User";
+import {Skill} from "src/model/businessModel/User";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -41,11 +41,11 @@ export const UserCard = observer((props: UserCardProps) => {
   const {language} = languageStore;
 
   /**
-   * Render way tags
+   * Render skills
    */
-  const renderUserTags = (skills: UserTag[]) => {
+  const renderSkills = (skills: Skill[]) => {
     return (
-      <HorizontalContainer className={styles.userTags}>
+      <HorizontalContainer className={styles.skills}>
         {skills.map((skill) => (
           <Tag
             key={skill.uuid}
@@ -114,7 +114,7 @@ export const UserCard = observer((props: UserCardProps) => {
               {renderMarkdown(props.userPreview.description)}
             </p>
           </Tooltip>
-          {renderUserTags(props.userPreview.tags)}
+          {renderSkills(props.userPreview.tags)}
         </VerticalContainer>
 
         <VerticalContainer className={styles.additionalInfo}>

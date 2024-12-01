@@ -14,7 +14,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {Trash} from "src/component/trash/Trash";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {JobDoneDAL} from "src/dataAccessLogic/JobDoneDAL";
-import {JobDoneJobTagDAL} from "src/dataAccessLogic/JobDoneJobTagDAL";
+import {JobDoneLabelDAL} from "src/dataAccessLogic/JobDoneLabelDAL";
 import {SafeMap} from "src/dataAccessLogic/SafeMap";
 import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -22,7 +22,7 @@ import {AccessErrorStore} from "src/logic/wayPage/reports/dayReports/AccesErrorS
 import {SummarySection} from "src/logic/wayPage/reports/dayReports/reportItem/summarySection/SummarySection";
 import {DEFAULT_SUMMARY_TIME, getListNumberByIndex, getValidatedTime, MAX_TIME, MIN_TIME}
   from "src/logic/wayPage/reports/dayReports/reportsTable/reportsColumns/ReportsColumns";
-import {JobDoneTags} from "src/logic/wayPage/reports/jobDoneTags/JobDoneTags";
+import {JobDoneLabels} from "src/logic/wayPage/reports/jobDoneLabels/JobDoneLabels";
 import {ModalContentLabels} from "src/logic/wayPage/reports/modalContentLabels/ModalContentLabels";
 import {getFirstName} from "src/logic/waysTable/waysColumns";
 import {DayReport} from "src/model/businessModel/DayReport";
@@ -183,11 +183,11 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
     const labelsToDelete: Label[] = params.jobDone.tags
       .filter(label => !params.updatedTags.includes(label));
 
-    const addPromises = labelsToAdd.map(label => JobDoneJobTagDAL.createJobDoneJobTag({
+    const addPromises = labelsToAdd.map(label => JobDoneLabelDAL.createJobDoneLabel({
       jobDoneUuid: params.jobDone.uuid,
       jobTagUuid: label.uuid,
     }));
-    const deletePromises = labelsToDelete.map(label => JobDoneJobTagDAL.deleteJobDoneJobTag({
+    const deletePromises = labelsToDelete.map(label => JobDoneLabelDAL.deleteJobDoneLabel({
       jobDoneUuid: params.jobDone.uuid,
       jobTagUuid: label.uuid,
     }));
@@ -300,15 +300,15 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
                     </div>
                     :
                     <div className={styles.tagsBlockTrigger}>
-                      <JobDoneTags
-                        jobDoneTags={jobDone.tags}
+                      <JobDoneLabels
+                        jobDoneLabels={jobDone.tags}
                         labels={props.labels}
                       />
                     </div>
                   }
                   content={
                     <ModalContentLabels
-                      labels={props.waysMap.getValue(jobDone.wayUuid).jobTags}
+                      labels={props.waysMap.getValue(jobDone.wayUuid).labels}
                       labelsDone={jobDone.tags}
                       isEditable={props.isEditable}
                       updateLabels={(labelsToUpdate: Label[]) => updateLabelsInJobDone({
@@ -319,8 +319,8 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
                   }
                 />
                 :
-                <JobDoneTags
-                  jobDoneTags={jobDone.tags}
+                <JobDoneLabels
+                  jobDoneLabels={jobDone.tags}
                   labels={props.labels}
                 />
               }

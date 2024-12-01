@@ -32,9 +32,9 @@ export interface CapabilitiesType {
   dayReports: number;
 
   /**
-   * User tags
+   * User skills
    */
-  userTags: number;
+  skills: number;
 
   /**
    * Mentoring ways

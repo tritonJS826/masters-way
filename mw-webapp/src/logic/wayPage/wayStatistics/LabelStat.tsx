@@ -27,7 +27,7 @@ export type LabelStatParams = {
   timePercentage: number;
 
   /**
-   * Tag data
+   * Label data
    */
   label: LabelProps;
 }
@@ -58,17 +58,17 @@ export class LabelStat {
   public timePercentage: number;
 
   /**
-   * Tag data
+   * Label data
    */
   public label: Label;
 
-  constructor(jobTagStatData: LabelStatParams) {
+  constructor(labelStatData: LabelStatParams) {
     makeAutoObservable(this);
-    this.jobsAmount = jobTagStatData.jobsAmount;
-    this.jobsAmountPercentage = jobTagStatData.jobsAmountPercentage;
-    this.time = jobTagStatData.time;
-    this.timePercentage = jobTagStatData.timePercentage;
-    this.label = new Label(jobTagStatData.label);
+    this.jobsAmount = labelStatData.jobsAmount;
+    this.jobsAmountPercentage = labelStatData.jobsAmountPercentage;
+    this.time = labelStatData.time;
+    this.timePercentage = labelStatData.timePercentage;
+    this.label = new Label(labelStatData.label);
   }
 
 }

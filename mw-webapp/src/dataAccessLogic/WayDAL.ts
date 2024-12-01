@@ -12,7 +12,7 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 export const WAY_NAME_FIELD = "name";
 export const WAY_TAGS_FIELD = "wayTags";
-export const WAY_JOB_TAGS_FIELD = "jobTags";
+export const WAY_LABELS_FIELD = "labels";
 export const WAY_COPIED_FROM_WAY_UUID_FIELD = "copiedFromWayUuid";
 export const WAY_GOAL_DESCRIPTION_FIELD = "goalDescription";
 export const WAY_ESTIMATION_TIME_FIELD = "estimationTime";
