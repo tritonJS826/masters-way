@@ -6,6 +6,8 @@
 
 .dayReportsContent {
   @include regularContainer;
+  display: grid;
+  gap: $gapMedium;
 }
 
 .loadMoreButton {
