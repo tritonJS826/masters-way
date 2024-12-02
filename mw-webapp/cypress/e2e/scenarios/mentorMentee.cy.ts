@@ -5,7 +5,8 @@ import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
-import { userPersonalSelectors } from "cypress/scopesSelectors/userPersonalDataSelectors";
+import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
+import userWaysData from "cypress/fixtures/userWaysFixture.json";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -55,6 +56,12 @@ describe('Mentor-mentee tests', () => {
         
         wayDescriptionSelectors.peopleBlock.getMentorOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);
         wayDescriptionSelectors.peopleBlock.getWayMentorLink().should('have.text', testUserData.testUsers.mentorMax.name);
+
+        cy.openAllUsersPage();
+        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
+        userWaysSelectors.wayCollectionButtonsBlock.getWayAmountCollectionButton().eq(1).should('have.text', userWaysData.collectionButton.mentoring.waysAmount);
+        userWaysSelectors.wayCollectionButtonsBlock.getMentoringWayCollectionButton().click();
+        allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist').and('be.visible');
     });
 
 });

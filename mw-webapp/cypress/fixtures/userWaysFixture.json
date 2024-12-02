@@ -40,5 +40,12 @@
         }
       }
     }
+  },
+
+  "collectionButton": {
+      "mentoring": {
+        "waysAmount": "Ways: 1"
+      }
   }
+
 }
