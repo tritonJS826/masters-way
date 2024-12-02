@@ -71,6 +71,7 @@ describe('NoAuth Header scope tests', () => {
         navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('exist');
+        navigationMenuSelectors.menuItemLinks.getAboutPartnershipLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getPricingItemLink().should('exist');
         navigationMenuSelectors.getCloseButton().should('exist');
         navigationMenuSelectors.language.getText().should('have.text', sideBarContent.language.en);
@@ -120,6 +121,7 @@ describe('IsAuth Header scope tests', () => {
         navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getAboutProjectItemLink().should('exist');
+        navigationMenuSelectors.menuItemLinks.getAboutPartnershipLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getPricingItemLink().should('exist');
         navigationMenuSelectors.menuItemLinks.getSettingsItemLink().should('exist');
         navigationMenuSelectors.getCloseButton().should('exist');
