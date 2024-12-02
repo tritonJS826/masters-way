@@ -158,7 +158,7 @@ No authorization required
 
 ## FindOrCreateRoom
 
-> MwChatBffInternalSchemasFindOrCreateRoomResponse FindOrCreateRoom(ctx).Request(request).Execute()
+> MwChatBffInternalSchemasRoomPopulatedResponse FindOrCreateRoom(ctx).Request(request).Execute()
 
 Find or create room for user
 
@@ -184,7 +184,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.FindOrCreateRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `FindOrCreateRoom`: MwChatBffInternalSchemasFindOrCreateRoomResponse
+	// response from `FindOrCreateRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.FindOrCreateRoom`: %v\n", resp)
 }
 ```
@@ -204,7 +204,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwChatBffInternalSchemasFindOrCreateRoomResponse**](MwChatBffInternalSchemasFindOrCreateRoomResponse.md)
+[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 

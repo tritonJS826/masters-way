@@ -116,7 +116,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat-bff_internal_schemas.FindOrCreateRoomResponse'
+                $ref: '#/components/schemas/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
           description: OK
       summary: Find or create room for user
       tags:
@@ -272,62 +272,6 @@ components:
           type: string
       required:
       - roomType
-      type: object
-    mw-chat-bff_internal_schemas.FindOrCreateRoomResponse:
-      example:
-        isAlreadyCreated: true
-        room:
-          imageUrl: imageUrl
-          isBlocked: true
-          name: name
-          messages:
-          - messageReaders:
-            - ownerName: ownerName
-              readDate: readDate
-              userId: userId
-              ownerImageUrl: ownerImageUrl
-            - ownerName: ownerName
-              readDate: readDate
-              userId: userId
-              ownerImageUrl: ownerImageUrl
-            ownerName: ownerName
-            messageId: messageId
-            message: message
-            ownerId: ownerId
-            ownerImageUrl: ownerImageUrl
-          - messageReaders:
-            - ownerName: ownerName
-              readDate: readDate
-              userId: userId
-              ownerImageUrl: ownerImageUrl
-            - ownerName: ownerName
-              readDate: readDate
-              userId: userId
-              ownerImageUrl: ownerImageUrl
-            ownerName: ownerName
-            messageId: messageId
-            message: message
-            ownerId: ownerId
-            ownerImageUrl: ownerImageUrl
-          roomId: roomId
-          roomType: roomType
-          users:
-          - role: role
-            imageUrl: imageUrl
-            name: name
-            userId: userId
-          - role: role
-            imageUrl: imageUrl
-            name: name
-            userId: userId
-      properties:
-        isAlreadyCreated:
-          type: boolean
-        room:
-          $ref: '#/components/schemas/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
-      required:
-      - isAlreadyCreated
-      - room
       type: object
     mw-chat-bff_internal_schemas.GetRoomPreviewResponse:
       example:

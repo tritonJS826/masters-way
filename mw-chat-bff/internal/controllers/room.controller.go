@@ -151,7 +151,7 @@ func (cc *RoomController) GetRoomById(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateRoomPayload true "query params"
-// @Success 200 {object} schemas.FindOrCreateRoomResponse
+// @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
 func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
@@ -161,12 +161,12 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	currentUserID := currentUserIDRaw.(string)
-
 	errorCh := make(chan error)
 	populatedUserMapCh := make(chan map[string]services.PopulatedUser)
 	go func() {
+		currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+		currentUserID := currentUserIDRaw.(string)
+
 		userIDs := []string{currentUserID}
 		if payload.RoomType == RoomTypePrivate {
 			userIDs = append(userIDs, *payload.UserID)
@@ -227,7 +227,7 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	err = cc.chatWebSocketService.SendRoom(ctx, findOrCreateRoomResponse.Room)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &findOrCreateRoomResponse)
+	ctx.JSON(http.StatusOK, &findOrCreateRoomResponse.Room)
 }
 
 // @Summary Update room

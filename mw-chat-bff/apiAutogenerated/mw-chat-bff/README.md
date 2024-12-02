@@ -95,7 +95,6 @@ Class | Method | HTTP request | Description
 
  - [MwChatBffInternalSchemasCreateMessagePayload](docs/MwChatBffInternalSchemasCreateMessagePayload.md)
  - [MwChatBffInternalSchemasCreateRoomPayload](docs/MwChatBffInternalSchemasCreateRoomPayload.md)
- - [MwChatBffInternalSchemasFindOrCreateRoomResponse](docs/MwChatBffInternalSchemasFindOrCreateRoomResponse.md)
  - [MwChatBffInternalSchemasGetRoomPreviewResponse](docs/MwChatBffInternalSchemasGetRoomPreviewResponse.md)
  - [MwChatBffInternalSchemasGetRoomsResponse](docs/MwChatBffInternalSchemasGetRoomsResponse.md)
  - [MwChatBffInternalSchemasMessageReader](docs/MwChatBffInternalSchemasMessageReader.md)

@@ -23,16 +23,6 @@ definitions:
     required:
     - roomType
     type: object
-  mw-chat-bff_internal_schemas.FindOrCreateRoomResponse:
-    properties:
-      isAlreadyCreated:
-        type: boolean
-      room:
-        $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
-    required:
-    - isAlreadyCreated
-    - room
-    type: object
   mw-chat-bff_internal_schemas.GetRoomPreviewResponse:
     properties:
       unreadMessagesAmount:
@@ -308,7 +298,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-chat-bff_internal_schemas.FindOrCreateRoomResponse'
+            $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
       summary: Find or create room for user
       tags:
       - room

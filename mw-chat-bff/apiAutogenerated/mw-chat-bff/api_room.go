@@ -418,7 +418,7 @@ func (r ApiFindOrCreateRoomRequest) Request(request MwChatBffInternalSchemasCrea
 	return r
 }
 
-func (r ApiFindOrCreateRoomRequest) Execute() (*MwChatBffInternalSchemasFindOrCreateRoomResponse, *http.Response, error) {
+func (r ApiFindOrCreateRoomRequest) Execute() (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	return r.ApiService.FindOrCreateRoomExecute(r)
 }
 
@@ -436,13 +436,13 @@ func (a *RoomAPIService) FindOrCreateRoom(ctx context.Context) ApiFindOrCreateRo
 }
 
 // Execute executes the request
-//  @return MwChatBffInternalSchemasFindOrCreateRoomResponse
-func (a *RoomAPIService) FindOrCreateRoomExecute(r ApiFindOrCreateRoomRequest) (*MwChatBffInternalSchemasFindOrCreateRoomResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponse
+func (a *RoomAPIService) FindOrCreateRoomExecute(r ApiFindOrCreateRoomRequest) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwChatBffInternalSchemasFindOrCreateRoomResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.FindOrCreateRoom")
@@ -516,11 +516,11 @@ func (a *RoomAPIService) FindOrCreateRoomExecute(r ApiFindOrCreateRoomRequest) (
 }
 
 // Execute executes the request
-//  @return MwChatBffInternalSchemasFindOrCreateRoomResponseStream
-func (a *RoomAPIService) FindOrCreateRoomStreamExecute(r ApiFindOrCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasFindOrCreateRoomResponse, *http.Response, error) {
+//  @return MwChatBffInternalSchemasRoomPopulatedResponseStream
+func (a *RoomAPIService) FindOrCreateRoomStreamExecute(r ApiFindOrCreateRoomRequest, request *http.Request, GoogleAccessToken string) (*MwChatBffInternalSchemasRoomPopulatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwChatBffInternalSchemasFindOrCreateRoomResponse
+		localVarReturnValue  *MwChatBffInternalSchemasRoomPopulatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RoomAPIService.FindOrCreateRoom")
