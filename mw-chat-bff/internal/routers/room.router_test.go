@@ -99,29 +99,26 @@ func TestCreateRoom(t *testing.T) {
 			t.Fatalf("Failed to get private room: %v", err)
 		}
 
-		expectedData := openapiChatBFF.MwChatBffInternalSchemasFindOrCreateRoomResponse{
-			Room: openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{
-				Name:      "Bernardo Fallaci",
-				ImageUrl:  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAG",
-				RoomType:  controllers.RoomTypePrivate,
-				Messages:  []openapiChatBFF.MwChatBffInternalSchemasMessageResponse{},
-				IsBlocked: false,
-				Users: []openapiChatBFF.MwChatBffInternalSchemasUserResponse{
-					{
-						UserId:   roomCreatorID,
-						Name:     "Celine Vinje",
-						ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAF",
-						Role:     "regular",
-					},
-					{
-						UserId:   userID,
-						Name:     "Bernardo Fallaci",
-						ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAG",
-						Role:     "regular",
-					},
+		expectedData := openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{
+			Name:      "Bernardo Fallaci",
+			ImageUrl:  "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAG",
+			RoomType:  controllers.RoomTypePrivate,
+			Messages:  []openapiChatBFF.MwChatBffInternalSchemasMessageResponse{},
+			IsBlocked: false,
+			Users: []openapiChatBFF.MwChatBffInternalSchemasUserResponse{
+				{
+					UserId:   roomCreatorID,
+					Name:     "Celine Vinje",
+					ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAF",
+					Role:     "regular",
+				},
+				{
+					UserId:   userID,
+					Name:     "Bernardo Fallaci",
+					ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAG",
+					Role:     "regular",
 				},
 			},
-			IsAlreadyCreated: false,
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
