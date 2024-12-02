@@ -5,7 +5,6 @@ apis/index.ts
 index.ts
 models/MwChatBffInternalSchemasCreateMessagePayload.ts
 models/MwChatBffInternalSchemasCreateRoomPayload.ts
-models/MwChatBffInternalSchemasFindOrCreateRoomResponse.ts
 models/MwChatBffInternalSchemasGetRoomPreviewResponse.ts
 models/MwChatBffInternalSchemasGetRoomsResponse.ts
 models/MwChatBffInternalSchemasMessageReader.ts

@@ -104,7 +104,7 @@ export class ChatDAL {
    */
   public static async findOrCreateRoom(params: FindOrCreateRoomParams): Promise<Room> {
     const roomDTO = await ChatService.findOrCreateRoom({request: {...params}});
-    const room = chatDTOToChat(roomDTO.room);
+    const room = chatDTOToChat(roomDTO);
 
     return room;
   }

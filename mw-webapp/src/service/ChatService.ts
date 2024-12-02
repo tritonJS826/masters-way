@@ -4,7 +4,6 @@ import {
   FindOrCreateRoomRequest,
   GetRoomByIdRequest,
   GetRoomsRequest,
-  MwChatBffInternalSchemasFindOrCreateRoomResponse,
   MwChatBffInternalSchemasGetRoomPreviewResponse,
   MwChatBffInternalSchemasGetRoomsResponse,
   MwChatBffInternalSchemasRoomPopulatedResponse,
@@ -22,7 +21,7 @@ export class ChatService {
    */
   public static async findOrCreateRoom(
     requestParameters: FindOrCreateRoomRequest,
-  ): Promise<MwChatBffInternalSchemasFindOrCreateRoomResponse> {
+  ): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
     const room = await chat.findOrCreateRoom(requestParameters);
 
     return room;
