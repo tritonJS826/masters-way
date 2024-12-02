@@ -16,6 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   MwChatBffInternalSchemasCreateRoomPayload,
+  MwChatBffInternalSchemasFindOrCreateRoomResponse,
   MwChatBffInternalSchemasGetRoomPreviewResponse,
   MwChatBffInternalSchemasGetRoomsResponse,
   MwChatBffInternalSchemasRoomPopulatedResponse,
@@ -23,6 +24,8 @@ import type {
 import {
     MwChatBffInternalSchemasCreateRoomPayloadFromJSON,
     MwChatBffInternalSchemasCreateRoomPayloadToJSON,
+    MwChatBffInternalSchemasFindOrCreateRoomResponseFromJSON,
+    MwChatBffInternalSchemasFindOrCreateRoomResponseToJSON,
     MwChatBffInternalSchemasGetRoomPreviewResponseFromJSON,
     MwChatBffInternalSchemasGetRoomPreviewResponseToJSON,
     MwChatBffInternalSchemasGetRoomsResponseFromJSON,
@@ -133,7 +136,7 @@ export class RoomApi extends runtime.BaseAPI {
     /**
      * Find or create room for user
      */
-    async findOrCreateRoomRaw(requestParameters: FindOrCreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
+    async findOrCreateRoomRaw(requestParameters: FindOrCreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasFindOrCreateRoomResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling findOrCreateRoom.');
         }
@@ -152,13 +155,13 @@ export class RoomApi extends runtime.BaseAPI {
             body: MwChatBffInternalSchemasCreateRoomPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasFindOrCreateRoomResponseFromJSON(jsonValue));
     }
 
     /**
      * Find or create room for user
      */
-    async findOrCreateRoom(requestParameters: FindOrCreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
+    async findOrCreateRoom(requestParameters: FindOrCreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasFindOrCreateRoomResponse> {
         const response = await this.findOrCreateRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }

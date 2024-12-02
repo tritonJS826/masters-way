@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './MwChatBffInternalSchemasCreateMessagePayload';
 export * from './MwChatBffInternalSchemasCreateRoomPayload';
+export * from './MwChatBffInternalSchemasFindOrCreateRoomResponse';
 export * from './MwChatBffInternalSchemasGetRoomPreviewResponse';
 export * from './MwChatBffInternalSchemasGetRoomsResponse';
 export * from './MwChatBffInternalSchemasMessageReader';

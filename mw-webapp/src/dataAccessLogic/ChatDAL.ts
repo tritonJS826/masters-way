@@ -26,6 +26,22 @@ export enum RoomType {
 }
 
 /**
+ * Find or create room params
+ */
+interface FindOrCreateRoomResponseParams {
+
+  /**
+   * If true - room is exist already, if false - room was created
+   */
+  isAlreadyCreated: boolean;
+
+  /**
+   * Room
+   */
+  room: Room;
+}
+
+/**
  * All chat p2p params
  */
 export interface AllChatParams {
@@ -102,11 +118,16 @@ export class ChatDAL {
   /**
    * Find or Create chat room
    */
-  public static async findOrCreateRoom(params: FindOrCreateRoomParams): Promise<Room> {
+  public static async findOrCreateRoom(params: FindOrCreateRoomParams): Promise<FindOrCreateRoomResponseParams> {
     const roomDTO = await ChatService.findOrCreateRoom({request: {...params}});
-    const room = chatDTOToChat(roomDTO);
+    const room = chatDTOToChat(roomDTO.room);
 
-    return room;
+    const foundOrCreatedRoom = {
+      room,
+      isAlreadyCreated: roomDTO.isAlreadyCreated,
+    };
+
+    return foundOrCreatedRoom;
   }
 
   /**

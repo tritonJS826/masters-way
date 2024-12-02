@@ -548,23 +548,14 @@ export const UserPage = observer((props: UserPageProps) => {
               {!isPageOwner && user &&
                 <Button
                   onClick={async () => {
-                    // Const chatParticipantsIds = chatList.flatMap((chatPreview) =>
-                    //   chatPreview.participantIds);
-
-                    // Const isUserConnected = !!chatParticipantsIds.includes(userPageOwner.uuid);
-                    // !isUserConnected &&
                     const room = await ChatDAL.findOrCreateRoom({
                       roomType: RoomType.PRIVATE,
                       userId: userPageOwner.uuid,
                     });
 
-                    const initRoom = new ActiveChatStore(room);
+                    const initRoom = new ActiveChatStore(room.room);
                     setRoomToActive(initRoom);
                     setIsChatOpen(true);
-                    // Const activeRoom = new ActiveChatStore(room);
-                    // setActiveChatStore(activeRoom);
-
-                    // console.log(activeChatStore);
                   }}
                   buttonType={ButtonType.SECONDARY}
                   value={LanguageService.user.personalInfo.writeToConnectButton[language]}

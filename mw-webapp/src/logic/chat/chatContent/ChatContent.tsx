@@ -53,7 +53,7 @@ export const ChatContent = observer(() => {
       name: groupChatName,
     });
     setGroupChatName("");
-    setActiveChatStore(new ActiveChatStore(room));
+    setActiveChatStore(new ActiveChatStore(room.room));
   };
 
   /**
