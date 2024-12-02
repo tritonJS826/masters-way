@@ -164,19 +164,44 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	currentUserID := currentUserIDRaw.(string)
 
-	userIDs := []string{currentUserID}
-	if payload.RoomType == RoomTypePrivate {
-		userIDs = append(userIDs, *payload.UserID)
-	}
+	errorCh := make(chan error)
+	populatedUserMapCh := make(chan map[string]services.PopulatedUser)
+	go func() {
+		userIDs := []string{currentUserID}
+		if payload.RoomType == RoomTypePrivate {
+			userIDs = append(userIDs, *payload.UserID)
+		}
 
-	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
-	if err != nil {
-		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
-	}
+		populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
+		if err != nil {
+			errorCh <- fmt.Errorf("general service error: %w", err)
+		}
+		populatedUserMapCh <- populatedUserMap
+	}()
 
-	findOrCreateRoomResponse, err := cc.chatService.FindOrCreateRoom(ctx, payload)
-	if err != nil {
-		util.HandleErrorGin(ctx, fmt.Errorf("chat service error: %w", err))
+	findOrCreateRoomCh := make(chan *schemas.FindOrCreateRoomResponse)
+	go func() {
+		findOrCreateRoomResponse, err := cc.chatService.FindOrCreateRoom(ctx, payload)
+		if err != nil {
+			errorCh <- fmt.Errorf("chat service error: %w", err)
+		}
+		findOrCreateRoomCh <- findOrCreateRoomResponse
+	}()
+
+	var populatedUserMap map[string]services.PopulatedUser
+	var findOrCreateRoomResponse *schemas.FindOrCreateRoomResponse
+
+	for i := 0; i < 2; i++ {
+		select {
+		case err := <-errorCh:
+			util.HandleErrorGin(ctx, err)
+		default:
+		}
+
+		select {
+		case populatedUserMap = <-populatedUserMapCh:
+		case findOrCreateRoomResponse = <-findOrCreateRoomCh:
+		}
 	}
 
 	findOrCreateRoomResponse.Room.Users = lo.Map(findOrCreateRoomResponse.Room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
@@ -185,12 +210,18 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		return user
 	})
 
+	var err error
 	if findOrCreateRoomResponse.Room.RoomType == RoomTypePrivate {
 		findOrCreateRoomResponse.Room.Name, err = getPrivateRoomName(ctx, findOrCreateRoomResponse.Room.Users)
 		util.HandleErrorGin(ctx, err)
 
 		findOrCreateRoomResponse.Room.ImageURL, err = getPrivateRoomImageURL(ctx, findOrCreateRoomResponse.Room.Users)
 		util.HandleErrorGin(ctx, err)
+	}
+
+	if findOrCreateRoomResponse.IsAlreadyCreated {
+		ctx.JSON(http.StatusOK, &findOrCreateRoomResponse)
+		return
 	}
 
 	err = cc.chatWebSocketService.SendRoom(ctx, findOrCreateRoomResponse.Room)
