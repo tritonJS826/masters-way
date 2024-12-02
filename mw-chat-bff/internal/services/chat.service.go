@@ -115,7 +115,7 @@ func (cs *ChatService) GetRoomById(ctx *gin.Context, roomUuid string) (*schemas.
 
 }
 
-func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.RoomPopulatedResponse, error) {
+func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *schemas.CreateRoomPayload) (*schemas.FindOrCreateRoomResponse, error) {
 	var name = openapiChat.NullableString{}
 	if createRoomPayload.Name != nil {
 		name.Set(createRoomPayload.Name)
@@ -125,7 +125,7 @@ func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *sch
 		userId.Set(createRoomPayload.UserID)
 	}
 
-	roomRaw, response, err := cs.chatAPI.RoomAPI.FindOrCreateRoom(ctx).Request(openapiChat.MwChatInternalSchemasCreateRoomPayload{
+	findOrCreateRoomRaw, response, err := cs.chatAPI.RoomAPI.FindOrCreateRoom(ctx).Request(openapiChat.MwChatInternalSchemasCreateRoomPayload{
 		Name:     name,
 		RoomType: createRoomPayload.RoomType,
 		UserId:   userId,
@@ -138,7 +138,7 @@ func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *sch
 		return nil, fmt.Errorf(message)
 	}
 
-	messages := lo.Map(roomRaw.Messages, func(messageRaw openapiChat.MwChatInternalSchemasMessageResponse, i int) schemas.MessageResponse {
+	messages := lo.Map(findOrCreateRoomRaw.Room.Messages, func(messageRaw openapiChat.MwChatInternalSchemasMessageResponse, i int) schemas.MessageResponse {
 		messageReaders := lo.Map(messageRaw.MessageReaders, func(messageReaderRaw openapiChat.MwChatInternalSchemasMessageReader, i int) schemas.MessageReader {
 			return schemas.MessageReader{
 				UserID:   messageReaderRaw.UserId,
@@ -154,7 +154,7 @@ func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *sch
 		return message
 	})
 
-	users := lo.Map(roomRaw.Users, func(userRaw openapiChat.MwChatInternalSchemasUserResponse, i int) schemas.UserResponse {
+	users := lo.Map(findOrCreateRoomRaw.Room.Users, func(userRaw openapiChat.MwChatInternalSchemasUserResponse, i int) schemas.UserResponse {
 		return schemas.UserResponse{
 			UserID: userRaw.UserId,
 			Role:   userRaw.Role,
@@ -162,19 +162,22 @@ func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *sch
 	})
 
 	var roomPopulatedName string
-	if roomRaw.Name.Get() != nil {
-		roomPopulatedName = *roomRaw.Name.Get()
-	}
-	roomPopulatedResponse := &schemas.RoomPopulatedResponse{
-		RoomID:    roomRaw.RoomId,
-		Name:      roomPopulatedName,
-		Messages:  messages,
-		IsBlocked: roomRaw.IsBlocked,
-		Users:     users,
-		RoomType:  roomRaw.RoomType,
+	if findOrCreateRoomRaw.Room.Name.Get() != nil {
+		roomPopulatedName = *findOrCreateRoomRaw.Room.Name.Get()
 	}
 
-	return roomPopulatedResponse, nil
+	return &schemas.FindOrCreateRoomResponse{
+		Room: &schemas.RoomPopulatedResponse{
+			RoomID:    findOrCreateRoomRaw.Room.RoomId,
+			Name:      roomPopulatedName,
+			ImageURL:  "",
+			RoomType:  findOrCreateRoomRaw.Room.RoomType,
+			IsBlocked: findOrCreateRoomRaw.Room.IsBlocked,
+			Users:     users,
+			Messages:  messages,
+		},
+		IsAlreadyCreated: findOrCreateRoomRaw.IsAlreadyCreated,
+	}, nil
 }
 
 func (cs *ChatService) UpdateRoom(ctx *gin.Context, roomId string) (*schemas.RoomPopulatedResponse, error) {

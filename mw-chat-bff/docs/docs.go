@@ -189,7 +189,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat-bff_internal_schemas.FindOrCreateRoomResponse"
                         }
                     }
                 }
@@ -425,6 +425,21 @@ const docTemplate = `{
                 "userId": {
                     "type": "string",
                     "x-nullable": true
+                }
+            }
+        },
+        "mw-chat-bff_internal_schemas.FindOrCreateRoomResponse": {
+            "type": "object",
+            "required": [
+                "isAlreadyCreated",
+                "room"
+            ],
+            "properties": {
+                "isAlreadyCreated": {
+                    "type": "boolean"
+                },
+                "room": {
+                    "$ref": "#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse"
                 }
             }
         },

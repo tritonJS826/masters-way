@@ -251,36 +251,41 @@ func TestCreateRoom(t *testing.T) {
 
 	t.Run("should create a private room and return it successfully", func(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		createRoomResponse, response, err := chatApi.RoomAPI.FindOrCreateRoom(ctx).Request(request).Execute()
+		findOrCreateRoomResponse, response, err := chatApi.RoomAPI.FindOrCreateRoom(ctx).Request(request).Execute()
 		if err != nil {
 			t.Fatalf("Failed to get private room: %v", err)
 		}
 
 		nullableName := openapiChat.NullableString{}
 		nullableName.Set(nil)
-		expectedData := openapiChat.MwChatInternalSchemasRoomPopulatedResponse{
-			RoomType: string(db.RoomTypePrivate),
-			Users: []openapiChat.MwChatInternalSchemasUserResponse{
-				{
-					UserId: roomCreatorID,
-					Role:   "regular",
+		expectedData := openapiChat.MwChatInternalSchemasFindOrCreateRoomResponse{
+			Room: openapiChat.MwChatInternalSchemasRoomPopulatedResponse{
+				RoomType: string(db.RoomTypePrivate),
+				Users: []openapiChat.MwChatInternalSchemasUserResponse{
+					{
+						UserId: roomCreatorID,
+						Role:   "regular",
+					},
+					{
+						UserId: userID,
+						Role:   "regular",
+					},
 				},
-				{
-					UserId: userID,
-					Role:   "regular",
-				},
+				Name:      nullableName,
+				Messages:  []openapiChat.MwChatInternalSchemasMessageResponse{},
+				IsBlocked: false,
 			},
-			Name:      nullableName,
-			Messages:  []openapiChat.MwChatInternalSchemasMessageResponse{},
-			IsBlocked: false,
+			IsAlreadyCreated: false,
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 
-		assert.Equal(t, expectedData.RoomType, createRoomResponse.RoomType)
-		assert.Equal(t, expectedData.Users, createRoomResponse.Users)
-		assert.Equal(t, expectedData.Name, createRoomResponse.Name)
-		assert.Equal(t, expectedData.Messages, createRoomResponse.Messages)
-		assert.Equal(t, expectedData.IsBlocked, createRoomResponse.IsBlocked)
+		assert.Equal(t, expectedData.Room.RoomType, findOrCreateRoomResponse.Room.RoomType)
+		assert.Equal(t, expectedData.Room.Users, findOrCreateRoomResponse.Room.Users)
+		assert.Equal(t, expectedData.Room.Name, findOrCreateRoomResponse.Room.Name)
+		assert.Equal(t, expectedData.Room.Messages, findOrCreateRoomResponse.Room.Messages)
+		assert.Equal(t, expectedData.Room.IsBlocked, findOrCreateRoomResponse.Room.IsBlocked)
+
+		assert.Equal(t, expectedData.IsAlreadyCreated, findOrCreateRoomResponse.IsAlreadyCreated)
 	})
 }

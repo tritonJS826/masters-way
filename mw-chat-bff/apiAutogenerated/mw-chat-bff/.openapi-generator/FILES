@@ -11,6 +11,7 @@ docs/FileAPI.md
 docs/MessageAPI.md
 docs/MwChatBffInternalSchemasCreateMessagePayload.md
 docs/MwChatBffInternalSchemasCreateRoomPayload.md
+docs/MwChatBffInternalSchemasFindOrCreateRoomResponse.md
 docs/MwChatBffInternalSchemasGetRoomPreviewResponse.md
 docs/MwChatBffInternalSchemasGetRoomsResponse.md
 docs/MwChatBffInternalSchemasMessageReader.md
@@ -26,6 +27,7 @@ go.mod
 go.sum
 model_mw_chat_bff_internal_schemas_create_message_payload.go
 model_mw_chat_bff_internal_schemas_create_room_payload.go
+model_mw_chat_bff_internal_schemas_find_or_create_room_response.go
 model_mw_chat_bff_internal_schemas_get_room_preview_response.go
 model_mw_chat_bff_internal_schemas_get_rooms_response.go
 model_mw_chat_bff_internal_schemas_message_reader.go

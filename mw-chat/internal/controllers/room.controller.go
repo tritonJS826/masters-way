@@ -86,7 +86,7 @@ func (rc *RoomController) GetRoomById(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateRoomPayload true "query params"
-// @Success 200 {object} schemas.RoomPopulatedResponse
+// @Success 200 {object} schemas.FindOrCreateRoomResponse
 // @Router /rooms [post]
 func (rc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
@@ -105,13 +105,18 @@ func (rc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		Name:            payload.Name,
 		Type:            payload.RoomType,
 	}
-	roomUUID, err := rc.roomService.FindOrCreateRoomUUID(ctx, params)
+	findOrCreateRoomUUIDResponse, err := rc.roomService.FindOrCreateRoomUUID(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
-	room, err := rc.roomService.GetRoomByUUID(ctx, creatorUUID, roomUUID)
+	room, err := rc.roomService.GetRoomByUUID(ctx, creatorUUID, findOrCreateRoomUUIDResponse.RoomUUID)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, room)
+	response := schemas.FindOrCreateRoomResponse{
+		Room:             room,
+		IsAlreadyCreated: findOrCreateRoomUUIDResponse.IsAlreadyCreated,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Update room for user

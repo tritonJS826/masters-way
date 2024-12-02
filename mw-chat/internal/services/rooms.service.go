@@ -153,7 +153,12 @@ type CreateRoomServiceParams struct {
 	Type            string
 }
 
-func (roomsService *RoomsService) FindOrCreateRoomUUID(ctx context.Context, roomParams *CreateRoomServiceParams) (uuid.UUID, error) {
+type FindOrCreateRoomUUIDResponse struct {
+	RoomUUID         uuid.UUID
+	IsAlreadyCreated bool
+}
+
+func (roomsService *RoomsService) FindOrCreateRoomUUID(ctx context.Context, roomParams *CreateRoomServiceParams) (*FindOrCreateRoomUUIDResponse, error) {
 	creatorUserPgUUID := pgtype.UUID{Bytes: roomParams.CreatorUUID, Valid: true}
 
 	if roomParams.Type == string(db.RoomTypePrivate) {
@@ -162,16 +167,22 @@ func (roomsService *RoomsService) FindOrCreateRoomUUID(ctx context.Context, room
 			User2: pgtype.UUID{Bytes: uuid.MustParse(*roomParams.InvitedUserUUID), Valid: true},
 		})
 		if err == nil {
-			return roomPgUUID.Bytes, nil
+			return &FindOrCreateRoomUUIDResponse{
+				RoomUUID:         roomPgUUID.Bytes,
+				IsAlreadyCreated: true,
+			}, nil
 		}
 	}
 
 	response, err := roomsService.createRoomTransaction(ctx, roomParams, creatorUserPgUUID)
 	if err != nil {
-		return uuid.Nil, err
+		return nil, err
 	}
 
-	return response, nil
+	return &FindOrCreateRoomUUIDResponse{
+		RoomUUID:         response,
+		IsAlreadyCreated: false,
+	}, nil
 }
 
 func (roomsService *RoomsService) createRoomTransaction(ctx context.Context, roomParams *CreateRoomServiceParams, creatorUserPgUUID pgtype.UUID) (uuid.UUID, error) {
