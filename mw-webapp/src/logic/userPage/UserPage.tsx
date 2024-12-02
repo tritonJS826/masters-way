@@ -553,7 +553,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       userId: userPageOwner.uuid,
                     });
 
-                    const initRoom = new ActiveChatStore(room.room);
+                    const initRoom = new ActiveChatStore(room);
                     setRoomToActive(initRoom);
                     setIsChatOpen(true);
                   }}

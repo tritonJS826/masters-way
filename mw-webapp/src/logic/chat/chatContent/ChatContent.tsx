@@ -53,7 +53,7 @@ export const ChatContent = observer(() => {
       name: groupChatName,
     });
     setGroupChatName("");
-    setActiveChatStore(new ActiveChatStore(room.room));
+    setActiveChatStore(new ActiveChatStore(room));
   };
 
   /**
@@ -165,35 +165,28 @@ export const ChatContent = observer(() => {
   };
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
-    const existChatIds = chatList.map((chat) => chat.roomId);
+    const newChatInRoomList = new ChatPreview({
+      isBlocked: false,
+      name: payload.name,
+      roomId: payload.roomId,
+      imageUrl: payload.imageUrl,
+      participantIds: payload.users.map((participant) => participant.userId),
+    });
 
-    const isRoomExist = existChatIds.includes(payload.roomId);
-
-    if (!isRoomExist) {
-      const newChatInRoomList = new ChatPreview({
-        isBlocked: false,
-        name: payload.name,
-        roomId: payload.roomId,
-        imageUrl: payload.imageUrl,
-        participantIds: payload.users.map((participant) => participant.userId),
-      });
-
-      const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
-      const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
+    const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
+    const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
 
-      const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
+    const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
 
-      if (isShouldUpdateChatList) {
-        addChatToChatList(newChatInRoomList);
-      }
-
-      displayNotification({
-        text: `Room ${payload.name} created!`,
-        type: NotificationType.INFO,
-      });
-
+    if (isShouldUpdateChatList) {
+      addChatToChatList(newChatInRoomList);
     }
+
+    displayNotification({
+      text: `Room ${payload.name} created!`,
+      type: NotificationType.INFO,
+    });
 
   });
 
