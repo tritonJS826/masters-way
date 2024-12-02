@@ -220,7 +220,7 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	}
 
 	if findOrCreateRoomResponse.IsAlreadyCreated {
-		ctx.JSON(http.StatusOK, &findOrCreateRoomResponse)
+		ctx.JSON(http.StatusOK, &findOrCreateRoomResponse.Room)
 		return
 	}
 
