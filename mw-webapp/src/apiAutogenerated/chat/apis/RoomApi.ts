@@ -36,13 +36,13 @@ export interface AddUserToRoomRequest {
     userId: string;
 }
 
-export interface CreateRoomRequest {
-    request: MwChatBffInternalSchemasCreateRoomPayload;
-}
-
 export interface DeleteUserFromRoomRequest {
     roomId: string;
     userId: string;
+}
+
+export interface FindOrCreateRoomRequest {
+    request: MwChatBffInternalSchemasCreateRoomPayload;
 }
 
 export interface GetRoomByIdRequest {
@@ -97,39 +97,6 @@ export class RoomApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create room for user
-     */
-    async createRoomRaw(requestParameters: CreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
-        if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createRoom.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        const response = await this.request({
-            path: `/rooms`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: MwChatBffInternalSchemasCreateRoomPayloadToJSON(requestParameters.request),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Create room for user
-     */
-    async createRoom(requestParameters: CreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
-        const response = await this.createRoomRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Delete user from room
      */
     async deleteUserFromRoomRaw(requestParameters: DeleteUserFromRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
@@ -160,6 +127,39 @@ export class RoomApi extends runtime.BaseAPI {
      */
     async deleteUserFromRoom(requestParameters: DeleteUserFromRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
         const response = await this.deleteUserFromRoomRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Find or create room for user
+     */
+    async findOrCreateRoomRaw(requestParameters: FindOrCreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwChatBffInternalSchemasRoomPopulatedResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling findOrCreateRoom.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/rooms`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwChatBffInternalSchemasCreateRoomPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwChatBffInternalSchemasRoomPopulatedResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Find or create room for user
+     */
+    async findOrCreateRoom(requestParameters: FindOrCreateRoomRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
+        const response = await this.findOrCreateRoomRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

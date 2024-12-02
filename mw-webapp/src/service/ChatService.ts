@@ -1,7 +1,7 @@
 import {
   AddUserToRoomRequest,
-  CreateRoomRequest,
   DeleteUserFromRoomRequest,
+  FindOrCreateRoomRequest,
   GetRoomByIdRequest,
   GetRoomsRequest,
   MwChatBffInternalSchemasGetRoomPreviewResponse,
@@ -17,14 +17,14 @@ import {chat} from "src/service/services";
 export class ChatService {
 
   /**
-   * Create chat room
+   * Find or create chat room
    */
-  public static async createRoom(
-    requestParameters: CreateRoomRequest,
+  public static async findOrCreateRoom(
+    requestParameters: FindOrCreateRoomRequest,
   ): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
-    const groupRoom = await chat.createRoom(requestParameters);
+    const room = await chat.findOrCreateRoom(requestParameters);
 
-    return groupRoom;
+    return room;
   }
 
   /**
@@ -33,9 +33,9 @@ export class ChatService {
   public static async addUserToRoom(
     requestParameters: AddUserToRoomRequest,
   ): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
-    const groupRoom = await chat.addUserToRoom(requestParameters);
+    const room = await chat.addUserToRoom(requestParameters);
 
-    return groupRoom;
+    return room;
   }
 
   /**
@@ -44,18 +44,18 @@ export class ChatService {
   public static async deleteUserFromRoom(
     requestParameters: DeleteUserFromRoomRequest,
   ): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
-    const groupRoom = await chat.deleteUserFromRoom(requestParameters);
+    const room = await chat.deleteUserFromRoom(requestParameters);
 
-    return groupRoom;
+    return room;
   }
 
   /**
    * Get unread message amount in chat room
    */
   public static async getChatPreview(): Promise<MwChatBffInternalSchemasGetRoomPreviewResponse> {
-    const groupRoom = await chat.getChatPreview();
+    const unreadMessagesAmount = await chat.getChatPreview();
 
-    return groupRoom;
+    return unreadMessagesAmount;
   }
 
   /**
@@ -64,9 +64,9 @@ export class ChatService {
   public static async getRoomById(
     requestParameters: GetRoomByIdRequest,
   ): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
-    const groupRoom = await chat.getRoomById(requestParameters);
+    const room = await chat.getRoomById(requestParameters);
 
-    return groupRoom;
+    return room;
   }
 
   /**
@@ -75,9 +75,9 @@ export class ChatService {
   public static async getRooms(
     requestParameters: GetRoomsRequest,
   ): Promise<MwChatBffInternalSchemasGetRoomsResponse> {
-    const groupRooms = await chat.getRooms(requestParameters);
+    const rooms = await chat.getRooms(requestParameters);
 
-    return groupRooms;
+    return rooms;
   }
 
   /**
@@ -86,9 +86,9 @@ export class ChatService {
   public static async updateRoom(
     requestParameters: UpdateRoomRequest,
   ): Promise<MwChatBffInternalSchemasRoomPopulatedResponse> {
-    const groupRoomUpdated = await chat.updateRoom(requestParameters);
+    const roomUpdated = await chat.updateRoom(requestParameters);
 
-    return groupRoomUpdated;
+    return roomUpdated;
   }
 
 }

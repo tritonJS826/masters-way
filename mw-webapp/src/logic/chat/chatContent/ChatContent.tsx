@@ -37,9 +37,8 @@ import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
 export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
-  const {isChatOpen, addUnreadMessageToAmount} = chatStore;
-
-  const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(null);
+  const {isChatOpen, roomToActive, addUnreadMessageToAmount} = chatStore;
+  const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(roomToActive);
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
@@ -49,7 +48,7 @@ export const ChatContent = observer(() => {
    * Create group chat
    */
   const createGroupRoom = async () => {
-    const room = await ChatDAL.createRoom({
+    const room = await ChatDAL.findOrCreateRoom({
       roomType: RoomType.GROUP,
       name: groupChatName,
     });
@@ -63,6 +62,10 @@ export const ChatContent = observer(() => {
   const readMessage = async (messageId: string, ownerId: string) => {
     activeChatStore?.activeChat && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
   };
+
+  useEffect(() => {
+    setActiveChatStore(roomToActive);
+  }, [roomToActive]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -162,27 +165,36 @@ export const ChatContent = observer(() => {
   };
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
-    const newChatInRoomList = new ChatPreview({
-      isBlocked: false,
-      name: payload.name,
-      roomId: payload.roomId,
-      imageUrl: payload.imageUrl,
-      participantIds: payload.users.map((participant) => participant.userId),
-    });
+    const existChatIds = chatList.map((chat) => chat.roomId);
 
-    const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
-    const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
+    const isRoomExist = existChatIds.includes(payload.roomId);
+
+    if (!isRoomExist) {
+      const newChatInRoomList = new ChatPreview({
+        isBlocked: false,
+        name: payload.name,
+        roomId: payload.roomId,
+        imageUrl: payload.imageUrl,
+        participantIds: payload.users.map((participant) => participant.userId),
+      });
+
+      const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
+      const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
-    const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
 
-    if (isShouldUpdateChatList) {
-      addChatToChatList(newChatInRoomList);
+      const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
+
+      if (isShouldUpdateChatList) {
+        addChatToChatList(newChatInRoomList);
+      }
+
+      displayNotification({
+        text: `Room ${payload.name} created!`,
+        type: NotificationType.INFO,
+      });
+
     }
 
-    displayNotification({
-      text: `Room ${payload.name} created!`,
-      type: NotificationType.INFO,
-    });
   });
 
   /**
