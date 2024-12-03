@@ -14,8 +14,8 @@
     grid-template-columns: repeat(auto-fit, minmax(49%, 1fr));
   }
 
-  @media (max-width: $mediaWidthMobileBig) {
-    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+  @media (max-width: $mediaWidthTablet) {
+    grid-template-columns: repeat(auto-fit, minmax($minWidthBlock, 1fr));
   }
 }
 

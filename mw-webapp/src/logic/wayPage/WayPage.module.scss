@@ -130,6 +130,7 @@ $labelMaxWidthBlock: 650px;
 
 .dayReportActions {
   @include regularContainer;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
