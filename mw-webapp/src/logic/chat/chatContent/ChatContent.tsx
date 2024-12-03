@@ -37,8 +37,8 @@ import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
 export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
-  const {isChatOpen, roomToActive, addUnreadMessageToAmount} = chatStore;
-  const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(roomToActive);
+  const {isChatOpen, activeRoomStore, addUnreadMessageToAmount} = chatStore;
+  const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(activeRoomStore);
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
@@ -64,8 +64,8 @@ export const ChatContent = observer(() => {
   };
 
   useEffect(() => {
-    setActiveChatStore(roomToActive);
-  }, [roomToActive]);
+    setActiveChatStore(activeRoomStore);
+  }, [activeRoomStore]);
 
   useEffect(() => {
     if (messagesEndRef.current) {

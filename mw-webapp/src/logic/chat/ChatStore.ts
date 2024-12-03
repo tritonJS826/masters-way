@@ -19,9 +19,9 @@ class ChatStore {
   public unreadMessagesAmount: number = 0;
 
   /**
-   * Room to active
+   * Active room store
    */
-  public roomToActive: ActiveChatStore | null = null;
+  public activeRoomStore: ActiveChatStore | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -36,11 +36,10 @@ class ChatStore {
   };
 
   /**
-   * Set room to active
-   * @default false
+   * Set active room store
    */
-  public setRoomToActive = (roomToActive: ActiveChatStore | null) => {
-    this.roomToActive = roomToActive;
+  public setActiveRoomStore = (activeRoomStore: ActiveChatStore | null) => {
+    this.activeRoomStore = activeRoomStore;
   };
 
   /**

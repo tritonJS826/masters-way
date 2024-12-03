@@ -172,7 +172,7 @@ interface UserPageSettingsValidatorParams {
  */
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
-  const {setIsChatOpen, setRoomToActive} = chatStore;
+  const {setIsChatOpen, setActiveRoomStore} = chatStore;
   const {deviceId, setDeviceId} = deviceStore;
   const navigate = useNavigate();
 
@@ -554,7 +554,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     });
 
                     const initRoom = new ActiveChatStore(room);
-                    setRoomToActive(initRoom);
+                    setActiveRoomStore(initRoom);
                     setIsChatOpen(true);
                   }}
                   buttonType={ButtonType.SECONDARY}
