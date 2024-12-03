@@ -74,9 +74,9 @@ export interface createMessageInGroupParams {
 }
 
 /**
- * Create room params
+ * Find or Create room params
  */
-interface CreateRoomParams {
+interface FindOrCreateRoomParams {
 
   /**
    * Room's name
@@ -100,10 +100,10 @@ interface CreateRoomParams {
 export class ChatDAL {
 
   /**
-   * Create chat room
+   * Find or Create chat room
    */
-  public static async createRoom(params: CreateRoomParams): Promise<Room> {
-    const roomDTO = await ChatService.createRoom({request: {...params}});
+  public static async findOrCreateRoom(params: FindOrCreateRoomParams): Promise<Room> {
+    const roomDTO = await ChatService.findOrCreateRoom({request: {...params}});
     const room = chatDTOToChat(roomDTO);
 
     return room;

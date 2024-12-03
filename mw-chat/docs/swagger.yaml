@@ -35,6 +35,16 @@ definitions:
     required:
     - roomType
     type: object
+  mw-chat_internal_schemas.FindOrCreateRoomResponse:
+    properties:
+      isAlreadyCreated:
+        type: boolean
+      room:
+        $ref: '#/definitions/mw-chat_internal_schemas.RoomPopulatedResponse'
+    required:
+    - isAlreadyCreated
+    - room
+    type: object
   mw-chat_internal_schemas.GetChatPreviewResponse:
     properties:
       unreadMessagesAmount:
@@ -214,7 +224,7 @@ paths:
     post:
       consumes:
       - application/json
-      operationId: create-room
+      operationId: find-or-create-room
       parameters:
       - description: query params
         in: body
@@ -228,8 +238,8 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-chat_internal_schemas.RoomPopulatedResponse'
-      summary: Create room for user
+            $ref: '#/definitions/mw-chat_internal_schemas.FindOrCreateRoomResponse'
+      summary: Find or create room for user
       tags:
       - room
   /rooms/{roomId}:

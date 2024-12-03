@@ -65,7 +65,7 @@ paths:
       x-codegen-request-body-name: request
   /rooms:
     post:
-      operationId: create-room
+      operationId: find-or-create-room
       requestBody:
         content:
           application/json:
@@ -78,9 +78,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.RoomPopulatedResponse'
+                $ref: '#/components/schemas/mw-chat_internal_schemas.FindOrCreateRoomResponse'
           description: OK
-      summary: Create room for user
+      summary: Find or create room for user
       tags:
       - room
       x-codegen-request-body-name: request
@@ -256,6 +256,45 @@ components:
           type: string
       required:
       - roomType
+      type: object
+    mw-chat_internal_schemas.FindOrCreateRoomResponse:
+      example:
+        isAlreadyCreated: true
+        room:
+          isBlocked: true
+          name: name
+          messages:
+          - messageReaders:
+            - readDate: readDate
+              userId: userId
+            - readDate: readDate
+              userId: userId
+            messageId: messageId
+            message: message
+            ownerId: ownerId
+          - messageReaders:
+            - readDate: readDate
+              userId: userId
+            - readDate: readDate
+              userId: userId
+            messageId: messageId
+            message: message
+            ownerId: ownerId
+          roomId: roomId
+          roomType: roomType
+          users:
+          - role: role
+            userId: userId
+          - role: role
+            userId: userId
+      properties:
+        isAlreadyCreated:
+          type: boolean
+        room:
+          $ref: '#/components/schemas/mw-chat_internal_schemas.RoomPopulatedResponse'
+      required:
+      - isAlreadyCreated
+      - room
       type: object
     mw-chat_internal_schemas.GetChatPreviewResponse:
       example:

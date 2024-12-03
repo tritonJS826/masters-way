@@ -40,3 +40,8 @@ type GetRoomsResponse struct {
 	Size  int                   `json:"size" validate:"required"`
 	Rooms []RoomPreviewResponse `json:"rooms" validate:"required"`
 }
+
+type FindOrCreateRoomResponse struct {
+	Room             *RoomPopulatedResponse `json:"room" validate:"required"`
+	IsAlreadyCreated bool                   `json:"isAlreadyCreated" validate:"required"`
+}

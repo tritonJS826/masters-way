@@ -103,7 +103,7 @@ paths:
       x-codegen-request-body-name: request
   /rooms:
     post:
-      operationId: create-room
+      operationId: find-or-create-room
       requestBody:
         content:
           application/json:
@@ -118,7 +118,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
           description: OK
-      summary: Create room for user
+      summary: Find or create room for user
       tags:
       - room
       x-codegen-request-body-name: request

@@ -94,9 +94,9 @@ func TestCreateRoom(t *testing.T) {
 
 	t.Run("should create a private room and return it successfully", func(t *testing.T) {
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		createRoomResponse, response, err := chatBFFAPI.RoomAPI.CreateRoom(ctx).Request(request).Execute()
+		createRoomResponse, response, err := chatBFFAPI.RoomAPI.FindOrCreateRoom(ctx).Request(request).Execute()
 		if err != nil {
-			t.Fatalf("Failed to create private room: %v", err)
+			t.Fatalf("Failed to get private room: %v", err)
 		}
 
 		expectedData := openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{
@@ -126,20 +126,6 @@ func TestCreateRoom(t *testing.T) {
 		assert.True(t, diff == "", "Structures should match except for RoomId")
 	})
 
-	t.Run("should return error if private room already exists", func(t *testing.T) {
-		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		_, response, err := chatBFFAPI.RoomAPI.CreateRoom(ctx).Request(request).Execute()
-		if err != nil {
-			message, extractErr := util.ExtractErrorMessageFromResponse(response)
-			if extractErr != nil {
-				t.Fatalf(extractErr.Error())
-			}
-
-			assert.Equal(t, http.StatusInternalServerError, response.StatusCode)
-			assert.Equal(t, "chat service error: A private room for these users already exists", message)
-		}
-	})
-
 	t.Run("should return error if private room is created with a non-existent user", func(t *testing.T) {
 		invalidUserID := "10378803-f8cb-4bb9-b948-a5a017b51738"
 		var invalidUserIDNullableString = openapiChatBFF.NullableString{}
@@ -152,7 +138,7 @@ func TestCreateRoom(t *testing.T) {
 		}
 
 		ctx := context.WithValue(context.Background(), auth.ContextKeyAuthorization, "Bearer "+token)
-		_, response, err := chatBFFAPI.RoomAPI.CreateRoom(ctx).Request(invalidRequest).Execute()
+		_, response, err := chatBFFAPI.RoomAPI.FindOrCreateRoom(ctx).Request(invalidRequest).Execute()
 		if err != nil {
 			message, extractErr := util.ExtractErrorMessageFromResponse(response)
 			if extractErr != nil {

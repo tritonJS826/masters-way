@@ -1,5 +1,6 @@
 import {makeAutoObservable} from "mobx";
 import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
+import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 
 /**
  * All chat-related methods
@@ -17,6 +18,11 @@ class ChatStore {
    */
   public unreadMessagesAmount: number = 0;
 
+  /**
+   * Active room store
+   */
+  public activeRoomStore: ActiveChatStore | null = null;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -27,6 +33,13 @@ class ChatStore {
    */
   public setIsChatOpen = (isChatOpen: boolean) => {
     this.isChatOpen = isChatOpen;
+  };
+
+  /**
+   * Set active room store
+   */
+  public setActiveRoomStore = (activeRoomStore: ActiveChatStore | null) => {
+    this.activeRoomStore = activeRoomStore;
   };
 
   /**

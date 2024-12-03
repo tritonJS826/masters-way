@@ -37,9 +37,8 @@ import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
 export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
-  const {isChatOpen, addUnreadMessageToAmount} = chatStore;
-
-  const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(null);
+  const {isChatOpen, activeRoomStore, addUnreadMessageToAmount} = chatStore;
+  const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(activeRoomStore);
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
@@ -49,7 +48,7 @@ export const ChatContent = observer(() => {
    * Create group chat
    */
   const createGroupRoom = async () => {
-    const room = await ChatDAL.createRoom({
+    const room = await ChatDAL.findOrCreateRoom({
       roomType: RoomType.GROUP,
       name: groupChatName,
     });
@@ -63,6 +62,10 @@ export const ChatContent = observer(() => {
   const readMessage = async (messageId: string, ownerId: string) => {
     activeChatStore?.activeChat && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
   };
+
+  useEffect(() => {
+    setActiveChatStore(activeRoomStore);
+  }, [activeRoomStore]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -173,6 +176,7 @@ export const ChatContent = observer(() => {
     const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
     const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
+
     const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
 
     if (isShouldUpdateChatList) {
@@ -183,6 +187,7 @@ export const ChatContent = observer(() => {
       text: `Room ${payload.name} created!`,
       type: NotificationType.INFO,
     });
+
   });
 
   /**

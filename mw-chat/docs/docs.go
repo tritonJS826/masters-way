@@ -113,8 +113,8 @@ const docTemplate = `{
                 "tags": [
                     "room"
                 ],
-                "summary": "Create room for user",
-                "operationId": "create-room",
+                "summary": "Find or create room for user",
+                "operationId": "find-or-create-room",
                 "parameters": [
                     {
                         "description": "query params",
@@ -130,7 +130,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-chat_internal_schemas.RoomPopulatedResponse"
+                            "$ref": "#/definitions/mw-chat_internal_schemas.FindOrCreateRoomResponse"
                         }
                     }
                 }
@@ -381,6 +381,21 @@ const docTemplate = `{
                 "userId": {
                     "type": "string",
                     "x-nullable": true
+                }
+            }
+        },
+        "mw-chat_internal_schemas.FindOrCreateRoomResponse": {
+            "type": "object",
+            "required": [
+                "isAlreadyCreated",
+                "room"
+            ],
+            "properties": {
+                "isAlreadyCreated": {
+                    "type": "boolean"
+                },
+                "room": {
+                    "$ref": "#/definitions/mw-chat_internal_schemas.RoomPopulatedResponse"
                 }
             }
         },

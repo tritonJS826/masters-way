@@ -144,16 +144,16 @@ func (cc *RoomController) GetRoomById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &room)
 }
 
-// @Summary Create room for user
+// @Summary Find or create room for user
 // @Description
 // @Tags room
-// @ID create-room
+// @ID find-or-create-room
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateRoomPayload true "query params"
 // @Success 200 {object} schemas.RoomPopulatedResponse
 // @Router /rooms [post]
-func (cc *RoomController) CreateRoom(ctx *gin.Context) {
+func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -161,42 +161,73 @@ func (cc *RoomController) CreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	currentUserID := currentUserIDRaw.(string)
+	errorCh := make(chan error)
+	populatedUserMapCh := make(chan map[string]services.PopulatedUser)
+	go func() {
+		currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+		currentUserID := currentUserIDRaw.(string)
 
-	userIDs := []string{currentUserID}
-	if payload.RoomType == RoomTypePrivate {
-		userIDs = append(userIDs, *payload.UserID)
+		userIDs := []string{currentUserID}
+		if payload.RoomType == RoomTypePrivate {
+			userIDs = append(userIDs, *payload.UserID)
+		}
+
+		populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
+		if err != nil {
+			errorCh <- fmt.Errorf("general service error: %w", err)
+		}
+		populatedUserMapCh <- populatedUserMap
+	}()
+
+	findOrCreateRoomCh := make(chan *schemas.FindOrCreateRoomResponse)
+	go func() {
+		findOrCreateRoomResponse, err := cc.chatService.FindOrCreateRoom(ctx, payload)
+		if err != nil {
+			errorCh <- fmt.Errorf("chat service error: %w", err)
+		}
+		findOrCreateRoomCh <- findOrCreateRoomResponse
+	}()
+
+	var populatedUserMap map[string]services.PopulatedUser
+	var findOrCreateRoomResponse *schemas.FindOrCreateRoomResponse
+
+	for i := 0; i < 2; i++ {
+		select {
+		case err := <-errorCh:
+			util.HandleErrorGin(ctx, err)
+		default:
+		}
+
+		select {
+		case populatedUserMap = <-populatedUserMapCh:
+		case findOrCreateRoomResponse = <-findOrCreateRoomCh:
+		}
 	}
 
-	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
-	if err != nil {
-		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
-	}
-
-	room, err := cc.chatService.CreateRoom(ctx, payload)
-	if err != nil {
-		util.HandleErrorGin(ctx, fmt.Errorf("chat service error: %w", err))
-	}
-
-	room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
+	findOrCreateRoomResponse.Room.Users = lo.Map(findOrCreateRoomResponse.Room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
 		user.Name = populatedUserMap[user.UserID].Name
 		user.ImageURL = populatedUserMap[user.UserID].ImageURL
 		return user
 	})
 
-	if room.RoomType == RoomTypePrivate {
-		room.Name, err = getPrivateRoomName(ctx, room.Users)
+	var err error
+	if findOrCreateRoomResponse.Room.RoomType == RoomTypePrivate {
+		findOrCreateRoomResponse.Room.Name, err = getPrivateRoomName(ctx, findOrCreateRoomResponse.Room.Users)
 		util.HandleErrorGin(ctx, err)
 
-		room.ImageURL, err = getPrivateRoomImageURL(ctx, room.Users)
+		findOrCreateRoomResponse.Room.ImageURL, err = getPrivateRoomImageURL(ctx, findOrCreateRoomResponse.Room.Users)
 		util.HandleErrorGin(ctx, err)
 	}
 
-	err = cc.chatWebSocketService.SendRoom(ctx, room)
+	if findOrCreateRoomResponse.IsAlreadyCreated {
+		ctx.JSON(http.StatusOK, &findOrCreateRoomResponse.Room)
+		return
+	}
+
+	err = cc.chatWebSocketService.SendRoom(ctx, findOrCreateRoomResponse.Room)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &room)
+	ctx.JSON(http.StatusOK, &findOrCreateRoomResponse.Room)
 }
 
 // @Summary Update room

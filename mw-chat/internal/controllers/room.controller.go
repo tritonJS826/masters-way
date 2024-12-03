@@ -12,11 +12,12 @@ import (
 )
 
 type RoomController struct {
-	roomService *services.RoomsService
+	roomService     *services.RoomsService
+	messagesService *services.MessagesService
 }
 
-func NewRoomsController(roomService *services.RoomsService) *RoomController {
-	return &RoomController{roomService}
+func NewRoomsController(roomService *services.RoomsService, messagesService *services.MessagesService) *RoomController {
+	return &RoomController{roomService, messagesService}
 }
 
 // @Summary Get chat preview
@@ -73,22 +74,25 @@ func (rc *RoomController) GetRoomById(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	room, err := rc.roomService.GetRoomByUuid(ctx, userUUID, roomUUID)
+	err := rc.messagesService.SetAllRoomMessagesAsRead(ctx, userUUID, roomUUID)
+	utils.HandleErrorGin(ctx, err)
+
+	room, err := rc.roomService.GetRoomByUUID(ctx, roomUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, room)
 }
 
-// @Summary Create room for user
+// @Summary Find or create room for user
 // @Description
 // @Tags room
-// @ID create-room
+// @ID find-or-create-room
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateRoomPayload true "query params"
-// @Success 200 {object} schemas.RoomPopulatedResponse
+// @Success 200 {object} schemas.FindOrCreateRoomResponse
 // @Router /rooms [post]
-func (rc *RoomController) CreateRoom(ctx *gin.Context) {
+func (rc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	var payload *schemas.CreateRoomPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
@@ -96,19 +100,32 @@ func (rc *RoomController) CreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	creatorIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	creatorUUID := uuid.MustParse(creatorIDRaw.(string))
+	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	currentUserUUID := uuid.MustParse(currentUserIDRaw.(string))
 
 	params := &services.CreateRoomServiceParams{
-		CreatorUUID:     creatorUUID,
-		InvitedUserUUID: payload.UserID,
+		CurrentUserUUID: currentUserUUID,
+		ParticipantUUID: payload.UserID,
 		Name:            payload.Name,
 		Type:            payload.RoomType,
 	}
-	newP2PRoom, err := rc.roomService.CreateRoom(ctx, params)
+	findOrCreateRoomUUIDResponse, err := rc.roomService.FindOrCreateRoomUUID(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, newP2PRoom)
+	if findOrCreateRoomUUIDResponse.IsAlreadyCreated {
+		err = rc.messagesService.SetAllRoomMessagesAsRead(ctx, currentUserUUID, findOrCreateRoomUUIDResponse.RoomUUID)
+		utils.HandleErrorGin(ctx, err)
+	}
+
+	room, err := rc.roomService.GetRoomByUUID(ctx, findOrCreateRoomUUIDResponse.RoomUUID)
+	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.FindOrCreateRoomResponse{
+		Room:             room,
+		IsAlreadyCreated: findOrCreateRoomUUIDResponse.IsAlreadyCreated,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Update room for user

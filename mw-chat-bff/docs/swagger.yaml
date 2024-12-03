@@ -284,7 +284,7 @@ paths:
     post:
       consumes:
       - application/json
-      operationId: create-room
+      operationId: find-or-create-room
       parameters:
       - description: query params
         in: body
@@ -299,7 +299,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/mw-chat-bff_internal_schemas.RoomPopulatedResponse'
-      summary: Create room for user
+      summary: Find or create room for user
       tags:
       - room
   /rooms/{roomId}:

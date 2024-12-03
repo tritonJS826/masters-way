@@ -37,18 +37,6 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test RoomAPIService CreateRoom", func(t *testing.T) {
-
-		t.Skip("skip test")  // remove to run test
-
-		resp, httpRes, err := apiClient.RoomAPI.CreateRoom(context.Background()).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 	t.Run("Test RoomAPIService DeleteUserFromRoom", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
@@ -57,6 +45,18 @@ func Test_openapi_RoomAPIService(t *testing.T) {
 		var userId string
 
 		resp, httpRes, err := apiClient.RoomAPI.DeleteUserFromRoom(context.Background(), roomId, userId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test RoomAPIService FindOrCreateRoom", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.RoomAPI.FindOrCreateRoom(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
