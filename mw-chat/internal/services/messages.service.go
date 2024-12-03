@@ -19,6 +19,7 @@ type IMessagesRepository interface {
 	CreateMessageStatus(ctx context.Context, arg db.CreateMessageStatusParams) error
 	GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error)
 	UpdateMessageStatus(ctx context.Context, arg db.UpdateMessageStatusParams) error
+	SetAllRoomMessagesAsRead(ctx context.Context, arg db.SetAllRoomMessagesAsReadParams) error
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -110,4 +111,11 @@ func (messagesService *MessagesService) UpdateMessageStatus(ctx context.Context,
 	}
 
 	return nil
+}
+
+func (messagesService *MessagesService) SetAllRoomMessagesAsRead(ctx context.Context, userUUID, roomUUID uuid.UUID) error {
+	return messagesService.MessagesRepository.SetAllRoomMessagesAsRead(ctx, db.SetAllRoomMessagesAsReadParams{
+		RoomUuid: pgtype.UUID{Bytes: roomUUID, Valid: true},
+		UserUuid: pgtype.UUID{Bytes: userUUID, Valid: true},
+	})
 }

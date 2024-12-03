@@ -69,24 +69,19 @@ SELECT
             users_rooms.user_uuid
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::UUID[] AS user_uuids,
     ARRAY(
         SELECT
             users_rooms.user_role
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
-WHERE rooms.uuid = $1 AND users_rooms.user_uuid = $2
+WHERE rooms.uuid = $1
 `
-
-type GetRoomByUUIDParams struct {
-	RoomUuid pgtype.UUID `json:"room_uuid"`
-	UserUuid pgtype.UUID `json:"user_uuid"`
-}
 
 type GetRoomByUUIDRow struct {
 	Uuid          pgtype.UUID   `json:"uuid"`
@@ -97,8 +92,8 @@ type GetRoomByUUIDRow struct {
 	UserRoles     []string      `json:"user_roles"`
 }
 
-func (q *Queries) GetRoomByUUID(ctx context.Context, arg GetRoomByUUIDParams) (GetRoomByUUIDRow, error) {
-	row := q.db.QueryRow(ctx, getRoomByUUID, arg.RoomUuid, arg.UserUuid)
+func (q *Queries) GetRoomByUUID(ctx context.Context, roomUuid pgtype.UUID) (GetRoomByUUIDRow, error) {
+	row := q.db.QueryRow(ctx, getRoomByUUID, roomUuid)
 	var i GetRoomByUUIDRow
 	err := row.Scan(
 		&i.Uuid,
@@ -122,14 +117,14 @@ SELECT
             users_rooms.user_uuid
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::UUID[] AS user_uuids,
     ARRAY(
         SELECT
             users_rooms.user_role
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid

@@ -18,7 +18,7 @@ type Querier interface {
 	GetChatPreview(ctx context.Context, receiverUuid pgtype.UUID) (int64, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]GetMessagesByRoomUUIDRow, error)
 	GetPrivateRoomByUserUUIDs(ctx context.Context, arg GetPrivateRoomByUserUUIDsParams) (pgtype.UUID, error)
-	GetRoomByUUID(ctx context.Context, arg GetRoomByUUIDParams) (GetRoomByUUIDRow, error)
+	GetRoomByUUID(ctx context.Context, roomUuid pgtype.UUID) (GetRoomByUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error)
 	GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error)
 	RegenerateDbData(ctx context.Context) error

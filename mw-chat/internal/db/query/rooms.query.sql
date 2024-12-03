@@ -23,14 +23,14 @@ SELECT
             users_rooms.user_uuid
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::UUID[] AS user_uuids,
     ARRAY(
         SELECT
             users_rooms.user_role
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
@@ -48,15 +48,15 @@ SELECT
             users_rooms.user_uuid
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::UUID[] AS user_uuids,
     ARRAY(
         SELECT
             users_rooms.user_role
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
-        ORDER BY joined_at DESC
+        ORDER BY updated_at DESC
     )::VARCHAR[] AS user_roles
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
-WHERE rooms.uuid = @room_uuid AND users_rooms.user_uuid = @user_uuid;
+WHERE rooms.uuid = @room_uuid;

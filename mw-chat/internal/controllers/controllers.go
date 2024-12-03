@@ -10,7 +10,7 @@ type Controller struct {
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		RoomsController:    NewRoomsController(services.RoomsService),
+		RoomsController:    NewRoomsController(services.RoomsService, services.MessagesService),
 		MessagesController: NewMessagesController(services.MessagesService),
 		DevController:      NewDevController(services.DevService),
 	}

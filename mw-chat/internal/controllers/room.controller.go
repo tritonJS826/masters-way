@@ -12,11 +12,12 @@ import (
 )
 
 type RoomController struct {
-	roomService *services.RoomsService
+	roomService     *services.RoomsService
+	messagesService *services.MessagesService
 }
 
-func NewRoomsController(roomService *services.RoomsService) *RoomController {
-	return &RoomController{roomService}
+func NewRoomsController(roomService *services.RoomsService, messagesService *services.MessagesService) *RoomController {
+	return &RoomController{roomService, messagesService}
 }
 
 // @Summary Get chat preview
@@ -73,7 +74,10 @@ func (rc *RoomController) GetRoomById(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userUUID := uuid.MustParse(userIDRaw.(string))
 
-	room, err := rc.roomService.GetRoomByUUID(ctx, userUUID, roomUUID)
+	err := rc.messagesService.SetAllRoomMessagesAsRead(ctx, userUUID, roomUUID)
+	utils.HandleErrorGin(ctx, err)
+
+	room, err := rc.roomService.GetRoomByUUID(ctx, roomUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, room)
@@ -96,19 +100,24 @@ func (rc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	creatorIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	creatorUUID := uuid.MustParse(creatorIDRaw.(string))
+	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	currentUserUUID := uuid.MustParse(currentUserIDRaw.(string))
 
 	params := &services.CreateRoomServiceParams{
-		CreatorUUID:     creatorUUID,
-		InvitedUserUUID: payload.UserID,
+		CurrentUserUUID: currentUserUUID,
+		ParticipantUUID: payload.UserID,
 		Name:            payload.Name,
 		Type:            payload.RoomType,
 	}
 	findOrCreateRoomUUIDResponse, err := rc.roomService.FindOrCreateRoomUUID(ctx, params)
 	utils.HandleErrorGin(ctx, err)
 
-	room, err := rc.roomService.GetRoomByUUID(ctx, creatorUUID, findOrCreateRoomUUIDResponse.RoomUUID)
+	if findOrCreateRoomUUIDResponse.IsAlreadyCreated {
+		err = rc.messagesService.SetAllRoomMessagesAsRead(ctx, currentUserUUID, findOrCreateRoomUUIDResponse.RoomUUID)
+		utils.HandleErrorGin(ctx, err)
+	}
+
+	room, err := rc.roomService.GetRoomByUUID(ctx, findOrCreateRoomUUIDResponse.RoomUUID)
 	utils.HandleErrorGin(ctx, err)
 
 	response := schemas.FindOrCreateRoomResponse{
