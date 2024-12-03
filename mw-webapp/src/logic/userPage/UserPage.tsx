@@ -925,7 +925,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   type={TagType.PRIMARY_TAG}
                   removeTooltipText={LanguageService.common.removeTag[language]}
                   onDelete={async () => {
-                    user && user.deleteSkill(tag.uuid);
+                    user?.deleteSkill(tag.uuid);
                     userPageOwner.deleteSkill(tag.uuid);
                     await SkillDAL.deleteSkill({userTagId: tag.uuid, userId: userPageOwner.uuid});
                   }}
