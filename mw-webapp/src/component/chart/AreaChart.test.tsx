@@ -1,5 +1,5 @@
+import {render, screen} from "@testing-library/react";
 import {AreaChart, ChartAreaPoint} from "src/component/chart/AreaChart";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const AREA_CHART_CY = "AreaChart";
 
@@ -15,7 +15,7 @@ const DATA: ChartAreaPoint[] = [
 
 describe("AreaChart component", () => {
   beforeEach(() => {
-    cy.mount(
+    render(
       <AreaChart
         points={DATA}
         dataCy={AREA_CHART_CY}
@@ -24,6 +24,7 @@ describe("AreaChart component", () => {
   });
 
   it("should render AreaChart", () => {
-    cy.get(getDataCy(AREA_CHART_CY)).should("exist");
+    const areaChart = screen.getByTestId(AREA_CHART_CY);
+    expect(areaChart).toBeVisible();
   });
 });

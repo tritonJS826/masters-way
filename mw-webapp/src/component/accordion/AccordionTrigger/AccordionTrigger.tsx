@@ -30,7 +30,7 @@ export const AccordionTrigger = (props: AccordionTriggerProps) => {
   return (
     <RadixAccordionHeader
       className={styles.accordionHeader}
-      data-cy={props.dataCy}
+      data-testid={props.dataCy}
     >
       <RadixAccordionTrigger className={styles.accordionTrigger}>
         {props.child}

@@ -129,7 +129,7 @@ export const AreaChart = observer((props: AreaChartProps) => {
     <Line
       options={optionsMemoized}
       data={data}
-      data-cy={props.dataCy}
+      data-testid={props.dataCy}
       style={{maxHeight: "250px"}}
     />
   );
