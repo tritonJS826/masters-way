@@ -1,8 +1,5 @@
 import "/src/component/footer/Footer.cy.tsx";
 import "/src/component/wayCollectionCard/WayCollectionCard.cy.tsx";
-import "/src/component/accordion/Accordion.cy.tsx";
-import "/src/component/avatar/Avatar.cy.tsx";
-import "/src/component/chart/AreaChart.cy.tsx";
 import "/src/component/checkbox/Checkbox.cy.tsx";
 import "/src/component/confirm/Confirm.cy.tsx";
 import "/src/component/dropdown/Dropdown.cy.tsx";
