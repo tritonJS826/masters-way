@@ -114,6 +114,17 @@ describe('Collections tests', () => {
             });
         userWaysSelectors.collectionBlock.getFavoriteWayCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).should('be.visible');
+
+        userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.deleteFrom.en} ${userWaysData.collectionButton.custom.newName}`).click();
+        headerSelectors.getAvatar().click();
+
+        userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('not.exist');
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');        
         
         userWaysSelectors.collectionBlock.customCollection.getActionMenuButton().click();
         userWaysSelectors.collectionBlock.customCollection.getAtcionMenuItem()
