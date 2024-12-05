@@ -43,9 +43,16 @@
   },
 
   "collectionButton": {
-      "mentoring": {
-        "waysAmount": "Ways: 1"
-      }
+    "mentoring": {
+      "waysAmount1": "Ways: 1"
+     },
+     
+    "custom": {
+      "newName": "My collection",
+      "waysAmount0": "Ways: 0",
+      "waysAmount1": "Ways: 1",
+      "waysAmount2": "Ways: 2"
+    }
   }
 
 }

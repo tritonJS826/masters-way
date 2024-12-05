@@ -29,8 +29,8 @@ describe('Mentor-mentee tests', () => {
         allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
             .contains(testUserData.testUsers.studentJonh.name)
             .click();
-        userWaysSelectors.wayCollectionButtonsBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
 
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().should('not.exist');
@@ -38,8 +38,8 @@ describe('Mentor-mentee tests', () => {
         cy.logout();
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
-        userWaysSelectors.wayCollectionButtonsBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
         
         wayDescriptionSelectors.mentorRequestDialog.getMentorNameLink().should('have.text', testUserData.testUsers.mentorMax.name);
         
@@ -59,8 +59,8 @@ describe('Mentor-mentee tests', () => {
 
         cy.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
-        userWaysSelectors.wayCollectionButtonsBlock.getWayAmountCollectionButton().eq(1).should('have.text', userWaysData.collectionButton.mentoring.waysAmount);
-        userWaysSelectors.wayCollectionButtonsBlock.getMentoringWayCollectionButton().click();
+        userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(1).should('have.text', userWaysData.collectionButton.mentoring.waysAmount1);
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist').and('be.visible');
     });
 

@@ -41,45 +41,45 @@ describe("NoAuth User's ways scope tests", () => {
     it('NoAuth_UserWay_ClickCollectionButton', () => {
         allUsersSelectors.card.getCardLink(userWaysData.users.Alice.userName).click();
 
-        userWaysSelectors.wayCollectionButtonsBlock.getOwnWayCollectionButton().click();
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
 
-        userWaysSelectors.wayCollectionButtonsBlock.getWayCollectionButtonMainInfo().first()
+        userWaysSelectors.collectionBlock.getWayCollectionButtonMainInfo().first()
             .should('have.css', 'background-color', expectedCollectionButtonColor);
-        userWaysSelectors.wayCollectionButtonsBlock.getWayAmountCollectionButton().first()
+        userWaysSelectors.collectionBlock.getWayAmountCollectionButton().first()
             .should('have.text', userWaysData.users.Alice.ownCollection.waysNumberCollectionButton);
         userWaysSelectors.wayTitles.getWayStatusTitle()
             .should('have.text', `${userWaysData.users.Alice.ownCollection.name} (${userWaysData.users.Alice.ownCollection.publicWaysNumber})`);
         cy.get('[data-cy^="wayLink_"]').should('have.length', userWaysData.users.Alice.ownCollection.publicWaysNumber);
-        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.ownCollection.publicWaysTitles[1].title)
+        userWaysSelectors.collectionBlock.getWayLink(userWaysData.users.Alice.ownCollection.publicWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
-        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.ownCollection.publicWaysTitles[2].title)
+        userWaysSelectors.collectionBlock.getWayLink(userWaysData.users.Alice.ownCollection.publicWaysTitles[2].title)
             .should('exist')
             .and('be.visible');
        
-        userWaysSelectors.wayCollectionButtonsBlock.getMentoringWayCollectionButton().click();
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
-        userWaysSelectors.wayCollectionButtonsBlock.getWayCollectionButtonMainInfo().eq(1)
+        userWaysSelectors.collectionBlock.getWayCollectionButtonMainInfo().eq(1)
             .should('have.css', 'background-color', expectedCollectionButtonColor);
-        userWaysSelectors.wayCollectionButtonsBlock.getWayAmountCollectionButton().eq(1)
+        userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(1)
             .should('have.text', userWaysData.users.Alice.mentoringCollection.waysNumberCollectionButton);
         userWaysSelectors.wayTitles.getWayStatusTitle()
             .should('have.text', `${userWaysData.users.Alice.mentoringCollection.name} (${userWaysData.users.Alice.mentoringCollection.publicWaysNumber})`);
         cy.get('[data-cy^="wayLink_"]').should('have.length', userWaysData.users.Alice.mentoringCollection.publicWaysNumber);
-        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.mentoringCollection.publicWaysTitles[1].title)
+        userWaysSelectors.collectionBlock.getWayLink(userWaysData.users.Alice.mentoringCollection.publicWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
     
-        userWaysSelectors.wayCollectionButtonsBlock.getFavoriteWayCollectionButton().click();
+        userWaysSelectors.collectionBlock.getFavoriteWayCollectionButton().click();
 
-        userWaysSelectors.wayCollectionButtonsBlock.getWayCollectionButtonMainInfo().eq(2)
+        userWaysSelectors.collectionBlock.getWayCollectionButtonMainInfo().eq(2)
             .should('have.css', 'background-color', expectedCollectionButtonColor);
-        userWaysSelectors.wayCollectionButtonsBlock.getWayAmountCollectionButton().eq(2)
+        userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(2)
             .should('have.text', userWaysData.users.Alice.favoriteCollection.waysNumberCollectionButton);
         userWaysSelectors.wayTitles.getWayStatusTitle()
             .should('have.text', `${userWaysData.users.Alice.favoriteCollection.name} (${userWaysData.users.Alice.favoriteCollection.publicWaysNumber})`);
         cy.get('[data-cy^="wayLink_"]').should('have.length', userWaysData.users.Alice.favoriteCollection.publicWaysNumber);
-        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(userWaysData.users.Alice.favoriteCollection.publicWaysTitles[1].title)
+        userWaysSelectors.collectionBlock.getWayLink(userWaysData.users.Alice.favoriteCollection.publicWaysTitles[1].title)
             .should('exist')
             .and('be.visible');
     });
@@ -119,23 +119,23 @@ describe("IsAuth User's ways scope tests", () => {
 
     it('IsAuth_UserWays_AddWayToCustomerCollection', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.wayCollectionButtonsBlock.getAddCollectionButton().click();
+        userWaysSelectors.collectionBlock.getAddCollectionButton().click();
         userWaysSelectors.getCreateNewWayButton().click();
 
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${LanguageService.user.collections.newCollection.en}`).click();
         headerSelectors.getAvatar().click();
-        userWaysSelectors.wayCollectionButtonsBlock.getCustomerCollectionButton().click();
+        userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
 
-        userWaysSelectors.wayCollectionButtonsBlock
+        userWaysSelectors.collectionBlock
             .getCustomerCollectionButton()
             .within(() => {
-                userWaysSelectors.wayCollectionButtonsBlock
+                userWaysSelectors.collectionBlock
                 .getWayAmountCollectionButton()
                 .should('have.text', 'Ways: 1');
             });
-        userWaysSelectors.wayCollectionButtonsBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist');
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${LanguageService.user.collections.newCollection.en} (1)`);
     });
 

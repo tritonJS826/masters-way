@@ -85,6 +85,12 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
       onOk={() => props.onDelete && props.onDelete()}
       okText={LanguageService.modals.confirmModal.deleteButton[props.language]}
       cancelText={LanguageService.modals.confirmModal.cancelButton[props.language]}
+      cy={
+        {
+          onOk: userWaysAccessIds.collectionBlock.customCollection.deleteDialog.deleteButton,
+          onEnter: userWaysAccessIds.collectionBlock.customCollection.deleteDialog.content,
+        }
+      }
     />);
 
   return (
@@ -96,7 +102,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
         <VerticalContainer className={styles.wayCollectionCardContainer}>
           <VerticalContainer
             className={clsx(styles.mainInfo, props.isActive && styles.active)}
-            dataCy={userWaysAccessIds.wayCollectionButtonsBlock.wayCollectionButtonMainInfo}
+            dataCy={userWaysAccessIds.collectionBlock.wayCollectionButtonMainInfo}
           >
             <HorizontalContainer className={styles.collectionTitleBlock}>
               <Title
@@ -120,9 +126,16 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                     }}
                     okButtonValue={LanguageService.modals.promptModal.okButton[props.language]}
                     cancelButtonValue={LanguageService.modals.promptModal.cancelButton[props.language]}
+                    cy={
+                      {
+                        dataCyCreateButton: userWaysAccessIds.collectionBlock.customCollection.renameDialog.okButton,
+                        dataCyInput: userWaysAccessIds.collectionBlock.customCollection.renameDialog.input,
+                      }
+                    }
                   />
                 }
                 trigger={<></>}
+                cy={{dataCyContent: {dataCyContent: userWaysAccessIds.collectionBlock.customCollection.renameDialog.content}}}
               />
               }
 
@@ -142,9 +155,15 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                             name={"MoreVertical"}
                           />
                         }
+                        dataCy={userWaysAccessIds.collectionBlock.customCollection.actionMenuButton}
                       />
                     </Tooltip>
                   )}
+                  cy={{
+                    dataCyContent: userWaysAccessIds.collectionBlock.customCollection.actionMenuItem,
+                    dataCyContentList: userWaysAccessIds.collectionBlock.customCollection.actionMenuList,
+                  }}
+
                   dropdownMenuItems={[
                     {
                       dropdownSubMenuItems: [
@@ -173,7 +192,7 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
           </VerticalContainer>
           <HorizontalContainer
             className={styles.additionalInfo}
-            dataCy={userWaysAccessIds.wayCollectionButtonsBlock.wayAmountCollectionButton}
+            dataCy={userWaysAccessIds.collectionBlock.wayAmountCollectionButton}
           >
             {`${LanguageService.user.collections.ways[props.language]}: ${props.collectionWaysAmount}`}
           </HorizontalContainer>
