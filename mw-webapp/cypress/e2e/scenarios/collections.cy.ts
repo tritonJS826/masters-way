@@ -124,7 +124,13 @@ describe('Collections tests', () => {
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('not.exist');
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');        
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
+        userWaysSelectors.wayTitles.getWayStatusTitle().contains(userWaysData.collectionButton.custom.newName + ' (1)');
+        userWaysSelectors.collectionBlock.getCustomerCollectionButton()
+            .within(() => {
+                userWaysSelectors.collectionBlock.getWayAmountCollectionButton()
+                    .should('have.text', userWaysData.collectionButton.custom.waysAmount1);
+            });     
         
         userWaysSelectors.collectionBlock.customCollection.getActionMenuButton().click();
         userWaysSelectors.collectionBlock.customCollection.getAtcionMenuItem()
