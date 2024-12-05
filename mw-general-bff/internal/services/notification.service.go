@@ -100,7 +100,7 @@ func (ns *NotificationService) GetNotificationSettingList(ctx context.Context, u
 			UUID:      setting.Uuid,
 			UserUUID:  setting.UserUuid,
 			Nature:    setting.Nature.String(),
-			Channel:   setting.Channel,
+			Channel:   setting.Channel.String(),
 			IsEnabled: setting.IsEnabled,
 		})
 	}

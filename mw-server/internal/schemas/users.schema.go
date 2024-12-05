@@ -64,6 +64,7 @@ type GetAllUsersResponse struct {
 
 type GetUsersByIDsResponse struct {
 	UserID   string `json:"userId" validate:"required"`
+	Email    string `json:"email" validate:"required"`
 	Name     string `json:"name" validate:"required"`
 	ImageURL string `json:"imageUrl" validate:"required"`
 }

@@ -2923,7 +2923,10 @@ components:
         imageUrl: imageUrl
         name: name
         userId: userId
+        email: email
       properties:
+        email:
+          type: string
         imageUrl:
           type: string
         name:
@@ -2931,6 +2934,7 @@ components:
         userId:
           type: string
       required:
+      - email
       - imageUrl
       - name
       - userId

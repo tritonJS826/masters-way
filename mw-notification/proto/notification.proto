@@ -45,6 +45,11 @@ enum Nature {
     favorite_way = 5;
 }
 
+enum Channel {
+    mail = 0;
+    webapp = 1;
+}
+
 message CreateNotificationRequest {
     repeated string user_uuids = 1;
     string description = 2;
@@ -52,13 +57,13 @@ message CreateNotificationRequest {
     Nature nature = 4;
 }
 
-message CreateNotificationResponse {
+message NotificationWithSettings {
     Notification notification = 1;
     repeated NotificationSettingResponse notification_setting_list = 2;
 }
 
 message CreateNotificationsResponse {
-    repeated CreateNotificationResponse create_notification_list = 1;
+    repeated NotificationWithSettings notification_with_settings_list = 1;
 }
 
 message UpdateNotificationRequest {
@@ -93,7 +98,7 @@ message NotificationSettingResponse {
     string uuid = 1;
     string user_uuid = 2;
     Nature nature = 3;
-    string channel = 4;
+    Channel channel = 4;
     bool is_enabled = 5;
 }
 

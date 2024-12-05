@@ -577,6 +577,8 @@ definitions:
     type: object
   mw-server_internal_schemas.GetUsersByIDsResponse:
     properties:
+      email:
+        type: string
       imageUrl:
         type: string
       name:
@@ -584,6 +586,7 @@ definitions:
       userId:
         type: string
     required:
+    - email
     - imageUrl
     - name
     - userId

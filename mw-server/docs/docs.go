@@ -3560,11 +3560,15 @@ const docTemplate = `{
         "mw-server_internal_schemas.GetUsersByIDsResponse": {
             "type": "object",
             "required": [
+                "email",
                 "imageUrl",
                 "name",
                 "userId"
             ],
             "properties": {
+                "email": {
+                    "type": "string"
+                },
                 "imageUrl": {
                     "type": "string"
                 },

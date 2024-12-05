@@ -167,18 +167,21 @@ func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]s
 		return util.ConvertPgUUIDToUUID(dbUser.Uuid).String(), dbUser
 	})
 
-	response := make([]schemas.GetUsersByIDsResponse, 0, len(userIDs))
-	for _, userID := range userIDs {
+	response := lo.Map(userIDs, func(userID string, _ int) schemas.GetUsersByIDsResponse {
 		dbUser, exists := dbUsersMap[userID]
 		if !exists {
-			return nil, fmt.Errorf("User ID %s not found in the database", userID)
+			err = fmt.Errorf("User ID %s not found in the database", userID)
 		}
 
-		response = append(response, schemas.GetUsersByIDsResponse{
+		return schemas.GetUsersByIDsResponse{
 			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
+			Email:    dbUser.Email,
 			Name:     dbUser.Name,
 			ImageURL: dbUser.ImageUrl,
-		})
+		}
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	return response, nil

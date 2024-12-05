@@ -56,14 +56,13 @@ func (fc *FileController) UploadFile(ctx *gin.Context) {
 	messageResponse, err := fc.chatService.CreateMessage(ctx, message, roomID)
 	util.HandleErrorGin(ctx, err)
 
-	// TODO rename  service method
-	populatedUserMap, err := fc.generalService.GetPopulatedUsers(ctx, []string{messageResponse.Message.OwnerID})
+	userMap, err := fc.generalService.GetUserMapByIds(ctx, []string{messageResponse.Message.OwnerID})
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
 	}
 
-	messageResponse.Message.OwnerName = populatedUserMap[messageResponse.Message.OwnerID].Name
-	messageResponse.Message.OwnerImageURL = populatedUserMap[messageResponse.Message.OwnerID].ImageURL
+	messageResponse.Message.OwnerName = userMap[messageResponse.Message.OwnerID].Name
+	messageResponse.Message.OwnerImageURL = userMap[messageResponse.Message.OwnerID].ImageURL
 
 	err = fc.chatWebSocketService.SendMessage(ctx, roomID, messageResponse)
 	util.HandleErrorGin(ctx, err)

@@ -24,6 +24,12 @@ export interface MwServerInternalSchemasGetUsersByIDsResponse {
      * @type {string}
      * @memberof MwServerInternalSchemasGetUsersByIDsResponse
      */
+    email: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwServerInternalSchemasGetUsersByIDsResponse
+     */
     imageUrl: string;
     /**
      * 
@@ -46,6 +52,7 @@ export function instanceOfMwServerInternalSchemasGetUsersByIDsResponse(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "email" in value;
     isInstance = isInstance && "imageUrl" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "userId" in value;
@@ -66,6 +73,7 @@ export function MwServerInternalSchemasGetUsersByIDsResponseFromJSONTyped(
     }
     return {
         
+        'email': json['email'],
         'imageUrl': json['imageUrl'],
         'name': json['name'],
         'userId': json['userId'],
@@ -82,6 +90,7 @@ export function MwServerInternalSchemasGetUsersByIDsResponseToJSON(value?: MwSer
     }
     return {
         
+        'email': value.email,
         'imageUrl': value.imageUrl,
         'name': value.name,
         'userId': value.userId,
