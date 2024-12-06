@@ -55,6 +55,7 @@ export * from './MwServerInternalSchemasLabelInfo';
 export * from './MwServerInternalSchemasLabelStatistics';
 export * from './MwServerInternalSchemasListDayReportsResponse';
 export * from './MwServerInternalSchemasMetricResponse';
+export * from './MwServerInternalSchemasMetricTreeNode';
 export * from './MwServerInternalSchemasOverallInformation';
 export * from './MwServerInternalSchemasPlanPopulatedResponse';
 export * from './MwServerInternalSchemasProblemPopulatedResponse';

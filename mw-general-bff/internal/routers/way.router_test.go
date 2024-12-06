@@ -433,7 +433,7 @@ func TestGetWayById(t *testing.T) {
 			FavoriteForUsersAmount: 0,
 			WayTags:                []openapiGeneral.MwServerInternalSchemasWayTagResponse{},
 			JobTags:                []openapiGeneral.MwServerInternalSchemasJobTagResponse{},
-			Metrics:                []openapiGeneral.MwServerInternalSchemasMetricResponse{},
+			Metrics:                []openapiGeneral.MwServerInternalSchemasMetricTreeNode{},
 			CopiedFromWayUuid:      emptyNullableString,
 			ProjectUuid:            emptyNullableString,
 			Children:               []openapiGeneral.MwServerInternalSchemasWayPopulatedResponse{},

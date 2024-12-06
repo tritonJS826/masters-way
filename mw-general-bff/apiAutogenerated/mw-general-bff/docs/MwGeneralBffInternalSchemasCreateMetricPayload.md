@@ -5,16 +5,17 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Description** | **string** |  | 
-**DoneDate** | **string** |  | 
+**DoneDate** | **NullableString** |  | 
 **EstimationTime** | **int32** |  | 
 **IsDone** | **bool** |  | 
+**ParentUuid** | **NullableString** |  | 
 **WayUuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwGeneralBffInternalSchemasCreateMetricPayload
 
-`func NewMwGeneralBffInternalSchemasCreateMetricPayload(description string, doneDate string, estimationTime int32, isDone bool, wayUuid string, ) *MwGeneralBffInternalSchemasCreateMetricPayload`
+`func NewMwGeneralBffInternalSchemasCreateMetricPayload(description string, doneDate NullableString, estimationTime int32, isDone bool, parentUuid NullableString, wayUuid string, ) *MwGeneralBffInternalSchemasCreateMetricPayload`
 
 NewMwGeneralBffInternalSchemasCreateMetricPayload instantiates a new MwGeneralBffInternalSchemasCreateMetricPayload object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +70,16 @@ and a boolean to check if the value has been set.
 SetDoneDate sets DoneDate field to given value.
 
 
+### SetDoneDateNil
+
+`func (o *MwGeneralBffInternalSchemasCreateMetricPayload) SetDoneDateNil(b bool)`
+
+ SetDoneDateNil sets the value for DoneDate to be an explicit nil
+
+### UnsetDoneDate
+`func (o *MwGeneralBffInternalSchemasCreateMetricPayload) UnsetDoneDate()`
+
+UnsetDoneDate ensures that no value is present for DoneDate, not even an explicit nil
 ### GetEstimationTime
 
 `func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetEstimationTime() int32`
@@ -109,6 +120,36 @@ and a boolean to check if the value has been set.
 SetIsDone sets IsDone field to given value.
 
 
+### GetParentUuid
+
+`func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetParentUuid() string`
+
+GetParentUuid returns the ParentUuid field if non-nil, zero value otherwise.
+
+### GetParentUuidOk
+
+`func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetParentUuidOk() (*string, bool)`
+
+GetParentUuidOk returns a tuple with the ParentUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentUuid
+
+`func (o *MwGeneralBffInternalSchemasCreateMetricPayload) SetParentUuid(v string)`
+
+SetParentUuid sets ParentUuid field to given value.
+
+
+### SetParentUuidNil
+
+`func (o *MwGeneralBffInternalSchemasCreateMetricPayload) SetParentUuidNil(b bool)`
+
+ SetParentUuidNil sets the value for ParentUuid to be an explicit nil
+
+### UnsetParentUuid
+`func (o *MwGeneralBffInternalSchemasCreateMetricPayload) UnsetParentUuid()`
+
+UnsetParentUuid ensures that no value is present for ParentUuid, not even an explicit nil
 ### GetWayUuid
 
 `func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetWayUuid() string`

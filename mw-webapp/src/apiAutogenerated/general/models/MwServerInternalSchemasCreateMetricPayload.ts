@@ -30,7 +30,7 @@ export interface MwServerInternalSchemasCreateMetricPayload {
      * @type {string}
      * @memberof MwServerInternalSchemasCreateMetricPayload
      */
-    doneDate: string;
+    doneDate: string | null;
     /**
      * 
      * @type {number}
@@ -43,6 +43,12 @@ export interface MwServerInternalSchemasCreateMetricPayload {
      * @memberof MwServerInternalSchemasCreateMetricPayload
      */
     isDone: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwServerInternalSchemasCreateMetricPayload
+     */
+    parentUuid: string | null;
     /**
      * 
      * @type {string}
@@ -62,6 +68,7 @@ export function instanceOfMwServerInternalSchemasCreateMetricPayload(
     isInstance = isInstance && "doneDate" in value;
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "isDone" in value;
+    isInstance = isInstance && "parentUuid" in value;
     isInstance = isInstance && "wayUuid" in value;
 
     return isInstance;
@@ -84,6 +91,7 @@ export function MwServerInternalSchemasCreateMetricPayloadFromJSONTyped(
         'doneDate': json['doneDate'],
         'estimationTime': json['estimationTime'],
         'isDone': json['isDone'],
+        'parentUuid': json['parentUuid'],
         'wayUuid': json['wayUuid'],
     };
 }
@@ -102,6 +110,7 @@ export function MwServerInternalSchemasCreateMetricPayloadToJSON(value?: MwServe
         'doneDate': value.doneDate,
         'estimationTime': value.estimationTime,
         'isDone': value.isDone,
+        'parentUuid': value.parentUuid,
         'wayUuid': value.wayUuid,
     };
 }

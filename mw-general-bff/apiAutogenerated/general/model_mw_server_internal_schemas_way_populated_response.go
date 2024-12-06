@@ -33,7 +33,7 @@ type MwServerInternalSchemasWayPopulatedResponse struct {
 	JobTags []MwServerInternalSchemasJobTagResponse
 	MentorRequests []MwServerInternalSchemasUserPlainResponse
 	Mentors []MwServerInternalSchemasUserPlainResponse
-	Metrics []MwServerInternalSchemasMetricResponse
+	Metrics []MwServerInternalSchemasMetricTreeNode
 	Name string
 	Owner MwServerInternalSchemasUserPlainResponse
 	ProjectUuid NullableString
@@ -48,7 +48,7 @@ type _MwServerInternalSchemasWayPopulatedResponse MwServerInternalSchemasWayPopu
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasWayPopulatedResponse(children []MwServerInternalSchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []MwServerInternalSchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []MwServerInternalSchemasJobTagResponse, mentorRequests []MwServerInternalSchemasUserPlainResponse, mentors []MwServerInternalSchemasUserPlainResponse, metrics []MwServerInternalSchemasMetricResponse, name string, owner MwServerInternalSchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []MwServerInternalSchemasWayTagResponse) *MwServerInternalSchemasWayPopulatedResponse {
+func NewMwServerInternalSchemasWayPopulatedResponse(children []MwServerInternalSchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []MwServerInternalSchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []MwServerInternalSchemasJobTagResponse, mentorRequests []MwServerInternalSchemasUserPlainResponse, mentors []MwServerInternalSchemasUserPlainResponse, metrics []MwServerInternalSchemasMetricTreeNode, name string, owner MwServerInternalSchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []MwServerInternalSchemasWayTagResponse) *MwServerInternalSchemasWayPopulatedResponse {
 	this := MwServerInternalSchemasWayPopulatedResponse{}
 	this.Children = children
 	this.CopiedFromWayUuid = copiedFromWayUuid
@@ -371,9 +371,9 @@ func (o *MwServerInternalSchemasWayPopulatedResponse) SetMentors(v []MwServerInt
 }
 
 // GetMetrics returns the Metrics field value
-func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetrics() []MwServerInternalSchemasMetricResponse {
+func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetrics() []MwServerInternalSchemasMetricTreeNode {
 	if o == nil {
-		var ret []MwServerInternalSchemasMetricResponse
+		var ret []MwServerInternalSchemasMetricTreeNode
 		return ret
 	}
 
@@ -382,7 +382,7 @@ func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetrics() []MwServerInt
 
 // GetMetricsOk returns a tuple with the Metrics field value
 // and a boolean to check if the value has been set.
-func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetricsOk() ([]MwServerInternalSchemasMetricResponse, bool) {
+func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetricsOk() ([]MwServerInternalSchemasMetricTreeNode, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -390,7 +390,7 @@ func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetricsOk() ([]MwServer
 }
 
 // SetMetrics sets field value
-func (o *MwServerInternalSchemasWayPopulatedResponse) SetMetrics(v []MwServerInternalSchemasMetricResponse) {
+func (o *MwServerInternalSchemasWayPopulatedResponse) SetMetrics(v []MwServerInternalSchemasMetricTreeNode) {
 	o.Metrics = v
 }
 

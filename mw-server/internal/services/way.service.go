@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"log"
 	db "mw-server/internal/db/sqlc"
 	"mw-server/internal/schemas"
 	"mw-server/pkg/util"
@@ -127,6 +128,39 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		}
 	})
 
+	buildMetricTree := func(metrics []schemas.MetricResponse) []*schemas.MetricTreeNode {
+		nodeMap := make(map[string]*schemas.MetricTreeNode)
+
+		for _, metric := range metrics {
+			nodeMap[metric.Uuid] = &schemas.MetricTreeNode{
+				Metric:   metric,
+				Children: []*schemas.MetricTreeNode{},
+			}
+		}
+
+		roots := []*schemas.MetricTreeNode{}
+
+		for _, node := range nodeMap {
+			if node.Metric.ParentUuid == nil {
+				roots = append(roots, node)
+			} else {
+				parent, exists := nodeMap[*node.Metric.ParentUuid]
+				if exists {
+					if parent.Children == nil {
+						parent.Children = []*schemas.MetricTreeNode{}
+					}
+					parent.Children = append(parent.Children, node)
+				} else {
+					log.Printf("Parent with UUID %v not found for node %v", *node.Metric.ParentUuid, node.Metric.Uuid)
+				}
+			}
+		}
+
+		return roots
+	}
+
+	metricsTree := buildMetricTree(metrics)
+
 	wayTagsRaw, _ := ws.wayRepository.GetListWayTagsByWayId(ctx, wayPgUUID)
 	wayTags := lo.Map(wayTagsRaw, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
 		return schemas.WayTagResponse{
@@ -135,7 +169,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		}
 	})
 
-	var children []schemas.WayPopulatedResponse
+	children := []schemas.WayPopulatedResponse{}
 	if params.CurrentChildrenDepth < int(limitMap[MaxCompositeWayDeps][db.PricingPlanTypeStarter]) {
 		children = lo.Map(way.ChildrenUuids, func(childUuid string, i int) schemas.WayPopulatedResponse {
 			args := GetPopulatedWayByIdParams{
@@ -146,8 +180,6 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 
 			return *child
 		})
-	} else {
-		children = []schemas.WayPopulatedResponse{}
 	}
 
 	response := &schemas.WayPopulatedResponse{
@@ -167,7 +199,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		FavoriteForUsersAmount: int32(favoriteForUserAmount),
 		WayTags:                wayTags,
 		JobTags:                jobTags,
-		Metrics:                metrics,
+		Metrics:                metricsTree,
 		CopiedFromWayUuid:      util.MarshalPgUUID(way.CopiedFromWayUuid),
 		Children:               children,
 	}
@@ -304,6 +336,16 @@ func (ws *WayService) CreateWay(ctx context.Context, payload *schemas.CreateWayP
 	return wayPlain, nil
 }
 
+// Flatten the metric tree into a flat list of metrics
+func flatMetricTree(nodes []*schemas.MetricTreeNode) []*schemas.MetricResponse {
+	flatList := []*schemas.MetricResponse{}
+	for _, node := range nodes {
+		flatList = append(flatList, &node.Metric)
+		flatList = append(flatList, flatMetricTree(node.Children)...)
+	}
+	return flatList
+}
+
 func (ws *WayService) CopyWay(ctx context.Context, fromWayUUID, toWayUUID uuid.UUID) error {
 	toWayPgUUID := pgtype.UUID{Bytes: toWayUUID, Valid: true}
 
@@ -334,14 +376,19 @@ func (ws *WayService) CopyWay(ctx context.Context, fromWayUUID, toWayUUID uuid.U
 			Color:       jobTag.Color,
 		})
 	})
+
+	flattenMetrics := flatMetricTree(originalWay.Metrics)
+
 	// copy metrics from the copied way
-	lo.ForEach(originalWay.Metrics, func(metric schemas.MetricResponse, i int) {
+	lo.ForEach(flattenMetrics, func(metric *schemas.MetricResponse, i int) {
+		parsedParentUuid, parserParentUuidErr := uuid.Parse(*metric.ParentUuid)
 		ws.wayRepository.CreateMetric(ctx, db.CreateMetricParams{
 			UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
 			Description:      metric.Description,
 			IsDone:           false,
 			MetricEstimation: metric.MetricEstimation,
 			WayUuid:          toWayPgUUID,
+			ParentUuid:       pgtype.UUID{Bytes: parsedParentUuid, Valid: parserParentUuidErr != nil},
 		})
 	})
 

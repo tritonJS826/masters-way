@@ -132,6 +132,7 @@ export const MetricsAiModal = (props: MetricsAiModalProps) => {
       const newMetric = await MetricDAL.createMetric({
         wayUuid: props.wayUuid,
         description: metricPreview.description,
+        parentUuid: null,
       });
 
       return newMetric;

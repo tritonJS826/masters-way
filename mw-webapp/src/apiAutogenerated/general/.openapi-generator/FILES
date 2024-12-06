@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/AuthApi.ts
 apis/CommentApi.ts
 apis/CompositeWayApi.ts
@@ -83,6 +82,7 @@ models/MwServerInternalSchemasLabelInfo.ts
 models/MwServerInternalSchemasLabelStatistics.ts
 models/MwServerInternalSchemasListDayReportsResponse.ts
 models/MwServerInternalSchemasMetricResponse.ts
+models/MwServerInternalSchemasMetricTreeNode.ts
 models/MwServerInternalSchemasOverallInformation.ts
 models/MwServerInternalSchemasPlanPopulatedResponse.ts
 models/MwServerInternalSchemasProblemPopulatedResponse.ts

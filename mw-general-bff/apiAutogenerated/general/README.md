@@ -213,6 +213,7 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasLabelStatistics](docs/MwServerInternalSchemasLabelStatistics.md)
  - [MwServerInternalSchemasListDayReportsResponse](docs/MwServerInternalSchemasListDayReportsResponse.md)
  - [MwServerInternalSchemasMetricResponse](docs/MwServerInternalSchemasMetricResponse.md)
+ - [MwServerInternalSchemasMetricTreeNode](docs/MwServerInternalSchemasMetricTreeNode.md)
  - [MwServerInternalSchemasOverallInformation](docs/MwServerInternalSchemasOverallInformation.md)
  - [MwServerInternalSchemasPlanPopulatedResponse](docs/MwServerInternalSchemasPlanPopulatedResponse.md)
  - [MwServerInternalSchemasProblemPopulatedResponse](docs/MwServerInternalSchemasProblemPopulatedResponse.md)

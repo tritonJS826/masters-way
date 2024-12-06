@@ -16,6 +16,11 @@ interface CreateMetricParams {
    * Metric description
    */
   description?: string;
+
+  /**
+   * Parent metric id
+   */
+  parentUuid: string | null;
 }
 
 /**
@@ -34,11 +39,16 @@ export class MetricDAL {
         estimationTime: 0,
         isDone: false,
         wayUuid: createMetricParams.wayUuid,
+        parentUuid: createMetricParams.parentUuid,
       },
     });
 
     const metric = new Metric({
-      ...metricDTO,
+      uuid: metricDTO.uuid,
+      children: [],
+      description: metricDTO.description,
+      isDone: metricDTO.isDone,
+      parentUuid: metricDTO.parentUuid,
       doneDate: metricDTO.doneDate ? new Date(metricDTO.doneDate) : null,
     });
 
@@ -55,7 +65,11 @@ export class MetricDAL {
     });
 
     const updatedMetric = new Metric({
-      ...updatedMetricDTO,
+      uuid: updatedMetricDTO.uuid,
+      children: [],
+      description: updatedMetricDTO.description,
+      isDone: updatedMetricDTO.isDone,
+      parentUuid: updatedMetricDTO.parentUuid,
       doneDate: updatedMetricDTO.doneDate ? new Date(updatedMetricDTO.doneDate) : null,
     });
 

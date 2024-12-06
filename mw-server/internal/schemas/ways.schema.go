@@ -40,6 +40,10 @@ type WayPlainResponse struct {
 	ChildrenUuids          []string            `json:"childrenUuids" validate:"required"`
 }
 
+type MetricTreeNode struct {
+	Metric   MetricResponse    `json:"metric" validate:"required"`
+	Children []*MetricTreeNode `json:"children" validate:"required"`
+}
 type WayPopulatedResponse struct {
 	Uuid                   string                 `json:"uuid" validate:"required"`
 	Name                   string                 `json:"name" validate:"required"`
@@ -57,7 +61,7 @@ type WayPopulatedResponse struct {
 	FormerMentors          []UserPlainResponse    `json:"formerMentors" validate:"required"`
 	FromUserMentorRequests []UserPlainResponse    `json:"mentorRequests" validate:"required"`
 	JobTags                []JobTagResponse       `json:"jobTags" validate:"required"`
-	Metrics                []MetricResponse       `json:"metrics" validate:"required"`
+	Metrics                []*MetricTreeNode      `json:"metrics" validate:"required"`
 	ProjectUuid            *string                `json:"projectUuid" validate:"required" extensions:"x-nullable"`
 	Children               []WayPopulatedResponse `json:"children" validate:"required"`
 }

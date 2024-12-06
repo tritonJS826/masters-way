@@ -2192,11 +2192,15 @@ components:
         description:
           type: string
         doneDate:
+          nullable: true
           type: string
         estimationTime:
           type: integer
         isDone:
           type: boolean
+        parentUuid:
+          nullable: true
+          type: string
         wayUuid:
           type: string
       required:
@@ -2204,6 +2208,7 @@ components:
       - doneDate
       - estimationTime
       - isDone
+      - parentUuid
       - wayUuid
       type: object
     mw-server_internal_schemas.CreatePlanJobTagPayload:
@@ -3359,6 +3364,7 @@ components:
         doneDate: doneDate
         isDone: true
         uuid: uuid
+        parentUuid: parentUuid
       properties:
         description:
           type: string
@@ -3369,6 +3375,9 @@ components:
           type: integer
         isDone:
           type: boolean
+        parentUuid:
+          nullable: true
+          type: string
         uuid:
           type: string
       required:
@@ -3376,7 +3385,31 @@ components:
       - doneDate
       - estimationTime
       - isDone
+      - parentUuid
       - uuid
+      type: object
+    mw-server_internal_schemas.MetricTreeNode:
+      example:
+        children:
+        - null
+        - null
+        metric:
+          description: description
+          estimationTime: 0
+          doneDate: doneDate
+          isDone: true
+          uuid: uuid
+          parentUuid: parentUuid
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.MetricTreeNode'
+          type: array
+        metric:
+          $ref: '#/components/schemas/mw-server_internal_schemas.MetricResponse'
+      required:
+      - children
+      - metric
       type: object
     mw-server_internal_schemas.OverallInformation:
       example:
@@ -4973,16 +5006,26 @@ components:
           uuid: uuid
           email: email
         metrics:
-        - description: description
-          estimationTime: 0
-          doneDate: doneDate
-          isDone: true
-          uuid: uuid
-        - description: description
-          estimationTime: 0
-          doneDate: doneDate
-          isDone: true
-          uuid: uuid
+        - children:
+          - null
+          - null
+          metric:
+            description: description
+            estimationTime: 0
+            doneDate: doneDate
+            isDone: true
+            uuid: uuid
+            parentUuid: parentUuid
+        - children:
+          - null
+          - null
+          metric:
+            description: description
+            estimationTime: 0
+            doneDate: doneDate
+            isDone: true
+            uuid: uuid
+            parentUuid: parentUuid
         jobTags:
         - color: color
           name: name
@@ -5032,7 +5075,7 @@ components:
           type: array
         metrics:
           items:
-            $ref: '#/components/schemas/mw-server_internal_schemas.MetricResponse'
+            $ref: '#/components/schemas/mw-server_internal_schemas.MetricTreeNode'
           type: array
         name:
           type: string

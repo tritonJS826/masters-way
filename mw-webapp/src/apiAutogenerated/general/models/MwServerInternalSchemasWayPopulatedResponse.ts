@@ -19,12 +19,12 @@ import {
     MwServerInternalSchemasJobTagResponseFromJSONTyped,
     MwServerInternalSchemasJobTagResponseToJSON,
 } from './MwServerInternalSchemasJobTagResponse';
-import type { MwServerInternalSchemasMetricResponse } from './MwServerInternalSchemasMetricResponse';
+import type { MwServerInternalSchemasMetricTreeNode } from './MwServerInternalSchemasMetricTreeNode';
 import {
-    MwServerInternalSchemasMetricResponseFromJSON,
-    MwServerInternalSchemasMetricResponseFromJSONTyped,
-    MwServerInternalSchemasMetricResponseToJSON,
-} from './MwServerInternalSchemasMetricResponse';
+    MwServerInternalSchemasMetricTreeNodeFromJSON,
+    MwServerInternalSchemasMetricTreeNodeFromJSONTyped,
+    MwServerInternalSchemasMetricTreeNodeToJSON,
+} from './MwServerInternalSchemasMetricTreeNode';
 import type { MwServerInternalSchemasUserPlainResponse } from './MwServerInternalSchemasUserPlainResponse';
 import {
     MwServerInternalSchemasUserPlainResponseFromJSON,
@@ -118,10 +118,10 @@ export interface MwServerInternalSchemasWayPopulatedResponse {
     mentors: Array<MwServerInternalSchemasUserPlainResponse>;
     /**
      * 
-     * @type {Array<MwServerInternalSchemasMetricResponse>}
+     * @type {Array<MwServerInternalSchemasMetricTreeNode>}
      * @memberof MwServerInternalSchemasWayPopulatedResponse
      */
-    metrics: Array<MwServerInternalSchemasMetricResponse>;
+    metrics: Array<MwServerInternalSchemasMetricTreeNode>;
     /**
      * 
      * @type {string}
@@ -215,7 +215,7 @@ export function MwServerInternalSchemasWayPopulatedResponseFromJSONTyped(
         'jobTags': ((json['jobTags'] as Array<any>).map(MwServerInternalSchemasJobTagResponseFromJSON)),
         'mentorRequests': ((json['mentorRequests'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseFromJSON)),
         'mentors': ((json['mentors'] as Array<any>).map(MwServerInternalSchemasUserPlainResponseFromJSON)),
-        'metrics': ((json['metrics'] as Array<any>).map(MwServerInternalSchemasMetricResponseFromJSON)),
+        'metrics': ((json['metrics'] as Array<any>).map(MwServerInternalSchemasMetricTreeNodeFromJSON)),
         'name': json['name'],
         'owner': MwServerInternalSchemasUserPlainResponseFromJSON(json['owner']),
         'projectUuid': json['projectUuid'],
@@ -247,7 +247,7 @@ export function MwServerInternalSchemasWayPopulatedResponseToJSON(value?: MwServ
         'jobTags': ((value.jobTags as Array<any>).map(MwServerInternalSchemasJobTagResponseToJSON)),
         'mentorRequests': ((value.mentorRequests as Array<any>).map(MwServerInternalSchemasUserPlainResponseToJSON)),
         'mentors': ((value.mentors as Array<any>).map(MwServerInternalSchemasUserPlainResponseToJSON)),
-        'metrics': ((value.metrics as Array<any>).map(MwServerInternalSchemasMetricResponseToJSON)),
+        'metrics': ((value.metrics as Array<any>).map(MwServerInternalSchemasMetricTreeNodeToJSON)),
         'name': value.name,
         'owner': MwServerInternalSchemasUserPlainResponseToJSON(value.owner),
         'projectUuid': value.projectUuid,

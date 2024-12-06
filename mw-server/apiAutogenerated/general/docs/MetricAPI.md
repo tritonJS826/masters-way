@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwServerInternalSchemasCreateMetricPayload("Description_example", "DoneDate_example", int32(123), false, "WayUuid_example") // MwServerInternalSchemasCreateMetricPayload | query params
+	request := *openapiclient.NewMwServerInternalSchemasCreateMetricPayload("Description_example", "DoneDate_example", int32(123), false, "ParentUuid_example", "WayUuid_example") // MwServerInternalSchemasCreateMetricPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

@@ -32,14 +32,39 @@ type MetricResult struct {
 
 func (ms *MetricService) CreateMetric(ctx context.Context, payload *schemas.CreateMetricPayload) (*MetricResult, error) {
 	now := time.Now()
-	parsedTime, err := time.Parse(util.DEFAULT_STRING_LAYOUT, payload.DoneDate)
+	var parsedTime time.Time
+	var parserTimeErr error
+	if payload.DoneDate != nil && *payload.DoneDate != "" {
+		parsedTime, parserTimeErr = time.Parse(util.DEFAULT_STRING_LAYOUT, *payload.DoneDate)
+	} else {
+		parserTimeErr = nil
+	}
+
+	doneDate := pgtype.Timestamp{
+		Time:  parsedTime,
+		Valid: parserTimeErr == nil, // Set Valid based on parsing result
+	}
+
+	// Handle ParentUuid parsing
+	var parserParentUuid uuid.UUID
+	var parserParentUuidErr error
+	var parentUuid pgtype.UUID
+	if payload.ParentUuid != nil && *payload.ParentUuid != "" {
+		parserParentUuid, parserParentUuidErr = uuid.Parse(*payload.ParentUuid)
+		parentUuid = pgtype.UUID{Bytes: parserParentUuid, Valid: parserParentUuidErr == nil}
+	} else {
+		parentUuid = pgtype.UUID{Valid: false} // Set to "NULL" (Valid: false) if ParentUuid is nil
+	}
+
+	// Construct the db.CreateMetricParams struct
 	args := db.CreateMetricParams{
 		Description:      payload.Description,
 		IsDone:           payload.IsDone,
-		DoneDate:         pgtype.Timestamp{Time: parsedTime, Valid: err != nil},
+		DoneDate:         doneDate,
 		MetricEstimation: int32(payload.MetricEstimation),
 		WayUuid:          pgtype.UUID{Bytes: uuid.MustParse(payload.WayUuid), Valid: true},
 		UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
+		ParentUuid:       parentUuid, // Correctly set ParentUuid (with Valid = false if nil)
 	}
 
 	metric, err := ms.metricRepository.CreateMetric(ctx, args)

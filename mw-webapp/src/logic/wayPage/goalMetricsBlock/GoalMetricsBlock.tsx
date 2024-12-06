@@ -69,8 +69,11 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
   /**
    * Add metric
    */
-  const addEmptyMetric = async () => {
-    const newMetric = await MetricDAL.createMetric({wayUuid: props.wayUuid});
+  const addEmptyMetric = async (parentUuid: string | null) => {
+    const newMetric = await MetricDAL.createMetric({
+      wayUuid: props.wayUuid,
+      parentUuid,
+    });
     props.addMetric(newMetric);
   };
 
@@ -106,7 +109,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
       <VerticalContainer className={styles.addMetricButtons}>
         <Button
           value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
-          onClick={addEmptyMetric}
+          onClick={() => addEmptyMetric(null)}
           dataCy={wayMetricsAccessIds.metricButtons.addNewGoalMetricButton}
         />
         <Modal

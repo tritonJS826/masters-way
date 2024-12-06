@@ -18,15 +18,17 @@ INSERT INTO metrics(
     is_done,
     done_date,
     metric_estimation,
-    way_uuid
+    way_uuid,
+    parent_uuid
 ) VALUES (
     $1,
     $2,
     $3,
     $4,
     $5,
-    $6
-) RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
+    $6,
+    $7
+) RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
 `
 
 type CreateMetricParams struct {
@@ -36,6 +38,7 @@ type CreateMetricParams struct {
 	DoneDate         pgtype.Timestamp `json:"done_date"`
 	MetricEstimation int32            `json:"metric_estimation"`
 	WayUuid          pgtype.UUID      `json:"way_uuid"`
+	ParentUuid       pgtype.UUID      `json:"parent_uuid"`
 }
 
 func (q *Queries) CreateMetric(ctx context.Context, arg CreateMetricParams) (Metric, error) {
@@ -46,6 +49,7 @@ func (q *Queries) CreateMetric(ctx context.Context, arg CreateMetricParams) (Met
 		arg.DoneDate,
 		arg.MetricEstimation,
 		arg.WayUuid,
+		arg.ParentUuid,
 	)
 	var i Metric
 	err := row.Scan(
@@ -57,6 +61,7 @@ func (q *Queries) CreateMetric(ctx context.Context, arg CreateMetricParams) (Met
 		&i.DoneDate,
 		&i.MetricEstimation,
 		&i.WayUuid,
+		&i.ParentUuid,
 	)
 	return i, err
 }
@@ -64,7 +69,7 @@ func (q *Queries) CreateMetric(ctx context.Context, arg CreateMetricParams) (Met
 const deleteMetric = `-- name: DeleteMetric :one
 DELETE FROM metrics
 WHERE uuid = $1
-RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
+RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
 `
 
 func (q *Queries) DeleteMetric(ctx context.Context, metricsUuid pgtype.UUID) (Metric, error) {
@@ -79,12 +84,13 @@ func (q *Queries) DeleteMetric(ctx context.Context, metricsUuid pgtype.UUID) (Me
 		&i.DoneDate,
 		&i.MetricEstimation,
 		&i.WayUuid,
+		&i.ParentUuid,
 	)
 	return i, err
 }
 
 const getListMetricsByWayUuid = `-- name: GetListMetricsByWayUuid :many
-SELECT uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid FROM metrics
+SELECT uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid FROM metrics
 WHERE metrics.way_uuid = $1
 ORDER BY created_at
 `
@@ -107,6 +113,7 @@ func (q *Queries) GetListMetricsByWayUuid(ctx context.Context, wayUuid pgtype.UU
 			&i.DoneDate,
 			&i.MetricEstimation,
 			&i.WayUuid,
+			&i.ParentUuid,
 		); err != nil {
 			return nil, err
 		}
@@ -142,9 +149,9 @@ WITH updated AS (
         done_date = coalesce($4, done_date),
         metric_estimation = coalesce($5, metric_estimation)
     WHERE uuid = $6
-    RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
+    RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
 )
-SELECT uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid
+SELECT uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
 FROM updated
 ORDER BY created_at ASC
 `
@@ -167,6 +174,7 @@ type UpdateMetricRow struct {
 	DoneDate         pgtype.Timestamp `json:"done_date"`
 	MetricEstimation int32            `json:"metric_estimation"`
 	WayUuid          pgtype.UUID      `json:"way_uuid"`
+	ParentUuid       pgtype.UUID      `json:"parent_uuid"`
 }
 
 func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (UpdateMetricRow, error) {
@@ -188,6 +196,7 @@ func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Upd
 		&i.DoneDate,
 		&i.MetricEstimation,
 		&i.WayUuid,
+		&i.ParentUuid,
 	)
 	return i, err
 }
