@@ -8,13 +8,14 @@ Name | Type | Description | Notes
 **DoneDate** | **NullableString** |  | 
 **EstimationTime** | **int32** |  | 
 **IsDone** | **bool** |  | 
+**ParentUuid** | **NullableString** |  | 
 **Uuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwServerInternalSchemasMetricResponse
 
-`func NewMwServerInternalSchemasMetricResponse(description string, doneDate NullableString, estimationTime int32, isDone bool, uuid string, ) *MwServerInternalSchemasMetricResponse`
+`func NewMwServerInternalSchemasMetricResponse(description string, doneDate NullableString, estimationTime int32, isDone bool, parentUuid NullableString, uuid string, ) *MwServerInternalSchemasMetricResponse`
 
 NewMwServerInternalSchemasMetricResponse instantiates a new MwServerInternalSchemasMetricResponse object
 This constructor will assign default values to properties that have it defined,
@@ -119,6 +120,36 @@ and a boolean to check if the value has been set.
 SetIsDone sets IsDone field to given value.
 
 
+### GetParentUuid
+
+`func (o *MwServerInternalSchemasMetricResponse) GetParentUuid() string`
+
+GetParentUuid returns the ParentUuid field if non-nil, zero value otherwise.
+
+### GetParentUuidOk
+
+`func (o *MwServerInternalSchemasMetricResponse) GetParentUuidOk() (*string, bool)`
+
+GetParentUuidOk returns a tuple with the ParentUuid field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentUuid
+
+`func (o *MwServerInternalSchemasMetricResponse) SetParentUuid(v string)`
+
+SetParentUuid sets ParentUuid field to given value.
+
+
+### SetParentUuidNil
+
+`func (o *MwServerInternalSchemasMetricResponse) SetParentUuidNil(b bool)`
+
+ SetParentUuidNil sets the value for ParentUuid to be an explicit nil
+
+### UnsetParentUuid
+`func (o *MwServerInternalSchemasMetricResponse) UnsetParentUuid()`
+
+UnsetParentUuid ensures that no value is present for ParentUuid, not even an explicit nil
 ### GetUuid
 
 `func (o *MwServerInternalSchemasMetricResponse) GetUuid() string`

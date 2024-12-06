@@ -41,6 +41,16 @@ interface MetricProps {
    */
   doneDate: Date | null;
 
+  /**
+   * Parent metric uuid
+   */
+  parentUuid: string | null;
+
+  /**
+   * Metric children
+   */
+  children: MetricProps[];
+
 }
 
 /**
@@ -68,12 +78,24 @@ export class Metric {
    */
   public doneDate: Date | null;
 
+  /**
+   * Parent metric uuid
+   */
+  public parentUuid: string | null;
+
+  /**
+   * Children metrics
+   */
+  public children: Metric[];
+
   constructor(goalMetricData: MetricProps) {
     makeAutoObservable(this);
     this.uuid = goalMetricData.uuid;
     this.description = goalMetricData.description;
     this.isDone = goalMetricData.isDone;
     this.doneDate = goalMetricData.doneDate;
+    this.parentUuid = goalMetricData.parentUuid;
+    this.children = goalMetricData.children.map(metricRaw => new Metric(metricRaw));
   }
 
   /**

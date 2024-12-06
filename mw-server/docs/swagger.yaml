@@ -308,10 +308,14 @@ definitions:
         type: string
       doneDate:
         type: string
+        x-nullable: true
       estimationTime:
         type: integer
       isDone:
         type: boolean
+      parentUuid:
+        type: string
+        x-nullable: true
       wayUuid:
         type: string
     required:
@@ -319,6 +323,7 @@ definitions:
     - doneDate
     - estimationTime
     - isDone
+    - parentUuid
     - wayUuid
     type: object
   mw-server_internal_schemas.CreatePlanJobTagPayload:
@@ -712,6 +717,9 @@ definitions:
         type: integer
       isDone:
         type: boolean
+      parentUuid:
+        type: string
+        x-nullable: true
       uuid:
         type: string
     required:
@@ -719,7 +727,20 @@ definitions:
     - doneDate
     - estimationTime
     - isDone
+    - parentUuid
     - uuid
+    type: object
+  mw-server_internal_schemas.MetricTreeNode:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.MetricTreeNode'
+        type: array
+      metric:
+        $ref: '#/definitions/mw-server_internal_schemas.MetricResponse'
+    required:
+    - children
+    - metric
     type: object
   mw-server_internal_schemas.OverallInformation:
     properties:
@@ -1272,7 +1293,7 @@ definitions:
         type: array
       metrics:
         items:
-          $ref: '#/definitions/mw-server_internal_schemas.MetricResponse'
+          $ref: '#/definitions/mw-server_internal_schemas.MetricTreeNode'
         type: array
       name:
         type: string

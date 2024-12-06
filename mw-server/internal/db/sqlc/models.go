@@ -132,6 +132,7 @@ type Metric struct {
 	DoneDate         pgtype.Timestamp `json:"done_date"`
 	MetricEstimation int32            `json:"metric_estimation"`
 	WayUuid          pgtype.UUID      `json:"way_uuid"`
+	ParentUuid       pgtype.UUID      `json:"parent_uuid"`
 }
 
 type Plan struct {

@@ -22,9 +22,10 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasCreateMetricPayload{}
 // MwGeneralBffInternalSchemasCreateMetricPayload struct for MwGeneralBffInternalSchemasCreateMetricPayload
 type MwGeneralBffInternalSchemasCreateMetricPayload struct {
 	Description string
-	DoneDate string
+	DoneDate NullableString
 	EstimationTime int32
 	IsDone bool
+	ParentUuid NullableString
 	WayUuid string
 }
 
@@ -34,12 +35,13 @@ type _MwGeneralBffInternalSchemasCreateMetricPayload MwGeneralBffInternalSchemas
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasCreateMetricPayload(description string, doneDate string, estimationTime int32, isDone bool, wayUuid string) *MwGeneralBffInternalSchemasCreateMetricPayload {
+func NewMwGeneralBffInternalSchemasCreateMetricPayload(description string, doneDate NullableString, estimationTime int32, isDone bool, parentUuid NullableString, wayUuid string) *MwGeneralBffInternalSchemasCreateMetricPayload {
 	this := MwGeneralBffInternalSchemasCreateMetricPayload{}
 	this.Description = description
 	this.DoneDate = doneDate
 	this.EstimationTime = estimationTime
 	this.IsDone = isDone
+	this.ParentUuid = parentUuid
 	this.WayUuid = wayUuid
 	return &this
 }
@@ -77,27 +79,29 @@ func (o *MwGeneralBffInternalSchemasCreateMetricPayload) SetDescription(v string
 }
 
 // GetDoneDate returns the DoneDate field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetDoneDate() string {
-	if o == nil {
+	if o == nil || o.DoneDate.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.DoneDate
+	return *o.DoneDate.Get()
 }
 
 // GetDoneDateOk returns a tuple with the DoneDate field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetDoneDateOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.DoneDate, true
+	return o.DoneDate.Get(), o.DoneDate.IsSet()
 }
 
 // SetDoneDate sets field value
 func (o *MwGeneralBffInternalSchemasCreateMetricPayload) SetDoneDate(v string) {
-	o.DoneDate = v
+	o.DoneDate.Set(&v)
 }
 
 // GetEstimationTime returns the EstimationTime field value
@@ -148,6 +152,32 @@ func (o *MwGeneralBffInternalSchemasCreateMetricPayload) SetIsDone(v bool) {
 	o.IsDone = v
 }
 
+// GetParentUuid returns the ParentUuid field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetParentUuid() string {
+	if o == nil || o.ParentUuid.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ParentUuid.Get()
+}
+
+// GetParentUuidOk returns a tuple with the ParentUuid field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetParentUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentUuid.Get(), o.ParentUuid.IsSet()
+}
+
+// SetParentUuid sets field value
+func (o *MwGeneralBffInternalSchemasCreateMetricPayload) SetParentUuid(v string) {
+	o.ParentUuid.Set(&v)
+}
+
 // GetWayUuid returns the WayUuid field value
 func (o *MwGeneralBffInternalSchemasCreateMetricPayload) GetWayUuid() string {
 	if o == nil {
@@ -183,9 +213,10 @@ func (o MwGeneralBffInternalSchemasCreateMetricPayload) MarshalJSON() ([]byte, e
 func (o MwGeneralBffInternalSchemasCreateMetricPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["description"] = o.Description
-	toSerialize["doneDate"] = o.DoneDate
+	toSerialize["doneDate"] = o.DoneDate.Get()
 	toSerialize["estimationTime"] = o.EstimationTime
 	toSerialize["isDone"] = o.IsDone
+	toSerialize["parentUuid"] = o.ParentUuid.Get()
 	toSerialize["wayUuid"] = o.WayUuid
 	return toSerialize, nil
 }
@@ -199,6 +230,7 @@ func (o *MwGeneralBffInternalSchemasCreateMetricPayload) UnmarshalJSON(data []by
 		"doneDate",
 		"estimationTime",
 		"isDone",
+		"parentUuid",
 		"wayUuid",
 	}
 

@@ -489,12 +489,18 @@ func (gs *GeneralService) DeleteMentorUserWay(ctx context.Context, userID, wayID
 }
 
 func (gs *GeneralService) CreateMetric(ctx context.Context, payload *schemas.CreateMetricPayload) (*openapiGeneral.MwServerInternalSchemasMetricResponse, error) {
+	var DoneDate, ParentUuid openapiGeneral.NullableString
+
+	DoneDate.Set(payload.DoneDate)
+	ParentUuid.Set(payload.ParentUuid)
+
 	metric, response, err := gs.generalAPI.MetricAPI.CreateMetric(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateMetricPayload{
 		Description:    payload.Description,
-		DoneDate:       payload.DoneDate,
+		DoneDate:       DoneDate,
 		EstimationTime: payload.MetricEstimation,
 		IsDone:         payload.IsDone,
 		WayUuid:        payload.WayUuid,
+		ParentUuid:     ParentUuid,
 	}).Execute()
 
 	if err != nil {

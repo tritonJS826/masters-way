@@ -103,6 +103,7 @@ CREATE TABLE "metrics"(
     "done_date" TIMESTAMP,
     "metric_estimation" INTEGER NOT NULL CHECK (metric_estimation BETWEEN 0 AND 52560000),
     "way_uuid" UUID NOT NULL REFERENCES ways("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "parent_uuid" UUID REFERENCES metrics("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "metrics_pkey" PRIMARY KEY("uuid")
 );
 

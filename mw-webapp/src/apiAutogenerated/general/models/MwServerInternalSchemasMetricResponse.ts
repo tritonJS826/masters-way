@@ -48,6 +48,12 @@ export interface MwServerInternalSchemasMetricResponse {
      * @type {string}
      * @memberof MwServerInternalSchemasMetricResponse
      */
+    parentUuid: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwServerInternalSchemasMetricResponse
+     */
     uuid: string;
 }
 
@@ -62,6 +68,7 @@ export function instanceOfMwServerInternalSchemasMetricResponse(
     isInstance = isInstance && "doneDate" in value;
     isInstance = isInstance && "estimationTime" in value;
     isInstance = isInstance && "isDone" in value;
+    isInstance = isInstance && "parentUuid" in value;
     isInstance = isInstance && "uuid" in value;
 
     return isInstance;
@@ -84,6 +91,7 @@ export function MwServerInternalSchemasMetricResponseFromJSONTyped(
         'doneDate': json['doneDate'],
         'estimationTime': json['estimationTime'],
         'isDone': json['isDone'],
+        'parentUuid': json['parentUuid'],
         'uuid': json['uuid'],
     };
 }
@@ -102,6 +110,7 @@ export function MwServerInternalSchemasMetricResponseToJSON(value?: MwServerInte
         'doneDate': value.doneDate,
         'estimationTime': value.estimationTime,
         'isDone': value.isDone,
+        'parentUuid': value.parentUuid,
         'uuid': value.uuid,
     };
 }

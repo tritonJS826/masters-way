@@ -25,6 +25,7 @@ type MwServerInternalSchemasMetricResponse struct {
 	DoneDate NullableString `json:"doneDate"`
 	EstimationTime int32 `json:"estimationTime"`
 	IsDone bool `json:"isDone"`
+	ParentUuid NullableString `json:"parentUuid"`
 	Uuid string `json:"uuid"`
 }
 
@@ -34,12 +35,13 @@ type _MwServerInternalSchemasMetricResponse MwServerInternalSchemasMetricRespons
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasMetricResponse(description string, doneDate NullableString, estimationTime int32, isDone bool, uuid string) *MwServerInternalSchemasMetricResponse {
+func NewMwServerInternalSchemasMetricResponse(description string, doneDate NullableString, estimationTime int32, isDone bool, parentUuid NullableString, uuid string) *MwServerInternalSchemasMetricResponse {
 	this := MwServerInternalSchemasMetricResponse{}
 	this.Description = description
 	this.DoneDate = doneDate
 	this.EstimationTime = estimationTime
 	this.IsDone = isDone
+	this.ParentUuid = parentUuid
 	this.Uuid = uuid
 	return &this
 }
@@ -150,6 +152,32 @@ func (o *MwServerInternalSchemasMetricResponse) SetIsDone(v bool) {
 	o.IsDone = v
 }
 
+// GetParentUuid returns the ParentUuid field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *MwServerInternalSchemasMetricResponse) GetParentUuid() string {
+	if o == nil || o.ParentUuid.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ParentUuid.Get()
+}
+
+// GetParentUuidOk returns a tuple with the ParentUuid field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MwServerInternalSchemasMetricResponse) GetParentUuidOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentUuid.Get(), o.ParentUuid.IsSet()
+}
+
+// SetParentUuid sets field value
+func (o *MwServerInternalSchemasMetricResponse) SetParentUuid(v string) {
+	o.ParentUuid.Set(&v)
+}
+
 // GetUuid returns the Uuid field value
 func (o *MwServerInternalSchemasMetricResponse) GetUuid() string {
 	if o == nil {
@@ -188,6 +216,7 @@ func (o MwServerInternalSchemasMetricResponse) ToMap() (map[string]interface{}, 
 	toSerialize["doneDate"] = o.DoneDate.Get()
 	toSerialize["estimationTime"] = o.EstimationTime
 	toSerialize["isDone"] = o.IsDone
+	toSerialize["parentUuid"] = o.ParentUuid.Get()
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
 }
@@ -201,6 +230,7 @@ func (o *MwServerInternalSchemasMetricResponse) UnmarshalJSON(data []byte) (err 
 		"doneDate",
 		"estimationTime",
 		"isDone",
+		"parentUuid",
 		"uuid",
 	}
 

@@ -7,6 +7,7 @@ import {Metric} from "src/model/businessModel/Metric";
 export const metricToMetricDTO = (metric: Metric): MwServerInternalSchemasMetricResponse => {
   const metricDTO: MwServerInternalSchemasMetricResponse = {
     ...metric,
+    parentUuid: metric.parentUuid,
     estimationTime: 0,
     doneDate: metric.doneDate?.toISOString() ?? null,
   };

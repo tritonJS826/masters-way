@@ -3131,6 +3131,7 @@ const docTemplate = `{
                 "doneDate",
                 "estimationTime",
                 "isDone",
+                "parentUuid",
                 "wayUuid"
             ],
             "properties": {
@@ -3138,13 +3139,18 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "doneDate": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "estimationTime": {
                     "type": "integer"
                 },
                 "isDone": {
                     "type": "boolean"
+                },
+                "parentUuid": {
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "wayUuid": {
                     "type": "string"
@@ -3713,6 +3719,7 @@ const docTemplate = `{
                 "doneDate",
                 "estimationTime",
                 "isDone",
+                "parentUuid",
                 "uuid"
             ],
             "properties": {
@@ -3729,8 +3736,30 @@ const docTemplate = `{
                 "isDone": {
                     "type": "boolean"
                 },
+                "parentUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "uuid": {
                     "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.MetricTreeNode": {
+            "type": "object",
+            "required": [
+                "children",
+                "metric"
+            ],
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.MetricTreeNode"
+                    }
+                },
+                "metric": {
+                    "$ref": "#/definitions/mw-server_internal_schemas.MetricResponse"
                 }
             }
         },
@@ -4544,7 +4573,7 @@ const docTemplate = `{
                 "metrics": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mw-server_internal_schemas.MetricResponse"
+                        "$ref": "#/definitions/mw-server_internal_schemas.MetricTreeNode"
                     }
                 },
                 "name": {

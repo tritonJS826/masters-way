@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -15,6 +14,4 @@ go.mod
 go.sum
 model_mwstorage_internal_schemas_upload_file_response.go
 response.go
-test/api_dev_test.go
-test/api_file_test.go
 utils.go

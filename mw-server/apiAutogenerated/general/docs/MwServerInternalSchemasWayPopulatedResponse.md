@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **JobTags** | [**[]MwServerInternalSchemasJobTagResponse**](MwServerInternalSchemasJobTagResponse.md) |  | 
 **MentorRequests** | [**[]MwServerInternalSchemasUserPlainResponse**](MwServerInternalSchemasUserPlainResponse.md) |  | 
 **Mentors** | [**[]MwServerInternalSchemasUserPlainResponse**](MwServerInternalSchemasUserPlainResponse.md) |  | 
-**Metrics** | [**[]MwServerInternalSchemasMetricResponse**](MwServerInternalSchemasMetricResponse.md) |  | 
+**Metrics** | [**[]MwServerInternalSchemasMetricTreeNode**](MwServerInternalSchemasMetricTreeNode.md) |  | 
 **Name** | **string** |  | 
 **Owner** | [**MwServerInternalSchemasUserPlainResponse**](MwServerInternalSchemasUserPlainResponse.md) |  | 
 **ProjectUuid** | **NullableString** |  | 
@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewMwServerInternalSchemasWayPopulatedResponse
 
-`func NewMwServerInternalSchemasWayPopulatedResponse(children []MwServerInternalSchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []MwServerInternalSchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []MwServerInternalSchemasJobTagResponse, mentorRequests []MwServerInternalSchemasUserPlainResponse, mentors []MwServerInternalSchemasUserPlainResponse, metrics []MwServerInternalSchemasMetricResponse, name string, owner MwServerInternalSchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []MwServerInternalSchemasWayTagResponse, ) *MwServerInternalSchemasWayPopulatedResponse`
+`func NewMwServerInternalSchemasWayPopulatedResponse(children []MwServerInternalSchemasWayPopulatedResponse, copiedFromWayUuid NullableString, createdAt string, estimationTime int32, favoriteForUsersAmount int32, formerMentors []MwServerInternalSchemasUserPlainResponse, goalDescription string, isCompleted bool, isPrivate bool, jobTags []MwServerInternalSchemasJobTagResponse, mentorRequests []MwServerInternalSchemasUserPlainResponse, mentors []MwServerInternalSchemasUserPlainResponse, metrics []MwServerInternalSchemasMetricTreeNode, name string, owner MwServerInternalSchemasUserPlainResponse, projectUuid NullableString, updatedAt string, uuid string, wayTags []MwServerInternalSchemasWayTagResponse, ) *MwServerInternalSchemasWayPopulatedResponse`
 
 NewMwServerInternalSchemasWayPopulatedResponse instantiates a new MwServerInternalSchemasWayPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -295,20 +295,20 @@ SetMentors sets Mentors field to given value.
 
 ### GetMetrics
 
-`func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetrics() []MwServerInternalSchemasMetricResponse`
+`func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetrics() []MwServerInternalSchemasMetricTreeNode`
 
 GetMetrics returns the Metrics field if non-nil, zero value otherwise.
 
 ### GetMetricsOk
 
-`func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetricsOk() (*[]MwServerInternalSchemasMetricResponse, bool)`
+`func (o *MwServerInternalSchemasWayPopulatedResponse) GetMetricsOk() (*[]MwServerInternalSchemasMetricTreeNode, bool)`
 
 GetMetricsOk returns a tuple with the Metrics field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetrics
 
-`func (o *MwServerInternalSchemasWayPopulatedResponse) SetMetrics(v []MwServerInternalSchemasMetricResponse)`
+`func (o *MwServerInternalSchemasWayPopulatedResponse) SetMetrics(v []MwServerInternalSchemasMetricTreeNode)`
 
 SetMetrics sets Metrics field to given value.
 

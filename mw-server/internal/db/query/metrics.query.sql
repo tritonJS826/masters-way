@@ -5,14 +5,16 @@ INSERT INTO metrics(
     is_done,
     done_date,
     metric_estimation,
-    way_uuid
+    way_uuid,
+    parent_uuid
 ) VALUES (
     @updated_at,
     @description,
     @is_done,
     @done_date,
     @metric_estimation,
-    @way_uuid
+    @way_uuid,
+    @parent_uuid
 ) RETURNING *;
 
 -- name: GetListMetricsByWayUuid :many
