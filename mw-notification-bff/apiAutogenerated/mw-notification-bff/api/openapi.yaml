@@ -50,6 +50,22 @@ paths:
   /notifications:
     get:
       operationId: get-notification-list
+      parameters:
+      - description: Page number for pagination - 1 by default
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page - 50 by default
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Get only new notifications - false by default
+        in: query
+        name: isOnlyNew
+        schema:
+          type: boolean
       responses:
         "200":
           content:

@@ -68,12 +68,31 @@ func (q *Queries) GetAmountOfUnreadNotificationsByUserID(ctx context.Context, us
 const getNotificationListByUserID = `-- name: GetNotificationListByUserID :many
 SELECT uuid, user_uuid, is_read, description, url, nature, created_at
 FROM notifications
-WHERE user_uuid = $1
+WHERE user_uuid = $1 
+    -- return only readd notifications if @only_new = TRUE and all notification other way
+    AND (                                                                 
+        $2 = TRUE AND is_read = FALSE                                
+        OR $2 = FALSE                                               
+        ) 
 ORDER BY created_at DESC
+LIMIT $4
+OFFSET $3
 `
 
-func (q *Queries) GetNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]Notification, error) {
-	rows, err := q.db.Query(ctx, getNotificationListByUserID, userUuid)
+type GetNotificationListByUserIDParams struct {
+	UserUuid      pgtype.UUID `json:"user_uuid"`
+	IsOnlyNew     interface{} `json:"is_only_new"`
+	RequestOffset int32       `json:"request_offset"`
+	RequestLimit  int32       `json:"request_limit"`
+}
+
+func (q *Queries) GetNotificationListByUserID(ctx context.Context, arg GetNotificationListByUserIDParams) ([]Notification, error) {
+	rows, err := q.db.Query(ctx, getNotificationListByUserID,
+		arg.UserUuid,
+		arg.IsOnlyNew,
+		arg.RequestOffset,
+		arg.RequestLimit,
+	)
 	if err != nil {
 		return nil, err
 	}

@@ -131,6 +131,19 @@ paths:
       consumes:
       - application/json
       operationId: get-notification-list
+      parameters:
+      - description: Page number for pagination - 1 by default
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page - 50 by default
+        in: query
+        name: limit
+        type: integer
+      - description: Get only new notifications - false by default
+        in: query
+        name: isOnlyNew
+        type: boolean
       produces:
       - application/json
       responses:

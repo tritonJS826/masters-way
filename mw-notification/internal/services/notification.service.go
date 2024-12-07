@@ -19,7 +19,7 @@ var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users alr
 type NotificationRepository interface {
 	CreateNotification(ctx context.Context, arg db.CreateNotificationParams) (db.Notification, error)
 	UpdateNotification(ctx context.Context, arg db.UpdateNotificationParams) (db.Notification, error)
-	GetNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]db.Notification, error)
+	GetNotificationListByUserID(ctx context.Context, arg db.GetNotificationListByUserIDParams) ([]db.Notification, error)
 	GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (int64, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
@@ -89,10 +89,25 @@ func (ns *NotificationService) UpdateNotification(ctx context.Context, params *U
 	}, nil
 }
 
-func (ns *NotificationService) GetNotificationListByUserID(ctx context.Context, userID uuid.UUID) (*schemas.GetNotificationListResponse, error) {
-	userPgUUID := pgtype.UUID{Bytes: userID, Valid: true}
+type GetNotificationListByUserIDParams struct {
+	UserID    uuid.UUID
+	Page      int32
+	Limit     int32
+	IsOnlyNew bool
+}
 
-	notificationListRaw, err := ns.notificationRepository.GetNotificationListByUserID(ctx, userPgUUID)
+func (ns *NotificationService) GetNotificationListByUserID(ctx context.Context, params *GetNotificationListByUserIDParams) (*schemas.GetNotificationListResponse, error) {
+	offset := (params.Page - 1) * params.Limit
+	userPgUUID := pgtype.UUID{Bytes: params.UserID, Valid: true}
+	arg := db.GetNotificationListByUserIDParams{
+		UserUuid:      pgtype.UUID{Bytes: params.UserID, Valid: true},
+		RequestOffset: offset,
+		RequestLimit:  params.Limit,
+		IsOnlyNew:     params.IsOnlyNew,
+	}
+
+	notificationListRaw, err := ns.
+		notificationRepository.GetNotificationListByUserID(ctx, arg)
 	if err != nil {
 		return nil, err
 	}
