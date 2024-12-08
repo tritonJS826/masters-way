@@ -6,7 +6,7 @@ import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {GoalMetricItem} from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem";
+import {MetricChildrenList} from "src/logic/wayPage/goalMetricsBlock/goalMetricList/GoalMetricList";
 import {MetricsAiModal} from "src/logic/wayPage/goalMetricsBlock/MetricsAiModal";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
@@ -94,20 +94,43 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
         value={doneMetricsAmount}
         max={props.goalMetrics.length}
       />
-      {props.goalMetrics.map((metric) => {
+      <MetricChildrenList
+        level={0}
+        metrics={props.goalMetrics}
+        deleteMetric={deleteMetric}
+        isEditable={props.isEditable}
+        addNestedMetric={(metricUuid: string) => addEmptyMetric(metricUuid)}
+      />
+      {/* {props.goalMetrics.map((metric) => {
         return (
-          <GoalMetricItem
-            key={metric.uuid}
-            metric={metric}
-            deleteMetric={deleteMetric}
-            isEditable={props.isEditable}
-            addNestedMetric={() => {
-              addEmptyMetric(metric.uuid);
-            }}
-          />
+          <VerticalContainer key={metric.uuid}>
+            <HorizontalContainer key={metric.uuid}>
+              {"*".repeat(props.level)}
+              <GoalMetricItem
+                key={metric.uuid}
+                metric={metric}
+                deleteMetric={deleteMetric}
+                isEditable={props.isEditable}
+                addNestedMetric={() => {
+                  addEmptyMetric(metric.uuid);
+                }}
+              />
+            </HorizontalContainer>
+            <GoalMetricsBlock
+              wayUuid={props.wayUuid}
+              isVisible={props.isVisible}
+              goalMetrics={metric.children}
+              addMetric={() => addEmptyMetric(metric.uuid)}
+              deleteMetric={deleteMetric}
+              isEditable={props.isEditable}
+              goalDescription={props.goalDescription}
+              wayName={props.wayName}
+              level={props.level + LEVEL_INCREMENT}
+            />
+          </VerticalContainer>
         );
       })
-      }
+      } */}
       {props.isEditable &&
       <VerticalContainer className={styles.addMetricButtons}>
         <Button

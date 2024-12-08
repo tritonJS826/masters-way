@@ -1,11 +1,11 @@
-import {TrashIcon} from "@radix-ui/react-icons";
 import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -143,11 +143,22 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
 
       </HorizontalContainer>
       {props.isEditable && (
-        <HorizontalContainer>
+        <HorizontalContainer className={styles.metricACtionButtons}>
           <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
             <Confirm
               trigger={
-                <TrashIcon data-cy={wayMetricsAccessIds.deleteMetric.trashButton} />}
+                <Button
+                  icon={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="TrashIcon"
+                    />
+                  }
+                  buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                  onClick={() => {}}
+                  data-cy={wayMetricsAccessIds.deleteMetric.trashButton}
+                />
+              }
               content={<p>
                 {renderMarkdown(
                   `${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`,
@@ -166,7 +177,13 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
             />
           </Tooltip>
           <Button
-            value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
+            icon={
+              <Icon
+                size={IconSize.SMALL}
+                name="PlusIcon"
+              />
+            }
+            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
             onClick={props.addNestedMetric}
           />
         </HorizontalContainer>
