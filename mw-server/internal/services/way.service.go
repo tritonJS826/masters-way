@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"log"
 	db "mw-server/internal/db/sqlc"
 	"mw-server/internal/schemas"
@@ -118,6 +119,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	})
 
 	metricsRaw, _ := ws.wayRepository.GetListMetricsByWayUuid(ctx, wayPgUUID)
+	fmt.Println(metricsRaw[1].ParentUuid)
 	metrics := lo.Map(metricsRaw, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             util.ConvertPgUUIDToUUID(dbMetric.Uuid).String(),
@@ -125,9 +127,11 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 			IsDone:           dbMetric.IsDone,
 			DoneDate:         util.MarshalPgTimestamp(dbMetric.DoneDate),
 			MetricEstimation: dbMetric.MetricEstimation,
+			ParentUuid:       util.MarshalPgUUID(dbMetric.ParentUuid),
 		}
 	})
 
+	fmt.Println(metrics[1].ParentUuid)
 	buildMetricTree := func(metrics []schemas.MetricResponse) []*schemas.MetricTreeNode {
 		nodeMap := make(map[string]*schemas.MetricTreeNode)
 
@@ -160,6 +164,7 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	}
 
 	metricsTree := buildMetricTree(metrics)
+	println(len(metricsTree))
 
 	wayTagsRaw, _ := ws.wayRepository.GetListWayTagsByWayId(ctx, wayPgUUID)
 	wayTags := lo.Map(wayTagsRaw, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {
