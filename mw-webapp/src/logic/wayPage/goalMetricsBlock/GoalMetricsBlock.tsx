@@ -101,6 +101,9 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
             metric={metric}
             deleteMetric={deleteMetric}
             isEditable={props.isEditable}
+            addNestedMetric={() => {
+              addEmptyMetric(metric.uuid);
+            }}
           />
         );
       })

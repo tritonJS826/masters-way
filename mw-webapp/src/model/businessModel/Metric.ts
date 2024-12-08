@@ -113,4 +113,18 @@ export class Metric {
     this.doneDate = params.doneDateToUpdate;
   }
 
+  /**
+   * Add new nested metric to metric
+   */
+  public addNestedMetric(newMetric: Metric): void {
+    this.children.push(newMetric);
+  }
+
+  /**
+   * Delete nested metric from metric
+   */
+  public deleteNestedMetric(metricUuid: string): void {
+    this.children.filter(child => child.uuid !== metricUuid);
+  }
+
 }

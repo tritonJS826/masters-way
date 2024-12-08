@@ -343,7 +343,14 @@ export class Way {
    * Add new metric to way
    */
   public addMetric(newMetric: Metric): void {
-    this.metrics.push(newMetric);
+    const parentMetric = this.metrics.find(metric => metric.uuid === metric.parentUuid);
+    switch (typeof newMetric.parentUuid) {
+      case "string":
+        parentMetric?.children.push(newMetric);
+        break;
+      default:
+        this.metrics.push(newMetric);
+    }
   }
 
   /**
