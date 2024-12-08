@@ -73,7 +73,6 @@ models/MwServerInternalSchemasGenerateMetricsResponse.ts
 models/MwServerInternalSchemasGetAllUsersResponse.ts
 models/MwServerInternalSchemasGetAllWaysResponse.ts
 models/MwServerInternalSchemasGetAuthCallbackFunctionResponse.ts
-models/MwServerInternalSchemasGetUsersByIDsResponse.ts
 models/MwServerInternalSchemasGoogleToken.ts
 models/MwServerInternalSchemasJobDonePopulatedResponse.ts
 models/MwServerInternalSchemasJobTagResponse.ts
@@ -88,8 +87,12 @@ models/MwServerInternalSchemasPlanPopulatedResponse.ts
 models/MwServerInternalSchemasProblemPopulatedResponse.ts
 models/MwServerInternalSchemasProjectPlainResponse.ts
 models/MwServerInternalSchemasProjectPopulatedResponse.ts
+<<<<<<< HEAD
 models/MwServerInternalSchemasRefreshAccessTokenPayload.ts
 models/MwServerInternalSchemasRefreshAccessTokenResponse.ts
+=======
+models/MwServerInternalSchemasShortUser.ts
+>>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
 models/MwServerInternalSchemasTimeSpentByDayPoint.ts
 models/MwServerInternalSchemasToUserMentoringRequestResponse.ts
 models/MwServerInternalSchemasUpdateCommentPayload.ts

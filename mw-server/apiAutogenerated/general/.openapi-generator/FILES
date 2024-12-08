@@ -92,7 +92,6 @@ docs/MwServerInternalSchemasGenerateMetricsResponse.md
 docs/MwServerInternalSchemasGetAllUsersResponse.md
 docs/MwServerInternalSchemasGetAllWaysResponse.md
 docs/MwServerInternalSchemasGetAuthCallbackFunctionResponse.md
-docs/MwServerInternalSchemasGetUsersByIDsResponse.md
 docs/MwServerInternalSchemasGoogleToken.md
 docs/MwServerInternalSchemasJobDonePopulatedResponse.md
 docs/MwServerInternalSchemasJobTagResponse.md
@@ -107,8 +106,12 @@ docs/MwServerInternalSchemasPlanPopulatedResponse.md
 docs/MwServerInternalSchemasProblemPopulatedResponse.md
 docs/MwServerInternalSchemasProjectPlainResponse.md
 docs/MwServerInternalSchemasProjectPopulatedResponse.md
+<<<<<<< HEAD
 docs/MwServerInternalSchemasRefreshAccessTokenPayload.md
 docs/MwServerInternalSchemasRefreshAccessTokenResponse.md
+=======
+docs/MwServerInternalSchemasShortUser.md
+>>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
 docs/MwServerInternalSchemasTimeSpentByDayPoint.md
 docs/MwServerInternalSchemasToUserMentoringRequestResponse.md
 docs/MwServerInternalSchemasUpdateCommentPayload.md
@@ -195,7 +198,6 @@ model_mw_server_internal_schemas_generate_metrics_response.go
 model_mw_server_internal_schemas_get_all_users_response.go
 model_mw_server_internal_schemas_get_all_ways_response.go
 model_mw_server_internal_schemas_get_auth_callback_function_response.go
-model_mw_server_internal_schemas_get_users_by_ids_response.go
 model_mw_server_internal_schemas_google_token.go
 model_mw_server_internal_schemas_job_done_populated_response.go
 model_mw_server_internal_schemas_job_tag_response.go
@@ -210,8 +212,12 @@ model_mw_server_internal_schemas_plan_populated_response.go
 model_mw_server_internal_schemas_problem_populated_response.go
 model_mw_server_internal_schemas_project_plain_response.go
 model_mw_server_internal_schemas_project_populated_response.go
+<<<<<<< HEAD
 model_mw_server_internal_schemas_refresh_access_token_payload.go
 model_mw_server_internal_schemas_refresh_access_token_response.go
+=======
+model_mw_server_internal_schemas_short_user.go
+>>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
 model_mw_server_internal_schemas_time_spent_by_day_point.go
 model_mw_server_internal_schemas_to_user_mentoring_request_response.go
 model_mw_server_internal_schemas_update_comment_payload.go

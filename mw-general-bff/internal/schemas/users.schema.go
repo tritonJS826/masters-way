@@ -67,3 +67,10 @@ type GetUsersByIDsResponse struct {
 	Name     string `json:"name" validate:"required"`
 	ImageURL string `json:"imageUrl" validate:"required"`
 }
+
+type ShortUser struct {
+	UserID   string `json:"userId" validate:"required"`
+	Email    string `json:"email" validate:"required"`
+	Name     string `json:"name" validate:"required"`
+	ImageURL string `json:"imageUrl" validate:"required"`
+}

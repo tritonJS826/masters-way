@@ -28,7 +28,7 @@ func NewNotificationController(
 
 func (nc *NotificationController) CreateNotifications(ctx context.Context, in *pb.CreateNotificationRequest) (*pb.CreateNotificationsResponse, error) {
 	userUUIDs := in.GetUserUuids()
-	createNotificationList := make([]*pb.CreateNotificationResponse, 0, len(userUUIDs))
+	createNotificationList := make([]*pb.NotificationWithSettings, 0, len(userUUIDs))
 	for _, userUUID := range userUUIDs {
 		params := &services.CreateNotificationParams{
 			UserID:      uuid.MustParse(userUUID),
@@ -65,14 +65,14 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 			}
 		})
 
-		createNotificationList = append(createNotificationList, &pb.CreateNotificationResponse{
+		createNotificationList = append(createNotificationList, &pb.NotificationWithSettings{
 			Notification:            notification,
 			NotificationSettingList: notificationSettingList,
 		})
 	}
 
 	return &pb.CreateNotificationsResponse{
-		CreateNotificationList: createNotificationList,
+		NotificationWithSettingsList: createNotificationList,
 	}, nil
 }
 

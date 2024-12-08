@@ -205,7 +205,6 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasGetAllUsersResponse](docs/MwServerInternalSchemasGetAllUsersResponse.md)
  - [MwServerInternalSchemasGetAllWaysResponse](docs/MwServerInternalSchemasGetAllWaysResponse.md)
  - [MwServerInternalSchemasGetAuthCallbackFunctionResponse](docs/MwServerInternalSchemasGetAuthCallbackFunctionResponse.md)
- - [MwServerInternalSchemasGetUsersByIDsResponse](docs/MwServerInternalSchemasGetUsersByIDsResponse.md)
  - [MwServerInternalSchemasGoogleToken](docs/MwServerInternalSchemasGoogleToken.md)
  - [MwServerInternalSchemasJobDonePopulatedResponse](docs/MwServerInternalSchemasJobDonePopulatedResponse.md)
  - [MwServerInternalSchemasJobTagResponse](docs/MwServerInternalSchemasJobTagResponse.md)
@@ -220,8 +219,12 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasProblemPopulatedResponse](docs/MwServerInternalSchemasProblemPopulatedResponse.md)
  - [MwServerInternalSchemasProjectPlainResponse](docs/MwServerInternalSchemasProjectPlainResponse.md)
  - [MwServerInternalSchemasProjectPopulatedResponse](docs/MwServerInternalSchemasProjectPopulatedResponse.md)
+<<<<<<< HEAD
  - [MwServerInternalSchemasRefreshAccessTokenPayload](docs/MwServerInternalSchemasRefreshAccessTokenPayload.md)
  - [MwServerInternalSchemasRefreshAccessTokenResponse](docs/MwServerInternalSchemasRefreshAccessTokenResponse.md)
+=======
+ - [MwServerInternalSchemasShortUser](docs/MwServerInternalSchemasShortUser.md)
+>>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
  - [MwServerInternalSchemasTimeSpentByDayPoint](docs/MwServerInternalSchemasTimeSpentByDayPoint.md)
  - [MwServerInternalSchemasToUserMentoringRequestResponse](docs/MwServerInternalSchemasToUserMentoringRequestResponse.md)
  - [MwServerInternalSchemasUpdateCommentPayload](docs/MwServerInternalSchemasUpdateCommentPayload.md)

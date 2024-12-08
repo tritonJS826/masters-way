@@ -155,7 +155,7 @@ No authorization required
 
 ## GetUsersByIds
 
-> []MwServerInternalSchemasGetUsersByIDsResponse GetUsersByIds(ctx).Request(request).Execute()
+> []MwServerInternalSchemasShortUser GetUsersByIds(ctx).Request(request).Execute()
 
 Get users by ids
 
@@ -181,7 +181,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `UserAPI.GetUsersByIds``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetUsersByIds`: []MwServerInternalSchemasGetUsersByIDsResponse
+	// response from `GetUsersByIds`: []MwServerInternalSchemasShortUser
 	fmt.Fprintf(os.Stdout, "Response from `UserAPI.GetUsersByIds`: %v\n", resp)
 }
 ```
@@ -201,7 +201,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]MwServerInternalSchemasGetUsersByIDsResponse**](MwServerInternalSchemasGetUsersByIDsResponse.md)
+[**[]MwServerInternalSchemasShortUser**](MwServerInternalSchemasShortUser.md)
 
 ### Authorization
 

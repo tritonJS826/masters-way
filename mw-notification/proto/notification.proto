@@ -51,10 +51,29 @@ enum Channel {
 }
 
 message CreateNotificationRequest {
-    repeated string user_uuids = 1;
-    string description = 2;
-    string url = 3;
-    Nature nature = 4;
+    repeated Receivers receivers = 1;
+    Nature nature = 2;
+}
+
+message Receivers {
+    string user_uuid = 1;
+    string email = 2;
+    oneof dataForReceivers {
+        DataForOwnWayReceiver own_way_data = 3;
+        DataForMentoringWayReceiver mentoring_way_data = 4;
+    }
+}
+
+message DataForOwnWayReceiver {
+    string NotificationCreatorImageUrl = 1;
+    string WayId = 2;
+    string WayName = 3;
+}
+
+message DataForMentoringWayReceiver {
+   string NotificationCreatorImageUrl = 1;
+   string WayId = 2;
+   string WayName = 3;
 }
 
 message NotificationWithSettings {

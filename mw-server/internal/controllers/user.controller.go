@@ -113,7 +113,7 @@ func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param request body []string true "query params"
-// @Success 200 {object} []schemas.GetUsersByIDsResponse
+// @Success 200 {object} []schemas.ShortUser
 // @Router /users/list-by-ids [get]
 func (uc *UserController) GetUsersByIDs(ctx *gin.Context) {
 	var userIDs []string

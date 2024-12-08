@@ -575,22 +575,6 @@ definitions:
     - isAlreadyCreated
     - url
     type: object
-  mw-server_internal_schemas.GetUsersByIDsResponse:
-    properties:
-      email:
-        type: string
-      imageUrl:
-        type: string
-      name:
-        type: string
-      userId:
-        type: string
-    required:
-    - email
-    - imageUrl
-    - name
-    - userId
-    type: object
   mw-server_internal_schemas.GoogleToken:
     properties:
       accessToken:
@@ -887,6 +871,7 @@ definitions:
     - users
     - ways
     type: object
+<<<<<<< HEAD
   mw-server_internal_schemas.RefreshAccessTokenPayload:
     properties:
       refreshToken:
@@ -900,6 +885,23 @@ definitions:
         type: string
     required:
     - accessToken
+=======
+  mw-server_internal_schemas.ShortUser:
+    properties:
+      email:
+        type: string
+      imageUrl:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+    required:
+    - email
+    - imageUrl
+    - name
+    - userId
+>>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
     type: object
   mw-server_internal_schemas.TimeSpentByDayPoint:
     properties:
@@ -2837,7 +2839,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/mw-server_internal_schemas.GetUsersByIDsResponse'
+              $ref: '#/definitions/mw-server_internal_schemas.ShortUser'
             type: array
       summary: Get users by ids
       tags:

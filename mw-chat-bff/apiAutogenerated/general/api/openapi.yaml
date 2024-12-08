@@ -1371,7 +1371,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/mw-server_internal_schemas.GetUsersByIDsResponse'
+                  $ref: '#/components/schemas/mw-server_internal_schemas.ShortUser'
                 type: array
           description: OK
       summary: Get users by ids
@@ -2918,27 +2918,6 @@ components:
       - isAlreadyCreated
       - url
       type: object
-    mw-server_internal_schemas.GetUsersByIDsResponse:
-      example:
-        imageUrl: imageUrl
-        name: name
-        userId: userId
-        email: email
-      properties:
-        email:
-          type: string
-        imageUrl:
-          type: string
-        name:
-          type: string
-        userId:
-          type: string
-      required:
-      - email
-      - imageUrl
-      - name
-      - userId
-      type: object
     mw-server_internal_schemas.GoogleToken:
       example:
         accessToken: accessToken
@@ -3753,6 +3732,7 @@ components:
       - users
       - ways
       type: object
+<<<<<<< HEAD
     mw-server_internal_schemas.RefreshAccessTokenPayload:
       properties:
         refreshToken:
@@ -3768,6 +3748,28 @@ components:
           type: string
       required:
       - accessToken
+=======
+    mw-server_internal_schemas.ShortUser:
+      example:
+        imageUrl: imageUrl
+        name: name
+        userId: userId
+        email: email
+      properties:
+        email:
+          type: string
+        imageUrl:
+          type: string
+        name:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - imageUrl
+      - name
+      - userId
+>>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
       type: object
     mw-server_internal_schemas.TimeSpentByDayPoint:
       example:

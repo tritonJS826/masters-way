@@ -1188,21 +1188,14 @@ func (gs *GeneralService) GeneralHealthCheck(ctx context.Context) error {
 	return nil
 }
 
-type ShortUser struct {
-	UserID   string
-	Email    string
-	Name     string
-	ImageURL string
-}
-
-func (gs *GeneralService) GetUserByIds(ctx context.Context, userIDs []string) (map[string]ShortUser, error) {
+func (gs *GeneralService) GetUserByIds(ctx context.Context, userIDs []string) ([]schemas.ShortUser, error) {
 	chatUsersData, response, err := gs.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
 	}
 
-	userMap := lo.SliceToMap(chatUsersData, func(userData openapiGeneral.MwServerInternalSchemasGetUsersByIDsResponse) (string, ShortUser) {
-		return userData.UserId, ShortUser{
+	shortUsers := lo.Map(chatUsersData, func(userData openapiGeneral.MwServerInternalSchemasShortUser, _ int) schemas.ShortUser {
+		return schemas.ShortUser{
 			UserID:   userData.UserId,
 			Email:    userData.Email,
 			Name:     userData.Name,
@@ -1210,5 +1203,5 @@ func (gs *GeneralService) GetUserByIds(ctx context.Context, userIDs []string) (m
 		}
 	})
 
-	return userMap, nil
+	return shortUsers, nil
 }

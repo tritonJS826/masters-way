@@ -153,7 +153,7 @@ func (us *UserService) GetAllUsers(ctx context.Context, params *GetAllUsersParam
 	return &schemas.GetAllUsersResponse{Size: usersSize, Users: response}, nil
 }
 
-func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {
+func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.ShortUser, error) {
 	usersPgUUIDs := lo.Map(userIDs, func(userID string, i int) pgtype.UUID {
 		return pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
 	})
@@ -167,13 +167,13 @@ func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]s
 		return util.ConvertPgUUIDToUUID(dbUser.Uuid).String(), dbUser
 	})
 
-	response := lo.Map(userIDs, func(userID string, _ int) schemas.GetUsersByIDsResponse {
+	response := lo.Map(userIDs, func(userID string, _ int) schemas.ShortUser {
 		dbUser, exists := dbUsersMap[userID]
 		if !exists {
 			err = fmt.Errorf("User ID %s not found in the database", userID)
 		}
 
-		return schemas.GetUsersByIDsResponse{
+		return schemas.ShortUser{
 			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
 			Email:    dbUser.Email,
 			Name:     dbUser.Name,

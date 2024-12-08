@@ -28,21 +28,16 @@ const (
 	FavoriteWay      Nature = "favorite_way"
 )
 
-type CreateNotificationsParams struct {
-	UserUUIDs   []string
-	Description string
-	Url         string
-	Nature      Nature
-}
-
-func (ns *NotificationService) CreateNotifications(ctx context.Context, params *CreateNotificationsParams) (*pb.CreateNotificationsResponse, error) {
+func (ns *NotificationService) CreateNotifications(ctx context.Context, params *pb.CreateNotificationRequest) (*pb.CreateNotificationsResponse, error) {
 	in := &pb.CreateNotificationRequest{
-		UserUuids:   params.UserUUIDs,
-		Description: params.Description,
-		Url:         params.Url,
-		Nature:      pb.Nature(pb.Nature_value[string(params.Nature)]),
+		Recievers:        []*pb.Recievers{},
+		DataForRecievers: nil,
+		Nature:           pb.Nature(pb.Nature_value[string(params.Nature)]),
 	}
 
+	// UserUuids:   params.UserUUIDs,
+	// Description: params.Description,
+	// Url:         params.Url,
 	createNotificationsResponseRaw, err := ns.notificationGRPC.CreateNotifications(ctx, in)
 	if err != nil {
 		return nil, err

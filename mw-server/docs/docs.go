@@ -2140,7 +2140,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/mw-server_internal_schemas.GetUsersByIDsResponse"
+                                "$ref": "#/definitions/mw-server_internal_schemas.ShortUser"
                             }
                         }
                     }
@@ -3557,29 +3557,6 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-server_internal_schemas.GetUsersByIDsResponse": {
-            "type": "object",
-            "required": [
-                "email",
-                "imageUrl",
-                "name",
-                "userId"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "imageUrl": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
         "mw-server_internal_schemas.GoogleToken": {
             "type": "object",
             "required": [
@@ -4000,6 +3977,7 @@ const docTemplate = `{
                 }
             }
         },
+<<<<<<< HEAD
         "mw-server_internal_schemas.RefreshAccessTokenPayload": {
             "type": "object",
             "required": [
@@ -4018,6 +3996,27 @@ const docTemplate = `{
             ],
             "properties": {
                 "accessToken": {
+=======
+        "mw-server_internal_schemas.ShortUser": {
+            "type": "object",
+            "required": [
+                "email",
+                "imageUrl",
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
+>>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
                     "type": "string"
                 }
             }

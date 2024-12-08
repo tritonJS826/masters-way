@@ -62,7 +62,7 @@ type GetAllUsersResponse struct {
 	Users []UserPlainResponseWithInfo `json:"users" validate:"required"`
 }
 
-type GetUsersByIDsResponse struct {
+type ShortUser struct {
 	UserID   string `json:"userId" validate:"required"`
 	Email    string `json:"email" validate:"required"`
 	Name     string `json:"name" validate:"required"`
