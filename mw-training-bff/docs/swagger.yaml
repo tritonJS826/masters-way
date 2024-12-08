@@ -1,0 +1,436 @@
+basePath: /training
+definitions:
+  mw-training-bff_internal_schemas.CreateMessagePayload:
+    properties:
+      message:
+        type: string
+      roomId:
+        type: string
+    required:
+    - message
+    - roomId
+    type: object
+  mw-training-bff_internal_schemas.CreateRoomPayload:
+    properties:
+      name:
+        type: string
+        x-nullable: true
+      roomType:
+        type: string
+      userId:
+        type: string
+        x-nullable: true
+    required:
+    - roomType
+    type: object
+  mw-training-bff_internal_schemas.GetRoomPreviewResponse:
+    properties:
+      unreadMessagesAmount:
+        type: integer
+    required:
+    - unreadMessagesAmount
+    type: object
+  mw-training-bff_internal_schemas.GetRoomsResponse:
+    properties:
+      rooms:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.RoomPreviewResponse'
+        type: array
+      size:
+        type: integer
+    required:
+    - rooms
+    - size
+    type: object
+  mw-training-bff_internal_schemas.MessageReader:
+    properties:
+      ownerImageUrl:
+        type: string
+      ownerName:
+        type: string
+      readDate:
+        type: string
+      userId:
+        type: string
+    required:
+    - ownerImageUrl
+    - ownerName
+    - readDate
+    - userId
+    type: object
+  mw-training-bff_internal_schemas.MessageResponse:
+    properties:
+      message:
+        type: string
+      messageId:
+        type: string
+      messageReaders:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.MessageReader'
+        type: array
+      ownerId:
+        type: string
+      ownerImageUrl:
+        type: string
+      ownerName:
+        type: string
+    required:
+    - message
+    - messageId
+    - messageReaders
+    - ownerId
+    - ownerImageUrl
+    - ownerName
+    type: object
+  mw-training-bff_internal_schemas.RoomPopulatedResponse:
+    properties:
+      imageUrl:
+        type: string
+      isBlocked:
+        type: boolean
+      messages:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.MessageResponse'
+        type: array
+      name:
+        type: string
+      roomId:
+        type: string
+      roomType:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UserResponse'
+        type: array
+    required:
+    - imageUrl
+    - isBlocked
+    - messages
+    - name
+    - roomId
+    - roomType
+    - users
+    type: object
+  mw-training-bff_internal_schemas.RoomPreviewResponse:
+    properties:
+      imageUrl:
+        type: string
+      isBlocked:
+        type: boolean
+      name:
+        type: string
+      roomId:
+        type: string
+      roomType:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UserResponse'
+        type: array
+    required:
+    - imageUrl
+    - isBlocked
+    - name
+    - roomId
+    - roomType
+    - users
+    type: object
+  mw-training-bff_internal_schemas.UpdateMessageStatusPayload:
+    properties:
+      isRead:
+        type: boolean
+    required:
+    - isRead
+    type: object
+  mw-training-bff_internal_schemas.UploadFileResponse:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      ownerId:
+        type: string
+      previewUrl:
+        type: string
+      srcUrl:
+        type: string
+    required:
+    - id
+    - name
+    - ownerId
+    - previewUrl
+    - srcUrl
+    type: object
+  mw-training-bff_internal_schemas.UserResponse:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+      role:
+        type: string
+      userId:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - role
+    - userId
+    type: object
+info:
+  contact: {}
+  title: Masters way training-bff API
+  version: "1.0"
+paths:
+  /files:
+    delete:
+      consumes:
+      - application/json
+      description: Delete multiple files from the server storage using their IDs
+      operationId: delete-files
+      parameters:
+      - description: List of file IDs to delete
+        in: body
+        name: fileIDs
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete files by IDs
+      tags:
+      - file
+    post:
+      consumes:
+      - multipart/form-data
+      description: Uploads a file to the server and stores it in the designated storage
+        path
+      operationId: upload-file
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: Room id
+        in: query
+        name: roomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.UploadFileResponse'
+      summary: Upload file to storage
+      tags:
+      - file
+  /messages:
+    post:
+      consumes:
+      - application/json
+      operationId: create-message
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateMessagePayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.MessageResponse'
+      summary: Create message
+      tags:
+      - message
+  /messages/{messageId}/message-status:
+    patch:
+      consumes:
+      - application/json
+      description: Update message status by message Id
+      operationId: update-message-status
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateMessageStatusPayload'
+      - description: message Id
+        in: path
+        name: messageId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Update message status
+      tags:
+      - message
+  /rooms:
+    post:
+      consumes:
+      - application/json
+      operationId: find-or-create-room
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateRoomPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+      summary: Find or create room for user
+      tags:
+      - room
+  /rooms/{roomId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-room-by-id
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+      summary: Get room by id
+      tags:
+      - room
+    patch:
+      consumes:
+      - application/json
+      operationId: update-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+      summary: Update room
+      tags:
+      - room
+  /rooms/{roomId}/users/{userId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-user-from-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+      summary: Delete user from room
+      tags:
+      - room
+    post:
+      consumes:
+      - application/json
+      operationId: add-user-to-room
+      parameters:
+      - description: room Id
+        in: path
+        name: roomId
+        required: true
+        type: string
+      - description: user Id to delete
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+      summary: Add user to room
+      tags:
+      - room
+  /rooms/list/{roomType}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-rooms
+      parameters:
+      - description: 'room type: private | group'
+        enum:
+        - private
+        - group
+        in: path
+        name: roomType
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.GetRoomsResponse'
+      summary: Get rooms for user
+      tags:
+      - room
+  /rooms/preview:
+    get:
+      consumes:
+      - application/json
+      operationId: get-chat-preview
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.GetRoomPreviewResponse'
+      summary: Get chat preview
+      tags:
+      - room
+swagger: "2.0"

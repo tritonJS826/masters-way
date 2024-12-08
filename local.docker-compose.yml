@@ -28,6 +28,20 @@ services:
     networks:
       - app-network
 
+  postgres-training:
+    build:
+      context: .
+      dockerfile: ./postgres/postgres-training.Dockerfile
+    container_name: postgres-training
+    ports:
+      - "5440:5432"
+    volumes:
+      - postgres-training:/var/lib/postgresql/data
+    env_file:
+      - ./mw-training/.env
+    networks:
+      - app-network
+
   postgres-storage:
     build:
       context: .
@@ -121,6 +135,8 @@ volumes:
   postgres-survey:
   postgres-notification:
   postgres-mail:
+  postgres-training:
+
 
 networks:
   app-network:
