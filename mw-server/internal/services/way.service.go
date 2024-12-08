@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 	"log"
 	db "mw-server/internal/db/sqlc"
 	"mw-server/internal/schemas"
@@ -117,9 +116,8 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 			IsMentor:    dbMentor.IsMentor,
 		}
 	})
-
 	metricsRaw, _ := ws.wayRepository.GetListMetricsByWayUuid(ctx, wayPgUUID)
-	fmt.Println(metricsRaw[1].ParentUuid)
+
 	metrics := lo.Map(metricsRaw, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             util.ConvertPgUUIDToUUID(dbMetric.Uuid).String(),
@@ -131,7 +129,6 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 		}
 	})
 
-	fmt.Println(metrics[1].ParentUuid)
 	buildMetricTree := func(metrics []schemas.MetricResponse) []*schemas.MetricTreeNode {
 		nodeMap := make(map[string]*schemas.MetricTreeNode)
 
