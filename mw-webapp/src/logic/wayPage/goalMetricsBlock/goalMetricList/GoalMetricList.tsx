@@ -13,6 +13,7 @@ import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/goalMetricsBlock/goalMetricList/GoalMetricList.module.scss";
 
 /**
@@ -43,7 +44,7 @@ interface MetricChildrenListProps {
   /**
    * Add nested metric
    */
-  addNestedMetric: (metricUuid: string) => void;
+  addNestedMetric: (childMetric: string) => void;
 
 }
 
@@ -83,7 +84,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
       <VerticalContainer>
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
-            {"*".repeat(props.level)}
+            {Symbols.LAST_NESTED_MARKER.repeat(props.level)}
             {childMetric.isDone && props.isEditable
               ? (
                 <Confirm
@@ -155,6 +156,16 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
           </HorizontalContainer>
           {props.isEditable && (
             <HorizontalContainer className={styles.metricACtionButtons}>
+              <Button
+                icon={
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="PlusIcon"
+                  />
+                }
+                buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                onClick={() => props.addNestedMetric(childMetric.uuid)}
+              />
               <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
                 <Confirm
                   trigger={
@@ -187,16 +198,6 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                   }
                 />
               </Tooltip>
-              <Button
-                icon={
-                  <Icon
-                    size={IconSize.SMALL}
-                    name="PlusIcon"
-                  />
-                }
-                buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                onClick={() => props.addNestedMetric(childMetric.uuid)}
-              />
             </HorizontalContainer>
           )
           }

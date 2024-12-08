@@ -97,40 +97,10 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
       <MetricChildrenList
         level={0}
         metrics={props.goalMetrics}
-        deleteMetric={deleteMetric}
+        deleteMetric={(metricUuid: string) => deleteMetric(metricUuid)}
         isEditable={props.isEditable}
         addNestedMetric={(metricUuid: string) => addEmptyMetric(metricUuid)}
       />
-      {/* {props.goalMetrics.map((metric) => {
-        return (
-          <VerticalContainer key={metric.uuid}>
-            <HorizontalContainer key={metric.uuid}>
-              {"*".repeat(props.level)}
-              <GoalMetricItem
-                key={metric.uuid}
-                metric={metric}
-                deleteMetric={deleteMetric}
-                isEditable={props.isEditable}
-                addNestedMetric={() => {
-                  addEmptyMetric(metric.uuid);
-                }}
-              />
-            </HorizontalContainer>
-            <GoalMetricsBlock
-              wayUuid={props.wayUuid}
-              isVisible={props.isVisible}
-              goalMetrics={metric.children}
-              addMetric={() => addEmptyMetric(metric.uuid)}
-              deleteMetric={deleteMetric}
-              isEditable={props.isEditable}
-              goalDescription={props.goalDescription}
-              wayName={props.wayName}
-              level={props.level + LEVEL_INCREMENT}
-            />
-          </VerticalContainer>
-        );
-      })
-      } */}
       {props.isEditable &&
       <VerticalContainer className={styles.addMetricButtons}>
         <Button
