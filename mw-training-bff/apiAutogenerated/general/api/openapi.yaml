@@ -1,0 +1,5290 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  title: Masters way general API
+  version: "1.0"
+servers:
+- url: /general
+paths:
+  /auth/current:
+    get:
+      operationId: get-current-authorized-user
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.UserPopulatedResponse'
+          description: OK
+      summary: Get current authorized user
+      tags:
+      - auth
+  /auth/google-token:
+    get:
+      description: This endpoint retrieves the Google access token for an authenticated
+        user.
+      operationId: get-google-token
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.GoogleToken'
+          description: OK
+      summary: Retrieve Google Access Token
+      tags:
+      - auth
+  /auth/login/local/{userEmail}:
+    get:
+      description: Login locally by providing an email address.
+      operationId: get token locally
+      parameters:
+      - description: email
+        in: path
+        name: userEmail
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.GetAuthCallbackFunctionResponse'
+          description: OK
+      summary: login locally by email (with no oauth)
+      tags:
+      - auth
+  /auth/logout/{provider}:
+    get:
+      operationId: logout-current-authorized-user
+      parameters:
+      - description: google
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Logout current authorized user
+      tags:
+      - auth
+  /auth/{provider}:
+    get:
+      operationId: begin-auth
+      parameters:
+      - description: google
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.BeginAuthResponse'
+          description: OK
+      summary: Begin oauth
+      tags:
+      - auth
+  /auth/{provider}/callback:
+    get:
+      operationId: google auth log in callback function
+      parameters:
+      - description: code param
+        in: query
+        name: code
+        required: true
+        schema:
+          type: string
+      - description: state parameter
+        in: query
+        name: state
+        required: true
+        schema:
+          type: string
+      - description: google
+        in: path
+        name: provider
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.GetAuthCallbackFunctionResponse'
+          description: Redirect to frontend with JWT token
+      summary: Log in with google oAuth
+      tags:
+      - auth
+  /comments:
+    post:
+      operationId: create-comment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateCommentPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.CommentPopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create comment.
+      summary: Create a new comment
+      tags:
+      - comment
+      x-codegen-request-body-name: request
+  /comments/{commentId}:
+    delete:
+      operationId: delete-comment
+      parameters:
+      - description: comment ID
+        in: path
+        name: commentId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete comment.
+      summary: Delete comment by UUID
+      tags:
+      - comment
+    patch:
+      operationId: update-comment
+      parameters:
+      - description: comment ID
+        in: path
+        name: commentId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateCommentPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.CommentPopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update comment.
+      summary: Update comment by UUID
+      tags:
+      - comment
+      x-codegen-request-body-name: request
+  /compositeWay:
+    post:
+      operationId: create-compositeWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AddWayToCompositeWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.CompositeWayRelation'
+          description: OK
+      summary: Add a way to composite way
+      tags:
+      - compositeWay
+      x-codegen-request-body-name: request
+  /compositeWay/{parentWayId}/{childWayId}:
+    delete:
+      operationId: delete-compositeWay relation
+      parameters:
+      - description: parentWay ID
+        in: path
+        name: parentWayId
+        required: true
+        schema:
+          type: string
+      - description: childWay ID
+        in: path
+        name: childWayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete composite way relation
+      tags:
+      - compositeWay
+  /dayReports:
+    post:
+      operationId: create-dayReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateDayReportPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.CompositeDayReportPopulatedResponse'
+          description: OK
+      summary: Create a new dayReport
+      tags:
+      - dayReport
+      x-codegen-request-body-name: request
+  /dayReports/{wayId}:
+    get:
+      operationId: get-day-reports
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      - description: Page number for pagination
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.ListDayReportsResponse'
+          description: OK
+      summary: Get list of day reports by way UUID
+      tags:
+      - dayReport
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: resets db
+      tags:
+      - dev
+  /favoriteUserWays:
+    post:
+      operationId: create-favoriteUserWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateFavoriteUserWayPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Create a new favoriteUserWay
+      tags:
+      - favoriteUserWay
+      x-codegen-request-body-name: request
+  /favoriteUserWays/{userUuid}/{wayUuid}:
+    delete:
+      operationId: delete-favoriteUserWay
+      parameters:
+      - description: user UUID
+        in: path
+        name: userUuid
+        required: true
+        schema:
+          type: string
+      - description: way ID
+        in: path
+        name: wayUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete favoriteUserWay by UUID
+      tags:
+      - favoriteUserWay
+  /favoriteUsers:
+    post:
+      operationId: create-favoriteUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateFavoriteUserPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Create a new favorite user
+      tags:
+      - favoriteUser
+      x-codegen-request-body-name: request
+  /favoriteUsers/{donorUserUuid}/{acceptorUserUuid}:
+    delete:
+      operationId: delete-favoriteUser
+      parameters:
+      - description: donorUser UUID
+        in: path
+        name: donorUserUuid
+        required: true
+        schema:
+          type: string
+      - description: acceptorUser UUID
+        in: path
+        name: acceptorUserUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete favoriteUser by UUID
+      tags:
+      - favoriteUser
+  /fromUserMentoringRequests:
+    post:
+      operationId: create-fromUserMentoringRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateFromUserMentoringRequestPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.FromUserMentoringRequestResponse'
+          description: OK
+      summary: Create a new fromUserMentoringRequest
+      tags:
+      - fromUserMentoringRequest
+      x-codegen-request-body-name: request
+  /fromUserMentoringRequests/{userUuid}/{wayUuid}:
+    delete:
+      operationId: delete-fromUserMentoringRequest
+      parameters:
+      - description: user UUID
+        in: path
+        name: userUuid
+        required: true
+        schema:
+          type: string
+      - description: way UUID
+        in: path
+        name: wayUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete fromUserMentoringRequest by UUID
+      tags:
+      - fromUserMentoringRequest
+  /gemini/comment-issue:
+    post:
+      description: Generate a comment for any issue
+      operationId: ai-comment-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AICommentIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AICommentIssueResponse'
+          description: OK
+      summary: Generate a comment for any issue
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/decompose-issue:
+    post:
+      description: Decompose issue for 10 plans
+      operationId: ai-decompose-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIDecomposeIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIDecomposeIssueResponse'
+          description: OK
+      summary: Decompose issue
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/estimate-issue:
+    post:
+      description: Estimate issue in minutes
+      operationId: ai-estimate-issue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIEstimateIssuePayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIEstimateIssueResponse'
+          description: OK
+      summary: Estimate issue in minutes
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/generate-plans-by-metric:
+    post:
+      description: Generate plans by metric.
+      operationId: ai-plans-by-metrics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePlansByMetricPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePlansByMetricResponse'
+          description: OK
+      summary: Generate plans by metric
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/just-chat:
+    post:
+      description: This endpoint for talks with AI language model.
+      operationId: ai-chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIChatPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIChatResponse'
+          description: OK
+      summary: Just chat with AI
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/metrics:
+    post:
+      description: This endpoint uses Gemini to generate metrics by analyzing the
+        provided goals.
+      operationId: generate-metrics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.GenerateMetricsPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.GenerateMetricsResponse'
+          description: OK
+      summary: Generate metrics using Gemini
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /healthcheck:
+    get:
+      description: Get the health status of the API
+      operationId: general-health-check
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Health Check
+      tags:
+      - Health
+  /jobDoneJobTags:
+    post:
+      operationId: create-jobDoneJobTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateJobDoneJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Create a new jobDoneJobTag
+      tags:
+      - jobDoneJobTag
+      x-codegen-request-body-name: request
+  /jobDoneJobTags/{jobTagId}/{jobDoneId}:
+    delete:
+      operationId: delete-jobDoneJobTag
+      parameters:
+      - description: jobDone ID
+        in: path
+        name: jobDoneId
+        required: true
+        schema:
+          type: string
+      - description: jobTag UUID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete jobDoneJobTag by UUID
+      tags:
+      - jobDoneJobTag
+  /jobDones:
+    post:
+      operationId: create-jobDone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateJobDonePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.JobDonePopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create job done.
+      summary: Create a new jobDone
+      tags:
+      - jobDone
+      x-codegen-request-body-name: request
+  /jobDones/{jobDoneId}:
+    delete:
+      operationId: delete-jobDone
+      parameters:
+      - description: jobDone ID
+        in: path
+        name: jobDoneId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete job done.
+      summary: Delete jobDone by UUID
+      tags:
+      - jobDone
+    patch:
+      operationId: update-jobDone
+      parameters:
+      - description: jobDone UUID
+        in: path
+        name: jobDoneId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateJobDone'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.JobDonePopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update job done.
+      summary: Update jobDone by UUID
+      tags:
+      - jobDone
+      x-codegen-request-body-name: request
+  /jobTags:
+    post:
+      operationId: create-jobTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.JobTagResponse'
+          description: OK
+      summary: Create a new jobTag
+      tags:
+      - jobTag
+      x-codegen-request-body-name: request
+  /jobTags/{jobTagId}:
+    delete:
+      operationId: delete-jobTag
+      parameters:
+      - description: jobTag ID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete jobTag by UUID
+      tags:
+      - jobTag
+    patch:
+      operationId: update-jobTag
+      parameters:
+      - description: jobTag UUID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.JobTagResponse'
+          description: OK
+      summary: Update jobTag by UUID
+      tags:
+      - jobTag
+      x-codegen-request-body-name: request
+  /mentorUserWays:
+    delete:
+      operationId: delete-mentorUserWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.DeleteMentorUserWayPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete mentorUserWay by UUID
+      tags:
+      - mentorUserWay
+      x-codegen-request-body-name: request
+    post:
+      description: Make user mentor and also added to appropriate mentoring collection
+      operationId: create-mentorUserWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateMentorUserWayPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Create a new mentorUserWay
+      tags:
+      - mentorUserWay
+      x-codegen-request-body-name: request
+  /metrics:
+    post:
+      operationId: create-metric
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateMetricPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.MetricResponse'
+          description: OK
+      summary: Create a new metric
+      tags:
+      - metric
+      x-codegen-request-body-name: request
+  /metrics/{metricId}:
+    delete:
+      operationId: delete-metric
+      parameters:
+      - description: metric ID
+        in: path
+        name: metricId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete metric by UUID
+      tags:
+      - metric
+    patch:
+      operationId: update-metric
+      parameters:
+      - description: metric UUID
+        in: path
+        name: metricId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateMetricPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.MetricResponse'
+          description: OK
+      summary: Update metric by UUID
+      tags:
+      - metric
+      x-codegen-request-body-name: request
+  /planJobTags:
+    post:
+      operationId: create-planJobTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreatePlanJobTagPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Create a new planJobTag
+      tags:
+      - planJobTag
+      x-codegen-request-body-name: request
+  /planJobTags/{jobTagId}/{planId}:
+    delete:
+      operationId: delete-planJobTag
+      parameters:
+      - description: jobTag ID
+        in: path
+        name: jobTagId
+        required: true
+        schema:
+          type: string
+      - description: plan ID
+        in: path
+        name: planId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete planJobTag by UUID
+      tags:
+      - planJobTag
+  /plans:
+    post:
+      operationId: create-plan
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreatePlanPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.PlanPopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create plan.
+      summary: Create a new plan
+      tags:
+      - plan
+      x-codegen-request-body-name: request
+  /plans/{planId}:
+    delete:
+      operationId: delete-plan
+      parameters:
+      - description: plan ID
+        in: path
+        name: planId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete plan.
+      summary: Delete plan by UUID
+      tags:
+      - plan
+    patch:
+      operationId: update-plan
+      parameters:
+      - description: plan UUID
+        in: path
+        name: planId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdatePlanPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.PlanPopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update plan.
+      summary: Update plan by UUID
+      tags:
+      - plan
+      x-codegen-request-body-name: request
+  /problems:
+    post:
+      operationId: create-problem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateProblemPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.ProblemPopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to create problem.
+      summary: Create a new problem
+      tags:
+      - problem
+      x-codegen-request-body-name: request
+  /problems/{problemId}:
+    delete:
+      operationId: delete-problem
+      parameters:
+      - description: problem ID
+        in: path
+        name: problemId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to delete problem.
+      summary: Delete problem by UUID
+      tags:
+      - problem
+    patch:
+      operationId: update-problem
+      parameters:
+      - description: problem ID
+        in: path
+        name: problemId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateProblemPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.ProblemPopulatedResponse'
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_customErrors.NoRightToChangeDayReportError'
+          description: User doesn't have rights to update problem.
+      summary: Update problem by UUID
+      tags:
+      - problem
+      x-codegen-request-body-name: request
+  /projects:
+    post:
+      operationId: create-project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateProjectPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.ProjectPopulatedResponse'
+          description: OK
+      summary: Create a new project
+      tags:
+      - project
+      x-codegen-request-body-name: request
+  /projects/{projectId}:
+    delete:
+      operationId: delete-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete project by id
+      tags:
+      - project
+    get:
+      operationId: get-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.ProjectPopulatedResponse'
+          description: OK
+      summary: Get project by id
+      tags:
+      - project
+    patch:
+      operationId: update-project
+      parameters:
+      - description: project id
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateProjectPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.ProjectPopulatedResponse'
+          description: OK
+      summary: Update project by id
+      tags:
+      - project
+      x-codegen-request-body-name: request
+  /toUserMentoringRequests:
+    post:
+      operationId: create-userMentoringRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateToUserMentoringRequestPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.ToUserMentoringRequestResponse'
+          description: OK
+      summary: Create a new userMentoringRequest
+      tags:
+      - toUserMentoringRequest
+      x-codegen-request-body-name: request
+  /toUserMentoringRequests/{userUuid}/{wayUuid}:
+    delete:
+      operationId: delete-toUserMentoringRequest
+      parameters:
+      - description: user UUID
+        in: path
+        name: userUuid
+        required: true
+        schema:
+          type: string
+      - description: way UUID
+        in: path
+        name: wayUuid
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete toUserMentoringReques by UUID
+      tags:
+      - toUserMentoringRequest
+  /userProjects:
+    post:
+      operationId: create-userProject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateUserProjectPayload'
+        description: query params
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Add user to project
+      tags:
+      - userProject
+      x-codegen-request-body-name: request
+  /userProjects/{projectId}/{userId}:
+    delete:
+      operationId: delete-userProject
+      parameters:
+      - description: project ID
+        in: path
+        name: projectId
+        required: true
+        schema:
+          type: string
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete userProject by UUID
+      tags:
+      - userProject
+  /userTags:
+    post:
+      operationId: create-userTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateUserTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.UserTagResponse'
+          description: OK
+      summary: Create a new userTag
+      tags:
+      - userTag
+      x-codegen-request-body-name: request
+  /userTags/{userTagId}/{userId}:
+    delete:
+      operationId: delete-userTag
+      parameters:
+      - description: userTag ID
+        in: path
+        name: userTagId
+        required: true
+        schema:
+          type: string
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete userTag by UUID
+      tags:
+      - userTag
+  /users:
+    get:
+      description: Get users with pagination
+      operationId: get-all-users
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Part of user email for filters
+        in: query
+        name: email
+        schema:
+          type: string
+      - description: Part of user name for filters
+        in: query
+        name: name
+        schema:
+          type: string
+      - description: '''mentor'' | ''all'' status for filter'
+        in: query
+        name: mentorStatus
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.GetAllUsersResponse'
+          description: OK
+      summary: Get all users
+      tags:
+      - user
+  /users/list-by-ids:
+    get:
+      operationId: get-users-by-ids
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                type: string
+              type: array
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/mw-server_internal_schemas.GetUsersByIDsResponse'
+                type: array
+          description: OK
+      summary: Get users by ids
+      tags:
+      - user
+      x-codegen-request-body-name: request
+  /users/{userId}:
+    get:
+      operationId: get-user-by-uuid
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.UserPopulatedResponse'
+          description: OK
+      summary: Get user by UUID
+      tags:
+      - user
+    patch:
+      operationId: update-user
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateUserPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+          description: OK
+      summary: Update user by UUID
+      tags:
+      - user
+      x-codegen-request-body-name: request
+  /wayCollectionWays:
+    post:
+      operationId: create-wayCollectionWay
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateWayCollectionWay'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayCollectionWayResponse'
+          description: OK
+      summary: Create a new wayCollectionWay
+      tags:
+      - wayCollectionWay
+      x-codegen-request-body-name: request
+  /wayCollectionWays/{wayId}/{wayCollectionId}:
+    delete:
+      operationId: delete-wayCollectionWay
+      parameters:
+      - description: wayCollection ID
+        in: path
+        name: wayCollectionId
+        required: true
+        schema:
+          type: string
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete wayCollectionWay by UUID
+      tags:
+      - wayCollectionWay
+  /wayCollections:
+    post:
+      operationId: create-wayCollection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateWayCollectionPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayCollectionPopulatedResponse'
+          description: OK
+      summary: Create a new wayCollection
+      tags:
+      - wayCollection
+      x-codegen-request-body-name: request
+  /wayCollections/{wayCollectionId}:
+    delete:
+      operationId: delete-wayCollection
+      parameters:
+      - description: wayCollection ID
+        in: path
+        name: wayCollectionId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete wayCollection by UUID
+      tags:
+      - wayCollection
+    patch:
+      operationId: update-wayCollection
+      parameters:
+      - description: wayCollection ID
+        in: path
+        name: wayCollectionId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateWayCollectionPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayCollectionPlainResponse'
+          description: OK
+      summary: Update wayCollection by UUID
+      tags:
+      - wayCollection
+      x-codegen-request-body-name: request
+  /wayTags:
+    post:
+      operationId: create-wayTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateWayTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayTagResponse'
+          description: OK
+      summary: Create a new wayTag
+      tags:
+      - wayTag
+      x-codegen-request-body-name: request
+  /wayTags/{wayTagId}/{wayId}:
+    delete:
+      operationId: delete-wayTag
+      parameters:
+      - description: wayTag ID
+        in: path
+        name: wayTagId
+        required: true
+        schema:
+          type: string
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete wayTag by UUID
+      tags:
+      - wayTag
+  /ways:
+    get:
+      description: Get ways with pagination
+      operationId: get-all-ways
+      parameters:
+      - description: Page number for pagination
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Min day reports amount
+        in: query
+        name: minDayReportsAmount
+        schema:
+          type: integer
+      - description: Way name
+        in: query
+        name: wayName
+        schema:
+          type: string
+      - description: "Ways type: all | completed | inProgress | abandoned"
+        in: query
+        name: status
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.GetAllWaysResponse'
+          description: OK
+      summary: Get all ways
+      tags:
+      - way
+    post:
+      operationId: create-way
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.CreateWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayPlainResponse'
+          description: OK
+      summary: Create a new way
+      tags:
+      - way
+      x-codegen-request-body-name: request
+  /ways/{wayId}:
+    delete:
+      operationId: delete-way
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete way by UUID
+      tags:
+      - way
+    get:
+      operationId: get-way-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayPopulatedResponse'
+          description: OK
+      summary: Get way by UUID
+      tags:
+      - way
+    patch:
+      operationId: update-way
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateWayPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayPlainResponse'
+          description: OK
+      summary: Update way by UUID
+      tags:
+      - way
+      x-codegen-request-body-name: request
+  /ways/{wayId}/notification:
+    get:
+      operationId: get-way-plain-for-notification-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayPlainForNotificationResponse'
+          description: OK
+      summary: Get way plain for notification by UUID
+      tags:
+      - way
+  /ways/{wayId}/statistics:
+    get:
+      operationId: get-way-statistics-by-uuid
+      parameters:
+      - description: way ID
+        in: path
+        name: wayId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.WayStatisticsTriplePeriod'
+          description: OK
+      summary: Get way statistics by UUID
+      tags:
+      - way
+components:
+  schemas:
+    mw-server_internal_customErrors.NoRightToChangeDayReportError:
+      example:
+        errorId: errorId
+        error: error
+      properties:
+        error:
+          type: string
+        errorId:
+          type: string
+      required:
+      - error
+      - errorId
+      type: object
+    mw-server_internal_schemas.AIChatPayload:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    mw-server_internal_schemas.AIChatResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    mw-server_internal_schemas.AICommentIssuePayload:
+      properties:
+        goal:
+          type: string
+        message:
+          type: string
+      required:
+      - goal
+      - message
+      type: object
+    mw-server_internal_schemas.AICommentIssueResponse:
+      example:
+        goal: goal
+      properties:
+        goal:
+          type: string
+      required:
+      - goal
+      type: object
+    mw-server_internal_schemas.AIDecomposeIssuePayload:
+      properties:
+        goal:
+          type: string
+        message:
+          type: string
+      required:
+      - goal
+      - message
+      type: object
+    mw-server_internal_schemas.AIDecomposeIssueResponse:
+      example:
+        plans:
+        - plans
+        - plans
+      properties:
+        plans:
+          items:
+            type: string
+          type: array
+      required:
+      - plans
+      type: object
+    mw-server_internal_schemas.AIEstimateIssuePayload:
+      properties:
+        goal:
+          type: string
+        issue:
+          type: string
+      required:
+      - goal
+      - issue
+      type: object
+    mw-server_internal_schemas.AIEstimateIssueResponse:
+      example:
+        estimation: estimation
+      properties:
+        estimation:
+          type: string
+      required:
+      - estimation
+      type: object
+    mw-server_internal_schemas.AIGeneratePlansByMetricPayload:
+      properties:
+        goal:
+          type: string
+        metric:
+          type: string
+      required:
+      - goal
+      - metric
+      type: object
+    mw-server_internal_schemas.AIGeneratePlansByMetricResponse:
+      example:
+        plans:
+        - plans
+        - plans
+      properties:
+        plans:
+          items:
+            type: string
+          type: array
+      required:
+      - plans
+      type: object
+    mw-server_internal_schemas.AddWayToCompositeWayPayload:
+      properties:
+        childWayUuid:
+          type: string
+        parentWayUuid:
+          type: string
+      required:
+      - childWayUuid
+      - parentWayUuid
+      type: object
+    mw-server_internal_schemas.BeginAuthResponse:
+      example:
+        url: url
+      properties:
+        url:
+          type: string
+      required:
+      - url
+      type: object
+    mw-server_internal_schemas.CommentPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        wayName: wayName
+        ownerName: ownerName
+        wayUuid: wayUuid
+        description: description
+        dayReportUuid: dayReportUuid
+        uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayName:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - ownerName
+      - ownerUuid
+      - updatedAt
+      - uuid
+      - wayName
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CompositeDayReportPopulatedResponse:
+      example:
+        createdAt: createdAt
+        comments:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          updatedAt: updatedAt
+        plans:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 6
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 6
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        jobsDone:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 0
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          time: 0
+          dayReportUuid: dayReportUuid
+          uuid: uuid
+          tags:
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          - color: color
+            name: name
+            description: description
+            uuid: uuid
+          updatedAt: updatedAt
+        compositionParticipants:
+        - wayId: wayId
+          dayReportId: dayReportId
+          wayName: wayName
+        - wayId: wayId
+          dayReportId: dayReportId
+          wayName: wayName
+        uuid: uuid
+        problems:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          wayName: wayName
+          ownerName: ownerName
+          wayUuid: wayUuid
+          description: description
+          dayReportUuid: dayReportUuid
+          isDone: true
+          uuid: uuid
+          updatedAt: updatedAt
+        updatedAt: updatedAt
+      properties:
+        comments:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.CommentPopulatedResponse'
+          type: array
+        compositionParticipants:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.DayReportsCompositionParticipants'
+          type: array
+        createdAt:
+          description: Calculated by - just date
+          type: string
+        jobsDone:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.JobDonePopulatedResponse'
+          type: array
+        plans:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.PlanPopulatedResponse'
+          type: array
+        problems:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.ProblemPopulatedResponse'
+          type: array
+        updatedAt:
+          description: Calculated by - just last date
+          type: string
+        uuid:
+          description: Always generated
+          type: string
+      required:
+      - comments
+      - compositionParticipants
+      - createdAt
+      - jobsDone
+      - plans
+      - problems
+      - updatedAt
+      - uuid
+      type: object
+    mw-server_internal_schemas.CompositeWayRelation:
+      example:
+        parentWayUuid: parentWayUuid
+        childWayUuid: childWayUuid
+      properties:
+        childWayUuid:
+          type: string
+        parentWayUuid:
+          type: string
+      required:
+      - childWayUuid
+      - parentWayUuid
+      type: object
+    mw-server_internal_schemas.CreateCommentPayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        ownerUuid:
+          type: string
+      required:
+      - dayReportUuid
+      - description
+      - ownerUuid
+      type: object
+    mw-server_internal_schemas.CreateDayReportPayload:
+      properties:
+        wayId:
+          type: string
+      required:
+      - wayId
+      type: object
+    mw-server_internal_schemas.CreateFavoriteUserPayload:
+      properties:
+        acceptorUserUuid:
+          type: string
+        donorUserUuid:
+          type: string
+      required:
+      - acceptorUserUuid
+      - donorUserUuid
+      type: object
+    mw-server_internal_schemas.CreateFavoriteUserWayPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreateFromUserMentoringRequestPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreateJobDoneJobTagPayload:
+      properties:
+        jobDoneUuid:
+          type: string
+        jobTagUuid:
+          type: string
+      required:
+      - jobDoneUuid
+      - jobTagUuid
+      type: object
+    mw-server_internal_schemas.CreateJobDonePayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        jobTagUuids:
+          items:
+            type: string
+          type: array
+        ownerUuid:
+          type: string
+        time:
+          type: integer
+      required:
+      - dayReportUuid
+      - description
+      - jobTagUuids
+      - ownerUuid
+      - time
+      type: object
+    mw-server_internal_schemas.CreateJobTagPayload:
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - color
+      - description
+      - name
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreateMentorUserWayPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreateMetricPayload:
+      properties:
+        description:
+          type: string
+        doneDate:
+          nullable: true
+          type: string
+        estimationTime:
+          type: integer
+        isDone:
+          type: boolean
+        parentUuid:
+          nullable: true
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - description
+      - doneDate
+      - estimationTime
+      - isDone
+      - parentUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreatePlanJobTagPayload:
+      properties:
+        jobTagUuid:
+          type: string
+        planUuid:
+          type: string
+      required:
+      - jobTagUuid
+      - planUuid
+      type: object
+    mw-server_internal_schemas.CreatePlanPayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerUuid:
+          type: string
+        time:
+          type: integer
+      required:
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerUuid
+      - time
+      type: object
+    mw-server_internal_schemas.CreateProblemPayload:
+      properties:
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerUuid:
+          type: string
+      required:
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerUuid
+      type: object
+    mw-server_internal_schemas.CreateProjectPayload:
+      properties:
+        name:
+          type: string
+        ownerId:
+          type: string
+      required:
+      - name
+      - ownerId
+      type: object
+    mw-server_internal_schemas.CreateToUserMentoringRequestPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreateUserProjectPayload:
+      properties:
+        projectId:
+          type: string
+        userId:
+          type: string
+      required:
+      - projectId
+      - userId
+      type: object
+    mw-server_internal_schemas.CreateUserTagPayload:
+      properties:
+        name:
+          type: string
+        ownerUuid:
+          type: string
+      required:
+      - name
+      - ownerUuid
+      type: object
+    mw-server_internal_schemas.CreateWayCollectionPayload:
+      properties:
+        name:
+          type: string
+        ownerUuid:
+          type: string
+      required:
+      - name
+      - ownerUuid
+      type: object
+    mw-server_internal_schemas.CreateWayCollectionWay:
+      properties:
+        wayCollectionUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - wayCollectionUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.CreateWayPayload:
+      properties:
+        copiedFromWayId:
+          nullable: true
+          type: string
+        estimationTime:
+          type: integer
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+        ownerId:
+          type: string
+        projectId:
+          nullable: true
+          type: string
+      required:
+      - copiedFromWayId
+      - estimationTime
+      - goalDescription
+      - isCompleted
+      - isPrivate
+      - name
+      - ownerId
+      - projectId
+      type: object
+    mw-server_internal_schemas.CreateWayTagPayload:
+      properties:
+        name:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - name
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.DayReportsCompositionParticipants:
+      example:
+        wayId: wayId
+        dayReportId: dayReportId
+        wayName: wayName
+      properties:
+        dayReportId:
+          type: string
+        wayId:
+          type: string
+        wayName:
+          type: string
+      required:
+      - dayReportId
+      - wayId
+      - wayName
+      type: object
+    mw-server_internal_schemas.DefaultWayCollections:
+      example:
+        own:
+          createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        mentoring:
+          createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        favorite:
+          createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+      properties:
+        favorite:
+          $ref: '#/components/schemas/mw-server_internal_schemas.WayCollectionPopulatedResponse'
+        mentoring:
+          $ref: '#/components/schemas/mw-server_internal_schemas.WayCollectionPopulatedResponse'
+        own:
+          $ref: '#/components/schemas/mw-server_internal_schemas.WayCollectionPopulatedResponse'
+      required:
+      - favorite
+      - mentoring
+      - own
+      type: object
+    mw-server_internal_schemas.DeleteMentorUserWayPayload:
+      properties:
+        userUuid:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - userUuid
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.FromUserMentoringRequestResponse:
+      example:
+        wayId: wayId
+        userId: userId
+      properties:
+        userId:
+          type: string
+        wayId:
+          type: string
+      required:
+      - userId
+      - wayId
+      type: object
+    mw-server_internal_schemas.GenerateMetricsPayload:
+      properties:
+        goalDescription:
+          type: string
+        metrics:
+          items:
+            type: string
+          type: array
+        wayName:
+          type: string
+      required:
+      - goalDescription
+      - metrics
+      - wayName
+      type: object
+    mw-server_internal_schemas.GenerateMetricsResponse:
+      example:
+        metrics:
+        - metrics
+        - metrics
+      properties:
+        metrics:
+          items:
+            type: string
+          type: array
+      required:
+      - metrics
+      type: object
+    mw-server_internal_schemas.GetAllUsersResponse:
+      example:
+        size: 0
+        users:
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+      properties:
+        size:
+          type: integer
+        users:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponseWithInfo'
+          type: array
+      required:
+      - size
+      - users
+      type: object
+    mw-server_internal_schemas.GetAllWaysResponse:
+      example:
+        ways:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        size: 0
+      properties:
+        size:
+          type: integer
+        ways:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayPlainResponse'
+          type: array
+      required:
+      - size
+      - ways
+      type: object
+    mw-server_internal_schemas.GetAuthCallbackFunctionResponse:
+      example:
+        isAlreadyCreated: true
+        url: url
+      properties:
+        isAlreadyCreated:
+          type: boolean
+        url:
+          type: string
+      required:
+      - isAlreadyCreated
+      - url
+      type: object
+    mw-server_internal_schemas.GetUsersByIDsResponse:
+      example:
+        imageUrl: imageUrl
+        name: name
+        userId: userId
+      properties:
+        imageUrl:
+          type: string
+        name:
+          type: string
+        userId:
+          type: string
+      required:
+      - imageUrl
+      - name
+      - userId
+      type: object
+    mw-server_internal_schemas.GoogleToken:
+      example:
+        accessToken: accessToken
+      properties:
+        accessToken:
+          type: string
+      required:
+      - accessToken
+      type: object
+    mw-server_internal_schemas.JobDonePopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        wayName: wayName
+        ownerName: ownerName
+        wayUuid: wayUuid
+        description: description
+        time: 0
+        dayReportUuid: dayReportUuid
+        uuid: uuid
+        tags:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.JobTagResponse'
+          type: array
+        time:
+          type: integer
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayName:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - ownerName
+      - ownerUuid
+      - tags
+      - time
+      - updatedAt
+      - uuid
+      - wayName
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.JobTagResponse:
+      example:
+        color: color
+        name: name
+        description: description
+        uuid: uuid
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - color
+      - description
+      - name
+      - uuid
+      type: object
+    mw-server_internal_schemas.Label:
+      example:
+        color: color
+        name: name
+        description: description
+        uuid: uuid
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - color
+      - description
+      - name
+      - uuid
+      type: object
+    mw-server_internal_schemas.LabelInfo:
+      example:
+        jobsAmount: 0
+        jobsAmountPercentage: 6
+        label:
+          color: color
+          name: name
+          description: description
+          uuid: uuid
+        time: 1
+        timePercentage: 5
+      properties:
+        jobsAmount:
+          type: integer
+        jobsAmountPercentage:
+          type: integer
+        label:
+          $ref: '#/components/schemas/mw-server_internal_schemas.Label'
+        time:
+          type: integer
+        timePercentage:
+          type: integer
+      required:
+      - jobsAmount
+      - jobsAmountPercentage
+      - label
+      - time
+      - timePercentage
+      type: object
+    mw-server_internal_schemas.LabelStatistics:
+      example:
+        labels:
+        - jobsAmount: 0
+          jobsAmountPercentage: 6
+          label:
+            color: color
+            name: name
+            description: description
+            uuid: uuid
+          time: 1
+          timePercentage: 5
+        - jobsAmount: 0
+          jobsAmountPercentage: 6
+          label:
+            color: color
+            name: name
+            description: description
+            uuid: uuid
+          time: 1
+          timePercentage: 5
+      properties:
+        labels:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.LabelInfo'
+          type: array
+      required:
+      - labels
+      type: object
+    mw-server_internal_schemas.ListDayReportsResponse:
+      example:
+        dayReports:
+        - createdAt: createdAt
+          comments:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          plans:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          jobsDone:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          compositionParticipants:
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
+          uuid: uuid
+          problems:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            updatedAt: updatedAt
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          comments:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            updatedAt: updatedAt
+          plans:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 6
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          jobsDone:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            time: 0
+            dayReportUuid: dayReportUuid
+            uuid: uuid
+            tags:
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            - color: color
+              name: name
+              description: description
+              uuid: uuid
+            updatedAt: updatedAt
+          compositionParticipants:
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
+          - wayId: wayId
+            dayReportId: dayReportId
+            wayName: wayName
+          uuid: uuid
+          problems:
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            updatedAt: updatedAt
+          - createdAt: createdAt
+            ownerUuid: ownerUuid
+            wayName: wayName
+            ownerName: ownerName
+            wayUuid: wayUuid
+            description: description
+            dayReportUuid: dayReportUuid
+            isDone: true
+            uuid: uuid
+            updatedAt: updatedAt
+          updatedAt: updatedAt
+        size: 0
+      properties:
+        dayReports:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.CompositeDayReportPopulatedResponse'
+          type: array
+        size:
+          type: integer
+      required:
+      - dayReports
+      - size
+      type: object
+    mw-server_internal_schemas.MetricResponse:
+      example:
+        description: description
+        estimationTime: 0
+        doneDate: doneDate
+        isDone: true
+        uuid: uuid
+        parentUuid: parentUuid
+      properties:
+        description:
+          type: string
+        doneDate:
+          nullable: true
+          type: string
+        estimationTime:
+          type: integer
+        isDone:
+          type: boolean
+        parentUuid:
+          nullable: true
+          type: string
+        uuid:
+          type: string
+      required:
+      - description
+      - doneDate
+      - estimationTime
+      - isDone
+      - parentUuid
+      - uuid
+      type: object
+    mw-server_internal_schemas.MetricTreeNode:
+      example:
+        children:
+        - null
+        - null
+        metric:
+          description: description
+          estimationTime: 0
+          doneDate: doneDate
+          isDone: true
+          uuid: uuid
+          parentUuid: parentUuid
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.MetricTreeNode'
+          type: array
+        metric:
+          $ref: '#/components/schemas/mw-server_internal_schemas.MetricResponse'
+      required:
+      - children
+      - metric
+      type: object
+    mw-server_internal_schemas.OverallInformation:
+      example:
+        averageTimePerWorkingDay: 7
+        totalTime: 2
+        averageTimePerCalendarDay: 2
+        totalReports: 3
+        finishedJobs: 9
+        averageJobTime: 5
+      properties:
+        averageJobTime:
+          type: integer
+        averageTimePerCalendarDay:
+          type: integer
+        averageTimePerWorkingDay:
+          type: integer
+        finishedJobs:
+          type: integer
+        totalReports:
+          type: integer
+        totalTime:
+          type: integer
+      required:
+      - averageJobTime
+      - averageTimePerCalendarDay
+      - averageTimePerWorkingDay
+      - finishedJobs
+      - totalReports
+      - totalTime
+      type: object
+    mw-server_internal_schemas.PlanPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        wayName: wayName
+        ownerName: ownerName
+        wayUuid: wayUuid
+        description: description
+        time: 6
+        dayReportUuid: dayReportUuid
+        isDone: true
+        uuid: uuid
+        tags:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.JobTagResponse'
+          type: array
+        time:
+          type: integer
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayName:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerName
+      - ownerUuid
+      - tags
+      - time
+      - updatedAt
+      - uuid
+      - wayName
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.ProblemPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        wayName: wayName
+        ownerName: ownerName
+        wayUuid: wayUuid
+        description: description
+        dayReportUuid: dayReportUuid
+        isDone: true
+        uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        dayReportUuid:
+          type: string
+        description:
+          type: string
+        isDone:
+          type: boolean
+        ownerName:
+          type: string
+        ownerUuid:
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayName:
+          type: string
+        wayUuid:
+          type: string
+      required:
+      - createdAt
+      - dayReportUuid
+      - description
+      - isDone
+      - ownerName
+      - ownerUuid
+      - updatedAt
+      - uuid
+      - wayName
+      - wayUuid
+      type: object
+    mw-server_internal_schemas.ProjectPlainResponse:
+      example:
+        userIds:
+        - userIds
+        - userIds
+        name: name
+        id: id
+        isPrivate: true
+      properties:
+        id:
+          type: string
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+        userIds:
+          items:
+            type: string
+          type: array
+      required:
+      - id
+      - isPrivate
+      - name
+      - userIds
+      type: object
+    mw-server_internal_schemas.ProjectPopulatedResponse:
+      example:
+        ways:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        name: name
+        id: id
+        isPrivate: true
+        ownerId: ownerId
+        users:
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+        - createdAt: createdAt
+          ownWays: 5
+          mentoringWays: 1
+          favoriteWays: 6
+          favoriteForUsers: 0
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+          tags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+      properties:
+        id:
+          type: string
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+        ownerId:
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponseWithInfo'
+          type: array
+        ways:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayPlainResponse'
+          type: array
+      required:
+      - id
+      - isPrivate
+      - name
+      - ownerId
+      - users
+      - ways
+      type: object
+    mw-server_internal_schemas.TimeSpentByDayPoint:
+      example:
+        date: date
+        value: 4
+      properties:
+        date:
+          type: string
+        value:
+          type: integer
+      required:
+      - date
+      - value
+      type: object
+    mw-server_internal_schemas.ToUserMentoringRequestResponse:
+      example:
+        wayId: wayId
+        userId: userId
+      properties:
+        userId:
+          type: string
+        wayId:
+          type: string
+      required:
+      - userId
+      - wayId
+      type: object
+    mw-server_internal_schemas.UpdateCommentPayload:
+      properties:
+        description:
+          type: string
+      type: object
+    mw-server_internal_schemas.UpdateJobDone:
+      properties:
+        description:
+          type: string
+        time:
+          type: integer
+      type: object
+    mw-server_internal_schemas.UpdateJobTagPayload:
+      properties:
+        color:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+      type: object
+    mw-server_internal_schemas.UpdateMetricPayload:
+      properties:
+        description:
+          type: string
+        estimationTime:
+          type: integer
+        isDone:
+          type: boolean
+      type: object
+    mw-server_internal_schemas.UpdatePlanPayload:
+      properties:
+        description:
+          type: string
+        isDone:
+          type: boolean
+        time:
+          type: integer
+      type: object
+    mw-server_internal_schemas.UpdateProblemPayload:
+      properties:
+        description:
+          type: string
+        isDone:
+          type: boolean
+      type: object
+    mw-server_internal_schemas.UpdateProjectPayload:
+      properties:
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+      type: object
+    mw-server_internal_schemas.UpdateUserPayload:
+      properties:
+        description:
+          type: string
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        name:
+          type: string
+      type: object
+    mw-server_internal_schemas.UpdateWayCollectionPayload:
+      properties:
+        name:
+          type: string
+      type: object
+    mw-server_internal_schemas.UpdateWayPayload:
+      properties:
+        estimationTime:
+          type: integer
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+      type: object
+    mw-server_internal_schemas.UserPlainResponse:
+      example:
+        createdAt: createdAt
+        imageUrl: imageUrl
+        name: name
+        description: description
+        isMentor: true
+        uuid: uuid
+        email: email
+      properties:
+        createdAt:
+          type: string
+        description:
+          type: string
+        email:
+          type: string
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - description
+      - email
+      - imageUrl
+      - isMentor
+      - name
+      - uuid
+      type: object
+    mw-server_internal_schemas.UserPlainResponseWithInfo:
+      example:
+        createdAt: createdAt
+        ownWays: 5
+        mentoringWays: 1
+        favoriteWays: 6
+        favoriteForUsers: 0
+        imageUrl: imageUrl
+        name: name
+        description: description
+        isMentor: true
+        uuid: uuid
+        email: email
+        tags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+      properties:
+        createdAt:
+          type: string
+        description:
+          type: string
+        email:
+          type: string
+        favoriteForUsers:
+          type: integer
+        favoriteWays:
+          type: integer
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        mentoringWays:
+          type: integer
+        name:
+          type: string
+        ownWays:
+          type: integer
+        tags:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserTagResponse'
+          type: array
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - description
+      - email
+      - favoriteForUsers
+      - favoriteWays
+      - imageUrl
+      - isMentor
+      - mentoringWays
+      - name
+      - ownWays
+      - tags
+      - uuid
+      type: object
+    mw-server_internal_schemas.UserPopulatedResponse:
+      example:
+        projects:
+        - userIds:
+          - userIds
+          - userIds
+          name: name
+          id: id
+          isPrivate: true
+        - userIds:
+          - userIds
+          - userIds
+          name: name
+          id: id
+          isPrivate: true
+        defaultWayCollections:
+          own:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+          mentoring:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+          favorite:
+            createdAt: createdAt
+            ownerUuid: ownerUuid
+            ways:
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            - owner:
+                createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              goalDescription: goalDescription
+              copiedFromWayUuid: copiedFromWayUuid
+              childrenUuids:
+              - childrenUuids
+              - childrenUuids
+              estimationTime: 6
+              isPrivate: true
+              uuid: uuid
+              dayReportsAmount: 0
+              projectUuid: projectUuid
+              metricsDone: 5
+              createdAt: createdAt
+              wayTags:
+              - name: name
+                uuid: uuid
+              - name: name
+                uuid: uuid
+              favoriteForUsers: 1
+              metricsTotal: 5
+              mentors:
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              - createdAt: createdAt
+                imageUrl: imageUrl
+                name: name
+                description: description
+                isMentor: true
+                uuid: uuid
+                email: email
+              name: name
+              isCompleted: true
+              updatedAt: updatedAt
+            name: name
+            type: type
+            uuid: uuid
+            updatedAt: updatedAt
+        favoriteUsers:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        description: description
+        uuid: uuid
+        tags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        customWayCollections:
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          ownerUuid: ownerUuid
+          ways:
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          - owner:
+              createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            goalDescription: goalDescription
+            copiedFromWayUuid: copiedFromWayUuid
+            childrenUuids:
+            - childrenUuids
+            - childrenUuids
+            estimationTime: 6
+            isPrivate: true
+            uuid: uuid
+            dayReportsAmount: 0
+            projectUuid: projectUuid
+            metricsDone: 5
+            createdAt: createdAt
+            wayTags:
+            - name: name
+              uuid: uuid
+            - name: name
+              uuid: uuid
+            favoriteForUsers: 1
+            metricsTotal: 5
+            mentors:
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            - createdAt: createdAt
+              imageUrl: imageUrl
+              name: name
+              description: description
+              isMentor: true
+              uuid: uuid
+              email: email
+            name: name
+            isCompleted: true
+            updatedAt: updatedAt
+          name: name
+          type: type
+          uuid: uuid
+          updatedAt: updatedAt
+        createdAt: createdAt
+        favoriteForUsers:
+        - favoriteForUsers
+        - favoriteForUsers
+        wayRequests:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        imageUrl: imageUrl
+        name: name
+        isMentor: true
+        email: email
+      properties:
+        createdAt:
+          type: string
+        customWayCollections:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayCollectionPopulatedResponse'
+          type: array
+        defaultWayCollections:
+          $ref: '#/components/schemas/mw-server_internal_schemas.DefaultWayCollections'
+        description:
+          type: string
+        email:
+          type: string
+        favoriteForUsers:
+          items:
+            type: string
+          type: array
+        favoriteUsers:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+          type: array
+        imageUrl:
+          type: string
+        isMentor:
+          type: boolean
+        name:
+          type: string
+        projects:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.ProjectPlainResponse'
+          type: array
+        tags:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserTagResponse'
+          type: array
+        uuid:
+          type: string
+        wayRequests:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayPlainResponse'
+          type: array
+      required:
+      - createdAt
+      - customWayCollections
+      - defaultWayCollections
+      - description
+      - email
+      - favoriteForUsers
+      - favoriteUsers
+      - imageUrl
+      - isMentor
+      - name
+      - projects
+      - tags
+      - uuid
+      - wayRequests
+      type: object
+    mw-server_internal_schemas.UserTagResponse:
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+    mw-server_internal_schemas.WayCollectionPlainResponse:
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+    mw-server_internal_schemas.WayCollectionPopulatedResponse:
+      example:
+        createdAt: createdAt
+        ownerUuid: ownerUuid
+        ways:
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        - owner:
+            createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          goalDescription: goalDescription
+          copiedFromWayUuid: copiedFromWayUuid
+          childrenUuids:
+          - childrenUuids
+          - childrenUuids
+          estimationTime: 6
+          isPrivate: true
+          uuid: uuid
+          dayReportsAmount: 0
+          projectUuid: projectUuid
+          metricsDone: 5
+          createdAt: createdAt
+          wayTags:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          favoriteForUsers: 1
+          metricsTotal: 5
+          mentors:
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          - createdAt: createdAt
+            imageUrl: imageUrl
+            name: name
+            description: description
+            isMentor: true
+            uuid: uuid
+            email: email
+          name: name
+          isCompleted: true
+          updatedAt: updatedAt
+        name: name
+        type: type
+        uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        name:
+          type: string
+        ownerUuid:
+          type: string
+        type:
+          description: should be removed after separation custom collections and default
+            pseudocollections
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        ways:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayPlainResponse'
+          type: array
+      required:
+      - createdAt
+      - name
+      - ownerUuid
+      - type
+      - updatedAt
+      - uuid
+      - ways
+      type: object
+    mw-server_internal_schemas.WayCollectionWayResponse:
+      example:
+        wayId: wayId
+        wayCollectionId: wayCollectionId
+      properties:
+        wayCollectionId:
+          type: string
+        wayId:
+          type: string
+      required:
+      - wayCollectionId
+      - wayId
+      type: object
+    mw-server_internal_schemas.WayPlainForNotificationResponse:
+      example:
+        owner:
+          createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        mentors:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        name: name
+        uuid: uuid
+      properties:
+        mentors:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+          type: array
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+        uuid:
+          type: string
+      required:
+      - mentors
+      - name
+      - owner
+      - uuid
+      type: object
+    mw-server_internal_schemas.WayPlainResponse:
+      example:
+        owner:
+          createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        goalDescription: goalDescription
+        copiedFromWayUuid: copiedFromWayUuid
+        childrenUuids:
+        - childrenUuids
+        - childrenUuids
+        estimationTime: 6
+        isPrivate: true
+        uuid: uuid
+        dayReportsAmount: 0
+        projectUuid: projectUuid
+        metricsDone: 5
+        createdAt: createdAt
+        wayTags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        favoriteForUsers: 1
+        metricsTotal: 5
+        mentors:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        name: name
+        isCompleted: true
+        updatedAt: updatedAt
+      properties:
+        childrenUuids:
+          items:
+            type: string
+          type: array
+        copiedFromWayUuid:
+          nullable: true
+          type: string
+        createdAt:
+          type: string
+        dayReportsAmount:
+          type: integer
+        estimationTime:
+          type: integer
+        favoriteForUsers:
+          type: integer
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        mentors:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+          type: array
+        metricsDone:
+          type: integer
+        metricsTotal:
+          type: integer
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+        projectUuid:
+          nullable: true
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayTags:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayTagResponse'
+          type: array
+      required:
+      - childrenUuids
+      - copiedFromWayUuid
+      - createdAt
+      - dayReportsAmount
+      - estimationTime
+      - favoriteForUsers
+      - goalDescription
+      - isCompleted
+      - isPrivate
+      - mentors
+      - metricsDone
+      - metricsTotal
+      - name
+      - owner
+      - projectUuid
+      - updatedAt
+      - uuid
+      - wayTags
+      type: object
+    mw-server_internal_schemas.WayPopulatedResponse:
+      example:
+        owner:
+          createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        favoriteForUsersAmount: 6
+        goalDescription: goalDescription
+        copiedFromWayUuid: copiedFromWayUuid
+        estimationTime: 0
+        isPrivate: true
+        uuid: uuid
+        projectUuid: projectUuid
+        createdAt: createdAt
+        mentorRequests:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        wayTags:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        children:
+        - null
+        - null
+        mentors:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        name: name
+        formerMentors:
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        - createdAt: createdAt
+          imageUrl: imageUrl
+          name: name
+          description: description
+          isMentor: true
+          uuid: uuid
+          email: email
+        metrics:
+        - children:
+          - null
+          - null
+          metric:
+            description: description
+            estimationTime: 0
+            doneDate: doneDate
+            isDone: true
+            uuid: uuid
+            parentUuid: parentUuid
+        - children:
+          - null
+          - null
+          metric:
+            description: description
+            estimationTime: 0
+            doneDate: doneDate
+            isDone: true
+            uuid: uuid
+            parentUuid: parentUuid
+        jobTags:
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        - color: color
+          name: name
+          description: description
+          uuid: uuid
+        isCompleted: true
+        updatedAt: updatedAt
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayPopulatedResponse'
+          type: array
+        copiedFromWayUuid:
+          nullable: true
+          type: string
+        createdAt:
+          type: string
+        estimationTime:
+          type: integer
+        favoriteForUsersAmount:
+          type: integer
+        formerMentors:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+          type: array
+        goalDescription:
+          type: string
+        isCompleted:
+          type: boolean
+        isPrivate:
+          type: boolean
+        jobTags:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.JobTagResponse'
+          type: array
+        mentorRequests:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+          type: array
+        mentors:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+          type: array
+        metrics:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.MetricTreeNode'
+          type: array
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/mw-server_internal_schemas.UserPlainResponse'
+        projectUuid:
+          nullable: true
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+        wayTags:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.WayTagResponse'
+          type: array
+      required:
+      - children
+      - copiedFromWayUuid
+      - createdAt
+      - estimationTime
+      - favoriteForUsersAmount
+      - formerMentors
+      - goalDescription
+      - isCompleted
+      - isPrivate
+      - jobTags
+      - mentorRequests
+      - mentors
+      - metrics
+      - name
+      - owner
+      - projectUuid
+      - updatedAt
+      - uuid
+      - wayTags
+      type: object
+    mw-server_internal_schemas.WayStatistics:
+      example:
+        labelStatistics:
+          labels:
+          - jobsAmount: 0
+            jobsAmountPercentage: 6
+            label:
+              color: color
+              name: name
+              description: description
+              uuid: uuid
+            time: 1
+            timePercentage: 5
+          - jobsAmount: 0
+            jobsAmountPercentage: 6
+            label:
+              color: color
+              name: name
+              description: description
+              uuid: uuid
+            time: 1
+            timePercentage: 5
+        timeSpentByDayChart:
+        - date: date
+          value: 4
+        - date: date
+          value: 4
+        overallInformation:
+          averageTimePerWorkingDay: 7
+          totalTime: 2
+          averageTimePerCalendarDay: 2
+          totalReports: 3
+          finishedJobs: 9
+          averageJobTime: 5
+      properties:
+        labelStatistics:
+          $ref: '#/components/schemas/mw-server_internal_schemas.LabelStatistics'
+        overallInformation:
+          $ref: '#/components/schemas/mw-server_internal_schemas.OverallInformation'
+        timeSpentByDayChart:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.TimeSpentByDayPoint'
+          type: array
+      required:
+      - labelStatistics
+      - overallInformation
+      - timeSpentByDayChart
+      type: object
+    mw-server_internal_schemas.WayStatisticsTriplePeriod:
+      example:
+        totalTime:
+          labelStatistics:
+            labels:
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+          timeSpentByDayChart:
+          - date: date
+            value: 4
+          - date: date
+            value: 4
+          overallInformation:
+            averageTimePerWorkingDay: 7
+            totalTime: 2
+            averageTimePerCalendarDay: 2
+            totalReports: 3
+            finishedJobs: 9
+            averageJobTime: 5
+        lastMonth:
+          labelStatistics:
+            labels:
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+          timeSpentByDayChart:
+          - date: date
+            value: 4
+          - date: date
+            value: 4
+          overallInformation:
+            averageTimePerWorkingDay: 7
+            totalTime: 2
+            averageTimePerCalendarDay: 2
+            totalReports: 3
+            finishedJobs: 9
+            averageJobTime: 5
+        lastWeek:
+          labelStatistics:
+            labels:
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+            - jobsAmount: 0
+              jobsAmountPercentage: 6
+              label:
+                color: color
+                name: name
+                description: description
+                uuid: uuid
+              time: 1
+              timePercentage: 5
+          timeSpentByDayChart:
+          - date: date
+            value: 4
+          - date: date
+            value: 4
+          overallInformation:
+            averageTimePerWorkingDay: 7
+            totalTime: 2
+            averageTimePerCalendarDay: 2
+            totalReports: 3
+            finishedJobs: 9
+            averageJobTime: 5
+      properties:
+        lastMonth:
+          $ref: '#/components/schemas/mw-server_internal_schemas.WayStatistics'
+        lastWeek:
+          $ref: '#/components/schemas/mw-server_internal_schemas.WayStatistics'
+        totalTime:
+          $ref: '#/components/schemas/mw-server_internal_schemas.WayStatistics'
+      required:
+      - lastMonth
+      - lastWeek
+      - totalTime
+      type: object
+    mw-server_internal_schemas.WayTagResponse:
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+x-original-swagger-version: "2.0"

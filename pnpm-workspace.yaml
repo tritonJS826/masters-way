@@ -12,3 +12,5 @@ packages:
   - 'mw-notification'
   - 'mw-notification-bff'
   - 'mw-notification-websocket'
+  - 'mw-training'
+  - 'mw-training-bff'

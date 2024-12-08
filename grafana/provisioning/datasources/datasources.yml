@@ -22,6 +22,17 @@ datasources:
     editable: true
     jsonData:
       sslmode: "disable"
+  - name: postgres-training
+    type: postgres
+    access: proxy
+    url: postgres-training:5440
+    user: ${POSTGRES_TRAINING_USER}
+    password: ${POSTGRES_TRAINING_PASSWORD}
+    database: ${POSTGRES_TRAINING_DB}
+    isDefault: false
+    editable: true
+    jsonData:
+      sslmode: "disable"
   - name: postgres-survey
     type: postgres
     access: proxy
