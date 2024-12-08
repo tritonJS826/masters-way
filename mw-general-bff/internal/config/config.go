@@ -15,8 +15,6 @@ type Config struct {
 	GeneralBaseURL           string `mapstructure:"GENERAL_BASE_URL"`
 	StorageAPIHost           string `mapstructure:"STORAGE_API_HOST"`
 	StorageBaseURL           string `mapstructure:"STORAGE_BASE_URL"`
-	MailAPIHost              string `mapstructure:"MAIL_API_HOST"`
-	MailBaseURL              string `mapstructure:"MAIL_BASE_URL"`
 	NotificationAPIHost      string `mapstructure:"NOTIFICATION_API_HOST"`
 	NotificationBaseURL      string `mapstructure:"NOTIFICATION_BASE_URL"`
 	TestGeneralBffAPIHost    string `mapstructure:"TEST_GENERAL_BFF_API_HOST"`
@@ -24,7 +22,7 @@ type Config struct {
 	SecretSessionKey         string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [14]string{
+var prodRequiredVariables = [12]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -32,8 +30,6 @@ var prodRequiredVariables = [14]string{
 	"GENERAL_BASE_URL",
 	"STORAGE_API_HOST",
 	"STORAGE_BASE_URL",
-	"MAIL_API_HOST",
-	"MAIL_BASE_URL",
 	"NOTIFICATION_API_HOST",
 	"NOTIFICATION_BASE_URL",
 	"TEST_GENERAL_BFF_API_HOST",
@@ -41,7 +37,7 @@ var prodRequiredVariables = [14]string{
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [14]string{
+var devRequiredVariables = [12]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -49,8 +45,6 @@ var devRequiredVariables = [14]string{
 	"GENERAL_BASE_URL",
 	"STORAGE_API_HOST",
 	"STORAGE_BASE_URL",
-	"MAIL_API_HOST",
-	"MAIL_BASE_URL",
 	"NOTIFICATION_API_HOST",
 	"NOTIFICATION_BASE_URL",
 	"TEST_GENERAL_BFF_API_HOST",

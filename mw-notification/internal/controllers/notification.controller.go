@@ -60,7 +60,7 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 				Uuid:      enabledNotificationSetting.UUID,
 				UserUuid:  enabledNotificationSetting.UserUUID,
 				Nature:    pb.Nature(pb.Nature_value[notificationRaw.Nature]),
-				Channel:   enabledNotificationSetting.Channel,
+				Channel:   pb.Channel(pb.Channel_value[enabledNotificationSetting.Channel]),
 				IsEnabled: enabledNotificationSetting.IsEnabled,
 			}
 		})
