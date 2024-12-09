@@ -1,10 +1,11 @@
-import {TrashIcon} from "@radix-ui/react-icons";
 import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
+import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -34,6 +35,11 @@ interface SingleGoalMetricProps {
    * Callback to delete metric
    */
   deleteMetric: (metricUuid: string) => Promise<void>;
+
+  /**
+   * Add nested metric
+   */
+  addNestedMetric: () => void;
 
 }
 
@@ -137,27 +143,50 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
 
       </HorizontalContainer>
       {props.isEditable && (
-        <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
-          <Confirm
-            trigger={
-              <TrashIcon data-cy={wayMetricsAccessIds.deleteMetric.trashButton} />}
-            content={<p>
-              {renderMarkdown(
-                `${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`,
-              )}
-            </p>}
-            onOk={() => props.deleteMetric(props.metric.uuid)}
-            okText={LanguageService.modals.confirmModal.deleteButton[language]}
-            cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-            cy={
-              {
-                onEnter: "",
-                onCancel: wayMetricsAccessIds.deleteMetric.cancelButton,
-                onOk: wayMetricsAccessIds.deleteMetric.deleteButton,
+        <HorizontalContainer className={styles.metricACtionButtons}>
+          <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
+            <Confirm
+              trigger={
+                <Button
+                  icon={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="TrashIcon"
+                    />
+                  }
+                  buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                  onClick={() => {}}
+                  data-cy={wayMetricsAccessIds.deleteMetric.trashButton}
+                />
               }
+              content={<p>
+                {renderMarkdown(
+                  `${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`,
+                )}
+              </p>}
+              onOk={() => props.deleteMetric(props.metric.uuid)}
+              okText={LanguageService.modals.confirmModal.deleteButton[language]}
+              cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+              cy={
+                {
+                  onEnter: "",
+                  onCancel: wayMetricsAccessIds.deleteMetric.cancelButton,
+                  onOk: wayMetricsAccessIds.deleteMetric.deleteButton,
+                }
+              }
+            />
+          </Tooltip>
+          <Button
+            icon={
+              <Icon
+                size={IconSize.SMALL}
+                name="PlusIcon"
+              />
             }
+            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+            onClick={props.addNestedMetric}
           />
-        </Tooltip>
+        </HorizontalContainer>
       )
       }
     </div>

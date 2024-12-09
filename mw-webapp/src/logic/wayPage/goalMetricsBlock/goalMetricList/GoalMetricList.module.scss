@@ -1,0 +1,27 @@
+@import "src/styles/variables";
+
+.childWay {
+  align-items: center;
+  justify-content: space-between;
+  padding: $paddingSmall 0;
+}
+
+.abandonedWay {
+  // Need create a new token for composite way background
+  color: var(--dangerColor);
+}
+
+.participantWay {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.singularMetric {
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $gapExtraSmall;
+}

@@ -28,4 +28,14 @@ export enum Symbols {
    */
   STAR = "\u2605",
 
+  /**
+   * Black star
+   */
+  NESTED_MARKER = "├─",
+
+  /**
+   * Black star
+   */
+  LAST_NESTED_MARKER = "└─",
+
 }

@@ -8,6 +8,34 @@ import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 
 /**
+ * Add metric recursively
+ */
+const addMetricRecursive = (metric: Metric, newMetric: Metric): Metric => {
+  return new Metric({
+    ...metric,
+    children: metric.uuid === newMetric.parentUuid
+      ? [...metric.children, newMetric]
+      : metric.children.map(child => addMetricRecursive(child, newMetric)),
+  });
+};
+
+/**
+ * Delete metric recursively
+ */
+const deleteMetricRecursively = (metric: Metric, metricUuid: string) => {
+  metric.children = metric.children.filter(child => {
+    if (child.uuid === metricUuid) {
+      return false;
+    } else {
+      deleteMetricRecursively(child, metricUuid);
+
+      return true;
+    }
+  });
+
+};
+
+/**
  * Way props
  */
 interface WayProps {
@@ -343,7 +371,9 @@ export class Way {
    * Add new metric to way
    */
   public addMetric(newMetric: Metric): void {
-    this.metrics.push(newMetric);
+    newMetric.parentUuid
+      ? this.metrics = this.metrics.map(metric => addMetricRecursive(metric, newMetric))
+      : this.metrics.push(newMetric);
   }
 
   /**
@@ -351,6 +381,7 @@ export class Way {
    */
   public deleteMetric(metricUuid: string): void {
     this.metrics = this.metrics.filter(metric => metric.uuid !== metricUuid);
+    this.metrics.forEach(metric => deleteMetricRecursively(metric, metricUuid));
   }
 
   /**
