@@ -16,6 +16,7 @@ import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDay
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/WayChildrenList/WayChildrenList.module.scss";
 
 /**
@@ -68,12 +69,23 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
   const renderChildrenItem = (child: WayWithoutDayReports) => {
     const isAbandoned = child.status === WayStatus.abandoned;
 
+    const levelArray = [...Array(props.level).keys()];
+
     return (
       <div key={child.uuid}>
         <VerticalContainer>
           <HorizontalContainer className={styles.childWay}>
             <HorizontalContainer>
-              {"*".repeat(props.level)}
+              {levelArray.map(item => {
+                return (
+                  <div
+                    key={item}
+                    className={styles.tabContainer}
+                  >
+                    {Symbols.BULLET}
+                  </div>
+                );
+              })}
               <Avatar
                 alt={child.owner.name}
                 src={child.owner.imageUrl}
