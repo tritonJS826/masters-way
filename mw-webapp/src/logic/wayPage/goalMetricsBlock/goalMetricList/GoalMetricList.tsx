@@ -80,11 +80,22 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
       await MetricDAL.updateMetric(metricToUpdate);
     };
 
+    const levelArray = [...Array(props.level).keys()];
+
     return (
       <VerticalContainer>
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
-            {Symbols.LAST_NESTED_MARKER.repeat(props.level)}
+            {levelArray.map(item => {
+              return (
+                <div
+                  key={item}
+                  className={styles.tabContainer}
+                >
+                  {Symbols.BULLET}
+                </div>
+              );
+            })}
             {childMetric.isDone && props.isEditable
               ? (
                 <Confirm

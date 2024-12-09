@@ -9,6 +9,11 @@ export enum Symbols {
   DIVIDING_POINT = "\u00B7",
 
   /**
+   * Dividing point
+   */
+  BULLET = "\u2022",
+
+  /**
    * Space
    */
   SPACE = "\u0020",

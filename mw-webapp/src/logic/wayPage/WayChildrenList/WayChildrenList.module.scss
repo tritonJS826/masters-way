@@ -19,3 +19,13 @@
   text-overflow: ellipsis;
   word-wrap: break-word;
 }
+
+.tabContainer {
+  display: flex;
+  overflow: hidden;
+  width: 16px;
+  height: 20px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
