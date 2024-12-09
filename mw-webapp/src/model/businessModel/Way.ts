@@ -371,14 +371,9 @@ export class Way {
    * Add new metric to way
    */
   public addMetric(newMetric: Metric): void {
-
-    switch (typeof newMetric.parentUuid) {
-      case "string":
-        this.metrics = this.metrics.map(metric => addMetricRecursive(metric, newMetric));
-        break;
-      default:
-        this.metrics.push(newMetric);
-    }
+    newMetric.parentUuid
+      ? this.metrics = this.metrics.map(metric => addMetricRecursive(metric, newMetric))
+      : this.metrics.push(newMetric);
   }
 
   /**
