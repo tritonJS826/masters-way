@@ -44,7 +44,7 @@ interface MetricChildrenListProps {
   /**
    * Add nested metric
    */
-  addNestedMetric: (childMetric: string) => void;
+  addMetric: (parentUuid: string, parentMetric: Metric | null) => void;
 
 }
 
@@ -164,7 +164,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                   />
                 }
                 buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                onClick={() => props.addNestedMetric(childMetric.uuid)}
+                onClick={() => props.addMetric(childMetric.uuid, childMetric)}
               />
               <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
                 <Confirm
@@ -207,7 +207,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
           metrics={childMetric.children}
           deleteMetric={props.deleteMetric}
           isEditable={props.isEditable}
-          addNestedMetric={props.addNestedMetric}
+          addMetric={props.addMetric}
         />
       </VerticalContainer>
     );

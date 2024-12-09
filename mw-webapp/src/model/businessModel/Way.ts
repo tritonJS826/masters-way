@@ -8,6 +8,31 @@ import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {WayWithoutDayReports} from "src/model/businessModelPreview/WayWithoutDayReports";
 
 /**
+ * Add metric recursively
+ */
+const addMetricRecursive = (metric: Metric, newMetric: Metric): Metric => {
+  return new Metric({
+    ...metric,
+    children: metric.uuid === newMetric.parentUuid
+      ? [...metric.children, newMetric]
+      : metric.children.map(child => addMetricRecursive(child, newMetric)),
+  });
+};
+
+/**
+ * Delete metric recursively
+ */
+const deleteMetricRecursively = (metric: Metric, metricUuid: string): Metric => {
+  return new Metric({
+    ...metric,
+    children: metric.children
+      .filter(child => child.uuid !== metricUuid)
+      .filter(child => deleteMetricRecursively(child, metricUuid)),
+  });
+
+};
+
+/**
  * Way props
  */
 interface WayProps {
@@ -343,16 +368,10 @@ export class Way {
    * Add new metric to way
    */
   public addMetric(newMetric: Metric): void {
+
     switch (typeof newMetric.parentUuid) {
       case "string":
-        this.metrics = this.metrics.map(metric => {
-          return metric.uuid !== newMetric.parentUuid
-            ? metric
-            : new Metric({
-              ...metric,
-              children: metric.children.concat(newMetric),
-            });
-        });
+        this.metrics = this.metrics.map(metric => addMetricRecursive(metric, newMetric));
         break;
       default:
         this.metrics.push(newMetric);
@@ -363,7 +382,8 @@ export class Way {
    * Delete metric from way
    */
   public deleteMetric(metricUuid: string): void {
-    this.metrics = this.metrics.filter(metric => metric.uuid !== metricUuid);
+    this.metrics = this.metrics.filter(metric => metric.uuid !== metricUuid)
+      .filter(metric => deleteMetricRecursively(metric, metricUuid));
   }
 
   /**

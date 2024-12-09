@@ -99,7 +99,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
         metrics={props.goalMetrics}
         deleteMetric={(metricUuid: string) => deleteMetric(metricUuid)}
         isEditable={props.isEditable}
-        addNestedMetric={(metricUuid: string) => addEmptyMetric(metricUuid)}
+        addMetric={(parentUuid: string) => addEmptyMetric(parentUuid)}
       />
       {props.isEditable &&
       <VerticalContainer className={styles.addMetricButtons}>
