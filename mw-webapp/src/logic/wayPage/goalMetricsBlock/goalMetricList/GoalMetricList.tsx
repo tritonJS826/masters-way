@@ -178,7 +178,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                       }
                       buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                       onClick={() => {}}
-                      data-cy={wayMetricsAccessIds.deleteMetric.trashButton}
+                      dataCy={wayMetricsAccessIds.deleteMetric.trashButton}
                     />
                   }
                   content={<p>
@@ -212,131 +212,6 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
       </VerticalContainer>
     );
   };
-
-  // Return (
-  //   <div
-  //     key={props.metric.uuid}
-  //     className={styles.singularMetric}
-  //   >
-  //     <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
-  //       {props.metric.isDone && props.isEditable
-  //         ? (
-  //           <Confirm
-  //             content={<p>
-  //               {`${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} ${props.metric.description}
-  //               ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`}
-  //             </p>}
-  //             onOk={onOk}
-  //             okText={LanguageService.modals.confirmModal.confirmButton[language]}
-  //             cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-  //             trigger={
-  //               <Checkbox
-  //                 isDisabled={!props.isEditable}
-  //                 isDefaultChecked={props.metric.isDone}
-  //                 className={styles.checkbox}
-  //                 onChange={() => {}}
-  //               />
-  //             }
-  //           />
-  //         )
-  //         : (
-  //           <Checkbox
-  //             isDisabled={!props.isEditable}
-  //             isDefaultChecked={props.metric.isDone}
-  //             className={styles.checkbox}
-  //             onChange={async (isDone) => {
-  //               props.metric.updateIsDone({
-  //                 isDoneToUpdate: isDone,
-  //                 doneDateToUpdate: new Date(),
-  //               });
-  //               const metricToUpdate = {
-  //                 uuid: props.metric.uuid,
-  //                 isDone,
-  //               };
-  //               await MetricDAL.updateMetric(metricToUpdate);
-  //             }}
-  //           />
-  //         )
-  //       }
-  //       <div className={styles.metricDescriptionWrapper}>
-  //         <Tooltip
-  //           content={tooltipContent}
-  //           className={styles.tooltip}
-  //         >
-  //           <EditableTextarea
-  //             text={props.metric.description ?? ""}
-  //             onChangeFinish={async (description) => {
-  //               props.metric.updateDescription(description);
-  //               const metricToUpdate = {
-  //                 uuid: props.metric.uuid,
-  //                 description,
-  //               };
-  //               await MetricDAL.updateMetric(metricToUpdate);
-  //             }}
-  //             isEditable={props.isEditable}
-  //             placeholder={props.isEditable
-  //               ? LanguageService.common.emptyMarkdownAction[language]
-  //               : LanguageService.common.emptyMarkdown[language]}
-  //             cy={
-  //               {
-  //                 textArea: wayMetricsAccessIds.metricDescriptionInput,
-  //                 trigger: wayMetricsAccessIds.metricDescription,
-  //               }
-  //             }
-  //           />
-  //         </Tooltip>
-  //       </div>
-
-  //     </HorizontalContainer>
-  //     {props.isEditable && (
-  //       <HorizontalContainer className={styles.metricACtionButtons}>
-  //         <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
-  //           <Confirm
-  //             trigger={
-  //               <Button
-  //                 icon={
-  //                   <Icon
-  //                     size={IconSize.SMALL}
-  //                     name="TrashIcon"
-  //                   />
-  //                 }
-  //                 buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-  //                 onClick={() => {}}
-  //                 data-cy={wayMetricsAccessIds.deleteMetric.trashButton}
-  //               />
-  //             }
-  //             content={<p>
-  //               {renderMarkdown(
-  //                 `${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${props.metric.description}"?`,
-  //               )}
-  //             </p>}
-  //             onOk={() => props.deleteMetric(props.metric.uuid)}
-  //             okText={LanguageService.modals.confirmModal.deleteButton[language]}
-  //             cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-  //             cy={
-  //               {
-  //                 onEnter: "",
-  //                 onCancel: wayMetricsAccessIds.deleteMetric.cancelButton,
-  //                 onOk: wayMetricsAccessIds.deleteMetric.deleteButton,
-  //               }
-  //             }
-  //           />
-  //         </Tooltip>
-  //         <Button
-  //           icon={
-  //             <Icon
-  //               size={IconSize.SMALL}
-  //               name="PlusIcon"
-  //             />
-  //           }
-  //           buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-  //           onClick={props.addNestedMetric}
-  //         />
-  //       </HorizontalContainer>
-  //     )
-  //     }
-  //   </div>
-  // );
 
   const childrenList = props.metrics.map(renderChildrenItem);
 

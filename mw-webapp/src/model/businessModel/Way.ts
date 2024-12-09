@@ -22,12 +22,15 @@ const addMetricRecursive = (metric: Metric, newMetric: Metric): Metric => {
 /**
  * Delete metric recursively
  */
-const deleteMetricRecursively = (metric: Metric, metricUuid: string): Metric => {
-  return new Metric({
-    ...metric,
-    children: metric.children
-      .filter(child => child.uuid !== metricUuid)
-      .filter(child => deleteMetricRecursively(child, metricUuid)),
+const deleteMetricRecursively = (metric: Metric, metricUuid: string) => {
+  metric.children = metric.children.filter(child => {
+    if (child.uuid === metricUuid) {
+      return false;
+    } else {
+      deleteMetricRecursively(child, metricUuid);
+
+      return true;
+    }
   });
 
 };
@@ -382,8 +385,8 @@ export class Way {
    * Delete metric from way
    */
   public deleteMetric(metricUuid: string): void {
-    this.metrics = this.metrics.filter(metric => metric.uuid !== metricUuid)
-      .filter(metric => deleteMetricRecursively(metric, metricUuid));
+    this.metrics = this.metrics.filter(metric => metric.uuid !== metricUuid);
+    this.metrics.forEach(metric => deleteMetricRecursively(metric, metricUuid));
   }
 
   /**
