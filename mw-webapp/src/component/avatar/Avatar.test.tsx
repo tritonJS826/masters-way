@@ -5,7 +5,7 @@ const NAME = "SUPER USER";
 const INITIALS = "SU";
 const AVATAR_CY = "avatar";
 
-describe("Image component", () => {
+describe("Avatar text component", () => {
   beforeEach(() => {
     render(
       <Avatar
@@ -16,7 +16,7 @@ describe("Image component", () => {
     );
   });
 
-  it("should render the image component correctly", () => {
+  it("should render the avatar text component correctly", () => {
     const avatar = screen.getByTestId(AVATAR_CY);
     expect(avatar).toBeVisible();
   });

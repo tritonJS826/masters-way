@@ -1,8 +1,6 @@
 import {render, screen} from "@testing-library/react";
 import {AreaChart, ChartAreaPoint} from "src/component/chart/AreaChart";
 
-const AREA_CHART_CY = "AreaChart";
-
 const FIRST_TIME = 20;
 const SECOND_TIME = 40;
 const THIRD_TIME = 60;
@@ -16,15 +14,12 @@ const DATA: ChartAreaPoint[] = [
 describe("AreaChart component", () => {
   beforeEach(() => {
     render(
-      <AreaChart
-        points={DATA}
-        dataCy={AREA_CHART_CY}
-      />,
+      <AreaChart points={DATA} />,
     );
   });
 
   it("should render AreaChart", () => {
-    const areaChart = screen.getByTestId(AREA_CHART_CY);
+    const areaChart = screen.getByRole("img");
     expect(areaChart).toBeVisible();
   });
 });

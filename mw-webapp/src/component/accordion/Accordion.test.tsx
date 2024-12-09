@@ -1,5 +1,4 @@
 import {fireEvent, render, screen} from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 
 const FIRST_TRIGGER = "trigger1";
@@ -35,10 +34,10 @@ describe("Accordion component", () => {
   it("should render the accordion and all options", () => {
     renderAccordion(accordionTypes.SINGLE);
 
+    expect(screen.getByRole("button", {name: FIRST_TRIGGER})).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: SECOND_TRIGGER})).toBeInTheDocument();
     expect(screen.getByTestId(FIRST_CONTENT)).toBeInTheDocument();
     expect(screen.getByTestId(SECOND_CONTENT)).toBeInTheDocument();
-    expect(screen.getByTestId(FIRST_TRIGGER)).toBeInTheDocument();
-    expect(screen.getByTestId(SECOND_TRIGGER)).toBeInTheDocument();
   });
 
   it("should accordion option be closed (text hidden)", () => {
@@ -47,25 +46,20 @@ describe("Accordion component", () => {
     expect(screen.getByTestId(FIRST_CONTENT)).not.toBeVisible();
   });
 
-  it("should accordion option be opened when click trigger", async () => {
+  it("should accordion option be opened when click trigger", () => {
     renderAccordion(accordionTypes.SINGLE);
-    const trigger = screen.getByTestId(FIRST_TRIGGER);
-    const button = trigger.querySelector("button");
-
-    await userEvent.click(button as HTMLButtonElement);
-    expect(screen.getByTestId(FIRST_CONTENT)).toBeVisible();
+    const trigger = screen.getByRole("button", {name: FIRST_TRIGGER});
+    fireEvent.click(trigger);
+    expect(screen.getByText(FIRST_CONTENT)).toBeVisible();
   });
 
   it("should all options could be opened and closed one by one", () => {
     renderAccordion(accordionTypes.SINGLE);
+    const triggerFirst = screen.getByRole("button", {name: FIRST_TRIGGER});
+    const triggerSecond = screen.getByRole("button", {name: SECOND_TRIGGER});
 
-    const triggerFirst = screen.getByTestId(FIRST_TRIGGER);
-    const buttonFirst = triggerFirst.querySelector("button");
-    const triggerSecond = screen.getByTestId(SECOND_TRIGGER);
-    const buttonFSecond = triggerSecond.querySelector("button");
-
-    fireEvent.click(buttonFirst as HTMLButtonElement);
-    fireEvent.click(buttonFSecond as HTMLButtonElement);
+    fireEvent.click(triggerFirst);
+    fireEvent.click(triggerSecond);
 
     expect(screen.getByTestId(FIRST_CONTENT)).not.toBeVisible();
     expect(screen.getByTestId(SECOND_CONTENT)).toBeVisible();
@@ -74,13 +68,11 @@ describe("Accordion component", () => {
   it("should all options be opened and closed in multiple mode", () => {
     renderAccordion(accordionTypes.MULTIPLE);
 
-    const triggerFirst = screen.getByTestId(FIRST_TRIGGER);
-    const buttonFirst = triggerFirst.querySelector("button");
-    const triggerSecond = screen.getByTestId(SECOND_TRIGGER);
-    const buttonFSecond = triggerSecond.querySelector("button");
+    const triggerFirst = screen.getByRole("button", {name: FIRST_TRIGGER});
+    const triggerSecond = screen.getByRole("button", {name: SECOND_TRIGGER});
 
-    fireEvent.click(buttonFirst as HTMLButtonElement);
-    fireEvent.click(buttonFSecond as HTMLButtonElement);
+    fireEvent.click(triggerFirst);
+    fireEvent.click(triggerSecond);
 
     expect(screen.getByTestId(FIRST_CONTENT)).toBeVisible();
     expect(screen.getByTestId(SECOND_CONTENT)).toBeVisible();
@@ -89,16 +81,14 @@ describe("Accordion component", () => {
   it("should only one option be opened in not multiple mode", () => {
     renderAccordion(accordionTypes.SINGLE);
 
-    const triggerFirst = screen.getByTestId(FIRST_TRIGGER);
-    const buttonFirst = triggerFirst.querySelector("button");
-    const triggerSecond = screen.getByTestId(SECOND_TRIGGER);
-    const buttonFSecond = triggerSecond.querySelector("button");
+    const triggerFirst = screen.getByRole("button", {name: FIRST_TRIGGER});
+    const triggerSecond = screen.getByRole("button", {name: SECOND_TRIGGER});
 
-    fireEvent.click(buttonFirst as HTMLButtonElement);
+    fireEvent.click(triggerFirst);
     expect(screen.getByTestId(FIRST_CONTENT)).toBeVisible();
     expect(screen.getByTestId(SECOND_CONTENT)).not.toBeVisible();
 
-    fireEvent.click(buttonFSecond as HTMLButtonElement);
+    fireEvent.click(triggerSecond);
     expect(screen.getByTestId(FIRST_CONTENT)).not.toBeVisible();
     expect(screen.getByTestId(SECOND_CONTENT)).toBeVisible();
   });
