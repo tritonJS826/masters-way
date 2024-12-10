@@ -234,6 +234,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasGenerateMetricsResponse](docs/MwGeneralBffInternalSchemasGenerateMetricsResponse.md)
  - [MwGeneralBffInternalSchemasJobTagResponse](docs/MwGeneralBffInternalSchemasJobTagResponse.md)
  - [MwGeneralBffInternalSchemasNoRightToChangeDayReportError](docs/MwGeneralBffInternalSchemasNoRightToChangeDayReportError.md)
+ - [MwGeneralBffInternalSchemasRefreshAccessTokenPayload](docs/MwGeneralBffInternalSchemasRefreshAccessTokenPayload.md)
  - [MwGeneralBffInternalSchemasUpdateCommentPayload](docs/MwGeneralBffInternalSchemasUpdateCommentPayload.md)
  - [MwGeneralBffInternalSchemasUpdateJobDone](docs/MwGeneralBffInternalSchemasUpdateJobDone.md)
  - [MwGeneralBffInternalSchemasUpdateJobTagPayload](docs/MwGeneralBffInternalSchemasUpdateJobTagPayload.md)

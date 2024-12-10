@@ -25,6 +25,7 @@ func (ar *authRouter) setAuthRoutes(rg *gin.RouterGroup) {
 		router.GET("/current", auth.HandleHeaders(ar.config), ar.authController.GetCurrentAuthorizedUserByToken)
 		router.GET("/logout/:provider", auth.HandleHeaders(ar.config), ar.authController.Logout)
 		router.GET("/google-token", auth.HandleHeaders(ar.config), ar.authController.GetGoogleAccessToken)
+		router.GET("/refreshToken", ar.authController.RefreshAccessToken)
 		if ar.config.EnvType != "prod" {
 			router.GET("/login/local/:userEmail", ar.authController.GetUserTokenByEmail)
 		}

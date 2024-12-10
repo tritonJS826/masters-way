@@ -75,6 +75,13 @@ paths:
   /auth/refreshToken:
     get:
       operationId: refresh-access-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.RefreshAccessTokenPayload'
+        description: query params
+        required: true
       responses:
         "200":
           content:
@@ -85,6 +92,7 @@ paths:
       summary: Retrieve Access Token
       tags:
       - auth
+      x-codegen-request-body-name: request
   /auth/{provider}:
     get:
       operationId: begin-auth
@@ -3740,6 +3748,13 @@ components:
       - ownerId
       - users
       - ways
+      type: object
+    mw-server_internal_schemas.RefreshAccessTokenPayload:
+      properties:
+        refreshToken:
+          type: string
+      required:
+      - refreshToken
       type: object
     mw-server_internal_schemas.RefreshAccessTokenResponse:
       example:

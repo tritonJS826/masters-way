@@ -412,7 +412,7 @@ No authorization required
 
 ## RefreshAccessToken
 
-> MwServerInternalSchemasRefreshAccessTokenResponse RefreshAccessToken(ctx).Execute()
+> MwServerInternalSchemasRefreshAccessTokenResponse RefreshAccessToken(ctx).Request(request).Execute()
 
 Retrieve Access Token
 
@@ -429,10 +429,11 @@ import (
 )
 
 func main() {
+	request := *openapiclient.NewMwServerInternalSchemasRefreshAccessTokenPayload("RefreshToken_example") // MwServerInternalSchemasRefreshAccessTokenPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AuthAPI.RefreshAccessToken(context.Background()).Execute()
+	resp, r, err := apiClient.AuthAPI.RefreshAccessToken(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.RefreshAccessToken``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -444,12 +445,16 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiRefreshAccessTokenRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwServerInternalSchemasRefreshAccessTokenPayload**](MwServerInternalSchemasRefreshAccessTokenPayload.md) | query params | 
 
 ### Return type
 
@@ -461,7 +466,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

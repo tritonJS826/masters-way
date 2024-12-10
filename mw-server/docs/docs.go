@@ -137,6 +137,17 @@ const docTemplate = `{
                 ],
                 "summary": "Retrieve Access Token",
                 "operationId": "refresh-access-token",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.RefreshAccessTokenPayload"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -3982,6 +3993,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "mw-server_internal_schemas.RefreshAccessTokenPayload": {
+            "type": "object",
+            "required": [
+                "refreshToken"
+            ],
+            "properties": {
+                "refreshToken": {
+                    "type": "string"
                 }
             }
         },

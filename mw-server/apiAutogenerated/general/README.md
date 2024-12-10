@@ -220,6 +220,7 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasProblemPopulatedResponse](docs/MwServerInternalSchemasProblemPopulatedResponse.md)
  - [MwServerInternalSchemasProjectPlainResponse](docs/MwServerInternalSchemasProjectPlainResponse.md)
  - [MwServerInternalSchemasProjectPopulatedResponse](docs/MwServerInternalSchemasProjectPopulatedResponse.md)
+ - [MwServerInternalSchemasRefreshAccessTokenPayload](docs/MwServerInternalSchemasRefreshAccessTokenPayload.md)
  - [MwServerInternalSchemasRefreshAccessTokenResponse](docs/MwServerInternalSchemasRefreshAccessTokenResponse.md)
  - [MwServerInternalSchemasTimeSpentByDayPoint](docs/MwServerInternalSchemasTimeSpentByDayPoint.md)
  - [MwServerInternalSchemasToUserMentoringRequestResponse](docs/MwServerInternalSchemasToUserMentoringRequestResponse.md)

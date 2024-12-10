@@ -196,16 +196,24 @@ func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
 // @ID refresh-access-token
 // @Accept json
 // @Produce json
+// @Param request body schemas.RefreshAccessTokenPayload true "query params"
 // @Success 200 {object} schemas.RefreshAccessTokenResponse
 // @Router /auth/refreshToken [get]
 func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
+	var payload *schemas.RefreshAccessTokenPayload
 
-	newToken, err := ac.authService.RefreshGoogleAccessToken(ctx, userID)
-	ac.authService.SetGoogleTokenToTokenStore(userID, newToken)
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	accessToken, err := auth.GenerateJWT(userID, ac.config.SecretSessionKey, auth.AccessExpIn)
+	claims, err := auth.ValidateJWT(payload.RefreshToken, ac.config.SecretSessionKey)
+	util.HandleErrorGin(ctx, err)
+
+	newGoogleToken, err := ac.authService.RefreshGoogleAccessToken(ctx, claims.UserID)
+	ac.authService.SetGoogleTokenToTokenStore(claims.UserID, newGoogleToken)
+
+	accessToken, err := auth.GenerateJWT(claims.UserID, ac.config.SecretSessionKey, auth.AccessExpIn)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.RefreshAccessTokenResponse{

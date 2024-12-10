@@ -884,6 +884,13 @@ definitions:
     - users
     - ways
     type: object
+  mw-server_internal_schemas.RefreshAccessTokenPayload:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
   mw-server_internal_schemas.RefreshAccessTokenResponse:
     properties:
       accessToken:
@@ -1511,6 +1518,13 @@ paths:
       consumes:
       - application/json
       operationId: refresh-access-token
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.RefreshAccessTokenPayload'
       produces:
       - application/json
       responses:
