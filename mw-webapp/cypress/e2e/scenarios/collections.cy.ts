@@ -7,6 +7,7 @@ import userWaysData from "cypress/fixtures/userWaysFixture.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import {LanguageService} from "src/service/LanguageService";
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
+import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -39,15 +40,11 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getAddCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .within(() => {
-                userWaysSelectors.collectionBlock.getWayAmountCollectionButton()
-                    .should('have.text', userWaysData.collectionButton.custom.waysAmount0);
-            });
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`)
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
         userWaysSelectors.collectionBlock.customCollection.getCustomCollectionBlock()
-            .within(() => {
-                userWaysSelectors.collectionBlock.getWayCollectionButtonMainInfo()
-                    .should('have.text', userPageContent.collections.newCollection.en);
-            });
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayCollectionButtonMainInfo}"]`)
+            .should('have.text', userPageContent.collections.newCollection.en);
         
         userWaysSelectors.collectionBlock.customCollection.getActionMenuButton().click();
         userWaysSelectors.collectionBlock.customCollection.getAtcionMenuItem()
@@ -55,28 +52,24 @@ describe('Collections tests', () => {
             .click();
         userWaysSelectors.collectionBlock.customCollection.renameDialog.getInput()
             .type('{selectall}')
-            .type(userWaysData.collectionButton.custom.newName);
+            .type(userWaysData.customCollection.newName);
         userWaysSelectors.collectionBlock.customCollection.renameDialog.getOkButton().click();
         
         userWaysSelectors.collectionBlock.customCollection.getCustomCollectionBlock()
-            .within(() => {
-                userWaysSelectors.collectionBlock.getWayCollectionButtonMainInfo()
-                    .should('have.text', userWaysData.collectionButton.custom.newName);
-            });
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayCollectionButtonMainInfo}"]`)
+            .should('have.text', userWaysData.customCollection.newName);
 
         userWaysSelectors.getCreateNewWayButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${userWaysData.collectionButton.custom.newName}`).click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${userWaysData.customCollection.newName}`).click();
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .within(() => {
-                userWaysSelectors.collectionBlock.getWayAmountCollectionButton()
-                    .should('have.text', userWaysData.collectionButton.custom.waysAmount1);
-            });
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
-        userWaysSelectors.wayTitles.getWayStatusTitle().contains(userWaysData.collectionButton.custom.newName + ' (1)');
+        userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
 
         cy.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
@@ -85,33 +78,29 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${userWaysData.collectionButton.custom.newName}`).click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${userWaysData.customCollection.newName}`).click();
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .within(() => {
-                userWaysSelectors.collectionBlock.getWayAmountCollectionButton()
-                    .should('have.text', userWaysData.collectionButton.custom.waysAmount2);
-            });
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 2`);
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
-        userWaysSelectors.wayTitles.getWayStatusTitle().contains(userWaysData.collectionButton.custom.newName + ' (2)');
+        userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (2)`);
 
         cy.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
             .contains(testUserData.testUsers.studentJonh.name)
             .click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).click();
-        wayDescriptionSelectors.wayDashBoardLeft.getAddToFavorites().click();
-        wayDescriptionSelectors.wayDashBoardLeft.getAddToFavorites().contains(1);
+        wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().click();
+        wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().contains(1);
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getFavoriteWayCollectionButton()
-            .within(() => {
-                userWaysSelectors.collectionBlock.getWayAmountCollectionButton()
-                    .should('have.text', userWaysData.collectionButton.mentoring.waysAmount1);
-            });
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getFavoriteWayCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).should('be.visible');
 
@@ -119,24 +108,22 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.deleteFrom.en} ${userWaysData.collectionButton.custom.newName}`).click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.deleteFrom.en} ${userWaysData.customCollection.newName}`).click();
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('not.exist');
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
-        userWaysSelectors.wayTitles.getWayStatusTitle().contains(userWaysData.collectionButton.custom.newName + ' (1)');
+        userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .within(() => {
-                userWaysSelectors.collectionBlock.getWayAmountCollectionButton()
-                    .should('have.text', userWaysData.collectionButton.custom.waysAmount1);
-            });     
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);    
         
         userWaysSelectors.collectionBlock.customCollection.getActionMenuButton().click();
         userWaysSelectors.collectionBlock.customCollection.getAtcionMenuItem()
             .contains(userPageContent.collections.deleteCollection.en)
             .click();
-        userWaysSelectors.collectionBlock.customCollection.deleteDialog.getContent().contains(`${LanguageService.user.collections.deleteCollectionModalQuestion.en} "${userWaysData.collectionButton.custom.newName}" ?`);
+        userWaysSelectors.collectionBlock.customCollection.deleteDialog.getContent().contains(`${LanguageService.user.collections.deleteCollectionModalQuestion.en} "${userWaysData.customCollection.newName}" ?`);
         userWaysSelectors.collectionBlock.customCollection.deleteDialog.getDeleteButton().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().should('not.exist');

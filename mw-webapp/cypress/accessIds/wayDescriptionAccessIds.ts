@@ -1,7 +1,7 @@
 export const wayDescriptionAccessIds = {
     wayDashBoardLeft: {
         title : 'wayTitle',
-        addToFavorites: 'addToFavorites',
+        addToFavoritesButton: 'addToFavoritesButton',
         goal: 'wayGoal',
         tag: {
             addTagButton: 'addTagButton',

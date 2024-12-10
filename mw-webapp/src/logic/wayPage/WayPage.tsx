@@ -455,7 +455,7 @@ export const WayPage = observer((props: WayPageProps) => {
                       });
                     }}
                     buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                    dataCy={wayDescriptionAccessIds.wayDashBoardLeft.addToFavorites}
+                    dataCy={wayDescriptionAccessIds.wayDashBoardLeft.addToFavoritesButton}
                   />
                 </Tooltip>
 

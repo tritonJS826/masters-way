@@ -6,7 +6,7 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
-import userWaysData from "cypress/fixtures/userWaysFixture.json";
+import {LanguageService} from "src/service/LanguageService";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -59,7 +59,7 @@ describe('Mentor-mentee tests', () => {
 
         cy.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
-        userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(1).should('have.text', userWaysData.collectionButton.mentoring.waysAmount1);
+        userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(1).should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist').and('be.visible');
     });
