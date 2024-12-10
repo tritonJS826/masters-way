@@ -141,18 +141,16 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 
 		roots := []*schemas.MetricTreeNode{}
 
-		for _, node := range nodeMap {
-			if node.Metric.ParentUuid == nil {
+		for _, metric := range metrics {
+			node := nodeMap[metric.Uuid]
+			if metric.ParentUuid == nil {
 				roots = append(roots, node)
 			} else {
-				parent, exists := nodeMap[*node.Metric.ParentUuid]
+				parent, exists := nodeMap[*metric.ParentUuid]
 				if exists {
-					if parent.Children == nil {
-						parent.Children = []*schemas.MetricTreeNode{}
-					}
 					parent.Children = append(parent.Children, node)
 				} else {
-					log.Printf("Parent with UUID %v not found for node %v", *node.Metric.ParentUuid, node.Metric.Uuid)
+					log.Printf("Parent with UUID %v not found for node %v", *metric.ParentUuid, metric.Uuid)
 				}
 			}
 		}
