@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**GetTokenLocally**](AuthAPI.md#GetTokenLocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 [**GoogleAuthLogInCallbackFunction**](AuthAPI.md#GoogleAuthLogInCallbackFunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
 [**LogoutCurrentAuthorizedUser**](AuthAPI.md#LogoutCurrentAuthorizedUser) | **Get** /auth/logout/{provider} | Logout current authorized user
+[**RefreshAccessToken**](AuthAPI.md#RefreshAccessToken) | **Get** /auth/refreshToken | Retrieve Access Token
 
 
 
@@ -403,6 +404,65 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RefreshAccessToken
+
+> MwServerInternalSchemasRefreshAccessTokenResponse RefreshAccessToken(ctx).Execute()
+
+Retrieve Access Token
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AuthAPI.RefreshAccessToken(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AuthAPI.RefreshAccessToken``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RefreshAccessToken`: MwServerInternalSchemasRefreshAccessTokenResponse
+	fmt.Fprintf(os.Stdout, "Response from `AuthAPI.RefreshAccessToken`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRefreshAccessTokenRequest struct via the builder pattern
+
+
+### Return type
+
+[**MwServerInternalSchemasRefreshAccessTokenResponse**](MwServerInternalSchemasRefreshAccessTokenResponse.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

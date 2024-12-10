@@ -18,6 +18,7 @@ import type {
   MwServerInternalSchemasBeginAuthResponse,
   MwServerInternalSchemasGetAuthCallbackFunctionResponse,
   MwServerInternalSchemasGoogleToken,
+  MwServerInternalSchemasRefreshAccessTokenResponse,
   MwServerInternalSchemasUserPopulatedResponse,
 } from '../models/index';
 import {
@@ -27,6 +28,8 @@ import {
     MwServerInternalSchemasGetAuthCallbackFunctionResponseToJSON,
     MwServerInternalSchemasGoogleTokenFromJSON,
     MwServerInternalSchemasGoogleTokenToJSON,
+    MwServerInternalSchemasRefreshAccessTokenResponseFromJSON,
+    MwServerInternalSchemasRefreshAccessTokenResponseToJSON,
     MwServerInternalSchemasUserPopulatedResponseFromJSON,
     MwServerInternalSchemasUserPopulatedResponseToJSON,
 } from '../models/index';
@@ -243,6 +246,32 @@ export class AuthApi extends runtime.BaseAPI {
      */
     async logoutCurrentAuthorizedUser(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.logoutCurrentAuthorizedUserRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Retrieve Access Token
+     */
+    async refreshAccessTokenRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasRefreshAccessTokenResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/auth/refreshToken`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasRefreshAccessTokenResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve Access Token
+     */
+    async refreshAccessToken(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasRefreshAccessTokenResponse> {
+        const response = await this.refreshAccessTokenRaw(initOverrides);
+        return await response.value();
     }
 
 }

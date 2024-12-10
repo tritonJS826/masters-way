@@ -29,7 +29,7 @@ func TestAddMentorUserWay(t *testing.T) {
 	wayID := "32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should successfully create a MentorUserWay and ensure the new mentor is associated with the specified Way", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -83,7 +83,7 @@ func TestDeleteMentorUserWay(t *testing.T) {
 	wayID := "32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should successfully delete a MentorUserWay and ensure the mentor is no longer associated with the specified Way", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

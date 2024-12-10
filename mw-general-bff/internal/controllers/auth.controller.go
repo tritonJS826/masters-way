@@ -133,3 +133,18 @@ func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, token)
 }
+
+// @Summary Retrieve Access Token
+// @Description
+// @Tags auth
+// @ID refresh-access-token
+// @Accept json
+// @Produce json
+// @Success 200 {object} openapiGeneral.MwServerInternalSchemasRefreshAccessTokenResponse
+// @Router /auth/refreshToken [get]
+func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
+	response, err := ac.authFacade.RefreshAccessToken(ctx)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
+}

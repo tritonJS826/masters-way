@@ -30,7 +30,7 @@ func TestCreateProject(t *testing.T) {
 	projectName := "Test project"
 
 	t.Run("should create a project successfully and match expected structure", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -93,7 +93,7 @@ func TestUpdateProject(t *testing.T) {
 	isPrivate := true
 
 	t.Run("should update a project successfully and match expected structure", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

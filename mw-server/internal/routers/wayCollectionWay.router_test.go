@@ -30,7 +30,7 @@ func TestCreateWayCollectionWay(t *testing.T) {
 	wayID := "aa13eee9-7dca-46ed-a3f7-21d8b7ae3b72"
 
 	t.Run("should add a way to a user's custom way collection and verify its addition", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -74,7 +74,7 @@ func TestDeleteWayCollectionWayById(t *testing.T) {
 	wayID := "a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should delete a way from a user's custom way collection and verify its removal", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

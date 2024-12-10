@@ -31,7 +31,7 @@ func TestCreateDayReport(t *testing.T) {
 	wayID := "9972552a-c0b3-41f3-b464-284d36a36964"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -97,7 +97,7 @@ func TestGetDayReports(t *testing.T) {
 	wayID := "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

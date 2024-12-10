@@ -124,6 +124,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/refreshToken": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Retrieve Access Token",
+                "operationId": "refresh-access-token",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.RefreshAccessTokenResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/{provider}": {
             "get": {
                 "consumes": [
@@ -3959,6 +3982,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-server_internal_schemas.WayPlainResponse"
                     }
+                }
+            }
+        },
+        "mw-server_internal_schemas.RefreshAccessTokenResponse": {
+            "type": "object",
+            "required": [
+                "accessToken"
+            ],
+            "properties": {
+                "accessToken": {
+                    "type": "string"
                 }
             }
         },

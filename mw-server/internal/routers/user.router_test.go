@@ -421,7 +421,7 @@ func TestUpdateUser(t *testing.T) {
 	userID := "7cdb041b-4574-4f7b-a500-c53e74c72e94"
 
 	t.Run("should successfully update user and return the correct updated user information", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -474,7 +474,7 @@ func TestGetUsersByIDs(t *testing.T) {
 	userID := "7cdb041b-4574-4f7b-a500-c53e74c72e94"
 
 	t.Run("should return the correct user details when valid user IDs are provided", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

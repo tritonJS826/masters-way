@@ -32,7 +32,7 @@ func TestCreateMetric(t *testing.T) {
 	WayUuid := "550e8400-e29b-41d4-a716-446655440000"
 
 	t.Run("Should create metric successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

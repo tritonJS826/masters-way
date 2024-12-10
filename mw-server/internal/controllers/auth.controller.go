@@ -60,14 +60,17 @@ func (ac *AuthController) GetAuthCallbackFunction(ctx *gin.Context) {
 	findOrCreateUserByEmailResponse, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	ac.authService.SetGoogleAccessTokenByUserID(findOrCreateUserByEmailResponse.User.Uuid, googleAuthInfo.Token.AccessToken)
+	ac.authService.SetGoogleTokenToTokenStore(findOrCreateUserByEmailResponse.User.Uuid, googleAuthInfo.Token)
 
-	jwtToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey)
+	accessToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey, auth.AccessExpIn)
+	util.HandleErrorGin(ctx, err)
+
+	refreshToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey, auth.RefreshExpIn)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.GetAuthCallbackFunctionResponse{
 		IsAlreadyCreated: findOrCreateUserByEmailResponse.IsAlreadyCreated,
-		Url:              ac.config.WebappBaseUrl + "?token=" + jwtToken,
+		Url:              ac.config.WebappBaseUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -135,12 +138,15 @@ func (ac *AuthController) GetUserTokenByEmail(ctx *gin.Context) {
 	findOrCreateUserByEmailResponse, err := ac.userService.FindOrCreateUserByEmail(ctx, args)
 	util.HandleErrorGin(ctx, err)
 
-	jwtToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey)
+	accessToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey, auth.AccessExpIn)
+	util.HandleErrorGin(ctx, err)
+
+	refreshToken, err := auth.GenerateJWT(findOrCreateUserByEmailResponse.User.Uuid, ac.config.SecretSessionKey, auth.RefreshExpIn)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.GetAuthCallbackFunctionResponse{
 		IsAlreadyCreated: findOrCreateUserByEmailResponse.IsAlreadyCreated,
-		Url:              ac.config.WebappBaseUrl + "?token=" + jwtToken,
+		Url:              ac.config.WebappBaseUrl + "?accessToken=" + accessToken + "&refreshToken=" + refreshToken,
 	}
 
 	ctx.JSON(http.StatusOK, response)
@@ -174,11 +180,36 @@ func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
 	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	userID := userIDRaw.(string)
 
-	token, err := ac.authService.GetGoogleAccessTokenByUserID(userID)
+	token, err := ac.authService.GetGoogleToken(userID)
 	util.HandleErrorGin(ctx, err)
 
 	response := schemas.GoogleToken{
-		AccessToken: token,
+		AccessToken: token.AccessToken,
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+// @Summary Retrieve Access Token
+// @Description
+// @Tags auth
+// @ID refresh-access-token
+// @Accept json
+// @Produce json
+// @Success 200 {object} schemas.RefreshAccessTokenResponse
+// @Router /auth/refreshToken [get]
+func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+
+	newToken, err := ac.authService.RefreshGoogleAccessToken(ctx, userID)
+	ac.authService.SetGoogleTokenToTokenStore(userID, newToken)
+
+	accessToken, err := auth.GenerateJWT(userID, ac.config.SecretSessionKey, auth.AccessExpIn)
+	util.HandleErrorGin(ctx, err)
+
+	response := schemas.RefreshAccessTokenResponse{
+		AccessToken: accessToken,
 	}
 
 	ctx.JSON(http.StatusOK, response)

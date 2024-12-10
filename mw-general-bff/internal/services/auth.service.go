@@ -69,3 +69,11 @@ func (as *AuthService) Logout(ctx context.Context, provider string) error {
 	}
 	return nil
 }
+
+func (as *AuthService) RefreshAccessToken(ctx context.Context) (*openapiGeneral.MwServerInternalSchemasRefreshAccessTokenResponse, error) {
+	accessToken, response, err := as.generalAPI.AuthAPI.RefreshAccessToken(ctx).Execute()
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+	return accessToken, nil
+}

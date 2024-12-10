@@ -4,23 +4,26 @@ import (
 	"context"
 	"fmt"
 	"mw-server/internal/auth"
-	"sync"
 
 	"golang.org/x/oauth2"
 	oauthGoogle "google.golang.org/api/oauth2/v2"
 	"google.golang.org/api/option"
 )
 
+type GoogleTokenStore interface {
+	SetGoogleToken(userID string, token *oauth2.Token)
+	GetGoogleToken(userID string) (*oauth2.Token, error)
+}
+
 type AuthService struct {
-	googleTokenMap map[string]string
-	sync.RWMutex
+	googleTokenStore  GoogleTokenStore
 	googleOAuthConfig *oauth2.Config
 	jwtKey            []byte
 }
 
 func newAuthService(googleOAuthConfig *oauth2.Config, jwtKey []byte) *AuthService {
 	return &AuthService{
-		googleTokenMap:    map[string]string{},
+		googleTokenStore:  auth.NewGoogleTokenMap(),
 		googleOAuthConfig: googleOAuthConfig,
 		jwtKey:            jwtKey,
 	}
@@ -59,18 +62,29 @@ func (as *AuthService) GetGoogleAuthURL() string {
 	return as.googleOAuthConfig.AuthCodeURL(auth.OauthStateString, oauth2.AccessTypeOffline)
 }
 
-func (as *AuthService) SetGoogleAccessTokenByUserID(userID, token string) {
-	as.Lock()
-	as.googleTokenMap[userID] = token
-	as.Unlock()
+func (as *AuthService) RefreshGoogleAccessToken(ctx context.Context, userID string) (*oauth2.Token, error) {
+	token, err := as.googleTokenStore.GetGoogleToken(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get google token: %w", err)
+	}
+
+	client := as.googleOAuthConfig.TokenSource(ctx, token)
+	newToken, err := client.Token()
+	if err != nil {
+		return nil, fmt.Errorf("failed to refresh Google access token: %w", err)
+	}
+
+	return newToken, nil
 }
 
-func (as *AuthService) GetGoogleAccessTokenByUserID(userID string) (string, error) {
-	as.RLock()
-	token, exists := as.googleTokenMap[userID]
-	as.RUnlock()
-	if !exists {
-		return "", fmt.Errorf("access token not found for user ID: %s", userID)
+func (as *AuthService) SetGoogleTokenToTokenStore(userID string, googleToken *oauth2.Token) {
+	as.googleTokenStore.SetGoogleToken(userID, googleToken)
+}
+
+func (as *AuthService) GetGoogleToken(userID string) (*oauth2.Token, error) {
+	token, err := as.googleTokenStore.GetGoogleToken(userID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get google access token: %w", err)
 	}
 	return token, nil
 }

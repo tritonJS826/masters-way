@@ -28,7 +28,7 @@ func TestAddUserTagByName(t *testing.T) {
 	userID := "7cdb041b-4574-4f7b-a500-c53e74c72e94"
 
 	t.Run("should successfully create a new user tag and return the correct userTag name", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -69,7 +69,7 @@ func TestDeleteUserTagByFromUserByTag(t *testing.T) {
 	userTagID := "8749d799-0a89-4ffd-b1bd-02ada9234e5a"
 
 	t.Run("should delete a user tag and ensure it no longer exists in the user's tags", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

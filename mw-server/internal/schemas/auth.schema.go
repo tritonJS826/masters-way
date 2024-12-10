@@ -12,3 +12,7 @@ type GetAuthCallbackFunctionResponse struct {
 type BeginAuthResponse struct {
 	Url string `json:"url" validate:"required"`
 }
+
+type RefreshAccessTokenResponse struct {
+	AccessToken string `json:"accessToken" validate:"required"`
+}

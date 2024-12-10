@@ -29,7 +29,7 @@ func TestCreatePlanTag(t *testing.T) {
 	jobTagID := "c73ff20b-e64e-4e5f-b270-1a40ba1bd81b"
 
 	t.Run("should create plan job tag successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -113,7 +113,7 @@ func TestDeletePlanJobTagById(t *testing.T) {
 	wayID := "1d922e8a-5d58-4b82-9a3d-83e2e73b3f91"
 
 	t.Run("should create plan job tag successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
