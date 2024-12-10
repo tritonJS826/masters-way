@@ -4,6 +4,7 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 export const wayDescriptionSelectors = {
     wayDashBoardLeft: {
        getTitle: () => cy.get(getDataCy(wayDescriptionAccessIds.wayDashBoardLeft.title)),
+       getAddToFavoritesButton: () => cy.get(getDataCy(wayDescriptionAccessIds.wayDashBoardLeft.addToFavoritesButton)),
        getGoal: () => cy.get(getDataCy(wayDescriptionAccessIds.wayDashBoardLeft.goal)),
        tag: {
             getAddTagButton: () => cy.get(getDataCy(wayDescriptionAccessIds.wayDashBoardLeft.tag.addTagButton)),

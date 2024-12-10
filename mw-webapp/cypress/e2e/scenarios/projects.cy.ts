@@ -8,7 +8,7 @@ import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import { LanguageService } from "src/service/LanguageService";
+import {LanguageService} from "src/service/LanguageService";
 
 beforeEach(() => {
     cy.resetGeneralDb();

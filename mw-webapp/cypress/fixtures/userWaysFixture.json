@@ -42,10 +42,8 @@
     }
   },
 
-  "collectionButton": {
-      "mentoring": {
-        "waysAmount": "Ways: 1"
-      }
+  "customCollection": {
+    "newName": "My collection"
   }
 
 }

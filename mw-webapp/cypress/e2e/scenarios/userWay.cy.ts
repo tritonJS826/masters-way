@@ -8,7 +8,7 @@ import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import { wayDescriptionSelectors } from "cypress/scopesSelectors/wayDescriptionSelectors";
+import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 
 beforeEach(() => {
   cy.resetGeneralDb();

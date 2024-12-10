@@ -258,7 +258,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
                 <WayCard
                   key={way.uuid}
                   wayPreview={way}
-                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.wayLink(way.name)}
+                  dataCy={userWaysAccessIds.collectionBlock.wayLink(way.name)}
                 />
               );
             })

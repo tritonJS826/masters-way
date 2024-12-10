@@ -361,7 +361,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
                   onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
                   language={language}
-                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.ownWayCollectionButton}
+                  dataCy={userWaysAccessIds.collectionBlock.ownWayCollectionButton}
                 />
 
                 <WayCollectionCard
@@ -370,7 +370,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
                   onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
                   language={language}
-                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.mentoringWayCollectionButton}
+                  dataCy={userWaysAccessIds.collectionBlock.mentoringWayCollectionButton}
                 />
 
                 <WayCollectionCard
@@ -379,12 +379,15 @@ export const UserPage = observer((props: UserPageProps) => {
                   collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
                   onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
                   language={language}
-                  dataCy={userWaysAccessIds.wayCollectionButtonsBlock.favoriteWayCollectionButton}
+                  dataCy={userWaysAccessIds.collectionBlock.favoriteWayCollectionButton}
                 />
               </HorizontalContainer>
             </VerticalContainer>
 
-            <VerticalContainer className={styles.collectionGroup}>
+            <VerticalContainer
+              className={styles.collectionGroup}
+              dataCy={userWaysAccessIds.collectionBlock.customCollection.customCollectionBlock}
+            >
               <HorizontalContainer>
                 <Infotip content={LanguageService.user.infotip.customCollections[language]} />
                 <Title
@@ -410,7 +413,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       updateCustomWayCollection({id: openedTabId, name});
                     }}
                     onDelete={() => deleteCustomWayCollections(currentCollection.uuid)}
-                    dataCy={userWaysAccessIds.wayCollectionButtonsBlock.customerCollectionButton}
+                    dataCy={userWaysAccessIds.collectionBlock.customerCollectionButton}
                   />
                 ))}
 
@@ -420,7 +423,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     onClick={createCustomWayCollection}
                     buttonType={ButtonType.SECONDARY}
                     className={styles.collectionButton}
-                    dataCy={userWaysAccessIds.wayCollectionButtonsBlock.addCollectionButton}
+                    dataCy={userWaysAccessIds.collectionBlock.addCollectionButton}
                   />
                 )}
 
