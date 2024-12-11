@@ -198,7 +198,7 @@ func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
 // @Produce json
 // @Param request body schemas.RefreshAccessTokenPayload true "query params"
 // @Success 200 {object} schemas.RefreshAccessTokenResponse
-// @Router /auth/refreshToken [get]
+// @Router /auth/refreshToken [post]
 func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
 	var payload *schemas.RefreshAccessTokenPayload
 
