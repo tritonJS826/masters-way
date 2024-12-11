@@ -29,7 +29,7 @@ func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
 }
 
 const (
-	AccessExpIn  = 1 * time.Hour
+	AccessExpIn  = 10 * time.Hour
 	RefreshExpIn = 168 * time.Hour
 
 	OauthStateString = "auth-state-string"

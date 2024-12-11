@@ -1163,7 +1163,7 @@ func (a *AuthAPIService) RefreshAccessToken(ctx context.Context) ApiRefreshAcces
 //  @return MwServerInternalSchemasRefreshAccessTokenResponse
 func (a *AuthAPIService) RefreshAccessTokenExecute(r ApiRefreshAccessTokenRequest) (*MwServerInternalSchemasRefreshAccessTokenResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
 		localVarReturnValue  *MwServerInternalSchemasRefreshAccessTokenResponse
@@ -1243,7 +1243,7 @@ func (a *AuthAPIService) RefreshAccessTokenExecute(r ApiRefreshAccessTokenReques
 //  @return MwServerInternalSchemasRefreshAccessTokenResponseStream
 func (a *AuthAPIService) RefreshAccessTokenStreamExecute(r ApiRefreshAccessTokenRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasRefreshAccessTokenResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = http.MethodPost
 		localVarReturnValue  *MwServerInternalSchemasRefreshAccessTokenResponse
 	)
 

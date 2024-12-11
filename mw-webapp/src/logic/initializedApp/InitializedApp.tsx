@@ -1,12 +1,16 @@
 import {PropsWithChildren, useEffect} from "react";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
+import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
+import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {useGlobalContext} from "src/GlobalContext";
 import {notificationStore} from "src/globalStore/NotificationStore";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";
+import {resetAuthData} from "src/service/services";
 import {connectChatSocket} from "src/service/socket/ChatSocket";
 // Import {connectNotificationSocket} from "src/service/socket/NotificationSocket";
 
@@ -44,6 +48,14 @@ export const InitializedApp = (props: PropsWithChildren) => {
       // NotificationSocket.close();
     };
   }, [user?.uuid]);
+
+  useListenEventBus(ChannelId.CHAT, ChatEventId.REFRESH_TOKEN_REQUIRED, async () => {
+    if (!tokenStore.refreshToken) {
+      resetAuthData();
+    } else {
+      await AuthDAL.refreshToken(tokenStore.refreshToken);
+    }
+  });
 
   /**
    * Get default page path
@@ -89,10 +101,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
         navigate(defaultPagePath);
       }
     } catch {
-      tokenStore.setTokens({
-        accessToken: null,
-        refreshToken: null,
-      });
+      resetAuthData();
     }
 
   };

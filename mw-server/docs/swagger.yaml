@@ -1514,7 +1514,7 @@ paths:
       tags:
       - auth
   /auth/refreshToken:
-    get:
+    post:
       consumes:
       - application/json
       operationId: refresh-access-token

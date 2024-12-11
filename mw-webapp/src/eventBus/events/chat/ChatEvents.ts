@@ -258,3 +258,23 @@ export const makeChatRoomCreatedEvent = (payload: ChatRoomCreatedPayload) => {
 
   return populatedEvent;
 };
+
+/**
+ * Event fired when a connection to mw-chat-websocket closed
+ */
+export type ChatRefreshTokenRequiredPayload = Record<string, never>;
+
+/**
+ * Factory for {@link ChatConnectionEstablishedPayload} event
+ * Used for creating new event objects
+ */
+export const makeChatRefreshTokenRequiredEvent = (payload: ChatRefreshTokenRequiredPayload) => {
+  const populatedEvent = populateWithBaseEvent(
+    payload,
+    ChannelId.CHAT,
+    ChatEventId.REFRESH_TOKEN_REQUIRED,
+    currentWindowEventConfig,
+  );
+
+  return populatedEvent;
+};

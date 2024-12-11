@@ -73,7 +73,7 @@ paths:
       tags:
       - auth
   /auth/refreshToken:
-    get:
+    post:
       operationId: refresh-access-token
       requestBody:
         content:

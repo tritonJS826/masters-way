@@ -9,6 +9,7 @@ import {
   makeChatConnectionClosedEvent,
   makeChatConnectionEstablishedEvent,
   makeChatMessageReceivedEvent,
+  makeChatRefreshTokenRequiredEvent,
   makeChatRoomCreatedEvent,
 } from "src/eventBus/events/chat/ChatEvents";
 import {serviceWorkerStore, SystemNotificationTag} from "src/globalStore/ServiceWorkerStore";
@@ -16,7 +17,13 @@ import {tokenStore} from "src/globalStore/TokenStore";
 import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {env} from "src/utils/env/env";
 
-const RECONNECT_INTERVAL = 3000;
+const BASE_RECONNECT_INTERVAL = 3000;
+const MAX_RECONNECT_INTERVAL = 60000;
+
+let currentReconnectInterval = BASE_RECONNECT_INTERVAL;
+const MULTIPLICAND = 2;
+
+const HTTP_AUTHENTICATION_FAILED_CODE = 1006;
 
 /**
  * Connect to mw-chat-websocket
@@ -32,17 +39,22 @@ export const connectChatSocket = () => {
    */
   socket.onopen = () => {
     emitEvent(makeChatConnectionEstablishedEvent({}));
+    currentReconnectInterval = BASE_RECONNECT_INTERVAL;
   };
 
   /**
    * Handler triggered on connection close
    */
-  socket.onclose = () => {
+  socket.onclose = (event: CloseEvent) => {
+    if (event.code === HTTP_AUTHENTICATION_FAILED_CODE) {
+      emitEvent(makeChatRefreshTokenRequiredEvent({}));
+    }
+
     emitEvent(makeChatConnectionClosedEvent({}));
 
-    setTimeout(() => {
-      connectChatSocket();
-    }, RECONNECT_INTERVAL);
+    setTimeout(connectChatSocket, currentReconnectInterval);
+
+    currentReconnectInterval = Math.min(currentReconnectInterval * MULTIPLICAND, MAX_RECONNECT_INTERVAL);
   };
 
   /**

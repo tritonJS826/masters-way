@@ -84,7 +84,7 @@ Class | Method | HTTP request | Description
 *AuthAPI* | [**GetTokenLocally**](docs/AuthAPI.md#gettokenlocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 *AuthAPI* | [**GoogleAuthLogInCallbackFunction**](docs/AuthAPI.md#googleauthlogincallbackfunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
 *AuthAPI* | [**LogoutCurrentAuthorizedUser**](docs/AuthAPI.md#logoutcurrentauthorizeduser) | **Get** /auth/logout/{provider} | Logout current authorized user
-*AuthAPI* | [**RefreshAccessToken**](docs/AuthAPI.md#refreshaccesstoken) | **Get** /auth/refreshToken | Retrieve Access Token
+*AuthAPI* | [**RefreshAccessToken**](docs/AuthAPI.md#refreshaccesstoken) | **Post** /auth/refreshToken | Retrieve Access Token
 *CommentAPI* | [**CreateComment**](docs/CommentAPI.md#createcomment) | **Post** /comments | Create a new comment
 *CommentAPI* | [**DeleteComment**](docs/CommentAPI.md#deletecomment) | **Delete** /comments/{commentId} | Delete comment by UUID
 *CommentAPI* | [**UpdateComment**](docs/CommentAPI.md#updatecomment) | **Patch** /comments/{commentId} | Update comment by UUID

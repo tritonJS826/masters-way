@@ -10,7 +10,7 @@ Method | HTTP request | Description
 [**GetTokenLocally**](AuthAPI.md#GetTokenLocally) | **Get** /auth/login/local/{userEmail} | login locally by email (with no oauth)
 [**GoogleAuthLogInCallbackFunction**](AuthAPI.md#GoogleAuthLogInCallbackFunction) | **Get** /auth/{provider}/callback | Log in with google oAuth
 [**LogoutCurrentAuthorizedUser**](AuthAPI.md#LogoutCurrentAuthorizedUser) | **Get** /auth/logout/{provider} | Logout current authorized user
-[**RefreshAccessToken**](AuthAPI.md#RefreshAccessToken) | **Get** /auth/refreshToken | Retrieve Access Token
+[**RefreshAccessToken**](AuthAPI.md#RefreshAccessToken) | **Post** /auth/refreshToken | Retrieve Access Token
 
 
 

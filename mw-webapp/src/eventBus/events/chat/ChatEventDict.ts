@@ -2,6 +2,7 @@ import {
   ChatConnectionClosedPayload,
   ChatConnectionEstablishedPayload,
   ChatMessageReceivedPayload,
+  ChatRefreshTokenRequiredPayload,
   ChatRoomCreatedPayload,
 } from "src/eventBus/events/chat/ChatEvents";
 
@@ -20,6 +21,7 @@ export enum ChatEventId {
   CONNECTION_CLOSED = "MW_CHAT:CONNECTION_CLOSED",
   MESSAGE_RECEIVED = "MW_CHAT:MESSAGE_RECEIVED",
   ROOM_CREATED = "MW_CHAT:ROOM_CREATED",
+  REFRESH_TOKEN_REQUIRED = "MW_CHAT:REFRESH_TOKEN_REQUIRED",
 }
 
 /**
@@ -47,4 +49,9 @@ export type ChatEventDict = {
    * Room created
    */
   [ChatEventId.ROOM_CREATED]: ChatRoomCreatedPayload;
+
+  /**
+   * Refresh token required
+   */
+  [ChatEventId.REFRESH_TOKEN_REQUIRED]: ChatRefreshTokenRequiredPayload;
 };

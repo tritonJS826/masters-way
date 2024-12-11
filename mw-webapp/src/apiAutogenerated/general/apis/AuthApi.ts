@@ -271,7 +271,7 @@ export class AuthApi extends runtime.BaseAPI {
 
         const response = await this.request({
             path: `/auth/refreshToken`,
-            method: 'GET',
+            method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: MwServerInternalSchemasRefreshAccessTokenPayloadToJSON(requestParameters.request),

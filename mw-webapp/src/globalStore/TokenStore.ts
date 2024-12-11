@@ -38,6 +38,16 @@ class TokenStore {
   }
 
   /**
+   * Clear token
+   */
+  public resetTokens = () => {
+    this.accessToken = null;
+    this.refreshToken = null;
+    localStorageWorker.removeItemByKey("accessToken");
+    localStorageWorker.removeItemByKey("refreshToken");
+  };
+
+  /**
    * Set token
    */
   public setTokens = (params: SetAccessTokensParams) => {
