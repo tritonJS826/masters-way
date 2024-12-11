@@ -15,7 +15,7 @@ afterEach(() => {
 
 describe('User Profile tests', () => {
 
-  it('Scenario_AnyUser_FillUserProfile', () => {
+    it('Scenario_AnyUser_FillUserProfile', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userPersonalSelectors.descriptionSection.getName().dblclick();
         userPersonalSelectors.descriptionSection.getNameInput()

@@ -1,3 +1,4 @@
+import {partnershipAccessIds} from "cypress/accessIds/partnershipAccessIds";
 import {observer} from "mobx-react-lite";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AdvantageItem as PromotionMethod} from "src/component/advantageItem/AdvantageItem";
@@ -73,6 +74,7 @@ export const PartnershipPage = observer(() => {
           text={LanguageService.partnership.partnershipMainBlock.title[language]}
           className={styles.title}
           placeholder=""
+          cy={{dataCyTitleContainer: partnershipAccessIds.mainBlock.title}}
         />
         <Title
           level={HeadingLevel.h3}

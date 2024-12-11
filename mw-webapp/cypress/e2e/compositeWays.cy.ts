@@ -78,8 +78,6 @@ describe('IsAuth Composite ways scope tests', () => {
     });
 
     it('IsAuth_CompositeWay_DeleteWay', () => {
-        const danaEvansNameForReports = testUserData.users.Dana.userName.split(" ")[0];
-
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({ force: true });
         userWaysSelectors.getCreateNewWayButton().click();
@@ -91,8 +89,8 @@ describe('IsAuth Composite ways scope tests', () => {
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
         allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
-      wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-      wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
             .contains(`Composite ways`)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
@@ -100,8 +98,8 @@ describe('IsAuth Composite ways scope tests', () => {
             .click();
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-      wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
-      wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
+        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
             .contains(`Composite ways`)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
