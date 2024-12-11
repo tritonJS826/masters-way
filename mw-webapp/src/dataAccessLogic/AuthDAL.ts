@@ -26,11 +26,20 @@ export class AuthDAL {
   }
 
   /**
+   * Refresh token
+   */
+  public static async refreshToken(refreshToken: string) {
+    const updatedAccessTokenData = await AuthService.refreshToken(refreshToken);
+    localStorageWorker.setItemByKey("accessToken", updatedAccessTokenData.accessToken);
+  }
+
+  /**
    * Call method for logout
    */
   public static async logOut() {
     await AuthService.logOut();
-    await localStorageWorker.removeItemByKey("token");
+    await localStorageWorker.removeItemByKey("accessToken");
+    await localStorageWorker.removeItemByKey("refreshToken");
   }
 
 }

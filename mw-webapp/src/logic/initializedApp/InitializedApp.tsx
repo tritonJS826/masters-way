@@ -10,7 +10,8 @@ import {pages} from "src/router/pages";
 import {connectChatSocket} from "src/service/socket/ChatSocket";
 // Import {connectNotificationSocket} from "src/service/socket/NotificationSocket";
 
-const TOKEN_SEARCH_PARAM = "token";
+const ACCESS_TOKEN_SEARCH_PARAM = "accessToken";
+const REFRESH_TOKEN_SEARCH_PARAM = "refreshToken";
 
 /**
  * Check is current page is home page
@@ -18,7 +19,7 @@ const TOKEN_SEARCH_PARAM = "token";
 const getIsHomePage = () => pages.home.getPath({}) === location.pathname;
 
 /**
- *InitializationApp
+ * InitializationApp
  */
 export const InitializedApp = (props: PropsWithChildren) => {
   useErrorHandler();
@@ -57,11 +58,17 @@ export const InitializedApp = (props: PropsWithChildren) => {
    * OnLog in
    */
   const recoverSessionIfPossible = async () => {
-    const tokenFromUrl = searchParams.get(TOKEN_SEARCH_PARAM);
-    searchParams.delete(TOKEN_SEARCH_PARAM);
+    const accessTokenFromUrl = searchParams.get(ACCESS_TOKEN_SEARCH_PARAM);
+    const refreshTokenFromUrl = searchParams.get(REFRESH_TOKEN_SEARCH_PARAM);
+
+    searchParams.delete(ACCESS_TOKEN_SEARCH_PARAM);
+    searchParams.delete(REFRESH_TOKEN_SEARCH_PARAM);
     setSearchParams(searchParams);
-    if (tokenFromUrl) {
-      tokenStore.setAccessToken(tokenFromUrl);
+    if (accessTokenFromUrl && refreshTokenFromUrl) {
+      tokenStore.setTokens({
+        accessToken: accessTokenFromUrl,
+        refreshToken: refreshTokenFromUrl,
+      });
     }
 
     if (!tokenStore.accessToken) {
@@ -82,7 +89,10 @@ export const InitializedApp = (props: PropsWithChildren) => {
         navigate(defaultPagePath);
       }
     } catch {
-      tokenStore.setAccessToken(null);
+      tokenStore.setTokens({
+        accessToken: null,
+        refreshToken: null,
+      });
     }
 
   };
