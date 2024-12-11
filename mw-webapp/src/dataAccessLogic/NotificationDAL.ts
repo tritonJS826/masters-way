@@ -30,9 +30,14 @@ export interface GetNotificationsParams {
 export interface AllNotificationsParams {
 
   /**
-   * Notifications amount
+   * Unread Notifications amount
    */
-  size: number;
+  unreadSize: number;
+
+  /**
+   * Total notifications amount
+   */
+  totalSize: number;
 
   /**
    * Array of notifications
@@ -53,7 +58,8 @@ export class NotificationDAL {
     const notificationList = notificationDTO.notifications.map(notificationDTOToNotification);
 
     const notifications = {
-      size: notificationDTO.size,
+      unreadSize: notificationDTO.unreadSize,
+      totalSize: notificationDTO.totalSize,
       notificationList,
     };
 

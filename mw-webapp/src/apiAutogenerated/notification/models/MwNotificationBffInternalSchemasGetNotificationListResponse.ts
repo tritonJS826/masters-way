@@ -37,7 +37,13 @@ export interface MwNotificationBffInternalSchemasGetNotificationListResponse {
      * @type {number}
      * @memberof MwNotificationBffInternalSchemasGetNotificationListResponse
      */
-    size: number;
+    totalSize: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof MwNotificationBffInternalSchemasGetNotificationListResponse
+     */
+    unreadSize: number;
 }
 
 /**
@@ -48,7 +54,8 @@ export function instanceOfMwNotificationBffInternalSchemasGetNotificationListRes
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "notifications" in value;
-    isInstance = isInstance && "size" in value;
+    isInstance = isInstance && "totalSize" in value;
+    isInstance = isInstance && "unreadSize" in value;
 
     return isInstance;
 }
@@ -67,7 +74,8 @@ export function MwNotificationBffInternalSchemasGetNotificationListResponseFromJ
     return {
         
         'notifications': ((json['notifications'] as Array<any>).map(MwNotificationBffInternalSchemasNotificationResponseFromJSON)),
-        'size': json['size'],
+        'totalSize': json['totalSize'],
+        'unreadSize': json['unreadSize'],
     };
 }
 
@@ -82,7 +90,8 @@ export function MwNotificationBffInternalSchemasGetNotificationListResponseToJSO
     return {
         
         'notifications': ((value.notifications as Array<any>).map(MwNotificationBffInternalSchemasNotificationResponseToJSON)),
-        'size': value.size,
+        'totalSize': value.totalSize,
+        'unreadSize': value.unreadSize,
     };
 }
 

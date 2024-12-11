@@ -64,14 +64,13 @@ export const Layout = observer(() => {
    */
   const loadMoreNotifications = async () => {
     const nextPage = notificationsPagination + DEFAULT_NOTIFICATIONS_PAGINATION_VALUE;
-
     const notifications = await NotificationDAL.getOwnNotificationList({page: nextPage});
     notificationStore.addNotifications(notifications.notificationList);
     setNotificationsPagination(nextPage);
   };
 
   const isMoreNotificationsExist = !!(notificationStore.notificationList
-    && notificationStore.notificationList.length < notificationStore.allNotificationsAmount);
+    && notificationStore.notificationList.length < notificationStore.totalNotificationsAmount);
 
   return (
     <InitializedApp>
@@ -108,6 +107,7 @@ export const Layout = observer(() => {
           }}
           loadMore={loadMoreNotifications}
           isMoreNotificationsExist={isMoreNotificationsExist}
+          totalNotificationsAmount={notificationStore.totalNotificationsAmount}
         />
         }
 

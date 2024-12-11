@@ -169,7 +169,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "notifications",
-                "size"
+                "totalSize",
+                "unreadSize"
             ],
             "properties": {
                 "notifications": {
@@ -178,7 +179,10 @@ const docTemplate = `{
                         "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationResponse"
                     }
                 },
-                "size": {
+                "totalSize": {
+                    "type": "integer"
+                },
+                "unreadSize": {
                     "type": "integer"
                 }
             }

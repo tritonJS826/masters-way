@@ -1,22 +1,6 @@
 import {makeAutoObservable} from "mobx";
-import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
+import {AllNotificationsParams, NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 import {Notification} from "src/model/businessModel/Notification";
-
-/**
- * Notifications params
- */
-export interface NotificationsParams {
-
-  /**
-   * Notifications amount
-   */
-  size: number;
-
-  /**
-   * Array of notifications
-   */
-  notificationList: Notification[];
-}
 
 /**
  * Notification related methods
@@ -35,9 +19,9 @@ export class NotificationStore {
   public unreadNotificationsAmount: number | null = null;
 
   /**
-   * Amount of all unread notifications
+   * Amount of total notifications
    */
-  public allNotificationsAmount: number = 55;
+  public totalNotificationsAmount: number = 0;
 
   /**
    * Notification list
@@ -64,6 +48,13 @@ export class NotificationStore {
   };
 
   /**
+   * Set total Notifications amount
+   */
+  public setTotalNotificationsAmount = (amount: number) => {
+    this.totalNotificationsAmount = amount;
+  };
+
+  /**
    * Set notifications
    */
   public setNotifications = (notifications: Notification[]) => {
@@ -73,7 +64,7 @@ export class NotificationStore {
   /**
    * Load notifications
    */
-  public loadNotifications = async (): Promise<NotificationsParams> => {
+  public loadNotifications = async (): Promise<AllNotificationsParams> => {
     const notifications = await NotificationDAL.getOwnNotificationList({});
 
     return notifications;

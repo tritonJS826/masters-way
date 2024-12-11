@@ -45,12 +45,17 @@ interface HiddenBlockProps {
   /**
    * Callback triggered when scroll at the bottom and need to load more notifications
    */
-  loadMore: () => void;
+  loadMore: () => Promise<void>;
 
   /**
    * Is more notifications exists
    */
   isMoreNotificationsExist: boolean;
+
+  /**
+   * Dsf
+   */
+  totalNotificationsAmount: number;
 }
 
 const INDEX_TO_CHECK_SCROLL_POSITION = 0.8;
@@ -66,7 +71,10 @@ export const HiddenBlock = observer((props: HiddenBlockProps) => {
    * Handle scroll callback
    */
   const handleScroll = () => {
-    if (element && element.scrollTop > (element.scrollHeight * INDEX_TO_CHECK_SCROLL_POSITION)) {
+    if (props.isMoreNotificationsExist
+      && element
+      && element.scrollTop > (element.scrollHeight * INDEX_TO_CHECK_SCROLL_POSITION)
+    ) {
       props.loadMore();
     }
   };
@@ -82,7 +90,7 @@ export const HiddenBlock = observer((props: HiddenBlockProps) => {
       }
     };
 
-  }, []);
+  }, [props.notificationList]);
 
   return (
     <div

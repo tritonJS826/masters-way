@@ -5,13 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Notifications** | [**[]MwNotificationBffInternalSchemasNotificationResponse**](MwNotificationBffInternalSchemasNotificationResponse.md) |  | 
-**Size** | **int32** |  | 
+**TotalSize** | **int32** |  | 
+**UnreadSize** | **int32** |  | 
 
 ## Methods
 
 ### NewMwNotificationBffInternalSchemasGetNotificationListResponse
 
-`func NewMwNotificationBffInternalSchemasGetNotificationListResponse(notifications []MwNotificationBffInternalSchemasNotificationResponse, size int32, ) *MwNotificationBffInternalSchemasGetNotificationListResponse`
+`func NewMwNotificationBffInternalSchemasGetNotificationListResponse(notifications []MwNotificationBffInternalSchemasNotificationResponse, totalSize int32, unreadSize int32, ) *MwNotificationBffInternalSchemasGetNotificationListResponse`
 
 NewMwNotificationBffInternalSchemasGetNotificationListResponse instantiates a new MwNotificationBffInternalSchemasGetNotificationListResponse object
 This constructor will assign default values to properties that have it defined,
@@ -46,24 +47,44 @@ and a boolean to check if the value has been set.
 SetNotifications sets Notifications field to given value.
 
 
-### GetSize
+### GetTotalSize
 
-`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetSize() int32`
+`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetTotalSize() int32`
 
-GetSize returns the Size field if non-nil, zero value otherwise.
+GetTotalSize returns the TotalSize field if non-nil, zero value otherwise.
 
-### GetSizeOk
+### GetTotalSizeOk
 
-`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetSizeOk() (*int32, bool)`
+`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetTotalSizeOk() (*int32, bool)`
 
-GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
+GetTotalSizeOk returns a tuple with the TotalSize field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSize
+### SetTotalSize
 
-`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) SetSize(v int32)`
+`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) SetTotalSize(v int32)`
 
-SetSize sets Size field to given value.
+SetTotalSize sets TotalSize field to given value.
+
+
+### GetUnreadSize
+
+`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetUnreadSize() int32`
+
+GetUnreadSize returns the UnreadSize field if non-nil, zero value otherwise.
+
+### GetUnreadSizeOk
+
+`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetUnreadSizeOk() (*int32, bool)`
+
+GetUnreadSizeOk returns a tuple with the UnreadSize field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnreadSize
+
+`func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) SetUnreadSize(v int32)`
+
+SetUnreadSize sets UnreadSize field to given value.
 
 
 

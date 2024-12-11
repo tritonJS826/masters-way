@@ -22,7 +22,8 @@ var _ MappedNullable = &MwNotificationBffInternalSchemasGetNotificationListRespo
 // MwNotificationBffInternalSchemasGetNotificationListResponse struct for MwNotificationBffInternalSchemasGetNotificationListResponse
 type MwNotificationBffInternalSchemasGetNotificationListResponse struct {
 	Notifications []MwNotificationBffInternalSchemasNotificationResponse
-	Size int32
+	TotalSize int32
+	UnreadSize int32
 }
 
 type _MwNotificationBffInternalSchemasGetNotificationListResponse MwNotificationBffInternalSchemasGetNotificationListResponse
@@ -31,10 +32,11 @@ type _MwNotificationBffInternalSchemasGetNotificationListResponse MwNotification
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwNotificationBffInternalSchemasGetNotificationListResponse(notifications []MwNotificationBffInternalSchemasNotificationResponse, size int32) *MwNotificationBffInternalSchemasGetNotificationListResponse {
+func NewMwNotificationBffInternalSchemasGetNotificationListResponse(notifications []MwNotificationBffInternalSchemasNotificationResponse, totalSize int32, unreadSize int32) *MwNotificationBffInternalSchemasGetNotificationListResponse {
 	this := MwNotificationBffInternalSchemasGetNotificationListResponse{}
 	this.Notifications = notifications
-	this.Size = size
+	this.TotalSize = totalSize
+	this.UnreadSize = unreadSize
 	return &this
 }
 
@@ -70,28 +72,52 @@ func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) SetNotific
 	o.Notifications = v
 }
 
-// GetSize returns the Size field value
-func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetSize() int32 {
+// GetTotalSize returns the TotalSize field value
+func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetTotalSize() int32 {
 	if o == nil {
 		var ret int32
 		return ret
 	}
 
-	return o.Size
+	return o.TotalSize
 }
 
-// GetSizeOk returns a tuple with the Size field value
+// GetTotalSizeOk returns a tuple with the TotalSize field value
 // and a boolean to check if the value has been set.
-func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetSizeOk() (*int32, bool) {
+func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetTotalSizeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Size, true
+	return &o.TotalSize, true
 }
 
-// SetSize sets field value
-func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) SetSize(v int32) {
-	o.Size = v
+// SetTotalSize sets field value
+func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) SetTotalSize(v int32) {
+	o.TotalSize = v
+}
+
+// GetUnreadSize returns the UnreadSize field value
+func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetUnreadSize() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.UnreadSize
+}
+
+// GetUnreadSizeOk returns a tuple with the UnreadSize field value
+// and a boolean to check if the value has been set.
+func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) GetUnreadSizeOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UnreadSize, true
+}
+
+// SetUnreadSize sets field value
+func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) SetUnreadSize(v int32) {
+	o.UnreadSize = v
 }
 
 func (o MwNotificationBffInternalSchemasGetNotificationListResponse) MarshalJSON() ([]byte, error) {
@@ -105,7 +131,8 @@ func (o MwNotificationBffInternalSchemasGetNotificationListResponse) MarshalJSON
 func (o MwNotificationBffInternalSchemasGetNotificationListResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["notifications"] = o.Notifications
-	toSerialize["size"] = o.Size
+	toSerialize["totalSize"] = o.TotalSize
+	toSerialize["unreadSize"] = o.UnreadSize
 	return toSerialize, nil
 }
 
@@ -115,7 +142,8 @@ func (o *MwNotificationBffInternalSchemasGetNotificationListResponse) UnmarshalJ
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"notifications",
-		"size",
+		"totalSize",
+		"unreadSize",
 	}
 
 	allProperties := make(map[string]interface{})

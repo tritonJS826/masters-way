@@ -6,11 +6,14 @@ definitions:
         items:
           $ref: '#/definitions/mw-notification-bff_internal_schemas.NotificationResponse'
         type: array
-      size:
+      totalSize:
+        type: integer
+      unreadSize:
         type: integer
     required:
     - notifications
-    - size
+    - totalSize
+    - unreadSize
     type: object
   mw-notification-bff_internal_schemas.GetNotificationSettingListResponse:
     properties:
