@@ -1,16 +1,21 @@
 import {PropsWithChildren, useEffect} from "react";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
+import {ChannelId} from "src/eventBus/EventBusChannelDict";
+import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
+import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {useGlobalContext} from "src/GlobalContext";
 import {notificationStore} from "src/globalStore/NotificationStore";
 import {tokenStore} from "src/globalStore/TokenStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useErrorHandler} from "src/hooks/useErrorHandler";
 import {pages} from "src/router/pages";
+import {resetAuthData} from "src/service/services";
 import {connectChatSocket} from "src/service/socket/ChatSocket";
 // Import {connectNotificationSocket} from "src/service/socket/NotificationSocket";
 
-const TOKEN_SEARCH_PARAM = "token";
+const ACCESS_TOKEN_SEARCH_PARAM = "accessToken";
+const REFRESH_TOKEN_SEARCH_PARAM = "refreshToken";
 
 /**
  * Check is current page is home page
@@ -18,7 +23,7 @@ const TOKEN_SEARCH_PARAM = "token";
 const getIsHomePage = () => pages.home.getPath({}) === location.pathname;
 
 /**
- *InitializationApp
+ * InitializationApp
  */
 export const InitializedApp = (props: PropsWithChildren) => {
   useErrorHandler();
@@ -44,6 +49,14 @@ export const InitializedApp = (props: PropsWithChildren) => {
     };
   }, [user?.uuid]);
 
+  useListenEventBus(ChannelId.CHAT, ChatEventId.REFRESH_TOKEN_REQUIRED, async () => {
+    if (!tokenStore.refreshToken) {
+      resetAuthData();
+    } else {
+      await AuthDAL.refreshToken(tokenStore.refreshToken);
+    }
+  });
+
   /**
    * Get default page path
    */
@@ -57,11 +70,17 @@ export const InitializedApp = (props: PropsWithChildren) => {
    * OnLog in
    */
   const recoverSessionIfPossible = async () => {
-    const tokenFromUrl = searchParams.get(TOKEN_SEARCH_PARAM);
-    searchParams.delete(TOKEN_SEARCH_PARAM);
+    const accessTokenFromUrl = searchParams.get(ACCESS_TOKEN_SEARCH_PARAM);
+    const refreshTokenFromUrl = searchParams.get(REFRESH_TOKEN_SEARCH_PARAM);
+
+    searchParams.delete(ACCESS_TOKEN_SEARCH_PARAM);
+    searchParams.delete(REFRESH_TOKEN_SEARCH_PARAM);
     setSearchParams(searchParams);
-    if (tokenFromUrl) {
-      tokenStore.setAccessToken(tokenFromUrl);
+    if (accessTokenFromUrl && refreshTokenFromUrl) {
+      tokenStore.setTokens({
+        accessToken: accessTokenFromUrl,
+        refreshToken: refreshTokenFromUrl,
+      });
     }
 
     if (!tokenStore.accessToken) {
@@ -82,7 +101,7 @@ export const InitializedApp = (props: PropsWithChildren) => {
         navigate(defaultPagePath);
       }
     } catch {
-      tokenStore.setAccessToken(null);
+      resetAuthData();
     }
 
   };

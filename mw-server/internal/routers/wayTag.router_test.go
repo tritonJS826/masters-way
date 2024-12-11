@@ -27,7 +27,7 @@ func TestAddWayTagToWay(t *testing.T) {
 	user := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -70,7 +70,7 @@ func TestDeleteWayTagFromWayByTagId(t *testing.T) {
 	wayID := "a2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

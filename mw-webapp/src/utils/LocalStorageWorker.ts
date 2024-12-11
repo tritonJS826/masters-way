@@ -74,7 +74,12 @@ export type LocalStorageData = {
   /**
    * Access token
    */
-  token: Token;
+  accessToken: Token;
+
+  /**
+   * Refresh token
+   */
+  refreshToken: Token;
 
   /**
    * Device ID

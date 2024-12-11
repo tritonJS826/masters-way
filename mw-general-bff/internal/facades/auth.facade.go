@@ -82,3 +82,7 @@ func (af *AuthFacade) GetCurrentAuthorizedUserByToken(ctx context.Context) (*ope
 func (af *AuthFacade) Logout(ctx context.Context, provider string) error {
 	return af.authService.Logout(ctx, provider)
 }
+
+func (af *AuthFacade) RefreshAccessToken(ctx context.Context, refreshToken string) (*openapiGeneral.MwServerInternalSchemasRefreshAccessTokenResponse, error) {
+	return af.authService.RefreshAccessToken(ctx, refreshToken)
+}

@@ -18,6 +18,8 @@ import type {
   MwServerInternalSchemasBeginAuthResponse,
   MwServerInternalSchemasGetAuthCallbackFunctionResponse,
   MwServerInternalSchemasGoogleToken,
+  MwServerInternalSchemasRefreshAccessTokenPayload,
+  MwServerInternalSchemasRefreshAccessTokenResponse,
   MwServerInternalSchemasUserPopulatedResponse,
 } from '../models/index';
 import {
@@ -27,6 +29,10 @@ import {
     MwServerInternalSchemasGetAuthCallbackFunctionResponseToJSON,
     MwServerInternalSchemasGoogleTokenFromJSON,
     MwServerInternalSchemasGoogleTokenToJSON,
+    MwServerInternalSchemasRefreshAccessTokenPayloadFromJSON,
+    MwServerInternalSchemasRefreshAccessTokenPayloadToJSON,
+    MwServerInternalSchemasRefreshAccessTokenResponseFromJSON,
+    MwServerInternalSchemasRefreshAccessTokenResponseToJSON,
     MwServerInternalSchemasUserPopulatedResponseFromJSON,
     MwServerInternalSchemasUserPopulatedResponseToJSON,
 } from '../models/index';
@@ -47,6 +53,10 @@ export interface GoogleAuthLogInCallbackFunctionRequest {
 
 export interface LogoutCurrentAuthorizedUserRequest {
     provider: string;
+}
+
+export interface RefreshAccessTokenRequest {
+    request: MwServerInternalSchemasRefreshAccessTokenPayload;
 }
 
 /**
@@ -243,6 +253,39 @@ export class AuthApi extends runtime.BaseAPI {
      */
     async logoutCurrentAuthorizedUser(requestParameters: LogoutCurrentAuthorizedUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.logoutCurrentAuthorizedUserRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Retrieve Access Token
+     */
+    async refreshAccessTokenRaw(requestParameters: RefreshAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwServerInternalSchemasRefreshAccessTokenResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling refreshAccessToken.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/auth/refreshToken`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwServerInternalSchemasRefreshAccessTokenPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwServerInternalSchemasRefreshAccessTokenResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve Access Token
+     */
+    async refreshAccessToken(requestParameters: RefreshAccessTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwServerInternalSchemasRefreshAccessTokenResponse> {
+        const response = await this.refreshAccessTokenRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
 }

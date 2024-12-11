@@ -30,7 +30,7 @@ func TestCreateJobDone(t *testing.T) {
 	ownerID := "1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1"
 
 	t.Run("should create JobDone and return it successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -88,7 +88,7 @@ func TestUpdateJobDone(t *testing.T) {
 	jobDoneID := "40a1d6c8-2932-46bd-8e29-f6886ec171f4"
 
 	t.Run("should update JobDone and return it successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -150,7 +150,7 @@ func TestDeleteJobDoneById(t *testing.T) {
 	jobDoneID := "40a1d6c8-2932-46bd-8e29-f6886ec171f4"
 
 	t.Run("should delete JobDone successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(userID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

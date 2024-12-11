@@ -11,7 +11,7 @@ func GetTokenParamFromURL(baseURL string) (string, error) {
 		return "", fmt.Errorf("Failed to parse URL: %v", err)
 	}
 	queryParams := parsedURL.Query()
-	token := queryParams.Get("token")
+	token := queryParams.Get("accessToken")
 	if token == "" {
 		return "", fmt.Errorf("Token not found in the URL")
 	}

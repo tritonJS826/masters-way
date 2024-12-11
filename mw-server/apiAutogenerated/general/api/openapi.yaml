@@ -72,6 +72,27 @@ paths:
       summary: Logout current authorized user
       tags:
       - auth
+  /auth/refreshToken:
+    post:
+      operationId: refresh-access-token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.RefreshAccessTokenPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.RefreshAccessTokenResponse'
+          description: OK
+      summary: Retrieve Access Token
+      tags:
+      - auth
+      x-codegen-request-body-name: request
   /auth/{provider}:
     get:
       operationId: begin-auth
@@ -3727,6 +3748,22 @@ components:
       - ownerId
       - users
       - ways
+      type: object
+    mw-server_internal_schemas.RefreshAccessTokenPayload:
+      properties:
+        refreshToken:
+          type: string
+      required:
+      - refreshToken
+      type: object
+    mw-server_internal_schemas.RefreshAccessTokenResponse:
+      example:
+        accessToken: accessToken
+      properties:
+        accessToken:
+          type: string
+      required:
+      - accessToken
       type: object
     mw-server_internal_schemas.TimeSpentByDayPoint:
       example:

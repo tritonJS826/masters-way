@@ -2,8 +2,10 @@ package auth
 
 import (
 	"errors"
+	"fmt"
 	"mw-server/internal/config"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -27,7 +29,9 @@ func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
 }
 
 const (
-	MaxAge           = 1 * time.Hour
+	AccessExpIn  = 10 * time.Hour
+	RefreshExpIn = 168 * time.Hour
+
 	OauthStateString = "auth-state-string"
 
 	HeaderKeyAuthorization = "Authorization"
@@ -41,8 +45,8 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateJWT(userID string, secretSessionKey string) (string, error) {
-	expirationTime := time.Now().Add(MaxAge)
+func GenerateJWT(userID string, secretSessionKey string, expIn time.Duration) (string, error) {
+	expirationTime := time.Now().Add(expIn)
 	claims := &Claims{
 		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
@@ -86,4 +90,31 @@ func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
 		ctx.Set(ContextKeyUserID, claims.UserID)
 		ctx.Next()
 	}
+}
+
+type GoogleTokenMap struct {
+	tokens map[string]*oauth2.Token
+	sync.RWMutex
+}
+
+func NewGoogleTokenMap() *GoogleTokenMap {
+	return &GoogleTokenMap{
+		tokens: make(map[string]*oauth2.Token),
+	}
+}
+
+func (g *GoogleTokenMap) SetGoogleToken(userID string, googleToken *oauth2.Token) {
+	g.Lock()
+	g.tokens[userID] = googleToken
+	g.Unlock()
+}
+
+func (g *GoogleTokenMap) GetGoogleToken(userID string) (*oauth2.Token, error) {
+	g.RLock()
+	token, exists := g.tokens[userID]
+	g.RUnlock()
+	if !exists {
+		return nil, fmt.Errorf("token not found for user ID: %s", userID)
+	}
+	return token, nil
 }

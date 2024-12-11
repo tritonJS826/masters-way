@@ -27,7 +27,7 @@ func TestGetAllWays(t *testing.T) {
 	user := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -395,7 +395,7 @@ func TestGetWayById(t *testing.T) {
 	wayID := "9972552a-c0b3-41f3-b464-284d36a36964"
 
 	t.Run("should get way by id successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -460,7 +460,7 @@ func TestGetWayStatisticsById(t *testing.T) {
 	wayID := "550e8400-e29b-41d4-a716-446655440000"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -750,7 +750,7 @@ func TestCreateWay(t *testing.T) {
 	user := "d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -827,7 +827,7 @@ func TestUpdateWay(t *testing.T) {
 	wayID := "9972552a-c0b3-41f3-b464-284d36a36964"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -907,7 +907,7 @@ func TestDeleteWay(t *testing.T) {
 	deletedWayID := "9972552a-c0b3-41f3-b464-284d36a36964"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

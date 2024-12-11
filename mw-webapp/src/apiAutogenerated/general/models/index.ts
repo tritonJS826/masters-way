@@ -61,6 +61,8 @@ export * from './MwServerInternalSchemasPlanPopulatedResponse';
 export * from './MwServerInternalSchemasProblemPopulatedResponse';
 export * from './MwServerInternalSchemasProjectPlainResponse';
 export * from './MwServerInternalSchemasProjectPopulatedResponse';
+export * from './MwServerInternalSchemasRefreshAccessTokenPayload';
+export * from './MwServerInternalSchemasRefreshAccessTokenResponse';
 export * from './MwServerInternalSchemasTimeSpentByDayPoint';
 export * from './MwServerInternalSchemasToUserMentoringRequestResponse';
 export * from './MwServerInternalSchemasUpdateCommentPayload';

@@ -31,7 +31,7 @@ func TestCreateUserProject(t *testing.T) {
 	firstNewProjectUserID := "5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e"
 
 	t.Run("should create a UserProject successfully and check if the user is added to the project", func(t *testing.T) {
-		token, err := auth.GenerateJWT(projectOwnerID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(projectOwnerID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -82,7 +82,7 @@ func TestDeleteUserProject(t *testing.T) {
 	t.Run("should delete a UserProject successfully and check if the user is deleted from the project", func(t *testing.T) {
 		userID := "7cdb041b-4574-4f7b-a500-c53e74c72e94"
 
-		token, err := auth.GenerateJWT(projectOwnerID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(projectOwnerID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

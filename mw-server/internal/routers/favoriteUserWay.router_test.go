@@ -29,7 +29,7 @@ func TestCreateFavoriteUserWay(t *testing.T) {
 	userUuid := currentUserID
 
 	t.Run("Should create favorite user way correctly", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

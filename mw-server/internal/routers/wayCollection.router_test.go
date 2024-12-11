@@ -29,7 +29,7 @@ func TestCreateWayCollection(t *testing.T) {
 	wayCollectionName := "Test way collection"
 
 	t.Run("should create a custom collection by user id and return it successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -77,7 +77,7 @@ func TestUpdateWayCollection(t *testing.T) {
 	wayCollectionName := "30dbf616-b055-4d65-8c0c-e6a913fc119a"
 
 	t.Run("should update custom collection name by user id and return it successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -119,7 +119,7 @@ func TestDeleteWayCollectionById(t *testing.T) {
 	wayCollectionID := "30dbf616-b055-4d65-8c0c-e6a913fc119a"
 
 	t.Run("should delete a custom collection by id successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

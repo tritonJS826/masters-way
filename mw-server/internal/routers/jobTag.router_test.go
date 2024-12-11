@@ -41,7 +41,7 @@ func TestCreateJobTag(t *testing.T) {
 	}
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -100,7 +100,7 @@ func TestUpdateJobTag(t *testing.T) {
 	}
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -147,7 +147,7 @@ func TestDeleteJobTagById(t *testing.T) {
 	wayID := "32cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2"
 
 	t.Run("should get all ways successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

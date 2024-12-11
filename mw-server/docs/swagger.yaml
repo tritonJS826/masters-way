@@ -884,6 +884,20 @@ definitions:
     - users
     - ways
     type: object
+  mw-server_internal_schemas.RefreshAccessTokenPayload:
+    properties:
+      refreshToken:
+        type: string
+    required:
+    - refreshToken
+    type: object
+  mw-server_internal_schemas.RefreshAccessTokenResponse:
+    properties:
+      accessToken:
+        type: string
+    required:
+    - accessToken
+    type: object
   mw-server_internal_schemas.TimeSpentByDayPoint:
     properties:
       date:
@@ -1497,6 +1511,28 @@ paths:
         "204":
           description: No Content
       summary: Logout current authorized user
+      tags:
+      - auth
+  /auth/refreshToken:
+    post:
+      consumes:
+      - application/json
+      operationId: refresh-access-token
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.RefreshAccessTokenPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.RefreshAccessTokenResponse'
+      summary: Retrieve Access Token
       tags:
       - auth
   /comments:

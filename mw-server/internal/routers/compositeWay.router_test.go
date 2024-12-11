@@ -29,7 +29,7 @@ func TestAddWayToCompositeWay(t *testing.T) {
 	parentWayID := "77482c3f-cae6-494d-be1d-d06c1e84450b"
 
 	t.Run("should create plan job tag successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}
@@ -85,7 +85,7 @@ func TestDeleteCompositeWayRelation(t *testing.T) {
 	parentWayID := "77482c3f-cae6-494d-be1d-d06c1e84450b"
 
 	t.Run("should create plan job tag successfully", func(t *testing.T) {
-		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(user, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

@@ -28,7 +28,7 @@ func TestCreateFavoriteUser(t *testing.T) {
 	acceptorUserUuid := currentUserID
 
 	t.Run("Should create Favorite user and check that User was added to list of Favorite users", func(t *testing.T) {
-		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey)
+		token, err := auth.GenerateJWT(currentUserID, newConfig.SecretSessionKey, auth.AccessExpIn)
 		if err != nil {
 			t.Fatalf("Failed to generate JWT: %v", err)
 		}

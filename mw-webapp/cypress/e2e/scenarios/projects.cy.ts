@@ -92,7 +92,11 @@ describe('Projects tests', () => {
         dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick()
         dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(dayReportsData.commentDescription);
         headerSelectors.getHeader().click();
-        cy.logout();
+        // TODO: for now projects are available only for authorized users on the backend
+        // so we should make not private projects available for all users (even not authorized)
+        // after this fix we should uncomment the next line
+        // TODO: #1779 
+        // cy.logout();
         cy.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
         projectsSelectors.getProjectsButton().click();
