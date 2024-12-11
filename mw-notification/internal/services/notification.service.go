@@ -20,7 +20,7 @@ type NotificationRepository interface {
 	CreateNotification(ctx context.Context, arg db.CreateNotificationParams) (db.Notification, error)
 	UpdateNotification(ctx context.Context, arg db.UpdateNotificationParams) (db.Notification, error)
 	GetNotificationListByUserID(ctx context.Context, arg db.GetNotificationListByUserIDParams) ([]db.Notification, error)
-	GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (int64, error)
+	GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (db.GetAmountOfUnreadNotificationsByUserIDRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -130,7 +130,8 @@ func (ns *NotificationService) GetNotificationListByUserID(ctx context.Context, 
 	})
 
 	return &schemas.GetNotificationListResponse{
-		Size:          int(unreadNotificationsAmount),
+		TotalSize:     int(unreadNotificationsAmount.TotalSize),
+		UnreadSize:    int(unreadNotificationsAmount.UnreadNotificationsSize),
 		Notifications: notificationList,
 	}, nil
 }

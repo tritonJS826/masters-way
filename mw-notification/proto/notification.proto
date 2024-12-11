@@ -31,8 +31,9 @@ message GetNotificationListRequest {
 }
 
 message GetNotificationListResponse {
-    int32 size = 1;
-    repeated Notification notifications = 2;
+    int32 total_size = 1;
+    int32 unread_size = 2;
+    repeated Notification notifications = 3;
 }
 
 enum Nature {

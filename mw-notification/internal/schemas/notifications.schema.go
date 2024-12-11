@@ -21,6 +21,7 @@ type NotificationResponse struct {
 }
 
 type GetNotificationListResponse struct {
-	Size          int                    `json:"size" validate:"required"`
+	TotalSize     int                    `json:"totalSize" validate:"required"`
+	UnreadSize    int                    `json:"unreadSize" validate:"required"`
 	Notifications []NotificationResponse `json:"notifications" validate:"required"`
 }

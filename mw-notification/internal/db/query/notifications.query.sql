@@ -12,7 +12,8 @@ INSERT INTO notifications (
 ) RETURNING *;
 
 -- name: GetNotificationListByUserID :many
-SELECT *
+SELECT 
+    *
 FROM notifications
 WHERE user_uuid = @user_uuid 
     -- return only readd notifications if @only_new = TRUE and all notification other way
@@ -25,7 +26,9 @@ LIMIT @request_limit
 OFFSET @request_offset;
 
 -- name: GetAmountOfUnreadNotificationsByUserID :one
-SELECT count(*)
+SELECT 
+    count(*) as unread_notifications_size,
+    (SELECT count(*) FROM notifications WHERE notifications.user_uuid = @user_uuid) as total_size
 FROM notifications
 WHERE user_uuid = @user_uuid AND is_read = false;
 

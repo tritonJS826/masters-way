@@ -121,7 +121,8 @@ func (nc *NotificationController) GetNotificationList(ctx context.Context, in *p
 	})
 
 	return &pb.GetNotificationListResponse{
-		Size:          int32(getNotificationResponseRaw.Size),
+		UnreadSize:    int32(getNotificationResponseRaw.UnreadSize),
+		TotalSize:     int32(getNotificationResponseRaw.TotalSize),
 		Notifications: notifications,
 	}, nil
 }

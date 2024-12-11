@@ -52,7 +52,8 @@ func (ns *NotificationService) GetNotificationList(ctx context.Context, params *
 	})
 
 	return &schemas.GetNotificationListResponse{
-		Size:          int(notificationListRaw.Size),
+		TotalSize:     int(notificationListRaw.TotalSize),
+		UnreadSize:    int(notificationListRaw.UnreadSize),
 		Notifications: notificationList,
 	}, nil
 }
