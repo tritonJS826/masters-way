@@ -2,6 +2,8 @@
 
 .hiddenBlockContainer {
   @include regularContainer;
+  display: flex;
+  flex-direction: column;
   position: sticky;
   top: $headerHeight;
   width: $minWidthBlock;

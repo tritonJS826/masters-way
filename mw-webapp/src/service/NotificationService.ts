@@ -1,4 +1,5 @@
 import {
+  GetNotificationListRequest,
   MwNotificationBffInternalSchemasGetNotificationListResponse,
   MwNotificationBffInternalSchemasNotificationResponse,
   UpdateNotificationRequest,
@@ -13,8 +14,10 @@ export class NotificationService {
   /**
    * Get notification list and size by user ID
    */
-  public static async getOwnNotificationList(): Promise<MwNotificationBffInternalSchemasGetNotificationListResponse> {
-    const notificationList = await notificationService.getNotificationList();
+  public static async getOwnNotificationList(
+    requestParameters: GetNotificationListRequest,
+  ): Promise<MwNotificationBffInternalSchemasGetNotificationListResponse> {
+    const notificationList = await notificationService.getNotificationList(requestParameters);
 
     return notificationList;
   }

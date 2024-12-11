@@ -35,6 +35,11 @@ export class NotificationStore {
   public unreadNotificationsAmount: number | null = null;
 
   /**
+   * Amount of all unread notifications
+   */
+  public allNotificationsAmount: number = 55;
+
+  /**
    * Notification list
    */
   public notificationList: Notification[] | null = null;
@@ -69,7 +74,7 @@ export class NotificationStore {
    * Load notifications
    */
   public loadNotifications = async (): Promise<NotificationsParams> => {
-    const notifications = await NotificationDAL.getOwnNotificationList();
+    const notifications = await NotificationDAL.getOwnNotificationList({});
 
     return notifications;
 
@@ -104,6 +109,13 @@ export class NotificationStore {
   public deleteUnreadNotificationFromAmount = () => {
     this.unreadNotificationsAmount && this.unreadNotificationsAmount--;
   };
+
+  /**
+   * Add notifications
+   */
+  public addNotifications(notifications: Notification[]): void {
+    this.notificationList = this.notificationList && [...this.notificationList, ...notifications];
+  }
 
 }
 
