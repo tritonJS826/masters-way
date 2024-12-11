@@ -109,7 +109,7 @@ describe("IsAuth User's ways scope tests", () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
     });
 
-  it('IsAuth_UserWays_CreateNewWay', () => {
+    it('IsAuth_UserWays_CreateNewWay', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
 

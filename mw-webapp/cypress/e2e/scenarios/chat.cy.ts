@@ -16,7 +16,7 @@ afterEach(() => {
 
 describe('Chat tests', () => {
 
-  it('Scenario_AnyLoggedinUser_SendMessageInChat', () => {
+    it('Scenario_AnyLoggedinUser_SendMessageInChat', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         cy.openAllUsersPage();
 

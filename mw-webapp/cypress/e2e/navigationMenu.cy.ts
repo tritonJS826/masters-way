@@ -6,8 +6,10 @@ import allWayPageData from "cypress/fixtures/allWaysFixture.json";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
 import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json";
 import pricingPageContent from "src/dictionary/PricingContent.json";
+import partnershipPageContent from "src/dictionary/PartnershipPageContent.json";
 import aboutProjectPageData from "cypress/fixtures/aboutProjectPageFixture.json";
 import pricingPageData from "cypress/fixtures/pricingPageFixture.json";
+import partnershipPageData from "cypress/fixtures/partnershipFixutures.json";
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {aboutProjectSelectors} from "cypress/scopesSelectors/aboutProjectSelectors";
@@ -22,6 +24,7 @@ import settingsPageContent from "src/dictionary/SettingsPageContent.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import {pricingSelectors} from "cypress/scopesSelectors/pricingSelectors";
+import {partnershipSelectors} from "cypress/scopesSelectors/partnershipSelectors";
 
 describe('NoAuth Navigation menu scope tests', () => {
 
@@ -76,13 +79,21 @@ describe('NoAuth Navigation menu scope tests', () => {
         aboutProjectSelectors.welcomeBlock.getTitle().should('contain', aboutProjectPageContent.mainTitle.en);
     });
   
-    it('NoAuth_NavMenu_Pricing', () => {
-      navigationMenuSelectors.menuItemLinks.getPricingItemLink().click();
+    it('NoAuth_NavMenu_Partnership', () => {
+        navigationMenuSelectors.menuItemLinks.getPartnershipItemLink().click();
+  
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
+        cy.url().should('include', partnershipPageData.endpoint);
+        partnershipSelectors.mainBlock.getTitle().should('contain', partnershipPageContent.partnershipMainBlock.title.en);
+    });
 
-      navigationMenuSelectors.getNavigationMenu().should('not.exist');
-      cy.url().should('include', pricingPageData.endpoint);
-      pricingSelectors.pricingBlock.getTitle().should('contain', pricingPageContent.pricingBlock.title.en);
-  });
+    it('NoAuth_NavMenu_Pricing', () => {
+        navigationMenuSelectors.menuItemLinks.getPricingItemLink().click();
+
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
+        cy.url().should('include', pricingPageData.endpoint);
+        pricingSelectors.pricingBlock.getTitle().should('contain', pricingPageContent.pricingBlock.title.en);
+    });
 
     it('NoAuth_NavMenu_Close', () => {
         headerSelectors.getHeader().click({force: true});
@@ -118,7 +129,7 @@ describe('NoAuth Navigation menu scope tests', () => {
         });
     });
 
-  it('NoAuth_NavMenu_DarkMode', () => {
+    it('NoAuth_NavMenu_DarkMode', () => {
         navigationMenuSelectors.nightMode.getSlider().check({ force: true });
         navigationMenuSelectors.nightMode.getText().should('have.text', sideBarContent.nightMode.en);
         navigationMenuSelectors.nightMode.getSlider().check({force: true}).should("be.checked");
