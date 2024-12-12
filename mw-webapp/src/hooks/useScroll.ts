@@ -1,7 +1,5 @@
 import {useEffect, useRef} from "react";
 
-const HEIGHT_FROM_BOTTOM_POSITION = 10;
-
 /**
  * Use Scroll hook Props
  */
@@ -18,6 +16,11 @@ interface useScrollProps<Dependency> {
   isDisabled: boolean;
 
   /**
+   * Height from bottom content block when need use callback
+   */
+  heightFromBottomBlock: number;
+
+  /**
    * Dependency array to re-add listener
    */
   dependency?: Dependency[];
@@ -29,12 +32,13 @@ interface useScrollProps<Dependency> {
 export const useScroll = <Dependency>({
   onScroll,
   isDisabled,
+  heightFromBottomBlock,
   dependency = [],
 }: useScrollProps<Dependency>) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const isScrollAtBottom = ref.current
-  && (ref.current.scrollHeight - ref.current.scrollTop - ref.current.clientHeight) <= HEIGHT_FROM_BOTTOM_POSITION;
+  && ref.current.scrollTop + ref.current.clientHeight >= ref.current.scrollHeight - heightFromBottomBlock;
 
   /**
    * Handle scroll callback

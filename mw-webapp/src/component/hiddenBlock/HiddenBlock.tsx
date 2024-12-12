@@ -6,6 +6,8 @@ import {useScroll} from "src/hooks/useScroll";
 import {Notification} from "src/model/businessModel/Notification";
 import styles from "src/component/hiddenBlock/HiddenBlock.module.scss";
 
+const HEIGHT_FROM_BOTTOM_POSITION = 500;
+
 /**
  * Hidden block props
  */
@@ -65,6 +67,7 @@ export const HiddenBlock = observer((props: HiddenBlockProps) => {
   const {ref} = useScroll({
     onScroll: props.loadMore,
     isDisabled: !props.isMoreNotificationsExist,
+    heightFromBottomBlock: HEIGHT_FROM_BOTTOM_POSITION,
     dependency: [props.notificationList],
   });
 
