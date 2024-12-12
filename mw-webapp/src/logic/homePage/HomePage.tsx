@@ -126,6 +126,7 @@ export const HomePage = observer(() => {
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.home.viewAllWaysButton[language]}
                 className={styles.viewAllWaysButton}
+                dataCy={homeAccessIds.welcomeBlock.viewExistingWaysButton}
               />
             </HorizontalContainer>
           </VerticalContainer>
