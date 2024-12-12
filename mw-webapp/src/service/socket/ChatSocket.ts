@@ -18,7 +18,7 @@ import {BaseSocketEvent} from "src/service/socket/BaseSocketEvent";
 import {env} from "src/utils/env/env";
 
 const BASE_RECONNECT_INTERVAL = 3000;
-// 20 minutes
+// 10 minutes
 const MAX_RECONNECT_INTERVAL = 600_000;
 
 let currentReconnectInterval = BASE_RECONNECT_INTERVAL;
