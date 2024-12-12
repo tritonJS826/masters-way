@@ -105,7 +105,7 @@ export const Layout = observer(() => {
             !isRead && notificationStore.deleteUnreadNotificationFromAmount();
             !isRead && await NotificationDAL.updateNotification(notificationId);
           }}
-          loadMore={(isOnlyNew: boolean) => loadMoreNotifications(isOnlyNew)}
+          loadMore={loadMoreNotifications}
           isMoreNotificationsExist={isMoreNotificationsExist}
           totalNotificationsAmount={notificationStore.totalNotificationsAmount}
         />
