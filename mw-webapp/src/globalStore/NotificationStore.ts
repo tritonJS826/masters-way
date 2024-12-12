@@ -105,7 +105,10 @@ export class NotificationStore {
    * Add notifications
    */
   public addNotifications(notifications: Notification[]): void {
-    this.notificationList = this.notificationList && [...this.notificationList, ...notifications];
+    if (!this.notificationList) {
+      throw new Error("Notifications is not exist");
+    }
+    this.notificationList = [...this.notificationList, ...notifications];
   }
 
 }
