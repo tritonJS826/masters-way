@@ -97,6 +97,11 @@ export type LocalStorageData = {
   language: Language;
 
   /**
+   * Notification block settings
+   */
+  notificationBlock: NotificationBlockSettings;
+
+  /**
    * Way page data
    */
   wayPage: WayPageSettings;
@@ -170,6 +175,17 @@ export type WayPageSettings = {
    */
   view: View;
 
+}
+
+/**
+ * Notification block settings
+ */
+export type NotificationBlockSettings = {
+
+  /**
+   * Is only new notifications
+   */
+  isOnlyNew: boolean;
 }
 
 export type UserPageSettings = {

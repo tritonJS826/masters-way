@@ -3,14 +3,41 @@ import {Notification} from "src/model/businessModel/Notification";
 import {NotificationService} from "src/service/NotificationService";
 
 /**
+ * Get Notifications params
+ */
+export interface GetNotificationsParams {
+
+  /**
+   * Is notification new
+   */
+  isOnlyNew?: boolean;
+
+  /**
+   * Page
+   */
+  page?: number;
+
+  /**
+   * Limit
+   */
+  limit?: number;
+
+}
+
+/**
  * All notifications params
  */
 export interface AllNotificationsParams {
 
   /**
-   * Notifications amount
+   * Unread Notifications amount
    */
-  size: number;
+  unreadSize: number;
+
+  /**
+   * Total notifications amount
+   */
+  totalSize: number;
 
   /**
    * Array of notifications
@@ -26,12 +53,13 @@ export class NotificationDAL {
   /**
    * Get notification list by user ID
    */
-  public static async getOwnNotificationList(): Promise<AllNotificationsParams> {
-    const notificationDTO = await NotificationService.getOwnNotificationList();
+  public static async getOwnNotificationList(requestParameters: GetNotificationsParams): Promise<AllNotificationsParams> {
+    const notificationDTO = await NotificationService.getOwnNotificationList(requestParameters);
     const notificationList = notificationDTO.notifications.map(notificationDTOToNotification);
 
     const notifications = {
-      size: notificationDTO.size,
+      unreadSize: notificationDTO.unreadSize,
+      totalSize: notificationDTO.totalSize,
       notificationList,
     };
 

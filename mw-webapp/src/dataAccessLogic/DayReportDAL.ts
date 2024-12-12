@@ -2,23 +2,6 @@ import {dayReportDTOToDayReport} from "src/dataAccessLogic/DTOToPreviewConverter
 import {DayReport} from "src/model/businessModel/DayReport";
 import {DayReportService} from "src/service/DayReportService";
 
-// /**
-//  * Create DayReport params
-//  */
-// export interface CreateDayReportParams {
-
-//   /**
-//    * Way's UUID
-//    */
-//   wayUuid: string;
-
-//   /**
-//    * Way's name
-//    */
-//   wayName: string;
-
-// }
-
 /**
  * Get DayReports params
  */

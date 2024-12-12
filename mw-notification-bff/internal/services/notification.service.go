@@ -21,9 +21,19 @@ func NewNotificationService(
 	return &NotificationService{notificationGRPC, notificationSettingGRPC}
 }
 
-func (ns *NotificationService) GetNotificationList(ctx context.Context, userUUID string) (*schemas.GetNotificationListResponse, error) {
+type GetNotificationListParams struct {
+	UserUUID  string
+	Page      int32
+	Limit     int32
+	IsOnlyNew bool
+}
+
+func (ns *NotificationService) GetNotificationList(ctx context.Context, params *GetNotificationListParams) (*schemas.GetNotificationListResponse, error) {
 	notificationListRaw, err := ns.notificationGRPC.GetNotificationList(ctx, &pb.GetNotificationListRequest{
-		UserUuid: userUUID,
+		UserUuid:  params.UserUUID,
+		Page:      params.Page,
+		Limit:     params.Limit,
+		IsOnlyNew: params.IsOnlyNew,
 	})
 	if err != nil {
 		return nil, err
@@ -42,7 +52,8 @@ func (ns *NotificationService) GetNotificationList(ctx context.Context, userUUID
 	})
 
 	return &schemas.GetNotificationListResponse{
-		Size:          int(notificationListRaw.Size),
+		TotalSize:     int(notificationListRaw.TotalSize),
+		UnreadSize:    int(notificationListRaw.UnreadSize),
 		Notifications: notificationList,
 	}, nil
 }

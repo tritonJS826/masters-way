@@ -1,22 +1,6 @@
 import {makeAutoObservable} from "mobx";
-import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
+import {AllNotificationsParams, NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 import {Notification} from "src/model/businessModel/Notification";
-
-/**
- * Notifications params
- */
-export interface NotificationsParams {
-
-  /**
-   * Notifications amount
-   */
-  size: number;
-
-  /**
-   * Array of notifications
-   */
-  notificationList: Notification[];
-}
 
 /**
  * Notification related methods
@@ -33,6 +17,11 @@ export class NotificationStore {
    * Amount of all unread notifications
    */
   public unreadNotificationsAmount: number | null = null;
+
+  /**
+   * Amount of total notifications
+   */
+  public totalNotificationsAmount: number = 0;
 
   /**
    * Notification list
@@ -59,6 +48,13 @@ export class NotificationStore {
   };
 
   /**
+   * Set total Notifications amount
+   */
+  public setTotalNotificationsAmount = (amount: number) => {
+    this.totalNotificationsAmount = amount;
+  };
+
+  /**
    * Set notifications
    */
   public setNotifications = (notifications: Notification[]) => {
@@ -68,8 +64,8 @@ export class NotificationStore {
   /**
    * Load notifications
    */
-  public loadNotifications = async (): Promise<NotificationsParams> => {
-    const notifications = await NotificationDAL.getOwnNotificationList();
+  public loadNotifications = async (isOnlyNew: boolean): Promise<AllNotificationsParams> => {
+    const notifications = await NotificationDAL.getOwnNotificationList({isOnlyNew});
 
     return notifications;
 
@@ -104,6 +100,16 @@ export class NotificationStore {
   public deleteUnreadNotificationFromAmount = () => {
     this.unreadNotificationsAmount && this.unreadNotificationsAmount--;
   };
+
+  /**
+   * Add notifications
+   */
+  public addNotifications(notifications: Notification[]): void {
+    if (!this.notificationList) {
+      throw new Error("Notifications is not exist");
+    }
+    this.notificationList = [...this.notificationList, ...notifications];
+  }
 
 }
 

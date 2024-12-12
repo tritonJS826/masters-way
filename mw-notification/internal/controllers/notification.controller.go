@@ -97,7 +97,13 @@ func (nc *NotificationController) UpdateNotification(ctx context.Context, in *pb
 }
 
 func (nc *NotificationController) GetNotificationList(ctx context.Context, in *pb.GetNotificationListRequest) (*pb.GetNotificationListResponse, error) {
-	getNotificationResponseRaw, err := nc.notificationService.GetNotificationListByUserID(ctx, uuid.MustParse(in.GetUserUuid()))
+	getNotificationListByUserIDParams := &services.GetNotificationListByUserIDParams{
+		UserID:    uuid.MustParse(in.GetUserUuid()),
+		Page:      in.GetPage(),
+		Limit:     in.GetLimit(),
+		IsOnlyNew: in.GetIsOnlyNew(),
+	}
+	getNotificationResponseRaw, err := nc.notificationService.GetNotificationListByUserID(ctx, getNotificationListByUserIDParams)
 	if err != nil {
 		return nil, err
 	}
@@ -115,7 +121,8 @@ func (nc *NotificationController) GetNotificationList(ctx context.Context, in *p
 	})
 
 	return &pb.GetNotificationListResponse{
-		Size:          int32(getNotificationResponseRaw.Size),
+		UnreadSize:    int32(getNotificationResponseRaw.UnreadSize),
+		TotalSize:     int32(getNotificationResponseRaw.TotalSize),
 		Notifications: notifications,
 	}, nil
 }

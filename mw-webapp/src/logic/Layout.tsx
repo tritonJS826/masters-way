@@ -1,16 +1,12 @@
-// Import {useState} from "react";
+import {useState} from "react";
 import {Outlet} from "react-router-dom";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {observer} from "mobx-react-lite";
 import {Header} from "src/component/header/Header";
-import {HiddenBlock} from "src/component/hiddenBlock/HiddenBlock";
-import {NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {NotificationBlock} from "src/component/notificationBlock/NotificationBlock";
+import {NotificationNature} from "src/component/notificationBlock/notificationItem/NotificationItem";
 import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
-// Import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
-// import {ChannelId} from "src/eventBus/EventBusChannelDict";
-// import {NotificationEventId} from "src/eventBus/events/notification/NotificationEventDict";
-// import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {notificationStore} from "src/globalStore/NotificationStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -18,9 +14,10 @@ import {userStore} from "src/globalStore/UserStore";
 import {ChatModal} from "src/logic/chat/Chat";
 import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
 import {SupportModal} from "src/logic/supportModal/SupportModal";
-// Import {Notification} from "src/model/businessModel/Notification";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/Layout.module.scss";
+
+const DEFAULT_NOTIFICATIONS_PAGINATION_VALUE = 1;
 
 /**
  * Layout
@@ -30,6 +27,8 @@ export const Layout = observer(() => {
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
   const {isNotificationOpen, setIsNotificationOpen, notificationList, unreadNotificationsAmount} = notificationStore;
+
+  const [notificationsPagination, setNotificationsPagination] = useState<number>(DEFAULT_NOTIFICATIONS_PAGINATION_VALUE);
   // Const [isConnectionEstablished, setIsConnectionEstablished] = useState(false);
   // useListenEventBus(ChannelId.NOTIFICATION, NotificationEventId.CONNECTION_ESTABLISHED, () => {
   //   setIsConnectionEstablished(true);
@@ -60,6 +59,19 @@ export const Layout = observer(() => {
   //   }
   // });
 
+  /**
+   * Load more notifications
+   */
+  const loadMoreNotifications = async (isOnlyNew: boolean) => {
+    const nextPage = notificationsPagination + DEFAULT_NOTIFICATIONS_PAGINATION_VALUE;
+    const notifications = await NotificationDAL.getOwnNotificationList({page: nextPage, isOnlyNew});
+    notificationStore.addNotifications(notifications.notificationList);
+    setNotificationsPagination(nextPage);
+  };
+
+  const isMoreNotificationsExist = !!(notificationStore.notificationList
+    && notificationStore.notificationList.length < notificationStore.totalNotificationsAmount);
+
   return (
     <InitializedApp>
       <Header
@@ -84,7 +96,7 @@ export const Layout = observer(() => {
 
       <HorizontalContainer className={styles.pageLayout}>
         {user &&
-        <HiddenBlock
+        <NotificationBlock
           title={LanguageService.common.notifications.title[language]}
           getTitle={(nature: NotificationNature) => LanguageService.notifications.nature[nature][language]}
           notificationList={notificationList}
@@ -93,6 +105,9 @@ export const Layout = observer(() => {
             !isRead && notificationStore.deleteUnreadNotificationFromAmount();
             !isRead && await NotificationDAL.updateNotification(notificationId);
           }}
+          loadMore={loadMoreNotifications}
+          isMoreNotificationsExist={isMoreNotificationsExist}
+          totalNotificationsAmount={notificationStore.totalNotificationsAmount}
         />
         }
 

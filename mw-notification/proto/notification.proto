@@ -24,11 +24,16 @@ service Dev {
 
 message GetNotificationListRequest {
     string user_uuid = 1;
+    int32 page = 2;
+    int32 limit = 3;
+    bool is_only_new = 4;
+
 }
 
 message GetNotificationListResponse {
-    int32 size = 1;
-    repeated Notification notifications = 2;
+    int32 total_size = 1;
+    int32 unread_size = 2;
+    repeated Notification notifications = 3;
 }
 
 enum Nature {

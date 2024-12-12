@@ -53,27 +53,54 @@ func (q *Queries) CreateNotification(ctx context.Context, arg CreateNotification
 }
 
 const getAmountOfUnreadNotificationsByUserID = `-- name: GetAmountOfUnreadNotificationsByUserID :one
-SELECT count(*)
+SELECT 
+    count(*) as unread_notifications_size,
+    (SELECT count(*) FROM notifications WHERE notifications.user_uuid = $1) as total_size
 FROM notifications
 WHERE user_uuid = $1 AND is_read = false
 `
 
-func (q *Queries) GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (int64, error) {
+type GetAmountOfUnreadNotificationsByUserIDRow struct {
+	UnreadNotificationsSize int64 `json:"unread_notifications_size"`
+	TotalSize               int64 `json:"total_size"`
+}
+
+func (q *Queries) GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (GetAmountOfUnreadNotificationsByUserIDRow, error) {
 	row := q.db.QueryRow(ctx, getAmountOfUnreadNotificationsByUserID, userUuid)
-	var count int64
-	err := row.Scan(&count)
-	return count, err
+	var i GetAmountOfUnreadNotificationsByUserIDRow
+	err := row.Scan(&i.UnreadNotificationsSize, &i.TotalSize)
+	return i, err
 }
 
 const getNotificationListByUserID = `-- name: GetNotificationListByUserID :many
-SELECT uuid, user_uuid, is_read, description, url, nature, created_at
+SELECT 
+    uuid, user_uuid, is_read, description, url, nature, created_at
 FROM notifications
-WHERE user_uuid = $1
+WHERE user_uuid = $1 
+    -- return only readd notifications if @only_new = TRUE and all notification other way
+    AND (                                                                 
+        $2 = TRUE AND is_read = FALSE                                
+        OR $2 = FALSE                                               
+        ) 
 ORDER BY created_at DESC
+LIMIT $4
+OFFSET $3
 `
 
-func (q *Queries) GetNotificationListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]Notification, error) {
-	rows, err := q.db.Query(ctx, getNotificationListByUserID, userUuid)
+type GetNotificationListByUserIDParams struct {
+	UserUuid      pgtype.UUID `json:"user_uuid"`
+	IsOnlyNew     interface{} `json:"is_only_new"`
+	RequestOffset int32       `json:"request_offset"`
+	RequestLimit  int32       `json:"request_limit"`
+}
+
+func (q *Queries) GetNotificationListByUserID(ctx context.Context, arg GetNotificationListByUserIDParams) ([]Notification, error) {
+	rows, err := q.db.Query(ctx, getNotificationListByUserID,
+		arg.UserUuid,
+		arg.IsOnlyNew,
+		arg.RequestOffset,
+		arg.RequestLimit,
+	)
 	if err != nil {
 		return nil, err
 	}

@@ -27,6 +27,27 @@ type NotificationAPIService service
 type ApiGetNotificationListRequest struct {
 	ctx context.Context
 	ApiService *NotificationAPIService
+	page *int32
+	limit *int32
+	isOnlyNew *bool
+}
+
+// Page number for pagination - 1 by default
+func (r ApiGetNotificationListRequest) Page(page int32) ApiGetNotificationListRequest {
+	r.page = &page
+	return r
+}
+
+// Number of items per page - 50 by default
+func (r ApiGetNotificationListRequest) Limit(limit int32) ApiGetNotificationListRequest {
+	r.limit = &limit
+	return r
+}
+
+// Get only new notifications - false by default
+func (r ApiGetNotificationListRequest) IsOnlyNew(isOnlyNew bool) ApiGetNotificationListRequest {
+	r.isOnlyNew = &isOnlyNew
+	return r
 }
 
 func (r ApiGetNotificationListRequest) Execute() (*MwNotificationBffInternalSchemasGetNotificationListResponse, *http.Response, error) {
@@ -67,6 +88,15 @@ func (a *NotificationAPIService) GetNotificationListExecute(r ApiGetNotification
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "", "")
+	}
+	if r.limit != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "", "")
+	}
+	if r.isOnlyNew != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "isOnlyNew", r.isOnlyNew, "", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -140,6 +170,18 @@ func (a *NotificationAPIService) GetNotificationListStreamExecute(r ApiGetNotifi
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
 
+	if r.page != nil {
+		// TODO: It should not render
+			parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "", "")
+	}
+	if r.limit != nil {
+		// TODO: It should not render
+			parameterAddToHeaderOrQuery(localVarQueryParams, "limit", r.limit, "", "")
+	}
+	if r.isOnlyNew != nil {
+		// TODO: It should not render
+			parameterAddToHeaderOrQuery(localVarQueryParams, "isOnlyNew", r.isOnlyNew, "", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

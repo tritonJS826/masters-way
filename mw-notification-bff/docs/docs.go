@@ -92,6 +92,26 @@ const docTemplate = `{
                 ],
                 "summary": "Get notification list by user id",
                 "operationId": "get-notification-list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination - 1 by default",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page - 50 by default",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Get only new notifications - false by default",
+                        "name": "isOnlyNew",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -149,7 +169,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "notifications",
-                "size"
+                "totalSize",
+                "unreadSize"
             ],
             "properties": {
                 "notifications": {
@@ -158,7 +179,10 @@ const docTemplate = `{
                         "$ref": "#/definitions/mw-notification-bff_internal_schemas.NotificationResponse"
                     }
                 },
-                "size": {
+                "totalSize": {
+                    "type": "integer"
+                },
+                "unreadSize": {
                     "type": "integer"
                 }
             }

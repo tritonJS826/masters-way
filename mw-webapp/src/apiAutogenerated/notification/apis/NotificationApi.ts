@@ -28,6 +28,12 @@ import {
     MwNotificationBffInternalSchemasUpdateNotificationPayloadToJSON,
 } from '../models/index';
 
+export interface GetNotificationListRequest {
+    page?: number;
+    limit?: number;
+    isOnlyNew?: boolean;
+}
+
 export interface UpdateNotificationRequest {
     notificationId: string;
     request: MwNotificationBffInternalSchemasUpdateNotificationPayload;
@@ -41,8 +47,20 @@ export class NotificationApi extends runtime.BaseAPI {
     /**
      * Get notification list by user id
      */
-    async getNotificationListRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwNotificationBffInternalSchemasGetNotificationListResponse>> {
+    async getNotificationListRaw(requestParameters: GetNotificationListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwNotificationBffInternalSchemasGetNotificationListResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters.page !== undefined) {
+            queryParameters['page'] = requestParameters.page;
+        }
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.isOnlyNew !== undefined) {
+            queryParameters['isOnlyNew'] = requestParameters.isOnlyNew;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -59,8 +77,8 @@ export class NotificationApi extends runtime.BaseAPI {
     /**
      * Get notification list by user id
      */
-    async getNotificationList(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwNotificationBffInternalSchemasGetNotificationListResponse> {
-        const response = await this.getNotificationListRaw(initOverrides);
+    async getNotificationList(requestParameters: GetNotificationListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwNotificationBffInternalSchemasGetNotificationListResponse> {
+        const response = await this.getNotificationListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

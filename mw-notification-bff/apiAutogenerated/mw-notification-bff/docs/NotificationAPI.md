@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## GetNotificationList
 
-> MwNotificationBffInternalSchemasGetNotificationListResponse GetNotificationList(ctx).Execute()
+> MwNotificationBffInternalSchemasGetNotificationListResponse GetNotificationList(ctx).Page(page).Limit(limit).IsOnlyNew(isOnlyNew).Execute()
 
 Get notification list by user id
 
@@ -28,10 +28,13 @@ import (
 )
 
 func main() {
+	page := int32(56) // int32 | Page number for pagination - 1 by default (optional)
+	limit := int32(56) // int32 | Number of items per page - 50 by default (optional)
+	isOnlyNew := true // bool | Get only new notifications - false by default (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.NotificationAPI.GetNotificationList(context.Background()).Execute()
+	resp, r, err := apiClient.NotificationAPI.GetNotificationList(context.Background()).Page(page).Limit(limit).IsOnlyNew(isOnlyNew).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `NotificationAPI.GetNotificationList``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -43,12 +46,18 @@ func main() {
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
 Other parameters are passed through a pointer to a apiGetNotificationListRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **page** | **int32** | Page number for pagination - 1 by default | 
+ **limit** | **int32** | Number of items per page - 50 by default | 
+ **isOnlyNew** | **bool** | Get only new notifications - false by default | 
 
 ### Return type
 

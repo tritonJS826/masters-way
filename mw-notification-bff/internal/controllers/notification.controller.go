@@ -6,6 +6,7 @@ import (
 	"mw-notification-bff/internal/services"
 	utils "mw-notification-bff/internal/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,11 +26,29 @@ func NewNotificationController(generalService *services.GeneralService, notifica
 // @ID get-notification-list
 // @Accept json
 // @Produce json
+// @Param page query integer false "Page number for pagination - 1 by default"
+// @Param limit query integer false "Number of items per page - 50 by default"
+// @Param isOnlyNew query boolean false "Get only new notifications - false by default"
 // @Success 200 {object} schemas.GetNotificationListResponse
 // @Router /notifications [get]
 func (nc *NotificationController) GetNotificationList(ctx *gin.Context) {
 	userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	response, err := nc.notificationService.GetNotificationList(ctx, userUUID)
+	page := ctx.DefaultQuery("page", "1")
+	limit := ctx.DefaultQuery("limit", "50")
+	isOnlyNew := ctx.DefaultQuery("isOnlyNew", "false")
+
+	reqPage, _ := strconv.Atoi(page)
+	reqLimit, _ := strconv.Atoi(limit)
+	reqIsOnlyNew, err := strconv.ParseBool(isOnlyNew)
+
+	getNotificationListParams := &services.GetNotificationListParams{
+		UserUUID:  userUUID,
+		Page:      int32(reqPage),
+		Limit:     int32(reqLimit),
+		IsOnlyNew: reqIsOnlyNew,
+	}
+
+	response, err := nc.notificationService.GetNotificationList(ctx, getNotificationListParams)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

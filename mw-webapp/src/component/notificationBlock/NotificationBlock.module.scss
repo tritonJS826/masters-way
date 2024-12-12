@@ -4,9 +4,12 @@
   @include regularContainer;
   position: sticky;
   top: $headerHeight;
+  display: flex;
   width: $minWidthBlock;
   max-height: calc(100vh - $headerHeight - $gapSmall);
+  flex-direction: column;
   flex-shrink: 0;
+  align-items: center;
   gap: $gapExtraSmall;
   overflow-y: auto;
 
@@ -15,6 +18,10 @@
     height: 30vh;
     overflow-y: auto;
   }
+}
+
+.separator {
+  width: 100%;
 }
 
 .hidden {
