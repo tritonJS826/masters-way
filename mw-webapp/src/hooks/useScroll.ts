@@ -8,39 +8,39 @@ const HEIGHT_FROM_BOTTOM_POSITION = 10;
 interface useScrollProps<Dependency> {
 
   /**
-   * Callback that is called to fetch data
+   * Callback that is called when scroll has bottom position
    */
   onScroll: () => void;
 
   /**
-   * Is more element exist and need call callback
+   * If true then callback on scroll is not allowed if false - then callback is allowed
    */
-  isMoreElementExist: boolean;
+  isDisabled: boolean;
 
   /**
-   * Dependency array to re-fetch and re-validate data
+   * Dependency array to re-add listener
    */
   dependency?: Dependency[];
 }
 
 /**
- * Custom hook to fetch, validate, and manage the state of data
+ * Custom hook to manage callback according scroll position inside the block
  */
 export const useScroll = <Dependency>({
   onScroll,
-  isMoreElementExist,
+  isDisabled,
   dependency = [],
 }: useScrollProps<Dependency>) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const isScrollAtBottom = ref.current
+  && (ref.current.scrollHeight - ref.current.scrollTop - ref.current.clientHeight) <= HEIGHT_FROM_BOTTOM_POSITION;
 
   /**
    * Handle scroll callback
    */
   const handleScroll = () => {
-    if (isMoreElementExist
-      && ref.current
-      && (ref.current.scrollHeight - ref.current.scrollTop - ref.current.clientHeight) <= HEIGHT_FROM_BOTTOM_POSITION
-    ) {
+    if (!isDisabled && isScrollAtBottom) {
       onScroll();
     }
   };

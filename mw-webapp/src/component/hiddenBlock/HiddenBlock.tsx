@@ -64,7 +64,7 @@ interface HiddenBlockProps {
 export const HiddenBlock = observer((props: HiddenBlockProps) => {
   const {ref} = useScroll({
     onScroll: props.loadMore,
-    isMoreElementExist: props.isMoreNotificationsExist,
+    isDisabled: !props.isMoreNotificationsExist,
     dependency: [props.notificationList],
   });
 
