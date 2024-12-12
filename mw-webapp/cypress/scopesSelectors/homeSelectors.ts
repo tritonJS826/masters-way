@@ -4,7 +4,8 @@ import {homeAccessIds} from "cypress/accessIds/homeAccessIds";
 export const homeSelectors = {
     welcomeBlock: {
         getTitle: () => cy.get(getDataCy(homeAccessIds.welcomeBlock.title)),
-        getStartButton: () => cy.get(getDataCy(homeAccessIds.welcomeBlock.startButton))
+        getStartButton: () => cy.get(getDataCy(homeAccessIds.welcomeBlock.startButton)),
+        getViewExistingWaysButton: () => cy.get(getDataCy(homeAccessIds.welcomeBlock.viewExistingWaysButton))
     }
 
 };
