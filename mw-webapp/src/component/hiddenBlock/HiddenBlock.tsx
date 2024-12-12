@@ -1,10 +1,9 @@
-import {useEffect, useRef} from "react";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {NotificationItem, NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 import {HeadingLevel, Title} from "src/component/title/Title";
+import {useScroll} from "src/hooks/useScroll";
 import {Notification} from "src/model/businessModel/Notification";
-import {ScrollEventUtils} from "src/utils/ScrollEventUtils";
 import styles from "src/component/hiddenBlock/HiddenBlock.module.scss";
 
 /**
@@ -63,32 +62,15 @@ interface HiddenBlockProps {
  * HiddenBlock component
  */
 export const HiddenBlock = observer((props: HiddenBlockProps) => {
-  const myRef = useRef<HTMLDivElement>(null);
-  const element = myRef.current;
-
-  /**
-   * Handle scroll callback
-   */
-  const handleScroll = () => {
-    ScrollEventUtils.handleScrollPosition(element, props.isMoreNotificationsExist, props.loadMore);
-  };
-
-  useEffect(() => {
-    if (element) {
-      element.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (element) {
-        element.removeEventListener("scroll", handleScroll);
-      }
-    };
-
-  }, [props.notificationList]);
+  const {ref} = useScroll({
+    onScroll: props.loadMore,
+    isMoreElementExist: props.isMoreNotificationsExist,
+    dependency: [props.notificationList],
+  });
 
   return (
     <div
-      ref={myRef}
+      ref={ref}
       className={clsx(styles.hiddenBlockContainer, !props.isOpen && styles.hidden)}
     >
       <Title
