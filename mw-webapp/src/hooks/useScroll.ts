@@ -37,20 +37,24 @@ export const useScroll = <Dependency>({
 }: useScrollProps<Dependency>) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const isScrollAtBottom = ref.current
-  && ref.current.scrollTop + ref.current.clientHeight >= ref.current.scrollHeight - heightFromBottomBlock;
-
   /**
    * Handle scroll callback
    */
   const handleScroll = () => {
-    if (!isDisabled && isScrollAtBottom) {
+    if (!ref.current) {
+      return;
+    }
+
+    const actionPointFromTop = (ref.current.scrollHeight - heightFromBottomBlock);
+
+    const isShouldTriggerCallback = ref.current.scrollTop + ref.current.clientHeight >= actionPointFromTop;
+
+    if (!isDisabled && isShouldTriggerCallback) {
       onScroll();
     }
   };
 
   useEffect(() => {
-
     if (ref.current) {
       ref.current.addEventListener("scroll", handleScroll);
     }

@@ -7,7 +7,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import styles from "src/component/hiddenBlock/notificationItem/NotificationItem.module.scss";
+import styles from "src/component/notificationBlock/notificationItem/NotificationItem.module.scss";
 
 /**
  * Nature of the notification (like jobDone created, mentor request applied etc.)

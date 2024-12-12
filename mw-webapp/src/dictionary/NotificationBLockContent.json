@@ -30,5 +30,17 @@
       "en": "The favorite way is updated",
       "ua": "Улюблений шлях оновлено"
     }
+  },
+  "filter": {
+    "allNotifications": {
+      "ru": "Все уведомления",
+      "en": "All notifications",
+      "ua": "Усі сповіщення"
+    },
+    "unreadNotifications": {
+      "ru": "Непрочитанные уведомления",
+      "en": "Unread notifications",
+      "ua": "Непрочитані сповіщення"
+    }
   }
 }

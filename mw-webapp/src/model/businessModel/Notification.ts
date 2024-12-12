@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
+import {NotificationNature} from "src/component/notificationBlock/notificationItem/NotificationItem";
 
 /**
  * Notification's props

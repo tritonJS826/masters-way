@@ -3,9 +3,9 @@ import {Outlet} from "react-router-dom";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {observer} from "mobx-react-lite";
 import {Header} from "src/component/header/Header";
-import {HiddenBlock} from "src/component/hiddenBlock/HiddenBlock";
-import {NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {NotificationBlock} from "src/component/notificationBlock/NotificationBlock";
+import {NotificationNature} from "src/component/notificationBlock/notificationItem/NotificationItem";
 import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {notificationStore} from "src/globalStore/NotificationStore";
@@ -62,9 +62,9 @@ export const Layout = observer(() => {
   /**
    * Load more notifications
    */
-  const loadMoreNotifications = async () => {
+  const loadMoreNotifications = async (isOnlyNew: boolean) => {
     const nextPage = notificationsPagination + DEFAULT_NOTIFICATIONS_PAGINATION_VALUE;
-    const notifications = await NotificationDAL.getOwnNotificationList({page: nextPage});
+    const notifications = await NotificationDAL.getOwnNotificationList({page: nextPage, isOnlyNew});
     notificationStore.addNotifications(notifications.notificationList);
     setNotificationsPagination(nextPage);
   };
@@ -96,7 +96,7 @@ export const Layout = observer(() => {
 
       <HorizontalContainer className={styles.pageLayout}>
         {user &&
-        <HiddenBlock
+        <NotificationBlock
           title={LanguageService.common.notifications.title[language]}
           getTitle={(nature: NotificationNature) => LanguageService.notifications.nature[nature][language]}
           notificationList={notificationList}
@@ -105,7 +105,7 @@ export const Layout = observer(() => {
             !isRead && notificationStore.deleteUnreadNotificationFromAmount();
             !isRead && await NotificationDAL.updateNotification(notificationId);
           }}
-          loadMore={loadMoreNotifications}
+          loadMore={(isOnlyNew: boolean) => loadMoreNotifications(isOnlyNew)}
           isMoreNotificationsExist={isMoreNotificationsExist}
           totalNotificationsAmount={notificationStore.totalNotificationsAmount}
         />

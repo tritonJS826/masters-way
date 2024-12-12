@@ -12,8 +12,8 @@
 }
 
 .notificationBlock {
-  max-width: 100%;
   overflow: hidden;
+  max-width: 100%;
   align-items: center;
   justify-content: space-between;
   padding: $paddingExtraSmall;
@@ -38,6 +38,6 @@
 }
 
 .spaceForArrow {
-  flex-shrink: 1;
   width: $iconSizeSmall;
+  flex-shrink: 1;
 }

@@ -74,10 +74,6 @@ export const InitializedApp = (props: PropsWithChildren) => {
       setUser(loadedUser);
       const defaultPagePath = getDefaultPagePath(loadedUser.uuid);
       setIsInitialized(true);
-      const notifications = await notificationStore.loadNotifications();
-      notificationStore.setUnreadNotificationsAmount(notifications.unreadSize);
-      notificationStore.setTotalNotificationsAmount(notifications.totalSize);
-      notificationStore.setNotifications(notifications.notificationList);
 
       if (getIsHomePage()) {
         navigate(defaultPagePath);

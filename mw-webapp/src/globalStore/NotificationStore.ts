@@ -64,8 +64,8 @@ export class NotificationStore {
   /**
    * Load notifications
    */
-  public loadNotifications = async (): Promise<AllNotificationsParams> => {
-    const notifications = await NotificationDAL.getOwnNotificationList({});
+  public loadNotifications = async (isOnlyNew: boolean): Promise<AllNotificationsParams> => {
+    const notifications = await NotificationDAL.getOwnNotificationList({isOnlyNew});
 
     return notifications;
 
