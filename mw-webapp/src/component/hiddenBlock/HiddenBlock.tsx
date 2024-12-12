@@ -4,6 +4,7 @@ import {observer} from "mobx-react-lite";
 import {NotificationItem, NotificationNature} from "src/component/hiddenBlock/notificationItem/NotificationItem";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Notification} from "src/model/businessModel/Notification";
+import {ScrollEventUtils} from "src/utils/ScrollEventUtils";
 import styles from "src/component/hiddenBlock/HiddenBlock.module.scss";
 
 /**
@@ -58,8 +59,6 @@ interface HiddenBlockProps {
   totalNotificationsAmount: number;
 }
 
-const INDEX_TO_CHECK_SCROLL_POSITION = 0.8;
-
 /**
  * HiddenBlock component
  */
@@ -71,12 +70,7 @@ export const HiddenBlock = observer((props: HiddenBlockProps) => {
    * Handle scroll callback
    */
   const handleScroll = () => {
-    if (props.isMoreNotificationsExist
-      && element
-      && element.scrollTop > (element.scrollHeight * INDEX_TO_CHECK_SCROLL_POSITION)
-    ) {
-      props.loadMore();
-    }
+    ScrollEventUtils.handleScrollPosition(element, props.isMoreNotificationsExist, props.loadMore);
   };
 
   useEffect(() => {
