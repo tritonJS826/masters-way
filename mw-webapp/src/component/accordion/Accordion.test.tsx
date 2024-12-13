@@ -47,7 +47,7 @@ describe("Accordion component", () => {
     expect(screen.getByText(FIRST_CONTENT)).toBeVisible();
   });
 
-  it("should all options could be opened and closed one by one", () => {
+  it("should all options could be opened and closed one by one in single mode", () => {
     renderAccordion(accordionTypes.SINGLE);
     const triggerFirst = screen.getByRole("button", {name: FIRST_TRIGGER});
     const triggerSecond = screen.getByRole("button", {name: SECOND_TRIGGER});
