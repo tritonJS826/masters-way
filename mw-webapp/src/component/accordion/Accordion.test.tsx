@@ -31,19 +31,13 @@ describe("Accordion component", () => {
     );
   };
 
-  it("should render the accordion and all options", () => {
+  it("should render the accordion with default behavior", () => {
     renderAccordion(accordionTypes.SINGLE);
 
-    expect(screen.getByRole("button", {name: FIRST_TRIGGER})).toBeInTheDocument();
-    expect(screen.getByRole("button", {name: SECOND_TRIGGER})).toBeInTheDocument();
-    expect(screen.getByTestId(FIRST_CONTENT)).toBeInTheDocument();
-    expect(screen.getByTestId(SECOND_CONTENT)).toBeInTheDocument();
-  });
-
-  it("should accordion option be closed (text hidden)", () => {
-    renderAccordion(accordionTypes.SINGLE);
-
-    expect(screen.getByTestId(FIRST_CONTENT)).not.toBeVisible();
+    expect(screen.getByRole("button", {name: FIRST_TRIGGER})).toBeVisible();
+    expect(screen.getByRole("button", {name: SECOND_TRIGGER})).toBeVisible();
+    expect(screen.queryByText(FIRST_CONTENT)).not.toBeInTheDocument();
+    expect(screen.queryByText(SECOND_CONTENT)).not.toBeInTheDocument();
   });
 
   it("should accordion option be opened when click trigger", () => {
@@ -61,8 +55,8 @@ describe("Accordion component", () => {
     fireEvent.click(triggerFirst);
     fireEvent.click(triggerSecond);
 
-    expect(screen.getByTestId(FIRST_CONTENT)).not.toBeVisible();
-    expect(screen.getByTestId(SECOND_CONTENT)).toBeVisible();
+    expect(screen.queryByText(FIRST_CONTENT)).not.toBeInTheDocument();
+    expect(screen.getByText(SECOND_CONTENT)).toBeVisible();
   });
 
   it("should all options be opened and closed in multiple mode", () => {
@@ -74,8 +68,8 @@ describe("Accordion component", () => {
     fireEvent.click(triggerFirst);
     fireEvent.click(triggerSecond);
 
-    expect(screen.getByTestId(FIRST_CONTENT)).toBeVisible();
-    expect(screen.getByTestId(SECOND_CONTENT)).toBeVisible();
+    expect(screen.getByText(FIRST_CONTENT)).toBeVisible();
+    expect(screen.getByText(SECOND_CONTENT)).toBeVisible();
   });
 
   it("should only one option be opened in not multiple mode", () => {
@@ -85,11 +79,11 @@ describe("Accordion component", () => {
     const triggerSecond = screen.getByRole("button", {name: SECOND_TRIGGER});
 
     fireEvent.click(triggerFirst);
-    expect(screen.getByTestId(FIRST_CONTENT)).toBeVisible();
-    expect(screen.getByTestId(SECOND_CONTENT)).not.toBeVisible();
+    expect(screen.getByText(FIRST_CONTENT)).toBeVisible();
+    expect(screen.queryByText(SECOND_CONTENT)).not.toBeInTheDocument();
 
     fireEvent.click(triggerSecond);
-    expect(screen.getByTestId(FIRST_CONTENT)).not.toBeVisible();
-    expect(screen.getByTestId(SECOND_CONTENT)).toBeVisible();
+    expect(screen.queryByText(FIRST_CONTENT)).not.toBeInTheDocument();
+    expect(screen.getByText(SECOND_CONTENT)).toBeVisible();
   });
 });

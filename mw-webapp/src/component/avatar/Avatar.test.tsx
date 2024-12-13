@@ -17,12 +17,16 @@ describe("Avatar text component", () => {
   });
 
   it("should render the avatar text component correctly", () => {
-    const avatar = screen.getByTestId(AVATAR_CY);
+    const avatar = screen.getByRole(AVATAR_CY);
     expect(avatar).toBeVisible();
   });
 
-  it("should contain initials", () => {
-    const avatar = screen.getByTestId(AVATAR_CY).childNodes[0];
-    waitFor(() => expect(avatar).toHaveTextContent(INITIALS));
+  it("should contain initials", async () => {
+    await waitFor(() => {
+      const avatar = screen.getByRole(AVATAR_CY);
+      expect(avatar).toHaveTextContent(INITIALS);
+    });
   });
+
+  // TODO: avatar image rendering test
 });
