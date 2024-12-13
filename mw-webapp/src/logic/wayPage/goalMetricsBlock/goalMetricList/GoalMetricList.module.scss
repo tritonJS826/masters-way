@@ -1,4 +1,5 @@
 @import "src/styles/variables";
+
 .singularMetric {
   align-items: flex-start;
   justify-content: space-between;
@@ -14,10 +15,11 @@
   align-items: center;
   justify-content: center;
 }
+
 .metricDescriptionAndCheckbox {
   width: 100%;
 }
 
-.metricDescription{
-  width:100%
+.metricDescription {
+  width: 100%
 }
