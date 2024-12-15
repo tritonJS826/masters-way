@@ -52,26 +52,10 @@ func (ns NullPracticeType) Value() (driver.Value, error) {
 	return string(ns.PracticeType), nil
 }
 
-type Course struct {
-	Uuid        pgtype.UUID      `json:"uuid"`
-	Name        pgtype.Text      `json:"name"`
-	Description pgtype.Text      `json:"description"`
-	IsPrivate   bool             `json:"is_private"`
-	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
-	CreatedAt   pgtype.Timestamp `json:"created_at"`
-	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
-}
-
-type CoursesMentor struct {
-	CourseUuid pgtype.UUID      `json:"course_uuid"`
-	MentorUuid pgtype.UUID      `json:"mentor_uuid"`
-	CreatedAt  pgtype.Timestamp `json:"created_at"`
-}
-
-type CoursesStudent struct {
-	CourseUuid  pgtype.UUID      `json:"course_uuid"`
-	StudentUuid pgtype.UUID      `json:"student_uuid"`
-	CreatedAt   pgtype.Timestamp `json:"created_at"`
+type FavoriteUsersTraining struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	UserUuid     pgtype.UUID      `json:"user_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
 }
 
 type PracticeMaterial struct {
@@ -95,10 +79,43 @@ type TheoryMaterial struct {
 }
 
 type Topic struct {
-	Uuid       pgtype.UUID      `json:"uuid"`
-	Name       pgtype.Text      `json:"name"`
-	CourseUuid pgtype.UUID      `json:"course_uuid"`
-	TopicOrder int32            `json:"topic_order"`
-	Parent     pgtype.UUID      `json:"parent"`
-	CreatedAt  pgtype.Timestamp `json:"created_at"`
+	Uuid         pgtype.UUID      `json:"uuid"`
+	Name         pgtype.Text      `json:"name"`
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	TopicOrder   int32            `json:"topic_order"`
+	Parent       pgtype.UUID      `json:"parent"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type Training struct {
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        pgtype.Text      `json:"name"`
+	Description pgtype.Text      `json:"description"`
+	IsPrivate   bool             `json:"is_private"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
+}
+
+type TrainingTag struct {
+	Uuid pgtype.UUID `json:"uuid"`
+	Name string      `json:"name"`
+}
+
+type TrainingsMentor struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	MentorUuid   pgtype.UUID      `json:"mentor_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type TrainingsStudent struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	StudentUuid  pgtype.UUID      `json:"student_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type TrainingsTrainingTag struct {
+	TrainingUuid pgtype.UUID      `json:"training_uuid"`
+	TagUuid      pgtype.UUID      `json:"tag_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
 }

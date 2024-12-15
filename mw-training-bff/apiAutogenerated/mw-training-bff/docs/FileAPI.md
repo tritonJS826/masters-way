@@ -1,6 +1,6 @@
 # \FileAPI
 
-All URIs are relative to */chat*
+All URIs are relative to */training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -75,7 +75,7 @@ No authorization required
 
 ## UploadFile
 
-> MwChatBffInternalSchemasUploadFileResponse UploadFile(ctx).RoomId(roomId).File(file).Execute()
+> MwTrainingBffInternalSchemasUploadFileResponse UploadFile(ctx).RoomId(roomId).File(file).Execute()
 
 Upload file to storage
 
@@ -104,7 +104,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `FileAPI.UploadFile``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UploadFile`: MwChatBffInternalSchemasUploadFileResponse
+	// response from `UploadFile`: MwTrainingBffInternalSchemasUploadFileResponse
 	fmt.Fprintf(os.Stdout, "Response from `FileAPI.UploadFile`: %v\n", resp)
 }
 ```
@@ -125,7 +125,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwChatBffInternalSchemasUploadFileResponse**](MwChatBffInternalSchemasUploadFileResponse.md)
+[**MwTrainingBffInternalSchemasUploadFileResponse**](MwTrainingBffInternalSchemasUploadFileResponse.md)
 
 ### Authorization
 

@@ -1,24 +1,27 @@
--- -- name: CreateMessageStatus :exec
--- WITH room_users AS (
---     SELECT user_uuid
---     FROM users_rooms
---     WHERE room_uuid = @room_uuid AND user_uuid != @user_uuid
--- )
--- INSERT INTO message_status (message_uuid, receiver_uuid, is_read)
--- SELECT @message_uuid, user_uuid, false
--- FROM room_users;
+-- name: GetTheoryMaterialsByTopicId :many
+SELECT * FROM theory_materials
+WHERE theory_materials.topic_uuid = @topic_uuid;
 
--- -- name: SetAllRoomMessagesAsRead :exec
--- UPDATE message_status
--- SET is_read = true
--- FROM messages
--- WHERE message_status.message_uuid = messages.uuid
---     AND messages.room_uuid = @room_uuid
---     AND message_status.receiver_uuid = @user_uuid
---     AND message_status.is_read = false;
+-- name: CreateTheoryMaterialInTopic :one
+INSERT INTO theory_materials(
+    name,
+    description,
+    topic_uuid
+) VALUES (
+    @name,
+    @description,
+    @topic_uuid
+) RETURNING *;
 
--- -- name: UpdateMessageStatus :exec
--- UPDATE message_status
--- SET is_read = @is_read
--- WHERE message_status.message_uuid = @message_uuid
---     AND message_status.receiver_uuid = @user_uuid;
+-- name: UpdateTheoryMaterial :one
+UPDATE theory_materials
+SET
+    name = coalesce(sqlc.narg('name'), name),
+    description = coalesce(sqlc.narg('description'), description)
+WHERE uuid = sqlc.arg('uuid')
+RETURNING *;
+
+-- name: DeleteTheoryMaterial :one
+DELETE FROM theory_materials
+WHERE uuid = @theory_material_uuid
+RETURNING *;

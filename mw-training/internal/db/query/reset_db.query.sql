@@ -69,8 +69,8 @@ END $$;
 
 
 -- name: RegenerateDbData :exec
--- DO $$
--- BEGIN
+DO $$
+BEGIN
 -- INSERT INTO "rooms" ("uuid", "name", "type", "created_at")
 -- VALUES
 --     ('78bdf878-3b83-4f97-8d2e-928c132a10cd', NULL, 'private', '2024-08-08 13:10:00'),
@@ -156,4 +156,4 @@ END $$;
 --     ('b2ab09d5-7dcc-434d-9714-bb56cc71a2a8', '8a3d1fe1-42da-499a-bf64-248297fd670a', false, '2024-08-18 13:24:00'),
 --     ('c19faf46-6ddc-41ef-9260-16bf19372cc9', 'd63d2f89-6412-4324-8587-7061bf02dca4', false, '2024-08-18 14:31:00');
 
--- END $$;
+END $$;

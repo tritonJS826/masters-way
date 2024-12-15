@@ -74,7 +74,7 @@ ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVari
 
 ## Documentation for API Endpoints
 
-All URIs are relative to */chat*
+All URIs are relative to */training*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -92,18 +92,18 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MwChatInternalSchemasCreateMessagePayload](docs/MwChatInternalSchemasCreateMessagePayload.md)
- - [MwChatInternalSchemasCreateMessageResponse](docs/MwChatInternalSchemasCreateMessageResponse.md)
- - [MwChatInternalSchemasCreateRoomPayload](docs/MwChatInternalSchemasCreateRoomPayload.md)
- - [MwChatInternalSchemasFindOrCreateRoomResponse](docs/MwChatInternalSchemasFindOrCreateRoomResponse.md)
- - [MwChatInternalSchemasGetChatPreviewResponse](docs/MwChatInternalSchemasGetChatPreviewResponse.md)
- - [MwChatInternalSchemasGetRoomsResponse](docs/MwChatInternalSchemasGetRoomsResponse.md)
- - [MwChatInternalSchemasMessageReader](docs/MwChatInternalSchemasMessageReader.md)
- - [MwChatInternalSchemasMessageResponse](docs/MwChatInternalSchemasMessageResponse.md)
- - [MwChatInternalSchemasRoomPopulatedResponse](docs/MwChatInternalSchemasRoomPopulatedResponse.md)
- - [MwChatInternalSchemasRoomPreviewResponse](docs/MwChatInternalSchemasRoomPreviewResponse.md)
- - [MwChatInternalSchemasUpdateMessageStatusPayload](docs/MwChatInternalSchemasUpdateMessageStatusPayload.md)
- - [MwChatInternalSchemasUserResponse](docs/MwChatInternalSchemasUserResponse.md)
+ - [MwTrainingInternalSchemasCreateMessagePayload](docs/MwTrainingInternalSchemasCreateMessagePayload.md)
+ - [MwTrainingInternalSchemasCreateMessageResponse](docs/MwTrainingInternalSchemasCreateMessageResponse.md)
+ - [MwTrainingInternalSchemasCreateRoomPayload](docs/MwTrainingInternalSchemasCreateRoomPayload.md)
+ - [MwTrainingInternalSchemasFindOrCreateRoomResponse](docs/MwTrainingInternalSchemasFindOrCreateRoomResponse.md)
+ - [MwTrainingInternalSchemasGetChatPreviewResponse](docs/MwTrainingInternalSchemasGetChatPreviewResponse.md)
+ - [MwTrainingInternalSchemasGetRoomsResponse](docs/MwTrainingInternalSchemasGetRoomsResponse.md)
+ - [MwTrainingInternalSchemasMessageReader](docs/MwTrainingInternalSchemasMessageReader.md)
+ - [MwTrainingInternalSchemasMessageResponse](docs/MwTrainingInternalSchemasMessageResponse.md)
+ - [MwTrainingInternalSchemasRoomPopulatedResponse](docs/MwTrainingInternalSchemasRoomPopulatedResponse.md)
+ - [MwTrainingInternalSchemasRoomPreviewResponse](docs/MwTrainingInternalSchemasRoomPreviewResponse.md)
+ - [MwTrainingInternalSchemasUpdateMessageStatusPayload](docs/MwTrainingInternalSchemasUpdateMessageStatusPayload.md)
+ - [MwTrainingInternalSchemasUserResponse](docs/MwTrainingInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

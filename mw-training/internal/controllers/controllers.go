@@ -3,15 +3,27 @@ package controllers
 import "mw-training/internal/services"
 
 type Controller struct {
-	RoomsController    *RoomController
-	MessagesController *MessageController
-	DevController      *DevController
+	TrainingTagsController           *TrainingTagsController
+	TrainingsController              *TrainingsController
+	TrainingMentorsController        *TrainingMentorsController
+	TrainingStudentController        *TrainingStudentController
+	FavoriteUsersTrainingsController *FavoriteUsersTrainingsController
+	PracticeMaterialsController      *PracticeMaterialsController
+	TheoryMaterialsController        *TheoryMAterialsController
+	TopicsController                 *TopicsController
+	DevController                    *DevController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		RoomsController:    NewRoomsController(services.RoomsService, services.MessagesService),
-		MessagesController: NewMessagesController(services.MessagesService),
-		DevController:      NewDevController(services.DevService),
+		TrainingTagsController:           NewTrainingTagsController(services.TrainingTagsService),
+		TrainingsController:              NewTrainingsCoroller(services.TrainingsService),
+		TrainingMentorsController:        NewTrainingMentorsController(services.TrainingMentorsService),
+		TrainingStudentController:        TrainingStudentController(services.TrainingStudentsService),
+		FavoriteUsersTrainingsController: FavoriteUsersTrainingsController(services.FavoriteUsersTrainingsService),
+		PracticeMaterialsController:      PracticeMaterialsController(services.PracticeMaterialsService),
+		TheoryMaterialsController:        TheoryMaterialsController(services.TheoryMaterialsService),
+		TopicsController:                 TopicsController(services.TopicsService),
+		DevController:                    NewDevController(services.DevService),
 	}
 }

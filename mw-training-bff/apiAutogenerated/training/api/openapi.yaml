@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
   contact: {}
-  title: Masters way chat API
+  title: Masters way training API
   version: "1.0"
 servers:
-- url: /chat
+- url: /training
 paths:
   /dev/reset-db:
     get:
@@ -23,7 +23,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-chat_internal_schemas.CreateMessagePayload'
+              $ref: '#/components/schemas/mw-training_internal_schemas.CreateMessagePayload'
         description: query params
         required: true
       responses:
@@ -31,7 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.CreateMessageResponse'
+                $ref: '#/components/schemas/mw-training_internal_schemas.CreateMessageResponse'
           description: OK
       summary: Create message
       tags:
@@ -52,7 +52,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-chat_internal_schemas.UpdateMessageStatusPayload'
+              $ref: '#/components/schemas/mw-training_internal_schemas.UpdateMessageStatusPayload'
         description: query params
         required: true
       responses:
@@ -70,7 +70,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-chat_internal_schemas.CreateRoomPayload'
+              $ref: '#/components/schemas/mw-training_internal_schemas.CreateRoomPayload'
         description: query params
         required: true
       responses:
@@ -78,7 +78,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.FindOrCreateRoomResponse'
+                $ref: '#/components/schemas/mw-training_internal_schemas.FindOrCreateRoomResponse'
           description: OK
       summary: Find or create room for user
       tags:
@@ -102,7 +102,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.GetRoomsResponse'
+                $ref: '#/components/schemas/mw-training_internal_schemas.GetRoomsResponse'
           description: OK
       summary: Get rooms for user
       tags:
@@ -115,7 +115,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.GetChatPreviewResponse'
+                $ref: '#/components/schemas/mw-training_internal_schemas.GetChatPreviewResponse'
           description: OK
       summary: Get chat preview
       tags:
@@ -135,7 +135,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.RoomPopulatedResponse'
+                $ref: '#/components/schemas/mw-training_internal_schemas.RoomPopulatedResponse'
           description: OK
       summary: Get room by id
       tags:
@@ -154,7 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.RoomPopulatedResponse'
+                $ref: '#/components/schemas/mw-training_internal_schemas.RoomPopulatedResponse'
           description: OK
       summary: Update room for user
       tags:
@@ -202,14 +202,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-chat_internal_schemas.RoomPreviewResponse'
+                $ref: '#/components/schemas/mw-training_internal_schemas.RoomPreviewResponse'
           description: OK
       summary: Add user to room
       tags:
       - room
 components:
   schemas:
-    mw-chat_internal_schemas.CreateMessagePayload:
+    mw-training_internal_schemas.CreateMessagePayload:
       properties:
         message:
           type: string
@@ -219,7 +219,7 @@ components:
       - message
       - roomId
       type: object
-    mw-chat_internal_schemas.CreateMessageResponse:
+    mw-training_internal_schemas.CreateMessageResponse:
       example:
         message:
           messageReaders:
@@ -235,7 +235,7 @@ components:
         - users
       properties:
         message:
-          $ref: '#/components/schemas/mw-chat_internal_schemas.MessageResponse'
+          $ref: '#/components/schemas/mw-training_internal_schemas.MessageResponse'
         users:
           items:
             type: string
@@ -244,7 +244,7 @@ components:
       - message
       - users
       type: object
-    mw-chat_internal_schemas.CreateRoomPayload:
+    mw-training_internal_schemas.CreateRoomPayload:
       properties:
         name:
           nullable: true
@@ -257,7 +257,7 @@ components:
       required:
       - roomType
       type: object
-    mw-chat_internal_schemas.FindOrCreateRoomResponse:
+    mw-training_internal_schemas.FindOrCreateRoomResponse:
       example:
         isAlreadyCreated: true
         room:
@@ -291,12 +291,12 @@ components:
         isAlreadyCreated:
           type: boolean
         room:
-          $ref: '#/components/schemas/mw-chat_internal_schemas.RoomPopulatedResponse'
+          $ref: '#/components/schemas/mw-training_internal_schemas.RoomPopulatedResponse'
       required:
       - isAlreadyCreated
       - room
       type: object
-    mw-chat_internal_schemas.GetChatPreviewResponse:
+    mw-training_internal_schemas.GetChatPreviewResponse:
       example:
         unreadMessagesAmount: 0
       properties:
@@ -305,7 +305,7 @@ components:
       required:
       - unreadMessagesAmount
       type: object
-    mw-chat_internal_schemas.GetRoomsResponse:
+    mw-training_internal_schemas.GetRoomsResponse:
       example:
         rooms:
         - isBlocked: true
@@ -330,7 +330,7 @@ components:
       properties:
         rooms:
           items:
-            $ref: '#/components/schemas/mw-chat_internal_schemas.RoomPreviewResponse'
+            $ref: '#/components/schemas/mw-training_internal_schemas.RoomPreviewResponse'
           type: array
         size:
           type: integer
@@ -338,7 +338,7 @@ components:
       - rooms
       - size
       type: object
-    mw-chat_internal_schemas.MessageReader:
+    mw-training_internal_schemas.MessageReader:
       example:
         readDate: readDate
         userId: userId
@@ -351,7 +351,7 @@ components:
       - readDate
       - userId
       type: object
-    mw-chat_internal_schemas.MessageResponse:
+    mw-training_internal_schemas.MessageResponse:
       example:
         messageReaders:
         - readDate: readDate
@@ -368,7 +368,7 @@ components:
           type: string
         messageReaders:
           items:
-            $ref: '#/components/schemas/mw-chat_internal_schemas.MessageReader'
+            $ref: '#/components/schemas/mw-training_internal_schemas.MessageReader'
           type: array
         ownerId:
           type: string
@@ -378,7 +378,7 @@ components:
       - messageReaders
       - ownerId
       type: object
-    mw-chat_internal_schemas.RoomPopulatedResponse:
+    mw-training_internal_schemas.RoomPopulatedResponse:
       example:
         isBlocked: true
         name: name
@@ -411,7 +411,7 @@ components:
           type: boolean
         messages:
           items:
-            $ref: '#/components/schemas/mw-chat_internal_schemas.MessageResponse'
+            $ref: '#/components/schemas/mw-training_internal_schemas.MessageResponse'
           type: array
         name:
           nullable: true
@@ -422,7 +422,7 @@ components:
           type: string
         users:
           items:
-            $ref: '#/components/schemas/mw-chat_internal_schemas.UserResponse'
+            $ref: '#/components/schemas/mw-training_internal_schemas.UserResponse'
           type: array
       required:
       - isBlocked
@@ -432,7 +432,7 @@ components:
       - roomType
       - users
       type: object
-    mw-chat_internal_schemas.RoomPreviewResponse:
+    mw-training_internal_schemas.RoomPreviewResponse:
       example:
         isBlocked: true
         name: name
@@ -455,7 +455,7 @@ components:
           type: string
         users:
           items:
-            $ref: '#/components/schemas/mw-chat_internal_schemas.UserResponse'
+            $ref: '#/components/schemas/mw-training_internal_schemas.UserResponse'
           type: array
       required:
       - isBlocked
@@ -464,14 +464,14 @@ components:
       - roomType
       - users
       type: object
-    mw-chat_internal_schemas.UpdateMessageStatusPayload:
+    mw-training_internal_schemas.UpdateMessageStatusPayload:
       properties:
         isRead:
           type: boolean
       required:
       - isRead
       type: object
-    mw-chat_internal_schemas.UserResponse:
+    mw-training_internal_schemas.UserResponse:
       example:
         role: role
         userId: userId

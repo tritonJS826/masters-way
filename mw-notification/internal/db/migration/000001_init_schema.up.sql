@@ -41,12 +41,12 @@ CREATE TABLE notification_settings (
 CREATE OR REPLACE FUNCTION remove_old_notifications()
 RETURNS TRIGGER AS $$
 BEGIN
-    -- Delete old notifications if there are more than 5000 for the user
+    -- Delete old notifications if there are more than 1000 for the user
     DELETE FROM notifications
     WHERE uuid IN (
         SELECT uuid FROM notifications
         WHERE user_uuid = NEW.user_uuid
-        ORDER BY created_at ASC
+        ORDER BY created_at DESC
         OFFSET 1000
     );
 

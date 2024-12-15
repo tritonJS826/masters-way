@@ -41,10 +41,10 @@ func (ds *DevService) ResetDB(ctx context.Context) error {
 		return err
 	}
 
-	err = ds.devRepository.RegenerateDbData(ctx)
-	if err != nil {
-		return err
-	}
+	// err = ds.devRepository.RegenerateDbData(ctx)
+	// if err != nil {
+	// 	return err
+	// }
 
 	ds.pgxPool.Reset()
 

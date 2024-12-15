@@ -1,6 +1,6 @@
 # \DevAPI
 
-All URIs are relative to */chat*
+All URIs are relative to */training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

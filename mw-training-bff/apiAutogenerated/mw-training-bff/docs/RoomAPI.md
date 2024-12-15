@@ -1,6 +1,6 @@
 # \RoomAPI
 
-All URIs are relative to */chat*
+All URIs are relative to */training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 ## AddUserToRoom
 
-> MwChatBffInternalSchemasRoomPopulatedResponse AddUserToRoom(ctx, roomId, userId).Execute()
+> MwTrainingBffInternalSchemasRoomPopulatedResponse AddUserToRoom(ctx, roomId, userId).Execute()
 
 Add user to room
 
@@ -43,7 +43,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.AddUserToRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AddUserToRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
+	// response from `AddUserToRoom`: MwTrainingBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.AddUserToRoom`: %v\n", resp)
 }
 ```
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
+[**MwTrainingBffInternalSchemasRoomPopulatedResponse**](MwTrainingBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -87,7 +87,7 @@ No authorization required
 
 ## DeleteUserFromRoom
 
-> MwChatBffInternalSchemasRoomPopulatedResponse DeleteUserFromRoom(ctx, roomId, userId).Execute()
+> MwTrainingBffInternalSchemasRoomPopulatedResponse DeleteUserFromRoom(ctx, roomId, userId).Execute()
 
 Delete user from room
 
@@ -114,7 +114,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.DeleteUserFromRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `DeleteUserFromRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
+	// response from `DeleteUserFromRoom`: MwTrainingBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.DeleteUserFromRoom`: %v\n", resp)
 }
 ```
@@ -140,7 +140,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
+[**MwTrainingBffInternalSchemasRoomPopulatedResponse**](MwTrainingBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -158,7 +158,7 @@ No authorization required
 
 ## FindOrCreateRoom
 
-> MwChatBffInternalSchemasRoomPopulatedResponse FindOrCreateRoom(ctx).Request(request).Execute()
+> MwTrainingBffInternalSchemasRoomPopulatedResponse FindOrCreateRoom(ctx).Request(request).Execute()
 
 Find or create room for user
 
@@ -175,7 +175,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwChatBffInternalSchemasCreateRoomPayload("RoomType_example") // MwChatBffInternalSchemasCreateRoomPayload | query params
+	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateRoomPayload("RoomType_example") // MwTrainingBffInternalSchemasCreateRoomPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -184,7 +184,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.FindOrCreateRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `FindOrCreateRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
+	// response from `FindOrCreateRoom`: MwTrainingBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.FindOrCreateRoom`: %v\n", resp)
 }
 ```
@@ -200,11 +200,11 @@ Other parameters are passed through a pointer to a apiFindOrCreateRoomRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwChatBffInternalSchemasCreateRoomPayload**](MwChatBffInternalSchemasCreateRoomPayload.md) | query params | 
+ **request** | [**MwTrainingBffInternalSchemasCreateRoomPayload**](MwTrainingBffInternalSchemasCreateRoomPayload.md) | query params | 
 
 ### Return type
 
-[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
+[**MwTrainingBffInternalSchemasRoomPopulatedResponse**](MwTrainingBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -222,7 +222,7 @@ No authorization required
 
 ## GetChatPreview
 
-> MwChatBffInternalSchemasGetRoomPreviewResponse GetChatPreview(ctx).Execute()
+> MwTrainingBffInternalSchemasGetRoomPreviewResponse GetChatPreview(ctx).Execute()
 
 Get chat preview
 
@@ -247,7 +247,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetChatPreview``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetChatPreview`: MwChatBffInternalSchemasGetRoomPreviewResponse
+	// response from `GetChatPreview`: MwTrainingBffInternalSchemasGetRoomPreviewResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetChatPreview`: %v\n", resp)
 }
 ```
@@ -263,7 +263,7 @@ Other parameters are passed through a pointer to a apiGetChatPreviewRequest stru
 
 ### Return type
 
-[**MwChatBffInternalSchemasGetRoomPreviewResponse**](MwChatBffInternalSchemasGetRoomPreviewResponse.md)
+[**MwTrainingBffInternalSchemasGetRoomPreviewResponse**](MwTrainingBffInternalSchemasGetRoomPreviewResponse.md)
 
 ### Authorization
 
@@ -281,7 +281,7 @@ No authorization required
 
 ## GetRoomById
 
-> MwChatBffInternalSchemasRoomPopulatedResponse GetRoomById(ctx, roomId).Execute()
+> MwTrainingBffInternalSchemasRoomPopulatedResponse GetRoomById(ctx, roomId).Execute()
 
 Get room by id
 
@@ -307,7 +307,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetRoomById``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetRoomById`: MwChatBffInternalSchemasRoomPopulatedResponse
+	// response from `GetRoomById`: MwTrainingBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetRoomById`: %v\n", resp)
 }
 ```
@@ -331,7 +331,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
+[**MwTrainingBffInternalSchemasRoomPopulatedResponse**](MwTrainingBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 
@@ -349,7 +349,7 @@ No authorization required
 
 ## GetRooms
 
-> MwChatBffInternalSchemasGetRoomsResponse GetRooms(ctx, roomType).Execute()
+> MwTrainingBffInternalSchemasGetRoomsResponse GetRooms(ctx, roomType).Execute()
 
 Get rooms for user
 
@@ -375,7 +375,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.GetRooms``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetRooms`: MwChatBffInternalSchemasGetRoomsResponse
+	// response from `GetRooms`: MwTrainingBffInternalSchemasGetRoomsResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.GetRooms`: %v\n", resp)
 }
 ```
@@ -399,7 +399,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwChatBffInternalSchemasGetRoomsResponse**](MwChatBffInternalSchemasGetRoomsResponse.md)
+[**MwTrainingBffInternalSchemasGetRoomsResponse**](MwTrainingBffInternalSchemasGetRoomsResponse.md)
 
 ### Authorization
 
@@ -417,7 +417,7 @@ No authorization required
 
 ## UpdateRoom
 
-> MwChatBffInternalSchemasRoomPopulatedResponse UpdateRoom(ctx, roomId).Execute()
+> MwTrainingBffInternalSchemasRoomPopulatedResponse UpdateRoom(ctx, roomId).Execute()
 
 Update room
 
@@ -443,7 +443,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `RoomAPI.UpdateRoom``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateRoom`: MwChatBffInternalSchemasRoomPopulatedResponse
+	// response from `UpdateRoom`: MwTrainingBffInternalSchemasRoomPopulatedResponse
 	fmt.Fprintf(os.Stdout, "Response from `RoomAPI.UpdateRoom`: %v\n", resp)
 }
 ```
@@ -467,7 +467,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwChatBffInternalSchemasRoomPopulatedResponse**](MwChatBffInternalSchemasRoomPopulatedResponse.md)
+[**MwTrainingBffInternalSchemasRoomPopulatedResponse**](MwTrainingBffInternalSchemasRoomPopulatedResponse.md)
 
 ### Authorization
 

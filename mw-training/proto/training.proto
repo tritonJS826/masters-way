@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+option go_package = "pkg/training";
+
+package training;
+
+import "google/protobuf/empty.proto";
+
+service TrainingTagService {
+  rpc CreateTrainingTag(CreateTrainingTagRequest) returns (TrainingTag);
+  rpc GetTrainingTags(GetTrainingTagsRequest) returns (TrainingTagList);
+  rpc DeleteTrainingTag(DeleteTrainingTagRequest) returns (google.protobuf.Empty);
+}
+
+
+service TrainingService {
+  rpc CreateNewTraining(CreateTrainingRequest) returns (Training);
+  rpc GetTrainingById(GetTrainingRequest) returns (Training);
+  rpc GetTrainingsList(GetTrainingListRequest) returns (TrainingPreviewList);
+  rpc UpdateTraining(UpdateTrainingRequest) returns (google.protobuf.Empty);
+  rpc DeleteTraining(DeleteTrainingRequest) returns (google.protobuf.Empty);
+}
+
+service TrainingMentorService {
+  rpc CreateTrainingMentor(CreateTrainingMentorRequest) returns (google.protobuf.Empty);
+  rpc DeleteTrainingMentor(DeleteTrainingMentorRequest) returns (google.protobuf.Empty);
+}
+
+service TrainingStudentService {
+  rpc CreateTrainingStudent(CreateTrainingStudentRequest) returns (google.protobuf.Empty);
+  rpc DeleteTrainingStudent(DeleteTrainingStudentRequest) returns (google.protobuf.Empty);
+}
+
+service FavoriteUsersTrainingsService {
+  rpc CreateFavoriteUserTraining(CreateFavouriteUserTrainingRequest) returns (google.protobuf.Empty);
+  rpc DeleteFavoriteUserTraining(DeleteFavoriteUserTrainingRequest) returns (google.protobuf.Empty);
+}
+
+service PracticeMaterialService {
+  rpc CreatePracticeMaterial(CreatePracticeMaterialRequest) returns (PracticeMaterial);
+  rpc UpdatePracticeMaterial(UpdatePracticeMaterialRequest) returns (PracticeMaterial);
+  rpc DeletePracticeMaterial(DeletePracticeMaterialRequest) returns (google.protobuf.Empty);
+}
+
+service TheoryMaterialService {
+  rpc CreateTheoryMaterial(CreateTheoryMaterialRequest) returns (TheoryMaterial);
+  rpc UpdateTheoryMaterial(UpdateTheoryMaterialRequest) returns (TheoryMaterial);
+  rpc DeleteTheoryMaterial(DeleteTheoryMaterialRequest) returns (google.protobuf.Empty);
+}
+
+service TopicsService {
+  rpc CreateTopic(CreateTopicRequest) returns (Topic);
+  rpc UpdateTopic(UpdateTopicRequest) returns (Topic);
+  rpc DeleteTopic(DeleteTopicRequest) returns (google.protobuf.Empty);
+}
+
+service Dev {
+  rpc resetDB(google.protobuf.Empty) returns (google.protobuf.Empty);
+}
+
+message CreateTrainingTagRequest {
+
+}
+
+message TrainingTag {
+
+}
+
+message TrainingTagList {
+  repeated TrainingTag Training_tag_list = 1;
+}
+
+message GetTrainingTagsRequest {
+
+}
+
+message DeleteTrainingTagRequest {
+
+}
+
+message CreateTrainingRequest {
+
+}
+
+message Training {
+
+}
+
+message TrainingPreviewList {
+  repeated Training Training_list = 1;
+}
+
+message GetTrainingRequest {
+
+}
+
+message GetTrainingListRequest {
+
+}
+
+message UpdateTrainingRequest {
+
+}
+
+message DeleteTrainingRequest {
+
+}
+
+message CreateTrainingMentorRequest {
+
+}
+
+message DeleteTrainingMentorRequest {
+
+}
+
+message CreateTrainingStudentRequest {
+
+}
+
+message DeleteTrainingStudentRequest {
+
+}
+
+message CreateFavouriteUserTrainingRequest {
+
+}
+
+message DeleteFavoriteUserTrainingRequest {
+
+}
+
+message CreatePracticeMaterialRequest {
+
+}
+
+message PracticeMaterial {
+
+}
+
+message UpdatePracticeMaterialRequest {
+
+}
+
+message DeletePracticeMaterialRequest {
+
+}
+
+message CreateTheoryMaterialRequest {
+
+}
+
+message TheoryMaterial {
+
+}
+
+message UpdateTheoryMaterialRequest {
+
+}
+
+message DeleteTheoryMaterialRequest {
+
+}
+
+message CreateTopicRequest {
+
+}
+
+message Topic {
+
+}
+
+message UpdateTopicRequest {
+
+}
+
+message DeleteTopicRequest {
+
+}

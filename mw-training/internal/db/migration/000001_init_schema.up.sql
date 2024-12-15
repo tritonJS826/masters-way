@@ -1,6 +1,6 @@
 SET TIMEZONE = 'UTC';
 
-CREATE TABLE courses (
+CREATE TABLE trainings (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "name" VARCHAR(50),
     "description" VARCHAR(4096),
@@ -8,48 +8,48 @@ CREATE TABLE courses (
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "owner_uuid" UUID NOT NULL,
-    CONSTRAINT "cources_pkey" PRIMARY KEY (uuid)
+    CONSTRAINT "trainings_pkey" PRIMARY KEY (uuid)
 );
 
-CREATE TABLE "course_tags"(
+CREATE TABLE "training_tags"(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "name" VARCHAR NOT NULL,
-    CONSTRAINT "way_tags_pkey" PRIMARY KEY("uuid")
+    CONSTRAINT "training_tags_pkey" PRIMARY KEY("uuid")
 );
-CREATE UNIQUE INDEX "course_tags_name_key" ON "way_tags"("name");
+CREATE UNIQUE INDEX "training_tags_name_key" ON "training_tags"("name");
 
-CREATE TABLE courses_tags (
-    "course_uuid" UUID NOT NULL REFERENCES courses("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "tag_uuid" UUID NOT NULL REFERENCES course_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+CREATE TABLE trainings_training_tags (
+    "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "tag_uuid" UUID NOT NULL REFERENCES training_tags("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "courses_pkey" PRIMARY KEY (uuid)
+    CONSTRAINT "trainings_training_tags_pkey" PRIMARY KEY (training_uuid, tag_uuid)
 );
 
-CREATE TABLE favorite_users_cources (
-    "course_uuid" UUID NOT NULL REFERENCES courses("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+CREATE TABLE favorite_users_trainings (
+    "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "user_uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "cources_pkey" PRIMARY KEY (uuid)
+    CONSTRAINT "favorite_users_trainings_pkey" PRIMARY KEY (training_uuid, user_uuid)
 );
 
-CREATE TABLE "courses_mentors" (
-    "course_uuid" UUID NOT NULL REFERENCES courses("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+CREATE TABLE "trainings_mentors" (
+    "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "mentor_uuid" UUID NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "courses_mentors_pkey" PRIMARY KEY ("course_uuid", "mentor_uuid")
+    CONSTRAINT "trainings_mentors_pkey" PRIMARY KEY ("training_uuid", "mentor_uuid")
 );
 
-CREATE TABLE "courses_students" (
-    "course_uuid" UUID NOT NULL REFERENCES courses("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+CREATE TABLE "trainings_students" (
+    "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "student_uuid" UUID NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "courses_students_pkey" PRIMARY KEY ("course_uuid", "student_uuid")
+    CONSTRAINT "trainings_students_pkey" PRIMARY KEY ("training_uuid", "student_uuid")
 );
 
 CREATE TABLE topics (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "name" VARCHAR (512),
-    "course_uuid" UUID NOT NULL REFERENCES courses("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "topic_order" INTEGER NOT NULL CHECK (topic_order BETWEEN 0 AND 52560000) DEFAULT 0,
     "parent" UUID NOT NULL REFERENCES topics("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

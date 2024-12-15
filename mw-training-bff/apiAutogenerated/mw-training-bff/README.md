@@ -74,7 +74,7 @@ ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVari
 
 ## Documentation for API Endpoints
 
-All URIs are relative to */chat*
+All URIs are relative to */training*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -93,17 +93,17 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [MwChatBffInternalSchemasCreateMessagePayload](docs/MwChatBffInternalSchemasCreateMessagePayload.md)
- - [MwChatBffInternalSchemasCreateRoomPayload](docs/MwChatBffInternalSchemasCreateRoomPayload.md)
- - [MwChatBffInternalSchemasGetRoomPreviewResponse](docs/MwChatBffInternalSchemasGetRoomPreviewResponse.md)
- - [MwChatBffInternalSchemasGetRoomsResponse](docs/MwChatBffInternalSchemasGetRoomsResponse.md)
- - [MwChatBffInternalSchemasMessageReader](docs/MwChatBffInternalSchemasMessageReader.md)
- - [MwChatBffInternalSchemasMessageResponse](docs/MwChatBffInternalSchemasMessageResponse.md)
- - [MwChatBffInternalSchemasRoomPopulatedResponse](docs/MwChatBffInternalSchemasRoomPopulatedResponse.md)
- - [MwChatBffInternalSchemasRoomPreviewResponse](docs/MwChatBffInternalSchemasRoomPreviewResponse.md)
- - [MwChatBffInternalSchemasUpdateMessageStatusPayload](docs/MwChatBffInternalSchemasUpdateMessageStatusPayload.md)
- - [MwChatBffInternalSchemasUploadFileResponse](docs/MwChatBffInternalSchemasUploadFileResponse.md)
- - [MwChatBffInternalSchemasUserResponse](docs/MwChatBffInternalSchemasUserResponse.md)
+ - [MwTrainingBffInternalSchemasCreateMessagePayload](docs/MwTrainingBffInternalSchemasCreateMessagePayload.md)
+ - [MwTrainingBffInternalSchemasCreateRoomPayload](docs/MwTrainingBffInternalSchemasCreateRoomPayload.md)
+ - [MwTrainingBffInternalSchemasGetRoomPreviewResponse](docs/MwTrainingBffInternalSchemasGetRoomPreviewResponse.md)
+ - [MwTrainingBffInternalSchemasGetRoomsResponse](docs/MwTrainingBffInternalSchemasGetRoomsResponse.md)
+ - [MwTrainingBffInternalSchemasMessageReader](docs/MwTrainingBffInternalSchemasMessageReader.md)
+ - [MwTrainingBffInternalSchemasMessageResponse](docs/MwTrainingBffInternalSchemasMessageResponse.md)
+ - [MwTrainingBffInternalSchemasRoomPopulatedResponse](docs/MwTrainingBffInternalSchemasRoomPopulatedResponse.md)
+ - [MwTrainingBffInternalSchemasRoomPreviewResponse](docs/MwTrainingBffInternalSchemasRoomPreviewResponse.md)
+ - [MwTrainingBffInternalSchemasUpdateMessageStatusPayload](docs/MwTrainingBffInternalSchemasUpdateMessageStatusPayload.md)
+ - [MwTrainingBffInternalSchemasUploadFileResponse](docs/MwTrainingBffInternalSchemasUploadFileResponse.md)
+ - [MwTrainingBffInternalSchemasUserResponse](docs/MwTrainingBffInternalSchemasUserResponse.md)
 
 
 ## Documentation For Authorization

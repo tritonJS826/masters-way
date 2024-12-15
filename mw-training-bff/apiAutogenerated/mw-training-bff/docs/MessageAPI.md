@@ -1,6 +1,6 @@
 # \MessageAPI
 
-All URIs are relative to */chat*
+All URIs are relative to */training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## CreateMessage
 
-> MwChatBffInternalSchemasMessageResponse CreateMessage(ctx).Request(request).Execute()
+> MwTrainingBffInternalSchemasMessageResponse CreateMessage(ctx).Request(request).Execute()
 
 Create message
 
@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwChatBffInternalSchemasCreateMessagePayload("Message_example", "RoomId_example") // MwChatBffInternalSchemasCreateMessagePayload | query params
+	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateMessagePayload("Message_example", "RoomId_example") // MwTrainingBffInternalSchemasCreateMessagePayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -37,7 +37,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `MessageAPI.CreateMessage``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateMessage`: MwChatBffInternalSchemasMessageResponse
+	// response from `CreateMessage`: MwTrainingBffInternalSchemasMessageResponse
 	fmt.Fprintf(os.Stdout, "Response from `MessageAPI.CreateMessage`: %v\n", resp)
 }
 ```
@@ -53,11 +53,11 @@ Other parameters are passed through a pointer to a apiCreateMessageRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwChatBffInternalSchemasCreateMessagePayload**](MwChatBffInternalSchemasCreateMessagePayload.md) | query params | 
+ **request** | [**MwTrainingBffInternalSchemasCreateMessagePayload**](MwTrainingBffInternalSchemasCreateMessagePayload.md) | query params | 
 
 ### Return type
 
-[**MwChatBffInternalSchemasMessageResponse**](MwChatBffInternalSchemasMessageResponse.md)
+[**MwTrainingBffInternalSchemasMessageResponse**](MwTrainingBffInternalSchemasMessageResponse.md)
 
 ### Authorization
 
@@ -95,7 +95,7 @@ import (
 
 func main() {
 	messageId := "messageId_example" // string | message Id
-	request := *openapiclient.NewMwChatBffInternalSchemasUpdateMessageStatusPayload(false) // MwChatBffInternalSchemasUpdateMessageStatusPayload | query params
+	request := *openapiclient.NewMwTrainingBffInternalSchemasUpdateMessageStatusPayload(false) // MwTrainingBffInternalSchemasUpdateMessageStatusPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -123,7 +123,7 @@ Other parameters are passed through a pointer to a apiUpdateMessageStatusRequest
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**MwChatBffInternalSchemasUpdateMessageStatusPayload**](MwChatBffInternalSchemasUpdateMessageStatusPayload.md) | query params | 
+ **request** | [**MwTrainingBffInternalSchemasUpdateMessageStatusPayload**](MwTrainingBffInternalSchemasUpdateMessageStatusPayload.md) | query params | 
 
 ### Return type
 

@@ -1,24 +1,37 @@
--- -- name: CreateMessageStatus :exec
--- WITH room_users AS (
---     SELECT user_uuid
---     FROM users_rooms
---     WHERE room_uuid = @room_uuid AND user_uuid != @user_uuid
--- )
--- INSERT INTO message_status (message_uuid, receiver_uuid, is_read)
--- SELECT @message_uuid, user_uuid, false
--- FROM room_users;
+-- name: GetPracticeMaterialsByTopicId :many
+SELECT * FROM practice_materials
+WHERE practice_materials.topic_uuid = @topic_uuid;
 
--- -- name: SetAllRoomMessagesAsRead :exec
--- UPDATE message_status
--- SET is_read = true
--- FROM messages
--- WHERE message_status.message_uuid = messages.uuid
---     AND messages.room_uuid = @room_uuid
---     AND message_status.receiver_uuid = @user_uuid
---     AND message_status.is_read = false;
+-- name: CreatePracticeMaterialInTopic :one
+INSERT INTO practice_materials(
+    name,
+    practice_material_order,
+    task_description,
+    answer,
+    practice_type,
+    time_to_answer
+) VALUES (
+    @name,
+    @practice_material_order,
+    @task_description,
+    @answer,
+    @practice_type,
+    @time_to_answer
+) RETURNING *;
 
--- -- name: UpdateMessageStatus :exec
--- UPDATE message_status
--- SET is_read = @is_read
--- WHERE message_status.message_uuid = @message_uuid
---     AND message_status.receiver_uuid = @user_uuid;
+-- name: UpdatePracticeMaterial :one
+UPDATE practice_materials
+SET
+    name = coalesce(sqlc.narg('name'), name),
+    practice_material_order = coalesce(sqlc.narg('practice_material_order'), practice_material_order),
+    task_description = coalesce(sqlc.narg('task_description'), task_description),
+    answer = coalesce(sqlc.narg('answer'), answer),
+    practice_type = coalesce(sqlc.narg('practice_type'), practice_type),
+    time_to_answer = coalesce(sqlc.narg('time_to_answer'), time_to_answer)
+WHERE uuid = sqlc.arg('uuid')
+RETURNING *;
+
+-- name: DeletePracticeMaterial :one
+DELETE FROM practice_materials
+WHERE uuid = @practice_material_uuid
+RETURNING *;

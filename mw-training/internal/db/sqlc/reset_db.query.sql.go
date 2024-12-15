@@ -9,6 +9,109 @@ import (
 	"context"
 )
 
+const regenerateDbData = `-- name: RegenerateDbData :exec
+DO $$
+BEGIN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+END $$
+`
+
+// INSERT INTO "rooms" ("uuid", "name", "type", "created_at")
+// VALUES
+//
+//	('78bdf878-3b83-4f97-8d2e-928c132a10cd', NULL, 'private', '2024-08-08 13:10:00'),
+//	('7c3a2511-c938-4a60-a9db-406e18bfeec0', NULL, 'private', '2024-08-10 18:25:00'),
+//	('b7a3664c-f5ed-4cb0-aa2e-b2c758d22b55', NULL, 'private', '2024-08-12 15:00:00'),
+//	('4f85694e-ff29-478f-90e9-1581577dfa84', NULL, 'private', '2024-08-13 08:00:00'),
+//	('e57fc491-69f7-4b30-9979-78879c8873bf', NULL, 'private', '2024-08-15 19:40:00'),
+//	('897f4a0f-fe31-4036-8358-f89a19c9bda6', NULL, 'private', '2024-08-16 10:15:00'),
+//	('85f610df-9f86-4c55-8ee1-02485d42defb', NULL, 'private', '2024-08-18 07:12:00');
+//
+// INSERT INTO "users_rooms" ("user_uuid", "room_uuid", "user_role", "is_room_blocked")
+// VALUES
+//
+//	('d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', '78bdf878-3b83-4f97-8d2e-928c132a10cd', 'regular', false),
+//	('3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', '78bdf878-3b83-4f97-8d2e-928c132a10cd', 'regular', false),
+//	('d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', '7c3a2511-c938-4a60-a9db-406e18bfeec0', 'regular', false),
+//	('1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '7c3a2511-c938-4a60-a9db-406e18bfeec0', 'regular', false),
+//	('110f00b8-19e4-4cf4-a5f1-77b298bf0876', 'b7a3664c-f5ed-4cb0-aa2e-b2c758d22b55', 'regular', false),
+//	('e93f8494-0c5c-420d-a68e-5d43903a80f2', 'b7a3664c-f5ed-4cb0-aa2e-b2c758d22b55', 'regular', false),
+//	('b6eb9dd1-944c-4d1d-bc09-7c9933c53bab', '4f85694e-ff29-478f-90e9-1581577dfa84', 'regular', false),
+//	('b51f6b20-9404-403b-8d48-1c0ab7d51340', '4f85694e-ff29-478f-90e9-1581577dfa84', 'regular', false),
+//	('d63d2f89-6412-4324-8587-7061bf02dca4', 'e57fc491-69f7-4b30-9979-78879c8873bf', 'regular', false),
+//	('c31384a6-b811-4a1f-befa-95dd53e3f4b9', 'e57fc491-69f7-4b30-9979-78879c8873bf', 'regular', false),
+//	('d63d2f89-6412-4324-8587-7061bf02dca4', '897f4a0f-fe31-4036-8358-f89a19c9bda6', 'regular', false),
+//	('5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e', '897f4a0f-fe31-4036-8358-f89a19c9bda6', 'regular', false),
+//	('d63d2f89-6412-4324-8587-7061bf02dca4', '85f610df-9f86-4c55-8ee1-02485d42defb', 'regular', false),
+//	('8a3d1fe1-42da-499a-bf64-248297fd670a', '85f610df-9f86-4c55-8ee1-02485d42defb', 'regular', false);
+//
+// INSERT INTO "messages" ("uuid", "owner_uuid", "room_uuid", "text", "created_at")
+// VALUES
+//
+//	('7939af01-e785-445d-b79d-70a433979c7b', 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', '78bdf878-3b83-4f97-8d2e-928c132a10cd', 'Test message 1', '2024-08-09 01:00:00'),
+//	('91be5d99-eddf-4949-bf15-b4cee3989fa6', '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', '78bdf878-3b83-4f97-8d2e-928c132a10cd', 'Test message 2', '2024-08-09 02:00:00'),
+//	('88a6d503-a03b-412c-bfab-06649e49d62d', 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', '78bdf878-3b83-4f97-8d2e-928c132a10cd', 'Test message 3', '2024-08-10 11:20:00'),
+//	('6cea59ef-f0d4-4d8c-aa12-e48a746c93d0', '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', '78bdf878-3b83-4f97-8d2e-928c132a10cd', 'Test message 4', '2024-08-10 13:30:00'),
+//	('aa9b5ca2-27af-494e-b1cb-20e9ec9d9ee8', 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', '7c3a2511-c938-4a60-a9db-406e18bfeec0', 'Test message 5', '2024-08-11 09:50:40'),
+//	('516394b3-0748-4e5e-9c5f-6d9e8e6ba0b1', '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', '7c3a2511-c938-4a60-a9db-406e18bfeec0', 'Test message 6', '2024-08-12 18:40:00'),
+//	('3b5503c0-1ffa-4df7-8a3c-56535ce67422', '110f00b8-19e4-4cf4-a5f1-77b298bf0876', 'b7a3664c-f5ed-4cb0-aa2e-b2c758d22b55', 'Test message 7', '2024-08-13 21:52:10'),
+//	('f6713833-4bc9-4a7a-b9e1-0bb797a52ef0', 'e93f8494-0c5c-420d-a68e-5d43903a80f2', 'b7a3664c-f5ed-4cb0-aa2e-b2c758d22b55', 'Test message 8', '2024-08-13 22:34:00'),
+//	('8f7d6113-527f-44d9-a1db-53721653ba89', 'b6eb9dd1-944c-4d1d-bc09-7c9933c53bab', '4f85694e-ff29-478f-90e9-1581577dfa84', 'Test message 9', '2024-08-14 12:10:00'),
+//	('b0532e85-84dc-4ab8-ae4d-b2c418c9f849', 'b51f6b20-9404-403b-8d48-1c0ab7d51340', '4f85694e-ff29-478f-90e9-1581577dfa84', 'Test message 10', '2024-08-14 14:50:00'),
+//	('667f090a-0095-4884-bddc-c99c3fcc628d', 'd63d2f89-6412-4324-8587-7061bf02dca4', 'e57fc491-69f7-4b30-9979-78879c8873bf', 'Test message 11', '2024-08-16 09:10:00'),
+//	('4f5d0404-d6bf-47a6-9f56-b7e3bb88a605', 'c31384a6-b811-4a1f-befa-95dd53e3f4b9', 'e57fc491-69f7-4b30-9979-78879c8873bf', 'Test message 12', '2024-08-17 11:49:00'),
+//	('62a0c033-7206-4d21-9f7f-2246a4cdb0c2', 'd63d2f89-6412-4324-8587-7061bf02dca4', '897f4a0f-fe31-4036-8358-f89a19c9bda6', 'Test message 13', '2024-08-17 09:30:00'),
+//	('dd02d5b3-5377-4f73-81a0-8119a208ea58', '5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e', '897f4a0f-fe31-4036-8358-f89a19c9bda6', 'Test message 14', '2024-08-17 18:05:10'),
+//	('b2ab09d5-7dcc-434d-9714-bb56cc71a2a8', 'd63d2f89-6412-4324-8587-7061bf02dca4', '85f610df-9f86-4c55-8ee1-02485d42defb', 'Test message 15', '2024-08-18 13:24:00'),
+//	('c19faf46-6ddc-41ef-9260-16bf19372cc9', '8a3d1fe1-42da-499a-bf64-248297fd670a', '85f610df-9f86-4c55-8ee1-02485d42defb', 'Test message 16', '2024-08-18 14:31:00');
+//
+// INSERT INTO "message_status" ("message_uuid", "receiver_uuid", "is_read", "updated_at")
+// VALUES
+//
+//	('7939af01-e785-445d-b79d-70a433979c7b', '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, '2024-08-09 01:00:00'),
+//	('91be5d99-eddf-4949-bf15-b4cee3989fa6', 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, '2024-08-09 02:00:00'),
+//	('88a6d503-a03b-412c-bfab-06649e49d62d', '3d922e8a-5d58-4b82-9a3d-83e2e73b3f91', false, '2024-08-10 11:20:00'),
+//	('6cea59ef-f0d4-4d8c-aa12-e48a746c93d0', 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, '2024-08-10 13:30:00'),
+//	('aa9b5ca2-27af-494e-b1cb-20e9ec9d9ee8', '1b3d5e7f-5a1e-4d3a-b1a5-d1a1d5b7a7e1', false, '2024-08-11 09:50:40'),
+//	('516394b3-0748-4e5e-9c5f-6d9e8e6ba0b1', 'd2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', false, '2024-08-12 18:40:00'),
+//	('3b5503c0-1ffa-4df7-8a3c-56535ce67422', 'e93f8494-0c5c-420d-a68e-5d43903a80f2', false, '2024-08-13 21:52:10'),
+//	('f6713833-4bc9-4a7a-b9e1-0bb797a52ef0', '110f00b8-19e4-4cf4-a5f1-77b298bf0876', false, '2024-08-13 22:34:00'),
+//	('8f7d6113-527f-44d9-a1db-53721653ba89', 'b51f6b20-9404-403b-8d48-1c0ab7d51340', false, '2024-08-14 12:10:00'),
+//	('b0532e85-84dc-4ab8-ae4d-b2c418c9f849', 'b6eb9dd1-944c-4d1d-bc09-7c9933c53bab', false, '2024-08-14 14:50:00'),
+//	('667f090a-0095-4884-bddc-c99c3fcc628d', 'c31384a6-b811-4a1f-befa-95dd53e3f4b9', false, '2024-08-16 09:10:00'),
+//	('4f5d0404-d6bf-47a6-9f56-b7e3bb88a605', 'd63d2f89-6412-4324-8587-7061bf02dca4', false, '2024-08-17 11:49:00'),
+//	('62a0c033-7206-4d21-9f7f-2246a4cdb0c2', '5a31e3cb-7e9a-41e5-9a3b-1f1e5d6b7c3e', false, '2024-08-17 09:30:00'),
+//	('dd02d5b3-5377-4f73-81a0-8119a208ea58', 'd63d2f89-6412-4324-8587-7061bf02dca4', false, '2024-08-17 18:05:10'),
+//	('b2ab09d5-7dcc-434d-9714-bb56cc71a2a8', '8a3d1fe1-42da-499a-bf64-248297fd670a', false, '2024-08-18 13:24:00'),
+//	('c19faf46-6ddc-41ef-9260-16bf19372cc9', 'd63d2f89-6412-4324-8587-7061bf02dca4', false, '2024-08-18 14:31:00');
+func (q *Queries) RegenerateDbData(ctx context.Context) error {
+	_, err := q.db.Exec(ctx, regenerateDbData)
+	return err
+}
+
 const removeEverything = `-- name: RemoveEverything :exec
 DO $$ DECLARE
     obj_name text;
