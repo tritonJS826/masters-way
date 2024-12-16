@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -73,7 +74,10 @@ export const AdjustLabelsBlock = observer((props: LabelsBlockProps) => {
   };
 
   return (
-    <VerticalContainer className={styles.adjustLabelsContent}>
+    <VerticalContainer
+      className={styles.adjustLabelsContent}
+      dataCy={dayReportsAccessIds.labels.adjustLabelsContent.content}
+    >
       <Title
         level={HeadingLevel.h2}
         text={LanguageService.way.filterBlock.labelsModalTitle[language]}
@@ -98,6 +102,7 @@ export const AdjustLabelsBlock = observer((props: LabelsBlockProps) => {
           <Button
             value={LanguageService.modals.promptModal.cancelButton[language]}
             onClick={() => {}}
+            dataCy={dayReportsAccessIds.labels.addLabel.cancelButton}
           />
         </DialogClose>
         {props.isEditable &&
@@ -110,6 +115,10 @@ export const AdjustLabelsBlock = observer((props: LabelsBlockProps) => {
               onOk={createLabel}
               okButtonValue={LanguageService.modals.promptModal.okButton[language]}
               cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
+              cy={{
+                dataCyCreateButton: dayReportsAccessIds.labels.adjustLabelsContent.addLabelDialog.okButton,
+                dataCyInput: dayReportsAccessIds.labels.adjustLabelsContent.addLabelDialog.input,
+              }}
             />
           }
           trigger={
@@ -117,8 +126,10 @@ export const AdjustLabelsBlock = observer((props: LabelsBlockProps) => {
               value={LanguageService.way.filterBlock.addTagButton[language]}
               onClick={() => setIsJobDoneModalOpen(true)}
               buttonType={ButtonType.PRIMARY}
+              dataCy={dayReportsAccessIds.labels.adjustLabelsContent.addLabelButton}
             />
           }
+          cy={{dataCyContent: {dataCyContent: dayReportsAccessIds.labels.adjustLabelsContent.addLabelDialog.content}}}
         />}
       </HorizontalContainer>
     </VerticalContainer>

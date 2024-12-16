@@ -43,19 +43,19 @@ describe('User Way tests', () => {
     headerSelectors.getHeader().click();
     wayMetricsSelectors.getMetricDescription().should('have.text', wayMetricsData.wayMetricDescriptions[0]);
     wayMetricsSelectors.metricButtons.getGenerateNewMetricsAIButton().click();
-    wayMetricsSelectors.metricsAiGeneratedDialog.getMetricCheckbox().should('have.length', wayMetricsData.totalAiGeneratedMetrics);
+    wayMetricsSelectors.metricsAiGeneratedDialog.getMetricCheckbox().should('have.length', wayMetricsData.totalAiGeneratedMetrics6);
     wayMetricsSelectors.metricsAiGeneratedDialog.getMetricCheckbox().first().check();
-    wayMetricsSelectors.metricsAiGeneratedDialog.getMetricCheckbox().eq(wayMetricsData.totalAiGeneratedMetrics - 3).check();
-    wayMetricsSelectors.metricsAiGeneratedDialog.getMetricCheckbox().eq(wayMetricsData.totalAiGeneratedMetrics - 1).check();
+    wayMetricsSelectors.metricsAiGeneratedDialog.getMetricCheckbox().eq(wayMetricsData.totalAiGeneratedMetrics6 - 3).check();
+    wayMetricsSelectors.metricsAiGeneratedDialog.getMetricCheckbox().eq(wayMetricsData.totalAiGeneratedMetrics6 - 1).check();
     wayMetricsSelectors.metricsAiGeneratedDialog.getAddSelectedMetricsButton().click();
-    wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics);
+    wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics4);
     wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.wayMetricDescriptions[1]);
     wayMetricsSelectors.getMetricDescription().eq(2).should('have.text', wayMetricsData.wayMetricDescriptions[2]);
     wayMetricsSelectors.getMetricDescription().eq(3).should('have.text', wayMetricsData.wayMetricDescriptions[3]);
 
     wayMetricsSelectors.deleteMetric.getTrashButton().eq(1).click();
     wayMetricsSelectors.deleteMetric.getDeleteButton().click();
-    wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics - 1);
+    wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics4 - 1);
     wayMetricsSelectors.getMetricDescription().should('not.contain', wayMetricsData.wayMetricDescriptions[1]);
 
     dayReportsSelectors.getCreateNewDayReportButton().click();
@@ -104,7 +104,7 @@ describe('User Way tests', () => {
     wayMetricsSelectors.getMetricDescription().first().should('have.text', wayMetricsData.wayMetricDescriptions[0]);
     wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.wayMetricDescriptions[2]);
     wayMetricsSelectors.getMetricDescription().eq(2).should('have.text', wayMetricsData.wayMetricDescriptions[3]);
-    wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics - 1);
+    wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics4- 1);
     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('contain', dayReportsData.jobDoneDescription);
     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().should('contain', dayReportsData.timeSpentOnJob);
     dayReportsSelectors.dayReportsContent.plans.getPlanDescription().should('contain', dayReportsData.planDescription);

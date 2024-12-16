@@ -6,6 +6,16 @@
         "Stub metric 6"
     ],
 
-    "totalMetrics": 4,
-    "totalAiGeneratedMetrics": 6
+    "mentorMetricDescriptions": "Mentor added metric",
+
+    "totalMetrics2": 2,
+    "totalMetrics4": 4,
+    "totalAiGeneratedMetrics6": 6,
+
+    "progressBar": {
+        "leftLabel100%": "100%",
+        "rightLabel1/1": "1 / 1 metrics",
+        "leftLabel50%": "50%",
+        "rightLabel1/2": "1 / 2 metrics"
+    }
 }

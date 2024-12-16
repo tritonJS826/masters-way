@@ -1,6 +1,30 @@
 export const dayReportsAccessIds = {
     createNewDayReportButton: "createNewDayReportButton",
 
+    labels: {
+        adjustLabelsButton: "adjustLabelsButton",
+
+        adjustLabelsContent:{
+            content: "adjustLabelsContent",
+            addLabelButton: "addLabelButton",
+            addLabelDialog: {
+                content: "createLabelContent",
+                input: "labelNameInput",
+                okButton: "okButton",
+                cancelButton: "cancelButton"
+            }
+        },
+
+        addLabel: {
+            addLabelLine: (reportItem: string) => `addLabelLine_${reportItem}`, 
+            crossCloseButton: "crossCloseButton", 
+            addLabelDialog: "addLabelDialog",
+            saveButton: "saveButton",
+            cancelButton: "cancelButton",
+            labelToChoose: "labelToChoose"
+        }
+    },
+    
     dayReportsContent: {
         reportDate: 'reportDate',
         addButton: "addButton",

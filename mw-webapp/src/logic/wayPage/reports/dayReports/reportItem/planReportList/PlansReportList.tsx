@@ -411,6 +411,14 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
                       })}
                     />
                   }
+                  cy={{
+                    dataCyTrigger: dayReportsAccessIds.labels.addLabel.addLabelLine("plan"),
+                    dataCyContent:
+                    {
+                      dataCyClose: dayReportsAccessIds.labels.addLabel.crossCloseButton,
+                      dataCyContent: dayReportsAccessIds.labels.addLabel.addLabelDialog,
+                    },
+                  }}
                 />
                 :
                 <JobDoneLabels

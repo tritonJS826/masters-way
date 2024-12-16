@@ -2,6 +2,10 @@ import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const wayMetricsSelectors = {
+    progressBar: {
+        getRightLabel: () => cy.get(getDataCy(wayMetricsAccessIds.progressBar.rightLabel)),
+        getLeftLabel: () => cy.get(getDataCy(wayMetricsAccessIds.progressBar.leftLabel))
+    },
 
     metricButtons: {
         getAddNewGoalMetricButton: () => cy.get(getDataCy(wayMetricsAccessIds.metricButtons.addNewGoalMetricButton)),
@@ -17,6 +21,7 @@ export const wayMetricsSelectors = {
 
     getMetricDescription: () => cy.get(getDataCy(wayMetricsAccessIds.metricDescription)),
     getMetricDescriptionInput: () => cy.get(getDataCy(wayMetricsAccessIds.metricDescriptionInput)),
+    getCompleteMetricCheckbox: () => cy.get(getDataCy(wayMetricsAccessIds.completeMetricCheckbox)),
 
     deleteMetric:{
         getTrashButton: () => cy.get(getDataCy(wayMetricsAccessIds.deleteMetric.trashButton)),

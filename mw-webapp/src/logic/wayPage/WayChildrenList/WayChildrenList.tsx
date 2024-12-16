@@ -137,7 +137,7 @@ export const WayChildrenList = (props: WayChildrenListProps) => {
                 }}
                 okText={LanguageService.modals.confirmModal.deleteButton[language]}
                 cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                cy={{onOk: wayDescriptionAccessIds.peopleBlock.dialogContent.deleteButton}}
+                cy={{onOk: wayDescriptionAccessIds.peopleBlock.deleteFromCompositeDialogContent.deleteButton}}
               />
             )}
           </HorizontalContainer>

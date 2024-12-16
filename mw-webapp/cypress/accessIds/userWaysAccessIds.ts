@@ -1,7 +1,9 @@
 export const userWaysAccessIds = {
     wayTitles: {
         wayStatusTitle: 'wayStatusTitle',
-    },    
+    },
+
+    privacyStatus: 'privacyStatus',
 
     collectionBlock: {
         wayAmountCollectionButton: "wayAmountCollectionButton",
