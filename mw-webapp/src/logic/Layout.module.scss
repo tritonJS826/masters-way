@@ -12,3 +12,9 @@
     flex-direction: column;
   }
 }
+
+.modalContainer {
+  align-items: center;
+  gap: $gapBig;
+  text-align: center;
+}
