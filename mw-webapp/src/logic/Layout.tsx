@@ -25,6 +25,7 @@ import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/Layout.module.scss";
 
 const DEFAULT_NOTIFICATIONS_PAGINATION_VALUE = 1;
+const RELOAD_PAGE_CODE = 0;
 
 /**
  * Layout
@@ -100,6 +101,38 @@ export const Layout = observer(() => {
 
   const isIndependentRoute = INDEPENDENT_ROUTES.includes(location.pathname);
 
+  if (!isApiWorking && !isIndependentRoute) {
+    return (
+      <Modal
+        isOpen={!isApiWorking}
+        trigger={<></>}
+        content={
+          <VerticalContainer className={styles.modalContainer}>
+            <Title
+              text={LanguageService.modals.healthCheckModal.title[language]}
+              placeholder=""
+              level={HeadingLevel.h2}
+            />
+            <Text text={
+              LanguageService.modals.healthCheckModal.description[language]
+            }
+            />
+            <HorizontalContainer>
+              <Button
+                value={LanguageService.modals.healthCheckModal.buttonReload[language]}
+                onClick={() => navigate(RELOAD_PAGE_CODE)}
+              />
+              <Button
+                value={LanguageService.modals.healthCheckModal.buttonGoHome[language]}
+                onClick={() => navigate(pages.home.getPath({}))}
+              />
+            </HorizontalContainer>
+          </VerticalContainer>
+        }
+      />
+    );
+  }
+
   return (
     <InitializedApp>
 
@@ -142,39 +175,6 @@ export const Layout = observer(() => {
 
         <Outlet />
       </HorizontalContainer>
-
-      {!isApiWorking && !isIndependentRoute && (
-        <Modal
-          isOpen={!isApiWorking}
-          trigger={<></>}
-          content={
-            <VerticalContainer className={styles.modalContainer}>
-              <Title
-                text={LanguageService.modals.healthCheckModal.title[language]}
-                placeholder=""
-                level={HeadingLevel.h2}
-              />
-              <Text text={
-                LanguageService.modals.healthCheckModal.description[language]
-              }
-              />
-              <HorizontalContainer className={styles.modalButtons}>
-                <Button
-                  value={LanguageService.modals.healthCheckModal.buttonReload[language]}
-                  onClick={() => navigate(0)}
-                  className={styles.reloadButton}
-                />
-                <Button
-                  value={LanguageService.modals.healthCheckModal.buttonGoHome[language]}
-                  onClick={() => navigate(pages.home.getPath({}))}
-                  className={styles.goHomeButton}
-                />
-              </HorizontalContainer>
-            </VerticalContainer>
-          }
-        />
-      )}
-
     </InitializedApp>
   );
 });
