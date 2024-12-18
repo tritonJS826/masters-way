@@ -13,7 +13,8 @@ import wayMetricsData from "cypress/fixtures/wayMetricsFixture.json"
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import wayPageContent from "src/dictionary/WayPageContent.json";
-import { userWaysAccessIds } from "cypress/accessIds/userWaysAccessIds";
+import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
+import {Symbols} from "src/utils/Symbols";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -72,6 +73,8 @@ describe('Mentor-mentee tests', () => {
     });
 
     it('Scenario_MentorStudent_WayMentoring', () => {
+        const mentorTimeSpentOnJob = '20', mentorEstimatedPlanTime = '14';
+
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
@@ -154,9 +157,6 @@ describe('Mentor-mentee tests', () => {
 
         wayDescriptionSelectors.wayDashBoardLeft.getGoal().dblclick().type(' mentor edition');
         headerSelectors.getHeader().click();
-
-        wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal} mentor edition`);    
-
         dayReportsSelectors.labels.getAdjustLabelsButton().click();
         dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(dayReportsData.labels.mentor);
@@ -176,7 +176,7 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.labels.addLabel.getSaveButton().click();
         dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type('20');
+        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(mentorTimeSpentOnJob);
         headerSelectors.getHeader().click();
         dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
         dayReportsSelectors.dayReportsContent.plans.getPlanDescription().eq(1).dblclick().type(`Mentor ${dayReportsData.planDescription}!`);
@@ -185,7 +185,7 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.labels.addLabel.getLabelToChoose().first().click();
         dayReportsSelectors.labels.addLabel.getLabelToChoose().eq(1).click();
         dayReportsSelectors.labels.addLabel.getSaveButton().click();
-        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().eq(1).dblclick().type('14');
+        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().eq(1).dblclick().type(mentorEstimatedPlanTime);
         headerSelectors.getHeader().click();
         dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
         dayReportsSelectors.dayReportsContent.problems.getProblemDescription().eq(1).dblclick();
@@ -201,11 +201,15 @@ describe('Mentor-mentee tests', () => {
         wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal} mentor edition`); 
         wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.mentorMetricDescriptions);
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().eq(1).should('have.text', `Mentor ${dayReportsData.jobDoneDescription}!`);
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).should('have.text', '20');
+        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).should('have.text', mentorTimeSpentOnJob);
         dayReportsSelectors.dayReportsContent.plans.getPlanDescription().eq(1).should('have.text', `Mentor ${dayReportsData.planDescription}!`);
-        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().eq(1).should('have.text', '14');
+        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().eq(1).should('have.text', mentorEstimatedPlanTime);
         dayReportsSelectors.dayReportsContent.problems.getProblemDescription().eq(1).should('have.text', `Mentor ${dayReportsData.problemDescription}!`);
         dayReportsSelectors.dayReportsContent.comments.getCommentDescription().eq(1).should('have.text', `Mentor ${dayReportsData.commentDescription}!`);
+        dayReportsSelectors.dayReportsContent.getSummaryText().first().should('have.text', `${LanguageService.way.reportsTable.total.en}${Symbols.NO_BREAK_SPACE}
+          ${+dayReportsData.timeSpentOnJob + +mentorTimeSpentOnJob}`);
+        dayReportsSelectors.dayReportsContent.getSummaryText().eq(1).should('have.text', `${LanguageService.way.reportsTable.total.en}${Symbols.NO_BREAK_SPACE}
+          ${+dayReportsData.estimatedPlanTime + +mentorEstimatedPlanTime}`);
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();

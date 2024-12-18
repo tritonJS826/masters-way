@@ -56,6 +56,8 @@ export const dayReportsSelectors = {
         comments: {
             getCommentDescription: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.comments.commentDescription)),
             getCommentDescriptionInput: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.comments.commentDescriptionInput)),
-        }
+        },
+
+        getSummaryText: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.summaryText))
     }
 };

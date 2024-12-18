@@ -52,7 +52,9 @@ export const dayReportsAccessIds = {
         comments: {
             commentDescription: 'commentDescription',
             commentDescriptionInput: 'commentDescriptionInput',
-        }
+        },
+
+        summaryText: 'summaryTimeText'
     }
 
 };

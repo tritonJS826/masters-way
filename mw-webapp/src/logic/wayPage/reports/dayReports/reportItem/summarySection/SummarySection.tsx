@@ -193,7 +193,10 @@ export const SummarySection = (props: SummarySectionProps) => {
       </Tooltip>
       }
       {props.total &&
-      <div className={styles.summaryText}>
+      <div
+        className={styles.summaryText}
+        data-cy={dayReportsAccessIds.dayReportsContent.summaryText}
+      >
         {props.total}
       </div>
       }
