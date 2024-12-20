@@ -161,8 +161,12 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		return
 	}
 
-	errorCh := make(chan error)
-	populatedUserMapCh := make(chan map[string]services.PopulatedUser)
+	type populatedUserMapChResponseType struct {
+		UserMap map[string]services.PopulatedUser
+		Err     *error
+	}
+
+	populatedUserMapCh := make(chan *populatedUserMapChResponseType)
 	go func() {
 		currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 		currentUserID := currentUserIDRaw.(string)
@@ -173,67 +177,89 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		}
 
 		populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
-		if err != nil {
-			errorCh <- fmt.Errorf("general service error: %w", err)
+		populatedUserMapCh <- &populatedUserMapChResponseType{
+			UserMap: populatedUserMap,
+			Err:     &err,
 		}
-		populatedUserMapCh <- populatedUserMap
 	}()
 
-	findOrCreateRoomCh := make(chan *schemas.FindOrCreateRoomResponse)
+	type findOrCreateRoomChResponseType struct {
+		Room *schemas.FindOrCreateRoomResponse
+		Err  *error
+	}
+	findOrCreateRoomCh := make(chan *findOrCreateRoomChResponseType)
 	go func() {
 		findOrCreateRoomResponse, err := cc.chatService.FindOrCreateRoom(ctx, payload)
-		if err != nil {
-			errorCh <- fmt.Errorf("chat service error: %w", err)
+
+		findOrCreateRoomCh <- &findOrCreateRoomChResponseType{
+			Room: findOrCreateRoomResponse,
+			Err:  &err,
 		}
-		findOrCreateRoomCh <- findOrCreateRoomResponse
 	}()
 
-	var populatedUserMap map[string]services.PopulatedUser
-	var findOrCreateRoomResponse *schemas.FindOrCreateRoomResponse
-
-	for i := 0; i < 2; i++ {
-		select {
-		case err := <-errorCh:
-			util.HandleErrorGin(ctx, err)
-		default:
-		}
-
-		select {
-		case populatedUserMap = <-populatedUserMapCh:
-		case findOrCreateRoomResponse = <-findOrCreateRoomCh:
-		}
+	populatedUserMapChResponse := <-populatedUserMapCh
+	if populatedUserMapChResponse.Err != nil {
+		util.HandleErrorGin(ctx, *populatedUserMapChResponse.Err)
 	}
 
-	findOrCreateRoomResponse.Room.Users = lo.Map(findOrCreateRoomResponse.Room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
+	findOrCreateRoomChResponse := <-findOrCreateRoomCh
+	if findOrCreateRoomChResponse.Err != nil {
+		util.HandleErrorGin(ctx, *findOrCreateRoomChResponse.Err)
+	}
+
+	populatedUserMap := populatedUserMapChResponse.UserMap
+	room := findOrCreateRoomChResponse.Room.Room
+
+	roomUsers := lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
 		user.Name = populatedUserMap[user.UserID].Name
 		user.ImageURL = populatedUserMap[user.UserID].ImageURL
 		return user
 	})
 
-	findOrCreateRoomResponse.Room.Messages = lo.Map(findOrCreateRoomResponse.Room.Messages, func(message schemas.MessageResponse, _ int) schemas.MessageResponse {
+	roomMessages := lo.Map(findOrCreateRoomChResponse.Room.Room.Messages, func(message schemas.MessageResponse, _ int) schemas.MessageResponse {
 		message.OwnerName = populatedUserMap[message.OwnerID].Name
 		message.OwnerImageURL = populatedUserMap[message.OwnerID].ImageURL
 		return message
 	})
+	fmt.Print(3)
 
 	var err error
-	if findOrCreateRoomResponse.Room.RoomType == RoomTypePrivate {
-		findOrCreateRoomResponse.Room.Name, err = getPrivateRoomName(ctx, findOrCreateRoomResponse.Room.Users)
-		util.HandleErrorGin(ctx, err)
+	// TODO: handle room name for group chat
+	roomName := findOrCreateRoomChResponse.Room.Room.Name
+	imageUrl := findOrCreateRoomChResponse.Room.Room.ImageURL
 
-		findOrCreateRoomResponse.Room.ImageURL, err = getPrivateRoomImageURL(ctx, findOrCreateRoomResponse.Room.Users)
+	if findOrCreateRoomChResponse.Room.Room.RoomType == RoomTypePrivate {
+		fmt.Print(roomUsers[0].Name)
+
+		roomName, err = getPrivateRoomName(ctx, roomUsers)
 		util.HandleErrorGin(ctx, err)
+		fmt.Print(roomName)
+
+		imageUrl, err = getPrivateRoomImageURL(ctx, roomUsers)
+		util.HandleErrorGin(ctx, err)
+		fmt.Print(roomName, imageUrl)
+
 	}
 
-	if findOrCreateRoomResponse.IsAlreadyCreated {
-		ctx.JSON(http.StatusOK, &findOrCreateRoomResponse.Room)
+	room = &schemas.RoomPopulatedResponse{
+		RoomID:    findOrCreateRoomChResponse.Room.Room.RoomID,
+		Name:      roomName,
+		ImageURL:  imageUrl,
+		RoomType:  findOrCreateRoomChResponse.Room.Room.RoomType,
+		IsBlocked: findOrCreateRoomChResponse.Room.Room.IsBlocked,
+		Users:     roomUsers,
+		Messages:  roomMessages,
+	}
+
+	if findOrCreateRoomChResponse.Room.IsAlreadyCreated {
+		ctx.JSON(http.StatusOK, room)
 		return
 	}
 
-	err = cc.chatWebSocketService.SendRoom(ctx, findOrCreateRoomResponse.Room)
+	err = cc.chatWebSocketService.SendRoom(ctx, room)
 	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, &findOrCreateRoomResponse.Room)
+	ctx.JSON(http.StatusOK, &room)
 }
 
 // @Summary Update room

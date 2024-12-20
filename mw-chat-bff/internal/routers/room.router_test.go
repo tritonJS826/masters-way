@@ -2,6 +2,7 @@ package routers
 
 import (
 	"context"
+	"fmt"
 	"mw-chat-bff/internal/auth"
 	"mw-chat-bff/internal/config"
 	"mw-chat-bff/internal/controllers"
@@ -123,7 +124,7 @@ func TestCreateRoom(t *testing.T) {
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
 		diff := cmp.Diff(expectedData, *createRoomResponse, cmpopts.IgnoreFields(openapiChatBFF.MwChatBffInternalSchemasRoomPopulatedResponse{}, "RoomId"))
-		assert.True(t, diff == "", "Structures should match except for RoomId")
+		assert.True(t, diff == "", fmt.Sprintf("Structures should match except for RoomId, %s", diff))
 	})
 
 	t.Run("should return error if private room is created with a non-existent user", func(t *testing.T) {
