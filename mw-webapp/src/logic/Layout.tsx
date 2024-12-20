@@ -1,11 +1,17 @@
-import {useState} from "react";
-import {Outlet} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Outlet, useNavigate} from "react-router-dom";
 import {headerAccessIds} from "cypress/accessIds/headerAccessIds";
 import {observer} from "mobx-react-lite";
+import {Button} from "src/component/button/Button";
 import {Header} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Modal} from "src/component/modal/Modal";
 import {NotificationBlock} from "src/component/notificationBlock/NotificationBlock";
 import {NotificationNature} from "src/component/notificationBlock/notificationItem/NotificationItem";
+import {Text} from "src/component/text/Text";
+import {HeadingLevel, Title} from "src/component/title/Title";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {HealthCheckDAL} from "src/dataAccessLogic/HealthCheckDAL";
 import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {notificationStore} from "src/globalStore/NotificationStore";
@@ -14,10 +20,12 @@ import {userStore} from "src/globalStore/UserStore";
 import {ChatModal} from "src/logic/chat/Chat";
 import {InitializedApp} from "src/logic/initializedApp/InitializedApp";
 import {SupportModal} from "src/logic/supportModal/SupportModal";
+import {INDEPENDENT_ROUTES, pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/Layout.module.scss";
 
 const DEFAULT_NOTIFICATIONS_PAGINATION_VALUE = 1;
+const RELOAD_PAGE_CODE = 0;
 
 /**
  * Layout
@@ -27,6 +35,25 @@ export const Layout = observer(() => {
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
   const {isNotificationOpen, setIsNotificationOpen, notificationList, unreadNotificationsAmount} = notificationStore;
+
+  const [isApiWorking, setIsApiWorking] = useState(true);
+  const navigate = useNavigate();
+
+  /**
+   * Check health of the API
+   */
+  const checkApiHealth = async () => {
+    try {
+      await HealthCheckDAL.checkApiHealth();
+      setIsApiWorking(true);
+    } catch (e) {
+      setIsApiWorking(false);
+    }
+  };
+
+  useEffect(() => {
+    checkApiHealth();
+  }, []);
 
   const [notificationsPagination, setNotificationsPagination] = useState<number>(DEFAULT_NOTIFICATIONS_PAGINATION_VALUE);
   // Const [isConnectionEstablished, setIsConnectionEstablished] = useState(false);
@@ -72,8 +99,43 @@ export const Layout = observer(() => {
   const isMoreNotificationsExist = !!(notificationStore.notificationList
     && notificationStore.notificationList.length < notificationStore.totalNotificationsAmount);
 
+  const isIndependentRoute = INDEPENDENT_ROUTES.includes(location.pathname);
+
+  if (!isApiWorking && !isIndependentRoute) {
+    return (
+      <Modal
+        isOpen={!isApiWorking}
+        trigger={<></>}
+        content={
+          <VerticalContainer className={styles.modalContainer}>
+            <Title
+              text={LanguageService.modals.healthCheckModal.title[language]}
+              placeholder=""
+              level={HeadingLevel.h2}
+            />
+            <Text text={
+              LanguageService.modals.healthCheckModal.description[language]
+            }
+            />
+            <HorizontalContainer>
+              <Button
+                value={LanguageService.modals.healthCheckModal.buttonReload[language]}
+                onClick={() => navigate(RELOAD_PAGE_CODE)}
+              />
+              <Button
+                value={LanguageService.modals.healthCheckModal.buttonGoHome[language]}
+                onClick={() => navigate(pages.home.getPath({}))}
+              />
+            </HorizontalContainer>
+          </VerticalContainer>
+        }
+      />
+    );
+  }
+
   return (
     <InitializedApp>
+
       <Header
         user={user}
         clearUser={clearUser}
@@ -113,7 +175,6 @@ export const Layout = observer(() => {
 
         <Outlet />
       </HorizontalContainer>
-
     </InitializedApp>
   );
 });
