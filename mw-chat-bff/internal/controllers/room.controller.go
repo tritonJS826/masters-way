@@ -210,6 +210,12 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		return user
 	})
 
+	findOrCreateRoomResponse.Room.Messages = lo.Map(findOrCreateRoomResponse.Room.Messages, func(message schemas.MessageResponse, _ int) schemas.MessageResponse {
+		message.OwnerName = populatedUserMap[message.OwnerID].Name
+		message.OwnerImageURL = populatedUserMap[message.OwnerID].ImageURL
+		return message
+	})
+
 	var err error
 	if findOrCreateRoomResponse.Room.RoomType == RoomTypePrivate {
 		findOrCreateRoomResponse.Room.Name, err = getPrivateRoomName(ctx, findOrCreateRoomResponse.Room.Users)
