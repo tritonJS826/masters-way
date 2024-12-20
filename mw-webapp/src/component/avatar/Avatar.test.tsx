@@ -5,7 +5,7 @@ const NAME = "SUPER USER";
 const INITIALS = "SU";
 const AVATAR_CY = "avatar";
 
-describe("Image component", () => {
+describe("Avatar text component", () => {
   beforeEach(() => {
     render(
       <Avatar
@@ -16,13 +16,17 @@ describe("Image component", () => {
     );
   });
 
-  it("should render the image component correctly", () => {
-    const avatar = screen.getByTestId(AVATAR_CY);
+  it("should render the avatar text component correctly", () => {
+    const avatar = screen.getByRole(AVATAR_CY);
     expect(avatar).toBeVisible();
   });
 
-  it("should contain initials", () => {
-    const avatar = screen.getByTestId(AVATAR_CY).childNodes[0];
-    waitFor(() => expect(avatar).toHaveTextContent(INITIALS));
+  it("should contain initials", async () => {
+    await waitFor(() => {
+      const avatar = screen.getByRole(AVATAR_CY);
+      expect(avatar).toHaveTextContent(INITIALS);
+    });
   });
+
+  // TODO: avatar image rendering test
 });

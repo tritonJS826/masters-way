@@ -28,10 +28,7 @@ export interface AccordionTriggerProps {
  */
 export const AccordionTrigger = (props: AccordionTriggerProps) => {
   return (
-    <RadixAccordionHeader
-      className={styles.accordionHeader}
-      data-testid={props.dataCy}
-    >
+    <RadixAccordionHeader className={styles.accordionHeader}>
       <RadixAccordionTrigger className={styles.accordionTrigger}>
         {props.child}
         <>

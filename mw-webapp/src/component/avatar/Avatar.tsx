@@ -76,7 +76,7 @@ export const Avatar = (props: AvatarProps) => {
         styles[props.size ?? AvatarSize.SMALL],
         props.className)}
       data-cy={props.dataCy}
-      data-testid={props.dataCy}
+      role={props.dataCy}
     >
       <AvatarRadix.Image
         className={styles.AvatarImage}
