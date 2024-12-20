@@ -1,4 +1,9 @@
 {
+    "labels": {
+        "student": "student label",
+        "mentor": "mentor label"
+    },
+
     "jobDoneDescription": "First job done",
     "timeSpentOnJob": "125",
 

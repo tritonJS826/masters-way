@@ -3,7 +3,32 @@ import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 export const dayReportsSelectors = {
     getCreateNewDayReportButton: () => cy.get(getDataCy(dayReportsAccessIds.createNewDayReportButton)),
-
+    
+    labels: {
+        getAdjustLabelsButton: () => cy.get(getDataCy(dayReportsAccessIds.labels.adjustLabelsButton)),
+        
+        adjustLabelsDialog:{
+            getContent: () => cy.get(getDataCy(dayReportsAccessIds.labels.adjustLabelsContent.content)),
+            getAddLabelButton: () => cy.get(getDataCy(dayReportsAccessIds.labels.adjustLabelsContent.addLabelButton)),
+            
+            addLabelDialog: {
+                getContent: () => cy.get(getDataCy(dayReportsAccessIds.labels.adjustLabelsContent.addLabelDialog.content)),
+                getInput: () => cy.get(getDataCy(dayReportsAccessIds.labels.adjustLabelsContent.addLabelDialog.input)),
+                getOkButton: () => cy.get(getDataCy(dayReportsAccessIds.labels.adjustLabelsContent.addLabelDialog.okButton)),
+                getCancelButton: () => cy.get(getDataCy(dayReportsAccessIds.labels.adjustLabelsContent.addLabelDialog.cancelButton))
+            }
+        },
+        
+        addLabel: {
+            getAddLabelLine: (reportItem: string) => cy.get(getDataCy(dayReportsAccessIds.labels.addLabel.addLabelLine(reportItem))),
+            getCrossCloseButton: () => cy.get(getDataCy(dayReportsAccessIds.labels.addLabel.crossCloseButton)),
+            getAddLabelDialog: () => cy.get(getDataCy(dayReportsAccessIds.labels.addLabel.addLabelDialog)),
+            getSaveButton: () => cy.get(getDataCy(dayReportsAccessIds.labels.addLabel.saveButton)),
+            getCancelButton: () => cy.get(getDataCy(dayReportsAccessIds.labels.addLabel.cancelButton)),
+            getLabelToChoose: () => cy.get(getDataCy(dayReportsAccessIds.labels.addLabel.labelToChoose)),
+        }
+    },
+    
     dayReportsContent: {
         getReportDate: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.reportDate)),
         getAddButton: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.addButton)),
@@ -31,6 +56,8 @@ export const dayReportsSelectors = {
         comments: {
             getCommentDescription: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.comments.commentDescription)),
             getCommentDescriptionInput: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.comments.commentDescriptionInput)),
-        }
+        },
+
+        getSummaryText: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.summaryText))
     }
 };

@@ -1,4 +1,9 @@
 export const wayMetricsAccessIds = {
+    progressBar: {
+        leftLabel: "leftLabel",
+        rightLabel: "rightLabel"
+    },
+
     metricButtons: {
         addNewGoalMetricButton: "addNewGoalMetricButton",
         generateNewMetricsAiButton: "generateNewMetricsAiButton",
@@ -13,6 +18,7 @@ export const wayMetricsAccessIds = {
 
     metricDescription: "metricDescription",
     metricDescriptionInput: "metricDescriptionInput",
+    completeMetricCheckbox: "completeMetricCheckbox",
 
     deleteMetric: {
         trashButton: "trashButton",

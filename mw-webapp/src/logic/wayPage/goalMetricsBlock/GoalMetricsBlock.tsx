@@ -93,6 +93,11 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
       <ProgressBar
         value={doneMetricsAmount}
         max={props.goalMetrics.length}
+        cy={{
+          root: "",
+          leftLabel: wayMetricsAccessIds.progressBar.leftLabel,
+          rightLabel: wayMetricsAccessIds.progressBar.rightLabel,
+        }}
       />
       <MetricChildrenList
         level={0}

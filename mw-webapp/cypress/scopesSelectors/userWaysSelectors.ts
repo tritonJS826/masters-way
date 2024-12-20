@@ -6,6 +6,8 @@ export const userWaysSelectors = {
         getWayStatusTitle: () => cy.get(getDataCy(userWaysAccessIds.wayTitles.wayStatusTitle)),
     },
 
+    getPrivacyStatus: () => cy.get(getDataCy(userWaysAccessIds.privacyStatus)),
+
     collectionBlock: {
         getWayAmountCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.wayAmountCollectionButton)),
 

@@ -23,6 +23,11 @@ export interface Cy {
    */
   dataCyInput?: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyCancel?: string;
+
 }
 
 /**
@@ -119,6 +124,7 @@ export const PromptModalContent = (props: PromptModalContentProps) => {
             <Button
               value={props.cancelButtonValue}
               onClick={props.close}
+              dataCy={props.cy?.dataCyCancel}
             />
           </DialogClose>
 

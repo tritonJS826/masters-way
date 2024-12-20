@@ -71,7 +71,7 @@ export const MentorsSection = observer((props: MentorsSectionProps) => {
           level={HeadingLevel.h3}
           text={LanguageService.way.peopleBlock.mentors[language]}
           placeholder=""
-          cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.mentorOfWayText}}
+          cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.mentorsOfWayText}}
         />
       </HorizontalContainer>
       {mentors.map((mentor) => (
@@ -89,6 +89,11 @@ export const MentorsSection = observer((props: MentorsSectionProps) => {
                   .replace("$mentor", `"${mentor.name}"`)}
                 tooltipContent={LanguageService.way.peopleBlock.deleteFromMentors[language]}
                 tooltipPosition={PositionTooltip.RIGHT}
+                cy={{
+                  dataCyIcon: wayDescriptionAccessIds.peopleBlock.deleteFromMentors.trashIcon(mentor.name),
+                  dataCyOk: wayDescriptionAccessIds.peopleBlock.deleteFromMentors.deleteButton,
+                  dataCyContent: wayDescriptionAccessIds.peopleBlock.deleteFromMentors.dialogContent,
+                }}
               />
             )
             : (

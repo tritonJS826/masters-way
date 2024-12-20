@@ -317,6 +317,16 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
                       })}
                     />
                   }
+                  cy={
+                    {
+                      dataCyTrigger: dayReportsAccessIds.labels.addLabel.addLabelLine("jobDone"),
+                      dataCyContent:
+                        {
+                          dataCyClose: dayReportsAccessIds.labels.addLabel.crossCloseButton,
+                          dataCyContent: dayReportsAccessIds.labels.addLabel.addLabelDialog,
+                        },
+                    }
+                  }
                 />
                 :
                 <JobDoneLabels

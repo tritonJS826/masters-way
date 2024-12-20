@@ -13,13 +13,20 @@ export const wayDescriptionAccessIds = {
 
     peopleBlock: {
         applyAsMentorButton: 'applyAsMentorButton',
-        mentorOfWayText: 'mentorOfWayText',
+        mentorsOfWayText: 'mentorsOfWayText',
         wayMentorLink: 'wayMentorLink',
         childWaysTitle: "childWaysTitle",
         childLink: (name: string) => `childLink_${name}`,
         deleteFromCompositeWayButton: (name: string) => `deleteFromCompositeWayButton_${name}`,
-        dialogContent: {
+
+        deleteFromCompositeDialogContent: {
             deleteButton: 'deleteButton'
+        },
+
+        deleteFromMentors: {
+            trashIcon: (name: string) => `trashIcon_${name}`,
+            deleteButton: 'deleteButton',
+            dialogContent: 'dialogContent'
         }
     },
 
@@ -33,6 +40,13 @@ export const wayDescriptionAccessIds = {
         wayActionMenuList: "wayActionMenuList",
         wayMenuItem: 'wayMenuItem',
         waySubMenuItem: 'waySubMenuItem',
-        waySubTriggerItem: 'waySubTriggerItem'
+        waySubTriggerItem: 'waySubTriggerItem',
+        
+        DeleteWayItem: {
+            dialog: {
+                deleteButton: 'deleteWayButton',
+                content: 'deleteWayDialogContent'
+            }
+        }
     }
 };

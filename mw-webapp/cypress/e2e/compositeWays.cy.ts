@@ -109,9 +109,9 @@ describe('IsAuth Composite ways scope tests', () => {
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).first().click();
         wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.testUsers.studentJonh.wayTitle).click();
-        wayDescriptionSelectors.peopleBlock.dialogContent.getDeleteButton().click();
+        wayDescriptionSelectors.peopleBlock.deleteFromCompositeDialogContent.getDeleteButton().click();
         wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.users.Dana.way.wayTitle).click();
-        wayDescriptionSelectors.peopleBlock.dialogContent.getDeleteButton().click();
+        wayDescriptionSelectors.peopleBlock.deleteFromCompositeDialogContent.getDeleteButton().click();
 
         wayDescriptionSelectors.peopleBlock.childWaysTitle().should('not.exist');
         wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.users.Dana.userName).should('not.exist');

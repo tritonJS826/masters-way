@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {Close as DialogClose} from "@radix-ui/react-dialog";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
@@ -96,7 +97,10 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
                   ? removeLabelFromLabelsDone(label.uuid)
                   : addLabelFromLabelsDone(label)}
               >
-                <HorizontalContainer className={styles.labelContent}>
+                <HorizontalContainer
+                  className={styles.labelContent}
+                  dataCy={dayReportsAccessIds.labels.addLabel.labelToChoose}
+                >
                   <div className={styles.labelContainer}>
                     <Label
                       label={label}
@@ -125,6 +129,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
             <Button
               value={LanguageService.modals.promptModal.cancelButton[language]}
               onClick={() => {}}
+              dataCy={dayReportsAccessIds.labels.addLabel.cancelButton}
             />
           </DialogClose>
           <DialogClose asChild>
@@ -132,6 +137,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
               value={LanguageService.modals.promptModal.saveButton[language]}
               onClick={() => props.updateLabels(filteredLabels)}
               buttonType={ButtonType.PRIMARY}
+              dataCy={dayReportsAccessIds.labels.addLabel.saveButton}
             />
           </DialogClose>
         </HorizontalContainer>

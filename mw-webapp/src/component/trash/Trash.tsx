@@ -5,6 +5,33 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import styles from "src/component/trash/Trash.module.scss";
 
 /**
+ * Data attributes for cypress testing
+ */
+interface Cy {
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyIcon?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyOk?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyCancel?: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCyContent?: string;
+
+}
+
+/**
  * Trash props
  */
 interface TrashProps {
@@ -39,6 +66,11 @@ interface TrashProps {
    */
   cancelText: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  cy?: Cy;
+
 }
 
 /**
@@ -51,7 +83,12 @@ export const Trash = (props: TrashProps) => {
       position={props.tooltipPosition}
     >
       <Confirm
-        trigger={<TrashIcon className={styles.icon} />}
+        trigger={
+          <TrashIcon
+            className={styles.icon}
+            data-cy={props.cy?.dataCyIcon}
+          />
+        }
         content={
           <p>
             {props.confirmContent}
@@ -60,6 +97,10 @@ export const Trash = (props: TrashProps) => {
         onOk={props.onOk}
         okText={props.okText}
         cancelText={props.cancelText}
+        cy={{
+          onOk: props.cy?.dataCyOk,
+          onEnter: props.cy?.dataCyContent,
+        }}
       />
     </Tooltip>
   );

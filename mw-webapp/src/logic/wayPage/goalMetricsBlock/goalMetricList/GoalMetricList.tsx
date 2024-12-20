@@ -132,6 +132,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                     };
                     await MetricDAL.updateMetric(metricToUpdate);
                   }}
+                  dataCy={wayMetricsAccessIds.completeMetricCheckbox}
                 />
               )
             }

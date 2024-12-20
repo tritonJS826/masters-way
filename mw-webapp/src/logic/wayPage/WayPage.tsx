@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
+import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -202,6 +203,10 @@ export const WayPage = observer((props: WayPageProps) => {
       onOk={deleteWay}
       okText={LanguageService.modals.confirmModal.deleteButton[language]}
       cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+      cy={{
+        onOk: wayDescriptionAccessIds.wayActionMenu.DeleteWayItem.dialog.deleteButton,
+        onEnter: wayDescriptionAccessIds.wayActionMenu.DeleteWayItem.dialog.content,
+      }}
     />);
 
   /**
@@ -722,7 +727,10 @@ export const WayPage = observer((props: WayPageProps) => {
           </VerticalContainer>
 
           <VerticalContainer className={styles.peopleBlock}>
-            <HorizontalContainer className={styles.privacyBlock}>
+            <HorizontalContainer
+              className={styles.privacyBlock}
+              dataCy={userWaysAccessIds.privacyStatus}
+            >
               <Tooltip content={way.isPrivate
                 ? LanguageService.way.peopleBlock.wayPrivacy.privateTooltip[language]
                 : LanguageService.way.peopleBlock.wayPrivacy.publicTooltip[language]
@@ -825,7 +833,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 level={HeadingLevel.h3}
                 text={LanguageService.way.peopleBlock.mentorPendingRequest[language]}
                 placeholder=""
-                cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.mentorOfWayText}}
+                cy={{dataCyTitleContainer: wayDescriptionAccessIds.peopleBlock.mentorsOfWayText}}
               />
             }
             {isEligibleToSendRequest && (
@@ -939,6 +947,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 value={LanguageService.way.filterBlock.adjustLabels[language]}
                 buttonType={ButtonType.SECONDARY}
                 onClick={() => { }}
+                dataCy={dayReportsAccessIds.labels.adjustLabelsButton}
               />
             }
             content={
