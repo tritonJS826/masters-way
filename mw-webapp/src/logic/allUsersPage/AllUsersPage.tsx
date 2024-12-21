@@ -68,9 +68,6 @@ interface AllUsersFetchData {
 export const AllUsersPage = observer(() => {
   const [allUsers, setAllUsers] = useState<UserNotSaturatedWay[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
-  // Const [email, setEmail] = useState<string>("");
-  // const [name, setName] = useState<string>("");
-  // const [mentorStatus, setMentorStatus] = useState<string>(MentoringStatus.all);
   const [currentPageNumber, setCurrentPageNumber] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
 
   const {language} = languageStore;
