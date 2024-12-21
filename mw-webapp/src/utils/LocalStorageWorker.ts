@@ -1,5 +1,6 @@
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
+import {MentoringStatusType} from "src/logic/allUsersPage/AllUsersPage";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 
@@ -245,7 +246,22 @@ export type AllWaysPageSettings = {
 export type AllUsersPageSettings = {
 
   /**
+   * Settled filter by statuses
+   */
+  filterStatus: MentoringStatusType;
+
+  /**
    * Settled view
    */
   view: View;
+
+  /**
+   * User name
+   */
+  name: string;
+
+  /**
+   * User email
+   */
+  email: string;
 }

@@ -38,7 +38,12 @@ export type MentoringStatusType = typeof MentoringStatus[keyof typeof MentoringS
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
 const DEFAULT_USER_LIMIT = 10;
 const DEBOUNCE_DELAY_MILLISECONDS = 1000;
-const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {view: View.Card};
+const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {
+  filterStatus: MentoringStatus.all,
+  view: View.Card,
+  name: "",
+  email: "",
+};
 
 /**
  * Fetched data
@@ -63,12 +68,10 @@ interface AllUsersFetchData {
 export const AllUsersPage = observer(() => {
   const [allUsers, setAllUsers] = useState<UserNotSaturatedWay[]>();
   const [allUsersAmount, setAllUsersAmount] = useState<number>();
-  const [email, setEmail] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [mentorStatus, setMentorStatus] = useState<string>(MentoringStatus.all);
+  // Const [email, setEmail] = useState<string>("");
+  // const [name, setName] = useState<string>("");
+  // const [mentorStatus, setMentorStatus] = useState<string>(MentoringStatus.all);
   const [currentPageNumber, setCurrentPageNumber] = useState<number>(DEFAULT_PAGE_PAGINATION_VALUE);
-  const [debouncedEmail] = useDebounce(email, DEBOUNCE_DELAY_MILLISECONDS);
-  const [debouncedName] = useDebounce(name, DEBOUNCE_DELAY_MILLISECONDS);
 
   const {language} = languageStore;
   const {theme} = themeStore;
@@ -77,6 +80,9 @@ export const AllUsersPage = observer(() => {
     key: "allUsersPage",
     defaultValue: DEFAULT_ALL_USERS_PAGE_SETTINGS,
   });
+
+  const [debouncedEmail] = useDebounce(allUsersPageSettings.email, DEBOUNCE_DELAY_MILLISECONDS);
+  const [debouncedName] = useDebounce(allUsersPageSettings.name, DEBOUNCE_DELAY_MILLISECONDS);
 
   const isMoreUsersExist = !!allUsers && !!allUsersAmount && allUsers.length < allUsersAmount;
 
@@ -88,9 +94,9 @@ export const AllUsersPage = observer(() => {
     const users = await UserDAL.getUsers({
       page: DEFAULT_PAGE_PAGINATION_VALUE,
       limit: DEFAULT_USER_LIMIT,
-      email,
-      name,
-      mentorStatus,
+      email: allUsersPageSettings.email,
+      name: allUsersPageSettings.name,
+      mentorStatus: allUsersPageSettings.filterStatus,
     });
 
     return {users: users.usersPreview, usersAmount: users.size};
@@ -104,9 +110,9 @@ export const AllUsersPage = observer(() => {
     const users = await UserDAL.getUsers({
       page: nextPage,
       limit: DEFAULT_USER_LIMIT,
-      email,
-      name,
-      mentorStatus,
+      email: allUsersPageSettings.email,
+      name: allUsersPageSettings.name,
+      mentorStatus: allUsersPageSettings.filterStatus,
     });
 
     setAllUsers([...allUsers ?? [], ...users.usersPreview]);
@@ -135,7 +141,7 @@ export const AllUsersPage = observer(() => {
     loadData,
     onSuccess,
     onError,
-    dependency: [debouncedEmail, debouncedName, mentorStatus],
+    dependency: [debouncedEmail, debouncedName, allUsersPageSettings.filterStatus],
   });
 
   if (!allUsers) {
@@ -152,16 +158,30 @@ export const AllUsersPage = observer(() => {
       <HorizontalContainer className={styles.filterView}>
         <HorizontalContainer>
           <Input
-            value={email}
-            onChange={setEmail}
+            value={allUsersPageSettings.email}
+            onChange={(email: string) => {
+              updateAllUsersPageSettings({
+                filterStatus: allUsersPageSettings.filterStatus,
+                view: allUsersPageSettings.view,
+                name: allUsersPageSettings.name,
+                email,
+              });
+            }}
             placeholder={LanguageService.allUsers.filterBlock.emailPlaceholder[language]}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
             dataCy={allUsersAccessIds.filterViewBlock.searchByEmailInput}
           />
           <Input
-            value={name}
-            onChange={setName}
+            value={allUsersPageSettings.name}
+            onChange={(name: string) => {
+              updateAllUsersPageSettings({
+                filterStatus: allUsersPageSettings.filterStatus,
+                view: allUsersPageSettings.view,
+                email: allUsersPageSettings.email,
+                name,
+              });
+            }}
             placeholder={LanguageService.allUsers.filterBlock.namePlaceholder[language]}
             typeInputIcon={"SearchIcon"}
             typeInput={InputType.Border}
@@ -171,7 +191,7 @@ export const AllUsersPage = observer(() => {
         <HorizontalContainer className={styles.filterBlock}>
           <Select
             label={`${LanguageService.allUsers.filterBlock.type[language]}`}
-            defaultValue={MentoringStatus.all}
+            defaultValue={allUsersPageSettings.filterStatus}
             name="filterStatus"
             options={[
               {
@@ -185,12 +205,24 @@ export const AllUsersPage = observer(() => {
                 text: LanguageService.allUsers.filterBlock.mentoringTypeOptions.mentor[language],
               },
             ]}
-            onChange={(value) => setMentorStatus(value)}
+            onChange={(status) => {
+              updateAllUsersPageSettings({
+                filterStatus: status,
+                view: allUsersPageSettings.view,
+                email: allUsersPageSettings.email,
+                name: allUsersPageSettings.name,
+              });
+            }}
           />
         </HorizontalContainer>
         <ViewSwitcher
           view={allUsersPageSettings.view}
-          setView={(view) => updateAllUsersPageSettings({view})}
+          setView={(view) => updateAllUsersPageSettings({
+            filterStatus: allUsersPageSettings.filterStatus,
+            view,
+            email: allUsersPageSettings.email,
+            name: allUsersPageSettings.name,
+          })}
           options={[
             renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
             renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),
