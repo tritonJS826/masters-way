@@ -33,6 +33,12 @@ interface CheckboxProps {
    * @default false
    */
   isDisabled?: boolean;
+
+  /**
+   * If true - checkbox is controlled outside
+   * @default false
+   */
+  isControlDisabled?: boolean;
 }
 
 /**
@@ -40,6 +46,8 @@ interface CheckboxProps {
  */
 export const Checkbox = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(props.isDefaultChecked ?? false);
+
+  const isControlDisabled = props.isControlDisabled ?? false;
 
   /**
    * Function to handle checkbox change
@@ -60,7 +68,7 @@ export const Checkbox = (props: CheckboxProps) => {
         type="checkbox"
         checked={isChecked}
         onChange={() => {
-          !props.isDisabled && handleCheckboxChange();
+          !isControlDisabled && !props.isDisabled && handleCheckboxChange();
         }}
         data-cy={props.dataCy}
       />
