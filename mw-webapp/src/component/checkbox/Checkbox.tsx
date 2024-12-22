@@ -35,10 +35,11 @@ interface CheckboxProps {
   isDisabled?: boolean;
 
   /**
-   * If true - checkbox is controlled outside
+   * If true - checkbox state is controlled only by external component.
+   * If false - checkbox manages its own state internally.
    * @default false
    */
-  isControlDisabled?: boolean;
+  isUseExternalStateOnly?: boolean;
 }
 
 /**
@@ -47,7 +48,7 @@ interface CheckboxProps {
 export const Checkbox = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(props.isDefaultChecked ?? false);
 
-  const isControlDisabled = props.isControlDisabled ?? false;
+  const isUseExternalStateOnly = props.isUseExternalStateOnly ?? false;
 
   /**
    * Function to handle checkbox change
@@ -68,7 +69,7 @@ export const Checkbox = (props: CheckboxProps) => {
         type="checkbox"
         checked={isChecked}
         onChange={() => {
-          !isControlDisabled && !props.isDisabled && handleCheckboxChange();
+          !isUseExternalStateOnly && !props.isDisabled && handleCheckboxChange();
         }}
         data-cy={props.dataCy}
       />
