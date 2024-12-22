@@ -41,8 +41,8 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
     ```
 - protobuf 3.14.0 (exist in snap)
 - grpcurl ([golang package](https://github.com/fullstorydev/grpcurl))
-- docker 24.0.7
-- docker-compose 1.29.2
+- docker 27.2.0
+- docker-compose 2.20.3
 
 ### Modules
 
