@@ -10,11 +10,9 @@ COPY mw-general-bff src/
 RUN cd src && make build
 
 # Stage 2: production
-FROM alpine:3.18
+FROM scratch
 WORKDIR /app
 COPY --from=build /app/src/main ./
-COPY --from=build /app/src/entrypoint.sh ./
 COPY --from=build /app/src/.env ./
 EXPOSE 7995
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./main"]
