@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
+import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {wayDescriptionAccessIds} from "cypress/accessIds/wayDescriptionAccessIds";
 import {observer} from "mobx-react-lite";
@@ -862,7 +863,10 @@ export const WayPage = observer((props: WayPageProps) => {
 
         </VerticalContainer>
 
-        <VerticalContainer className={styles.statistics}>
+        <VerticalContainer
+          className={styles.statistics}
+          dataCy="wayPageStatistics"
+        >
           <HorizontalContainer className={styles.horizontalContainer}>
             <HorizontalContainer className={styles.horizontalContainer}>
               <Infotip content={LanguageService.way.infotip.statistics[language]} />
@@ -899,6 +903,7 @@ export const WayPage = observer((props: WayPageProps) => {
                       }
                       onClick={() => {}}
                       buttonType={ButtonType.ICON_BUTTON}
+                      dataCy={statisticsAccessIds.showAllStatisticsButton}
                     />
                   </Tooltip>
                 }
@@ -916,6 +921,7 @@ export const WayPage = observer((props: WayPageProps) => {
               level={HeadingLevel.h5}
               text={`${daysFromStart} ${LanguageService.way.wayInfo.daysFromStart[language]}`}
               placeholder=""
+              cy={{dataCyTitleContainer: statisticsAccessIds.daysFromStart}}
             />
           </HorizontalContainer>
           <WayActiveStatistic

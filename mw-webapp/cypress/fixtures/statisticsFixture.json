@@ -1,0 +1,45 @@
+{
+    "periodBlockWayPageTitles": {
+        "total": "TotalBlockWayPage",
+        "lastWeek": "WeekBlockWayPage"
+    },
+
+    "periodBlockTitles": {
+        "total": "TotalBlock",
+        "lastMonth": "MonthBlock",
+        "lastWeek": "WeekBlock"
+    },
+
+    "johnDoeWay": {
+        "title": "john doe way",
+        "daysFromStart": "38",
+
+        "total": {
+           "totalTime": "7.2",
+           "totalReports": "8",
+           "finishedJobs": "8",
+           "avgTimePerCalendarDay": "0.2",
+           "avgTimePerWorkingDay": "0.9",
+           "avgJobTime": "0.9"
+        },
+
+        "lastMonth": {
+            "totalTime": "7.2",
+            "totalReports": "8",
+            "finishedJobs": "8",
+            "avgTimePerCalendarDay": "0.2",
+            "avgTimePerWorkingDay": "0.9",
+            "avgJobTime": "0.9"
+        },
+
+        "lastWeek": {
+            "totalTime": "3.0",
+            "totalReports": "4",
+            "finishedJobs": "3",
+            "avgTimePerCalendarDay": "0.4",
+            "avgTimePerWorkingDay": "0.8",
+            "avgJobTime": "1.0"
+        }
+    }
+    
+}

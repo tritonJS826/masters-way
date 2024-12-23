@@ -52,7 +52,10 @@ export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
   const {language} = languageStore;
 
   return (
-    <VerticalContainer className={styles.statisticContainer}>
+    <VerticalContainer
+      className={styles.statisticContainer}
+      dataCy= {props.title + "_statisticPeriod"}
+    >
       <Title
         level={HeadingLevel.h2}
         text={props.title}
