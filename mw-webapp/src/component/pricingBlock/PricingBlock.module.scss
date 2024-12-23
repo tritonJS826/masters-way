@@ -1,0 +1,9 @@
+@import "src/styles/variables";
+
+.planItems {
+  max-width: $maxWidthLandingContainer;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: $paddingBig $paddingMedium;
+  gap: $gapExtraLarge;
+}
