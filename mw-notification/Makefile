@@ -6,7 +6,7 @@ start: ## Run the project
 	go run cmd/notification/main.go
 
 test: ## Run all tests
-	go test ./...
+	go test ./... -count=1
 
 db-run: ## Start the database using Docker
 	docker-compose -f notificationPostgres.docker-compose.yaml up
