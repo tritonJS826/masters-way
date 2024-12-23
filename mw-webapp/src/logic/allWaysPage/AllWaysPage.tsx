@@ -211,6 +211,7 @@ export const AllWaysPage = observer(() => {
                 id: "2",
                 value: String(DEFAULT_ALL_WAYS_PAGE_SETTINGS.minDayReportsAmount),
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption1[language],
+                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast5,
               },
               {
                 id: "3",

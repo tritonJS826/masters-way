@@ -23,6 +23,7 @@ export const allWaysAccessIds = {
         viewButton: 'ViewButton',
         dayReportsSelect: 'dayReportsSelect',
         dayReportsSelectOption0: 'dayReportsSelectOption0',
+        dayReportsSelectOptionAtLeast5: 'dayReportsSelectOptionAtLeast5',
     }
     
 };

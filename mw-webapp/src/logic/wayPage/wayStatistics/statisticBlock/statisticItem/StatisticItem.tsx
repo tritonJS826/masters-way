@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
 import {convertMinutesToHours} from "src/utils/convertMinutesToHours";
@@ -35,6 +36,10 @@ export interface StatisticItem {
    */
   text: string;
 
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -78,11 +83,20 @@ export const StatisticItem = (props: StatisticItemProps) => {
   };
 
   return (
-    <div className={clsx(styles.statisticItem, styles[props.type ?? StatisticItemType.PRIMARY])}>
-      <span className={styles.statisticValue}>
+    <div
+      className={clsx(styles.statisticItem, styles[props.type ?? StatisticItemType.PRIMARY])}
+      data-cy= {props.statisticItem.dataCy}
+    >
+      <span
+        className={styles.statisticValue}
+        data-cy={statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}
+      >
         {getFormattedStatisticValue()}
       </span>
-      <span className={styles.statisticText}>
+      <span
+        className={styles.statisticText}
+        data-cy={statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticText}
+      >
         {props.statisticItem.text}
       </span>
     </div>
