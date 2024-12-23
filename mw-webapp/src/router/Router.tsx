@@ -3,8 +3,8 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import {LandingLayout} from "src/land/LandingLayout";
 import {Layout} from "src/logic/Layout";
+import {LandingLayout} from "src/logic/staticPages/landingPages/LandingLayout";
 import {pages} from "src/router/pages";
 import {WithValidatedParams} from "src/router/PageUrlValidator/ValidatedParams";
 

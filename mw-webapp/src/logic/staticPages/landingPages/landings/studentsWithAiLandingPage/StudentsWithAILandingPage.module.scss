@@ -1,0 +1,132 @@
+@import "src/styles/variables";
+
+.titleBlock {
+  gap: $gapLarge;
+}
+
+.title {
+  display: inline;
+  font-size: $fontSizeTitleLarge;
+  text-align: center;
+  white-space: pre-wrap;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
+}
+
+.mw {
+  color: var(--generalPrimaryColor);
+}
+
+.titleYouShouldBlock {
+  text-align: left;
+
+  & h2 {
+    font-size: $fontSizeTitleBig;
+  }
+}
+
+.titleDescription {
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.mainBlockImage {
+  width: 80%;
+  margin: 0 auto;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
+}
+
+.advantagesBlock,
+.problemsBlock,
+.reviewBlock,
+.pricingBlock,
+.questionsBlock,
+.triesBlock,
+.imageBlock,
+.mainBlock {
+  display: flex;
+  max-width: $maxWidthLandingContainer;
+  flex-direction: column;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  margin: 0 auto;
+  background-color: var(--secondaryBgColor);
+  gap: $gapExtraLarge;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingExtraMedium;
+  }
+}
+
+.advantagesBlock,
+.problemsBlock,
+.reviewBlock,
+.pricingBlock,
+.questionsBlock {
+  // Workaround for smooth anchor link earlier then block  for don't hide under header https://misha.agency/css/ssyilki-yakori.html
+  border-top: 55px solid transparent;
+  margin-top: -55px;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
+
+.pricingBlock {
+  @include backgroundImage;
+}
+
+.questionsBlock,
+.reviewBlock {
+  background-color: var(--primaryBgColor);
+}
+
+.reviewList {
+  width: 100%;
+  justify-content: center;
+}
+
+.advantages {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: $gapLarge;
+  white-space: pre-wrap;
+}
+
+.problems {
+  width: 100%;
+  gap: $gapLarge;
+  white-space: pre-wrap;
+}
+
+.accordion {
+  width: 100%;
+  padding: 0 $paddingMedium;
+}
+
+.triesContainer {
+  padding: $paddingLarge;
+  border-radius: $primaryBorderRadius;
+  background-color: var(--primaryBgColor);
+  gap: $gapLarge;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    flex-wrap: wrap;
+  }
+}
+
+.triesContentBlock {
+  gap: $gapBig;
+}
+
+.triesActionButton {
+  max-width: max-content;
+}
+
+.icon {
+  stroke: var(--secondaryStrokeColor);
+}

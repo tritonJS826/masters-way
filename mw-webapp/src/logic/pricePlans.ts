@@ -1,0 +1,55 @@
+import {PricePlanType} from "src/component/pricingBlock/pricePlan/PricePlan";
+
+export const pricePlans: PricePlanType[] = [
+  {
+    id: 0,
+    theme: "light",
+    name: "Free",
+    price: 0,
+    period: "free",
+    capabilities: {
+      mentorSupport: 0,
+      ownWays: 10,
+      privateWays: 1,
+      dayReports: 100,
+      skills: 3,
+      mentoringWays: 20,
+      customCollections: 10,
+      compositeWayDeps: 2,
+    },
+  },
+  {
+    id: 1,
+    theme: "dark",
+    name: "Month",
+    price: 50,
+    period: "month",
+    capabilities: {
+      mentorSupport: 1,
+      ownWays: 20,
+      privateWays: 10,
+      dayReports: 200,
+      skills: 5,
+      mentoringWays: 20,
+      customCollections: 10,
+      compositeWayDeps: 2,
+    },
+  },
+  {
+    id: 2,
+    theme: "light",
+    name: "Year",
+    price: 420,
+    period: "year",
+    capabilities: {
+      mentorSupport: 2,
+      ownWays: 30,
+      privateWays: 10,
+      dayReports: 365,
+      skills: 5,
+      mentoringWays: 30,
+      customCollections: 10,
+      compositeWayDeps: 3,
+    },
+  },
+];

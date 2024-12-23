@@ -42,13 +42,13 @@ const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null
   {lazyNode}
 </React.Suspense>);
 
-const HomePageLazy = React.lazy(() => import("src/logic/homePage/HomePage")
+const HomePageLazy = React.lazy(() => import("src/logic/staticPages/homePage/HomePage")
   .then((module) => ({default: module.HomePage})));
 const HomePage = () => (<>
   <HomePageLazy />
 </>);
 
-const PricingPageLazy = React.lazy(() => import("src/logic/pricingPage/PricingPage")
+const PricingPageLazy = React.lazy(() => import("src/logic/staticPages/pricingPage/PricingPage")
   .then((module) => ({default: module.PricingPage})));
 const PricingPage = () => (<>
   <PricingPageLazy />
@@ -90,13 +90,13 @@ const SettingsPage = () => (<>
   <SettingsPageLazy />
 </>);
 
-const AboutProjectPageLazy = React.lazy(() => import("src/logic/aboutProjectPage/AboutProjectPage")
+const AboutProjectPageLazy = React.lazy(() => import("src/logic/staticPages/aboutProjectPage/AboutProjectPage")
   .then((module) => ({default: module.AboutProjectPage})));
 const AboutProjectPage = () => (<>
   <AboutProjectPageLazy />
 </>);
 
-const PartnershipPageLazy = React.lazy(() => import("src/logic/partnershipPage/PartnershipPage")
+const PartnershipPageLazy = React.lazy(() => import("src/logic/staticPages/partnershipPage/PartnershipPage")
   .then((module) => ({default: module.PartnershipPage})));
 const PartnershipPage = () => (<>
   <PartnershipPageLazy />
@@ -108,26 +108,28 @@ const ErrorPage = () => (<>
   <ErrorPageLazy />
 </>);
 
-const PrivacyPolicyPageLazy = React.lazy(() => import("src/logic/privacyPolicyPage/PrivacyPolicyPage")
+const PrivacyPolicyPageLazy = React.lazy(() => import("src/logic/staticPages/privacyPolicyPage/PrivacyPolicyPage")
   .then((module) => ({default: module.PrivacyPolicyPage})));
 const PrivacyPolicyPage = () => (<>
   <PrivacyPolicyPageLazy />
 </>);
 
-const LandingsPageLazy = React.lazy(() => import("src/land/allLandingsPage/AllLandingsPage")
+const LandingsPageLazy = React.lazy(() => import("src/logic/staticPages/landingPages/allLandingsPage/AllLandingsPage")
   .then((module) => ({default: module.LandingsPage})));
 const LandingsPage = () => (<>
   <LandingsPage />
 </>);
 
-const MentorsLandingPageLazy = React.lazy(() => import("src/land/landings/mentorsLandingPage/MentorsLandingPage")
+const MentorsLandingPageLazy = React.lazy(() => import(
+  "src/logic/staticPages/landingPages/landings/mentorsLandingPage/MentorsLandingPage"
+)
   .then((module) => ({default: module.MentorsLandingPage})));
 const MentorsLandingPage = () => (<>
   <MentorsLandingPageLazy />
 </>);
 
 const StudentsWithMentorsLandingPageLazy = React.lazy(() => import(
-  "src/land/landings/studentsWithMentorsLandingPage/StudentsWithMentorsLandingPage"
+  "src/logic/staticPages/landingPages/landings/studentsWithMentorsLandingPage/StudentsWithMentorsLandingPage"
 )
   .then((module) => ({default: module.StudentsWithMentorsLandingPage})));
 const StudentsWithMentorsLandingPage = () => (<>
@@ -135,14 +137,16 @@ const StudentsWithMentorsLandingPage = () => (<>
 </>);
 
 const StudentsWithAILandingPageLazy = React.lazy(() => import(
-  "src/land/landings/studentsWithAiLandingPage/StudentsWithAILandingPage"
+  "src/logic/staticPages/landingPages/landings/studentsWithAiLandingPage/StudentsWithAILandingPage"
 )
   .then((module) => ({default: module.StudentsWithAILandingPage})));
 const StudentsWithAILandingPage = () => (<>
   <StudentsWithAILandingPageLazy />
 </>);
 
-const SmallBusinessLandingPageLazy = React.lazy(() => import("src/land/landings/businessLandingPage/BusinessLandingPage")
+const SmallBusinessLandingPageLazy = React.lazy(() => import(
+  "src/logic/staticPages/landingPages/landings/businessLandingPage/BusinessLandingPage"
+)
   .then((module) => ({default: module.BusinessLandingPage})));
 const SmallBusinessLandingPage = () => (<>
   <SmallBusinessLandingPageLazy />
