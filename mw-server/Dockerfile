@@ -10,6 +10,8 @@ COPY mw-server src/
 RUN cd src && make build
 
 # Stage 2: production
+# we need alpine because without it google auth does not work,
+# we cant migrate to scratch as base container after adding auth microservice
 FROM alpine:3.18
 WORKDIR /app
 COPY --from=build /app/src/main ./

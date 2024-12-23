@@ -10,13 +10,11 @@ COPY mw-storage src/
 RUN cd src && make build
 
 # Stage 2: production
-FROM alpine:3.18
+FROM scratch
 WORKDIR /app
 COPY --from=build /app/src/main ./
-COPY --from=build /app/src/entrypoint.sh ./
 COPY --from=build /app/src/.env ./
 # required for reset-db
 COPY --from=build /app/src/internal/db/migration ./internal/db/migration
 EXPOSE 8001
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./main"]
