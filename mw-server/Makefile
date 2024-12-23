@@ -6,7 +6,7 @@ start: ## Run the project
 	go run cmd/general/main.go
 
 test: ## Run all tests
-	go test ./...
+	go test ./... -count=1
 
 db-run: ## Start the database using Docker
 	docker-compose -f postgres.docker-compose.yaml up

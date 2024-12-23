@@ -6,7 +6,7 @@ start: ## Run the project
 	go run cmd/notification-bff/main.go
 
 test: ## Run all tests
-	go test ./...
+	go test ./... -count=1
 
 install: ## Install dependencies
 	go mod tidy
