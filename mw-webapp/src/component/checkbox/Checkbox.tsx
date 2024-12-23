@@ -48,14 +48,17 @@ interface CheckboxProps {
 export const Checkbox = (props: CheckboxProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(props.isDefaultChecked ?? false);
 
-  const isUseExternalStateOnly = props.isUseExternalStateOnly ?? false;
-
   /**
    * Function to handle checkbox change
    */
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    props.onChange(!isChecked);
+    const newValue = !isChecked;
+
+    if (!props.isUseExternalStateOnly) {
+      setIsChecked(newValue);
+    }
+
+    props.onChange(newValue);
   };
 
   useEffect(() => {
@@ -69,7 +72,7 @@ export const Checkbox = (props: CheckboxProps) => {
         type="checkbox"
         checked={isChecked}
         onChange={() => {
-          !isUseExternalStateOnly && !props.isDisabled && handleCheckboxChange();
+          !props.isDisabled && handleCheckboxChange();
         }}
         data-cy={props.dataCy}
       />
