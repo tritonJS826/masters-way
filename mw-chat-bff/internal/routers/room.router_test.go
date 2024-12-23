@@ -147,7 +147,7 @@ func TestCreateRoom(t *testing.T) {
 			}
 
 			assert.Equal(t, http.StatusInternalServerError, response.StatusCode)
-			assert.Equal(t, "general service error: User ID "+invalidUserID+" not found in the database", message)
+			assert.Equal(t, "User ID "+invalidUserID+" not found in the database", message)
 		}
 	})
 }
