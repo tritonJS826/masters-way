@@ -79,13 +79,12 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
       };
       await MetricDAL.updateMetric(metricToUpdate);
     };
-
     const levelArray = [...Array(props.level).keys()];
 
     return (
       <VerticalContainer>
         <HorizontalContainer className={styles.singularMetric}>
-          <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
+          <HorizontalContainer className={styles.fullWidth}>
             {levelArray.map(item => {
               return (
                 <div
@@ -136,7 +135,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                 />
               )
             }
-            <div className={styles.metricDescriptionWrapper}>
+            <div className={styles.fullWidth}>
               <Tooltip
                 content={tooltipContent}
                 className={styles.tooltip}

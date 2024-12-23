@@ -16,6 +16,7 @@
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   text-overflow: ellipsis;
   word-wrap: break-word;
 }
@@ -34,4 +35,7 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
+}
+.fullWidth {
+  width: 100%;
 }
