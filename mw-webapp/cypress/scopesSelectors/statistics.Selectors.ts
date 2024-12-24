@@ -20,6 +20,8 @@ export const statisticsSelectors = {
                 getAverageTimePerWorkingDay: (period: string) => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.overallInfo.avgTimePerWorkingDay(period))),
                 getAvgJobTime: (period: string) => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.overallInfo.avgJobTime(period))),
             }
-        }
+        },
+
+        getCloseButton: () => cy.get(getDataCy(statisticsAccessIds.statistics.closeButton))
     }
 };

@@ -30,8 +30,15 @@ export const dayReportsSelectors = {
     },
     
     dayReportsContent: {
+        titleContainer: {
+            getReportsHeader: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.titleContainer.reportsHeader)),
+            getTotalHeader: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.titleContainer.totalHeader)),
+        },
+
         getReportDate: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.reportDate)),
+
         getAddButton: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.addButton)),
+        getLoadMoreButton: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.loadMoreButton)),
 
         jobDone: {
             getReporterName: () => cy.get(getDataCy(dayReportsAccessIds.dayReportsContent.jobDone.reporterName)),

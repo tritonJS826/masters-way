@@ -1,15 +1,15 @@
 export const statisticsAccessIds = {
-    showAllStatisticsButton: "showAllStatisticsButton",
-    daysFromStart: "daysFromStart",
+    showAllStatisticsButton: 'showAllStatisticsButton',
+    daysFromStart: 'daysFromStart',
 
     statistics: {
-        modal: "statisticsModal",
-        wayPageStatistics: "wayPageStatistics",
+        modal: 'statisticsModal',
+        wayPageStatistics: 'wayPageStatistics',
 
         periodBlocks: {
             overallInfo: {
-                statisticValue: "statisticValue",
-                statisticText: "statisticText",
+                statisticValue: 'statisticValue',
+                statisticText: 'statisticText',
                 totalTime: (period: string) => `totalTime${period}`,
                 totalReports: (period: string) => `totalReports${period}`,
                 finishedJobs: (period: string) => `finishedJobs${period}`,
@@ -17,6 +17,8 @@ export const statisticsAccessIds = {
                 avgTimePerWorkingDay: (period: string) => `averageTimePerWorkingDay${period}`,
                 avgJobTime: (period: string) => `averageJobTime${period}`,
             }
-        }
+        },
+
+        closeButton: 'closeButton'
     }
 };

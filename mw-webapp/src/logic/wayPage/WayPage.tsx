@@ -914,6 +914,12 @@ export const WayPage = observer((props: WayPageProps) => {
                     isVisible={wayPageSettings.isStatisticsVisible}
                   />
                 }
+                cy={{
+                  dataCyContent: {
+                    dataCyClose: statisticsAccessIds.statistics.closeButton,
+                    dataCyContent: statisticsAccessIds.statistics.modal,
+                  },
+                }}
               />
             </HorizontalContainer>
 

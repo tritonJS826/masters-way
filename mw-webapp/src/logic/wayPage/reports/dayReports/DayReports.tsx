@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {dayReportsAccessIds} from "cypress/accessIds/dayReportsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -84,11 +85,13 @@ export const DayReports = observer((props: DayReportsTableProps) => {
           level={HeadingLevel.h2}
           text={`${LanguageService.way.reportsTable.title[language]} (${props.way.dayReports.length})`}
           placeholder=""
+          cy={{dataCyTitleContainer: dayReportsAccessIds.dayReportsContent.titleContainer.reportsHeader}}
         />
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.way.reportsTable.total[language]} ${props.way.dayReportsAmount}`}
           placeholder=""
+          cy={{dataCyTitleContainer: dayReportsAccessIds.dayReportsContent.titleContainer.totalHeader}}
         />
       </HorizontalContainer>
       <VerticalContainer className={styles.dayReportsContent}>
@@ -125,6 +128,7 @@ export const DayReports = observer((props: DayReportsTableProps) => {
           value={LanguageService.way.reportsTable.loadMoreButton[language]}
           buttonType={ButtonType.PRIMARY}
           className={styles.loadMoreButton}
+          dataCy={dayReportsAccessIds.dayReportsContent.loadMoreButton}
         />
         }
       </VerticalContainer>

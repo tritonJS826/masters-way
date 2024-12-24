@@ -35,10 +35,7 @@ export const WayStatistic = observer((props: WayStatisticProps) => {
   }
 
   return (
-    <div
-      className={styles.wrapper}
-      data-cy={statisticsAccessIds.statistics.modal}
-    >
+    <div className={styles.wrapper}>
       <StatisticPeriod
         totalStatisticItemsPrimary={[
           {
