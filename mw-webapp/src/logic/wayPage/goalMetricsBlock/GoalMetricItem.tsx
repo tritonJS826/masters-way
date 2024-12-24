@@ -72,7 +72,7 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
       key={props.metric.uuid}
       className={styles.singularMetric}
     >
-      <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
+      <HorizontalContainer className={styles.metricDescriptionWrapper}>
         {props.metric.isDone && props.isEditable
           ? (
             <Confirm
