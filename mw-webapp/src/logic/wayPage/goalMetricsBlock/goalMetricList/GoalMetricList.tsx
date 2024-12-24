@@ -84,7 +84,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
     return (
       <VerticalContainer>
         <HorizontalContainer className={styles.singularMetric}>
-          <HorizontalContainer className={styles.fullWidth}>
+          <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
             {levelArray.map(item => {
               return (
                 <div
@@ -135,7 +135,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                 />
               )
             }
-            <div className={styles.fullWidth}>
+            <div className={styles.metricDescription}>
               <Tooltip
                 content={tooltipContent}
                 className={styles.tooltip}
