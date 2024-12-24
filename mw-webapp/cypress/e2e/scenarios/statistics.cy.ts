@@ -154,6 +154,8 @@ describe('Statistics tests', () => {
             .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 
         statisticsSelectors.statistics.getCloseButton().click();
+
+        statisticsSelectors.statistics.getModal().should('not.exist');
         
         dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
             .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
