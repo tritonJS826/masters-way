@@ -3,6 +3,7 @@ import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {statisticsSelectors} from "cypress/scopesSelectors/statistics.Selectors";
 import statisticsData from "cypress/fixtures/statisticsFixture.json"
 import {LanguageService} from "src/service/LanguageService";
+import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -151,6 +152,18 @@ describe('Statistics tests', () => {
             .getAvgJobTime(statisticsData.periodBlockTitles.lastWeek)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
             .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+
+        statisticsSelectors.statistics.getCloseButton().click();
+
+        statisticsSelectors.statistics.getModal().should('not.exist');
+        
+        dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
+
+        dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
+
+        dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
     });
 
 });
