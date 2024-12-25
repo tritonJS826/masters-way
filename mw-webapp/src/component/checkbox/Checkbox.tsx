@@ -35,8 +35,8 @@ interface CheckboxProps {
   isDisabled?: boolean;
 
   /**
-   * If false - checkbox manages its own state internally.
    * If true - checkbox state is controlled only by external component.
+   * If false - checkbox manages its own state internally.
    * @default false
    */
   isUseExternalStateOnly?: boolean;
