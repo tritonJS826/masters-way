@@ -28,7 +28,7 @@
     "cypress:component:run": "cypress run --component --spec ./src/component/all.cy.tsx",
     "cypress:e2e:open": "cypress open",
     "cypress:e2e:run": "cypress run",
-    "cypress:e2e:parallel": "cypress-parallel -s cypress:e2e:run -t 20 -d cypress/e2e/scenarios",
+    "cypress:e2e:parallel": "cypress-parallel -s cypress:e2e:run -t 20 -d cypress/e2e/scenarios -d cypress/e2e",
     "coverage": "vitest run --coverage",
     "test:module": "concurrently \"pnpm cypress:component:run\" \"pnpm test\"",
     "test:integration": "pnpm cypress:e2e:run"
