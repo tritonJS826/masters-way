@@ -46,6 +46,7 @@ interface ChatItemProps {
  */
 export const ChatItem = (props: ChatItemProps) => {
   return (
+    // Here we need  to add Link  and indicator online ofline
     <HorizontalContainer
       onClick={props.onClick}
       className={styles.chatItemWrapper}

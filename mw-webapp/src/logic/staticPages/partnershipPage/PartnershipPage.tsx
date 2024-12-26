@@ -66,6 +66,7 @@ export const PartnershipPage = observer(() => {
     content: {child: renderMarkdown(data.answer[language])},
   }));
 
+  // 139 line styles.reviewList undefined
   return (
     <VerticalContainer className={styles.partnershipPageWrapper}>
       <VerticalContainer className={styles.aboutPartnershipMainBlock}>

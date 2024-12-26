@@ -537,6 +537,7 @@ export const UserPage = observer((props: UserPageProps) => {
       };
     });
 
+  // 590 styles.modalContainer undefined
   return (
     <VerticalContainer className={styles.userPageWrapper}>
       <VerticalContainer className={styles.userInfoBlock}>

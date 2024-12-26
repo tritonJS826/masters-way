@@ -54,6 +54,7 @@ export const FooterLanding = (props: FooterLandingProps) => {
     </VerticalContainer>
   );
 
+  //Line 80 socialMediaIcons undefined
   return (
     <footer
       className={styles.footer}

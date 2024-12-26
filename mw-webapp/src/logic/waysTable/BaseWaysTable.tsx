@@ -196,7 +196,7 @@ export const BaseWaysTable = observer((props: BaseWaysTableProps) => {
               value={LanguageService.user.personalInfo.createNewWayButton[language]}
               onClick={() => createWay(user.uuid)}
               buttonType={ButtonType.PRIMARY}
-              className={styles.createWayButton}
+              className={styles.createWayButton} // Undefined
               dataCy={userWaysAccessIds.createNewWayButton}
             />
           }

@@ -68,6 +68,7 @@ interface TableProps<T> {
  */
 export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) => {
   const data = props.data;
+  // No one  of td tr th tbody  thead  style classes was not created  and table is not responsive
 
   return (
     <table

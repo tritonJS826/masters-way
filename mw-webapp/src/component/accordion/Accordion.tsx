@@ -81,7 +81,7 @@ const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
 export const Accordion = (props: AccordionProps) => {
   return (
     <RadixAccordionRoot
-      className={clsx(styles.accordionRoot, props.className)}
+      className={clsx(styles.accordionRoot, props.className)} // AccordionRoot undefined
       type={props.type ?? accordionTypes.SINGLE}
     >
       {props.items.map((item) => {

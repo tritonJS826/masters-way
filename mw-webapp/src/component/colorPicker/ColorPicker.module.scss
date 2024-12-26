@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
 $colorPickerWidth: 35px;
-$colorPickerHeight: 25px;
+$colorPickerHeight: 25px; //we can move to variables
 
 .colorPickerInput {
   width: $colorPickerWidth;

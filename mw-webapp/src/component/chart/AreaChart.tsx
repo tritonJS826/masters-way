@@ -129,7 +129,7 @@ export const AreaChart = observer((props: AreaChartProps) => {
     <Line
       options={optionsMemoized}
       data={data}
-      style={{maxHeight: "250px"}}
+      style={{maxHeight: "250px"}} //  Inline style
     />
   );
 });

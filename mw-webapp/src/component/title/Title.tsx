@@ -145,7 +145,7 @@ export const Title = (props: TitleProps) => {
       }}
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
-      className={clsx(styles.editableText, props.className)}
+      className={clsx(styles.editableText, props.className)} //Undefined EditableText
       data-cy={props.cy?.dataCyTitleContainer}
     >
       {isEditing

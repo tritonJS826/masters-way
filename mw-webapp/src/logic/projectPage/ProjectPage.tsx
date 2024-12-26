@@ -177,7 +177,7 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
           </VerticalContainer>
           {isOwner &&
           <Dropdown
-            contentClassName={styles.wayActionMenu}
+            contentClassName={styles.wayActionMenu} //Undefined
             trigger={(
               <Tooltip
                 content={LanguageService.project.projectInfo.projectActionsTooltip[language]}
@@ -273,13 +273,13 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
                 >
                   <Link
                     path={pages.user.getPath({uuid: participant.uuid})}
-                    className={styles.user}
+                    className={styles.user} // Undefined
                   >
                     <Avatar
                       alt={participant.name}
                       src={participant.imageUrl}
                       size={AvatarSize.MEDIUM}
-                      className={styles.avatar}
+                      className={styles.avatar} //Undefined
                       dataCy={projectsAccessIds.projectPageContent.infoBlock.participantsBlock.avatar}
                     />
                   </Link>

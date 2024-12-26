@@ -26,10 +26,12 @@
 }
 
 .labelsBlock {
+  //unused
   gap: $gapSmall;
 }
 
 .contentBlock {
+  //unused
   gap: $gapExtraSmall;
 }
 
@@ -38,10 +40,12 @@
 }
 
 .tagsBlockTrigger {
+  //unused
   cursor: pointer;
 }
 
 .editableTime {
+  //unused
   min-width: 46px;
   max-width: 46px;
   cursor: pointer;
@@ -49,6 +53,7 @@
 }
 
 .addTagButton {
+  //unused
   padding: 0;
   border: none;
   &:hover {
