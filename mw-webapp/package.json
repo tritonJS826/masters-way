@@ -28,6 +28,7 @@
     "cypress:component:run": "cypress run --component --spec ./src/component/all.cy.tsx",
     "cypress:e2e:open": "cypress open",
     "cypress:e2e:run": "cypress run",
+    "cypress:e2e:parallel": "cypress-parallel -s cypress:e2e:run -t 20 -d cypress/e2e/scenarios",
     "coverage": "vitest run --coverage",
     "test:module": "concurrently \"pnpm cypress:component:run\" \"pnpm test\"",
     "test:integration": "pnpm cypress:e2e:run"
@@ -95,6 +96,8 @@
     "@vitest/ui": "2.0.1",
     "@yarnaimo/eslint-config": "0.4.4",
     "cypress": "13.16.0",
+    "cypress-multi-reporters": "^2.0.4",
+    "cypress-parallel": "^0.14.0",
     "cypress-real-events": "1.13.0",
     "dotenv": "16.4.5",
     "envalid": "8.0.0",
