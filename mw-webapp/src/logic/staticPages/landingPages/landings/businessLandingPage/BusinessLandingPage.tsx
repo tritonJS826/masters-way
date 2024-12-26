@@ -120,11 +120,9 @@ export const BusinessLandingPage = observer(() => {
     },
   ];
 
-  // Styles.container undefined
   return (
     <>
-
-      <div className={styles.container}>
+      <div>
         <HeaderLanding
           language={language}
           setLanguage={setLanguage}

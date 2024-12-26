@@ -66,7 +66,6 @@ export const PartnershipPage = observer(() => {
     content: {child: renderMarkdown(data.answer[language])},
   }));
 
-  // 139 line styles.reviewList undefined
   return (
     <VerticalContainer className={styles.partnershipPageWrapper}>
       <VerticalContainer className={styles.aboutPartnershipMainBlock}>
@@ -137,7 +136,7 @@ export const PartnershipPage = observer(() => {
           className={styles.whyBlockTitle}
           placeholder=""
         />
-        <HorizontalContainer className={styles.reviewList}>
+        <HorizontalContainer>
           <Slider
             sliderItems={reviewCards}
             settings={{pagination: false}}

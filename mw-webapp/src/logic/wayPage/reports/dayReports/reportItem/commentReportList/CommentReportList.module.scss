@@ -52,17 +52,6 @@
   text-align: right;
 }
 
-.addTagButton {
-  //unused
-  padding: 0;
-  border: none;
-  &:hover {
-    background-color: transparent;
-    color: var(--primaryTextColor);
-    cursor: pointer;
-  }
-}
-
 .linkToOwnerWay {
   display: flex;
   align-items: center;

@@ -5,7 +5,6 @@ import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
 import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
-import styles from "src/component/title/Title.module.scss";
 
 /**
  * Enum representing HTML heading levels.
@@ -145,7 +144,7 @@ export const Title = (props: TitleProps) => {
       }}
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
-      className={clsx(styles.editableText, props.className)} //Undefined EditableText
+      className={clsx(props.className)}
       data-cy={props.cy?.dataCyTitleContainer}
     >
       {isEditing

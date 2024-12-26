@@ -54,7 +54,6 @@ export const FooterLanding = (props: FooterLandingProps) => {
     </VerticalContainer>
   );
 
-  //Line 80 socialMediaIcons undefined
   return (
     <footer
       className={styles.footer}
@@ -78,7 +77,7 @@ export const FooterLanding = (props: FooterLandingProps) => {
                 placeholder=""
                 classNameHeading={styles.socialMediaText}
               />
-              <HorizontalContainer className={styles.socialMediaIcons}>
+              <HorizontalContainer>
                 <Modal
                   trigger={
                     <div

@@ -22,6 +22,7 @@
     grid-template-columns: repeat(auto-fill, minmax($minWidthBlock, 1fr));
   }
 }
+
 .filterView {
   width: 100%;
   flex-wrap: wrap;

@@ -110,7 +110,6 @@ export const SettingsPage = observer(() => {
         <Title
           level={HeadingLevel.h2}
           text={LanguageService.settings.notification.enabledNotificationTitle[language]}
-          className={styles.loginTitle} // Undefined
           placeholder=""
         />
         {settingsPageStore.isInitialized && (

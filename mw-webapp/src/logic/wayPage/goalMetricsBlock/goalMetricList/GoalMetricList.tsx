@@ -109,7 +109,6 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                     <Checkbox
                       isDisabled={!props.isEditable}
                       isDefaultChecked={childMetric.isDone}
-                      className={styles.checkbox} //Undefined
                       onChange={() => {}}
                     />
                   }
@@ -119,7 +118,6 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                 <Checkbox
                   isDisabled={!props.isEditable}
                   isDefaultChecked={childMetric.isDone}
-                  className={styles.checkbox} // Undefined
                   onChange={async (isDone) => {
                     childMetric.updateIsDone({
                       isDoneToUpdate: isDone,
@@ -136,10 +134,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
               )
             }
             <div className={styles.metricDescription}>
-              <Tooltip
-                content={tooltipContent}
-                className={styles.tooltip} //Undefined
-              >
+              <Tooltip content={tooltipContent}>
                 <EditableTextarea
                   text={childMetric.description ?? ""}
                   onChangeFinish={async (description) => {

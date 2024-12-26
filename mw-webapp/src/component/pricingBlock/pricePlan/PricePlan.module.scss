@@ -1,9 +1,5 @@
 @import "src/styles/variables";
 
-//Price plan card width
-$pricePlanCardWidth: 312px;
-$quintupleBorderRadius: 24px; // to variables
-
 .pricePlanCard {
   width: $pricePlanCardWidth;
   padding: $paddingExtraMedium $paddingBig;
