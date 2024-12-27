@@ -14,7 +14,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
+    border-radius: $scrollbarThumbBorderRadius;
     background-color: var(--generalPrimaryColor);
   }
 }
