@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .wrapper {
   position: relative;
 }
@@ -9,6 +11,6 @@
   height: auto;
 
   &::-webkit-scrollbar {
-    height: 12px;
+    height: $scrollbarHeight;
   }
 }
