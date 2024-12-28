@@ -34,6 +34,11 @@ const getPathForUserPage = (params: { uuid: string }): string => `/user/${params
 const getPathForWayPage = (params: { uuid: string }): string => `/way/${params.uuid}`;
 
 /**
+ * Create url with appropriate params for @TrainingPage
+ */
+const getPathForTrainingPage = (params: { uuid: string }): string => `/training/${params.uuid}`;
+
+/**
  * Create url with appropriate params for @ProjectPage
  */
 const getPathForProjectPage = (params: {uuid: string}): string => `/project/${params.uuid}`;
@@ -54,10 +59,16 @@ const PricingPage = () => (<>
   <PricingPageLazy />
 </>);
 
-const AlLWaysPageLazy = React.lazy(() => import("src/logic/allWaysPage/AllWaysPage")
+const AllWaysPageLazy = React.lazy(() => import("src/logic/allWaysPage/AllWaysPage")
   .then((module) => ({default: module.AllWaysPage})));
 const AllWaysPage = () => (<>
-  <AlLWaysPageLazy />
+  <AllWaysPageLazy />
+</>);
+
+const AllTrainingsPageLazy = React.lazy(() => import("src/logic/allTrainingsPage/AllTrainingsPage")
+  .then((module) => ({default: module.AllTrainingsPage})));
+const AllTrainingsPage = () => (<>
+  <AllTrainingsPageLazy />
 </>);
 
 const UserPageLazy = React.lazy(() => import("src/logic/userPage/UserPage")
@@ -70,6 +81,12 @@ const WayPageLazy = React.lazy(() => import("src/logic/wayPage/WayPage")
   .then((module) => ({default: module.WayPage})));
 const WayPage = (params: {uuid: string}) => (<>
   <WayPageLazy {...params} />
+</>);
+
+const TrainingPageLazy = React.lazy(() => import("src/logic/trainingPage/TrainingPage")
+  .then((module) => ({default: module.TrainingPage})));
+const TrainingPage = (params: {uuid: string}) => (<>
+  <TrainingPageLazy {...params} />
 </>);
 
 const ProjectPageLazy = React.lazy(() => import("src/logic/projectPage/ProjectPage")
@@ -176,6 +193,11 @@ export const pages = {
     getPageComponent: () => suspended(<AllWaysPage />),
     urlParams: {},
   } as PageParams,
+  allTrainings: {
+    getPath: () => "/trainings",
+    getPageComponent: () => suspended(<AllTrainingsPage />),
+    urlParams: {},
+  } as PageParams,
   user: {
     getPath: (params): string => getPathForUserPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<UserPage {...params} />),
@@ -184,6 +206,11 @@ export const pages = {
   way: {
     getPath: (params): string => getPathForWayPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<WayPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{ uuid: string }>,
+  training: {
+    getPath: (params): string => getPathForTrainingPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<TrainingPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{ uuid: string }>,
   project: {

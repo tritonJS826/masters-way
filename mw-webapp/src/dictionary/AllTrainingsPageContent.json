@@ -1,0 +1,34 @@
+{
+  "trainingCard": {
+    "likes": {
+      "ru": "Количество лайков",
+      "en": "Number of likes",
+      "ua": "Кількість лайків"
+    },
+    "students": {
+      "ru": "Количество студентов",
+      "en": "Number of students",
+      "ua": "Кількість учнів"
+    },
+    "createdAt": {
+      "ru": "Создан",
+      "en": "Created at",
+      "ua": "Створено"
+    },
+    "updatedAt": {
+      "ru": "Обновлено",
+      "en": "Updated at",
+      "ua": "Оновлено"
+    },
+    "mentor": {
+      "ru": "Менторы",
+      "en": "Mentors",
+      "ua": "Ментори"
+    },
+    "noMentors": {
+      "ru": "Менторов пока нет",
+      "en": "No mentors yet",
+      "ua": "Менторів ще немає"
+    }
+  }
+}

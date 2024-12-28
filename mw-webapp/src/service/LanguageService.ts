@@ -1,4 +1,5 @@
 import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json";
+import allTrainingsPageContent from "src/dictionary/AllTrainingsPageContent.json";
 import allUsersPageContent from "src/dictionary/AllUsersPageContent.json";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
 import common from "src/dictionary/CommonContent.json";
@@ -51,6 +52,13 @@ export class LanguageService {
    */
   public static get allWays() {
     return allWaysPageContent;
+  }
+
+  /**
+   * All trainings page content
+   */
+  public static get allTrainings() {
+    return allTrainingsPageContent;
   }
 
   /**
