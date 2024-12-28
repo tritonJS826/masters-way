@@ -6,6 +6,34 @@
   margin: 0;
 }
 
+h1 {
+  font-size: $fontSizeTitleBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleMedium;
+  }
+}
+h2 {
+  font-size: $fontSizeTitleSmall;
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeBig;
+  }
+}
+
+h3 {
+  font-size: $fontSizeBig;
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeMedium;
+  }
+}
+
+h4 {
+  font-size: $fontSizeBig;
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeSmall;
+  }
+}
+
 body {
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);

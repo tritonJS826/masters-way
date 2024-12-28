@@ -16,6 +16,7 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import styles from "src/component/chart/AreaChart.module.scss";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,

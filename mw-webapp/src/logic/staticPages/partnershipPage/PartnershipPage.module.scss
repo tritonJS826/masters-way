@@ -27,6 +27,14 @@ $buttonBlockPadding: 10px;
 
 .title {
   text-align: center;
+
+  & h1 {
+    font-size: $fontSizeTitleLarge;
+
+    @media (max-width: $mediaWidthMobileBig) {
+      font-size: $fontSizeTitleBig;
+    }
+  }
 }
 
 .subtitle {

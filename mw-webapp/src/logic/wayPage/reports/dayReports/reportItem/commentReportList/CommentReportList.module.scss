@@ -25,31 +25,8 @@
   align-items: center;
 }
 
-.labelsBlock {
-  //unused
-  gap: $gapSmall;
-}
-
-.contentBlock {
-  //unused
-  gap: $gapExtraSmall;
-}
-
 .ownerName {
   flex: 1;
-}
-
-.tagsBlockTrigger {
-  //unused
-  cursor: pointer;
-}
-
-.editableTime {
-  //unused
-  min-width: 46px;
-  max-width: 46px;
-  cursor: pointer;
-  text-align: right;
 }
 
 .linkToOwnerWay {

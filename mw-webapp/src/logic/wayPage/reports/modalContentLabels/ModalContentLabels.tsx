@@ -115,7 +115,6 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
                   <Checkbox
                     isDefaultChecked={labelsUpdated.map((labelUpdated) => labelUpdated.uuid).includes(label.uuid)}
                     onChange={() => { }}
-                    className={styles.checkbox}// Undefined
                   />
                 </HorizontalContainer>
               </div>
