@@ -1,8 +1,5 @@
 import "/src/component/footer/Footer.cy.tsx";
 import "/src/component/wayCollectionCard/WayCollectionCard.cy.tsx";
-import "/src/component/checkbox/Checkbox.cy.tsx";
-import "/src/component/confirm/Confirm.cy.tsx";
-import "/src/component/dropdown/Dropdown.cy.tsx";
 import "/src/component/editableText/EditableText.cy.tsx";
 import "/src/component/editableTextarea/EditableTextarea.cy.tsx";
 import "/src/component/header/Header.cy.tsx";
