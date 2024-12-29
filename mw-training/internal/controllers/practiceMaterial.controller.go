@@ -33,11 +33,11 @@ func (ftc *PracticeMaterialController) CreatePracticeMaterial(ctx context.Contex
 	arg := db.CreatePracticeMaterialInTopicParams{
 		TopicUuid:             pgtype.UUID{Bytes: uuid.MustParse(topicUuid), Valid: true},
 		Name:                  pgtype.Text{String: name, Valid: true},
-		PracticeMaterialOrder: pgtype.Int4{Int32: order, Valid: true},
+		PracticeMaterialOrder: order,
 		TaskDescription:       pgtype.Text{String: description, Valid: true},
 		Answer:                pgtype.Text{String: answer, Valid: true},
-		PracticeType:          db.NullPracticeType{PracticeType: db.PracticeType(practiceType), Valid: true},
-		TimeToAnswer:          pgtype.Int4{Int32: timeToAnswer, Valid: true},
+		PracticeType:          db.PracticeType(practiceType),
+		TimeToAnswer:          timeToAnswer,
 	}
 
 	practiceMaterial, err := ftc.practiceMaterialService.CreatePracticeMaterial(ctx, arg)

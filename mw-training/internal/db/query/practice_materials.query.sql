@@ -29,7 +29,8 @@ SET
     task_description = coalesce(sqlc.narg('task_description'), task_description),
     answer = coalesce(sqlc.narg('answer'), answer),
     practice_type = coalesce(sqlc.narg('practice_type'), practice_type),
-    time_to_answer = coalesce(sqlc.narg('time_to_answer'), time_to_answer)
+    time_to_answer = coalesce(sqlc.narg('time_to_answer'), time_to_answer),
+    updated_at = CURRENT_TIMESTAMP
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 

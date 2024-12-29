@@ -28,7 +28,7 @@ INSERT INTO practice_materials(
     $5,
     $6,
     $7
-) RETURNING uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at
+) RETURNING uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at, updated_at
 `
 
 type CreatePracticeMaterialInTopicParams struct {
@@ -62,6 +62,7 @@ func (q *Queries) CreatePracticeMaterialInTopic(ctx context.Context, arg CreateP
 		&i.PracticeType,
 		&i.TimeToAnswer,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 	)
 	return i, err
 }
@@ -69,7 +70,7 @@ func (q *Queries) CreatePracticeMaterialInTopic(ctx context.Context, arg CreateP
 const deletePracticeMaterial = `-- name: DeletePracticeMaterial :one
 DELETE FROM practice_materials
 WHERE uuid = $1
-RETURNING uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at
+RETURNING uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at, updated_at
 `
 
 func (q *Queries) DeletePracticeMaterial(ctx context.Context, practiceMaterialUuid pgtype.UUID) (PracticeMaterial, error) {
@@ -85,12 +86,13 @@ func (q *Queries) DeletePracticeMaterial(ctx context.Context, practiceMaterialUu
 		&i.PracticeType,
 		&i.TimeToAnswer,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 	)
 	return i, err
 }
 
 const getPracticeMaterialsByTopicId = `-- name: GetPracticeMaterialsByTopicId :many
-SELECT uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at FROM practice_materials
+SELECT uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at, updated_at FROM practice_materials
 WHERE practice_materials.topic_uuid = $1
 `
 
@@ -113,6 +115,7 @@ func (q *Queries) GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid p
 			&i.PracticeType,
 			&i.TimeToAnswer,
 			&i.CreatedAt,
+			&i.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}
@@ -132,9 +135,10 @@ SET
     task_description = coalesce($3, task_description),
     answer = coalesce($4, answer),
     practice_type = coalesce($5, practice_type),
-    time_to_answer = coalesce($6, time_to_answer)
+    time_to_answer = coalesce($6, time_to_answer),
+    updated_at = CURRENT_TIMESTAMP
 WHERE uuid = $7
-RETURNING uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at
+RETURNING uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at, updated_at
 `
 
 type UpdatePracticeMaterialParams struct {
@@ -168,6 +172,7 @@ func (q *Queries) UpdatePracticeMaterial(ctx context.Context, arg UpdatePractice
 		&i.PracticeType,
 		&i.TimeToAnswer,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 	)
 	return i, err
 }

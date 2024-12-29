@@ -5,11 +5,11 @@ import "mw-training/internal/services"
 type Controller struct {
 	TrainingTagsController           *TrainingTagsController
 	TrainingsController              *TrainingsController
-	TrainingMentorsController        *TrainingMentorsController
+	TrainingMentorsController        *TrainingMentorController
 	TrainingStudentController        *TrainingStudentController
 	FavoriteTrainingsUsersController *FavoriteTrainingUserController
 	PracticeMaterialsController      *PracticeMaterialController
-	TheoryMaterialsController        *TheoryMAterialsController
+	TheoryMaterialsController        *TheoryMaterialController
 	TopicsController                 *TopicsController
 	DevController                    *DevController
 }
@@ -18,11 +18,11 @@ func NewController(services *services.Service) *Controller {
 	return &Controller{
 		TrainingTagsController:           NewTrainingTagsController(services.TrainingTagsService),
 		TrainingsController:              NewTrainingsCoroller(services.TrainingsService),
-		TrainingMentorsController:        NewTrainingMentorsController(services.TrainingMentorsService),
-		TrainingStudentController:        NewTrainingStudentController(services.TrainingStudentsService),
-		FavoriteTrainingsUsersController: NewFavoriteTrainingUserController(services.FavoriteUsersTrainingsService),
+		TrainingMentorsController:        NewTrainingMentorController(services.TrainingMentorService),
+		TrainingStudentController:        NewTrainingStudentController(services.TrainingStudentService),
+		FavoriteTrainingsUsersController: NewFavoriteTrainingUserController(services.FavoriteTrainingUserService),
 		PracticeMaterialsController:      NewPracticeMaterialController(services.PracticeMaterialService),
-		TheoryMaterialsController:        NewTheoryMaterialsController(services.TheoryMaterialsService),
+		TheoryMaterialsController:        NewTheoryMaterialController(services.TheoryMaterialService),
 		TopicsController:                 NewTopicsController(services.TopicsService),
 		DevController:                    NewDevController(services.DevService),
 	}

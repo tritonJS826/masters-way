@@ -109,24 +109,28 @@ message DeleteTrainingRequest {
 }
 
 message CreateTrainingMentorRequest {
-
+  string training_uuid = 1;
+  string mentor_uuid = 2;
 }
 
 message DeleteTrainingMentorRequest {
-
+    string training_uuid = 1;
+    string mentor_uuid = 2;
 }
 
 message CreateTrainingStudentRequest {
-
+  string training_uuid = 1;
+  string student_uuid = 2;
 }
 
 message DeleteTrainingStudentRequest {
-
+  string training_uuid = 1;
+  string student_uuid = 2;
 }
 
 message CreateFavoriteUserTrainingRequest {
-   string training_uuid = 1;
-   string user_uuid = 2;
+  string training_uuid = 1;
+  string user_uuid = 2;
 }
 
 message DeleteFavoriteUserTrainingRequest {
@@ -171,19 +175,28 @@ message DeletePracticeMaterialRequest {
 }
 
 message CreateTheoryMaterialRequest {
-
+  string topic_uuid = 1;
+  string name = 2;
+  string description = 3;
 }
 
 message TheoryMaterial {
-
+  string uuid = 1;
+  string topic_uuid = 2;
+  string name = 3;
+  string description = 4;
+  string created_at = 5;
+  string updated_at = 6;
 }
 
 message UpdateTheoryMaterialRequest {
-
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
 }
 
 message DeleteTheoryMaterialRequest {
-
+  string uuid = 1;
 }
 
 message CreateTopicRequest {

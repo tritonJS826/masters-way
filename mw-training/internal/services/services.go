@@ -10,6 +10,9 @@ type Service struct {
 	DevService                  *DevService
 	FavoriteTrainingUserService *FavoriteTrainingUserService
 	PracticeMaterialService     *PracticeMaterialService
+	TheoryMaterialService       *TheoryMaterialService
+	TrainingMentorService       *TrainingMentorService
+	TrainingStudentService      *TrainingStudentService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
@@ -18,5 +21,8 @@ func NewService(pool *pgxpool.Pool) *Service {
 		DevService:                  NewDevService(pool, queries),
 		FavoriteTrainingUserService: NewFavoriteTrainingUserService(pool, queries),
 		PracticeMaterialService:     NewPracticeMaterialService(pool, queries),
+		TheoryMaterialService:       NewTheoryMaterialService(pool, queries),
+		TrainingMentorService:       NewTrainingMentorService(pool, queries),
+		TrainingStudentService:      NewTrainingStudentService(pool, queries),
 	}
 }

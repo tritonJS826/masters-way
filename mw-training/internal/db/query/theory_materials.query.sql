@@ -17,7 +17,8 @@ INSERT INTO theory_materials(
 UPDATE theory_materials
 SET
     name = coalesce(sqlc.narg('name'), name),
-    description = coalesce(sqlc.narg('description'), description)
+    description = coalesce(sqlc.narg('description'), description),
+    updated_at = CURRENT_TIMESTAMP
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 

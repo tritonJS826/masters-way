@@ -20,7 +20,7 @@ INSERT INTO theory_materials(
     $1,
     $2,
     $3
-) RETURNING uuid, topic_uuid, name, description, created_at
+) RETURNING uuid, topic_uuid, name, description, created_at, updated_at
 `
 
 type CreateTheoryMaterialInTopicParams struct {
@@ -38,6 +38,7 @@ func (q *Queries) CreateTheoryMaterialInTopic(ctx context.Context, arg CreateThe
 		&i.Name,
 		&i.Description,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 	)
 	return i, err
 }
@@ -45,7 +46,7 @@ func (q *Queries) CreateTheoryMaterialInTopic(ctx context.Context, arg CreateThe
 const deleteTheoryMaterial = `-- name: DeleteTheoryMaterial :one
 DELETE FROM theory_materials
 WHERE uuid = $1
-RETURNING uuid, topic_uuid, name, description, created_at
+RETURNING uuid, topic_uuid, name, description, created_at, updated_at
 `
 
 func (q *Queries) DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid pgtype.UUID) (TheoryMaterial, error) {
@@ -57,12 +58,13 @@ func (q *Queries) DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid p
 		&i.Name,
 		&i.Description,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 	)
 	return i, err
 }
 
 const getTheoryMaterialsByTopicId = `-- name: GetTheoryMaterialsByTopicId :many
-SELECT uuid, topic_uuid, name, description, created_at FROM theory_materials
+SELECT uuid, topic_uuid, name, description, created_at, updated_at FROM theory_materials
 WHERE theory_materials.topic_uuid = $1
 `
 
@@ -81,6 +83,7 @@ func (q *Queries) GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgt
 			&i.Name,
 			&i.Description,
 			&i.CreatedAt,
+			&i.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}
@@ -96,9 +99,10 @@ const updateTheoryMaterial = `-- name: UpdateTheoryMaterial :one
 UPDATE theory_materials
 SET
     name = coalesce($1, name),
-    description = coalesce($2, description)
+    description = coalesce($2, description),
+    updated_at = CURRENT_TIMESTAMP
 WHERE uuid = $3
-RETURNING uuid, topic_uuid, name, description, created_at
+RETURNING uuid, topic_uuid, name, description, created_at, updated_at
 `
 
 type UpdateTheoryMaterialParams struct {
@@ -116,6 +120,7 @@ func (q *Queries) UpdateTheoryMaterial(ctx context.Context, arg UpdateTheoryMate
 		&i.Name,
 		&i.Description,
 		&i.CreatedAt,
+		&i.UpdatedAt,
 	)
 	return i, err
 }

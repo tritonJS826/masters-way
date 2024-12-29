@@ -68,6 +68,7 @@ type PracticeMaterial struct {
 	PracticeType          PracticeType     `json:"practice_type"`
 	TimeToAnswer          int32            `json:"time_to_answer"`
 	CreatedAt             pgtype.Timestamp `json:"created_at"`
+	UpdatedAt             pgtype.Timestamp `json:"updated_at"`
 }
 
 type TheoryMaterial struct {
@@ -76,6 +77,7 @@ type TheoryMaterial struct {
 	Name        pgtype.Text      `json:"name"`
 	Description pgtype.Text      `json:"description"`
 	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
 }
 
 type Topic struct {

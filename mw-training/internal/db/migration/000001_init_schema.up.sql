@@ -62,6 +62,7 @@ CREATE TABLE theory_materials (
     "name" VARCHAR(50),
     "description" VARCHAR(10000),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "theory_materials_pkey" PRIMARY KEY (uuid)
 );
 
@@ -78,5 +79,6 @@ CREATE TABLE practice_materials (
     "practice_type" practice_type NOT NULL,
     "time_to_answer" INTEGER NOT NULL CHECK (time_to_answer BETWEEN 0 AND 100000) DEFAULT 0,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "practice_materials_pkey" PRIMARY KEY (uuid)
 );
