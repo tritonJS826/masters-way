@@ -107,9 +107,9 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                   cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                   trigger={
                     <Checkbox
+                      isUseExternalStateOnly
                       isDisabled={!props.isEditable}
                       isDefaultChecked={childMetric.isDone}
-                      className={styles.checkbox}
                       onChange={() => {}}
                     />
                   }
@@ -119,7 +119,6 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                 <Checkbox
                   isDisabled={!props.isEditable}
                   isDefaultChecked={childMetric.isDone}
-                  className={styles.checkbox}
                   onChange={async (isDone) => {
                     childMetric.updateIsDone({
                       isDoneToUpdate: isDone,

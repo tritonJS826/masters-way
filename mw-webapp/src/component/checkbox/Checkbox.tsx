@@ -33,6 +33,13 @@ interface CheckboxProps {
    * @default false
    */
   isDisabled?: boolean;
+
+  /**
+   * If true - checkbox state is controlled only by external component.
+   * If false - checkbox manages its own state internally.
+   * @default false
+   */
+  isUseExternalStateOnly?: boolean;
 }
 
 /**
@@ -45,8 +52,13 @@ export const Checkbox = (props: CheckboxProps) => {
    * Function to handle checkbox change
    */
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    props.onChange(!isChecked);
+    const newValue = !isChecked;
+
+    if (!props.isUseExternalStateOnly) {
+      setIsChecked(newValue);
+    }
+
+    props.onChange(newValue);
   };
 
   useEffect(() => {
