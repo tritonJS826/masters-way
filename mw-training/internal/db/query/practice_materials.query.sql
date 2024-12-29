@@ -4,6 +4,7 @@ WHERE practice_materials.topic_uuid = @topic_uuid;
 
 -- name: CreatePracticeMaterialInTopic :one
 INSERT INTO practice_materials(
+    topic_uuid,
     name,
     practice_material_order,
     task_description,
@@ -11,6 +12,7 @@ INSERT INTO practice_materials(
     practice_type,
     time_to_answer
 ) VALUES (
+    @topic_uuid,
     @name,
     @practice_material_order,
     @task_description,

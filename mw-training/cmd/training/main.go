@@ -20,9 +20,6 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-// @title     Masters way training API
-// @version 1.0
-// @BasePath  /training
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {

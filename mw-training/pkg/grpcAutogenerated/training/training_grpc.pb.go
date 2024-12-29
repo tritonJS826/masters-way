@@ -652,7 +652,7 @@ var TrainingStudentService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FavoriteUsersTrainingsServiceClient interface {
-	CreateFavoriteUserTraining(ctx context.Context, in *CreateFavouriteUserTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CreateFavoriteUserTraining(ctx context.Context, in *CreateFavoriteUserTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteFavoriteUserTraining(ctx context.Context, in *DeleteFavoriteUserTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -664,7 +664,7 @@ func NewFavoriteUsersTrainingsServiceClient(cc grpc.ClientConnInterface) Favorit
 	return &favoriteUsersTrainingsServiceClient{cc}
 }
 
-func (c *favoriteUsersTrainingsServiceClient) CreateFavoriteUserTraining(ctx context.Context, in *CreateFavouriteUserTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *favoriteUsersTrainingsServiceClient) CreateFavoriteUserTraining(ctx context.Context, in *CreateFavoriteUserTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/training.FavoriteUsersTrainingsService/CreateFavoriteUserTraining", in, out, opts...)
 	if err != nil {
@@ -686,7 +686,7 @@ func (c *favoriteUsersTrainingsServiceClient) DeleteFavoriteUserTraining(ctx con
 // All implementations must embed UnimplementedFavoriteUsersTrainingsServiceServer
 // for forward compatibility
 type FavoriteUsersTrainingsServiceServer interface {
-	CreateFavoriteUserTraining(context.Context, *CreateFavouriteUserTrainingRequest) (*emptypb.Empty, error)
+	CreateFavoriteUserTraining(context.Context, *CreateFavoriteUserTrainingRequest) (*emptypb.Empty, error)
 	DeleteFavoriteUserTraining(context.Context, *DeleteFavoriteUserTrainingRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedFavoriteUsersTrainingsServiceServer()
 }
@@ -695,7 +695,7 @@ type FavoriteUsersTrainingsServiceServer interface {
 type UnimplementedFavoriteUsersTrainingsServiceServer struct {
 }
 
-func (UnimplementedFavoriteUsersTrainingsServiceServer) CreateFavoriteUserTraining(context.Context, *CreateFavouriteUserTrainingRequest) (*emptypb.Empty, error) {
+func (UnimplementedFavoriteUsersTrainingsServiceServer) CreateFavoriteUserTraining(context.Context, *CreateFavoriteUserTrainingRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateFavoriteUserTraining not implemented")
 }
 func (UnimplementedFavoriteUsersTrainingsServiceServer) DeleteFavoriteUserTraining(context.Context, *DeleteFavoriteUserTrainingRequest) (*emptypb.Empty, error) {
@@ -716,7 +716,7 @@ func RegisterFavoriteUsersTrainingsServiceServer(s grpc.ServiceRegistrar, srv Fa
 }
 
 func _FavoriteUsersTrainingsService_CreateFavoriteUserTraining_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateFavouriteUserTrainingRequest)
+	in := new(CreateFavoriteUserTrainingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -728,7 +728,7 @@ func _FavoriteUsersTrainingsService_CreateFavoriteUserTraining_Handler(srv inter
 		FullMethod: "/training.FavoriteUsersTrainingsService/CreateFavoriteUserTraining",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FavoriteUsersTrainingsServiceServer).CreateFavoriteUserTraining(ctx, req.(*CreateFavouriteUserTrainingRequest))
+		return srv.(FavoriteUsersTrainingsServiceServer).CreateFavoriteUserTraining(ctx, req.(*CreateFavoriteUserTrainingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

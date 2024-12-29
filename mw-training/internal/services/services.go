@@ -7,16 +7,16 @@ import (
 )
 
 type Service struct {
-	RoomsService    *RoomsService
-	MessagesService *MessagesService
-	DevService      *DevService
+	DevService                  *DevService
+	FavoriteTrainingUserService *FavoriteTrainingUserService
+	PracticeMaterialService     *PracticeMaterialService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
 	queries := db.New(pool)
 	return &Service{
-		RoomsService:    NewRoomsService(pool, queries),
-		MessagesService: NewMessagesService(pool, queries),
-		DevService:      NewDevService(pool, queries),
+		DevService:                  NewDevService(pool, queries),
+		FavoriteTrainingUserService: NewFavoriteTrainingUserService(pool, queries),
+		PracticeMaterialService:     NewPracticeMaterialService(pool, queries),
 	}
 }

@@ -13,6 +13,7 @@ import (
 
 const createPracticeMaterialInTopic = `-- name: CreatePracticeMaterialInTopic :one
 INSERT INTO practice_materials(
+    topic_uuid,
     name,
     practice_material_order,
     task_description,
@@ -25,11 +26,13 @@ INSERT INTO practice_materials(
     $3,
     $4,
     $5,
-    $6
+    $6,
+    $7
 ) RETURNING uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at
 `
 
 type CreatePracticeMaterialInTopicParams struct {
+	TopicUuid             pgtype.UUID  `json:"topic_uuid"`
 	Name                  pgtype.Text  `json:"name"`
 	PracticeMaterialOrder int32        `json:"practice_material_order"`
 	TaskDescription       pgtype.Text  `json:"task_description"`
@@ -40,6 +43,7 @@ type CreatePracticeMaterialInTopicParams struct {
 
 func (q *Queries) CreatePracticeMaterialInTopic(ctx context.Context, arg CreatePracticeMaterialInTopicParams) (PracticeMaterial, error) {
 	row := q.db.QueryRow(ctx, createPracticeMaterialInTopic,
+		arg.TopicUuid,
 		arg.Name,
 		arg.PracticeMaterialOrder,
 		arg.TaskDescription,
