@@ -107,6 +107,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                   cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                   trigger={
                     <Checkbox
+                      isUseExternalStateOnly
                       isDisabled={!props.isEditable}
                       isDefaultChecked={childMetric.isDone}
                       onChange={() => {}}

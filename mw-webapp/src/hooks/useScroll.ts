@@ -16,6 +16,11 @@ interface useScrollProps<Dependency> {
   isDisabled: boolean;
 
   /**
+   * If true then request in progress and handle new scroll is not allowed
+   */
+  isHandleSCrollInProgress: boolean;
+
+  /**
    * Height from bottom content block when need use callback
    */
   heightFromBottomBlock: number;
@@ -32,6 +37,7 @@ interface useScrollProps<Dependency> {
 export const useScroll = <Dependency>({
   onScroll,
   isDisabled,
+  isHandleSCrollInProgress,
   heightFromBottomBlock,
   dependency = [],
 }: useScrollProps<Dependency>) => {
@@ -49,7 +55,7 @@ export const useScroll = <Dependency>({
 
     const isShouldTriggerCallback = ref.current.scrollTop + ref.current.clientHeight >= actionPointFromTop;
 
-    if (!isDisabled && isShouldTriggerCallback) {
+    if (!isDisabled && !isHandleSCrollInProgress && isShouldTriggerCallback) {
       onScroll();
     }
   };

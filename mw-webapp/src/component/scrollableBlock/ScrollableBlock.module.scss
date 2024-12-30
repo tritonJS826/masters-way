@@ -1,3 +1,8 @@
+@import "src/styles/variables";
+.wrapper {
+  position: relative;
+}
+
 .scrollableBlock {
   display: flex;
   overflow: auto;

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {TrackFooter} from "src/analytics/footerAnalytics";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -140,6 +141,19 @@ export const FooterLanding = (props: FooterLandingProps) => {
                       size={IconSize.SMALL}
                       name="YoutubeIcon"
                       className={styles.socialMediaIcon}
+                    />
+                  </div>
+                </Link>
+                <Link
+                  path="https://www.patreon.com/c/mastersway/posts"
+                  isNewTab
+                  ariaLabel={LanguageService.common.socialMediaAriaLabel.patreon[props.language]}
+                >
+                  <div className={styles.iconWrapper}>
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="PatreonIcon"
+                      className={clsx(styles.socialMediaIcon, styles.patreonIcon)}
                     />
                   </div>
                 </Link>

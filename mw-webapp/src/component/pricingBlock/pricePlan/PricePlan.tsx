@@ -159,7 +159,7 @@ export const PricePlan = observer((props: PricePlanProps) => {
         }
         content={
           <VerticalContainer>
-            {renderMarkdown(LanguageService.pricing.buyPlanModal[language])}
+            {renderMarkdown(LanguageService.common.payments.donateModal[language])}
           </VerticalContainer>
         }
       />

@@ -469,6 +469,19 @@ export const Header = observer((props: HeaderProps) => {
                         />
                       </div>
                     </Link>
+                    <Link
+                      path="https://www.patreon.com/c/mastersway/posts"
+                      isNewTab
+                      ariaLabel={LanguageService.common.socialMediaAriaLabel.patreon[props.language]}
+                    >
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="PatreonIcon"
+                          className={clsx(styles.socialMediaIcon, styles.patreonIcon)}
+                        />
+                      </div>
+                    </Link>
                   </HorizontalContainer>
                 </VerticalContainer>
                 {props.user &&

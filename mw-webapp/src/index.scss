@@ -4,6 +4,22 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+
+  // start scrollbar styles
+  &::-webkit-scrollbar {
+    width: $scrollbarThickness;
+    height: $scrollbarThickness;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: $scrollbarThumbBorderRadius;
+    background-color: var(--generalPrimaryColor);
+  }
+  // end scrollbar styles
 }
 
 body {
