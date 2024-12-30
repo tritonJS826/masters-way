@@ -7,7 +7,8 @@
 
   // start scrollbar styles
   &::-webkit-scrollbar {
-    width: $scrollbarWidth;
+    width: $scrollbarThickness;
+    height: $scrollbarThickness;
   }
 
   &::-webkit-scrollbar-track {
