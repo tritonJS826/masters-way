@@ -5,6 +5,7 @@
   padding: 0;
   margin: 0;
 
+  // start scrollbar styles
   &::-webkit-scrollbar {
     width: $scrollbarWidth;
   }
@@ -17,6 +18,7 @@
     border-radius: $scrollbarThumbBorderRadius;
     background-color: var(--generalPrimaryColor);
   }
+  // end scrollbar styles
 }
 
 body {
