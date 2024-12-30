@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {NotificationItem, NotificationNature} from "src/component/notificationBlock/notificationItem/NotificationItem";
@@ -94,16 +94,27 @@ export const NotificationBlock = observer((props: NotificationBlockProps) => {
     key: "notificationBlock",
     defaultValue: DEFAULT_NOTIFICATION_BLOCK_SETTINGS,
   });
+  const [isHandleScrollInProgress, setHandleSCrollInProgress] = useState(false);
+
+  /**
+   * Load more notifications
+   */
+  const loadMoreNotifications = async () => {
+    setHandleSCrollInProgress(true);
+    await Promise.resolve(props.loadMore(notificationBlockSettings.isOnlyNew));
+    setHandleSCrollInProgress(false);
+  };
 
   const {ref} = useScroll({
 
     /**
      * Callback triggered onScroll
      */
-    onScroll: () => props.loadMore(notificationBlockSettings.isOnlyNew),
+    onScroll: () => loadMoreNotifications(),
     isDisabled: !props.isMoreNotificationsExist,
+    isHandleSCrollInProgress: isHandleScrollInProgress,
     heightFromBottomBlock: HEIGHT_FOR_SCROLL_CALLBACK_FROM_BOTTOM,
-    dependency: [props.notificationList, notificationBlockSettings.isOnlyNew],
+    dependency: [isHandleScrollInProgress, props.notificationList, notificationBlockSettings.isOnlyNew],
   });
 
   /**
