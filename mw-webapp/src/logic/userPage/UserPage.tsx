@@ -963,7 +963,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     }
                     content={
                       <VerticalContainer>
-                        {renderMarkdown(LanguageService.user.personalInfo.donateModal[language])}
+                        {renderMarkdown(LanguageService.common.payments.donateModal[language])}
                       </VerticalContainer>
                     }
                   />

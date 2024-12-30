@@ -72,10 +72,5 @@
     "ru": "Бесплатно",
     "en": "Free",
     "ua": "Безкоштовно"
-  },
-  "buyPlanModal": {
-    "ru": "Возможность приобрести план еще не реализована. Пожалуйста, подождите немного. Мы благодарим вас за проявленный интерес! Сейчас весь функционал доступен бесплатно! \n\nТак же вы можете отправить небольшое пожертвование на крипто кошельки: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081",
-    "en": "The option to buy a plan has not yet been implemented. Please wait a moment. We thank you for your interest! Now all functionality is available for free! \n\nYou can also send a small donation to crypto wallets: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081",
-    "ua": "Можливість придбати план ще не реалізована. Зачекайте, будь ласка. Ми дякуємо вам за виявлений інтерес! Наразі весь функціонал доступний безкоштовно! \n\n Також ви можете відправити невелику пожертву на крипто-гаманці: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081"
   }
 }

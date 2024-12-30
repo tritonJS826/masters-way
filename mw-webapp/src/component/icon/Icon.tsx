@@ -26,6 +26,7 @@ import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
 import {MinusIcon} from "src/assets/icons/MinusIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
+import {PatreonIcon} from "src/assets/icons/PatreonIcon";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
 import {RemoveIcon} from "src/assets/icons/RemoveIcon";
 import {SearchIcon} from "src/assets/icons/SearchIcon";
@@ -263,6 +264,11 @@ export const IconDictionary = {
    * UserCheck icon
    */
   UserCheckIcon: (params: IconProps) => <UserCheckIcon {...params} />,
+
+  /**
+   * Patreon icon
+   */
+  PatreonIcon: (params: IconProps) => <PatreonIcon {...params} />,
 
 };
 

@@ -98,7 +98,7 @@ interface SidebarProps {
   bottomChildren: React.ReactNode;
 
   /**
-   * Callback triigered on change open status
+   * Callback triggered on change open status
    */
   onOpenStatusChanged: (isOpen: boolean) => void;
 
