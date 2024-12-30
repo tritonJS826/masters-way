@@ -79,6 +79,10 @@ $iconSize: 32px;
   stroke: var(--tertiaryIconColor);
 }
 
+.patreonIcon {
+  fill: var(--tertiaryIconColor);
+}
+
 .modalContainer {
   gap: $gapSmall;
 }
