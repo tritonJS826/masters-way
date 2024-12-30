@@ -19,6 +19,7 @@ type Querier interface {
 	CreateTrainingMentor(ctx context.Context, arg CreateTrainingMentorParams) (TrainingsMentor, error)
 	CreateTrainingStudent(ctx context.Context, arg CreateTrainingStudentParams) (TrainingsStudent, error)
 	CreateTrainingTag(ctx context.Context, name string) (TrainingTag, error)
+	CreateTrainingsTrainingTag(ctx context.Context, arg CreateTrainingsTrainingTagParams) (TrainingsTrainingTag, error)
 	DeleteFavoriteTrainingUserByIds(ctx context.Context, arg DeleteFavoriteTrainingUserByIdsParams) error
 	DeletePracticeMaterial(ctx context.Context, practiceMaterialUuid pgtype.UUID) (PracticeMaterial, error)
 	DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid pgtype.UUID) (TheoryMaterial, error)
@@ -26,6 +27,7 @@ type Querier interface {
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
 	DeleteTrainingMentorByIds(ctx context.Context, arg DeleteTrainingMentorByIdsParams) error
 	DeleteTrainingStudentByIds(ctx context.Context, arg DeleteTrainingStudentByIdsParams) error
+	DeleteTrainingsTrainingTagFromTraining(ctx context.Context, arg DeleteTrainingsTrainingTagFromTrainingParams) error
 	GetFavoriteTrainingList(ctx context.Context) ([]Training, error)
 	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]TrainingTag, error)
 	GetListTrainingTagsByTrainingIds(ctx context.Context, trainingUuids []pgtype.UUID) ([]GetListTrainingTagsByTrainingIdsRow, error)

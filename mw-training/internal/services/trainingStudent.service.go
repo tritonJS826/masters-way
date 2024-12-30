@@ -27,12 +27,10 @@ func NewTrainingStudentService(pgxPool *pgxpool.Pool, trainingStudentRepository 
 	}
 }
 
-// Create a new student for a training
 func (fts *TrainingStudentService) CreateTrainingStudent(ctx context.Context, arg db.CreateTrainingStudentParams) (pb.TrainingStudent, error) {
 	return fts.trainingStudentRepository.CreateTrainingStudent(ctx, arg)
 }
 
-// Delete a student from training
 func (fts *TrainingStudentService) DeleteTrainingStudentByIds(ctx context.Context, arg db.DeleteTrainingStudentByIdsParams) error {
 	return fts.trainingStudentRepository.DeleteTrainingStudentByIds(ctx, arg)
 }

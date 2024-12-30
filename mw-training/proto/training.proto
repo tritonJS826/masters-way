@@ -16,7 +16,7 @@ service TrainingTagService {
 service TrainingService {
   rpc CreateNewTraining(CreateTrainingRequest) returns (Training);
   rpc GetTrainingById(GetTrainingRequest) returns (Training);
-  rpc GetTrainingsList(GetTrainingListRequest) returns (TrainingPreviewList);
+  rpc GetTrainingsList(GetTrainingsListRequest) returns (TrainingPreviewList);
   rpc UpdateTraining(UpdateTrainingRequest) returns (google.protobuf.Empty);
   rpc DeleteTraining(DeleteTrainingRequest) returns (google.protobuf.Empty);
 }
@@ -85,7 +85,13 @@ message CreateTrainingRequest {
 }
 
 message Training {
-    
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
+  string owner_uuid = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  bool is_private = 7;
 }
 
 message TrainingPreviewList {
@@ -96,16 +102,17 @@ message GetTrainingRequest {
   string training_uuid = 1;
 }
 
-message GetTrainingListRequest {
-
+message GetTrainingsListRequest {
+  string user_uuid = 1;
 }
 
 message UpdateTrainingRequest {
-
+  string uuid = 1;
+  string name = 2;
 }
 
 message DeleteTrainingRequest {
-
+  string uuid = 1;
 }
 
 message CreateTrainingMentorRequest {
@@ -114,8 +121,8 @@ message CreateTrainingMentorRequest {
 }
 
 message DeleteTrainingMentorRequest {
-    string training_uuid = 1;
-    string mentor_uuid = 2;
+  string training_uuid = 1;
+  string mentor_uuid = 2;
 }
 
 message CreateTrainingStudentRequest {
@@ -200,17 +207,26 @@ message DeleteTheoryMaterialRequest {
 }
 
 message CreateTopicRequest {
-
+  string name = 1;
+  string training_uuid = 2;
+  int32  topic_order = 3;
+  string parent_topic_uuid = 4;
 }
 
 message Topic {
-
+  string uuid = 1;
+  string name = 2;
+  string training_uuid = 3;
+  int32  topic_order = 4;
+  string parent_topic_uuid = 5;
+  string created_at = 6;
 }
 
 message UpdateTopicRequest {
-
+  string uuid = 1;
+  string name = 2;
 }
 
 message DeleteTopicRequest {
-
+  string topic_uuid = 1;
 }

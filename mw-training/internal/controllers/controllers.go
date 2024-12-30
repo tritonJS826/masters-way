@@ -3,27 +3,27 @@ package controllers
 import "mw-training/internal/services"
 
 type Controller struct {
-	TrainingTagsController           *TrainingTagsController
-	TrainingsController              *TrainingsController
-	TrainingMentorsController        *TrainingMentorController
-	TrainingStudentController        *TrainingStudentController
-	FavoriteTrainingsUsersController *FavoriteTrainingUserController
-	PracticeMaterialsController      *PracticeMaterialController
-	TheoryMaterialsController        *TheoryMaterialController
-	TopicsController                 *TopicsController
-	DevController                    *DevController
+	TrainingTagController          *TrainingTagController
+	TrainingController             *TrainingController
+	TrainingMentorController       *TrainingMentorController
+	TrainingStudentController      *TrainingStudentController
+	FavoriteTrainingUserController *FavoriteTrainingUserController
+	PracticeMaterialController     *PracticeMaterialController
+	TheoryMaterialController       *TheoryMaterialController
+	TopicController                *TopicController
+	DevController                  *DevController
 }
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		TrainingTagsController:           NewTrainingTagsController(services.TrainingTagsService),
-		TrainingsController:              NewTrainingsCoroller(services.TrainingsService),
-		TrainingMentorsController:        NewTrainingMentorController(services.TrainingMentorService),
-		TrainingStudentController:        NewTrainingStudentController(services.TrainingStudentService),
-		FavoriteTrainingsUsersController: NewFavoriteTrainingUserController(services.FavoriteTrainingUserService),
-		PracticeMaterialsController:      NewPracticeMaterialController(services.PracticeMaterialService),
-		TheoryMaterialsController:        NewTheoryMaterialController(services.TheoryMaterialService),
-		TopicsController:                 NewTopicsController(services.TopicsService),
-		DevController:                    NewDevController(services.DevService),
+		TrainingTagController:          NewTrainingTagController(services.TrainingTagService),
+		TrainingController:             NewTrainingController(services.TrainingService),
+		TrainingMentorController:       NewTrainingMentorController(services.TrainingMentorService),
+		TrainingStudentController:      NewTrainingStudentController(services.TrainingStudentService),
+		FavoriteTrainingUserController: NewFavoriteTrainingUserController(services.FavoriteTrainingUserService),
+		PracticeMaterialController:     NewPracticeMaterialController(services.PracticeMaterialService),
+		TheoryMaterialController:       NewTheoryMaterialController(services.TheoryMaterialService),
+		TopicController:                NewTopicController(services.TopicService),
+		DevController:                  NewDevController(services.DevService),
 	}
 }

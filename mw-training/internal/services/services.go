@@ -13,6 +13,9 @@ type Service struct {
 	TheoryMaterialService       *TheoryMaterialService
 	TrainingMentorService       *TrainingMentorService
 	TrainingStudentService      *TrainingStudentService
+	TopicService                *TopicService
+	TrainingService             *TrainingService
+	TrainingTrainingTagService  *TrainingTrainingTagService
 }
 
 func NewService(pool *pgxpool.Pool) *Service {
@@ -24,5 +27,8 @@ func NewService(pool *pgxpool.Pool) *Service {
 		TheoryMaterialService:       NewTheoryMaterialService(pool, queries),
 		TrainingMentorService:       NewTrainingMentorService(pool, queries),
 		TrainingStudentService:      NewTrainingStudentService(pool, queries),
+		TopicService:                NewTopicService(pool, queries),
+		TrainingService:             NewTrainingService(pool, queries),
+		TrainingTrainingTagService:  NewTrainingTrainingTagService(pool, queries),
 	}
 }
