@@ -60,6 +60,7 @@ CREATE TABLE theory_materials (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "topic_uuid" UUID NOT NULL REFERENCES topics("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "name" VARCHAR(50),
+    "theory_material_order" INTEGER NOT NULL CHECK (theory_material_order BETWEEN 0 AND 10000) DEFAULT 0,
     "description" VARCHAR(10000),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

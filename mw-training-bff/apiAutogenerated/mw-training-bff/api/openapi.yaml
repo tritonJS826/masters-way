@@ -6,165 +6,465 @@ info:
 servers:
 - url: /training
 paths:
-  /files:
+  /favoriteUserTrainings/{trainingId}:
     delete:
-      description: Delete multiple files from the server storage using their IDs
-      operationId: delete-files
+      operationId: delete-favorite-user-training
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete favorite user training
+      tags:
+      - favorite-user-training
+    post:
+      operationId: create-favorite-user-training
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create favorite user training
+      tags:
+      - favorite-user-training
+  /practiceMaterials/{practiceMaterialId}:
+    delete:
+      operationId: delete-practice-material
+      parameters:
+      - description: practice material id
+        in: path
+        name: practiceMaterialId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete practice material
+      tags:
+      - practice-material
+    patch:
+      operationId: update-practice-material
+      parameters:
+      - description: practice material id
+        in: path
+        name: practiceMaterialId
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
             schema:
-              items:
-                type: string
-              type: array
-        description: List of file IDs to delete
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
+        description: query params
         required: true
       responses:
-        "204":
-          content: {}
-          description: No Content
-      summary: Delete files by IDs
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
+          description: OK
+      summary: Update practice material
       tags:
-      - file
-      x-codegen-request-body-name: fileIDs
-    post:
-      description: Uploads a file to the server and stores it in the designated storage
-        path
-      operationId: upload-file
+      - practice-material
+      x-codegen-request-body-name: request
+  /practiceMaterials/{topicId}:
+    get:
+      operationId: get-practice-materials-by-topic-id
       parameters:
-      - description: Room id
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterials'
+          description: OK
+      summary: Get practice material by topic id
+      tags:
+      - practice-material
+    post:
+      operationId: create-practice-material
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
+          description: OK
+      summary: Create practice material
+      tags:
+      - practice-material
+      x-codegen-request-body-name: request
+  /theoryMaterials/{theoryMaterialId}:
+    delete:
+      operationId: delete-theory-material
+      parameters:
+      - description: theory material id
+        in: path
+        name: theoryMaterialId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete theory material
+      tags:
+      - theory-material
+    patch:
+      operationId: update-theory-material
+      parameters:
+      - description: theory material id
+        in: path
+        name: theoryMaterialId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
+          description: OK
+      summary: Update theory material
+      tags:
+      - theory-material
+      x-codegen-request-body-name: request
+  /theoryMaterials/{topicId}:
+    get:
+      operationId: get-theory-materials-by-topic-id
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterials'
+          description: OK
+      summary: Get theory material by topic id
+      tags:
+      - theory-material
+    post:
+      operationId: create-theory-material
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTheoryMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
+          description: OK
+      summary: Create theory material
+      tags:
+      - theory-material
+      x-codegen-request-body-name: request
+  /topics/{topicId}:
+    delete:
+      operationId: delete-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete topic by Uuid
+      tags:
+      - topic
+    patch:
+      operationId: update-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTopicPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+          description: OK
+      summary: Update topic
+      tags:
+      - topic
+      x-codegen-request-body-name: request
+  /topics/{trainingId}:
+    post:
+      operationId: create-topic
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+          description: OK
+      summary: Create topic
+      tags:
+      - topic
+  /trainingMentors/{trainingId}/user/{userId}:
+    delete:
+      operationId: delete-training-mentor
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete mentor by id
+      tags:
+      - training-mentor
+    post:
+      operationId: create-training-mentor
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create mentor
+      tags:
+      - training-mentor
+  /trainingStudents/{trainingId}/user/{userId}:
+    delete:
+      operationId: delete-training-student
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete student
+      tags:
+      - training-student
+    post:
+      operationId: create-training-student
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create student
+      tags:
+      - training-student
+  /trainingTrainingTags/{trainingId}:
+    post:
+      operationId: create-training-training-tag
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create training training tag
+      tags:
+      - training-training-tag
+      x-codegen-request-body-name: request
+  /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId}:
+    delete:
+      operationId: delete-training-training-tag
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      - description: training tag id
+        in: path
+        name: trainingTagId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete training training tag
+      tags:
+      - training-training-tag
+  /trainings:
+    get:
+      operationId: get-training-list
+      parameters:
+      - description: Page number for pagination - 1 by default
         in: query
-        name: roomId
-        required: true
+        name: page
+        schema:
+          type: integer
+      - description: Number of items per page - 50 by default
+        in: query
+        name: limit
+        schema:
+          type: integer
+      - description: Training name
+        in: query
+        name: trainingName
         schema:
           type: string
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/upload_file_request'
-        required: true
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.UploadFileResponse'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingList'
           description: OK
-      summary: Upload file to storage
+      summary: GEt training list
       tags:
-      - file
-  /messages:
-    post:
-      operationId: create-message
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateMessagePayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.MessageResponse'
-          description: OK
-      summary: Create message
-      tags:
-      - message
-      x-codegen-request-body-name: request
-  /messages/{messageId}/message-status:
-    patch:
-      description: Update message status by message Id
-      operationId: update-message-status
-      parameters:
-      - description: message Id
-        in: path
-        name: messageId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateMessageStatusPayload'
-        description: query params
-        required: true
-      responses:
-        "204":
-          content: {}
-          description: No Content
-      summary: Update message status
-      tags:
-      - message
-      x-codegen-request-body-name: request
-  /rooms:
-    post:
-      operationId: find-or-create-room
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateRoomPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.RoomPopulatedResponse'
-          description: OK
-      summary: Find or create room for user
-      tags:
-      - room
-      x-codegen-request-body-name: request
-  /rooms/list/{roomType}:
+      - training
+  /trainings/users/{userId}:
     get:
-      operationId: get-rooms
+      operationId: get-training-list-by-user
       parameters:
-      - description: "room type: private | group"
-        in: path
-        name: roomType
+      - description: "enum: student | mentor | owner | favorite"
+        in: query
+        name: trainingsType
         required: true
         schema:
-          enum:
-          - private
-          - group
           type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.GetRoomsResponse'
-          description: OK
-      summary: Get rooms for user
-      tags:
-      - room
-  /rooms/preview:
-    get:
-      operationId: get-chat-preview
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.GetRoomPreviewResponse'
-          description: OK
-      summary: Get chat preview
-      tags:
-      - room
-  /rooms/{roomId}:
-    get:
-      operationId: get-room-by-id
-      parameters:
-      - description: room Id
+      - description: user id
         in: path
-        name: roomId
+        name: userId
         required: true
         schema:
           type: string
@@ -173,43 +473,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingList'
           description: OK
-      summary: Get room by id
+      summary: Get training list by user
       tags:
-      - room
-    patch:
-      operationId: update-room
-      parameters:
-      - description: room Id
-        in: path
-        name: roomId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.RoomPopulatedResponse'
-          description: OK
-      summary: Update room
-      tags:
-      - room
-  /rooms/{roomId}/users/{userId}:
+      - training
+  /trainings/{trainingId}:
     delete:
-      operationId: delete-user-from-room
+      operationId: delete-training
       parameters:
-      - description: room Id
+      - description: training id
         in: path
-        name: roomId
+        name: trainingId
         required: true
         schema:
           type: string
-      - description: user Id to delete
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete training by id
+      tags:
+      - training
+    get:
+      operationId: get-training-by-id
+      parameters:
+      - description: training id
         in: path
-        name: userId
+        name: trainingId
         required: true
         schema:
           type: string
@@ -218,345 +509,601 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Training'
           description: OK
-      summary: Delete user from room
+      summary: Get training by Id
       tags:
-      - room
+      - training
+    patch:
+      operationId: update-training
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTrainingPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Training'
+          description: OK
+      summary: Update training by id
+      tags:
+      - training
+      x-codegen-request-body-name: request
     post:
-      operationId: add-user-to-room
+      operationId: create-training
       parameters:
-      - description: room Id
+      - description: training id
         in: path
-        name: roomId
+        name: trainingId
         required: true
         schema:
           type: string
-      - description: user Id to delete
-        in: path
-        name: userId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTrainingPayload'
+        description: query params
         required: true
-        schema:
-          type: string
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.RoomPopulatedResponse'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Training'
           description: OK
-      summary: Add user to room
+      summary: Create training
       tags:
-      - room
+      - training
+      x-codegen-request-body-name: request
 components:
   schemas:
-    mw-training-bff_internal_schemas.CreateMessagePayload:
+    mw-training-bff_internal_schemas.CreatePracticeMaterialPayload:
       properties:
-        message:
+        answer:
           type: string
-        roomId:
+        name:
+          type: string
+        practiceType:
+          type: string
+        taskDescription:
+          type: string
+        timeToAnswer:
+          type: integer
+        topicUuid:
           type: string
       required:
-      - message
-      - roomId
+      - answer
+      - name
+      - practiceType
+      - taskDescription
+      - timeToAnswer
+      - topicUuid
       type: object
-    mw-training-bff_internal_schemas.CreateRoomPayload:
+    mw-training-bff_internal_schemas.CreateTheoryMaterialPayload:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        topicUuid:
+          type: string
+      required:
+      - description
+      - name
+      - topicUuid
+      type: object
+    mw-training-bff_internal_schemas.CreateTrainingPayload:
+      properties:
+        description:
+          type: string
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+      required:
+      - description
+      - isPrivate
+      - name
+      type: object
+    mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload:
       properties:
         name:
-          nullable: true
-          type: string
-        roomType:
-          type: string
-        userId:
-          nullable: true
           type: string
       required:
-      - roomType
+      - name
       type: object
-    mw-training-bff_internal_schemas.GetRoomPreviewResponse:
+    mw-training-bff_internal_schemas.PracticeMaterial:
       example:
-        unreadMessagesAmount: 0
+        timeToAnswer: 6
+        createdAt: createdAt
+        answer: answer
+        taskDescription: taskDescription
+        name: name
+        practiceType: practiceType
+        topicUuid: topicUuid
+        uuid: uuid
+        order: 0
+        updatedAt: updatedAt
       properties:
-        unreadMessagesAmount:
+        answer:
+          type: string
+        createdAt:
+          type: string
+        name:
+          type: string
+        order:
           type: integer
+        practiceType:
+          type: string
+        taskDescription:
+          type: string
+        timeToAnswer:
+          type: integer
+        topicUuid:
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
       required:
-      - unreadMessagesAmount
+      - answer
+      - createdAt
+      - name
+      - order
+      - practiceType
+      - taskDescription
+      - timeToAnswer
+      - topicUuid
+      - updatedAt
+      - uuid
       type: object
-    mw-training-bff_internal_schemas.GetRoomsResponse:
+    mw-training-bff_internal_schemas.PracticeMaterials:
       example:
-        rooms:
-        - imageUrl: imageUrl
-          isBlocked: true
+        practiceMaterials:
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
           name: name
-          roomId: roomId
-          roomType: roomType
-          users:
-          - role: role
-            imageUrl: imageUrl
-            name: name
-            userId: userId
-          - role: role
-            imageUrl: imageUrl
-            name: name
-            userId: userId
-        - imageUrl: imageUrl
-          isBlocked: true
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
           name: name
-          roomId: roomId
-          roomType: roomType
-          users:
-          - role: role
-            imageUrl: imageUrl
-            name: name
-            userId: userId
-          - role: role
-            imageUrl: imageUrl
-            name: name
-            userId: userId
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
         size: 0
       properties:
-        rooms:
+        practiceMaterials:
           items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.RoomPreviewResponse'
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
           type: array
         size:
           type: integer
       required:
-      - rooms
+      - practiceMaterials
       - size
       type: object
-    mw-training-bff_internal_schemas.MessageReader:
+    mw-training-bff_internal_schemas.TheoryMaterial:
       example:
-        ownerName: ownerName
-        readDate: readDate
-        userId: userId
-        ownerImageUrl: ownerImageUrl
+        createdAt: createdAt
+        name: name
+        description: description
+        topicUuid: topicUuid
+        uuid: uuid
+        order: 0
+        updatedAt: updatedAt
       properties:
-        ownerImageUrl:
+        createdAt:
           type: string
-        ownerName:
+        description:
           type: string
-        readDate:
+        name:
           type: string
-        userId:
+        order:
+          type: integer
+        topicUuid:
+          type: string
+        updatedAt:
+          type: string
+        uuid:
           type: string
       required:
-      - ownerImageUrl
-      - ownerName
-      - readDate
-      - userId
+      - createdAt
+      - description
+      - name
+      - order
+      - topicUuid
+      - updatedAt
+      - uuid
       type: object
-    mw-training-bff_internal_schemas.MessageResponse:
+    mw-training-bff_internal_schemas.TheoryMaterials:
       example:
-        messageReaders:
-        - ownerName: ownerName
-          readDate: readDate
-          userId: userId
-          ownerImageUrl: ownerImageUrl
-        - ownerName: ownerName
-          readDate: readDate
-          userId: userId
-          ownerImageUrl: ownerImageUrl
-        ownerName: ownerName
-        messageId: messageId
-        message: message
-        ownerId: ownerId
-        ownerImageUrl: ownerImageUrl
+        theoryMaterials:
+        - createdAt: createdAt
+          name: name
+          description: description
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          name: name
+          description: description
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        size: 0
       properties:
-        message:
-          type: string
-        messageId:
-          type: string
-        messageReaders:
+        size:
+          type: integer
+        theoryMaterials:
           items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.MessageReader'
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
           type: array
-        ownerId:
+      required:
+      - size
+      - theoryMaterials
+      type: object
+    mw-training-bff_internal_schemas.Topic:
+      example:
+        createdAt: createdAt
+        trainingUuid: trainingUuid
+        name: name
+        practiceMaterialAmount: 6
+        theoryMaterialAmount: 1
+        uuid: uuid
+        parentUuid: parentUuid
+        order: 0
+      properties:
+        createdAt:
           type: string
-        ownerImageUrl:
+        name:
           type: string
-        ownerName:
+        order:
+          type: integer
+        parentUuid:
+          nullable: true
+          type: string
+        practiceMaterialAmount:
+          type: integer
+        theoryMaterialAmount:
+          type: integer
+        trainingUuid:
+          type: string
+        uuid:
           type: string
       required:
-      - message
-      - messageId
-      - messageReaders
-      - ownerId
-      - ownerImageUrl
-      - ownerName
+      - createdAt
+      - name
+      - order
+      - parentUuid
+      - practiceMaterialAmount
+      - theoryMaterialAmount
+      - trainingUuid
+      - uuid
       type: object
-    mw-training-bff_internal_schemas.RoomPopulatedResponse:
+    mw-training-bff_internal_schemas.Training:
+      example:
+        owner:
+          imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        createdAt: createdAt
+        topics:
+        - createdAt: createdAt
+          trainingUuid: trainingUuid
+          name: name
+          practiceMaterialAmount: 6
+          theoryMaterialAmount: 1
+          uuid: uuid
+          parentUuid: parentUuid
+          order: 0
+        - createdAt: createdAt
+          trainingUuid: trainingUuid
+          name: name
+          practiceMaterialAmount: 6
+          theoryMaterialAmount: 1
+          uuid: uuid
+          parentUuid: parentUuid
+          order: 0
+        favoriteForUserUuids:
+        - favoriteForUserUuids
+        - favoriteForUserUuids
+        mentors:
+        - imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        - imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        trainingTag:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        name: name
+        description: description
+        students:
+        - imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        - imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        isPrivate: true
+        uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        description:
+          type: string
+        favoriteForUserUuids:
+          items:
+            type: string
+          type: array
+        isPrivate:
+          type: boolean
+        mentors:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
+          type: array
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
+        students:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
+          type: array
+        topics:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+          type: array
+        trainingTag:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingTag'
+          type: array
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - description
+      - favoriteForUserUuids
+      - isPrivate
+      - mentors
+      - name
+      - owner
+      - students
+      - topics
+      - trainingTag
+      - updatedAt
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.TrainingList:
+      example:
+        size: 0
+        trainings:
+        - owner:
+            imageUrl: imageUrl
+            name: name
+            uuid: uuid
+          createdAt: createdAt
+          favoriteForUsersAmount: 6
+          mentors:
+          - imageUrl: imageUrl
+            name: name
+            uuid: uuid
+          - imageUrl: imageUrl
+            name: name
+            uuid: uuid
+          topicsAmount: 5
+          trainingTag:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          name: name
+          description: description
+          isPrivate: true
+          studentsAmount: 1
+          uuid: uuid
+          updatedAt: updatedAt
+        - owner:
+            imageUrl: imageUrl
+            name: name
+            uuid: uuid
+          createdAt: createdAt
+          favoriteForUsersAmount: 6
+          mentors:
+          - imageUrl: imageUrl
+            name: name
+            uuid: uuid
+          - imageUrl: imageUrl
+            name: name
+            uuid: uuid
+          topicsAmount: 5
+          trainingTag:
+          - name: name
+            uuid: uuid
+          - name: name
+            uuid: uuid
+          name: name
+          description: description
+          isPrivate: true
+          studentsAmount: 1
+          uuid: uuid
+          updatedAt: updatedAt
+      properties:
+        size:
+          type: integer
+        trainings:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingPreview'
+          type: array
+      required:
+      - size
+      - trainings
+      type: object
+    mw-training-bff_internal_schemas.TrainingPreview:
+      example:
+        owner:
+          imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        createdAt: createdAt
+        favoriteForUsersAmount: 6
+        mentors:
+        - imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        - imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        topicsAmount: 5
+        trainingTag:
+        - name: name
+          uuid: uuid
+        - name: name
+          uuid: uuid
+        name: name
+        description: description
+        isPrivate: true
+        studentsAmount: 1
+        uuid: uuid
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        description:
+          type: string
+        favoriteForUsersAmount:
+          type: integer
+        isPrivate:
+          type: boolean
+        mentors:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
+          type: array
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
+        studentsAmount:
+          type: integer
+        topicsAmount:
+          type: integer
+        trainingTag:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingTag'
+          type: array
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - description
+      - favoriteForUsersAmount
+      - isPrivate
+      - mentors
+      - name
+      - owner
+      - studentsAmount
+      - topicsAmount
+      - trainingTag
+      - updatedAt
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.TrainingTag:
+      example:
+        name: name
+        uuid: uuid
+      properties:
+        name:
+          type: string
+        uuid:
+          type: string
+      required:
+      - name
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload:
+      properties:
+        answer:
+          type: string
+        name:
+          type: string
+        practiceType:
+          type: string
+        taskDescription:
+          type: string
+        timeToAnswer:
+          type: integer
+      type: object
+    mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload:
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      type: object
+    mw-training-bff_internal_schemas.UpdateTopicPayload:
+      properties:
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    mw-training-bff_internal_schemas.UpdateTrainingPayload:
+      properties:
+        description:
+          type: string
+        isPrivate:
+          type: boolean
+        name:
+          type: string
+      type: object
+    mw-training-bff_internal_schemas.User:
       example:
         imageUrl: imageUrl
-        isBlocked: true
         name: name
-        messages:
-        - messageReaders:
-          - ownerName: ownerName
-            readDate: readDate
-            userId: userId
-            ownerImageUrl: ownerImageUrl
-          - ownerName: ownerName
-            readDate: readDate
-            userId: userId
-            ownerImageUrl: ownerImageUrl
-          ownerName: ownerName
-          messageId: messageId
-          message: message
-          ownerId: ownerId
-          ownerImageUrl: ownerImageUrl
-        - messageReaders:
-          - ownerName: ownerName
-            readDate: readDate
-            userId: userId
-            ownerImageUrl: ownerImageUrl
-          - ownerName: ownerName
-            readDate: readDate
-            userId: userId
-            ownerImageUrl: ownerImageUrl
-          ownerName: ownerName
-          messageId: messageId
-          message: message
-          ownerId: ownerId
-          ownerImageUrl: ownerImageUrl
-        roomId: roomId
-        roomType: roomType
-        users:
-        - role: role
-          imageUrl: imageUrl
-          name: name
-          userId: userId
-        - role: role
-          imageUrl: imageUrl
-          name: name
-          userId: userId
+        uuid: uuid
       properties:
         imageUrl:
           type: string
-        isBlocked:
-          type: boolean
-        messages:
-          items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.MessageResponse'
-          type: array
         name:
           type: string
-        roomId:
-          type: string
-        roomType:
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.UserResponse'
-          type: array
-      required:
-      - imageUrl
-      - isBlocked
-      - messages
-      - name
-      - roomId
-      - roomType
-      - users
-      type: object
-    mw-training-bff_internal_schemas.RoomPreviewResponse:
-      example:
-        imageUrl: imageUrl
-        isBlocked: true
-        name: name
-        roomId: roomId
-        roomType: roomType
-        users:
-        - role: role
-          imageUrl: imageUrl
-          name: name
-          userId: userId
-        - role: role
-          imageUrl: imageUrl
-          name: name
-          userId: userId
-      properties:
-        imageUrl:
-          type: string
-        isBlocked:
-          type: boolean
-        name:
-          type: string
-        roomId:
-          type: string
-        roomType:
-          type: string
-        users:
-          items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.UserResponse'
-          type: array
-      required:
-      - imageUrl
-      - isBlocked
-      - name
-      - roomId
-      - roomType
-      - users
-      type: object
-    mw-training-bff_internal_schemas.UpdateMessageStatusPayload:
-      properties:
-        isRead:
-          type: boolean
-      required:
-      - isRead
-      type: object
-    mw-training-bff_internal_schemas.UploadFileResponse:
-      example:
-        previewUrl: previewUrl
-        name: name
-        srcUrl: srcUrl
-        id: id
-        ownerId: ownerId
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        ownerId:
-          type: string
-        previewUrl:
-          type: string
-        srcUrl:
-          type: string
-      required:
-      - id
-      - name
-      - ownerId
-      - previewUrl
-      - srcUrl
-      type: object
-    mw-training-bff_internal_schemas.UserResponse:
-      example:
-        role: role
-        imageUrl: imageUrl
-        name: name
-        userId: userId
-      properties:
-        imageUrl:
-          type: string
-        name:
-          type: string
-        role:
-          type: string
-        userId:
+        uuid:
           type: string
       required:
       - imageUrl
       - name
-      - role
-      - userId
-      type: object
-    upload_file_request:
-      properties:
-        file:
-          description: File to upload
-          format: binary
-          type: string
-      required:
-      - file
+      - uuid
       type: object
 x-original-swagger-version: "2.0"

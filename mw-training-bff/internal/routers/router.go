@@ -16,11 +16,16 @@ import (
 )
 
 type Router struct {
-	Gin           *gin.Engine
-	config        *config.Config
-	fileRouter    *fileRouter
-	roomRouter    *roomRouter
-	messageRouter *messageRouter
+	Gin                        *gin.Engine
+	config                     *config.Config
+	trainingTrainingTagRouter  *trainingTrainingTagRouter
+	trainingStudentRouter      *trainingStudentRouter
+	trainingMentorRouter       *trainingMentorRouter
+	trainingRouter             *trainingRouter
+	topicRouter                *topicRouter
+	theoryMaterialRouter       *theoryMaterialRouter
+	practiceMaterialRouter     *practiceMaterialRouter
+	favoriteUserTrainingRouter *favoriteUserTrainingRouter
 }
 
 func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
@@ -40,20 +45,30 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 	})
 
 	return &Router{
-		Gin:           ginRouter,
-		config:        config,
-		fileRouter:    newFileRouter(controller.FileController),
-		roomRouter:    newRoomRouter(controller.RoomsController),
-		messageRouter: newMessageRouter(controller.MessagesController),
+		Gin:                        ginRouter,
+		config:                     config,
+		trainingTrainingTagRouter:  newTrainingTrainingTagRouter(controller.TrainingTrainingTagController),
+		trainingStudentRouter:      newTrainingStudentRouter(controller.TrainingStudentController),
+		trainingMentorRouter:       newTrainingMentorRouter(controller.TrainingMentorController),
+		trainingRouter:             newTrainingRouter(controller.TrainingController),
+		topicRouter:                newTopicRouter(controller.TopicController),
+		theoryMaterialRouter:       newTheoryMaterialRouter(controller.TheoryMaterialController),
+		practiceMaterialRouter:     newPracticeMaterialRouter(controller.PracticeMaterialController),
+		favoriteUserTrainingRouter: newFavoriteUserTrainingRouter(controller.FavoriteUserTrainingController, config),
 	}
 }
 
 func (r *Router) SetRoutes() {
 	training := r.Gin.Group("/training", auth.HandleHeaders())
 
-	r.fileRouter.setFileRoutes(training)
-	r.roomRouter.setRoomRoutes(training)
-	r.messageRouter.setMessageRoutes(training)
+	r.trainingTrainingTagRouter.setTrainingTrainingTagRoutes(training)
+	r.trainingStudentRouter.setTrainingStudentRoutes(training)
+	r.trainingMentorRouter.setTrainingMentorRoutes(training)
+	r.trainingRouter.setTrainingRoutes(training)
+	r.topicRouter.setTopicRoutes(training)
+	r.theoryMaterialRouter.setTheoryMaterialRoutes(training)
+	r.practiceMaterialRouter.setPracticeMaterialRoutes(training)
+	r.favoriteUserTrainingRouter.setFavoriteUserTrainingRoutes(training)
 
 	if r.config.EnvType != "prod" {
 		r.Gin.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -78,32 +78,53 @@ All URIs are relative to */training*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FileAPI* | [**DeleteFiles**](docs/FileAPI.md#deletefiles) | **Delete** /files | Delete files by IDs
-*FileAPI* | [**UploadFile**](docs/FileAPI.md#uploadfile) | **Post** /files | Upload file to storage
-*MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message
-*MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
-*RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
-*RoomAPI* | [**DeleteUserFromRoom**](docs/RoomAPI.md#deleteuserfromroom) | **Delete** /rooms/{roomId}/users/{userId} | Delete user from room
-*RoomAPI* | [**FindOrCreateRoom**](docs/RoomAPI.md#findorcreateroom) | **Post** /rooms | Find or create room for user
-*RoomAPI* | [**GetChatPreview**](docs/RoomAPI.md#getchatpreview) | **Get** /rooms/preview | Get chat preview
-*RoomAPI* | [**GetRoomById**](docs/RoomAPI.md#getroombyid) | **Get** /rooms/{roomId} | Get room by id
-*RoomAPI* | [**GetRooms**](docs/RoomAPI.md#getrooms) | **Get** /rooms/list/{roomType} | Get rooms for user
-*RoomAPI* | [**UpdateRoom**](docs/RoomAPI.md#updateroom) | **Patch** /rooms/{roomId} | Update room
+*FavoriteUserTrainingAPI* | [**CreateFavoriteUserTraining**](docs/FavoriteUserTrainingAPI.md#createfavoriteusertraining) | **Post** /favoriteUserTrainings/{trainingId} | Create favorite user training
+*FavoriteUserTrainingAPI* | [**DeleteFavoriteUserTraining**](docs/FavoriteUserTrainingAPI.md#deletefavoriteusertraining) | **Delete** /favoriteUserTrainings/{trainingId} | Delete favorite user training
+*PracticeMaterialAPI* | [**CreatePracticeMaterial**](docs/PracticeMaterialAPI.md#createpracticematerial) | **Post** /practiceMaterials/{topicId} | Create practice material
+*PracticeMaterialAPI* | [**DeletePracticeMaterial**](docs/PracticeMaterialAPI.md#deletepracticematerial) | **Delete** /practiceMaterials/{practiceMaterialId} | Delete practice material
+*PracticeMaterialAPI* | [**GetPracticeMaterialsByTopicId**](docs/PracticeMaterialAPI.md#getpracticematerialsbytopicid) | **Get** /practiceMaterials/{topicId} | Get practice material by topic id
+*PracticeMaterialAPI* | [**UpdatePracticeMaterial**](docs/PracticeMaterialAPI.md#updatepracticematerial) | **Patch** /practiceMaterials/{practiceMaterialId} | Update practice material
+*TheoryMaterialAPI* | [**CreateTheoryMaterial**](docs/TheoryMaterialAPI.md#createtheorymaterial) | **Post** /theoryMaterials/{topicId} | Create theory material
+*TheoryMaterialAPI* | [**DeleteTheoryMaterial**](docs/TheoryMaterialAPI.md#deletetheorymaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
+*TheoryMaterialAPI* | [**GetTheoryMaterialsByTopicId**](docs/TheoryMaterialAPI.md#gettheorymaterialsbytopicid) | **Get** /theoryMaterials/{topicId} | Get theory material by topic id
+*TheoryMaterialAPI* | [**UpdateTheoryMaterial**](docs/TheoryMaterialAPI.md#updatetheorymaterial) | **Patch** /theoryMaterials/{theoryMaterialId} | Update theory material
+*TopicAPI* | [**CreateTopic**](docs/TopicAPI.md#createtopic) | **Post** /topics/{trainingId} | Create topic
+*TopicAPI* | [**DeleteTopic**](docs/TopicAPI.md#deletetopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
+*TopicAPI* | [**UpdateTopic**](docs/TopicAPI.md#updatetopic) | **Patch** /topics/{topicId} | Update topic
+*TrainingAPI* | [**CreateTraining**](docs/TrainingAPI.md#createtraining) | **Post** /trainings/{trainingId} | Create training
+*TrainingAPI* | [**DeleteTraining**](docs/TrainingAPI.md#deletetraining) | **Delete** /trainings/{trainingId} | Delete training by id
+*TrainingAPI* | [**GetTrainingById**](docs/TrainingAPI.md#gettrainingbyid) | **Get** /trainings/{trainingId} | Get training by Id
+*TrainingAPI* | [**GetTrainingList**](docs/TrainingAPI.md#gettraininglist) | **Get** /trainings | GEt training list
+*TrainingAPI* | [**GetTrainingListByUser**](docs/TrainingAPI.md#gettraininglistbyuser) | **Get** /trainings/users/{userId} | Get training list by user
+*TrainingAPI* | [**UpdateTraining**](docs/TrainingAPI.md#updatetraining) | **Patch** /trainings/{trainingId} | Update training by id
+*TrainingMentorAPI* | [**CreateTrainingMentor**](docs/TrainingMentorAPI.md#createtrainingmentor) | **Post** /trainingMentors/{trainingId}/user/{userId} | Create mentor
+*TrainingMentorAPI* | [**DeleteTrainingMentor**](docs/TrainingMentorAPI.md#deletetrainingmentor) | **Delete** /trainingMentors/{trainingId}/user/{userId} | Delete mentor by id
+*TrainingStudentAPI* | [**CreateTrainingStudent**](docs/TrainingStudentAPI.md#createtrainingstudent) | **Post** /trainingStudents/{trainingId}/user/{userId} | Create student
+*TrainingStudentAPI* | [**DeleteTrainingStudent**](docs/TrainingStudentAPI.md#deletetrainingstudent) | **Delete** /trainingStudents/{trainingId}/user/{userId} | Delete student
+*TrainingTrainingTagAPI* | [**CreateTrainingTrainingTag**](docs/TrainingTrainingTagAPI.md#createtrainingtrainingtag) | **Post** /trainingTrainingTags/{trainingId} | Create training training tag
+*TrainingTrainingTagAPI* | [**DeleteTrainingTrainingTag**](docs/TrainingTrainingTagAPI.md#deletetrainingtrainingtag) | **Delete** /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId} | Delete training training tag
 
 
 ## Documentation For Models
 
- - [MwTrainingBffInternalSchemasCreateMessagePayload](docs/MwTrainingBffInternalSchemasCreateMessagePayload.md)
- - [MwTrainingBffInternalSchemasCreateRoomPayload](docs/MwTrainingBffInternalSchemasCreateRoomPayload.md)
- - [MwTrainingBffInternalSchemasGetRoomPreviewResponse](docs/MwTrainingBffInternalSchemasGetRoomPreviewResponse.md)
- - [MwTrainingBffInternalSchemasGetRoomsResponse](docs/MwTrainingBffInternalSchemasGetRoomsResponse.md)
- - [MwTrainingBffInternalSchemasMessageReader](docs/MwTrainingBffInternalSchemasMessageReader.md)
- - [MwTrainingBffInternalSchemasMessageResponse](docs/MwTrainingBffInternalSchemasMessageResponse.md)
- - [MwTrainingBffInternalSchemasRoomPopulatedResponse](docs/MwTrainingBffInternalSchemasRoomPopulatedResponse.md)
- - [MwTrainingBffInternalSchemasRoomPreviewResponse](docs/MwTrainingBffInternalSchemasRoomPreviewResponse.md)
- - [MwTrainingBffInternalSchemasUpdateMessageStatusPayload](docs/MwTrainingBffInternalSchemasUpdateMessageStatusPayload.md)
- - [MwTrainingBffInternalSchemasUploadFileResponse](docs/MwTrainingBffInternalSchemasUploadFileResponse.md)
- - [MwTrainingBffInternalSchemasUserResponse](docs/MwTrainingBffInternalSchemasUserResponse.md)
+ - [MwTrainingBffInternalSchemasCreatePracticeMaterialPayload](docs/MwTrainingBffInternalSchemasCreatePracticeMaterialPayload.md)
+ - [MwTrainingBffInternalSchemasCreateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasCreateTheoryMaterialPayload.md)
+ - [MwTrainingBffInternalSchemasCreateTrainingPayload](docs/MwTrainingBffInternalSchemasCreateTrainingPayload.md)
+ - [MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload](docs/MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload.md)
+ - [MwTrainingBffInternalSchemasPracticeMaterial](docs/MwTrainingBffInternalSchemasPracticeMaterial.md)
+ - [MwTrainingBffInternalSchemasPracticeMaterials](docs/MwTrainingBffInternalSchemasPracticeMaterials.md)
+ - [MwTrainingBffInternalSchemasTheoryMaterial](docs/MwTrainingBffInternalSchemasTheoryMaterial.md)
+ - [MwTrainingBffInternalSchemasTheoryMaterials](docs/MwTrainingBffInternalSchemasTheoryMaterials.md)
+ - [MwTrainingBffInternalSchemasTopic](docs/MwTrainingBffInternalSchemasTopic.md)
+ - [MwTrainingBffInternalSchemasTraining](docs/MwTrainingBffInternalSchemasTraining.md)
+ - [MwTrainingBffInternalSchemasTrainingList](docs/MwTrainingBffInternalSchemasTrainingList.md)
+ - [MwTrainingBffInternalSchemasTrainingPreview](docs/MwTrainingBffInternalSchemasTrainingPreview.md)
+ - [MwTrainingBffInternalSchemasTrainingTag](docs/MwTrainingBffInternalSchemasTrainingTag.md)
+ - [MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload](docs/MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload.md)
+ - [MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload.md)
+ - [MwTrainingBffInternalSchemasUpdateTopicPayload](docs/MwTrainingBffInternalSchemasUpdateTopicPayload.md)
+ - [MwTrainingBffInternalSchemasUpdateTrainingPayload](docs/MwTrainingBffInternalSchemasUpdateTrainingPayload.md)
+ - [MwTrainingBffInternalSchemasUser](docs/MwTrainingBffInternalSchemasUser.md)
 
 
 ## Documentation For Authorization
