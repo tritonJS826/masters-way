@@ -49,14 +49,14 @@ func main() {
 	grpcServer := grpc.NewServer()
 	reflection.Register(grpcServer)
 
-	pb.RegisterTrainingTagServiceServer(grpcServer, newController.TrainingTagsController)
-	pb.RegisterTrainingServiceServer(grpcServer, newController.TrainingsController)
-	pb.RegisterTrainingMentorServiceServer(grpcServer, newController.TrainingMentorsController)
+	pb.RegisterTrainingTrainingTagServiceServer(grpcServer, newController.TrainingTrainingTagController)
+	pb.RegisterTrainingServiceServer(grpcServer, newController.TrainingController)
+	pb.RegisterTrainingMentorServiceServer(grpcServer, newController.TrainingMentorController)
 	pb.RegisterTrainingStudentServiceServer(grpcServer, newController.TrainingStudentController)
-	pb.RegisterFavoriteUsersTrainingsServiceServer(grpcServer, newController.FavoriteUsersTrainingsController)
-	pb.RegisterPracticeMaterialServiceServer(grpcServer, newController.PracticeMaterialsController)
-	pb.RegisterTheoryMaterialServiceServer(grpcServer, newController.TheoryMaterialsController)
-	pb.RegisterTopicsServiceServer(grpcServer, newController.TopicsController)
+	pb.RegisterFavoriteUsersTrainingsServiceServer(grpcServer, newController.FavoriteTrainingUserController)
+	pb.RegisterPracticeMaterialServiceServer(grpcServer, newController.PracticeMaterialController)
+	pb.RegisterTheoryMaterialServiceServer(grpcServer, newController.TheoryMaterialController)
+	pb.RegisterTopicsServiceServer(grpcServer, newController.TopicController)
 	pb.RegisterDevServer(grpcServer, newController.DevController)
 
 	go func() {

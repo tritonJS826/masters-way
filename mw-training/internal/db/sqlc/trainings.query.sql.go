@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const createTraining = `-- name: CreateTraining :exec
+const createTraining = `-- name: CreateTraining :one
 INSERT INTO trainings (
     name,
     description,
@@ -20,7 +20,7 @@ INSERT INTO trainings (
     $1,
     $2,
     $3
-)
+) RETURNING uuid, name, description, is_private, updated_at, created_at, owner_uuid
 `
 
 type CreateTrainingParams struct {
@@ -29,9 +29,19 @@ type CreateTrainingParams struct {
 	OwnerUuid   pgtype.UUID `json:"owner_uuid"`
 }
 
-func (q *Queries) CreateTraining(ctx context.Context, arg CreateTrainingParams) error {
-	_, err := q.db.Exec(ctx, createTraining, arg.Name, arg.Description, arg.OwnerUuid)
-	return err
+func (q *Queries) CreateTraining(ctx context.Context, arg CreateTrainingParams) (Training, error) {
+	row := q.db.QueryRow(ctx, createTraining, arg.Name, arg.Description, arg.OwnerUuid)
+	var i Training
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.Description,
+		&i.IsPrivate,
+		&i.UpdatedAt,
+		&i.CreatedAt,
+		&i.OwnerUuid,
+	)
+	return i, err
 }
 
 const deleteTraining = `-- name: DeleteTraining :exec
@@ -117,12 +127,13 @@ const getOwnTrainingList = `-- name: GetOwnTrainingList :many
 SELECT 
     uuid, name, description, is_private, updated_at, created_at, owner_uuid
 FROM trainings
+WHERE trainings.owner_uuid = $1
 `
 
 // LIMIT @limit
 // OFFSET @offset;
-func (q *Queries) GetOwnTrainingList(ctx context.Context) ([]Training, error) {
-	rows, err := q.db.Query(ctx, getOwnTrainingList)
+func (q *Queries) GetOwnTrainingList(ctx context.Context, ownerUuid pgtype.UUID) ([]Training, error) {
+	rows, err := q.db.Query(ctx, getOwnTrainingList, ownerUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -181,6 +192,28 @@ func (q *Queries) GetStudentTrainingList(ctx context.Context) ([]Training, error
 		return nil, err
 	}
 	return items, nil
+}
+
+const getTrainingById = `-- name: GetTrainingById :one
+SELECT
+    uuid, name, description, is_private, updated_at, created_at, owner_uuid
+FROM trainings
+WHERE trainings.uuid = $1
+`
+
+func (q *Queries) GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (Training, error) {
+	row := q.db.QueryRow(ctx, getTrainingById, trainingUuid)
+	var i Training
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.Description,
+		&i.IsPrivate,
+		&i.UpdatedAt,
+		&i.CreatedAt,
+		&i.OwnerUuid,
+	)
+	return i, err
 }
 
 const getTrainingList = `-- name: GetTrainingList :many
@@ -269,7 +302,7 @@ func (q *Queries) GetTrainingList(ctx context.Context, trainingName pgtype.Text)
 	return items, nil
 }
 
-const updateTraining = `-- name: UpdateTraining :exec
+const updateTraining = `-- name: UpdateTraining :one
 UPDATE trainings
 SET 
     name = coalesce($1, name),
@@ -286,12 +319,22 @@ type UpdateTrainingParams struct {
 	TrainingUuid pgtype.UUID `json:"training_uuid"`
 }
 
-func (q *Queries) UpdateTraining(ctx context.Context, arg UpdateTrainingParams) error {
-	_, err := q.db.Exec(ctx, updateTraining,
+func (q *Queries) UpdateTraining(ctx context.Context, arg UpdateTrainingParams) (Training, error) {
+	row := q.db.QueryRow(ctx, updateTraining,
 		arg.Name,
 		arg.Description,
 		arg.IsPrivate,
 		arg.TrainingUuid,
 	)
-	return err
+	var i Training
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.Description,
+		&i.IsPrivate,
+		&i.UpdatedAt,
+		&i.CreatedAt,
+		&i.OwnerUuid,
+	)
+	return i, err
 }

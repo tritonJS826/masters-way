@@ -15,11 +15,11 @@ type Querier interface {
 	CreatePracticeMaterialInTopic(ctx context.Context, arg CreatePracticeMaterialInTopicParams) (PracticeMaterial, error)
 	CreateTheoryMaterialInTopic(ctx context.Context, arg CreateTheoryMaterialInTopicParams) (TheoryMaterial, error)
 	CreateTopicInTraining(ctx context.Context, arg CreateTopicInTrainingParams) (Topic, error)
-	CreateTraining(ctx context.Context, arg CreateTrainingParams) error
+	CreateTraining(ctx context.Context, arg CreateTrainingParams) (Training, error)
 	CreateTrainingMentor(ctx context.Context, arg CreateTrainingMentorParams) (TrainingsMentor, error)
 	CreateTrainingStudent(ctx context.Context, arg CreateTrainingStudentParams) (TrainingsStudent, error)
 	CreateTrainingTag(ctx context.Context, name string) (TrainingTag, error)
-	CreateTrainingsTrainingTag(ctx context.Context, arg CreateTrainingsTrainingTagParams) (TrainingsTrainingTag, error)
+	CreateTrainingTrainingTag(ctx context.Context, arg CreateTrainingTrainingTagParams) (TrainingsTrainingTag, error)
 	DeleteFavoriteTrainingUserByIds(ctx context.Context, arg DeleteFavoriteTrainingUserByIdsParams) error
 	DeletePracticeMaterial(ctx context.Context, practiceMaterialUuid pgtype.UUID) (PracticeMaterial, error)
 	DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid pgtype.UUID) (TheoryMaterial, error)
@@ -27,18 +27,19 @@ type Querier interface {
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
 	DeleteTrainingMentorByIds(ctx context.Context, arg DeleteTrainingMentorByIdsParams) error
 	DeleteTrainingStudentByIds(ctx context.Context, arg DeleteTrainingStudentByIdsParams) error
-	DeleteTrainingsTrainingTagFromTraining(ctx context.Context, arg DeleteTrainingsTrainingTagFromTrainingParams) error
+	DeleteTrainingsTrainingTag(ctx context.Context, arg DeleteTrainingsTrainingTagParams) error
 	GetFavoriteTrainingList(ctx context.Context) ([]Training, error)
 	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]TrainingTag, error)
 	GetListTrainingTagsByTrainingIds(ctx context.Context, trainingUuids []pgtype.UUID) ([]GetListTrainingTagsByTrainingIdsRow, error)
 	GetMentoringTrainingList(ctx context.Context) ([]Training, error)
 	// LIMIT @limit
 	// OFFSET @offset;
-	GetOwnTrainingList(ctx context.Context) ([]Training, error)
+	GetOwnTrainingList(ctx context.Context, ownerUuid pgtype.UUID) ([]Training, error)
 	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error)
 	GetStudentTrainingList(ctx context.Context) ([]Training, error)
 	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error)
 	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]Topic, error)
+	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (Training, error)
 	// TODO: add filter by is private
 	GetTrainingList(ctx context.Context, trainingName pgtype.Text) ([]GetTrainingListRow, error)
 	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
@@ -108,7 +109,7 @@ type Querier interface {
 	UpdatePracticeMaterial(ctx context.Context, arg UpdatePracticeMaterialParams) (PracticeMaterial, error)
 	UpdateTheoryMaterial(ctx context.Context, arg UpdateTheoryMaterialParams) (TheoryMaterial, error)
 	UpdateTopic(ctx context.Context, arg UpdateTopicParams) (Topic, error)
-	UpdateTraining(ctx context.Context, arg UpdateTrainingParams) error
+	UpdateTraining(ctx context.Context, arg UpdateTrainingParams) (Training, error)
 }
 
 var _ Querier = (*Queries)(nil)

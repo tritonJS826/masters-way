@@ -1,4 +1,4 @@
--- name: CreateTraining :exec
+-- name: CreateTraining :one
 INSERT INTO trainings (
     name,
     description,
@@ -7,9 +7,9 @@ INSERT INTO trainings (
     @name,
     @description,
     @owner_uuid
-);
+) RETURNING *;
 
--- name: UpdateTraining :exec
+-- name: UpdateTraining :one
 UPDATE trainings
 SET 
     name = coalesce(sqlc.narg('name'), name),
@@ -67,7 +67,8 @@ ORDER BY
 -- name: GetOwnTrainingList :many
 SELECT 
     *
-FROM trainings;
+FROM trainings
+WHERE trainings.owner_uuid = @owner_uuid;
 
 -- name: GetMentoringTrainingList :many
 SELECT 
@@ -84,6 +85,12 @@ FROM trainings;
 SELECT 
     *
 FROM trainings;
+
+-- name: GetTrainingById :one
+SELECT
+    *
+FROM trainings
+WHERE trainings.uuid = @training_uuid;
 
 -- name: DeleteTraining :exec
 DELETE FROM trainings

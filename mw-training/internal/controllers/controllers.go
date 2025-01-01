@@ -3,7 +3,7 @@ package controllers
 import "mw-training/internal/services"
 
 type Controller struct {
-	TrainingTagController          *TrainingTagController
+	TrainingTrainingTagController  *TrainingTrainingTagController
 	TrainingController             *TrainingController
 	TrainingMentorController       *TrainingMentorController
 	TrainingStudentController      *TrainingStudentController
@@ -16,7 +16,7 @@ type Controller struct {
 
 func NewController(services *services.Service) *Controller {
 	return &Controller{
-		TrainingTagController:          NewTrainingTagController(services.TrainingTagService),
+		TrainingTrainingTagController:  NewTrainingTagController(services.TrainingTrainingTagService),
 		TrainingController:             NewTrainingController(services.TrainingService),
 		TrainingMentorController:       NewTrainingMentorController(services.TrainingMentorService),
 		TrainingStudentController:      NewTrainingStudentController(services.TrainingStudentService),

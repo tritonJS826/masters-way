@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const createTrainingsTrainingTag = `-- name: CreateTrainingsTrainingTag :one
+const createTrainingTrainingTag = `-- name: CreateTrainingTrainingTag :one
 INSERT INTO trainings_training_tags(
     training_uuid,
     tag_uuid
@@ -21,29 +21,29 @@ INSERT INTO trainings_training_tags(
 ) RETURNING training_uuid, tag_uuid, created_at
 `
 
-type CreateTrainingsTrainingTagParams struct {
+type CreateTrainingTrainingTagParams struct {
 	TrainingUuid pgtype.UUID `json:"training_uuid"`
 	TagUuid      pgtype.UUID `json:"tag_uuid"`
 }
 
-func (q *Queries) CreateTrainingsTrainingTag(ctx context.Context, arg CreateTrainingsTrainingTagParams) (TrainingsTrainingTag, error) {
-	row := q.db.QueryRow(ctx, createTrainingsTrainingTag, arg.TrainingUuid, arg.TagUuid)
+func (q *Queries) CreateTrainingTrainingTag(ctx context.Context, arg CreateTrainingTrainingTagParams) (TrainingsTrainingTag, error) {
+	row := q.db.QueryRow(ctx, createTrainingTrainingTag, arg.TrainingUuid, arg.TagUuid)
 	var i TrainingsTrainingTag
 	err := row.Scan(&i.TrainingUuid, &i.TagUuid, &i.CreatedAt)
 	return i, err
 }
 
-const deleteTrainingsTrainingTagFromTraining = `-- name: DeleteTrainingsTrainingTagFromTraining :exec
+const deleteTrainingsTrainingTag = `-- name: DeleteTrainingsTrainingTag :exec
 DELETE FROM trainings_training_tags
 WHERE trainings_training_tags.training_uuid = $1 AND trainings_training_tags.tag_uuid = $2
 `
 
-type DeleteTrainingsTrainingTagFromTrainingParams struct {
+type DeleteTrainingsTrainingTagParams struct {
 	TrainingUuid pgtype.UUID `json:"training_uuid"`
 	TagUuid      pgtype.UUID `json:"tag_uuid"`
 }
 
-func (q *Queries) DeleteTrainingsTrainingTagFromTraining(ctx context.Context, arg DeleteTrainingsTrainingTagFromTrainingParams) error {
-	_, err := q.db.Exec(ctx, deleteTrainingsTrainingTagFromTraining, arg.TrainingUuid, arg.TagUuid)
+func (q *Queries) DeleteTrainingsTrainingTag(ctx context.Context, arg DeleteTrainingsTrainingTagParams) error {
+	_, err := q.db.Exec(ctx, deleteTrainingsTrainingTag, arg.TrainingUuid, arg.TagUuid)
 	return err
 }

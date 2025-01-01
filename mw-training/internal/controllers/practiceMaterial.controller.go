@@ -21,7 +21,7 @@ func NewPracticeMaterialController(practiceMaterialService *services.PracticeMat
 	return &PracticeMaterialController{practiceMaterialService: practiceMaterialService}
 }
 
-func (ftc *PracticeMaterialController) CreatePracticeMaterial(ctx context.Context, in *pb.CreatePracticeMaterialRequest) (*db.PracticeMaterial, error) {
+func (ftc *PracticeMaterialController) CreatePracticeMaterial(ctx context.Context, in *pb.CreatePracticeMaterialRequest) (*pb.PracticeMaterial, error) {
 	topicUuid := in.GetTopicUuid()
 	name := in.GetName()
 	order := in.GetOrder()
@@ -45,7 +45,7 @@ func (ftc *PracticeMaterialController) CreatePracticeMaterial(ctx context.Contex
 		return nil, err
 	}
 
-	return &practiceMaterial, nil
+	return practiceMaterial, nil
 }
 
 func (pmc *PracticeMaterialController) UpdatePracticeMaterial(ctx context.Context, in *pb.UpdatePracticeMaterialRequest) (*pb.PracticeMaterial, error) {
@@ -68,13 +68,13 @@ func (pmc *PracticeMaterialController) UpdatePracticeMaterial(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
-	return &practiceMaterial, nil
+	return practiceMaterial, nil
 }
 
 func (ftc *PracticeMaterialController) DeletePracticeMaterial(ctx context.Context, in *pb.DeletePracticeMaterialRequest) (*emptypb.Empty, error) {
 	practiceMaterialUuid := in.GetMaterialUuid()
 
-	err := ftc.practiceMaterialService.DeletePracticeMaterial(ctx, pgtype.UUID{Bytes: uuid.MustParse(practiceMaterialUuid), Valid: true})
+	_, err := ftc.practiceMaterialService.DeletePracticeMaterial(ctx, pgtype.UUID{Bytes: uuid.MustParse(practiceMaterialUuid), Valid: true})
 	if err != nil {
 		return nil, err
 	}

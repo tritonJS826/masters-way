@@ -14,24 +14,18 @@ import (
 
 type TrainingController struct {
 	trainingService *services.TrainingService
-	pb.TheoryMaterialServiceServer
+	pb.TrainingServiceServer
 }
 
 func NewTrainingController(trainingService *services.TrainingService) *TrainingController {
 	return &TrainingController{trainingService: trainingService}
 }
 
-func (tc *TrainingController) CreateTraining(ctx context.Context, in *pb.CreateTrainingRequest) (*db.Training, error) {
-	trainingUuid := in.GetTrainingUuid()
+func (tc *TrainingController) CreateNewTraining(ctx context.Context, in *pb.CreateTrainingRequest) (*pb.Training, error) {
 	name := in.GetName()
-	trainingOrder := in.GetTrainingOrder()
-	parentTrainingUuid := in.GetParentTrainingUuid()
 
-	arg := db.CreateTrainingInTrainingParams{
-		TrainingUuid:  pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true},
-		Name:          pgtype.Text{String: name, Valid: true},
-		TrainingOrder: trainingOrder,
-		Parent:        pgtype.UUID{Bytes: uuid.MustParse(parentTrainingUuid), Valid: true},
+	arg := db.CreateTrainingParams{
+		Name: pgtype.Text{String: name, Valid: true},
 	}
 
 	training, err := tc.trainingService.CreateTraining(ctx, arg)
@@ -42,13 +36,41 @@ func (tc *TrainingController) CreateTraining(ctx context.Context, in *pb.CreateT
 	return &training, nil
 }
 
+func (tc *TrainingController) GetTrainingsList(ctx context.Context, in *pb.GetTrainingsListRequest) (*pb.TrainingPreviewList, error) {
+	userUuid := in.GetUserUuid()
+
+	trainings, err := tc.trainingService.GetTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.TrainingPreviewList{
+		TrainingList: trainings,
+	}, nil
+}
+
+func (tc *TrainingController) GetTrainingById(ctx context.Context, in *pb.GetTrainingRequest) (*pb.Training, error) {
+	trainingUuid := in.GetTrainingUuid()
+
+	training, err := tc.trainingService.GetTrainingById(ctx, pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true})
+	if err != nil {
+		return nil, err
+	}
+
+	return &training, nil
+}
+
 func (tc *TrainingController) UpdateTraining(ctx context.Context, in *pb.UpdateTrainingRequest) (*pb.Training, error) {
-	trainingName := in.GetName()
 	trainingUuid := in.GetUuid()
+	trainingName := in.GetName()
+	description := in.GetDescription()
+	isPrivate := in.GetIsPrivate()
 
 	arg := db.UpdateTrainingParams{
-		Name: pgtype.Text{String: trainingName, Valid: true},
-		Uuid: pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true},
+		TrainingUuid: pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true},
+		Name:         pgtype.Text{String: trainingName, Valid: true},
+		Description:  pgtype.Text{String: description, Valid: true},
+		IsPrivate:    pgtype.Bool{Bool: isPrivate, Valid: true},
 	}
 	training, err := tc.trainingService.UpdateTraining(ctx, arg)
 	if err != nil {
@@ -58,7 +80,7 @@ func (tc *TrainingController) UpdateTraining(ctx context.Context, in *pb.UpdateT
 }
 
 func (tc *TrainingController) DeleteTraining(ctx context.Context, in *pb.DeleteTrainingRequest) (*emptypb.Empty, error) {
-	trainingUuid := in.GetTrainingUuid()
+	trainingUuid := in.GetUuid()
 
 	err := tc.trainingService.DeleteTraining(ctx, pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true})
 	if err != nil {

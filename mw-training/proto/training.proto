@@ -6,10 +6,10 @@ package training;
 
 import "google/protobuf/empty.proto";
 
-service TrainingTagService {
-  rpc CreateTrainingTag(CreateTrainingTagRequest) returns (TrainingTag);
+service TrainingTrainingTagService {
+  rpc CreateTrainingTrainingTag(CreateTrainingTagRequest) returns (TrainingTag);
   rpc GetTrainingTags(GetTrainingTagsRequest) returns (TrainingTagList);
-  rpc DeleteTrainingTag(DeleteTrainingTagRequest) returns (google.protobuf.Empty);
+  rpc DeleteTrainingTrainingTag(DeleteTrainingTagRequest) returns (google.protobuf.Empty);
 }
 
 
@@ -17,7 +17,7 @@ service TrainingService {
   rpc CreateNewTraining(CreateTrainingRequest) returns (Training);
   rpc GetTrainingById(GetTrainingRequest) returns (Training);
   rpc GetTrainingsList(GetTrainingsListRequest) returns (TrainingPreviewList);
-  rpc UpdateTraining(UpdateTrainingRequest) returns (google.protobuf.Empty);
+  rpc UpdateTraining(UpdateTrainingRequest) returns (Training);
   rpc DeleteTraining(DeleteTrainingRequest) returns (google.protobuf.Empty);
 }
 
@@ -109,6 +109,8 @@ message GetTrainingsListRequest {
 message UpdateTrainingRequest {
   string uuid = 1;
   string name = 2;
+  string description = 3;
+  bool is_private = 4;
 }
 
 message DeleteTrainingRequest {

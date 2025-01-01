@@ -15,158 +15,159 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// TrainingTagServiceClient is the client API for TrainingTagService service.
+// TrainingTrainingTagServiceClient is the client API for TrainingTrainingTagService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TrainingTagServiceClient interface {
-	CreateTrainingTag(ctx context.Context, in *CreateTrainingTagRequest, opts ...grpc.CallOption) (*TrainingTag, error)
+type TrainingTrainingTagServiceClient interface {
+	CreateTrainingTrainingTag(ctx context.Context, in *CreateTrainingTagRequest, opts ...grpc.CallOption) (*TrainingTag, error)
 	GetTrainingTags(ctx context.Context, in *GetTrainingTagsRequest, opts ...grpc.CallOption) (*TrainingTagList, error)
-	DeleteTrainingTag(ctx context.Context, in *DeleteTrainingTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteTrainingTrainingTag(ctx context.Context, in *DeleteTrainingTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
-type trainingTagServiceClient struct {
+type trainingTrainingTagServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTrainingTagServiceClient(cc grpc.ClientConnInterface) TrainingTagServiceClient {
-	return &trainingTagServiceClient{cc}
+func NewTrainingTrainingTagServiceClient(cc grpc.ClientConnInterface) TrainingTrainingTagServiceClient {
+	return &trainingTrainingTagServiceClient{cc}
 }
 
-func (c *trainingTagServiceClient) CreateTrainingTag(ctx context.Context, in *CreateTrainingTagRequest, opts ...grpc.CallOption) (*TrainingTag, error) {
+func (c *trainingTrainingTagServiceClient) CreateTrainingTrainingTag(ctx context.Context, in *CreateTrainingTagRequest, opts ...grpc.CallOption) (*TrainingTag, error) {
 	out := new(TrainingTag)
-	err := c.cc.Invoke(ctx, "/training.TrainingTagService/CreateTrainingTag", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/training.TrainingTrainingTagService/CreateTrainingTrainingTag", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *trainingTagServiceClient) GetTrainingTags(ctx context.Context, in *GetTrainingTagsRequest, opts ...grpc.CallOption) (*TrainingTagList, error) {
+func (c *trainingTrainingTagServiceClient) GetTrainingTags(ctx context.Context, in *GetTrainingTagsRequest, opts ...grpc.CallOption) (*TrainingTagList, error) {
 	out := new(TrainingTagList)
-	err := c.cc.Invoke(ctx, "/training.TrainingTagService/GetTrainingTags", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/training.TrainingTrainingTagService/GetTrainingTags", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *trainingTagServiceClient) DeleteTrainingTag(ctx context.Context, in *DeleteTrainingTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *trainingTrainingTagServiceClient) DeleteTrainingTrainingTag(ctx context.Context, in *DeleteTrainingTagRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/training.TrainingTagService/DeleteTrainingTag", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/training.TrainingTrainingTagService/DeleteTrainingTrainingTag", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TrainingTagServiceServer is the server API for TrainingTagService service.
-// All implementations must embed UnimplementedTrainingTagServiceServer
+// TrainingTrainingTagServiceServer is the server API for TrainingTrainingTagService service.
+// All implementations must embed UnimplementedTrainingTrainingTagServiceServer
 // for forward compatibility
-type TrainingTagServiceServer interface {
-	CreateTrainingTag(context.Context, *CreateTrainingTagRequest) (*TrainingTag, error)
+type TrainingTrainingTagServiceServer interface {
+	CreateTrainingTrainingTag(context.Context, *CreateTrainingTagRequest) (*TrainingTag, error)
 	GetTrainingTags(context.Context, *GetTrainingTagsRequest) (*TrainingTagList, error)
-	DeleteTrainingTag(context.Context, *DeleteTrainingTagRequest) (*emptypb.Empty, error)
-	mustEmbedUnimplementedTrainingTagServiceServer()
+	DeleteTrainingTrainingTag(context.Context, *DeleteTrainingTagRequest) (*emptypb.Empty, error)
+	mustEmbedUnimplementedTrainingTrainingTagServiceServer()
 }
 
-// UnimplementedTrainingTagServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedTrainingTagServiceServer struct {
+// UnimplementedTrainingTrainingTagServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTrainingTrainingTagServiceServer struct {
 }
 
-func (UnimplementedTrainingTagServiceServer) CreateTrainingTag(context.Context, *CreateTrainingTagRequest) (*TrainingTag, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTrainingTag not implemented")
+func (UnimplementedTrainingTrainingTagServiceServer) CreateTrainingTrainingTag(context.Context, *CreateTrainingTagRequest) (*TrainingTag, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTrainingTrainingTag not implemented")
 }
-func (UnimplementedTrainingTagServiceServer) GetTrainingTags(context.Context, *GetTrainingTagsRequest) (*TrainingTagList, error) {
+func (UnimplementedTrainingTrainingTagServiceServer) GetTrainingTags(context.Context, *GetTrainingTagsRequest) (*TrainingTagList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTrainingTags not implemented")
 }
-func (UnimplementedTrainingTagServiceServer) DeleteTrainingTag(context.Context, *DeleteTrainingTagRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTrainingTag not implemented")
+func (UnimplementedTrainingTrainingTagServiceServer) DeleteTrainingTrainingTag(context.Context, *DeleteTrainingTagRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTrainingTrainingTag not implemented")
 }
-func (UnimplementedTrainingTagServiceServer) mustEmbedUnimplementedTrainingTagServiceServer() {}
+func (UnimplementedTrainingTrainingTagServiceServer) mustEmbedUnimplementedTrainingTrainingTagServiceServer() {
+}
 
-// UnsafeTrainingTagServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TrainingTagServiceServer will
+// UnsafeTrainingTrainingTagServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TrainingTrainingTagServiceServer will
 // result in compilation errors.
-type UnsafeTrainingTagServiceServer interface {
-	mustEmbedUnimplementedTrainingTagServiceServer()
+type UnsafeTrainingTrainingTagServiceServer interface {
+	mustEmbedUnimplementedTrainingTrainingTagServiceServer()
 }
 
-func RegisterTrainingTagServiceServer(s grpc.ServiceRegistrar, srv TrainingTagServiceServer) {
-	s.RegisterService(&TrainingTagService_ServiceDesc, srv)
+func RegisterTrainingTrainingTagServiceServer(s grpc.ServiceRegistrar, srv TrainingTrainingTagServiceServer) {
+	s.RegisterService(&TrainingTrainingTagService_ServiceDesc, srv)
 }
 
-func _TrainingTagService_CreateTrainingTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TrainingTrainingTagService_CreateTrainingTrainingTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateTrainingTagRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TrainingTagServiceServer).CreateTrainingTag(ctx, in)
+		return srv.(TrainingTrainingTagServiceServer).CreateTrainingTrainingTag(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/training.TrainingTagService/CreateTrainingTag",
+		FullMethod: "/training.TrainingTrainingTagService/CreateTrainingTrainingTag",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TrainingTagServiceServer).CreateTrainingTag(ctx, req.(*CreateTrainingTagRequest))
+		return srv.(TrainingTrainingTagServiceServer).CreateTrainingTrainingTag(ctx, req.(*CreateTrainingTagRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TrainingTagService_GetTrainingTags_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TrainingTrainingTagService_GetTrainingTags_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTrainingTagsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TrainingTagServiceServer).GetTrainingTags(ctx, in)
+		return srv.(TrainingTrainingTagServiceServer).GetTrainingTags(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/training.TrainingTagService/GetTrainingTags",
+		FullMethod: "/training.TrainingTrainingTagService/GetTrainingTags",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TrainingTagServiceServer).GetTrainingTags(ctx, req.(*GetTrainingTagsRequest))
+		return srv.(TrainingTrainingTagServiceServer).GetTrainingTags(ctx, req.(*GetTrainingTagsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TrainingTagService_DeleteTrainingTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TrainingTrainingTagService_DeleteTrainingTrainingTag_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteTrainingTagRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TrainingTagServiceServer).DeleteTrainingTag(ctx, in)
+		return srv.(TrainingTrainingTagServiceServer).DeleteTrainingTrainingTag(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/training.TrainingTagService/DeleteTrainingTag",
+		FullMethod: "/training.TrainingTrainingTagService/DeleteTrainingTrainingTag",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TrainingTagServiceServer).DeleteTrainingTag(ctx, req.(*DeleteTrainingTagRequest))
+		return srv.(TrainingTrainingTagServiceServer).DeleteTrainingTrainingTag(ctx, req.(*DeleteTrainingTagRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// TrainingTagService_ServiceDesc is the grpc.ServiceDesc for TrainingTagService service.
+// TrainingTrainingTagService_ServiceDesc is the grpc.ServiceDesc for TrainingTrainingTagService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TrainingTagService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "training.TrainingTagService",
-	HandlerType: (*TrainingTagServiceServer)(nil),
+var TrainingTrainingTagService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.TrainingTrainingTagService",
+	HandlerType: (*TrainingTrainingTagServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateTrainingTag",
-			Handler:    _TrainingTagService_CreateTrainingTag_Handler,
+			MethodName: "CreateTrainingTrainingTag",
+			Handler:    _TrainingTrainingTagService_CreateTrainingTrainingTag_Handler,
 		},
 		{
 			MethodName: "GetTrainingTags",
-			Handler:    _TrainingTagService_GetTrainingTags_Handler,
+			Handler:    _TrainingTrainingTagService_GetTrainingTags_Handler,
 		},
 		{
-			MethodName: "DeleteTrainingTag",
-			Handler:    _TrainingTagService_DeleteTrainingTag_Handler,
+			MethodName: "DeleteTrainingTrainingTag",
+			Handler:    _TrainingTrainingTagService_DeleteTrainingTrainingTag_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -180,7 +181,7 @@ type TrainingServiceClient interface {
 	CreateNewTraining(ctx context.Context, in *CreateTrainingRequest, opts ...grpc.CallOption) (*Training, error)
 	GetTrainingById(ctx context.Context, in *GetTrainingRequest, opts ...grpc.CallOption) (*Training, error)
 	GetTrainingsList(ctx context.Context, in *GetTrainingsListRequest, opts ...grpc.CallOption) (*TrainingPreviewList, error)
-	UpdateTraining(ctx context.Context, in *UpdateTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateTraining(ctx context.Context, in *UpdateTrainingRequest, opts ...grpc.CallOption) (*Training, error)
 	DeleteTraining(ctx context.Context, in *DeleteTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -219,8 +220,8 @@ func (c *trainingServiceClient) GetTrainingsList(ctx context.Context, in *GetTra
 	return out, nil
 }
 
-func (c *trainingServiceClient) UpdateTraining(ctx context.Context, in *UpdateTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *trainingServiceClient) UpdateTraining(ctx context.Context, in *UpdateTrainingRequest, opts ...grpc.CallOption) (*Training, error) {
+	out := new(Training)
 	err := c.cc.Invoke(ctx, "/training.TrainingService/UpdateTraining", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -244,7 +245,7 @@ type TrainingServiceServer interface {
 	CreateNewTraining(context.Context, *CreateTrainingRequest) (*Training, error)
 	GetTrainingById(context.Context, *GetTrainingRequest) (*Training, error)
 	GetTrainingsList(context.Context, *GetTrainingsListRequest) (*TrainingPreviewList, error)
-	UpdateTraining(context.Context, *UpdateTrainingRequest) (*emptypb.Empty, error)
+	UpdateTraining(context.Context, *UpdateTrainingRequest) (*Training, error)
 	DeleteTraining(context.Context, *DeleteTrainingRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTrainingServiceServer()
 }
@@ -262,7 +263,7 @@ func (UnimplementedTrainingServiceServer) GetTrainingById(context.Context, *GetT
 func (UnimplementedTrainingServiceServer) GetTrainingsList(context.Context, *GetTrainingsListRequest) (*TrainingPreviewList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTrainingsList not implemented")
 }
-func (UnimplementedTrainingServiceServer) UpdateTraining(context.Context, *UpdateTrainingRequest) (*emptypb.Empty, error) {
+func (UnimplementedTrainingServiceServer) UpdateTraining(context.Context, *UpdateTrainingRequest) (*Training, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTraining not implemented")
 }
 func (UnimplementedTrainingServiceServer) DeleteTraining(context.Context, *DeleteTrainingRequest) (*emptypb.Empty, error) {

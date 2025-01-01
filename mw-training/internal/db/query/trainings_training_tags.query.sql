@@ -1,4 +1,4 @@
--- name: CreateTrainingsTrainingTag :one
+-- name: CreateTrainingTrainingTag :one
 INSERT INTO trainings_training_tags(
     training_uuid,
     tag_uuid
@@ -7,6 +7,6 @@ INSERT INTO trainings_training_tags(
     @tag_uuid
 ) RETURNING *;
 
--- name: DeleteTrainingsTrainingTagFromTraining :exec
+-- name: DeleteTrainingsTrainingTag :exec
 DELETE FROM trainings_training_tags
 WHERE trainings_training_tags.training_uuid = @training_uuid AND trainings_training_tags.tag_uuid = @tag_uuid;

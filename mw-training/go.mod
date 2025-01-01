@@ -11,6 +11,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.1
+	github.com/samber/lo v1.47.0
 	github.com/spf13/viper v1.19.0
 	github.com/swaggo/swag v1.16.3
 	go-common v0.0.0-00010101000000-000000000000
