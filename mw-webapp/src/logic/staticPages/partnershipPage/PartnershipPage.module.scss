@@ -27,13 +27,13 @@ $buttonBlockPadding: 10px;
 
 .title {
   text-align: center;
+}
 
-  & h1 {
-    font-size: $fontSizeTitleLarge;
+.headingLevelH1 {
+  font-size: $fontSizeTitleLarge;
 
-    @media (max-width: $mediaWidthMobileBig) {
-      font-size: $fontSizeTitleBig;
-    }
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleBig;
   }
 }
 
@@ -59,8 +59,13 @@ $buttonBlockPadding: 10px;
 
 .whyBlockTitle {
   text-align: center;
-  & h2 {
-    font-size: $fontSizeTitleBig;
+}
+
+.headingLevelH2 {
+  font-size: $fontSizeTitleBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleMedium;
   }
 }
 

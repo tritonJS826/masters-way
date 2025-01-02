@@ -5,6 +5,7 @@ import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
 import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
+import styles from "src/component/title/Title.module.scss";
 
 /**
  * Enum representing HTML heading levels.
@@ -161,7 +162,7 @@ export const Title = (props: TitleProps) => {
           <Heading
             onClick={props.onClick}
             as={props.level}
-            className={clsx(props.classNameHeading)}
+            className={clsx(styles.heading, props.classNameHeading)}
           >
             {text === "" ? props.placeholder : text}
           </Heading>
