@@ -113,6 +113,7 @@ export const HeaderLanding = (props: HeaderLandingProps) => {
             TrackHeader.trackThemeClick();
             props.setTheme(theme);
           }}
+          className={styles.themeSwitcher}
         />
 
         <Select

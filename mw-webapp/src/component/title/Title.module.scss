@@ -1,30 +1,17 @@
 @import "src/styles/variables";
 
 h1 {
-  font-size: $fontSizeTitleBig;
+  font-size: $fontSizeTitleLarge;
 
   @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeTitleMedium;
-  }
-}
-
-h2 {
-  font-size: $fontSizeTitleMedium;
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeTitleSmall;
+    font-size: $fontSizeTitleBig;
   }
 }
 
 h3 {
   font-size: $fontSizeBig;
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeSmall;
-  }
 }
 
-h4 {
-  font-size: $fontSizeTitleExtraSmall;
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeBig;
-  }
+h6 {
+  font-size: $fontSizeMedium;
 }

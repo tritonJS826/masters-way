@@ -57,13 +57,6 @@
     text-align: center;
   }
 }
-.headingLevelH1 {
-  font-size: $fontSizeTitleLarge;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeTitleBig;
-  }
-}
 
 .titleDescription {
   font-weight: $fontWeightSemibold;
@@ -128,14 +121,13 @@
 .systemBlockTitle,
 .aboutAppBlockTitle {
   text-align: center;
-}
 
-.headingLevelH2 {
-  font-size: $fontSizeTitleBig;
+  & h2 {
+    font-size: $fontSizeTitleBig;
 
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeTitleMedium;
-    text-align: center;
+    @media (max-width: $mediaWidthMobileBig) {
+      text-align: center;
+    }
   }
 }
 

@@ -257,12 +257,10 @@ export const AllWaysPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allWays.waysTable.leftTitle[language]} (${allWays.length})`}
           placeholder=""
-          classNameHeading={styles.headingLevelH2}
           cy={{dataCyTitleContainer: allWaysAccessIds.allWaysTitles.title}}
         />
         <Title
           level={HeadingLevel.h2}
-          classNameHeading={styles.headingLevelH2}
           text={`${LanguageService.allWays.waysTable.rightTitle[language]}: ${allWaysAmount}`}
           placeholder=""
         />

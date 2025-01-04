@@ -25,8 +25,37 @@
   align-items: center;
 }
 
+.labelsBlock {
+  gap: $gapSmall;
+}
+
+.contentBlock {
+  gap: $gapExtraSmall;
+}
+
 .ownerName {
   flex: 1;
+}
+
+.tagsBlockTrigger {
+  cursor: pointer;
+}
+
+.editableTime {
+  min-width: 46px;
+  max-width: 46px;
+  cursor: pointer;
+  text-align: right;
+}
+
+.addTagButton {
+  padding: 0;
+  border: none;
+  &:hover {
+    background-color: transparent;
+    color: var(--primaryTextColor);
+    cursor: pointer;
+  }
 }
 
 .linkToOwnerWay {

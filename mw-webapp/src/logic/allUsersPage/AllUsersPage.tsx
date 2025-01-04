@@ -232,14 +232,12 @@ export const AllUsersPage = observer(() => {
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.leftTitle[language]} (${allUsers.length})`}
           placeholder=""
-          classNameHeading={styles.headingLevelH2}
           cy={{dataCyTitleContainer: allUsersAccessIds.allUsersTitles.title}}
         />
         <Title
           level={HeadingLevel.h2}
           text={`${LanguageService.allUsers.usersTable.rightTitle[language]}: ${allUsersAmount}`}
           placeholder=""
-          classNameHeading={styles.headingLevelH2}
           cy={{dataCyTitleContainer: allUsersAccessIds.allUsersTitles.totalFoundTitle}}
         />
       </HorizontalContainer>

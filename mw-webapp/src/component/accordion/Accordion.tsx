@@ -4,6 +4,7 @@ import clsx from "clsx";
 import {AccordionContentProps} from "src/component/accordion/AccordionContent/AccordionContent";
 import {AccordionItem} from "src/component/accordion/AccordionItem/AccordionItem";
 import {AccordionTriggerProps} from "src/component/accordion/AccordionTrigger/AccordionTrigger";
+import styles from "src/component/accordion/Accordion.module.scss";
 
 /**
  * Enum defines the available modes of operation for the accordion component.
@@ -80,7 +81,7 @@ const renderAccordionItem = (item: AccordionItemData, uniqueId: string) => (
 export const Accordion = (props: AccordionProps) => {
   return (
     <RadixAccordionRoot
-      className={clsx(props.className)}
+      className={clsx(styles.accordionRoot, props.className)}
       type={props.type ?? accordionTypes.SINGLE}
     >
       {props.items.map((item) => {

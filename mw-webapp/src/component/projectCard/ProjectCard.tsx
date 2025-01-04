@@ -54,7 +54,6 @@ export const ProjectCard = (props: ProjectProps) => {
                 level={HeadingLevel.h3}
                 text={props.projectTitle}
                 className={styles.title}
-                classNameHeading={styles.headingLevelH3}
                 placeholder=""
                 cy={{dataCyTitleContainer: projectsAccessIds.projectTitle}}
               />

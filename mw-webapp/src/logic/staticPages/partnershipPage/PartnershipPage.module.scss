@@ -29,14 +29,6 @@ $buttonBlockPadding: 10px;
   text-align: center;
 }
 
-.headingLevelH1 {
-  font-size: $fontSizeTitleLarge;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeTitleBig;
-  }
-}
-
 .subtitle {
   margin-bottom: $marginSmall;
   text-align: center;
@@ -59,13 +51,8 @@ $buttonBlockPadding: 10px;
 
 .whyBlockTitle {
   text-align: center;
-}
-
-.headingLevelH2 {
-  font-size: $fontSizeTitleBig;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeTitleMedium;
+  & h2 {
+    font-size: $fontSizeTitleBig;
   }
 }
 

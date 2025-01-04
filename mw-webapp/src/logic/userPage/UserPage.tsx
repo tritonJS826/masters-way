@@ -586,7 +586,10 @@ export const UserPage = observer((props: UserPageProps) => {
                   content={
                     !isFindMentorRequestSent
                       ? (
-                        <VerticalContainer dataCy={userPersonalDataAccessIds.findMentor.form}>
+                        <VerticalContainer
+                          className={styles.modalContainer}
+                          dataCy={userPersonalDataAccessIds.findMentor.form}
+                        >
                           <Form
                             onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
                               await SurveyDAL.surveyFindMentor({

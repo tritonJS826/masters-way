@@ -73,7 +73,6 @@ export const PartnershipPage = observer(() => {
           level={HeadingLevel.h1}
           text={LanguageService.partnership.partnershipMainBlock.title[language]}
           className={styles.title}
-          classNameHeading={styles.headingLevelH1}
           placeholder=""
           cy={{dataCyTitleContainer: partnershipAccessIds.mainBlock.title}}
         />
@@ -96,7 +95,6 @@ export const PartnershipPage = observer(() => {
       <VerticalContainer className={styles.whyBlock}>
         <Title
           level={HeadingLevel.h2}
-          classNameHeading={styles.headingLevelH2}
           text={LanguageService.partnership.whyBlock.title[language]}
           className={styles.whyBlockTitle}
           placeholder=""
@@ -135,11 +133,10 @@ export const PartnershipPage = observer(() => {
         <Title
           level={HeadingLevel.h2}
           text={LanguageService.partnership.reviews.title[language]}
-          classNameHeading={styles.headingLevelH2}
           className={styles.whyBlockTitle}
           placeholder=""
         />
-        <HorizontalContainer>
+        <HorizontalContainer className={styles.reviewList}>
           <Slider
             sliderItems={reviewCards}
             settings={{pagination: false}}
@@ -152,7 +149,6 @@ export const PartnershipPage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.partnership.becomePartner.title[language]}
           className={styles.whyBlockTitle}
-          classNameHeading={styles.headingLevelH2}
           placeholder=""
         />
         <StepItem
@@ -190,7 +186,6 @@ export const PartnershipPage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.partnership.promotion.title[language]}
           className={styles.whyBlockTitle}
-          classNameHeading={styles.headingLevelH2}
           placeholder=""
         />
         <HorizontalContainer className={styles.promotionList}>
@@ -232,7 +227,6 @@ export const PartnershipPage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.partnership.formBlock.title[language]}
           className={styles.whyBlockTitle}
-          classNameHeading={styles.headingLevelH2}
           placeholder=""
         />
         <Title
@@ -256,7 +250,6 @@ export const PartnershipPage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.partnership.questions.title[language]}
           className={styles.title}
-          classNameHeading={styles.headingLevelH2}
           placeholder=""
         />
 

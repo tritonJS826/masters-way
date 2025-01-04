@@ -78,7 +78,7 @@ export const Footer = (props: FooterProps) => {
                 placeholder=""
                 classNameHeading={styles.socialMediaText}
               />
-              <HorizontalContainer>
+              <HorizontalContainer className={styles.socialMediaIcons}>
                 <Modal
                   trigger={
                     <div
@@ -117,7 +117,7 @@ export const Footer = (props: FooterProps) => {
                 placeholder=""
                 classNameHeading={styles.socialMediaText}
               />
-              <HorizontalContainer>
+              <HorizontalContainer className={styles.socialMediaIcons}>
                 <Link
                   path="https://linkedin.com/company/masters-way-project"
                   isNewTab

@@ -25,13 +25,9 @@ $titleWithBurgerBlockHeight: 32px;
   border-top-right-radius: inherit;
   gap: $gapSmall;
   text-align: left;
-}
 
-.headingLevelH3 {
-  font-size: $fontSizeBig;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    font-size: $fontSizeMedium;
+  & h3 {
+    font-size: $fontSizeBig;
   }
 }
 

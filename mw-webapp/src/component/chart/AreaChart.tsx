@@ -15,7 +15,6 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
-import styles from "src/component/chart/AreaChart.module.scss";
 
 ChartJS.register(
   CategoryScale,
@@ -130,7 +129,7 @@ export const AreaChart = observer((props: AreaChartProps) => {
     <Line
       options={optionsMemoized}
       data={data}
-      className={styles.areaChart}
+      style={{maxHeight: "250px"}}
     />
   );
 });

@@ -122,7 +122,7 @@ export const MentorsLandingPage = observer(() => {
 
   return (
     <>
-      <div>
+      <div className={styles.container}>
         <HeaderLanding
           language={language}
           setLanguage={setLanguage}

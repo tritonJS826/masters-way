@@ -135,7 +135,10 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
               )
             }
             <div className={styles.metricDescription}>
-              <Tooltip content={tooltipContent}>
+              <Tooltip
+                content={tooltipContent}
+                className={styles.tooltip}
+              >
                 <EditableTextarea
                   text={childMetric.description ?? ""}
                   onChangeFinish={async (description) => {

@@ -109,7 +109,6 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
                 level={HeadingLevel.h3}
                 text={props.collectionTitle}
                 className={styles.title}
-                classNameHeading={styles.headingLevelH3}
                 placeholder=""
               />
               {isRenameCollectionModalOpen &&

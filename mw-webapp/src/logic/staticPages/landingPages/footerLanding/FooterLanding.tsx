@@ -78,7 +78,7 @@ export const FooterLanding = (props: FooterLandingProps) => {
                 placeholder=""
                 classNameHeading={styles.socialMediaText}
               />
-              <HorizontalContainer>
+              <HorizontalContainer className={styles.socialMediaIcons}>
                 <Modal
                   trigger={
                     <div
