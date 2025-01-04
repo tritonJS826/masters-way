@@ -96,7 +96,10 @@ export const NotificationItem = (props: NotificationItemProps) => {
       path={url}
       className={styles.notificationLink}
     >
-      <VerticalContainer className={clsx(styles.notificationItem, props.isNotificationRead && styles.notRead, props.className)}>
+      <VerticalContainer
+        className={clsx(styles.notificationItem, props.isNotificationRead && styles.notRead, props.className)}
+        onClick={() => props.onClick()}
+      >
         <HorizontalContainer className={styles.notificationBlock}>
           <VerticalContainer className={styles.notificationTexts}>
             <Title
