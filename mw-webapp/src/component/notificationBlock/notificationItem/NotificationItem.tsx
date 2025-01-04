@@ -1,7 +1,7 @@
+import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
-import {Link} from "src/component/link/Link";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -70,6 +70,7 @@ const urlParser = (
   nature: NotificationNature,
 ) => {
   const path = new URL(url).pathname;
+
   switch (nature) {
     case "own_way":
       return path;
@@ -88,43 +89,46 @@ const urlParser = (
  * NotificationItem component
  */
 export const NotificationItem = (props: NotificationItemProps) => {
+  const navigate = useNavigate();
   const url = urlParser(props.originalUrl, props.nature);
+
   const isUrlWillTransfer = url !== window.location.pathname;
 
   return (
-    <Link
-      path={url}
-      className={styles.notificationLink}
+    <VerticalContainer
+      className={clsx(styles.notificationItem, props.isNotificationRead && styles.notRead, props.className)}
+      onClick={() => {
+        props.onClick();
+        navigate(url);
+      }}
     >
-      <VerticalContainer className={clsx(styles.notificationItem, props.isNotificationRead && styles.notRead, props.className)}>
-        <HorizontalContainer className={styles.notificationBlock}>
-          <VerticalContainer className={styles.notificationTexts}>
-            <Title
-              level={HeadingLevel.h3}
-              text={props.title}
-              placeholder=""
+      <HorizontalContainer className={styles.notificationBlock}>
+        <VerticalContainer className={styles.notificationTexts}>
+          <Title
+            level={HeadingLevel.h3}
+            text={props.title}
+            placeholder=""
+          />
+          <Tooltip
+            position={PositionTooltip.BOTTOM}
+            content={props.description}
+          >
+            <div className={styles.notificationDescription}>
+              {props.description}
+            </div>
+          </Tooltip>
+        </VerticalContainer>
+        {isUrlWillTransfer
+          ? (
+            <Icon
+              name="ArrowRightIcon"
+              size={IconSize.SMALL}
             />
-            <Tooltip
-              position={PositionTooltip.BOTTOM}
-              content={props.description}
-            >
-              <div className={styles.notificationDescription}>
-                {props.description}
-              </div>
-            </Tooltip>
-          </VerticalContainer>
-          {isUrlWillTransfer
-            ? (
-              <Icon
-                name="ArrowRightIcon"
-                size={IconSize.SMALL}
-              />
-            )
-            : (
-              <div className={styles.spaceForArrow} />
-            )}
-        </HorizontalContainer>
-      </VerticalContainer>
-    </Link>
+          )
+          : (
+            <div className={styles.spaceForArrow} />
+          )}
+      </HorizontalContainer>
+    </VerticalContainer>
   );
 };
