@@ -28,6 +28,11 @@
   padding: $paddingExtraSmall 0;
 }
 
+.notificationLink {
+  width: 100%;
+  text-decoration: none;
+}
+
 .notificationDescription {
   display: -webkit-box;
   overflow: hidden;
