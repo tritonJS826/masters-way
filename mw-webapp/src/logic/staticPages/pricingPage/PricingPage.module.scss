@@ -26,9 +26,13 @@
 
 .pricingTitle {
   max-width: $maxWidthBlock;
+}
 
-  & h2 {
-    font-size: $fontSizeTitleBig;
+.headingLevelH2 {
+  font-size: $fontSizeTitleBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleMedium;
   }
 }
 
