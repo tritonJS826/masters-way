@@ -20,8 +20,9 @@ import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
+import {useStore} from "src/hooks/useStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
-import {chatListStore} from "src/logic/chat/ChatListStore";
+import {ChatListStore} from "src/logic/chat/ChatListStore";
 import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
@@ -40,6 +41,14 @@ export const ChatContent = observer(() => {
   const {isChatOpen, activeRoomStore, addUnreadMessageToAmount} = chatStore;
   const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(activeRoomStore);
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
+
+  const chatListStore = useStore<
+  new (roomType: RoomType) => ChatListStore,
+  [], ChatListStore>({
+      storeForInitialize: ChatListStore,
+      dataForInitialization: [RoomType.PRIVATE],
+      dependency: [],
+    });
   const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);

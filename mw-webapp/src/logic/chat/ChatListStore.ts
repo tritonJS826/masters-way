@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, runInAction} from "mobx";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 
@@ -46,8 +46,9 @@ export class ChatListStore {
    */
   public loadChatList = async () => {
     const fetchedChats = await ChatDAL.getRooms(this.roomType);
-
-    this.chatList = fetchedChats.chatsPreview;
+    runInAction(() => {
+      this.chatList = fetchedChats.chatsPreview;
+    });
   };
 
   /**
@@ -59,4 +60,3 @@ export class ChatListStore {
 
 }
 
-export const chatListStore = new ChatListStore();

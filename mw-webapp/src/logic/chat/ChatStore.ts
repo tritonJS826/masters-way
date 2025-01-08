@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, runInAction} from "mobx";
 import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
 import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 
@@ -47,8 +47,10 @@ class ChatStore {
    */
   public loadUnreadMessagesAmount = async () => {
     const unreadMessages = await ChatDAL.getChatPreview();
+    runInAction(() => {
+      this.unreadMessagesAmount = unreadMessages;
+    });
 
-    this.unreadMessagesAmount = unreadMessages;
   };
 
   /**
