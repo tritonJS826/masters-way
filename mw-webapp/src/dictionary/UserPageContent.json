@@ -156,15 +156,20 @@
     }
   },
   "tabs": {
-    "collections": {
-      "ru": "Коллекции",
-      "en": "Collections",
-      "ua": "Колекції"
+    "ways": {
+      "ru": "Пути",
+      "en": "Ways",
+      "ua": "Шляхи"
     },
     "projects": {
       "ru": "Проекты",
       "en": "Projects",
       "ua": "Проекти"
+    },
+    "trainings": {
+      "ru": "Тренинги",
+      "en": "Trainings",
+      "ua": "Тренінги"
     }
   },
   "collections": {
@@ -279,6 +284,13 @@
       "ru": "Действия проекта",
       "en": "Project actions",
       "ua": "Дії проекту"
+    }
+  },
+  "trainings": {
+    "addTraining": {
+      "ru": "Добавить тренинг",
+      "en": "Add training",
+      "ua": "Додайте тренінг"
     }
   },
   "filterBlock": {

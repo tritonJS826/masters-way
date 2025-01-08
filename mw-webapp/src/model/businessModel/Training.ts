@@ -1,36 +1,55 @@
 import {makeAutoObservable} from "mobx";
-import {UserPlain} from "src/model/businessModel/User";
-import {TrainingTag} from "src/model/businessModelPreview/TrainingPreview";
+import {TrainingTag, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 
 /**
  * Training topic props
  */
 interface TrainingTopicProps {
 
-    /**
-     * Training topic uuid
-     */
+  /**
+   * Training topic uuid
+   */
   uuid: string;
 
-    /**
-     * Training topic name
-     */
+  /**
+   * Training topic name
+   */
   name: string;
 
-    /**
-     * Training topic order
-     */
+  /**
+   * Training topic order
+   */
   order: number;
 
-    /**
-     * Parent topic uuid
-     */
+  /**
+   * Parent topic uuid
+   */
   parentUuid: string | null;
 
-    /**
-     * Topic children
-     */
+  /**
+   * Topic children
+   */
   children: TrainingTopic[];
+
+  /**
+   * Topic's createdAt Date
+   */
+  createdAt: Date;
+
+  /**
+   * Practice material amount
+   */
+  practiceMaterialAmount: number;
+
+  /**
+   * Theory material amount
+   */
+  theoryMaterialAmount: number;
+
+  /**
+   * Training's uuid
+   */
+  trainingUuid: string;
 
 }
 
@@ -64,6 +83,26 @@ export class TrainingTopic {
    */
   public children: TrainingTopic[];
 
+  /**
+   * Topic's createdAt Date
+   */
+  public createdAt: Date;
+
+  /**
+   * Practice material amount
+   */
+  public practiceMaterialAmount: number;
+
+  /**
+   * Theory material amount
+   */
+  public theoryMaterialAmount: number;
+
+  /**
+   * Training's uuid
+   */
+  public trainingUuid: string;
+
   constructor(trainingTopic: TrainingTopicProps) {
     makeAutoObservable(this);
     this.name = trainingTopic.name;
@@ -71,6 +110,10 @@ export class TrainingTopic {
     this.order = trainingTopic.order;
     this.parentUuid = trainingTopic.parentUuid;
     this.children = trainingTopic.children;
+    this.createdAt = trainingTopic.createdAt;
+    this.practiceMaterialAmount = trainingTopic.practiceMaterialAmount;
+    this.theoryMaterialAmount = trainingTopic.theoryMaterialAmount;
+    this.trainingUuid = trainingTopic.trainingUuid;
   }
 
 }
@@ -104,7 +147,7 @@ interface TrainingProps {
   /**
    * Training's owner
    */
-  owner: UserPlain;
+  owner: UserPreview;
 
   /**
    * Last day when training was updated
@@ -117,21 +160,16 @@ interface TrainingProps {
   createdAt: Date;
 
   /**
-   * Users for whom this way are favorite
-   */
-  favoriteForUsersAmount: number;
-
-  /**
    * Mentors of this training
    * @key @User.uuid
    * @value @UserPreview
    */
-  mentors: Map<string, UserPlain>;
+  mentors: Map<string, UserPreview>;
 
   /**
    * Training's students
    */
-  studentIds: string[];
+  students: UserPreview[];
 
   /**
    * Training's tags {@link TrainingTagTag}
@@ -142,6 +180,11 @@ interface TrainingProps {
    * Training's topics
    */
   topics: TrainingTopic[];
+
+  /**
+   * Favorite for user uuids
+   */
+  favoriteForUserUuids: string[];
 
 }
 
@@ -174,7 +217,7 @@ export class Training {
   /**
    * Training's owner
    */
-  public owner: UserPlain;
+  public owner: UserPreview;
 
   /**
    * Last day when training was updated
@@ -191,17 +234,27 @@ export class Training {
    * @key @User.uuid
    * @value @UserPreview
    */
-  public mentors: Map<string, UserPlain>;
+  public mentors: Map<string, UserPreview>;
 
   /**
    * Training's students
    */
-  public studentIds: string[];
+  public students: UserPreview[];
 
   /**
    * Training's tags {@link TrainingTagTag}
    */
   public trainingTags: TrainingTag[];
+
+  /**
+   * Favorite for user uuids
+   */
+  public favoriteForUserUuids: string[];
+
+  /**
+   * Training's topics
+   */
+  public topics: TrainingTopic[];
 
   constructor(trainingData: TrainingProps) {
     makeAutoObservable(this);
@@ -209,12 +262,14 @@ export class Training {
     this.name = trainingData.name;
     this.description = trainingData.description;
     this.isPrivate = trainingData.isPrivate;
-    this.studentIds = trainingData.studentIds;
+    this.students = trainingData.students;
     this.mentors = trainingData.mentors;
     this.trainingTags = trainingData.trainingTags;
     this.owner = trainingData.owner;
     this.createdAt = trainingData.createdAt;
     this.updatedAt = trainingData.updatedAt;
+    this.topics = trainingData.topics;
+    this.favoriteForUserUuids = trainingData.favoriteForUserUuids;
   }
 
   /**
@@ -227,15 +282,15 @@ export class Training {
   /**
    * Add student to training
    */
-  public addStudentToTraining(userId: string): void {
-    this.studentIds.push(userId);
+  public addStudentToTraining(user: UserPreview): void {
+    this.students.push(user);
   }
 
   /**
    * Delete student from training
    */
   public deleteStudentFromTraining(userUuid: string): void {
-    this.studentIds = this.studentIds.filter(userId => userId !== userUuid);
+    this.students = this.students.filter(student => student.uuid !== userUuid);
   }
 
 }

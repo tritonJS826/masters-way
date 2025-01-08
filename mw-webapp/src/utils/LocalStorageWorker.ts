@@ -148,6 +148,15 @@ export enum View {
   Table = "Table",
 }
 
+/**
+ * Available user's  tabs
+ */
+export enum TabType {
+  Ways = "Ways",
+  Projects = "Projects",
+  Trainings = "Trainings"
+}
+
 export type Token = {
 
   /**
@@ -202,9 +211,10 @@ export type UserPageSettings = {
   view: View;
 
   /**
-   * If tab with Projects opened - true
+   * Settled tab
    */
-  isProjectsOpened: boolean;
+  tab: TabType;
+
 }
 
 export type ProjectPageSettings = {

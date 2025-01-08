@@ -1,5 +1,4 @@
 import {makeAutoObservable} from "mobx";
-import {UserPlain} from "src/model/businessModel/User";
 
 /**
  * Training tag data
@@ -20,6 +19,35 @@ export class TrainingTag {
     makeAutoObservable(this);
     this.name = trainingTag.name;
     this.uuid = trainingTag.uuid;
+  }
+
+}
+
+/**
+ * UserPreview data
+ */
+export class UserPreview {
+
+  /**
+   * User's uuid
+   */
+  public uuid: string;
+
+  /**
+   * User's name
+   */
+  public name: string;
+
+  /**
+   * User's image path
+   */
+  public imageUrl: string;
+
+  constructor(userPreview: UserPreview) {
+    makeAutoObservable(this);
+    this.name = userPreview.name;
+    this.uuid = userPreview.uuid;
+    this.imageUrl = userPreview.imageUrl;
   }
 
 }
@@ -53,7 +81,7 @@ interface TrainingPreviewProps {
   /**
    * Training's owner
    */
-  owner: UserPlain;
+  owner: UserPreview;
 
   /**
    * Last day when training was updated
@@ -75,17 +103,22 @@ interface TrainingPreviewProps {
    * @key @User.uuid
    * @value @UserPreview
    */
-  mentors: UserPlain[];
+  mentors: UserPreview[];
 
   /**
    * Training's students
    */
-  studentIds: string[];
+  studentsAmount: number;
 
   /**
    * Training's tags {@link TrainingTagTag}
    */
   trainingTags: TrainingTag[];
+
+  /**
+   * Topic's amount
+   */
+  topicsAmount: number;
 
 }
 
@@ -118,7 +151,7 @@ export class TrainingPreview {
   /**
    * Training's owner
    */
-  public owner: UserPlain;
+  public owner: UserPreview;
 
   /**
    * Last day when training was updated
@@ -140,17 +173,22 @@ export class TrainingPreview {
    * @key @User.uuid
    * @value @UserPreview
    */
-  public mentors: UserPlain[];
+  public mentors: UserPreview[];
 
   /**
    * Training's students
    */
-  public studentIds: string[];
+  public studentsAmount: number;
 
   /**
    * Training's tags {@link TrainingTagTag}
    */
   public trainingTags: TrainingTag[];
+
+  /**
+   * Topic's amount
+   */
+  public topicsAmount: number;
 
   constructor(trainingPreviewData: TrainingPreviewProps) {
     makeAutoObservable(this);
@@ -158,13 +196,14 @@ export class TrainingPreview {
     this.name = trainingPreviewData.name;
     this.description = trainingPreviewData.description;
     this.isPrivate = trainingPreviewData.isPrivate;
-    this.studentIds = trainingPreviewData.studentIds;
+    this.studentsAmount = trainingPreviewData.studentsAmount;
     this.mentors = trainingPreviewData.mentors;
     this.trainingTags = trainingPreviewData.trainingTags;
     this.owner = trainingPreviewData.owner;
     this.createdAt = trainingPreviewData.createdAt;
     this.updatedAt = trainingPreviewData.updatedAt;
     this.favoriteForUsersAmount = trainingPreviewData.favoriteForUsersAmount;
+    this.topicsAmount = trainingPreviewData.topicsAmount;
   }
 
 }

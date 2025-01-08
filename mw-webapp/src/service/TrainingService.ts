@@ -71,7 +71,7 @@ export class TrainingService {
   /**
    * Get training by UUID
    */
-  public static async getTrainingsByUuid(
+  public static async getTrainingByUuid(
     requestParameters: GetTrainingByIdRequest,
   ): Promise<MwTrainingBffInternalSchemasTraining> {
     const training = await trainingService.getTrainingById(requestParameters);

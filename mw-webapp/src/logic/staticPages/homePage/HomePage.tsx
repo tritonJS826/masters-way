@@ -65,7 +65,7 @@ export const HomePage = observer(() => {
       /**
        * Show video for student
        */
-      onCLick: () => {
+      onClick: () => {
         TrackHomePage.studentVideoClicked();
         setVideoUrl(VIDEO_FOR_STUDENT_URL);
       },
@@ -85,7 +85,7 @@ export const HomePage = observer(() => {
       /**
        * Show video for mentor
        */
-      onCLick: () => {
+      onClick: () => {
         TrackHomePage.mentorVideoClicked();
         setVideoUrl(VIDEO_FOR_MENTOR_URL);
       },

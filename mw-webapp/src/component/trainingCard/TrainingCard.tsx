@@ -106,7 +106,7 @@ export const TrainingCard = observer((props: TrainingCardProps) => {
 
   return (
     <Link
-      path={pages.way.getPath({uuid: props.trainingPreview.uuid})}
+      path={pages.training.getPath({uuid: props.trainingPreview.uuid})}
       className={styles.cardLink}
       dataCy={props.dataCy}
     >
