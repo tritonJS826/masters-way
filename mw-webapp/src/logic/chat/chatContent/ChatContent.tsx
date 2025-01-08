@@ -7,14 +7,12 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Dropdown} from "src/component/dropdown/Dropdown";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
-import {Input, InputType} from "src/component/input/Input";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {Textarea, TextareaType} from "src/component/textarea/Textarea";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
-import {FileDAL} from "src/dataAccessLogic/FileDAL";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {useListenEventBus} from "src/eventBus/useListenEvent";
@@ -40,21 +38,22 @@ export const ChatContent = observer(() => {
   const {isChatOpen, activeRoomStore, addUnreadMessageToAmount} = chatStore;
   const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(activeRoomStore);
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
-  const {chatList, roomType, groupChatName, setGroupChatName, loadChatList, addChatToChatList, setRoomType} = chatListStore;
+  const {chatList, roomType, loadChatList, addChatToChatList, setRoomType} = chatListStore;
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   /**
    * Create group chat
+   * Commented feature while it's not realized on the back-end
    */
-  const createGroupRoom = async () => {
-    const room = await ChatDAL.findOrCreateRoom({
-      roomType: RoomType.GROUP,
-      name: groupChatName,
-    });
-    setGroupChatName("");
-    setActiveChatStore(new ActiveChatStore(room));
-  };
+  // const createGroupRoom = async () => {
+  //   const room = await ChatDAL.findOrCreateRoom({
+  //     roomType: RoomType.GROUP,
+  //     name: groupChatName,
+  //   });
+  //   setGroupChatName("");
+  //   setActiveChatStore(new ActiveChatStore(room));
+  // };
 
   /**
    * Read message
@@ -192,16 +191,18 @@ export const ChatContent = observer(() => {
 
   /**
    * Upload file
+   * We decided to off this functionality because users afraid to login when we ask access to google disk.
+   * Need to check hypothesis
    */
-  const uploadFile = async (roomId: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileBlob = !!event.target.files && event.target.files[0];
-    if (fileBlob) {
-      await FileDAL.uploadFile({
-        roomId,
-        file: fileBlob,
-      });
-    }
-  };
+  // const uploadFile = async (roomId: string, event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const fileBlob = !!event.target.files && event.target.files[0];
+  //   if (fileBlob) {
+  //     await FileDAL.uploadFile({
+  //       roomId,
+  //       file: fileBlob,
+  //     });
+  //   }
+  // };
 
   return (
     <DialogPortal>
@@ -224,6 +225,8 @@ export const ChatContent = observer(() => {
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.personalChats[language]}
               />
+
+              {/* Commented feature while it's not realized on the back-end
               <Button
                 onClick={() => {
                   setRoomType(RoomType.GROUP);
@@ -232,7 +235,7 @@ export const ChatContent = observer(() => {
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.groupChats[language]}
-              />
+              /> */}
             </HorizontalContainer>
             <DialogClose asChild>
               <div
@@ -258,6 +261,7 @@ export const ChatContent = observer(() => {
               activeChatStore && styles.chatListHide,
             )}
             >
+              {/* Commented feature while it's not realized on the back-end
               {roomType === RoomType.GROUP &&
               <>
                 <Input
@@ -277,7 +281,7 @@ export const ChatContent = observer(() => {
                   value={LanguageService.common.chat.createGroupChatButton[language]}
                 />
               </>
-              }
+              } */}
               {chatList.length > 0
                 ? chatList.map((chatItem) => (
                   <ChatItem
@@ -389,6 +393,8 @@ export const ChatContent = observer(() => {
                 typeTextarea={TextareaType.Border}
                 className={styles.chatTextarea}
               />
+              {/* We decided to off this functionality because users afraid to login when we ask access to google disk.
+              Need to check hypothesis
               <label>
                 <input
                   type="file"
@@ -405,7 +411,7 @@ export const ChatContent = observer(() => {
                     className={styles.uploadFileIcon}
                   />
                 </Tooltip>
-              </label>
+              </label> */}
               <Button
                 value={LanguageService.common.chat.sendButton[language]}
                 onClick={async () => {
