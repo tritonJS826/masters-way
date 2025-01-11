@@ -22,7 +22,9 @@ func MakeGoogleOAuthConfig(cfg *config.Config) *oauth2.Config {
 		Scopes: []string{
 			"https://www.googleapis.com/auth/userinfo.email",
 			"https://www.googleapis.com/auth/userinfo.profile",
-			"https://www.googleapis.com/auth/drive.file",
+			// next scope temporarily removed because looks like people scared of sharing drive
+			// we should implement optional drive in settings later
+			// "https://www.googleapis.com/auth/drive.file",
 		},
 		Endpoint: google.Endpoint,
 	}
