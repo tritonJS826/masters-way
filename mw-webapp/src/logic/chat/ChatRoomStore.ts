@@ -1,4 +1,5 @@
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, runInAction} from "mobx";
+import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
 import {Room} from "src/model/businessModel/Chat";
 
 /**
@@ -8,8 +9,9 @@ export class ActiveChatStore {
 
   /**
    * Active chat
+   *
    */
-  public activeChat: Room;
+  public activeChat: Room | null = null;
 
   /**
    * If true then active chat is hidden and only chat list is shown
@@ -21,9 +23,8 @@ export class ActiveChatStore {
    */
   public message: string = "";
 
-  constructor(activeChat: Room) {
+  constructor() {
     makeAutoObservable(this);
-    this.activeChat = activeChat;
   }
 
   /**
@@ -38,6 +39,31 @@ export class ActiveChatStore {
    */
   public setMessage = (message: string) => {
     this.message = message;
+  };
+
+  /**
+   * Set new active chat
+   */
+  public setActiveChat = (chat: Room) => {
+    this.activeChat = chat;
+  };
+
+  /**
+   * Set message to send
+   */
+  public initiateActiveChat = async (roomId: string) => {
+    const activeChat = await ChatDAL.getRoomById(roomId);
+    runInAction(() => {
+      this.activeChat = activeChat;
+    });
+
+  };
+
+  /**
+   * Clear active chat
+   */
+  public clearActiveChat = () => {
+    this.activeChat = null;
   };
 
 }

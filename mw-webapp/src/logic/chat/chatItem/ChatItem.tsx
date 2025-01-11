@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -31,6 +32,11 @@ interface ChatItemProps {
   name: string;
 
   /**
+   * Chat's name
+   */
+    dataCy?: string;
+
+  /**
    * Avatar's source
    */
   src: string | null;
@@ -45,11 +51,12 @@ interface ChatItemProps {
  * ChatItem component
  */
 export const ChatItem = (props: ChatItemProps) => {
+
   return (
     <HorizontalContainer
       onClick={props.onClick}
-      className={styles.chatItemWrapper}
-      dataCy={chatAccessIds.chatContainer.chatItem(`${props.name}`)}
+      className={clsx(styles.chatItemWrapper)}
+      dataCy={props.dataCy}
     >
       <Avatar
         alt={props.name}
@@ -57,7 +64,7 @@ export const ChatItem = (props: ChatItemProps) => {
       />
       <VerticalContainer>
         <p
-          className={styles.chatItem}
+          className={clsx(styles.chatItem)}
           data-cy={chatAccessIds.chatContainer.chatItemName}
         >
           {props.name}

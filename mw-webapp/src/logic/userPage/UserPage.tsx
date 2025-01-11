@@ -43,7 +43,6 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
-import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -172,7 +171,7 @@ interface UserPageSettingsValidatorParams {
  */
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
-  const {setIsChatOpen, setActiveRoomStore} = chatStore;
+  const {setIsChatOpen, activeChatStore} = chatStore;
   const {deviceId, setDeviceId} = deviceStore;
   const navigate = useNavigate();
 
@@ -556,8 +555,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       userId: userPageOwner.uuid,
                     });
 
-                    const initRoom = new ActiveChatStore(room);
-                    setActiveRoomStore(initRoom);
+                    activeChatStore.setActiveChat(room);
                     setIsChatOpen(true);
                   }}
                   buttonType={ButtonType.SECONDARY}
