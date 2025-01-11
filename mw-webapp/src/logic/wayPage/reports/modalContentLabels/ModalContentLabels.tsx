@@ -44,15 +44,20 @@ interface ModalContentLabelsProps {
 }
 
 /**
+ * Get only unique labels from the list
+ */
+function getUniqueLabels(labels: LabelModel[]): LabelModel[] {
+  const uniqueLabels = (new Map(labels.map(l => [l.uuid, l]))).values();
+
+  return Array.from(uniqueLabels);
+}
+
+/**
  * Modal content labels
  */
 export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
   const {language} = languageStore;
-  // Const labelsDoneUuids = props.labelsDone.map(item => item.uuid);
-
   const [labelsUpdated, setLabelsUpdated] = useState<LabelModel[]>(props.labelsDone);
-
-  const filteredLabels = Array.from(new Set(labelsUpdated));
 
   /**
    * Remove label from labels done
@@ -75,7 +80,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
    */
   const handleEnter = (event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === KeySymbols.ENTER) {
-      props.updateLabels(filteredLabels);
+      props.updateLabels(getUniqueLabels(labelsUpdated));
     }
   };
 
@@ -93,7 +98,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
               <div
                 key={label.uuid}
                 className={styles.labels}
-                onClick={() => labelsUpdated.includes(label)
+                onClick={() => labelsUpdated.map(l => l.uuid).includes(label.uuid)
                   ? removeLabelFromLabelsDone(label.uuid)
                   : addLabelFromLabelsDone(label)}
               >
@@ -115,7 +120,6 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
                   <Checkbox
                     isDefaultChecked={labelsUpdated.map((labelUpdated) => labelUpdated.uuid).includes(label.uuid)}
                     onChange={() => { }}
-                    className={styles.checkbox}
                   />
                 </HorizontalContainer>
               </div>
@@ -135,7 +139,7 @@ export const ModalContentLabels = observer((props: ModalContentLabelsProps) => {
           <DialogClose asChild>
             <Button
               value={LanguageService.modals.promptModal.saveButton[language]}
-              onClick={() => props.updateLabels(filteredLabels)}
+              onClick={() => props.updateLabels(getUniqueLabels(labelsUpdated))}
               buttonType={ButtonType.PRIMARY}
               dataCy={dayReportsAccessIds.labels.addLabel.saveButton}
             />

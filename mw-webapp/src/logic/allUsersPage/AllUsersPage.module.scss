@@ -24,6 +24,14 @@
   justify-content: space-between;
 }
 
+.headingLevelH2 {
+  font-size: $fontSizeTitleSmall;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleExtraSmall;
+  }
+}
+
 .filterBlock {
   flex-grow: 1;
   justify-content: flex-start;

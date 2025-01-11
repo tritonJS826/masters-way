@@ -22,6 +22,7 @@ export const PricingPage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.pricing.pricingBlock.title[language]}
           className={styles.pricingTitle}
+          classNameHeading={styles.headingLevelH2}
           placeholder=""
           cy={{dataCyTitleContainer: pricingAccessIds.pricingBlock.title}}
         />

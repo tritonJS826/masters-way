@@ -145,7 +145,7 @@ export const Title = (props: TitleProps) => {
       }}
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
-      className={clsx(styles.editableText, props.className)}
+      className={clsx(props.className)}
       data-cy={props.cy?.dataCyTitleContainer}
     >
       {isEditing
@@ -162,7 +162,7 @@ export const Title = (props: TitleProps) => {
           <Heading
             onClick={props.onClick}
             as={props.level}
-            className={clsx(props.classNameHeading)}
+            className={clsx(styles.heading, props.classNameHeading)}
           >
             {text === "" ? props.placeholder : text}
           </Heading>

@@ -68,23 +68,18 @@ interface TableProps<T> {
  */
 export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) => {
   const data = props.data;
+  // No one  of td tr th tbody  thead  style classes was not created  and table is not responsive
 
   return (
     <table
       className={styles.table}
       data-cy={props.dataCy?.dataCyTable}
     >
-      <thead className={styles.thead}>
+      <thead>
         {data.headerGroup.map((headerGroup) => (
-          <tr
-            className={styles.tr}
-            key={headerGroup.id}
-          >
+          <tr key={headerGroup.id}>
             {headerGroup.headers.map((header) => (
-              <th
-                className={styles.th}
-                key={header.id}
-              >
+              <th key={header.id}>
                 {header.isPlaceholder
                   ? null
                   : flexRender(
@@ -95,16 +90,15 @@ export const Table = <T extends UuidProps, > (props: TableProps<TableData<T>>) =
           </tr>
         ))}
       </thead>
-      <tbody className={styles.tbody}>
+      <tbody>
         {data.rowModel.rows.map((row) => (
           <tr
-            className={styles.tr}
             key={row.id}
             id={row.original.uuid}
           >
             {row.getVisibleCells().map((cell) => (
               <td
-                className={clsx(styles.td, props.classNameTd)}
+                className={clsx(props.classNameTd)}
                 key={cell.id}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

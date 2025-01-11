@@ -177,7 +177,6 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
      */
     updatedTags: Label[];
   }) => {
-
     const labelsToAdd: Label[] = params.updatedTags
       .filter(label => !params.jobDone.tags.includes(label));
     const labelsToDelete: Label[] = params.jobDone.tags

@@ -101,6 +101,7 @@ export const HomePage = observer(() => {
               level={HeadingLevel.h1}
               text={LanguageService.home.title[language]}
               className={styles.title}
+              classNameHeading={styles.headingLevelH1}
               placeholder=""
               cy={{dataCyTitleContainer: homeAccessIds.welcomeBlock.title}}
             />
@@ -151,6 +152,7 @@ export const HomePage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.home.advantages.advantagesTitle[language]}
           className={styles.advantagesTitle}
+          classNameHeading={styles.headingLevelH2}
           placeholder=""
         />
         <p className={styles.advantagesDescription}>
@@ -190,6 +192,7 @@ export const HomePage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.home.systemBlock.title[language]}
           className={styles.systemBlockTitle}
+          classNameHeading={styles.headingLevelH2}
           placeholder=""
         />
         <p className={styles.systemBlockDescription}>
@@ -226,6 +229,7 @@ export const HomePage = observer(() => {
           level={HeadingLevel.h2}
           text={LanguageService.home.aboutAppBlock.title[language]}
           className={styles.aboutAppBlockTitle}
+          classNameHeading={styles.headingLevelH2}
           placeholder=""
         />
         <HorizontalContainer className={styles.aboutProjectItems}>
