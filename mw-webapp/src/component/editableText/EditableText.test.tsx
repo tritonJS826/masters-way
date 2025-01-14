@@ -37,8 +37,6 @@ const EDITABLETEXT_CY = {
 const EDITABLETEXTINPUT_VALUE = "Text";
 const EDITABLETEXTINPUT_PLACEHOLDER = "Enter text";
 const EDITABLETEXTINPUT_VALUE_NUMBER = 1111;
-const EDITEBLETEXTINPUT_TYPE_TEXT = "textbox";
-const EDITEBLETEXTINPUT_TYPE_NUMBER = "spinbutton";
 
 /**
  *Create test EditableText component
@@ -60,10 +58,10 @@ describe("EditableText component", () => {
   it("should be renders when placeholder is visible", () => {
     renderTestEditableText({value: EDITABLETEXTINPUT_VALUE, type: InputType.Text});
 
-    const trigger = screen.getByRole(EDITABLETEXT_CY.trigger);
+    const trigger = screen.getByRole("trigger");
     fireEvent.dblClick(trigger);
 
-    const input = screen.getByRole(EDITEBLETEXTINPUT_TYPE_TEXT);
+    const input = screen.getByRole("textbox");
     expect(input).toHaveAttribute("placeholder", EDITABLETEXTINPUT_PLACEHOLDER);
   });
 
@@ -71,10 +69,10 @@ describe("EditableText component", () => {
     const user = userEvent.setup();
     renderTestEditableText({value: EDITABLETEXTINPUT_VALUE_NUMBER, type: InputType.Number});
 
-    const trigger = screen.getByRole(EDITABLETEXT_CY.trigger);
+    const trigger = screen.getByRole("trigger");
     fireEvent.dblClick(trigger);
 
-    const input = screen.getByRole(EDITEBLETEXTINPUT_TYPE_NUMBER);
+    const input = screen.getByRole("spinbutton");
     await user.type(input, "now"); // Typing into the input
 
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE_NUMBER); // Value should not change due to "number" mode
@@ -84,16 +82,16 @@ describe("EditableText component", () => {
     const user = userEvent.setup();
     renderTestEditableText({value: EDITABLETEXTINPUT_VALUE, type: InputType.Text});
 
-    const trigger = screen.getByRole(EDITABLETEXT_CY.trigger);
+    const trigger = screen.getByRole("trigger");
     fireEvent.dblClick(trigger);
 
-    const input = screen.getByRole(EDITEBLETEXTINPUT_TYPE_TEXT);
+    const input = screen.getByRole("textbox");
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE);
 
     // Simulate clicking outside to finish editing
     await user.click(document.body);
 
-    expect(screen.queryByRole(EDITEBLETEXTINPUT_TYPE_TEXT)).not.toBeInTheDocument();
+    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
     expect(trigger).toHaveTextContent(EDITABLETEXTINPUT_VALUE);
   });
 
@@ -101,16 +99,16 @@ describe("EditableText component", () => {
     const user = userEvent.setup();
     renderTestEditableText({value: EDITABLETEXTINPUT_VALUE, type: InputType.Text});
 
-    const trigger = screen.getByRole(EDITABLETEXT_CY.trigger);
+    const trigger = screen.getByRole("trigger");
     fireEvent.dblClick(trigger);
 
-    const input = screen.getByRole(EDITEBLETEXTINPUT_TYPE_TEXT);
+    const input = screen.getByRole("textbox");
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE);
 
     // Simulate pressing Enter to finish editing
     await user.keyboard("{Enter}");
 
-    expect(screen.queryByRole(EDITEBLETEXTINPUT_TYPE_TEXT)).not.toBeInTheDocument();
+    expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
     expect(trigger).toHaveTextContent(EDITABLETEXTINPUT_VALUE);
   });
 
