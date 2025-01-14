@@ -11,7 +11,7 @@ export class ActiveChatStore {
    * Active chat
    *
    */
-  public activeChat: Room | null = null;
+  public activeChat: Room | undefined;
 
   /**
    * If true then active chat is hidden and only chat list is shown
@@ -23,8 +23,9 @@ export class ActiveChatStore {
    */
   public message: string = "";
 
-  constructor() {
+  constructor(roomId: string) {
     makeAutoObservable(this);
+    this.initiateActiveChat(roomId);
   }
 
   /**
@@ -56,14 +57,6 @@ export class ActiveChatStore {
     runInAction(() => {
       this.activeChat = activeChat;
     });
-
-  };
-
-  /**
-   * Clear active chat
-   */
-  public clearActiveChat = () => {
-    this.activeChat = null;
   };
 
 }

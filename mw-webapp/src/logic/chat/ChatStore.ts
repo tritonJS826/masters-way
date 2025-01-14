@@ -1,5 +1,5 @@
 import {makeAutoObservable, runInAction} from "mobx";
-import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
+import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {ChatListStore} from "src/logic/chat/ChatListStore";
 import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 
@@ -22,17 +22,16 @@ class ChatStore {
   /**
    * Active room store
    */
-  public activeChatStore: ActiveChatStore;
+  public activeChatStore?: ActiveChatStore;
 
   /**
    * Active room store
    */
-  public chatListStore: ChatListStore;
+  public chatListStore?: ChatListStore;
 
-  constructor(chatListStore: ChatListStore, activeChatStore: ActiveChatStore) {
+  constructor() {
     makeAutoObservable(this);
-    this.activeChatStore = activeChatStore;
-    this.chatListStore = chatListStore;
+    this.initiateChatListStore(RoomType.PRIVATE);
   }
 
   /**
@@ -41,6 +40,27 @@ class ChatStore {
    */
   public setIsChatOpen = (isChatOpen: boolean) => {
     this.isChatOpen = isChatOpen;
+  };
+
+  /**
+   * Create new activeChatStore
+   */
+  public initiateActiveChatStore = (roomId: string) => {
+    this.activeChatStore = new ActiveChatStore(roomId);
+  };
+
+  /**
+   * Delete activeChatStore
+   */
+  public deleteActiveChatStore = () => {
+    this.activeChatStore = undefined;
+  };
+
+  /**
+   * Create new ChatListStore
+   */
+  public initiateChatListStore = (roomType: RoomType) => {
+    this.chatListStore = new ChatListStore(roomType);
   };
 
   /**
@@ -63,4 +83,4 @@ class ChatStore {
 
 }
 
-export const chatStore = new ChatStore(new ChatListStore, new ActiveChatStore);
+export const chatStore = new ChatStore();

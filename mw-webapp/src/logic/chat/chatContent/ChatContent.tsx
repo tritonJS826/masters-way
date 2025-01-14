@@ -37,7 +37,6 @@ export const ChatContent = observer(() => {
   const {isChatOpen, activeChatStore, chatListStore, addUnreadMessageToAmount} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const [activeRoom, setActiveRoom] = useState<Room>();
-  const {roomType, loadChatList, addChatToChatList, setRoomType} = chatListStore;
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -62,17 +61,17 @@ export const ChatContent = observer(() => {
   };
 
   useEffect(() => {
-    if (activeChatStore.activeChat) {
+    if (activeChatStore?.activeChat) {
       setActiveRoom(activeChatStore.activeChat);
     }
-  }, [activeChatStore.activeChat]);
+  }, [activeChatStore?.activeChat]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
 
-  }, [activeChatStore.activeChat]);
+  }, [activeChatStore?.activeChat]);
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
     const isChatForMessageOpen = payload.roomId === activeChatStore?.activeChat?.roomId;
@@ -137,27 +136,18 @@ export const ChatContent = observer(() => {
     setInputDisabled(false);
   };
 
-  /**
-   * Load chat list
-   */
-  const loadChatPreviewList = () => {
-    loadChatList();
-  };
-
   useEffect(() => {
-    loadChatPreviewList();
-  }, []);
-
-  useEffect(() => {
-    if (!isChatOpen && roomType !== RoomType.PRIVATE) {
-      setRoomType(RoomType.PRIVATE);
-      loadChatPreviewList();
+    if (isChatOpen) {
+      chatListStore?.loadChatList();
     }
   }, [isChatOpen]);
 
-  /**
-   * Initialize active chat store
-   */
+  // UseEffect(() => {
+  //   if (!isChatOpen && chatListStore?.roomType !== RoomType.PRIVATE) {
+  //     chatListStore?.setRoomType(RoomType.PRIVATE);
+  //     chatListStore?.loadChatList();
+  //   }
+  // }, [isChatOpen]);
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
     const newChatInRoomList = new ChatPreview({
@@ -168,14 +158,14 @@ export const ChatContent = observer(() => {
       participantIds: payload.users.map((participant) => participant.userId),
     });
 
-    const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
-    const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
+    const isGroupChatOpenAndNewChatIsGroup = chatListStore?.roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
+    const isPrivateChatOpenAndNewChatIsPrivate = chatListStore?.roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
 
     const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
 
     if (isShouldUpdateChatList) {
-      addChatToChatList(newChatInRoomList);
+      chatListStore.addChatToChatList(newChatInRoomList);
     }
 
     displayNotification({
@@ -205,7 +195,7 @@ export const ChatContent = observer(() => {
       <DialogOverlay className={styles.chatOverlay} />
       <DialogContent
         onInteractOutside={() => {
-          activeChatStore.clearActiveChat();
+          chatStore.deleteActiveChatStore();
         }}
         className={styles.chatContent}
       >
@@ -214,9 +204,7 @@ export const ChatContent = observer(() => {
             <HorizontalContainer>
               <Button
                 onClick={() => {
-                  setRoomType(RoomType.PRIVATE);
-                  loadChatList();
-                  activeChatStore.clearActiveChat();
+                  chatListStore?.loadChatList();
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.personalChats[language]}
@@ -238,7 +226,7 @@ export const ChatContent = observer(() => {
                 role="button"
                 className={styles.removeButton}
                 onClick={() => {
-                  activeChatStore.clearActiveChat();
+                  chatStore.deleteActiveChatStore();
                 }}
               >
                 <Icon
@@ -278,14 +266,16 @@ export const ChatContent = observer(() => {
                 />
               </>
               */}
-              {chatListStore.chatList.length > 0
-                ? chatListStore.chatList.map((chatItem) => (
+              { chatListStore && chatListStore.chatList.length > 0
+                ? chatListStore?.chatList.map((chatItem) => (
                   <ChatItem
                     key={chatItem.roomId}
                     name={chatItem.name}
                     src={chatItem.imageUrl}
                     dataCy={chatAccessIds.chatContainer.listChatItem(`${chatItem.name}`)}
-                    onClick={() => activeChatStore.initiateActiveChat(chatItem.roomId)}
+                    onClick={() => {
+                      chatStore.initiateActiveChatStore(chatItem.roomId);
+                    }}
                   />
                 ))
                 : <div>
@@ -338,7 +328,7 @@ export const ChatContent = observer(() => {
                            * Close chat on mobile
                            */
                           onClick: () => {
-                            activeChatStore.clearActiveChat();
+                            chatStore.deleteActiveChatStore();
                           },
                         },
                       ],

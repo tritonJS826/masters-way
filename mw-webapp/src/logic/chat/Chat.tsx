@@ -29,7 +29,9 @@ export const ChatModal = observer(() => {
   });
 
   useEffect(() => {
-    loadUnreadMessagesAmount();
+    if (!isChatOpen) {
+      loadUnreadMessagesAmount();
+    }
   }, [isChatOpen]);
 
   return (
@@ -38,7 +40,9 @@ export const ChatModal = observer(() => {
       onOpenChange={setIsChatOpen}
     >
       <DialogTrigger
-        onClick={() => {}}
+        onClick={() => {
+          chatStore.deleteActiveChatStore();
+        }}
         asChild
         data-cy={chatAccessIds.openChatButton}
       >

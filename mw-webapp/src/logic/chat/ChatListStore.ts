@@ -22,7 +22,7 @@ export class ChatListStore {
    */
   public groupChatName: string = "";
 
-  constructor(roomType?: RoomType) {
+  constructor(roomType: RoomType) {
     makeAutoObservable(this);
     this.roomType = roomType ?? RoomType.PRIVATE;
   }
@@ -45,7 +45,7 @@ export class ChatListStore {
    * Load chat list
    */
   public loadChatList = async () => {
-    const fetchedChats = await ChatDAL.getRooms(this.roomType);
+    const fetchedChats = await ChatDAL.getRooms(RoomType.PRIVATE);
     runInAction(() => {
       this.chatList = fetchedChats.chatsPreview;
     });
@@ -55,7 +55,7 @@ export class ChatListStore {
    * Add chat to chat list
    */
   public addChatToChatList = (chatPreview: ChatPreview) => {
-    this.chatList = [chatPreview, ...this.chatList];
+    this.chatList.unshift(chatPreview);
   };
 
 }
