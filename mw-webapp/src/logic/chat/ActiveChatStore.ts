@@ -11,7 +11,7 @@ export class ActiveChatStore {
    * Active chat
    *
    */
-  public activeChat: Room | undefined;
+  public activeChat?: Room;
 
   /**
    * If true then active chat is hidden and only chat list is shown
@@ -23,9 +23,9 @@ export class ActiveChatStore {
    */
   public message: string = "";
 
-  constructor(roomId: string) {
+  constructor(chatRoomId: string) {
     makeAutoObservable(this);
-    this.initiateActiveChat(roomId);
+    this.initiateActiveChat(chatRoomId);
   }
 
   /**
@@ -52,8 +52,8 @@ export class ActiveChatStore {
   /**
    * Set message to send
    */
-  public initiateActiveChat = async (roomId: string) => {
-    const activeChat = await ChatDAL.getRoomById(roomId);
+  public initiateActiveChat = async (chatRoomId: string) => {
+    const activeChat = await ChatDAL.getRoomById(chatRoomId);
     runInAction(() => {
       this.activeChat = activeChat;
     });

@@ -21,7 +21,6 @@ import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
-import {Room} from "src/model/businessModel/Chat";
 import {Message} from "src/model/businessModel/Message";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {LanguageService} from "src/service/LanguageService";
@@ -36,7 +35,6 @@ export const ChatContent = observer(() => {
   const {user} = userStore;
   const {isChatOpen, activeChatStore, chatListStore, addUnreadMessageToAmount} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
-  const [activeRoom, setActiveRoom] = useState<Room>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -59,12 +57,9 @@ export const ChatContent = observer(() => {
   const readMessage = async (messageId: string, ownerId: string) => {
     activeChatStore?.activeChat && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
   };
-
   useEffect(() => {
-    if (activeChatStore?.activeChat) {
-      setActiveRoom(activeChatStore.activeChat);
-    }
-  }, [activeChatStore?.activeChat]);
+    chatListStore?.loadChatList();
+  }, [isChatOpen, chatListStore]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -136,12 +131,6 @@ export const ChatContent = observer(() => {
     setInputDisabled(false);
   };
 
-  useEffect(() => {
-    if (isChatOpen) {
-      chatListStore?.loadChatList();
-    }
-  }, [isChatOpen]);
-
   // UseEffect(() => {
   //   if (!isChatOpen && chatListStore?.roomType !== RoomType.PRIVATE) {
   //     chatListStore?.setRoomType(RoomType.PRIVATE);
@@ -195,7 +184,8 @@ export const ChatContent = observer(() => {
       <DialogOverlay className={styles.chatOverlay} />
       <DialogContent
         onInteractOutside={() => {
-          chatStore.deleteActiveChatStore();
+          chatStore.resetActiveChatStore();
+          chatStore.resetChatListStore();
         }}
         className={styles.chatContent}
       >
@@ -226,7 +216,7 @@ export const ChatContent = observer(() => {
                 role="button"
                 className={styles.removeButton}
                 onClick={() => {
-                  chatStore.deleteActiveChatStore();
+                  chatStore.resetActiveChatStore();
                 }}
               >
                 <Icon
@@ -266,7 +256,7 @@ export const ChatContent = observer(() => {
                 />
               </>
               */}
-              { chatListStore && chatListStore.chatList.length > 0
+              { chatListStore?.chatList && chatListStore.chatList.length > 0
                 ? chatListStore?.chatList.map((chatItem) => (
                   <ChatItem
                     key={chatItem.roomId}
@@ -328,7 +318,7 @@ export const ChatContent = observer(() => {
                            * Close chat on mobile
                            */
                           onClick: () => {
-                            chatStore.deleteActiveChatStore();
+                            chatStore.resetActiveChatStore();
                           },
                         },
                       ],
@@ -341,7 +331,7 @@ export const ChatContent = observer(() => {
                   ref={messagesEndRef}
                   className={clsx(styles.messages, styles.messageList)}
                 >
-                  {activeChatStore.activeChat?.messages.map((messageItem) => (
+                  {activeChatStore?.activeChat?.messages.map((messageItem) => (
                     <MessageItem
                       key={messageItem.uuid}
                       src={messageItem.ownerImageUrl}
@@ -368,11 +358,11 @@ export const ChatContent = observer(() => {
                 isAutofocus
                 isDisabled={isInputDisabled}
                 onKeyPress={(event: React.KeyboardEvent<HTMLElement>) => {
-                  if ((event.key === KeySymbols.ENTER && event.ctrlKey && activeRoom)
-                    || (event.key === KeySymbols.ENTER && event.shiftKey && activeRoom)) {
+                  if ((event.key === KeySymbols.ENTER && event.ctrlKey && activeChatStore.activeChat)
+                    || (event.key === KeySymbols.ENTER && event.shiftKey && activeChatStore.activeChat)) {
                     sendMessage({
                       message: activeChatStore.message,
-                      roomId: activeRoom.roomId,
+                      roomId: activeChatStore.activeChat.roomId,
                     });
                   }
                 }}
@@ -385,8 +375,8 @@ export const ChatContent = observer(() => {
                 <input
                   type="file"
                   onChange={async (event) => {
-                    if (activeRoom) {
-                      await uploadFile(activeRoom.roomId, event);
+                    if (activeChatStore.activeChat) {
+                      await uploadFile(activeChatStore.activeChat.roomId, event);
                     }
                   }}
                   className={styles.uploadFileInput}
