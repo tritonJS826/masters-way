@@ -75,6 +75,11 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "#A8A1DD",
     [Theme.OBSIDIAN]: "#A8A1DD",
   },
+  loaderLineBgColor: {
+    [Theme.DARK]: "#337ab726",
+    [Theme.LIGHT]: "#337ab726",
+    [Theme.OBSIDIAN]: "#337ab726",
+  },
   additionalInfoCardBgColor: {
     [Theme.DARK]: "#1F173D",
     [Theme.LIGHT]: "#FCFBFE",
