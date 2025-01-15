@@ -73,9 +73,9 @@ describe("EditableText component", () => {
     fireEvent.dblClick(trigger);
 
     const input = screen.getByRole("spinbutton");
-    await user.type(input, "now"); // Typing into the input
+    await user.type(input, "now");
 
-    expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE_NUMBER); // Value should not change due to "number" mode
+    expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE_NUMBER);
   });
 
   it("should render input or div depending on user actions", async () => {
@@ -88,7 +88,6 @@ describe("EditableText component", () => {
     const input = screen.getByRole("textbox");
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE);
 
-    // Simulate clicking outside to finish editing
     await user.click(document.body);
 
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
@@ -105,7 +104,6 @@ describe("EditableText component", () => {
     const input = screen.getByRole("textbox");
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE);
 
-    // Simulate pressing Enter to finish editing
     await user.keyboard("{Enter}");
 
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();

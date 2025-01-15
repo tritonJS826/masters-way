@@ -59,7 +59,7 @@ describe("Dropdown component", () => {
   it("should close by clicking on background", async () => {
     renderDropdown();
     await userEvent.click(screen.getByRole("button", {name: /dropdown/i}));
-    await userEvent.click(document.body); // Click outside
+    await userEvent.click(document.body);
     expect(screen.queryByText(TEST_CONTENT1)).not.toBeInTheDocument();
     expect(screen.queryByText(TEST_CONTENT2)).not.toBeInTheDocument();
   });

@@ -38,7 +38,7 @@ describe("EditableTextarea component", () => {
     fireEvent.dblClick(trigger);
 
     const textbox = screen.getByRole("textbox");
-    expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE); //Value should not change due to "number" mode
+    expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE);
   });
 
   it("should render input or div depend on client actions", async () => {
@@ -62,6 +62,23 @@ describe("EditableTextarea component", () => {
     const textbox = screen.getByRole("textbox");
     await user.type(textbox, EDITABLTYPE_VALUE);
     expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE);
+  });
+
+  it("should be able to handle changes when finished", async () => {
+    const user = userEvent.setup();
+    const trigger = screen.getByRole(EDITABLETEXT_CY.trigger);
+    fireEvent.dblClick(trigger);
+
+    const textbox = screen.getByRole("textbox");
+    await user.type(textbox, EDITABLTYPE_VALUE);
+    expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE);
+
+    await userEvent.click(document.body);
+    await userEvent.dblClick(trigger);
+
+    const textbox2 = screen.getByRole("textbox");
+    await user.type(textbox2, "new text");
+    expect(textbox2).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE + "new text");
   });
 
 });
