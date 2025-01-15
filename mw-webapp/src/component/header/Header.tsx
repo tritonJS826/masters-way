@@ -151,6 +151,17 @@ export const Header = observer((props: HeaderProps) => {
         />),
     },
     {
+      path: pages.allTrainings.getPath({}),
+      value: LanguageService.sidebar.allTrainings[props.language],
+      dataCy: navigationMenuIds.menuItemLinks.allTrainings,
+      icon: (
+        <Icon
+          size={IconSize.MEDIUM}
+          name="TargetIcon"
+          className={styles.linkIcon}
+        />),
+    },
+    {
       path: pages.allUsers.getPath({}),
       value: LanguageService.sidebar.allUsers[props.language],
       dataCy: navigationMenuIds.menuItemLinks.allUsers,

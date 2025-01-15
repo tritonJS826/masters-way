@@ -134,6 +134,11 @@ export type LocalStorageData = {
   allUsersPage: AllUsersPageSettings;
 
   /**
+   * All trainings page data
+   */
+  allTrainingsPage: AllTrainingsPageSettings;
+
+  /**
    * Is OS notification enabled
    */
   isOSNotificationEnabled: boolean;
@@ -251,6 +256,19 @@ export type AllWaysPageSettings = {
    * Part of way name
    */
   wayName: string;
+}
+
+export type AllTrainingsPageSettings = {
+
+  /**
+   * Settled view
+   */
+  view: View;
+
+  /**
+   * Part of training name
+   */
+  trainingName: string;
 }
 
 export type AllUsersPageSettings = {

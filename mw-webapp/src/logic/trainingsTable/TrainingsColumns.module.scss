@@ -1,0 +1,35 @@
+@import "src/styles/variables";
+
+.shortCell {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+
+  img {
+    max-width: $minWidthBlock;
+    max-height: $minHeightBlock;
+  }
+}
+
+.number {
+  text-align: right;
+}
+
+.dateCell {
+  display: block;
+  min-width: $minWidthDate;
+  hyphens: none;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.userBlock {
+  gap: $gapSmall;
+}
+
+.cellWrapper {
+  padding: $paddingSmall;
+}
