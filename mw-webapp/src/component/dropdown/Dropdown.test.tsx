@@ -1,7 +1,7 @@
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Dropdown} from "src/component/dropdown/Dropdown";
-import {describe, expect, it, vi} from "vitest";
+import {vi} from "vitest";
 
 const DROPDOWN_LENGHTH = 2;
 const TEST_CONTENT1 = "test#1";

@@ -1,6 +1,7 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {vi} from "vitest";
 
 const EDITABLTEXTAREA_VALUE = "text";
 const EDITABLTEXTAREA_PLACEHOLDER = "Enter text";
@@ -12,13 +13,15 @@ const EDITABLETEXT_CY = {
   textArea: "input",
 };
 
+const changeFinish = vi.fn();
+
 describe("EditableTextarea component", () => {
   beforeEach(() => {
     render(
       <EditableTextarea
         cy={EDITABLETEXT_CY}
         text={EDITABLTEXTAREA_VALUE}
-        onChangeFinish={() => {}}
+        onChangeFinish={changeFinish}
         placeholder={EDITABLTEXTAREA_PLACEHOLDER}
         rows={DEFAULT_ROWS_AMOUNT}
       />,
@@ -74,8 +77,9 @@ describe("EditableTextarea component", () => {
     expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE);
 
     await userEvent.click(document.body);
-    await userEvent.dblClick(trigger);
+    expect(changeFinish).toHaveBeenCalled();
 
+    await userEvent.dblClick(trigger);
     const textbox2 = screen.getByRole("textbox");
     await user.type(textbox2, "new text");
     expect(textbox2).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE + "new text");
