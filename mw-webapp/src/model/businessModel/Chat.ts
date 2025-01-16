@@ -46,7 +46,7 @@ interface RoomProps {
 /**
  * Chat model
  */
-export class Room {
+export class ChatRoom {
 
   /**
    * Chat room's is blocked

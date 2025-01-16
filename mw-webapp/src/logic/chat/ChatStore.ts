@@ -44,8 +44,8 @@ class ChatStore {
   /**
    * Create new activeChatStore
    */
-  public initiateActiveChatStore = (roomId: string) => {
-    this.activeChatStore = new ActiveChatStore(roomId);
+  public initiateActiveChatStore = (chatRoomId: string) => {
+    this.activeChatStore = new ActiveChatStore(chatRoomId);
   };
 
   /**
@@ -58,15 +58,23 @@ class ChatStore {
   /**
    * Create new ChatListStore
    */
-  public initiateChatListStore = (roomType: RoomType) => {
-    this.chatListStore = new ChatListStore(roomType);
+  public initiateChatListStore = (chatRoomType: RoomType) => {
+    this.chatListStore = new ChatListStore(chatRoomType);
   };
 
   /**
-   * Create new ChatListStore
+   * Reset chatListStore
    */
   public resetChatListStore = () => {
     this.chatListStore = null;
+  };
+
+  /**
+   * Create new ChatListStore and  activeChatStore
+   */
+  public resetChatListStoreAndResetActiveChatStore = () => {
+    this.chatListStore = null;
+    this.activeChatStore = null;
   };
 
   /**

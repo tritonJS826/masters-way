@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
-import {Room} from "src/model/businessModel/Chat";
+import {ChatRoom} from "src/model/businessModel/Chat";
 
 /**
  * All chatRoom block-related methods
@@ -8,10 +8,16 @@ import {Room} from "src/model/businessModel/Chat";
 export class ActiveChatStore {
 
   /**
-   * Active chat
+   * Default Active chat room  value
    *
    */
-  public activeChat?: Room;
+  public activeChatRoom: ChatRoom | null = null;
+
+  /**
+   *Active chat room id  value
+   *
+   */
+  public activeChatRoomId: string;
 
   /**
    * If true then active chat is hidden and only chat list is shown
@@ -25,7 +31,8 @@ export class ActiveChatStore {
 
   constructor(chatRoomId: string) {
     makeAutoObservable(this);
-    this.initiateActiveChat(chatRoomId);
+    this.loadActiveChat(chatRoomId);
+    this.activeChatRoomId = chatRoomId;
   }
 
   /**
@@ -43,19 +50,19 @@ export class ActiveChatStore {
   };
 
   /**
-   * Set new active chat
+   * Set message to send
    */
-  public setActiveChat = (chat: Room) => {
-    this.activeChat = chat;
+  public getActiveChatRoomId = () => {
+    return this.activeChatRoomId;
   };
 
   /**
-   * Set message to send
+   * Load active chat by chatRoomId
    */
-  public initiateActiveChat = async (chatRoomId: string) => {
-    const activeChat = await ChatDAL.getRoomById(chatRoomId);
+  private loadActiveChat = async (chatRoomId: string) => {
+    const fetchedActiveChatRoom = await ChatDAL.getRoomById(chatRoomId);
     runInAction(() => {
-      this.activeChat = activeChat;
+      this.activeChatRoom = fetchedActiveChatRoom;
     });
   };
 

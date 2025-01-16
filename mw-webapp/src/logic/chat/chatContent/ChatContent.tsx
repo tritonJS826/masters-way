@@ -12,7 +12,7 @@ import {Textarea, TextareaType} from "src/component/textarea/Textarea";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
+import {ChatDAL, createMessageInGroupParams} from "src/dataAccessLogic/ChatDAL";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {useListenEventBus} from "src/eventBus/useListenEvent";
@@ -34,6 +34,11 @@ export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
   const {isChatOpen, activeChatStore, chatListStore, addUnreadMessageToAmount} = chatStore;
+  const isInitiatedActiveChatStore = activeChatStore !== null && activeChatStore !== undefined;
+  const isActiveChatRoom = isInitiatedActiveChatStore &&
+                          activeChatStore.activeChatRoom !== null &&
+                          activeChatStore.activeChatRoom !== undefined;
+  const isInitiatedChatListStore = chatListStore !== null && chatListStore !== undefined;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -55,21 +60,11 @@ export const ChatContent = observer(() => {
    * Read message
    */
   const readMessage = async (messageId: string, ownerId: string) => {
-    activeChatStore?.activeChat && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
+    isActiveChatRoom && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
   };
-  useEffect(() => {
-    chatListStore?.loadChatList();
-  }, [isChatOpen, chatListStore]);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-    }
-
-  }, [activeChatStore?.activeChat]);
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
-    const isChatForMessageOpen = payload.roomId === activeChatStore?.activeChat?.roomId;
+    const isChatForMessageOpen = payload.roomId === activeChatStore?.getActiveChatRoomId();
     if (isChatForMessageOpen) {
       const newMessage = new Message({
         uuid: payload.messageId,
@@ -79,7 +74,9 @@ export const ChatContent = observer(() => {
         ownerImageUrl: payload.ownerImageUrl,
         messageReaders: [],
       });
-      activeChatStore?.activeChat?.addMessage(newMessage);
+      if (activeChatStore.activeChatRoom) {
+        activeChatStore.activeChatRoom.addMessage(newMessage);
+      }
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
       addUnreadMessageToAmount();
@@ -90,11 +87,14 @@ export const ChatContent = observer(() => {
     }
   });
 
+  const activeChatRoomMessages = isInitiatedActiveChatStore && activeChatStore.activeChatRoom
+    ? activeChatStore.activeChatRoom.messages
+    : [];
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
-  }, [activeChatStore?.activeChat?.messages]);
+  }, [activeChatRoomMessages]);
 
   /**
    * Send message
@@ -102,7 +102,7 @@ export const ChatContent = observer(() => {
   const sendMessage = async (params: createMessageInGroupParams) => {
     const trimmedMessage = params.message.trim();
     const isValidMessage = trimmedMessage !== "";
-    if (isValidMessage && activeChatStore) {
+    if (isValidMessage && isInitiatedActiveChatStore) {
       setInputDisabled(true);
       try {
         await ChatDAL.createMessageInRoom({
@@ -131,31 +131,14 @@ export const ChatContent = observer(() => {
     setInputDisabled(false);
   };
 
-  // UseEffect(() => {
-  //   if (!isChatOpen && chatListStore?.roomType !== RoomType.PRIVATE) {
-  //     chatListStore?.setRoomType(RoomType.PRIVATE);
-  //     chatListStore?.loadChatList();
-  //   }
-  // }, [isChatOpen]);
-
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
-    const newChatInRoomList = new ChatPreview({
+    new ChatPreview({
       isBlocked: false,
       name: payload.name,
       roomId: payload.roomId,
       imageUrl: payload.imageUrl,
       participantIds: payload.users.map((participant) => participant.userId),
     });
-
-    const isGroupChatOpenAndNewChatIsGroup = chatListStore?.roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
-    const isPrivateChatOpenAndNewChatIsPrivate = chatListStore?.roomType === RoomType.PRIVATE
-      && payload.roomType === RoomType.PRIVATE;
-
-    const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
-
-    if (isShouldUpdateChatList) {
-      chatListStore.addChatToChatList(newChatInRoomList);
-    }
 
     displayNotification({
       text: `Room ${payload.name} created!`,
@@ -184,8 +167,7 @@ export const ChatContent = observer(() => {
       <DialogOverlay className={styles.chatOverlay} />
       <DialogContent
         onInteractOutside={() => {
-          chatStore.resetActiveChatStore();
-          chatStore.resetChatListStore();
+          chatStore.resetChatListStoreAndResetActiveChatStore();
         }}
         className={styles.chatContent}
       >
@@ -194,7 +176,9 @@ export const ChatContent = observer(() => {
             <HorizontalContainer>
               <Button
                 onClick={() => {
-                  chatListStore?.loadChatList();
+                  if (isInitiatedChatListStore) {
+                    chatListStore.loadChatList();
+                  }
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.personalChats[language]}
@@ -232,7 +216,7 @@ export const ChatContent = observer(() => {
           <HorizontalContainer className={styles.chatContactsMessages}>
             <VerticalContainer className={clsx(
               styles.chatList,
-              activeChatStore && styles.chatListHide,
+              isInitiatedChatListStore && styles.chatListHide,
             )}
             >
               {/* Commented feature while it's not realized on the back-end
@@ -256,8 +240,8 @@ export const ChatContent = observer(() => {
                 />
               </>
               */}
-              { chatListStore?.chatList && chatListStore.chatList.length > 0
-                ? chatListStore?.chatList.map((chatItem) => (
+              { isInitiatedChatListStore && chatListStore.chatListPreview.length > 0
+                ? chatListStore.chatListPreview.map((chatItem) => (
                   <ChatItem
                     key={chatItem.roomId}
                     name={chatItem.name}
@@ -274,7 +258,7 @@ export const ChatContent = observer(() => {
               }
             </VerticalContainer>
 
-            {activeChatStore?.activeChat &&
+            { isInitiatedActiveChatStore && activeChatStore.activeChatRoom &&
             <VerticalContainer className={clsx(
               styles.chatBlock,
               activeChatStore && styles.chatBlockOpen,
@@ -282,9 +266,9 @@ export const ChatContent = observer(() => {
             >
               <HorizontalContainer className={styles.chatInfo}>
                 <ChatItem
-                  name={activeChatStore.activeChat.name}
-                  src={activeChatStore.activeChat.imageUrl}
-                  dataCy={chatAccessIds.chatContainer.chatItem(`${activeChatStore.activeChat.name}`)}
+                  name={activeChatStore.activeChatRoom.name}
+                  src={activeChatStore.activeChatRoom.imageUrl}
+                  dataCy={chatAccessIds.chatContainer.chatItem(`${activeChatStore.activeChatRoom.name}`)}
                 />
                 <Dropdown
                   isModalBehavior={true}
@@ -331,7 +315,7 @@ export const ChatContent = observer(() => {
                   ref={messagesEndRef}
                   className={clsx(styles.messages, styles.messageList)}
                 >
-                  {activeChatStore?.activeChat?.messages.map((messageItem) => (
+                  { activeChatStore.activeChatRoom.messages.map((messageItem) => (
                     <MessageItem
                       key={messageItem.uuid}
                       src={messageItem.ownerImageUrl}
@@ -348,7 +332,7 @@ export const ChatContent = observer(() => {
             }
           </HorizontalContainer>
 
-          {activeChatStore?.activeChat &&
+          { isInitiatedActiveChatStore && activeChatStore.activeChatRoom &&
             <HorizontalContainer className={styles.messageInputBlock}>
               <Textarea
                 cy={chatAccessIds.chatContainer.messageInput}
@@ -358,11 +342,11 @@ export const ChatContent = observer(() => {
                 isAutofocus
                 isDisabled={isInputDisabled}
                 onKeyPress={(event: React.KeyboardEvent<HTMLElement>) => {
-                  if ((event.key === KeySymbols.ENTER && event.ctrlKey && activeChatStore.activeChat)
-                    || (event.key === KeySymbols.ENTER && event.shiftKey && activeChatStore.activeChat)) {
+                  if ((event.key === KeySymbols.ENTER && event.ctrlKey && activeChatStore.activeChatRoom)
+                    || (event.key === KeySymbols.ENTER && event.shiftKey && activeChatStore.activeChatRoom)) {
                     sendMessage({
                       message: activeChatStore.message,
-                      roomId: activeChatStore.activeChat.roomId,
+                      roomId: activeChatStore.activeChatRoom.roomId,
                     });
                   }
                 }}
@@ -395,10 +379,10 @@ export const ChatContent = observer(() => {
               <Button
                 value={LanguageService.common.chat.sendButton[language]}
                 onClick={async () => {
-                  if (activeChatStore.activeChat) {
+                  if (isInitiatedActiveChatStore && activeChatStore.activeChatRoom) {
                     await sendMessage({
                       message: activeChatStore.message,
-                      roomId: activeChatStore.activeChat.roomId,
+                      roomId: activeChatStore.activeChatRoom.roomId,
                     });
                   }
                 }}
