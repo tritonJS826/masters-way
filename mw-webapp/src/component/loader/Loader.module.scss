@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 $loaderIconHeight: 100px;
 
 .loaderWrapper {
@@ -8,7 +10,41 @@ $loaderIconHeight: 100px;
   transform: translate(-50%, -50%);
 }
 
+.loaderBlockWrapper {
+  gap: $gapMedium;
+}
+
 .loader {
   width: auto;
   height: $loaderIconHeight;
+}
+
+.loaderLine {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+  height: $progressBarContainerHeight;
+  background: var(--loaderLineBgColor);
+}
+.loaderLine::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 96px;
+  height: $progressBarContainerHeight;
+  box-sizing: border-box;
+  animation: fromLeftToRight 1s linear infinite alternate;
+  background: var(--generalPrimaryColor);
+  content: "";
+}
+
+@keyframes fromLeftToRight {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+    transform: translateX(-100%);
+  }
 }
