@@ -1,3 +1,4 @@
+import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
 import {observer} from "mobx-react-lite";
 import {AreaChart} from "src/component/chart/AreaChart";
 import {BarChart} from "src/component/chart/blockChart/BarChart";
@@ -54,7 +55,7 @@ export const StatisticPeriod = observer((props: StatisticPeriodProps) => {
   return (
     <VerticalContainer
       className={styles.statisticContainer}
-      dataCy= {props.title + "_statisticPeriod"}
+      dataCy={statisticsAccessIds.statistics.periodBlocks.periodBlock(props.title)}
     >
       <Title
         level={HeadingLevel.h2}
