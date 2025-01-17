@@ -10,6 +10,8 @@ export const statisticsSelectors = {
         getWayPageStatistics: () => cy.get(getDataCy(statisticsAccessIds.statistics.wayPageStatistics)),
 
         periodBlocks: {
+            periodBlock: (period: string) => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.periodBlock(period))),
+
             overallInfo: {
                 getStatisticValue: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue)),
                 getStatisticText: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticText)),
@@ -19,6 +21,13 @@ export const statisticsSelectors = {
                 getAvgTimePerCalendarDay: (period: string) => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.overallInfo.avgTimePerCalendarDay(period))),
                 getAverageTimePerWorkingDay: (period: string) => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.overallInfo.avgTimePerWorkingDay(period))),
                 getAvgJobTime: (period: string) => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.overallInfo.avgJobTime(period))),
+            },
+
+            labelsStatistic: {
+                getTagColor: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor)),
+                getLabelName: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName)),
+                getJobsAmount: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount)),
+                getTime: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time)),
             }
         },
 
