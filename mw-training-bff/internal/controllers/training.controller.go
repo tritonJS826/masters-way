@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"mw-training-bff/internal/auth"
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -114,20 +117,29 @@ func (nc *TrainingController) DeleteTraining(ctx *gin.Context) {
 // @Success 200 {object} schemas.TrainingList
 // @Router /trainings [get]
 func (nc *TrainingController) GetTrainingList(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+	pageRaw := ctx.DefaultQuery("page", "1")
+	limitRaw := ctx.DefaultQuery("limit", "10")
+	trainingName := ctx.DefaultQuery("trainingName", "")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
 
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
+	page, err := strconv.Atoi(pageRaw)
+	util.HandleErrorGin(ctx, err)
+	limit, err := strconv.Atoi(limitRaw)
+	util.HandleErrorGin(ctx, err)
 
-	stub := schemas.TrainingList{}
+	args := &services.GetTrainingListParams{
+		UserUUID:     userID,
+		Page:         page,
+		Limit:        limit,
+		TrainingName: trainingName,
+	}
 
-	ctx.JSON(http.StatusOK, stub)
+	trainingList, err := nc.trainingService.GetTrainingList(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, trainingList)
 }
 
 // @Summary Get training list by user

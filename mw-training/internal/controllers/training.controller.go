@@ -38,6 +38,22 @@ func (tc *TrainingController) CreateNewTraining(ctx context.Context, in *pb.Crea
 
 func (tc *TrainingController) GetTrainingsList(ctx context.Context, in *pb.GetTrainingsListRequest) (*pb.TrainingPreviewList, error) {
 	userUuid := in.GetUserUuid()
+	// page := in.GetPage()
+	// limit := in.GetLimit()
+	// trainingName := in.GetTrainingName()
+
+	trainings, err := tc.trainingService.GetTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.TrainingPreviewList{
+		TrainingList: trainings,
+	}, nil
+}
+
+func (tc *TrainingController) GetTrainingListForUser(ctx context.Context, in *pb.GetTrainingsListForUserRequest) (*pb.TrainingPreviewList, error) {
+	userUuid := in.GetUserUuid()
 
 	trainings, err := tc.trainingService.GetTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
 	if err != nil {

@@ -16,7 +16,8 @@ service TrainingTrainingTagService {
 service TrainingService {
   rpc CreateNewTraining(CreateTrainingRequest) returns (Training);
   rpc GetTrainingById(GetTrainingRequest) returns (Training);
-  rpc GetTrainingsList(GetTrainingsListRequest) returns (TrainingPreviewList);
+  rpc GetTrainingListForUser(GetTrainingListForUserRequest) returns (TrainingPreviewList);
+  rpc GetTrainingList(GetTrainingListRequest) returns (TrainingPreviewList);
   rpc UpdateTraining(UpdateTrainingRequest) returns (Training);
   rpc DeleteTraining(DeleteTrainingRequest) returns (google.protobuf.Empty);
 }
@@ -84,25 +85,39 @@ message CreateTrainingRequest {
   string name = 1;
 }
 
+message User {
+  string uuid = 1;
+  string name = 2;
+  string image_url = 3;
+}
+
 message Training {
   string uuid = 1;
   string name = 2;
   string description = 3;
-  string owner_uuid = 4;
+  User owner = 4;
   string created_at = 5;
   string updated_at = 6;
   bool is_private = 7;
 }
 
 message TrainingPreviewList {
-  repeated Training Training_list = 1;
+  int32 size = 1;
+  repeated Training Training_list = 2;
 }
 
 message GetTrainingRequest {
   string training_uuid = 1;
 }
 
-message GetTrainingsListRequest {
+message GetTrainingListRequest {
+  string user_uuid = 1;
+  int32 page = 2;
+  int32 limit = 3;
+  string training_name = 4;
+}
+
+message GetTrainingListForUserRequest {
   string user_uuid = 1;
 }
 

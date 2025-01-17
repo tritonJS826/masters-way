@@ -20,7 +20,7 @@ INSERT INTO theory_materials(
     $1,
     $2,
     $3
-) RETURNING uuid, topic_uuid, name, description, created_at, updated_at
+) RETURNING uuid, topic_uuid, name, theory_material_order, description, created_at, updated_at
 `
 
 type CreateTheoryMaterialInTopicParams struct {
@@ -36,6 +36,7 @@ func (q *Queries) CreateTheoryMaterialInTopic(ctx context.Context, arg CreateThe
 		&i.Uuid,
 		&i.TopicUuid,
 		&i.Name,
+		&i.TheoryMaterialOrder,
 		&i.Description,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -46,7 +47,7 @@ func (q *Queries) CreateTheoryMaterialInTopic(ctx context.Context, arg CreateThe
 const deleteTheoryMaterial = `-- name: DeleteTheoryMaterial :one
 DELETE FROM theory_materials
 WHERE uuid = $1
-RETURNING uuid, topic_uuid, name, description, created_at, updated_at
+RETURNING uuid, topic_uuid, name, theory_material_order, description, created_at, updated_at
 `
 
 func (q *Queries) DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid pgtype.UUID) (TheoryMaterial, error) {
@@ -56,6 +57,7 @@ func (q *Queries) DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid p
 		&i.Uuid,
 		&i.TopicUuid,
 		&i.Name,
+		&i.TheoryMaterialOrder,
 		&i.Description,
 		&i.CreatedAt,
 		&i.UpdatedAt,
@@ -64,7 +66,7 @@ func (q *Queries) DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid p
 }
 
 const getTheoryMaterialsByTopicId = `-- name: GetTheoryMaterialsByTopicId :many
-SELECT uuid, topic_uuid, name, description, created_at, updated_at FROM theory_materials
+SELECT uuid, topic_uuid, name, theory_material_order, description, created_at, updated_at FROM theory_materials
 WHERE theory_materials.topic_uuid = $1
 `
 
@@ -81,6 +83,7 @@ func (q *Queries) GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgt
 			&i.Uuid,
 			&i.TopicUuid,
 			&i.Name,
+			&i.TheoryMaterialOrder,
 			&i.Description,
 			&i.CreatedAt,
 			&i.UpdatedAt,
@@ -102,7 +105,7 @@ SET
     description = coalesce($2, description),
     updated_at = CURRENT_TIMESTAMP
 WHERE uuid = $3
-RETURNING uuid, topic_uuid, name, description, created_at, updated_at
+RETURNING uuid, topic_uuid, name, theory_material_order, description, created_at, updated_at
 `
 
 type UpdateTheoryMaterialParams struct {
@@ -118,6 +121,7 @@ func (q *Queries) UpdateTheoryMaterial(ctx context.Context, arg UpdateTheoryMate
 		&i.Uuid,
 		&i.TopicUuid,
 		&i.Name,
+		&i.TheoryMaterialOrder,
 		&i.Description,
 		&i.CreatedAt,
 		&i.UpdatedAt,

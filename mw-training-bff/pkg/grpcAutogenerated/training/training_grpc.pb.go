@@ -180,7 +180,8 @@ var TrainingTrainingTagService_ServiceDesc = grpc.ServiceDesc{
 type TrainingServiceClient interface {
 	CreateNewTraining(ctx context.Context, in *CreateTrainingRequest, opts ...grpc.CallOption) (*Training, error)
 	GetTrainingById(ctx context.Context, in *GetTrainingRequest, opts ...grpc.CallOption) (*Training, error)
-	GetTrainingsList(ctx context.Context, in *GetTrainingsListRequest, opts ...grpc.CallOption) (*TrainingPreviewList, error)
+	GetTrainingListForUser(ctx context.Context, in *GetTrainingListForUserRequest, opts ...grpc.CallOption) (*TrainingPreviewList, error)
+	GetTrainingList(ctx context.Context, in *GetTrainingListRequest, opts ...grpc.CallOption) (*TrainingPreviewList, error)
 	UpdateTraining(ctx context.Context, in *UpdateTrainingRequest, opts ...grpc.CallOption) (*Training, error)
 	DeleteTraining(ctx context.Context, in *DeleteTrainingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -211,9 +212,18 @@ func (c *trainingServiceClient) GetTrainingById(ctx context.Context, in *GetTrai
 	return out, nil
 }
 
-func (c *trainingServiceClient) GetTrainingsList(ctx context.Context, in *GetTrainingsListRequest, opts ...grpc.CallOption) (*TrainingPreviewList, error) {
+func (c *trainingServiceClient) GetTrainingListForUser(ctx context.Context, in *GetTrainingListForUserRequest, opts ...grpc.CallOption) (*TrainingPreviewList, error) {
 	out := new(TrainingPreviewList)
-	err := c.cc.Invoke(ctx, "/training.TrainingService/GetTrainingsList", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/training.TrainingService/GetTrainingListForUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *trainingServiceClient) GetTrainingList(ctx context.Context, in *GetTrainingListRequest, opts ...grpc.CallOption) (*TrainingPreviewList, error) {
+	out := new(TrainingPreviewList)
+	err := c.cc.Invoke(ctx, "/training.TrainingService/GetTrainingList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -244,7 +254,8 @@ func (c *trainingServiceClient) DeleteTraining(ctx context.Context, in *DeleteTr
 type TrainingServiceServer interface {
 	CreateNewTraining(context.Context, *CreateTrainingRequest) (*Training, error)
 	GetTrainingById(context.Context, *GetTrainingRequest) (*Training, error)
-	GetTrainingsList(context.Context, *GetTrainingsListRequest) (*TrainingPreviewList, error)
+	GetTrainingListForUser(context.Context, *GetTrainingListForUserRequest) (*TrainingPreviewList, error)
+	GetTrainingList(context.Context, *GetTrainingListRequest) (*TrainingPreviewList, error)
 	UpdateTraining(context.Context, *UpdateTrainingRequest) (*Training, error)
 	DeleteTraining(context.Context, *DeleteTrainingRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTrainingServiceServer()
@@ -260,8 +271,11 @@ func (UnimplementedTrainingServiceServer) CreateNewTraining(context.Context, *Cr
 func (UnimplementedTrainingServiceServer) GetTrainingById(context.Context, *GetTrainingRequest) (*Training, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTrainingById not implemented")
 }
-func (UnimplementedTrainingServiceServer) GetTrainingsList(context.Context, *GetTrainingsListRequest) (*TrainingPreviewList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTrainingsList not implemented")
+func (UnimplementedTrainingServiceServer) GetTrainingListForUser(context.Context, *GetTrainingListForUserRequest) (*TrainingPreviewList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTrainingListForUser not implemented")
+}
+func (UnimplementedTrainingServiceServer) GetTrainingList(context.Context, *GetTrainingListRequest) (*TrainingPreviewList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTrainingList not implemented")
 }
 func (UnimplementedTrainingServiceServer) UpdateTraining(context.Context, *UpdateTrainingRequest) (*Training, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTraining not implemented")
@@ -318,20 +332,38 @@ func _TrainingService_GetTrainingById_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TrainingService_GetTrainingsList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTrainingsListRequest)
+func _TrainingService_GetTrainingListForUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTrainingListForUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TrainingServiceServer).GetTrainingsList(ctx, in)
+		return srv.(TrainingServiceServer).GetTrainingListForUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/training.TrainingService/GetTrainingsList",
+		FullMethod: "/training.TrainingService/GetTrainingListForUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TrainingServiceServer).GetTrainingsList(ctx, req.(*GetTrainingsListRequest))
+		return srv.(TrainingServiceServer).GetTrainingListForUser(ctx, req.(*GetTrainingListForUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TrainingService_GetTrainingList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTrainingListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TrainingServiceServer).GetTrainingList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TrainingService/GetTrainingList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TrainingServiceServer).GetTrainingList(ctx, req.(*GetTrainingListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -388,8 +420,12 @@ var TrainingService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TrainingService_GetTrainingById_Handler,
 		},
 		{
-			MethodName: "GetTrainingsList",
-			Handler:    _TrainingService_GetTrainingsList_Handler,
+			MethodName: "GetTrainingListForUser",
+			Handler:    _TrainingService_GetTrainingListForUser_Handler,
+		},
+		{
+			MethodName: "GetTrainingList",
+			Handler:    _TrainingService_GetTrainingList_Handler,
 		},
 		{
 			MethodName: "UpdateTraining",

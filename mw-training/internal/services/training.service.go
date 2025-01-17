@@ -78,10 +78,14 @@ func (ts *TrainingService) UpdateTraining(ctx context.Context, params db.UpdateT
 		Uuid:        *utils.MarshalPgUUID(training.Uuid),
 		Name:        training.Name.String,
 		Description: training.Description.String,
-		OwnerUuid:   *utils.MarshalPgUUID(training.OwnerUuid),
-		CreatedAt:   training.CreatedAt.Time.String(),
-		UpdatedAt:   training.UpdatedAt.Time.String(),
-		IsPrivate:   training.IsPrivate,
+		Owner: &pb.User{
+			Uuid:     *utils.MarshalPgUUID(training.OwnerUuid),
+			Name:     "Stub",
+			ImageUrl: "Stub",
+		},
+		CreatedAt: training.CreatedAt.Time.String(),
+		UpdatedAt: training.UpdatedAt.Time.String(),
+		IsPrivate: training.IsPrivate,
 	}, nil
 }
 

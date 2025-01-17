@@ -72,12 +72,13 @@ type PracticeMaterial struct {
 }
 
 type TheoryMaterial struct {
-	Uuid        pgtype.UUID      `json:"uuid"`
-	TopicUuid   pgtype.UUID      `json:"topic_uuid"`
-	Name        pgtype.Text      `json:"name"`
-	Description pgtype.Text      `json:"description"`
-	CreatedAt   pgtype.Timestamp `json:"created_at"`
-	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	Uuid                pgtype.UUID      `json:"uuid"`
+	TopicUuid           pgtype.UUID      `json:"topic_uuid"`
+	Name                pgtype.Text      `json:"name"`
+	TheoryMaterialOrder int32            `json:"theory_material_order"`
+	Description         pgtype.Text      `json:"description"`
+	CreatedAt           pgtype.Timestamp `json:"created_at"`
+	UpdatedAt           pgtype.Timestamp `json:"updated_at"`
 }
 
 type Topic struct {
