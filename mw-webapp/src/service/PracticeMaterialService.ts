@@ -27,7 +27,7 @@ export class PracticeMaterialService {
   /**
    * Get practice materials by topic UUID
    */
-  public static async getPracticeMaterialsByUuid(
+  public static async getPracticeMaterialsByTopicUuid(
     requestParameters: GetPracticeMaterialsByTopicIdRequest,
   ): Promise<MwTrainingBffInternalSchemasPracticeMaterials> {
     const practiceMaterials = await practiceMaterialService.getPracticeMaterialsByTopicId(requestParameters);

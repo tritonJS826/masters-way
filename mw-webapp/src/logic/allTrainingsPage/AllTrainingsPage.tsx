@@ -159,15 +159,18 @@ export const AllTrainingsPage = observer(() => {
           </HorizontalGridContainer>
         }
         {!!isMoreTrainingsExist &&
-          <Button
-            value={LanguageService.allTrainings.loadMoreButton[language]}
-            onClick={() => allTrainingsPageStore.setLoadedTrainings(allTrainingsPageSettings.trainingName)}
-            buttonType={ButtonType.SECONDARY}
-            className={styles.loadMoreButton}
-          />
+        <Button
+          value={LanguageService.allTrainings.loadMoreButton[language]}
+          onClick={() => allTrainingsPageStore.setLoadedTrainings(allTrainingsPageSettings.trainingName)}
+          buttonType={ButtonType.SECONDARY}
+          className={styles.loadMoreButton}
+        />
         }
       </div>
     </VerticalContainer>
-
+    // <h1 style={{color: "red", marginTop: "100px"}}>
+    //   Hello
+    //   dgljdl jslfjrs eosejg eos irej seo
+    // </h1>
   );
 });

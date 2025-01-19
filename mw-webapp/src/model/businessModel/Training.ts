@@ -1,122 +1,6 @@
 import {makeAutoObservable} from "mobx";
+import {Topic} from "src/model/businessModel/Topic";
 import {TrainingTag, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
-
-/**
- * Training topic props
- */
-interface TrainingTopicProps {
-
-  /**
-   * Training topic uuid
-   */
-  uuid: string;
-
-  /**
-   * Training topic name
-   */
-  name: string;
-
-  /**
-   * Training topic order
-   */
-  order: number;
-
-  /**
-   * Parent topic uuid
-   */
-  parentUuid: string | null;
-
-  /**
-   * Topic children
-   */
-  children: TrainingTopic[];
-
-  /**
-   * Topic's createdAt Date
-   */
-  createdAt: Date;
-
-  /**
-   * Practice material amount
-   */
-  practiceMaterialAmount: number;
-
-  /**
-   * Theory material amount
-   */
-  theoryMaterialAmount: number;
-
-  /**
-   * Training's uuid
-   */
-  trainingUuid: string;
-
-}
-
-/**
- * Training topic data
- */
-export class TrainingTopic {
-
-  /**
-   * Training topic uuid
-   */
-  public uuid: string;
-
-  /**
-   * Training topic name
-   */
-  public name: string;
-
-  /**
-   * Topic's order
-   */
-  public order: number;
-
-  /**
-   * Parent topic uuid
-   */
-  public parentUuid: string | null;
-
-  /**
-   * Topic children
-   */
-  public children: TrainingTopic[];
-
-  /**
-   * Topic's createdAt Date
-   */
-  public createdAt: Date;
-
-  /**
-   * Practice material amount
-   */
-  public practiceMaterialAmount: number;
-
-  /**
-   * Theory material amount
-   */
-  public theoryMaterialAmount: number;
-
-  /**
-   * Training's uuid
-   */
-  public trainingUuid: string;
-
-  constructor(trainingTopic: TrainingTopicProps) {
-    makeAutoObservable(this);
-    this.name = trainingTopic.name;
-    this.uuid = trainingTopic.uuid;
-    this.order = trainingTopic.order;
-    this.parentUuid = trainingTopic.parentUuid;
-    this.children = trainingTopic.children;
-    this.createdAt = trainingTopic.createdAt;
-    this.practiceMaterialAmount = trainingTopic.practiceMaterialAmount;
-    this.theoryMaterialAmount = trainingTopic.theoryMaterialAmount;
-    this.trainingUuid = trainingTopic.trainingUuid;
-  }
-
-}
 
 /**
  * Training props
@@ -179,7 +63,7 @@ interface TrainingProps {
   /**
    * Training's topics
    */
-  topics: TrainingTopic[];
+  topics: Topic[];
 
   /**
    * Favorite for user uuids
@@ -254,7 +138,7 @@ export class Training {
   /**
    * Training's topics
    */
-  public topics: TrainingTopic[];
+  public topics: Topic[];
 
   constructor(trainingData: TrainingProps) {
     makeAutoObservable(this);

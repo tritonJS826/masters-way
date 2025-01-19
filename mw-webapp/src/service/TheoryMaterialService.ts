@@ -27,7 +27,7 @@ export class TheoryMaterialService {
   /**
    * Get theory materials by topic UUID
    */
-  public static async getTheoryMaterialsByUuid(
+  public static async getTheoryMaterialsByTopicUuid(
     requestParameters: GetTheoryMaterialsByTopicIdRequest,
   ): Promise<MwTrainingBffInternalSchemasTheoryMaterials> {
     const theoryMaterials = await theoryMaterialService.getTheoryMaterialsByTopicId(requestParameters);
