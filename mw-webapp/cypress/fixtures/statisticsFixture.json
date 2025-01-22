@@ -53,22 +53,22 @@
                     "color": "background-color: green;",
                     "name": "database",
                     "jobsAmount": "3(37%)",
-                    "time": "2.2(30%)" 
+                    "time": "2.2(30%)"
                 },
                 {
                     "color": "background-color: blue;",
                     "name": "coding",
                     "jobsAmount": "2(25%)",
-                    "time": "2(27%)" 
+                    "time": "2(27%)"
                 },
                 {
                     "color": "background-color: red;",
                     "name": "meeting 1:1",
                     "jobsAmount": "2(25%)",
-                    "time": "2(27%)" 
+                    "time": "2(27%)"
                 },
                 {
-                    "length": 4                 
+                    "length": 4
                 }
             ],
 
@@ -77,22 +77,52 @@
                     "color": "background-color: green;",
                     "name": "database",
                     "jobsAmount": "1(33%)",
-                    "time": "1(33%)" 
+                    "time": "1(33%)"
                 },
                 {
                     "color": "background-color: blue;",
                     "name": "coding",
                     "jobsAmount": "1(33%)",
-                    "time": "1(33%)" 
+                    "time": "1(33%)"
                 },
                 {
                     "color": "background-color: red;",
                     "name": "meeting 1:1",
                     "jobsAmount": "1(33%)",
-                    "time": "1(33%)" 
+                    "time": "1(33%)"
                 },
                 {
                     "length": 3                 
+                }
+            ],
+
+            "lastMonth": [
+                {
+                    "color": "background-color: yellow;",
+                    "name": "general meeting",
+                    "jobsAmount": "1(12%)",
+                    "time": "1(13%)"
+                },
+                {
+                    "color": "background-color: green;",
+                    "name": "database",
+                    "jobsAmount": "3(37%)",
+                    "time": "2.2(30%)"
+                },
+                {
+                    "color": "background-color: blue;",
+                    "name": "coding",
+                    "jobsAmount": "2(25%)",
+                    "time": "2(27%)"
+                },
+                {
+                    "color": "background-color: red;",
+                    "name": "meeting 1:1",
+                    "jobsAmount": "2(25%)",
+                    "time": "2(27%)"
+                },
+                {
+                    "length": 4                 
                 }
             ]
         }
