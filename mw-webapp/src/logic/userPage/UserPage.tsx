@@ -171,7 +171,7 @@ interface UserPageSettingsValidatorParams {
  */
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
-  const {setIsChatOpen, initiateActiveChatStore, initiateChatListStore} = chatStore;
+  const {setIsChatOpen, initiateActiveRoomStore, initiateChatListStore} = chatStore;
   const {deviceId, setDeviceId} = deviceStore;
   const navigate = useNavigate();
 
@@ -555,7 +555,7 @@ export const UserPage = observer((props: UserPageProps) => {
                       userId: userPageOwner.uuid,
                     });
                     initiateChatListStore(RoomType.PRIVATE);
-                    initiateActiveChatStore(room.roomId);
+                    initiateActiveRoomStore(room.roomId);
                     setIsChatOpen(true);
 
                   }}

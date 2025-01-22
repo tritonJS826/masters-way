@@ -10,12 +10,12 @@ export class ChatListStore {
   /**
    * Chat preview list
    */
-  public chatListPreview: ChatPreview[] = [];
+  public chatList: ChatPreview[] = [];
 
   /**
    * Chat preview list
    */
-  public chatRoomType: RoomType;
+  public roomType: RoomType;
 
   /**
    * Group chat name
@@ -24,31 +24,35 @@ export class ChatListStore {
 
   constructor(chatRoomType: RoomType) {
     makeAutoObservable(this);
-    this.chatRoomType = chatRoomType ?? RoomType.PRIVATE;
+    this.roomType = chatRoomType ?? RoomType.PRIVATE;
     this.loadChatList();
   }
 
   /**
    * Set room type
    */
+  /* Commented  method while groupChat is not realized on backend
   public setGroupChatName = (name: string) => {
     this.groupChatName = name;
   };
+  */
 
   /**
    * Set room type
    */
+
+  /* Commented  method while groupChat is not realized on backend
   public setRoomType = (chatRoomType: RoomType) => {
     this.chatRoomType = chatRoomType;
   };
-
+ */
   /**
    * Load chat list
    */
   public loadChatList = async () => {
-    const fetchedChats = await ChatDAL.getRooms(this.chatRoomType);
+    const fetchedChats = await ChatDAL.getRooms(this.roomType);
     runInAction(() => {
-      this.chatListPreview = fetchedChats.chatsPreview;
+      this.chatList = fetchedChats.chatsPreview;
     });
   };
 

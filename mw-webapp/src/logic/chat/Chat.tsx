@@ -42,7 +42,7 @@ export const ChatModal = observer(() => {
     >
       <DialogTrigger
         onClick={() => {
-          chatStore.resetActiveChatStore();
+          chatStore.resetActiveRoomStore();
           chatStore.initiateChatListStore(RoomType.PRIVATE);
         }}
         asChild

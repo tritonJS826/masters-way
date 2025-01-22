@@ -1,6 +1,6 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
-import {ActiveChatStore} from "src/logic/chat/ActiveChatStore";
+import {ActiveRoomStore} from "src/logic/chat/ActiveRoomStore";
 import {ChatListStore} from "src/logic/chat/ChatListStore";
 
 /**
@@ -20,12 +20,12 @@ class ChatStore {
   public unreadMessagesAmount: number = 0;
 
   /**
-   * Active room store
+   * Active room store value
    */
-  public activeChatStore: ActiveChatStore | null = null;
+  public activeRoomStore: ActiveRoomStore | null = null;
 
   /**
-   * Active room store
+   * ChatListStore value
    */
   public chatListStore: ChatListStore | null = null;
 
@@ -42,21 +42,21 @@ class ChatStore {
   };
 
   /**
-   * Create new activeChatStore
+   * Initiate new activeChatStore
    */
-  public initiateActiveChatStore = (chatRoomId: string) => {
-    this.activeChatStore = new ActiveChatStore(chatRoomId);
+  public initiateActiveRoomStore = (chatRoomId: string) => {
+    this.activeRoomStore = new ActiveRoomStore(chatRoomId);
   };
 
   /**
-   * Delete activeChatStore
+   * Reset activeChatStore
    */
-  public resetActiveChatStore = () => {
-    this.activeChatStore = null;
+  public resetActiveRoomStore = () => {
+    this.activeRoomStore = null;
   };
 
   /**
-   * Create new ChatListStore
+   * Initiate new ChatListStore
    */
   public initiateChatListStore = (chatRoomType: RoomType) => {
     this.chatListStore = new ChatListStore(chatRoomType);
@@ -70,11 +70,11 @@ class ChatStore {
   };
 
   /**
-   * Create new ChatListStore and  activeChatStore
+   * Reset  chat stores
    */
-  public resetChatListStoreAndResetActiveChatStore = () => {
-    this.chatListStore = null;
-    this.activeChatStore = null;
+  public resetChatStores = () => {
+    this.resetActiveRoomStore();
+    this.resetChatListStore();
   };
 
   /**

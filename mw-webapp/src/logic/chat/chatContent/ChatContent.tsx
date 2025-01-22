@@ -12,7 +12,7 @@ import {Textarea, TextareaType} from "src/component/textarea/Textarea";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {ChatDAL, createMessageInGroupParams} from "src/dataAccessLogic/ChatDAL";
+import {ChatDAL, createMessageInGroupParams, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {useListenEventBus} from "src/eventBus/useListenEvent";
@@ -22,7 +22,6 @@ import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
 import {Message} from "src/model/businessModel/Message";
-import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 import {LanguageService} from "src/service/LanguageService";
 import {KeySymbols} from "src/utils/KeySymbols";
 import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
@@ -33,12 +32,7 @@ import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
 export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
-  const {isChatOpen, activeChatStore, chatListStore, addUnreadMessageToAmount} = chatStore;
-  const isInitiatedActiveChatStore = activeChatStore !== null && activeChatStore !== undefined;
-  const isActiveChatRoom = isInitiatedActiveChatStore &&
-                          activeChatStore.activeChatRoom !== null &&
-                          activeChatStore.activeChatRoom !== undefined;
-  const isInitiatedChatListStore = chatListStore !== null && chatListStore !== undefined;
+  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -53,19 +47,19 @@ export const ChatContent = observer(() => {
   //     name: groupChatName,
   //   });
   //   setGroupChatName("");
-  //   activeChatStore.setActiveChatStore(room);
+  //   activeRoomStore.setActiveRoomStore(room);
   // };
 
   /**
    * Read message
    */
   const readMessage = async (messageId: string, ownerId: string) => {
-    isActiveChatRoom && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
+    !!activeRoomStore && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
   };
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
-    const isChatForMessageOpen = payload.roomId === activeChatStore?.getActiveChatRoomId();
-    if (isChatForMessageOpen) {
+    const isChatForMessageOpen = !!activeRoomStore && payload.roomId === activeRoomStore.activeRoomId;
+    if (isChatForMessageOpen && activeRoomStore.activeRoom) {
       const newMessage = new Message({
         uuid: payload.messageId,
         message: payload.message,
@@ -74,9 +68,7 @@ export const ChatContent = observer(() => {
         ownerImageUrl: payload.ownerImageUrl,
         messageReaders: [],
       });
-      if (activeChatStore.activeChatRoom) {
-        activeChatStore.activeChatRoom.addMessage(newMessage);
-      }
+      activeRoomStore.activeRoom.addMessage(newMessage);
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
       addUnreadMessageToAmount();
@@ -87,8 +79,8 @@ export const ChatContent = observer(() => {
     }
   });
 
-  const activeChatRoomMessages = isInitiatedActiveChatStore && activeChatStore.activeChatRoom
-    ? activeChatStore.activeChatRoom.messages
+  const activeChatRoomMessages = !!activeRoomStore && activeRoomStore.activeRoom
+    ? activeRoomStore.activeRoom.messages
     : [];
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -102,14 +94,14 @@ export const ChatContent = observer(() => {
   const sendMessage = async (params: createMessageInGroupParams) => {
     const trimmedMessage = params.message.trim();
     const isValidMessage = trimmedMessage !== "";
-    if (isValidMessage && isInitiatedActiveChatStore) {
+    if (isValidMessage && !!activeRoomStore) {
       setInputDisabled(true);
       try {
         await ChatDAL.createMessageInRoom({
           message: params.message,
           roomId: params.roomId,
         });
-        activeChatStore.setMessage("");
+        activeRoomStore.setMessage("");
       } catch (error) {
         displayNotification({
           text: "The message was not sent. Check your Internet connection.",
@@ -119,9 +111,9 @@ export const ChatContent = observer(() => {
     } else {
 
       /**
-       * Send error notification when activeChatStore is null
+       * Send error notification when activeRoomStore is null
        */
-      if (!activeChatStore) {
+      if (!activeRoomStore) {
         displayNotification({
           text: "Active chat is not exist.",
           type: NotificationType.ERROR,
@@ -132,19 +124,20 @@ export const ChatContent = observer(() => {
   };
 
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
-    new ChatPreview({
-      isBlocked: false,
-      name: payload.name,
-      roomId: payload.roomId,
-      imageUrl: payload.imageUrl,
-      participantIds: payload.users.map((participant) => participant.userId),
-    });
+
+    const isPrivateChatOpenAndNewChatIsPrivate = !!chatListStore && chatListStore.roomType === RoomType.PRIVATE
+      && payload.roomType === RoomType.PRIVATE;
+
+    /* This constant  will be use when we reopen group chats feature */
+    const isShouldUpdateChatList = isPrivateChatOpenAndNewChatIsPrivate;
 
     displayNotification({
       text: `Room ${payload.name} created!`,
       type: NotificationType.INFO,
     });
-
+    if (isShouldUpdateChatList) {
+      chatListStore.loadChatList();
+    }
   });
 
   /**
@@ -167,29 +160,31 @@ export const ChatContent = observer(() => {
       <DialogOverlay className={styles.chatOverlay} />
       <DialogContent
         onInteractOutside={() => {
-          chatStore.resetChatListStoreAndResetActiveChatStore();
+          chatStore.resetChatStores();
         }}
         className={styles.chatContent}
       >
         <VerticalContainer className={styles.chatContainer}>
           <HorizontalContainer className={styles.chatHeader}>
             <HorizontalContainer>
+              {/* Commented feature while  groups button is commented
               <Button
                 onClick={() => {
-                  if (isInitiatedChatListStore) {
+                  if (chatListStore) {
                     chatListStore.loadChatList();
+                    chatStore.resetActiveRoomStore();
                   }
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.personalChats[language]}
-              />
+              /> */}
 
               {/* Commented feature while it's not realized on the back-end
               <Button
                 onClick={() => {
                   setRoomType(RoomType.GROUP);
                   loadChatList();
-                  activeChatStore.clearActiveChat();
+                  activeRoomStore.clearActiveChat();
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.groupChats[language]}
@@ -200,7 +195,7 @@ export const ChatContent = observer(() => {
                 role="button"
                 className={styles.removeButton}
                 onClick={() => {
-                  chatStore.resetActiveChatStore();
+                  chatStore.resetActiveRoomStore();
                 }}
               >
                 <Icon
@@ -216,7 +211,7 @@ export const ChatContent = observer(() => {
           <HorizontalContainer className={styles.chatContactsMessages}>
             <VerticalContainer className={clsx(
               styles.chatList,
-              isInitiatedChatListStore && styles.chatListHide,
+              !!activeRoomStore && styles.chatListHide,
             )}
             >
               {/* Commented feature while it's not realized on the back-end
@@ -240,15 +235,15 @@ export const ChatContent = observer(() => {
                 />
               </>
               */}
-              { isInitiatedChatListStore && chatListStore.chatListPreview.length > 0
-                ? chatListStore.chatListPreview.map((chatItem) => (
+              { !!chatListStore && chatListStore.chatList.length > 0
+                ? chatListStore.chatList.map((chatItem) => (
                   <ChatItem
                     key={chatItem.roomId}
                     name={chatItem.name}
                     src={chatItem.imageUrl}
-                    dataCy={chatAccessIds.chatContainer.listChatItem(`${chatItem.name}`)}
+                    dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
                     onClick={() => {
-                      chatStore.initiateActiveChatStore(chatItem.roomId);
+                      chatStore.initiateActiveRoomStore(chatItem.roomId);
                     }}
                   />
                 ))
@@ -258,17 +253,17 @@ export const ChatContent = observer(() => {
               }
             </VerticalContainer>
 
-            { isInitiatedActiveChatStore && activeChatStore.activeChatRoom &&
+            { !!activeRoomStore && activeRoomStore.activeRoom &&
             <VerticalContainer className={clsx(
               styles.chatBlock,
-              activeChatStore && styles.chatBlockOpen,
+              activeRoomStore && styles.chatBlockOpen,
             )}
             >
               <HorizontalContainer className={styles.chatInfo}>
                 <ChatItem
-                  name={activeChatStore.activeChatRoom.name}
-                  src={activeChatStore.activeChatRoom.imageUrl}
-                  dataCy={chatAccessIds.chatContainer.chatItem(`${activeChatStore.activeChatRoom.name}`)}
+                  name={activeRoomStore.activeRoom.name}
+                  src={activeRoomStore.activeRoom.imageUrl}
+                  dataCy={chatAccessIds.chatContainer.chatItem(activeRoomStore.activeRoom.name)}
                 />
                 <Dropdown
                   isModalBehavior={true}
@@ -302,7 +297,7 @@ export const ChatContent = observer(() => {
                            * Close chat on mobile
                            */
                           onClick: () => {
-                            chatStore.resetActiveChatStore();
+                            chatStore.resetActiveRoomStore();
                           },
                         },
                       ],
@@ -315,7 +310,7 @@ export const ChatContent = observer(() => {
                   ref={messagesEndRef}
                   className={clsx(styles.messages, styles.messageList)}
                 >
-                  { activeChatStore.activeChatRoom.messages.map((messageItem) => (
+                  { activeRoomStore.activeRoom.messages.map((messageItem) => (
                     <MessageItem
                       key={messageItem.uuid}
                       src={messageItem.ownerImageUrl}
@@ -332,21 +327,21 @@ export const ChatContent = observer(() => {
             }
           </HorizontalContainer>
 
-          { isInitiatedActiveChatStore && activeChatStore.activeChatRoom &&
+          { !!activeRoomStore && activeRoomStore.activeRoom &&
             <HorizontalContainer className={styles.messageInputBlock}>
               <Textarea
                 cy={chatAccessIds.chatContainer.messageInput}
-                defaultValue={activeChatStore.message}
-                onChange={activeChatStore.setMessage}
+                defaultValue={activeRoomStore.message}
+                onChange={activeRoomStore.setMessage}
                 placeholder={LanguageService.common.chat.messagePlaceholder[language]}
                 isAutofocus
                 isDisabled={isInputDisabled}
                 onKeyPress={(event: React.KeyboardEvent<HTMLElement>) => {
-                  if ((event.key === KeySymbols.ENTER && event.ctrlKey && activeChatStore.activeChatRoom)
-                    || (event.key === KeySymbols.ENTER && event.shiftKey && activeChatStore.activeChatRoom)) {
+                  if ((event.key === KeySymbols.ENTER && event.ctrlKey && activeRoomStore.activeRoom)
+                    || (event.key === KeySymbols.ENTER && event.shiftKey && activeRoomStore.activeRoom)) {
                     sendMessage({
-                      message: activeChatStore.message,
-                      roomId: activeChatStore.activeChatRoom.roomId,
+                      message: activeRoomStore.message,
+                      roomId: activeRoomStore.activeRoom.roomId,
                     });
                   }
                 }}
@@ -359,8 +354,8 @@ export const ChatContent = observer(() => {
                 <input
                   type="file"
                   onChange={async (event) => {
-                    if (activeChatStore.activeChat) {
-                      await uploadFile(activeChatStore.activeChat.roomId, event);
+                    if (activeRoomStore.activeChat) {
+                      await uploadFile(activeRoomStore.activeChat.roomId, event);
                     }
                   }}
                   className={styles.uploadFileInput}
@@ -379,10 +374,10 @@ export const ChatContent = observer(() => {
               <Button
                 value={LanguageService.common.chat.sendButton[language]}
                 onClick={async () => {
-                  if (isInitiatedActiveChatStore && activeChatStore.activeChatRoom) {
+                  if (!!activeRoomStore && activeRoomStore.activeRoom) {
                     await sendMessage({
-                      message: activeChatStore.message,
-                      roomId: activeChatStore.activeChatRoom.roomId,
+                      message: activeRoomStore.message,
+                      roomId: activeRoomStore.activeRoom.roomId,
                     });
                   }
                 }}
