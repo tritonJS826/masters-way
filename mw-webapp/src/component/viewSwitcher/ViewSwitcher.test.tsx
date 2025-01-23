@@ -1,7 +1,7 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import {ViewOption, ViewSwitcher, ViewSwitcherProps} from "src/component/viewSwitcher/ViewSwitcher";
 import {View} from "src/utils/LocalStorageWorker";
-import {expect, test, vi} from "vitest";
+import {expect, vi} from "vitest";
 import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
 
 const VIEW_SWITCHER = "viewSwitcher";
@@ -44,14 +44,14 @@ const renderViewSwitcher = (props?: Partial<ViewSwitcherProps>) => {
 };
 
 describe("ViewSwitcher component", () => {
-  test("should render with the correct default view", () => {
+  it("should render with the correct default view", () => {
     renderViewSwitcher();
 
     const activeButton = screen.getByTestId(CARD_ICON_BUTTON);
     expect(activeButton).toHaveClass(styles.activeView);
   });
 
-  test("should change view when a different option is clicked", () => {
+  it("should change view when a different option is clicked", () => {
     const {handleClick} = renderViewSwitcher();
 
     const button = screen.getByTestId(CARD_ICON_BUTTON);
