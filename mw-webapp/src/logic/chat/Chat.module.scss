@@ -1,12 +1,15 @@
 @import "src/styles/variables";
 
+$chat-trigger-size: 50px;
+$chat-trigger-margin-bottom: 180px;
+
 .chatTrigger {
   position: fixed;
   z-index: $chatZIndex;
   right: 0;
-  bottom: calc(3 * 60px);
-  width: 50px;
-  height: 50px;
+  bottom: $chat-trigger-margin-bottom;
+  width: $chat-trigger-size;
+  height: $chat-trigger-size;
   padding: $paddingBig $paddingMedium;
   border: $primaryBorder solid var(--secondaryStrokeColor);
   border-radius: $primaryBorderRadius;
@@ -21,7 +24,7 @@
   &:hover {
     z-index: $chatZIndex;
     bottom: calc(3 * $marginBig);
-    height: 160px;
+    height: calc(3 * $chat-trigger-size);
     background-color: var(--quaternaryBgColor);
     cursor: pointer;
     transition: 0.5s ease-in-out;
@@ -73,7 +76,7 @@
   height: 10px;
   padding: $paddingExtraSmall;
   border-radius: $tagBorderRadius;
-  margin: -5px auto $marginMedium;
+  margin: -5px auto;
 }
 
 .onlineIndicator {
@@ -84,43 +87,5 @@
   background-color: var(--dangerColor);
   .wayActionsIcon {
     z-index: $chatActionButton;
-  }
-}
-
-@keyframes overlayShow {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes buttonHover {
-  0% {
-    opacity: 0;
-  }
-  30% {
-    opacity: 0.2;
-  }
-
-  72% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 0.9;
-  }
-}
-
-@keyframes contentShow {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }

@@ -74,6 +74,140 @@ describe('Statistics tests', () => {
             .getAvgJobTime(statisticsData.periodBlockWayPageTitles.lastWeek)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
             .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .should('have.length', statisticsData.johnDoeWay.labelStatistic.total[4].length);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(0)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[0].color);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].name);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].jobsAmount);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].time);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(1)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[1].color);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].name);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].jobsAmount);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].time);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(2)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[2].color);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].name);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].jobsAmount);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].time);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(3)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[3].color);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].name);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].jobsAmount);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].time);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastWeek[3].length);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(0)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].color);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].name);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].jobsAmount);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].time);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(1)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].color);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].name);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].jobsAmount);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].time);
+
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(2)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].color);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].name);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].jobsAmount);
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].time);
             
         statisticsSelectors.getShowAllStatisticsButton().click();
 
@@ -152,6 +286,263 @@ describe('Statistics tests', () => {
             .getAvgJobTime(statisticsData.periodBlockTitles.lastWeek)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
             .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .should('have.length', statisticsData.johnDoeWay.labelStatistic.total[4].length);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(0)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[0].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(1)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[1].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(2)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[2].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(3)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.total[3].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastMonth[4].length);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(0)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(1)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(2)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(3)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(3)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastWeek[3].length);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(0)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(0)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(1)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(1)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].time);
+
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+            .eq(2)
+            .should('have.attr', 'style')
+            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].color);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].name);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].jobsAmount);
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+            .eq(2)
+            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].time);
 
         statisticsSelectors.statistics.getCloseButton().click();
 
