@@ -10,7 +10,7 @@ export class ChatListStore {
   /**
    * Chat preview list
    */
-  public chatList: ChatPreview[] = [];
+  public chatPreviewList: ChatPreview[] = [];
 
   /**
    * Chat preview list
@@ -52,7 +52,7 @@ export class ChatListStore {
   public loadChatList = async () => {
     const fetchedChats = await ChatDAL.getRooms(this.roomType);
     runInAction(() => {
-      this.chatList = fetchedChats.chatsPreview;
+      this.chatPreviewList = fetchedChats.chatsPreview;
     });
   };
 

@@ -134,6 +134,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       onBlur={handleChangeFinish}
       onKeyDown={handleCtrlEnter}
       className={clsx(styles.editableTextarea, props.className)}
+      role="trigger"
       data-cy={props.cy?.trigger}
     >
       {

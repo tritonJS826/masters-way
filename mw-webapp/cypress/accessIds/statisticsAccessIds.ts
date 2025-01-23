@@ -7,6 +7,8 @@ export const statisticsAccessIds = {
         wayPageStatistics: 'wayPageStatistics',
 
         periodBlocks: {
+            periodBlock: (period: string) => `${period}_statisticPeriod`,
+
             overallInfo: {
                 statisticValue: 'statisticValue',
                 statisticText: 'statisticText',
@@ -16,6 +18,13 @@ export const statisticsAccessIds = {
                 avgTimePerCalendarDay: (period: string) => `averageTimePerCalendarDay${period}`,
                 avgTimePerWorkingDay: (period: string) => `averageTimePerWorkingDay${period}`,
                 avgJobTime: (period: string) => `averageJobTime${period}`,
+            },
+
+            labelsStatistic: {
+                tagColor: 'tagColor',
+                labelName: 'labelName',
+                jobsAmount: 'jobsAmount',
+                time: 'time',
             }
         },
 

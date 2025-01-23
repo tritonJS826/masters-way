@@ -1,7 +1,7 @@
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Dropdown} from "src/component/dropdown/Dropdown";
-import {describe, expect, it, vi} from "vitest";
+import {vi} from "vitest";
 
 const DROPDOWN_LENGHTH = 2;
 const TEST_CONTENT1 = "test#1";
@@ -59,7 +59,7 @@ describe("Dropdown component", () => {
   it("should close by clicking on background", async () => {
     renderDropdown();
     await userEvent.click(screen.getByRole("button", {name: /dropdown/i}));
-    await userEvent.click(document.body); // Click outside
+    await userEvent.click(document.body);
     expect(screen.queryByText(TEST_CONTENT1)).not.toBeInTheDocument();
     expect(screen.queryByText(TEST_CONTENT2)).not.toBeInTheDocument();
   });

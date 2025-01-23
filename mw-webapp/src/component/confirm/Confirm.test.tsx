@@ -1,7 +1,7 @@
 import {fireEvent, render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Confirm} from "src/component/confirm/Confirm";
-import {describe, it, vi} from "vitest";
+import {vi} from "vitest";
 
 const CONFIRM_CONTENT = "Confirm content";
 

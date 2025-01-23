@@ -865,7 +865,7 @@ export const WayPage = observer((props: WayPageProps) => {
 
         <VerticalContainer
           className={styles.statistics}
-          dataCy="wayPageStatistics"
+          dataCy={statisticsAccessIds.statistics.wayPageStatistics}
         >
           <HorizontalContainer className={styles.horizontalContainer}>
             <HorizontalContainer className={styles.horizontalContainer}>

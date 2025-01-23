@@ -235,8 +235,8 @@ export const ChatContent = observer(() => {
                 />
               </>
               */}
-              { !!chatListStore && chatListStore.chatList.length > 0
-                ? chatListStore.chatList.map((chatItem) => (
+              { !!chatListStore && chatListStore.chatPreviewList.length > 0
+                ? chatListStore.chatPreviewList.map((chatItem) => (
                   <ChatItem
                     key={chatItem.roomId}
                     name={chatItem.name}

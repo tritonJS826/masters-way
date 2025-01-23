@@ -1,3 +1,4 @@
+import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -47,20 +48,30 @@ export const StatisticLine = (props: StatisticLineProps) => {
         <div
           style={{backgroundColor: props.color}}
           className={styles.labelColor}
+          data-cy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}
         />
         <Tooltip content={props.name}>
-          <span className={styles.labelName}>
+          <span
+            className={styles.labelName}
+            data-cy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}
+          >
             {props.name}
           </span>
         </Tooltip>
       </HorizontalContainer>
-      <HorizontalContainer className={styles.amountTime}>
+      <HorizontalContainer
+        className={styles.amountTime}
+        dataCy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}
+      >
         {props.amount}
         <span className={styles.percentageBLock}>
           {`(${props.amountPercentage}%)`}
         </span>
       </HorizontalContainer>
-      <HorizontalContainer className={styles.amountTime}>
+      <HorizontalContainer
+        className={styles.amountTime}
+        dataCy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}
+      >
         {props.time}
         <span className={styles.percentageBLock}>
           {`(${props.timePercentage}%)`}

@@ -2,6 +2,7 @@ import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Theme} from "src/globalStore/ThemeStore";
 import styles from "src/component/loader/Loader.module.scss";
 
@@ -47,18 +48,22 @@ export const Loader = (props: LoaderProps) => {
           theme={props.theme}
           name={LOGO_TEXT}
         />
+        <span className={styles.loaderLine} />
       </div>
     )
     : (
-      <ThemedImage
-        className={styles.loader}
-        sources={getMapThemeSources({
-          [Theme.DARK]: logoLight,
-          [Theme.LIGHT]: logo,
-          [Theme.OBSIDIAN]: logoLight,
-        })}
-        theme={props.theme}
-        name={LOGO_TEXT}
-      />
+      <VerticalContainer className={styles.loaderBlockWrapper}>
+        <ThemedImage
+          className={styles.loader}
+          sources={getMapThemeSources({
+            [Theme.DARK]: logoLight,
+            [Theme.LIGHT]: logo,
+            [Theme.OBSIDIAN]: logoLight,
+          })}
+          theme={props.theme}
+          name={LOGO_TEXT}
+        />
+        <span className={styles.loaderLine} />
+      </VerticalContainer>
     );
 };

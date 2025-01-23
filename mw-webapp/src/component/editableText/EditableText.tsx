@@ -148,6 +148,7 @@ export const EditableText = <T extends string | number>(props: EditableTextProps
       onBlur={handleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(styles.editableText, props.className)}
+      role="trigger"
       data-cy={props.cy?.trigger}
     >
       {isEditing
