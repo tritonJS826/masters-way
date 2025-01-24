@@ -99,7 +99,6 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
       )}
       onClick={handleClick}
       data-cy={props.dataCy}
-      data-testid={props.dataCy}
       disabled={isHandleClickInProgress || props.isDisabled}
     >
       {props.value}

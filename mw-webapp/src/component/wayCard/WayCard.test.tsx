@@ -1,5 +1,5 @@
 import {BrowserRouter} from "react-router-dom";
-import {render, screen} from "@testing-library/react";
+import {render, screen, within} from "@testing-library/react";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {UserPlain} from "src/model/businessModel/User";
@@ -7,6 +7,9 @@ import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {describe, expect, it} from "vitest";
+
+const WAY_CARD = "way-card";
+const CREATE_AT = "Created at";
 
 const USER_PREVIEW_DATA: UserPlain = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
@@ -34,7 +37,7 @@ const WAY_PREVIEW_DATA: WayPreview = {
   owner: USER_PREVIEW_DATA,
   mentors: [MENTOR_PREVIEW_DATA],
   status: WayStatus.inProgress,
-  lastUpdate: new Date("2025-01-02"),
+  lastUpdate: new Date("2025-01-01"),
   createdAt: new Date("2025-01-01"),
   wayTags: [],
   copiedFromWayUuid: "",
@@ -56,7 +59,7 @@ const renderWayCard = () =>
     <BrowserRouter>
       <WayCard
         wayPreview={WAY_PREVIEW_DATA}
-        dataCy="way-card"
+        dataCy={WAY_CARD}
       />
     </BrowserRouter>,
   );
@@ -65,7 +68,7 @@ describe("WayCard component", () => {
   it("should navigate to way page on click", async () => {
     renderWayCard();
 
-    const wayCard = screen.getByText(WAY_PREVIEW_DATA.name);
+    const wayCard = screen.getByTestId(WAY_CARD);
     await wayCard.click();
 
     expect(window.location.pathname).toBe(
@@ -84,13 +87,22 @@ describe("WayCard component", () => {
     const creationDate = DateUtils.getShortISODotSplitted(
       WAY_PREVIEW_DATA.createdAt,
     );
-    expect(screen.getByText(creationDate)).toBeInTheDocument();
+    const createdAtContainer = screen.getByText(CREATE_AT);
+
+    expect(
+      within(createdAtContainer).getByText(creationDate),
+    ).toBeInTheDocument();
   });
 
   it("should display tags", () => {
     renderWayCard();
+
+    const wayCard = screen.getByTestId(WAY_CARD);
+
     WAY_PREVIEW_DATA.wayTags.forEach((tag) => {
-      expect(screen.getByText(tag.name)).toBeInTheDocument();
+      expect(
+        within(wayCard).getByText(tag.name),
+      ).toBeInTheDocument();
     });
   });
 });

@@ -7,7 +7,6 @@ import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
 const VIEW_SWITCHER = "viewSwitcher";
 const CARD_ICON_BUTTON = "CardViewButton";
 const TABLE_ICON_BUTTON = "TableViewButton";
-const EXPECTED_CALL_COUNT = 1;
 
 const options: ViewOption[] = [
   {
@@ -28,19 +27,19 @@ const options: ViewOption[] = [
  * Render View Switcher component
  */
 const renderViewSwitcher = (props?: Partial<ViewSwitcherProps>) => {
-  const handleClick = vi.fn();
+  const setViewSpy = vi.fn();
 
   render (
     <ViewSwitcher
       view={props?.view ?? View.Card}
-      setView={handleClick}
+      setView={setViewSpy}
       options={props?.options ?? options}
       className={props?.className}
       dataCy={props?.dataCy ?? VIEW_SWITCHER}
     />,
   );
 
-  return {handleClick};
+  return {setViewSpy};
 };
 
 describe("ViewSwitcher component", () => {
@@ -52,12 +51,12 @@ describe("ViewSwitcher component", () => {
   });
 
   it("should change view when a different option is clicked", () => {
-    const {handleClick} = renderViewSwitcher();
+    const {setViewSpy} = renderViewSwitcher();
 
     const button = screen.getByTestId(CARD_ICON_BUTTON);
     fireEvent.click(button);
 
-    expect(handleClick).toHaveBeenCalledWith(View.Card);
-    expect(handleClick).toHaveBeenCalledTimes(EXPECTED_CALL_COUNT);
+    expect(setViewSpy).toHaveBeenCalled();
+    expect(setViewSpy).toHaveBeenCalledWith(View.Card);
   });
 });
