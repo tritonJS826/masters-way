@@ -1,5 +1,5 @@
 import {BrowserRouter} from "react-router-dom";
-import {render, screen, within} from "@testing-library/react";
+import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
@@ -10,7 +10,6 @@ import {DateUtils} from "src/utils/DateUtils";
 import {describe, expect, it} from "vitest";
 
 const WAY_CARD = "way-card";
-const CREATE_AT = "Created at";
 
 const USER_PREVIEW_DATA: UserPlain = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
@@ -81,19 +80,15 @@ describe("WayCard component", () => {
   it("should display the correct content elements", () => {
     renderWayCard();
 
-    expect(screen.getByText(WAY_PREVIEW_DATA.goalDescription)).toBeInTheDocument();
-    expect(screen.getByText(WAY_PREVIEW_DATA.name)).toBeInTheDocument();
-    expect(screen.getByText(WAY_PREVIEW_DATA.dayReportsAmount.toString())).toBeInTheDocument();
-    expect(screen.getByText(WAY_PREVIEW_DATA.favoriteForUsers.toString())).toBeInTheDocument();
+    const wayCard = screen.getByTestId(WAY_CARD);
 
-    const creationDate = DateUtils.getShortISODotSplitted(
-      WAY_PREVIEW_DATA.createdAt,
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.name);
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.goalDescription);
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.dayReportsAmount.toString());
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.favoriteForUsers.toString());
+    expect(wayCard).toHaveTextContent(
+      DateUtils.getShortISODotSplitted(WAY_PREVIEW_DATA.createdAt),
     );
-    const createdAtContainer = screen.getByText(CREATE_AT);
-
-    expect(
-      within(createdAtContainer).getByText(creationDate),
-    ).toBeInTheDocument();
   });
 
   it("should display tags", () => {
