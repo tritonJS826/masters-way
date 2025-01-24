@@ -1,5 +1,6 @@
 import {BrowserRouter} from "react-router-dom";
 import {render, screen, within} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {UserPlain} from "src/model/businessModel/User";
@@ -67,9 +68,10 @@ const renderWayCard = () =>
 describe("WayCard component", () => {
   it("should navigate to way page on click", async () => {
     renderWayCard();
+    const user = userEvent.setup();
 
     const wayCard = screen.getByTestId(WAY_CARD);
-    await wayCard.click();
+    await user.click(wayCard);
 
     expect(window.location.pathname).toBe(
       pages.way.getPath({uuid: WAY_PREVIEW_DATA.uuid}),

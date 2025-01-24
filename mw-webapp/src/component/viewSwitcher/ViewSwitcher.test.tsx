@@ -27,11 +27,11 @@ const options: ViewOption[] = [
 /**
  * Render View Switcher component
  */
-const renderViewSwitcher = (clickCallback = vi.fn()) => {
+const renderViewSwitcher = (setViewSpy = vi.fn()) => {
   return render(
     <ViewSwitcher
       view={View.Card}
-      setView={clickCallback}
+      setView={setViewSpy}
       options={options}
       dataCy={VIEW_SWITCHER}
     />,
