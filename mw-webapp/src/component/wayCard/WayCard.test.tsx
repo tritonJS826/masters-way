@@ -97,12 +97,8 @@ describe("WayCard component", () => {
   it("should display tags", () => {
     renderWayCard();
 
-    const wayCard = screen.getByTestId(WAY_CARD);
-
     WAY_PREVIEW_DATA.wayTags.forEach((tag) => {
-      expect(
-        within(wayCard).getByText(tag.name),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId(WAY_CARD)).toHaveTextContent(tag.name);
     });
   });
 });
