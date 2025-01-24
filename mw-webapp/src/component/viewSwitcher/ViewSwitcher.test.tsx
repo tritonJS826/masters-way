@@ -31,11 +31,11 @@ const renderViewSwitcher = (props?: Partial<ViewSwitcherProps>) => {
 
   render (
     <ViewSwitcher
-      view={props?.view ?? View.Card}
+      view={View.Card}
       setView={setViewSpy}
-      options={props?.options ?? options}
+      options={options}
       className={props?.className}
-      dataCy={props?.dataCy ?? VIEW_SWITCHER}
+      dataCy={VIEW_SWITCHER}
     />,
   );
 
