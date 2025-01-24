@@ -1,5 +1,5 @@
 import {fireEvent, render, screen} from "@testing-library/react";
-import {ViewOption, ViewSwitcher, ViewSwitcherProps} from "src/component/viewSwitcher/ViewSwitcher";
+import {ViewOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {View} from "src/utils/LocalStorageWorker";
 import {expect, vi} from "vitest";
 import styles from "src/component/viewSwitcher/ViewSwitcher.module.scss";
