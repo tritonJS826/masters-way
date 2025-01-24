@@ -1,4 +1,5 @@
-import {fireEvent, render, screen} from "@testing-library/react";
+import {render, screen} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {ViewOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
 import {View} from "src/utils/LocalStorageWorker";
 import {expect, vi} from "vitest";
@@ -26,19 +27,15 @@ const options: ViewOption[] = [
 /**
  * Render View Switcher component
  */
-const renderViewSwitcher = () => {
-  const setViewSpy = vi.fn();
-
-  render (
+const renderViewSwitcher = (clickCallback = vi.fn()) => {
+  return render(
     <ViewSwitcher
       view={View.Card}
-      setView={setViewSpy}
+      setView={clickCallback}
       options={options}
       dataCy={VIEW_SWITCHER}
     />,
   );
-
-  return {setViewSpy};
 };
 
 describe("ViewSwitcher component", () => {
@@ -49,13 +46,16 @@ describe("ViewSwitcher component", () => {
     expect(activeButton).toHaveClass(styles.activeView);
   });
 
-  it("should change view when a different option is clicked", () => {
-    const {setViewSpy} = renderViewSwitcher();
+  it("should change view when a different option is clicked", async () => {
+    const user = userEvent.setup();
+    const clickCallback = vi.fn();
 
-    const button = screen.getByTestId(CARD_ICON_BUTTON);
-    fireEvent.click(button);
+    renderViewSwitcher(clickCallback);
 
-    expect(setViewSpy).toHaveBeenCalled();
-    expect(setViewSpy).toHaveBeenCalledWith(View.Card);
+    const cardButton = screen.getByTestId(CARD_ICON_BUTTON);
+    await user.click(cardButton);
+
+    expect(clickCallback).toHaveBeenCalled();
+    expect(clickCallback).toHaveBeenCalledWith(View.Card);
   });
 });
