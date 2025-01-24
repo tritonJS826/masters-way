@@ -26,7 +26,7 @@ const options: ViewOption[] = [
 /**
  * Render View Switcher component
  */
-const renderViewSwitcher = (props?: Partial<ViewSwitcherProps>) => {
+const renderViewSwitcher = () => {
   const setViewSpy = vi.fn();
 
   render (
@@ -34,7 +34,6 @@ const renderViewSwitcher = (props?: Partial<ViewSwitcherProps>) => {
       view={View.Card}
       setView={setViewSpy}
       options={options}
-      className={props?.className}
       dataCy={VIEW_SWITCHER}
     />,
   );
