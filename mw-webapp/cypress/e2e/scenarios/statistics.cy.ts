@@ -1275,7 +1275,180 @@ describe('Statistics tests', () => {
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
             .should('have.length', statisticsData.mentorCompositeWay.labelStatistic.total[5].length);
 
-        // Check data in the "Labels Statistic" section for "Total" block on the way page      
+        // Check the first label data in the "Labels Statistic" section for the "Total" block on the way page
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
+            });
+
+        // Check the second label data in the "Labels Statistic" section for the "Total" block on the way page
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[1].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[1].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[1].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[1].time);
+            });
+
+        // Check the third label data in the "Labels Statistic" section for the "Total" block on the way page
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[2].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[2].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[2].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[2].time);
+            });
+
+        // Check the fourth label data in the "Labels Statistic" section for the "Total" block on the way page
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[3].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[3].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[3].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[3].time);
+            });
+
+        // Check the fifth label data in the "Labels Statistic" section for the "Total" block on the way page
+        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[4].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[4].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[4].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[4].time);
+            });
 
         // Check the number of labels in the "Labels Statistic" section for "Last week" block on the way page
         statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
@@ -1387,7 +1560,185 @@ describe('Statistics tests', () => {
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
             .should('have.length', statisticsData.mentorCompositeWay.labelStatistic.total[5].length);
 
-        // Check label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+        // Check the first label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
+            });
+
+        // Check the second label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[1].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[1].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[1].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[1].time);
+            });
+
+        // Check the third label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[2].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[2].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[2].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[2].time);
+            });
+
+        // Check the fourth label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[3].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[3].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[3].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[3].time);
+            });
+
+        // Check the fifth label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+            .then((elements) => {
+                const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[4].name;
+
+                // Find the target element by its name
+                const targetElement = Cypress._.find(elements, (element) => {
+                    const elementText = Cypress.$(element).text();
+                    return elementText === targetName;
+                });
+
+                // Verify that the target element was found
+                if (!targetElement) {
+                    throw new Error(`Element with name "${targetName}" not found`);
+                }
+
+                // Get the parent element of the target element
+                const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+
+                // Check the other parameters based on the parent element
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[4].color);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
+                    .should('have.text', targetName);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[4].jobsAmount);
+
+                cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
+                    .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[4].time);
+            });
 
         // Check the number of labels in the "Labels Statistic" section for "Last month" block in the Statistic modal window
         statisticsSelectors.statistics.getModal()

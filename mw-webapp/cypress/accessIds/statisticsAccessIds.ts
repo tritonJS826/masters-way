@@ -21,6 +21,7 @@ export const statisticsAccessIds = {
             },
 
             labelsStatistic: {
+                line: 'statisticLine',
                 tagColor: 'tagColor',
                 labelName: 'labelName',
                 jobsAmount: 'jobsAmount',

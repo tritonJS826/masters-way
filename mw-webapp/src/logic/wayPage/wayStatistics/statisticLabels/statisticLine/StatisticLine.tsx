@@ -43,7 +43,10 @@ type StatisticLineProps = {
  */
 export const StatisticLine = (props: StatisticLineProps) => {
   return (
-    <HorizontalGridContainer className={styles.statisticLine}>
+    <HorizontalGridContainer
+      className={styles.statisticLine}
+      dataCy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.line}
+    >
       <HorizontalContainer className={styles.labelColorName}>
         <div
           style={{backgroundColor: props.color}}
