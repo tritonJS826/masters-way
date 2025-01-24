@@ -9,7 +9,7 @@ const WAYS_AMOUNT = 9;
 /**
  * Render WayCollectionCard
  */
-const renderWayCard = () =>
+const renderWayCollectionCard = () =>
   render(
     <WayCollectionCard
       isActive={false}
@@ -23,13 +23,13 @@ const renderWayCard = () =>
 
 describe("WayCollectionCard component", () => {
   it("should render wayCollectionCard correctly", () => {
-    renderWayCard();
+    renderWayCollectionCard();
     const card = screen.getByTestId(WAY_COLLECTION_CARD);
     expect(card).toBeInTheDocument();
   });
 
   it("should display the correct content elements", () => {
-    renderWayCard();
+    renderWayCollectionCard();
     const card = screen.getByTestId(WAY_COLLECTION_CARD);
     expect(card).toHaveTextContent(WAY_COLLECTION_CARD_TITLE);
     expect(card).toHaveTextContent(WAYS_AMOUNT.toString());
