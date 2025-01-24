@@ -9,5 +9,5 @@ import dotenv from "dotenv";
 // Load environment variables from .env file
 dotenv.config();
 
-// Configure jest to use data-cy attribute
+// Configure vitest to use data-cy attribute
 configure({testIdAttribute: "data-cy"});
