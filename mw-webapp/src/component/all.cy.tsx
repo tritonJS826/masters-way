@@ -1,5 +1,4 @@
 import "/src/component/footer/Footer.cy.tsx";
-import "/src/component/wayCollectionCard/WayCollectionCard.cy.tsx";
 import "/src/component/header/Header.cy.tsx";
 import "/src/component/horizontalContainer/HorizontalContainer.cy.tsx";
 import "/src/component/horizontalGridContainer/HorizontalGridContainer.cy.tsx";
@@ -20,8 +19,6 @@ import "/src/component/toggle/Toggle.cy.tsx";
 import "/src/component/tooltip/Tooltip.cy.tsx";
 import "/src/component/userCard/UserCard.cy.tsx";
 import "/src/component/verticalContainer/VerticalContainer.cy.tsx";
-import "/src/component/viewSwitcher/ViewSwitcher.cy.tsx";
-import "/src/component/wayCard/WayCard.cy.tsx";
 import "/src/component/icon/Icon.cy.tsx";
 import "/src/component/text/Text.cy.tsx";
 import "src/component/reviewCard/ReviewCard.cy.tsx";
