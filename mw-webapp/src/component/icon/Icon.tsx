@@ -298,8 +298,8 @@ export interface IconProps {
   name: keyof typeof IconDictionary;
 
   /**
-   * Icon's size {@link IconSize.medium}
-   * @default {IconSize.Medium}
+   * Icon's size {@link IconSize}
+   * @default IconSize.MEDIUM
    */
   size: IconSize;
 

@@ -1,7 +1,7 @@
 import {IconProps} from "src/component/icon/Icon";
 
 /**
- * Star icon
+ * Message icon
  */
 export const MessageIcon = (props: IconProps) => {
 
