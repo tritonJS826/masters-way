@@ -1,4 +1,3 @@
-import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {ViewOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
