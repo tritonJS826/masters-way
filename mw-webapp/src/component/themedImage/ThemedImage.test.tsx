@@ -62,10 +62,10 @@ describe("ThemedImage component", () => {
     expect(themedImage).toHaveAttribute("alt", THEMED_IMAGE_NAME);
   });
 
-  it("should not render anything if the theme does not match any sources", () => {
+  it("should render with alt text even if theme does not match sources", () => {
     renderThemedImage(INVALID_THEME);
 
-    const themedImage = screen.queryByAltText(THEMED_IMAGE_NAME);
-    expect(themedImage).not.toBeInTheDocument();
+    const themedImage = screen.getByAltText(THEMED_IMAGE_NAME);
+    expect(themedImage).toBeInTheDocument();
   });
 });

@@ -10,12 +10,12 @@ const THEME_SWITCHER = "theme-switcher";
 /**
  * Render ThemeSwitcher component
  */
-const renderThemeSwitcher = (onClick = vi.fn()) => {
+const renderThemeSwitcher = (onClick?: () => void) => {
   render(
     <ThemeSwitcher
       theme={Theme.DARK}
       language={Language.ENGLISH}
-      onClick={onClick}
+      onClick={onClick ?? (() => {})}
       dataCy={THEME_SWITCHER}
     />,
   );
