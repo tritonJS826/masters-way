@@ -9,6 +9,7 @@ const TITLE_CY = {dataCyTitleContainer: "title"};
 const TITLE_LEVEL = HeadingLevel.h1;
 const IS_EDITABLE = true;
 const ADDITIONAL_CONTENT = "additional";
+const TITLE_LEVEL_NUMBER = 1;
 
 describe("Title component", () => {
 
@@ -37,7 +38,7 @@ describe("Title component", () => {
 
   it("should render the appropriate heading level (check semantics)", () => {
     renderTitle();
-    expect(screen.getByRole("heading", {level: 1})).toBeInTheDocument();
+    expect(screen.getByRole("heading", {level: TITLE_LEVEL_NUMBER})).toBeInTheDocument();
   });
 
   it("should change to input on double-click and trigger onChangeFinish", async () => {
