@@ -61,9 +61,8 @@ func (nc *PracticeMaterialController) GetPracticeMaterialsByTopicId(ctx *gin.Con
 // @Accept json
 // @Produce json
 // @Param request body schemas.CreatePracticeMaterialPayload true "query params"
-// @Param topicId path string true "topic id"
 // @Success 200 {object} schemas.PracticeMaterial
-// @Router /practiceMaterials/{topicId} [post]
+// @Router /practiceMaterials [post]
 func (nc *PracticeMaterialController) CreatePracticeMaterial(ctx *gin.Context) {
 	// 	var payload *schemas.UpdateNotificationPayload
 	// 	notificationUUID := ctx.Param("notificationId")
@@ -88,9 +87,8 @@ func (nc *PracticeMaterialController) CreatePracticeMaterial(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body schemas.UpdatePracticeMaterialPayload true "query params"
-// @Param practiceMaterialId path string true "practice material id"
 // @Success 200 {object} schemas.PracticeMaterial
-// @Router /practiceMaterials/{practiceMaterialId} [patch]
+// @Router /practiceMaterials [patch]
 func (nc *PracticeMaterialController) UpdatePracticeMaterial(ctx *gin.Context) {
 	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
 	// response, err := nc.notificationService.GetNotificationSettingList(ctx, userUUID)

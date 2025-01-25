@@ -17,7 +17,7 @@ func newPracticeMaterialRouter(practiceMaterialController *controllers.PracticeM
 func (mr *practiceMaterialRouter) setPracticeMaterialRoutes(rg *gin.RouterGroup) {
 	practiceMaterials := rg.Group("/practiceMaterials")
 	practiceMaterials.GET(":topicId", mr.practiceMaterialController.GetPracticeMaterialsByTopicId)
-	practiceMaterials.POST(":topicId", mr.practiceMaterialController.CreatePracticeMaterial)
-	practiceMaterials.PATCH(":practiceMaterialId", mr.practiceMaterialController.UpdatePracticeMaterial)
+	practiceMaterials.POST("", mr.practiceMaterialController.CreatePracticeMaterial)
+	practiceMaterials.PATCH("", mr.practiceMaterialController.UpdatePracticeMaterial)
 	practiceMaterials.DELETE(":practiceMaterialId", mr.practiceMaterialController.DeletePracticeMaterial)
 }

@@ -17,7 +17,7 @@ func newTheoryMaterialRouter(theoryMaterialController *controllers.TheoryMateria
 func (mr *theoryMaterialRouter) setTheoryMaterialRoutes(rg *gin.RouterGroup) {
 	theoryMaterials := rg.Group("/theoryMaterials")
 	theoryMaterials.GET(":topicId", mr.theoryMaterialController.GetTheoryMaterialsByTopicId)
-	theoryMaterials.POST(":topicId", mr.theoryMaterialController.CreateTheoryMaterial)
-	theoryMaterials.PATCH(":theoryMaterialId", mr.theoryMaterialController.UpdateTheoryMaterial)
+	theoryMaterials.POST("", mr.theoryMaterialController.CreateTheoryMaterial)
+	theoryMaterials.PATCH("", mr.theoryMaterialController.UpdateTheoryMaterial)
 	theoryMaterials.DELETE(":topicId/:theoryMaterialId", mr.theoryMaterialController.DeleteTheoryMaterial)
 }

@@ -61,9 +61,8 @@ func (nc *TheoryMaterialController) GetTheoryMaterialsByTopicId(ctx *gin.Context
 // @Accept json
 // @Produce json
 // @Param request body schemas.CreateTheoryMaterialPayload true "query params"
-// @Param topicId path string true "topic id"
 // @Success 200 {object} schemas.TheoryMaterial
-// @Router /theoryMaterials/{topicId} [post]
+// @Router /theoryMaterials [post]
 func (nc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
 	// 	var payload *schemas.UpdateNotificationPayload
 	// 	notificationUUID := ctx.Param("notificationId")
@@ -88,9 +87,8 @@ func (nc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body schemas.UpdateTheoryMaterialPayload true "query params"
-// @Param theoryMaterialId path string true "theory material id"
 // @Success 200 {object} schemas.TheoryMaterial
-// @Router /theoryMaterials/{theoryMaterialId} [patch]
+// @Router /theoryMaterials [patch]
 func (nc *TheoryMaterialController) UpdateTheoryMaterial(ctx *gin.Context) {
 	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
 	// response, err := nc.notificationService.GetNotificationSettingList(ctx, userUUID)

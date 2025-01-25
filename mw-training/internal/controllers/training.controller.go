@@ -36,7 +36,7 @@ func (tc *TrainingController) CreateNewTraining(ctx context.Context, in *pb.Crea
 	return &training, nil
 }
 
-func (tc *TrainingController) GetTrainingsList(ctx context.Context, in *pb.GetTrainingsListRequest) (*pb.TrainingPreviewList, error) {
+func (tc *TrainingController) GetTrainingsList(ctx context.Context, in *pb.GetTrainingListRequest) (*pb.TrainingPreviewList, error) {
 	userUuid := in.GetUserUuid()
 	// page := in.GetPage()
 	// limit := in.GetLimit()
@@ -52,7 +52,7 @@ func (tc *TrainingController) GetTrainingsList(ctx context.Context, in *pb.GetTr
 	}, nil
 }
 
-func (tc *TrainingController) GetTrainingListForUser(ctx context.Context, in *pb.GetTrainingsListForUserRequest) (*pb.TrainingPreviewList, error) {
+func (tc *TrainingController) GetTrainingListForUser(ctx context.Context, in *pb.GetTrainingListForUserRequest) (*pb.TrainingPreviewList, error) {
 	userUuid := in.GetUserUuid()
 
 	trainings, err := tc.trainingService.GetTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
