@@ -72,30 +72,6 @@
                 }
             ],
 
-            "lastWeek": [
-                {
-                    "color": "background-color: green;",
-                    "name": "database",
-                    "jobsAmount": "1(33%)",
-                    "time": "1(33%)"
-                },
-                {
-                    "color": "background-color: blue;",
-                    "name": "coding",
-                    "jobsAmount": "1(33%)",
-                    "time": "1(33%)"
-                },
-                {
-                    "color": "background-color: red;",
-                    "name": "meeting 1:1",
-                    "jobsAmount": "1(33%)",
-                    "time": "1(33%)"
-                },
-                {
-                    "length": 3                 
-                }
-            ],
-
             "lastMonth": [
                 {
                     "color": "background-color: yellow;",
@@ -123,6 +99,123 @@
                 },
                 {
                     "length": 4                 
+                }
+            ],
+
+            "lastWeek": [
+                {
+                    "color": "background-color: green;",
+                    "name": "database",
+                    "jobsAmount": "1(33%)",
+                    "time": "1(33%)"
+                },
+                {
+                    "color": "background-color: blue;",
+                    "name": "coding",
+                    "jobsAmount": "1(33%)",
+                    "time": "1(33%)"
+                },
+                {
+                    "color": "background-color: red;",
+                    "name": "meeting 1:1",
+                    "jobsAmount": "1(33%)",
+                    "time": "1(33%)"
+                },
+                {
+                    "length": 3                 
+                }
+            ]
+        }
+    },
+
+    "mentorCompositeWay": {
+        "daysFromStart": "0",
+
+        "total": {
+           "totalTime": "9.3",
+           "totalReports": "9",
+           "finishedJobs": "9",
+           "avgTimePerCalendarDay": "0.1",
+           "avgTimePerWorkingDay": "1.0",
+           "avgJobTime": "1.0"
+        },
+
+        "lastMonth": {
+            "totalTime": "2.1",
+            "totalReports": "1",
+            "finishedJobs": "1",
+            "avgTimePerCalendarDay": "0.1",
+            "avgTimePerWorkingDay": "2.1",
+            "avgJobTime": "2.1"
+        },
+
+        "lastWeek": {
+            "totalTime": "2.1",
+            "totalReports": "1",
+            "finishedJobs": "1",
+            "avgTimePerCalendarDay": "0.3",
+            "avgTimePerWorkingDay": "2.1",
+            "avgJobTime": "2.1"
+        },
+
+        "labelStatistic": {
+            "total": [
+                {
+                    "color": "background-color: rgb(0, 128, 128);",
+                    "name": "student label",
+                    "jobsAmount": "1(11%)",
+                    "time": "2.1(22%)"                
+                },
+                {
+                    "color": "background-color: yellow;",
+                    "name": "general meeting",
+                    "jobsAmount": "1(11%)",
+                    "time": "1(10%)"                
+                },
+                {
+                    "color": "background-color: green;",
+                    "name": "database",
+                    "jobsAmount": "3(33%)",
+                    "time": "2.2(23%)"
+                },
+                {
+                    "color": "background-color: blue;",
+                    "name": "coding",
+                    "jobsAmount": "2(22%)",
+                    "time": "2(21%)"
+                },
+                {
+                    "color": "background-color: red;",
+                    "name": "meeting 1:1",
+                    "jobsAmount": "2(22%)",
+                    "time": "2(21%)"
+                },
+                {
+                    "length": 5
+                }
+            ],
+
+            "lastMonth": [
+                {
+                    "color": "background-color: rgb(0, 128, 128);",
+                    "name": "student label",
+                    "jobsAmount": "1(100%)",
+                    "time": "2.1(100%)"
+                },
+                {
+                    "length": 1                
+                }
+            ],
+
+            "lastWeek": [
+                {
+                    "color": "background-color: rgb(0, 128, 128);",
+                    "name": "student label",
+                    "jobsAmount": "1(100%)",
+                    "time": "2.1(100%)"
+                },
+                {
+                    "length": 1                
                 }
             ]
         }

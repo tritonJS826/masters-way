@@ -51,9 +51,9 @@ export class ChatListStore {
    * Load chat list
    */
   public loadChatList = async () => {
-    const fetchedChats = await ChatDAL.getRooms(this.roomType);
+    const chatsData = await ChatDAL.getRooms(this.roomType);
     runInAction(() => {
-      this.chatPreviewList = fetchedChats.chatsPreview;
+      this.chatPreviewList = chatsData.chatsPreview;
     });
   };
 
