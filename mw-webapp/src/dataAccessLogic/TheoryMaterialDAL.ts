@@ -53,7 +53,6 @@ export class TheoryMaterialDAL {
    */
   public static async createTheoryMaterial(params: CreateTheoryMaterialParams): Promise<TheoryMaterial> {
     const theoryMaterialDTO = await TheoryMaterialService.createTheoryMaterial({
-      topicId: params.topicUuid,
       request: {
         name: params.name,
         description: params.description,
@@ -87,10 +86,7 @@ export class TheoryMaterialDAL {
    */
   public static async updateTheoryMaterial(theoryMaterial: PartialWithUuid<TheoryMaterial>): Promise<TheoryMaterial> {
     const theoryMaterialDTOPartial = theoryMaterialToTheoryMaterialDTOPartial(theoryMaterial);
-    const updatedTheoryMaterialDTO = await TheoryMaterialService.updateTheoryMaterial({
-      theoryMaterialId: theoryMaterial.uuid,
-      request: theoryMaterialDTOPartial,
-    });
+    const updatedTheoryMaterialDTO = await TheoryMaterialService.updateTheoryMaterial({request: theoryMaterialDTOPartial});
 
     const updatedTheoryMaterial = theoryMaterialDTOToTheoryMaterial(updatedTheoryMaterialDTO);
 

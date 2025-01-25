@@ -80,14 +80,14 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *FavoriteUserTrainingAPI* | [**CreateFavoriteUserTraining**](docs/FavoriteUserTrainingAPI.md#createfavoriteusertraining) | **Post** /favoriteUserTrainings/{trainingId} | Create favorite user training
 *FavoriteUserTrainingAPI* | [**DeleteFavoriteUserTraining**](docs/FavoriteUserTrainingAPI.md#deletefavoriteusertraining) | **Delete** /favoriteUserTrainings/{trainingId} | Delete favorite user training
-*PracticeMaterialAPI* | [**CreatePracticeMaterial**](docs/PracticeMaterialAPI.md#createpracticematerial) | **Post** /practiceMaterials/{topicId} | Create practice material
+*PracticeMaterialAPI* | [**CreatePracticeMaterial**](docs/PracticeMaterialAPI.md#createpracticematerial) | **Post** /practiceMaterials | Create practice material
 *PracticeMaterialAPI* | [**DeletePracticeMaterial**](docs/PracticeMaterialAPI.md#deletepracticematerial) | **Delete** /practiceMaterials/{practiceMaterialId} | Delete practice material
 *PracticeMaterialAPI* | [**GetPracticeMaterialsByTopicId**](docs/PracticeMaterialAPI.md#getpracticematerialsbytopicid) | **Get** /practiceMaterials/{topicId} | Get practice material by topic id
-*PracticeMaterialAPI* | [**UpdatePracticeMaterial**](docs/PracticeMaterialAPI.md#updatepracticematerial) | **Patch** /practiceMaterials/{practiceMaterialId} | Update practice material
-*TheoryMaterialAPI* | [**CreateTheoryMaterial**](docs/TheoryMaterialAPI.md#createtheorymaterial) | **Post** /theoryMaterials/{topicId} | Create theory material
+*PracticeMaterialAPI* | [**UpdatePracticeMaterial**](docs/PracticeMaterialAPI.md#updatepracticematerial) | **Patch** /practiceMaterials | Update practice material
+*TheoryMaterialAPI* | [**CreateTheoryMaterial**](docs/TheoryMaterialAPI.md#createtheorymaterial) | **Post** /theoryMaterials | Create theory material
 *TheoryMaterialAPI* | [**DeleteTheoryMaterial**](docs/TheoryMaterialAPI.md#deletetheorymaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
 *TheoryMaterialAPI* | [**GetTheoryMaterialsByTopicId**](docs/TheoryMaterialAPI.md#gettheorymaterialsbytopicid) | **Get** /theoryMaterials/{topicId} | Get theory material by topic id
-*TheoryMaterialAPI* | [**UpdateTheoryMaterial**](docs/TheoryMaterialAPI.md#updatetheorymaterial) | **Patch** /theoryMaterials/{theoryMaterialId} | Update theory material
+*TheoryMaterialAPI* | [**UpdateTheoryMaterial**](docs/TheoryMaterialAPI.md#updatetheorymaterial) | **Patch** /theoryMaterials | Update theory material
 *TopicAPI* | [**CreateTopic**](docs/TopicAPI.md#createtopic) | **Post** /topics/{trainingId} | Create topic
 *TopicAPI* | [**DeleteTopic**](docs/TopicAPI.md#deletetopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
 *TopicAPI* | [**UpdateTopic**](docs/TopicAPI.md#updatetopic) | **Patch** /topics/{topicId} | Update topic

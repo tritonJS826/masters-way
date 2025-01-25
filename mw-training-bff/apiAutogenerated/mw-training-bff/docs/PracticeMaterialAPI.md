@@ -4,16 +4,16 @@ All URIs are relative to */training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreatePracticeMaterial**](PracticeMaterialAPI.md#CreatePracticeMaterial) | **Post** /practiceMaterials/{topicId} | Create practice material
+[**CreatePracticeMaterial**](PracticeMaterialAPI.md#CreatePracticeMaterial) | **Post** /practiceMaterials | Create practice material
 [**DeletePracticeMaterial**](PracticeMaterialAPI.md#DeletePracticeMaterial) | **Delete** /practiceMaterials/{practiceMaterialId} | Delete practice material
 [**GetPracticeMaterialsByTopicId**](PracticeMaterialAPI.md#GetPracticeMaterialsByTopicId) | **Get** /practiceMaterials/{topicId} | Get practice material by topic id
-[**UpdatePracticeMaterial**](PracticeMaterialAPI.md#UpdatePracticeMaterial) | **Patch** /practiceMaterials/{practiceMaterialId} | Update practice material
+[**UpdatePracticeMaterial**](PracticeMaterialAPI.md#UpdatePracticeMaterial) | **Patch** /practiceMaterials | Update practice material
 
 
 
 ## CreatePracticeMaterial
 
-> MwTrainingBffInternalSchemasPracticeMaterial CreatePracticeMaterial(ctx, topicId).Request(request).Execute()
+> MwTrainingBffInternalSchemasPracticeMaterial CreatePracticeMaterial(ctx).Request(request).Execute()
 
 Create practice material
 
@@ -30,12 +30,11 @@ import (
 )
 
 func main() {
-	topicId := "topicId_example" // string | topic id
 	request := *openapiclient.NewMwTrainingBffInternalSchemasCreatePracticeMaterialPayload("Answer_example", "Name_example", "PracticeType_example", "TaskDescription_example", int32(123), "TopicUuid_example") // MwTrainingBffInternalSchemasCreatePracticeMaterialPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PracticeMaterialAPI.CreatePracticeMaterial(context.Background(), topicId).Request(request).Execute()
+	resp, r, err := apiClient.PracticeMaterialAPI.CreatePracticeMaterial(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PracticeMaterialAPI.CreatePracticeMaterial``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -48,10 +47,6 @@ func main() {
 ### Path Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**topicId** | **string** | topic id | 
 
 ### Other Parameters
 
@@ -60,7 +55,6 @@ Other parameters are passed through a pointer to a apiCreatePracticeMaterialRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
  **request** | [**MwTrainingBffInternalSchemasCreatePracticeMaterialPayload**](MwTrainingBffInternalSchemasCreatePracticeMaterialPayload.md) | query params | 
 
 ### Return type
@@ -217,7 +211,7 @@ No authorization required
 
 ## UpdatePracticeMaterial
 
-> MwTrainingBffInternalSchemasPracticeMaterial UpdatePracticeMaterial(ctx, practiceMaterialId).Request(request).Execute()
+> MwTrainingBffInternalSchemasPracticeMaterial UpdatePracticeMaterial(ctx).Request(request).Execute()
 
 Update practice material
 
@@ -234,12 +228,11 @@ import (
 )
 
 func main() {
-	practiceMaterialId := "practiceMaterialId_example" // string | practice material id
 	request := *openapiclient.NewMwTrainingBffInternalSchemasUpdatePracticeMaterialPayload() // MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PracticeMaterialAPI.UpdatePracticeMaterial(context.Background(), practiceMaterialId).Request(request).Execute()
+	resp, r, err := apiClient.PracticeMaterialAPI.UpdatePracticeMaterial(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PracticeMaterialAPI.UpdatePracticeMaterial``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -252,10 +245,6 @@ func main() {
 ### Path Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**practiceMaterialId** | **string** | practice material id | 
 
 ### Other Parameters
 
@@ -264,7 +253,6 @@ Other parameters are passed through a pointer to a apiUpdatePracticeMaterialRequ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
  **request** | [**MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload**](MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload.md) | query params | 
 
 ### Return type

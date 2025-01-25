@@ -4,16 +4,16 @@ All URIs are relative to */training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateTheoryMaterial**](TheoryMaterialAPI.md#CreateTheoryMaterial) | **Post** /theoryMaterials/{topicId} | Create theory material
+[**CreateTheoryMaterial**](TheoryMaterialAPI.md#CreateTheoryMaterial) | **Post** /theoryMaterials | Create theory material
 [**DeleteTheoryMaterial**](TheoryMaterialAPI.md#DeleteTheoryMaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
 [**GetTheoryMaterialsByTopicId**](TheoryMaterialAPI.md#GetTheoryMaterialsByTopicId) | **Get** /theoryMaterials/{topicId} | Get theory material by topic id
-[**UpdateTheoryMaterial**](TheoryMaterialAPI.md#UpdateTheoryMaterial) | **Patch** /theoryMaterials/{theoryMaterialId} | Update theory material
+[**UpdateTheoryMaterial**](TheoryMaterialAPI.md#UpdateTheoryMaterial) | **Patch** /theoryMaterials | Update theory material
 
 
 
 ## CreateTheoryMaterial
 
-> MwTrainingBffInternalSchemasTheoryMaterial CreateTheoryMaterial(ctx, topicId).Request(request).Execute()
+> MwTrainingBffInternalSchemasTheoryMaterial CreateTheoryMaterial(ctx).Request(request).Execute()
 
 Create theory material
 
@@ -30,12 +30,11 @@ import (
 )
 
 func main() {
-	topicId := "topicId_example" // string | topic id
 	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateTheoryMaterialPayload("Description_example", "Name_example", "TopicUuid_example") // MwTrainingBffInternalSchemasCreateTheoryMaterialPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TheoryMaterialAPI.CreateTheoryMaterial(context.Background(), topicId).Request(request).Execute()
+	resp, r, err := apiClient.TheoryMaterialAPI.CreateTheoryMaterial(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TheoryMaterialAPI.CreateTheoryMaterial``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -48,10 +47,6 @@ func main() {
 ### Path Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**topicId** | **string** | topic id | 
 
 ### Other Parameters
 
@@ -60,7 +55,6 @@ Other parameters are passed through a pointer to a apiCreateTheoryMaterialReques
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
  **request** | [**MwTrainingBffInternalSchemasCreateTheoryMaterialPayload**](MwTrainingBffInternalSchemasCreateTheoryMaterialPayload.md) | query params | 
 
 ### Return type
@@ -217,7 +211,7 @@ No authorization required
 
 ## UpdateTheoryMaterial
 
-> MwTrainingBffInternalSchemasTheoryMaterial UpdateTheoryMaterial(ctx, theoryMaterialId).Request(request).Execute()
+> MwTrainingBffInternalSchemasTheoryMaterial UpdateTheoryMaterial(ctx).Request(request).Execute()
 
 Update theory material
 
@@ -234,12 +228,11 @@ import (
 )
 
 func main() {
-	theoryMaterialId := "theoryMaterialId_example" // string | theory material id
 	request := *openapiclient.NewMwTrainingBffInternalSchemasUpdateTheoryMaterialPayload() // MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TheoryMaterialAPI.UpdateTheoryMaterial(context.Background(), theoryMaterialId).Request(request).Execute()
+	resp, r, err := apiClient.TheoryMaterialAPI.UpdateTheoryMaterial(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TheoryMaterialAPI.UpdateTheoryMaterial``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -252,10 +245,6 @@ func main() {
 ### Path Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**theoryMaterialId** | **string** | theory material id | 
 
 ### Other Parameters
 
@@ -264,7 +253,6 @@ Other parameters are passed through a pointer to a apiUpdateTheoryMaterialReques
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
  **request** | [**MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload**](MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload.md) | query params | 
 
 ### Return type

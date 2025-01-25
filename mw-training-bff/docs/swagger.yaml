@@ -374,6 +374,49 @@ paths:
       summary: Create favorite user training
       tags:
       - favorite-user-training
+  /practiceMaterials:
+    patch:
+      consumes:
+      - application/json
+      operationId: update-practice-material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
+      summary: Update practice material
+      tags:
+      - practice-material
+    post:
+      consumes:
+      - application/json
+      operationId: create-practice-material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
+      summary: Create practice material
+      tags:
+      - practice-material
   /practiceMaterials/{practiceMaterialId}:
     delete:
       consumes:
@@ -391,32 +434,6 @@ paths:
         "200":
           description: OK
       summary: Delete practice material
-      tags:
-      - practice-material
-    patch:
-      consumes:
-      - application/json
-      operationId: update-practice-material
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
-      - description: practice material id
-        in: path
-        name: practiceMaterialId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
-      summary: Update practice material
       tags:
       - practice-material
   /practiceMaterials/{topicId}:
@@ -440,32 +457,49 @@ paths:
       summary: Get practice material by topic id
       tags:
       - practice-material
-    post:
+  /theoryMaterials:
+    patch:
       consumes:
       - application/json
-      operationId: create-practice-material
+      operationId: update-theory-material
       parameters:
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
-      - description: topic id
-        in: path
-        name: topicId
-        required: true
-        type: string
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
-      summary: Create practice material
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
+      summary: Update theory material
       tags:
-      - practice-material
+      - theory-material
+    post:
+      consumes:
+      - application/json
+      operationId: create-theory-material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTheoryMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
+      summary: Create theory material
+      tags:
+      - theory-material
   /theoryMaterials/{theoryMaterialId}:
     delete:
       consumes:
@@ -483,32 +517,6 @@ paths:
         "200":
           description: OK
       summary: Delete theory material
-      tags:
-      - theory-material
-    patch:
-      consumes:
-      - application/json
-      operationId: update-theory-material
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
-      - description: theory material id
-        in: path
-        name: theoryMaterialId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
-      summary: Update theory material
       tags:
       - theory-material
   /theoryMaterials/{topicId}:
@@ -530,32 +538,6 @@ paths:
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterials'
       summary: Get theory material by topic id
-      tags:
-      - theory-material
-    post:
-      consumes:
-      - application/json
-      operationId: create-theory-material
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTheoryMaterialPayload'
-      - description: topic id
-        in: path
-        name: topicId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
-      summary: Create theory material
       tags:
       - theory-material
   /topics/{topicId}:

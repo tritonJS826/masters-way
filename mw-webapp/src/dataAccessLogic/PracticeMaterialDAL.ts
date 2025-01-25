@@ -69,7 +69,6 @@ export class PracticeMaterialDAL {
    */
   public static async createPracticeMaterial(params: CreatePracticeMaterialParams): Promise<PracticeMaterial> {
     const practiceMaterialDTO = await PracticeMaterialService.createPracticeMaterial({
-      topicId: params.topicUuid,
       request: {
         answer: params.answer,
         name: params.name,
@@ -106,10 +105,8 @@ export class PracticeMaterialDAL {
    */
   public static async updatePracticeMaterial(practiceMaterial: PartialWithUuid<PracticeMaterial>): Promise<PracticeMaterial> {
     const practiceMaterialDTOPartial = practiceMaterialToPracticeMaterialDTOPartial(practiceMaterial);
-    const updatedPracticeMaterialDTO = await PracticeMaterialService.updatePracticeMaterial({
-      practiceMaterialId: practiceMaterial.uuid,
-      request: practiceMaterialDTOPartial,
-    });
+    const updatedPracticeMaterialDTO =
+      await PracticeMaterialService.updatePracticeMaterial({request: practiceMaterialDTOPartial});
 
     const updatedPracticeMaterial = practiceMaterialDTOToPracticeMaterial(updatedPracticeMaterialDTO);
 

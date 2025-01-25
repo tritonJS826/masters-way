@@ -32,7 +32,6 @@ import {
 } from '../models/index';
 
 export interface CreatePracticeMaterialRequest {
-    topicId: string;
     request: MwTrainingBffInternalSchemasCreatePracticeMaterialPayload;
 }
 
@@ -45,7 +44,6 @@ export interface GetPracticeMaterialsByTopicIdRequest {
 }
 
 export interface UpdatePracticeMaterialRequest {
-    practiceMaterialId: string;
     request: MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload;
 }
 
@@ -58,10 +56,6 @@ export class PracticeMaterialApi extends runtime.BaseAPI {
      * Create practice material
      */
     async createPracticeMaterialRaw(requestParameters: CreatePracticeMaterialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasPracticeMaterial>> {
-        if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
-            throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling createPracticeMaterial.');
-        }
-
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createPracticeMaterial.');
         }
@@ -73,7 +67,7 @@ export class PracticeMaterialApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/practiceMaterials/{topicId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
+            path: `/practiceMaterials`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -154,10 +148,6 @@ export class PracticeMaterialApi extends runtime.BaseAPI {
      * Update practice material
      */
     async updatePracticeMaterialRaw(requestParameters: UpdatePracticeMaterialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasPracticeMaterial>> {
-        if (requestParameters.practiceMaterialId === null || requestParameters.practiceMaterialId === undefined) {
-            throw new runtime.RequiredError('practiceMaterialId','Required parameter requestParameters.practiceMaterialId was null or undefined when calling updatePracticeMaterial.');
-        }
-
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling updatePracticeMaterial.');
         }
@@ -169,7 +159,7 @@ export class PracticeMaterialApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/practiceMaterials/{practiceMaterialId}`.replace(`{${"practiceMaterialId"}}`, encodeURIComponent(String(requestParameters.practiceMaterialId))),
+            path: `/practiceMaterials`,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,

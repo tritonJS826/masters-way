@@ -39,32 +39,9 @@ paths:
       summary: Create favorite user training
       tags:
       - favorite-user-training
-  /practiceMaterials/{practiceMaterialId}:
-    delete:
-      operationId: delete-practice-material
-      parameters:
-      - description: practice material id
-        in: path
-        name: practiceMaterialId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content: {}
-          description: OK
-      summary: Delete practice material
-      tags:
-      - practice-material
+  /practiceMaterials:
     patch:
       operationId: update-practice-material
-      parameters:
-      - description: practice material id
-        in: path
-        name: practiceMaterialId
-        required: true
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
@@ -83,6 +60,43 @@ paths:
       tags:
       - practice-material
       x-codegen-request-body-name: request
+    post:
+      operationId: create-practice-material
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
+          description: OK
+      summary: Create practice material
+      tags:
+      - practice-material
+      x-codegen-request-body-name: request
+  /practiceMaterials/{practiceMaterialId}:
+    delete:
+      operationId: delete-practice-material
+      parameters:
+      - description: practice material id
+        in: path
+        name: practiceMaterialId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete practice material
+      tags:
+      - practice-material
   /practiceMaterials/{topicId}:
     get:
       operationId: get-practice-materials-by-topic-id
@@ -103,59 +117,9 @@ paths:
       summary: Get practice material by topic id
       tags:
       - practice-material
-    post:
-      operationId: create-practice-material
-      parameters:
-      - description: topic id
-        in: path
-        name: topicId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
-          description: OK
-      summary: Create practice material
-      tags:
-      - practice-material
-      x-codegen-request-body-name: request
-  /theoryMaterials/{theoryMaterialId}:
-    delete:
-      operationId: delete-theory-material
-      parameters:
-      - description: theory material id
-        in: path
-        name: theoryMaterialId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content: {}
-          description: OK
-      summary: Delete theory material
-      tags:
-      - theory-material
+  /theoryMaterials:
     patch:
       operationId: update-theory-material
-      parameters:
-      - description: theory material id
-        in: path
-        name: theoryMaterialId
-        required: true
-        schema:
-          type: string
       requestBody:
         content:
           application/json:
@@ -174,6 +138,43 @@ paths:
       tags:
       - theory-material
       x-codegen-request-body-name: request
+    post:
+      operationId: create-theory-material
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTheoryMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
+          description: OK
+      summary: Create theory material
+      tags:
+      - theory-material
+      x-codegen-request-body-name: request
+  /theoryMaterials/{theoryMaterialId}:
+    delete:
+      operationId: delete-theory-material
+      parameters:
+      - description: theory material id
+        in: path
+        name: theoryMaterialId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete theory material
+      tags:
+      - theory-material
   /theoryMaterials/{topicId}:
     get:
       operationId: get-theory-materials-by-topic-id
@@ -194,33 +195,6 @@ paths:
       summary: Get theory material by topic id
       tags:
       - theory-material
-    post:
-      operationId: create-theory-material
-      parameters:
-      - description: topic id
-        in: path
-        name: topicId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTheoryMaterialPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
-          description: OK
-      summary: Create theory material
-      tags:
-      - theory-material
-      x-codegen-request-body-name: request
   /topics/{topicId}:
     delete:
       operationId: delete-topic
