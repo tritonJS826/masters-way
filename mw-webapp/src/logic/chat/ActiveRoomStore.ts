@@ -1,5 +1,6 @@
-import {makeAutoObservable, runInAction} from "mobx";
+import {makeAutoObservable} from "mobx";
 import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
+import {load} from "src/hooks/useLoad";
 import {Room} from "src/model/businessModel/Chat";
 
 /**
@@ -8,16 +9,10 @@ import {Room} from "src/model/businessModel/Chat";
 export class ActiveRoomStore {
 
   /**
-   * Default chat active room  value
+   * Active room  value
    *
    */
-  public activeRoom: Room | null = null;
-
-  /**
-   *Active room id  value
-   *
-   */
-  public activeRoomId: string;
+  public activeRoom!: Room;
 
   /**
    * Message's value
@@ -26,8 +21,8 @@ export class ActiveRoomStore {
 
   constructor(roomId: string) {
     makeAutoObservable(this);
-    this.loadActiveRoom(roomId);
-    this.activeRoomId = roomId;
+    this.initializeActiveRoom(roomId);
+
   }
 
   /**
@@ -38,13 +33,51 @@ export class ActiveRoomStore {
   };
 
   /**
-   * Load active room by RoomId
+   * Load active room by roomId
    */
   private loadActiveRoom = async (roomId: string) => {
     const activeRoom = await ChatDAL.getRoomById(roomId);
-    runInAction(() => {
-      this.activeRoom = activeRoom;
+
+    return activeRoom;
+  };
+
+  /**
+   * Set active room
+   */
+  private setActiveRoom = (activeRoom: Room) => {
+    this.activeRoom = activeRoom;
+
+  };
+
+  /**
+   * Initialize active room
+   */
+  private async initializeActiveRoom(activeRoomId: string) {
+    await load<Room>({
+
+      /**
+       * Load data
+       */
+      loadData: () => this.loadActiveRoom(activeRoomId),
+      validateData: this.validateData,
+      onError: this.onError,
+      onSuccess: this.setActiveRoom,
     });
+
+  }
+
+  /**
+   * Validate data
+   */
+  private validateData = (data: Room) => {
+    return !!data;
+  };
+
+  /**
+   * On error
+   */
+  private onError = (error: Error) => {
+    throw (error);
   };
 
 }

@@ -20,7 +20,7 @@ class ChatStore {
   public unreadMessagesAmount: number = 0;
 
   /**
-   * Active room store value
+   * ActiveRoomStore value
    */
   public activeRoomStore: ActiveRoomStore | null = null;
 
@@ -49,7 +49,7 @@ class ChatStore {
   };
 
   /**
-   * Reset activeChatStore
+   * Reset activeRoomStore
    */
   public resetActiveRoomStore = () => {
     this.activeRoomStore = null;

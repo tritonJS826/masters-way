@@ -13,7 +13,7 @@ export class ChatListStore {
   public chatPreviewList: ChatPreview[] = [];
 
   /**
-   * Chat preview list
+   * Chat list  room type
    */
   public roomType: RoomType;
 
@@ -22,14 +22,14 @@ export class ChatListStore {
    */
   public groupChatName: string = "";
 
-  constructor(chatRoomType: RoomType) {
+  constructor(roomType: RoomType) {
     makeAutoObservable(this);
-    this.roomType = chatRoomType ?? RoomType.PRIVATE;
+    this.roomType = roomType;
     this.loadChatList();
   }
 
   /**
-   * Set room type
+   * Set group chat name
    */
   /* Commented  method while groupChat is not realized on backend
   public setGroupChatName = (name: string) => {
@@ -45,6 +45,7 @@ export class ChatListStore {
   public setRoomType = (chatRoomType: RoomType) => {
     this.chatRoomType = chatRoomType;
   };
+
  */
   /**
    * Load chat list
@@ -56,5 +57,11 @@ export class ChatListStore {
     });
   };
 
-}
+  /**
+   * Add chat to chatList
+   */
+  public addChatToChatList = (chatPreview: ChatPreview) => {
+    this.chatPreviewList.unshift(chatPreview);
+  };
 
+}
