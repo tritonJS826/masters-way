@@ -79,13 +79,4 @@ export const ThemedImage = (props: ThemedImageProps) => {
       cy={{dataCy: props.dataCy}}
     />
   );
-
-  // Return imageSrc && (
-  //   <Image
-  //     src={imageSrc}
-  //     alt={props.name}
-  //     className={props.className}
-  //     cy={{dataCy: props.dataCy}}
-  //   />
-  // );
 };
