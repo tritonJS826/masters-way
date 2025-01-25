@@ -3,6 +3,8 @@ import {DialogTrigger, Root as DialogRoot} from "@radix-ui/react-dialog";
 import clsx from "clsx";
 import {chatAccessIds} from "cypress/accessIds/chatAccessIds";
 import {observer} from "mobx-react-lite";
+import {MessageIcon} from "src/assets/icons/MessageIcon";
+import {IconSize} from "src/component/icon/Icon";
 import {ChannelId} from "src/eventBus/EventBusChannelDict";
 import {ChatEventId} from "src/eventBus/events/chat/ChatEventDict";
 import {useListenEventBus} from "src/eventBus/useListenEvent";
@@ -52,6 +54,13 @@ export const ChatModal = observer(() => {
               ? styles.onlineIndicator
               : styles.offlineIndicator)}
           />
+          <div className={styles.iconWrapper}>
+            <MessageIcon
+              name="MessageIcon"
+              size={IconSize.BIG}
+              className={styles.messageIcon}
+            />
+          </div>
           <div className={styles.chatTriggerText}>
             {LanguageService.common.chat.openChat[language]}
           </div>

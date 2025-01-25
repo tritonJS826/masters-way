@@ -1,11 +1,15 @@
 import {BrowserRouter} from "react-router-dom";
+import {render, screen} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {WayCard} from "src/component/wayCard/WayCard";
 import {WayStatus} from "src/logic/waysTable/wayStatus";
 import {UserPlain} from "src/model/businessModel/User";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {DateUtils} from "src/utils/DateUtils";
+import {describe, expect, it} from "vitest";
+
+const WAY_CARD = "way-card";
 
 const USER_PREVIEW_DATA: UserPlain = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
@@ -47,51 +51,51 @@ const WAY_PREVIEW_DATA: WayPreview = {
   childrenUuids: [],
 };
 
-const WAY_CARD_CY = "way-card";
+/**
+ * Render WayCard
+ */
+const renderWayCard = () =>
+  render(
+    <BrowserRouter>
+      <WayCard
+        wayPreview={WAY_PREVIEW_DATA}
+        dataCy={WAY_CARD}
+      />
+    </BrowserRouter>,
+  );
 
 describe("WayCard component", () => {
-  beforeEach(() => {
-    cy.mount(
-      <BrowserRouter>
-        <WayCard
-          wayPreview={WAY_PREVIEW_DATA}
-          dataCy={WAY_CARD_CY}
-        />
-      </BrowserRouter>,
-    );
-  });
+  it("should navigate to way page on click", async () => {
+    renderWayCard();
+    const user = userEvent.setup();
 
-  it("should navigate to way page on click", () => {
-    cy.get(getDataCy(WAY_CARD_CY)).click();
-    cy.url().should(
-      "eq",
-      Cypress.config().baseUrl +
-        pages.way.getPath({uuid: WAY_PREVIEW_DATA.uuid}),
-    );
-  });
+    const wayCard = screen.getByTestId(WAY_CARD);
+    await user.click(wayCard);
 
-  it("should render wayCard correctly", () => {
-    cy.get(getDataCy(WAY_CARD_CY)).should("exist");
+    expect(window.location.pathname).toBe(
+      pages.way.getPath({uuid: WAY_PREVIEW_DATA.uuid}),
+    );
   });
 
   it("should display the correct content elements", () => {
-    cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.goalDescription);
-    cy.get(getDataCy(WAY_CARD_CY)).contains(WAY_PREVIEW_DATA.name);
-    cy.get(getDataCy(WAY_CARD_CY)).contains(
-      `${WAY_PREVIEW_DATA.dayReportsAmount}`,
+    renderWayCard();
+
+    const wayCard = screen.getByTestId(WAY_CARD);
+
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.name);
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.goalDescription);
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.dayReportsAmount.toString());
+    expect(wayCard).toHaveTextContent(WAY_PREVIEW_DATA.favoriteForUsers.toString());
+    expect(wayCard).toHaveTextContent(
+      DateUtils.getShortISODotSplitted(WAY_PREVIEW_DATA.createdAt),
     );
-    cy.get(getDataCy(WAY_CARD_CY)).contains(
-      `${WAY_PREVIEW_DATA.favoriteForUsers}`,
-    );
-    const creationDate = DateUtils.getShortISODotSplitted(
-      WAY_PREVIEW_DATA.createdAt,
-    );
-    cy.get(getDataCy(WAY_CARD_CY)).contains(creationDate);
   });
 
   it("should display tags", () => {
-    WAY_PREVIEW_DATA.wayTags.map((tag) => {
-      cy.get(getDataCy(WAY_CARD_CY)).contains(tag.name);
+    renderWayCard();
+
+    WAY_PREVIEW_DATA.wayTags.forEach((tag) => {
+      expect(screen.getByTestId(WAY_CARD)).toHaveTextContent(tag.name);
     });
   });
 });

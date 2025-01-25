@@ -1,13 +1,15 @@
 @import "src/styles/variables";
 
 $chat-trigger-size: 50px;
-$chat-trigger-margin-bottom: 180px;
+$icon-wrapper-size: 42px;
+$indicator-size: 10px;
+$unread-messages-amount-size: 30px;
 
 .chatTrigger {
   position: fixed;
   z-index: $chatZIndex;
   right: 0;
-  bottom: $chat-trigger-margin-bottom;
+  bottom: 180px;
   width: $chat-trigger-size;
   height: $chat-trigger-size;
   padding: $paddingBig $paddingMedium;
@@ -29,7 +31,17 @@ $chat-trigger-margin-bottom: 180px;
     cursor: pointer;
     transition: 0.5s ease-in-out;
 
+    .iconWrapper {
+      opacity: 0;
+      transition: 400ms all;
+      visibility: hidden;
+    }
+    .indicator {
+      transform: translateX(-10px);
+    }
+
     .chatTriggerText {
+      margin-top: 3px;
       opacity: 1;
       transition: opacity 400ms 300ms;
       visibility: visible;
@@ -40,12 +52,19 @@ $chat-trigger-margin-bottom: 180px;
       background-color: var(--generalPrimaryColor);
       transition: 0.5s ease;
     }
-
-    .indicator {
-      margin: -10px auto $marginMedium;
-      transition: 0.4s all;
-    }
   }
+}
+
+.iconWrapper {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 4px;
+  width: $icon-wrapper-size;
+  height: $icon-wrapper-size;
+  padding: $paddingExtraSmall;
+  opacity: 1;
+  visibility: visible;
 }
 
 .chatTriggerText {
@@ -58,11 +77,11 @@ $chat-trigger-margin-bottom: 180px;
 .unreadMessagesAmount {
   position: absolute;
   z-index: $chatZIndex;
-  bottom: -15px;
+  bottom: -20px;
   left: calc(50% - 15px);
   display: flex;
-  width: 30px;
-  height: 30px;
+  width: $unread-messages-amount-size;
+  height: $unread-messages-amount-size;
   align-items: center;
   justify-content: center;
   padding: $paddingExtraSmall;
@@ -72,11 +91,15 @@ $chat-trigger-margin-bottom: 180px;
 }
 
 .indicator {
-  width: 10px;
-  height: 10px;
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: 10px;
+  width: $indicator-size;
+  height: $indicator-size;
   padding: $paddingExtraSmall;
   border-radius: $tagBorderRadius;
-  margin: -5px auto;
+  transition: transform 0.5s ease;
 }
 
 .onlineIndicator {
