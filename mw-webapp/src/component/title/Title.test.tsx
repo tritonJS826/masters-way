@@ -42,13 +42,12 @@ describe("Title component", () => {
   });
 
   it("should change to input on double-click and trigger onChangeFinish", async () => {
-    const mockOnChangeFinish = vi.fn();
     const user = userEvent.setup();
+    const mockOnChangeFinish = vi.fn();
 
     renderTitle(mockOnChangeFinish);
 
     const titleContainer = screen.getByTestId(TITLE);
-
     await user.dblClick(titleContainer);
 
     const input = screen.getByRole("textbox");
