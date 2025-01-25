@@ -100,6 +100,7 @@ export const Trash = (props: TrashProps) => {
         cy={{
           onOk: props.cy?.dataCyOk,
           onEnter: props.cy?.dataCyContent,
+          onCancel: props.cy?.dataCyCancel,
         }}
       />
     </Tooltip>

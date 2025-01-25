@@ -17,8 +17,6 @@ import "/src/component/textarea/Textarea.cy.tsx";
 import "/src/component/title/Title.cy.tsx";
 import "/src/component/toggle/Toggle.cy.tsx";
 import "/src/component/tooltip/Tooltip.cy.tsx";
-import "/src/component/userCard/UserCard.cy.tsx";
-import "/src/component/verticalContainer/VerticalContainer.cy.tsx";
 import "/src/component/icon/Icon.cy.tsx";
 import "/src/component/text/Text.cy.tsx";
 import "src/component/reviewCard/ReviewCard.cy.tsx";
