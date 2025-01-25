@@ -3,7 +3,6 @@ import logo from "src/assets/mastersWayLogo.svg";
 import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {Theme} from "src/globalStore/ThemeStore";
-import {describe, expect, it} from "vitest";
 
 const THEMED_IMAGE = "themed-image";
 const THEMED_IMAGE_NAME = "image-name";
@@ -64,8 +63,8 @@ describe("ThemedImage component", () => {
 
   it("should render with alt text even if theme does not match sources", () => {
     renderThemedImage(INVALID_THEME);
-
     const themedImage = screen.getByAltText(THEMED_IMAGE_NAME);
+
     expect(themedImage).toBeInTheDocument();
   });
 });

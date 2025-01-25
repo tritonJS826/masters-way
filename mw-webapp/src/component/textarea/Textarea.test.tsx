@@ -1,7 +1,7 @@
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Textarea} from "src/component/textarea/Textarea";
-import {describe, expect, it, vi} from "vitest";
+import {vi} from "vitest";
 
 const TEXTAREA = "textarea";
 const TEXTAREA_VALUE = "text";

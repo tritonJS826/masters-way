@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import {ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
-import {describe, expect, it, vi} from "vitest";
+import {vi} from "vitest";
 
 const THEME_SWITCHER = "theme-switcher";
 
