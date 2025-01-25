@@ -32,7 +32,7 @@ This work is licensed under a Creative Commons Attribution 4.0 International Lic
 - golang 1.23.0 (we recommend to use [gvm](https://github.com/moovweb/gvm), exist in snap)
 - node 22.5.1 (we recommend to use "nvm" or "n" package for installation)
 - pnpm 8.15.2 (https://pnpm.io)
-- sqlc v1.27.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
+- sqlc v1.28.0 ([golang package](https://docs.sqlc.dev/en/latest/overview/install.html), exist in snap)
 - swag v1.16.4 ([golang package](https://github.com/swaggo/swag))
 - libprotoc 28.3 ([golang package](https://grpc.io/docs/languages/go/quickstart))
     ```bash

@@ -35,7 +35,7 @@ var limitMap = map[LimitNameType]map[db.PricingPlanType]uint16{
 	MaxMentoringsWays: {
 		db.PricingPlanTypeFree:    3,
 		db.PricingPlanTypeStarter: 20,
-		db.PricingPlanTypePro:     30,
+		db.PricingPlanTypePro:     300,
 	},
 	MaxUserTags: {
 		db.PricingPlanTypeFree:    3,
