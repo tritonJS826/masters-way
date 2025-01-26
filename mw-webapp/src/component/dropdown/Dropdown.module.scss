@@ -1,12 +1,13 @@
 @import "src/styles/variables";
 
-$dropdownWidth: 380px;
+$dropdownMaxWidth: 380px;
 $dropdownIndentationBottom: 8px;
+$dropdownContentZIndex: 90;
 
 .dropdownContent,
 .dropdownMenuSubContent {
-  z-index: 99;
-  max-width: $dropdownWidth;
+  z-index: $dropdownContentZIndex;
+  max-width: $dropdownMaxWidth;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   animation-duration: 400ms;
