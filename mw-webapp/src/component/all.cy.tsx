@@ -1,4 +1,3 @@
-import "/src/component/footer/Footer.cy.tsx";
 import "/src/component/header/Header.cy.tsx";
 import "/src/component/horizontalContainer/HorizontalContainer.cy.tsx";
 import "/src/component/horizontalGridContainer/HorizontalGridContainer.cy.tsx";

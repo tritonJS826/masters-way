@@ -1,14 +1,14 @@
 import {BrowserRouter} from "react-router-dom";
+import {render, screen} from "@testing-library/react";
 import {Footer} from "src/component/footer/Footer";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const FOOTER_CY = "footer";
 
-describe("Footer component", () => {
+describe("Footer", () => {
   beforeEach(() => {
-    cy.mount(
+    render(
       <BrowserRouter>
         <Footer
           dataCy={FOOTER_CY}
@@ -18,12 +18,12 @@ describe("Footer component", () => {
     );
   });
 
-  it("Alt text in logotype should be  visible if source broken", () => {
-    cy.get(getDataCy(FOOTER_CY)).find("img").should("have.attr", "alt", LOGO_TEXT);
+  it("Alt text in logotype should be visible if source broken", () => {
+    expect(screen.getByRole("img")).toHaveAttribute("alt", LOGO_TEXT);
   });
 
   it("Logotype image should be visible if source exists", () => {
-    cy.get(getDataCy(FOOTER_CY)).find("img").should("be.visible");
+    expect(screen.getByRole("img")).toBeVisible();
   });
 
 });
