@@ -95,6 +95,7 @@
 .tabsSectionContainer {
   @include regularContainer;
   gap: $gapBig;
+  flex-wrap: wrap;
 }
 
 .tabsSection {
@@ -105,7 +106,10 @@
 
 .collectionGroup {
   gap: $gapBig;
-  width: 100%;
+  width: calc(50% - $gapBig/2);
+  @media (max-width: $mediaWidthMobileBig) {
+    width: 100%;
+  }
 }
 
 .temporalBlock {
