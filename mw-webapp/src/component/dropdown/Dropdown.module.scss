@@ -1,11 +1,12 @@
 @import "src/styles/variables";
 
-$dropdownWidth: 100%;
+$dropdownWidth: 380px;
 $dropdownIndentationBottom: 8px;
 
 .dropdownContent,
 .dropdownMenuSubContent {
-  z-index: $dropdownZIndex;
+  z-index: 99;
+  max-width: $dropdownWidth;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   animation-duration: 400ms;
@@ -30,33 +31,12 @@ $dropdownIndentationBottom: 8px;
 .dropdownMenuSubContent[data-side="bottom"] {
   animation-name: slideUpAndFade;
 }
-.dDropdownMenuContent[data-side="left"],
+.dropdownMenuContent[data-side="left"],
 .dropdownMenuSubContent[data-side="left"] {
   animation-name: slideRightAndFade;
-}
 
-.dropdownMenuItem {
-  padding: $paddingSmall $paddingMedium;
-  cursor: pointer;
-  font-size: $fontSizeMedium;
-  outline: none;
-  user-select: none;
-
-  &:not(:last-child) {
-    border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
-  }
-  &:first-child {
-    border-top-left-radius: $primaryBorderRadius;
-    border-top-right-radius: $primaryBorderRadius;
-  }
-  &:last-child {
-    border-bottom-left-radius: $primaryBorderRadius;
-    border-bottom-right-radius: $primaryBorderRadius;
-  }
-
-  &:hover,
-  &:active {
-    color: var(--tertiaryTextColor);
+  @media (max-width: $mediaWidthMobileBig) {
+    max-width: 50vw;
   }
 }
 
@@ -78,9 +58,9 @@ $dropdownIndentationBottom: 8px;
   }
 }
 
-.DropdownMenuSubTrigger[data-state="open"] {
-  background-color: var(--violet-4);
-  color: var(--violet-11);
+.dropdownMenuSubTrigger[data-state="open"] {
+  background-color: var(--dropdownStrokeColor);
+  color: var(--tertiaryTextColor);
 }
 
 @keyframes slideUpAndFade {
