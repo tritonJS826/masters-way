@@ -133,17 +133,14 @@ export const ChatContent = observer(() => {
       participantIds: payload.users.map((participant) => participant.userId),
     });
 
-    const isPrivateChatOpenAndNewChatIsPrivate = !!chatListStore && chatListStore.roomType === RoomType.PRIVATE
+    const isChatListRoomTypePrivateAndNewChatIsPrivate = !!chatListStore && chatListStore.roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
-
-    /* This constant  will be use when we reopen group chats feature */
-    const isShouldUpdateChatList = isPrivateChatOpenAndNewChatIsPrivate;
 
     displayNotification({
       text: `Room ${payload.name} created!`,
       type: NotificationType.INFO,
     });
-    if (isShouldUpdateChatList) {
+    if (isChatListRoomTypePrivateAndNewChatIsPrivate) {
       chatListStore.addChatToChatList(newChatPreview);
     }
   });
@@ -271,11 +268,7 @@ export const ChatContent = observer(() => {
             </VerticalContainer>
 
             { !!activeRoomStore && activeRoomStore.activeRoom &&
-            <VerticalContainer className={clsx(
-              styles.chatBlock,
-              activeRoomStore && styles.chatBlockOpen,
-            )}
-            >
+            <VerticalContainer className={clsx(styles.chatBlock, styles.chatBlockOpen)}>
               <HorizontalContainer className={styles.chatInfo}>
                 <ChatItem
                   name={activeRoomStore.activeRoom.name}

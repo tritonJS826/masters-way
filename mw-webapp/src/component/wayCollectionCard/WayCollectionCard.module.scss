@@ -45,20 +45,20 @@ $titleWithBurgerBlockHeight: 32px;
 }
 
 .collectionTitleBlock {
-  min-height: $titleWithBurgerBlockHeight;
+  // min-height: $titleWithBurgerBlockHeight;
   align-items: center;
   justify-content: space-between;
 }
 
-.description {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  color: var(--secondaryTextColor);
-  font-size: $fontSizeMedium;
-  -webkit-line-clamp: 2;
-  text-overflow: ellipsis;
-}
+// .description {
+//   display: -webkit-box;
+//   overflow: hidden;
+//   -webkit-box-orient: vertical;
+//   color: var(--secondaryTextColor);
+//   font-size: $fontSizeMedium;
+//   -webkit-line-clamp: 2;
+//   text-overflow: ellipsis;
+// }
 
 .additionalInfo {
   height: $wayCollectionCardAdditionalHeight;
