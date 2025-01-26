@@ -343,7 +343,7 @@ export const UserPage = observer((props: UserPageProps) => {
       tabContent: {
         id: "0",
         value: (
-          <VerticalContainer className={styles.tabsSectionContainer}>
+          <HorizontalContainer className={styles.tabsSectionContainer}>
             <VerticalContainer className={styles.collectionGroup}>
               <HorizontalContainer>
                 <Infotip content={LanguageService.user.infotip.basicCollections[language]} />
@@ -353,8 +353,8 @@ export const UserPage = observer((props: UserPageProps) => {
                   placeholder=""
                 />
               </HorizontalContainer>
-              <HorizontalContainer className={styles.tabsSection}>
 
+              <HorizontalGridContainer className={styles.tabsSection}>
                 <WayCollectionCard
                   isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
                   collectionTitle={LanguageService.user.collections.own[language]}
@@ -381,7 +381,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   language={language}
                   dataCy={userWaysAccessIds.collectionBlock.favoriteWayCollectionButton}
                 />
-              </HorizontalContainer>
+              </HorizontalGridContainer>
             </VerticalContainer>
 
             <VerticalContainer
@@ -429,7 +429,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
               </HorizontalContainer>
             </VerticalContainer>
-          </VerticalContainer>
+          </HorizontalContainer>
         ),
       },
       value: "Collections",
