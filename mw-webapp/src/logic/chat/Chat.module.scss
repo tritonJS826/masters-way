@@ -1,23 +1,27 @@
 @import "src/styles/variables";
 
-$chat-trigger-size: 50px;
-$icon-wrapper-size: 42px;
-$indicator-size: 10px;
-$unread-messages-amount-size: 30px;
+// Variables used only in Chat module styles
+$indicatorSize: 10px;
+$chatTriggerSize: 50px;
+$iconWrapperSize: 42px;
+$unreadMessagesAmountSize: 30px;
+$chatTriggerUnfocusedMarginBottom: 210px;
+$chatTriggerFocusedMarginBottom: 110px;
+$unreadMessagesAmountMarginBottom: -20px;
 
 .chatTrigger {
   position: fixed;
   z-index: $chatZIndex;
   right: 0;
-  bottom: 180px;
-  width: $chat-trigger-size;
-  height: $chat-trigger-size;
+  bottom: $chatTriggerUnfocusedMarginBottom;
+  width: $chatTriggerSize;
+  height: $chatTriggerSize;
   padding: $paddingBig $paddingMedium;
   border: $primaryBorder solid var(--secondaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
-  transition: 0.3s ease-out;
+  transition: 300ms ease-out;
 
   & svg {
     stroke: var(--secondaryStrokeColor);
@@ -25,11 +29,11 @@ $unread-messages-amount-size: 30px;
 
   &:hover {
     z-index: $chatZIndex;
-    bottom: calc(3 * $marginBig);
-    height: calc(3 * $chat-trigger-size);
+    bottom: $chatTriggerFocusedMarginBottom;
+    height: calc(3 * $chatTriggerSize);
     background-color: var(--quaternaryBgColor);
     cursor: pointer;
-    transition: 0.5s ease-in-out;
+    transition: 500ms ease-in-out;
 
     .iconWrapper {
       opacity: 0;
@@ -37,11 +41,11 @@ $unread-messages-amount-size: 30px;
       visibility: hidden;
     }
     .indicator {
-      transform: translateX(-10px);
+      transform: translateX(-($marginMedium));
     }
 
     .chatTriggerText {
-      margin-top: 3px;
+      margin-top: $marginSmall;
       opacity: 1;
       transition: opacity 400ms 300ms;
       visibility: visible;
@@ -50,7 +54,7 @@ $unread-messages-amount-size: 30px;
 
     .unreadMessagesAmount {
       background-color: var(--generalPrimaryColor);
-      transition: 0.5s ease;
+      transition: 500ms ease;
     }
   }
 }
@@ -59,9 +63,9 @@ $unread-messages-amount-size: 30px;
   position: absolute;
   z-index: 0;
   top: 0;
-  right: 4px;
-  width: $icon-wrapper-size;
-  height: $icon-wrapper-size;
+  right: $marginSmall;
+  width: $iconWrapperSize;
+  height: $iconWrapperSize;
   padding: $paddingExtraSmall;
   opacity: 1;
   visibility: visible;
@@ -77,11 +81,11 @@ $unread-messages-amount-size: 30px;
 .unreadMessagesAmount {
   position: absolute;
   z-index: $chatZIndex;
-  bottom: -20px;
+  bottom: $unreadMessagesAmountMarginBottom;
   left: calc(50% - 15px);
   display: flex;
-  width: $unread-messages-amount-size;
-  height: $unread-messages-amount-size;
+  width: $unreadMessagesAmountSize;
+  height: $unreadMessagesAmountSize;
   align-items: center;
   justify-content: center;
   padding: $paddingExtraSmall;
@@ -92,14 +96,14 @@ $unread-messages-amount-size: 30px;
 
 .indicator {
   position: absolute;
-  z-index: 1;
-  top: 10px;
-  right: 10px;
-  width: $indicator-size;
-  height: $indicator-size;
+  z-index: $chatOnlineIndicatorZIndex;
+  top: $marginMedium;
+  right: $marginMedium;
+  width: $indicatorSize;
+  height: $indicatorSize;
   padding: $paddingExtraSmall;
   border-radius: $tagBorderRadius;
-  transition: transform 0.5s ease;
+  transition: transform 500ms ease;
 }
 
 .onlineIndicator {
