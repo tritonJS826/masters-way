@@ -1,6 +1,7 @@
-import {makeAutoObservable} from "mobx";
-import {ChatDAL} from "src/dataAccessLogic/ChatDAL";
-import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
+import {makeAutoObservable, runInAction} from "mobx";
+import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
+import {ActiveRoomStore} from "src/logic/chat/ActiveRoomStore";
+import {ChatListStore} from "src/logic/chat/ChatListStore";
 
 /**
  * All chat-related methods
@@ -19,9 +20,14 @@ class ChatStore {
   public unreadMessagesAmount: number = 0;
 
   /**
-   * Active room store
+   * ActiveRoomStore value
    */
-  public activeRoomStore: ActiveChatStore | null = null;
+  public activeRoomStore: ActiveRoomStore | null = null;
+
+  /**
+   * ChatListStore value
+   */
+  public chatListStore: ChatListStore | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -36,10 +42,39 @@ class ChatStore {
   };
 
   /**
-   * Set active room store
+   * Initiate new activeChatStore
    */
-  public setActiveRoomStore = (activeRoomStore: ActiveChatStore | null) => {
-    this.activeRoomStore = activeRoomStore;
+  public initiateActiveRoomStore = (chatRoomId: string) => {
+    this.activeRoomStore = new ActiveRoomStore(chatRoomId);
+  };
+
+  /**
+   * Reset activeRoomStore
+   */
+  public resetActiveRoomStore = () => {
+    this.activeRoomStore = null;
+  };
+
+  /**
+   * Initiate new ChatListStore
+   */
+  public initiateChatListStore = (chatRoomType: RoomType) => {
+    this.chatListStore = new ChatListStore(chatRoomType);
+  };
+
+  /**
+   * Reset chatListStore
+   */
+  public resetChatListStore = () => {
+    this.chatListStore = null;
+  };
+
+  /**
+   * Reset  chat stores
+   */
+  public resetChatStores = () => {
+    this.resetActiveRoomStore();
+    this.resetChatListStore();
   };
 
   /**
@@ -47,8 +82,10 @@ class ChatStore {
    */
   public loadUnreadMessagesAmount = async () => {
     const unreadMessages = await ChatDAL.getChatPreview();
+    runInAction(() => {
+      this.unreadMessagesAmount = unreadMessages;
+    });
 
-    this.unreadMessagesAmount = unreadMessages;
   };
 
   /**

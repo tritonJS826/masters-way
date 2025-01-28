@@ -1,4 +1,4 @@
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, runInAction} from "mobx";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {ChatPreview} from "src/model/businessModelPreview/ChatPreview";
 
@@ -10,10 +10,10 @@ export class ChatListStore {
   /**
    * Chat preview list
    */
-  public chatList: ChatPreview[] = [];
+  public chatPreviewList: ChatPreview[] = [];
 
   /**
-   * Chat preview list
+   * Chat list  room type
    */
   public roomType: RoomType;
 
@@ -22,41 +22,46 @@ export class ChatListStore {
    */
   public groupChatName: string = "";
 
-  constructor(roomType?: RoomType) {
+  constructor(roomType: RoomType) {
     makeAutoObservable(this);
-    this.roomType = roomType ?? RoomType.PRIVATE;
+    this.roomType = roomType;
+    this.loadChatList();
   }
 
   /**
-   * Set room type
+   * Set group chat name
    */
+  /* Commented  method while groupChat is not realized on backend
   public setGroupChatName = (name: string) => {
     this.groupChatName = name;
   };
+  */
 
   /**
    * Set room type
    */
-  public setRoomType = (roomType: RoomType) => {
-    this.roomType = roomType;
+
+  /* Commented  method while groupChat is not realized on backend
+  public setRoomType = (chatRoomType: RoomType) => {
+    this.chatRoomType = chatRoomType;
   };
 
+ */
   /**
    * Load chat list
    */
   public loadChatList = async () => {
-    const fetchedChats = await ChatDAL.getRooms(this.roomType);
-
-    this.chatList = fetchedChats.chatsPreview;
+    const chatsData = await ChatDAL.getRooms(this.roomType);
+    runInAction(() => {
+      this.chatPreviewList = chatsData.chatsPreview;
+    });
   };
 
   /**
-   * Add chat to chat list
+   * Add chat to chatList
    */
   public addChatToChatList = (chatPreview: ChatPreview) => {
-    this.chatList = [chatPreview, ...this.chatList];
+    this.chatPreviewList.unshift(chatPreview);
   };
 
 }
-
-export const chatListStore = new ChatListStore();
