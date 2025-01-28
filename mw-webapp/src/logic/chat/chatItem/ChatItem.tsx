@@ -31,6 +31,11 @@ interface ChatItemProps {
   name: string;
 
   /**
+   * Chat's name
+   */
+    dataCy?: string;
+
+  /**
    * Avatar's source
    */
   src: string | null;
@@ -45,11 +50,12 @@ interface ChatItemProps {
  * ChatItem component
  */
 export const ChatItem = (props: ChatItemProps) => {
+
   return (
     <HorizontalContainer
       onClick={props.onClick}
       className={styles.chatItemWrapper}
-      dataCy={chatAccessIds.chatContainer.chatItem(`${props.name}`)}
+      dataCy={props.dataCy}
     >
       <Avatar
         alt={props.name}

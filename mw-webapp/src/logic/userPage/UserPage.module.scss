@@ -94,17 +94,22 @@
 
 .tabsSectionContainer {
   @include regularContainer;
+  flex-wrap: wrap;
   gap: $gapBig;
 }
 
 .tabsSection {
   display: grid;
   gap: $gapSmall;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 }
 
 .collectionGroup {
+  width: calc(50% - $gapBig/2);
   gap: $gapBig;
+  @media (max-width: $mediaWidthMobileBig) {
+    width: 100%;
+  }
 }
 
 .temporalBlock {

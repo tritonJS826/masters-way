@@ -23,7 +23,7 @@ describe('Chat tests', () => {
         allUsersSelectors.card.getCardLink(testUserData.users.Jane.userName).click();
         userPersonalSelectors.getConnectButton().click();
         chatSelectors.getOpenChatButton().click({force: true});
-        chatSelectors.chatContainer.getChatItem(testUserData.users.Jane.userName).click();
+        chatSelectors.chatContainer.getListChatItem(testUserData.users.Jane.userName).click();
         chatSelectors.chatContainer.getMessageInput().type(chatData.textMessage);
         chatSelectors.chatContainer.getSendMessageButton().click();
 
@@ -39,7 +39,7 @@ describe('Chat tests', () => {
         allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
         userPersonalSelectors.getConnectButton().click();
         chatSelectors.getOpenChatButton().click({force: true});
-        chatSelectors.chatContainer.getChatItem(testUserData.testUsers.mentorMax.name).click();
+        chatSelectors.chatContainer.getListChatItem(testUserData.testUsers.mentorMax.name).click();
         chatSelectors.chatContainer.getMessageInput().type(chatData.textMessage);
         chatSelectors.chatContainer.getSendMessageButton().click();
 
@@ -52,7 +52,7 @@ describe('Chat tests', () => {
         chatSelectors.getmessagesAmount().should('contain.text', '1');
 
         chatSelectors.getOpenChatButton().click({force: true});
-        chatSelectors.chatContainer.getChatItem(testUserData.testUsers.studentJonh.name).click();
+        chatSelectors.chatContainer.getListChatItem(testUserData.testUsers.studentJonh.name).click();
 
         chatSelectors.chatContainer.getChatItemName().should('contain.text', testUserData.testUsers.studentJonh.name);
         chatSelectors.chatContainer.getMessageItem().should('contain.text', chatData.textMessage);

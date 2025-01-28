@@ -19,8 +19,6 @@ import {useListenEventBus} from "src/eventBus/useListenEvent";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
 import {ChatItem} from "src/logic/chat/chatItem/ChatItem";
-import {chatListStore} from "src/logic/chat/ChatListStore";
-import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {MessageItem} from "src/logic/chat/messageItem/MessageItem";
 import {Message} from "src/model/businessModel/Message";
@@ -35,46 +33,33 @@ import styles from "src/logic/chat/chatContent/ChatContent.module.scss";
 export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
-  const {isChatOpen, activeRoomStore, addUnreadMessageToAmount} = chatStore;
-  const [activeChatStore, setActiveChatStore] = useState<ActiveChatStore | null>(activeRoomStore);
+  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
-  const {chatList, roomType, loadChatList, addChatToChatList, setRoomType} = chatListStore;
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   /**
    * Create group chat
    * Commented feature while it's not realized on the back-end
    */
+
   // const createGroupRoom = async () => {
   //   const room = await ChatDAL.findOrCreateRoom({
   //     roomType: RoomType.GROUP,
   //     name: groupChatName,
   //   });
   //   setGroupChatName("");
-  //   setActiveChatStore(new ActiveChatStore(room));
+  //   activeRoomStore.setActiveRoomStore(room);
   // };
 
   /**
    * Read message
    */
   const readMessage = async (messageId: string, ownerId: string) => {
-    activeChatStore?.activeChat && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
+    !!activeRoomStore && isChatOpen && ownerId !== user?.uuid && await ChatDAL.updateMessageStatus(messageId, true);
   };
 
-  useEffect(() => {
-    setActiveChatStore(activeRoomStore);
-  }, [activeRoomStore]);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-    }
-
-  }, [activeChatStore?.activeChat]);
-
   useListenEventBus(ChannelId.CHAT, ChatEventId.MESSAGE_RECEIVED, (payload) => {
-    const isChatForMessageOpen = payload.roomId === activeChatStore?.activeChat.roomId;
+    const isChatForMessageOpen = !!activeRoomStore && payload.roomId === activeRoomStore.activeRoom.roomId;
     if (isChatForMessageOpen) {
       const newMessage = new Message({
         uuid: payload.messageId,
@@ -84,7 +69,7 @@ export const ChatContent = observer(() => {
         ownerImageUrl: payload.ownerImageUrl,
         messageReaders: [],
       });
-      activeChatStore?.activeChat.addMessage(newMessage);
+      activeRoomStore.activeRoom.addMessage(newMessage);
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
       addUnreadMessageToAmount();
@@ -95,11 +80,14 @@ export const ChatContent = observer(() => {
     }
   });
 
+  const activeChatRoomMessages = !!activeRoomStore && activeRoomStore.activeRoom ?
+    activeRoomStore.activeRoom.messages
+    : [];
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     }
-  }, [activeChatStore?.activeChat.messages]);
+  }, [activeChatRoomMessages]);
 
   /**
    * Send message
@@ -107,14 +95,14 @@ export const ChatContent = observer(() => {
   const sendMessage = async (params: createMessageInGroupParams) => {
     const trimmedMessage = params.message.trim();
     const isValidMessage = trimmedMessage !== "";
-    if (isValidMessage && activeChatStore) {
+    if (isValidMessage && !!activeRoomStore) {
       setInputDisabled(true);
       try {
         await ChatDAL.createMessageInRoom({
           message: params.message,
           roomId: params.roomId,
         });
-        activeChatStore.setMessage("");
+        activeRoomStore.setMessage("");
       } catch (error) {
         displayNotification({
           text: "The message was not sent. Check your Internet connection.",
@@ -124,9 +112,9 @@ export const ChatContent = observer(() => {
     } else {
 
       /**
-       * Send error notification when activeChatStore is null
+       * Send error notification when activeRoomStore is null
        */
-      if (!activeChatStore) {
+      if (!activeRoomStore) {
         displayNotification({
           text: "Active chat is not exist.",
           type: NotificationType.ERROR,
@@ -136,35 +124,8 @@ export const ChatContent = observer(() => {
     setInputDisabled(false);
   };
 
-  /**
-   * Load chat list
-   */
-  const loadChatPreviewList = () => {
-    loadChatList();
-  };
-
-  useEffect(() => {
-    loadChatPreviewList();
-  }, []);
-
-  useEffect(() => {
-    if (!isChatOpen && roomType !== RoomType.PRIVATE) {
-      setRoomType(RoomType.PRIVATE);
-      loadChatPreviewList();
-    }
-  }, [isChatOpen]);
-
-  /**
-   * Initialize active chat store
-   */
-  const initializeActiveChat = async (roomId: string) => {
-    const fetchedActiveChat = await ChatDAL.getRoomById(roomId);
-    const activeRoom = new ActiveChatStore(fetchedActiveChat);
-    setActiveChatStore(activeRoom);
-  };
-
   useListenEventBus(ChannelId.CHAT, ChatEventId.ROOM_CREATED, (payload) => {
-    const newChatInRoomList = new ChatPreview({
+    const newChatPreview = new ChatPreview({
       isBlocked: false,
       name: payload.name,
       roomId: payload.roomId,
@@ -172,22 +133,36 @@ export const ChatContent = observer(() => {
       participantIds: payload.users.map((participant) => participant.userId),
     });
 
-    const isGroupChatOpenAndNewChatIsGroup = roomType === RoomType.GROUP && payload.roomType === RoomType.GROUP;
-    const isPrivateChatOpenAndNewChatIsPrivate = roomType === RoomType.PRIVATE
+    const isChatListRoomTypePrivateAndNewChatIsPrivate = !!chatListStore && chatListStore.roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
-
-    const isShouldUpdateChatList = isGroupChatOpenAndNewChatIsGroup || isPrivateChatOpenAndNewChatIsPrivate;
-
-    if (isShouldUpdateChatList) {
-      addChatToChatList(newChatInRoomList);
-    }
 
     displayNotification({
       text: `Room ${payload.name} created!`,
       type: NotificationType.INFO,
     });
-
+    if (isChatListRoomTypePrivateAndNewChatIsPrivate) {
+      chatListStore.addChatToChatList(newChatPreview);
+    }
   });
+
+  /**
+   * Component renderChatPreviewList
+   */
+  const renderChatPreviewList = (chatPreviewList: ChatPreview[]) => {
+
+    return chatPreviewList.map((chatItem) => (
+      <ChatItem
+        key={chatItem.roomId}
+        name={chatItem.name}
+        src={chatItem.imageUrl}
+        dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
+        onClick={() => {
+          chatStore.initiateActiveRoomStore(chatItem.roomId);
+        }}
+      />
+    ),
+    );
+  };
 
   /**
    * Upload file
@@ -209,29 +184,31 @@ export const ChatContent = observer(() => {
       <DialogOverlay className={styles.chatOverlay} />
       <DialogContent
         onInteractOutside={() => {
-          setActiveChatStore(null);
+          chatStore.resetChatStores();
         }}
         className={styles.chatContent}
       >
         <VerticalContainer className={styles.chatContainer}>
           <HorizontalContainer className={styles.chatHeader}>
             <HorizontalContainer>
+              {/* Commented feature while  groups button is commented
               <Button
                 onClick={() => {
-                  setRoomType(RoomType.PRIVATE);
-                  loadChatList();
-                  setActiveChatStore(null);
+                  if (chatListStore) {
+                    chatListStore.loadChatList();
+                    chatStore.resetActiveRoomStore();
+                  }
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.personalChats[language]}
-              />
+              /> */}
 
               {/* Commented feature while it's not realized on the back-end
               <Button
                 onClick={() => {
                   setRoomType(RoomType.GROUP);
                   loadChatList();
-                  setActiveChatStore(null);
+                  activeRoomStore.clearActiveChat();
                 }}
                 buttonType={ButtonType.SECONDARY}
                 value={LanguageService.common.chat.groupChats[language]}
@@ -242,7 +219,7 @@ export const ChatContent = observer(() => {
                 role="button"
                 className={styles.removeButton}
                 onClick={() => {
-                  setActiveChatStore(null);
+                  chatStore.resetActiveRoomStore();
                 }}
               >
                 <Icon
@@ -258,7 +235,7 @@ export const ChatContent = observer(() => {
           <HorizontalContainer className={styles.chatContactsMessages}>
             <VerticalContainer className={clsx(
               styles.chatList,
-              activeChatStore && styles.chatListHide,
+              !!activeRoomStore && styles.chatListHide,
             )}
             >
               {/* Commented feature while it's not realized on the back-end
@@ -281,35 +258,22 @@ export const ChatContent = observer(() => {
                   value={LanguageService.common.chat.createGroupChatButton[language]}
                 />
               </>
-              } */}
-              {chatList.length > 0
-                ? chatList.map((chatItem) => (
-                  <ChatItem
-                    key={chatItem.roomId}
-                    name={chatItem.name}
-                    src={chatItem.imageUrl}
-                    onClick={() => {
-                      setActiveChatStore(null);
-                      initializeActiveChat(chatItem.roomId);
-                    }}
-                  />
-                ))
+              */}
+              { !!chatListStore && chatListStore.chatPreviewList.length > 0
+                ? renderChatPreviewList(chatListStore.chatPreviewList)
                 : <div>
                   {LanguageService.common.chat.noChats[language]}
                 </div>
               }
             </VerticalContainer>
 
-            {activeChatStore?.activeChat &&
-            <VerticalContainer className={clsx(
-              styles.chatBlock,
-              activeChatStore && styles.chatBlockOpen,
-            )}
-            >
+            { !!activeRoomStore && activeRoomStore.activeRoom &&
+            <VerticalContainer className={clsx(styles.chatBlock, styles.chatBlockOpen)}>
               <HorizontalContainer className={styles.chatInfo}>
                 <ChatItem
-                  name={activeChatStore.activeChat.name}
-                  src={activeChatStore.activeChat.imageUrl}
+                  name={activeRoomStore.activeRoom.name}
+                  src={activeRoomStore.activeRoom.imageUrl}
+                  dataCy={chatAccessIds.chatContainer.chatItem(activeRoomStore.activeRoom.name)}
                 />
                 <Dropdown
                   isModalBehavior={true}
@@ -343,7 +307,7 @@ export const ChatContent = observer(() => {
                            * Close chat on mobile
                            */
                           onClick: () => {
-                            setActiveChatStore(null);
+                            chatStore.resetActiveRoomStore();
                           },
                         },
                       ],
@@ -356,7 +320,7 @@ export const ChatContent = observer(() => {
                   ref={messagesEndRef}
                   className={clsx(styles.messages, styles.messageList)}
                 >
-                  {activeChatStore.activeChat.messages.map((messageItem) => (
+                  { activeRoomStore.activeRoom.messages.map((messageItem) => (
                     <MessageItem
                       key={messageItem.uuid}
                       src={messageItem.ownerImageUrl}
@@ -373,20 +337,21 @@ export const ChatContent = observer(() => {
             }
           </HorizontalContainer>
 
-          {activeChatStore?.activeChat &&
+          { !!activeRoomStore &&
             <HorizontalContainer className={styles.messageInputBlock}>
               <Textarea
                 cy={chatAccessIds.chatContainer.messageInput}
-                defaultValue={activeChatStore.message}
-                onChange={activeChatStore.setMessage}
+                defaultValue={activeRoomStore.message}
+                onChange={activeRoomStore.setMessage}
                 placeholder={LanguageService.common.chat.messagePlaceholder[language]}
                 isAutofocus
                 isDisabled={isInputDisabled}
                 onKeyPress={(event: React.KeyboardEvent<HTMLElement>) => {
-                  if ((event.key === KeySymbols.ENTER && event.ctrlKey) || (event.key === KeySymbols.ENTER && event.shiftKey)) {
+                  if ((event.key === KeySymbols.ENTER && event.ctrlKey)
+                    || (event.key === KeySymbols.ENTER && event.shiftKey)) {
                     sendMessage({
-                      message: activeChatStore.message,
-                      roomId: activeChatStore.activeChat.roomId,
+                      message: activeRoomStore.message,
+                      roomId: activeRoomStore.activeRoom.roomId,
                     });
                   }
                 }}
@@ -398,7 +363,11 @@ export const ChatContent = observer(() => {
               <label>
                 <input
                   type="file"
-                  onChange={async (event) => uploadFile(activeChatStore.activeChat.roomId, event)}
+                  onChange={async (event) => {
+                    if (activeRoomStore.activeChat) {
+                      await uploadFile(activeRoomStore.activeChat.roomId, event);
+                    }
+                  }}
                   className={styles.uploadFileInput}
                 />
                 <Tooltip
@@ -416,10 +385,11 @@ export const ChatContent = observer(() => {
                 value={LanguageService.common.chat.sendButton[language]}
                 onClick={async () => {
                   await sendMessage({
-                    message: activeChatStore.message,
-                    roomId: activeChatStore.activeChat.roomId,
+                    message: activeRoomStore.message,
+                    roomId: activeRoomStore.activeRoom.roomId,
                   });
-                }}
+                }
+                }
                 buttonType={ButtonType.PRIMARY}
                 dataCy={chatAccessIds.chatContainer.sendMessageButton}
               />

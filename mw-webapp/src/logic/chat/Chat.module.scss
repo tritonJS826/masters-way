@@ -37,7 +37,7 @@ $unreadMessagesAmountMarginBottom: -20px;
 
     .iconWrapper {
       opacity: 0;
-      transition: 400ms all;
+      transition: 400ms ease-in-out;
       visibility: hidden;
     }
     .indicator {
@@ -68,7 +68,9 @@ $unreadMessagesAmountMarginBottom: -20px;
   height: $iconWrapperSize;
   padding: $paddingExtraSmall;
   opacity: 1;
+  transition: 400ms ease-in-out;
   visibility: visible;
+  will-change: opacity;
 }
 
 .chatTriggerText {

@@ -43,7 +43,6 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
-import {ActiveChatStore} from "src/logic/chat/ChatRoomStore";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -172,7 +171,7 @@ interface UserPageSettingsValidatorParams {
  */
 export const UserPage = observer((props: UserPageProps) => {
   const {user, addUserToFavorite, deleteUserFromFavorite} = userStore;
-  const {setIsChatOpen, setActiveRoomStore} = chatStore;
+  const {setIsChatOpen, initiateActiveRoomStore, initiateChatListStore} = chatStore;
   const {deviceId, setDeviceId} = deviceStore;
   const navigate = useNavigate();
 
@@ -343,7 +342,7 @@ export const UserPage = observer((props: UserPageProps) => {
       tabContent: {
         id: "0",
         value: (
-          <VerticalContainer className={styles.tabsSectionContainer}>
+          <HorizontalContainer className={styles.tabsSectionContainer}>
             <VerticalContainer className={styles.collectionGroup}>
               <HorizontalContainer>
                 <Infotip content={LanguageService.user.infotip.basicCollections[language]} />
@@ -353,8 +352,8 @@ export const UserPage = observer((props: UserPageProps) => {
                   placeholder=""
                 />
               </HorizontalContainer>
-              <HorizontalContainer className={styles.tabsSection}>
 
+              <HorizontalGridContainer className={styles.tabsSection}>
                 <WayCollectionCard
                   isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
                   collectionTitle={LanguageService.user.collections.own[language]}
@@ -381,7 +380,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   language={language}
                   dataCy={userWaysAccessIds.collectionBlock.favoriteWayCollectionButton}
                 />
-              </HorizontalContainer>
+              </HorizontalGridContainer>
             </VerticalContainer>
 
             <VerticalContainer
@@ -429,7 +428,7 @@ export const UserPage = observer((props: UserPageProps) => {
 
               </HorizontalContainer>
             </VerticalContainer>
-          </VerticalContainer>
+          </HorizontalContainer>
         ),
       },
       value: "Collections",
@@ -555,10 +554,10 @@ export const UserPage = observer((props: UserPageProps) => {
                       roomType: RoomType.PRIVATE,
                       userId: userPageOwner.uuid,
                     });
-
-                    const initRoom = new ActiveChatStore(room);
-                    setActiveRoomStore(initRoom);
+                    initiateChatListStore(RoomType.PRIVATE);
+                    initiateActiveRoomStore(room.roomId);
                     setIsChatOpen(true);
+
                   }}
                   buttonType={ButtonType.SECONDARY}
                   value={LanguageService.user.personalInfo.writeToConnectButton[language]}
