@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {ThemeSwitcher} from "src/component/themeSwitcher/ThemeSwitcher";
@@ -37,7 +38,9 @@ describe("ThemeSwitcher component", () => {
 
     const themeSwitcher = screen.getByTestId(THEME_SWITCHER);
 
-    await user.click(themeSwitcher);
+    await act(async () => {
+      await user.click(themeSwitcher);
+    });
 
     expect(mockOnClick).toHaveBeenCalledWith(Theme.LIGHT);
   });

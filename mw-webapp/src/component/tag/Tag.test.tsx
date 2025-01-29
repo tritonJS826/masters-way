@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Tag, TagType} from "src/component/tag/Tag";
@@ -41,7 +42,9 @@ describe("Tag component", () => {
 
     renderTag(TagType.PRIMARY_TAG, deleteCallback);
     const deleteButton = screen.getByRole("button");
-    await user.click(deleteButton);
+    await act(async () => {
+      await user.click(deleteButton);
+    });
 
     expect(deleteCallback).toHaveBeenCalledWith(TAG_CONTENT);
   });

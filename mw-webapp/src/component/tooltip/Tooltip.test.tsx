@@ -1,9 +1,9 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Button} from "src/component/button/Button";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {vi} from "vitest";
 
 const TOOLTIP_CONTENT = "Tooltip value";
 const TOOLTIP = "tooltip";
@@ -44,12 +44,12 @@ describe("Tooltip component", () => {
 
     const trigger = screen.getByTestId(TOOLTIP_TRIGGER);
 
-    await user.hover(trigger);
-
-    await vi.waitFor(() => {
-      const tooltip = screen.getByTestId(TOOLTIP);
-      expect(tooltip).toBeVisible();
-      expect(tooltip).toHaveTextContent(TOOLTIP_CONTENT);
+    await act(async () => {
+      await user.hover(trigger);
     });
+
+    const tooltip = await screen.findByTestId(TOOLTIP); // Ждём появления тултипа
+    expect(tooltip).toBeVisible();
+    expect(tooltip).toHaveTextContent(TOOLTIP_CONTENT);
   });
 });

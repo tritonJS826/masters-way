@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {HeadingLevel, Title} from "src/component/title/Title";
@@ -48,13 +49,17 @@ describe("Title component", () => {
     renderTitle(mockOnChangeFinish);
 
     const titleContainer = screen.getByTestId(TITLE);
-    await user.dblClick(titleContainer);
+    await act(async () => {
+      await user.dblClick(titleContainer);
+    });
 
     const input = screen.getByRole("textbox");
     expect(input).toBeInTheDocument();
 
-    await user.type(input, ADDITIONAL_CONTENT);
-    await user.keyboard("{Enter}");
+    await act(async () => {
+      await user.type(input, ADDITIONAL_CONTENT);
+      await user.keyboard("{Enter}");
+    });
 
     expect(screen.getByTestId(TITLE)).toHaveTextContent(
       TITLE_CONTENT + ADDITIONAL_CONTENT,

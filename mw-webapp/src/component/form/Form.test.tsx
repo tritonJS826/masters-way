@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Form, FormProps} from "src/component/form/Form";
@@ -75,7 +76,9 @@ describe("Form component", () => {
     const user = userEvent.setup();
     const button = screen.getByRole("button");
 
-    await user.click(button);
+    await act(async () => {
+      await user.click(button);
+    });
 
     expect(clickCallback).toHaveBeenCalled();
   });

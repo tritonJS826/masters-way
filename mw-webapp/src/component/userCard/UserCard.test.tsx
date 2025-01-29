@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {BrowserRouter} from "react-router-dom";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -52,7 +53,9 @@ describe("UserCard component", () => {
 
     expect(userCard).toBeInTheDocument();
 
-    await user.click(userCard);
+    await act(async () => {
+      await user.click(userCard);
+    });
 
     expect(window.location.pathname).toBe(
       pages.user.getPath({uuid: USER_PREVIEW_DATA.uuid}),

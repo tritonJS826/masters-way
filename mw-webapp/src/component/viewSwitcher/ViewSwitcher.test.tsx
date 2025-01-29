@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {ViewOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
@@ -53,7 +54,9 @@ describe("ViewSwitcher component", () => {
     renderViewSwitcher(clickCallback);
 
     const cardButton = screen.getByTestId(CARD_ICON_BUTTON);
-    await user.click(cardButton);
+    await act(async () => {
+      await user.click(cardButton);
+    });
 
     expect(clickCallback).toHaveBeenCalled();
     expect(clickCallback).toHaveBeenCalledWith(View.Card);
