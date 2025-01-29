@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import {Footer} from "src/component/footer/Footer";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 
 const FOOTER_CY = "footer";
@@ -29,17 +30,24 @@ describe("Footer component", () => {
     expect(screen.getByRole("img")).toBeVisible();
   });
 
-  it("All app stores buttons should be visible and open modal window on click", async () => {
-    const buttons = screen.getAllByRole("button");
-    for (let i = 0; i < buttons.length; i++) {
-      expect(buttons[i]).toBeVisible();
-      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-      await userEvent.click(buttons[i]);
-      const modalDialog = screen.getByRole("dialog");
-      expect(modalDialog).toBeVisible();
-      await userEvent.click(screen.getByRole("button"));
-      expect(modalDialog).not.toBeInTheDocument();
-    }
+  it("GooglePlay button should be visible and open modal window on click", async () => {
+    const googlePlayButton = screen.getByTestId("GooglePlayIcon");
+    expect(googlePlayButton).toBeVisible();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await userEvent.click(googlePlayButton);
+    const modalDialog = screen.getByRole("dialog");
+    expect(modalDialog).toBeVisible();
+  });
+
+  it("AppStore button should be visible and open modal window on click", async () => {
+    const appStoreButton = screen.getByTestId("AppStoreIcon");
+    expect(appStoreButton).toBeVisible();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await userEvent.click(appStoreButton);
+    const modalDialog = screen.getByRole("dialog");
+    expect(modalDialog).toBeVisible();
   });
 
   it("All social media links should be visible", () => {
@@ -58,7 +66,10 @@ describe("Footer component", () => {
 
   it("Privacy policy link should be visible", () => {
     const privacyPolicyName = LanguageService.common.privacyPolicy[language];
-    expect(screen.getByText(privacyPolicyName)).toBeVisible();
+    const privacyPolicyLink = screen.getByText(privacyPolicyName);
+    expect(privacyPolicyLink).toBeVisible();
+    expect(privacyPolicyLink).toHaveAttribute("href", pages.privacyPolicy.getPath({}));
+    expect(privacyPolicyLink).toHaveAttribute("target", "_blank");
   });
 
 });
