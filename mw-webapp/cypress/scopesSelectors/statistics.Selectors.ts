@@ -24,10 +24,10 @@ export const statisticsSelectors = {
             },
 
             labelsStatistic: {
-                getTagColor: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor)),
-                getLabelName: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName)),
-                getJobsAmount: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount)),
-                getTime: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time)),
+                getTagColor: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor)),
+                getLabelName: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName)),
+                getJobsAmount: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount)),
+                getTime: () => cy.get(getDataCy(statisticsAccessIds.statistics.periodBlocks.labelStatistic.time)),
             }
         },
 

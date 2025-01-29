@@ -4,10 +4,15 @@
         "lastWeek": "Last week"
     },
 
-    "periodBlockTitles": {
+    "periodBlockModalTitles": {
         "total": "TotalBlock",
         "lastMonth": "MonthBlock",
         "lastWeek": "WeekBlock"
+    },
+
+    "way": {
+        "johnDoeWay": "johnDoeWay",
+        "mentorCompositeWay": "mentorCompositeWay"
     },
 
     "johnDoeWay": {
@@ -42,89 +47,95 @@
         },
 
         "labelStatistic": {
-            "total": [
-                {
+            "total": {
+                "line1": {
                     "color": "background-color: yellow;",
                     "name": "general meeting",
                     "jobsAmount": "1(12%)",
                     "time": "1(13%)"                
                 },
-                {
+
+                "line2": {
                     "color": "background-color: green;",
                     "name": "database",
                     "jobsAmount": "3(37%)",
                     "time": "2.2(30%)"
                 },
-                {
+
+                "line3": {
                     "color": "background-color: blue;",
                     "name": "coding",
                     "jobsAmount": "2(25%)",
                     "time": "2(27%)"
                 },
-                {
+
+                "line4": {
                     "color": "background-color: red;",
                     "name": "meeting 1:1",
                     "jobsAmount": "2(25%)",
                     "time": "2(27%)"
                 },
-                {
-                    "length": 4
-                }
-            ],
+                
+                "length": 4
+            },
 
-            "lastMonth": [
-                {
+            "lastMonth": {
+                 "line1": {
                     "color": "background-color: yellow;",
                     "name": "general meeting",
                     "jobsAmount": "1(12%)",
                     "time": "1(13%)"
                 },
-                {
+
+                "line2": {
                     "color": "background-color: green;",
                     "name": "database",
                     "jobsAmount": "3(37%)",
                     "time": "2.2(30%)"
                 },
-                {
+
+                "line3": {
                     "color": "background-color: blue;",
                     "name": "coding",
                     "jobsAmount": "2(25%)",
                     "time": "2(27%)"
                 },
-                {
+
+                "line4": {
                     "color": "background-color: red;",
                     "name": "meeting 1:1",
                     "jobsAmount": "2(25%)",
                     "time": "2(27%)"
                 },
-                {
-                    "length": 4                 
-                }
-            ],
+                    
+                "length": 4        
+            },
 
-            "lastWeek": [
-                {
+            "lastWeek": {
+                "line1": {
                     "color": "background-color: green;",
                     "name": "database",
                     "jobsAmount": "1(33%)",
                     "time": "1(33%)"
                 },
-                {
+
+                "line2": {
                     "color": "background-color: blue;",
                     "name": "coding",
                     "jobsAmount": "1(33%)",
                     "time": "1(33%)"
                 },
-                {
+
+                "line3": {
                     "color": "background-color: red;",
                     "name": "meeting 1:1",
                     "jobsAmount": "1(33%)",
                     "time": "1(33%)"
                 },
-                {
-                    "length": 3                 
-                }
-            ]
+                
+                "length": 3  
+            }
+               
         }
     },
 
@@ -159,65 +170,67 @@
         },
 
         "labelStatistic": {
-            "total": [
-                {
+            "total": {
+
+                "line1": {
                     "color": "background-color: rgb(0, 128, 128);",
                     "name": "student label",
                     "jobsAmount": "1(11%)",
                     "time": "2.1(22%)"                
                 },
-                {
+
+                "line2": {
                     "color": "background-color: yellow;",
                     "name": "general meeting",
                     "jobsAmount": "1(11%)",
                     "time": "1(10%)"                
                 },
-                {
+
+                "line3": {
                     "color": "background-color: green;",
                     "name": "database",
                     "jobsAmount": "3(33%)",
                     "time": "2.2(23%)"
                 },
-                {
+
+                "line4": {
                     "color": "background-color: blue;",
                     "name": "coding",
                     "jobsAmount": "2(22%)",
                     "time": "2(21%)"
                 },
-                {
+
+                "line5": {
                     "color": "background-color: red;",
                     "name": "meeting 1:1",
                     "jobsAmount": "2(22%)",
                     "time": "2(21%)"
                 },
-                {
-                    "length": 5
-                }
-            ],
+                
+                "length": 5
+            },
 
-            "lastMonth": [
-                {
+            "lastMonth": {
+                "line1": {
                     "color": "background-color: rgb(0, 128, 128);",
                     "name": "student label",
                     "jobsAmount": "1(100%)",
                     "time": "2.1(100%)"
                 },
-                {
-                    "length": 1                
-                }
-            ],
+                
+                "length": 1 
+            },
 
-            "lastWeek": [
-                {
+            "lastWeek": {
+                "line1": {
                     "color": "background-color: rgb(0, 128, 128);",
                     "name": "student label",
                     "jobsAmount": "1(100%)",
                     "time": "2.1(100%)"
                 },
-                {
-                    "length": 1                
-                }
-            ]
+                
+                "length": 1 
+            }
         }
     }
     

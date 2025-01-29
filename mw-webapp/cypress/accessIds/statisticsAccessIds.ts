@@ -20,7 +20,7 @@ export const statisticsAccessIds = {
                 avgJobTime: (period: string) => `averageJobTime${period}`,
             },
 
-            labelsStatistic: {
+            labelStatistic: {
                 line: 'statisticLine',
                 tagColor: 'tagColor',
                 labelName: 'labelName',
