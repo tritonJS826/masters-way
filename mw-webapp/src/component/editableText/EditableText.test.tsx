@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {fireEvent, render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {EditableText} from "src/component/editableText/EditableText";
@@ -73,7 +74,9 @@ describe("EditableText component", () => {
     fireEvent.dblClick(trigger);
 
     const input = screen.getByRole("spinbutton");
-    await user.type(input, "now");
+    await act(async () => {
+      await user.type(input, "now");
+    });
 
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE_NUMBER);
   });
@@ -88,7 +91,9 @@ describe("EditableText component", () => {
     const input = screen.getByRole("textbox");
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE);
 
-    await user.click(document.body);
+    await act(async () => {
+      await user.click(document.body);
+    });
 
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
     expect(trigger).toHaveTextContent(EDITABLETEXTINPUT_VALUE);
@@ -104,7 +109,9 @@ describe("EditableText component", () => {
     const input = screen.getByRole("textbox");
     expect(input).toHaveValue(EDITABLETEXTINPUT_VALUE);
 
-    await user.keyboard("{Enter}");
+    await act(async () => {
+      await user.keyboard("{Enter}");
+    });
 
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
     expect(trigger).toHaveTextContent(EDITABLETEXTINPUT_VALUE);

@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {BrowserRouter} from "react-router-dom";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -70,7 +71,9 @@ describe("WayCard component", () => {
     const user = userEvent.setup();
 
     const wayCard = screen.getByTestId(WAY_CARD);
-    await user.click(wayCard);
+    await act(async () => {
+      await user.click(wayCard);
+    });
 
     expect(window.location.pathname).toBe(
       pages.way.getPath({uuid: WAY_PREVIEW_DATA.uuid}),

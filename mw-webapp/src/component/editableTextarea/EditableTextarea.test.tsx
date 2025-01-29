@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {fireEvent, render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -51,7 +52,9 @@ describe("EditableTextarea component", () => {
 
     const textbox = screen.getByRole("textbox");
     expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE);
-    await user.keyboard("{Enter}");
+    await act(async () => {
+      await user.keyboard("{Enter}");
+    });
 
     expect(screen.getByRole(EDITABLETEXT_CY.trigger)).toBeVisible();
     expect(screen.getByText(EDITABLTEXTAREA_VALUE)).toBeVisible();
@@ -63,7 +66,9 @@ describe("EditableTextarea component", () => {
     fireEvent.dblClick(trigger);
 
     const textbox = screen.getByRole("textbox");
-    await user.type(textbox, EDITABLTYPE_VALUE);
+    await act(async () => {
+      await user.type(textbox, EDITABLTYPE_VALUE);
+    });
     expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE);
   });
 
@@ -73,15 +78,23 @@ describe("EditableTextarea component", () => {
     fireEvent.dblClick(trigger);
 
     const textbox = screen.getByRole("textbox");
-    await user.type(textbox, EDITABLTYPE_VALUE);
+    await act(async () => {
+      await user.type(textbox, EDITABLTYPE_VALUE);
+    });
     expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE);
 
-    await userEvent.click(document.body);
+    await act(async () => {
+      await user.click(document.body);
+    });
     expect(changeFinish).toHaveBeenCalled();
 
-    await userEvent.dblClick(trigger);
+    await act(async () => {
+      await user.dblClick(trigger);
+    });
     const textbox2 = screen.getByRole("textbox");
-    await user.type(textbox2, "new text");
+    await act(async () => {
+      await user.type(textbox2, "new text");
+    });
     expect(textbox2).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE + "new text");
   });
 
