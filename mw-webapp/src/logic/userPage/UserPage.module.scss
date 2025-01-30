@@ -94,8 +94,8 @@
 
 .tabsSectionContainer {
   @include regularContainer;
-  gap: $gapBig;
   flex-wrap: wrap;
+  gap: $gapBig;
 }
 
 .tabsSection {
@@ -105,8 +105,8 @@
 }
 
 .collectionGroup {
-  gap: $gapBig;
   width: calc(50% - $gapBig/2);
+  gap: $gapBig;
   @media (max-width: $mediaWidthMobileBig) {
     width: 100%;
   }

@@ -581,7 +581,7 @@ describe('Statistics tests', () => {
             .eq(2)
             .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].time);
 
-        statisticsSelectors.statistics.getCloseButton().click();
+        statisticsSelectors.statistics.getCloseButton().click({force:true});
 
         statisticsSelectors.statistics.getModal().should('not.exist');
 

@@ -1,40 +1,91 @@
 @import "src/styles/variables";
 
+$chatTriggerSize: 50px;
+$iconWrapperSize: 42px;
+$unreadMessagesAmountSize: 30px;
+$chatTriggerUnfocusedMarginBottom: 210px;
+$chatTriggerFocusedMarginBottom: 110px;
+$unreadMessagesAmountMarginBottom: -20px;
+
 .chatTrigger {
   position: fixed;
   z-index: $chatZIndex;
   right: 0;
-  bottom: calc(3 * $marginBig);
-  width: 50px;
-  height: 160px;
+  bottom: $chatTriggerUnfocusedMarginBottom;
+  width: $chatTriggerSize;
+  height: $chatTriggerSize;
   padding: $paddingBig $paddingMedium;
   border: $primaryBorder solid var(--secondaryStrokeColor);
   border-radius: $primaryBorderRadius;
   background-color: var(--generalPrimaryColor);
   color: var(--secondaryTextColor);
+  transition: 300ms ease-out;
 
   & svg {
     stroke: var(--secondaryStrokeColor);
   }
 
   &:hover {
+    z-index: $chatZIndex;
+    bottom: $chatTriggerFocusedMarginBottom;
+    height: calc(3 * $chatTriggerSize);
     background-color: var(--quaternaryBgColor);
     cursor: pointer;
+    transition: 500ms ease-in-out;
+
+    .iconWrapper {
+      opacity: 0;
+      transition: 400ms ease-in-out;
+      visibility: hidden;
+    }
+    .indicator {
+      transform: translateX(-($marginMedium));
+    }
+
+    .chatTriggerText {
+      margin-top: $marginSmall;
+      opacity: 1;
+      transition: opacity 400ms 300ms;
+      visibility: visible;
+      will-change: opacity;
+    }
+
+    .unreadMessagesAmount {
+      background-color: var(--generalPrimaryColor);
+      transition: 500ms ease;
+    }
   }
 }
 
+.iconWrapper {
+  position: absolute;
+  z-index: $chatZIndex;
+  top: 0;
+  right: $marginSmall;
+  width: $iconWrapperSize;
+  height: $iconWrapperSize;
+  padding: $paddingExtraSmall;
+  opacity: 1;
+  transition: 400ms ease-in-out;
+  visibility: visible;
+  will-change: opacity;
+}
+
 .chatTriggerText {
+  opacity: 0;
   text-wrap: nowrap;
   transform: rotate(90deg);
+  visibility: hidden;
 }
 
 .unreadMessagesAmount {
   position: absolute;
-  bottom: -15px;
+  z-index: $chatZIndex;
+  bottom: $unreadMessagesAmountMarginBottom;
   left: calc(50% - 15px);
   display: flex;
-  width: 30px;
-  height: 30px;
+  width: $unreadMessagesAmountSize;
+  height: $unreadMessagesAmountSize;
   align-items: center;
   justify-content: center;
   padding: $paddingExtraSmall;
@@ -44,11 +95,15 @@
 }
 
 .indicator {
-  width: 10px;
-  height: 10px;
+  position: absolute;
+  z-index: $chatOnlineIndicatorZIndex;
+  top: $marginMedium;
+  right: $marginMedium;
+  width: $indicatorSize;
+  height: $indicatorSize;
   padding: $paddingExtraSmall;
   border-radius: $tagBorderRadius;
-  margin: 0 auto $marginMedium;
+  transition: transform 500ms ease;
 }
 
 .onlineIndicator {
@@ -59,27 +114,5 @@
   background-color: var(--dangerColor);
   .wayActionsIcon {
     z-index: $chatActionButton;
-  }
-}
-
-@keyframes overlayShow {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes contentShow {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }

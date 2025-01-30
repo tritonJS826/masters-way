@@ -82,6 +82,7 @@ export const Footer = (props: FooterProps) => {
                 <Modal
                   trigger={
                     <div
+                      data-cy="GooglePlayIcon"
                       className={styles.iconWrapper}
                       onClick={TrackFooter.trackPlayMarketIconClick}
                     >
@@ -96,6 +97,7 @@ export const Footer = (props: FooterProps) => {
                 <Modal
                   trigger={
                     <div
+                      data-cy="AppStoreIcon"
                       className={styles.iconWrapper}
                       onClick={TrackFooter.trackAppStoreIconClick}
                     >

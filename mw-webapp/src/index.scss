@@ -17,7 +17,7 @@
 
   &::-webkit-scrollbar-thumb {
     border-radius: $scrollbarThumbBorderRadius;
-    background-color: var(--generalPrimaryColor);
+    background-color: var(--tertiaryTextColor);
   }
   // end scrollbar styles
 }

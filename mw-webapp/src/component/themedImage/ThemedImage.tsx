@@ -58,6 +58,11 @@ interface ThemedImageProps {
    * Name image to alt atribute
    */
   name: string;
+
+  /**
+   * Data attribute for cypress testing
+   */
+  dataCy?: string;
 }
 
 /**
@@ -66,11 +71,12 @@ interface ThemedImageProps {
 export const ThemedImage = (props: ThemedImageProps) => {
   const imageSrc = props.sources.get(props.theme);
 
-  return imageSrc && (
+  return (
     <Image
-      src={imageSrc}
+      src={imageSrc || ""}
       alt={props.name}
       className={props.className}
+      cy={{dataCy: props.dataCy}}
     />
   );
 };

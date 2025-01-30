@@ -1,5 +1,6 @@
 import {render, screen} from "@testing-library/react";
 import {AreaChart, ChartAreaPoint} from "src/component/chart/AreaChart";
+import {vi} from "vitest";
 
 const FIRST_TIME = 20;
 const SECOND_TIME = 40;
@@ -13,6 +14,7 @@ const DATA: ChartAreaPoint[] = [
 
 describe("AreaChart component", () => {
   beforeEach(() => {
+    HTMLCanvasElement.prototype.getContext = vi.fn();
     render(
       <AreaChart points={DATA} />,
     );

@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -55,7 +56,9 @@ describe("Trash component", () => {
     renderTrash();
 
     const trashIcon = screen.getByTestId(TRASH_ICON);
-    await user.click(trashIcon);
+    await act(async () => {
+      await user.click(trashIcon);
+    });
 
     expect(screen.getByText(CONFIRM_CONTENT)).toBeInTheDocument();
   });
@@ -67,11 +70,15 @@ describe("Trash component", () => {
     renderTrash(onOkSpy);
 
     const trashIcon = screen.getByTestId(TRASH_ICON);
-    await user.click(trashIcon);
+    await act(async () => {
+      await user.click(trashIcon);
+    });
     expect(screen.getByText(CONFIRM_CONTENT)).toBeInTheDocument();
 
     const okButton = screen.getByTestId(OK_BUTTON);
-    await user.click(okButton);
+    await act(async () => {
+      await user.click(okButton);
+    });
     expect(screen.queryByText(CONFIRM_CONTENT)).not.toBeInTheDocument();
 
     expect(onOkSpy).toHaveBeenCalled();
@@ -84,10 +91,14 @@ describe("Trash component", () => {
     renderTrash(onOkSpy);
 
     const trashIcon = screen.getByTestId(TRASH_ICON);
-    await user.click(trashIcon);
+    await act(async () => {
+      await user.click(trashIcon);
+    });
     expect(screen.getByText(CONFIRM_CONTENT)).toBeInTheDocument();
 
-    await user.keyboard("{Enter}");
+    await act(async () => {
+      await user.keyboard("{Enter}");
+    });
     expect(screen.queryByText(CONFIRM_CONTENT)).not.toBeInTheDocument();
   });
 
@@ -96,11 +107,15 @@ describe("Trash component", () => {
     renderTrash();
 
     const trashIcon = screen.getByTestId(TRASH_ICON);
-    await user.click(trashIcon);
+    await act(async () => {
+      await user.click(trashIcon);
+    });
     expect(screen.getByText(CONFIRM_CONTENT)).toBeInTheDocument();
 
     const cancelButton = screen.getByTestId(CANCEL_BUTTON);
-    await user.click(cancelButton);
+    await act(async () => {
+      await user.click(cancelButton);
+    });
 
     expect(screen.queryByText(CONFIRM_CONTENT)).not.toBeInTheDocument();
   });
@@ -110,12 +125,16 @@ describe("Trash component", () => {
     renderTrash();
 
     const trashIcon = screen.getByTestId(TRASH_ICON);
-    await user.click(trashIcon);
+    await act(async () => {
+      await user.click(trashIcon);
+    });
 
     const content = screen.getByText(CONFIRM_CONTENT);
     expect(content).toBeInTheDocument();
 
-    await user.click(content);
+    await act(async () => {
+      await user.click(content);
+    });
     expect(content).toBeInTheDocument();
   });
 });
