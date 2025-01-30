@@ -40,11 +40,12 @@ $secondaryTransitionDuration: 150ms;
 $elementHoverTransition: 650ms;
 $tertiaryTransitionDuration: 500ms;
 
-// z-index
+// z-index;
 $sidebarZIndex: 100;
 $headerLandingZIndex: 100;
 $chatZIndex: 100;
 $supportModalButton: 100;
+$chatOnlineIndicatorZIndex: 110;
 $statisticCheckbox: 120;
 $dropdownZIndex: 120;
 $modalZIndex: 120;
@@ -83,6 +84,7 @@ $gapExtraExtraLarge: 96px;
 $iconSizeSmall: 16px;
 $iconSizeMedium: 24px;
 $iconSizeBig: 40px;
+$indicatorSize: 10px;
 $minWidthBlock: 248px;
 $maxWidthContainer: 1920px;
 $maxWidthLandingContainer: 1560px;

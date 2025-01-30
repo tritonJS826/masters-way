@@ -23,6 +23,7 @@ import {GridViewIcon} from "src/assets/icons/GridViewIcon";
 import {HomeIcon} from "src/assets/icons/HomeIcon";
 import {InfoIcon} from "src/assets/icons/InfoIcon";
 import {LinkedinIcon} from "src/assets/icons/LinkedinIcon";
+import {MessageIcon} from "src/assets/icons/MessageIcon";
 import {MinusIcon} from "src/assets/icons/MinusIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
@@ -270,6 +271,11 @@ export const IconDictionary = {
    */
   PatreonIcon: (params: IconProps) => <PatreonIcon {...params} />,
 
+  /**
+   * Message icon
+   */
+  MessageIcon: (params: IconProps) => <MessageIcon {...params} />,
+
 };
 
 /**
@@ -293,7 +299,7 @@ export interface IconProps {
 
   /**
    * Icon's size {@link IconSize}
-   * @default {@link IconSize.MEDIUM}
+   * @default IconSize.MEDIUM
    */
   size: IconSize;
 
