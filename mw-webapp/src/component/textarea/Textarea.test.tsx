@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Textarea} from "src/component/textarea/Textarea";
@@ -42,7 +43,9 @@ describe("Textarea component", () => {
     renderTextarea();
     const textarea = screen.getByTestId(TEXTAREA);
 
-    await user.type(textarea, TYPE_VALUE);
+    await act(async () => {
+      await user.type(textarea, TYPE_VALUE);
+    });
 
     expect(textarea).toHaveValue(TEXTAREA_VALUE + TYPE_VALUE);
   });
@@ -53,7 +56,9 @@ describe("Textarea component", () => {
     renderTextarea(mockOnChange);
     const textarea = screen.getByTestId(TEXTAREA);
 
-    await user.type(textarea, TYPE_VALUE);
+    await act(async () => {
+      await user.type(textarea, TYPE_VALUE);
+    });
 
     expect(mockOnChange).toHaveBeenCalled();
   });

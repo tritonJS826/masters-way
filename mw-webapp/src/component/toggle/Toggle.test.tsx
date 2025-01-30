@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Toggle} from "src/component/toggle/Toggle";
@@ -41,10 +42,14 @@ describe("Toggle component", () => {
 
     const toggle = screen.getByTestId(TOGGLE);
 
-    await user.click(toggle);
+    await act(async () => {
+      await user.click(toggle);
+    });
     expect(mockOnChange).toHaveBeenCalledWith(true);
 
-    await user.click(toggle);
+    await act(async () => {
+      await user.click(toggle);
+    });
     expect(mockOnChange).toHaveBeenCalledWith(false);
   });
 });

@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {fireEvent, render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Confirm} from "src/component/confirm/Confirm";
@@ -77,7 +78,9 @@ describe("Confirm component", () => {
     fireEvent.click(screen.getByRole("button", {name: /confirm trigger/i}));
     expect(screen.getByText(CONFIRM_CONTENT)).toBeInTheDocument();
 
-    await user.keyboard("{Enter}");
+    await act(async () => {
+      await user.keyboard("{Enter}");
+    });
     expect(screen.queryByText(CONFIRM_CONTENT)).not.toBeInTheDocument();
   });
 

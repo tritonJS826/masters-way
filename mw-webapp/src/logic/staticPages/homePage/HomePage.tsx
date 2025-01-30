@@ -217,7 +217,7 @@ export const HomePage = observer(() => {
 
           <Image
             alt="desktopImage"
-            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w1000"
+            src="https://drive.google.com/thumbnail?id=1Y9Xu3b73odKV7VtuLi3RjWM8H7WKiWoA&sz=w1900"
             className={styles.buildSystemImageBlock}
           />
         </HorizontalContainer>

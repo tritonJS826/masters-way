@@ -145,9 +145,9 @@ export const WayCard = observer((props: WayCardProps) => {
             position={PositionTooltip.BOTTOM}
             content={renderMarkdown(props.wayPreview.goalDescription)}
           >
-            <p className={styles.wayGoal}>
+            <div className={styles.wayGoal}>
               {renderMarkdown(props.wayPreview.goalDescription)}
-            </p>
+            </div>
           </Tooltip>
           {renderWayTags(props.wayPreview.wayTags)}
         </VerticalContainer>

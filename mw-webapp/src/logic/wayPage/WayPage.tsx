@@ -744,12 +744,12 @@ export const WayPage = observer((props: WayPageProps) => {
                     text={LanguageService.way.peopleBlock.wayPrivacy.title[language]}
                     placeholder=""
                   />
+                  {Symbols.NO_BREAK_SPACE}
+                  {way.isPrivate
+                    ? LanguageService.way.peopleBlock.wayPrivacy.private[language]
+                    : LanguageService.way.peopleBlock.wayPrivacy.public[language]
+                  }
                 </HorizontalContainer>
-                {Symbols.NO_BREAK_SPACE}
-                {way.isPrivate
-                  ? LanguageService.way.peopleBlock.wayPrivacy.private[language]
-                  : LanguageService.way.peopleBlock.wayPrivacy.public[language]
-                }
               </Tooltip>
             </HorizontalContainer>
 

@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {Button} from "src/component/button/Button";
@@ -32,7 +33,9 @@ describe("Button component", () => {
     renderButton(clickCallback);
     const button = screen.getByRole("button");
 
-    await user.click(button);
+    await act(async () => {
+      await user.click(button);
+    });
 
     expect(clickCallback).toHaveBeenCalled();
   });

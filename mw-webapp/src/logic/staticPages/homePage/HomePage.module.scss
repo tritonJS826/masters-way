@@ -45,6 +45,8 @@
 
 .buildSystemImageBlock {
   height: auto;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $primaryBorderRadius;
   margin: 0 auto;
 
   @media (max-width: $mediaWidthTablet) {
