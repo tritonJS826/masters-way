@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 )
 
 type PracticeMaterialController struct {
@@ -30,10 +29,10 @@ func NewPracticeMaterialController(generalService *services.GeneralService, prac
 // @Router /practiceMaterials/{topicId} [get]
 func (pmc *PracticeMaterialController) GetPracticeMaterialsByTopicId(ctx *gin.Context) {
 	topicIdRaw := ctx.Param("topicId")
-	topicId := uuid.MustParse(topicIdRaw)
+	// topicId := uuid.MustParse(topicIdRaw)
 
 	args := &services.GetPracticeMaterialsByTopicIdParams{
-		TopicId: topicId,
+		TopicId: topicIdRaw,
 	}
 
 	response, err := pmc.practiceMaterialService.GetPracticeMaterialsByTopicId(ctx, args)
