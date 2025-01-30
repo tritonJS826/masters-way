@@ -6,6 +6,7 @@ $editableTextarea-width: 100%;
   max-width: $editableTextarea-width;
   flex-grow: 1;
   white-space: pre-wrap;
+  word-break: break-word;
 
   textarea {
     width: 100%;
