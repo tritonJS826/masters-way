@@ -3,9 +3,11 @@ package controllers
 import (
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type PracticeMaterialController struct {
@@ -26,32 +28,18 @@ func NewPracticeMaterialController(generalService *services.GeneralService, prac
 // @Param topicId path string true "topic id"
 // @Success 200 {object} schemas.PracticeMaterials
 // @Router /practiceMaterials/{topicId} [get]
-func (nc *PracticeMaterialController) GetPracticeMaterialsByTopicId(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// page := ctx.DefaultQuery("page", "1")
-	// limit := ctx.DefaultQuery("limit", "50")
-	// isOnlyNew := ctx.DefaultQuery("isOnlyNew", "false")
+func (pmc *PracticeMaterialController) GetPracticeMaterialsByTopicId(ctx *gin.Context) {
+	topicIdRaw := ctx.Param("topicId")
+	topicId := uuid.MustParse(topicIdRaw)
 
-	// reqPage, _ := strconv.Atoi(page)
-	// reqLimit, _ := strconv.Atoi(limit)
-	// reqIsOnlyNew, err := strconv.ParseBool(isOnlyNew)
-
-	// getNotificationListParams := &services.GetNotificationListParams{
-	// 	UserUUID:  userUUID,
-	// 	Page:      int32(reqPage),
-	// 	Limit:     int32(reqLimit),
-	// 	IsOnlyNew: reqIsOnlyNew,
-	// }
-
-	// response, err := nc.notificationService.GetNotificationList(ctx, getNotificationListParams)
-	// utils.HandleErrorGin(ctx, err)
-
-	stub := schemas.PracticeMaterials{
-		Size:              10,
-		PracticeMaterials: []schemas.PracticeMaterial{},
+	args := &services.GetPracticeMaterialsByTopicIdParams{
+		TopicId: topicId,
 	}
 
-	ctx.JSON(http.StatusOK, stub)
+	response, err := pmc.practiceMaterialService.GetPracticeMaterialsByTopicId(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Create practice material
