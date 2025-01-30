@@ -1,8 +1,7 @@
 @import "src/styles/variables";
 
-$dropdownMaxWidth: 380px;
+$dropdownMaxWidth: 50vw;
 $dropdownIndentationBottom: 8px;
-$dropdownContentZIndex: 90;
 
 .dropdownContent,
 .dropdownMenuSubContent {
@@ -15,6 +14,7 @@ $dropdownContentZIndex: 90;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   background: var(--tertiaryBgColor);
   outline: none;
+  overflow-wrap: anywhere;
   overflow-y: auto;
   user-select: none;
   will-change: transform, opacity;
@@ -35,10 +35,6 @@ $dropdownContentZIndex: 90;
 .dropdownMenuContent[data-side="left"],
 .dropdownMenuSubContent[data-side="left"] {
   animation-name: slideRightAndFade;
-
-  @media (max-width: $mediaWidthMobileBig) {
-    max-width: 50vw;
-  }
 }
 
 .dropdownMenuSubTrigger {
@@ -55,12 +51,11 @@ $dropdownContentZIndex: 90;
   user-select: none;
 
   &:not(:last-child) {
-    border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
+    border-bottom: $primaryBorder solid var(--tertiaryBgColor);
   }
 }
 
 .dropdownMenuSubTrigger[data-state="open"] {
-  background-color: var(--dropdownStrokeColor);
   color: var(--tertiaryTextColor);
 }
 
