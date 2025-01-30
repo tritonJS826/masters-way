@@ -1,7 +1,5 @@
 @import "src/styles/variables";
 
-// Variables used only in Chat module styles
-$indicatorSize: 10px;
 $chatTriggerSize: 50px;
 $iconWrapperSize: 42px;
 $unreadMessagesAmountSize: 30px;
@@ -61,7 +59,7 @@ $unreadMessagesAmountMarginBottom: -20px;
 
 .iconWrapper {
   position: absolute;
-  z-index: 0;
+  z-index: $chatZIndex;
   top: 0;
   right: $marginSmall;
   width: $iconWrapperSize;
