@@ -6,7 +6,6 @@
   font-size: $fontSizeMedium;
   outline: none;
   user-select: none;
-  word-break: break-word;
 
   &:not(:last-child) {
     border-bottom: $primaryBorder solid var(--dropdownStrokeColor);

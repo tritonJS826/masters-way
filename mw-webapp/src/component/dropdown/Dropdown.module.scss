@@ -6,7 +6,6 @@ $dropdownIndentationBottom: 8px;
 .dropdownContent,
 .dropdownMenuSubContent {
   z-index: $dropdownContentZIndex;
-  max-width: $dropdownMaxWidth;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   animation-duration: 400ms;
@@ -34,6 +33,7 @@ $dropdownIndentationBottom: 8px;
 }
 .dropdownMenuContent[data-side="left"],
 .dropdownMenuSubContent[data-side="left"] {
+  max-width: $dropdownMaxWidth;
   animation-name: slideRightAndFade;
 }
 
