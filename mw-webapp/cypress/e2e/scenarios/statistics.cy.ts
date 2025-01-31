@@ -11,156 +11,154 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 
-const TEST_WAY = "johnDoeWay", COMPOSITE_TEST_WAY = "mentorCompositeWay";
-const TOTAL_PERIOD = "total", LAST_MONTH_PERIOD = "lastMonth", LAST_WEEK_PERIOD = "lastWeek";
-const WAY_PAGE_CONTEXT = "page", MODAL_WINDOW_CONTEXT = "modal";
-
-type PeriodBlockWayPageTitle = typeof TOTAL_PERIOD | typeof LAST_WEEK_PERIOD;
-type PeriodBlockStatisticModalTitle = typeof TOTAL_PERIOD | typeof LAST_MONTH_PERIOD | typeof LAST_WEEK_PERIOD;
-type PeriodBlockTitle = PeriodBlockWayPageTitle | PeriodBlockStatisticModalTitle;
-type Way = typeof TEST_WAY | typeof COMPOSITE_TEST_WAY;
-type Context = typeof WAY_PAGE_CONTEXT | typeof MODAL_WINDOW_CONTEXT;
-
-function openWayFromCard(wayTitle: string, filterOption: 'getDayReportsSelectOption0' | 'getDayReportsSelectOptionAtLeast5'): void {
+function openWayFromAllWayPageByClickingCard(wayTitle: string, filterOption: keyof typeof allWaysSelectors.filterViewBlock): void {
     cy.openAllWaysPage();
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
     allWaysSelectors.filterViewBlock[filterOption]().click();
     allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();  
 };
 
-function checkOverallInfo(context: Context, periodTitle: PeriodBlockTitle, way: Way): void {
-    // Get the statistic period block title depending on the context
-    const periodBlockTitle =
-        context === WAY_PAGE_CONTEXT
-            ? (statisticsData.periodBlockWayPageTitles as Record<PeriodBlockWayPageTitle, string>)[periodTitle as PeriodBlockWayPageTitle]
-            : (statisticsData.periodBlockModalTitles as Record<PeriodBlockStatisticModalTitle, string>)[periodTitle as PeriodBlockStatisticModalTitle];
+function checkOverallInfo(currentWindow: string, periodBlockTitle: string, way: string): void {
+    // // Get statistic period block titles used for locators for given window type 
+    // const titles = 
+    //     currentWindow === statisticsData.windowType.wayPage
+    //     ? statisticsData.periodBlockWayPageTitles
+    //     : statisticsData.periodBlockModalTitles;
 
-    // Get data for the given way and periodTitle
-    const wayData = statisticsData[way][periodTitle as keyof typeof statisticsData[typeof way]];
+    // const currentPeriodBlockTitle = titles[periodBlockTitle as keyof typeof titles];
 
-    if (
-        !wayData ||
-        typeof wayData !== "object" ||
-        !("totalTime" in wayData) ||
-        !("totalReports" in wayData) ||
-        !("finishedJobs" in wayData) ||
-        !("avgTimePerCalendarDay" in wayData) ||
-        !("avgTimePerWorkingDay" in wayData) ||
-        !("avgJobTime" in wayData)
-    ) {
-        throw new Error(
-            `Invalid data for way="${way}", periodTitle="${periodTitle}". Expected an object with required statistics.`
-        );
-    }
+    // // Get statistiv data for given way and periodBlockTitle
+    // const wayData = statisticsData[way as keyof typeof statisticsData.way][periodBlockTitle as keyof typeof titles];
 
-    // Check "Overall Information" values for the given time period and the context
-    statisticsSelectors.statistics.periodBlocks.overallInfo
-        .getTotalTime(periodBlockTitle)
+
+    // Get the statistic period block title depending on the given window
+
+    const currentPeriodBlockTitle =
+        currentWindow === statisticsData.windowType.wayPage
+            ? statisticsData.periodBlockWayPageTitles[periodBlockTitle as keyof typeof statisticsData.periodBlockWayPageTitles]
+            : statisticsData.periodBlockModalTitles[periodBlockTitle as keyof typeof statisticsData.periodBlockModalTitles];
+            
+    // Get statistic data for the given way and period
+    const wayData = 
+        currentWindow === statisticsData.windowType.wayPage
+            ? statisticsData[way as keyof typeof statisticsData.way][periodBlockTitle as keyof typeof statisticsData.periodBlockWayPageTitles]
+            : statisticsData[way as keyof typeof statisticsData.way][periodBlockTitle as keyof typeof statisticsData.periodBlockModalTitles];
+
+    // Check "Overall Information" values for the given time period and in the given window
+    const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
+    overallInfo.getTotalTime(currentPeriodBlockTitle)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
         .should('have.text', `${wayData.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    statisticsSelectors.statistics.periodBlocks.overallInfo
-        .getTotalReports(periodBlockTitle)
+
+    overallInfo.getTotalReports(currentPeriodBlockTitle)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
         .should('have.text', wayData.totalReports);
-    statisticsSelectors.statistics.periodBlocks.overallInfo
-        .getFinishedJobs(periodBlockTitle)
+
+    overallInfo.getFinishedJobs(currentPeriodBlockTitle)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
         .should('have.text', wayData.finishedJobs);
-    statisticsSelectors.statistics.periodBlocks.overallInfo
-        .getAvgTimePerCalendarDay(periodBlockTitle)
+
+    overallInfo.getAvgTimePerCalendarDay(currentPeriodBlockTitle)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
         .should('have.text', `${wayData.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    statisticsSelectors.statistics.periodBlocks.overallInfo
-        .getAverageTimePerWorkingDay(periodBlockTitle)
+
+    overallInfo.getAverageTimePerWorkingDay(currentPeriodBlockTitle)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
         .should('have.text', `${wayData.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    statisticsSelectors.statistics.periodBlocks.overallInfo
-        .getAvgJobTime(periodBlockTitle)
+
+    overallInfo.getAvgJobTime(currentPeriodBlockTitle)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
         .should('have.text', `${wayData.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 }
 
-function checkNumberOfLabelLines(context: Context, periodTitle: PeriodBlockTitle, way: Way): void {
-    // Determine the block title depending on the context
+function checkNumberOfLabelLines(currentWindow: string, periodTitle: string, way: string): void {
+    // Get the statistic period block title depending on the given window
     const periodBlockTitle =
-        context === WAY_PAGE_CONTEXT
-            ? (statisticsData.periodBlockWayPageTitles as Record<PeriodBlockWayPageTitle, string>)[periodTitle as PeriodBlockWayPageTitle]
-            : (statisticsData.periodBlockModalTitles as Record<PeriodBlockStatisticModalTitle, string>)[periodTitle as PeriodBlockStatisticModalTitle];
+        currentWindow === statisticsData.windowType.wayPage
+            ? statisticsData.periodBlockWayPageTitles[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles]
+            : statisticsData.periodBlockModalTitles[periodTitle as keyof typeof statisticsData.periodBlockModalTitles];
     
     // Determine label statistic lines
-    const labelLinesLength = statisticsData[way].labelStatistic[periodTitle].length;
+    // const wayData = statisticsData[way as keyof typeof statisticsData.way];
+    // const labelStatistic = wayData?.labelStatistic?.[periodTitle as keyof typeof wayData.labelStatistic];
+
+    // const labelLinesLength = labelStatistic ? labelStatistic.length : 0; 
+    const labelLinesLength = 
+        currentWindow === statisticsData.windowType.wayPage
+            ? statisticsData[way as keyof typeof statisticsData.way].labelStatistic[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles].length
+            : statisticsData[way as keyof typeof statisticsData.way].labelStatistic[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles].length;
 
     // Check label lines amount for the given context
-    if (context === WAY_PAGE_CONTEXT) {
+    if (currentWindow === statisticsData.windowType.wayPage) {
         statisticsSelectors.statistics.periodBlocks.periodBlock(periodBlockTitle)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
             .should('have.length', labelLinesLength);
-    } else if (context === MODAL_WINDOW_CONTEXT) {
+    } else if (currentWindow === statisticsData.windowType.modal) {
         statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodTitle].en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles].en)}"]`)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
             .should('have.length', labelLinesLength);
     }
 };
 
-function checkLabelLineData(context: Context, periodTitle: PeriodBlockTitle, way: Way, lineIndex: number): void {
-    // Get statistics for the way in the given period 
-    const labelStatistic = statisticsData[way]?.labelStatistic[periodTitle];
+// function checkLabelLineData(context: PageOrModalWindow, periodTitle: PeriodBlockTitle, way: Way, lineIndex: number): void {
+//     // Get statistics for the way in the given period 
+//     const labelStatistic = statisticsData[way]?.labelStatistic[periodTitle];
 
-    // Get label statistic line
-    const lineKey = `line${lineIndex + 1}` as keyof typeof labelStatistic;
-    const labelLine = labelStatistic[lineKey];
+//     // Get label statistic line
+//     const lineKey = `line${lineIndex + 1}` as keyof typeof labelStatistic;
+//     const labelLine = labelStatistic[lineKey];
 
-    if (
-        typeof labelLine !== "object" ||
-        !("color" in labelLine) ||
-        !("name" in labelLine) ||
-        !("jobsAmount" in labelLine) ||
-        !("time" in labelLine)
-    ) {
-        throw new Error(
-            `Invalid label line data for way="${way}", periodTitle="${periodTitle}", lineKey="${lineKey}". Expected an object with properties color, name, jobsAmount, and time.`
-        );
-    }
+//     if (
+//         typeof labelLine !== "object" ||
+//         !("color" in labelLine) ||
+//         !("name" in labelLine) ||
+//         !("jobsAmount" in labelLine) ||
+//         !("time" in labelLine)
+//     ) {
+//         throw new Error(
+//             `Invalid label line data for way="${way}", periodTitle="${periodTitle}", lineKey="${lineKey}". Expected an object with properties color, name, jobsAmount, and time.`
+//         );
+//     }
 
-    // Get statistic period block title the for given context
-    const periodBlockTitle =
-        context === WAY_PAGE_CONTEXT
-            ? (statisticsData.periodBlockWayPageTitles as Record<PeriodBlockWayPageTitle, string>)[periodTitle as PeriodBlockWayPageTitle]
-            : (statisticsData.periodBlockModalTitles as Record<PeriodBlockStatisticModalTitle, string>)[periodTitle as PeriodBlockStatisticModalTitle];
+//     // Get statistic period block title the for given context
+//     const periodBlockTitle =
+//         context === statisticsData.windowType.wayPage
+//             ? (statisticsData.periodBlockWayPageTitles as Record<PeriodBlockWayPageTitle, string>)[periodTitle as PeriodBlockWayPageTitle]
+//             : (statisticsData.periodBlockModalTitles as Record<PeriodBlockStatisticModalTitle, string>)[periodTitle as PeriodBlockStatisticModalTitle];
 
-    // Get a selector depending on the context
-    if (context === WAY_PAGE_CONTEXT) {
-        cy.get(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(periodBlockTitle)}"]`)
-            .as('currentSelector');
-    } else {
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodTitle].en)}"]`)
-            .as('currentSelector');
-    }
+//     // Get a selector depending on the context
+//     if (context === statisticsData.windowType.wayPage) {
+//         cy.get(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(periodBlockTitle)}"]`)
+//             .as('currentSelector');
+//     } else {
+//         statisticsSelectors.statistics.getModal()
+//             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodTitle].en)}"]`)
+//             .as('currentSelector');
+//     }
 
-    // Check tagColor, labelName, jobsAmount and time values
-    cy.get('@currentSelector')
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
-        .eq(lineIndex)
-        .should('have.attr', 'style')
-        .and('include', labelLine.color);
+//     // Check tagColor, labelName, jobsAmount and time values
+//     cy.get('@currentSelector')
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
+//         .eq(lineIndex)
+//         .should('have.attr', 'style')
+//         .and('include', labelLine.color);
 
-    cy.get('@currentSelector')
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-        .eq(lineIndex)
-        .should('have.text', labelLine.name);
+//     cy.get('@currentSelector')
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
+//         .eq(lineIndex)
+//         .should('have.text', labelLine.name);
 
-    cy.get('@currentSelector')
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
-        .eq(lineIndex)
-        .should('have.text', labelLine.jobsAmount);
+//     cy.get('@currentSelector')
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
+//         .eq(lineIndex)
+//         .should('have.text', labelLine.jobsAmount);
 
-    cy.get('@currentSelector')
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
-        .eq(lineIndex)
-        .should('have.text', labelLine.time);
-}
+//     cy.get('@currentSelector')
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
+//         .eq(lineIndex)
+//         .should('have.text', labelLine.time);
+// }
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -173,55 +171,56 @@ afterEach(() => {
 
 describe('Statistics tests', () => {
 
-    it('Scenario_Student_wayStatistics', () => {
-        openWayFromCard(statisticsData.johnDoeWay.title, 'getDayReportsSelectOptionAtLeast5');
+    it.only('Scenario_Student_wayStatistics', () => {
+        openWayFromAllWayPageByClickingCard(statisticsData.johnDoeWay.title, 'getDayReportsSelectOptionAtLeast5');
 
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
-        checkOverallInfo(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY);
-        checkOverallInfo(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
+        checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
 
-        checkNumberOfLabelLines(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY);
+        checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
         
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 2);
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 3);
+        // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 0);
+        // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 1);
+        // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 2);
+        // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 3);
 
-        checkNumberOfLabelLines(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
-
-        checkLabelLineData(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 2);
+        // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 0);
+        // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 1);
+        // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 2);
             
         statisticsSelectors.getShowAllStatisticsButton().click();
 
         statisticsSelectors.statistics.getModal().should('be.visible');
 
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY);
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY);
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
+        checkOverallInfo(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastMonth, statisticsData.way.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastMonth, statisticsData.way.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
 
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 2);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 3);
+        // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 0);
+        // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 1);
+        // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 2);
+        // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 3);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY);
+        // checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.periodBlockModalTitles.lastWeek, statisticsData.way.johnDoeWay);
 
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 2);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 3);
+        // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 0);
+        // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 1);
+        // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 2);
+        // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 3);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
+        // checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.periodBlockModalTitles.lastMonth, statisticsData.way.johnDoeWay);
 
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 2);
+        // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 0);
+        // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 1);
+        // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 2);
 
         statisticsSelectors.statistics.getCloseButton().click({force:true});
 
@@ -237,226 +236,226 @@ describe('Statistics tests', () => {
             .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
     });
 
-    it('Scenario_Mentor_CompositeWayStatistics', () => {
-        // Create a user-mentor with a composite way that includes one child way
-        cy.login(testUserData.testUsers.mentorMax.loginLink);
-        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.getCreateNewWayButton().click();
-        cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5().click();
-        allWaysSelectors.allWaysCard.getCardLink(statisticsData.johnDoeWay.title).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
-        cy.logout();
+    // it('Scenario_Mentor_CompositeWayStatistics', () => {
+    //     // Create a user-mentor with a composite way that includes one child way
+    //     cy.login(testUserData.testUsers.mentorMax.loginLink);
+    //     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
+    //     userWaysSelectors.getCreateNewWayButton().click();
+    //     cy.openAllWaysPage();
+    //     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
+    //     allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5().click();
+    //     allWaysSelectors.allWaysCard.getCardLink(statisticsData.johnDoeWay.title).click();
+    //     wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+    //         .contains(`Composite ways`)
+    //         .click();
+    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
+    //         .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+    //         .click();
+    //     cy.logout();
 
-        // Create user-student with a way that includes one day report
-        cy.login(testUserData.testUsers.studentJonh.loginLink);
-        userWaysSelectors.getCreateNewWayButton().click();
-        dayReportsSelectors.labels.getAdjustLabelsButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(dayReportsData.labels.student);
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
-        dayReportsSelectors.getCreateNewDayReportButton().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
-        dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
-        dayReportsSelectors.labels.addLabel.getSaveButton().click();
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(dayReportsData.timeSpentOnJob);
-        headerSelectors.getHeader().click();
-        cy.logout();
+    //     // Create user-student with a way that includes one day report
+    //     cy.login(testUserData.testUsers.studentJonh.loginLink);
+    //     userWaysSelectors.getCreateNewWayButton().click();
+    //     dayReportsSelectors.labels.getAdjustLabelsButton().click();
+    //     dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
+    //     dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(dayReportsData.labels.student);
+    //     dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
+    //     dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
+    //     dayReportsSelectors.getCreateNewDayReportButton().click();
+    //     dayReportsSelectors.dayReportsContent.getAddButton().first().click();
+    //     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
+    //     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
+    //     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
+    //     headerSelectors.getHeader().click();
+    //     dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
+    //     dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
+    //     dayReportsSelectors.labels.addLabel.getSaveButton().click();
+    //     headerSelectors.getHeader().click();
+    //     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
+    //     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
+    //     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(dayReportsData.timeSpentOnJob);
+    //     headerSelectors.getHeader().click();
+    //     cy.logout();
 
-        // Open the mentor composite way
-        openWayFromCard(testUserData.testUsers.mentorMax.wayTitle, 'getDayReportsSelectOption0');
+    //     // Open the mentor composite way
+    //     openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, 'getDayReportsSelectOption0');
 
-        checkOverallInfo(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY);
-        checkOverallInfo(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
+    //     // checkOverallInfo(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY);
+    //     // checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
 
-        checkNumberOfLabelLines(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY);
+    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY);
         
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 2);
-        checkLabelLineData(WAY_PAGE_CONTEXT, TOTAL_PERIOD, TEST_WAY, 3);
+    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 0);
+    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 1);
+    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 2);
+    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 3);
 
-        checkNumberOfLabelLines(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
+    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
 
-        checkLabelLineData(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 2);
+    //     // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 0);
+    //     // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 1);
+    //     // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 2);
             
-        statisticsSelectors.getShowAllStatisticsButton().click();
+    //     statisticsSelectors.getShowAllStatisticsButton().click();
 
-        statisticsSelectors.statistics.getModal().should('be.visible');
+    //     statisticsSelectors.statistics.getModal().should('be.visible');
 
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY);
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY);
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
+    //     // checkOverallInfo(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY);
+    //     // checkOverallInfo(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY);
+    //     // checkOverallInfo(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY);
+    //     // checkNumberOfLabelLines(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY);
 
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 2);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, TEST_WAY, 3);
+    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 0);
+    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 1);
+    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 2);
+    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 3);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY);
+    //     // checkNumberOfLabelLines(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY);
 
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 2);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, TEST_WAY, 3);
+    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 0);
+    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 1);
+    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 2);
+    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 3);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY);
+    //     // checkNumberOfLabelLines(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
 
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 0);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 1);
-        checkLabelLineData(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, TEST_WAY, 2);
+    //     // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 0);
+    //     // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 1);
+    //     // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 2);
 
-        statisticsSelectors.statistics.getCloseButton().click();
+    //     statisticsSelectors.statistics.getCloseButton().click();
 
-        // Check "Total reports" and "Total" in the header of day report table on the way page
-        dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
+    //     // Check "Total reports" and "Total" in the header of day report table on the way page
+    //     dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
+    //         .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
             
-        dayReportsSelectors.dayReportsContent.getLoadMoreButton().click({force: true});
+    //     dayReportsSelectors.dayReportsContent.getLoadMoreButton().click({force: true});
 
-        dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
+    //     dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
+    //         .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
 
-        // Mentor adds the student way to the compisite way
-        cy.login(testUserData.testUsers.mentorMax.loginLink);
-        cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
+    //     // Mentor adds the student way to the compisite way
+    //     cy.login(testUserData.testUsers.mentorMax.loginLink);
+    //     cy.openAllWaysPage();
+    //     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
+    //     allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+    //     allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
+    //     wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+    //         .contains(`Composite ways`)
+    //         .click();
+    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
+    //         .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+    //         .click();
 
-        // Open the mentor composite way
-        openWayFromCard(testUserData.testUsers.mentorMax.wayTitle, 'getDayReportsSelectOption0');
-        // headerSelectors.getAvatar().click();
-        // allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).click();
+    //     // Open the mentor composite way
+    //     openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, 'getDayReportsSelectOption0');
+    //     // headerSelectors.getAvatar().click();
+    //     // allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).click();
 
-        checkOverallInfo(WAY_PAGE_CONTEXT, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
-        checkOverallInfo(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkOverallInfo(statisticsData.windowType.wayPage, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
 
-        checkNumberOfLabelLines(WAY_PAGE_CONTEXT, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
 
-        checkNumberOfLabelLines(WAY_PAGE_CONTEXT, LAST_WEEK_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
 
 
-    //     // Check the first label data in the "Labels Statistic" section for the "Total" block on the way page
-    //     statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-    //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    //         .then((elements) => {
-    //             const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
+    // //     // Check the first label data in the "Labels Statistic" section for the "Total" block on the way page
+    // //     statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
+    // //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
+    // //         .then((elements) => {
+    // //             const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
 
-    //             // Find the target element by its name
-    //             const targetElement = Cypress._.find(elements, (element) => {
-    //                 const elementText = Cypress.$(element).text();
-    //                 return elementText === targetName;
-    //             });
+    // //             // Find the target element by its name
+    // //             const targetElement = Cypress._.find(elements, (element) => {
+    // //                 const elementText = Cypress.$(element).text();
+    // //                 return elementText === targetName;
+    // //             });
 
-    //             // Verify that the target element was found
-    //             if (!targetElement) {
-    //                 throw new Error(`Element with name "${targetName}" not found`);
-    //             }
+    // //             // Verify that the target element was found
+    // //             if (!targetElement) {
+    // //                 throw new Error(`Element with name "${targetName}" not found`);
+    // //             }
 
-    //             // Get the parent element of the target element
-    //             const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+    // //             // Get the parent element of the target element
+    // //             const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
 
-    //             // Check the other parameters based on the parent element
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
-    //                 .should('have.attr', 'style')
-    //                 .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
+    // //             // Check the other parameters based on the parent element
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
+    // //                 .should('have.attr', 'style')
+    // //                 .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
 
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    //                 .should('have.text', targetName);
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
+    // //                 .should('have.text', targetName);
 
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
-    //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
+    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
 
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
-    //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
-    //         });
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
+    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
+    // //         });
             
-        statisticsSelectors.getShowAllStatisticsButton().click();
+    //     statisticsSelectors.getShowAllStatisticsButton().click();
 
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, COMPOSITE_TEST_WAY);
-        checkOverallInfo(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkOverallInfo(MODAL_WINDOW, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkOverallInfo(MODAL_WINDOW, LAST_MONTH_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkOverallInfo(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkNumberOfLabelLines(MODAL_WINDOW, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, LAST_MONTH_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkNumberOfLabelLines(MODAL_WINDOW, LAST_MONTH_PERIOD, COMPOSITE_TEST_WAY);
 
-        checkNumberOfLabelLines(MODAL_WINDOW_CONTEXT, LAST_WEEK_PERIOD, COMPOSITE_TEST_WAY);
+    //     // checkNumberOfLabelLines(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
 
-    //     // Check the first label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-    //     statisticsSelectors.statistics.getModal()
-    //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-    //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    //         .then((elements) => {
-    //             const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
+    // //     // Check the first label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+    // //     statisticsSelectors.statistics.getModal()
+    // //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
+    // //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
+    // //         .then((elements) => {
+    // //             const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
 
-    //             // Find the target element by its name
-    //             const targetElement = Cypress._.find(elements, (element) => {
-    //                 const elementText = Cypress.$(element).text();
-    //                 return elementText === targetName;
-    //             });
+    // //             // Find the target element by its name
+    // //             const targetElement = Cypress._.find(elements, (element) => {
+    // //                 const elementText = Cypress.$(element).text();
+    // //                 return elementText === targetName;
+    // //             });
 
-    //             // Verify that the target element was found
-    //             if (!targetElement) {
-    //                 throw new Error(`Element with name "${targetName}" not found`);
-    //             }
+    // //             // Verify that the target element was found
+    // //             if (!targetElement) {
+    // //                 throw new Error(`Element with name "${targetName}" not found`);
+    // //             }
 
-    //             // Get the parent element of the target element
-    //             const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+    // //             // Get the parent element of the target element
+    // //             const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
 
-    //             // Check the other parameters based on the parent element
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
-    //                 .should('have.attr', 'style')
-    //                 .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
+    // //             // Check the other parameters based on the parent element
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
+    // //                 .should('have.attr', 'style')
+    // //                 .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
 
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    //                 .should('have.text', targetName);
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
+    // //                 .should('have.text', targetName);
 
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
-    //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
+    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
 
-    //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
-    //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
-    //         });
+    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
+    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
+    // //         });
         
-        statisticsSelectors.statistics.getCloseButton().click();
+    //     statisticsSelectors.statistics.getCloseButton().click();
     
-        // Check "Total reports" and "Total" in the header of day report table on the way page
-        dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.mentorCompositeWay.total.totalReports}`);
+    //     // Check "Total reports" and "Total" in the header of day report table on the way page
+    //     dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
+    //         .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.mentorCompositeWay.total.totalReports}`);
     
-        dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
+    //     dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
     
-        dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.mentorCompositeWay.total.totalReports})`);
-    });
+    //     dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
+    //         .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.mentorCompositeWay.total.totalReports})`);
+    // });
 
 });

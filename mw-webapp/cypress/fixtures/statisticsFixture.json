@@ -1,13 +1,24 @@
 {
+    "windowType": {
+        "wayPage": "page",
+        "modal": "modal"
+    },
+
     "periodBlockWayPageTitles": {
         "total": "Total",
         "lastWeek": "Last week"
     },
 
     "periodBlockModalTitles": {
-        "total": "TotalBlock",
-        "lastMonth": "MonthBlock",
-        "lastWeek": "WeekBlock"
+        "total": "totalModal",
+        "lastMonth": "lastMonthModal",
+        "lastWeek": "lastWeekModal"
+    },
+
+    "allPeriodBlockTitles": {
+        "total": "total",
+        "lastMonth": "lastMonth",
+        "lastWeek": "lastWeek"
     },
 
     "way": {
