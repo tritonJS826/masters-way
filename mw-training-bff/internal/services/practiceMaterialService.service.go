@@ -23,7 +23,7 @@ type GetPracticeMaterialsByTopicIdParams struct {
 }
 
 func (pms *PracticeMaterialService) GetPracticeMaterialsByTopicId(ctx context.Context, params *GetPracticeMaterialsByTopicIdParams) (*schemas.PracticeMaterials, error) {
-	// notificationListRaw, err := pms.practiceMaterialGRPC.GetNotificationList(ctx, &pb.GetNotificationListRequest{
+	// notificationListRaw, err := pms.practiceMaterialGRPC.GetPracticeMaterialsByTopicId(ctx, &pb.GetNotificationListRequest{
 	// 	UserUuid:  params.UserUUID,
 	// 	Page:      params.Page,
 	// 	Limit:     params.Limit,
@@ -112,15 +112,6 @@ func (pms *PracticeMaterialService) UpdatePracticeMaterial(ctx context.Context, 
 }
 
 func (pms *PracticeMaterialService) DeletePracticeMaterial(ctx context.Context, practiceMaterialID string) error {
-	// in := &pb.UpdateNotificationSettingRequest{
-	// 	NotificationSettingUuid: notificationSettingID,
-	// 	IsEnabled:               isEnabled,
-	// }
-	// notificationSetting, err := pms.notificationSettingGRPC.UpdateNotificationSetting(ctx, in)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	deletePracticeMaterialRequest := &training.DeletePracticeMaterialRequest{
 		MaterialUuid: practiceMaterialID,
 	}
