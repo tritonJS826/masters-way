@@ -603,7 +603,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId}": {
+        "/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -626,8 +626,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "training tag id",
-                        "name": "trainingTagId",
+                        "description": "training tag name",
+                        "name": "trainingTagName",
                         "in": "path",
                         "required": true
                     }
@@ -1250,14 +1250,10 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.TrainingTag": {
             "type": "object",
             "required": [
-                "name",
-                "uuid"
+                "name"
             ],
             "properties": {
                 "name": {
-                    "type": "string"
-                },
-                "uuid": {
                     "type": "string"
                 }
             }

@@ -3,6 +3,7 @@ package controllers
 import (
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -30,25 +31,22 @@ func NewTrainingTrainingTagController(generalService *services.GeneralService, t
 // @Param trainingId path string true "training id"
 // @Success 200
 // @Router /trainingTrainingTags/{trainingId} [post]
-func (nc *TrainingTrainingTagController) CreateTrainingTag(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// page := ctx.DefaultQuery("page", "1")
-	// limit := ctx.DefaultQuery("limit", "50")
-	// isOnlyNew := ctx.DefaultQuery("isOnlyNew", "false")
+func (tttc *TrainingTrainingTagController) CreateTrainingTag(ctx *gin.Context) {
+	trainingId := ctx.Param("trainingId")
+	var payload *schemas.CreateTrainingTrainingTagPayload
 
-	// reqPage, _ := strconv.Atoi(page)
-	// reqLimit, _ := strconv.Atoi(limit)
-	// reqIsOnlyNew, err := strconv.ParseBool(isOnlyNew)
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// getNotificationListParams := &services.GetNotificationListParams{
-	// 	UserUUID:  userUUID,
-	// 	Page:      int32(reqPage),
-	// 	Limit:     int32(reqLimit),
-	// 	IsOnlyNew: reqIsOnlyNew,
-	// }
+	args := &services.CreateTrainingTrainingTagParams{
+		TrainingUuid: trainingId,
+		TagName:      payload.Name,
+	}
 
-	// response, err := nc.trainingTrainingTagService.GetNotificationList(ctx, getNotificationListParams)
-	// utils.HandleErrorGin(ctx, err)
+	_, err := tttc.trainingTrainingTagService.CreateTrainingTrainingTag(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }
@@ -60,20 +58,20 @@ func (nc *TrainingTrainingTagController) CreateTrainingTag(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param trainingId path string true "training id"
-// @Param trainingTagId path string true "training tag id"
+// @Param trainingTagName path string true "training tag name"
 // @Success 200
-// @Router /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId} [delete]
-func (nc *TrainingTrainingTagController) DeleteTrainingTag(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+// @Router /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName} [delete]
+func (tttc *TrainingTrainingTagController) DeleteTrainingTag(ctx *gin.Context) {
+	trainingId := ctx.Param("trainingId")
+	trainingTagName := ctx.Param("trainingTagId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	args := &services.DeleteTrainingTrainingTagParams{
+		TrainingUuid: trainingId,
+		TagName:      trainingTagName,
+	}
 
-	// response, err := nc.trainingTrainingTagService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
+	err := tttc.trainingTrainingTagService.DeleteTrainingTrainingTag(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }

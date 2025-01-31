@@ -5,6 +5,5 @@ type CreateTrainingTrainingTagPayload struct {
 }
 
 type TrainingTag struct {
-	Uuid string `json:"uuid" validate:"required"`
 	Name string `json:"name" validate:"required"`
 }

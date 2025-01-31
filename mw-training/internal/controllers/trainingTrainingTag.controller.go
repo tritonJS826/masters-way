@@ -18,6 +18,7 @@ type TrainingTrainingTagController struct {
 	pb.TrainingTrainingTagServiceServer
 }
 
+// TODO: looks like we don't need this controller
 func (tc *TrainingTrainingTagController) GetTrainingTags(context.Context, *pb.GetTrainingTagsRequest) (*pb.TrainingTagList, error) {
 	panic("unimplemented")
 }

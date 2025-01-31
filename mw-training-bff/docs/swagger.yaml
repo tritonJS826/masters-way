@@ -277,11 +277,8 @@ definitions:
     properties:
       name:
         type: string
-      uuid:
-        type: string
     required:
     - name
-    - uuid
     type: object
   mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload:
     properties:
@@ -725,7 +722,7 @@ paths:
       summary: Create training training tag
       tags:
       - training-training-tag
-  /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId}:
+  /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}:
     delete:
       consumes:
       - application/json
@@ -736,9 +733,9 @@ paths:
         name: trainingId
         required: true
         type: string
-      - description: training tag id
+      - description: training tag name
         in: path
-        name: trainingTagId
+        name: trainingTagName
         required: true
         type: string
       produces:

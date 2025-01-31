@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,25 +27,17 @@ func NewTrainingStudentController(generalService *services.GeneralService, train
 // @Param userId path string true "user id"
 // @Success 200
 // @Router /trainingStudents/{trainingId}/user/{userId} [post]
-func (nc *TrainingStudentController) CreateStudent(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// page := ctx.DefaultQuery("page", "1")
-	// limit := ctx.DefaultQuery("limit", "50")
-	// isOnlyNew := ctx.DefaultQuery("isOnlyNew", "false")
+func (tsc *TrainingStudentController) CreateStudent(ctx *gin.Context) {
+	trainingId := ctx.Param("trainingId")
+	studentId := ctx.Param("userId")
 
-	// reqPage, _ := strconv.Atoi(page)
-	// reqLimit, _ := strconv.Atoi(limit)
-	// reqIsOnlyNew, err := strconv.ParseBool(isOnlyNew)
+	args := &services.CreateTrainingStudentParams{
+		StudentUuid:  studentId,
+		TrainingUuid: trainingId,
+	}
 
-	// getNotificationListParams := &services.GetNotificationListParams{
-	// 	UserUUID:  userUUID,
-	// 	Page:      int32(reqPage),
-	// 	Limit:     int32(reqLimit),
-	// 	IsOnlyNew: reqIsOnlyNew,
-	// }
-
-	// response, err := nc.notificationService.GetNotificationList(ctx, getNotificationListParams)
-	// utils.HandleErrorGin(ctx, err)
+	err := tsc.trainingStudentService.CreateTrainingStudent(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }
@@ -59,17 +52,17 @@ func (nc *TrainingStudentController) CreateStudent(ctx *gin.Context) {
 // @Param userId path string true "user id"
 // @Success 200
 // @Router /trainingStudents/{trainingId}/user/{userId} [delete]
-func (nc *TrainingStudentController) DeleteStudent(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+func (tsc *TrainingStudentController) DeleteStudent(ctx *gin.Context) {
+	trainingId := ctx.Param("trainingId")
+	studentId := ctx.Param("userId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	args := &services.DeleteTrainingStudentParams{
+		StudentUuid:  studentId,
+		TrainingUuid: trainingId,
+	}
 
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
+	err := tsc.trainingStudentService.DeleteTrainingStudentByIds(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }
