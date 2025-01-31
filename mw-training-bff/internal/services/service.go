@@ -35,7 +35,7 @@ func NewService(
 	favoriteUserTrainingGRPC := pb.NewFavoriteUsersTrainingsServiceClient(conn)
 
 	return &Service{
-		GeneralService:              NewGeneralService(trainingBFFApi),
+		// GeneralService:              NewGeneralService(trainingBFFApi),
 		TrainingTrainingTagService:  NewTrainingTrainingTagService(trainingTrainingTagGRPC),
 		TrainingStudentService:      NewTrainingStudentService(trainingStudentGRPC),
 		TrainingMentorService:       NewTrainingMentorService(trainingMentorGRPC),

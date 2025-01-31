@@ -1,13 +1,12 @@
 build: ## Build the project
 	@echo "Building the project..."
-# go build -o main cmd/training-bff/main.go
+	go build -o main cmd/training-bff/main.go
 
 start: ## Run the project
-#	go run cmd/training-bff/main.go
+	go run cmd/training-bff/main.go
 
 test: ## Run all tests
 	echo "no tests"
-	
 # go test ./...
 
 install: ## Install dependencies

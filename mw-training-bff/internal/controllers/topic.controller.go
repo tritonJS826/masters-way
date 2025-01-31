@@ -3,6 +3,7 @@ package controllers
 import (
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -26,29 +27,18 @@ func NewTopicController(generalService *services.GeneralService, topicService *s
 // @Param trainingId path string true "training id"
 // @Success 200 {object} schemas.Topic
 // @Router /topics/{trainingId} [post]
-func (nc *TopicController) CreateTopic(ctx *gin.Context) {
+func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// page := ctx.DefaultQuery("page", "1")
-	// limit := ctx.DefaultQuery("limit", "50")
-	// isOnlyNew := ctx.DefaultQuery("isOnlyNew", "false")
+	trainningId := ctx.Param("trainningId")
 
-	// reqPage, _ := strconv.Atoi(page)
-	// reqLimit, _ := strconv.Atoi(limit)
-	// reqIsOnlyNew, err := strconv.ParseBool(isOnlyNew)
+	args := &services.CreateTopicParams{
+		TrainingUuid: trainningId,
+	}
 
-	// getNotificationListParams := &services.GetNotificationListParams{
-	// 	UserUUID:  userUUID,
-	// 	Page:      int32(reqPage),
-	// 	Limit:     int32(reqLimit),
-	// 	IsOnlyNew: reqIsOnlyNew,
-	// }
+	topic, err := tc.topicService.CreateTopic(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	// response, err := nc.notificationService.GetNotificationList(ctx, getNotificationListParams)
-	// utils.HandleErrorGin(ctx, err)
-
-	stub := schemas.Topic{}
-
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, topic)
 }
 
 // @Summary Update topic
@@ -61,21 +51,24 @@ func (nc *TopicController) CreateTopic(ctx *gin.Context) {
 // @Param topicId path string true "topic id"
 // @Success 200 {object} schemas.Topic
 // @Router /topics/{topicId} [patch]
-func (nc *TopicController) UpdateTopic(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+func (tc *TopicController) UpdateTopic(ctx *gin.Context) {
+	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
+	var payload *schemas.UpdateTopicPayload
+	topicId := ctx.Param("topicId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
+	args := &services.UpdateTopicParams{
+		TopicUuid: topicId,
+		Name:      payload.Name,
+	}
+	topic, err := tc.topicService.UpdateTopic(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	stub := schemas.Topic{}
-
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, topic)
 }
 
 // @Summary Delete topic by Uuid
@@ -87,10 +80,15 @@ func (nc *TopicController) UpdateTopic(ctx *gin.Context) {
 // @Param topicId path string true "topic id"
 // @Success 200
 // @Router /topics/{topicId} [delete]
-func (nc *TopicController) DeleteTopic(ctx *gin.Context) {
+func (tc *TopicController) DeleteTopic(ctx *gin.Context) {
 	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// response, err := nc.notificationService.GetNotificationSettingList(ctx, userUUID)
-	// utils.HandleErrorGin(ctx, err)
+	topicId := ctx.Param("topicId")
+
+	args := &services.DeleteTopicParams{
+		TopicUuid: topicId,
+	}
+	err := tc.topicService.DeleteTopic(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }
