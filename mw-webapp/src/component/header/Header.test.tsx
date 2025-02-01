@@ -6,7 +6,10 @@ import {Header, LOGO_TEXT} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
-import {mockPointerEvents} from "src/utils/mockPointerEvents";
+import {
+  mockPointerEvents,
+  restoreOriginalPointerEvents,
+} from "src/utils/mockPointerEvents";
 import {vi} from "vitest";
 
 const HEADER_CY = "header";
@@ -33,7 +36,6 @@ describe("Header component", () => {
         />
       </BrowserRouter>,
     );
-    mockPointerEvents();
   });
 
   it("Alt text in logotype shout be  visible if source broken", () => {
@@ -51,6 +53,7 @@ describe("Header component", () => {
   });
 
   it("should call setLanguage function", async () => {
+    mockPointerEvents();
     const triggerButton = screen.getByRole("combobox");
     userEvent.click(triggerButton);
     const uaOption = await screen.findByText("UA");
@@ -58,5 +61,6 @@ describe("Header component", () => {
       await userEvent.click(uaOption);
     });
     expect(STUB_FUNCTION_SET_LANGUAGE).toHaveBeenCalled();
+    restoreOriginalPointerEvents();
   });
 });
