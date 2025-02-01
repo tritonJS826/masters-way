@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {BrowserRouter} from "react-router-dom";
 import {fireEvent, render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -5,6 +6,7 @@ import {Header, LOGO_TEXT} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {mockPointerEvents} from "src/utils/mockPointerEvents";
 import {vi} from "vitest";
 
 const HEADER_CY = "header";
@@ -12,11 +14,6 @@ const HEADER_CY = "header";
 describe("Header component", () => {
   const STUB_FUNCTION_SET_LANGUAGE: () => void = vi.fn();
   const STUB_FUNCTION_SET_THEME: () => void = vi.fn();
-
-  // Mocking pointer event for testing Radix Select element in jsdom.
-  window.HTMLElement.prototype.hasPointerCapture = vi.fn();
-  window.HTMLElement.prototype.scrollIntoView = vi.fn();
-  window.HTMLElement.prototype.releasePointerCapture = vi.fn();
 
   beforeEach(() => {
     render(
@@ -36,6 +33,7 @@ describe("Header component", () => {
         />
       </BrowserRouter>,
     );
+    mockPointerEvents();
   });
 
   it("Alt text in logotype shout be  visible if source broken", () => {
@@ -54,9 +52,11 @@ describe("Header component", () => {
 
   it("should call setLanguage function", async () => {
     const triggerButton = screen.getByRole("combobox");
-    await userEvent.pointer({target: triggerButton, keys: "[MouseLeft]"});
+    userEvent.click(triggerButton);
     const uaOption = await screen.findByText("UA");
-    await userEvent.click(uaOption);
+    await act(async () => {
+      await userEvent.click(uaOption);
+    });
     expect(STUB_FUNCTION_SET_LANGUAGE).toHaveBeenCalled();
   });
 });
