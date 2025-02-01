@@ -5,7 +5,6 @@ import {Header, LOGO_TEXT} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
-import {MockPointerEvent} from "src/utils/mockPointerEventForVitest";
 import {vi} from "vitest";
 
 const HEADER_CY = "header";
@@ -13,6 +12,11 @@ const HEADER_CY = "header";
 describe("Header component", () => {
   const STUB_FUNCTION_SET_LANGUAGE: () => void = vi.fn();
   const STUB_FUNCTION_SET_THEME: () => void = vi.fn();
+
+  // Mocking pointer event for testing Radix Select element in jsdom.
+  window.HTMLElement.prototype.hasPointerCapture = vi.fn();
+  window.HTMLElement.prototype.scrollIntoView = vi.fn();
+  window.HTMLElement.prototype.releasePointerCapture = vi.fn();
 
   beforeEach(() => {
     render(
@@ -50,15 +54,7 @@ describe("Header component", () => {
 
   it("should call setLanguage function", async () => {
     const triggerButton = screen.getByRole("combobox");
-    fireEvent.pointerDown(
-      triggerButton,
-      new MockPointerEvent("pointerdown", {
-        ctrlKey: false,
-        button: 0,
-      }),
-    );
-    expect(triggerButton).toHaveAttribute("aria-expanded", "true");
-
+    await userEvent.pointer({target: triggerButton, keys: "[MouseLeft]"});
     const uaOption = await screen.findByText("UA");
     await userEvent.click(uaOption);
     expect(STUB_FUNCTION_SET_LANGUAGE).toHaveBeenCalled();
