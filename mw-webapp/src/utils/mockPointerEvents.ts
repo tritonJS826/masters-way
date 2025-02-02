@@ -1,7 +1,7 @@
 import {vi} from "vitest";
 
 /**
- * Mock pointer events for Vitest because jsdom does not support them. Radix Select uses them
+ * Mock pointer events for Vitest because jsdom does not support them. Radix Select uses them. YOU SHOULD RESTORE ORIGINAL POINTER EVENTS (use {@link restoreOriginalPointerEvents}) AT THE END OF THE TEST WHERE {@link mockPointerEvents} was executed
  */
 export function mockPointerEvents() {
   window.HTMLElement.prototype.hasPointerCapture = vi.fn();
