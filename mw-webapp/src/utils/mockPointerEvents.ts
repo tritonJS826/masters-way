@@ -5,23 +5,24 @@ import {vi} from "vitest";
  * YOU SHOULD RESTORE ORIGINAL POINTER EVENTS (use {@link restoreOriginalPointerEvents}) AT THE END OF THE TEST
  * WHERE {@link mockPointerEvents} was executed
  */
-export function withMockPointerEvents(callback: () => void) {
-  // Save original pointer events
+export async function withMockPointerEvents(callback: () => Promise<void>) {
   const originalHasPointerCapture = HTMLElement.prototype.hasPointerCapture;
   const originalScrollIntoView = HTMLElement.prototype.scrollIntoView;
   const originalReleasePointerCapture =
     HTMLElement.prototype.releasePointerCapture;
 
   // Mock pointer events
-  window.HTMLElement.prototype.hasPointerCapture = vi.fn();
-  window.HTMLElement.prototype.scrollIntoView = vi.fn();
-  window.HTMLElement.prototype.releasePointerCapture = vi.fn();
+  try {
+    window.HTMLElement.prototype.hasPointerCapture = vi.fn();
+    window.HTMLElement.prototype.scrollIntoView = vi.fn();
+    window.HTMLElement.prototype.releasePointerCapture = vi.fn();
 
-  callback();
-
-  // Restore pointer events after tests
-  window.HTMLElement.prototype.hasPointerCapture = originalHasPointerCapture;
-  window.HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
-  window.HTMLElement.prototype.releasePointerCapture =
-    originalReleasePointerCapture;
+    await callback();
+  } finally {
+    // Restore pointer events after tests
+    window.HTMLElement.prototype.hasPointerCapture = originalHasPointerCapture;
+    window.HTMLElement.prototype.scrollIntoView = originalScrollIntoView;
+    window.HTMLElement.prototype.releasePointerCapture =
+      originalReleasePointerCapture;
+  }
 }
