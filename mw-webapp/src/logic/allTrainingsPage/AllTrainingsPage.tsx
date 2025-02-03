@@ -60,11 +60,12 @@ export const AllTrainingsPage = observer(() => {
   new (getTrainingsParams: GetTrainingsParams) => AllTrainingsPageStore,
   [string], AllTrainingsPageStore>({
       storeForInitialize: AllTrainingsPageStore,
-      dataForInitialization: [{trainingName: ""}],
+      dataForInitialization: [{trainingName: allTrainingsPageSettings.trainingName}],
       dependency: [debouncedName],
     });
 
-  const isMoreTrainingsExist = allTrainingsPageStore.allTrainingsAmount > allTrainingsPageStore.allTrainings.length;
+  const isMoreTrainingsExist = allTrainingsPageStore.allTrainingsAmount > 0;
+  // AllTrainingsPageStore.allTrainings.length
 
   if (!allTrainingsPageStore.allTrainings) {
     return (
@@ -168,9 +169,5 @@ export const AllTrainingsPage = observer(() => {
         }
       </div>
     </VerticalContainer>
-    // <h1 style={{color: "red", marginTop: "100px"}}>
-    //   Hello
-    //   dgljdl jslfjrs eosejg eos irej seo
-    // </h1>
   );
 });
