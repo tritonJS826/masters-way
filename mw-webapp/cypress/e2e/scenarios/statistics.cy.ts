@@ -12,7 +12,7 @@ import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {statisticsData} from "cypress/testData/statisticTestData";
 import {periods} from "cypress/testData/statisticTestData";
-import {wayKeys} from "cypress/testData/statisticTestData";
+import {wayTitleKeys} from "cypress/testData/statisticTestData";
 
 function openWayFromAllWayPageByClickingCard(wayTitle: string, filterOption: keyof typeof allWaysSelectors.filterViewBlock): void {
     cy.openAllWaysPage();
@@ -28,14 +28,11 @@ function checkOverallInfo(windowType: string, periodBlockTitle: string, way: str
             ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
             : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
 
-    // Get statistic data for the given way        
-    const wayData = statisticsData.testWays[way as keyof typeof statisticsData.testWays];
-
     // Get statistic data for the given way and period
     const wayDataForPeriodBlock = 
         windowType === statisticsData.windowType.wayPage
-            ? wayData.statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
-            : wayData.statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
+            ? statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
+            : statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
 
     // Check "Overall Information" values for the given time period and in the given window
     const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
@@ -70,15 +67,9 @@ function checkNumberOfLabelLines(windowType: string, periodBlockTitle: string, w
         windowType === statisticsData.windowType.wayPage
             ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
             : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
-    
-    // Get statistic data for the given way        
-    const wayData = statisticsData.testWays[way as keyof typeof statisticsData.testWays];
  
     // Get the amount of label statistic lines
-    const labelLinesLength = 
-        windowType === statisticsData.windowType.wayPage
-            ? Object.keys(wayData.labelStatistics[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]).length
-            : Object.keys(wayData.labelStatistics[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal]).length;
+    const labelLinesLength = Object.keys(statisticsData.testWays[way].labelStatistics[periodBlockTitle]).length;
 
     // Check label lines amount for the given window
     if (windowType === statisticsData.windowType.wayPage) {
@@ -169,11 +160,11 @@ describe('Statistics tests', () => {
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
-        checkOverallInfo(statisticsData.windowType.wayPage, periods.total, wayKeys.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.wayPage, periods.lastWeek, wayKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.wayPage, periods.total, wayTitleKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.wayPage, periods.lastWeek, wayTitleKeys.johnDoeWay);
 
-        checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.total, wayKeys.johnDoeWay);
-        checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.lastWeek, wayKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.total, wayTitleKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.lastWeek, wayTitleKeys.johnDoeWay);
         
         // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 0);
         // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 1);
@@ -188,13 +179,13 @@ describe('Statistics tests', () => {
 
         statisticsSelectors.statistics.getModal().should('be.visible');
 
-        checkOverallInfo(statisticsData.windowType.modal, periods.total, wayKeys.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.modal, periods.lastMonth, wayKeys.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.modal, periods.lastWeek, wayKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, periods.total, wayTitleKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, periods.lastMonth, wayTitleKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, periods.lastWeek, wayTitleKeys.johnDoeWay);
 
-        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.total, wayKeys.johnDoeWay);
-        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.lastMonth, wayKeys.johnDoeWay);
-        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.lastWeek, wayKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.total, wayTitleKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.lastMonth, wayTitleKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.lastWeek, wayTitleKeys.johnDoeWay);
 
         // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 0);
         // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 1);

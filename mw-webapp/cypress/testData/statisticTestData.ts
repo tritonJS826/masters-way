@@ -12,7 +12,7 @@ export const periods = {
     lastWeek: "lastWeek"
 };
 
-export const wayKeys = {
+export const wayTitleKeys = {
     johnDoeWay: "johnDoeWay",
     mentorCompositeWay: "mentorCompositeWay"
 };
@@ -36,7 +36,7 @@ export const statisticsData = {
     },
 
     testWays: {
-        [wayKeys.johnDoeWay]: {
+        [wayTitleKeys.johnDoeWay]: {
             title: "john doe way",
             daysFromStart: "38",
 
@@ -69,7 +69,7 @@ export const statisticsData = {
             }
         },
 
-        [wayKeys.mentorCompositeWay]: {
+        [wayTitleKeys.mentorCompositeWay]: {
             daysFromStart: "0",
 
             statistic: {
