@@ -2,7 +2,6 @@ package routers
 
 import (
 	"fmt"
-	"mw-training-bff/internal/auth"
 	"mw-training-bff/internal/config"
 	"mw-training-bff/internal/controllers"
 	"net/http"
@@ -59,7 +58,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes() {
-	training := r.Gin.Group("/training", auth.HandleHeaders())
+	training := r.Gin.Group("/training" /*auth.HandleHeaders()*/)
 
 	r.trainingTrainingTagRouter.setTrainingTrainingTagRoutes(training)
 	r.trainingStudentRouter.setTrainingStudentRoutes(training)

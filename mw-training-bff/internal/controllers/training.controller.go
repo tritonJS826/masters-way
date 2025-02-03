@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"mw-training-bff/internal/auth"
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
 	util "mw-training-bff/internal/utils"
@@ -121,16 +120,12 @@ func (nc *TrainingController) GetTrainingList(ctx *gin.Context) {
 	limitRaw := ctx.DefaultQuery("limit", "10")
 	trainingName := ctx.DefaultQuery("trainingName", "")
 
-	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
-	userID := userIDRaw.(string)
-
 	page, err := strconv.Atoi(pageRaw)
 	util.HandleErrorGin(ctx, err)
 	limit, err := strconv.Atoi(limitRaw)
 	util.HandleErrorGin(ctx, err)
 
 	args := &services.GetTrainingListParams{
-		UserUUID:     userID,
 		Page:         page,
 		Limit:        limit,
 		TrainingName: trainingName,
@@ -155,6 +150,9 @@ func (nc *TrainingController) GetTrainingList(ctx *gin.Context) {
 func (nc *TrainingController) GetTrainingListByUser(ctx *gin.Context) {
 	// var payload *schemas.UpdateNotificationPayload
 	// notificationUUID := ctx.Param("notificationId")
+
+	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	// userID := userIDRaw.(string)
 
 	// if err := ctx.ShouldBindJSON(&payload); err != nil {
 	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})

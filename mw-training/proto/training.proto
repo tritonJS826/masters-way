@@ -111,10 +111,9 @@ message GetTrainingRequest {
 }
 
 message GetTrainingListRequest {
-  string user_uuid = 1;
-  int32 page = 2;
-  int32 limit = 3;
-  string training_name = 4;
+  int32 page = 1;
+  int32 limit = 2;
+  string training_name = 3;
 }
 
 message GetTrainingListForUserRequest {

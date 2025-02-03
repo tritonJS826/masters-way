@@ -374,7 +374,7 @@ paths:
       tags:
       - training-training-tag
       x-codegen-request-body-name: request
-  /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId}:
+  /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}:
     delete:
       operationId: delete-training-training-tag
       parameters:
@@ -384,9 +384,9 @@ paths:
         required: true
         schema:
           type: string
-      - description: training tag id
+      - description: training tag name
         in: path
-        name: trainingTagId
+        name: trainingTagName
         required: true
         schema:
           type: string
@@ -815,9 +815,7 @@ components:
           uuid: uuid
         trainingTag:
         - name: name
-          uuid: uuid
         - name: name
-          uuid: uuid
         name: name
         description: description
         students:
@@ -899,9 +897,7 @@ components:
           topicsAmount: 5
           trainingTag:
           - name: name
-            uuid: uuid
           - name: name
-            uuid: uuid
           name: name
           description: description
           isPrivate: true
@@ -924,9 +920,7 @@ components:
           topicsAmount: 5
           trainingTag:
           - name: name
-            uuid: uuid
           - name: name
-            uuid: uuid
           name: name
           description: description
           isPrivate: true
@@ -962,9 +956,7 @@ components:
         topicsAmount: 5
         trainingTag:
         - name: name
-          uuid: uuid
         - name: name
-          uuid: uuid
         name: name
         description: description
         isPrivate: true
@@ -1017,15 +1009,11 @@ components:
     mw-training-bff_internal_schemas.TrainingTag:
       example:
         name: name
-        uuid: uuid
       properties:
         name:
           type: string
-        uuid:
-          type: string
       required:
       - name
-      - uuid
       type: object
     mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload:
       properties:

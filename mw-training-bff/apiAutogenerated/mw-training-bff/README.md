@@ -102,7 +102,7 @@ Class | Method | HTTP request | Description
 *TrainingStudentAPI* | [**CreateTrainingStudent**](docs/TrainingStudentAPI.md#createtrainingstudent) | **Post** /trainingStudents/{trainingId}/user/{userId} | Create student
 *TrainingStudentAPI* | [**DeleteTrainingStudent**](docs/TrainingStudentAPI.md#deletetrainingstudent) | **Delete** /trainingStudents/{trainingId}/user/{userId} | Delete student
 *TrainingTrainingTagAPI* | [**CreateTrainingTrainingTag**](docs/TrainingTrainingTagAPI.md#createtrainingtrainingtag) | **Post** /trainingTrainingTags/{trainingId} | Create training training tag
-*TrainingTrainingTagAPI* | [**DeleteTrainingTrainingTag**](docs/TrainingTrainingTagAPI.md#deletetrainingtrainingtag) | **Delete** /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId} | Delete training training tag
+*TrainingTrainingTagAPI* | [**DeleteTrainingTrainingTag**](docs/TrainingTrainingTagAPI.md#deletetrainingtrainingtag) | **Delete** /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName} | Delete training training tag
 
 
 ## Documentation For Models

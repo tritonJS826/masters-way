@@ -36,32 +36,39 @@ func (tc *TrainingController) CreateNewTraining(ctx context.Context, in *pb.Crea
 	return &training, nil
 }
 
-func (tc *TrainingController) GetTrainingsList(ctx context.Context, in *pb.GetTrainingListRequest) (*pb.TrainingPreviewList, error) {
-	userUuid := in.GetUserUuid()
-	// page := in.GetPage()
-	// limit := in.GetLimit()
-	// trainingName := in.GetTrainingName()
+func (tc *TrainingController) GetTrainingList(ctx context.Context, in *pb.GetTrainingListRequest) (*pb.TrainingPreviewList, error) {
+	page := in.GetPage()
+	limit := in.GetLimit()
+	trainingName := in.GetTrainingName()
+	offset := (page - 1) * limit
 
-	trainings, err := tc.trainingService.GetTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
+	args := &services.GetTrainingListParams{
+		TrainingName:  trainingName,
+		RequestOffset: offset,
+		RequestLimit:  limit,
+	}
+
+	trainings, err := tc.trainingService.GetTrainingList(ctx, args)
 	if err != nil {
 		return nil, err
 	}
 
 	return &pb.TrainingPreviewList{
+		Size:         int32(len(trainings)),
 		TrainingList: trainings,
 	}, nil
 }
 
 func (tc *TrainingController) GetTrainingListForUser(ctx context.Context, in *pb.GetTrainingListForUserRequest) (*pb.TrainingPreviewList, error) {
-	userUuid := in.GetUserUuid()
+	// userUuid := in.GetUserUuid()
 
-	trainings, err := tc.trainingService.GetTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
-	if err != nil {
-		return nil, err
-	}
+	// trainings, err := tc.trainingService.GetOwnTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
+	// if err != nil {
+	// 	return nil, err
+	// }
 
 	return &pb.TrainingPreviewList{
-		TrainingList: trainings,
+		// TrainingList: trainings,
 	}, nil
 }
 

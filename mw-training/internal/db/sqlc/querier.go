@@ -32,16 +32,14 @@ type Querier interface {
 	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]TrainingTag, error)
 	GetListTrainingTagsByTrainingIds(ctx context.Context, trainingUuids []pgtype.UUID) ([]GetListTrainingTagsByTrainingIdsRow, error)
 	GetMentoringTrainingList(ctx context.Context) ([]Training, error)
-	// LIMIT @limit
-	// OFFSET @offset;
 	GetOwnTrainingList(ctx context.Context, ownerUuid pgtype.UUID) ([]Training, error)
 	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error)
 	GetStudentTrainingList(ctx context.Context) ([]Training, error)
 	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error)
 	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]Topic, error)
 	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (Training, error)
-	// TODO: add filter by is private
-	GetTrainingList(ctx context.Context, trainingName pgtype.Text) ([]GetTrainingListRow, error)
+	// lets add likes to response
+	GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error)
 	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
 	// INSERT INTO "rooms" ("uuid", "name", "type", "created_at")
 	// VALUES

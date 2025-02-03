@@ -204,7 +204,7 @@ type ApiDeleteTrainingTrainingTagRequest struct {
 	ctx context.Context
 	ApiService *TrainingTrainingTagAPIService
 	trainingId string
-	trainingTagId string
+	trainingTagName string
 }
 
 func (r ApiDeleteTrainingTrainingTagRequest) Execute() (*http.Response, error) {
@@ -216,15 +216,15 @@ DeleteTrainingTrainingTag Delete training training tag
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param trainingId training id
- @param trainingTagId training tag id
+ @param trainingTagName training tag name
  @return ApiDeleteTrainingTrainingTagRequest
 */
-func (a *TrainingTrainingTagAPIService) DeleteTrainingTrainingTag(ctx context.Context, trainingId string, trainingTagId string) ApiDeleteTrainingTrainingTagRequest {
+func (a *TrainingTrainingTagAPIService) DeleteTrainingTrainingTag(ctx context.Context, trainingId string, trainingTagName string) ApiDeleteTrainingTrainingTagRequest {
 	return ApiDeleteTrainingTrainingTagRequest{
 		ApiService: a,
 		ctx: ctx,
 		trainingId: trainingId,
-		trainingTagId: trainingTagId,
+		trainingTagName: trainingTagName,
 	}
 }
 
@@ -241,9 +241,9 @@ func (a *TrainingTrainingTagAPIService) DeleteTrainingTrainingTagExecute(r ApiDe
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId}"
+	localVarPath := localBasePath + "/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"trainingId"+"}", url.PathEscape(parameterValueToString(r.trainingId, "trainingId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"trainingTagId"+"}", url.PathEscape(parameterValueToString(r.trainingTagId, "trainingTagId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"trainingTagName"+"}", url.PathEscape(parameterValueToString(r.trainingTagName, "trainingTagName")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -305,9 +305,9 @@ func (a *TrainingTrainingTagAPIService) DeleteTrainingTrainingTagStreamExecute(r
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId}"
+	localVarPath := localBasePath + "/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"trainingId"+"}", url.PathEscape(parameterValueToString(r.trainingId, "trainingId")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"trainingTagId"+"}", url.PathEscape(parameterValueToString(r.trainingTagId, "trainingTagId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"trainingTagName"+"}", url.PathEscape(parameterValueToString(r.trainingTagName, "trainingTagName")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

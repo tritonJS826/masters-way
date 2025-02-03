@@ -5,7 +5,7 @@ All URIs are relative to */training*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateTrainingTrainingTag**](TrainingTrainingTagAPI.md#CreateTrainingTrainingTag) | **Post** /trainingTrainingTags/{trainingId} | Create training training tag
-[**DeleteTrainingTrainingTag**](TrainingTrainingTagAPI.md#DeleteTrainingTrainingTag) | **Delete** /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId} | Delete training training tag
+[**DeleteTrainingTrainingTag**](TrainingTrainingTagAPI.md#DeleteTrainingTrainingTag) | **Delete** /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName} | Delete training training tag
 
 
 
@@ -79,7 +79,7 @@ No authorization required
 
 ## DeleteTrainingTrainingTag
 
-> DeleteTrainingTrainingTag(ctx, trainingId, trainingTagId).Execute()
+> DeleteTrainingTrainingTag(ctx, trainingId, trainingTagName).Execute()
 
 Delete training training tag
 
@@ -97,11 +97,11 @@ import (
 
 func main() {
 	trainingId := "trainingId_example" // string | training id
-	trainingTagId := "trainingTagId_example" // string | training tag id
+	trainingTagName := "trainingTagName_example" // string | training tag name
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.TrainingTrainingTagAPI.DeleteTrainingTrainingTag(context.Background(), trainingId, trainingTagId).Execute()
+	r, err := apiClient.TrainingTrainingTagAPI.DeleteTrainingTrainingTag(context.Background(), trainingId, trainingTagName).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TrainingTrainingTagAPI.DeleteTrainingTrainingTag``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -116,7 +116,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **trainingId** | **string** | training id | 
-**trainingTagId** | **string** | training tag id | 
+**trainingTagName** | **string** | training tag name | 
 
 ### Other Parameters
 

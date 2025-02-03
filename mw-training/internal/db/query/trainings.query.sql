@@ -19,13 +19,15 @@ WHERE trainings.uuid = @training_uuid
 RETURNING *;
 
 
--- TODO: add filter by is private
 -- name: GetTrainingList :many
 SELECT
+    -- TODO: add filter by is private
     trainings.uuid,
     trainings.name,
+    trainings.description,
     trainings.is_private,
     trainings.owner_uuid,
+    trainings.created_at,
     trainings.updated_at,
     COALESCE(f.favorite_count, 0) AS favorite_count,
     ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
@@ -37,10 +39,11 @@ LEFT JOIN
     favorite_users_trainings fuc ON trainings.uuid = fuc.training_uuid
 LEFT JOIN
     training_tags ON training_tags.uuid IN (
-        SELECT tag_uuid
+        SELECT uuid
         FROM training_tags
-        WHERE training_uuid = trainings.uuid
+        WHERE uuid = trainings.uuid
     )
+-- lets add likes to response
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -55,14 +58,16 @@ LEFT JOIN
 LEFT JOIN
     trainings_students ON trainings_students.training_uuid = trainings.uuid
 WHERE
-    trainings.name ILIKE @training_name
+    trainings.name ILIKE @training_name 
+    AND
+    trainings.is_private = false
 GROUP BY
     trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
 ORDER BY
     favorite_count DESC,
-    trainings.created_at DESC;
--- LIMIT @limit 
--- OFFSET @offset;
+    trainings.created_at DESC
+LIMIT @request_limit
+OFFSET @request_offset;
 
 -- name: GetOwnTrainingList :many
 SELECT 

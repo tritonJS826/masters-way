@@ -22,7 +22,6 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasTrainingTag{}
 // MwTrainingBffInternalSchemasTrainingTag struct for MwTrainingBffInternalSchemasTrainingTag
 type MwTrainingBffInternalSchemasTrainingTag struct {
 	Name string
-	Uuid string
 }
 
 type _MwTrainingBffInternalSchemasTrainingTag MwTrainingBffInternalSchemasTrainingTag
@@ -31,10 +30,9 @@ type _MwTrainingBffInternalSchemasTrainingTag MwTrainingBffInternalSchemasTraini
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasTrainingTag(name string, uuid string) *MwTrainingBffInternalSchemasTrainingTag {
+func NewMwTrainingBffInternalSchemasTrainingTag(name string) *MwTrainingBffInternalSchemasTrainingTag {
 	this := MwTrainingBffInternalSchemasTrainingTag{}
 	this.Name = name
-	this.Uuid = uuid
 	return &this
 }
 
@@ -70,30 +68,6 @@ func (o *MwTrainingBffInternalSchemasTrainingTag) SetName(v string) {
 	o.Name = v
 }
 
-// GetUuid returns the Uuid field value
-func (o *MwTrainingBffInternalSchemasTrainingTag) GetUuid() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Uuid
-}
-
-// GetUuidOk returns a tuple with the Uuid field value
-// and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasTrainingTag) GetUuidOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Uuid, true
-}
-
-// SetUuid sets field value
-func (o *MwTrainingBffInternalSchemasTrainingTag) SetUuid(v string) {
-	o.Uuid = v
-}
-
 func (o MwTrainingBffInternalSchemasTrainingTag) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -105,7 +79,6 @@ func (o MwTrainingBffInternalSchemasTrainingTag) MarshalJSON() ([]byte, error) {
 func (o MwTrainingBffInternalSchemasTrainingTag) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
-	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
 }
 
@@ -115,7 +88,6 @@ func (o *MwTrainingBffInternalSchemasTrainingTag) UnmarshalJSON(data []byte) (er
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"name",
-		"uuid",
 	}
 
 	allProperties := make(map[string]interface{})

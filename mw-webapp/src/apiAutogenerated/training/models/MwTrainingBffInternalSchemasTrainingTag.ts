@@ -25,12 +25,6 @@ export interface MwTrainingBffInternalSchemasTrainingTag {
      * @memberof MwTrainingBffInternalSchemasTrainingTag
      */
     name: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MwTrainingBffInternalSchemasTrainingTag
-     */
-    uuid: string;
 }
 
 /**
@@ -41,7 +35,6 @@ export function instanceOfMwTrainingBffInternalSchemasTrainingTag(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "uuid" in value;
 
     return isInstance;
 }
@@ -60,7 +53,6 @@ export function MwTrainingBffInternalSchemasTrainingTagFromJSONTyped(
     return {
         
         'name': json['name'],
-        'uuid': json['uuid'],
     };
 }
 
@@ -75,7 +67,6 @@ export function MwTrainingBffInternalSchemasTrainingTagToJSON(value?: MwTraining
     return {
         
         'name': value.name,
-        'uuid': value.uuid,
     };
 }
 

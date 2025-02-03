@@ -23,7 +23,6 @@ func NewTrainingService(
 }
 
 type GetTrainingListParams struct {
-	UserUUID     string
 	Page         int
 	Limit        int
 	TrainingName string
@@ -31,7 +30,9 @@ type GetTrainingListParams struct {
 
 func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrainingListParams) (*schemas.TrainingList, error) {
 	trainingListRaw, err := ts.trainingGRPC.GetTrainingList(ctx, &pb.GetTrainingListRequest{
-		UserUuid: params.UserUUID,
+		Page:         int32(params.Page),
+		Limit:        int32(params.Limit),
+		TrainingName: params.TrainingName,
 	})
 	if err != nil {
 		return &schemas.TrainingList{}, err
@@ -52,6 +53,8 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 			Owner:       owner,
 			CreatedAt:   trainingGrpc.GetCreatedAt(),
 			UpdatedAt:   trainingGrpc.GetUpdatedAt(),
+			// TODO update next line - get rid of stub
+			TrainingTags: make([]schemas.TrainingTag, 0),
 		}
 	})
 

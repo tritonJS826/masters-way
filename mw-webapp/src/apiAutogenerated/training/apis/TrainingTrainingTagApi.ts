@@ -29,7 +29,7 @@ export interface CreateTrainingTrainingTagRequest {
 
 export interface DeleteTrainingTrainingTagRequest {
     trainingId: string;
-    trainingTagId: string;
+    trainingTagName: string;
 }
 
 /**
@@ -81,8 +81,8 @@ export class TrainingTrainingTagApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling deleteTrainingTrainingTag.');
         }
 
-        if (requestParameters.trainingTagId === null || requestParameters.trainingTagId === undefined) {
-            throw new runtime.RequiredError('trainingTagId','Required parameter requestParameters.trainingTagId was null or undefined when calling deleteTrainingTrainingTag.');
+        if (requestParameters.trainingTagName === null || requestParameters.trainingTagName === undefined) {
+            throw new runtime.RequiredError('trainingTagName','Required parameter requestParameters.trainingTagName was null or undefined when calling deleteTrainingTrainingTag.');
         }
 
         const queryParameters: any = {};
@@ -90,7 +90,7 @@ export class TrainingTrainingTagApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagId}`.replace(`{${"trainingId"}}`, encodeURIComponent(String(requestParameters.trainingId))).replace(`{${"trainingTagId"}}`, encodeURIComponent(String(requestParameters.trainingTagId))),
+            path: `/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}`.replace(`{${"trainingId"}}`, encodeURIComponent(String(requestParameters.trainingId))).replace(`{${"trainingTagName"}}`, encodeURIComponent(String(requestParameters.trainingTagName))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,

@@ -123,15 +123,12 @@ func (q *Queries) GetMentoringTrainingList(ctx context.Context) ([]Training, err
 }
 
 const getOwnTrainingList = `-- name: GetOwnTrainingList :many
-
 SELECT 
     uuid, name, description, is_private, updated_at, created_at, owner_uuid
 FROM trainings
 WHERE trainings.owner_uuid = $1
 `
 
-// LIMIT @limit
-// OFFSET @offset;
 func (q *Queries) GetOwnTrainingList(ctx context.Context, ownerUuid pgtype.UUID) ([]Training, error) {
 	rows, err := q.db.Query(ctx, getOwnTrainingList, ownerUuid)
 	if err != nil {
@@ -218,10 +215,13 @@ func (q *Queries) GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID)
 
 const getTrainingList = `-- name: GetTrainingList :many
 SELECT
+    -- TODO: add filter by is private
     trainings.uuid,
     trainings.name,
+    trainings.description,
     trainings.is_private,
     trainings.owner_uuid,
+    trainings.created_at,
     trainings.updated_at,
     COALESCE(f.favorite_count, 0) AS favorite_count,
     ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
@@ -233,9 +233,9 @@ LEFT JOIN
     favorite_users_trainings fuc ON trainings.uuid = fuc.training_uuid
 LEFT JOIN
     training_tags ON training_tags.uuid IN (
-        SELECT tag_uuid
+        SELECT uuid
         FROM training_tags
-        WHERE training_uuid = trainings.uuid
+        WHERE uuid = trainings.uuid
     )
 LEFT JOIN (
     SELECT
@@ -251,19 +251,31 @@ LEFT JOIN
 LEFT JOIN
     trainings_students ON trainings_students.training_uuid = trainings.uuid
 WHERE
-    trainings.name ILIKE $1
+    trainings.name ILIKE $1 
+    AND
+    trainings.is_private = false
 GROUP BY
     trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
 ORDER BY
     favorite_count DESC,
     trainings.created_at DESC
+LIMIT $3
+OFFSET $2
 `
+
+type GetTrainingListParams struct {
+	TrainingName  pgtype.Text `json:"training_name"`
+	RequestOffset int32       `json:"request_offset"`
+	RequestLimit  int32       `json:"request_limit"`
+}
 
 type GetTrainingListRow struct {
 	Uuid             pgtype.UUID      `json:"uuid"`
 	Name             pgtype.Text      `json:"name"`
+	Description      pgtype.Text      `json:"description"`
 	IsPrivate        bool             `json:"is_private"`
 	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
 	FavoriteCount    int64            `json:"favorite_count"`
 	Tags             interface{}      `json:"tags"`
@@ -271,9 +283,9 @@ type GetTrainingListRow struct {
 	TrainingStudents interface{}      `json:"training_students"`
 }
 
-// TODO: add filter by is private
-func (q *Queries) GetTrainingList(ctx context.Context, trainingName pgtype.Text) ([]GetTrainingListRow, error) {
-	rows, err := q.db.Query(ctx, getTrainingList, trainingName)
+// lets add likes to response
+func (q *Queries) GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error) {
+	rows, err := q.db.Query(ctx, getTrainingList, arg.TrainingName, arg.RequestOffset, arg.RequestLimit)
 	if err != nil {
 		return nil, err
 	}
@@ -284,8 +296,10 @@ func (q *Queries) GetTrainingList(ctx context.Context, trainingName pgtype.Text)
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
+			&i.Description,
 			&i.IsPrivate,
 			&i.OwnerUuid,
+			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.FavoriteCount,
 			&i.Tags,

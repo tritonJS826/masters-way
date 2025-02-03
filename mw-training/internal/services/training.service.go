@@ -17,6 +17,7 @@ type TrainingRepository interface {
 	UpdateTraining(ctx context.Context, params db.UpdateTrainingParams) (db.Training, error)
 	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (db.Training, error)
 	GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.Training, error)
+	GetTrainingList(ctx context.Context, params db.GetTrainingListParams) ([]db.GetTrainingListRow, error)
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
 	WithTx(tx pgx.Tx) *db.Queries
 }
@@ -32,15 +33,46 @@ func NewTrainingService(pgxPool *pgxpool.Pool, trainingRepository TrainingReposi
 		trainingRepository: trainingRepository,
 	}
 }
-func (ts *TrainingService) GetTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]*pb.Training, error) {
-	dbTrainings, err := ts.trainingRepository.GetOwnTrainingList(ctx, userUuid)
+
+// TrainingName
+// RequestOffset
+// RequestLimit
+
+type GetTrainingListParams struct {
+	TrainingName  string
+	RequestOffset int32
+	RequestLimit  int32
+}
+
+func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrainingListParams) ([]*pb.Training, error) {
+	args := db.GetTrainingListParams{
+		TrainingName:  pgtype.Text{String: params.TrainingName, Valid: true},
+		RequestOffset: params.RequestOffset,
+		RequestLimit:  params.RequestLimit,
+	}
+
+	dbTrainings, err := ts.trainingRepository.GetTrainingList(ctx, args)
 	if err != nil {
 		return []*pb.Training{}, err
 	}
 
-	trainings := lo.Map(dbTrainings, func(training db.Training, _ int) *pb.Training {
+	// TODO: add
+	// FavoriteCount
+	// Tags
+	// TrainingMentors
+	// TrainingStudents
+
+	trainings := lo.Map(dbTrainings, func(training db.GetTrainingListRow, _ int) *pb.Training {
 		return &pb.Training{
-			Uuid: *utils.MarshalPgUUID(training.Uuid),
+			Uuid:      *utils.MarshalPgUUID(training.Uuid),
+			Name:      training.Name.String,
+			IsPrivate: false,
+			Owner: &pb.User{
+				Uuid: *utils.MarshalPgUUID(training.OwnerUuid),
+			},
+			Description: training.Description.String,
+			CreatedAt:   training.CreatedAt.Time.String(),
+			UpdatedAt:   training.UpdatedAt.Time.String(),
 		}
 	})
 
