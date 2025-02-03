@@ -6,10 +6,7 @@ import {Header, LOGO_TEXT} from "src/component/header/Header";
 import {testUserPreview} from "src/component/header/testUserPreview";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
-import {
-  mockPointerEvents,
-  restoreOriginalPointerEvents,
-} from "src/utils/mockPointerEvents";
+import {withMockPointerEvents} from "src/utils/mockPointerEvents";
 import {vi} from "vitest";
 
 const HEADER_CY = "header";
@@ -52,15 +49,15 @@ describe("Header component", () => {
     expect(STUB_FUNCTION_SET_THEME).toHaveBeenCalled();
   });
 
-  it("should call setLanguage function", async () => {
-    mockPointerEvents();
-    const triggerButton = screen.getByRole("combobox");
-    userEvent.click(triggerButton);
-    const uaOption = await screen.findByText("UA");
-    await act(async () => {
-      await userEvent.click(uaOption);
+  it("should call setLanguage function", () => {
+    withMockPointerEvents(async () => {
+      const triggerButton = screen.getByRole("combobox");
+      userEvent.click(triggerButton);
+      const uaOption = await screen.findByText("UA");
+      await act(async () => {
+        await userEvent.click(uaOption);
+      });
+      expect(STUB_FUNCTION_SET_LANGUAGE).toHaveBeenCalled();
     });
-    expect(STUB_FUNCTION_SET_LANGUAGE).toHaveBeenCalled();
-    restoreOriginalPointerEvents();
   });
 });
