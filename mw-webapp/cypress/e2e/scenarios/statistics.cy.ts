@@ -1,7 +1,7 @@
 import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {statisticsSelectors} from "cypress/scopesSelectors/statistics.Selectors";
-import statisticsData from "cypress/fixtures/statisticsFixture.json"
+// import statisticsDataFixture from "cypress/fixtures/statisticsFixture.json"
 import {LanguageService} from "src/service/LanguageService";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
@@ -10,6 +10,9 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
+import {statisticsData} from "cypress/testData/statisticTestData";
+import {periods} from "cypress/testData/statisticTestData";
+import {wayKeys} from "cypress/testData/statisticTestData";
 
 function openWayFromAllWayPageByClickingCard(wayTitle: string, filterOption: keyof typeof allWaysSelectors.filterViewBlock): void {
     cy.openAllWaysPage();
@@ -18,84 +21,73 @@ function openWayFromAllWayPageByClickingCard(wayTitle: string, filterOption: key
     allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();  
 };
 
-function checkOverallInfo(currentWindow: string, periodBlockTitle: string, way: string): void {
-    // // Get statistic period block titles used for locators for given window type 
-    // const titles = 
-    //     currentWindow === statisticsData.windowType.wayPage
-    //     ? statisticsData.periodBlockWayPageTitles
-    //     : statisticsData.periodBlockModalTitles;
+function checkOverallInfo(windowType: string, periodBlockTitle: string, way: string): void {
+    // Get the statistic period block depending on the given window
+    const currentPeriodBlock =
+        windowType === statisticsData.windowType.wayPage
+            ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
+            : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
 
-    // const currentPeriodBlockTitle = titles[periodBlockTitle as keyof typeof titles];
+    // Get statistic data for the given way        
+    const wayData = statisticsData.testWays[way as keyof typeof statisticsData.testWays];
 
-    // // Get statistiv data for given way and periodBlockTitle
-    // const wayData = statisticsData[way as keyof typeof statisticsData.way][periodBlockTitle as keyof typeof titles];
-
-
-    // Get the statistic period block title depending on the given window
-
-    const currentPeriodBlockTitle =
-        currentWindow === statisticsData.windowType.wayPage
-            ? statisticsData.periodBlockWayPageTitles[periodBlockTitle as keyof typeof statisticsData.periodBlockWayPageTitles]
-            : statisticsData.periodBlockModalTitles[periodBlockTitle as keyof typeof statisticsData.periodBlockModalTitles];
-            
     // Get statistic data for the given way and period
-    const wayData = 
-        currentWindow === statisticsData.windowType.wayPage
-            ? statisticsData[way as keyof typeof statisticsData.way][periodBlockTitle as keyof typeof statisticsData.periodBlockWayPageTitles]
-            : statisticsData[way as keyof typeof statisticsData.way][periodBlockTitle as keyof typeof statisticsData.periodBlockModalTitles];
+    const wayDataForPeriodBlock = 
+        windowType === statisticsData.windowType.wayPage
+            ? wayData.statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
+            : wayData.statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
 
     // Check "Overall Information" values for the given time period and in the given window
     const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
-    overallInfo.getTotalTime(currentPeriodBlockTitle)
+    overallInfo.getTotalTime(currentPeriodBlock)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayData.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        .should('have.text', `${wayDataForPeriodBlock.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 
-    overallInfo.getTotalReports(currentPeriodBlockTitle)
+    overallInfo.getTotalReports(currentPeriodBlock)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', wayData.totalReports);
+        .should('have.text', wayDataForPeriodBlock.totalReports);
 
-    overallInfo.getFinishedJobs(currentPeriodBlockTitle)
+    overallInfo.getFinishedJobs(currentPeriodBlock)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', wayData.finishedJobs);
+        .should('have.text', wayDataForPeriodBlock.finishedJobs);
 
-    overallInfo.getAvgTimePerCalendarDay(currentPeriodBlockTitle)
+    overallInfo.getAvgTimePerCalendarDay(currentPeriodBlock)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayData.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        .should('have.text', `${wayDataForPeriodBlock.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 
-    overallInfo.getAverageTimePerWorkingDay(currentPeriodBlockTitle)
+    overallInfo.getAverageTimePerWorkingDay(currentPeriodBlock)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayData.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        .should('have.text', `${wayDataForPeriodBlock.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 
-    overallInfo.getAvgJobTime(currentPeriodBlockTitle)
+    overallInfo.getAvgJobTime(currentPeriodBlock)
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayData.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        .should('have.text', `${wayDataForPeriodBlock.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 }
 
-function checkNumberOfLabelLines(currentWindow: string, periodTitle: string, way: string): void {
+function checkNumberOfLabelLines(windowType: string, periodBlockTitle: string, way: string): void {
     // Get the statistic period block title depending on the given window
-    const periodBlockTitle =
-        currentWindow === statisticsData.windowType.wayPage
-            ? statisticsData.periodBlockWayPageTitles[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles]
-            : statisticsData.periodBlockModalTitles[periodTitle as keyof typeof statisticsData.periodBlockModalTitles];
+    const currentPeriodBlock =
+        windowType === statisticsData.windowType.wayPage
+            ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
+            : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
     
-    // Determine label statistic lines
-    // const wayData = statisticsData[way as keyof typeof statisticsData.way];
-    // const labelStatistic = wayData?.labelStatistic?.[periodTitle as keyof typeof wayData.labelStatistic];
-
-    // const labelLinesLength = labelStatistic ? labelStatistic.length : 0; 
+    // Get statistic data for the given way        
+    const wayData = statisticsData.testWays[way as keyof typeof statisticsData.testWays];
+ 
+    // Get the amount of label statistic lines
     const labelLinesLength = 
-        currentWindow === statisticsData.windowType.wayPage
-            ? statisticsData[way as keyof typeof statisticsData.way].labelStatistic[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles].length
-            : statisticsData[way as keyof typeof statisticsData.way].labelStatistic[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles].length;
+        windowType === statisticsData.windowType.wayPage
+            ? Object.keys(wayData.labelStatistics[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]).length
+            : Object.keys(wayData.labelStatistics[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal]).length;
 
-    // Check label lines amount for the given context
-    if (currentWindow === statisticsData.windowType.wayPage) {
-        statisticsSelectors.statistics.periodBlocks.periodBlock(periodBlockTitle)
+    // Check label lines amount for the given window
+    if (windowType === statisticsData.windowType.wayPage) {
+        statisticsSelectors.statistics.periodBlocks.periodBlock(currentPeriodBlock)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
             .should('have.length', labelLinesLength);
-    } else if (currentWindow === statisticsData.windowType.modal) {
+    } else if (windowType === statisticsData.windowType.wayPage) {
         statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodTitle as keyof typeof statisticsData.periodBlockWayPageTitles].en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage].en)}"]`)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
             .should('have.length', labelLinesLength);
     }
@@ -172,16 +164,16 @@ afterEach(() => {
 describe('Statistics tests', () => {
 
     it.only('Scenario_Student_wayStatistics', () => {
-        openWayFromAllWayPageByClickingCard(statisticsData.johnDoeWay.title, 'getDayReportsSelectOptionAtLeast5');
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title as string, 'getDayReportsSelectOptionAtLeast5');
 
         statisticsSelectors.getDaysFromStart()
-            .should('have.text', `${statisticsData.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
+            .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
-        checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.wayPage, periods.total, wayKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.wayPage, periods.lastWeek, wayKeys.johnDoeWay);
 
-        checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
-        checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.total, wayKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.lastWeek, wayKeys.johnDoeWay);
         
         // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 0);
         // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 1);
@@ -196,13 +188,13 @@ describe('Statistics tests', () => {
 
         statisticsSelectors.statistics.getModal().should('be.visible');
 
-        checkOverallInfo(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastMonth, statisticsData.way.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, periods.total, wayKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, periods.lastMonth, wayKeys.johnDoeWay);
+        checkOverallInfo(statisticsData.windowType.modal, periods.lastWeek, wayKeys.johnDoeWay);
 
-        checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.total, statisticsData.way.johnDoeWay);
-        checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastMonth, statisticsData.way.johnDoeWay);
-        checkNumberOfLabelLines(statisticsData.windowType.modal, statisticsData.allPeriodBlockTitles.lastWeek, statisticsData.way.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.total, wayKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.lastMonth, wayKeys.johnDoeWay);
+        checkNumberOfLabelLines(statisticsData.windowType.modal, periods.lastWeek, wayKeys.johnDoeWay);
 
         // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 0);
         // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 1);
@@ -228,12 +220,12 @@ describe('Statistics tests', () => {
 
         // Check "Total reports" and "Total" in the header of day report table on the way page
         dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.johnDoeWay.statistic.total.totalReports}`);
 
         dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
 
         dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.johnDoeWay.statistic.total.totalReports})`);
     });
 
     // it('Scenario_Mentor_CompositeWayStatistics', () => {
