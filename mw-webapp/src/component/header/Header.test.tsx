@@ -54,9 +54,7 @@ describe("Header component", () => {
       const triggerButton = screen.getByRole("combobox");
       userEvent.click(triggerButton);
       const uaOption = await screen.findByText("UA");
-      await act(async () => {
-        await userEvent.click(uaOption);
-      });
+      await act(() => userEvent.click(uaOption));
       expect(STUB_FUNCTION_SET_LANGUAGE).toHaveBeenCalled();
     });
   });
