@@ -14,75 +14,118 @@ import {statisticsData} from "cypress/testData/statisticTestData";
 import {periods} from "cypress/testData/statisticTestData";
 import {wayTitleKeys} from "cypress/testData/statisticTestData";
 
-function openWayFromAllWayPageByClickingCard(wayTitle: string, filterOption: keyof typeof allWaysSelectors.filterViewBlock): void {
+const openWayFromAllWayPageByClickingCard = (wayTitle: string, filterOption: keyof typeof allWaysSelectors.filterViewBlock) => {
     cy.openAllWaysPage();
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
     allWaysSelectors.filterViewBlock[filterOption]().click();
-    allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();  
+    allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
 };
 
-function checkOverallInfo(windowType: string, periodBlockTitle: string, way: string): void {
-    // Get the statistic period block depending on the given window
-    const currentPeriodBlock =
-        windowType === statisticsData.windowType.wayPage
-            ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
-            : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
+const getPeriodBlockTitleForWindow = (windowType: string, periodBlockTitle: string) =>
+    windowType === statisticsData.windowType.wayPage
+        ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
+        : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
 
-    // Get statistic data for the given way and period
-    const wayDataForPeriodBlock = 
+const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: string) => {
+    // Get the period block title and statistic data for the given window type
+    const currentWindowPeriodBlockTitle = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
+    // Get the statistic data for the given way and period block, depending on the window type
+    const currentWindowWayData = 
         windowType === statisticsData.windowType.wayPage
             ? statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
             : statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
 
     // Check "Overall Information" values for the given time period and in the given window
-    const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
-    overallInfo.getTotalTime(currentPeriodBlock)
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayDataForPeriodBlock.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-
-    overallInfo.getTotalReports(currentPeriodBlock)
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', wayDataForPeriodBlock.totalReports);
-
-    overallInfo.getFinishedJobs(currentPeriodBlock)
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', wayDataForPeriodBlock.finishedJobs);
-
-    overallInfo.getAvgTimePerCalendarDay(currentPeriodBlock)
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayDataForPeriodBlock.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-
-    overallInfo.getAverageTimePerWorkingDay(currentPeriodBlock)
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayDataForPeriodBlock.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-
-    overallInfo.getAvgJobTime(currentPeriodBlock)
-        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        .should('have.text', `${wayDataForPeriodBlock.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-}
-
-function checkNumberOfLabelLines(windowType: string, periodBlockTitle: string, way: string): void {
-    // Get the statistic period block title depending on the given window
-    const currentPeriodBlock =
-        windowType === statisticsData.windowType.wayPage
-            ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
-            : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
+    const checkValue = (selector: any, value: string) =>
+        selector.find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+            .should('have.text', value);
  
+    const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
+
+    checkValue(overallInfo.getTotalTime(currentWindowPeriodBlockTitle), `${currentWindowWayData.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+    checkValue(overallInfo.getTotalReports(currentWindowPeriodBlockTitle), currentWindowWayData.totalReports);
+    checkValue(overallInfo.getFinishedJobs(currentWindowPeriodBlockTitle), currentWindowWayData.finishedJobs);
+    checkValue(overallInfo.getAvgTimePerCalendarDay(currentWindowPeriodBlockTitle), `${currentWindowWayData.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+    checkValue(overallInfo.getAverageTimePerWorkingDay(currentWindowPeriodBlockTitle), `${currentWindowWayData.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+    checkValue(overallInfo.getAvgJobTime(currentWindowPeriodBlockTitle), `${currentWindowWayData.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+};
+
+// const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: string) => {
+//     // Get the period block title for the given window type
+//     const currentWindowPeriodBlockTitle = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
+
+//     // Get the statistic data for the given way and period block, depending on the window type
+//     const currentWindowWayData = 
+//         windowType === statisticsData.windowType.wayPage
+//             ? statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
+//             : statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
+
+//     // Check "Overall Information" values for the given time period and in the given window
+//     const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
+//     overallInfo.getTotalTime(currentWindowPeriodBlockTitle)
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+//         .should('have.text', `${currentWindowWayData.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+
+//     overallInfo.getTotalReports(currentWindowPeriodBlockTitle)
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+//         .should('have.text', currentWindowWayData.totalReports);
+
+//     overallInfo.getFinishedJobs(currentWindowPeriodBlockTitle)
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+//         .should('have.text', currentWindowWayData.finishedJobs);
+
+//     overallInfo.getAvgTimePerCalendarDay(currentWindowPeriodBlockTitle)
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+//         .should('have.text', `${currentWindowWayData.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+
+//     overallInfo.getAverageTimePerWorkingDay(currentWindowPeriodBlockTitle)
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+//         .should('have.text', `${currentWindowWayData.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+
+//     overallInfo.getAvgJobTime(currentWindowPeriodBlockTitle)
+//         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+//         .should('have.text', `${currentWindowWayData.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+// }
+
+
+const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, way: string) => {
+    // Get the period block title for the given window type
+    const currentWindowPeriodBlockTitle = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
+
     // Get the amount of label statistic lines
     const labelLinesLength = Object.keys(statisticsData.testWays[way].labelStatistics[periodBlockTitle]).length;
 
-    // Check label lines amount for the given window
-    if (windowType === statisticsData.windowType.wayPage) {
-        statisticsSelectors.statistics.periodBlocks.periodBlock(currentPeriodBlock)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
-            .should('have.length', labelLinesLength);
-    } else if (windowType === statisticsData.windowType.wayPage) {
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage].en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
-            .should('have.length', labelLinesLength);
-    }
+    // Get the period block selector depending on the window type
+    const periodBlockSelector = 
+        windowType === statisticsData.windowType.wayPage
+            ? statisticsSelectors.statistics.periodBlocks.periodBlock(currentWindowPeriodBlockTitle)
+            : statisticsSelectors.statistics.getModal()
+                .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage].en)}"]`);
+
+    // Check label line amount
+    periodBlockSelector.find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
+        .should('have.length', labelLinesLength);
 };
+
+// const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, way: string) => {
+//     // Get the period block title for the given window type
+//     const currentWindowPeriodBlockTitle = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
+ 
+//     // Get the amount of label statistic lines
+//     const labelLinesLength = Object.keys(statisticsData.testWays[way].labelStatistics[periodBlockTitle]).length;
+
+//     // Check label lines amount for the given window
+//     if (windowType === statisticsData.windowType.wayPage) {
+//         statisticsSelectors.statistics.periodBlocks.periodBlock(currentWindowPeriodBlockTitle)
+//             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
+//             .should('have.length', labelLinesLength);
+//     } else if (windowType === statisticsData.windowType.wayPage) {
+//         statisticsSelectors.statistics.getModal()
+//             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage].en)}"]`)
+//             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
+//             .should('have.length', labelLinesLength);
+//     }
+// };
 
 // function checkLabelLineData(context: PageOrModalWindow, periodTitle: PeriodBlockTitle, way: Way, lineIndex: number): void {
 //     // Get statistics for the way in the given period 
