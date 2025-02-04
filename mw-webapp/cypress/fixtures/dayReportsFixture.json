@@ -5,6 +5,7 @@
     },
 
     "jobDoneDescription": "First job done",
+    "jobDoneDescriptionNewLine": "New line. First job done",
     "timeSpentOnJob": "125",
 
     "planDescription": "First plan description",
