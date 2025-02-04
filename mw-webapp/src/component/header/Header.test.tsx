@@ -49,13 +49,12 @@ describe("Header component", () => {
     expect(STUB_FUNCTION_SET_THEME).toHaveBeenCalled();
   });
 
-  it("should call setLanguage function", async () => {
+  it("should call setLanguage function", async () =>
     await withMockPointerEvents(async () => {
       const triggerButton = screen.getByRole("combobox");
       userEvent.click(triggerButton);
       const uaOption = await screen.findByText("UA");
-      await act(() => userEvent.click(uaOption));
+      await act(async () => await userEvent.click(uaOption));
       expect(STUB_FUNCTION_SET_LANGUAGE).toHaveBeenCalled();
-    });
-  });
+    }));
 });
