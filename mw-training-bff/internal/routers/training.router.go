@@ -18,8 +18,9 @@ func (mr *trainingRouter) setTrainingRoutes(rg *gin.RouterGroup) {
 	trainings := rg.Group("/trainings")
 	trainings.GET("", mr.trainingController.GetTrainingList)
 	trainings.GET(":trainingId", mr.trainingController.GetTrainingById)
-	trainings.GET(":trainingId/user/:userId", mr.trainingController.GetTrainingListByUser)
 	trainings.POST(":trainingId", mr.trainingController.CreateTraining)
 	trainings.PATCH(":trainingId", mr.trainingController.UpdateTraining)
 	trainings.DELETE(":trainingId", mr.trainingController.DeleteTraining)
+
+	trainings.GET("/users/:userId", mr.trainingController.GetTrainingListByUser)
 }

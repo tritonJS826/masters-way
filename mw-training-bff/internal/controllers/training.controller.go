@@ -162,7 +162,9 @@ func (nc *TrainingController) GetTrainingListByUser(ctx *gin.Context) {
 	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
 	// utils.HandleErrorGin(ctx, err)
 
-	stub := schemas.TrainingList{}
+	stub := schemas.TrainingList{
+		Trainings: make([]schemas.TrainingPreview, 0),
+	}
 
 	ctx.JSON(http.StatusOK, stub)
 }
