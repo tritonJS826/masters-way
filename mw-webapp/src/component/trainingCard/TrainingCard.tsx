@@ -9,8 +9,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {UserPlain} from "src/model/businessModel/User";
-import {TrainingPreview, TrainingTag} from "src/model/businessModelPreview/TrainingPreview";
+import {TrainingPreview, TrainingTag, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -77,7 +76,7 @@ const renderTrainingTags = (trainingTags: TrainingTag[]) => {
 /**
  * Render mentors
  */
-const renderMentors = (mentors: UserPlain[], mentorsText: string) => {
+const renderMentors = (mentors: UserPreview[], mentorsText: string) => {
   return (
     <HorizontalContainer className={styles.mentors}>
       <p>
