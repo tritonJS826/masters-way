@@ -156,7 +156,7 @@ export const AllTrainingsPage = observer(() => {
             }
           </HorizontalGridContainer>
         }
-        {allTrainingsPageStore.isMoreTrainingsExist &&
+        {allTrainingsPageStore.getIsMoreTrainingsExist &&
         <Button
           value={LanguageService.allTrainings.loadMoreButton[language]}
           onClick={() => allTrainingsPageStore.setLoadedTrainings(allTrainingsPageSettings.trainingName)}
