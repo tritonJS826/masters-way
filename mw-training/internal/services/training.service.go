@@ -18,6 +18,7 @@ type TrainingRepository interface {
 	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (db.Training, error)
 	GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.Training, error)
 	GetTrainingList(ctx context.Context, params db.GetTrainingListParams) ([]db.GetTrainingListRow, error)
+	CountTrainings(ctx context.Context, trainingName string) (int64, error)
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
 	WithTx(tx pgx.Tx) *db.Queries
 }
@@ -44,7 +45,12 @@ type GetTrainingListParams struct {
 	RequestLimit  int32
 }
 
-func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrainingListParams) ([]*pb.Training, error) {
+func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrainingListParams) (*pb.TrainingPreviewList, error) {
+	trainingsSize, err := ts.trainingRepository.CountTrainings(ctx, params.TrainingName)
+	if err != nil {
+		return &pb.TrainingPreviewList{}, err
+	}
+
 	args := db.GetTrainingListParams{
 		TrainingName:  params.TrainingName,
 		RequestOffset: params.RequestOffset,
@@ -53,7 +59,7 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 
 	dbTrainings, err := ts.trainingRepository.GetTrainingList(ctx, args)
 	if err != nil {
-		return []*pb.Training{}, err
+		return &pb.TrainingPreviewList{}, err
 	}
 
 	// TODO: add
@@ -77,7 +83,10 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 		}
 	})
 
-	return trainings, nil
+	return &pb.TrainingPreviewList{
+		Size:         int32(trainingsSize),
+		TrainingList: trainings,
+	}, nil
 }
 
 func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (pb.Training, error) {

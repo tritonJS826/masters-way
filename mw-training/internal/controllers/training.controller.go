@@ -48,15 +48,12 @@ func (tc *TrainingController) GetTrainingList(ctx context.Context, in *pb.GetTra
 		RequestLimit:  limit,
 	}
 
-	trainings, err := tc.trainingService.GetTrainingList(ctx, args)
+	trainingList, err := tc.trainingService.GetTrainingList(ctx, args)
 	if err != nil {
 		return nil, err
 	}
 
-	return &pb.TrainingPreviewList{
-		Size:         int32(len(trainings)),
-		TrainingList: trainings,
-	}, nil
+	return trainingList, nil
 }
 
 func (tc *TrainingController) GetTrainingListForUser(ctx context.Context, in *pb.GetTrainingListForUserRequest) (*pb.TrainingPreviewList, error) {
