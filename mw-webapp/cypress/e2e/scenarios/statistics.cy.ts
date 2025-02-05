@@ -14,10 +14,10 @@ import {statisticsData} from "cypress/testData/statisticTestData";
 import {periods} from "cypress/testData/statisticTestData";
 import {wayTitleKeys} from "cypress/testData/statisticTestData";
 
-const openWayFromAllWayPageByClickingCard = (wayTitle: string, filterOption: keyof typeof allWaysSelectors.filterViewBlock) => {
+const openWayFromAllWayPageByClickingCard = (wayTitle: any, minDayRepotrFilterOption: () => Cypress.Chainable<JQuery<HTMLElement>>) => {
     cy.openAllWaysPage();
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock[filterOption]().click();
+    minDayRepotrFilterOption().click();
     allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
 };
 
@@ -32,6 +32,7 @@ const getPeriodBlockTitleForWindow = (windowType: string, periodBlockTitle: stri
 const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: string) => {
     // Get the period block title and statistic data for the given window type
     const periodBlockTitleForWindow = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
+    
     // Get the statistic data for the given way and period block, depending on the window type
     const wayStatistics = 
         windowType === statisticsData.windowType.wayPage
@@ -96,7 +97,7 @@ const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, w
     const periodBlockTitleForWindow = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
 
     // Get the amount of label statistic lines
-    const expectedLinesCount = Object.keys(statisticsData.testWays[way].labelStatistics[periodBlockTitle]).length;
+    const expectedLabelLinesCount = Object.keys(statisticsData.testWays[way].labelStatistics[periodBlockTitle]).length;
 
     // Get the selector for the period block depending on the window type
     const getPeriodBlockSelector = () => {
@@ -106,7 +107,7 @@ const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, w
         return statisticsSelectors.statistics.getModal().find(
             `[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(
                 LanguageService.way.statisticsBlock[
-                    periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage
+                    periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal
                 ].en
             )}"]`
         );
@@ -116,7 +117,7 @@ const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, w
 
     // Verify that the number of label statistic lines matches the expected count
     periodBlockSelector.find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
-        .should('have.length', expectedLinesCount);
+        .should('have.length', expectedLabelLinesCount);
 };
 
 // const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, way: string) => {
@@ -210,7 +211,7 @@ afterEach(() => {
 describe('Statistics tests', () => {
 
     it.only('Scenario_Student_wayStatistics', () => {
-        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title as string, 'getDayReportsSelectOptionAtLeast5');
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5);
 
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
