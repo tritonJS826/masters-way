@@ -5,7 +5,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "basePath": "/training",
+    "basePath": "/mw-training",
     "paths": {
         "/favoriteUserTrainings/{trainingId}": {
             "post": {

@@ -64,9 +64,6 @@ export const AllTrainingsPage = observer(() => {
       dependency: [debouncedName],
     });
 
-  const isMoreTrainingsExist = allTrainingsPageStore.allTrainingsAmount > 0;
-  // AllTrainingsPageStore.allTrainings.length
-
   if (!allTrainingsPageStore.allTrainings) {
     return (
       <Loader
@@ -159,7 +156,7 @@ export const AllTrainingsPage = observer(() => {
             }
           </HorizontalGridContainer>
         }
-        {!!isMoreTrainingsExist &&
+        {allTrainingsPageStore.isMoreTrainingsExist &&
         <Button
           value={LanguageService.allTrainings.loadMoreButton[language]}
           onClick={() => allTrainingsPageStore.setLoadedTrainings(allTrainingsPageSettings.trainingName)}

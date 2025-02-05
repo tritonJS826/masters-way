@@ -1340,7 +1340,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/training",
+	BasePath:         "/mw-training",
 	Schemes:          []string{},
 	Title:            "Masters way training-bff API",
 	Description:      "",

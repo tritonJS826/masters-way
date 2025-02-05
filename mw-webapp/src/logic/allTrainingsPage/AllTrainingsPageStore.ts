@@ -26,6 +26,11 @@ export class AllTrainingsPageStore {
   public pagePagination: number = DEFAULT_PAGE_PAGINATION_VALUE;
 
   /**
+   * Is more trainings exist
+   */
+  public isMoreTrainingsExist: boolean = false;
+
+  /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
@@ -75,6 +80,8 @@ export class AllTrainingsPageStore {
       trainingName,
     });
 
+    this.setIsMoreTrainingsExist();
+
     return trainings;
   };
 
@@ -93,6 +100,7 @@ export class AllTrainingsPageStore {
       onSuccess: this.onSuccess,
     });
 
+    this.setIsMoreTrainingsExist();
     this.isInitialized = true;
 
   }
@@ -126,6 +134,13 @@ export class AllTrainingsPageStore {
   private onSuccess = (params: AllTrainingsParams) => {
     this.setTrainings(params.trainingsPreview);
     this.setTrainingsAmount(params.size);
+  };
+
+  /**
+   * Set isMoreTrainings exist
+   */
+  private setIsMoreTrainingsExist = () => {
+    this.isMoreTrainingsExist = this.allTrainingsAmount > this.allTrainings.length;
   };
 
 }

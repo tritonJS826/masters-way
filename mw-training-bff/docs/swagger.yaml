@@ -1,4 +1,4 @@
-basePath: /training
+basePath: /mw-training
 definitions:
   mw-training-bff_internal_schemas.CreatePracticeMaterialPayload:
     properties:
