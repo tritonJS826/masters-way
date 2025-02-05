@@ -1300,7 +1300,7 @@ func NewDevClient(cc grpc.ClientConnInterface) DevClient {
 
 func (c *devClient) ResetDB(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/training.Dev/resetDB", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/training.Dev/ResetDB", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1345,7 +1345,7 @@ func _Dev_ResetDB_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/training.Dev/resetDB",
+		FullMethod: "/training.Dev/ResetDB",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DevServer).ResetDB(ctx, req.(*emptypb.Empty))
@@ -1361,7 +1361,7 @@ var Dev_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DevServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "resetDB",
+			MethodName: "ResetDB",
 			Handler:    _Dev_ResetDB_Handler,
 		},
 	},

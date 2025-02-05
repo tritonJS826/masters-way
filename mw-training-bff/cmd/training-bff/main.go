@@ -21,7 +21,7 @@ import (
 
 // @title     Masters way training-bff API
 // @version 1.0
-// @BasePath  /training
+// @BasePath  /mw-training
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {

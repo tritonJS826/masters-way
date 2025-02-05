@@ -58,7 +58,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes() {
-	training := r.Gin.Group("/training" /*auth.HandleHeaders()*/)
+	training := r.Gin.Group("/mw-training" /*auth.HandleHeaders()*/)
 
 	r.trainingTrainingTagRouter.setTrainingTrainingTagRoutes(training)
 	r.trainingStudentRouter.setTrainingStudentRoutes(training)

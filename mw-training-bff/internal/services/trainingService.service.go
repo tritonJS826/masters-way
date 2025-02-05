@@ -55,6 +55,8 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 			UpdatedAt:   trainingGrpc.GetUpdatedAt(),
 			// TODO update next line - get rid of stub
 			TrainingTags: make([]schemas.TrainingTag, 0),
+			// TODO update next line - get rid of stub
+			Mentors: make([]schemas.User, 0),
 		}
 	})
 

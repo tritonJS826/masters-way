@@ -58,51 +58,51 @@ interface TrainingCardProps {
 }
 
 /**
+ * Render training tags
+ */
+const renderTrainingTags = (trainingTags: TrainingTag[]) => {
+  return (
+    <HorizontalContainer className={styles.trainingTags}>
+      {trainingTags.map((trainingTag) => (
+        <Tag
+          tagName={trainingTag.name}
+          key={trainingTag.uuid}
+          type={TagType.CARD_TAG}
+        />
+      ))}
+    </HorizontalContainer>
+  );
+};
+
+/**
+ * Render mentors
+ */
+const renderMentors = (mentors: UserPlain[], mentorsText: string) => {
+  return (
+    <HorizontalContainer className={styles.mentors}>
+      <p>
+        {mentorsText}
+      </p>
+      {mentors.map((mentor) => (
+        <Tooltip
+          key={mentor.name}
+          position={PositionTooltip.BOTTOM}
+          content={mentor.name}
+        >
+          <Avatar
+            alt={mentor.name}
+            src={mentor.imageUrl}
+          />
+        </Tooltip>
+      ))}
+    </HorizontalContainer>
+  );
+};
+
+/**
  * TrainingCard component
  */
 export const TrainingCard = observer((props: TrainingCardProps) => {
-
-  /**
-   * Render training tags
-   */
-  const renderTrainingTags = (trainingTags: TrainingTag[]) => {
-    return (
-      <HorizontalContainer className={styles.trainingTags}>
-        {trainingTags.map((trainingTag) => (
-          <Tag
-            tagName={trainingTag.name}
-            key={trainingTag.uuid}
-            type={TagType.CARD_TAG}
-          />
-        ))}
-      </HorizontalContainer>
-    );
-  };
-
-  /**
-   * Render mentors
-   */
-  const renderMentors = (mentors: UserPlain[]) => {
-    return (
-      <HorizontalContainer className={styles.mentors}>
-        <p>
-          {props.mentorsText}
-        </p>
-        {mentors.map((mentor) => (
-          <Tooltip
-            key={mentor.name}
-            position={PositionTooltip.BOTTOM}
-            content={mentor.name}
-          >
-            <Avatar
-              alt={mentor.name}
-              src={mentor.imageUrl}
-            />
-          </Tooltip>
-        ))}
-      </HorizontalContainer>
-    );
-  };
 
   return (
     <Link
@@ -134,7 +134,7 @@ export const TrainingCard = observer((props: TrainingCardProps) => {
                   name={"UsersIcon"}
                   className={styles.icon}
                 />
-                {props.trainingPreview.studentIds.length}
+                {props.trainingPreview.studentsAmount}
               </Tooltip>
               <Tooltip
                 position={PositionTooltip.BOTTOM}
@@ -188,7 +188,7 @@ export const TrainingCard = observer((props: TrainingCardProps) => {
                 <Text text={props.trainingPreview.owner.name} />
               </HorizontalContainer>
             </Tooltip>
-            {renderMentors(props.trainingPreview.mentors)}
+            {renderMentors(props.trainingPreview.mentors, props.mentorsText)}
           </HorizontalContainer>
         </VerticalContainer>
       </VerticalContainer>

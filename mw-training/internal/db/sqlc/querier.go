@@ -38,7 +38,33 @@ type Querier interface {
 	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error)
 	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]Topic, error)
 	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (Training, error)
-	// lets add likes to response
+	// LEFT JOIN
+	//     favorite_users_trainings fuc ON trainings.uuid = fuc.training_uuid
+	// LEFT JOIN
+	//     training_tags ON training_tags.uuid IN (
+	//         SELECT uuid
+	//         FROM training_tags
+	//         WHERE uuid = trainings.uuid
+	//     )
+	// -- lets add likes to response
+	// LEFT JOIN (
+	//     SELECT
+	//         training_uuid,
+	//         COUNT(user_uuid) AS favorite_count
+	//     FROM
+	//         favorite_users_trainings
+	//     GROUP BY
+	//         training_uuid
+	// ) f ON f.training_uuid = trainings.uuid
+	// LEFT JOIN
+	//     trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
+	// LEFT JOIN
+	//     trainings_students ON trainings_students.training_uuid = trainings.uuid
+	// GROUP BY
+	//     trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
+	// ORDER BY
+	//     favorite_count DESC,
+	//     trainings.created_at DESC
 	GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error)
 	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
 	// INSERT INTO "users_rooms" ("user_uuid", "room_uuid", "user_role", "is_room_blocked")

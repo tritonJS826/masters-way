@@ -219,46 +219,19 @@ SELECT
     trainings.uuid,
     trainings.name,
     trainings.description,
-    trainings.is_private,
     trainings.owner_uuid,
     trainings.created_at,
-    trainings.updated_at,
-    COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+    trainings.updated_at
+    -- COALESCE(f.favorite_count, 0) AS favorite_count,
+    -- ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
+    -- ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
+    -- ARRAY_AGG(trainings_students.student_uuid) AS training_students
 FROM
     trainings
-LEFT JOIN
-    favorite_users_trainings fuc ON trainings.uuid = fuc.training_uuid
-LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
-LEFT JOIN (
-    SELECT
-        training_uuid,
-        COUNT(user_uuid) AS favorite_count
-    FROM
-        favorite_users_trainings
-    GROUP BY
-        training_uuid
-) f ON f.training_uuid = trainings.uuid
-LEFT JOIN
-    trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
-LEFT JOIN
-    trainings_students ON trainings_students.training_uuid = trainings.uuid
 WHERE
-    trainings.name ILIKE $1 
+    (LOWER(trainings.name) LIKE '%' || LOWER($1) || '%' OR $1 = '')
     AND
     trainings.is_private = false
-GROUP BY
-    trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
-ORDER BY
-    favorite_count DESC,
-    trainings.created_at DESC
 LIMIT $3
 OFFSET $2
 `
@@ -270,20 +243,54 @@ type GetTrainingListParams struct {
 }
 
 type GetTrainingListRow struct {
-	Uuid             pgtype.UUID      `json:"uuid"`
-	Name             string           `json:"name"`
-	Description      string           `json:"description"`
-	IsPrivate        bool             `json:"is_private"`
-	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
-	CreatedAt        pgtype.Timestamp `json:"created_at"`
-	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
-	FavoriteCount    int64            `json:"favorite_count"`
-	Tags             interface{}      `json:"tags"`
-	TrainingMentors  interface{}      `json:"training_mentors"`
-	TrainingStudents interface{}      `json:"training_students"`
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
 }
 
-// lets add likes to response
+// LEFT JOIN
+//
+//	favorite_users_trainings fuc ON trainings.uuid = fuc.training_uuid
+//
+// LEFT JOIN
+//
+//	training_tags ON training_tags.uuid IN (
+//	    SELECT uuid
+//	    FROM training_tags
+//	    WHERE uuid = trainings.uuid
+//	)
+//
+// -- lets add likes to response
+// LEFT JOIN (
+//
+//	SELECT
+//	    training_uuid,
+//	    COUNT(user_uuid) AS favorite_count
+//	FROM
+//	    favorite_users_trainings
+//	GROUP BY
+//	    training_uuid
+//
+// ) f ON f.training_uuid = trainings.uuid
+// LEFT JOIN
+//
+//	trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
+//
+// LEFT JOIN
+//
+//	trainings_students ON trainings_students.training_uuid = trainings.uuid
+//
+// GROUP BY
+//
+//	trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
+//
+// ORDER BY
+//
+//	favorite_count DESC,
+//	trainings.created_at DESC
 func (q *Queries) GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error) {
 	rows, err := q.db.Query(ctx, getTrainingList, arg.TrainingName, arg.RequestOffset, arg.RequestLimit)
 	if err != nil {
@@ -297,14 +304,9 @@ func (q *Queries) GetTrainingList(ctx context.Context, arg GetTrainingListParams
 			&i.Uuid,
 			&i.Name,
 			&i.Description,
-			&i.IsPrivate,
 			&i.OwnerUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
-			&i.FavoriteCount,
-			&i.Tags,
-			&i.TrainingMentors,
-			&i.TrainingStudents,
 		); err != nil {
 			return nil, err
 		}

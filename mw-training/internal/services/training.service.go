@@ -62,6 +62,7 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 	// TrainingMentors
 	// TrainingStudents
 
+	println(len(dbTrainings))
 	trainings := lo.Map(dbTrainings, func(training db.GetTrainingListRow, _ int) *pb.Training {
 		return &pb.Training{
 			Uuid:      *utils.MarshalPgUUID(training.Uuid),
