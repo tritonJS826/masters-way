@@ -30,9 +30,8 @@ describe("HorizontalContainer", () => {
   });
 
   it("should renders children in correct order", () => {
-    CHILDRENS_TEXT.forEach((text) => {
-      expect(screen.getByText(text)).toBeInTheDocument();
-    });
+    const children = screen.getAllByText(/Example text \d/);
+    expect(children.map((child) => child.textContent)).toEqual(CHILDRENS_TEXT);
   });
 
 });
