@@ -25,7 +25,7 @@ func (tc *TrainingController) CreateNewTraining(ctx context.Context, in *pb.Crea
 	name := in.GetName()
 
 	arg := db.CreateTrainingParams{
-		Name: pgtype.Text{String: name, Valid: true},
+		Name: name,
 	}
 
 	training, err := tc.trainingService.CreateTraining(ctx, arg)

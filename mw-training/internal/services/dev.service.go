@@ -21,8 +21,8 @@ type DevService struct {
 	devRepository DevRepository
 }
 
-func NewDevService(pool *pgxpool.Pool, roomsRepository DevRepository) *DevService {
-	return &DevService{pool, roomsRepository}
+func NewDevService(pool *pgxpool.Pool, trainingsRepository DevRepository) *DevService {
+	return &DevService{pool, trainingsRepository}
 }
 
 func (ds *DevService) ResetDB(ctx context.Context) error {
@@ -41,10 +41,10 @@ func (ds *DevService) ResetDB(ctx context.Context) error {
 		return err
 	}
 
-	// err = ds.devRepository.RegenerateDbData(ctx)
-	// if err != nil {
-	// 	return err
-	// }
+	err = ds.devRepository.RegenerateDbData(ctx)
+	if err != nil {
+		return err
+	}
 
 	ds.pgxPool.Reset()
 

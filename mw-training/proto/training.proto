@@ -56,7 +56,7 @@ service TopicsService {
 }
 
 service Dev {
-  rpc resetDB(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc ResetDB(google.protobuf.Empty) returns (google.protobuf.Empty);
 }
 
 message CreateTrainingTagRequest {

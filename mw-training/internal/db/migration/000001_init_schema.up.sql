@@ -2,8 +2,8 @@ SET TIMEZONE = 'UTC';
 
 CREATE TABLE trainings (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "name" VARCHAR(50),
-    "description" VARCHAR(4096),
+    "name" VARCHAR(50) NOT NULL,
+    "description" VARCHAR(4096) NOT NULL,
     "is_private" BOOLEAN NOT NULL DEFAULT FALSE,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

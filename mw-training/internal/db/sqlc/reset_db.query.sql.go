@@ -12,6 +12,16 @@ import (
 const regenerateDbData = `-- name: RegenerateDbData :exec
 DO $$
 BEGIN
+INSERT INTO "trainings" ("uuid", "name", "description", "is_private", "updated_at", "created_at", "owner_uuid")
+VALUES
+    -- John Doe's trainings
+    ('78bdf878-3b83-4f97-0000-928c132a10cd', 'javascript', 'super js', false, '2024-08-08 13:10:00', '2024-08-08 13:10:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('7c3a2511-c938-4a60-0001-406e18bfeec0', 'golang', 'super go', false, '2024-08-10 18:25:00', '2024-08-10 18:25:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('b7a3664c-f5ed-4cb0-0002-b2c758d22b55', 'qa', 'super qa', false, '2024-08-12 15:00:00', '2024-08-12 15:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('4f85694e-ff29-478f-0003-1581577dfa84', 'John react', 'secret training', true, '2024-08-13 08:00:00', '2024-08-13 08:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    -- Jane Smith's trainings
+    ('4f85694e-ff29-478f-0004-1581577dfa84', 'react from Jane', 'secret training', true, '2024-08-13 10:00:00', '2024-08-13 09:00:00', '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b');
+
 
 
 
@@ -39,17 +49,6 @@ BEGIN
 END $$
 `
 
-// INSERT INTO "rooms" ("uuid", "name", "type", "created_at")
-// VALUES
-//
-//	('78bdf878-3b83-4f97-8d2e-928c132a10cd', NULL, 'private', '2024-08-08 13:10:00'),
-//	('7c3a2511-c938-4a60-a9db-406e18bfeec0', NULL, 'private', '2024-08-10 18:25:00'),
-//	('b7a3664c-f5ed-4cb0-aa2e-b2c758d22b55', NULL, 'private', '2024-08-12 15:00:00'),
-//	('4f85694e-ff29-478f-90e9-1581577dfa84', NULL, 'private', '2024-08-13 08:00:00'),
-//	('e57fc491-69f7-4b30-9979-78879c8873bf', NULL, 'private', '2024-08-15 19:40:00'),
-//	('897f4a0f-fe31-4036-8358-f89a19c9bda6', NULL, 'private', '2024-08-16 10:15:00'),
-//	('85f610df-9f86-4c55-8ee1-02485d42defb', NULL, 'private', '2024-08-18 07:12:00');
-//
 // INSERT INTO "users_rooms" ("user_uuid", "room_uuid", "user_role", "is_room_blocked")
 // VALUES
 //

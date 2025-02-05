@@ -92,8 +92,8 @@ type Topic struct {
 
 type Training struct {
 	Uuid        pgtype.UUID      `json:"uuid"`
-	Name        pgtype.Text      `json:"name"`
-	Description pgtype.Text      `json:"description"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
 	IsPrivate   bool             `json:"is_private"`
 	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
 	CreatedAt   pgtype.Timestamp `json:"created_at"`

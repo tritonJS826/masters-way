@@ -46,7 +46,7 @@ type GetTrainingListParams struct {
 
 func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrainingListParams) ([]*pb.Training, error) {
 	args := db.GetTrainingListParams{
-		TrainingName:  pgtype.Text{String: params.TrainingName, Valid: true},
+		TrainingName:  params.TrainingName,
 		RequestOffset: params.RequestOffset,
 		RequestLimit:  params.RequestLimit,
 	}
@@ -65,12 +65,12 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 	trainings := lo.Map(dbTrainings, func(training db.GetTrainingListRow, _ int) *pb.Training {
 		return &pb.Training{
 			Uuid:      *utils.MarshalPgUUID(training.Uuid),
-			Name:      training.Name.String,
+			Name:      training.Name,
 			IsPrivate: false,
 			Owner: &pb.User{
 				Uuid: *utils.MarshalPgUUID(training.OwnerUuid),
 			},
-			Description: training.Description.String,
+			Description: training.Description,
 			CreatedAt:   training.CreatedAt.Time.String(),
 			UpdatedAt:   training.UpdatedAt.Time.String(),
 		}
@@ -108,8 +108,8 @@ func (ts *TrainingService) UpdateTraining(ctx context.Context, params db.UpdateT
 	}
 	return pb.Training{
 		Uuid:        *utils.MarshalPgUUID(training.Uuid),
-		Name:        training.Name.String,
-		Description: training.Description.String,
+		Name:        training.Name,
+		Description: training.Description,
 		Owner: &pb.User{
 			Uuid:     *utils.MarshalPgUUID(training.OwnerUuid),
 			Name:     "Stub",

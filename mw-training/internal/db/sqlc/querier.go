@@ -41,15 +41,6 @@ type Querier interface {
 	// lets add likes to response
 	GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error)
 	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
-	// INSERT INTO "rooms" ("uuid", "name", "type", "created_at")
-	// VALUES
-	//     ('78bdf878-3b83-4f97-8d2e-928c132a10cd', NULL, 'private', '2024-08-08 13:10:00'),
-	//     ('7c3a2511-c938-4a60-a9db-406e18bfeec0', NULL, 'private', '2024-08-10 18:25:00'),
-	//     ('b7a3664c-f5ed-4cb0-aa2e-b2c758d22b55', NULL, 'private', '2024-08-12 15:00:00'),
-	//     ('4f85694e-ff29-478f-90e9-1581577dfa84', NULL, 'private', '2024-08-13 08:00:00'),
-	//     ('e57fc491-69f7-4b30-9979-78879c8873bf', NULL, 'private', '2024-08-15 19:40:00'),
-	//     ('897f4a0f-fe31-4036-8358-f89a19c9bda6', NULL, 'private', '2024-08-16 10:15:00'),
-	//     ('85f610df-9f86-4c55-8ee1-02485d42defb', NULL, 'private', '2024-08-18 07:12:00');
 	// INSERT INTO "users_rooms" ("user_uuid", "room_uuid", "user_role", "is_room_blocked")
 	// VALUES
 	//     ('d2cb5e1b-44df-48d3-b7a1-34f3d7a5b7e2', '78bdf878-3b83-4f97-8d2e-928c132a10cd', 'regular', false),

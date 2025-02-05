@@ -24,8 +24,8 @@ INSERT INTO trainings (
 `
 
 type CreateTrainingParams struct {
-	Name        pgtype.Text `json:"name"`
-	Description pgtype.Text `json:"description"`
+	Name        string      `json:"name"`
+	Description string      `json:"description"`
 	OwnerUuid   pgtype.UUID `json:"owner_uuid"`
 }
 
@@ -264,15 +264,15 @@ OFFSET $2
 `
 
 type GetTrainingListParams struct {
-	TrainingName  pgtype.Text `json:"training_name"`
-	RequestOffset int32       `json:"request_offset"`
-	RequestLimit  int32       `json:"request_limit"`
+	TrainingName  string `json:"training_name"`
+	RequestOffset int32  `json:"request_offset"`
+	RequestLimit  int32  `json:"request_limit"`
 }
 
 type GetTrainingListRow struct {
 	Uuid             pgtype.UUID      `json:"uuid"`
-	Name             pgtype.Text      `json:"name"`
-	Description      pgtype.Text      `json:"description"`
+	Name             string           `json:"name"`
+	Description      string           `json:"description"`
 	IsPrivate        bool             `json:"is_private"`
 	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
 	CreatedAt        pgtype.Timestamp `json:"created_at"`
