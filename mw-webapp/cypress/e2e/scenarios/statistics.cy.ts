@@ -21,16 +21,19 @@ const openWayFromAllWayPageByClickingCard = (wayTitle: string, filterOption: key
     allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
 };
 
-const getPeriodBlockTitleForWindow = (windowType: string, periodBlockTitle: string) =>
-    windowType === statisticsData.windowType.wayPage
-        ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage]
-        : statisticsData.periodBlockTitles.modal[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
+// Get the period block title based on the window type
+const getPeriodBlockTitleForWindow = (windowType: string, periodBlockTitle: string) => {
+    const titles = statisticsData.periodBlockTitles;
+    return windowType === statisticsData.windowType.wayPage
+        ? titles.wayPage[periodBlockTitle as keyof typeof titles.wayPage]
+        : titles.modal[periodBlockTitle as keyof typeof titles.modal];
+};
 
 const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: string) => {
     // Get the period block title and statistic data for the given window type
-    const currentWindowPeriodBlockTitle = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
+    const periodBlockTitleForWindow = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
     // Get the statistic data for the given way and period block, depending on the window type
-    const currentWindowWayData = 
+    const wayStatistics = 
         windowType === statisticsData.windowType.wayPage
             ? statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
             : statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
@@ -42,12 +45,12 @@ const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: str
  
     const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
 
-    checkValue(overallInfo.getTotalTime(currentWindowPeriodBlockTitle), `${currentWindowWayData.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    checkValue(overallInfo.getTotalReports(currentWindowPeriodBlockTitle), currentWindowWayData.totalReports);
-    checkValue(overallInfo.getFinishedJobs(currentWindowPeriodBlockTitle), currentWindowWayData.finishedJobs);
-    checkValue(overallInfo.getAvgTimePerCalendarDay(currentWindowPeriodBlockTitle), `${currentWindowWayData.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    checkValue(overallInfo.getAverageTimePerWorkingDay(currentWindowPeriodBlockTitle), `${currentWindowWayData.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    checkValue(overallInfo.getAvgJobTime(currentWindowPeriodBlockTitle), `${currentWindowWayData.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+    checkValue(overallInfo.getTotalTime(periodBlockTitleForWindow), `${wayStatistics.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+    checkValue(overallInfo.getTotalReports(periodBlockTitleForWindow), wayStatistics.totalReports);
+    checkValue(overallInfo.getFinishedJobs(periodBlockTitleForWindow), wayStatistics.finishedJobs);
+    checkValue(overallInfo.getAvgTimePerCalendarDay(periodBlockTitleForWindow), `${wayStatistics.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+    checkValue(overallInfo.getAverageTimePerWorkingDay(periodBlockTitleForWindow), `${wayStatistics.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+    checkValue(overallInfo.getAvgJobTime(periodBlockTitleForWindow), `${wayStatistics.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 };
 
 // const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: string) => {
@@ -90,21 +93,30 @@ const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: str
 
 const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, way: string) => {
     // Get the period block title for the given window type
-    const currentWindowPeriodBlockTitle = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
+    const periodBlockTitleForWindow = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
 
     // Get the amount of label statistic lines
-    const labelLinesLength = Object.keys(statisticsData.testWays[way].labelStatistics[periodBlockTitle]).length;
+    const expectedLinesCount = Object.keys(statisticsData.testWays[way].labelStatistics[periodBlockTitle]).length;
 
-    // Get the period block selector depending on the window type
-    const periodBlockSelector = 
-        windowType === statisticsData.windowType.wayPage
-            ? statisticsSelectors.statistics.periodBlocks.periodBlock(currentWindowPeriodBlockTitle)
-            : statisticsSelectors.statistics.getModal()
-                .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage].en)}"]`);
+    // Get the selector for the period block depending on the window type
+    const getPeriodBlockSelector = () => {
+        if (windowType === statisticsData.windowType.wayPage) {
+            return statisticsSelectors.statistics.periodBlocks.periodBlock(periodBlockTitleForWindow);
+        } 
+        return statisticsSelectors.statistics.getModal().find(
+            `[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(
+                LanguageService.way.statisticsBlock[
+                    periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage
+                ].en
+            )}"]`
+        );
+    };
 
-    // Check label line amount
+    const periodBlockSelector = getPeriodBlockSelector();
+
+    // Verify that the number of label statistic lines matches the expected count
     periodBlockSelector.find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
-        .should('have.length', labelLinesLength);
+        .should('have.length', expectedLinesCount);
 };
 
 // const checkNumberOfLabelLines = (windowType: string, periodBlockTitle: string, way: string) => {
