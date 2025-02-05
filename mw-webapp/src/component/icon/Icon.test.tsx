@@ -6,6 +6,15 @@ const ICON_CY = "icon";
 const ICON = "EyeOpenedIcon";
 
 /**
+ * Icon Test size
+ */
+enum IconTestSize {
+  small = "16px",
+  medium = "24px",
+  big = "40px"
+}
+
+/**
  * Data attribute for cypress testing
  */
 interface createTestIconProps {
@@ -45,8 +54,8 @@ describe("Icon component", () => {
     renderTestIcon({name: ICON, size: IconSize.BIG});
     const icon = screen.getByTestId(ICON_CY);
 
-    expect(getComputedStyle(icon).width).toMatch(/40.*px/);
-    expect(getComputedStyle(icon).height).toMatch(/40.*px/);
+    expect(getComputedStyle(icon).width).toMatch(IconTestSize[IconSize.BIG]);
+    expect(getComputedStyle(icon).height).toMatch(IconTestSize[IconSize.BIG]);
     expect(icon).toHaveClass(styles[IconSize.BIG]);
   });
 
@@ -54,8 +63,8 @@ describe("Icon component", () => {
     renderTestIcon({name: ICON, size: IconSize.MEDIUM});
     const icon = screen.getByTestId(ICON_CY);
 
-    expect(getComputedStyle(icon).width).toMatch(/24.*px/);
-    expect(getComputedStyle(icon).height).toMatch(/24.*px/);
+    expect(getComputedStyle(icon).width).toMatch(IconTestSize[IconSize.MEDIUM]);
+    expect(getComputedStyle(icon).height).toMatch(IconTestSize[IconSize.MEDIUM]);
     expect(icon).toHaveClass(styles[IconSize.MEDIUM]);
   });
 
@@ -63,8 +72,8 @@ describe("Icon component", () => {
     renderTestIcon({name: ICON, size: IconSize.SMALL});
     const icon = screen.getByTestId(ICON_CY);
 
-    expect(getComputedStyle(icon).width).toMatch(/16.*px/);
-    expect(getComputedStyle(icon).height).toMatch(/16.*px/);
+    expect(getComputedStyle(icon).width).toMatch(IconTestSize[IconSize.SMALL]);
+    expect(getComputedStyle(icon).height).toMatch(IconTestSize[IconSize.SMALL]);
     expect(icon).toHaveClass(styles[IconSize.SMALL]);
   });
 
