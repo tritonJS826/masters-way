@@ -1,8 +1,10 @@
+import {act} from "react-dom/test-utils";
+import {render, screen} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import logo from "src/assets/mastersWayLogo.svg";
 import {LOGO_TEXT} from "src/component/header/Header";
 import {Image} from "src/component/image/Image";
-import {MODAL_CY} from "src/component/modal/Modal.cy";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
+import {MODAL_CY} from "src/component/modal/Modal.test";
 
 const IMAGE_CY = {
   dataCy: "image",
@@ -37,22 +39,24 @@ const createTestImage = (props: createTestImageProps) => {
 
 describe("Image component", () => {
   it("image component should be visible", () => {
-    cy.mount(createTestImage({src: logo}));
-    cy.get(getDataCy(IMAGE_CY.dataCy)).should("exist").should("be.visible");
+    render(createTestImage({src: logo}));
+    const image = screen.getByTestId(IMAGE_CY.dataCy);
+    expect(image).toBeInTheDocument();
+    expect(image).toBeVisible();
   });
 
   it("displays the alt text if the image is not displayed", () => {
-    cy.mount(createTestImage({src: WRONG_SRC}));
-    cy.get(getDataCy(IMAGE_CY.dataCy))
-      .invoke("attr", "alt")
-      .should("exist")
-      .and("not.be.empty")
-      .should("eq", LOGO_TEXT);
+    render(createTestImage({src: WRONG_SRC}));
+    const image = screen.getByTestId(IMAGE_CY.dataCy);
+    expect(image).toHaveAttribute("alt", LOGO_TEXT);
   });
 
   it("should enlarge the image on click if isZoomable is true", () => {
-    cy.mount(createTestImage({src: logo}));
-    cy.get(getDataCy(IMAGE_CY.dataCy)).click();
-    cy.get(getDataCy(IMAGE_CY.dataCyContent.dataCyContent)).should("be.visible");
+    const user = userEvent.setup();
+    render(createTestImage({src: logo}));
+    const image = screen.getByTestId(IMAGE_CY.dataCy);
+    act (async () => await user.click(image));
+    const zoomedImage = screen.getByTestId(IMAGE_CY.dataCy);
+    expect(zoomedImage).toBeVisible();
   });
 });
