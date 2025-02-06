@@ -57,16 +57,20 @@ func (tc *TrainingController) GetTrainingList(ctx context.Context, in *pb.GetTra
 }
 
 func (tc *TrainingController) GetTrainingListForUser(ctx context.Context, in *pb.GetTrainingListForUserRequest) (*pb.TrainingPreviewList, error) {
-	// userUuid := in.GetUserUuid()
+	userUuid := in.GetUserUuid()
+	trainingType := in.GetTrainingType()
 
-	// trainings, err := tc.trainingService.GetOwnTrainingList(ctx, pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true})
-	// if err != nil {
-	// 	return nil, err
-	// }
+	args := &services.GetTrainingListForUserParams{
+		TrainingsType: services.TrainingType(trainingType),
+		UserUuid:      pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
+	}
 
-	return &pb.TrainingPreviewList{
-		// TrainingList: trainings,
-	}, nil
+	trainings, err := tc.trainingService.GetTrainingListForUser(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+
+	return trainings, nil
 }
 
 func (tc *TrainingController) GetTrainingById(ctx context.Context, in *pb.GetTrainingRequest) (*pb.Training, error) {

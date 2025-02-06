@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "/training".replace(/\/+$/, "");
+export const BASE_PATH = "http://localhost/mw-training".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

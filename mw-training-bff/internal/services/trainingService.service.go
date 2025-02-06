@@ -160,14 +160,13 @@ func (ts *TrainingService) DeleteTraining(ctx context.Context, trainingID string
 
 type GetTrainingListByUserParams struct {
 	UserUUID     string
-	Page         int
-	Limit        int
-	TrainingName string
+	TrainingType string
 }
 
 func (ts *TrainingService) GetTrainingListByUser(ctx context.Context, params *GetTrainingListByUserParams) (*schemas.TrainingList, error) {
 	trainingListRaw, err := ts.trainingGRPC.GetTrainingListForUser(ctx, &pb.GetTrainingListForUserRequest{
-		UserUuid: params.UserUUID,
+		UserUuid:     params.UserUUID,
+		TrainingType: params.TrainingType,
 	})
 	if err != nil {
 		return &schemas.TrainingList{}, err

@@ -1,6 +1,6 @@
 # \TrainingTrainingTagAPI
 
-All URIs are relative to */training*
+All URIs are relative to *http://localhost/mw-training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

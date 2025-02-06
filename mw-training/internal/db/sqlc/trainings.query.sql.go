@@ -73,28 +73,85 @@ func (q *Queries) DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) 
 }
 
 const getFavoriteTrainingList = `-- name: GetFavoriteTrainingList :many
-SELECT 
-    uuid, name, description, is_private, updated_at, created_at, owner_uuid
-FROM trainings
+SELECT
+    -- TODO: add filter by is private
+    trainings.uuid,
+    trainings.name,
+    trainings.description,
+    trainings.owner_uuid,
+    trainings.created_at,
+    trainings.updated_at,
+    COALESCE(f.favorite_count, 0) AS favorite_count,
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+FROM
+    trainings
+LEFT JOIN
+    favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid IN (
+        SELECT uuid
+        FROM training_tags
+        WHERE uuid = trainings.uuid
+    )
+LEFT JOIN (
+    SELECT
+        training_uuid,
+        COUNT(user_uuid) AS favorite_count
+    FROM
+        favorite_users_trainings
+    GROUP BY
+        training_uuid
+) f ON f.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_students ON trainings_students.training_uuid = trainings.uuid
+WHERE
+    favorite_users_trainings.user_uuid = $1
+    AND
+    trainings.is_private = false
+GROUP BY
+    trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
+ORDER BY
+    trainings.updated_at DESC
 `
 
-func (q *Queries) GetFavoriteTrainingList(ctx context.Context) ([]Training, error) {
-	rows, err := q.db.Query(ctx, getFavoriteTrainingList)
+type GetFavoriteTrainingListRow struct {
+	Uuid             pgtype.UUID      `json:"uuid"`
+	Name             string           `json:"name"`
+	Description      string           `json:"description"`
+	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	FavoriteCount    int64            `json:"favorite_count"`
+	Tags             interface{}      `json:"tags"`
+	TrainingMentors  interface{}      `json:"training_mentors"`
+	TrainingStudents interface{}      `json:"training_students"`
+}
+
+// lets add likes to response
+func (q *Queries) GetFavoriteTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetFavoriteTrainingListRow, error) {
+	rows, err := q.db.Query(ctx, getFavoriteTrainingList, userUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Training{}
+	items := []GetFavoriteTrainingListRow{}
 	for rows.Next() {
-		var i Training
+		var i GetFavoriteTrainingListRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
 			&i.Description,
-			&i.IsPrivate,
-			&i.UpdatedAt,
-			&i.CreatedAt,
 			&i.OwnerUuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.FavoriteCount,
+			&i.Tags,
+			&i.TrainingMentors,
+			&i.TrainingStudents,
 		); err != nil {
 			return nil, err
 		}
@@ -107,28 +164,85 @@ func (q *Queries) GetFavoriteTrainingList(ctx context.Context) ([]Training, erro
 }
 
 const getMentoringTrainingList = `-- name: GetMentoringTrainingList :many
-SELECT 
-    uuid, name, description, is_private, updated_at, created_at, owner_uuid
-FROM trainings
+SELECT
+    -- TODO: add filter by is private
+    trainings.uuid,
+    trainings.name,
+    trainings.description,
+    trainings.owner_uuid,
+    trainings.created_at,
+    trainings.updated_at,
+    COALESCE(f.favorite_count, 0) AS favorite_count,
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+FROM
+    trainings
+LEFT JOIN
+    favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid IN (
+        SELECT uuid
+        FROM training_tags
+        WHERE uuid = trainings.uuid
+    )
+LEFT JOIN (
+    SELECT
+        training_uuid,
+        COUNT(user_uuid) AS favorite_count
+    FROM
+        favorite_users_trainings
+    GROUP BY
+        training_uuid
+) f ON f.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_students ON trainings_students.training_uuid = trainings.uuid
+WHERE
+    trainings_mentors.mentor_uuid = $1
+    AND
+    trainings.is_private = false
+GROUP BY
+    trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
+ORDER BY
+    trainings.updated_at DESC
 `
 
-func (q *Queries) GetMentoringTrainingList(ctx context.Context) ([]Training, error) {
-	rows, err := q.db.Query(ctx, getMentoringTrainingList)
+type GetMentoringTrainingListRow struct {
+	Uuid             pgtype.UUID      `json:"uuid"`
+	Name             string           `json:"name"`
+	Description      string           `json:"description"`
+	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	FavoriteCount    int64            `json:"favorite_count"`
+	Tags             interface{}      `json:"tags"`
+	TrainingMentors  interface{}      `json:"training_mentors"`
+	TrainingStudents interface{}      `json:"training_students"`
+}
+
+// lets add likes to response
+func (q *Queries) GetMentoringTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringTrainingListRow, error) {
+	rows, err := q.db.Query(ctx, getMentoringTrainingList, userUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Training{}
+	items := []GetMentoringTrainingListRow{}
 	for rows.Next() {
-		var i Training
+		var i GetMentoringTrainingListRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
 			&i.Description,
-			&i.IsPrivate,
-			&i.UpdatedAt,
-			&i.CreatedAt,
 			&i.OwnerUuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.FavoriteCount,
+			&i.Tags,
+			&i.TrainingMentors,
+			&i.TrainingStudents,
 		); err != nil {
 			return nil, err
 		}
@@ -141,29 +255,85 @@ func (q *Queries) GetMentoringTrainingList(ctx context.Context) ([]Training, err
 }
 
 const getOwnTrainingList = `-- name: GetOwnTrainingList :many
-SELECT 
-    uuid, name, description, is_private, updated_at, created_at, owner_uuid
-FROM trainings
-WHERE trainings.owner_uuid = $1
+SELECT
+    -- TODO: add filter by is private
+    trainings.uuid,
+    trainings.name,
+    trainings.description,
+    trainings.owner_uuid,
+    trainings.created_at,
+    trainings.updated_at,
+    COALESCE(f.favorite_count, 0) AS favorite_count,
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+FROM
+    trainings
+LEFT JOIN
+    favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid IN (
+        SELECT uuid
+        FROM training_tags
+        WHERE uuid = trainings.uuid
+    )
+LEFT JOIN (
+    SELECT
+        training_uuid,
+        COUNT(user_uuid) AS favorite_count
+    FROM
+        favorite_users_trainings
+    GROUP BY
+        training_uuid
+) f ON f.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_students ON trainings_students.training_uuid = trainings.uuid
+WHERE
+    trainings.owner_uuid = $1
+    AND
+    trainings.is_private = false
+GROUP BY
+    trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
+ORDER BY
+    trainings.updated_at DESC
 `
 
-func (q *Queries) GetOwnTrainingList(ctx context.Context, ownerUuid pgtype.UUID) ([]Training, error) {
-	rows, err := q.db.Query(ctx, getOwnTrainingList, ownerUuid)
+type GetOwnTrainingListRow struct {
+	Uuid             pgtype.UUID      `json:"uuid"`
+	Name             string           `json:"name"`
+	Description      string           `json:"description"`
+	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	FavoriteCount    int64            `json:"favorite_count"`
+	Tags             interface{}      `json:"tags"`
+	TrainingMentors  interface{}      `json:"training_mentors"`
+	TrainingStudents interface{}      `json:"training_students"`
+}
+
+// lets add likes to response
+func (q *Queries) GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetOwnTrainingListRow, error) {
+	rows, err := q.db.Query(ctx, getOwnTrainingList, userUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Training{}
+	items := []GetOwnTrainingListRow{}
 	for rows.Next() {
-		var i Training
+		var i GetOwnTrainingListRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
 			&i.Description,
-			&i.IsPrivate,
-			&i.UpdatedAt,
-			&i.CreatedAt,
 			&i.OwnerUuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.FavoriteCount,
+			&i.Tags,
+			&i.TrainingMentors,
+			&i.TrainingStudents,
 		); err != nil {
 			return nil, err
 		}
@@ -176,28 +346,85 @@ func (q *Queries) GetOwnTrainingList(ctx context.Context, ownerUuid pgtype.UUID)
 }
 
 const getStudentTrainingList = `-- name: GetStudentTrainingList :many
-SELECT 
-    uuid, name, description, is_private, updated_at, created_at, owner_uuid
-FROM trainings
+SELECT
+    -- TODO: add filter by is private
+    trainings.uuid,
+    trainings.name,
+    trainings.description,
+    trainings.owner_uuid,
+    trainings.created_at,
+    trainings.updated_at,
+    COALESCE(f.favorite_count, 0) AS favorite_count,
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+FROM
+    trainings
+LEFT JOIN
+    favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid IN (
+        SELECT uuid
+        FROM training_tags
+        WHERE uuid = trainings.uuid
+    )
+LEFT JOIN (
+    SELECT
+        training_uuid,
+        COUNT(user_uuid) AS favorite_count
+    FROM
+        favorite_users_trainings
+    GROUP BY
+        training_uuid
+) f ON f.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_students ON trainings_students.training_uuid = trainings.uuid
+WHERE
+    trainings_students.student_uuid = $1
+    AND
+    trainings.is_private = false
+GROUP BY
+    trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
+ORDER BY
+    trainings.updated_at DESC
 `
 
-func (q *Queries) GetStudentTrainingList(ctx context.Context) ([]Training, error) {
-	rows, err := q.db.Query(ctx, getStudentTrainingList)
+type GetStudentTrainingListRow struct {
+	Uuid             pgtype.UUID      `json:"uuid"`
+	Name             string           `json:"name"`
+	Description      string           `json:"description"`
+	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	FavoriteCount    int64            `json:"favorite_count"`
+	Tags             interface{}      `json:"tags"`
+	TrainingMentors  interface{}      `json:"training_mentors"`
+	TrainingStudents interface{}      `json:"training_students"`
+}
+
+// lets add likes to response
+func (q *Queries) GetStudentTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetStudentTrainingListRow, error) {
+	rows, err := q.db.Query(ctx, getStudentTrainingList, userUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Training{}
+	items := []GetStudentTrainingListRow{}
 	for rows.Next() {
-		var i Training
+		var i GetStudentTrainingListRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
 			&i.Description,
-			&i.IsPrivate,
-			&i.UpdatedAt,
-			&i.CreatedAt,
 			&i.OwnerUuid,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.FavoriteCount,
+			&i.Tags,
+			&i.TrainingMentors,
+			&i.TrainingStudents,
 		); err != nil {
 			return nil, err
 		}
@@ -247,7 +474,7 @@ SELECT
 FROM
     trainings
 LEFT JOIN
-    favorite_users_trainings fuc ON trainings.uuid = fuc.training_uuid
+    favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
     training_tags ON training_tags.uuid IN (
         SELECT uuid

@@ -147,26 +147,23 @@ func (nc *TrainingController) GetTrainingList(ctx *gin.Context) {
 // @Param userId path string true "user id"
 // @Success 200 {object} schemas.TrainingList
 // @Router /trainings/users/{userId} [get]
-func (nc *TrainingController) GetTrainingListByUser(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+func (tc *TrainingController) GetTrainingListByUser(ctx *gin.Context) {
+	userUuid := ctx.Param("userId")
+	trainingsType := ctx.Query("trainingsType")
 
+	// TODO add showing own private trainings
 	// userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	// userID := userIDRaw.(string)
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
-
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
-
-	stub := schemas.TrainingList{
-		Trainings: make([]schemas.TrainingPreview, 0),
+	args := &services.GetTrainingListByUserParams{
+		UserUUID:     userUuid,
+		TrainingType: trainingsType,
 	}
 
-	ctx.JSON(http.StatusOK, stub)
+	trainings, err := tc.trainingService.GetTrainingListByUser(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, *trainings)
 }
 
 // @Summary Get training by Id

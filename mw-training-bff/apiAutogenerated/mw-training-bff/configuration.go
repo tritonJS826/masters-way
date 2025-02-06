@@ -90,7 +90,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "/training",
+				URL: "/mw-training",
 				Description: "No description provided",
 			},
 		},

@@ -4,7 +4,7 @@ info:
   title: Masters way training-bff API
   version: "1.0"
 servers:
-- url: /training
+- url: /mw-training
 paths:
   /favoriteUserTrainings/{trainingId}:
     delete:

@@ -118,6 +118,7 @@ message GetTrainingListRequest {
 
 message GetTrainingListForUserRequest {
   string user_uuid = 1;
+  string training_type = 2;
 }
 
 message UpdateTrainingRequest {
