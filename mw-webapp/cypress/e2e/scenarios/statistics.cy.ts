@@ -14,12 +14,39 @@ import {statisticsData} from "cypress/testData/statisticTestData";
 import {periods} from "cypress/testData/statisticTestData";
 import {wayTitleKeys} from "cypress/testData/statisticTestData";
 
-const openWayFromAllWayPageByClickingCard = (wayTitle: any, minDayRepotrFilterOption: () => Cypress.Chainable<JQuery<HTMLElement>>) => {
-    cy.openAllWaysPage();
+
+type MinDayReports = 0 | 5 | 20 | 50 | undefined;
+
+function adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    minDayRepotrFilterOption().click();
+    switch (minDayReports) {
+        case 0: 
+            allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5().click()
+        break;
+        case 5:
+            ...
+        break;
+
+    }
+}
+
+interface WayFilters {
+    filterByName?: string;
+    status?: keyof typeof LanguageService.allWays.filterBlock.typeOptions;
+    minDayReports?: MinDayReports;
+}
+
+const openWayFromAllWayPageByClickingCard = (
+    wayTitle: string,
+    wayFilters?: WayFilters
+) => {
+    cy.openAllWaysPage();
+    // filterbyname ...
+    // filter by status ....
+    adjustWayFilterMinDayReports(wayFilters?.minDayReports);
     allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
 };
+
 
 // Get the period block title based on the window type
 const getPeriodBlockTitleForWindow = (windowType: string, periodBlockTitle: string) => {
@@ -29,15 +56,35 @@ const getPeriodBlockTitleForWindow = (windowType: string, periodBlockTitle: stri
         : titles.modal[periodBlockTitle as keyof typeof titles.modal];
 };
 
-const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: string) => {
+type StatisticsPlacement = keyof typeof statisticsData.periodBlockTitles
+type PagePeriodBlockTitle = "Total" | "Last week"
+type ModalPeriodBlockTitle = "Total" | "Last month (30 days)" | "Last week"
+type PeriodBlockTitle = ModalPeriodBlockTitle | PagePeriodBlockTitle;
+
+type OverallInfo = {
+    totalTime: number,
+    totalReports: number,
+    //...
+}
+
+const checkStatisticsOverallInfo = ({
+    statisticsPlacement,
+    periodBlockTitle,
+    overallInformation,
+}: {
+    statisticsPlacement: StatisticsPlacement,
+    periodBlockTitle: PeriodBlockTitle,
+    overallInformation: OverallInfo,
+    }
+) => {
     // Get the period block title and statistic data for the given window type
     const periodBlockTitleForWindow = getPeriodBlockTitleForWindow(windowType, periodBlockTitle);
     
     // Get the statistic data for the given way and period block, depending on the window type
     const wayStatistics = 
         windowType === statisticsData.windowType.wayPage
-            ? statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
-            : statisticsData.testWays[way].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
+            ? statisticsData.testWays[overallInformation].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.wayPage] 
+            : statisticsData.testWays[overallInformation].statistic[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal];
 
     // Check "Overall Information" values for the given time period and in the given window
     const checkValue = (selector: any, value: string) =>
@@ -53,6 +100,23 @@ const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: str
     checkValue(overallInfo.getAverageTimePerWorkingDay(periodBlockTitleForWindow), `${wayStatistics.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
     checkValue(overallInfo.getAvgJobTime(periodBlockTitleForWindow), `${wayStatistics.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
 };
+
+// example
+// checkStatisticsOverallInfo({
+//     statisticsPlacement: "modal",
+//     periodBlockTitle: "Total",
+//     overallInformation: {totalReports: 2, totalTime: 6},
+// })
+
+/**
+ * colorType = red | green | black <= language.hair.color[keys]
+ * 
+ * findUserByHairCOlor = (hairColor =  colorType) => {
+ *   1. find
+ *   2. click
+ *   3. check
+ * };
+ */
 
 // const checkOverallInfo = (windowType: string, periodBlockTitle: string, way: string) => {
 //     // Get the period block title for the given window type
@@ -216,8 +280,9 @@ describe('Statistics tests', () => {
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
-        checkOverallInfo(statisticsData.windowType.wayPage, periods.total, wayTitleKeys.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.wayPage, periods.lastWeek, wayTitleKeys.johnDoeWay);
+
+        checkStatisticsOverallInfo(statisticsData.windowType.wayPage, periods.total, wayTitleKeys.johnDoeWay);
+        checkStatisticsOverallInfo(statisticsData.windowType.wayPage, periods.lastWeek, wayTitleKeys.johnDoeWay);
 
         checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.total, wayTitleKeys.johnDoeWay);
         checkNumberOfLabelLines(statisticsData.windowType.wayPage, periods.lastWeek, wayTitleKeys.johnDoeWay);
@@ -235,9 +300,9 @@ describe('Statistics tests', () => {
 
         statisticsSelectors.statistics.getModal().should('be.visible');
 
-        checkOverallInfo(statisticsData.windowType.modal, periods.total, wayTitleKeys.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.modal, periods.lastMonth, wayTitleKeys.johnDoeWay);
-        checkOverallInfo(statisticsData.windowType.modal, periods.lastWeek, wayTitleKeys.johnDoeWay);
+        checkStatisticsOverallInfo(statisticsData.windowType.modal, periods.total, wayTitleKeys.johnDoeWay);
+        checkStatisticsOverallInfo(statisticsData.windowType.modal, periods.lastMonth, wayTitleKeys.johnDoeWay);
+        checkStatisticsOverallInfo(statisticsData.windowType.modal, periods.lastWeek, wayTitleKeys.johnDoeWay);
 
         checkNumberOfLabelLines(statisticsData.windowType.modal, periods.total, wayTitleKeys.johnDoeWay);
         checkNumberOfLabelLines(statisticsData.windowType.modal, periods.lastMonth, wayTitleKeys.johnDoeWay);
