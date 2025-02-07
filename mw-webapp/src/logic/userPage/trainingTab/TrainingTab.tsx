@@ -1,11 +1,14 @@
 import {useNavigate} from "react-router-dom";
 import {trainingAccessIds} from "cypress/accessIds/trainingsAccessIds";
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Loader} from "src/component/loader/Loader";
 import {TrainingCard} from "src/component/trainingCard/TrainingCard";
 import {TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {themeStore} from "src/globalStore/ThemeStore";
 import {useStore} from "src/hooks/useStore";
-import {TrainingTabStore} from "src/logic/userPage/trainingTab/TrainingTabStore";
+import {GetTrainingsByUserParams, TrainingTabStore} from "src/logic/userPage/trainingTab/TrainingTabStore";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/userPage/trainingTab/TrainingTab.module.scss";
@@ -29,15 +32,21 @@ interface TrainingTabProps {
 /**
  * Training tab content
  */
-export const TrainingTab = (props: TrainingTabProps) => {
+export const TrainingTab = observer((props: TrainingTabProps) => {
   const {language} = languageStore;
+  const {theme} = themeStore;
   const navigate = useNavigate();
 
   const trainingTabStore = useStore<
-  new (userPageOwnerUuid: string) => TrainingTabStore,
+  new (params: GetTrainingsByUserParams) => TrainingTabStore,
   [string], TrainingTabStore>({
       storeForInitialize: TrainingTabStore,
-      dataForInitialization: [props.userPageOwnerUuid],
+      dataForInitialization: [
+        {
+          userPageOwnerUuid: props.userPageOwnerUuid,
+          trainingName: "",
+        },
+      ],
       dependency: [props.userPageOwnerUuid],
     });
 
@@ -61,6 +70,15 @@ export const TrainingTab = (props: TrainingTabProps) => {
     // user.addProject(newTrainingPreview);
     // userPageOwner.addProject(newTrainingPreview);
   };
+
+  if (!trainingTabStore.isInitialized) {
+    return (
+      <Loader
+        theme={theme}
+        isAbsolute
+      />
+    );
+  }
 
   return (
     <>
@@ -90,4 +108,4 @@ export const TrainingTab = (props: TrainingTabProps) => {
       )}
     </>
   );
-};
+});
