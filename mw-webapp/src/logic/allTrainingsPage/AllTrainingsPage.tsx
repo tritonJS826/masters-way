@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -15,6 +16,7 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
 import {AllTrainingsPageStore} from "src/logic/allTrainingsPage/AllTrainingsPageStore";
+import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
 import {getTrainingsColumns} from "src/logic/trainingsTable/trainingsColumns";
 import {TrainingsTable} from "src/logic/trainingsTable/TrainingsTable";
 import {LanguageService} from "src/service/LanguageService";
@@ -22,7 +24,6 @@ import {AllTrainingsPageSettings, View} from "src/utils/LocalStorageWorker";
 import {useDebounce} from "use-debounce";
 import styles from "src/logic/allTrainingsPage/AllTrainingsPage.module.scss";
 
-const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_TRAININGS_PAGE_SETTINGS: AllTrainingsPageSettings = {
   view: View.Card,
   trainingName: "",
@@ -54,17 +55,19 @@ export const AllTrainingsPage = observer(() => {
     ) => allTrainingsPageSettingsValidator(currentSettings),
   });
 
-  const [debouncedName] = useDebounce(allTrainingsPageSettings.trainingName, DEBOUNCE_DELAY_MILLISECONDS);
-
   const allTrainingsPageStore = useStore<
-  new (getTrainingsParams: GetTrainingsParams) => AllTrainingsPageStore,
-  [string], AllTrainingsPageStore>({
-      storeForInitialize: AllTrainingsPageStore,
-      dataForInitialization: [{trainingName: allTrainingsPageSettings.trainingName}],
-      dependency: [debouncedName],
-    });
+  new (getTrainingsParams: GetTrainingsParams) => AllTrainingsPageStore, [], AllTrainingsPageStore>({
+    storeForInitialize: AllTrainingsPageStore,
+    dataForInitialization: [{trainingName: allTrainingsPageSettings.trainingName}],
+    dependency: [],
+  });
 
-  if (!allTrainingsPageStore.allTrainings) {
+  const [debouncedTrainingName] = useDebounce(allTrainingsPageSettings.trainingName, DEBOUNCE_DELAY_MILLISECONDS);
+  useEffect(() => {
+    allTrainingsPageStore.loadTrainings({trainingName: debouncedTrainingName});
+  }, [debouncedTrainingName]);
+
+  if (!allTrainingsPageStore.isInitialized) {
     return (
       <Loader
         theme={theme}
@@ -77,7 +80,6 @@ export const AllTrainingsPage = observer(() => {
     <VerticalContainer className={styles.allTrainingsContainer}>
       <HorizontalContainer className={styles.filterView}>
         <HorizontalContainer className={styles.filterViewLeftPanel}>
-          {/* TODO: fix: input should not be width: 100% by default as I understand */}
           <div>
             <Input
               value={allTrainingsPageSettings.trainingName}
@@ -159,7 +161,7 @@ export const AllTrainingsPage = observer(() => {
         {allTrainingsPageStore.getIsMoreTrainingsExist &&
         <Button
           value={LanguageService.allTrainings.loadMoreButton[language]}
-          onClick={() => allTrainingsPageStore.setLoadedTrainings(allTrainingsPageSettings.trainingName)}
+          onClick={() => allTrainingsPageStore.loadMoreTrainings(allTrainingsPageSettings.trainingName)}
           buttonType={ButtonType.SECONDARY}
           className={styles.loadMoreButton}
         />

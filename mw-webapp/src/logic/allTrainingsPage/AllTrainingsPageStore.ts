@@ -16,7 +16,7 @@ export class AllTrainingsPageStore {
   public allTrainings!: TrainingPreview[];
 
   /**
-   * Al trainings amount
+   * All trainings amount
    */
   public allTrainingsAmount!: number;
 
@@ -57,31 +57,23 @@ export class AllTrainingsPageStore {
   };
 
   /**
-   * Add loaded trainings
-   */
-  public setLoadedTrainings = async (trainingName: string) => {
-    const loadedTrainings = await this.loadMoreTrainings(trainingName);
-    this.allTrainings = [...this.allTrainings, ...loadedTrainings.trainingsPreview];
-  };
-
-  /**
    * Load more trainings
    */
   public loadMoreTrainings = async (trainingName: string) => {
     const nextPage = this.pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
 
-    const trainings = await TrainingDAL.getTrainings({
+    const trainings = await this.loadData({
       page: nextPage,
       trainingName,
     });
 
-    return trainings;
+    this.setTrainings([...this.allTrainings, ...trainings.trainingsPreview]);
   };
 
   /**
-   * Initialize
+   * Load trainings
    */
-  private async initialize(params: GetTrainingsParams) {
+  public loadTrainings = async (params: GetTrainingsParams) => {
     await load<AllTrainingsParams>({
 
       /**
@@ -92,9 +84,14 @@ export class AllTrainingsPageStore {
       onError: this.onError,
       onSuccess: this.onSuccess,
     });
+  };
 
+  /**
+   * Initialize
+   */
+  private async initialize(params: GetTrainingsParams) {
+    await this.loadTrainings(params);
     this.isInitialized = true;
-
   }
 
   /**
