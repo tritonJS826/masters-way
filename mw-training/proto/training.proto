@@ -83,6 +83,9 @@ message DeleteTrainingTagRequest {
 
 message CreateTrainingRequest {
   string name = 1;
+  string user_id = 2;
+  string description = 3;
+  bool IsPrivate = 4;
 }
 
 message User {
@@ -126,6 +129,7 @@ message UpdateTrainingRequest {
   string name = 2;
   string description = 3;
   bool is_private = 4;
+  string ownerUuid = 5;
 }
 
 message DeleteTrainingRequest {

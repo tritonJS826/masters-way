@@ -2,11 +2,13 @@
 INSERT INTO trainings (
     name,
     description,
-    owner_uuid
+    owner_uuid,
+    is_private
 ) VALUES (
     @name,
     @description,
-    @owner_uuid
+    @owner_uuid,
+    @is_private
 ) RETURNING *;
 
 -- name: UpdateTraining :one

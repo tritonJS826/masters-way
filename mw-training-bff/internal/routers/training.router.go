@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"mw-training-bff/internal/auth"
 	"mw-training-bff/internal/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -17,10 +18,10 @@ func newTrainingRouter(trainingController *controllers.TrainingController) *trai
 func (mr *trainingRouter) setTrainingRoutes(rg *gin.RouterGroup) {
 	trainings := rg.Group("/trainings")
 	trainings.GET("", mr.trainingController.GetTrainingList)
+	trainings.POST("", auth.HandleHeaders(), mr.trainingController.CreateTraining)
 	trainings.GET(":trainingId", mr.trainingController.GetTrainingById)
-	trainings.POST(":trainingId", mr.trainingController.CreateTraining)
-	trainings.PATCH(":trainingId", mr.trainingController.UpdateTraining)
-	trainings.DELETE(":trainingId", mr.trainingController.DeleteTraining)
+	trainings.PATCH(":trainingId", auth.HandleHeaders(), mr.trainingController.UpdateTraining)
+	trainings.DELETE(":trainingId", auth.HandleHeaders(), mr.trainingController.DeleteTraining)
 
 	trainings.GET("/users/:userId", mr.trainingController.GetTrainingListByUser)
 }

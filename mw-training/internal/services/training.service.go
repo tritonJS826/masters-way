@@ -214,6 +214,9 @@ func (ts *TrainingService) CreateTraining(ctx context.Context, params db.CreateT
 
 	return pb.Training{
 		Uuid: *utils.MarshalPgUUID(dbTraining.Uuid),
+		Owner: &pb.User{
+			Uuid: utils.ConvertPgUUIDToUUID(params.OwnerUuid).String(),
+		},
 	}, nil
 }
 

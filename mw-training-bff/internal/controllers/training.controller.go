@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"mw-training-bff/internal/auth"
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
 	util "mw-training-bff/internal/utils"
@@ -28,29 +29,27 @@ func NewTrainingController(generalService *services.GeneralService, trainingServ
 // @Param request body schemas.CreateTrainingPayload true "query params"
 // @Param trainingId path string true "training id"
 // @Success 200 {object} schemas.Training
-// @Router /trainings/{trainingId} [post]
-func (nc *TrainingController) CreateTraining(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// page := ctx.DefaultQuery("page", "1")
-	// limit := ctx.DefaultQuery("limit", "50")
-	// isOnlyNew := ctx.DefaultQuery("isOnlyNew", "false")
+// @Router /trainings [post]
+func (tc *TrainingController) CreateTraining(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+	var payload *schemas.CreateTrainingPayload
 
-	// reqPage, _ := strconv.Atoi(page)
-	// reqLimit, _ := strconv.Atoi(limit)
-	// reqIsOnlyNew, err := strconv.ParseBool(isOnlyNew)
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	// getNotificationListParams := &services.GetNotificationListParams{
-	// 	UserUUID:  userUUID,
-	// 	Page:      int32(reqPage),
-	// 	Limit:     int32(reqLimit),
-	// 	IsOnlyNew: reqIsOnlyNew,
-	// }
+	args := &services.CreateTrainingParams{
+		Name:        payload.Name,
+		UserId:      userID,
+		Description: payload.Description,
+		IsPrivate:   payload.IsPrivate,
+	}
+	trainings, err := tc.trainingService.CreateTraining(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	// response, err := nc.notificationService.GetNotificationList(ctx, getNotificationListParams)
-	// utils.HandleErrorGin(ctx, err)
-	stub := schemas.Training{}
-
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, trainings)
 }
 
 // @Summary Update training by id
@@ -63,21 +62,29 @@ func (nc *TrainingController) CreateTraining(ctx *gin.Context) {
 // @Param trainingId path string true "training id"
 // @Success 200 {object} schemas.Training
 // @Router /trainings/{trainingId} [patch]
-func (nc *TrainingController) UpdateTraining(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+func (tc *TrainingController) UpdateTraining(ctx *gin.Context) {
+	userIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	userID := userIDRaw.(string)
+	var payload *schemas.UpdateTrainingPayload
+	trainingId := ctx.Param("trainingId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
+	args := &services.UpdateTrainingParams{
+		TrainingUuid: trainingId,
+		Description:  payload.Description,
+		IsPrivate:    payload.IsPrivate,
+		OwnerUuid:    userID,
+		Name:         payload.Name,
+	}
 
-	stub := schemas.Training{}
+	training, err := tc.trainingService.UpdateTraining(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, training)
 }
 
 // @Summary Delete training by id
@@ -89,17 +96,11 @@ func (nc *TrainingController) UpdateTraining(ctx *gin.Context) {
 // @Param trainingId path string true "training id"
 // @Success 200
 // @Router /trainings/{trainingId} [delete]
-func (nc *TrainingController) DeleteTraining(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+func (tc *TrainingController) DeleteTraining(ctx *gin.Context) {
+	trainingId := ctx.Param("trainingId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
-
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
+	err := tc.trainingService.DeleteTraining(ctx, trainingId)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }
@@ -175,19 +176,11 @@ func (tc *TrainingController) GetTrainingListByUser(ctx *gin.Context) {
 // @Param trainingId path string true "training id"
 // @Success 200 {object} schemas.Training
 // @Router /trainings/{trainingId} [get]
-func (nc *TrainingController) GetTrainingById(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+func (tc *TrainingController) GetTrainingById(ctx *gin.Context) {
+	trainingId := ctx.Param("trainingId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	training, err := tc.trainingService.GetTrainingById(ctx, trainingId)
+	util.HandleErrorGin(ctx, err)
 
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
-
-	stub := schemas.Training{}
-
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, training)
 }

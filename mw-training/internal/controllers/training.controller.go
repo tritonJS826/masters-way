@@ -23,9 +23,15 @@ func NewTrainingController(trainingService *services.TrainingService) *TrainingC
 
 func (tc *TrainingController) CreateNewTraining(ctx context.Context, in *pb.CreateTrainingRequest) (*pb.Training, error) {
 	name := in.GetName()
+	description := in.GetDescription()
+	isPrivate := in.GetIsPrivate()
+	ownerId := in.GetUserId()
 
 	arg := db.CreateTrainingParams{
-		Name: name,
+		Name:        name,
+		Description: description,
+		OwnerUuid:   pgtype.UUID{Bytes: uuid.MustParse(ownerId), Valid: true},
+		IsPrivate:   isPrivate,
 	}
 
 	training, err := tc.trainingService.CreateTraining(ctx, arg)

@@ -188,19 +188,19 @@
       "ua": "Ще не закінчено..."
     },
     "addNewGoalMetricButton": {
-      "ru": "Добавить новую метрику",
-      "en": "Add new goal metric",
-      "ua": "Додати нову метрику"
+      "ru": "Добавить метрику",
+      "en": "Add metric",
+      "ua": "Додати метрику"
     },
     "generatePlansWithAIButton": {
       "ru": "Сгенерировать планы с помощью ИИ",
       "en": "Generate plans using AI",
-      "ua": "Згенерувати плани за допомогою ІІ"
+      "ua": "Згенерувати плани ІІ"
     },
     "generateNewGoalMetricsWithAIButton": {
-      "ru": "Сгенерировать новые метрики с помощью AI",
-      "en": "Generate new metrics using AI",
-      "ua": "Згенерувати нові метрики за допомогою ІІ"
+      "ru": "Сгенерировать метрики с AI",
+      "en": "Generate metrics using AI",
+      "ua": "Згенерувати метрики за допомогою ІІ"
     },
     "addNewGoalMetricsButton": {
       "ru": "Добавить выбранные метрики",

@@ -33,11 +33,13 @@ const createTraining = `-- name: CreateTraining :one
 INSERT INTO trainings (
     name,
     description,
-    owner_uuid
+    owner_uuid,
+    is_private
 ) VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4
 ) RETURNING uuid, name, description, is_private, updated_at, created_at, owner_uuid
 `
 
@@ -45,10 +47,16 @@ type CreateTrainingParams struct {
 	Name        string      `json:"name"`
 	Description string      `json:"description"`
 	OwnerUuid   pgtype.UUID `json:"owner_uuid"`
+	IsPrivate   bool        `json:"is_private"`
 }
 
 func (q *Queries) CreateTraining(ctx context.Context, arg CreateTrainingParams) (Training, error) {
-	row := q.db.QueryRow(ctx, createTraining, arg.Name, arg.Description, arg.OwnerUuid)
+	row := q.db.QueryRow(ctx, createTraining,
+		arg.Name,
+		arg.Description,
+		arg.OwnerUuid,
+		arg.IsPrivate,
+	)
 	var i Training
 	err := row.Scan(
 		&i.Uuid,
