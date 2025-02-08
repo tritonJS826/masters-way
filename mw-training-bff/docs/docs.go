@@ -680,6 +680,45 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Create training",
+                "operationId": "create-training",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Training"
+                        }
+                    }
+                }
             }
         },
         "/trainings/users/{userId}": {
@@ -735,45 +774,6 @@ const docTemplate = `{
                 "summary": "Get training by Id",
                 "operationId": "get-training-by-id",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "training id",
-                        "name": "trainingId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Training"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "training"
-                ],
-                "summary": "Create training",
-                "operationId": "create-training",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload"
-                        }
-                    },
                     {
                         "type": "string",
                         "description": "training id",
@@ -1110,7 +1110,7 @@ const docTemplate = `{
                 "owner",
                 "students",
                 "topics",
-                "trainingTag",
+                "trainingTags",
                 "updatedAt",
                 "uuid"
             ],
@@ -1154,7 +1154,7 @@ const docTemplate = `{
                         "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
                     }
                 },
-                "trainingTag": {
+                "trainingTags": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingTag"

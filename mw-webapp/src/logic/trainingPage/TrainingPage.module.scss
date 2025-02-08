@@ -1,0 +1,202 @@
+@import "src/styles/variables";
+
+$iconContainerSize: 25px;
+$labelMaxWidthBlock: 650px;
+
+.container {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  margin-top: $headerHeight;
+  gap: $gapSmall;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.trainingInfo {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapSmall;
+}
+
+.trainingTitleBlock {
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.trainingActionsIcon {
+  height: 38px;
+  padding: 0 $paddingSmall;
+}
+
+.trainingTagsContainer {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.viewSwitcher {
+  align-items: center;
+  margin-left: auto;
+}
+
+.metricsBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapSmall;
+}
+
+.peopleBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapSmall;
+}
+
+.ownerBlock {
+  flex-wrap: wrap;
+}
+
+.applyAsMentorButton {
+  margin-top: auto;
+}
+
+.trainingActionMenu {
+  left: -150px;
+  width: 200px;
+}
+
+.privacyBlock,
+.compositeBlock {
+  align-items: baseline;
+}
+
+.mentors {
+  display: flex;
+  font-size: $fontSizeBig;
+}
+
+.statistics {
+  @include regularContainer;
+  width: 100%;
+}
+
+.statisticsModal {
+  width: 95%;
+}
+
+.iconContainer {
+  width: $iconContainerSize;
+  height: $iconContainerSize;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.icon {
+  display: block;
+  min-width: $iconSizeSmall;
+  min-height: $iconSizeSmall;
+  margin-left: $marginSmall;
+  cursor: pointer;
+}
+
+.trainingDashboard {
+  gap: $gapSmall;
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
+
+  @media (max-width: $mediaWidthTabletBig) {
+    grid-template-columns: minmax($minWidthBlock, 1fr);
+  }
+}
+
+.trainingDashBoardLeft {
+  gap: $gapSmall;
+}
+
+.trainingActionButtons {
+  align-items: start;
+}
+
+.gap {
+  gap: $gapSmall;
+}
+
+.reportsAmount {
+  align-items: center;
+}
+
+.dayReportActions {
+  @include regularContainer;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.accordion {
+  margin-top: $marginMedium;
+}
+
+.trash {
+  display: inline-block;
+}
+
+.trainingName {
+  flex: 1;
+  input {
+    width: $minWidthBlock;
+    height: $heightH2;
+    margin-top: $marginMedium;
+    margin-bottom: $marginMedium;
+  }
+}
+
+.horizontalContainer {
+  align-items: center;
+  justify-content: space-between;
+  gap: $gapExtraSmall;
+}
+
+.labelsWrapper {
+  min-width: $labelMaxWidthBlock;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    min-width: $mediumWidthBlock;
+  }
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    min-width: $minWidthBlock;
+  }
+}
+
+.wrap {
+  @media (max-width: $mediaWidthMobileBig) {
+    justify-content: center;
+  }
+}
+
+.disabled {
+  cursor: default;
+
+  &:hover:enabled {
+    background-color: var(--secondaryBgBtnColor);
+  }
+
+  &:active:enabled {
+    border: none;
+    background-color: var(--secondaryBgBtnColor);
+    color: var(--primaryTextColor);
+  }
+}
+
+.statisticEyeButton {
+  display: none;
+
+  @media (max-width: $mediaWidthTablet) {
+    display: flex;
+  }
+}
+
+.childWaysBlock {
+  gap: $gapExtraSmall;
+}

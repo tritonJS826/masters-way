@@ -30,7 +30,7 @@ type MwTrainingBffInternalSchemasTraining struct {
 	Owner MwTrainingBffInternalSchemasUser
 	Students []MwTrainingBffInternalSchemasUser
 	Topics []MwTrainingBffInternalSchemasTopic
-	TrainingTag []MwTrainingBffInternalSchemasTrainingTag
+	TrainingTags []MwTrainingBffInternalSchemasTrainingTag
 	UpdatedAt string
 	Uuid string
 }
@@ -41,7 +41,7 @@ type _MwTrainingBffInternalSchemasTraining MwTrainingBffInternalSchemasTraining
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTag []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string) *MwTrainingBffInternalSchemasTraining {
+func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string) *MwTrainingBffInternalSchemasTraining {
 	this := MwTrainingBffInternalSchemasTraining{}
 	this.CreatedAt = createdAt
 	this.Description = description
@@ -52,7 +52,7 @@ func NewMwTrainingBffInternalSchemasTraining(createdAt string, description strin
 	this.Owner = owner
 	this.Students = students
 	this.Topics = topics
-	this.TrainingTag = trainingTag
+	this.TrainingTags = trainingTags
 	this.UpdatedAt = updatedAt
 	this.Uuid = uuid
 	return &this
@@ -282,28 +282,28 @@ func (o *MwTrainingBffInternalSchemasTraining) SetTopics(v []MwTrainingBffIntern
 	o.Topics = v
 }
 
-// GetTrainingTag returns the TrainingTag field value
-func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTag() []MwTrainingBffInternalSchemasTrainingTag {
+// GetTrainingTags returns the TrainingTags field value
+func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTags() []MwTrainingBffInternalSchemasTrainingTag {
 	if o == nil {
 		var ret []MwTrainingBffInternalSchemasTrainingTag
 		return ret
 	}
 
-	return o.TrainingTag
+	return o.TrainingTags
 }
 
-// GetTrainingTagOk returns a tuple with the TrainingTag field value
+// GetTrainingTagsOk returns a tuple with the TrainingTags field value
 // and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTagOk() ([]MwTrainingBffInternalSchemasTrainingTag, bool) {
+func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTagsOk() ([]MwTrainingBffInternalSchemasTrainingTag, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.TrainingTag, true
+	return o.TrainingTags, true
 }
 
-// SetTrainingTag sets field value
-func (o *MwTrainingBffInternalSchemasTraining) SetTrainingTag(v []MwTrainingBffInternalSchemasTrainingTag) {
-	o.TrainingTag = v
+// SetTrainingTags sets field value
+func (o *MwTrainingBffInternalSchemasTraining) SetTrainingTags(v []MwTrainingBffInternalSchemasTrainingTag) {
+	o.TrainingTags = v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value
@@ -373,7 +373,7 @@ func (o MwTrainingBffInternalSchemasTraining) ToMap() (map[string]interface{}, e
 	toSerialize["owner"] = o.Owner
 	toSerialize["students"] = o.Students
 	toSerialize["topics"] = o.Topics
-	toSerialize["trainingTag"] = o.TrainingTag
+	toSerialize["trainingTags"] = o.TrainingTags
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
@@ -393,7 +393,7 @@ func (o *MwTrainingBffInternalSchemasTraining) UnmarshalJSON(data []byte) (err e
 		"owner",
 		"students",
 		"topics",
-		"trainingTag",
+		"trainingTags",
 		"updatedAt",
 		"uuid",
 	}

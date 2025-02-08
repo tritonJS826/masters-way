@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost/mw-training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateTraining**](TrainingAPI.md#CreateTraining) | **Post** /trainings/{trainingId} | Create training
+[**CreateTraining**](TrainingAPI.md#CreateTraining) | **Post** /trainings | Create training
 [**DeleteTraining**](TrainingAPI.md#DeleteTraining) | **Delete** /trainings/{trainingId} | Delete training by id
 [**GetTrainingById**](TrainingAPI.md#GetTrainingById) | **Get** /trainings/{trainingId} | Get training by Id
 [**GetTrainingList**](TrainingAPI.md#GetTrainingList) | **Get** /trainings | GEt training list

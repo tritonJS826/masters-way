@@ -426,6 +426,33 @@ paths:
       summary: GEt training list
       tags:
       - training
+    post:
+      operationId: create-training
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTrainingPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Training'
+          description: OK
+      summary: Create training
+      tags:
+      - training
+      x-codegen-request-body-name: request
   /trainings/users/{userId}:
     get:
       operationId: get-training-list-by-user
@@ -512,33 +539,6 @@ paths:
                 $ref: '#/components/schemas/mw-training-bff_internal_schemas.Training'
           description: OK
       summary: Update training by id
-      tags:
-      - training
-      x-codegen-request-body-name: request
-    post:
-      operationId: create-training
-      parameters:
-      - description: training id
-        in: path
-        name: trainingId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTrainingPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Training'
-          description: OK
-      summary: Create training
       tags:
       - training
       x-codegen-request-body-name: request
@@ -785,6 +785,9 @@ components:
           imageUrl: imageUrl
           name: name
           uuid: uuid
+        trainingTags:
+        - name: name
+        - name: name
         createdAt: createdAt
         topics:
         - createdAt: createdAt
@@ -813,9 +816,6 @@ components:
         - imageUrl: imageUrl
           name: name
           uuid: uuid
-        trainingTag:
-        - name: name
-        - name: name
         name: name
         description: description
         students:
@@ -855,7 +855,7 @@ components:
           items:
             $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
           type: array
-        trainingTag:
+        trainingTags:
           items:
             $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingTag'
           type: array
@@ -873,7 +873,7 @@ components:
       - owner
       - students
       - topics
-      - trainingTag
+      - trainingTags
       - updatedAt
       - uuid
       type: object

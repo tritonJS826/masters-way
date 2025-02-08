@@ -56,7 +56,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
   const createTraining = async () => {
     const newTraining = await TrainingDAL.createTraining({
       name: "New training name",
-      description: "Empty description",
+      description: "",
       isPrivate: false,
     });
 

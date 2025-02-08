@@ -27,9 +27,9 @@ export interface DeleteTrainingTrainingTagParams {
   trainingId: string;
 
   /**
-   * Training tag's uuid
+   * Training tag's name
    */
-  trainingTagId: string;
+  trainingTagName: string;
 }
 
 /**
@@ -53,7 +53,7 @@ export class TrainingTrainingTagDAL {
   public static async deleteTrainingTrainingTag(params: DeleteTrainingTrainingTagParams): Promise<void> {
     await TrainingTrainingTagService.deleteTrainingTrainingTag({
       trainingId: params.trainingId,
-      trainingTagId: params.trainingTagId,
+      trainingTagName: params.trainingTagName,
     });
   }
 

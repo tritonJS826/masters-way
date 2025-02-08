@@ -71,7 +71,7 @@ func (a *TrainingAPIService) CreateTrainingExecute(r ApiCreateTrainingRequest) (
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/trainings/{trainingId}"
+	localVarPath := localBasePath + "/trainings"
 	localVarPath = strings.Replace(localVarPath, "{"+"trainingId"+"}", url.PathEscape(parameterValueToString(r.trainingId, "trainingId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -150,7 +150,7 @@ func (a *TrainingAPIService) CreateTrainingStreamExecute(r ApiCreateTrainingRequ
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/trainings/{trainingId}"
+	localVarPath := localBasePath + "/trainings"
 	localVarPath = strings.Replace(localVarPath, "{"+"trainingId"+"}", url.PathEscape(parameterValueToString(r.trainingId, "trainingId")), -1)
 
 	localVarHeaderParams := make(map[string]string)

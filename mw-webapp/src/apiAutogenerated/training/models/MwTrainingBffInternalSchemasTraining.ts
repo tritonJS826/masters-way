@@ -97,7 +97,7 @@ export interface MwTrainingBffInternalSchemasTraining {
      * @type {Array<MwTrainingBffInternalSchemasTrainingTag>}
      * @memberof MwTrainingBffInternalSchemasTraining
      */
-    trainingTag: Array<MwTrainingBffInternalSchemasTrainingTag>;
+    trainingTags: Array<MwTrainingBffInternalSchemasTrainingTag>;
     /**
      * 
      * @type {string}
@@ -128,7 +128,7 @@ export function instanceOfMwTrainingBffInternalSchemasTraining(
     isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "students" in value;
     isInstance = isInstance && "topics" in value;
-    isInstance = isInstance && "trainingTag" in value;
+    isInstance = isInstance && "trainingTags" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
 
@@ -157,7 +157,7 @@ export function MwTrainingBffInternalSchemasTrainingFromJSONTyped(
         'owner': MwTrainingBffInternalSchemasUserFromJSON(json['owner']),
         'students': ((json['students'] as Array<any>).map(MwTrainingBffInternalSchemasUserFromJSON)),
         'topics': ((json['topics'] as Array<any>).map(MwTrainingBffInternalSchemasTopicFromJSON)),
-        'trainingTag': ((json['trainingTag'] as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagFromJSON)),
+        'trainingTags': ((json['trainingTags'] as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagFromJSON)),
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
     };
@@ -182,7 +182,7 @@ export function MwTrainingBffInternalSchemasTrainingToJSON(value?: MwTrainingBff
         'owner': MwTrainingBffInternalSchemasUserToJSON(value.owner),
         'students': ((value.students as Array<any>).map(MwTrainingBffInternalSchemasUserToJSON)),
         'topics': ((value.topics as Array<any>).map(MwTrainingBffInternalSchemasTopicToJSON)),
-        'trainingTag': ((value.trainingTag as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagToJSON)),
+        'trainingTags': ((value.trainingTags as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagToJSON)),
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,
     };

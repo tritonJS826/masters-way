@@ -91,7 +91,7 @@ Class | Method | HTTP request | Description
 *TopicAPI* | [**CreateTopic**](docs/TopicAPI.md#createtopic) | **Post** /topics/{trainingId} | Create topic
 *TopicAPI* | [**DeleteTopic**](docs/TopicAPI.md#deletetopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
 *TopicAPI* | [**UpdateTopic**](docs/TopicAPI.md#updatetopic) | **Patch** /topics/{topicId} | Update topic
-*TrainingAPI* | [**CreateTraining**](docs/TrainingAPI.md#createtraining) | **Post** /trainings/{trainingId} | Create training
+*TrainingAPI* | [**CreateTraining**](docs/TrainingAPI.md#createtraining) | **Post** /trainings | Create training
 *TrainingAPI* | [**DeleteTraining**](docs/TrainingAPI.md#deletetraining) | **Delete** /trainings/{trainingId} | Delete training by id
 *TrainingAPI* | [**GetTrainingById**](docs/TrainingAPI.md#gettrainingbyid) | **Get** /trainings/{trainingId} | Get training by Id
 *TrainingAPI* | [**GetTrainingList**](docs/TrainingAPI.md#gettraininglist) | **Get** /trainings | GEt training list

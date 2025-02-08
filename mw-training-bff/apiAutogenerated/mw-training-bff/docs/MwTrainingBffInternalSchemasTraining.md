@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **Owner** | [**MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **Students** | [**[]MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **Topics** | [**[]MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md) |  | 
-**TrainingTag** | [**[]MwTrainingBffInternalSchemasTrainingTag**](MwTrainingBffInternalSchemasTrainingTag.md) |  | 
+**TrainingTags** | [**[]MwTrainingBffInternalSchemasTrainingTag**](MwTrainingBffInternalSchemasTrainingTag.md) |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasTraining
 
-`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTag []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
+`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
 
 NewMwTrainingBffInternalSchemasTraining instantiates a new MwTrainingBffInternalSchemasTraining object
 This constructor will assign default values to properties that have it defined,
@@ -216,24 +216,24 @@ and a boolean to check if the value has been set.
 SetTopics sets Topics field to given value.
 
 
-### GetTrainingTag
+### GetTrainingTags
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTag() []MwTrainingBffInternalSchemasTrainingTag`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTags() []MwTrainingBffInternalSchemasTrainingTag`
 
-GetTrainingTag returns the TrainingTag field if non-nil, zero value otherwise.
+GetTrainingTags returns the TrainingTags field if non-nil, zero value otherwise.
 
-### GetTrainingTagOk
+### GetTrainingTagsOk
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTagOk() (*[]MwTrainingBffInternalSchemasTrainingTag, bool)`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTagsOk() (*[]MwTrainingBffInternalSchemasTrainingTag, bool)`
 
-GetTrainingTagOk returns a tuple with the TrainingTag field if it's non-nil, zero value otherwise
+GetTrainingTagsOk returns a tuple with the TrainingTags field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTrainingTag
+### SetTrainingTags
 
-`func (o *MwTrainingBffInternalSchemasTraining) SetTrainingTag(v []MwTrainingBffInternalSchemasTrainingTag)`
+`func (o *MwTrainingBffInternalSchemasTraining) SetTrainingTags(v []MwTrainingBffInternalSchemasTrainingTag)`
 
-SetTrainingTag sets TrainingTag field to given value.
+SetTrainingTags sets TrainingTags field to given value.
 
 
 ### GetUpdatedAt

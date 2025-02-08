@@ -177,4 +177,46 @@ export class Training {
     this.students = this.students.filter(student => student.uuid !== userUuid);
   }
 
+  /**
+   * Add user to training favorites
+   */
+  public addUserToTrainingFavorites(userUuid: string): void {
+    this.favoriteForUserUuids.push(userUuid);
+  }
+
+  /**
+   * Delete user from training favorites
+   */
+  public deleteUserFromTrainingFavorites(userUuid: string): void {
+    this.favoriteForUserUuids = this.favoriteForUserUuids.filter(uuid => uuid !== userUuid);
+  }
+
+  /**
+   * Update training's isPrivate
+   */
+  public updateIsPrivate(isPrivateToUpdate: boolean): void {
+    this.isPrivate = isPrivateToUpdate;
+  }
+
+  /**
+   * Delete tag from training
+   */
+  public deleteTag(trainingTagName: string): void {
+    this.trainingTags = this.trainingTags.filter(tag => tag.name !== trainingTagName);
+  }
+
+  /**
+   * Add new tag to training
+   */
+  public addTag(newTag: TrainingTag): void {
+    this.trainingTags.push(newTag);
+  }
+
+  /**
+   * Update training's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
+  }
+
 }

@@ -18,6 +18,7 @@ import project from "src/dictionary/ProjectPageContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
 import survey from "src/dictionary/SurveyModalsContent.json";
+import trainingPageContent from "src/dictionary/TrainingPageContent.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import wayPageContent from "src/dictionary/WayPageContent.json";
 
@@ -87,6 +88,13 @@ export class LanguageService {
    */
   public static get way() {
     return wayPageContent;
+  }
+
+  /**
+   * Training page content
+   */
+  public static get training() {
+    return trainingPageContent;
   }
 
   /**

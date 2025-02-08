@@ -6,19 +6,13 @@ import {makeAutoObservable} from "mobx";
 export class TrainingTag {
 
   /**
-   * Training tag uuid
-   */
-  public uuid: string;
-
-  /**
-   * Training tag name
+   * Training tag name unique
    */
   public name: string;
 
   constructor(trainingTag: TrainingTag) {
     makeAutoObservable(this);
     this.name = trainingTag.name;
-    this.uuid = trainingTag.uuid;
   }
 
 }

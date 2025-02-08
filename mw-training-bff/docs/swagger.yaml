@@ -195,7 +195,7 @@ definitions:
         items:
           $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
         type: array
-      trainingTag:
+      trainingTags:
         items:
           $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingTag'
         type: array
@@ -213,7 +213,7 @@ definitions:
     - owner
     - students
     - topics
-    - trainingTag
+    - trainingTags
     - updatedAt
     - uuid
     type: object
@@ -774,6 +774,32 @@ paths:
       summary: GEt training list
       tags:
       - training
+    post:
+      consumes:
+      - application/json
+      operationId: create-training
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload'
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Training'
+      summary: Create training
+      tags:
+      - training
   /trainings/{trainingId}:
     delete:
       consumes:
@@ -837,32 +863,6 @@ paths:
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.Training'
       summary: Update training by id
-      tags:
-      - training
-    post:
-      consumes:
-      - application/json
-      operationId: create-training
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload'
-      - description: training id
-        in: path
-        name: trainingId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.Training'
-      summary: Create training
       tags:
       - training
   /trainings/users/{userId}:
