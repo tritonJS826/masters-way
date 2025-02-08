@@ -27,7 +27,7 @@ func (gs *GeneralService) GetUserMapByIds(ctx *gin.Context, userIDs []string) (m
 		return nil, fmt.Errorf(message)
 	}
 
-	userMap := lo.SliceToMap(chatUsersData, func(userData openapiGeneral.MwServerInternalSchemasGetUsersByIDsResponse) (string, ShortUser) {
+	userMap := lo.SliceToMap(chatUsersData, func(userData openapiGeneral.MwServerInternalSchemasShortUser) (string, ShortUser) {
 		return userData.UserId, ShortUser{
 			UserID:   userData.UserId,
 			Email:    userData.Email,

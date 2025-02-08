@@ -871,7 +871,6 @@ definitions:
     - users
     - ways
     type: object
-<<<<<<< HEAD
   mw-server_internal_schemas.RefreshAccessTokenPayload:
     properties:
       refreshToken:
@@ -885,7 +884,7 @@ definitions:
         type: string
     required:
     - accessToken
-=======
+    type: object
   mw-server_internal_schemas.ShortUser:
     properties:
       email:
@@ -901,7 +900,6 @@ definitions:
     - imageUrl
     - name
     - userId
->>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
     type: object
   mw-server_internal_schemas.TimeSpentByDayPoint:
     properties:

@@ -162,7 +162,7 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	}
 
 	type populatedUserMapChResponseType struct {
-		UserMap map[string]services.PopulatedUser
+		UserMap map[string]services.ShortUser
 		Err     *error
 	}
 
@@ -176,7 +176,7 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 			userIDs = append(userIDs, *payload.UserID)
 		}
 
-		populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
+		populatedUserMap, err := cc.generalService.GetUserMapByIds(ctx, userIDs)
 		populatedUserMapCh <- &populatedUserMapChResponseType{
 			UserMap: populatedUserMap,
 			Err:     &err,

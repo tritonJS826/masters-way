@@ -351,9 +351,10 @@ func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.Cr
 }
 
 type UpdateJobDoneParams struct {
-	JobDoneID   string
-	Description *string
-	Time        *int32
+	JobDoneID        string
+	Description      *string
+	Time             *int32
+	ModifierUserUuid string
 }
 
 func (gs *GeneralService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {

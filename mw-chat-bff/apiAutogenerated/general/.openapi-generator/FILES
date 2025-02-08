@@ -106,12 +106,9 @@ docs/MwServerInternalSchemasPlanPopulatedResponse.md
 docs/MwServerInternalSchemasProblemPopulatedResponse.md
 docs/MwServerInternalSchemasProjectPlainResponse.md
 docs/MwServerInternalSchemasProjectPopulatedResponse.md
-<<<<<<< HEAD
 docs/MwServerInternalSchemasRefreshAccessTokenPayload.md
 docs/MwServerInternalSchemasRefreshAccessTokenResponse.md
-=======
 docs/MwServerInternalSchemasShortUser.md
->>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
 docs/MwServerInternalSchemasTimeSpentByDayPoint.md
 docs/MwServerInternalSchemasToUserMentoringRequestResponse.md
 docs/MwServerInternalSchemasUpdateCommentPayload.md
@@ -212,12 +209,9 @@ model_mw_server_internal_schemas_plan_populated_response.go
 model_mw_server_internal_schemas_problem_populated_response.go
 model_mw_server_internal_schemas_project_plain_response.go
 model_mw_server_internal_schemas_project_populated_response.go
-<<<<<<< HEAD
 model_mw_server_internal_schemas_refresh_access_token_payload.go
 model_mw_server_internal_schemas_refresh_access_token_response.go
-=======
 model_mw_server_internal_schemas_short_user.go
->>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
 model_mw_server_internal_schemas_time_spent_by_day_point.go
 model_mw_server_internal_schemas_to_user_mentoring_request_response.go
 model_mw_server_internal_schemas_update_comment_payload.go

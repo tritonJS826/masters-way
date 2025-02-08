@@ -94,7 +94,7 @@ func (ns *NotificationService) GetNotificationSettingList(ctx context.Context, u
 			UUID:      notificationSettingRaw.Uuid,
 			UserUUID:  notificationSettingRaw.UserUuid,
 			Nature:    notificationSettingRaw.Nature.String(),
-			Channel:   notificationSettingRaw.Channel,
+			Channel:   notificationSettingRaw.Channel.String(),
 			IsEnabled: notificationSettingRaw.IsEnabled,
 		}
 	})
@@ -118,7 +118,7 @@ func (ns *NotificationService) UpdateNotificationSetting(ctx context.Context, no
 		UUID:      notificationSetting.Uuid,
 		UserUUID:  notificationSetting.UserUuid,
 		Nature:    notificationSetting.Nature.String(),
-		Channel:   notificationSetting.Channel,
+		Channel:   notificationSetting.Channel.String(),
 		IsEnabled: notificationSetting.IsEnabled,
 	}, nil
 }

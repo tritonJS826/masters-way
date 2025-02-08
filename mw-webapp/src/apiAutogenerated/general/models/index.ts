@@ -60,12 +60,9 @@ export * from './MwServerInternalSchemasPlanPopulatedResponse';
 export * from './MwServerInternalSchemasProblemPopulatedResponse';
 export * from './MwServerInternalSchemasProjectPlainResponse';
 export * from './MwServerInternalSchemasProjectPopulatedResponse';
-<<<<<<< HEAD
 export * from './MwServerInternalSchemasRefreshAccessTokenPayload';
 export * from './MwServerInternalSchemasRefreshAccessTokenResponse';
-=======
 export * from './MwServerInternalSchemasShortUser';
->>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
 export * from './MwServerInternalSchemasTimeSpentByDayPoint';
 export * from './MwServerInternalSchemasToUserMentoringRequestResponse';
 export * from './MwServerInternalSchemasUpdateCommentPayload';

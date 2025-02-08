@@ -3977,7 +3977,6 @@ const docTemplate = `{
                 }
             }
         },
-<<<<<<< HEAD
         "mw-server_internal_schemas.RefreshAccessTokenPayload": {
             "type": "object",
             "required": [
@@ -3996,7 +3995,10 @@ const docTemplate = `{
             ],
             "properties": {
                 "accessToken": {
-=======
+                    "type": "string"
+                }
+            }
+        },
         "mw-server_internal_schemas.ShortUser": {
             "type": "object",
             "required": [
@@ -4016,7 +4018,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "userId": {
->>>>>>> 3fdd56f4 (feat: #1557 Added logic for jobDone update to mw-general-bff)
                     "type": "string"
                 }
             }

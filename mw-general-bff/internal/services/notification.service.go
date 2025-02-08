@@ -29,16 +29,7 @@ const (
 )
 
 func (ns *NotificationService) CreateNotifications(ctx context.Context, params *pb.CreateNotificationRequest) (*pb.CreateNotificationsResponse, error) {
-	in := &pb.CreateNotificationRequest{
-		Recievers:        []*pb.Recievers{},
-		DataForRecievers: nil,
-		Nature:           pb.Nature(pb.Nature_value[string(params.Nature)]),
-	}
-
-	// UserUuids:   params.UserUUIDs,
-	// Description: params.Description,
-	// Url:         params.Url,
-	createNotificationsResponseRaw, err := ns.notificationGRPC.CreateNotifications(ctx, in)
+	createNotificationsResponseRaw, err := ns.notificationGRPC.CreateNotifications(ctx, params)
 	if err != nil {
 		return nil, err
 	}
