@@ -218,10 +218,20 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		return &schemas.Training{}, err
 	}
 
+	ownerUuid := trainingRaw.GetOwner().Uuid
+	println(trainingRaw.Owner)
+	usersIdsToFetch := []string{
+		ownerUuid, // #0
+	}
+	users, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(usersIdsToFetch).Execute()
+	if err != nil {
+		return &schemas.Training{}, err
+	}
+
 	owner := schemas.User{
-		Uuid:     trainingRaw.GetOwner().Uuid,
-		Name:     trainingRaw.GetOwner().Name,
-		ImageUrl: trainingRaw.GetOwner().ImageUrl,
+		Uuid:     users[0].UserId,
+		Name:     users[0].Name,
+		ImageUrl: users[0].ImageUrl,
 	}
 
 	return &schemas.Training{

@@ -203,6 +203,14 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingUuid pgt
 
 	return pb.Training{
 		Uuid: *utils.MarshalPgUUID(dbTraining.Uuid),
+		Owner: &pb.User{
+			Uuid: *utils.MarshalPgUUID(dbTraining.OwnerUuid),
+		},
+		Name:        dbTraining.Name,
+		Description: dbTraining.Description,
+		CreatedAt:   dbTraining.CreatedAt.Time.String(),
+		UpdatedAt:   dbTraining.UpdatedAt.Time.String(),
+		IsPrivate:   dbTraining.IsPrivate,
 	}, nil
 }
 

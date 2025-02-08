@@ -20,7 +20,7 @@ type Training struct {
 	Owner                User          `json:"owner" validate:"required"`
 	Mentors              []User        `json:"mentors" validate:"required"`
 	Students             []User        `json:"students" validate:"required"`
-	TrainingTags         []TrainingTag `json:"trainingTag" validate:"required"`
+	TrainingTags         []TrainingTag `json:"trainingTags" validate:"required"`
 	FavoriteForUserUuids []string      `json:"favoriteForUserUuids" validate:"required"`
 	Topics               []Topic       `json:"topics" validate:"required"`
 	CreatedAt            string        `json:"createdAt" validate:"required"`
