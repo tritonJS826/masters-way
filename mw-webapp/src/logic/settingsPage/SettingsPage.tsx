@@ -4,6 +4,7 @@ import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
 import {languageOptions} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {NotificationNature} from "src/component/notificationBlock/notificationItem/NotificationItem";
 import {Select} from "src/component/select/Select";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {Toggle} from "src/component/toggle/Toggle";
@@ -114,30 +115,36 @@ export const SettingsPage = observer(() => {
         />
         {settingsPageStore.isInitialized && (
           <VerticalContainer>
-            {settingsPageStore.notificationSettingList.map(notificationSetting => (
-              <HorizontalContainer
-                className={styles.line}
-                key={notificationSetting.uuid}
-              >
-                <span>
-                  {notificationSetting.channel}
-                </span>
-                {" "}
-                <span>
-                  {notificationSetting.nature}
-                </span>
-                <Toggle
-                  onChange={() => {
-                    NotificationSettingsDAL.updateNotificationSetting(
-                      notificationSetting.uuid,
-                      !notificationSetting.isEnabled,
-                    );
-                    notificationSetting.isEnabled = !notificationSetting.isEnabled;
-                  }}
-                  isDefaultChecked={notificationSetting.isEnabled}
-                />
-              </HorizontalContainer>
-            ))}
+            {settingsPageStore.notificationSettingList
+              .filter(n =>
+                (n.channel === "mail" && n.nature === NotificationNature.mentoring_way) ||
+                (n.channel === "mail" && n.nature === NotificationNature.own_way),
+              ).map(notificationSetting => (
+
+                // Let's show only currently available settings
+                <HorizontalContainer
+                  className={styles.line}
+                  key={notificationSetting.uuid}
+                >
+                  <span>
+                    {notificationSetting.channel}
+                  </span>
+                  {" "}
+                  <span>
+                    {notificationSetting.nature}
+                  </span>
+                  <Toggle
+                    onChange={() => {
+                      NotificationSettingsDAL.updateNotificationSetting(
+                        notificationSetting.uuid,
+                        !notificationSetting.isEnabled,
+                      );
+                      notificationSetting.isEnabled = !notificationSetting.isEnabled;
+                    }}
+                    isDefaultChecked={notificationSetting.isEnabled}
+                  />
+                </HorizontalContainer>
+              ))}
           </VerticalContainer>
         )}
 

@@ -1,5 +1,32 @@
-basePath: /mail
+basePath: /mw-mail
 definitions:
+  mwmail_internal_schemas.MailRequest:
+    properties:
+      bcc:
+        items:
+          type: string
+        type: array
+      cc:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+      recipients:
+        items:
+          type: string
+        type: array
+      reply:
+        items:
+          type: string
+        type: array
+      subject:
+        type: string
+    required:
+    - message
+    - recipients
+    - subject
+    type: object
   mwmail_internal_schemas.SendMailResponse:
     properties:
       bcc:
@@ -49,7 +76,7 @@ paths:
       summary: resets db
       tags:
       - dev
-  /mail:
+  /send:
     post:
       consumes:
       - application/json
@@ -57,35 +84,12 @@ paths:
         sent mail
       operationId: send-mail
       parameters:
-      - description: Subject of the mail
+      - description: query params
         in: body
-        name: subject
+        name: request
         required: true
         schema:
-          type: string
-      - description: Recipient mail addresses
-        in: body
-        name: to
-        required: true
-        schema:
-          type: array
-      - description: CC mail addresses
-        in: body
-        name: cc
-        schema:
-          type: array
-      - description: BCC mail addresses
-        in: body
-        name: bcc
-        schema:
-          type: array
-      - description: Message content to be sent. Can be plain text or HTML-formatted
-          text
-        in: body
-        name: message
-        required: true
-        schema:
-          type: string
+          $ref: '#/definitions/mwmail_internal_schemas.MailRequest'
       produces:
       - application/json
       responses:

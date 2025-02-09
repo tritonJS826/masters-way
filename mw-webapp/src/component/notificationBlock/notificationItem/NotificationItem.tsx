@@ -73,6 +73,8 @@ const urlParser = (
   switch (nature) {
     case "own_way":
       return path;
+    case "mentoring_way":
+      return path;
     default:
       // TODO if something wrong maybe it is better to navigate to error page
       displayNotification({

@@ -62,18 +62,18 @@ func (cc *RoomController) GetRooms(ctx *gin.Context) {
 		})
 	})
 
-	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDsFromAllRooms)
+	userMap, err := cc.generalService.GetUserMapByIds(ctx, userIDsFromAllRooms)
 	util.HandleErrorGin(ctx, err)
 
 	rooms.Rooms = lo.Map(rooms.Rooms, func(room schemas.RoomPreviewResponse, _ int) schemas.RoomPreviewResponse {
 		room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
-			populatedUser, ok := populatedUserMap[user.UserID]
+			shortUser, ok := userMap[user.UserID]
 			if !ok {
 				util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", user.UserID))
 			}
 
-			user.Name = populatedUser.Name
-			user.ImageURL = populatedUser.ImageURL
+			user.Name = shortUser.Name
+			user.ImageURL = shortUser.ImageURL
 
 			return user
 		})
@@ -111,24 +111,24 @@ func (cc *RoomController) GetRoomById(ctx *gin.Context) {
 		return user.UserID
 	})
 
-	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
+	userMap, err := cc.generalService.GetUserMapByIds(ctx, userIDs)
 	util.HandleErrorGin(ctx, err)
 
 	room.Users = lo.Map(room.Users, func(user schemas.UserResponse, _ int) schemas.UserResponse {
-		populatedUser, ok := populatedUserMap[user.UserID]
+		shortUser, ok := userMap[user.UserID]
 		if !ok {
 			util.HandleErrorGin(ctx, fmt.Errorf("User with ID %s not found in the general service", user.UserID))
 		}
 
-		user.Name = populatedUser.Name
-		user.ImageURL = populatedUser.ImageURL
+		user.Name = shortUser.Name
+		user.ImageURL = shortUser.ImageURL
 		return user
 	})
 
 	room.Messages = lo.Map(room.Messages, func(message schemas.MessageResponse, _ int) schemas.MessageResponse {
-		if populatedUser, ok := populatedUserMap[message.OwnerID]; ok {
-			message.OwnerName = populatedUser.Name
-			message.OwnerImageURL = populatedUser.ImageURL
+		if shortUser, ok := userMap[message.OwnerID]; ok {
+			message.OwnerName = shortUser.Name
+			message.OwnerImageURL = shortUser.ImageURL
 		}
 		return message
 	})
@@ -162,7 +162,7 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	}
 
 	type populatedUserMapChResponseType struct {
-		UserMap map[string]services.PopulatedUser
+		UserMap map[string]services.ShortUser
 		Err     *error
 	}
 
@@ -176,7 +176,7 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 			userIDs = append(userIDs, *payload.UserID)
 		}
 
-		populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, userIDs)
+		populatedUserMap, err := cc.generalService.GetUserMapByIds(ctx, userIDs)
 		populatedUserMapCh <- &populatedUserMapChResponseType{
 			UserMap: populatedUserMap,
 			Err:     &err,

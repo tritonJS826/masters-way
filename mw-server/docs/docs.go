@@ -2140,7 +2140,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/mw-server_internal_schemas.GetUsersByIDsResponse"
+                                "$ref": "#/definitions/mw-server_internal_schemas.ShortUser"
                             }
                         }
                     }
@@ -3557,25 +3557,6 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-server_internal_schemas.GetUsersByIDsResponse": {
-            "type": "object",
-            "required": [
-                "imageUrl",
-                "name",
-                "userId"
-            ],
-            "properties": {
-                "imageUrl": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "string"
-                }
-            }
-        },
         "mw-server_internal_schemas.GoogleToken": {
             "type": "object",
             "required": [
@@ -4014,6 +3995,29 @@ const docTemplate = `{
             ],
             "properties": {
                 "accessToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.ShortUser": {
+            "type": "object",
+            "required": [
+                "email",
+                "imageUrl",
+                "name",
+                "userId"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "userId": {
                     "type": "string"
                 }
             }

@@ -28,46 +28,13 @@ const (
 	FavoriteWay      Nature = "favorite_way"
 )
 
-type CreateNotificationsParams struct {
-	UserUUIDs   []string
-	Description string
-	Url         string
-	Nature      Nature
-}
-
-func (ns *NotificationService) CreateNotifications(ctx context.Context, params *CreateNotificationsParams) (*pb.CreateNotificationsResponse, error) {
-	in := &pb.CreateNotificationRequest{
-		UserUuids:   params.UserUUIDs,
-		Description: params.Description,
-		Url:         params.Url,
-		Nature:      pb.Nature(pb.Nature_value[string(params.Nature)]),
-	}
-
-	createNotificationsResponseRaw, err := ns.notificationGRPC.CreateNotifications(ctx, in)
+func (ns *NotificationService) CreateNotifications(ctx context.Context, params *pb.CreateNotificationRequest) (*pb.CreateNotificationsResponse, error) {
+	createNotificationsResponseRaw, err := ns.notificationGRPC.CreateNotifications(ctx, params)
 	if err != nil {
 		return nil, err
 	}
 
 	return createNotificationsResponseRaw, nil
-
-	// lo.Map(createNotificationsResponseRaw.CreateNotificationList, func(pbCreateNotificationResponse *pb.CreateNotificationResponse, _ int) schemas.CreateNotificationResponse {
-	// 	lo.Map(createNotificationsResponseRaw.CreateNotificationList, func(pbCreateNotificationResponse *pb.CreateNotificationResponse, _ int) schemas.CreateNotificationResponse {
-	// 	})
-	// 	return schemas.CreateNotificationResponse{
-	// 		Notification:            pbCreateNotificationResponse.Notification,
-	// 		NotificationSettingList: []schemas.NotificationSettingResponse{},
-	// 	}
-	// })
-
-	// &schemas.NotificationResponse{
-	// UUID:        notification.Uuid,
-	// UserUUID:    notification.UserUuid,
-	// IsRead:      notification.IsRead,
-	// Description: notification.Description,
-	// Url:         notification.Url,
-	// Nature:      notification.Nature.String(),
-	// CreatedAt:   notification.CreatedAt,
-	// }, nil
 }
 
 func (ns *NotificationService) CreateNotificationSettings(ctx context.Context, userUUID string) error {

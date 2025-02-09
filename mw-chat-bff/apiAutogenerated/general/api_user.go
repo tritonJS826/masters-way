@@ -472,7 +472,7 @@ func (r ApiGetUsersByIdsRequest) Request(request []string) ApiGetUsersByIdsReque
 	return r
 }
 
-func (r ApiGetUsersByIdsRequest) Execute() ([]MwServerInternalSchemasGetUsersByIDsResponse, *http.Response, error) {
+func (r ApiGetUsersByIdsRequest) Execute() ([]MwServerInternalSchemasShortUser, *http.Response, error) {
 	return r.ApiService.GetUsersByIdsExecute(r)
 }
 
@@ -490,13 +490,13 @@ func (a *UserAPIService) GetUsersByIds(ctx context.Context) ApiGetUsersByIdsRequ
 }
 
 // Execute executes the request
-//  @return []MwServerInternalSchemasGetUsersByIDsResponse
-func (a *UserAPIService) GetUsersByIdsExecute(r ApiGetUsersByIdsRequest) ([]MwServerInternalSchemasGetUsersByIDsResponse, *http.Response, error) {
+//  @return []MwServerInternalSchemasShortUser
+func (a *UserAPIService) GetUsersByIdsExecute(r ApiGetUsersByIdsRequest) ([]MwServerInternalSchemasShortUser, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []MwServerInternalSchemasGetUsersByIDsResponse
+		localVarReturnValue  []MwServerInternalSchemasShortUser
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetUsersByIds")
@@ -570,11 +570,11 @@ func (a *UserAPIService) GetUsersByIdsExecute(r ApiGetUsersByIdsRequest) ([]MwSe
 }
 
 // Execute executes the request
-//  @return []MwServerInternalSchemasGetUsersByIDsResponseStream
-func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, request *http.Request, GoogleAccessToken string) ([]MwServerInternalSchemasGetUsersByIDsResponse, *http.Response, error) {
+//  @return []MwServerInternalSchemasShortUserStream
+func (a *UserAPIService) GetUsersByIdsStreamExecute(r ApiGetUsersByIdsRequest, request *http.Request, GoogleAccessToken string) ([]MwServerInternalSchemasShortUser, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
-		localVarReturnValue  []MwServerInternalSchemasGetUsersByIDsResponse
+		localVarReturnValue  []MwServerInternalSchemasShortUser
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserAPIService.GetUsersByIds")

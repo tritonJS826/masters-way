@@ -575,19 +575,6 @@ definitions:
     - isAlreadyCreated
     - url
     type: object
-  mw-server_internal_schemas.GetUsersByIDsResponse:
-    properties:
-      imageUrl:
-        type: string
-      name:
-        type: string
-      userId:
-        type: string
-    required:
-    - imageUrl
-    - name
-    - userId
-    type: object
   mw-server_internal_schemas.GoogleToken:
     properties:
       accessToken:
@@ -897,6 +884,22 @@ definitions:
         type: string
     required:
     - accessToken
+    type: object
+  mw-server_internal_schemas.ShortUser:
+    properties:
+      email:
+        type: string
+      imageUrl:
+        type: string
+      name:
+        type: string
+      userId:
+        type: string
+    required:
+    - email
+    - imageUrl
+    - name
+    - userId
     type: object
   mw-server_internal_schemas.TimeSpentByDayPoint:
     properties:
@@ -2834,7 +2837,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/mw-server_internal_schemas.GetUsersByIDsResponse'
+              $ref: '#/definitions/mw-server_internal_schemas.ShortUser'
             type: array
       summary: Get users by ids
       tags:

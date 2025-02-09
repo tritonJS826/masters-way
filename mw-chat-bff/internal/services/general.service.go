@@ -17,7 +17,7 @@ func NewGeneralService(generalAPI *openapiGeneral.APIClient) *GeneralService {
 	return &GeneralService{generalAPI}
 }
 
-func (gs *GeneralService) GetPopulatedUsers(ctx *gin.Context, userIDs []string) (map[string]PopulatedUser, error) {
+func (gs *GeneralService) GetUserMapByIds(ctx *gin.Context, userIDs []string) (map[string]ShortUser, error) {
 	chatUsersData, response, err := gs.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
 	if err != nil {
 		message, extractErr := utils.ExtractErrorMessageFromResponse(response)
@@ -27,9 +27,10 @@ func (gs *GeneralService) GetPopulatedUsers(ctx *gin.Context, userIDs []string) 
 		return nil, fmt.Errorf(message)
 	}
 
-	userMap := lo.SliceToMap(chatUsersData, func(userData openapiGeneral.MwServerInternalSchemasGetUsersByIDsResponse) (string, PopulatedUser) {
-		return userData.UserId, PopulatedUser{
+	userMap := lo.SliceToMap(chatUsersData, func(userData openapiGeneral.MwServerInternalSchemasShortUser) (string, ShortUser) {
+		return userData.UserId, ShortUser{
 			UserID:   userData.UserId,
+			Email:    userData.Email,
 			Name:     userData.Name,
 			ImageURL: userData.ImageUrl,
 		}

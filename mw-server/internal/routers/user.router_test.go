@@ -495,21 +495,41 @@ func TestGetUsersByIDs(t *testing.T) {
 			{
 				ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 				Name:     "John Doe",
+				Email:    "john.doe@example.com",
 				UserId:   user1ID,
 			},
 			{
 				ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
 				Name:     "Jane Smith",
+				Email:    "jane.smith@example.com",
 				UserId:   user2ID,
 			},
 			{
 				ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.gettyimages.com%2F&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAT",
 				Name:     "Alice Johnson",
+				Email:    "alice.johnson@example.com",
 				UserId:   user3ID,
 			},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.ElementsMatch(t, expectedData, usersResponse)
+
+		assert.Equal(t, expectedData[0].Email, usersResponse[0].Email)
+		assert.Equal(t, expectedData[0].ImageUrl, usersResponse[0].ImageUrl)
+		assert.Equal(t, expectedData[0].Name, usersResponse[0].Name)
+		assert.Equal(t, expectedData[0].UserId, usersResponse[0].UserId)
+
+		assert.Equal(t, expectedData[1].Email, usersResponse[1].Email)
+		assert.Equal(t, expectedData[1].ImageUrl, usersResponse[1].ImageUrl)
+		assert.Equal(t, expectedData[1].Name, usersResponse[1].Name)
+		assert.Equal(t, expectedData[1].UserId, usersResponse[1].UserId)
+
+		assert.Equal(t, expectedData[2].Email, usersResponse[2].Email)
+		assert.Equal(t, expectedData[2].ImageUrl, usersResponse[2].ImageUrl)
+		assert.Equal(t, expectedData[2].Name, usersResponse[2].Name)
+		assert.Equal(t, expectedData[2].UserId, usersResponse[2].UserId)
+
+		assert.Equal(t, len(expectedData), len(usersResponse))
+
 	})
 }

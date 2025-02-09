@@ -42,7 +42,7 @@ func (ec *NotificationSettingController) UpdateNotificationSetting(ctx context.C
 		Uuid:      notificationSetting.UUID,
 		UserUuid:  notificationSetting.UserUUID,
 		Nature:    pb.Nature(pb.Nature_value[notificationSetting.Nature]),
-		Channel:   notificationSetting.Channel,
+		Channel:   pb.Channel(pb.Channel_value[notificationSetting.Channel]),
 		IsEnabled: notificationSetting.IsEnabled,
 	}, nil
 }
@@ -58,7 +58,7 @@ func (ec *NotificationSettingController) GetNotificationSettingList(ctx context.
 			Uuid:      notificationSettingRaw.UUID,
 			UserUuid:  notificationSettingRaw.UserUUID,
 			Nature:    pb.Nature(pb.Nature_value[notificationSettingRaw.Nature]),
-			Channel:   notificationSettingRaw.Channel,
+			Channel:   pb.Channel(pb.Channel_value[notificationSettingRaw.Channel]),
 			IsEnabled: notificationSettingRaw.IsEnabled,
 		}
 	})

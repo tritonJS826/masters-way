@@ -1,6 +1,9 @@
 package controllers
 
-import "mw-notification/internal/services"
+import (
+	"mw-notification/internal/config"
+	"mw-notification/internal/services"
+)
 
 type Controller struct {
 	NotificationController        *NotificationController
@@ -8,9 +11,9 @@ type Controller struct {
 	DevController                 *DevController
 }
 
-func NewController(services *services.Service) *Controller {
+func NewController(services *services.Service, config *config.Config) *Controller {
 	return &Controller{
-		NotificationController:        NewNotificationController(services.NotificationService, services.NotificationSettingService),
+		NotificationController:        NewNotificationController(services.NotificationService, services.NotificationSettingService, config),
 		NotificationSettingController: NewNotificationSettingController(services.NotificationSettingService),
 		DevController:                 NewDevController(services.DevService),
 	}

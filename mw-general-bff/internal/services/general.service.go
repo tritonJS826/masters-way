@@ -351,9 +351,10 @@ func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.Cr
 }
 
 type UpdateJobDoneParams struct {
-	JobDoneID   string
-	Description *string
-	Time        *int32
+	JobDoneID        string
+	Description      *string
+	Time             *int32
+	ModifierUserUuid string
 }
 
 func (gs *GeneralService) UpdateJobDone(ctx context.Context, params *UpdateJobDoneParams) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
@@ -777,25 +778,6 @@ func (gs *GeneralService) GetAllUsers(ctx context.Context, params *GetAllUsersPa
 	return users, nil
 }
 
-func (gs *GeneralService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {
-	userRaw, response, err := gs.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
-
-	if err != nil {
-		return nil, utils.ExtractErrorMessageFromResponse(response)
-	}
-
-	users := make([]schemas.GetUsersByIDsResponse, len(userRaw))
-	for _, dsResponse := range userRaw {
-		users = append(users, schemas.GetUsersByIDsResponse{
-			UserID:   dsResponse.UserId,
-			Name:     dsResponse.Name,
-			ImageURL: dsResponse.ImageUrl,
-		})
-	}
-
-	return users, nil
-}
-
 type dbWay struct {
 	Uuid                uuid.UUID
 	Name                string
@@ -1192,7 +1174,6 @@ func (gs *GeneralService) AddWayTagToWay(ctx context.Context, name, wayID string
 
 func (gs *GeneralService) DeleteWayTagFromWayByTagID(ctx context.Context, wayTagID, wayID string) error {
 	response, err := gs.generalAPI.WayTagAPI.DeleteWayTag(ctx, wayTagID, wayID).Execute()
-
 	if err != nil {
 		return utils.ExtractErrorMessageFromResponse(response)
 	}
@@ -1206,4 +1187,22 @@ func (gs *GeneralService) GeneralHealthCheck(ctx context.Context) error {
 		return utils.ExtractErrorMessageFromResponse(response)
 	}
 	return nil
+}
+
+func (gs *GeneralService) GetUserByIds(ctx context.Context, userIDs []string) ([]schemas.ShortUser, error) {
+	chatUsersData, response, err := gs.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userIDs).Execute()
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	shortUsers := lo.Map(chatUsersData, func(userData openapiGeneral.MwServerInternalSchemasShortUser, _ int) schemas.ShortUser {
+		return schemas.ShortUser{
+			UserID:   userData.UserId,
+			Email:    userData.Email,
+			Name:     userData.Name,
+			ImageURL: userData.ImageUrl,
+		}
+	})
+
+	return shortUsers, nil
 }
