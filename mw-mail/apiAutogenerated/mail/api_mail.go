@@ -26,12 +26,12 @@ type MailAPIService service
 type ApiSendMailRequest struct {
 	ctx context.Context
 	ApiService *MailAPIService
-	message *string
+	request *MwmailInternalSchemasMailRequest
 }
 
-// Message content to be sent. Can be plain text or HTML-formatted text
-func (r ApiSendMailRequest) Message(message string) ApiSendMailRequest {
-	r.message = &message
+// query params
+func (r ApiSendMailRequest) Request(request MwmailInternalSchemasMailRequest) ApiSendMailRequest {
+	r.request = &request
 	return r
 }
 
@@ -69,13 +69,13 @@ func (a *MailAPIService) SendMailExecute(r ApiSendMailRequest) (*MwmailInternalS
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/mail"
+	localVarPath := localBasePath + "/send"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.message == nil {
-		return localVarReturnValue, nil, reportError("message is required and must be specified")
+	if r.request == nil {
+		return localVarReturnValue, nil, reportError("request is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -96,7 +96,7 @@ func (a *MailAPIService) SendMailExecute(r ApiSendMailRequest) (*MwmailInternalS
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.message
+	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -147,7 +147,7 @@ func (a *MailAPIService) SendMailStreamExecute(r ApiSendMailRequest, request *ht
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/mail"
+	localVarPath := localBasePath + "/send"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

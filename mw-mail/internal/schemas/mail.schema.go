@@ -2,10 +2,10 @@ package schemas
 
 type MailRequest struct {
 	Subject    string   `json:"subject" binding:"required"`
-	Recipients []string `json:"to" binding:"required"`
-	Cc         []string `json:"cc,omitempty"`
-	Bcc        []string `json:"bcc,omitempty"`
-	ReplyTo    []string `json:"replyTo,omitempty"`
+	Recipients []string `json:"recipients" binding:"required"`
+	Cc         []string `json:"cc"`
+	Bcc        []string `json:"bcc"`
+	Reply      []string `json:"reply"`
 	Message    string   `json:"message" binding:"required"`
 }
 

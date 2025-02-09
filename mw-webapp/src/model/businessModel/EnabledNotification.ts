@@ -12,12 +12,12 @@ export class NotificationSetting {
   public uuid: string;
 
   /**
-   * Notification channel (like mail, in-app, telegram bot etc.)
+   * Notification channel (mail or webapp)
    */
   public channel: string;
 
   /**
-   * Nature of the notification (like jobDone created, mentor request applied etc.)
+   * Nature of the notification
    */
   public nature: NotificationNature;
 

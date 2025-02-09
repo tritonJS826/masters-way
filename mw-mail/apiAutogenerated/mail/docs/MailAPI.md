@@ -1,16 +1,16 @@
 # \MailAPI
 
-All URIs are relative to */mail*
+All URIs are relative to *http://localhost/mw-mail*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SendMail**](MailAPI.md#SendMail) | **Post** /mail | Sending messages to recipients and save logs
+[**SendMail**](MailAPI.md#SendMail) | **Post** /send | Sending messages to recipients and save logs
 
 
 
 ## SendMail
 
-> MwmailInternalSchemasSendMailResponse SendMail(ctx).Message(message).Execute()
+> MwmailInternalSchemasSendMailResponse SendMail(ctx).Request(request).Execute()
 
 Sending messages to recipients and save logs
 
@@ -29,11 +29,11 @@ import (
 )
 
 func main() {
-	message := "message_example" // string | Message content to be sent. Can be plain text or HTML-formatted text
+	request := *openapiclient.NewMwmailInternalSchemasMailRequest("Message_example", []string{"Recipients_example"}, "Subject_example") // MwmailInternalSchemasMailRequest | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.MailAPI.SendMail(context.Background()).Message(message).Execute()
+	resp, r, err := apiClient.MailAPI.SendMail(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `MailAPI.SendMail``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -54,7 +54,7 @@ Other parameters are passed through a pointer to a apiSendMailRequest struct via
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **message** | **string** | Message content to be sent. Can be plain text or HTML-formatted text | 
+ **request** | [**MwmailInternalSchemasMailRequest**](MwmailInternalSchemasMailRequest.md) | query params | 
 
 ### Return type
 

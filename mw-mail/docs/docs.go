@@ -29,7 +29,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/mail": {
+        "/send": {
             "post": {
                 "description": "Sending messages to recipients by smtp and saving the log of the sent mail",
                 "consumes": [
@@ -45,46 +45,12 @@ const docTemplate = `{
                 "operationId": "send-mail",
                 "parameters": [
                     {
-                        "description": "Subject of the mail",
-                        "name": "subject",
+                        "description": "query params",
+                        "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "Recipient mail addresses",
-                        "name": "to",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array"
-                        }
-                    },
-                    {
-                        "description": "CC mail addresses",
-                        "name": "cc",
-                        "in": "body",
-                        "schema": {
-                            "type": "array"
-                        }
-                    },
-                    {
-                        "description": "BCC mail addresses",
-                        "name": "bcc",
-                        "in": "body",
-                        "schema": {
-                            "type": "array"
-                        }
-                    },
-                    {
-                        "description": "Message content to be sent. Can be plain text or HTML-formatted text",
-                        "name": "message",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/mwmail_internal_schemas.MailRequest"
                         }
                     }
                 ],
@@ -100,6 +66,46 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "mwmail_internal_schemas.MailRequest": {
+            "type": "object",
+            "required": [
+                "message",
+                "recipients",
+                "subject"
+            ],
+            "properties": {
+                "bcc": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "cc": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                },
+                "recipients": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "reply": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "subject": {
+                    "type": "string"
+                }
+            }
+        },
         "mwmail_internal_schemas.SendMailResponse": {
             "type": "object",
             "required": [
@@ -158,7 +164,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/mail",
+	BasePath:         "/mw-mail",
 	Schemes:          []string{},
 	Title:            "Masters way mail API",
 	Description:      "",

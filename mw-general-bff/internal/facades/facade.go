@@ -46,7 +46,7 @@ func NewFacade(service *services.Service, config *config.Config) *Facade {
 		FavoriteUserWayFacade:          newFavoriteUserWayFacade(service.GeneralService),
 		FromUserMentoringRequestFacade: newFromUserMentoringRequestFacade(service.GeneralService),
 		GeminiFacade:                   newGeminiFacade(service.GeneralService),
-		JobDoneFacade:                  newJobDoneFacade(service.GeneralService, service.NotificationService, config),
+		JobDoneFacade:                  newJobDoneFacade(service.GeneralService, service.NotificationService, service.MailService, config),
 		JobDoneJobTagFacade:            newJobDoneJobTagFacade(service.GeneralService),
 		JobTagFacade:                   newJobTagFacade(service.GeneralService),
 		MentorUserWayFacade:            newMentorUserWayFacade(service.GeneralService),

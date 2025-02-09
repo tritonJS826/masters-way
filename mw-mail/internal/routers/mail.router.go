@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"mwmail/internal/auth"
 	"mwmail/internal/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +15,7 @@ func newMailRouter(mailController *controllers.MailController) *mailRouter {
 }
 
 func (mr *mailRouter) setMailRoutes(rg *gin.RouterGroup) {
-	mails := rg.Group("/send", auth.AuthMiddleware())
+	mails := rg.Group("/send" /*auth.AuthMiddleware()*/)
 
 	mails.POST("", mr.mailController.SendEmail)
 }

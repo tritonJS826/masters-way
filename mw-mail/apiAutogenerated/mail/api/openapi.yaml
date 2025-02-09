@@ -4,7 +4,7 @@ info:
   title: Masters way mail API
   version: "1.0"
 servers:
-- url: /mail
+- url: /mw-mail
 paths:
   /dev/reset-db:
     get:
@@ -16,7 +16,7 @@ paths:
       summary: resets db
       tags:
       - dev
-  /mail:
+  /send:
     post:
       description: Sending messages to recipients by smtp and saving the log of the
         sent mail
@@ -25,9 +25,8 @@ paths:
         content:
           application/json:
             schema:
-              type: string
-        description: Message content to be sent. Can be plain text or HTML-formatted
-          text
+              $ref: '#/components/schemas/mwmail_internal_schemas.MailRequest'
+        description: query params
         required: true
       responses:
         "200":
@@ -39,9 +38,36 @@ paths:
       summary: Sending messages to recipients and save logs
       tags:
       - mail
-      x-codegen-request-body-name: message
+      x-codegen-request-body-name: request
 components:
   schemas:
+    mwmail_internal_schemas.MailRequest:
+      properties:
+        bcc:
+          items:
+            type: string
+          type: array
+        cc:
+          items:
+            type: string
+          type: array
+        message:
+          type: string
+        recipients:
+          items:
+            type: string
+          type: array
+        reply:
+          items:
+            type: string
+          type: array
+        subject:
+          type: string
+      required:
+      - message
+      - recipients
+      - subject
+      type: object
     mwmail_internal_schemas.SendMailResponse:
       example:
         cc:

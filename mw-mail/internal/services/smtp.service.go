@@ -29,7 +29,7 @@ func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmt
 			Recipients: dataMail.Recipients,
 			Cc:         dataMail.Cc,
 			Bcc:        dataMail.Bcc,
-			ReplyTo:    dataMail.ReplyTo,
+			ReplyTo:    dataMail.Reply,
 			Subject:    dataMail.Subject,
 			Message:    dataMail.Message,
 		}, nil
@@ -50,7 +50,7 @@ func (ss *SmtpService) SendMail(dataMail *schemas.MailRequest) (*schemas.SendSmt
 		Recipients: dataMail.Recipients,
 		Cc:         dataMail.Cc,
 		Bcc:        dataMail.Bcc,
-		ReplyTo:    dataMail.ReplyTo,
+		ReplyTo:    dataMail.Reply,
 		Subject:    dataMail.Subject,
 		Message:    dataMail.Message,
 	}
@@ -67,7 +67,7 @@ func (ss *SmtpService) CreateMail(dataMail *schemas.MailRequest) *email.Email {
 	mail.HTML = []byte(dataMail.Message)
 	mail.Cc = dataMail.Cc
 	mail.Bcc = dataMail.Bcc
-	mail.ReplyTo = dataMail.ReplyTo
+	mail.ReplyTo = dataMail.Reply
 	mail.To = dataMail.Recipients
 
 	return mail

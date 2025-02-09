@@ -24,6 +24,7 @@ const (
 type JobDoneFacade struct {
 	generalService      *services.GeneralService
 	notificationService *services.NotificationService
+	mailService         *services.MailService
 	config              *config.Config
 	router              *webapprouter.WebappRouter
 }
@@ -31,10 +32,11 @@ type JobDoneFacade struct {
 func newJobDoneFacade(
 	generalService *services.GeneralService,
 	notificationService *services.NotificationService,
+	mailService *services.MailService,
 	config *config.Config,
 ) *JobDoneFacade {
 	router := webapprouter.NewWebappRouter(config.WebappBaseURL)
-	return &JobDoneFacade{generalService, notificationService, config, router}
+	return &JobDoneFacade{generalService, notificationService, mailService, config, router}
 }
 
 func (jf *JobDoneFacade) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
@@ -116,7 +118,7 @@ func (jf *JobDoneFacade) UpdateJobDone(ctx context.Context, params *services.Upd
 	})
 
 	// make notificationOwnWayResponse
-	_, err = jf.notificationService.CreateNotifications(ctx, &pb.CreateNotificationRequest{
+	ownNotificationsResponse, err := jf.notificationService.CreateNotifications(ctx, &pb.CreateNotificationRequest{
 		Receivers: receiversForOwnWayNotifications,
 		Nature:    pb.Nature(pb.Nature_value[string(services.OwnWay)]),
 	})
@@ -125,13 +127,67 @@ func (jf *JobDoneFacade) UpdateJobDone(ctx context.Context, params *services.Upd
 	}
 
 	// make notificationMentoringWayResponse
-	_, err = jf.notificationService.CreateNotifications(ctx, &pb.CreateNotificationRequest{
+	mentoringNotificationsResponse, err := jf.notificationService.CreateNotifications(ctx, &pb.CreateNotificationRequest{
 		Receivers: receiversForMentoringWayNotifications,
 		Nature:    pb.Nature(pb.Nature_value[string(services.MentoringWay)]),
 	})
 	if err != nil {
 		fmt.Println("ERROR: Failed to send mentoring way notification")
 	}
+
+	// send email for owners
+	lo.ForEach(ownNotificationsResponse.NotificationWithSettingsList, func(settings *pb.NotificationWithSettings, _ int) {
+		lo.ForEach(settings.NotificationSettingList, func(setting *pb.NotificationSettingResponse, _ int) {
+			if setting.Channel == pb.Channel_mail && setting.Nature == pb.Nature_own_way && setting.IsEnabled {
+
+				userData, _ := lo.Find(
+					notificationPotentialReceivers,
+					func(participant openapiGeneral.MwServerInternalSchemasUserPlainResponse) bool {
+						return participant.Uuid == setting.UserUuid
+					},
+				)
+
+				link := jf.router.GetWayPage(jobDone.WayUuid)
+
+				args := &services.SendMailParams{
+					Subject: "Master's way: New message from your mentor!",
+					To:      []string{userData.Email},
+					Cc:      make([]string, 0),
+					Bcc:     make([]string, 0),
+					ReplyTo: make([]string, 0),
+					Message: fmt.Sprintf("Hi! New message from your mentor for the way <strong>%s</strong> are <a href='%s'>here</a>", jobDone.WayName, link),
+				}
+				jf.mailService.SendMail(ctx, args)
+			}
+		})
+	})
+
+	// send email for mentors
+	lo.ForEach(mentoringNotificationsResponse.NotificationWithSettingsList, func(settings *pb.NotificationWithSettings, _ int) {
+		lo.ForEach(settings.NotificationSettingList, func(setting *pb.NotificationSettingResponse, _ int) {
+			if setting.Channel == pb.Channel_mail && setting.Nature == pb.Nature_mentoring_way && setting.IsEnabled {
+
+				userData, _ := lo.Find(
+					notificationPotentialReceivers,
+					func(participant openapiGeneral.MwServerInternalSchemasUserPlainResponse) bool {
+						return participant.Uuid == setting.UserUuid
+					},
+				)
+
+				link := jf.router.GetWayPage(jobDone.WayUuid)
+
+				args := &services.SendMailParams{
+					Subject: "Master's way: new message from your student!",
+					To:      []string{userData.Email},
+					Cc:      make([]string, 0),
+					Bcc:     make([]string, 0),
+					ReplyTo: make([]string, 0),
+					Message: fmt.Sprintf("Hi! New message from your mentor for the way <strong>%s</strong> are <a href='%s'>here</a>", jobDone.WayName, link),
+				}
+				jf.mailService.SendMail(ctx, args)
+			}
+		})
+	})
 
 	return jobDone, nil
 }

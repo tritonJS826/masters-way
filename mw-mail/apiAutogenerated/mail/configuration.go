@@ -90,7 +90,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "/mail",
+				URL: "/mw-mail",
 				Description: "No description provided",
 			},
 		},

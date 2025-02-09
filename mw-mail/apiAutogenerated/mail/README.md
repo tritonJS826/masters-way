@@ -74,16 +74,17 @@ ctx = context.WithValue(context.Background(), openapi.ContextOperationServerVari
 
 ## Documentation for API Endpoints
 
-All URIs are relative to */mail*
+All URIs are relative to *http://localhost/mw-mail*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
-*MailAPI* | [**SendMail**](docs/MailAPI.md#sendmail) | **Post** /mail | Sending messages to recipients and save logs
+*MailAPI* | [**SendMail**](docs/MailAPI.md#sendmail) | **Post** /send | Sending messages to recipients and save logs
 
 
 ## Documentation For Models
 
+ - [MwmailInternalSchemasMailRequest](docs/MwmailInternalSchemasMailRequest.md)
  - [MwmailInternalSchemasSendMailResponse](docs/MwmailInternalSchemasSendMailResponse.md)
 
 

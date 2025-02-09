@@ -1,6 +1,6 @@
 # \DevAPI
 
-All URIs are relative to */mail*
+All URIs are relative to *http://localhost/mw-mail*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
