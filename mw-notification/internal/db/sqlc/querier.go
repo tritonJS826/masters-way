@@ -15,6 +15,7 @@ type Querier interface {
 	CreateNotificationSettings(ctx context.Context, userUuid pgtype.UUID) error
 	GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (GetAmountOfUnreadNotificationsByUserIDRow, error)
 	GetEnabledNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
+	GetLastNotification(ctx context.Context, arg GetLastNotificationParams) (Notification, error)
 	GetNotificationListByUserID(ctx context.Context, arg GetNotificationListByUserIDParams) ([]Notification, error)
 	GetNotificationSettingListByUserID(ctx context.Context, userUuid pgtype.UUID) ([]NotificationSetting, error)
 	RegenerateDbData(ctx context.Context) error

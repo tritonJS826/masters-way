@@ -40,17 +40,15 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 	createNotificationList := make([]*pb.NotificationWithSettings, 0, len(receivers))
 	for _, receiver := range receivers {
 		var params *services.CreateNotificationParams
-		switch nature.String() {
-		case pb.Nature_mentoring_way.Enum().String():
-			fmt.Println("Nature_mentoring_way")
+		switch nature {
+		case pb.Nature_mentoring_way:
 			params = &services.CreateNotificationParams{
 				UserID:      uuid.MustParse(receiver.UserUuid),
 				Description: receiver.GetMentoringWayData().WayName,
 				Nature:      nature.String(),
 				Url:         webapprouter.NewWebappRouter(nc.config.WebappBaseURL).GetWayPage(receiver.GetMentoringWayData().WayId),
 			}
-		case pb.Nature_own_way.Enum().String():
-			fmt.Println("Nature_own_way")
+		case pb.Nature_own_way:
 			params = &services.CreateNotificationParams{
 				UserID:      uuid.MustParse(receiver.UserUuid),
 				Description: receiver.GetOwnWayData().WayName,
