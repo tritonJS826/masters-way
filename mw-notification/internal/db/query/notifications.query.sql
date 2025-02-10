@@ -11,6 +11,16 @@ INSERT INTO notifications (
     @nature
 ) RETURNING *;
 
+-- name: GetLastNotification :one
+SELECT
+    *
+FROM notifications
+WHERE
+    notifications.user_uuid = @user_uuid AND
+    notifications.nature = @nature
+ORDER BY created_at DESC
+LIMIT 1;
+
 -- name: GetNotificationListByUserID :many
 SELECT 
     *
