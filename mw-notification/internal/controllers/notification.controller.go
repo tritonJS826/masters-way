@@ -58,7 +58,7 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 		default:
 			fmt.Printf("Nature not implemented: %s", nature.String())
 		}
-		notificationRaw, err := nc.notificationService.CreateNotification(ctx, params)
+		notificationRaw, isNotificationWasCreated, err := nc.notificationService.CreateNotification(ctx, params)
 		if err != nil {
 			return nil, err
 		}
@@ -78,12 +78,13 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 			return nil, err
 		}
 		notificationSettingList := lo.Map(enabledNotificationSettingList.NotificationSettings, func(enabledNotificationSetting schemas.NotificationSettingResponse, _ int) *pb.NotificationSettingResponse {
+			isShouldNotify := bool(isNotificationWasCreated) && enabledNotificationSetting.IsEnabled
 			return &pb.NotificationSettingResponse{
 				Uuid:      enabledNotificationSetting.UUID,
 				UserUuid:  enabledNotificationSetting.UserUUID,
 				Nature:    pb.Nature(pb.Nature_value[enabledNotificationSetting.Nature]),
 				Channel:   pb.Channel(pb.Channel_value[enabledNotificationSetting.Channel]),
-				IsEnabled: enabledNotificationSetting.IsEnabled,
+				IsEnabled: isShouldNotify,
 			}
 		})
 
