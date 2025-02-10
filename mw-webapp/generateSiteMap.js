@@ -25,6 +25,7 @@ async function generateSitemap() {
     { url: "/pricing", changefreq: "weekly", priority: 0.8 },
     { url: "/ways/", changefreq: "weekly", priority: 0.8 },
     { url: "/users/", changefreq: "weekly", priority: 0.8 },
+    { url: "/trainings", changefreq: "weekly", priority: 0.8},
     { url: "/aboutProject", changefreq: "weekly", priority: 0.8 },
     { url: "/privacyPolicy", changefreq: "weekly", priority: 0.8 },
     { url: "/land/mentors", changefreq: "weekly", priority: 0.8 },
