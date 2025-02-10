@@ -65,7 +65,9 @@ func (ns *NotificationService) getIsShouldCreateNotification(ctx context.Context
 	return db.Notification{}, true
 }
 
-func (ns *NotificationService) CreateNotification(ctx context.Context, params *CreateNotificationParams) (*schemas.NotificationResponse, error) {
+type isNotificationWasCreated bool
+
+func (ns *NotificationService) CreateNotification(ctx context.Context, params *CreateNotificationParams) (*schemas.NotificationResponse, isNotificationWasCreated, error) {
 	arg := db.CreateNotificationParams{
 		UserUuid:    pgtype.UUID{Bytes: params.UserID, Valid: true},
 		Description: pgtype.Text{String: params.Description, Valid: true},
@@ -83,12 +85,12 @@ func (ns *NotificationService) CreateNotification(ctx context.Context, params *C
 			Url:         notification.Url.String,
 			Nature:      string(notification.Nature),
 			CreatedAt:   notification.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
-		}, nil
+		}, false, nil
 	}
 
 	notification, err := ns.notificationRepository.CreateNotification(ctx, arg)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
 	return &schemas.NotificationResponse{
@@ -99,7 +101,7 @@ func (ns *NotificationService) CreateNotification(ctx context.Context, params *C
 		Url:         notification.Url.String,
 		Nature:      string(notification.Nature),
 		CreatedAt:   notification.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
-	}, nil
+	}, true, nil
 }
 
 type UpdateNotificationParams struct {
