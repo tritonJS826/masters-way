@@ -34,14 +34,6 @@ interface WayFilters {
     minDayReports?: MinDayReports;
 };
 
-
-interface SingleLabelRowData{
-    name: string,
-    color: string,
-    jobsAmount: string,
-    time: string
-};
-
 function adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
     const reportSelectors = {
         0: allWaysSelectors.filterViewBlock.getDayReportsSelectOption0,
@@ -146,7 +138,7 @@ function verifyLabelStatisticsRow({
 }: {
     statisticsPlacement: StatisticsPlacement,
     periodBlockTitle: PeriodBlockTitle,
-    expectedLabelRowData: SingleLabelRowData
+    expectedLabelRowData: { name: string, color: string, jobsAmount: string, time: string }
     }
 ) {
     // Get the correct key for the period block title based on placement
@@ -242,78 +234,43 @@ describe('Statistics tests', () => {
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
             periodBlockTitle: "lastWeek",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
             periodBlockTitle: "lastWeek",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
             
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
             periodBlockTitle: "lastWeek",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
         });
 
         statisticsSelectors.getShowAllStatisticsButton().click();
@@ -377,122 +334,67 @@ describe('Statistics tests', () => {
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "total",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "lastMonth",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "lastMonth",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "lastMonth",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "lastMonth",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "lastWeek",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "lastWeek",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
             periodBlockTitle: "lastWeek",
-            expectedLabelRowData: {
-                name: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.name,
-                color: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.color,
-                jobsAmount: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.jobsAmount,
-                time: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3.time
-            }
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
         });
 
         statisticsSelectors.statistics.getCloseButton().click();
