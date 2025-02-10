@@ -229,7 +229,7 @@ describe('Mentor-mentee tests', () => {
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
-            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`)
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
@@ -238,7 +238,7 @@ describe('Mentor-mentee tests', () => {
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()
-            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`)
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
@@ -257,7 +257,7 @@ describe('Mentor-mentee tests', () => {
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()
-            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`)
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
             .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
@@ -271,7 +271,7 @@ describe('Mentor-mentee tests', () => {
         wayDescriptionSelectors.wayActionMenu.DeleteWayItem.dialog.getDeleteButton().click();
 
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
-            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`)
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
             .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
     });

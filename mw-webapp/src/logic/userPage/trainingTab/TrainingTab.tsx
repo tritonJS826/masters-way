@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {trainingAccessIds} from "cypress/accessIds/trainingsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
+import {CollectionCard} from "src/component/collectionCard/CollectionCard";
 import {Loader} from "src/component/loader/Loader";
 import {TrainingCard} from "src/component/trainingCard/TrainingCard";
 import {TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
@@ -44,7 +45,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
       dataForInitialization: [
         {
           userPageOwnerUuid: props.userPageOwnerUuid,
-          trainingName: "",
+          trainingName: "new",
         },
       ],
       dependency: [props.userPageOwnerUuid],
@@ -82,6 +83,42 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
 
   return (
     <>
+      <CollectionCard
+        isActive={false/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        collectionTitle={LanguageService.user.trainings.own[language]}
+        collectionsAmount={0}
+        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        language={language}
+      />
+
+      <CollectionCard
+        isActive={true/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        collectionTitle={LanguageService.user.trainings.mentoring[language]}
+        collectionsAmount={0}
+        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        language={language}
+      />
+
+      <CollectionCard
+        isActive={false/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        collectionTitle={LanguageService.user.trainings.student[language]}
+        collectionsAmount={0}
+        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        language={language}
+      />
+
+      <CollectionCard
+        isActive={false/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        collectionTitle={LanguageService.user.trainings.favorite[language]}
+        collectionsAmount={0}
+        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        language={language}
+      />
+
       {trainingTabStore.trainingsPreview.map(training => (
         <TrainingCard
           key={training.uuid}

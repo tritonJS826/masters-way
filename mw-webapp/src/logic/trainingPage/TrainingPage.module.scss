@@ -35,17 +35,6 @@ $labelMaxWidthBlock: 650px;
   align-items: center;
 }
 
-.viewSwitcher {
-  align-items: center;
-  margin-left: auto;
-}
-
-.metricsBlock {
-  @include regularContainer;
-  min-width: $minWidthBlock;
-  gap: $gapSmall;
-}
-
 .peopleBlock {
   @include regularContainer;
   min-width: $minWidthBlock;
@@ -56,48 +45,18 @@ $labelMaxWidthBlock: 650px;
   flex-wrap: wrap;
 }
 
-.applyAsMentorButton {
-  margin-top: auto;
-}
-
 .trainingActionMenu {
   left: -150px;
   width: 200px;
 }
 
-.privacyBlock,
-.compositeBlock {
+.privacyBlock {
   align-items: baseline;
 }
 
 .mentors {
   display: flex;
   font-size: $fontSizeBig;
-}
-
-.statistics {
-  @include regularContainer;
-  width: 100%;
-}
-
-.statisticsModal {
-  width: 95%;
-}
-
-.iconContainer {
-  width: $iconContainerSize;
-  height: $iconContainerSize;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.icon {
-  display: block;
-  min-width: $iconSizeSmall;
-  min-height: $iconSizeSmall;
-  margin-left: $marginSmall;
-  cursor: pointer;
 }
 
 .trainingDashboard {
@@ -120,28 +79,6 @@ $labelMaxWidthBlock: 650px;
   align-items: start;
 }
 
-.gap {
-  gap: $gapSmall;
-}
-
-.reportsAmount {
-  align-items: center;
-}
-
-.dayReportActions {
-  @include regularContainer;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.accordion {
-  margin-top: $marginMedium;
-}
-
-.trash {
-  display: inline-block;
-}
-
 .trainingName {
   flex: 1;
   input {
@@ -158,23 +95,6 @@ $labelMaxWidthBlock: 650px;
   gap: $gapExtraSmall;
 }
 
-.labelsWrapper {
-  min-width: $labelMaxWidthBlock;
-
-  @media only screen and (max-width: $mediaWidthTablet) {
-    min-width: $mediumWidthBlock;
-  }
-  @media only screen and (max-width: $mediaWidthMobileMedium) {
-    min-width: $minWidthBlock;
-  }
-}
-
-.wrap {
-  @media (max-width: $mediaWidthMobileBig) {
-    justify-content: center;
-  }
-}
-
 .disabled {
   cursor: default;
 
@@ -189,14 +109,7 @@ $labelMaxWidthBlock: 650px;
   }
 }
 
-.statisticEyeButton {
-  display: none;
-
-  @media (max-width: $mediaWidthTablet) {
-    display: flex;
-  }
-}
-
-.childWaysBlock {
-  gap: $gapExtraSmall;
+.trainingTopics {
+  @include regularContainer;
+  width: 100%;
 }

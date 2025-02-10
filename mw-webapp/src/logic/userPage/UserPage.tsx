@@ -10,6 +10,7 @@ import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
+import {CollectionCard} from "src/component/collectionCard/CollectionCard";
 import {Dropdown} from "src/component/dropdown/Dropdown";
 import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
@@ -29,7 +30,6 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {WayCollectionCard} from "src/component/wayCollectionCard/WayCollectionCard";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
@@ -356,28 +356,31 @@ export const UserPage = observer((props: UserPageProps) => {
               </HorizontalContainer>
 
               <HorizontalGridContainer className={styles.tabsSection}>
-                <WayCollectionCard
+                <CollectionCard
                   isActive={userPageOwner.defaultWayCollections.own.uuid === openedTabId}
                   collectionTitle={LanguageService.user.collections.own[language]}
-                  collectionWaysAmount={userPageOwner.defaultWayCollections.own.ways.length}
+                  collectionsAmount={userPageOwner.defaultWayCollections.own.ways.length}
+                  collectionAmountTitle={LanguageService.user.collections.ways[language]}
                   onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)}
                   language={language}
                   dataCy={userWaysAccessIds.collectionBlock.ownWayCollectionButton}
                 />
 
-                <WayCollectionCard
+                <CollectionCard
                   isActive={userPageOwner.defaultWayCollections.mentoring.uuid === openedTabId}
                   collectionTitle={LanguageService.user.collections.mentoring[language]}
-                  collectionWaysAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
+                  collectionsAmount={userPageOwner.defaultWayCollections.mentoring.ways.length}
+                  collectionAmountTitle={LanguageService.user.collections.ways[language]}
                   onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.mentoring.uuid)}
                   language={language}
                   dataCy={userWaysAccessIds.collectionBlock.mentoringWayCollectionButton}
                 />
 
-                <WayCollectionCard
+                <CollectionCard
                   isActive={userPageOwner.defaultWayCollections.favorite.uuid === openedTabId}
                   collectionTitle={LanguageService.user.collections.favorite[language]}
-                  collectionWaysAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
+                  collectionsAmount={userPageOwner.defaultWayCollections.favorite.ways.length}
+                  collectionAmountTitle={LanguageService.user.collections.ways[language]}
                   onClick={() => setOpenedTabId(userPageOwner.defaultWayCollections.favorite.uuid)}
                   language={language}
                   dataCy={userWaysAccessIds.collectionBlock.favoriteWayCollectionButton}
@@ -400,11 +403,12 @@ export const UserPage = observer((props: UserPageProps) => {
 
               <HorizontalContainer className={styles.tabsSection}>
                 {userPageOwner.customWayCollections.map(collection => (
-                  <WayCollectionCard
+                  <CollectionCard
                     key={collection.uuid}
                     isActive={collection.uuid === openedTabId}
                     collectionTitle={collection.name}
-                    collectionWaysAmount={collection.ways.length}
+                    collectionsAmount={collection.ways.length}
+                    collectionAmountTitle={LanguageService.user.collections.ways[language]}
                     onClick={() => setOpenedTabId(collection.uuid)}
                     language={language}
                     isEditable={isPageOwner}

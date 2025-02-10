@@ -287,6 +287,26 @@
     }
   },
   "trainings": {
+    "own": {
+      "ru": "Собственные",
+      "en": "Own",
+      "ua": "Власні"
+    },
+    "favorite": {
+      "ru": "Любимые",
+      "en": "Favorite",
+      "ua": "Улюблені"
+    },
+    "mentoring": {
+      "ru": "Наставнические",
+      "en": "Mentoring",
+      "ua": "Наставницькі"
+    },
+    "student": {
+      "ru": "Студенческие",
+      "en": "Student",
+      "ua": "Студентські"
+    },
     "addTraining": {
       "ru": "Добавить тренинг",
       "en": "Add training",

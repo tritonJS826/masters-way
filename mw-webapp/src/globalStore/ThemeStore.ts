@@ -183,7 +183,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
     [Theme.LIGHT]: "#784DEA",
     [Theme.OBSIDIAN]: "#4a4a4a",
   },
-  wayCollectionCardActiveColor: {
+  collectionCardActiveColor: {
     [Theme.DARK]: "#603EBB",
     [Theme.LIGHT]: "#603EBB",
     [Theme.OBSIDIAN]: "#784DEA",

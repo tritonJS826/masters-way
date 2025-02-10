@@ -61,11 +61,6 @@
     }
   },
   "trainingInfo": {
-    "daysFromStart": {
-      "ru": "дней",
-      "en": "days",
-      "ua": "днів"
-    },
     "description": {
       "ru": "Описание",
       "en": "Description",
@@ -206,6 +201,13 @@
       "ru": "Вы уверены, что хотите удалить тренинг",
       "en": "Are you sure you want to delete the training",
       "ua": "Ви впевнені, що хочете видалити тренінг"
+    }
+  },
+  "topicsBlock": {
+    "topics": {
+      "ru": "Темы",
+      "en": "Topics",
+      "ua": "Теми"
     }
   }
 }

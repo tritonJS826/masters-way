@@ -1,10 +1,10 @@
 @import "src/styles/variables";
 
-$wayCollectionCardMainHeight: 76px;
-$wayCollectionCardAdditionalHeight: 47px;
+$collectionCardMainHeight: 76px;
+$collectionCardAdditionalHeight: 47px;
 $titleWithBurgerBlockHeight: 32px;
 
-.wayCollectionCardContainer {
+.collectionCardContainer {
   width: 100%;
   border: $primaryBorder solid var(--primaryStrokeColor);
   border-radius: $primaryBorderRadius;
@@ -12,13 +12,14 @@ $titleWithBurgerBlockHeight: 32px;
   @include scaleOnHover;
 }
 
-.wayCollectionCardButton {
+.collectionCardButton {
   padding: 0;
   border: none;
+  margin-bottom: auto;
 }
 
 .mainInfo {
-  height: $wayCollectionCardMainHeight;
+  height: $collectionCardMainHeight;
   padding: $paddingMedium;
   background-color: var(--mainInfoCardColor);
   border-top-left-radius: inherit;
@@ -61,7 +62,7 @@ $titleWithBurgerBlockHeight: 32px;
 // }
 
 .additionalInfo {
-  height: $wayCollectionCardAdditionalHeight;
+  height: $collectionCardAdditionalHeight;
   padding: $paddingMedium;
   background-color: var(--additionalInfoCardBgColor);
   border-bottom-left-radius: inherit;
@@ -72,5 +73,5 @@ $titleWithBurgerBlockHeight: 32px;
 }
 
 .active {
-  background-color: var(--wayCollectionCardActiveColor);
+  background-color: var(--collectionCardActiveColor);
 }

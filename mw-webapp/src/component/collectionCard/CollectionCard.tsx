@@ -14,15 +14,15 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Language} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
-import styles from "src/component/wayCollectionCard/WayCollectionCard.module.scss";
+import styles from "src/component/collectionCard/CollectionCard.module.scss";
 
 /**
- * WayCollection props
+ * Collection props
  */
-interface WayCollectionProps {
+interface CollectionProps {
 
   /**
-   * Show is wayCollection render ways in the ways table
+   * Show is Collection active
    */
   isActive: boolean;
 
@@ -32,12 +32,17 @@ interface WayCollectionProps {
   collectionTitle: string;
 
   /**
-   * Collection ways amount
+   * Collection amount title
    */
-  collectionWaysAmount: number;
+  collectionAmountTitle: string;
 
   /**
-   * Callback triggered on WayCollection click
+   * Collections amount
+   */
+  collectionsAmount: number;
+
+  /**
+   * Callback triggered on Collection click
    */
   onClick: () => void;
 
@@ -69,9 +74,9 @@ interface WayCollectionProps {
 }
 
 /**
- * WayCollectionCard component
+ * CollectionCard component
  */
-export const WayCollectionCard = (props: WayCollectionProps) => {
+export const CollectionCard = (props: CollectionProps) => {
   const [isRenameCollectionModalOpen, setIsRenameCollectionModalOpen] = useState(false);
 
   const deleteConfirm = (
@@ -97,12 +102,12 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
     <Button
       dataCy={props.dataCy}
       onClick={props.onClick}
-      className={styles.wayCollectionCardButton}
+      className={styles.collectionCardButton}
       value={
-        <VerticalContainer className={styles.wayCollectionCardContainer}>
+        <VerticalContainer className={styles.collectionCardContainer}>
           <VerticalContainer
             className={clsx(styles.mainInfo, props.isActive && styles.active)}
-            dataCy={userWaysAccessIds.collectionBlock.wayCollectionButtonMainInfo}
+            dataCy={userWaysAccessIds.collectionBlock.collectionButtonMainInfo}
           >
             <HorizontalContainer className={styles.collectionTitleBlock}>
               <Title
@@ -193,9 +198,9 @@ export const WayCollectionCard = (props: WayCollectionProps) => {
           </VerticalContainer>
           <HorizontalContainer
             className={styles.additionalInfo}
-            dataCy={userWaysAccessIds.collectionBlock.wayAmountCollectionButton}
+            dataCy={userWaysAccessIds.collectionBlock.amountCollectionButton}
           >
-            {`${LanguageService.user.collections.ways[props.language]}: ${props.collectionWaysAmount}`}
+            {`${props.collectionAmountTitle}: ${props.collectionsAmount}`}
           </HorizontalContainer>
         </VerticalContainer>
       }

@@ -426,6 +426,19 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
 
         </VerticalContainer>
 
+        <VerticalContainer className={styles.trainingTopics}>
+          <Title
+            level={HeadingLevel.h3}
+            text={LanguageService.training.topicsBlock.topics[language]}
+            placeholder=""
+          />
+
+          <div>
+            {" "}
+            Hello
+          </div>
+        </VerticalContainer>
+
       </HorizontalGridContainer>
 
     </VerticalContainer>
