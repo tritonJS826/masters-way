@@ -19,11 +19,21 @@ export const allWaysAccessIds = {
     },
 
     filterViewBlock: {
-        filterByStatus: 'filterByStatus',
-        viewButton: 'ViewButton',
+        searchByWayNameInput: 'searchByWayNameInput',
+
+        statusSelect: 'filterByStatusSelect',
+        statusSelectOptionAll: 'statusSelectOptionAll',
+        statusSelectOptionCompleted: 'statusSelectOptionCompleted',
+        statusSelectOptionAbandoned: 'statusSelectOptionAbandoned',
+        statusSelectOptionInProgress: 'statusSelectOptionInProgress',
+
         dayReportsSelect: 'dayReportsSelect',
-        dayReportsSelectOption0: 'dayReportsSelectOption0',
+        dayReportsSelectOption0: 'dayReportsSelectOptionAny',
         dayReportsSelectOptionAtLeast5: 'dayReportsSelectOptionAtLeast5',
+        dayReportsSelectOptionAtLeast20: 'dayReportsSelectOptionAtLeast20',
+        dayReportsSelectOptionAtLeast50: 'dayReportsSelectOptionAtLeast50',
+
+        viewButton: 'ViewButton',
     }
     
 };

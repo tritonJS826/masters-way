@@ -171,6 +171,7 @@ export const AllWaysPage = observer(() => {
               placeholder={LanguageService.allWays.filterBlock.wayNamePlaceholder[language]}
               typeInputIcon={"SearchIcon"}
               typeInput={InputType.Border}
+              dataCy={allWaysAccessIds.filterViewBlock.searchByWayNameInput}
             />
           </div>
 
@@ -178,11 +179,32 @@ export const AllWaysPage = observer(() => {
             label={LanguageService.allWays.filterBlock.type[language]}
             defaultValue={allWaysPageSettings.filterStatus}
             name="filterStatus"
+            cy={{dataCyTrigger: allWaysAccessIds.filterViewBlock.statusSelect}}
             options={[
-              {id: "1", value: FILTER_STATUS_ALL_VALUE, text: LanguageService.allWays.filterBlock.typeOptions.all[language]},
-              {id: "2", value: WayStatus.completed, text: LanguageService.allWays.filterBlock.typeOptions.completed[language]},
-              {id: "3", value: WayStatus.abandoned, text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language]},
-              {id: "4", value: WayStatus.inProgress, text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language]},
+              {
+                id: "1",
+                value: FILTER_STATUS_ALL_VALUE,
+                text: LanguageService.allWays.filterBlock.typeOptions.all[language],
+                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionAll,
+              },
+              {
+                id: "2",
+                value: WayStatus.completed,
+                text: LanguageService.allWays.filterBlock.typeOptions.completed[language],
+                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionCompleted,
+              },
+              {
+                id: "3",
+                value: WayStatus.abandoned,
+                text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language],
+                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionAbandoned,
+              },
+              {
+                id: "4",
+                value: WayStatus.inProgress,
+                text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language],
+                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionInProgress,
+              },
             ]}
             onChange={(status) => {
               updateAllWaysPageSettings({
@@ -196,10 +218,10 @@ export const AllWaysPage = observer(() => {
           />
 
           <Select
-            cy={{dataCyTrigger: allWaysAccessIds.filterViewBlock.dayReportsSelect}}
             label={LanguageService.allWays.filterBlock.minDayReportsAmountLabel[language]}
             defaultValue={String(allWaysPageSettings.minDayReportsAmount)}
             name="minDayReportsStatus"
+            cy={{dataCyTrigger: allWaysAccessIds.filterViewBlock.dayReportsSelect}}
             options={[
               {
                 id: "1",
@@ -217,11 +239,13 @@ export const AllWaysPage = observer(() => {
                 id: "3",
                 value: "20",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption2[language],
+                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast20,
               },
               {
                 id: "4",
                 value: "50",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption3[language],
+                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast50,
               },
             ]}
             onChange={(minDayReportsAmount) => {
