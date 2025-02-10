@@ -27,10 +27,9 @@ describe('User Way tests', () => {
 
     userWaysSelectors.getCreateNewWayButton().click();
     wayDescriptionSelectors.wayDashBoardLeft.getTitle().dblclick().type('{selectall}').type(testUserData.testUsers.studentJonh.newWayTitle + '{enter}');
-    wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('contain', testUserData.testUsers.studentJonh.newWayTitle);
+    wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', testUserData.testUsers.studentJonh.newWayTitle);
 
-    wayDescriptionSelectors.wayDashBoardLeft.getGoal().dblclick().type(testUserData.testUsers.studentJonh.goal + '{enter}');
-    wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('contain', testUserData.testUsers.studentJonh.goal);
+    wayDescriptionSelectors.wayDashBoardLeft.getGoal().dblclick().type(`${testUserData.testUsers.studentJonh.goal}{enter}${testUserData.testUsers.studentJonh.goalNewLine}{ctrl+enter}`);
 
     wayDescriptionSelectors.wayDashBoardLeft.tag.getAddTagButton().click();
     wayDescriptionSelectors.wayDashBoardLeft.tag.getTagInput().type(testUserData.testUsers.studentJonh.wayTag1);
@@ -62,7 +61,7 @@ describe('User Way tests', () => {
     dayReportsSelectors.dayReportsContent.getAddButton().first().click();
     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-    dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
+    dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(`${dayReportsData.jobDoneDescription}{enter}${dayReportsData.jobDoneDescriptionNewLine}`);
     headerSelectors.getHeader().click();
     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
@@ -99,18 +98,18 @@ describe('User Way tests', () => {
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
     allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
     allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.newWayTitle).first().click();
-    wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('contain', testUserData.testUsers.studentJonh.goal);
+    wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal}\n${testUserData.testUsers.studentJonh.goalNewLine}`);
     wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJonh.wayTag1);
     wayMetricsSelectors.getMetricDescription().first().should('have.text', wayMetricsData.wayMetricDescriptions[0]);
     wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.wayMetricDescriptions[2]);
     wayMetricsSelectors.getMetricDescription().eq(2).should('have.text', wayMetricsData.wayMetricDescriptions[3]);
     wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics4- 1);
-    dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('contain', dayReportsData.jobDoneDescription);
-    dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().should('contain', dayReportsData.timeSpentOnJob);
-    dayReportsSelectors.dayReportsContent.plans.getPlanDescription().should('contain', dayReportsData.planDescription);
-    dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().should('contain', dayReportsData.estimatedPlanTime);
-    dayReportsSelectors.dayReportsContent.problems.getProblemDescription().should('contain', dayReportsData.problemDescription);
-    dayReportsSelectors.dayReportsContent.comments.getCommentDescription().should('contain', dayReportsData.commentDescription);
+    dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('have.text', `${dayReportsData.jobDoneDescription}\n${dayReportsData.jobDoneDescriptionNewLine}`);
+    dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().should('have.text', dayReportsData.timeSpentOnJob);
+    dayReportsSelectors.dayReportsContent.plans.getPlanDescription().should('have.text', dayReportsData.planDescription);
+    dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().should('have.text', dayReportsData.estimatedPlanTime);
+    dayReportsSelectors.dayReportsContent.problems.getProblemDescription().should('have.text', dayReportsData.problemDescription);
+    dayReportsSelectors.dayReportsContent.comments.getCommentDescription().should('have.text', dayReportsData.commentDescription);
   });
 
 });
