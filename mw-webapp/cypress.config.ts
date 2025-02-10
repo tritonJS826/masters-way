@@ -23,7 +23,8 @@ const cypressConfig = defineConfig({
     retries: {
       // Configure retry attempts for `cypress run`
       // Default is 0
-      runMode: 1,
+      // We increased retries to 4 because e2e tests were not stable on macOS 14.2 (23C64)
+      runMode: 4,
       // Configure retry attempts for `cypress open`
       // Default is 0
       openMode: 0,

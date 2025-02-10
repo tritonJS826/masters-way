@@ -41,14 +41,13 @@ func (cc *MessageController) CreateMessage(ctx *gin.Context) {
 	messageResponse, err := cc.chatService.CreateMessage(ctx, payload.Message, payload.RoomID)
 	util.HandleErrorGin(ctx, err)
 
-	// TODO rename  service method
-	populatedUserMap, err := cc.generalService.GetPopulatedUsers(ctx, []string{messageResponse.Message.OwnerID})
+	userMap, err := cc.generalService.GetUserMapByIds(ctx, []string{messageResponse.Message.OwnerID})
 	if err != nil {
 		util.HandleErrorGin(ctx, fmt.Errorf("general service error: %w", err))
 	}
 
-	messageResponse.Message.OwnerName = populatedUserMap[messageResponse.Message.OwnerID].Name
-	messageResponse.Message.OwnerImageURL = populatedUserMap[messageResponse.Message.OwnerID].ImageURL
+	messageResponse.Message.OwnerName = userMap[messageResponse.Message.OwnerID].Name
+	messageResponse.Message.OwnerImageURL = userMap[messageResponse.Message.OwnerID].ImageURL
 
 	err = cc.chatWebSocketService.SendMessage(ctx, payload.RoomID, messageResponse)
 	util.HandleErrorGin(ctx, err)

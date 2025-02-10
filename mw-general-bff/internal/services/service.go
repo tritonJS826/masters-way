@@ -11,6 +11,7 @@ import (
 type Service struct {
 	AuthService         *AuthService
 	GeneralService      *GeneralService
+	MailService         *MailService
 	StorageService      *StorageService
 	NotificationService *NotificationService
 }
@@ -18,6 +19,7 @@ type Service struct {
 func NewService(config *config.Config, conn *grpc.ClientConn) *Service {
 	var generalApi = openapi.MakeGeneralAPIClient(config)
 	var storageApi = openapi.MakeStorageAPIClient(config)
+	var mailApi = openapi.MakeMailAPIClient(config)
 
 	notificationGRPC := pb.NewNotificationServiceClient(conn)
 	notificationSettingGRPC := pb.NewNotificationSettingServiceClient(conn)
@@ -25,6 +27,7 @@ func NewService(config *config.Config, conn *grpc.ClientConn) *Service {
 	return &Service{
 		AuthService:         newAuthService(generalApi),
 		GeneralService:      newGeneralService(generalApi),
+		MailService:         newMailService(mailApi),
 		StorageService:      newStorageService(storageApi),
 		NotificationService: newNotificationService(notificationGRPC, notificationSettingGRPC),
 	}

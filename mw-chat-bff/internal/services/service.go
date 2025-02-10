@@ -26,8 +26,9 @@ func NewService(config *config.Config) *Service {
 	}
 }
 
-type PopulatedUser struct {
+type ShortUser struct {
 	UserID   string
+	Email    string
 	Name     string
 	ImageURL string
 }

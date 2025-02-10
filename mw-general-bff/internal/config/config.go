@@ -13,6 +13,8 @@ type Config struct {
 	EnvType                  string `mapstructure:"ENV_TYPE"`
 	GeneralAPIHost           string `mapstructure:"GENERAL_API_HOST"`
 	GeneralBaseURL           string `mapstructure:"GENERAL_BASE_URL"`
+	MailAPIHost              string `mapstructure:"MAIL_API_HOST"`
+	MailBaseURL              string `mapstructure:"MAIL_BASE_URL"`
 	StorageAPIHost           string `mapstructure:"STORAGE_API_HOST"`
 	StorageBaseURL           string `mapstructure:"STORAGE_BASE_URL"`
 	NotificationAPIHost      string `mapstructure:"NOTIFICATION_API_HOST"`

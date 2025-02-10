@@ -159,7 +159,6 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 	}
 
 	metricsTree := buildMetricTree(metrics)
-	println(len(metricsTree))
 
 	wayTagsRaw, _ := ws.wayRepository.GetListWayTagsByWayId(ctx, wayPgUUID)
 	wayTags := lo.Map(wayTagsRaw, func(dbWayTag db.WayTag, i int) schemas.WayTagResponse {

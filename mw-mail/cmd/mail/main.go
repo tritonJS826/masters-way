@@ -18,7 +18,7 @@ import (
 
 // @title     Masters way mail API
 // @version 1.0
-// @BasePath  /mail
+// @BasePath  /mw-mail
 func main() {
 	newConfig, err := config.LoadConfig("./")
 	if err != nil {

@@ -39,7 +39,7 @@ func main() {
 	defer newPool.Close()
 
 	newService := services.NewService(newPool)
-	newController := controllers.NewController(newService)
+	newController := controllers.NewController(newService, &newConfig)
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", newConfig.ServerPort))
 	if err != nil {

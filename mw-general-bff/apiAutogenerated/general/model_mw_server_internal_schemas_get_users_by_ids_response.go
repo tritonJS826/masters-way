@@ -21,6 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasGetUsersByIDsResponse{}
 
 // MwServerInternalSchemasGetUsersByIDsResponse struct for MwServerInternalSchemasGetUsersByIDsResponse
 type MwServerInternalSchemasGetUsersByIDsResponse struct {
+	Email string
 	ImageUrl string
 	Name string
 	UserId string
@@ -32,8 +33,9 @@ type _MwServerInternalSchemasGetUsersByIDsResponse MwServerInternalSchemasGetUse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasGetUsersByIDsResponse(imageUrl string, name string, userId string) *MwServerInternalSchemasGetUsersByIDsResponse {
+func NewMwServerInternalSchemasGetUsersByIDsResponse(email string, imageUrl string, name string, userId string) *MwServerInternalSchemasGetUsersByIDsResponse {
 	this := MwServerInternalSchemasGetUsersByIDsResponse{}
+	this.Email = email
 	this.ImageUrl = imageUrl
 	this.Name = name
 	this.UserId = userId
@@ -46,6 +48,30 @@ func NewMwServerInternalSchemasGetUsersByIDsResponse(imageUrl string, name strin
 func NewMwServerInternalSchemasGetUsersByIDsResponseWithDefaults() *MwServerInternalSchemasGetUsersByIDsResponse {
 	this := MwServerInternalSchemasGetUsersByIDsResponse{}
 	return &this
+}
+
+// GetEmail returns the Email field value
+func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetEmail() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Email
+}
+
+// GetEmailOk returns a tuple with the Email field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasGetUsersByIDsResponse) GetEmailOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Email, true
+}
+
+// SetEmail sets field value
+func (o *MwServerInternalSchemasGetUsersByIDsResponse) SetEmail(v string) {
+	o.Email = v
 }
 
 // GetImageUrl returns the ImageUrl field value
@@ -130,6 +156,7 @@ func (o MwServerInternalSchemasGetUsersByIDsResponse) MarshalJSON() ([]byte, err
 
 func (o MwServerInternalSchemasGetUsersByIDsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["email"] = o.Email
 	toSerialize["imageUrl"] = o.ImageUrl
 	toSerialize["name"] = o.Name
 	toSerialize["userId"] = o.UserId
@@ -141,6 +168,7 @@ func (o *MwServerInternalSchemasGetUsersByIDsResponse) UnmarshalJSON(data []byte
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"email",
 		"imageUrl",
 		"name",
 		"userId",

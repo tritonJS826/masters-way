@@ -16,7 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   MwServerInternalSchemasGetAllUsersResponse,
-  MwServerInternalSchemasGetUsersByIDsResponse,
+  MwServerInternalSchemasShortUser,
   MwServerInternalSchemasUpdateUserPayload,
   MwServerInternalSchemasUserPlainResponse,
   MwServerInternalSchemasUserPopulatedResponse,
@@ -24,8 +24,8 @@ import type {
 import {
     MwServerInternalSchemasGetAllUsersResponseFromJSON,
     MwServerInternalSchemasGetAllUsersResponseToJSON,
-    MwServerInternalSchemasGetUsersByIDsResponseFromJSON,
-    MwServerInternalSchemasGetUsersByIDsResponseToJSON,
+    MwServerInternalSchemasShortUserFromJSON,
+    MwServerInternalSchemasShortUserToJSON,
     MwServerInternalSchemasUpdateUserPayloadFromJSON,
     MwServerInternalSchemasUpdateUserPayloadToJSON,
     MwServerInternalSchemasUserPlainResponseFromJSON,
@@ -141,7 +141,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get users by ids
      */
-    async getUsersByIdsRaw(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MwServerInternalSchemasGetUsersByIDsResponse>>> {
+    async getUsersByIdsRaw(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MwServerInternalSchemasShortUser>>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling getUsersByIds.');
         }
@@ -160,13 +160,13 @@ export class UserApi extends runtime.BaseAPI {
             body: requestParameters.request,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MwServerInternalSchemasGetUsersByIDsResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MwServerInternalSchemasShortUserFromJSON));
     }
 
     /**
      * Get users by ids
      */
-    async getUsersByIds(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MwServerInternalSchemasGetUsersByIDsResponse>> {
+    async getUsersByIds(requestParameters: GetUsersByIdsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<MwServerInternalSchemasShortUser>> {
         const response = await this.getUsersByIdsRaw(requestParameters, initOverrides);
         return await response.value();
     }

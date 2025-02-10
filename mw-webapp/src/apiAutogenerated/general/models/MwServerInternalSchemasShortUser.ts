@@ -16,36 +16,43 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MwServerInternalSchemasGetUsersByIDsResponse
+ * @interface MwServerInternalSchemasShortUser
  */
-export interface MwServerInternalSchemasGetUsersByIDsResponse {
+export interface MwServerInternalSchemasShortUser {
     /**
      * 
      * @type {string}
-     * @memberof MwServerInternalSchemasGetUsersByIDsResponse
+     * @memberof MwServerInternalSchemasShortUser
+     */
+    email: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwServerInternalSchemasShortUser
      */
     imageUrl: string;
     /**
      * 
      * @type {string}
-     * @memberof MwServerInternalSchemasGetUsersByIDsResponse
+     * @memberof MwServerInternalSchemasShortUser
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof MwServerInternalSchemasGetUsersByIDsResponse
+     * @memberof MwServerInternalSchemasShortUser
      */
     userId: string;
 }
 
 /**
- * Check if a given object implements the MwServerInternalSchemasGetUsersByIDsResponse interface.
+ * Check if a given object implements the MwServerInternalSchemasShortUser interface.
  */
-export function instanceOfMwServerInternalSchemasGetUsersByIDsResponse(
+export function instanceOfMwServerInternalSchemasShortUser(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "email" in value;
     isInstance = isInstance && "imageUrl" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "userId" in value;
@@ -53,19 +60,20 @@ export function instanceOfMwServerInternalSchemasGetUsersByIDsResponse(
     return isInstance;
 }
 
-export function MwServerInternalSchemasGetUsersByIDsResponseFromJSON(json: any): MwServerInternalSchemasGetUsersByIDsResponse {
-    return MwServerInternalSchemasGetUsersByIDsResponseFromJSONTyped(json, false);
+export function MwServerInternalSchemasShortUserFromJSON(json: any): MwServerInternalSchemasShortUser {
+    return MwServerInternalSchemasShortUserFromJSONTyped(json, false);
 }
 
-export function MwServerInternalSchemasGetUsersByIDsResponseFromJSONTyped(
+export function MwServerInternalSchemasShortUserFromJSONTyped(
     json: any,
     ignoreDiscriminator: boolean
-): MwServerInternalSchemasGetUsersByIDsResponse {
+): MwServerInternalSchemasShortUser {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
+        'email': json['email'],
         'imageUrl': json['imageUrl'],
         'name': json['name'],
         'userId': json['userId'],
@@ -73,7 +81,7 @@ export function MwServerInternalSchemasGetUsersByIDsResponseFromJSONTyped(
 }
 
 
-export function MwServerInternalSchemasGetUsersByIDsResponseToJSON(value?: MwServerInternalSchemasGetUsersByIDsResponse | null): any {
+export function MwServerInternalSchemasShortUserToJSON(value?: MwServerInternalSchemasShortUser | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -82,6 +90,7 @@ export function MwServerInternalSchemasGetUsersByIDsResponseToJSON(value?: MwSer
     }
     return {
         
+        'email': value.email,
         'imageUrl': value.imageUrl,
         'name': value.name,
         'userId': value.userId,

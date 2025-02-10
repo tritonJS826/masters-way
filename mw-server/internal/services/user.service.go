@@ -153,7 +153,7 @@ func (us *UserService) GetAllUsers(ctx context.Context, params *GetAllUsersParam
 	return &schemas.GetAllUsersResponse{Size: usersSize, Users: response}, nil
 }
 
-func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.GetUsersByIDsResponse, error) {
+func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]schemas.ShortUser, error) {
 	usersPgUUIDs := lo.Map(userIDs, func(userID string, i int) pgtype.UUID {
 		return pgtype.UUID{Bytes: uuid.MustParse(userID), Valid: true}
 	})
@@ -167,18 +167,21 @@ func (us *UserService) GetUsersByIDs(ctx context.Context, userIDs []string) ([]s
 		return util.ConvertPgUUIDToUUID(dbUser.Uuid).String(), dbUser
 	})
 
-	response := make([]schemas.GetUsersByIDsResponse, 0, len(userIDs))
-	for _, userID := range userIDs {
+	response := lo.Map(userIDs, func(userID string, _ int) schemas.ShortUser {
 		dbUser, exists := dbUsersMap[userID]
 		if !exists {
-			return nil, fmt.Errorf("User ID %s not found in the database", userID)
+			err = fmt.Errorf("User ID %s not found in the database", userID)
 		}
 
-		response = append(response, schemas.GetUsersByIDsResponse{
+		return schemas.ShortUser{
 			UserID:   util.ConvertPgUUIDToUUID(dbUser.Uuid).String(),
+			Email:    dbUser.Email,
 			Name:     dbUser.Name,
 			ImageURL: dbUser.ImageUrl,
-		})
+		}
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	return response, nil

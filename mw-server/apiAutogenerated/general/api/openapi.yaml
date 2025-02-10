@@ -1371,7 +1371,7 @@ paths:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/mw-server_internal_schemas.GetUsersByIDsResponse'
+                  $ref: '#/components/schemas/mw-server_internal_schemas.ShortUser'
                 type: array
           description: OK
       summary: Get users by ids
@@ -2918,23 +2918,6 @@ components:
       - isAlreadyCreated
       - url
       type: object
-    mw-server_internal_schemas.GetUsersByIDsResponse:
-      example:
-        imageUrl: imageUrl
-        name: name
-        userId: userId
-      properties:
-        imageUrl:
-          type: string
-        name:
-          type: string
-        userId:
-          type: string
-      required:
-      - imageUrl
-      - name
-      - userId
-      type: object
     mw-server_internal_schemas.GoogleToken:
       example:
         accessToken: accessToken
@@ -3764,6 +3747,27 @@ components:
           type: string
       required:
       - accessToken
+      type: object
+    mw-server_internal_schemas.ShortUser:
+      example:
+        imageUrl: imageUrl
+        name: name
+        userId: userId
+        email: email
+      properties:
+        email:
+          type: string
+        imageUrl:
+          type: string
+        name:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - imageUrl
+      - name
+      - userId
       type: object
     mw-server_internal_schemas.TimeSpentByDayPoint:
       example:

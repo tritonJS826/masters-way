@@ -46,7 +46,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 }
 
 func (r *Router) SetRoutes() {
-	mail := r.Gin.Group("/mail")
+	mail := r.Gin.Group("/mw-mail")
 
 	r.mailRouter.setMailRoutes(mail)
 
