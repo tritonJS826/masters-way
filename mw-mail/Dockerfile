@@ -1,8 +1,4 @@
-# Stage 1: Build base image with CA certificates                          
-FROM alpine:latest AS base                                                
-RUN apk add --no-cache ca-certificates libc6-compat                       
-                                                                          
-# Stage 2: Build application                                              
+# Stage 1: Build application                                              
 FROM golang:1.23-alpine AS build                                          
 WORKDIR /app                                                              
 RUN apk add --no-cache make                                               
@@ -13,8 +9,9 @@ RUN cd src && go mod download
 COPY mw-mail src/                                                         
 RUN cd src && make build                                                  
                                                                           
-# Stage 3: Production                                                     
-FROM base AS production # Use the base image with CA certs                
+# Stage 2: Production                                                     
+FROM alpine:3.18                                                 
+RUN apk add --no-cache ca-certificates libc6-compat
 WORKDIR /app                                                              
 COPY --from=build /app/src/main ./                                        
 COPY --from=build /app/src/.env ./                                        
