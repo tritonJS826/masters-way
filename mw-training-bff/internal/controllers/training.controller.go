@@ -27,7 +27,6 @@ func NewTrainingController(generalService *services.GeneralService, trainingServ
 // @Accept json
 // @Produce json
 // @Param request body schemas.CreateTrainingPayload true "query params"
-// @Param trainingId path string true "training id"
 // @Success 200 {object} schemas.Training
 // @Router /trainings [post]
 func (tc *TrainingController) CreateTraining(ctx *gin.Context) {

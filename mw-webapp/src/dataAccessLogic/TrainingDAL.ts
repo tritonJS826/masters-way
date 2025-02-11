@@ -1,6 +1,7 @@
 import {trainingToTrainingDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/trainingToTrainingDTOPartial";
 import {trainingDTOToTraining} from "src/dataAccessLogic/DTOToPreviewConverter/trainingDTOToTraining";
 import {trainingPreviewDTOToTrainingPreview} from "src/dataAccessLogic/DTOToPreviewConverter/trainingPreviewDTOToTrainingPreview";
+import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {Training} from "src/model/businessModel/Training";
 import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
 import {TrainingService} from "src/service/TrainingService";
@@ -42,6 +43,11 @@ export interface GetTrainingsParams {
    */
   trainingName: string;
 
+  /**
+   * Training collection type
+   */
+  trainingType: DefaultTrainingCollection;
+
 }
 
 /**
@@ -57,7 +63,7 @@ export interface GetTrainingsByUserIdParams {
   /**
    * Training's type
    */
-  trainingType: string;
+  trainingType: DefaultTrainingCollection;
 
 }
 
@@ -93,7 +99,6 @@ export class TrainingDAL {
    */
   public static async createTraining(params: CreateTrainingParams): Promise<Training> {
     const trainingDTO = await TrainingService.createTraining({
-      trainingId: "",
       request: {
         name: params.name,
         description: params.description,

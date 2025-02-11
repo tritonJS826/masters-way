@@ -122,10 +122,21 @@ enum DefaultCollections {
   FAVORITE = "favorite",
 }
 
+/**
+ * Default trainings collections
+ */
+export enum DefaultTrainingCollection {
+  OWN = "owner",
+  MENTORING = "mentor",
+  FAVORITE = "favorite",
+  STUDENT = "student"
+}
+
 const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   view: View.Card,
   tab: TabType.Ways,
+  trainingCollection: DefaultTrainingCollection.OWN,
 };
 
 /**
@@ -209,6 +220,7 @@ export const UserPage = observer((props: UserPageProps) => {
       : true,
     dependencies: [userPageOwner],
   });
+
   const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
     key: "userPage",
     defaultValue: DEFAULT_USER_PAGE_SETTINGS,
@@ -509,6 +521,8 @@ export const UserPage = observer((props: UserPageProps) => {
               <TrainingTab
                 isPageOwner={isPageOwner}
                 userPageOwnerUuid={userPageOwner.uuid}
+                onClick={(trainingCollection: DefaultTrainingCollection) => updateUserPageSettings({trainingCollection})}
+                activeTrainingCollection={userPageSettings.trainingCollection}
               />
             </HorizontalContainer>
           </VerticalContainer>),

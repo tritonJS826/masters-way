@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {AllTrainingsParams, GetTrainingsParams, TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
 import {load} from "src/hooks/useLoad";
+import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
 
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
@@ -70,13 +71,14 @@ export class TrainingTabStore {
   /**
    * Load more trainings preview
    */
-  public loadMoreTrainingsPreview = async (trainingName: string, userUuid: string) => {
+  public loadMoreTrainingsPreview = async (trainingName: string, userUuid: string, trainingType: DefaultTrainingCollection) => {
     const nextPage = this.pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
 
     const trainings = await this.loadData({
       page: nextPage,
       trainingName,
       userPageOwnerUuid: userUuid,
+      trainingType,
     });
 
     this.setTrainingsPreview([...this.trainingsPreview, ...trainings.trainingsPreview]);
@@ -111,7 +113,7 @@ export class TrainingTabStore {
    */
   private loadData = async (params: GetTrainingsByUserParams): Promise<AllTrainingsParams> => {
     const fetchedTrainings = await TrainingDAL.getTrainingsByUserId({
-      trainingType: "student",
+      trainingType: params.trainingType,
       userId: params.userPageOwnerUuid,
     });
 

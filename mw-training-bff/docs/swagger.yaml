@@ -785,11 +785,6 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload'
-      - description: training id
-        in: path
-        name: trainingId
-        required: true
-        type: string
       produces:
       - application/json
       responses:

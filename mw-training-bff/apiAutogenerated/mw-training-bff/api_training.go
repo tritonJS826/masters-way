@@ -27,7 +27,6 @@ type TrainingAPIService service
 type ApiCreateTrainingRequest struct {
 	ctx context.Context
 	ApiService *TrainingAPIService
-	trainingId string
 	request *MwTrainingBffInternalSchemasCreateTrainingPayload
 }
 
@@ -45,14 +44,12 @@ func (r ApiCreateTrainingRequest) Execute() (*MwTrainingBffInternalSchemasTraini
 CreateTraining Create training
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param trainingId training id
  @return ApiCreateTrainingRequest
 */
-func (a *TrainingAPIService) CreateTraining(ctx context.Context, trainingId string) ApiCreateTrainingRequest {
+func (a *TrainingAPIService) CreateTraining(ctx context.Context) ApiCreateTrainingRequest {
 	return ApiCreateTrainingRequest{
 		ApiService: a,
 		ctx: ctx,
-		trainingId: trainingId,
 	}
 }
 
@@ -72,7 +69,6 @@ func (a *TrainingAPIService) CreateTrainingExecute(r ApiCreateTrainingRequest) (
 	}
 
 	localVarPath := localBasePath + "/trainings"
-	localVarPath = strings.Replace(localVarPath, "{"+"trainingId"+"}", url.PathEscape(parameterValueToString(r.trainingId, "trainingId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -151,12 +147,10 @@ func (a *TrainingAPIService) CreateTrainingStreamExecute(r ApiCreateTrainingRequ
 	}
 
 	localVarPath := localBasePath + "/trainings"
-	localVarPath = strings.Replace(localVarPath, "{"+"trainingId"+"}", url.PathEscape(parameterValueToString(r.trainingId, "trainingId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
-
 
 
 	// to determine the Content-Type header

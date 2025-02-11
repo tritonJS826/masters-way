@@ -10,6 +10,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useStore} from "src/hooks/useStore";
 import {GetTrainingsByUserParams, TrainingTabStore} from "src/logic/userPage/trainingTab/TrainingTabStore";
+import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/userPage/trainingTab/TrainingTab.module.scss";
@@ -28,6 +29,16 @@ interface TrainingTabProps {
    * User page owner uuid
    */
   userPageOwnerUuid: string;
+
+  /**
+   * Onclick triggered on Collection click
+   */
+  onClick: (trainingCollection: DefaultTrainingCollection) => void;
+
+  /**
+   * Active training collection uuid
+   */
+  activeTrainingCollection: DefaultTrainingCollection;
 }
 
 /**
@@ -46,6 +57,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
         {
           userPageOwnerUuid: props.userPageOwnerUuid,
           trainingName: "new",
+          trainingType: props.activeTrainingCollection,
         },
       ],
       dependency: [props.userPageOwnerUuid],
@@ -84,38 +96,38 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
   return (
     <>
       <CollectionCard
-        isActive={false/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        isActive={props.activeTrainingCollection === DefaultTrainingCollection.OWN}
         collectionTitle={LanguageService.user.trainings.own[language]}
         collectionsAmount={0}
         collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        onClick={() => props.onClick(DefaultTrainingCollection.OWN)}
         language={language}
       />
 
       <CollectionCard
-        isActive={true/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        isActive={props.activeTrainingCollection === DefaultTrainingCollection.MENTORING}
         collectionTitle={LanguageService.user.trainings.mentoring[language]}
         collectionsAmount={0}
         collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        onClick={() => props.onClick(DefaultTrainingCollection.MENTORING)}
         language={language}
       />
 
       <CollectionCard
-        isActive={false/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        isActive={props.activeTrainingCollection === DefaultTrainingCollection.STUDENT}
         collectionTitle={LanguageService.user.trainings.student[language]}
         collectionsAmount={0}
         collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        onClick={() => props.onClick(DefaultTrainingCollection.STUDENT)}
         language={language}
       />
 
       <CollectionCard
-        isActive={false/*userPageOwner.defaultWayCollections.favorite.uuid === openedTabId*/}
+        isActive={props.activeTrainingCollection === DefaultTrainingCollection.FAVORITE}
         collectionTitle={LanguageService.user.trainings.favorite[language]}
         collectionsAmount={0}
         collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => { }/*setOpenedTabId(userPageOwner.defaultWayCollections.own.uuid)*/}
+        onClick={() => props.onClick(DefaultTrainingCollection.FAVORITE)}
         language={language}
       />
 

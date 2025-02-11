@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## CreateTraining
 
-> MwTrainingBffInternalSchemasTraining CreateTraining(ctx, trainingId).Request(request).Execute()
+> MwTrainingBffInternalSchemasTraining CreateTraining(ctx).Request(request).Execute()
 
 Create training
 
@@ -32,12 +32,11 @@ import (
 )
 
 func main() {
-	trainingId := "trainingId_example" // string | training id
 	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateTrainingPayload("Description_example", false, "Name_example") // MwTrainingBffInternalSchemasCreateTrainingPayload | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TrainingAPI.CreateTraining(context.Background(), trainingId).Request(request).Execute()
+	resp, r, err := apiClient.TrainingAPI.CreateTraining(context.Background()).Request(request).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TrainingAPI.CreateTraining``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -50,10 +49,6 @@ func main() {
 ### Path Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**trainingId** | **string** | training id | 
 
 ### Other Parameters
 
@@ -62,7 +57,6 @@ Other parameters are passed through a pointer to a apiCreateTrainingRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
  **request** | [**MwTrainingBffInternalSchemasCreateTrainingPayload**](MwTrainingBffInternalSchemasCreateTrainingPayload.md) | query params | 
 
 ### Return type

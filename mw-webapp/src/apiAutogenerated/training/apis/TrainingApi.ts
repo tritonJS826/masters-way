@@ -32,7 +32,6 @@ import {
 } from '../models/index';
 
 export interface CreateTrainingRequest {
-    trainingId: string;
     request: MwTrainingBffInternalSchemasCreateTrainingPayload;
 }
 
@@ -69,10 +68,6 @@ export class TrainingApi extends runtime.BaseAPI {
      * Create training
      */
     async createTrainingRaw(requestParameters: CreateTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTraining>> {
-        if (requestParameters.trainingId === null || requestParameters.trainingId === undefined) {
-            throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling createTraining.');
-        }
-
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createTraining.');
         }
@@ -84,7 +79,7 @@ export class TrainingApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/trainings`.replace(`{${"trainingId"}}`, encodeURIComponent(String(requestParameters.trainingId))),
+            path: `/trainings`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

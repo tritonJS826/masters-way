@@ -428,13 +428,6 @@ paths:
       - training
     post:
       operationId: create-training
-      parameters:
-      - description: training id
-        in: path
-        name: trainingId
-        required: true
-        schema:
-          type: string
       requestBody:
         content:
           application/json:

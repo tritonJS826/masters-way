@@ -702,13 +702,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "training id",
-                        "name": "trainingId",
-                        "in": "path",
-                        "required": true
                     }
                 ],
                 "responses": {
