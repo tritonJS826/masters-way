@@ -120,17 +120,6 @@ services:
     networks:
       - app-network
 
-  mw-training-websocket:
-    build:
-      context: .
-      dockerfile: ./mw-training-websocket/Dockerfile
-    ports:
-      - "7994:7994"
-    depends_on:
-      - mw-training-bff
-    networks:
-      - app-network
-
   postgres-storage:
     build:
       context: .
