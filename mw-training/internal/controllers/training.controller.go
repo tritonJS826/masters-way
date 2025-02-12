@@ -92,15 +92,31 @@ func (tc *TrainingController) GetTrainingById(ctx context.Context, in *pb.GetTra
 
 func (tc *TrainingController) UpdateTraining(ctx context.Context, in *pb.UpdateTrainingRequest) (*pb.Training, error) {
 	trainingUuid := in.GetUuid()
-	trainingName := in.GetName()
-	description := in.GetDescription()
-	isPrivate := in.GetIsPrivate()
+	var trainingName string
+	if in.Name != nil {
+		trainingName = *in.Name
+	} else {
+		trainingName = ""
+	}
+
+	var description string
+	if in.Description != nil {
+		description = *in.Description
+	} else {
+		description = ""
+	}
+	var isPrivate bool
+	if in.IsPrivate != nil {
+		isPrivate = *in.IsPrivate
+	} else {
+		isPrivate = false
+	}
 
 	arg := db.UpdateTrainingParams{
 		TrainingUuid: pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true},
-		Name:         pgtype.Text{String: trainingName, Valid: true},
-		Description:  pgtype.Text{String: description, Valid: true},
-		IsPrivate:    pgtype.Bool{Bool: isPrivate, Valid: true},
+		Name:         pgtype.Text{String: trainingName, Valid: in.Name != nil},
+		Description:  pgtype.Text{String: description, Valid: in.Description != nil},
+		IsPrivate:    pgtype.Bool{Bool: isPrivate, Valid: in.IsPrivate != nil},
 	}
 	training, err := tc.trainingService.UpdateTraining(ctx, arg)
 	if err != nil {
