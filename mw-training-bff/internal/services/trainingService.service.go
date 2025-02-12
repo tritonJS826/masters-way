@@ -117,9 +117,9 @@ func (ts *TrainingService) CreateTraining(ctx context.Context, params *CreateTra
 
 type UpdateTrainingParams struct {
 	TrainingUuid string
-	Name         string
-	Description  string
-	IsPrivate    bool
+	Name         *string
+	Description  *string
+	IsPrivate    *bool
 	OwnerUuid    string
 }
 

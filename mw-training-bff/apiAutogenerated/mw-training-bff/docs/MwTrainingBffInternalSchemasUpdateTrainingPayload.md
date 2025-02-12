@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Description** | Pointer to **string** |  | [optional] 
-**IsPrivate** | Pointer to **bool** |  | [optional] 
-**Name** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **NullableString** |  | [optional] 
+**IsPrivate** | Pointer to **NullableBool** |  | [optional] 
+**Name** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -52,6 +52,16 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### SetDescriptionNil
+
+`func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetIsPrivate
 
 `func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) GetIsPrivate() bool`
@@ -77,6 +87,16 @@ SetIsPrivate sets IsPrivate field to given value.
 
 HasIsPrivate returns a boolean if a field has been set.
 
+### SetIsPrivateNil
+
+`func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) SetIsPrivateNil(b bool)`
+
+ SetIsPrivateNil sets the value for IsPrivate to be an explicit nil
+
+### UnsetIsPrivate
+`func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) UnsetIsPrivate()`
+
+UnsetIsPrivate ensures that no value is present for IsPrivate, not even an explicit nil
 ### GetName
 
 `func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) GetName() string`
@@ -102,6 +122,16 @@ SetName sets Name field to given value.
 
 HasName returns a boolean if a field has been set.
 
+### SetNameNil
+
+`func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) SetNameNil(b bool)`
+
+ SetNameNil sets the value for Name to be an explicit nil
+
+### UnsetName
+`func (o *MwTrainingBffInternalSchemasUpdateTrainingPayload) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

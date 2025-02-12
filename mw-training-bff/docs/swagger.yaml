@@ -311,10 +311,13 @@ definitions:
     properties:
       description:
         type: string
+        x-nullable: true
       isPrivate:
         type: boolean
+        x-nullable: true
       name:
         type: string
+        x-nullable: true
     type: object
   mw-training-bff_internal_schemas.User:
     properties:

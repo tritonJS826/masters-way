@@ -24,19 +24,19 @@ export interface MwTrainingBffInternalSchemasUpdateTrainingPayload {
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasUpdateTrainingPayload
      */
-    description?: string;
+    description?: string | null;
     /**
      * 
      * @type {boolean}
      * @memberof MwTrainingBffInternalSchemasUpdateTrainingPayload
      */
-    isPrivate?: boolean;
+    isPrivate?: boolean | null;
     /**
      * 
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasUpdateTrainingPayload
      */
-    name?: string;
+    name?: string | null;
 }
 
 /**

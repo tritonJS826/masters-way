@@ -1297,13 +1297,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "description": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "isPrivate": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "x-nullable": true
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },

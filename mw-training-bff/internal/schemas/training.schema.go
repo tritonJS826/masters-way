@@ -7,9 +7,9 @@ type CreateTrainingPayload struct {
 }
 
 type UpdateTrainingPayload struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	IsPrivate   bool   `json:"isPrivate"`
+	Name        *string `json:"name" extensions:"x-nullable"`
+	Description *string `json:"description" extensions:"x-nullable"`
+	IsPrivate   *bool   `json:"isPrivate" extensions:"x-nullable"`
 }
 
 type Training struct {
