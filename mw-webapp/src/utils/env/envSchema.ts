@@ -9,5 +9,6 @@ export const envSchema = {
   AMPLITUDE_KEY: str(),
   API_MW_CHAT_WEBSOCKET_PATH: str(),
   API_NOTIFICATION_BASE_PATH: str(),
+  API_TRAINING_BASE_PATH: str(),
   // API_MW_NOTIFICATION_WEBSOCKET_PATH: str(),
 };

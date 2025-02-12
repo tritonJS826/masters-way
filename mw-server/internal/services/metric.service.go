@@ -13,7 +13,7 @@ import (
 
 type IMetricRepository interface {
 	CreateMetric(ctx context.Context, arg db.CreateMetricParams) (db.Metric, error)
-	UpdateMetric(ctx context.Context, arg db.UpdateMetricParams) (db.UpdateMetricRow, error)
+	UpdateMetric(ctx context.Context, arg db.UpdateMetricParams) (db.Metric, error)
 	DeleteMetric(ctx context.Context, metricsUuid pgtype.UUID) (db.Metric, error)
 }
 

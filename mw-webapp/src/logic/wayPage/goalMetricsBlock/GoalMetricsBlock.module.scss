@@ -9,7 +9,8 @@
 }
 
 .addMetricButtons {
-  gap: $gapExtraSmall;
+  gap: $gapSmall;
+  grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
 }
 
 .addMetricButton {

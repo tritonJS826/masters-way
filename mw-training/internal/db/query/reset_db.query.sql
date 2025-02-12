@@ -1,0 +1,97 @@
+-- name: RemoveEverything :exec
+DO $$ DECLARE
+    obj_name text;
+    obj_type text;
+    -- Exclude functions related to extension uuid-ossp
+    exclude_functions text[] := ARRAY[
+        'uuid_nil',
+        'uuid_ns_dns',
+        'uuid_ns_url',
+        'uuid_ns_oid',
+        'uuid_ns_x500',
+        'uuid_generate_v1',
+        'uuid_generate_v1mc',
+        'uuid_generate_v3',
+        'uuid_generate_v4',
+        'uuid_generate_v5'
+    ];
+BEGIN
+    -- Drop all tables
+    FOR obj_name IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename != 'schema_migrations') LOOP
+        EXECUTE 'DROP TABLE IF EXISTS ' || obj_name || ' CASCADE;';
+    END LOOP;
+
+    -- Drop all sequences
+    FOR obj_name IN (SELECT sequencename FROM pg_sequences WHERE schemaname = 'public') LOOP
+        EXECUTE 'DROP SEQUENCE IF EXISTS ' || obj_name || ' CASCADE;';
+    END LOOP;
+
+    -- Drop all views
+    FOR obj_name IN (SELECT viewname FROM pg_views WHERE schemaname = 'public') LOOP
+        EXECUTE 'DROP VIEW IF EXISTS ' || obj_name || ' CASCADE;';
+    END LOOP;
+
+    -- Drop all materialized views
+    FOR obj_name IN (SELECT matviewname FROM pg_matviews WHERE schemaname = 'public') LOOP
+        EXECUTE 'DROP MATERIALIZED VIEW IF EXISTS ' || obj_name || ' CASCADE;';
+    END LOOP;
+
+   -- Drop all functions except 'uuid_nil'
+    FOR obj_name, obj_type IN
+        SELECT proname, 'FUNCTION'
+        FROM pg_proc
+        JOIN pg_namespace ON pg_proc.pronamespace = pg_namespace.oid
+        WHERE nspname = 'public' AND proname NOT IN (SELECT unnest(exclude_functions))
+    LOOP
+        EXECUTE 'DROP FUNCTION IF EXISTS ' || obj_name || ' CASCADE;';
+    END LOOP;
+
+    -- Drop all types except 'schema_migrations' and 'schema_migrations[]'
+    FOR obj_name IN (SELECT typname FROM pg_type WHERE typnamespace = 'public'::regnamespace AND typname NOT IN ('schema_migrations', 'schema_migrations[]')) LOOP
+        BEGIN
+            EXECUTE 'DROP TYPE IF EXISTS ' || obj_name || ' CASCADE;';
+        EXCEPTION
+            WHEN others THEN
+                RAISE NOTICE 'Could not drop type %', obj_name;
+        END;
+    END LOOP;
+
+    -- Drop all domains
+    FOR obj_name IN (SELECT domain_name FROM information_schema.domains WHERE domain_schema = 'public') LOOP
+        EXECUTE 'DROP DOMAIN IF EXISTS ' || obj_name || ' CASCADE;';
+    END LOOP;
+
+    -- Drop all foreign tables
+    FOR obj_name IN (SELECT foreign_table_name FROM information_schema.foreign_tables WHERE foreign_table_schema = 'public') LOOP
+        EXECUTE 'DROP FOREIGN TABLE IF EXISTS ' || obj_name || ' CASCADE;';
+    END LOOP;
+END $$;
+
+
+-- name: RegenerateDbData :exec
+DO $$
+BEGIN
+
+INSERT INTO "trainings" ("uuid", "name", "description", "is_private", "updated_at", "created_at", "owner_uuid")
+VALUES
+    -- John Doe's trainings
+    ('78bdf878-3b83-4f97-0000-928c132a10cd', 'javascript', 'super js', false, '2024-08-08 13:10:00', '2024-08-08 13:10:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('7c3a2511-c938-4a60-0001-406e18bfeec0', 'golang', 'super go', false, '2024-08-10 18:25:00', '2024-08-10 18:25:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('b7a3664c-f5ed-4cb0-0002-b2c758d22b55', 'qa', 'super qa', false, '2024-08-12 15:00:00', '2024-08-12 15:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('4f85694e-ff29-478f-0003-1581577dfa84', 'John react', 'secret training', true, '2024-08-13 08:00:00', '2024-08-13 08:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('78bdf878-3b83-4f97-0004-928c132a10cd', 'javascript2', 'super js2', false, '2024-08-08 13:10:00', '2024-08-08 13:10:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('7c3a2511-c938-4a60-0005-406e18bfeec0', 'golang2', 'super go2', false, '2024-08-10 18:25:00', '2024-08-10 18:25:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('b7a3664c-f5ed-4cb0-0006-b2c758d22b55', 'qa2', 'super qa2', false, '2024-08-12 15:00:00', '2024-08-12 15:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('4f85694e-ff29-478f-0007-1581577dfa84', 'John react2', 'secret training2', false, '2024-08-13 08:00:00', '2024-08-13 08:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('78bdf878-3b83-4f97-0008-928c132a10cd', 'javascript3', 'super js3', false, '2024-08-08 13:10:00', '2024-08-08 13:10:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('7c3a2511-c938-4a60-0009-406e18bfeec0', 'golang3', 'super go3', false, '2024-08-10 18:25:00', '2024-08-10 18:25:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('b7a3664c-f5ed-4cb0-0010-b2c758d22b55', 'qa3', 'super qa3', false, '2024-08-12 15:00:00', '2024-08-12 15:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('4f85694e-ff29-478f-0011-1581577dfa84', 'John react3', 'secret training3', false, '2024-08-13 08:00:00', '2024-08-13 08:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('7c3a2511-c938-4a60-0012-406e18bfeec0', 'golang4', 'super go4', false, '2024-08-10 18:25:00', '2024-08-10 18:25:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('b7a3664c-f5ed-4cb0-0013-b2c758d22b55', 'qa4', 'super qa4', false, '2024-08-12 15:00:00', '2024-08-12 15:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    ('4f85694e-ff29-478f-0014-1581577dfa84', 'John react4', 'secret training4', false, '2024-08-13 08:00:00', '2024-08-13 08:00:00', '7cdb041b-4574-4f7b-a500-c53e74c72e94'),
+    -- Jane Smith's trainings
+    ('4f85694e-ff29-478f-0015-1581577dfa84', 'react from Jane', 'secret training', true, '2024-08-13 10:00:00', '2024-08-13 09:00:00', '8e77b89d-57c4-4b7f-8cd4-8dfc6bcb7d1b');
+
+
+END $$;

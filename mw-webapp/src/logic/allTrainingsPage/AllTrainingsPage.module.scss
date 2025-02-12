@@ -1,0 +1,57 @@
+@import "src/styles/variables";
+
+.allTrainingsContainer {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  margin: 0 auto;
+  margin-top: $headerHeight;
+  gap: $gapSmall;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.loadMoreButton {
+  display: block;
+  margin-top: $marginMedium;
+  margin-left: auto;
+}
+
+.titleContainer {
+  justify-content: space-between;
+}
+
+.headingLevelH2 {
+  font-size: $fontSizeTitleSmall;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleExtraSmall;
+  }
+}
+
+.trainingsContent {
+  display: grid;
+  @include regularContainer;
+}
+
+.trainingsCards {
+  gap: $gapSmall;
+  grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));
+
+  @media (max-width: $mediaWidthTablet) {
+    grid-template-columns: repeat(auto-fill, minmax($minWidthBlock, 1fr));
+  }
+}
+
+.filterView {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  @include regularContainer;
+}
+
+.filterViewLeftPanel {
+  flex-wrap: wrap;
+  align-items: center;
+}

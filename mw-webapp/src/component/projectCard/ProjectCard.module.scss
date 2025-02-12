@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
-$wayCollectionCardMainHeight: 76px;
-$wayCollectionCardAdditionalHeight: 47px;
+$projectCollectionCardMainHeight: 76px;
+$projectCollectionCardAdditionalHeight: 47px;
 $titleWithBurgerBlockHeight: 32px;
 
 .projectCardContainer {
@@ -15,10 +15,11 @@ $titleWithBurgerBlockHeight: 32px;
 .projectButton {
   padding: 0;
   border: none;
+  margin-bottom: auto;
 }
 
 .mainInfo {
-  height: $wayCollectionCardMainHeight;
+  height: $projectCollectionCardMainHeight;
   padding: $paddingMedium;
   background-color: var(--mainInfoCardColor);
   border-top-left-radius: inherit;
@@ -61,7 +62,7 @@ $titleWithBurgerBlockHeight: 32px;
 }
 
 .additionalInfo {
-  height: $wayCollectionCardAdditionalHeight;
+  height: $projectCollectionCardAdditionalHeight;
   padding: $paddingMedium;
   background-color: var(--additionalInfoCardBgColor);
   border-bottom-left-radius: inherit;

@@ -33,6 +33,7 @@ interface useLoadProps<Data, Dependency> {
 
 /**
  * Custom hook to fetch, validate, and manage the state of data
+ * @deprecated Need to use load instead useLoad. Was used with react state but after used mobX it's nt needed
  */
 export const useLoad = <Data, Dependency>({
   loadData,

@@ -1,0 +1,113 @@
+@import "src/styles/variables";
+
+$wayCardMainHeight: 190px;
+$wayCardAdditionalHeight: 118px;
+
+.cardLink {
+  text-decoration: none;
+}
+
+.trainingCardContainer {
+  overflow: hidden;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $secondaryBorderRadius;
+  cursor: pointer;
+  @include scaleOnHover;
+}
+
+.mainInfo {
+  height: $wayCardMainHeight;
+  padding: $paddingBig $paddingMedium $paddingMedium;
+  background-color: var(--mainInfoCardColor);
+  gap: $gapMedium;
+}
+
+.title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--secondaryTextColor);
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  white-space: initial;
+}
+
+.trainingDescription {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--secondaryTextColor);
+  font-size: $fontSizeBig;
+  -webkit-line-clamp: 4;
+  text-overflow: ellipsis;
+  white-space: initial;
+}
+
+.additionalInfo {
+  min-height: $wayCardAdditionalHeight;
+  padding: $paddingMedium;
+  background-color: var(--additionalInfoCardBgColor);
+  color: var(--primaryTextColor);
+  font-size: $fontSizeMedium;
+  gap: $gapSmall;
+}
+
+.trainingTags {
+  display: flex;
+  overflow: hidden;
+  flex-wrap: nowrap;
+  align-items: center;
+  -webkit-box-orient: vertical;
+  gap: $gapSmall;
+  -webkit-line-clamp: 1;
+}
+
+.nameLikes {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.likes {
+  flex-shrink: 0;
+  align-items: center;
+  color: var(--secondaryTextColor);
+  gap: $gapMedium;
+}
+
+.icon {
+  margin-right: $marginSmall;
+  stroke: var(--secondaryStrokeColor);
+}
+
+.people {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.owner {
+  align-items: center;
+}
+
+.avatar {
+  flex-shrink: 0;
+}
+
+.mentors {
+  overflow: hidden;
+  align-items: center;
+  font-size: $fontSizeMedium;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dates {
+  justify-content: space-between;
+}
+
+.dateText {
+  flex-wrap: wrap;
+}
+
+.dateValue {
+  font-weight: $fontWeightBold;
+}

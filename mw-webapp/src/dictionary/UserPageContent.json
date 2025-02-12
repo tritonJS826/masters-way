@@ -156,15 +156,20 @@
     }
   },
   "tabs": {
-    "collections": {
-      "ru": "Коллекции",
-      "en": "Collections",
-      "ua": "Колекції"
+    "ways": {
+      "ru": "Пути",
+      "en": "Ways",
+      "ua": "Шляхи"
     },
     "projects": {
       "ru": "Проекты",
       "en": "Projects",
       "ua": "Проекти"
+    },
+    "trainings": {
+      "ru": "Тренинги",
+      "en": "Trainings",
+      "ua": "Тренінги"
     }
   },
   "collections": {
@@ -279,6 +284,33 @@
       "ru": "Действия проекта",
       "en": "Project actions",
       "ua": "Дії проекту"
+    }
+  },
+  "trainings": {
+    "owner": {
+      "ru": "Собственные",
+      "en": "Own",
+      "ua": "Власні"
+    },
+    "favorite": {
+      "ru": "Любимые",
+      "en": "Favorite",
+      "ua": "Улюблені"
+    },
+    "mentor": {
+      "ru": "Наставнические",
+      "en": "Mentoring",
+      "ua": "Наставницькі"
+    },
+    "student": {
+      "ru": "Студенческие",
+      "en": "Student",
+      "ua": "Студентські"
+    },
+    "addTraining": {
+      "ru": "Добавить тренинг",
+      "en": "Add training",
+      "ua": "Додайте тренінг"
     }
   },
   "filterBlock": {

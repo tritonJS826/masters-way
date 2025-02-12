@@ -6,7 +6,7 @@ export const userWaysAccessIds = {
     privacyStatus: 'privacyStatus',
 
     collectionBlock: {
-        wayAmountCollectionButton: "wayAmountCollectionButton",
+        amountCollectionButton: "amountCollectionButton",
 
         wayLink: (wayTitle: string) => `wayLink_${wayTitle}`,
 
@@ -16,7 +16,7 @@ export const userWaysAccessIds = {
         addCollectionButton: "addCollectionButton",
         customerCollectionButton: "customerCollectionButton",
 
-        wayCollectionButtonMainInfo: "wayCollectionButtonMainInfo",
+        collectionButtonMainInfo: "collectionButtonMainInfo",
 
         customCollection: {
             customCollectionBlock: "customCollectionBlock",

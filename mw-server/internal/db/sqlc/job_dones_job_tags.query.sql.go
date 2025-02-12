@@ -61,6 +61,7 @@ SELECT
 )::VARCHAR[] AS tag_uuids
 FROM job_dones
 WHERE job_dones.day_report_uuid = ANY($1::UUID[])
+ORDER BY created_at
 `
 
 type GetJobDonesByDayReportUuidsRow struct {

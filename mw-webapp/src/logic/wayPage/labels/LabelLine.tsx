@@ -7,6 +7,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Trash} from "src/component/trash/Trash";
 import {LabelDAL} from "src/dataAccessLogic/LabelDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
 import {Label as LabelModel} from "src/model/businessModel/Label";
 import {LanguageService} from "src/service/LanguageService";
 import {debounce} from "src/utils/debounce";
@@ -45,7 +46,6 @@ interface LabelLineProps {
  */
 export const LabelLine = observer((props: LabelLineProps) => {
   const {language} = languageStore;
-  const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 
   /**
    * Update label

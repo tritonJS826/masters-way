@@ -130,7 +130,7 @@ export const SupportModalContent = () => {
       /**
        * Callback triggered on tab click
        */
-      onCLick: () => setVideoUrl(studentsTabList[0].url),
+      onClick: () => setVideoUrl(studentsTabList[0].url),
     },
     {
       id: "1",
@@ -147,7 +147,7 @@ export const SupportModalContent = () => {
       /**
        * Callback triggered on tab click
        */
-      onCLick: () => setVideoUrl(mentorsTabList[0].url),
+      onClick: () => setVideoUrl(mentorsTabList[0].url),
     },
     {
       id: "2",
@@ -164,7 +164,7 @@ export const SupportModalContent = () => {
       /**
        * Callback triggered on tab click
        */
-      onCLick: () => setVideoUrl(businessTabList[0].url),
+      onClick: () => setVideoUrl(businessTabList[0].url),
     },
   ];
 

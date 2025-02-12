@@ -1,6 +1,7 @@
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
 import {MentoringStatusType} from "src/logic/allUsersPage/AllUsersPage";
+import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 
@@ -134,6 +135,11 @@ export type LocalStorageData = {
   allUsersPage: AllUsersPageSettings;
 
   /**
+   * All trainings page data
+   */
+  allTrainingsPage: AllTrainingsPageSettings;
+
+  /**
    * Is OS notification enabled
    */
   isOSNotificationEnabled: boolean;
@@ -146,6 +152,15 @@ export type LocalStorageData = {
 export enum View {
   Card = "Card",
   Table = "Table",
+}
+
+/**
+ * Available user's  tabs
+ */
+export enum TabType {
+  Ways = "Ways",
+  Projects = "Projects",
+  Trainings = "Trainings"
 }
 
 export type Token = {
@@ -202,9 +217,15 @@ export type UserPageSettings = {
   view: View;
 
   /**
-   * If tab with Projects opened - true
+   * Settled tab
    */
-  isProjectsOpened: boolean;
+  tab: TabType;
+
+  /**
+   * Id of opened training collection
+   */
+  trainingCollection: DefaultTrainingCollection;
+
 }
 
 export type ProjectPageSettings = {
@@ -241,6 +262,19 @@ export type AllWaysPageSettings = {
    * Part of way name
    */
   wayName: string;
+}
+
+export type AllTrainingsPageSettings = {
+
+  /**
+   * Settled view
+   */
+  view: View;
+
+  /**
+   * Part of training name
+   */
+  trainingName: string;
 }
 
 export type AllUsersPageSettings = {

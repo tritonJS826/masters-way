@@ -18,6 +18,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
 import {LanguageService} from "src/service/LanguageService";
@@ -37,7 +38,6 @@ export type MentoringStatusType = typeof MentoringStatus[keyof typeof MentoringS
 
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
 const DEFAULT_USER_LIMIT = 10;
-const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {
   filterStatus: MentoringStatus.all,
   view: View.Card,

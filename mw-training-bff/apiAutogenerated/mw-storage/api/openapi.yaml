@@ -1,0 +1,96 @@
+openapi: 3.0.1
+info:
+  contact: {}
+  title: Masters way storage API
+  version: "1.0"
+servers:
+- url: /storage
+paths:
+  /dev/reset-db:
+    get:
+      description: resets db
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: resets db
+      tags:
+      - dev
+  /files:
+    delete:
+      description: Delete multiple files from the server storage using their IDs
+      operationId: delete-files
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                type: string
+              type: array
+        description: List of file IDs to delete
+        required: true
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete files by IDs
+      tags:
+      - file
+      x-codegen-request-body-name: fileIDs
+    post:
+      description: Uploads a file to the server and stores it in the designated storage
+        path
+      operationId: upload-file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/upload_file_request'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mwstorage_internal_schemas.UploadFileResponse'
+          description: OK
+      summary: Upload file to storage
+      tags:
+      - file
+components:
+  schemas:
+    mwstorage_internal_schemas.UploadFileResponse:
+      example:
+        previewUrl: previewUrl
+        name: name
+        srcUrl: srcUrl
+        id: id
+        ownerId: ownerId
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        ownerId:
+          type: string
+        previewUrl:
+          type: string
+        srcUrl:
+          type: string
+      required:
+      - id
+      - name
+      - ownerId
+      - previewUrl
+      - srcUrl
+      type: object
+    upload_file_request:
+      properties:
+        multipart:
+          description: File to upload
+          format: binary
+          type: string
+      required:
+      - multipart
+      type: object
+x-original-swagger-version: "2.0"

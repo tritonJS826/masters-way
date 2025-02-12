@@ -23,6 +23,7 @@ input {
   justify-content: center;
   padding: $paddingSmall;
   background-color: var(--secondaryBgColor);
+
   cursor: pointer;
   user-select: none;
 
@@ -40,6 +41,11 @@ input {
 .tabsTrigger[data-state="active"] {
   box-shadow: inset 0 -1px 0 0 var(--generalPrimaryColor),
     0 1px 0 0 var(--generalPrimaryColor);
+}
+
+// separator for tabs
+.tabsTrigger + .tabsTrigger {
+  border-left: 3px solid var(--tertiaryTextColor);
 }
 
 .tabsContent {

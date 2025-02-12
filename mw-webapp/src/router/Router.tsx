@@ -36,6 +36,11 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
+          path={pages.allTrainings.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.allTrainings} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
           path={pages.user.getPath({uuid: ":uuid"})}
           element={<WithValidatedParams paramsSchema={pages.user} />}
           errorElement={pages.errorPage.getPageComponent({})}
@@ -48,6 +53,11 @@ export const router = createBrowserRouter(
         <Route
           path={pages.project.getPath({uuid: ":uuid"})}
           element={<WithValidatedParams paramsSchema={pages.project} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
+          path={pages.training.getPath({uuid: ":uuid"})}
+          element={<WithValidatedParams paramsSchema={pages.training} />}
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route

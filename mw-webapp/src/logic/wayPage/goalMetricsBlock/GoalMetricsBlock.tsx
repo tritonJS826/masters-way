@@ -1,6 +1,7 @@
 import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Modal} from "src/component/modal/Modal";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -107,7 +108,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
         addMetric={(parentUuid: string) => addEmptyMetric(parentUuid)}
       />
       {props.isEditable &&
-      <VerticalContainer className={styles.addMetricButtons}>
+      <HorizontalGridContainer className={styles.addMetricButtons}>
         <Button
           value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
           onClick={() => addEmptyMetric(null)}
@@ -133,7 +134,7 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
           }
           isFitContent={false}
         />
-      </VerticalContainer>
+      </HorizontalGridContainer>
       }
     </VerticalContainer>
 

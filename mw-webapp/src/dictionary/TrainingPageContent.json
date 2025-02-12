@@ -1,0 +1,213 @@
+{
+  "privateInfo": {
+    "title": {
+      "ru": "Тренинг недоступен",
+      "en": "Training not available",
+      "ua": "Тренінг недоступний"
+    },
+    "description": {
+      "ru": "Этот тренинг приватный, он доступен только владельцу и ментору",
+      "en": "This training is private, it is available only to the owner and mentor",
+      "ua": "Цей тренінг приватний, він доступний лише власнику та ментору"
+    }
+  },
+  "infotip": {
+    "trainingName": {
+      "ru": "Изменить название тренинга можно по двойному клику. Рекомендуем формулировать название кратко, но информативно. Это важно, чтобы другие пользователи могли понять, к чему относится тренинг.",
+      "en": "You can change the name of the training by double clicking. We recommend that you keep the title brief but informative. This is important so that other users can understand what the training covers.",
+      "ua": "Змінити назву тренінгу можна за подвійним кліком. Рекомендуємо формулювати назву коротко, але інформативно. Це важливо, щоб інші користувачі могли зрозуміти, до чого належить тренінг."
+    },
+    "privacyStatus": {
+      "ru": "Твой тренинг может быть 'Публичным', то есть доступным для просмотра другими пользователями, или 'Приватным', то есть быть скрыт от всех, кроме менторов, уже имеющих доступ к твоему тренингу. Изменить статус приватности можно в 'Доступных действиях'.",
+      "en": "Your training can be 'Public', that is, available for viewing by other users, or 'Private', that is, hidden from everyone except mentors who already have access to your training. You can change your privacy status in 'Available Actions'.",
+      "ua": "Твій тренінг може бути 'Публічним', тобто доступним для перегляду іншими користувачами, або 'Приватним', тобто бути прихованим від усіх, крім менторів, які вже мають доступ до твого тренінгу. Змінити статус приватності можна в 'Доступних діях'."
+    },
+    "trainingOwner": {
+      "ru": "Ссылка на пользователя, который создал данный тренинг.",
+      "en": "Link to the user who created this training.",
+      "ua": "Посилання на користувача, який створив цей шлях."
+    },
+    "trainingMentors": {
+      "ru": "Ссылки на пользователей, которые являются менторами данного тренинга.",
+      "en": "Links to users who are mentors on this training.",
+      "ua": "Посилання на користувачів, які є менторами цього тренінгу."
+    }
+  },
+  "notifications": {
+    "trainingRemovedFromFavorites": {
+      "ru": "Тренинг удален из избранных",
+      "en": "Training removed from favorites",
+      "ua": "Тренінг видалено з обраних"
+    },
+    "trainingAddedToFavorites": {
+      "ru": "Тренинг добавлен в избранные",
+      "en": "Training added to favorites",
+      "ua": "Тренінг додано до обраних"
+    },
+    "urlCopied": {
+      "ru": "Url скопирован",
+      "en": "Url copied",
+      "ua": "URL скопійовано"
+    },
+    "trainingNameMaxLength": {
+      "ru": "Имя не должно превышать 50 символов",
+      "en": "Name should not exceed 50 characters",
+      "ua": "Ім'я не повинно перевищувати 50 символів"
+    },
+    "trainingNameMinLength": {
+      "ru": "Имя должно содержать хотя бы один символ",
+      "en": "Name should include at least one character",
+      "ua": "Ім'я повинно містити принаймні один символ"
+    }
+  },
+  "trainingInfo": {
+    "description": {
+      "ru": "Описание",
+      "en": "Description",
+      "ua": "Опис"
+    },
+    "noTags": {
+      "ru": "Нет тегов",
+      "en": "No tags",
+      "ua": "Немає тегів"
+    },
+    "duplicateTagModal": {
+      "ru": "Тег тренинга с таким именем уже существует",
+      "en": "A Training tag with the same name already exists",
+      "ua": "Тег тренінгу з такою назвою вже існує"
+    },
+    "addTrainingTagButton": {
+      "ru": "Добавить новый тег",
+      "en": "Add new training tag",
+      "ua": "Додати новий тег"
+    },
+    "addTrainingTagModal": {
+      "ru": "Новый тег",
+      "en": "New tag",
+      "ua": "Новий тег"
+    },
+    "addTrainingTagModalTitle": {
+      "ru": "Теги",
+      "en": "Tags",
+      "ua": "Теги"
+    },
+    "addTrainingTagModalButton": {
+      "ru": "Создать тег",
+      "en": "Create tag",
+      "ua": "Створити тег"
+    },
+    "favoriteAmountTooltip": {
+      "ru": "Количество лайков",
+      "en": "Likes count",
+      "ua": "Лайки враховуються"
+    },
+    "trainingActionsTooltip": {
+      "ru": "Доступные действия",
+      "en": "Training actions",
+      "ua": "Доступні дії"
+    },
+    "deleteFromFavoritesTooltip": {
+      "ru": "Удалить из избранных",
+      "en": "Delete from favorites",
+      "ua": "Видалити з вибраного"
+    },
+    "addToFavoritesTooltip": {
+      "ru": "Добавить в избранные",
+      "en": "Add to favorites",
+      "ua": "Додати до обраних"
+    }
+  },
+  "peopleBlock": {
+    "trainingPrivacy": {
+      "title": {
+        "ru": "Статус приватности:",
+        "en": "Privacy status:",
+        "ua": "Статус приватності:"
+      },
+      "private": {
+        "ru": "Приватный",
+        "en": "Private",
+        "ua": "Приватний"
+      },
+      "public": {
+        "ru": "Публичный",
+        "en": "Public",
+        "ua": "Публічний"
+      },
+      "privateTooltip": {
+        "ru": "Сейчас тренинг не виден никому, кроме владельца, текущих менторов и студентов. Статус можно изменить в доступных действиях для пути.",
+        "en": "Now the training is not visible to anyone except the owners and mentors. Status could be changed in training actions.",
+        "ua": "Зараз тренінг не видно нікому, крім власника і поточних менторів. Статус можна змінити в доступних діях для тренінгу."
+      },
+      "publicTooltip": {
+        "ru": "Сейчас тренинг виден всем. Статус можно изменить в доступных действиях для тренинг.",
+        "en": "Now the training is visible for everyone. Status could be changed in training actions.",
+        "ua": "Зараз тренінг видно всім. Статус можна змінити в доступних діях для тренінгу."
+      }
+    },
+    "makePrivateButton": {
+      "ru": "Сделать тренинг приватным",
+      "en": "Make the training private",
+      "ua": "Зробити шлтренінгях приватним"
+    },
+    "makePublicButton": {
+      "ru": "Сделать тренинг публичным",
+      "en": "Make the training public",
+      "ua": "Зробити тренінг публічним"
+    },
+    "trainingOwner": {
+      "ru": "Владелец тренинга:",
+      "en": "Training's owner:",
+      "ua": "Власник тренінгу:"
+    },
+    "mentors": {
+      "ru": "Менторы тренинга:",
+      "en": "Mentors of this training:",
+      "ua": "Наставники цього тренінгу:"
+    },
+    "deleteFromMentors": {
+      "ru": "Удалить из менторов",
+      "en": "Delete from mentors",
+      "ua": "Видалити з наставників"
+    },
+    "deleteMentorModalContent": {
+      "ru": "Вы уверены, что хотите удалить $mentor из менторов?",
+      "en": "Are you sure you want to remove $mentor from mentors?",
+      "ua": "Ви впевнені, що хочете видалити $mentor з наставників?"
+    },
+    "applyAsMentor": {
+      "ru": "Подать заявку в качестве ментора",
+      "en": "Apply as Mentor",
+      "ua": "Подати заявку як ментор"
+    },
+    "mentorPendingRequest": {
+      "ru": "Запрос на наставничество отправлен. Пожалуйста, дождитесь ответа",
+      "en": "Mentorship request has been sent. Please wait for a response",
+      "ua": "Запит на наставництво надіслано. Будь ласка, зачекайте на відповідь"
+    }
+  },
+  "trainingActions": {
+    "copyUrlToClipboard": {
+      "ru": "Скопировать url",
+      "en": "Copy url to clipboard",
+      "ua": "Копіювати url"
+    },
+    "deleteTheTraining": {
+      "ru": "Удалить тренинг",
+      "en": "Delete the training",
+      "ua": "Видалити тренінг"
+    },
+    "deleteTrainingQuestion": {
+      "ru": "Вы уверены, что хотите удалить тренинг",
+      "en": "Are you sure you want to delete the training",
+      "ua": "Ви впевнені, що хочете видалити тренінг"
+    }
+  },
+  "topicsBlock": {
+    "topics": {
+      "ru": "Темы",
+      "en": "Topics",
+      "ua": "Теми"
+    }
+  }
+}

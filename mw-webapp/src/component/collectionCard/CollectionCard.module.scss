@@ -1,0 +1,77 @@
+@import "src/styles/variables";
+
+$collectionCardMainHeight: 76px;
+$collectionCardAdditionalHeight: 47px;
+$titleWithBurgerBlockHeight: 32px;
+
+.collectionCardContainer {
+  width: 100%;
+  border: $primaryBorder solid var(--primaryStrokeColor);
+  border-radius: $primaryBorderRadius;
+  cursor: pointer;
+  @include scaleOnHover;
+}
+
+.collectionCardButton {
+  padding: 0;
+  border: none;
+  margin-bottom: auto;
+}
+
+.mainInfo {
+  height: $collectionCardMainHeight;
+  padding: $paddingMedium;
+  background-color: var(--mainInfoCardColor);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  gap: $gapSmall;
+  text-align: left;
+}
+
+.headingLevelH3 {
+  font-size: $fontSizeBig;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeMedium;
+  }
+}
+
+.title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  color: var(--secondaryTextColor);
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+}
+
+.collectionTitleBlock {
+  // min-height: $titleWithBurgerBlockHeight;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// .description {
+//   display: -webkit-box;
+//   overflow: hidden;
+//   -webkit-box-orient: vertical;
+//   color: var(--secondaryTextColor);
+//   font-size: $fontSizeMedium;
+//   -webkit-line-clamp: 2;
+//   text-overflow: ellipsis;
+// }
+
+.additionalInfo {
+  height: $collectionCardAdditionalHeight;
+  padding: $paddingMedium;
+  background-color: var(--additionalInfoCardBgColor);
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  color: var(--primaryTextColor);
+  font-size: $fontSizeBig;
+  font-weight: $fontWeightBold;
+}
+
+.active {
+  background-color: var(--collectionCardActiveColor);
+}
