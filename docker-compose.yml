@@ -73,6 +73,17 @@ services:
     networks:
       - app-network
 
+  mw-chat-websocket:
+    build:
+      context: .
+      dockerfile: ./mw-chat-websocket/Dockerfile
+    ports:
+      - "7994:7994"
+    depends_on:
+      - mw-chat-bff
+    networks:
+      - app-network
+
   postgres-training:
     build:
       context: .
