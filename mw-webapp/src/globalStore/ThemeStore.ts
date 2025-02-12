@@ -190,7 +190,7 @@ const themedVariables: Record<string, Record<Theme, string>> = {
   },
 };
 
-export const DEFAULT_THEME = Theme.DARK;
+export const DEFAULT_THEME = Theme.LIGHT;
 
 /**
  * All theme-related methods

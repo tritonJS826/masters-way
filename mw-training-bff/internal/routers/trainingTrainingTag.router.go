@@ -17,5 +17,5 @@ func newTrainingTrainingTagRouter(trainingTrainingTagController *controllers.Tra
 func (mr *trainingTrainingTagRouter) setTrainingTrainingTagRoutes(rg *gin.RouterGroup) {
 	trainingTrainingTags := rg.Group("/trainingTrainingTags")
 	trainingTrainingTags.POST(":trainingId", mr.trainingTrainingTagController.CreateTrainingTag)
-	trainingTrainingTags.DELETE(":trainingId/trainingTag/:trainingTagId", mr.trainingTrainingTagController.DeleteTrainingTag)
+	trainingTrainingTags.DELETE(":trainingId/trainingTag/:trainingTagName", mr.trainingTrainingTagController.DeleteTrainingTag)
 }

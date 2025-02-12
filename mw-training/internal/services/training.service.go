@@ -21,6 +21,7 @@ type TrainingRepository interface {
 	GetStudentTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.GetStudentTrainingListRow, error)
 	GetFavoriteTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.GetFavoriteTrainingListRow, error)
 	GetTrainingList(ctx context.Context, params db.GetTrainingListParams) ([]db.GetTrainingListRow, error)
+	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]db.TrainingTag, error)
 	CountTrainings(ctx context.Context, trainingName string) (int64, error)
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
 	WithTx(tx pgx.Tx) *db.Queries
@@ -201,16 +202,25 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingUuid pgt
 		return pb.Training{}, err
 	}
 
+	dbTrainigTags, err := ts.trainingRepository.GetListTrainingTagsByTrainingId(ctx, trainingUuid)
+	if err != nil {
+		return pb.Training{}, err
+	}
+	tags := lo.Map(dbTrainigTags, func(tag db.TrainingTag, _ int) *pb.TrainingTag {
+		return &pb.TrainingTag{TagName: tag.Name}
+	})
+
 	return pb.Training{
 		Uuid: *utils.MarshalPgUUID(dbTraining.Uuid),
 		Owner: &pb.User{
 			Uuid: *utils.MarshalPgUUID(dbTraining.OwnerUuid),
 		},
-		Name:        dbTraining.Name,
-		Description: dbTraining.Description,
-		CreatedAt:   dbTraining.CreatedAt.Time.String(),
-		UpdatedAt:   dbTraining.UpdatedAt.Time.String(),
-		IsPrivate:   dbTraining.IsPrivate,
+		Name:            dbTraining.Name,
+		Description:     dbTraining.Description,
+		CreatedAt:       dbTraining.CreatedAt.Time.String(),
+		UpdatedAt:       dbTraining.UpdatedAt.Time.String(),
+		IsPrivate:       dbTraining.IsPrivate,
+		TrainingTagList: tags,
 	}, nil
 }
 

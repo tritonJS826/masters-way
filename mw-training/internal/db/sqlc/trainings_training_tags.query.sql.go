@@ -35,15 +35,22 @@ func (q *Queries) CreateTrainingTrainingTag(ctx context.Context, arg CreateTrain
 
 const deleteTrainingsTrainingTag = `-- name: DeleteTrainingsTrainingTag :exec
 DELETE FROM trainings_training_tags
-WHERE trainings_training_tags.training_uuid = $1 AND trainings_training_tags.tag_uuid = $2
+WHERE 
+    trainings_training_tags.training_uuid = $1 
+    AND 
+    trainings_training_tags.tag_uuid IN (
+        SELECT training_tags.uuid 
+        FROM training_tags 
+        WHERE training_tags.name = $2
+    )
 `
 
 type DeleteTrainingsTrainingTagParams struct {
 	TrainingUuid pgtype.UUID `json:"training_uuid"`
-	TagUuid      pgtype.UUID `json:"tag_uuid"`
+	TagName      string      `json:"tag_name"`
 }
 
 func (q *Queries) DeleteTrainingsTrainingTag(ctx context.Context, arg DeleteTrainingsTrainingTagParams) error {
-	_, err := q.db.Exec(ctx, deleteTrainingsTrainingTag, arg.TrainingUuid, arg.TagUuid)
+	_, err := q.db.Exec(ctx, deleteTrainingsTrainingTag, arg.TrainingUuid, arg.TagName)
 	return err
 }

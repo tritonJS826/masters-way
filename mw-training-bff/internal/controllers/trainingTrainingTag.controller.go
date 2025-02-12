@@ -63,7 +63,7 @@ func (tttc *TrainingTrainingTagController) CreateTrainingTag(ctx *gin.Context) {
 // @Router /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName} [delete]
 func (tttc *TrainingTrainingTagController) DeleteTrainingTag(ctx *gin.Context) {
 	trainingId := ctx.Param("trainingId")
-	trainingTagName := ctx.Param("trainingTagId")
+	trainingTagName := ctx.Param("trainingTagName")
 
 	args := &services.DeleteTrainingTrainingTagParams{
 		TrainingUuid: trainingId,

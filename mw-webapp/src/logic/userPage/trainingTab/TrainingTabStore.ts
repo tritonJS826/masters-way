@@ -1,20 +1,24 @@
 import {makeAutoObservable} from "mobx";
-import {AllTrainingsParams, GetTrainingsParams, TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
+import {AllTrainingsParams, TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
 import {load} from "src/hooks/useLoad";
 import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
 
-const DEFAULT_PAGE_PAGINATION_VALUE = 1;
-
 /**
- * GEt trainings by user params
+ * Get trainings by user Id params
  */
-export interface GetTrainingsByUserParams extends GetTrainingsParams {
+export interface GetTrainingsByUserIdParams {
 
   /**
-   * User page Uuid
+   * User's uuid
    */
-  userPageOwnerUuid: string;
+  userId: string;
+
+  /**
+   * Training's type
+   */
+  trainingsType: DefaultTrainingCollection;
+
 }
 
 /**
@@ -33,16 +37,11 @@ export class TrainingTabStore {
   public allTrainingsAmount!: number;
 
   /**
-   * Page pagination
-   */
-  public pagePagination: number = DEFAULT_PAGE_PAGINATION_VALUE;
-
-  /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
 
-  constructor(params: GetTrainingsByUserParams) {
+  constructor(params: GetTrainingsByUserIdParams) {
     makeAutoObservable(this);
     this.initialize(params);
   }
@@ -62,22 +61,11 @@ export class TrainingTabStore {
   };
 
   /**
-   * Set page pagination
-   */
-  public setPagePagination = (nextPage: number) => {
-    this.pagePagination = nextPage;
-  };
-
-  /**
    * Load more trainings preview
    */
   public loadMoreTrainingsPreview = async (trainingName: string, userUuid: string, trainingType: DefaultTrainingCollection) => {
-    const nextPage = this.pagePagination + DEFAULT_PAGE_PAGINATION_VALUE;
-
     const trainings = await this.loadData({
-      page: nextPage,
-      trainingName,
-      userPageOwnerUuid: userUuid,
+      userId: userUuid,
       trainingsType: trainingType,
     });
 
@@ -87,7 +75,7 @@ export class TrainingTabStore {
   /**
    * Load trainings preview
    */
-  public loadTrainingsPreview = async (params: GetTrainingsByUserParams) => {
+  public loadTrainingsPreview = async (params: GetTrainingsByUserIdParams) => {
     await load<AllTrainingsParams>({
 
       /**
@@ -103,7 +91,7 @@ export class TrainingTabStore {
   /**
    * Initialize
    */
-  private async initialize(params: GetTrainingsByUserParams) {
+  private async initialize(params: GetTrainingsByUserIdParams) {
     await this.loadTrainingsPreview(params);
     this.isInitialized = true;
   }
@@ -111,10 +99,10 @@ export class TrainingTabStore {
   /**
    * Load data
    */
-  private loadData = async (params: GetTrainingsByUserParams): Promise<AllTrainingsParams> => {
+  private loadData = async (params: GetTrainingsByUserIdParams): Promise<AllTrainingsParams> => {
     const fetchedTrainings = await TrainingDAL.getTrainingsByUserId({
       trainingsType: params.trainingsType,
-      userId: params.userPageOwnerUuid,
+      userId: params.userId,
     });
 
     return fetchedTrainings;

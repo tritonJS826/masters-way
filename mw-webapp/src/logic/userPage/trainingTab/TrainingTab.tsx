@@ -12,7 +12,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useStore} from "src/hooks/useStore";
 import {Trainings} from "src/logic/userPage/trainings/Trainings";
-import {GetTrainingsByUserParams, TrainingTabStore} from "src/logic/userPage/trainingTab/TrainingTabStore";
+import {GetTrainingsByUserIdParams, TrainingTabStore} from "src/logic/userPage/trainingTab/TrainingTabStore";
 import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -65,13 +65,12 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
   const navigate = useNavigate();
 
   const trainingTabStore = useStore<
-  new (params: GetTrainingsByUserParams) => TrainingTabStore,
+  new (params: GetTrainingsByUserIdParams) => TrainingTabStore,
   [string], TrainingTabStore>({
       storeForInitialize: TrainingTabStore,
       dataForInitialization: [
         {
-          userPageOwnerUuid: props.userPageOwnerUuid,
-          trainingName: "new",
+          userId: props.userPageOwnerUuid,
           trainingsType: props.activeTrainingCollection,
         },
       ],

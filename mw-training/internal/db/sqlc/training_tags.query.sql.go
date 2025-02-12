@@ -32,7 +32,7 @@ SELECT
     training_tags.name
 FROM training_tags
 JOIN trainings_training_tags 
-    ON trainings_training_tags.training_tag_uuid = training_tags.uuid
+    ON trainings_training_tags.tag_uuid = training_tags.uuid
 WHERE trainings_training_tags.training_uuid = $1
 ORDER BY training_tags.name
 `
@@ -63,7 +63,7 @@ SELECT
     training_tags.name AS name,
     trainings_training_tags.training_uuid
 FROM training_tags
-JOIN trainings_training_tags ON trainings_training_tags.training_tag_uuid = training_tags.uuid
+JOIN trainings_training_tags ON trainings_training_tags.tag_uuid = training_tags.uuid
 WHERE trainings_training_tags.training_uuid = ANY($1::UUID[])
 ORDER BY name
 `

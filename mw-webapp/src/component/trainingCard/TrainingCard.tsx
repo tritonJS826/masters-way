@@ -65,7 +65,7 @@ const renderTrainingTags = (trainingTags: TrainingTag[]) => {
       {trainingTags.map((trainingTag) => (
         <Tag
           tagName={trainingTag.name}
-          key={trainingTag.uuid}
+          key={trainingTag.name}
           type={TagType.CARD_TAG}
         />
       ))}

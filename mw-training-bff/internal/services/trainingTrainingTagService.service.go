@@ -32,7 +32,7 @@ func (ttts *TrainingTrainingTagService) CreateTrainingTrainingTag(ctx context.Co
 	}
 
 	return &schemas.TrainingTag{
-		Name: trainingTag.TagName,
+		Name: trainingTag.GetTagName(),
 	}, nil
 }
 

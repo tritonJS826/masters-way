@@ -190,6 +190,9 @@ func (ts *TrainingService) GetTrainingListByUser(ctx context.Context, params *Ge
 		return training.GetOwner().Uuid
 	})
 	owners, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(ownerIds).Execute()
+	if err != nil {
+		return &schemas.TrainingList{}, err
+	}
 
 	trainingsPreview := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.Training, i int) schemas.TrainingPreview {
 		return schemas.TrainingPreview{
@@ -241,6 +244,10 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		ImageUrl: users[0].ImageUrl,
 	}
 
+	trainingTags := lo.Map(trainingRaw.TrainingTagList, func(tag *pb.TrainingTag, _ int) schemas.TrainingTag {
+		return schemas.TrainingTag{Name: tag.TagName}
+	})
+
 	return &schemas.Training{
 		Uuid:                 trainingRaw.Uuid,
 		Name:                 trainingRaw.Name,
@@ -249,7 +256,7 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		Owner:                owner,
 		Mentors:              make([]schemas.User, 0),
 		Students:             make([]schemas.User, 0),
-		TrainingTags:         make([]schemas.TrainingTag, 0),
+		TrainingTags:         trainingTags,
 		FavoriteForUserUuids: make([]string, 0),
 		Topics:               make([]schemas.Topic, 0),
 		CreatedAt:            trainingRaw.CreatedAt,

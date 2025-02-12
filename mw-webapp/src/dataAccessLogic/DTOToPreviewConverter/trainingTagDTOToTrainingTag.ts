@@ -7,5 +7,5 @@ import {TrainingTag} from "src/model/businessModelPreview/TrainingPreview";
 export const trainingTagDTOToTrainingTag = (
   trainingTagDTO: MwTrainingBffInternalSchemasTrainingTag,
 ): TrainingTag => {
-  return new TrainingTag({...trainingTagDTO});
+  return new TrainingTag(trainingTagDTO);
 };

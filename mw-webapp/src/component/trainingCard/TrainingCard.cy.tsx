@@ -1,29 +1,20 @@
 import {BrowserRouter} from "react-router-dom";
 import {TrainingCard} from "src/component/trainingCard/TrainingCard";
-import {UserPlain} from "src/model/businessModel/User";
-import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
+import {TrainingPreview, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 import {pages} from "src/router/pages";
 import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {DateUtils} from "src/utils/DateUtils";
 
-const USER_PREVIEW_DATA: UserPlain = {
+const USER_PREVIEW_DATA: UserPreview = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "Test Tester",
-  email: "test.tester@gmail.com",
-  description: "",
-  createdAt: new Date(),
   imageUrl: "",
-  isMentor: false,
 };
 
-const MENTOR_PREVIEW_DATA: UserPlain = {
+const MENTOR_PREVIEW_DATA: UserPreview = {
   uuid: "8l9tZl6gINP7j6BIT3p0yN9zZnH2",
   name: "MENTOR",
-  email: "test.tester@gmail.com",
-  description: "",
-  createdAt: new Date(),
   imageUrl: "",
-  isMentor: false,
 };
 
 const TRAINING_PREVIEW_DATA: TrainingPreview = {
@@ -37,7 +28,8 @@ const TRAINING_PREVIEW_DATA: TrainingPreview = {
   description: "Test training description",
   isPrivate: false,
   favoriteForUsersAmount: 4,
-  studentIds: ["00000000-0000-0000-0000-00000000001"],
+  studentsAmount: 1,
+  topicsAmount: 3,
 };
 
 const TRAINING_CARD_CY = "training-card";
@@ -76,7 +68,7 @@ describe("TrainingCard component", () => {
     cy.get(getDataCy(TRAINING_CARD_CY)).contains(TRAINING_PREVIEW_DATA.description);
     cy.get(getDataCy(TRAINING_CARD_CY)).contains(TRAINING_PREVIEW_DATA.name);
     cy.get(getDataCy(TRAINING_CARD_CY)).contains(
-      `${TRAINING_PREVIEW_DATA.studentIds.length}`,
+      `${TRAINING_PREVIEW_DATA.studentsAmount}`,
     );
     cy.get(getDataCy(TRAINING_CARD_CY)).contains(
       `${TRAINING_PREVIEW_DATA.favoriteForUsersAmount}`,

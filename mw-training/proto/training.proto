@@ -102,6 +102,7 @@ message Training {
   string created_at = 5;
   string updated_at = 6;
   bool is_private = 7;
+  repeated TrainingTag training_tag_list = 8;
 }
 
 message TrainingPreviewList {

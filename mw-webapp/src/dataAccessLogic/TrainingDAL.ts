@@ -1,7 +1,7 @@
 import {trainingToTrainingDTOPartial} from "src/dataAccessLogic/BusinessToDTOConverter/trainingToTrainingDTOPartial";
 import {trainingDTOToTraining} from "src/dataAccessLogic/DTOToPreviewConverter/trainingDTOToTraining";
 import {trainingPreviewDTOToTrainingPreview} from "src/dataAccessLogic/DTOToPreviewConverter/trainingPreviewDTOToTrainingPreview";
-import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
+import {GetTrainingsByUserIdParams} from "src/logic/userPage/trainingTab/TrainingTabStore";
 import {Training} from "src/model/businessModel/Training";
 import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
 import {TrainingService} from "src/service/TrainingService";
@@ -42,28 +42,6 @@ export interface GetTrainingsParams {
    * Part of training name
    */
   trainingName: string;
-
-  /**
-   * Training collection type
-   */
-  trainingsType: DefaultTrainingCollection;
-
-}
-
-/**
- * Get trainings by user Id params
- */
-export interface GetTrainingsByUserIdParams {
-
-  /**
-   * User's uuid
-   */
-  userId: string;
-
-  /**
-   * Training's type
-   */
-  trainingsType: DefaultTrainingCollection;
 
 }
 
