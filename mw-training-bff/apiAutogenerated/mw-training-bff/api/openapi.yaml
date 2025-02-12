@@ -779,8 +779,8 @@ components:
           name: name
           uuid: uuid
         trainingTags:
-        - trainingTags
-        - trainingTags
+        - name: name
+        - name: name
         createdAt: createdAt
         topics:
         - createdAt: createdAt
@@ -850,7 +850,7 @@ components:
           type: array
         trainingTags:
           items:
-            type: string
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingTag'
           type: array
         updatedAt:
           type: string

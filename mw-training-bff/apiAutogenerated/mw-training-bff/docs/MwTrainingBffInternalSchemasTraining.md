@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **Owner** | [**MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **Students** | [**[]MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **Topics** | [**[]MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md) |  | 
-**TrainingTags** | **[]string** |  | 
+**TrainingTags** | [**[]MwTrainingBffInternalSchemasTrainingTag**](MwTrainingBffInternalSchemasTrainingTag.md) |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasTraining
 
-`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTags []string, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
+`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
 
 NewMwTrainingBffInternalSchemasTraining instantiates a new MwTrainingBffInternalSchemasTraining object
 This constructor will assign default values to properties that have it defined,
@@ -218,20 +218,20 @@ SetTopics sets Topics field to given value.
 
 ### GetTrainingTags
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTags() []string`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTags() []MwTrainingBffInternalSchemasTrainingTag`
 
 GetTrainingTags returns the TrainingTags field if non-nil, zero value otherwise.
 
 ### GetTrainingTagsOk
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTagsOk() (*[]string, bool)`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTrainingTagsOk() (*[]MwTrainingBffInternalSchemasTrainingTag, bool)`
 
 GetTrainingTagsOk returns a tuple with the TrainingTags field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTrainingTags
 
-`func (o *MwTrainingBffInternalSchemasTraining) SetTrainingTags(v []string)`
+`func (o *MwTrainingBffInternalSchemasTraining) SetTrainingTags(v []MwTrainingBffInternalSchemasTrainingTag)`
 
 SetTrainingTags sets TrainingTags field to given value.
 
