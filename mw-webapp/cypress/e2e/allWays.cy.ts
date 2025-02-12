@@ -7,6 +7,7 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import allWayData from "cypress/fixtures/allWaysFixture.json";
+import {LanguageService} from "src/service/LanguageService";
 
 beforeEach(() => {
   cy.resetGeneralDb();
@@ -26,7 +27,7 @@ describe('NoAuth All Ways scope tests', () => {
     tableHeadersEn.push(Symbols.STAR);
 
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
     allWaysSelectors.allWaysTable.getTable().should('exist');
@@ -39,7 +40,7 @@ describe('NoAuth All Ways scope tests', () => {
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
     const checkOwnerLink = (userData: {userName: string, userId: string}) => {
@@ -67,7 +68,7 @@ describe('NoAuth All Ways scope tests', () => {
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
     }
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
 
     checkWayLink(testWayData.ways.danaWay);
     cy.visit(`/${allWayData.endpoint}`);
@@ -82,7 +83,7 @@ describe('NoAuth All Ways scope tests', () => {
   it('NoAuth_AllWaysTable_LinkToMentor', () => {
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
     
     const checkMentorLink = (userData: {userName: string, userId: string}) => {
       allWaysSelectors.allWaysTable.getOwnerLink(userData.userName).first().click();
@@ -108,7 +109,7 @@ describe('NoAuth All Ways scope tests', () => {
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
     }
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
 
     checkWayLink(testWayData.ways.danaWay);
     cy.visit(`/${allWayData.endpoint}`);

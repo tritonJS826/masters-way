@@ -10,9 +10,11 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {statisticsData} from "cypress/testData/statisticTestData";
+import {periods} from "cypress/testData/statisticTestData";
 
-type MinDayReports = 0 | 5 | 20 | 50;
-type WayStatus = keyof typeof LanguageService.allWays.filterBlock.typeOptions;
+type MinDayReports = "0" | "5" | "20" | "50";
+type WayStatus = "All" | "Completed" | "In progress" | "Abandoned";
+// type WayStatus = keyof typeof LanguageService.allWays.filterBlock.typeOptions;
 
 type StatisticsPlacement = keyof typeof statisticsData.statisticsPlacement;
 type PagePeriodBlockTitle = keyof typeof statisticsData.periodBlockTitles.wayPage;
@@ -34,36 +36,39 @@ interface WayFilters {
     minDayReports?: MinDayReports;
 };
 
-function adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
-    const reportSelectors = {
-        0: allWaysSelectors.filterViewBlock.getDayReportsSelectOption0,
-        5: allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5,
-        20: allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast20,
-        50: allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast50,
-    };
-    allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    reportSelectors[minDayReports]?.().click();
-}
-
-function adjustWayFilterStatus(status: WayStatus) {
-    const statusSelectors = {
-        all: allWaysSelectors.filterViewBlock.getStatusSelectOptionAll,
-        completed: allWaysSelectors.filterViewBlock.getStatusSelectOptionCompleted,
-        abandoned: allWaysSelectors.filterViewBlock.getStatusSelectOptionAbandoned,
-        inProgress: allWaysSelectors.filterViewBlock.getStatusSelectOptionInProgress,
-    };
-    allWaysSelectors.filterViewBlock.getStatusSelect().click();
-    statusSelectors[status]?.().click();
-}
-
-function searchByWayName(wayName: string) {
-    allWaysSelectors.filterViewBlock.getSearchByWayNameInput().click().type(`${wayName}{enter}`);
-}
+interface WayDayReportData {
+        jobDoneDescription?: string;
+        timeSpentOnJob?: string;
+        planDescription?: string;
+        estimatedPlanTime?: string;
+        problemDescription?: string;
+        commentDescription?: string;
+};
 
 function getPeriodBlockTitleForPlacement(statisticsPlacement: StatisticsPlacement, periodBlockTitle: PeriodBlockTitle): string {
     return statisticsPlacement === statisticsData.statisticsPlacement.wayPage
         ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle]
         : statisticsData.periodBlockTitles.modal[periodBlockTitle];
+}
+
+function adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
+    const reportOptions = {
+        0: LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en,
+        5: LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en,
+        20: LanguageService.allWays.filterBlock.minDayReportsAmountOption2.en,
+        50: LanguageService.allWays.filterBlock.minDayReportsAmountOption3.en
+    };
+    allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(reportOptions[minDayReports]).click();
+}
+
+function adjustWayFilterStatus(status: WayStatus) {
+    allWaysSelectors.filterViewBlock.getStatusSelect().click();
+    allWaysSelectors.filterViewBlock.getStatusSelectOption(status).click();
+}
+
+function searchByWayName(wayName: string) {
+    allWaysSelectors.filterViewBlock.getSearchByWayNameInput().click().type(`${wayName}{enter}`);
 }
 
 function openWayFromAllWayPageByClickingCard(
@@ -77,6 +82,65 @@ function openWayFromAllWayPageByClickingCard(
         wayFilters.minDayReports && adjustWayFilterMinDayReports(wayFilters.minDayReports);
     }
     allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
+}
+
+function addThisWayToCompositeWay(compositeWayTitle: string) {
+    wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+    wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+        .contains(LanguageService.way.wayActions.compositeWayManagement.en)
+        .click();
+    wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
+        .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${compositeWayTitle}`)
+        .click();
+}
+
+function addDayReportToWay(wayDayReportData?: WayDayReportData) {        
+    dayReportsSelectors.getCreateNewDayReportButton().click();
+    if (!wayDayReportData) return;
+    if (wayDayReportData.jobDoneDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(wayDayReportData.jobDoneDescription);
+        headerSelectors.getHeader().click();
+    }
+    if (wayDayReportData.timeSpentOnJob) {
+        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
+        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
+        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(wayDayReportData.timeSpentOnJob);
+        headerSelectors.getHeader().click();
+    }
+    if (wayDayReportData.planDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
+        dayReportsSelectors.dayReportsContent.plans.getPlanDescription().dblclick()
+        dayReportsSelectors.dayReportsContent.plans.getPlanDescriptionInput().type(wayDayReportData.planDescription);
+        headerSelectors.getHeader().click();
+    }
+    if (wayDayReportData.estimatedPlanTime) {
+        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().dblclick();
+        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTimeInput().type(wayDayReportData.estimatedPlanTime);
+        headerSelectors.getHeader().click(); 
+    }
+    if (wayDayReportData.problemDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
+        dayReportsSelectors.dayReportsContent.problems.getProblemDescription().dblclick()
+        dayReportsSelectors.dayReportsContent.problems.getProblemDescriptionInput().type(wayDayReportData.problemDescription);
+        headerSelectors.getHeader().click();
+    }
+    if (wayDayReportData.commentDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
+        dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick()
+        dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(wayDayReportData.commentDescription);
+        headerSelectors.getHeader().click();
+    }
+}
+
+function adjustLabelForWay (labelName: string) {
+    dayReportsSelectors.labels.getAdjustLabelsButton().click();
+    dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
+    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(labelName);
+    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
+    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
 }
 
 function verifyStatisticsOverallInfo({
@@ -160,7 +224,7 @@ function verifyLabelStatisticsRow({
                 // Find the entire row containing the matched label
                 const matchedLabelRow = Cypress.$(matchedLabelByName).closest(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`);
 
-                // Check the label text, amount, and time
+                // Check the label text, amount and time
                 const checkLabelParameter = (selector: string, assertion: string, value: string) => {
                     cy.wrap(matchedLabelRow).find(`[data-cy="${selector}"]`).should(assertion, value);
                 };
@@ -190,14 +254,14 @@ afterEach(() => {
 describe('Statistics tests', () => {
 
     it('Scenario_Student_wayStatistics', () => {
-        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title as string, {minDayReports: 5});
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: "5"});
  
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
         verifyStatisticsOverallInfo({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
@@ -209,7 +273,7 @@ describe('Statistics tests', () => {
 
         verifyStatisticsOverallInfo({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
@@ -221,55 +285,55 @@ describe('Statistics tests', () => {
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
         });
         
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
             
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
         });
 
@@ -279,7 +343,7 @@ describe('Statistics tests', () => {
 
         verifyStatisticsOverallInfo({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
@@ -291,7 +355,7 @@ describe('Statistics tests', () => {
 
         verifyStatisticsOverallInfo({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastMonth",
+            periodBlockTitle: periods.lastMonth,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalReports,
@@ -303,7 +367,7 @@ describe('Statistics tests', () => {
 
         verifyStatisticsOverallInfo({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
@@ -315,85 +379,85 @@ describe('Statistics tests', () => {
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastMonth",
+            periodBlockTitle: periods.lastMonth,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "total",
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "total",
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: periods.total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastMonth",
+            periodBlockTitle: periods.lastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastMonth",
+            periodBlockTitle: periods.lastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastMonth",
+            periodBlockTitle: periods.lastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastMonth",
+            periodBlockTitle: periods.lastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: "lastWeek",
+            periodBlockTitle: periods.lastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
         });
 
@@ -410,226 +474,432 @@ describe('Statistics tests', () => {
             .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.johnDoeWay.statistic.total.totalReports})`);
     });
 
-    // it('Scenario_Mentor_CompositeWayStatistics', () => {
-    //     // Create a user-mentor with a composite way that includes one child way
-    //     cy.login(testUserData.testUsers.mentorMax.loginLink);
-    //     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-    //     userWaysSelectors.getCreateNewWayButton().click();
-    //     cy.openAllWaysPage();
-    //     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    //     allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5().click();
-    //     allWaysSelectors.allWaysCard.getCardLink(statisticsData.johnDoeWay.title).click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-    //         .contains(`Composite ways`)
-    //         .click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-    //         .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
-    //         .click();
-    //     cy.logout();
+    it.only('Scenario_Mentor_CompositeWayStatistics', () => {
+        // Create a user-mentor with a composite way that includes one child way
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
+        userWaysSelectors.getCreateNewWayButton().click();
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: "5"});
+        addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
+        cy.logout();
 
-    //     // Create user-student with a way that includes one day report
-    //     cy.login(testUserData.testUsers.studentJonh.loginLink);
-    //     userWaysSelectors.getCreateNewWayButton().click();
-    //     dayReportsSelectors.labels.getAdjustLabelsButton().click();
-    //     dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
-    //     dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(dayReportsData.labels.student);
-    //     dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
-    //     dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
-    //     dayReportsSelectors.getCreateNewDayReportButton().click();
-    //     dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-    //     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-    //     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-    //     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
-    //     headerSelectors.getHeader().click();
-    //     dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
-    //     dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
-    //     dayReportsSelectors.labels.addLabel.getSaveButton().click();
-    //     headerSelectors.getHeader().click();
-    //     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-    //     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-    //     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(dayReportsData.timeSpentOnJob);
-    //     headerSelectors.getHeader().click();
-    //     cy.logout();
+        // Create user-student with a way that includes one day report
+        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userWaysSelectors.getCreateNewWayButton().click();
+        addDayReportToWay({jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
+        adjustLabelForWay(dayReportsData.labels.student);
+        dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
+        dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
+        dayReportsSelectors.labels.addLabel.getSaveButton().click();
+        headerSelectors.getHeader().click();
+        cy.logout();
 
-    //     // Open the mentor composite way
-    //     openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, 'getDayReportsSelectOption0');
+        // Open the mentor composite way
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: "0"});
 
-    //     // checkOverallInfo(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY);
-    //     // checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.total.avgJobTime},
+        });
 
-    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY);
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgJobTime},
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
+        });
         
-    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 0);
-    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 1);
-    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 2);
-    //     // checkLabelLineData(statisticsData.windowType.wayPage, TOTAL_PERIOD, TEST_WAY, 3);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
+        });
 
-    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
+        });
 
-    //     // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 0);
-    //     // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 1);
-    //     // checkLabelLineData(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 2);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
+        });
             
-    //     statisticsSelectors.getShowAllStatisticsButton().click();
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
 
-    //     statisticsSelectors.statistics.getModal().should('be.visible');
+        statisticsSelectors.getShowAllStatisticsButton().click();
 
-    //     // checkOverallInfo(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY);
-    //     // checkOverallInfo(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY);
-    //     // checkOverallInfo(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
+        statisticsSelectors.statistics.getModal().should('be.visible');
 
-    //     // checkNumberOfLabelLines(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY);
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.total.avgJobTime},
+        });
 
-    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 0);
-    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 1);
-    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 2);
-    //     // checkLabelLineData(MODAL_WINDOW, TOTAL_PERIOD, TEST_WAY, 3);
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastMonth.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgJobTime},
+        });
 
-    //     // checkNumberOfLabelLines(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY);
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgJobTime},
+        });
 
-    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 0);
-    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 1);
-    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 2);
-    //     // checkLabelLineData(MODAL_WINDOW, LAST_MONTH_PERIOD, TEST_WAY, 3);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
+        });
 
-    //     // checkNumberOfLabelLines(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth).length
+        });
 
-    //     // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 0);
-    //     // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 1);
-    //     // checkLabelLineData(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, TEST_WAY, 2);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
+        });
 
-    //     statisticsSelectors.statistics.getCloseButton().click();
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
+        });
 
-    //     // Check "Total reports" and "Total" in the header of day report table on the way page
-    //     dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-    //         .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
-            
-    //     dayReportsSelectors.dayReportsContent.getLoadMoreButton().click({force: true});
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
+        });
 
-    //     dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-    //         .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
+        });
 
-    //     // Mentor adds the student way to the compisite way
-    //     cy.login(testUserData.testUsers.mentorMax.loginLink);
-    //     cy.openAllWaysPage();
-    //     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    //     allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
-    //     allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-    //         .contains(`Composite ways`)
-    //         .click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-    //         .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
-    //         .click();
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
+        });
 
-    //     // Open the mentor composite way
-    //     openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, 'getDayReportsSelectOption0');
-    //     // headerSelectors.getAvatar().click();
-    //     // allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).click();
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1
+        });
 
-    //     // checkOverallInfo(statisticsData.windowType.wayPage, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
-    //     // checkOverallInfo(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2
+        });
 
-    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3
+        });
 
-    //     // checkNumberOfLabelLines(statisticsData.windowType.wayPage, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4
+        });
 
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
+        });
 
-    // //     // Check the first label data in the "Labels Statistic" section for the "Total" block on the way page
-    // //     statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-    // //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    // //         .then((elements) => {
-    // //             const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
+        });
 
-    // //             // Find the target element by its name
-    // //             const targetElement = Cypress._.find(elements, (element) => {
-    // //                 const elementText = Cypress.$(element).text();
-    // //                 return elementText === targetName;
-    // //             });
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
 
-    // //             // Verify that the target element was found
-    // //             if (!targetElement) {
-    // //                 throw new Error(`Element with name "${targetName}" not found`);
-    // //             }
+        statisticsSelectors.statistics.getCloseButton().click();
 
-    // //             // Get the parent element of the target element
-    // //             const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
+        statisticsSelectors.statistics.getModal().should('not.exist');
 
-    // //             // Check the other parameters based on the parent element
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
-    // //                 .should('have.attr', 'style')
-    // //                 .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
+        dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.johnDoeWay.statistic.total.totalReports}`);
 
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    // //                 .should('have.text', targetName);
+        dayReportsSelectors.dayReportsContent.getLoadMoreButton().click({force: true});
 
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
-    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
+        dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.johnDoeWay.statistic.total.totalReports})`);
 
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
-    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
-    // //         });
-            
-    //     statisticsSelectors.getShowAllStatisticsButton().click();
+        // Mentor adds the student way to the compisite way
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: "0"});
+        addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-    //     // checkOverallInfo(MODAL_WINDOW, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
-    //     // checkOverallInfo(MODAL_WINDOW, LAST_MONTH_PERIOD, COMPOSITE_TEST_WAY);
-    //     // checkOverallInfo(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: "0"});
 
-    //     // checkNumberOfLabelLines(MODAL_WINDOW, TOTAL_PERIOD, COMPOSITE_TEST_WAY);
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.total.avgJobTime},
+        });
 
-    //     // checkNumberOfLabelLines(MODAL_WINDOW, LAST_MONTH_PERIOD, COMPOSITE_TEST_WAY);
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgJobTime},
+        });
 
-    //     // checkNumberOfLabelLines(MODAL_WINDOW, statisticsData.periodBlockModalTitles.lastWeek, COMPOSITE_TEST_WAY);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.total).length
+        });
 
-    // //     // Check the first label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-    // //     statisticsSelectors.statistics.getModal()
-    // //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-    // //         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    // //         .then((elements) => {
-    // //             const targetName = statisticsData.mentorCompositeWay.labelStatistic.total[0].name;
-
-    // //             // Find the target element by its name
-    // //             const targetElement = Cypress._.find(elements, (element) => {
-    // //                 const elementText = Cypress.$(element).text();
-    // //                 return elementText === targetName;
-    // //             });
-
-    // //             // Verify that the target element was found
-    // //             if (!targetElement) {
-    // //                 throw new Error(`Element with name "${targetName}" not found`);
-    // //             }
-
-    // //             // Get the parent element of the target element
-    // //             const parentElement = Cypress.$(targetElement).closest('[data-cy^="statisticLine"]');
-
-    // //             // Check the other parameters based on the parent element
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
-    // //                 .should('have.attr', 'style')
-    // //                 .and('include', statisticsData.mentorCompositeWay.labelStatistic.total[0].color);
-
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
-    // //                 .should('have.text', targetName);
-
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}"]`)
-    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].jobsAmount);
-
-    // //             cy.wrap(parentElement).find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}"]`)
-    // //                 .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.total[0].time);
-    // //         });
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek).length
+        });
         
-    //     statisticsSelectors.statistics.getCloseButton().click();
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row4
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row5
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek.row1
+        });
+
+        statisticsSelectors.getShowAllStatisticsButton().click();
+
+        statisticsSelectors.statistics.getModal().should('be.visible');
+
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.total.avgJobTime},
+        });
+
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.avgJobTime},
+        });
+
+        verifyStatisticsOverallInfo({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgJobTime},
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.total).length
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.lastMonth).length
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek).length
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row4
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: periods.total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row5
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.lastMonth.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: periods.lastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek.row1
+        });
+
+        statisticsSelectors.statistics.getCloseButton().click();
     
-    //     // Check "Total reports" and "Total" in the header of day report table on the way page
-    //     dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-    //         .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.mentorCompositeWay.total.totalReports}`);
+        // Check "Total reports" and "Total" in the header of day report table on the way page
+        dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports}`);
     
-    //     dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
+        dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
     
-    //     dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-    //         .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.mentorCompositeWay.total.totalReports})`);
-    // });
+        dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports})`);
+    });
 
 });

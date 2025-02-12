@@ -59,7 +59,7 @@ describe('Mentor-mentee tests', () => {
         cy.logout();
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+        allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
         
         wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);

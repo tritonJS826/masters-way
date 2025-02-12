@@ -22,16 +22,10 @@ export const allWaysAccessIds = {
         searchByWayNameInput: 'searchByWayNameInput',
 
         statusSelect: 'filterByStatusSelect',
-        statusSelectOptionAll: 'statusSelectOptionAll',
-        statusSelectOptionCompleted: 'statusSelectOptionCompleted',
-        statusSelectOptionAbandoned: 'statusSelectOptionAbandoned',
-        statusSelectOptionInProgress: 'statusSelectOptionInProgress',
+        statusSelectOption: (option: string) => `statusSelectOption${option}`,
 
         dayReportsSelect: 'dayReportsSelect',
-        dayReportsSelectOption0: 'dayReportsSelectOptionAny',
-        dayReportsSelectOptionAtLeast5: 'dayReportsSelectOptionAtLeast5',
-        dayReportsSelectOptionAtLeast20: 'dayReportsSelectOptionAtLeast20',
-        dayReportsSelectOptionAtLeast50: 'dayReportsSelectOptionAtLeast50',
+        dayReportsSelectOption: (option: string) => `dayReportsSelect_${option}`,
 
         viewButton: 'ViewButton',
     }

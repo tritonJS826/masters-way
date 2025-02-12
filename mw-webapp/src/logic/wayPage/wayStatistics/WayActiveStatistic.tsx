@@ -1,5 +1,5 @@
 import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
-import statisticsData from "cypress/fixtures/statisticsFixture.json";
+import {statisticsData} from "cypress/testData/statisticTestData";
 import {observer} from "mobx-react-lite";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {StatisticPeriod} from "src/logic/wayPage/wayStatistics/StatisticPeriod";
@@ -46,19 +46,19 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalTime[language],
             value: props.wayStatistics.totalPeriod.overallInformation.totalTime,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .totalTime(statisticsData.periodBlockWayPageTitles.total),
+              .totalTime(statisticsData.periodBlockTitles.wayPage.total),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalReports[language],
             value: props.wayStatistics.totalPeriod.overallInformation.totalReports,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .totalReports(statisticsData.periodBlockWayPageTitles.total),
+              .totalReports(statisticsData.periodBlockTitles.wayPage.total),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalFinishedJobs[language],
             value: props.wayStatistics.totalPeriod.overallInformation.finishedJobs,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .finishedJobs(statisticsData.periodBlockWayPageTitles.total),
+              .finishedJobs(statisticsData.periodBlockTitles.wayPage.total),
           },
         ]}
         totalStatisticItemsSecondary={[
@@ -66,19 +66,19 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageTimePerCalendarDay[language],
             value: props.wayStatistics.totalPeriod.overallInformation.averageTimePerCalendarDay,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .avgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.total),
+              .avgTimePerCalendarDay(statisticsData.periodBlockTitles.wayPage.total),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageWorkingTimePerWorkingDay[language],
             value: props.wayStatistics.totalPeriod.overallInformation.averageTimePerWorkingDay,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .avgTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.total),
+              .avgTimePerWorkingDay(statisticsData.periodBlockTitles.wayPage.total),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageJobTime[language],
             value: props.wayStatistics.totalPeriod.overallInformation.averageJobTime,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .avgJobTime(statisticsData.periodBlockWayPageTitles.total),
+              .avgJobTime(statisticsData.periodBlockTitles.wayPage.total),
           },
         ]}
         wayStatistics={props.wayStatistics.totalPeriod}
@@ -92,19 +92,19 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalTime[language],
             value: props.wayStatistics.lastWeek.overallInformation.totalTime,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .totalTime(statisticsData.periodBlockWayPageTitles.lastWeek),
+              .totalTime(statisticsData.periodBlockTitles.wayPage.lastWeek),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalReports[language],
             value: props.wayStatistics.lastWeek.overallInformation.totalReports,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .totalReports(statisticsData.periodBlockWayPageTitles.lastWeek),
+              .totalReports(statisticsData.periodBlockTitles.wayPage.lastWeek),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.totalFinishedJobs[language],
             value: props.wayStatistics.lastWeek.overallInformation.finishedJobs,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .finishedJobs(statisticsData.periodBlockWayPageTitles.lastWeek),
+              .finishedJobs(statisticsData.periodBlockTitles.wayPage.lastWeek),
           },
         ]}
         totalStatisticItemsSecondary={[
@@ -112,19 +112,19 @@ export const WayActiveStatistic = observer((props: WayStatisticProps) => {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageTimePerCalendarDay[language],
             value: props.wayStatistics.lastWeek.overallInformation.averageTimePerCalendarDay,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .avgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.lastWeek),
+              .avgTimePerCalendarDay(statisticsData.periodBlockTitles.wayPage.lastWeek),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageWorkingTimePerWorkingDay[language],
             value: props.wayStatistics.lastWeek.overallInformation.averageTimePerWorkingDay,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .avgTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.lastWeek),
+              .avgTimePerWorkingDay(statisticsData.periodBlockTitles.wayPage.lastWeek),
           },
           {
             text: LanguageService.way.statisticsBlock.overAllInformation.averageJobTime[language],
             value: props.wayStatistics.lastWeek.overallInformation.averageJobTime,
             dataCy: statisticsAccessIds.statistics.periodBlocks.overallInfo
-              .avgJobTime(statisticsData.periodBlockWayPageTitles.lastWeek),
+              .avgJobTime(statisticsData.periodBlockTitles.wayPage.lastWeek),
           },
         ]}
         wayStatistics={props.wayStatistics.lastWeek}

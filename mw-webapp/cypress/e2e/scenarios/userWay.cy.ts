@@ -9,6 +9,7 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
+import {LanguageService} from "src/service/LanguageService";
 
 beforeEach(() => {
   cy.resetGeneralDb();
@@ -96,7 +97,7 @@ describe('User Way tests', () => {
     navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
     allWaysSelectors.filterViewBlock.getCardViewButton().click();
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
     allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.newWayTitle).first().click();
     wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal}\n${testUserData.testUsers.studentJonh.goalNewLine}`);
     wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJonh.wayTag1);

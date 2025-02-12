@@ -185,25 +185,29 @@ export const AllWaysPage = observer(() => {
                 id: "1",
                 value: FILTER_STATUS_ALL_VALUE,
                 text: LanguageService.allWays.filterBlock.typeOptions.all[language],
-                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionAll,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.all.en),
               },
               {
                 id: "2",
                 value: WayStatus.completed,
                 text: LanguageService.allWays.filterBlock.typeOptions.completed[language],
-                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionCompleted,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.completed.en),
               },
               {
                 id: "3",
                 value: WayStatus.abandoned,
                 text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language],
-                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionAbandoned,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.abandoned.en),
               },
               {
                 id: "4",
                 value: WayStatus.inProgress,
                 text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language],
-                dataCy: allWaysAccessIds.filterViewBlock.statusSelectOptionInProgress,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.inProgress.en),
               },
             ]}
             onChange={(status) => {
@@ -227,25 +231,29 @@ export const AllWaysPage = observer(() => {
                 id: "1",
                 value: "0",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption0[language],
-                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOption0,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en),
               },
               {
                 id: "2",
                 value: String(DEFAULT_ALL_WAYS_PAGE_SETTINGS.minDayReportsAmount),
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption1[language],
-                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast5,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en),
               },
               {
                 id: "3",
                 value: "20",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption2[language],
-                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast20,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption2.en),
               },
               {
                 id: "4",
                 value: "50",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption3[language],
-                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast50,
+                dataCy: allWaysAccessIds.filterViewBlock
+                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption3.en),
               },
             ]}
             onChange={(minDayReportsAmount) => {
