@@ -4,3 +4,15 @@
   height: 123px;
   padding: 0;
 }
+
+.tabsSectionContainer {
+  @include regularContainer;
+  flex-wrap: wrap;
+  gap: $gapBig;
+}
+
+.tabsSection {
+  display: grid;
+  gap: $gapSmall;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}

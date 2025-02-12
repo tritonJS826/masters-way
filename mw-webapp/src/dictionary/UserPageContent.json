@@ -287,7 +287,7 @@
     }
   },
   "trainings": {
-    "own": {
+    "owner": {
       "ru": "Собственные",
       "en": "Own",
       "ua": "Власні"
@@ -297,7 +297,7 @@
       "en": "Favorite",
       "ua": "Улюблені"
     },
-    "mentoring": {
+    "mentor": {
       "ru": "Наставнические",
       "en": "Mentoring",
       "ua": "Наставницькі"

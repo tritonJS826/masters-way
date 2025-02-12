@@ -186,21 +186,28 @@ func (ts *TrainingService) GetTrainingListByUser(ctx context.Context, params *Ge
 		return &schemas.TrainingList{}, err
 	}
 
-	trainingsPreview := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.Training, _ int) schemas.TrainingPreview {
-		owner := schemas.User{
-			Uuid:     trainingGrpc.GetOwner().Uuid,
-			Name:     trainingGrpc.GetOwner().Name,
-			ImageUrl: trainingGrpc.GetOwner().ImageUrl,
-		}
+	ownerIds := lo.Map(trainingListRaw.TrainingList, func(training *pb.Training, _ int) string {
+		return training.GetOwner().Uuid
+	})
+	owners, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(ownerIds).Execute()
 
+	trainingsPreview := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.Training, i int) schemas.TrainingPreview {
 		return schemas.TrainingPreview{
 			Uuid:        trainingGrpc.GetUuid(),
 			Name:        trainingGrpc.GetName(),
 			Description: trainingGrpc.GetDescription(),
 			IsPrivate:   trainingGrpc.GetIsPrivate(),
-			Owner:       owner,
-			CreatedAt:   trainingGrpc.GetCreatedAt(),
-			UpdatedAt:   trainingGrpc.GetUpdatedAt(),
+			Owner: schemas.User{
+				Uuid:     owners[i].UserId,
+				Name:     owners[i].Name,
+				ImageUrl: owners[i].ImageUrl,
+			},
+			CreatedAt: trainingGrpc.GetCreatedAt(),
+			UpdatedAt: trainingGrpc.GetUpdatedAt(),
+			// TODO update next line - get rid of stub
+			TrainingTags: make([]schemas.TrainingTag, 0),
+			// TODO update next line - get rid of stub
+			Mentors: make([]schemas.User, 0),
 		}
 	})
 

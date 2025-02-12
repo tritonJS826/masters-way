@@ -468,34 +468,32 @@ export const UserPage = observer((props: UserPageProps) => {
       tabContent: {
         id: TabType.Projects,
         value: (
-          <VerticalContainer className={styles.tabsSectionContainer}>
-            <HorizontalContainer className={styles.tabsSection}>
-              {userPageOwner.projects.map(project => (
-                <ProjectCard
-                  key={project.uuid}
-                  projectTitle={project.name}
-                  projectType={project.isPrivate
-                    ? LanguageService.user.projects.private[language]
-                    : LanguageService.user.projects.public[language]
-                  }
-                  onClick={() => navigate(pages.project.getPath({uuid: project.uuid}))}
-                  language={language}
-                  dataCy={projectsAccessIds.projectCardButton}
-                />
-              ))}
+          <HorizontalGridContainer className={clsx(styles.tabsSectionContainer, styles.tabsSection)}>
+            {userPageOwner.projects.map(project => (
+              <ProjectCard
+                key={project.uuid}
+                projectTitle={project.name}
+                projectType={project.isPrivate
+                  ? LanguageService.user.projects.private[language]
+                  : LanguageService.user.projects.public[language]
+                }
+                onClick={() => navigate(pages.project.getPath({uuid: project.uuid}))}
+                language={language}
+                dataCy={projectsAccessIds.projectCardButton}
+              />
+            ))}
 
-              {isPageOwner && (
-                <Button
-                  value={LanguageService.user.projects.addProject[language]}
-                  onClick={createProject}
-                  buttonType={ButtonType.SECONDARY}
-                  className={styles.collectionButton}
-                  dataCy={projectsAccessIds.addProjectButton}
-                />
-              )}
+            {isPageOwner && (
+              <Button
+                value={LanguageService.user.projects.addProject[language]}
+                onClick={createProject}
+                buttonType={ButtonType.SECONDARY}
+                className={styles.collectionButton}
+                dataCy={projectsAccessIds.addProjectButton}
+              />
+            )}
 
-            </HorizontalContainer>
-          </VerticalContainer>),
+          </HorizontalGridContainer>),
       },
       value: TabType.Projects,
 
@@ -516,16 +514,15 @@ export const UserPage = observer((props: UserPageProps) => {
       tabContent: {
         id: TabType.Trainings,
         value: (
-          <VerticalContainer className={styles.tabsSectionContainer}>
-            <HorizontalContainer className={styles.tabsSection}>
-              <TrainingTab
-                isPageOwner={isPageOwner}
-                userPageOwnerUuid={userPageOwner.uuid}
-                onClick={(trainingCollection: DefaultTrainingCollection) => updateUserPageSettings({trainingCollection})}
-                activeTrainingCollection={userPageSettings.trainingCollection}
-              />
-            </HorizontalContainer>
-          </VerticalContainer>),
+          <TrainingTab
+            isPageOwner={isPageOwner}
+            userPageOwnerUuid={userPageOwner.uuid}
+            onClick={(trainingCollection: DefaultTrainingCollection) => updateUserPageSettings({trainingCollection})}
+            activeTrainingCollection={userPageSettings.trainingCollection}
+            view={userPageSettings.view}
+            setView={(view: View) => updateUserPageSettings({view})}
+          />
+        ),
       },
       value: TabType.Trainings,
 

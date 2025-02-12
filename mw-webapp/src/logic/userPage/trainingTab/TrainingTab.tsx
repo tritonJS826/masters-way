@@ -1,18 +1,22 @@
 import {useNavigate} from "react-router-dom";
+import clsx from "clsx";
 import {trainingAccessIds} from "cypress/accessIds/trainingsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {CollectionCard} from "src/component/collectionCard/CollectionCard";
+import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Loader} from "src/component/loader/Loader";
-import {TrainingCard} from "src/component/trainingCard/TrainingCard";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useStore} from "src/hooks/useStore";
+import {Trainings} from "src/logic/userPage/trainings/Trainings";
 import {GetTrainingsByUserParams, TrainingTabStore} from "src/logic/userPage/trainingTab/TrainingTabStore";
 import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/userPage/trainingTab/TrainingTab.module.scss";
 
 /**
@@ -39,6 +43,17 @@ interface TrainingTabProps {
    * Active training collection uuid
    */
   activeTrainingCollection: DefaultTrainingCollection;
+
+  /**
+   * Training previews view
+   */
+  view: View;
+
+  /**
+   * Callback to change view
+   */
+  setView: (view: View) => void;
+
 }
 
 /**
@@ -57,7 +72,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
         {
           userPageOwnerUuid: props.userPageOwnerUuid,
           trainingName: "new",
-          trainingType: props.activeTrainingCollection,
+          trainingsType: props.activeTrainingCollection,
         },
       ],
       dependency: [props.userPageOwnerUuid],
@@ -94,67 +109,67 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
   }
 
   return (
-    <>
-      <CollectionCard
-        isActive={props.activeTrainingCollection === DefaultTrainingCollection.OWN}
-        collectionTitle={LanguageService.user.trainings.own[language]}
-        collectionsAmount={0}
-        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => props.onClick(DefaultTrainingCollection.OWN)}
-        language={language}
-      />
-
-      <CollectionCard
-        isActive={props.activeTrainingCollection === DefaultTrainingCollection.MENTORING}
-        collectionTitle={LanguageService.user.trainings.mentoring[language]}
-        collectionsAmount={0}
-        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => props.onClick(DefaultTrainingCollection.MENTORING)}
-        language={language}
-      />
-
-      <CollectionCard
-        isActive={props.activeTrainingCollection === DefaultTrainingCollection.STUDENT}
-        collectionTitle={LanguageService.user.trainings.student[language]}
-        collectionsAmount={0}
-        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => props.onClick(DefaultTrainingCollection.STUDENT)}
-        language={language}
-      />
-
-      <CollectionCard
-        isActive={props.activeTrainingCollection === DefaultTrainingCollection.FAVORITE}
-        collectionTitle={LanguageService.user.trainings.favorite[language]}
-        collectionsAmount={0}
-        collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
-        onClick={() => props.onClick(DefaultTrainingCollection.FAVORITE)}
-        language={language}
-      />
-
-      {trainingTabStore.trainingsPreview.map(training => (
-        <TrainingCard
-          key={training.uuid}
-          trainingPreview={training}
-          createdAtTooltip={LanguageService.allTrainings.trainingCard.createdAt[language]}
-          updatedAtTooltip={LanguageService.allTrainings.trainingCard.updatedAt[language]}
-          studentsTooltip={LanguageService.allTrainings.trainingCard.students[language]}
-          likesTooltip={LanguageService.allTrainings.trainingCard.likes[language]}
-          mentorsText={training.mentors.length
-            ? `${LanguageService.allTrainings.trainingCard.mentor[language]}`
-            : `${LanguageService.allTrainings.trainingCard.noMentors[language]}`}
-          dataCy={trainingAccessIds.trainingCardButton}
+    <VerticalContainer>
+      <HorizontalGridContainer className={clsx(styles.tabsSectionContainer, styles.tabsSection)}>
+        <CollectionCard
+          isActive={props.activeTrainingCollection === DefaultTrainingCollection.OWN}
+          collectionTitle={LanguageService.user.trainings.owner[language]}
+          collectionsAmount={0}
+          collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+          onClick={() => props.onClick(DefaultTrainingCollection.OWN)}
+          language={language}
         />
-      ))}
 
-      {props.isPageOwner && (
-        <Button
-          value={LanguageService.user.trainings.addTraining[language]}
-          onClick={createTraining}
-          buttonType={ButtonType.SECONDARY}
-          className={styles.addTrainingButton}
-          dataCy={trainingAccessIds.addTrainingButton}
+        <CollectionCard
+          isActive={props.activeTrainingCollection === DefaultTrainingCollection.MENTORING}
+          collectionTitle={LanguageService.user.trainings.mentor[language]}
+          collectionsAmount={0}
+          collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+          onClick={() => props.onClick(DefaultTrainingCollection.MENTORING)}
+          language={language}
         />
-      )}
-    </>
+
+        <CollectionCard
+          isActive={props.activeTrainingCollection === DefaultTrainingCollection.STUDENT}
+          collectionTitle={LanguageService.user.trainings.student[language]}
+          collectionsAmount={0}
+          collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+          onClick={() => props.onClick(DefaultTrainingCollection.STUDENT)}
+          language={language}
+        />
+
+        <CollectionCard
+          isActive={props.activeTrainingCollection === DefaultTrainingCollection.FAVORITE}
+          collectionTitle={LanguageService.user.trainings.favorite[language]}
+          collectionsAmount={0}
+          collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
+          onClick={() => props.onClick(DefaultTrainingCollection.FAVORITE)}
+          language={language}
+        />
+
+        {props.isPageOwner && (
+          <Button
+            value={LanguageService.user.trainings.addTraining[language]}
+            onClick={createTraining}
+            buttonType={ButtonType.SECONDARY}
+            className={styles.addTrainingButton}
+            dataCy={trainingAccessIds.addTrainingButton}
+          />
+        )}
+      </HorizontalGridContainer>
+
+      <Trainings
+        // This check need to translate default trainings collection and don't translate custom collections
+        title={LanguageService.user.trainings[
+            props.activeTrainingCollection.toLowerCase() as keyof typeof LanguageService.user.trainings
+        ][language]
+        }
+        trainings={trainingTabStore.trainingsPreview}
+        view={props.view}
+        setView={(view: View) => props.setView(view)}
+        isPageOwner={props.isPageOwner}
+      />
+
+    </VerticalContainer>
   );
 });

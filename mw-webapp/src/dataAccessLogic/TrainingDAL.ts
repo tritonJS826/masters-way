@@ -46,7 +46,7 @@ export interface GetTrainingsParams {
   /**
    * Training collection type
    */
-  trainingType: DefaultTrainingCollection;
+  trainingsType: DefaultTrainingCollection;
 
 }
 
@@ -63,7 +63,7 @@ export interface GetTrainingsByUserIdParams {
   /**
    * Training's type
    */
-  trainingType: DefaultTrainingCollection;
+  trainingsType: DefaultTrainingCollection;
 
 }
 
@@ -133,7 +133,7 @@ export class TrainingDAL {
    */
   public static async getTrainingsByUserId(params: GetTrainingsByUserIdParams): Promise<AllTrainingsParams> {
     const trainingsPreviewDTO = await TrainingService.getTrainingsByUserUuid({
-      trainingsType: params.trainingType,
+      trainingsType: params.trainingsType,
       userId: params.userId,
     });
     const trainingsPreview = trainingsPreviewDTO.trainings.map(trainingPreviewDTOToTrainingPreview);

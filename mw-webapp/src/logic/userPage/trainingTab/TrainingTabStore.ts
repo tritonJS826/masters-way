@@ -78,7 +78,7 @@ export class TrainingTabStore {
       page: nextPage,
       trainingName,
       userPageOwnerUuid: userUuid,
-      trainingType,
+      trainingsType: trainingType,
     });
 
     this.setTrainingsPreview([...this.trainingsPreview, ...trainings.trainingsPreview]);
@@ -113,7 +113,7 @@ export class TrainingTabStore {
    */
   private loadData = async (params: GetTrainingsByUserParams): Promise<AllTrainingsParams> => {
     const fetchedTrainings = await TrainingDAL.getTrainingsByUserId({
-      trainingType: params.trainingType,
+      trainingsType: params.trainingsType,
       userId: params.userPageOwnerUuid,
     });
 
