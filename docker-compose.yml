@@ -90,7 +90,7 @@ services:
       dockerfile: ./postgres/postgres-training.Dockerfile
     container_name: postgres-training
     ports:
-      - "5440:5432"
+      - "5440:5440"
     volumes:
       - postgres-training:/var/lib/postgresql/data
     env_file:
@@ -103,7 +103,7 @@ services:
       context: .
       dockerfile: ./mw-training/Dockerfile
     ports:
-      - "8008:8001"
+      - "8008:8008"
     depends_on:
       - postgres-training
     networks:
