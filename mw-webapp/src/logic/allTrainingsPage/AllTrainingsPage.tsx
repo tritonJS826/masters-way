@@ -1,4 +1,5 @@
 import {useEffect} from "react";
+import {allTrainingsAccessIds} from "cypress/accessIds/allTrainingsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -119,6 +120,7 @@ export const AllTrainingsPage = observer(() => {
           }
           placeholder=""
           classNameHeading={styles.headingLevelH2}
+          cy={{dataCyTitleContainer: allTrainingsAccessIds.allTrainingsTitles.title}}
         />
         <Title
           level={HeadingLevel.h2}
