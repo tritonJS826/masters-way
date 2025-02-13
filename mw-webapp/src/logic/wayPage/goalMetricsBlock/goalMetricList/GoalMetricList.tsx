@@ -5,6 +5,7 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Separator} from "src/component/separator/Separator";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
@@ -21,9 +22,9 @@ import styles from "src/logic/wayPage/goalMetricsBlock/goalMetricList/GoalMetric
  */
 interface MetricChildrenListProps {
 
-    /**
-     * Root metrics
-     */
+  /**
+   * Root metrics
+   */
   metrics: Metric[];
 
   /**
@@ -45,7 +46,6 @@ interface MetricChildrenListProps {
    * Add nested metric
    */
   addMetric: (parentUuid: string, parentMetric: Metric | null) => void;
-
 }
 
 const LEVEL_INCREMENT = 1;
@@ -59,11 +59,13 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
   /**
    * ChildrenItem
    */
-  const renderChildrenItem = (childMetric: Metric) => {
-
-    const tooltipContent = childMetric.isDone && childMetric.doneDate
-      ? `${LanguageService.way.metricsBlock.doneDate[language]} ${DateUtils.getShortISODateValue(childMetric.doneDate)}`
-      : `${LanguageService.way.metricsBlock.notFinished[language]}`;
+  const renderChildrenItem = (childMetric: Metric, index: number) => {
+    const tooltipContent =
+      childMetric.isDone && childMetric.doneDate
+        ? `${
+          LanguageService.way.metricsBlock.doneDate[language]
+        } ${DateUtils.getShortISODateValue(childMetric.doneDate)}`
+        : `${LanguageService.way.metricsBlock.notFinished[language]}`;
 
     /**
      * Set metric not completed
@@ -83,9 +85,10 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
 
     return (
       <VerticalContainer>
+        {props.level === 0 && index > 0 && <Separator className={styles.separator} />}
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
-            {levelArray.map(item => {
+            {levelArray.map((item) => {
               return (
                 <div
                   key={item}
@@ -98,13 +101,19 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
             {childMetric.isDone && props.isEditable
               ? (
                 <Confirm
-                  content={<p>
-                    {`${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} ${childMetric.description}
+                  content={
+                    <p>
+                      {`${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} ${childMetric.description}
                 ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`}
-                  </p>}
+                    </p>
+                  }
                   onOk={onOk}
-                  okText={LanguageService.modals.confirmModal.confirmButton[language]}
-                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  okText={
+                    LanguageService.modals.confirmModal.confirmButton[language]
+                  }
+                  cancelText={
+                    LanguageService.modals.confirmModal.cancelButton[language]
+                  }
                   trigger={
                     <Checkbox
                       isUseExternalStateOnly
@@ -132,8 +141,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                   }}
                   dataCy={wayMetricsAccessIds.completeMetricCheckbox}
                 />
-              )
-            }
+              )}
             <div className={styles.metricDescription}>
               <Tooltip content={tooltipContent}>
                 <EditableTextarea
@@ -147,29 +155,26 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                     await MetricDAL.updateMetric(metricToUpdate);
                   }}
                   isEditable={props.isEditable}
-                  placeholder={props.isEditable
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                  cy={
-                    {
-                      textArea: wayMetricsAccessIds.metricDescriptionInput,
-                      trigger: wayMetricsAccessIds.metricDescription,
-                    }
+                  placeholder={
+                    props.isEditable
+                      ? LanguageService.common.emptyMarkdownAction[language]
+                      : LanguageService.common.emptyMarkdown[language]
                   }
+                  cy={{
+                    textArea: wayMetricsAccessIds.metricDescriptionInput,
+                    trigger: wayMetricsAccessIds.metricDescription,
+                  }}
                 />
               </Tooltip>
             </div>
-
           </HorizontalContainer>
           {props.isEditable && (
             <HorizontalContainer className={styles.metricACtionButtons}>
               <Button
-                icon={
-                  <Icon
-                    size={IconSize.SMALL}
-                    name="PlusIcon"
-                  />
-                }
+                icon={<Icon
+                  size={IconSize.SMALL}
+                  name="PlusIcon"
+                />}
                 buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                 onClick={() => props.addMetric(childMetric.uuid, childMetric)}
               />
@@ -177,37 +182,38 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                 <Confirm
                   trigger={
                     <Button
-                      icon={
-                        <Icon
-                          size={IconSize.SMALL}
-                          name="TrashIcon"
-                        />
-                      }
+                      icon={<Icon
+                        size={IconSize.SMALL}
+                        name="TrashIcon"
+                      />}
                       buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
                       onClick={() => {}}
                       dataCy={wayMetricsAccessIds.deleteMetric.trashButton}
                     />
                   }
-                  content={<p>
-                    {renderMarkdown(
-                      `${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${childMetric.description}"?`,
-                    )}
-                  </p>}
-                  onOk={() => props.deleteMetric(childMetric.uuid)}
-                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  cy={
-                    {
-                      onEnter: "",
-                      onCancel: wayMetricsAccessIds.deleteMetric.cancelButton,
-                      onOk: wayMetricsAccessIds.deleteMetric.deleteButton,
-                    }
+                  content={
+                    <p>
+                      {renderMarkdown(
+                        `${LanguageService.way.metricsBlock.deleteGoalMetricQuestion[language]} "${childMetric.description}"?`,
+                      )}
+                    </p>
                   }
+                  onOk={() => props.deleteMetric(childMetric.uuid)}
+                  okText={
+                    LanguageService.modals.confirmModal.deleteButton[language]
+                  }
+                  cancelText={
+                    LanguageService.modals.confirmModal.cancelButton[language]
+                  }
+                  cy={{
+                    onEnter: "",
+                    onCancel: wayMetricsAccessIds.deleteMetric.cancelButton,
+                    onOk: wayMetricsAccessIds.deleteMetric.deleteButton,
+                  }}
                 />
               </Tooltip>
             </HorizontalContainer>
-          )
-          }
+          )}
         </HorizontalContainer>
         <MetricChildrenList
           level={props.level + LEVEL_INCREMENT}
