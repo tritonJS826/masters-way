@@ -63,6 +63,7 @@
 
 .userDescription {
   line-height: $lineHeightPrimary;
+  overflow-wrap: anywhere;
 
   textarea {
     line-height: $lineHeightPrimary;

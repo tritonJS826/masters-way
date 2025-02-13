@@ -100,10 +100,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
 
   if (!trainingTabStore.isInitialized) {
     return (
-      <Loader
-        theme={theme}
-        isAbsolute
-      />
+      <Loader theme={theme} />
     );
   }
 
