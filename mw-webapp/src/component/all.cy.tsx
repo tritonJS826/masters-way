@@ -1,6 +1,5 @@
 import "/src/component/horizontalContainer/HorizontalContainer.cy.tsx";
 import "/src/component/horizontalGridContainer/HorizontalGridContainer.cy.tsx";
-import "/src/component/input/Input.cy.tsx";
 import "/src/component/link/Link.cy.tsx";
 import "/src/component/loader/Loader.cy.tsx";
 import "/src/component/notification/Notification.cy.tsx";
