@@ -99,6 +99,12 @@
   gap: $gapBig;
 }
 
+.tabsSectionContainerTrainings {
+  flex-wrap: wrap;
+  background-color: var(--primaryBgColor);
+  gap: $gapSmall;
+}
+
 .tabsSection {
   display: grid;
   gap: $gapSmall;

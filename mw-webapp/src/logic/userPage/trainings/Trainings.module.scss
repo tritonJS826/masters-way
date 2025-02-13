@@ -27,8 +27,7 @@
   width: 100%;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: end;
-  margin-left: auto;
+  justify-content: space-between;
   @include regularContainer;
 }
 
@@ -37,7 +36,7 @@
   display: grid;
 }
 
-.trainingsTitle {
-  padding-left: $paddingMedium;
-  padding-right: $paddingMedium;
+.trainingsContainer {
+  width: 100%;
+  gap: $gapSmall;
 }

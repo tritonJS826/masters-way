@@ -524,14 +524,19 @@ export const UserPage = observer((props: UserPageProps) => {
       tabContent: {
         id: TabType.Trainings,
         value: (
-          <TrainingTab
-            isPageOwner={isPageOwner}
-            userPageOwnerUuid={userPageOwner.uuid}
-            onClick={(trainingCollection: DefaultTrainingCollection) => updateUserPageSettings({trainingCollection})}
-            activeTrainingCollection={userPageSettings.trainingCollection}
-            view={userPageSettings.view}
-            setView={(view: View) => updateUserPageSettings({view})}
-          />
+          <HorizontalContainer className={styles.tabsSectionContainerTrainings}>
+            <TrainingTab
+              isPageOwner={isPageOwner}
+              userPageOwnerUuid={userPageOwner.uuid}
+              onClick={(trainingCollection: DefaultTrainingCollection) => {
+
+                updateUserPageSettings({trainingCollection});
+              }}
+              activeTrainingCollection={userPageSettings.trainingCollection}
+              view={userPageSettings.view}
+              setView={(view: View) => updateUserPageSettings({view})}
+            />
+          </HorizontalContainer>
         ),
       },
       value: TabType.Trainings,
