@@ -25,6 +25,9 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import {pricingSelectors} from "cypress/scopesSelectors/pricingSelectors";
 import {partnershipSelectors} from "cypress/scopesSelectors/partnershipSelectors";
+import allTrainingsPageContent from "src/dictionary/AllTrainingsPageContent.json";
+import {allTrainingsSelectors} from "cypress/scopesSelectors/allTrainingsSelectors";
+import allTrainingsPageData from "cypress/fixtures/allTrainingsFixture.json";
 
 describe('NoAuth Navigation menu scope tests', () => {
 
@@ -61,6 +64,14 @@ describe('NoAuth Navigation menu scope tests', () => {
         navigationMenuSelectors.getNavigationMenu().should('not.exist');
         cy.url().should('include', allUsersPageData.endpoint);
         allUsersSelectors.allUsersTitles.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
+    });
+
+    it('NoAuth_NavMenu_AllTrainings', () => {
+        navigationMenuSelectors.menuItemLinks.getAllTrainingsItemLink().click();
+
+        navigationMenuSelectors.getNavigationMenu().should('not.exist');
+        cy.url().should('include', allTrainingsPageData.endpoint);
+        allTrainingsSelectors.allTrainingsTitles.getTitle().should('contain', allTrainingsPageContent.trainingsTable.leftTitle.en);
     });
 
     it('NoAuth_NavMenu_AllWays', () => {
