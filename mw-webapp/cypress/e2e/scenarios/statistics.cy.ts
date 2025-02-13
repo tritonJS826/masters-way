@@ -13,8 +13,7 @@ import {statisticsData} from "cypress/testData/statisticTestData";
 import {periods} from "cypress/testData/statisticTestData";
 
 type MinDayReports = "0" | "5" | "20" | "50";
-type WayStatus = "All" | "Completed" | "In progress" | "Abandoned";
-// type WayStatus = keyof typeof LanguageService.allWays.filterBlock.typeOptions;
+type WayStatus = keyof typeof LanguageService.allWays.filterBlock.typeOptions;
 
 type StatisticsPlacement = keyof typeof statisticsData.statisticsPlacement;
 type PagePeriodBlockTitle = keyof typeof statisticsData.periodBlockTitles.wayPage;
