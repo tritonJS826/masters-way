@@ -104,7 +104,8 @@ func (tc *TrainingController) DeleteTraining(ctx *gin.Context) {
 	ctx.Status(http.StatusOK)
 }
 
-// @Summary GEt training list
+// Get all training
+// @Summary GET training list
 // @Description
 // @Tags training
 // @ID get-training-list
