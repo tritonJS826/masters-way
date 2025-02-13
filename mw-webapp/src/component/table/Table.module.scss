@@ -24,9 +24,9 @@ $cell-max-width: 600px;
     max-width: $cell-max-width;
     border-right: $table-border;
     border-bottom: $table-border;
+    overflow-wrap: anywhere;
     text-align: left;
     vertical-align: top;
-    word-wrap: break-word;
 
     pre {
       overflow: auto;

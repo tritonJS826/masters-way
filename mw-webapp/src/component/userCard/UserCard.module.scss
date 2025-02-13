@@ -67,6 +67,7 @@ $flagMenorRightOffset: 24px;
   color: var(--secondaryTextColor);
   font-size: $fontSizeBig;
   -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
   text-overflow: ellipsis;
   white-space: initial;
 }
