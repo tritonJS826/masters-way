@@ -8,13 +8,14 @@ Name | Type | Description | Notes
 **Name** | **NullableString** |  | 
 **RoomId** | **string** |  | 
 **RoomType** | **string** |  | 
+**UnreadMessagesAmount** | **int32** |  | 
 **Users** | [**[]MwChatInternalSchemasUserResponse**](MwChatInternalSchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewMwChatInternalSchemasRoomPreviewResponse
 
-`func NewMwChatInternalSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, roomType string, users []MwChatInternalSchemasUserResponse, ) *MwChatInternalSchemasRoomPreviewResponse`
+`func NewMwChatInternalSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, roomType string, unreadMessagesAmount int32, users []MwChatInternalSchemasUserResponse, ) *MwChatInternalSchemasRoomPreviewResponse`
 
 NewMwChatInternalSchemasRoomPreviewResponse instantiates a new MwChatInternalSchemasRoomPreviewResponse object
 This constructor will assign default values to properties that have it defined,
@@ -117,6 +118,26 @@ and a boolean to check if the value has been set.
 `func (o *MwChatInternalSchemasRoomPreviewResponse) SetRoomType(v string)`
 
 SetRoomType sets RoomType field to given value.
+
+
+### GetUnreadMessagesAmount
+
+`func (o *MwChatInternalSchemasRoomPreviewResponse) GetUnreadMessagesAmount() int32`
+
+GetUnreadMessagesAmount returns the UnreadMessagesAmount field if non-nil, zero value otherwise.
+
+### GetUnreadMessagesAmountOk
+
+`func (o *MwChatInternalSchemasRoomPreviewResponse) GetUnreadMessagesAmountOk() (*int32, bool)`
+
+GetUnreadMessagesAmountOk returns a tuple with the UnreadMessagesAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnreadMessagesAmount
+
+`func (o *MwChatInternalSchemasRoomPreviewResponse) SetUnreadMessagesAmount(v int32)`
+
+SetUnreadMessagesAmount sets UnreadMessagesAmount field to given value.
 
 
 ### GetUsers

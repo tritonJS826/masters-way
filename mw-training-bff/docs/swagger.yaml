@@ -774,7 +774,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingList'
-      summary: GEt training list
+      summary: GET training list
       tags:
       - training
     post:

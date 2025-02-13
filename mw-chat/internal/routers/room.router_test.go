@@ -165,10 +165,11 @@ func TestGetRooms(t *testing.T) {
 			Size: 3,
 			Rooms: []openapiChat.MwChatInternalSchemasRoomPreviewResponse{
 				{
-					RoomId:    "85f610df-9f86-4c55-8ee1-02485d42defb",
-					Name:      nullableName,
-					RoomType:  string(db.RoomTypePrivate),
-					IsBlocked: false,
+					RoomId:               "85f610df-9f86-4c55-8ee1-02485d42defb",
+					Name:                 nullableName,
+					RoomType:             string(db.RoomTypePrivate),
+					IsBlocked:            false,
+					UnreadMessagesAmount: 1,
 					Users: []openapiChat.MwChatInternalSchemasUserResponse{
 						{
 							UserId: roomCreatorID,
@@ -181,10 +182,11 @@ func TestGetRooms(t *testing.T) {
 					},
 				},
 				{
-					RoomId:    "897f4a0f-fe31-4036-8358-f89a19c9bda6",
-					Name:      nullableName,
-					RoomType:  string(db.RoomTypePrivate),
-					IsBlocked: false,
+					RoomId:               "897f4a0f-fe31-4036-8358-f89a19c9bda6",
+					Name:                 nullableName,
+					RoomType:             string(db.RoomTypePrivate),
+					IsBlocked:            false,
+					UnreadMessagesAmount: 1,
 					Users: []openapiChat.MwChatInternalSchemasUserResponse{
 						{
 							UserId: roomCreatorID,
@@ -197,10 +199,11 @@ func TestGetRooms(t *testing.T) {
 					},
 				},
 				{
-					RoomId:    "e57fc491-69f7-4b30-9979-78879c8873bf",
-					Name:      nullableName,
-					RoomType:  string(db.RoomTypePrivate),
-					IsBlocked: false,
+					RoomId:               "e57fc491-69f7-4b30-9979-78879c8873bf",
+					Name:                 nullableName,
+					RoomType:             string(db.RoomTypePrivate),
+					IsBlocked:            false,
+					UnreadMessagesAmount: 1,
 					Users: []openapiChat.MwChatInternalSchemasUserResponse{
 						{
 							UserId: roomCreatorID,

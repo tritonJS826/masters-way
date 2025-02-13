@@ -125,11 +125,21 @@ SELECT
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
         ORDER BY updated_at DESC
-    )::VARCHAR[] AS user_roles
-FROM rooms
-JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
-WHERE users_rooms.user_uuid = $1 AND rooms.type = $2
-ORDER BY (SELECT MAX(messages.created_at) FROM messages WHERE messages.room_uuid = rooms.uuid) DESC
+    )::VARCHAR[] AS user_roles,
+    COALESCE(message_counts.unread_message_count, 0) AS unread_message_count                                          
+FROM rooms                                                                
+JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid                    
+LEFT JOIN (                                                                    
+    SELECT room_uuid, COUNT(*) AS unread_message_count                           
+    FROM messages
+    LEFT JOIN message_status ON message_status.message_uuid = messages.uuid
+    WHERE message_status.is_read = false
+        AND messages.owner_uuid <> $1
+    GROUP BY room_uuid
+) AS message_counts ON rooms.uuid = message_counts.room_uuid              
+WHERE users_rooms.user_uuid = $1 AND rooms.type = $2      
+GROUP BY rooms.uuid, rooms.name, rooms.type, users_rooms.is_room_blocked, message_counts.unread_message_count                                                
+ORDER BY MAX(users_rooms.updated_at) DESC
 `
 
 type GetRoomsByUserUUIDParams struct {
@@ -138,12 +148,13 @@ type GetRoomsByUserUUIDParams struct {
 }
 
 type GetRoomsByUserUUIDRow struct {
-	Uuid          pgtype.UUID   `json:"uuid"`
-	Name          pgtype.Text   `json:"name"`
-	Type          RoomType      `json:"type"`
-	IsRoomBlocked bool          `json:"is_room_blocked"`
-	UserUuids     []pgtype.UUID `json:"user_uuids"`
-	UserRoles     []string      `json:"user_roles"`
+	Uuid               pgtype.UUID   `json:"uuid"`
+	Name               pgtype.Text   `json:"name"`
+	Type               RoomType      `json:"type"`
+	IsRoomBlocked      bool          `json:"is_room_blocked"`
+	UserUuids          []pgtype.UUID `json:"user_uuids"`
+	UserRoles          []string      `json:"user_roles"`
+	UnreadMessageCount int64         `json:"unread_message_count"`
 }
 
 func (q *Queries) GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUIDParams) ([]GetRoomsByUserUUIDRow, error) {
@@ -162,6 +173,7 @@ func (q *Queries) GetRoomsByUserUUID(ctx context.Context, arg GetRoomsByUserUUID
 			&i.IsRoomBlocked,
 			&i.UserUuids,
 			&i.UserRoles,
+			&i.UnreadMessageCount,
 		); err != nil {
 			return nil, err
 		}

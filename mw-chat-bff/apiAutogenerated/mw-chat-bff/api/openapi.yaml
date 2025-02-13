@@ -285,7 +285,8 @@ components:
     mw-chat-bff_internal_schemas.GetRoomsResponse:
       example:
         rooms:
-        - imageUrl: imageUrl
+        - unreadMessagesAmount: 0
+          imageUrl: imageUrl
           isBlocked: true
           name: name
           roomId: roomId
@@ -299,7 +300,8 @@ components:
             imageUrl: imageUrl
             name: name
             userId: userId
-        - imageUrl: imageUrl
+        - unreadMessagesAmount: 0
+          imageUrl: imageUrl
           isBlocked: true
           name: name
           roomId: roomId
@@ -313,7 +315,7 @@ components:
             imageUrl: imageUrl
             name: name
             userId: userId
-        size: 0
+        size: 6
       properties:
         rooms:
           items:
@@ -460,6 +462,7 @@ components:
       type: object
     mw-chat-bff_internal_schemas.RoomPreviewResponse:
       example:
+        unreadMessagesAmount: 0
         imageUrl: imageUrl
         isBlocked: true
         name: name
@@ -485,6 +488,8 @@ components:
           type: string
         roomType:
           type: string
+        unreadMessagesAmount:
+          type: integer
         users:
           items:
             $ref: '#/components/schemas/mw-chat-bff_internal_schemas.UserResponse'
@@ -495,6 +500,7 @@ components:
       - name
       - roomId
       - roomType
+      - unreadMessagesAmount
       - users
       type: object
     mw-chat-bff_internal_schemas.UpdateMessageStatusPayload:

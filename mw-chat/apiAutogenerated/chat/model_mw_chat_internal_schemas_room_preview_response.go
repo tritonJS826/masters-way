@@ -25,6 +25,7 @@ type MwChatInternalSchemasRoomPreviewResponse struct {
 	Name NullableString
 	RoomId string
 	RoomType string
+	UnreadMessagesAmount int32
 	Users []MwChatInternalSchemasUserResponse
 }
 
@@ -34,12 +35,13 @@ type _MwChatInternalSchemasRoomPreviewResponse MwChatInternalSchemasRoomPreviewR
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwChatInternalSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, roomType string, users []MwChatInternalSchemasUserResponse) *MwChatInternalSchemasRoomPreviewResponse {
+func NewMwChatInternalSchemasRoomPreviewResponse(isBlocked bool, name NullableString, roomId string, roomType string, unreadMessagesAmount int32, users []MwChatInternalSchemasUserResponse) *MwChatInternalSchemasRoomPreviewResponse {
 	this := MwChatInternalSchemasRoomPreviewResponse{}
 	this.IsBlocked = isBlocked
 	this.Name = name
 	this.RoomId = roomId
 	this.RoomType = roomType
+	this.UnreadMessagesAmount = unreadMessagesAmount
 	this.Users = users
 	return &this
 }
@@ -150,6 +152,30 @@ func (o *MwChatInternalSchemasRoomPreviewResponse) SetRoomType(v string) {
 	o.RoomType = v
 }
 
+// GetUnreadMessagesAmount returns the UnreadMessagesAmount field value
+func (o *MwChatInternalSchemasRoomPreviewResponse) GetUnreadMessagesAmount() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.UnreadMessagesAmount
+}
+
+// GetUnreadMessagesAmountOk returns a tuple with the UnreadMessagesAmount field value
+// and a boolean to check if the value has been set.
+func (o *MwChatInternalSchemasRoomPreviewResponse) GetUnreadMessagesAmountOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UnreadMessagesAmount, true
+}
+
+// SetUnreadMessagesAmount sets field value
+func (o *MwChatInternalSchemasRoomPreviewResponse) SetUnreadMessagesAmount(v int32) {
+	o.UnreadMessagesAmount = v
+}
+
 // GetUsers returns the Users field value
 func (o *MwChatInternalSchemasRoomPreviewResponse) GetUsers() []MwChatInternalSchemasUserResponse {
 	if o == nil {
@@ -188,6 +214,7 @@ func (o MwChatInternalSchemasRoomPreviewResponse) ToMap() (map[string]interface{
 	toSerialize["name"] = o.Name.Get()
 	toSerialize["roomId"] = o.RoomId
 	toSerialize["roomType"] = o.RoomType
+	toSerialize["unreadMessagesAmount"] = o.UnreadMessagesAmount
 	toSerialize["users"] = o.Users
 	return toSerialize, nil
 }
@@ -201,6 +228,7 @@ func (o *MwChatInternalSchemasRoomPreviewResponse) UnmarshalJSON(data []byte) (e
 		"name",
 		"roomId",
 		"roomType",
+		"unreadMessagesAmount",
 		"users",
 	}
 

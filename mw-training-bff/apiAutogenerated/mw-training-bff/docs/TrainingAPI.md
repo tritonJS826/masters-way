@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**CreateTraining**](TrainingAPI.md#CreateTraining) | **Post** /trainings | Create training
 [**DeleteTraining**](TrainingAPI.md#DeleteTraining) | **Delete** /trainings/{trainingId} | Delete training by id
 [**GetTrainingById**](TrainingAPI.md#GetTrainingById) | **Get** /trainings/{trainingId} | Get training by Id
-[**GetTrainingList**](TrainingAPI.md#GetTrainingList) | **Get** /trainings | GEt training list
+[**GetTrainingList**](TrainingAPI.md#GetTrainingList) | **Get** /trainings | GET training list
 [**GetTrainingListByUser**](TrainingAPI.md#GetTrainingListByUser) | **Get** /trainings/users/{userId} | Get training list by user
 [**UpdateTraining**](TrainingAPI.md#UpdateTraining) | **Patch** /trainings/{trainingId} | Update training by id
 
@@ -215,7 +215,7 @@ No authorization required
 
 > MwTrainingBffInternalSchemasTrainingList GetTrainingList(ctx).Page(page).Limit(limit).TrainingName(trainingName).Execute()
 
-GEt training list
+GET training list
 
 ### Example
 

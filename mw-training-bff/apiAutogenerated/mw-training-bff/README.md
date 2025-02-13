@@ -94,7 +94,7 @@ Class | Method | HTTP request | Description
 *TrainingAPI* | [**CreateTraining**](docs/TrainingAPI.md#createtraining) | **Post** /trainings | Create training
 *TrainingAPI* | [**DeleteTraining**](docs/TrainingAPI.md#deletetraining) | **Delete** /trainings/{trainingId} | Delete training by id
 *TrainingAPI* | [**GetTrainingById**](docs/TrainingAPI.md#gettrainingbyid) | **Get** /trainings/{trainingId} | Get training by Id
-*TrainingAPI* | [**GetTrainingList**](docs/TrainingAPI.md#gettraininglist) | **Get** /trainings | GEt training list
+*TrainingAPI* | [**GetTrainingList**](docs/TrainingAPI.md#gettraininglist) | **Get** /trainings | GET training list
 *TrainingAPI* | [**GetTrainingListByUser**](docs/TrainingAPI.md#gettraininglistbyuser) | **Get** /trainings/users/{userId} | Get training list by user
 *TrainingAPI* | [**UpdateTraining**](docs/TrainingAPI.md#updatetraining) | **Patch** /trainings/{trainingId} | Update training by id
 *TrainingMentorAPI* | [**CreateTrainingMentor**](docs/TrainingMentorAPI.md#createtrainingmentor) | **Post** /trainingMentors/{trainingId}/user/{userId} | Create mentor

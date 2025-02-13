@@ -72,11 +72,12 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 			}
 		})
 		return schemas.RoomPreviewResponse{
-			RoomID:    utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
-			Name:      utils.MarshalPgText(dbRoom.Name),
-			RoomType:  string(dbRoom.Type),
-			IsBlocked: dbRoom.IsRoomBlocked,
-			Users:     users,
+			RoomID:               utils.ConvertPgUUIDToUUID(dbRoom.Uuid).String(),
+			Name:                 utils.MarshalPgText(dbRoom.Name),
+			RoomType:             string(dbRoom.Type),
+			IsBlocked:            dbRoom.IsRoomBlocked,
+			Users:                users,
+			UnreadMessagesAmount: int32(dbRoom.UnreadMessageCount),
 		}
 	})
 

@@ -595,7 +595,7 @@ func (r ApiGetTrainingListRequest) Execute() (*MwTrainingBffInternalSchemasTrain
 }
 
 /*
-GetTrainingList GEt training list
+GetTrainingList GET training list
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetTrainingListRequest

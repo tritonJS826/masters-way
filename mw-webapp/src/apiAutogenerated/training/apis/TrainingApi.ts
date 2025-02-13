@@ -157,7 +157,7 @@ export class TrainingApi extends runtime.BaseAPI {
     }
 
     /**
-     * GEt training list
+     * GET training list
      */
     async getTrainingListRaw(requestParameters: GetTrainingListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTrainingList>> {
         const queryParameters: any = {};
@@ -187,7 +187,7 @@ export class TrainingApi extends runtime.BaseAPI {
     }
 
     /**
-     * GEt training list
+     * GET training list
      */
     async getTrainingList(requestParameters: GetTrainingListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTrainingList> {
         const response = await this.getTrainingListRaw(requestParameters, initOverrides);

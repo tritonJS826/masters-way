@@ -650,7 +650,7 @@ const docTemplate = `{
                 "tags": [
                     "training"
                 ],
-                "summary": "GEt training list",
+                "summary": "GET training list",
                 "operationId": "get-training-list",
                 "parameters": [
                     {
