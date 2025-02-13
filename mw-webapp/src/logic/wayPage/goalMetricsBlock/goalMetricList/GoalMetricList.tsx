@@ -199,12 +199,8 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
                     </p>
                   }
                   onOk={() => props.deleteMetric(childMetric.uuid)}
-                  okText={
-                    LanguageService.modals.confirmModal.deleteButton[language]
-                  }
-                  cancelText={
-                    LanguageService.modals.confirmModal.cancelButton[language]
-                  }
+                  okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                  cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
                   cy={{
                     onEnter: "",
                     onCancel: wayMetricsAccessIds.deleteMetric.cancelButton,
