@@ -224,6 +224,16 @@ export const UserPage = observer((props: UserPageProps) => {
   const [userPageSettings,, updateUserPageSettings] = usePersistanceState({
     key: "userPage",
     defaultValue: DEFAULT_USER_PAGE_SETTINGS,
+
+    /**
+     * Check is stored data valid
+     * TODO: move just training collection setting to training tab!! [key: userPage.currentTrainingCollection]
+     */
+    storedDataValidator: (settings: UserPageSettings) => {
+      return Object.values(DefaultTrainingCollection).some(
+        collection => (collection === settings.trainingCollection),
+      );
+    },
   });
 
   const isPageOwner = !!user && !!userPageOwner && user.uuid === userPageOwner.uuid;
