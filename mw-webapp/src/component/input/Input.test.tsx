@@ -1,11 +1,14 @@
-import {render, screen} from "@testing-library/react";
+import {act, render, screen} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {Input} from "src/component/input/Input";
+import {vi} from "vitest";
 
 const INPUT_CY = "input";
 const INPUT_VALUE = "Text";
 const INPUT_PLACEHOLDER = "Enter text";
 const INPUT_VALUE_EMAIL = "test@example.com";
 const INPUT_VALUE_NUMBER = 1111;
+const INPUT_NEW_VALUE = "New value";
 
 /**
  *InputType
@@ -37,6 +40,11 @@ export interface createTestInputProps {
    * @default false
    */
   disabled?: boolean;
+
+  /**
+   * The input's onChange event handler
+   */
+  onChange?: (value: string | number) => void;
 }
 
 /**
@@ -50,7 +58,7 @@ const createTestInput = (props: createTestInputProps) => {
       placeholder={INPUT_PLACEHOLDER}
       required={true}
       disabled={props.disabled ?? false}
-      onChange={() => {}}
+      onChange={props.onChange ?? (() => {})}
       type={props.type ?? InputType.Text}
     />
   );
@@ -61,7 +69,7 @@ describe("Input component", () => {
     render(createTestInput({value: INPUT_VALUE, type: InputType.Text}));
     const input = screen.getByRole("textbox");
     expect(input).toBeVisible();
-    expect(screen.getByPlaceholderText(INPUT_PLACEHOLDER)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(INPUT_PLACEHOLDER)).toBeVisible();
   });
 
   it("should be works with input mode text", () => {
@@ -105,5 +113,17 @@ describe("Input component", () => {
     render(createTestInput({value: INPUT_VALUE, type: InputType.Text}));
     const input = screen.getByRole("textbox");
     expect(input).toHaveAttribute("required");
+  });
+
+  it("user can clear input and type something new", async () => {
+    const onChangeMock = vi.fn();
+    render(createTestInput({value: INPUT_VALUE, type: InputType.Text, onChange: onChangeMock}));
+    const input = screen.getByRole("textbox");
+    await act(async () => {
+      await userEvent.clear(input);
+      await userEvent.type(input, INPUT_NEW_VALUE);
+    });
+    expect(onChangeMock).toHaveBeenCalled();
+    expect(input).toHaveValue(INPUT_NEW_VALUE);
   });
 });
