@@ -4,21 +4,21 @@ const colors = {
     blue: "background-color: blue;",
     red: "background-color: red;",
     teal: "background-color: rgb(0, 128, 128);"
-};
+} as const;
 
-const name = {
+const labelActivityNames = {
     generalMeeting: "general meeting",
     database: "database",
     coding: "coding",
     meeting1To1: "meeting 1:1",
     studentLabel: "student label"
-};
-
-export const periods = {
-    total: "total",
-    lastMonth: "lastMonth",
-    lastWeek: "lastWeek"
 } as const;
+
+export enum Periods {
+    Total = "total",
+    LastMonth = "lastMonth",
+    LastWeek = "lastWeek"
+};
 
 export const statisticsData = {
     statisticsPlacement: {
@@ -28,14 +28,14 @@ export const statisticsData = {
 
     periodBlockTitles: {
         wayPage: {
-            [periods.total]: "Total",
-            [periods.lastWeek]: "Last week",
-            [periods.lastMonth]: "",
+            [Periods.Total]: "Total",
+            [Periods.LastWeek]: "Last week",
+            [Periods.LastMonth]: "",
         },
         modal: {
-            [periods.total]: "totalModal",
-            [periods.lastMonth]: "lastMonthModal",
-            [periods.lastWeek]: "lastWeekModal"
+            [Periods.Total]: "totalModal",
+            [Periods.LastMonth]: "lastMonthModal",
+            [Periods.LastWeek]: "lastWeekModal"
         }
     },
 
@@ -45,30 +45,30 @@ export const statisticsData = {
             daysFromStart: "38",
 
             statistic: {
-                [periods.total]: { totalTime: "7.2", totalReports: "8", finishedJobs: "8", avgTimePerCalendarDay: "0.2", avgTimePerWorkingDay: "0.9", avgJobTime: "0.9" },
-                [periods.lastMonth]: { totalTime: "7.2", totalReports: "8", finishedJobs: "8", avgTimePerCalendarDay: "0.2", avgTimePerWorkingDay: "0.9", avgJobTime: "0.9" },
-                [periods.lastWeek]: { totalTime: "3.0", totalReports: "4", finishedJobs: "3", avgTimePerCalendarDay: "0.4", avgTimePerWorkingDay: "0.8", avgJobTime: "1.0" }
+                [Periods.Total]: { totalTime: "7.2", totalReports: "8", finishedJobs: "8", avgTimePerCalendarDay: "0.2", avgTimePerWorkingDay: "0.9", avgJobTime: "0.9" },
+                [Periods.LastMonth]: { totalTime: "7.2", totalReports: "8", finishedJobs: "8", avgTimePerCalendarDay: "0.2", avgTimePerWorkingDay: "0.9", avgJobTime: "0.9" },
+                [Periods.LastWeek]: { totalTime: "3.0", totalReports: "4", finishedJobs: "3", avgTimePerCalendarDay: "0.4", avgTimePerWorkingDay: "0.8", avgJobTime: "1.0" }
             },
 
             labelStatistics: {
-                [periods.total]: {
-                    row1: { name: name.generalMeeting, color: colors.yellow, jobsAmount: "1(12%)", time: "1(13%)" },
-                    row2: { name: name.database, color: colors.green, jobsAmount: "3(37%)", time: "2.2(30%)" },
-                    row3: { name: name.coding, color: colors.blue, jobsAmount: "2(25%)", time: "2(27%)" },
-                    row4: { name: name.meeting1To1, color: colors.red, jobsAmount: "2(25%)", time: "2(27%)" }
+                [Periods.Total]: {
+                    row1: { name: labelActivityNames.generalMeeting, color: colors.yellow, jobsAmount: "1(12%)", time: "1(13%)" },
+                    row2: { name: labelActivityNames.database, color: colors.green, jobsAmount: "3(37%)", time: "2.2(30%)" },
+                    row3: { name: labelActivityNames.coding, color: colors.blue, jobsAmount: "2(25%)", time: "2(27%)" },
+                    row4: { name: labelActivityNames.meeting1To1, color: colors.red, jobsAmount: "2(25%)", time: "2(27%)" }
                 },
 
-                [periods.lastMonth]: {
-                    row1: { name: name.generalMeeting, color: colors.yellow, jobsAmount: "1(12%)", time: "1(13%)" },
-                    row2: { name: name.database, color: colors.green, jobsAmount: "3(37%)", time: "2.2(30%)" },
-                    row3: { name: name.coding, color: colors.blue, jobsAmount: "2(25%)", time: "2(27%)" },
-                    row4: { name: name.meeting1To1, color: colors.red, jobsAmount: "2(25%)", time: "2(27%)" }
+                [Periods.LastMonth]: {
+                    row1: { name: labelActivityNames.generalMeeting, color: colors.yellow, jobsAmount: "1(12%)", time: "1(13%)" },
+                    row2: { name: labelActivityNames.database, color: colors.green, jobsAmount: "3(37%)", time: "2.2(30%)" },
+                    row3: { name: labelActivityNames.coding, color: colors.blue, jobsAmount: "2(25%)", time: "2(27%)" },
+                    row4: { name: labelActivityNames.meeting1To1, color: colors.red, jobsAmount: "2(25%)", time: "2(27%)" }
                 },
 
-                [periods.lastWeek]: {
-                    row1: { name: name.database, color: colors.green, jobsAmount: "1(33%)", time: "1(33%)" },
-                    row2: { name: name.coding, color: colors.blue, jobsAmount: "1(33%)", time: "1(33%)" },
-                    row3: { name: name.meeting1To1, color: colors.red, jobsAmount: "1(33%)", time: "1(33%)" }                
+                [Periods.LastWeek]: {
+                    row1: { name: labelActivityNames.database, color: colors.green, jobsAmount: "1(33%)", time: "1(33%)" },
+                    row2: { name: labelActivityNames.coding, color: colors.blue, jobsAmount: "1(33%)", time: "1(33%)" },
+                    row3: { name: labelActivityNames.meeting1To1, color: colors.red, jobsAmount: "1(33%)", time: "1(33%)" }                
                 }
             }
         },
@@ -77,26 +77,26 @@ export const statisticsData = {
             daysFromStart: "0",
 
             statistic: {
-                [periods.total]: { totalTime: "9.3", totalReports: "9", finishedJobs: "9", avgTimePerCalendarDay: "0.1", avgTimePerWorkingDay: "1.0", avgJobTime: "1.0" },
-                [periods.lastMonth]: { totalTime: "2.1", totalReports: "1", finishedJobs: "1", avgTimePerCalendarDay: "0.1", avgTimePerWorkingDay: "2.1", avgJobTime: "2.1" },
-                [periods.lastWeek]: { totalTime: "2.1", totalReports: "1", finishedJobs: "1", avgTimePerCalendarDay: "0.3", avgTimePerWorkingDay: "2.1", avgJobTime: "2.1" }
+                [Periods.Total]: { totalTime: "9.3", totalReports: "9", finishedJobs: "9", avgTimePerCalendarDay: "0.1", avgTimePerWorkingDay: "1.0", avgJobTime: "1.0" },
+                [Periods.LastMonth]: { totalTime: "2.1", totalReports: "1", finishedJobs: "1", avgTimePerCalendarDay: "0.1", avgTimePerWorkingDay: "2.1", avgJobTime: "2.1" },
+                [Periods.LastWeek]: { totalTime: "2.1", totalReports: "1", finishedJobs: "1", avgTimePerCalendarDay: "0.3", avgTimePerWorkingDay: "2.1", avgJobTime: "2.1" }
             },
 
             labelStatistics: {
-                [periods.total]: {
-                    row1: { name: name.studentLabel, color: colors.teal, jobsAmount: "1(11%)", time: "2.1(22%)" },
-                    row2: { name: name.generalMeeting, color: colors.yellow, jobsAmount: "1(11%)", time: "1(10%)" },
-                    row3: { name: name.database, color: colors.green, jobsAmount: "3(33%)", time: "2.2(23%)" },
-                    row4: { name: name.coding, color: colors.blue, jobsAmount: "2(22%)", time: "2(21%)" },
-                    row5: { name: name.meeting1To1, color: colors.red, jobsAmount: "2(22%)", time: "2(21%)" }
+                [Periods.Total]: {
+                    row1: { name: labelActivityNames.studentLabel, color: colors.teal, jobsAmount: "1(11%)", time: "2.1(22%)" },
+                    row2: { name: labelActivityNames.generalMeeting, color: colors.yellow, jobsAmount: "1(11%)", time: "1(10%)" },
+                    row3: { name: labelActivityNames.database, color: colors.green, jobsAmount: "3(33%)", time: "2.2(23%)" },
+                    row4: { name: labelActivityNames.coding, color: colors.blue, jobsAmount: "2(22%)", time: "2(21%)" },
+                    row5: { name: labelActivityNames.meeting1To1, color: colors.red, jobsAmount: "2(22%)", time: "2(21%)" }
                 },
 
-                [periods.lastMonth]: {
-                    row1: { name: name.studentLabel, color: colors.teal, jobsAmount: "1(100%)", time: "2.1(100%)" }
+                [Periods.LastMonth]: {
+                    row1: { name: labelActivityNames.studentLabel, color: colors.teal, jobsAmount: "1(100%)", time: "2.1(100%)" }
                 },
                 
-                [periods.lastWeek]: {
-                    row1: { name: name.studentLabel, color: colors.teal, jobsAmount: "1(100%)", time: "2.1(100%)" }
+                [Periods.LastWeek]: {
+                    row1: { name: labelActivityNames.studentLabel, color: colors.teal, jobsAmount: "1(100%)", time: "2.1(100%)" }
                 } 
             }
         }
