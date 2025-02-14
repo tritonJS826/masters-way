@@ -287,6 +287,11 @@
     }
   },
   "trainings": {
+    "defaultTrainingCollections": {
+      "ru": "Базовые тренинги",
+      "en": "Basic trainings",
+      "ua": "Базові тренінги"
+    },
     "owner": {
       "ru": "Собственные",
       "en": "Own",
@@ -377,6 +382,11 @@
       "ru": "Пользовательские коллекции ты создаешь сам. Это своего рода папка, в которую ты сможешь складывать пути, относящиеся к определенному критерию. Например, если ты ментор и ведешь группу студентов, ты можешь объединить пути каждого студента в одну коллекцию.",
       "en": "You create custom collections yourself. This is a kind of folder in which you can put paths related to a certain criterion. For example, if you are a mentor and lead a group of students, you can combine the paths of each student into one collection.",
       "ua": "Користувальницькі колекції ти створюєш сам. Це свого роду папка, в яку ти зможеш складати шляхи, що належать до певного критерію. Наприклад, якщо ти ментор і ведеш групу студентів, ти можеш поєднати шляхи кожного студента в одну колекцію."
+    },
+    "basicTrainingCollections": {
+      "ru": "Существует 4 коллекции тренингов. В собственной коллекции будут храниться твои тренинги. Наставнические включают тренинги, для которых ты являешься ментором. Студенческие содержат тренинги, где ты являешься студентом. А в коллекцию Любимые помещаются все тренинги, которые ты лайкнул.",
+      "en": "There are 4 collections of trainings. Your trainings will be stored in your own collection. Mentoring includes trainings for which you are a mentor. Student ones contain trainings where you are a student. And the Favorites collection contains all the trainings that you liked.",
+      "ua": "Існує 4 колекції тренінгів. У власній колекції зберігатимуться твої тренінги. Наставницькі включають тренінги, для яких ти є ментором. Студенти містять тренінги, де ти є студентом. А в колекцію Улюблені поміщаються всі тренінги, які ти лайкнув."
     }
   }
 }

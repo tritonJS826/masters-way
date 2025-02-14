@@ -1,18 +1,38 @@
 @import "src/styles/variables";
 
+.tabsSectionContainerTrainings {
+  flex-wrap: wrap;
+  background-color: var(--primaryBgColor);
+}
+
+.trainingTabContainer {
+  width: 100%;
+}
+
 .addTrainingButton {
   height: 123px;
   padding: 0;
-}
-
-.tabsSectionContainer {
-  @include regularContainer;
-  flex-wrap: wrap;
-  gap: $gapBig;
 }
 
 .tabsSection {
   display: grid;
   gap: $gapSmall;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.collectionGroup {
+  width: 100%;
+  padding: $paddingMedium;
+  background-color: var(--secondaryBgColor);
+  border-bottom-left-radius: $containerBorderRadius;
+  border-bottom-right-radius: $containerBorderRadius;
+  gap: $gapBig;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingExtraMedium;
+  }
+}
+
+.trainingTitle {
+  align-items: baseline;
 }
