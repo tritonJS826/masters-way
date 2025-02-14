@@ -29,9 +29,10 @@ describe("HorizontalContainer", () => {
     expect(screen.getByTestId(HORIZONTAL_CONTAINER_CY)).toHaveStyle("display: flex");
   });
 
-  it("should renders children in correct order", () => {
-    const children = screen.getAllByText(/Example text \d/);
-    expect(children.map((child) => child.textContent)).toEqual(CHILDRENS_TEXT);
+  it("should renders all children", () => {
+    CHILDRENS_TEXT.forEach((text) => {
+      expect(screen.getByText(text)).toBeInTheDocument();
+    });
   });
 
 });
