@@ -1,5 +1,10 @@
 @import "src/styles/variables";
 
+.tabsSectionContainerTrainings {
+  flex-wrap: wrap;
+  background-color: var(--primaryBgColor);
+}
+
 .trainingTabContainer {
   width: 100%;
 }

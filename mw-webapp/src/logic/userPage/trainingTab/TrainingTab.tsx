@@ -80,7 +80,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
   }
 
   return (
-    <>
+    <HorizontalContainer className={styles.tabsSectionContainerTrainings}>
       <VerticalContainer className={styles.collectionGroup}>
         <HorizontalContainer className={styles.trainingTitle}>
           <Infotip content={LanguageService.user.infotip.basicTrainingCollections[language]} />
@@ -165,6 +165,6 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
         setView={(view: View) => props.setView(view)}
         isPageOwner={props.isPageOwner}
       />
-    </>
+    </HorizontalContainer>
   );
 });
