@@ -39,6 +39,7 @@ $wayCardAdditionalHeight: 118px;
   color: var(--secondaryTextColor);
   font-size: $fontSizeBig;
   -webkit-line-clamp: 4;
+  overflow-wrap: anywhere;
   text-overflow: ellipsis;
   white-space: initial;
 }

@@ -9,13 +9,14 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **RoomId** | **string** |  | 
 **RoomType** | **string** |  | 
+**UnreadMessagesAmount** | **int32** |  | 
 **Users** | [**[]MwChatBffInternalSchemasUserResponse**](MwChatBffInternalSchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewMwChatBffInternalSchemasRoomPreviewResponse
 
-`func NewMwChatBffInternalSchemasRoomPreviewResponse(imageUrl string, isBlocked bool, name string, roomId string, roomType string, users []MwChatBffInternalSchemasUserResponse, ) *MwChatBffInternalSchemasRoomPreviewResponse`
+`func NewMwChatBffInternalSchemasRoomPreviewResponse(imageUrl string, isBlocked bool, name string, roomId string, roomType string, unreadMessagesAmount int32, users []MwChatBffInternalSchemasUserResponse, ) *MwChatBffInternalSchemasRoomPreviewResponse`
 
 NewMwChatBffInternalSchemasRoomPreviewResponse instantiates a new MwChatBffInternalSchemasRoomPreviewResponse object
 This constructor will assign default values to properties that have it defined,
@@ -128,6 +129,26 @@ and a boolean to check if the value has been set.
 `func (o *MwChatBffInternalSchemasRoomPreviewResponse) SetRoomType(v string)`
 
 SetRoomType sets RoomType field to given value.
+
+
+### GetUnreadMessagesAmount
+
+`func (o *MwChatBffInternalSchemasRoomPreviewResponse) GetUnreadMessagesAmount() int32`
+
+GetUnreadMessagesAmount returns the UnreadMessagesAmount field if non-nil, zero value otherwise.
+
+### GetUnreadMessagesAmountOk
+
+`func (o *MwChatBffInternalSchemasRoomPreviewResponse) GetUnreadMessagesAmountOk() (*int32, bool)`
+
+GetUnreadMessagesAmountOk returns a tuple with the UnreadMessagesAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnreadMessagesAmount
+
+`func (o *MwChatBffInternalSchemasRoomPreviewResponse) SetUnreadMessagesAmount(v int32)`
+
+SetUnreadMessagesAmount sets UnreadMessagesAmount field to given value.
 
 
 ### GetUsers

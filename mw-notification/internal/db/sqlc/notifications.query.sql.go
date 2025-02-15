@@ -72,6 +72,37 @@ func (q *Queries) GetAmountOfUnreadNotificationsByUserID(ctx context.Context, us
 	return i, err
 }
 
+const getLastNotification = `-- name: GetLastNotification :one
+SELECT
+    uuid, user_uuid, is_read, description, url, nature, created_at
+FROM notifications
+WHERE
+    notifications.user_uuid = $1 AND
+    notifications.nature = $2
+ORDER BY created_at DESC
+LIMIT 1
+`
+
+type GetLastNotificationParams struct {
+	UserUuid pgtype.UUID        `json:"user_uuid"`
+	Nature   NotificationNature `json:"nature"`
+}
+
+func (q *Queries) GetLastNotification(ctx context.Context, arg GetLastNotificationParams) (Notification, error) {
+	row := q.db.QueryRow(ctx, getLastNotification, arg.UserUuid, arg.Nature)
+	var i Notification
+	err := row.Scan(
+		&i.Uuid,
+		&i.UserUuid,
+		&i.IsRead,
+		&i.Description,
+		&i.Url,
+		&i.Nature,
+		&i.CreatedAt,
+	)
+	return i, err
+}
+
 const getNotificationListByUserID = `-- name: GetNotificationListByUserID :many
 SELECT 
     uuid, user_uuid, is_read, description, url, nature, created_at

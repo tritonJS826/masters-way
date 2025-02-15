@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$loaderIconHeight: 100px;
+$loaderIconHeight: 110px;
 
 .loaderWrapper {
   position: absolute;
@@ -11,6 +11,10 @@ $loaderIconHeight: 100px;
 }
 
 .loaderBlockWrapper {
+  max-width: $minWidthBlock;
+  padding: $paddingExtraSmall;
+  margin-right: auto;
+  margin-left: auto;
   gap: $gapMedium;
 }
 

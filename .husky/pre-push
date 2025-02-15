@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SCRIPT_NAME="Pre-push Hook"
+
+#!/usr/bin/env sh
+# Use a more robust way to get the branch name, handling detached HEAD
+# BRANCH=$(git symbolic-ref HEAD 2>/dev/null || git rev-parse --short HEAD)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+PROTECTED_MAIN="main"
+
+
+case $BRANCH in
+    "$PROTECTED_MAIN")
+        echo -e "\n🚫 Error: Pushing to protected branch '$BRANCH' is not allowed. Create a new branch and use a Pull Request.\n" >&2 && exit 1
+    ;;
+
+#   Fedora | CentOS)
+#     echo -n "@@@@@@"
+#     ;;
+esac
+
+
+echo -e ">> $SCRIPT_NAME: Branch name check passed \n==="
+exit 0

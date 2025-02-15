@@ -115,7 +115,7 @@ export const Dropdown = (props: DropdownProps) => {
           <DropdownMenuItem
             key={item.id}
             value={item.value}
-            onClick={item.onClick ?? (() => { })}
+            onClick={item.onClick ?? (() => {})}
             dataCyContent={props.cy?.dataCyContent}
             isPreventDefaultUsed={item.isPreventDefaultUsed}
           />
@@ -131,7 +131,7 @@ export const Dropdown = (props: DropdownProps) => {
     const isVisible = item.isVisible ?? true;
     if (isVisible) {
       return (
-        <DropdownMenu.Sub>
+        <DropdownMenu.Sub key={item.subTrigger?.key}>
           <DropdownMenu.SubTrigger
             className={styles.dropdownMenuSubTrigger}
             data-cy={props.cy?.dataCySubTrigger}

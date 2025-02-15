@@ -18,6 +18,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useLoad} from "src/hooks/useLoad";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
 import {WaysTable} from "src/logic/waysTable/WaysTable";
@@ -30,7 +31,6 @@ import styles from "src/logic/allWaysPage/AllWaysPage.module.scss";
 
 const DEFAULT_PAGE_PAGINATION_VALUE = 1;
 const DEFAULT_MIN_DAY_REPORTS_AMOUNT = 5;
-const DEBOUNCE_DELAY_MILLISECONDS = 1000;
 const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   minDayReportsAmount: DEFAULT_MIN_DAY_REPORTS_AMOUNT,

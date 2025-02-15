@@ -140,20 +140,15 @@ func (q *Queries) IsAllMetricsDone(ctx context.Context, wayUuid pgtype.UUID) (bo
 }
 
 const updateMetric = `-- name: UpdateMetric :one
-WITH updated AS (
-    UPDATE metrics
-    SET
-        updated_at = coalesce($1, updated_at),
-        description = coalesce($2, description),
-        is_done = coalesce($3, is_done),
-        done_date = coalesce($4, done_date),
-        metric_estimation = coalesce($5, metric_estimation)
-    WHERE uuid = $6
-    RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
-)
-SELECT uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
-FROM updated
-ORDER BY created_at ASC
+UPDATE metrics
+SET
+    updated_at = coalesce($1, updated_at),
+    description = coalesce($2, description),
+    is_done = coalesce($3, is_done),
+    done_date = coalesce($4, done_date),
+    metric_estimation = coalesce($5, metric_estimation)
+WHERE uuid = $6
+RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
 `
 
 type UpdateMetricParams struct {
@@ -165,19 +160,7 @@ type UpdateMetricParams struct {
 	Uuid             pgtype.UUID      `json:"uuid"`
 }
 
-type UpdateMetricRow struct {
-	Uuid             pgtype.UUID      `json:"uuid"`
-	CreatedAt        pgtype.Timestamp `json:"created_at"`
-	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
-	Description      string           `json:"description"`
-	IsDone           bool             `json:"is_done"`
-	DoneDate         pgtype.Timestamp `json:"done_date"`
-	MetricEstimation int32            `json:"metric_estimation"`
-	WayUuid          pgtype.UUID      `json:"way_uuid"`
-	ParentUuid       pgtype.UUID      `json:"parent_uuid"`
-}
-
-func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (UpdateMetricRow, error) {
+func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Metric, error) {
 	row := q.db.QueryRow(ctx, updateMetric,
 		arg.UpdatedAt,
 		arg.Description,
@@ -186,7 +169,7 @@ func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Upd
 		arg.MetricEstimation,
 		arg.Uuid,
 	)
-	var i UpdateMetricRow
+	var i Metric
 	err := row.Scan(
 		&i.Uuid,
 		&i.CreatedAt,

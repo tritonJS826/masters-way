@@ -78,7 +78,7 @@ export interface TabItemProps {
   /**
    * Callback triggered on tab click
    */
-  onCLick?: () => void;
+  onClick?: () => void;
 }
 
 /**
@@ -130,7 +130,7 @@ export const Tab = observer((props: TabProps) => {
             key={tab.tabTrigger.id}
             className={styles.tabsTrigger}
             value={tab.value}
-            onClick={tab.onCLick}
+            onClick={tab.onClick}
             data-cy={tab.tabTrigger.dataCy}
           >
             {tab.tabTrigger.value}

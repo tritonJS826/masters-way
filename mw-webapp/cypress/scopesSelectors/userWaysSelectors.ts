@@ -9,7 +9,7 @@ export const userWaysSelectors = {
     getPrivacyStatus: () => cy.get(getDataCy(userWaysAccessIds.privacyStatus)),
 
     collectionBlock: {
-        getWayAmountCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.wayAmountCollectionButton)),
+        getWayAmountCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.amountCollectionButton)),
 
         getWayLink: (wayTitle: string) => cy.get(getDataCy(userWaysAccessIds.collectionBlock.wayLink(wayTitle))),
 
@@ -19,7 +19,7 @@ export const userWaysSelectors = {
         getAddCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.addCollectionButton)),
         getCustomerCollectionButton: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.customerCollectionButton)),
 
-        getWayCollectionButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.wayCollectionButtonMainInfo)),
+        getWayCollectionButtonMainInfo: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.collectionButtonMainInfo)),
 
         customCollection: {
             getCustomCollectionBlock: () => cy.get(getDataCy(userWaysAccessIds.collectionBlock.customCollection.customCollectionBlock)),

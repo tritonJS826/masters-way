@@ -308,7 +308,8 @@ components:
     mw-chat_internal_schemas.GetRoomsResponse:
       example:
         rooms:
-        - isBlocked: true
+        - unreadMessagesAmount: 0
+          isBlocked: true
           name: name
           roomId: roomId
           roomType: roomType
@@ -317,7 +318,8 @@ components:
             userId: userId
           - role: role
             userId: userId
-        - isBlocked: true
+        - unreadMessagesAmount: 0
+          isBlocked: true
           name: name
           roomId: roomId
           roomType: roomType
@@ -326,7 +328,7 @@ components:
             userId: userId
           - role: role
             userId: userId
-        size: 0
+        size: 6
       properties:
         rooms:
           items:
@@ -434,6 +436,7 @@ components:
       type: object
     mw-chat_internal_schemas.RoomPreviewResponse:
       example:
+        unreadMessagesAmount: 0
         isBlocked: true
         name: name
         roomId: roomId
@@ -453,6 +456,8 @@ components:
           type: string
         roomType:
           type: string
+        unreadMessagesAmount:
+          type: integer
         users:
           items:
             $ref: '#/components/schemas/mw-chat_internal_schemas.UserResponse'
@@ -462,6 +467,7 @@ components:
       - name
       - roomId
       - roomType
+      - unreadMessagesAmount
       - users
       type: object
     mw-chat_internal_schemas.UpdateMessageStatusPayload:

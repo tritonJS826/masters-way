@@ -42,7 +42,7 @@ interface ReviewCardProps {
 }
 
 /**
- * WayCollectionCard component
+ * ReviewCard component
  */
 export const ReviewCard = (props: ReviewCardProps) => {
 

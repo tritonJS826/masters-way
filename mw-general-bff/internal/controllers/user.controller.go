@@ -94,8 +94,10 @@ func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 	// mentorStatus = "mentor" | "all"
 	mentorStatus := ctx.DefaultQuery("mentorStatus", "all")
 
-	reqPage, _ := strconv.Atoi(page)
-	reqLimit, _ := strconv.Atoi(limit)
+	reqPage, err := strconv.Atoi(page)
+	utils.HandleErrorGin(ctx, err)
+	reqLimit, err := strconv.Atoi(limit)
+	utils.HandleErrorGin(ctx, err)
 
 	response, err := uc.toUserMentoringRequestFacade.GetAllUsers(ctx, &services.GetAllUsersParams{
 		MentorStatus: mentorStatus,

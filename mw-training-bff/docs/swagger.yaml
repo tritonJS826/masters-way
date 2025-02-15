@@ -1,0 +1,929 @@
+basePath: /mw-training
+definitions:
+  mw-training-bff_internal_schemas.CreatePracticeMaterialPayload:
+    properties:
+      answer:
+        type: string
+      name:
+        type: string
+      practiceType:
+        type: string
+      taskDescription:
+        type: string
+      timeToAnswer:
+        type: integer
+      topicUuid:
+        type: string
+    required:
+    - answer
+    - name
+    - practiceType
+    - taskDescription
+    - timeToAnswer
+    - topicUuid
+    type: object
+  mw-training-bff_internal_schemas.CreateTheoryMaterialPayload:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      topicUuid:
+        type: string
+    required:
+    - description
+    - name
+    - topicUuid
+    type: object
+  mw-training-bff_internal_schemas.CreateTrainingPayload:
+    properties:
+      description:
+        type: string
+      isPrivate:
+        type: boolean
+      name:
+        type: string
+    required:
+    - description
+    - isPrivate
+    - name
+    type: object
+  mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  mw-training-bff_internal_schemas.PracticeMaterial:
+    properties:
+      answer:
+        type: string
+      createdAt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      practiceType:
+        type: string
+      taskDescription:
+        type: string
+      timeToAnswer:
+        type: integer
+      topicUuid:
+        type: string
+      updatedAt:
+        type: string
+      uuid:
+        type: string
+    required:
+    - answer
+    - createdAt
+    - name
+    - order
+    - practiceType
+    - taskDescription
+    - timeToAnswer
+    - topicUuid
+    - updatedAt
+    - uuid
+    type: object
+  mw-training-bff_internal_schemas.PracticeMaterials:
+    properties:
+      practiceMaterials:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
+        type: array
+      size:
+        type: integer
+    required:
+    - practiceMaterials
+    - size
+    type: object
+  mw-training-bff_internal_schemas.TheoryMaterial:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      topicUuid:
+        type: string
+      updatedAt:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - description
+    - name
+    - order
+    - topicUuid
+    - updatedAt
+    - uuid
+    type: object
+  mw-training-bff_internal_schemas.TheoryMaterials:
+    properties:
+      size:
+        type: integer
+      theoryMaterials:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
+        type: array
+    required:
+    - size
+    - theoryMaterials
+    type: object
+  mw-training-bff_internal_schemas.Topic:
+    properties:
+      createdAt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      parentUuid:
+        type: string
+        x-nullable: true
+      practiceMaterialAmount:
+        type: integer
+      theoryMaterialAmount:
+        type: integer
+      trainingUuid:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - name
+    - order
+    - parentUuid
+    - practiceMaterialAmount
+    - theoryMaterialAmount
+    - trainingUuid
+    - uuid
+    type: object
+  mw-training-bff_internal_schemas.Training:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      favoriteForUserUuids:
+        items:
+          type: string
+        type: array
+      isPrivate:
+        type: boolean
+      mentors:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.User'
+        type: array
+      name:
+        type: string
+      owner:
+        $ref: '#/definitions/mw-training-bff_internal_schemas.User'
+      students:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.User'
+        type: array
+      topics:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+        type: array
+      trainingTags:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingTag'
+        type: array
+      updatedAt:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - description
+    - favoriteForUserUuids
+    - isPrivate
+    - mentors
+    - name
+    - owner
+    - students
+    - topics
+    - trainingTags
+    - updatedAt
+    - uuid
+    type: object
+  mw-training-bff_internal_schemas.TrainingList:
+    properties:
+      size:
+        type: integer
+      trainings:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingPreview'
+        type: array
+    required:
+    - size
+    - trainings
+    type: object
+  mw-training-bff_internal_schemas.TrainingPreview:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      favoriteForUsersAmount:
+        type: integer
+      isPrivate:
+        type: boolean
+      mentors:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.User'
+        type: array
+      name:
+        type: string
+      owner:
+        $ref: '#/definitions/mw-training-bff_internal_schemas.User'
+      studentsAmount:
+        type: integer
+      topicsAmount:
+        type: integer
+      trainingTag:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingTag'
+        type: array
+      updatedAt:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - description
+    - favoriteForUsersAmount
+    - isPrivate
+    - mentors
+    - name
+    - owner
+    - studentsAmount
+    - topicsAmount
+    - trainingTag
+    - updatedAt
+    - uuid
+    type: object
+  mw-training-bff_internal_schemas.TrainingTag:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  mw-training-bff_internal_schemas.TrainingsAmount:
+    properties:
+      favorite:
+        type: integer
+      mentor:
+        type: integer
+      owner:
+        type: integer
+      student:
+        type: integer
+    required:
+    - favorite
+    - mentor
+    - owner
+    - student
+    type: object
+  mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload:
+    properties:
+      answer:
+        type: string
+      name:
+        type: string
+      practiceType:
+        type: string
+      taskDescription:
+        type: string
+      timeToAnswer:
+        type: integer
+    type: object
+  mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  mw-training-bff_internal_schemas.UpdateTopicPayload:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  mw-training-bff_internal_schemas.UpdateTrainingPayload:
+    properties:
+      description:
+        type: string
+        x-nullable: true
+      isPrivate:
+        type: boolean
+        x-nullable: true
+      name:
+        type: string
+        x-nullable: true
+    type: object
+  mw-training-bff_internal_schemas.User:
+    properties:
+      imageUrl:
+        type: string
+      name:
+        type: string
+      uuid:
+        type: string
+    required:
+    - imageUrl
+    - name
+    - uuid
+    type: object
+info:
+  contact: {}
+  title: Masters way training-bff API
+  version: "1.0"
+paths:
+  /favoriteUserTrainings/{trainingId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-favorite-user-training
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete favorite user training
+      tags:
+      - favorite-user-training
+    post:
+      consumes:
+      - application/json
+      operationId: create-favorite-user-training
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create favorite user training
+      tags:
+      - favorite-user-training
+  /practiceMaterials:
+    patch:
+      consumes:
+      - application/json
+      operationId: update-practice-material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
+      summary: Update practice material
+      tags:
+      - practice-material
+    post:
+      consumes:
+      - application/json
+      operationId: create-practice-material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
+      summary: Create practice material
+      tags:
+      - practice-material
+  /practiceMaterials/{practiceMaterialId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-practice-material
+      parameters:
+      - description: practice material id
+        in: path
+        name: practiceMaterialId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete practice material
+      tags:
+      - practice-material
+  /practiceMaterials/{topicId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-practice-materials-by-topic-id
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterials'
+      summary: Get practice material by topic id
+      tags:
+      - practice-material
+  /theoryMaterials:
+    patch:
+      consumes:
+      - application/json
+      operationId: update-theory-material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
+      summary: Update theory material
+      tags:
+      - theory-material
+    post:
+      consumes:
+      - application/json
+      operationId: create-theory-material
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTheoryMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
+      summary: Create theory material
+      tags:
+      - theory-material
+  /theoryMaterials/{theoryMaterialId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-theory-material
+      parameters:
+      - description: theory material id
+        in: path
+        name: theoryMaterialId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete theory material
+      tags:
+      - theory-material
+  /theoryMaterials/{topicId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-theory-materials-by-topic-id
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterials'
+      summary: Get theory material by topic id
+      tags:
+      - theory-material
+  /topics/{topicId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete topic by Uuid
+      tags:
+      - topic
+    patch:
+      consumes:
+      - application/json
+      operationId: update-topic
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateTopicPayload'
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+      summary: Update topic
+      tags:
+      - topic
+  /topics/{trainingId}:
+    post:
+      consumes:
+      - application/json
+      operationId: create-topic
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+      summary: Create topic
+      tags:
+      - topic
+  /trainingMentors/{trainingId}/user/{userId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-training-mentor
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete mentor by id
+      tags:
+      - training-mentor
+    post:
+      consumes:
+      - application/json
+      operationId: create-training-mentor
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create mentor
+      tags:
+      - training-mentor
+  /trainingStudents/{trainingId}/user/{userId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-training-student
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete student
+      tags:
+      - training-student
+    post:
+      consumes:
+      - application/json
+      operationId: create-training-student
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create student
+      tags:
+      - training-student
+  /trainingTrainingTags/{trainingId}:
+    post:
+      consumes:
+      - application/json
+      operationId: create-training-training-tag
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload'
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Create training training tag
+      tags:
+      - training-training-tag
+  /trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-training-training-tag
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      - description: training tag name
+        in: path
+        name: trainingTagName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete training training tag
+      tags:
+      - training-training-tag
+  /trainings:
+    get:
+      consumes:
+      - application/json
+      operationId: get-training-list
+      parameters:
+      - description: Page number for pagination - 1 by default
+        in: query
+        name: page
+        type: integer
+      - description: Number of items per page - 50 by default
+        in: query
+        name: limit
+        type: integer
+      - description: Training name
+        in: query
+        name: trainingName
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingList'
+      summary: GET training list
+      tags:
+      - training
+    post:
+      consumes:
+      - application/json
+      operationId: create-training
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Training'
+      summary: Create training
+      tags:
+      - training
+  /trainings/{trainingId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-training
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Delete training by id
+      tags:
+      - training
+    get:
+      consumes:
+      - application/json
+      operationId: get-training-by-id
+      parameters:
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Training'
+      summary: Get training by Id
+      tags:
+      - training
+    patch:
+      consumes:
+      - application/json
+      operationId: update-training
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateTrainingPayload'
+      - description: training id
+        in: path
+        name: trainingId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Training'
+      summary: Update training by id
+      tags:
+      - training
+  /trainings/users/{userId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-training-list-by-user
+      parameters:
+      - description: 'enum: student | mentor | owner | favorite'
+        in: query
+        name: trainingsType
+        required: true
+        type: string
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingList'
+      summary: Get training list by user
+      tags:
+      - training
+  /trainings/users/{userId}/trainingsAmount:
+    get:
+      consumes:
+      - application/json
+      operationId: get-trainings-amount-by-user
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingsAmount'
+      summary: Get trainings amount by user
+      tags:
+      - training
+swagger: "2.0"

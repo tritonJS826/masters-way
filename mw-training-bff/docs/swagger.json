@@ -1,0 +1,1380 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Masters way training-bff API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/mw-training",
+    "paths": {
+        "/favoriteUserTrainings/{trainingId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favorite-user-training"
+                ],
+                "summary": "Create favorite user training",
+                "operationId": "create-favorite-user-training",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favorite-user-training"
+                ],
+                "summary": "Delete favorite user training",
+                "operationId": "delete-favorite-user-training",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/practiceMaterials": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "practice-material"
+                ],
+                "summary": "Create practice material",
+                "operationId": "create-practice-material",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.PracticeMaterial"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "practice-material"
+                ],
+                "summary": "Update practice material",
+                "operationId": "update-practice-material",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.PracticeMaterial"
+                        }
+                    }
+                }
+            }
+        },
+        "/practiceMaterials/{practiceMaterialId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "practice-material"
+                ],
+                "summary": "Delete practice material",
+                "operationId": "delete-practice-material",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "practice material id",
+                        "name": "practiceMaterialId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/practiceMaterials/{topicId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "practice-material"
+                ],
+                "summary": "Get practice material by topic id",
+                "operationId": "get-practice-materials-by-topic-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "topic id",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.PracticeMaterials"
+                        }
+                    }
+                }
+            }
+        },
+        "/theoryMaterials": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "theory-material"
+                ],
+                "summary": "Create theory material",
+                "operationId": "create-theory-material",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTheoryMaterialPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TheoryMaterial"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "theory-material"
+                ],
+                "summary": "Update theory material",
+                "operationId": "update-theory-material",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TheoryMaterial"
+                        }
+                    }
+                }
+            }
+        },
+        "/theoryMaterials/{theoryMaterialId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "theory-material"
+                ],
+                "summary": "Delete theory material",
+                "operationId": "delete-theory-material",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "theory material id",
+                        "name": "theoryMaterialId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/theoryMaterials/{topicId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "theory-material"
+                ],
+                "summary": "Get theory material by topic id",
+                "operationId": "get-theory-materials-by-topic-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "topic id",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TheoryMaterials"
+                        }
+                    }
+                }
+            }
+        },
+        "/topics/{topicId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "topic"
+                ],
+                "summary": "Delete topic by Uuid",
+                "operationId": "delete-topic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "topic id",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "topic"
+                ],
+                "summary": "Update topic",
+                "operationId": "update-topic",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdateTopicPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "topic id",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
+                        }
+                    }
+                }
+            }
+        },
+        "/topics/{trainingId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "topic"
+                ],
+                "summary": "Create topic",
+                "operationId": "create-topic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
+                        }
+                    }
+                }
+            }
+        },
+        "/trainingMentors/{trainingId}/user/{userId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training-mentor"
+                ],
+                "summary": "Create mentor",
+                "operationId": "create-training-mentor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training-mentor"
+                ],
+                "summary": "Delete mentor by id",
+                "operationId": "delete-training-mentor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/trainingStudents/{trainingId}/user/{userId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training-student"
+                ],
+                "summary": "Create student",
+                "operationId": "create-training-student",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training-student"
+                ],
+                "summary": "Delete student",
+                "operationId": "delete-training-student",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/trainingTrainingTags/{trainingId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training-training-tag"
+                ],
+                "summary": "Create training training tag",
+                "operationId": "create-training-training-tag",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/trainingTrainingTags/{trainingId}/trainingTag/{trainingTagName}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training-training-tag"
+                ],
+                "summary": "Delete training training tag",
+                "operationId": "delete-training-training-tag",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "training tag name",
+                        "name": "trainingTagName",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/trainings": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "GET training list",
+                "operationId": "get-training-list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number for pagination - 1 by default",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of items per page - 50 by default",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Training name",
+                        "name": "trainingName",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingList"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Create training",
+                "operationId": "create-training",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTrainingPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Training"
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/users/{userId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Get training list by user",
+                "operationId": "get-training-list-by-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "enum: student | mentor | owner | favorite",
+                        "name": "trainingsType",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingList"
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/users/{userId}/trainingsAmount": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Get trainings amount by user",
+                "operationId": "get-trainings-amount-by-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingsAmount"
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/{trainingId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Get training by Id",
+                "operationId": "get-training-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Training"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Delete training by id",
+                "operationId": "delete-training",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Update training by id",
+                "operationId": "update-training",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdateTrainingPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "training id",
+                        "name": "trainingId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Training"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "mw-training-bff_internal_schemas.CreatePracticeMaterialPayload": {
+            "type": "object",
+            "required": [
+                "answer",
+                "name",
+                "practiceType",
+                "taskDescription",
+                "timeToAnswer",
+                "topicUuid"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "practiceType": {
+                    "type": "string"
+                },
+                "taskDescription": {
+                    "type": "string"
+                },
+                "timeToAnswer": {
+                    "type": "integer"
+                },
+                "topicUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateTheoryMaterialPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "name",
+                "topicUuid"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "topicUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateTrainingPayload": {
+            "type": "object",
+            "required": [
+                "description",
+                "isPrivate",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.PracticeMaterial": {
+            "type": "object",
+            "required": [
+                "answer",
+                "createdAt",
+                "name",
+                "order",
+                "practiceType",
+                "taskDescription",
+                "timeToAnswer",
+                "topicUuid",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "practiceType": {
+                    "type": "string"
+                },
+                "taskDescription": {
+                    "type": "string"
+                },
+                "timeToAnswer": {
+                    "type": "integer"
+                },
+                "topicUuid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.PracticeMaterials": {
+            "type": "object",
+            "required": [
+                "practiceMaterials",
+                "size"
+            ],
+            "properties": {
+                "practiceMaterials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.PracticeMaterial"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TheoryMaterial": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "name",
+                "order",
+                "topicUuid",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "topicUuid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TheoryMaterials": {
+            "type": "object",
+            "required": [
+                "size",
+                "theoryMaterials"
+            ],
+            "properties": {
+                "size": {
+                    "type": "integer"
+                },
+                "theoryMaterials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TheoryMaterial"
+                    }
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.Topic": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "name",
+                "order",
+                "parentUuid",
+                "practiceMaterialAmount",
+                "theoryMaterialAmount",
+                "trainingUuid",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parentUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "practiceMaterialAmount": {
+                    "type": "integer"
+                },
+                "theoryMaterialAmount": {
+                    "type": "integer"
+                },
+                "trainingUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.Training": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "favoriteForUserUuids",
+                "isPrivate",
+                "mentors",
+                "name",
+                "owner",
+                "students",
+                "topics",
+                "trainingTags",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "favoriteForUserUuids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "mentors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
+                },
+                "students": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
+                    }
+                },
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
+                    }
+                },
+                "trainingTags": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingTag"
+                    }
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TrainingList": {
+            "type": "object",
+            "required": [
+                "size",
+                "trainings"
+            ],
+            "properties": {
+                "size": {
+                    "type": "integer"
+                },
+                "trainings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingPreview"
+                    }
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TrainingPreview": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "favoriteForUsersAmount",
+                "isPrivate",
+                "mentors",
+                "name",
+                "owner",
+                "studentsAmount",
+                "topicsAmount",
+                "trainingTag",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "favoriteForUsersAmount": {
+                    "type": "integer"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "mentors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner": {
+                    "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
+                },
+                "studentsAmount": {
+                    "type": "integer"
+                },
+                "topicsAmount": {
+                    "type": "integer"
+                },
+                "trainingTag": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingTag"
+                    }
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TrainingTag": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TrainingsAmount": {
+            "type": "object",
+            "required": [
+                "favorite",
+                "mentor",
+                "owner",
+                "student"
+            ],
+            "properties": {
+                "favorite": {
+                    "type": "integer"
+                },
+                "mentor": {
+                    "type": "integer"
+                },
+                "owner": {
+                    "type": "integer"
+                },
+                "student": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "practiceType": {
+                    "type": "string"
+                },
+                "taskDescription": {
+                    "type": "string"
+                },
+                "timeToAnswer": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.UpdateTopicPayload": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.UpdateTrainingPayload": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "isPrivate": {
+                    "type": "boolean",
+                    "x-nullable": true
+                },
+                "name": {
+                    "type": "string",
+                    "x-nullable": true
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.User": {
+            "type": "object",
+            "required": [
+                "imageUrl",
+                "name",
+                "uuid"
+            ],
+            "properties": {
+                "imageUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

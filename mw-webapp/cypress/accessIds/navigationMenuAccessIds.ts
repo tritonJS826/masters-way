@@ -6,6 +6,7 @@ export const navigationMenuIds = {
         home: 'home',
         personalArea: 'personalArea',
         allWays: 'allWays',
+        allTrainings: 'allTrainings',
         allUsers: 'allUsers',
         aboutProject: 'aboutProject',
         pricing: 'pricing',

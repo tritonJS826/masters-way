@@ -9,6 +9,7 @@ export const navigationMenuSelectors = {
         getHomeItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.home)),
         getPersonalAreaItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.personalArea)),
         getAllWaysItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.allWays)),
+        getAllTrainingsItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.allTrainings)),
         getAllUsersItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.allUsers)),
         getAboutProjectItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.aboutProject)),
         getPartnershipItemLink: () => cy.get(getDataCy(navigationMenuIds.menuItemLinks.partnership)),

@@ -1,0 +1,37 @@
+package services
+
+import (
+	"context"
+	db "mw-training/internal/db/sqlc"
+
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
+)
+
+type FavoriteTrainingUserRepository interface {
+	CreateFavoriteTrainingForUser(ctx context.Context, arg db.CreateFavoriteTrainingForUserParams) (db.FavoriteUsersTraining, error)
+	DeleteFavoriteTrainingUserByIds(ctx context.Context, arg db.DeleteFavoriteTrainingUserByIdsParams) error
+	WithTx(tx pgx.Tx) *db.Queries
+}
+
+type FavoriteTrainingUserService struct {
+	favoriteRepository FavoriteTrainingUserRepository
+	pgxPool            *pgxpool.Pool
+}
+
+func NewFavoriteTrainingUserService(pgxPool *pgxpool.Pool, favoriteRepository FavoriteTrainingUserRepository) *FavoriteTrainingUserService {
+	return &FavoriteTrainingUserService{
+		pgxPool:            pgxPool,
+		favoriteRepository: favoriteRepository,
+	}
+}
+
+// Create a new favorite training for a user
+func (fts *FavoriteTrainingUserService) CreateFavoriteTrainingForUser(ctx context.Context, arg db.CreateFavoriteTrainingForUserParams) (db.FavoriteUsersTraining, error) {
+	return fts.favoriteRepository.CreateFavoriteTrainingForUser(ctx, arg)
+}
+
+// Delete a favorite training for a user by IDs
+func (fts *FavoriteTrainingUserService) DeleteFavoriteTrainingUserByIds(ctx context.Context, arg db.DeleteFavoriteTrainingUserByIdsParams) error {
+	return fts.favoriteRepository.DeleteFavoriteTrainingUserByIds(ctx, arg)
+}

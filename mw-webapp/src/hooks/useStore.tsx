@@ -42,7 +42,9 @@ export const useStore = <
   }: useStoreProps<StoreType, Dependency, StoreInstance>): StoreInstance => {
 
   const store = useMemo(
-    () => new storeForInitialize(dataForInitialization),
+    () => dataForInitialization
+      ? new storeForInitialize(...dataForInitialization)
+      : new storeForInitialize(),
     [...(dependency ?? [])],
   );
 

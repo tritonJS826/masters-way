@@ -138,7 +138,7 @@ type Querier interface {
 	UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error)
 	UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error)
 	UpdateJobTag(ctx context.Context, arg UpdateJobTagParams) (JobTag, error)
-	UpdateMetric(ctx context.Context, arg UpdateMetricParams) (UpdateMetricRow, error)
+	UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Metric, error)
 	UpdatePlan(ctx context.Context, arg UpdatePlanParams) (UpdatePlanRow, error)
 	UpdatePricingPlanByUserId(ctx context.Context, arg UpdatePricingPlanByUserIdParams) (ProfileSetting, error)
 	UpdateProblem(ctx context.Context, arg UpdateProblemParams) (UpdateProblemRow, error)

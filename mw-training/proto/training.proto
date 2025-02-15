@@ -1,0 +1,266 @@
+syntax = "proto3";
+
+option go_package = "pkg/training";
+
+package training;
+
+import "google/protobuf/empty.proto";
+
+service TrainingTrainingTagService {
+  rpc CreateTrainingTrainingTag(CreateTrainingTagRequest) returns (TrainingTag);
+  rpc GetTrainingTags(GetTrainingTagsRequest) returns (TrainingTagList);
+  rpc DeleteTrainingTrainingTag(DeleteTrainingTagRequest) returns (google.protobuf.Empty);
+}
+
+
+service TrainingService {
+  rpc CreateNewTraining(CreateTrainingRequest) returns (Training);
+  rpc GetTrainingById(GetTrainingRequest) returns (Training);
+  rpc GetTrainingListForUser(GetTrainingListForUserRequest) returns (TrainingPreviewList);
+  rpc GetTrainingsAmountByUserId(GetTrainingsAmountByUserIdRequest) returns (TrainingsAmount);
+  rpc GetTrainingList(GetTrainingListRequest) returns (TrainingPreviewList);
+  rpc UpdateTraining(UpdateTrainingRequest) returns (Training);
+  rpc DeleteTraining(DeleteTrainingRequest) returns (google.protobuf.Empty);
+}
+
+service TrainingMentorService {
+  rpc CreateTrainingMentor(CreateTrainingMentorRequest) returns (google.protobuf.Empty);
+  rpc DeleteTrainingMentor(DeleteTrainingMentorRequest) returns (google.protobuf.Empty);
+}
+
+service TrainingStudentService {
+  rpc CreateTrainingStudent(CreateTrainingStudentRequest) returns (google.protobuf.Empty);
+  rpc DeleteTrainingStudent(DeleteTrainingStudentRequest) returns (google.protobuf.Empty);
+}
+
+service FavoriteUsersTrainingsService {
+  rpc CreateFavoriteUserTraining(CreateFavoriteUserTrainingRequest) returns (google.protobuf.Empty);
+  rpc DeleteFavoriteUserTraining(DeleteFavoriteUserTrainingRequest) returns (google.protobuf.Empty);
+}
+
+service PracticeMaterialService {
+  rpc CreatePracticeMaterial(CreatePracticeMaterialRequest) returns (PracticeMaterial);
+  rpc UpdatePracticeMaterial(UpdatePracticeMaterialRequest) returns (PracticeMaterial);
+  rpc DeletePracticeMaterial(DeletePracticeMaterialRequest) returns (google.protobuf.Empty);
+}
+
+service TheoryMaterialService {
+  rpc CreateTheoryMaterial(CreateTheoryMaterialRequest) returns (TheoryMaterial);
+  rpc UpdateTheoryMaterial(UpdateTheoryMaterialRequest) returns (TheoryMaterial);
+  rpc DeleteTheoryMaterial(DeleteTheoryMaterialRequest) returns (google.protobuf.Empty);
+}
+
+service TopicsService {
+  rpc CreateTopic(CreateTopicRequest) returns (Topic);
+  rpc UpdateTopic(UpdateTopicRequest) returns (Topic);
+  rpc DeleteTopic(DeleteTopicRequest) returns (google.protobuf.Empty);
+}
+
+service Dev {
+  rpc ResetDB(google.protobuf.Empty) returns (google.protobuf.Empty);
+}
+
+message CreateTrainingTagRequest {
+  string training_uuid = 1;
+  string tag_name = 2;
+}
+
+message TrainingTag {
+  string tag_name = 1;
+}
+
+message TrainingTagList {
+  repeated TrainingTag Training_tag_list = 1;
+}
+
+message GetTrainingTagsRequest {
+  string training_uuid = 1;
+}
+
+message DeleteTrainingTagRequest {
+  string training_uuid = 1;
+  string tag_name = 2;
+}
+
+message CreateTrainingRequest {
+  string name = 1;
+  string user_id = 2;
+  string description = 3;
+  bool IsPrivate = 4;
+}
+
+message User {
+  string uuid = 1;
+  string name = 2;
+  string image_url = 3;
+}
+
+message Training {
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
+  User owner = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  bool is_private = 7;
+  repeated TrainingTag training_tag_list = 8;
+}
+
+message TrainingPreviewList {
+  int32 size = 1;
+  repeated Training Training_list = 2;
+}
+
+message GetTrainingRequest {
+  string training_uuid = 1;
+}
+
+message GetTrainingListRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  string training_name = 3;
+}
+
+message GetTrainingListForUserRequest {
+  string user_uuid = 1;
+  string training_type = 2;
+}
+
+message GetTrainingsAmountByUserIdRequest {
+  string user_uuid = 1;
+}
+
+message TrainingsAmount {
+  int32 owner = 1;
+  int32 mentor = 2;
+  int32 student = 3;
+  int32 favorite = 4; 
+}
+
+message UpdateTrainingRequest {
+  string uuid = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional bool is_private = 4;
+  string ownerUuid = 5;
+}
+
+message DeleteTrainingRequest {
+  string uuid = 1;
+}
+
+message CreateTrainingMentorRequest {
+  string training_uuid = 1;
+  string mentor_uuid = 2;
+}
+
+message DeleteTrainingMentorRequest {
+  string training_uuid = 1;
+  string mentor_uuid = 2;
+}
+
+message CreateTrainingStudentRequest {
+  string training_uuid = 1;
+  string student_uuid = 2;
+}
+
+message DeleteTrainingStudentRequest {
+  string training_uuid = 1;
+  string student_uuid = 2;
+}
+
+message CreateFavoriteUserTrainingRequest {
+  string training_uuid = 1;
+  string user_uuid = 2;
+}
+
+message DeleteFavoriteUserTrainingRequest {
+  string training_uuid = 1;
+  string user_uuid = 2;
+}
+
+message CreatePracticeMaterialRequest {
+  string topic_uuid = 1;
+  string name = 2;
+  int32 order = 3;
+  string description = 4;
+  string answer = 5;
+  string practice_type = 6;
+  int32 time_to_answer = 7;
+}
+
+message PracticeMaterial {
+  string uuid = 1;
+  string topic_uuid = 2;
+  string name = 3;
+  int32 order = 4;
+  string description = 5;
+  string answer = 6;
+  string practice_type = 7;
+  int32 time_to_answer = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message UpdatePracticeMaterialRequest {
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
+  string answer = 4;
+  string practice_type = 5;
+  int32 time_to_answer = 6;
+}
+
+message DeletePracticeMaterialRequest {
+  string material_uuid = 1;
+}
+
+message CreateTheoryMaterialRequest {
+  string topic_uuid = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message TheoryMaterial {
+  string uuid = 1;
+  string topic_uuid = 2;
+  string name = 3;
+  string description = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message UpdateTheoryMaterialRequest {
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message DeleteTheoryMaterialRequest {
+  string uuid = 1;
+}
+
+message CreateTopicRequest {
+  string name = 1;
+  string training_uuid = 2;
+  int32  topic_order = 3;
+  string parent_topic_uuid = 4;
+}
+
+message Topic {
+  string uuid = 1;
+  string name = 2;
+  string training_uuid = 3;
+  int32  topic_order = 4;
+  string parent_topic_uuid = 5;
+  string created_at = 6;
+}
+
+message UpdateTopicRequest {
+  string uuid = 1;
+  string name = 2;
+}
+
+message DeleteTopicRequest {
+  string topic_uuid = 1;
+}

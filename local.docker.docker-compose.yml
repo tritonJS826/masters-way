@@ -84,6 +84,42 @@ services:
     networks:
       - app-network
 
+  postgres-training:
+    build:
+      context: .
+      dockerfile: ./postgres/postgres-training.Dockerfile
+    container_name: postgres-training
+    ports:
+      - "5440:5432"
+    volumes:
+      - postgres-training:/var/lib/postgresql/data
+    env_file:
+      - ./mw-training/.env
+    networks:
+      - app-network
+
+  mw-training:
+    build:
+      context: .
+      dockerfile: ./mw-training/Dockerfile
+    ports:
+      - "8008:8008"
+    depends_on:
+      - postgres-training
+    networks:
+      - app-network
+
+  mw-training-bff:
+    build:
+      context: .
+      dockerfile: ./mw-training-bff/Dockerfile
+    ports:
+      - "7992:7992"
+    depends_on:
+      - mw-training
+    networks:
+      - app-network
+
   mw-webapp:
     build:
       context: .
@@ -231,6 +267,7 @@ services:
       - postgres-mail
       - postgres-survey
       - postgres-notification
+      - postgres-training
     networks:
       - app-network
 
@@ -248,6 +285,8 @@ services:
       - mw-chat
       - mw-chat-bff
       - mw-chat-websocket
+      - mw-training
+      - mw-training-bff
       - mw-notification
       - mw-notification-bff
       - mw-notification-websocket
@@ -260,6 +299,7 @@ services:
 volumes:
   postgres-general:
   postgres-chat:
+  postgres-training:
   postgres-storage:
   postgres-mail:
   postgres-survey:

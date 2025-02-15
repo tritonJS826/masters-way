@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -17,6 +16,4 @@ go.sum
 model_mwmail_internal_schemas_mail_request.go
 model_mwmail_internal_schemas_send_mail_response.go
 response.go
-test/api_dev_test.go
-test/api_mail_test.go
 utils.go

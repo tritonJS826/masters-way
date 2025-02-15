@@ -49,8 +49,9 @@ func (gs *GeneralService) CreateComment(ctx context.Context, payload *schemas.Cr
 }
 
 type UpdateCommentParams struct {
-	CommentID   string
-	Description *string
+	CommentID        string
+	Description      *string
+	ModifierUserUuid string
 }
 
 func (gs *GeneralService) UpdateComment(ctx context.Context, params *UpdateCommentParams) (*schemas.CommentPopulatedResponse, error) {
@@ -559,10 +560,11 @@ func (gs *GeneralService) CreatePlan(ctx context.Context, payload *schemas.Creat
 }
 
 type UpdatePlanParams struct {
-	PlanID      string
-	Description *string
-	Time        *int32
-	IsDone      *bool
+	PlanID           string
+	Description      *string
+	Time             *int32
+	IsDone           *bool
+	ModifierUserUuid string
 }
 
 func (gs *GeneralService) UpdatePlan(ctx context.Context, params *UpdatePlanParams) (*openapiGeneral.MwServerInternalSchemasPlanPopulatedResponse, error) {
@@ -629,9 +631,10 @@ func (gs *GeneralService) CreateProblem(ctx context.Context, payload *schemas.Cr
 }
 
 type UpdateProblemParams struct {
-	ProblemID   string
-	Description *string
-	IsDone      *bool
+	ProblemID        string
+	Description      *string
+	IsDone           *bool
+	ModifierUserUuid string
 }
 
 func (gs *GeneralService) UpdateProblem(ctx context.Context, params *UpdateProblemParams) (*openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse, error) {

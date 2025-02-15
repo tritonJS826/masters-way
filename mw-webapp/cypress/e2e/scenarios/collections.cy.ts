@@ -40,10 +40,10 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getAddCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`)
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
             .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
         userWaysSelectors.collectionBlock.customCollection.getCustomCollectionBlock()
-            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayCollectionButtonMainInfo}"]`)
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.collectionButtonMainInfo}"]`)
             .should('have.text', userPageContent.collections.newCollection.en);
         
         userWaysSelectors.collectionBlock.customCollection.getActionMenuButton().click();
@@ -56,7 +56,7 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.customCollection.renameDialog.getOkButton().click();
         
         userWaysSelectors.collectionBlock.customCollection.getCustomCollectionBlock()
-            .find(`[data-cy="${userWaysAccessIds.collectionBlock.wayCollectionButtonMainInfo}"]`)
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.collectionButtonMainInfo}"]`)
             .should('have.text', userWaysData.customCollection.newName);
 
         userWaysSelectors.getCreateNewWayButton().click();
@@ -66,7 +66,7 @@ describe('Collections tests', () => {
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`))
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
@@ -82,7 +82,7 @@ describe('Collections tests', () => {
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`))
             .should('have.text', `${LanguageService.user.collections.ways.en}: 2`);
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
@@ -99,7 +99,7 @@ describe('Collections tests', () => {
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getFavoriteWayCollectionButton()
-            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`))
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getFavoriteWayCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).should('be.visible');
@@ -116,7 +116,7 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
-            .find((`[data-cy="${userWaysAccessIds.collectionBlock.wayAmountCollectionButton}"]`))
+            .find((`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`))
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);    
         
         userWaysSelectors.collectionBlock.customCollection.getActionMenuButton().click();

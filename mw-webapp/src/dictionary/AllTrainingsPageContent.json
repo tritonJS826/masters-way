@@ -1,0 +1,117 @@
+{
+  "filterBlock": {
+    "trainingNamePlaceholder": {
+      "ru": "Искать по имени тренинга",
+      "en": "Search by training name",
+      "ua": "Шукати за ім'ям навчання"
+    }
+  },
+  "trainingCard": {
+    "likes": {
+      "ru": "Количество лайков",
+      "en": "Number of likes",
+      "ua": "Кількість лайків"
+    },
+    "students": {
+      "ru": "Количество студентов",
+      "en": "Number of students",
+      "ua": "Кількість учнів"
+    },
+    "createdAt": {
+      "ru": "Создан",
+      "en": "Created at",
+      "ua": "Створено"
+    },
+    "updatedAt": {
+      "ru": "Обновлено",
+      "en": "Updated at",
+      "ua": "Оновлено"
+    },
+    "mentor": {
+      "ru": "Менторы",
+      "en": "Mentors",
+      "ua": "Ментори"
+    },
+    "noMentors": {
+      "ru": "Менторов пока нет",
+      "en": "No mentors yet",
+      "ua": "Менторів ще немає"
+    }
+  },
+  "trainingsTable": {
+    "leftTitle": {
+      "ru": "Трэйнинги",
+      "en": "Trainings",
+      "ua": "Тренінги"
+    },
+    "rightTitle": {
+      "ru": "Всего",
+      "en": "Total found",
+      "ua": "Всього"
+    },
+    "columns": {
+      "createdAt": {
+        "ru": "Создан",
+        "en": "Created at",
+        "ua": "Створено"
+      },
+      "lastUpdate": {
+        "ru": "Обновлен",
+        "en": "Last update",
+        "ua": "Оновлено"
+      },
+      "training": {
+        "ru": "Описание",
+        "en": "Description",
+        "ua": "Опис"
+      },
+      "owner": {
+        "ru": "Владелец",
+        "en": "Owner",
+        "ua": "Власник"
+      },
+      "mentor": {
+        "ru": "Ментор",
+        "en": "Mentor",
+        "ua": "Ментор"
+      }
+    },
+    "columnTooltip": {
+      "createdAt": {
+        "ru": "Дата создания пути",
+        "en": "Date, when way was created",
+        "ua": "Дата створення шляху"
+      },
+      "lastUpdate": {
+        "ru": "Дата создания последнего отчета",
+        "en": "Date when the last report was created",
+        "ua": "Дата створення останнього звіту"
+      },
+      "training": {
+        "ru": "Описание трэйнинга",
+        "en": "Trainings description",
+        "ua": "Опис тренінгів"
+      },
+      "owner": {
+        "ru": "Имя и контакт владельца",
+        "en": "Owner's name and contact",
+        "ua": "Ім'я та контакт власника"
+      },
+      "mentor": {
+        "ru": "Текущие менторы пути",
+        "en": "Current way's mentors",
+        "ua": "Поточні ментори шляху"
+      },
+      "favorites": {
+        "ru": "Понравилось пользователям",
+        "en": "Likes count",
+        "ua": "Кількість вподобань"
+      }
+    }
+  },
+  "loadMoreButton": {
+    "ru": "Показать еще",
+    "en": "Load more",
+    "ua": "Показати ще"
+  }
+}

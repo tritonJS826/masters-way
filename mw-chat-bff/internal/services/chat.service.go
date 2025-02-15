@@ -50,11 +50,12 @@ func (cs *ChatService) GetRooms(ctx *gin.Context, roomType string) (*schemas.Get
 			name = *roomRaw.Name.Get()
 		}
 		response := schemas.RoomPreviewResponse{
-			RoomID:    roomRaw.RoomId,
-			Name:      name,
-			RoomType:  roomRaw.RoomType,
-			IsBlocked: roomRaw.IsBlocked,
-			Users:     usersPopulated,
+			RoomID:               roomRaw.RoomId,
+			Name:                 name,
+			RoomType:             roomRaw.RoomType,
+			IsBlocked:            roomRaw.IsBlocked,
+			Users:                usersPopulated,
+			UnreadMessagesAmount: roomRaw.UnreadMessagesAmount,
 		}
 
 		return response

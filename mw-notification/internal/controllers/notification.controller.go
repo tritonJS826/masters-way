@@ -40,17 +40,15 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 	createNotificationList := make([]*pb.NotificationWithSettings, 0, len(receivers))
 	for _, receiver := range receivers {
 		var params *services.CreateNotificationParams
-		switch nature.String() {
-		case pb.Nature_mentoring_way.Enum().String():
-			fmt.Println("Nature_mentoring_way")
+		switch nature {
+		case pb.Nature_mentoring_way:
 			params = &services.CreateNotificationParams{
 				UserID:      uuid.MustParse(receiver.UserUuid),
 				Description: receiver.GetMentoringWayData().WayName,
 				Nature:      nature.String(),
 				Url:         webapprouter.NewWebappRouter(nc.config.WebappBaseURL).GetWayPage(receiver.GetMentoringWayData().WayId),
 			}
-		case pb.Nature_own_way.Enum().String():
-			fmt.Println("Nature_own_way")
+		case pb.Nature_own_way:
 			params = &services.CreateNotificationParams{
 				UserID:      uuid.MustParse(receiver.UserUuid),
 				Description: receiver.GetOwnWayData().WayName,
@@ -60,7 +58,7 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 		default:
 			fmt.Printf("Nature not implemented: %s", nature.String())
 		}
-		notificationRaw, err := nc.notificationService.CreateNotification(ctx, params)
+		notificationRaw, isNotificationWasCreated, err := nc.notificationService.CreateNotification(ctx, params)
 		if err != nil {
 			return nil, err
 		}
@@ -80,12 +78,13 @@ func (nc *NotificationController) CreateNotifications(ctx context.Context, in *p
 			return nil, err
 		}
 		notificationSettingList := lo.Map(enabledNotificationSettingList.NotificationSettings, func(enabledNotificationSetting schemas.NotificationSettingResponse, _ int) *pb.NotificationSettingResponse {
+			isShouldNotify := bool(isNotificationWasCreated) && enabledNotificationSetting.IsEnabled
 			return &pb.NotificationSettingResponse{
 				Uuid:      enabledNotificationSetting.UUID,
 				UserUuid:  enabledNotificationSetting.UserUUID,
 				Nature:    pb.Nature(pb.Nature_value[enabledNotificationSetting.Nature]),
 				Channel:   pb.Channel(pb.Channel_value[enabledNotificationSetting.Channel]),
-				IsEnabled: enabledNotificationSetting.IsEnabled,
+				IsEnabled: isShouldNotify,
 			}
 		})
 

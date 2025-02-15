@@ -5,8 +5,7 @@ import (
 	db "mw-notification/internal/db/sqlc"
 	"mw-notification/internal/schemas"
 	"mw-notification/pkg/utils"
-
-	"errors"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
@@ -14,13 +13,12 @@ import (
 	"github.com/samber/lo"
 )
 
-var ErrPrivateRoomAlreadyExists = errors.New("A private room for these users already exists")
-
 type NotificationRepository interface {
 	CreateNotification(ctx context.Context, arg db.CreateNotificationParams) (db.Notification, error)
 	UpdateNotification(ctx context.Context, arg db.UpdateNotificationParams) (db.Notification, error)
 	GetNotificationListByUserID(ctx context.Context, arg db.GetNotificationListByUserIDParams) ([]db.Notification, error)
 	GetAmountOfUnreadNotificationsByUserID(ctx context.Context, userUuid pgtype.UUID) (db.GetAmountOfUnreadNotificationsByUserIDRow, error)
+	GetLastNotification(ctx context.Context, arg db.GetLastNotificationParams) (db.Notification, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -39,7 +37,37 @@ type CreateNotificationParams struct {
 	Nature      string
 }
 
-func (ns *NotificationService) CreateNotification(ctx context.Context, params *CreateNotificationParams) (*schemas.NotificationResponse, error) {
+func (ns *NotificationService) getIsShouldCreateNotification(ctx context.Context, params *db.CreateNotificationParams) (db.Notification, bool) {
+	tenMinutesAgoTimestamp := time.Now().Unix() - 600
+	args := db.GetLastNotificationParams{
+		UserUuid: params.UserUuid,
+		Nature:   params.Nature,
+	}
+
+	// avoid creating notifications in some cases
+	switch db.NotificationNature(params.Nature) {
+	case db.NotificationNatureOwnWay:
+		lastNotification, _ := ns.notificationRepository.GetLastNotification(ctx, args)
+		isNotificationCreatedRecently := lastNotification.CreatedAt.Time.Unix() > tenMinutesAgoTimestamp
+		isDescriptionTheSame := lastNotification.Description == params.Description
+		if isNotificationCreatedRecently && isDescriptionTheSame {
+			return lastNotification, false
+		}
+	case db.NotificationNatureMentoringWay:
+		lastNotification, _ := ns.notificationRepository.GetLastNotification(ctx, args)
+		isNotificationCreatedRecently := lastNotification.CreatedAt.Time.Unix() > tenMinutesAgoTimestamp
+		isDescriptionTheSame := lastNotification.Description == params.Description
+		if isNotificationCreatedRecently && isDescriptionTheSame {
+			return lastNotification, false
+		}
+	}
+
+	return db.Notification{}, true
+}
+
+type isNotificationWasCreated bool
+
+func (ns *NotificationService) CreateNotification(ctx context.Context, params *CreateNotificationParams) (*schemas.NotificationResponse, isNotificationWasCreated, error) {
 	arg := db.CreateNotificationParams{
 		UserUuid:    pgtype.UUID{Bytes: params.UserID, Valid: true},
 		Description: pgtype.Text{String: params.Description, Valid: true},
@@ -47,9 +75,22 @@ func (ns *NotificationService) CreateNotification(ctx context.Context, params *C
 		Nature:      db.NotificationNature(params.Nature),
 	}
 
+	notification, isShouldCreateNotification := ns.getIsShouldCreateNotification(ctx, &arg)
+	if !isShouldCreateNotification {
+		return &schemas.NotificationResponse{
+			UUID:        utils.ConvertPgUUIDToUUID(notification.Uuid).String(),
+			UserUUID:    utils.ConvertPgUUIDToUUID(notification.UserUuid).String(),
+			IsRead:      notification.IsRead,
+			Description: notification.Description.String,
+			Url:         notification.Url.String,
+			Nature:      string(notification.Nature),
+			CreatedAt:   notification.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
+		}, false, nil
+	}
+
 	notification, err := ns.notificationRepository.CreateNotification(ctx, arg)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 
 	return &schemas.NotificationResponse{
@@ -60,7 +101,7 @@ func (ns *NotificationService) CreateNotification(ctx context.Context, params *C
 		Url:         notification.Url.String,
 		Nature:      string(notification.Nature),
 		CreatedAt:   notification.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
-	}, nil
+	}, true, nil
 }
 
 type UpdateNotificationParams struct {
