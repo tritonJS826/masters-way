@@ -64,7 +64,7 @@ export const ChatContent = observer(() => {
   // };
 
   /**
-   * Get active room userId for user's page link;
+   * Get active room participant id;
    */
   const getActiveRoomParticipantId = (activeRoom: Room) => {
     const participantIndex = 1;
