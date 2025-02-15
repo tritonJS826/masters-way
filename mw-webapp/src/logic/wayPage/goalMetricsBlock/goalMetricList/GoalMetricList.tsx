@@ -59,13 +59,14 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
   /**
    * ChildrenItem
    */
-  const renderChildrenItem = (childMetric: Metric, index: number) => {
+  const renderChildrenItem = (childMetric: Metric, position: number) => {
+    const hasTopSeparator = childMetric.children.length > 0 && (position > 0 || props.level > 0);
     const tooltipContent =
-      childMetric.isDone && childMetric.doneDate
-        ? `${
-          LanguageService.way.metricsBlock.doneDate[language]
-        } ${DateUtils.getShortISODateValue(childMetric.doneDate)}`
-        : `${LanguageService.way.metricsBlock.notFinished[language]}`;
+   childMetric.isDone && childMetric.doneDate
+     ? `${
+       LanguageService.way.metricsBlock.doneDate[language]
+     } ${DateUtils.getShortISODateValue(childMetric.doneDate)}`
+     : `${LanguageService.way.metricsBlock.notFinished[language]}`;
 
     /**
      * Set metric not completed
@@ -85,7 +86,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
 
     return (
       <VerticalContainer>
-        {props.level === 0 && index > 0 && <Separator className={styles.separator} />}
+        {hasTopSeparator && <Separator className={styles.goalMetricSeparator} />}
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
             {levelArray.map((item) => {
@@ -222,7 +223,9 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
     );
   };
 
-  const childrenList = props.metrics.map(renderChildrenItem);
+  const childrenList = props.metrics.map((metric, position) =>
+    renderChildrenItem(metric, position),
+  );
 
   return childrenList;
 };
