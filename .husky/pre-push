@@ -1,21 +1,24 @@
 #!/bin/bash
 
-echo -e "===\n>> Talenavi Pre-push Hook: Checking branch name / Mengecek nama branch..."
+SCRIPT_NAME="Pre-push Hook"
 
-BRANCH=`git rev-parse --abbrev-ref HEAD`
-PROTECTED_BRANCHES="^(main|develop)"
+#!/usr/bin/env sh
+# Use a more robust way to get the branch name, handling detached HEAD
+# BRANCH=$(git symbolic-ref HEAD 2>/dev/null || git rev-parse --short HEAD)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+PROTECTED_MAIN="main"
 
-if [[ $1 != *"$BRANCH"* ]]
-then
-  echo -e "\n🚫 You must use (git push origin $BRANCH) / Anda harus menggunakan (git push origin $BRANCH).\n" && exit 1
-fi
 
-if [[ "$BRANCH" =~ $PROTECTED_BRANCHES ]]
-then
-  echo -e "\n🚫 Cannot push to remote $BRANCH branch, please create your own branch and use PR."
-  echo -e "🚫 Tidak bisa push ke remote branch $BRANCH, silahkan buat branch kamu sendiri dan gunakan pull request.\n" && exit 1
-fi
+case $BRANCH in
+    "$PROTECTED_MAIN")
+        echo -e "\n🚫 Error: Pushing to protected branch '$BRANCH' is not allowed. Create a new branch and use a Pull Request.\n" >&2 && exit 1
+    ;;
 
-echo -e ">> Finish checking branch name / Selesai mengecek nama branch.\n==="
+#   Fedora | CentOS)
+#     echo -n "@@@@@@"
+#     ;;
+esac
 
+
+echo -e ">> $SCRIPT_NAME: Branch name check passed \n==="
 exit 0

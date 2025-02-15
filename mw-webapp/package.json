@@ -104,7 +104,6 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-simple-import-sort": "12.0.0",
     "eslint-plugin-vitest": "0.5.4",
-    "husky": "9.0.11",
     "jsdom": "24.1.1",
     "lint-staged": "15.2.2",
     "postcss-scss": "4.0.9",
