@@ -527,7 +527,10 @@ export const UserPage = observer((props: UserPageProps) => {
           <TrainingTab
             isPageOwner={isPageOwner}
             userPageOwnerUuid={userPageOwner.uuid}
-            onClick={(trainingCollection: DefaultTrainingCollection) => updateUserPageSettings({trainingCollection})}
+            onClick={(trainingCollection: DefaultTrainingCollection) => {
+
+              updateUserPageSettings({trainingCollection});
+            }}
             activeTrainingCollection={userPageSettings.trainingCollection}
             view={userPageSettings.view}
             setView={(view: View) => updateUserPageSettings({view})}

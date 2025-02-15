@@ -1,5 +1,8 @@
 
+import {useNavigate} from "react-router-dom";
+import {trainingAccessIds} from "cypress/accessIds/trainingsAccessIds";
 import {observer} from "mobx-react-lite";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Loader} from "src/component/loader/Loader";
@@ -8,11 +11,13 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {TrainingCard} from "src/component/trainingCard/TrainingCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {getTrainingsColumns} from "src/logic/trainingsTable/trainingsColumns";
 import {TrainingsTable} from "src/logic/trainingsTable/TrainingsTable";
 import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/userPage/trainings/Trainings.module.scss";
@@ -55,6 +60,7 @@ interface TrainingsProps {
 export const Trainings = observer((props: TrainingsProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
+  const navigate = useNavigate();
 
   if (!props.trainings) {
     return (
@@ -67,9 +73,31 @@ export const Trainings = observer((props: TrainingsProps) => {
     );
   }
 
+  /**
+   * Create training
+   */
+  const createTraining = async () => {
+    const newTraining = await TrainingDAL.createTraining({
+      name: "New training name",
+      description: "",
+      isPrivate: false,
+    });
+
+    navigate(pages.training.getPath({uuid: newTraining.uuid}));
+  };
+
   return (
-    <>
+    <VerticalContainer className={styles.trainingsContainer}>
       <HorizontalContainer className={styles.filterView}>
+        {props.isPageOwner &&
+        <Button
+          value={LanguageService.user.trainings.addTraining[language]}
+          onClick={createTraining}
+          buttonType={ButtonType.PRIMARY}
+          className={styles.addTrainingButton}
+          dataCy={trainingAccessIds.addTrainingButton}
+        />
+        }
         <ViewSwitcher
           view={props.view}
           setView={props.setView}
@@ -84,7 +112,6 @@ export const Trainings = observer((props: TrainingsProps) => {
         text={`${props.title} (${props.trainings.length})`}
         level={HeadingLevel.h2}
         placeholder=""
-        classNameHeading={styles.trainingsTitle}
       />
 
       <VerticalContainer className={styles.trainingsContent}>
@@ -117,6 +144,6 @@ export const Trainings = observer((props: TrainingsProps) => {
           </HorizontalGridContainer>
         }
       </VerticalContainer>
-    </>
+    </VerticalContainer>
   );
 });
