@@ -220,6 +220,26 @@ func (ts *TrainingService) GetTrainingListByUser(ctx context.Context, params *Ge
 	}, nil
 }
 
+type GetTrainingsAmountByUser struct {
+	UserUUID string
+}
+
+func (ts *TrainingService) GetTrainingsAmountByUserId(ctx context.Context, params *GetTrainingsAmountByUser) (*schemas.TrainingsAmount, error) {
+	trainingsAmountRaw, err := ts.trainingGRPC.GetTrainingsAmountByUserId(ctx, &pb.GetTrainingsAmountByUserIdRequest{
+		UserUuid: params.UserUUID,
+	})
+	if err != nil {
+		return &schemas.TrainingsAmount{}, err
+	}
+
+	return &schemas.TrainingsAmount{
+		Owner:    trainingsAmountRaw.GetOwner(),
+		Mentor:   trainingsAmountRaw.GetMentor(),
+		Student:  trainingsAmountRaw.GetStudent(),
+		Favorite: trainingsAmountRaw.GetFavorite(),
+	}, nil
+}
+
 func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID string) (*schemas.Training, error) {
 	trainingRaw, err := ts.trainingGRPC.GetTrainingById(ctx, &pb.GetTrainingRequest{
 		TrainingUuid: trainingID,

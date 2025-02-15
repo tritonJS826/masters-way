@@ -96,6 +96,7 @@ Class | Method | HTTP request | Description
 *TrainingAPI* | [**GetTrainingById**](docs/TrainingAPI.md#gettrainingbyid) | **Get** /trainings/{trainingId} | Get training by Id
 *TrainingAPI* | [**GetTrainingList**](docs/TrainingAPI.md#gettraininglist) | **Get** /trainings | GET training list
 *TrainingAPI* | [**GetTrainingListByUser**](docs/TrainingAPI.md#gettraininglistbyuser) | **Get** /trainings/users/{userId} | Get training list by user
+*TrainingAPI* | [**GetTrainingsAmountByUser**](docs/TrainingAPI.md#gettrainingsamountbyuser) | **Get** /trainings/users/{userId}/trainingsAmount | Get trainings amount by user
 *TrainingAPI* | [**UpdateTraining**](docs/TrainingAPI.md#updatetraining) | **Patch** /trainings/{trainingId} | Update training by id
 *TrainingMentorAPI* | [**CreateTrainingMentor**](docs/TrainingMentorAPI.md#createtrainingmentor) | **Post** /trainingMentors/{trainingId}/user/{userId} | Create mentor
 *TrainingMentorAPI* | [**DeleteTrainingMentor**](docs/TrainingMentorAPI.md#deletetrainingmentor) | **Delete** /trainingMentors/{trainingId}/user/{userId} | Delete mentor by id
@@ -120,6 +121,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasTrainingList](docs/MwTrainingBffInternalSchemasTrainingList.md)
  - [MwTrainingBffInternalSchemasTrainingPreview](docs/MwTrainingBffInternalSchemasTrainingPreview.md)
  - [MwTrainingBffInternalSchemasTrainingTag](docs/MwTrainingBffInternalSchemasTrainingTag.md)
+ - [MwTrainingBffInternalSchemasTrainingsAmount](docs/MwTrainingBffInternalSchemasTrainingsAmount.md)
  - [MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload](docs/MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload.md)
  - [MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload.md)
  - [MwTrainingBffInternalSchemasUpdateTopicPayload](docs/MwTrainingBffInternalSchemasUpdateTopicPayload.md)

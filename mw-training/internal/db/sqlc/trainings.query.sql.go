@@ -566,6 +566,34 @@ func (q *Queries) GetTrainingList(ctx context.Context, arg GetTrainingListParams
 	return items, nil
 }
 
+const getTrainingsAmountByUserId = `-- name: GetTrainingsAmountByUserId :one
+SELECT    
+    (SELECT COUNT(*) FROM trainings WHERE trainings.owner_uuid = $1) AS owner,
+    (SELECT COUNT(*) FROM trainings_mentors WHERE trainings_mentors.mentor_uuid = $1) AS mentor,
+    (SELECT COUNT(*) FROM trainings_students WHERE trainings_students.student_uuid = $1) AS student,
+    (SELECT COUNT(*) FROM favorite_users_trainings WHERE favorite_users_trainings.user_uuid = $1) AS favorite
+FROM trainings
+`
+
+type GetTrainingsAmountByUserIdRow struct {
+	Owner    int64 `json:"owner"`
+	Mentor   int64 `json:"mentor"`
+	Student  int64 `json:"student"`
+	Favorite int64 `json:"favorite"`
+}
+
+func (q *Queries) GetTrainingsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTrainingsAmountByUserIdRow, error) {
+	row := q.db.QueryRow(ctx, getTrainingsAmountByUserId, userUuid)
+	var i GetTrainingsAmountByUserIdRow
+	err := row.Scan(
+		&i.Owner,
+		&i.Mentor,
+		&i.Student,
+		&i.Favorite,
+	)
+	return i, err
+}
+
 const updateTraining = `-- name: UpdateTraining :one
 UPDATE trainings
 SET 

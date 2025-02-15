@@ -79,6 +79,21 @@ func (tc *TrainingController) GetTrainingListForUser(ctx context.Context, in *pb
 	return trainings, nil
 }
 
+func (tc *TrainingController) GetTrainingsAmountByUserId(ctx context.Context, in *pb.GetTrainingsAmountByUserIdRequest) (*pb.TrainingsAmount, error) {
+	userUuid := in.GetUserUuid()
+
+	args := &services.GetGetTrainingsAmountByUserIdParams{
+		UserUuid: pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
+	}
+
+	trainingsAmount, err := tc.trainingService.GetTrainingsAmountByUserId(ctx, args)
+	if err != nil {
+		return nil, err
+	}
+
+	return trainingsAmount, nil
+}
+
 func (tc *TrainingController) GetTrainingById(ctx context.Context, in *pb.GetTrainingRequest) (*pb.Training, error) {
 	trainingUuid := in.GetTrainingUuid()
 

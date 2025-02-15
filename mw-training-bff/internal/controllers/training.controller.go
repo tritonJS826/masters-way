@@ -167,6 +167,28 @@ func (tc *TrainingController) GetTrainingListByUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, *trainings)
 }
 
+// @Summary Get trainings amount by user
+// @Description
+// @Tags training
+// @ID get-trainings-amount-by-user
+// @Accept json
+// @Produce json
+// @Param userId path string true "user id"
+// @Success 200 {object} schemas.TrainingsAmount
+// @Router /trainings/users/{userId}/trainingsAmount [get]
+func (tc *TrainingController) GetTrainingsAmountByUser(ctx *gin.Context) {
+	userUuid := ctx.Param("userId")
+
+	args := &services.GetTrainingsAmountByUser{
+		UserUUID: userUuid,
+	}
+
+	trainingsAmount, err := tc.trainingService.GetTrainingsAmountByUserId(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, *trainingsAmount)
+}
+
 // @Summary Get training by Id
 // @Description
 // @Tags training

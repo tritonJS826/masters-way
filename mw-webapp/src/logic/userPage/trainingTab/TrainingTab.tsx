@@ -75,7 +75,9 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
 
   if (!trainingTabStore.isInitialized) {
     return (
-      <Loader theme={theme} />
+      <HorizontalContainer className={styles.trainingLoaderWrapper}>
+        <Loader theme={theme} />
+      </HorizontalContainer>
     );
   }
 

@@ -13,6 +13,7 @@ export * from './MwTrainingBffInternalSchemasTraining';
 export * from './MwTrainingBffInternalSchemasTrainingList';
 export * from './MwTrainingBffInternalSchemasTrainingPreview';
 export * from './MwTrainingBffInternalSchemasTrainingTag';
+export * from './MwTrainingBffInternalSchemasTrainingsAmount';
 export * from './MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload';
 export * from './MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload';
 export * from './MwTrainingBffInternalSchemasUpdateTopicPayload';

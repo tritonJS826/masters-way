@@ -21,6 +21,7 @@ type TrainingRepository interface {
 	GetStudentTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.GetStudentTrainingListRow, error)
 	GetFavoriteTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.GetFavoriteTrainingListRow, error)
 	GetTrainingList(ctx context.Context, params db.GetTrainingListParams) ([]db.GetTrainingListRow, error)
+	GetTrainingsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (db.GetTrainingsAmountByUserIdRow, error)
 	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]db.TrainingTag, error)
 	CountTrainings(ctx context.Context, trainingName string) (int64, error)
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
@@ -191,6 +192,26 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 	trainingList := &pb.TrainingPreviewList{
 		Size:         int32(len(trainings)),
 		TrainingList: trainings,
+	}
+
+	return trainingList, nil
+}
+
+type GetGetTrainingsAmountByUserIdParams struct {
+	UserUuid pgtype.UUID
+}
+
+func (ts *TrainingService) GetTrainingsAmountByUserId(ctx context.Context, params *GetGetTrainingsAmountByUserIdParams) (*pb.TrainingsAmount, error) {
+	trainingsAmountRaw, err := ts.trainingRepository.GetTrainingsAmountByUserId(ctx, *&params.UserUuid)
+	if err != nil {
+		return &pb.TrainingsAmount{}, err
+	}
+
+	trainingList := &pb.TrainingsAmount{
+		Owner:    int32(trainingsAmountRaw.Owner),
+		Mentor:   int32(trainingsAmountRaw.Mentor),
+		Student:  int32(trainingsAmountRaw.Student),
+		Favorite: int32(trainingsAmountRaw.Favorite),
 	}
 
 	return trainingList, nil

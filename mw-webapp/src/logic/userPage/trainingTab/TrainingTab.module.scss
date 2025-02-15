@@ -1,5 +1,9 @@
 @import "src/styles/variables";
 
+.trainingLoaderWrapper {
+  padding: $gapExtraExtraLarge;
+}
+
 .tabsSectionContainerTrainings {
   flex-wrap: wrap;
   background-color: var(--primaryBgColor);

@@ -46,3 +46,10 @@ type TrainingList struct {
 	Size      int32             `json:"size" validate:"required"`
 	Trainings []TrainingPreview `json:"trainings" validate:"required"`
 }
+
+type TrainingsAmount struct {
+	Owner    int32 `json:"owner" validate:"required"`
+	Mentor   int32 `json:"mentor" validate:"required"`
+	Student  int32 `json:"student" validate:"required"`
+	Favorite int32 `json:"favorite" validate:"required"`
+}

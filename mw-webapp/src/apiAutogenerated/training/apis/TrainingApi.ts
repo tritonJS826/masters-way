@@ -18,6 +18,7 @@ import type {
   MwTrainingBffInternalSchemasCreateTrainingPayload,
   MwTrainingBffInternalSchemasTraining,
   MwTrainingBffInternalSchemasTrainingList,
+  MwTrainingBffInternalSchemasTrainingsAmount,
   MwTrainingBffInternalSchemasUpdateTrainingPayload,
 } from '../models/index';
 import {
@@ -27,6 +28,8 @@ import {
     MwTrainingBffInternalSchemasTrainingToJSON,
     MwTrainingBffInternalSchemasTrainingListFromJSON,
     MwTrainingBffInternalSchemasTrainingListToJSON,
+    MwTrainingBffInternalSchemasTrainingsAmountFromJSON,
+    MwTrainingBffInternalSchemasTrainingsAmountToJSON,
     MwTrainingBffInternalSchemasUpdateTrainingPayloadFromJSON,
     MwTrainingBffInternalSchemasUpdateTrainingPayloadToJSON,
 } from '../models/index';
@@ -51,6 +54,10 @@ export interface GetTrainingListRequest {
 
 export interface GetTrainingListByUserRequest {
     trainingsType: string;
+    userId: string;
+}
+
+export interface GetTrainingsAmountByUserRequest {
     userId: string;
 }
 
@@ -229,6 +236,36 @@ export class TrainingApi extends runtime.BaseAPI {
      */
     async getTrainingListByUser(requestParameters: GetTrainingListByUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTrainingList> {
         const response = await this.getTrainingListByUserRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get trainings amount by user
+     */
+    async getTrainingsAmountByUserRaw(requestParameters: GetTrainingsAmountByUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTrainingsAmount>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getTrainingsAmountByUser.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/trainings/users/{userId}/trainingsAmount`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTrainingsAmountFromJSON(jsonValue));
+    }
+
+    /**
+     * Get trainings amount by user
+     */
+    async getTrainingsAmountByUser(requestParameters: GetTrainingsAmountByUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTrainingsAmount> {
+        const response = await this.getTrainingsAmountByUserRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

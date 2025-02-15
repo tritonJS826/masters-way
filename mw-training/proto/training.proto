@@ -17,6 +17,7 @@ service TrainingService {
   rpc CreateNewTraining(CreateTrainingRequest) returns (Training);
   rpc GetTrainingById(GetTrainingRequest) returns (Training);
   rpc GetTrainingListForUser(GetTrainingListForUserRequest) returns (TrainingPreviewList);
+  rpc GetTrainingsAmountByUserId(GetTrainingsAmountByUserIdRequest) returns (TrainingsAmount);
   rpc GetTrainingList(GetTrainingListRequest) returns (TrainingPreviewList);
   rpc UpdateTraining(UpdateTrainingRequest) returns (Training);
   rpc DeleteTraining(DeleteTrainingRequest) returns (google.protobuf.Empty);
@@ -123,6 +124,17 @@ message GetTrainingListRequest {
 message GetTrainingListForUserRequest {
   string user_uuid = 1;
   string training_type = 2;
+}
+
+message GetTrainingsAmountByUserIdRequest {
+  string user_uuid = 1;
+}
+
+message TrainingsAmount {
+  int32 owner = 1;
+  int32 mentor = 2;
+  int32 student = 3;
+  int32 favorite = 4; 
 }
 
 message UpdateTrainingRequest {

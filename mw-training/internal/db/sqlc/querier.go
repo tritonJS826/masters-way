@@ -46,6 +46,7 @@ type Querier interface {
 	// lets add likes to response
 	GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error)
 	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
+	GetTrainingsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTrainingsAmountByUserIdRow, error)
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
 	UpdatePracticeMaterial(ctx context.Context, arg UpdatePracticeMaterialParams) (PracticeMaterial, error)

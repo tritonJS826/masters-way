@@ -23,5 +23,6 @@ func (mr *trainingRouter) setTrainingRoutes(rg *gin.RouterGroup) {
 	trainings.PATCH(":trainingId", auth.HandleHeaders(), mr.trainingController.UpdateTraining)
 	trainings.DELETE(":trainingId", auth.HandleHeaders(), mr.trainingController.DeleteTraining)
 
+	trainings.GET("/users/:userId/trainingsAmount", mr.trainingController.GetTrainingsAmountByUser)
 	trainings.GET("/users/:userId", mr.trainingController.GetTrainingListByUser)
 }

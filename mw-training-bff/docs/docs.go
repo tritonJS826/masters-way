@@ -753,6 +753,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/trainings/users/{userId}/trainingsAmount": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "training"
+                ],
+                "summary": "Get trainings amount by user",
+                "operationId": "get-trainings-amount-by-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TrainingsAmount"
+                        }
+                    }
+                }
+            }
+        },
         "/trainings/{trainingId}": {
             "get": {
                 "consumes": [
@@ -1248,6 +1280,29 @@ const docTemplate = `{
             "properties": {
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TrainingsAmount": {
+            "type": "object",
+            "required": [
+                "favorite",
+                "mentor",
+                "owner",
+                "student"
+            ],
+            "properties": {
+                "favorite": {
+                    "type": "integer"
+                },
+                "mentor": {
+                    "type": "integer"
+                },
+                "owner": {
+                    "type": "integer"
+                },
+                "student": {
+                    "type": "integer"
                 }
             }
         },

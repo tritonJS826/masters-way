@@ -472,6 +472,26 @@ paths:
       summary: Get training list by user
       tags:
       - training
+  /trainings/users/{userId}/trainingsAmount:
+    get:
+      operationId: get-trainings-amount-by-user
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TrainingsAmount'
+          description: OK
+      summary: Get trainings amount by user
+      tags:
+      - training
   /trainings/{trainingId}:
     delete:
       operationId: delete-training
@@ -1007,6 +1027,27 @@ components:
           type: string
       required:
       - name
+      type: object
+    mw-training-bff_internal_schemas.TrainingsAmount:
+      example:
+        owner: 1
+        mentor: 6
+        student: 5
+        favorite: 0
+      properties:
+        favorite:
+          type: integer
+        mentor:
+          type: integer
+        owner:
+          type: integer
+        student:
+          type: integer
+      required:
+      - favorite
+      - mentor
+      - owner
+      - student
       type: object
     mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload:
       properties:

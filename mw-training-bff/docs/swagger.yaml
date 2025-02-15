@@ -280,6 +280,22 @@ definitions:
     required:
     - name
     type: object
+  mw-training-bff_internal_schemas.TrainingsAmount:
+    properties:
+      favorite:
+        type: integer
+      mentor:
+        type: integer
+      owner:
+        type: integer
+      student:
+        type: integer
+    required:
+    - favorite
+    - mentor
+    - owner
+    - student
+    type: object
   mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload:
     properties:
       answer:
@@ -887,6 +903,27 @@ paths:
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingList'
       summary: Get training list by user
+      tags:
+      - training
+  /trainings/users/{userId}/trainingsAmount:
+    get:
+      consumes:
+      - application/json
+      operationId: get-trainings-amount-by-user
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TrainingsAmount'
+      summary: Get trainings amount by user
       tags:
       - training
 swagger: "2.0"

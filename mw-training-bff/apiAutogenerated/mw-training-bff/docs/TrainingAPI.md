@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**GetTrainingById**](TrainingAPI.md#GetTrainingById) | **Get** /trainings/{trainingId} | Get training by Id
 [**GetTrainingList**](TrainingAPI.md#GetTrainingList) | **Get** /trainings | GET training list
 [**GetTrainingListByUser**](TrainingAPI.md#GetTrainingListByUser) | **Get** /trainings/users/{userId} | Get training list by user
+[**GetTrainingsAmountByUser**](TrainingAPI.md#GetTrainingsAmountByUser) | **Get** /trainings/users/{userId}/trainingsAmount | Get trainings amount by user
 [**UpdateTraining**](TrainingAPI.md#UpdateTraining) | **Patch** /trainings/{trainingId} | Update training by id
 
 
@@ -334,6 +335,74 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MwTrainingBffInternalSchemasTrainingList**](MwTrainingBffInternalSchemasTrainingList.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetTrainingsAmountByUser
+
+> MwTrainingBffInternalSchemasTrainingsAmount GetTrainingsAmountByUser(ctx, userId).Execute()
+
+Get trainings amount by user
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	userId := "userId_example" // string | user id
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TrainingAPI.GetTrainingsAmountByUser(context.Background(), userId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TrainingAPI.GetTrainingsAmountByUser``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetTrainingsAmountByUser`: MwTrainingBffInternalSchemasTrainingsAmount
+	fmt.Fprintf(os.Stdout, "Response from `TrainingAPI.GetTrainingsAmountByUser`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**userId** | **string** | user id | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetTrainingsAmountByUserRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**MwTrainingBffInternalSchemasTrainingsAmount**](MwTrainingBffInternalSchemasTrainingsAmount.md)
 
 ### Authorization
 
