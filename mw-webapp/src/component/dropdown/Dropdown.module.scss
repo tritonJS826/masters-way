@@ -2,6 +2,7 @@
 
 $dropdownMaxWidth: 45vw;
 $dropdownIndentationBottom: 8px;
+$dropdownMaxHeight: 250px;
 
 .dropdownContent,
 .dropdownMenuSubContent {
@@ -10,6 +11,7 @@ $dropdownIndentationBottom: 8px;
   border-radius: $primaryBorderRadius;
   animation-duration: 400ms;
   animation-name: slideDownAndFade;
+  max-height: $dropdownMaxHeight;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   background: var(--tertiaryBgColor);
   outline: none;
