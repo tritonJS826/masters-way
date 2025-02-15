@@ -1,6 +1,9 @@
 @import "src/styles/variables";
 
 .chatItemWrapper {
+  height: 40px;
+  align-items: center;
+  padding-left: $paddingMedium;
   cursor: pointer;
 }
 
@@ -8,6 +11,11 @@
   max-width: $minWidthBlock;
   overflow-x: hidden;
   text-overflow: ellipsis;
+}
+
+
+.activeChatItem {
+  background-color: var(--generalBgColor);
 }
 
 .userStatusBlock {

@@ -1,5 +1,8 @@
 @import "src/styles/variables";
 
+$logoWraperWidth: 220px;
+$logoWrapperHeight: 80px;
+
 .chatHeader {
   align-items: center;
   justify-content: space-between;
@@ -40,12 +43,38 @@ $modal-animation-time: 150ms;
   display: flex;
   width: 70%;
   height: 100%;
-  border: $primaryBorder solid var(--primaryStrokeColor);
   animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: var(--secondaryBgColor);
 }
 
 .chatContainer {
   width: 100%;
+}
+
+.loaderBlock {
+  width: 100%;
+  height: 100%;
+  background-color: var(--secondaryBgColor);
+}
+
+.activeChatItem {
+  background-color: var(--generalBgColor);
+}
+
+
+.logoWrapper {
+  width: $logoWraperWidth;
+  height: $logoWrapperHeight;
+  margin-top: -calc((2 * $marginBig));
+}
+
+.logoIcon {
+  height: auto;
+  opacity: 0.5;
+}
+
+.activeChatItem {
+  background-color: var(--secondaryBgColor);
 }
 
 .chatContactsMessages {
@@ -55,11 +84,16 @@ $modal-animation-time: 150ms;
 }
 
 .chatList {
+  max-width: 30%;
   flex: 1;
-  padding: $paddingMedium;
   background-color: var(--tertiaryBgColor);
-  gap: $gapMedium;
   overflow-y: auto;
+}
+
+.chatListFullWidth {
+  @media (max-width: $mediaWidthMobileBig) {
+    max-width: 100%;
+  }
 }
 
 .chatListHide {
@@ -71,14 +105,20 @@ $modal-animation-time: 150ms;
 .chatBlock {
   flex: 2;
   background-color: var(--secondaryBgColor);
-
-  @media (max-width: $mediaWidthMobileBig) {
-    display: none;
-  }
 }
 
 .chatBlockOpen {
   display: flex;
+}
+
+.chatBlockClose {
+  flex: 2;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    display: none;
+  }
 }
 
 .chatInfo {
@@ -151,6 +191,10 @@ $modal-animation-time: 150ms;
   .wayActionsIcon {
     z-index: $chatActionButton;
   }
+}
+.chatItemLink {
+  font-size: $fontSizeBig;
+  text-decoration: none;
 }
 
 .chatTextarea {
