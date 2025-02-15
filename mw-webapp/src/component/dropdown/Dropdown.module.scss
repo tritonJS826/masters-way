@@ -6,7 +6,7 @@ $dropdownMaxHeight: 250px;
 
 .dropdownContent,
 .dropdownMenuSubContent {
-  z-index: $dropdownContentZIndex;
+  z-index: $dropdownZIndex;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   animation-duration: 400ms;
