@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: $gapSmall;
   list-style-type: none;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 
   pre {
     overflow-x: auto;

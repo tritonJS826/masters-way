@@ -24,6 +24,27 @@ export interface AllTrainingsParams {
 }
 
 /**
+ * All trainings by user params
+ */
+export interface AllTrainingsByUserParams {
+
+  /**
+   * Trainings amount
+   */
+  size: number;
+
+  /**
+   * Array of trainings preview
+   */
+  trainingsPreview: TrainingPreview[];
+
+  /**
+   * Trainings amount for each collection
+   */
+  trainingsAmount: TrainingsAmount;
+}
+
+/**
  * Pagination and filter params
  */
 export interface GetTrainingsParams {
@@ -68,6 +89,33 @@ export interface CreateTrainingParams {
 }
 
 /**
+ * Trainings amount
+ */
+export interface TrainingsAmount {
+
+  /**
+   * Trainings amount for favorite collection
+   */
+  favorite: number;
+
+  /**
+   *
+   * Trainings amount for mentor collection
+   */
+  mentor: number;
+
+  /**
+   * Trainings amount for owner collection
+   */
+  owner: number;
+
+  /**
+   * Trainings amount for student collection
+   */
+  student: number;
+}
+
+/**
  * Provides methods to interact with the Training model
  */
 export class TrainingDAL {
@@ -109,16 +157,19 @@ export class TrainingDAL {
   /**
    * Get all user's trainings by user Id
    */
-  public static async getTrainingsByUserId(params: GetTrainingsByUserIdParams): Promise<AllTrainingsParams> {
+  public static async getTrainingsByUserId(params: GetTrainingsByUserIdParams): Promise<AllTrainingsByUserParams> {
     const trainingsPreviewDTO = await TrainingService.getTrainingsByUserUuid({
       trainingsType: params.trainingsType,
       userId: params.userId,
     });
     const trainingsPreview = trainingsPreviewDTO.trainings.map(trainingPreviewDTOToTrainingPreview);
 
+    const allTrainingsAmount = await TrainingService.getTrainingsAmountByUser({userId: params.userId});
+
     const trainings = {
       size: trainingsPreviewDTO.size,
       trainingsPreview,
+      trainingsAmount: allTrainingsAmount,
     };
 
     return trainings;

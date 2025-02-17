@@ -14,7 +14,7 @@
   width: 100%;
   flex-direction: column;
   gap: $gapSmall;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 
   pre {
     overflow-x: auto;
