@@ -61,8 +61,10 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
    */
   const renderChildrenItem = (childMetric: Metric) => {
 
-    const tooltipContent = childMetric.isDone && childMetric.doneDate
-      ? `${LanguageService.way.metricsBlock.doneDate[language]} ${DateUtils.getShortISODateValue(childMetric.doneDate)}`
+    const doneDate = childMetric.doneDate;
+    const isCompleted = childMetric.isDone && doneDate !== null;
+    const tooltipContent = isCompleted
+      ? `${LanguageService.way.metricsBlock.doneDate[language]} ${DateUtils.getShortISODateValue(doneDate)}`
       : `${LanguageService.way.metricsBlock.notFinished[language]}`;
 
     /**
