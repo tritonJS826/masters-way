@@ -40,6 +40,6 @@ describe("Icon component", () => {
     const icon = screen.getByTestId(ICON_CY);
     expect(icon).toBeInTheDocument();
     expect(icon).toBeVisible();
-    expect(icon).toHaveClass(iconSize);
+    expect(icon.classList.contains(iconSize));
   });
 });
