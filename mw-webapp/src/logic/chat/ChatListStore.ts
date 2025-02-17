@@ -18,7 +18,8 @@ export class ChatListStore {
   public roomType: RoomType;
 
   /**
-   * Chat list  loading state
+   * If true chatListPreview is loading
+   * @default false
    */
   public isLoadingchatListPreview: boolean = false;
 

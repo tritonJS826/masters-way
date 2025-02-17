@@ -1,7 +1,9 @@
 @import "src/styles/variables";
 
+$chatItemWrapperHeight:40px;
+
 .chatItemWrapper {
-  height: 40px;
+  height: $chatItemWrapperHeight;
   align-items: center;
   padding-left: $paddingMedium;
   cursor: pointer;

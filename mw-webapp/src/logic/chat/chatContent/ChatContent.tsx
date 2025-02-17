@@ -43,7 +43,7 @@ export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
   const {theme} = themeStore;
-  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount, activeChatItemRoomId} = chatStore;
+  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount, activeRoomRoomId} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadingchatListPreview;
@@ -180,7 +180,7 @@ export const ChatContent = observer(() => {
           key={chatItem.roomId}
           name={chatItem.name}
           src={chatItem.imageUrl}
-          className={chatItem.roomId === activeChatItemRoomId ? styles.activeChatItem : ""}
+          className={chatItem.roomId === activeRoomRoomId ? styles.activeChatItem : ""}
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
             chatStore.initiateActiveRoomStore(chatItem.roomId);
@@ -314,7 +314,7 @@ export const ChatContent = observer(() => {
                 styles.chatBlockClose,
               )}
               >
-                <div className={styles.logoWrapper}>
+                <HorizontalContainer className={styles.logoWrapper}>
                   <ThemedImage
                     className={styles.logoIcon}
                     sources={getMapThemeSources({
@@ -325,7 +325,7 @@ export const ChatContent = observer(() => {
                     theme={theme}
                     name={LOGO_TEXT}
                   />
-                </div>
+                </HorizontalContainer>
               </VerticalContainer>
             }
 
