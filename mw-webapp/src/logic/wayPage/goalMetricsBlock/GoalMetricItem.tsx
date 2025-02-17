@@ -77,8 +77,10 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
           ? (
             <Confirm
               content={<p>
-                {`${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} ${props.metric.description}
-                ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`}
+                {renderMarkdown(
+                  `${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} 
+                  "${props.metric.description}" ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`,
+                )}
               </p>}
               onOk={onOk}
               okText={LanguageService.modals.confirmModal.confirmButton[language]}
