@@ -2,7 +2,7 @@ import {render, screen} from "@testing-library/react";
 import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
 
 const ICON_CY = "icon";
-const ICON = "EyeOpenedIcon";
+const ICON_NAME: keyof typeof IconDictionary = "EyeOpenedIcon";
 
 /**
  * Data attribute for cypress testing
@@ -35,12 +35,11 @@ const renderTestIcon = (props: createTestIconProps) => {
 
 describe("Icon component", () => {
 
-  it("All icon sizes should be rendered", () => {
-    Object.keys(IconSize).forEach((icon) => {
-      renderTestIcon({name: ICON, size: IconSize[icon as keyof typeof IconSize]});
-    });
-    const icons = screen.getAllByTestId(ICON_CY);
-    expect(icons.length).toEqual(Object.keys(IconSize).length);
+  it.each(Object.entries(IconSize))("renders icon size %s", (iconSizeKey, iconSize) => {
+    renderTestIcon({name: ICON_NAME, size: iconSize});
+    const icon = screen.getByTestId(ICON_CY);
+    expect(icon).toBeInTheDocument();
+    expect(icon).toBeVisible();
+    expect(icon).toHaveClass(iconSize);
   });
-
 });
