@@ -1,7 +1,10 @@
 import {BrowserRouter} from "react-router-dom";
 import type {StoryObj} from "@storybook/react";
 import {TrainingCard} from "src/component/trainingCard/TrainingCard";
-import {TrainingPreview, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
+import {
+  TrainingPreview,
+  UserPreview,
+} from "src/model/businessModelPreview/TrainingPreview";
 
 const meta = {
   title: "TrainingCard",
@@ -69,4 +72,3 @@ export const Default: Story = {
     </BrowserRouter>
   ),
 };
-

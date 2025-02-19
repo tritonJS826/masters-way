@@ -1,5 +1,9 @@
 import type {StoryObj} from "@storybook/react";
-import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/component/viewSwitcher/ViewSwitcher";
+import {
+  renderViewCardOption,
+  renderViewTableOption,
+  ViewSwitcher,
+} from "src/component/viewSwitcher/ViewSwitcher";
 import {View} from "src/utils/LocalStorageWorker";
 
 const meta = {

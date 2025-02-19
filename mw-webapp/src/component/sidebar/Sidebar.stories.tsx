@@ -44,13 +44,15 @@ export const Default: Story = {
     </button>,
     linkList,
     onOpenStatusChanged: () => {},
-    bottomChildren: <>
-      <Button
-        onClick={() => {}}
-        value="Bottom button"
-        buttonType={ButtonType.SECONDARY}
-      />
-    </>,
+    bottomChildren: (
+      <>
+        <Button
+          onClick={() => {}}
+          value="Bottom button"
+          buttonType={ButtonType.SECONDARY}
+        />
+      </>
+    ),
   },
   render: (args) => (
     <BrowserRouter>

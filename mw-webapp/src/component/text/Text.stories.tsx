@@ -13,4 +13,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const TextDefault: Story = {args: {text: "Text component"}};
-

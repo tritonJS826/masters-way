@@ -1,5 +1,8 @@
 import type {StoryObj} from "@storybook/react";
-import {getDefaultRightValueLabel, ProgressBar} from "src/component/progressBar/ProgressBar";
+import {
+  getDefaultRightValueLabel,
+  ProgressBar,
+} from "src/component/progressBar/ProgressBar";
 
 const meta = {
   title: "ProgressBar",
