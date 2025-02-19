@@ -2,7 +2,7 @@
 
 $dropdownMaxWidth: 45vw;
 $dropdownIndentationBottom: 8px;
-$dropdownMaxHeight: 250px;
+$dropdownMaxHeight: 50vh;
 
 .dropdownContent,
 .dropdownMenuSubContent {
@@ -36,6 +36,7 @@ $dropdownMaxHeight: 250px;
 .dropdownMenuContent[data-side="left"],
 .dropdownMenuSubContent[data-side="left"] {
   max-width: $dropdownMaxWidth;
+  max-height: $dropdownMaxHeight;
   animation-name: slideRightAndFade;
 }
 
@@ -53,7 +54,7 @@ $dropdownMaxHeight: 250px;
   user-select: none;
 
   &:not(:last-child) {
-    border-bottom: $primaryBorder solid var(--tertiaryBgColor);
+    border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
   }
 }
 
