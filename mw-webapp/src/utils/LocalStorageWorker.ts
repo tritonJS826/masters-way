@@ -182,6 +182,11 @@ export type WayPageSettings = {
   isGoalMetricsVisible: boolean;
 
   /**
+   * Is completed metrics visible
+   */
+  isCompletedMetricsVisible: boolean;
+
+  /**
    * Is statistics block visible
    */
   isStatisticsVisible: boolean;

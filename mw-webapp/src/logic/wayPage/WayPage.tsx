@@ -88,6 +88,12 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
   isStatisticsVisible: true,
 
   /**
+   * Default completed metrics are visible
+   * @default true
+   */
+  isCompletedMetricsVisible: true,
+
+  /**
    * Default day reports view is Table
    * @default View.Table
    */
@@ -719,6 +725,9 @@ export const WayPage = observer((props: WayPageProps) => {
               wayUuid={way.uuid}
               isVisible={wayPageSettings.isGoalMetricsVisible}
               goalMetrics={way.metrics}
+              isCompletedMetricsVisible={wayPageSettings.isCompletedMetricsVisible}
+              wayPageSettings={wayPageSettings}
+              updateWayPageSettings={updateWayPageSettings}
               addMetric={(metric: Metric) => way.addMetric(metric)}
               deleteMetric={(metricUuid: string) => way.deleteMetric(metricUuid)}
               isEditable={isUserOwnerOrMentor}

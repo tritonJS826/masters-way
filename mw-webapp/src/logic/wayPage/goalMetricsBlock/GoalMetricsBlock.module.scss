@@ -16,3 +16,13 @@
 .addMetricButton {
   inline-size: -webkit-fill-available;
 }
+
+.tooltipContainer {
+  justify-content: flex-end;
+}
+
+.iconContainer {
+  border: none;
+  background: none;
+  cursor: pointer;
+}

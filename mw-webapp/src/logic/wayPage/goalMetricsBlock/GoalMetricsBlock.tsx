@@ -1,9 +1,12 @@
 import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Modal} from "src/component/modal/Modal";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -11,6 +14,7 @@ import {MetricChildrenList} from "src/logic/wayPage/goalMetricsBlock/goalMetricL
 import {MetricsAiModal} from "src/logic/wayPage/goalMetricsBlock/MetricsAiModal";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
+import {WayPageSettings} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
 /**
@@ -36,6 +40,12 @@ interface GoalMetricStatisticsBlockProps {
   isEditable: boolean;
 
   /**
+   * Controls visibility of completed metrics
+   * @default true
+   */
+  isCompletedMetricsVisible: boolean;
+
+  /**
    * Way's uuid
    */
   wayUuid: string;
@@ -59,6 +69,16 @@ interface GoalMetricStatisticsBlockProps {
    * Way name
    */
   wayName: string;
+
+  /**
+   * Way page settings
+   */
+  wayPageSettings: WayPageSettings;
+
+  /**
+   * Callback to update way page settings
+   */
+  updateWayPageSettings: (settings: WayPageSettings) => void;
 }
 
 /**
@@ -100,12 +120,34 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
           rightLabel: wayMetricsAccessIds.progressBar.rightLabel,
         }}
       />
+      <HorizontalContainer className={styles.tooltipContainer}>
+        <Tooltip content={props.wayPageSettings.isCompletedMetricsVisible
+          ? LanguageService.way.metricsBlock.clickToHideCompletedMetrics[language]
+          : LanguageService.way.metricsBlock.clickToShowCompletedMetrics[language]
+        }
+        >
+          <button
+            className={styles.iconContainer}
+            onClick={() => props.updateWayPageSettings({
+              ...props.wayPageSettings,
+              isCompletedMetricsVisible: !props.wayPageSettings.isCompletedMetricsVisible,
+            })}
+          >
+            <Icon
+              size={IconSize.MEDIUM}
+              name={props.wayPageSettings.isCompletedMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
+            />
+          </button>
+        </Tooltip>
+      </HorizontalContainer>
+
       <MetricChildrenList
         level={0}
         metrics={props.goalMetrics}
         deleteMetric={(metricUuid: string) => deleteMetric(metricUuid)}
         isEditable={props.isEditable}
         addMetric={(parentUuid: string) => addEmptyMetric(parentUuid)}
+        isCompletedMetricsVisible={props.isCompletedMetricsVisible}
       />
       {props.isEditable &&
       <HorizontalGridContainer className={styles.addMetricButtons}>

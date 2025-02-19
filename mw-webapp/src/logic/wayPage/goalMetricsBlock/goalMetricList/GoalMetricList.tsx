@@ -46,6 +46,11 @@ interface MetricChildrenListProps {
    */
   addMetric: (parentUuid: string, parentMetric: Metric | null) => void;
 
+  /**
+   * Whether to show completed metrics
+   */
+  isCompletedMetricsVisible: boolean;
+
 }
 
 const LEVEL_INCREMENT = 1;
@@ -82,7 +87,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
     const levelArray = [...Array(props.level).keys()];
 
     return (
-      <VerticalContainer>
+      <VerticalContainer key={childMetric.uuid}>
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
             {levelArray.map(item => {
@@ -218,12 +223,17 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
           deleteMetric={props.deleteMetric}
           isEditable={props.isEditable}
           addMetric={props.addMetric}
+          isCompletedMetricsVisible={props.isCompletedMetricsVisible}
         />
       </VerticalContainer>
     );
   };
 
-  const childrenList = props.metrics.map(renderChildrenItem);
+  const filteredCompletedMetrics = props.metrics.filter((metric) =>
+    props.isCompletedMetricsVisible || !metric.isDone,
+  );
+
+  const childrenList = filteredCompletedMetrics.map(renderChildrenItem);
 
   return childrenList;
 };

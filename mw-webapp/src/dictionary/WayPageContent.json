@@ -236,6 +236,16 @@
       "ru": "Нажмите, чтобы открыть блок с метриками",
       "en": "Click to show goal metrics block",
       "ua": "Натисніть, щоб показати блок із метриками"
+    },
+    "clickToHideCompletedMetrics": {
+      "ru": "Нажмите, чтобы скрыть завершенные метрики",
+      "en": "Click to hide completed metrics",
+      "ua": "Натисніть, щоб приховати завершені метрики"
+    },
+    "clickToShowCompletedMetrics": {
+      "ru": "Нажмите, чтобы показать завершенные метрики",
+      "en": "Click to show completed metrics",
+      "ua": "Натисніть, щоб показати завершені метрики"
     }
   },
   "peopleBlock": {
