@@ -6,6 +6,10 @@
   gap: $gapExtraSmall;
 }
 
+.singularMetric:hover {
+  background-color: var(--primaryBgColor);
+}
+
 .tabContainer {
   display: flex;
   overflow: hidden;

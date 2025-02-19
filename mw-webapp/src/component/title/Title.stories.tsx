@@ -29,4 +29,3 @@ export const h2: Story = {
     placeholder: "",
   },
 };
-

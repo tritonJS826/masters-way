@@ -18,7 +18,10 @@ const itemsExample = [
   },
   {
     trigger: {child: "Is it unstyled?"},
-    content: {child: "Yes. It's unstyled by default, giving you freedom over the look and feel."},
+    content: {
+      child:
+        "Yes. It's unstyled by default, giving you freedom over the look and feel.",
+    },
   },
   {
     trigger: {child: "Can it be animated?"},

@@ -18,7 +18,10 @@ export const InfoNotification: Story = {
   args: {
     value: "Trigger notification",
     onClick: () => {
-      displayNotification({text: "Info Notification", type: NotificationType.INFO});
+      displayNotification({
+        text: "Info Notification",
+        type: NotificationType.INFO,
+      });
     },
   },
 };
@@ -27,7 +30,10 @@ export const ErrorNotification: Story = {
   args: {
     value: "Trigger notification",
     onClick: () => {
-      displayNotification({text: "Error Notification", type: NotificationType.ERROR});
+      displayNotification({
+        text: "Error Notification",
+        type: NotificationType.ERROR,
+      });
     },
   },
 };

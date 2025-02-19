@@ -20,9 +20,7 @@ export const Default: Story = {
     collectionsAmount: 5,
     language: Language.ENGLISH,
     collectionAmountTitle: "Ways:",
+    onClick: () => {},
   },
-  render: (args) => (
-    <CollectionCard {...args} />
-  ),
+  render: (args) => <CollectionCard {...args} />,
 };
-

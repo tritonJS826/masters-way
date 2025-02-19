@@ -78,14 +78,14 @@
     },
     "columnTooltip": {
       "createdAt": {
-        "ru": "Дата создания пути",
-        "en": "Date, when way was created",
-        "ua": "Дата створення шляху"
+        "ru": "Дата создания тренинга",
+        "en": "Date, when training was created",
+        "ua": "Дата створення тренінгу"
       },
       "lastUpdate": {
-        "ru": "Дата создания последнего отчета",
-        "en": "Date when the last report was created",
-        "ua": "Дата створення останнього звіту"
+        "ru": "Дата последнего обновления тренинга",
+        "en": "The date of the last training update",
+        "ua": "Дата останнього оновлення тренінгу"
       },
       "training": {
         "ru": "Описание трэйнинга",
@@ -98,9 +98,9 @@
         "ua": "Ім'я та контакт власника"
       },
       "mentor": {
-        "ru": "Текущие менторы пути",
-        "en": "Current way's mentors",
-        "ua": "Поточні ментори шляху"
+        "ru": "Текущие менторы тренинга",
+        "en": "Current training's mentors",
+        "ua": "Поточні ментори тренінгу"
       },
       "favorites": {
         "ru": "Понравилось пользователям",

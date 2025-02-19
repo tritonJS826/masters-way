@@ -16,38 +16,30 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {content: "Hi, I am tooltip content"},
-  render: (args) => (
-    <Tooltip {...args}>
-      Hover me
-    </Tooltip>
-  ),
+  render: (args) => (<Tooltip {...args}>
+    Hover me
+  </Tooltip>),
 };
 
 export const LeftPosition: Story = {
   args: {content: "Hi, I am left", position: PositionTooltip.LEFT},
-  render: (args) => (
-    <Tooltip {...args}>
-      Hover me
-    </Tooltip>
-  ),
+  render: (args) => (<Tooltip {...args}>
+    Hover me
+  </Tooltip>),
 };
 
 export const RightPosition: Story = {
   args: {content: "Hi, I am right", position: PositionTooltip.RIGHT},
-  render: (args) => (
-    <Tooltip {...args}>
-      Hover me
-    </Tooltip>
-  ),
+  render: (args) => (<Tooltip {...args}>
+    Hover me
+  </Tooltip>),
 };
 
 export const BottomPosition: Story = {
   args: {content: "Hi, I am bottom", position: PositionTooltip.BOTTOM},
-  render: (args) => (
-    <Tooltip {...args}>
-      Hover me
-    </Tooltip>
-  ),
+  render: (args) => (<Tooltip {...args}>
+    Hover me
+  </Tooltip>),
 };
 
 export const ButtonTooltip: Story = {

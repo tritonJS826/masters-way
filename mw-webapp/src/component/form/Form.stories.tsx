@@ -33,5 +33,6 @@ export const Default: Story = {
     submitButtonValue: "Submit",
     formTitle: "Form title",
     formDescription: "Form description",
+    onSubmit: () => {},
   },
 };
