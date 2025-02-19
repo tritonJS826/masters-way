@@ -2,13 +2,13 @@
   "env": {
     "browser": true,
     "node": true,
-    "es2021": true
+    "es2021": true,
   },
   "root": true,
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
     // I temporaly install @ljharb and @yarnaimo to fix problem with building storybook. Let's remove this dependency if it is possible
     // "@ljharb"
     // "@yarnaimo"
@@ -19,7 +19,7 @@
     "ecmaVersion": 12,
     "sourceType": "module",
     // "project": ["**/tsconfig.json", "**/vite.config.ts"] // путь для сопоставления файлов tsconfig относительно parserOptions.tsconfigRootDir, ​​или текущего рабочего каталога, если он не указан
-    "project": true // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
+    "project": true, // указывает на поиск ближайшего tsconfig.json для каждого исходного файла
   },
   "plugins": [
     "react",
@@ -27,7 +27,7 @@
     "simple-import-sort",
     "jsdoc",
     "@stylistic",
-    "vitest"
+    "vitest",
   ],
   "rules": {
     "@stylistic/eol-last": ["error", "always"],
@@ -37,18 +37,24 @@
       {
         "groups": [
           // Packages `react` related packages come first, Side effect imports, Internal packages, Anything not matched in another group, Style imports
-          ["^react", "^\\u0000", "^(@|components)(/.*|$)", "^", "^.+\\.?(css)$"]
-        ]
-      }
+          [
+            "^react",
+            "^\\u0000",
+            "^(@|components)(/.*|$)",
+            "^",
+            "^.+\\.?(css)$",
+          ],
+        ],
+      },
     ],
     "no-restricted-exports": [
       "error",
-      { "restrictDefaultExports": { "direct": true } }
+      { "restrictDefaultExports": { "direct": true } },
     ],
     "capitalized-comments": [
       "error",
       "always",
-      { "ignoreInlineComments": true, "ignoreConsecutiveComments": true }
+      { "ignoreInlineComments": true, "ignoreConsecutiveComments": true },
     ],
     "no-magic-numbers": ["error", { "ignore": [0] }],
     "multiline-ternary": ["error", "always-multiline"],
@@ -79,9 +85,9 @@
           "constructor",
           "public-method",
           "protected-method",
-          "private-method"
-        ]
-      }
+          "private-method",
+        ],
+      },
     ],
     "space-in-parens": ["error", "never"],
     "key-spacing": ["error", { "beforeColon": false }],
@@ -91,8 +97,8 @@
       {
         "words": true,
         "nonwords": false,
-        "overrides": { "new": false }
-      }
+        "overrides": { "new": false },
+      },
     ],
     "no-trailing-spaces": "error",
     "arrow-spacing": "error",
@@ -107,9 +113,9 @@
           "constructors": "no-public",
           "methods": "explicit",
           "properties": "explicit",
-          "parameterProperties": "explicit"
-        }
-      }
+          "parameterProperties": "explicit",
+        },
+      },
     ],
     "lines-between-class-members": ["error", "always"],
     "padded-blocks": ["error", { "classes": "always" }],
@@ -129,8 +135,8 @@
         "beforeClosing": "never",
         "beforeSelfClosing": "always",
         "afterOpening": "never",
-        "closingSlash": "never"
-      }
+        "closingSlash": "never",
+      },
     ],
     "react/jsx-curly-spacing": "error",
     "react/jsx-key": "error",
@@ -150,9 +156,9 @@
       "error",
       {
         "overrides": {
-          "return": { "after": true }
-        }
-      }
+          "return": { "after": true },
+        },
+      },
     ],
     "@typescript-eslint/space-before-blocks": "error",
     "@typescript-eslint/prefer-optional-chain": "error",
@@ -164,8 +170,8 @@
       "error",
       {
         "afterBlockComment": false,
-        "beforeBlockComment": true
-      }
+        "beforeBlockComment": true,
+      },
     ],
     "jsdoc/check-alignment": "error",
     "jsdoc/check-indentation": ["error"],
@@ -176,7 +182,7 @@
         "require": {
           "MethodDefinition": true,
           "ClassDeclaration": true,
-          "ClassExpression": true
+          "ClassExpression": true,
         },
         "checkConstructors": false,
         "checkSetters": true,
@@ -186,27 +192,27 @@
           "TSPropertySignature",
           "ArrowFunctionExpression",
           "TSMethodSignature",
-          "PropertyDefinition"
-        ]
-      }
+          "PropertyDefinition",
+        ],
+      },
     ],
     "object-shorthand": ["error", "always"],
     "no-duplicate-imports": ["error"],
     "no-restricted-imports": [
       "error",
       {
-        "patterns": [".*"]
-      }
+        "patterns": [".*"],
+      },
     ],
     "padding-line-between-statements": [
       "error",
       { "blankLine": "always", "prev": "*", "next": "return" },
       { "blankLine": "always", "prev": "import", "next": "block-like" },
       { "blankLine": "always", "prev": "import", "next": "class" },
-      { "blankLine": "always", "prev": "import", "next": "const" }
+      { "blankLine": "always", "prev": "import", "next": "const" },
     ],
     "eol-last": ["error", "always"],
-    "vitest/expect-expect": "off"
+    "vitest/expect-expect": "off",
   },
   "ignorePatterns": [
     "/build",
@@ -218,7 +224,8 @@
     "cypress.config.ts",
     "cypress/",
     "coverage/",
-    "generateSiteMap.js"
+    "generateSiteMap.js",
+    "public/serviceWorker.js",
   ],
   "overrides": [
     {
@@ -226,28 +233,28 @@
       "rules": {
         "no-restricted-exports": [
           "error",
-          { "restrictDefaultExports": { "direct": false } }
+          { "restrictDefaultExports": { "direct": false } },
         ],
         "jsdoc/require-jsdoc": [
           "error",
           {
             "publicOnly": true,
             "require": {
-              "ArrowFunctionExpression": true
+              "ArrowFunctionExpression": true,
             },
             "checkConstructors": false,
-            "checkSetters": true
-          }
-        ]
-      }
-    }
+            "checkSetters": true,
+          },
+        ],
+      },
+    },
   ],
   "settings": {
     "import/resolver": {
-      "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+      "node": { "extensions": [".js", ".jsx", ".ts", ".tsx"] },
     },
     "react": {
-      "version": "detect"
-    }
-  }
+      "version": "detect",
+    },
+  },
 }

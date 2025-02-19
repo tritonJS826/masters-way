@@ -29,7 +29,8 @@ const Template: StoryFn<typeof Confirm> = (args) => {
           onClick={() => {
             setIsOpen(true);
           }}
-        />}
+        />
+      }
       content={defaultContent}
       isOpen={isOpen}
       onOk={() => {}}
