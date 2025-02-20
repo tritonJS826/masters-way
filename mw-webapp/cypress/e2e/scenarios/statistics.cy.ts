@@ -99,11 +99,9 @@ function addDayReportToWay(wayDayReportData?: WayDayReportData) {
     if (wayDayReportData.jobDoneDescription) {
         dayReportsSelectors.dayReportsContent.getAddButton().first().click();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(wayDayReportData.jobDoneDescription);
         headerSelectors.getHeader().click();    
             if (wayDayReportData.timeSpentOnJob) {
-                dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
                 dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
                 dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(wayDayReportData.timeSpentOnJob);
                 headerSelectors.getHeader().click();
