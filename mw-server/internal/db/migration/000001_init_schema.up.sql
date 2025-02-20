@@ -457,8 +457,8 @@ EXECUTE FUNCTION check_max_reports_in_way();
 CREATE OR REPLACE FUNCTION check_max_metrics_in_way()
 RETURNS TRIGGER AS $$
 BEGIN
-    IF (SELECT COUNT(*) FROM metrics WHERE way_uuid = NEW.way_uuid) > 50 THEN
-        RAISE EXCEPTION 'Exceeded the limit of 50 metrics for a way';
+    IF (SELECT COUNT(*) FROM metrics WHERE way_uuid = NEW.way_uuid) > 1000 THEN
+        RAISE EXCEPTION 'Exceeded the limit of 1000 metrics for a way';
     END IF;
     RETURN NEW;
 END;
