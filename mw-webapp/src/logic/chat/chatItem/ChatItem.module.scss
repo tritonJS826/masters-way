@@ -1,7 +1,6 @@
 @import "src/styles/variables";
 
 .chatItemWrapper {
-  height: 40px;
   align-items: center;
   padding-left: $paddingMedium;
   cursor: pointer;
@@ -9,6 +8,7 @@
 
 .chatItem {
   max-width: $minWidthBlock;
+  padding: $paddingSmall;
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
