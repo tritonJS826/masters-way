@@ -88,7 +88,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
     const levelArray = [...Array(props.level).keys()];
 
     return (
-      <VerticalContainer>
+      <VerticalContainer key={childMetric.uuid}>
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
             {levelArray.map(item => {
@@ -233,13 +233,13 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
   const filteredMetrics = props.metrics.filter((metric) => {
     switch (props.goalMetricsFilter) {
       case GoalMetricsFilter.ALL:
-        return true;
+        return metric;
       case GoalMetricsFilter.INCOMPLETE:
         return !metric.isDone;
       case GoalMetricsFilter.NONE:
-        return false;
+        return;
       default:
-        return false;
+        return metric;
     }
   });
 
