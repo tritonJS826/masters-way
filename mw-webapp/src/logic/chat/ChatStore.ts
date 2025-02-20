@@ -20,11 +20,6 @@ class ChatStore {
   public unreadMessagesAmount: number = 0;
 
   /**
-   * ActiveRoom roomId value
-   */
-  public activeRoomRoomId: string = "";
-
-  /**
    * ActiveRoomStore value
    */
   public activeRoomStore: ActiveRoomStore | null = null;
@@ -51,7 +46,6 @@ class ChatStore {
    */
   public initiateActiveRoomStore = (chatRoomId: string) => {
     this.activeRoomStore = new ActiveRoomStore(chatRoomId);
-    this.setActiveRoomRoomId(chatRoomId);
   };
 
   /**
@@ -59,14 +53,6 @@ class ChatStore {
    */
   public resetActiveRoomStore = () => {
     this.activeRoomStore = null;
-    this.activeRoomRoomId = "";
-  };
-
-  /**
-   * Set active room  roomid
-   */
-  public setActiveRoomRoomId = (activeChatRoomId: string) => {
-    this.activeRoomRoomId = activeChatRoomId;
   };
 
   /**

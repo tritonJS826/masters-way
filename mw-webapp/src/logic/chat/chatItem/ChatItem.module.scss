@@ -3,7 +3,6 @@
 $chatItemWrapperHeight:40px;
 
 .chatItemWrapper {
-  height: $chatItemWrapperHeight;
   align-items: center;
   padding-left: $paddingMedium;
   cursor: pointer;
@@ -11,6 +10,7 @@ $chatItemWrapperHeight:40px;
 
 .chatItem {
   max-width: $minWidthBlock;
+  padding: $paddingSmall;
   overflow-x: hidden;
   text-overflow: ellipsis;
 }

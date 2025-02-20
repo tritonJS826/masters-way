@@ -43,7 +43,7 @@ export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
   const {theme} = themeStore;
-  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount, activeRoomRoomId} = chatStore;
+  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadingchatListPreview;
@@ -180,7 +180,9 @@ export const ChatContent = observer(() => {
           key={chatItem.roomId}
           name={chatItem.name}
           src={chatItem.imageUrl}
-          className={chatItem.roomId === activeRoomRoomId ? styles.activeChatItem : ""}
+          className={chatItem.roomId === activeRoomStore?.activeChatItemRoomId ?
+            styles.activeChatItem
+            : ""}
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
             chatStore.initiateActiveRoomStore(chatItem.roomId);

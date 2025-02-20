@@ -15,12 +15,19 @@ export class ActiveRoomStore {
   public activeRoom!: Room;
 
   /**
+   * Active chat item roomId
+   *
+   */
+  public activeChatItemRoomId!: string;
+
+  /**
    * Message's value
    */
   public message: string = "";
 
   constructor(roomId: string) {
     makeAutoObservable(this);
+    this.activeChatItemRoomId = roomId;
     this.initializeActiveRoom(roomId);
 
   }
