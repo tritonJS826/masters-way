@@ -84,9 +84,9 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
    * Default goal metrics filter
-   * @default GoalMetricsFilter.ALL
+   * @default GoalMetricsFilter.All
    */
-  goalMetricsFilter: GoalMetricsFilter.ALL,
+  goalMetricsFilter: GoalMetricsFilter.All,
 
   /**
    * Default day reports view is Table
@@ -727,19 +727,19 @@ export const WayPage = observer((props: WayPageProps) => {
                 }
                 options={[
                   {
-                    id: GoalMetricsFilter.ALL,
-                    value: GoalMetricsFilter.ALL,
-                    text: "Show all metrics",
+                    id: GoalMetricsFilter.All,
+                    value: GoalMetricsFilter.All,
+                    text: LanguageService.way.metricsBlock.goalMetricsFilterAll[language],
                   },
                   {
-                    id: GoalMetricsFilter.NONE,
-                    value: GoalMetricsFilter.NONE,
-                    text: "Hide all metrics",
+                    id: GoalMetricsFilter.None,
+                    value: GoalMetricsFilter.None,
+                    text: LanguageService.way.metricsBlock.goalMetricsFilterNone[language],
                   },
                   {
-                    id: GoalMetricsFilter.INCOMPLETE,
-                    value: GoalMetricsFilter.INCOMPLETE,
-                    text: "Show incomplete metrics only",
+                    id: GoalMetricsFilter.Incomplete,
+                    value: GoalMetricsFilter.Incomplete,
+                    text: LanguageService.way.metricsBlock.goalMetricsFilterIncomplete[language],
                   },
                 ]}
                 onChange={(value) => {
@@ -1011,10 +1011,7 @@ export const WayPage = observer((props: WayPageProps) => {
         <ViewSwitcher
           className={styles.viewSwitcher}
           view={wayPageSettings.view}
-          setView={(view) => updateWayPageSettings({
-            ...wayPageSettings,
-            view,
-          })}
+          setView={(view) => updateWayPageSettings({view})}
           options={[
             renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
             renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),

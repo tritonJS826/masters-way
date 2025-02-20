@@ -232,11 +232,11 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
 
   const filteredMetrics = props.metrics.filter((metric) => {
     switch (props.goalMetricsFilter) {
-      case GoalMetricsFilter.ALL:
+      case GoalMetricsFilter.All:
         return metric;
-      case GoalMetricsFilter.INCOMPLETE:
+      case GoalMetricsFilter.Incomplete:
         return !metric.isDone;
-      case GoalMetricsFilter.NONE:
+      case GoalMetricsFilter.None:
         return;
       default:
         return metric;

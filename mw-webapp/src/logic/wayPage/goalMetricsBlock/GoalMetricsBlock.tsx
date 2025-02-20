@@ -88,6 +88,8 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
 
   const doneMetricsAmount = props.goalMetrics.filter((metric) => !!metric.isDone).length;
 
+  const isAddMetricButtonVisible = props.isEditable && props.goalMetricsFilter !== GoalMetricsFilter.None;
+
   return (
     <VerticalContainer className={styles.goalMetricsBlock}>
       <ProgressBar
@@ -107,34 +109,34 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
         addMetric={(parentUuid: string) => addEmptyMetric(parentUuid)}
         goalMetricsFilter={props.goalMetricsFilter}
       />
-      {props.isEditable && props.goalMetricsFilter !== GoalMetricsFilter.NONE &&
-      <HorizontalGridContainer className={styles.addMetricButtons}>
-        <Button
-          value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
-          onClick={() => addEmptyMetric(null)}
-          dataCy={wayMetricsAccessIds.metricButtons.addNewGoalMetricButton}
-        />
-        <Modal
-          trigger={
-            <Button
-              value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
-              onClick={() => {}}
-              className={styles.addMetricButton}
-              dataCy={wayMetricsAccessIds.metricButtons.generateNewMetricsAiButton}
-            />
-          }
-          content={
-            <MetricsAiModal
-              addMetric={props.addMetric}
-              goalDescription={props.goalDescription}
-              goalMetrics={props.goalMetrics}
-              wayName={props.wayName}
-              wayUuid={props.wayUuid}
-            />
-          }
-          isFitContent={false}
-        />
-      </HorizontalGridContainer>
+      {isAddMetricButtonVisible &&
+        <HorizontalGridContainer className={styles.addMetricButtons}>
+          <Button
+            value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}
+            onClick={() => addEmptyMetric(null)}
+            dataCy={wayMetricsAccessIds.metricButtons.addNewGoalMetricButton}
+          />
+          <Modal
+            trigger={
+              <Button
+                value={LanguageService.way.metricsBlock.generateNewGoalMetricsWithAIButton[language]}
+                onClick={() => {}}
+                className={styles.addMetricButton}
+                dataCy={wayMetricsAccessIds.metricButtons.generateNewMetricsAiButton}
+              />
+            }
+            content={
+              <MetricsAiModal
+                addMetric={props.addMetric}
+                goalDescription={props.goalDescription}
+                goalMetrics={props.goalMetrics}
+                wayName={props.wayName}
+                wayUuid={props.wayUuid}
+              />
+            }
+            isFitContent={false}
+          />
+        </HorizontalGridContainer>
       }
     </VerticalContainer>
 

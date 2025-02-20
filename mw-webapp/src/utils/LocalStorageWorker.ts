@@ -175,9 +175,9 @@ export type Token = {
  * Available metrics visibility filters
  */
 export enum GoalMetricsFilter {
-  ALL = "All",
-  INCOMPLETE = "Incomplete",
-  NONE = "None",
+  All = "All",
+  Incomplete = "Incomplete",
+  None = "None",
 }
 
 /**
@@ -201,12 +201,6 @@ export type WayPageSettings = {
   view: View;
 
 }
-
-export const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
-  goalMetricsFilter: GoalMetricsFilter.ALL,
-  isStatisticsVisible: true,
-  view: View.Card,
-};
 
 /**
  * Notification block settings
