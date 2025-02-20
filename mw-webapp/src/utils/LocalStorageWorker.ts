@@ -172,19 +172,23 @@ export type Token = {
 }
 
 /**
+ * Available metrics visibility filters
+ */
+export enum GoalMetricsFilter {
+  ALL = "All",
+  INCOMPLETE = "Incomplete",
+  NONE = "None",
+}
+
+/**
  * Way page settings
  */
 export type WayPageSettings = {
 
   /**
-   * Is metrics block visible on way page
+   * Metrics visibility filter
    */
-  isGoalMetricsVisible: boolean;
-
-  /**
-   * Is completed metrics visible
-   */
-  isCompletedMetricsVisible: boolean;
+  goalMetricsFilter: GoalMetricsFilter;
 
   /**
    * Is statistics block visible
@@ -197,6 +201,12 @@ export type WayPageSettings = {
   view: View;
 
 }
+
+export const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
+  goalMetricsFilter: GoalMetricsFilter.ALL,
+  isStatisticsVisible: true,
+  view: View.Card,
+};
 
 /**
  * Notification block settings

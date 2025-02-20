@@ -1,12 +1,9 @@
 import {wayMetricsAccessIds} from "cypress/accessIds/wayMetricsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
 import {Modal} from "src/component/modal/Modal";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
-import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {MetricDAL} from "src/dataAccessLogic/MetricDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
@@ -14,19 +11,13 @@ import {MetricChildrenList} from "src/logic/wayPage/goalMetricsBlock/goalMetricL
 import {MetricsAiModal} from "src/logic/wayPage/goalMetricsBlock/MetricsAiModal";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
-import {WayPageSettings} from "src/utils/LocalStorageWorker";
+import {GoalMetricsFilter} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock.module.scss";
 
 /**
  * GoalMetricStatisticsBlock Props
  */
 interface GoalMetricStatisticsBlockProps {
-
-  /**
-   * Is visible
-   * @default true
-   */
-  isVisible: boolean;
 
   /**
    * Goal metrics
@@ -40,10 +31,9 @@ interface GoalMetricStatisticsBlockProps {
   isEditable: boolean;
 
   /**
-   * Controls visibility of completed metrics
-   * @default true
+   * Goal metrics filter
    */
-  isCompletedMetricsVisible: boolean;
+  goalMetricsFilter: GoalMetricsFilter;
 
   /**
    * Way's uuid
@@ -69,16 +59,6 @@ interface GoalMetricStatisticsBlockProps {
    * Way name
    */
   wayName: string;
-
-  /**
-   * Way page settings
-   */
-  wayPageSettings: WayPageSettings;
-
-  /**
-   * Callback to update way page settings
-   */
-  updateWayPageSettings: (settings: WayPageSettings) => void;
 }
 
 /**
@@ -109,7 +89,6 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
   const doneMetricsAmount = props.goalMetrics.filter((metric) => !!metric.isDone).length;
 
   return (
-    props.isVisible &&
     <VerticalContainer className={styles.goalMetricsBlock}>
       <ProgressBar
         value={doneMetricsAmount}
@@ -120,36 +99,15 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
           rightLabel: wayMetricsAccessIds.progressBar.rightLabel,
         }}
       />
-      <HorizontalContainer className={styles.tooltipContainer}>
-        <Tooltip content={props.wayPageSettings.isCompletedMetricsVisible
-          ? LanguageService.way.metricsBlock.clickToHideCompletedMetrics[language]
-          : LanguageService.way.metricsBlock.clickToShowCompletedMetrics[language]
-        }
-        >
-          <button
-            className={styles.iconContainer}
-            onClick={() => props.updateWayPageSettings({
-              ...props.wayPageSettings,
-              isCompletedMetricsVisible: !props.wayPageSettings.isCompletedMetricsVisible,
-            })}
-          >
-            <Icon
-              size={IconSize.MEDIUM}
-              name={props.wayPageSettings.isCompletedMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-            />
-          </button>
-        </Tooltip>
-      </HorizontalContainer>
-
       <MetricChildrenList
         level={0}
         metrics={props.goalMetrics}
         deleteMetric={(metricUuid: string) => deleteMetric(metricUuid)}
         isEditable={props.isEditable}
         addMetric={(parentUuid: string) => addEmptyMetric(parentUuid)}
-        isCompletedMetricsVisible={props.isCompletedMetricsVisible}
+        goalMetricsFilter={props.goalMetricsFilter}
       />
-      {props.isEditable &&
+      {props.isEditable && props.goalMetricsFilter !== GoalMetricsFilter.NONE &&
       <HorizontalGridContainer className={styles.addMetricButtons}>
         <Button
           value={LanguageService.way.metricsBlock.addNewGoalMetricButton[language]}

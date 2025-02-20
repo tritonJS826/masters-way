@@ -20,6 +20,7 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {Select} from "src/component/select/Select";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -62,7 +63,7 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
-import {View, WayPageSettings} from "src/utils/LocalStorageWorker";
+import {GoalMetricsFilter, View, WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {TreeUtils} from "src/utils/TreeUtils";
@@ -76,28 +77,35 @@ const LIKE_VALUE = 1;
 const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
-   * Default goalMetrics block is opened
-   * @default true
-   */
-  isGoalMetricsVisible: true,
-
-  /**
    * Default statistics block is opened
    * @default true
    */
   isStatisticsVisible: true,
 
   /**
-   * Default completed metrics are visible
-   * @default true
+   * Default goal metrics filter
+   * @default GoalMetricsFilter.ALL
    */
-  isCompletedMetricsVisible: true,
+  goalMetricsFilter: GoalMetricsFilter.ALL,
 
   /**
    * Default day reports view is Table
    * @default View.Table
    */
   view: View.Table,
+};
+
+/**
+ * Validates way page settings
+ */
+const wayPageSettingsValidator = (settings: WayPageSettings): boolean => {
+  return (
+    typeof settings.isStatisticsVisible === "boolean" &&
+    !!settings.view &&
+    Object.values(View).includes(settings.view) &&
+    !!settings.goalMetricsFilter &&
+    Object.values(GoalMetricsFilter).includes(settings.goalMetricsFilter)
+  );
 };
 
 /**
@@ -143,6 +151,13 @@ export const WayPage = observer((props: WayPageProps) => {
   const [wayPageSettings,, updateWayPageSettings] = usePersistanceState({
     key: "wayPage",
     defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
+
+    /**
+     * Check is stored data valid
+     */
+    storedDataValidator: (
+      currentSettings: WayPageSettings,
+    ) => wayPageSettingsValidator(currentSettings),
   });
   const {user, updateCustomCollections} = userStore;
 
@@ -705,29 +720,37 @@ export const WayPage = observer((props: WayPageProps) => {
                   placeholder=""
                 />
               </HorizontalContainer>
-              <Tooltip content={wayPageSettings.isGoalMetricsVisible
-                ? LanguageService.way.metricsBlock.clickToHideMetrics[language]
-                : LanguageService.way.metricsBlock.clickToShowMetrics[language]
-              }
-              >
-                <button
-                  className={styles.iconContainer}
-                  onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
-                >
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name={wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-                  />
-                </button>
-              </Tooltip>
+              <Select
+                name="goalMetricsVisibility"
+                value={
+                  wayPageSettings.goalMetricsFilter
+                }
+                options={[
+                  {
+                    id: GoalMetricsFilter.ALL,
+                    value: GoalMetricsFilter.ALL,
+                    text: "Show all metrics",
+                  },
+                  {
+                    id: GoalMetricsFilter.NONE,
+                    value: GoalMetricsFilter.NONE,
+                    text: "Hide all metrics",
+                  },
+                  {
+                    id: GoalMetricsFilter.INCOMPLETE,
+                    value: GoalMetricsFilter.INCOMPLETE,
+                    text: "Show incomplete metrics only",
+                  },
+                ]}
+                onChange={(value) => {
+                  updateWayPageSettings({goalMetricsFilter: value});
+                }}
+              />
             </HorizontalContainer>
             <GoalMetricsBlock
               wayUuid={way.uuid}
-              isVisible={wayPageSettings.isGoalMetricsVisible}
               goalMetrics={way.metrics}
-              isCompletedMetricsVisible={wayPageSettings.isCompletedMetricsVisible}
-              wayPageSettings={wayPageSettings}
-              updateWayPageSettings={updateWayPageSettings}
+              goalMetricsFilter={wayPageSettings.goalMetricsFilter}
               addMetric={(metric: Metric) => way.addMetric(metric)}
               deleteMetric={(metricUuid: string) => way.deleteMetric(metricUuid)}
               isEditable={isUserOwnerOrMentor}
@@ -988,7 +1011,10 @@ export const WayPage = observer((props: WayPageProps) => {
         <ViewSwitcher
           className={styles.viewSwitcher}
           view={wayPageSettings.view}
-          setView={(view) => updateWayPageSettings({view})}
+          setView={(view) => updateWayPageSettings({
+            ...wayPageSettings,
+            view,
+          })}
           options={[
             renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
             renderViewTableOption(LanguageService.common.view.tableViewTooltip[language]),

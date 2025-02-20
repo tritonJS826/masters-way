@@ -41,7 +41,8 @@
   z-index: $dropdownZIndex;
   display: flex;
   overflow: hidden;
-  width: var(--radix-select-trigger-width);
+  width: max-content;
+  min-width: var(--radix-select-trigger-width);
   max-height: var(--radix-select-content-available-height);
   padding: $paddingSmall;
   border: solid $primaryBorder var(--primaryStrokeColor);

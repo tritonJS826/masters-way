@@ -12,6 +12,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {GoalMetricsFilter} from "src/utils/LocalStorageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/goalMetricsBlock/goalMetricList/GoalMetricList.module.scss";
@@ -47,9 +48,9 @@ interface MetricChildrenListProps {
   addMetric: (parentUuid: string, parentMetric: Metric | null) => void;
 
   /**
-   * Whether to show completed metrics
+   * Goal metrics filter
    */
-  isCompletedMetricsVisible: boolean;
+  goalMetricsFilter: GoalMetricsFilter;
 
 }
 
@@ -87,7 +88,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
     const levelArray = [...Array(props.level).keys()];
 
     return (
-      <VerticalContainer key={childMetric.uuid}>
+      <VerticalContainer>
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
             {levelArray.map(item => {
@@ -223,17 +224,26 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
           deleteMetric={props.deleteMetric}
           isEditable={props.isEditable}
           addMetric={props.addMetric}
-          isCompletedMetricsVisible={props.isCompletedMetricsVisible}
+          goalMetricsFilter={props.goalMetricsFilter}
         />
       </VerticalContainer>
     );
   };
 
-  const filteredCompletedMetrics = props.metrics.filter((metric) =>
-    props.isCompletedMetricsVisible || !metric.isDone,
-  );
+  const filteredMetrics = props.metrics.filter((metric) => {
+    switch (props.goalMetricsFilter) {
+      case GoalMetricsFilter.ALL:
+        return true;
+      case GoalMetricsFilter.INCOMPLETE:
+        return !metric.isDone;
+      case GoalMetricsFilter.NONE:
+        return false;
+      default:
+        return false;
+    }
+  });
 
-  const childrenList = filteredCompletedMetrics.map(renderChildrenItem);
+  const childrenList = filteredMetrics.map(renderChildrenItem);
 
   return childrenList;
 };
