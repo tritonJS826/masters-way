@@ -77,7 +77,7 @@ export const statisticsData = {
             daysFromStart: "0",
 
             statistic: {
-                [Periods.Total]: { totalTime: "9.3", totalReports: "9", finishedJobs: "9", avgTimePerCalendarDay: "0.1", avgTimePerWorkingDay: "1.0", avgJobTime: "1.0" },
+                [Periods.Total]: { totalTime: "9.3", totalReports: "9", finishedJobs: "9", avgTimePerCalendarDay: "0.0", avgTimePerWorkingDay: "1.0", avgJobTime: "1.0" },
                 [Periods.LastMonth]: { totalTime: "2.1", totalReports: "1", finishedJobs: "1", avgTimePerCalendarDay: "0.1", avgTimePerWorkingDay: "2.1", avgJobTime: "2.1" },
                 [Periods.LastWeek]: { totalTime: "2.1", totalReports: "1", finishedJobs: "1", avgTimePerCalendarDay: "0.3", avgTimePerWorkingDay: "2.1", avgJobTime: "2.1" }
             },

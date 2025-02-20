@@ -1,6 +1,6 @@
 import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import {statisticsSelectors} from "cypress/scopesSelectors/statistics.Selectors";
+import {statisticsSelectors} from "cypress/scopesSelectors/statisticsSelectors";
 import {LanguageService} from "src/service/LanguageService";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
