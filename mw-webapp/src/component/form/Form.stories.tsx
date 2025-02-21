@@ -14,6 +14,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    onSubmit: () => {},
     formFields: [
       {
         id: 0,
@@ -33,6 +34,5 @@ export const Default: Story = {
     submitButtonValue: "Submit",
     formTitle: "Form title",
     formDescription: "Form description",
-    onSubmit: () => {},
   },
 };

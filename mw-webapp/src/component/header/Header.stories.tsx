@@ -30,7 +30,7 @@ export const Default: Story = {
     unreadNotificationsAmount: null,
     isNotificationBlockOpen: false,
     isConnectionEstablished: false,
-    clearUser: () => { },
+    clearUser: () => {},
     openNotificationBlock: () => {},
   },
   render: (args) => {

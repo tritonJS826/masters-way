@@ -1,7 +1,7 @@
 @import "src/styles/variables";
 
-$logoWraperWidth: 220px;
-$logoWrapperHeight: 80px;
+$logoWrapperWidth: 220px;
+$logoWrapperHeight: 100px;
 
 .chatHeader {
   align-items: center;
@@ -63,9 +63,7 @@ $modal-animation-time: 150ms;
 
 
 .logoWrapper {
-  width: $logoWraperWidth;
-  height: $logoWrapperHeight;
-  margin-top: -calc((2 * $marginBig));
+  width: $logoWrapperWidth;
 }
 
 .logoIcon {
