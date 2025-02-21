@@ -18,6 +18,11 @@ export class ChatListStore {
   public roomType: RoomType;
 
   /**
+   * Chat list  loading state
+   */
+  public isLoadInProcessChatListPreview: boolean = false;
+
+  /**
    * Group chat name
    */
   public groupChatName: string = "";
@@ -51,10 +56,12 @@ export class ChatListStore {
    * Load chat list
    */
   public loadChatList = async () => {
-    const chatsData = await ChatDAL.getRooms(this.roomType);
+    this.isLoadInProcessChatListPreview = true;
+    const chatsData = await ChatDAL.getRooms(this.roomType).finally(() => this.isLoadInProcessChatListPreview = false);
     runInAction(() => {
       this.chatPreviewList = chatsData.chatsPreview;
     });
+
   };
 
   /**

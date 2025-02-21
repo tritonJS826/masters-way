@@ -1,13 +1,21 @@
 @import "src/styles/variables";
 
 .chatItemWrapper {
+  align-items: center;
+  padding-left: $paddingMedium;
   cursor: pointer;
 }
 
 .chatItem {
   max-width: $minWidthBlock;
+  padding: $paddingSmall;
   overflow-x: hidden;
   text-overflow: ellipsis;
+}
+
+
+.activeChatItem {
+  background-color: var(--generalBgColor);
 }
 
 .userStatusBlock {
