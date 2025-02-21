@@ -46,8 +46,8 @@ export const ChatContent = observer(() => {
   const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadingchatListPreview;
-  const isShouldRenderActiveRoom = !!activeRoomStore && !!activeRoomStore.activeRoom;
+  const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadInProcessChatListPreview;
+  const isShouldRenderActiveRoom = !!activeRoomStore && !!activeRoomStore.isInitialized;
 
   /**
    * Create group chat
@@ -171,18 +171,14 @@ export const ChatContent = observer(() => {
    */
   const renderChatPreviewList = (chatPreviewList: ChatPreview[]) => {
 
-    return !!chatListStore && chatListStore.chatPreviewList.length === 0 ?
-
-      LanguageService.common.chat.noChats[language]
-      :
-      chatPreviewList.map((chatItem) => (
+    return !!chatListStore && chatListStore.chatPreviewList.length === 0
+      ? LanguageService.common.chat.noChats[language]
+      : chatPreviewList.map((chatItem) => (
         <ChatItem
           key={chatItem.roomId}
           name={chatItem.name}
           src={chatItem.imageUrl}
-          className={chatItem.roomId === activeRoomStore?.activeChatItemRoomId ?
-            styles.activeChatItem
-            : ""}
+          className={clsx({[styles.activeChatItem]: chatItem.roomId === activeRoomStore?.activeRoom.roomId})}
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
             chatStore.initiateActiveRoomStore(chatItem.roomId);
@@ -190,7 +186,6 @@ export const ChatContent = observer(() => {
         />
       ),
       );
-
   };
 
   /**
@@ -211,13 +206,12 @@ export const ChatContent = observer(() => {
   /**
    * Render Loader
    */
-  const renderLoader = () => {
-
+  const renderLoader = (isAbsolute: boolean) => {
     return (
       <HorizontalContainer className={styles.loaderBlock}>
         <Loader
           theme={theme}
-          isAbsolute
+          isAbsolute={isAbsolute}
         />
       </HorizontalContainer>
     );
@@ -305,108 +299,114 @@ export const ChatContent = observer(() => {
               */}
               { isShouldRenderChatList
                 ? renderChatPreviewList(chatListStore.chatPreviewList)
-                : renderLoader()
+                : renderLoader(true)
               }
 
             </VerticalContainer>
 
-            {
-              !activeRoomStore && isShouldRenderChatList &&
-              <VerticalContainer className={clsx(
-                styles.chatBlockClose,
-              )}
-              >
-                <div className={styles.logoWrapper}>
-                  <ThemedImage
-                    className={styles.logoIcon}
-                    sources={getMapThemeSources({
-                      [Theme.DARK]: logoLight,
-                      [Theme.LIGHT]: logo,
-                      [Theme.OBSIDIAN]: logoLight,
-                    })}
-                    theme={theme}
-                    name={LOGO_TEXT}
-                  />
-                </div>
-              </VerticalContainer>
+            {/*Chat list exist but messages are not available  */}
+            {isShouldRenderChatList && !activeRoomStore?.isInitialized &&
+            <VerticalContainer className={clsx(styles.chatBlockClose)}>
+              <HorizontalContainer className={styles.logoWrapper}>
+                {
+                  activeRoomStore
+                  // Messages in loading process
+                    ? renderLoader(false)
+                  // Room is not opened yet
+                    : (
+                      <ThemedImage
+                        className={styles.logoIcon}
+                        sources={getMapThemeSources({
+                          [Theme.DARK]: logoLight,
+                          [Theme.LIGHT]: logo,
+                          [Theme.OBSIDIAN]: logoLight,
+                        })}
+                        theme={theme}
+                        name={LOGO_TEXT}
+                      />
+                    )
+                }
+              </HorizontalContainer>
+            </VerticalContainer>
             }
 
-            { isShouldRenderActiveRoom &&
-            <VerticalContainer className={clsx(styles.chatBlock, styles.chatBlockOpen)}>
-              <HorizontalContainer className={styles.chatInfo}>
-                <Link
-                  path={pages.user.getPath({uuid: getActiveRoomParticipantId(activeRoomStore.activeRoom)})}
-                  className={styles.chatItemLink}
-                >
-                  <ChatItem
-                    name={activeRoomStore.activeRoom.name}
-                    src={activeRoomStore.activeRoom.imageUrl}
-                    dataCy={chatAccessIds.chatContainer.chatItem(activeRoomStore.activeRoom.name)}
-                  />
-                </Link>
-                <Dropdown
-                  isModalBehavior={true}
-                  trigger={(
-                    <Tooltip
-                      content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
-                      position={PositionTooltip.LEFT}
-                    >
-                      <Button
-                        className={styles.wayActionsIcon}
-                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                        onClick={() => { }}
-                        icon={
-                          <Icon
-                            size={IconSize.MEDIUM}
-                            name={"MoreVertical"}
-                          />
-                        }
-                      />
-                    </Tooltip>
-                  )}
-                  dropdownMenuItems={[
-                    {
-                      dropdownSubMenuItems: [
-                        {
-                          id: "Close chat",
-                          isPreventDefaultUsed: false,
-                          value: LanguageService.common.chat.closeChat[language],
-
-                          /**
-                           * Close chat on mobile
-                           */
-                          onClick: () => {
-                            chatStore.resetActiveRoomStore();
-                          },
-                        },
-                      ],
-                    },
-                  ]}
-                />
-              </HorizontalContainer>
-              <VerticalContainer className={styles.messageList}>
-                <div
-                  ref={messagesEndRef}
-                  className={clsx(styles.messages, styles.messageList)}
-                >
-                  { activeRoomStore.activeRoom.messages.map((messageItem) => (
-                    <MessageItem
-                      key={messageItem.uuid}
-                      src={messageItem.ownerImageUrl}
-                      userName={messageItem.ownerName}
-                      userUuid={messageItem.ownerId}
-                      message={messageItem.message}
-                      isOwnMessage={messageItem.ownerId === user?.uuid}
+            {isShouldRenderActiveRoom && (
+              <VerticalContainer className={clsx(styles.chatBlock, styles.chatBlockOpen)}>
+                <HorizontalContainer className={styles.chatInfo}>
+                  <Link
+                    path={pages.user.getPath({uuid: getActiveRoomParticipantId(activeRoomStore.activeRoom)})}
+                    className={styles.chatItemLink}
+                  >
+                    <ChatItem
+                      name={activeRoomStore.activeRoom.name}
+                      src={activeRoomStore.activeRoom.imageUrl}
+                      dataCy={chatAccessIds.chatContainer.chatItem(activeRoomStore.activeRoom.name)}
                     />
-                  ))}
-                  <div ref={messagesEndRef} />
-                </div>
+                  </Link>
+                  <Dropdown
+                    isModalBehavior={true}
+                    trigger={(
+                      <Tooltip
+                        content={LanguageService.way.wayInfo.wayActionsTooltip[language]}
+                        position={PositionTooltip.LEFT}
+                      >
+                        <Button
+                          className={styles.wayActionsIcon}
+                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                          onClick={() => { }}
+                          icon={
+                            <Icon
+                              size={IconSize.MEDIUM}
+                              name={"MoreVertical"}
+                            />
+                          }
+                        />
+                      </Tooltip>
+                    )}
+                    dropdownMenuItems={[
+                      {
+                        dropdownSubMenuItems: [
+                          {
+                            id: "Close chat",
+                            isPreventDefaultUsed: false,
+                            value: LanguageService.common.chat.closeChat[language],
+
+                            /**
+                             * Close chat on mobile
+                             */
+                            onClick: () => {
+                              chatStore.resetActiveRoomStore();
+                            },
+                          },
+                        ],
+                      },
+                    ]}
+                  />
+                </HorizontalContainer>
+                <VerticalContainer className={styles.messageList}>
+                  <div
+                    ref={messagesEndRef}
+                    className={clsx(styles.messages, styles.messageList)}
+                  >
+                    { activeRoomStore.activeRoom.messages.map((messageItem) => (
+                      <MessageItem
+                        key={messageItem.uuid}
+                        src={messageItem.ownerImageUrl}
+                        userName={messageItem.ownerName}
+                        userUuid={messageItem.ownerId}
+                        message={messageItem.message}
+                        isOwnMessage={messageItem.ownerId === user?.uuid}
+                      />
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </div>
+                </VerticalContainer>
               </VerticalContainer>
-            </VerticalContainer>
+            )
             }
           </HorizontalContainer>
 
-          { !!activeRoomStore && isShouldRenderChatList &&
+          {!!activeRoomStore && isShouldRenderChatList &&
             <HorizontalContainer className={styles.messageInputBlock}>
               <Textarea
                 cy={chatAccessIds.chatContainer.messageInput}

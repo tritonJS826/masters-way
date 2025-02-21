@@ -95,7 +95,7 @@ dependencies:
 
 devDependencies:
   '@chromatic-com/storybook':
-    specifier: ^3
+    specifier: '3'
     version: 3.2.4(react@18.2.0)(storybook@8.5.8)
   '@ljharb/eslint-config':
     specifier: 21.1.0
