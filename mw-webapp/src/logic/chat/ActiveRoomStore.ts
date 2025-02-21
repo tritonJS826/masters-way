@@ -14,12 +14,6 @@ export class ActiveRoomStore {
   public activeRoom: Room;
 
   /**
-   * Active chat item roomId
-   *
-   */
-  public activeChatItemRoomId!: string;
-
-  /**
    * Message's value
    */
   public message: string = "";
@@ -49,15 +43,6 @@ export class ActiveRoomStore {
    */
   public setMessage = (message: string) => {
     this.message = message;
-  };
-
-  /**
-   * Reload room
-   */
-  public reloadRoom = async (roomId: string) => {
-    this.activeRoom.roomId = roomId;
-    this.isInitialized = false;
-    await this.initializeActiveRoom(roomId);
   };
 
   /**

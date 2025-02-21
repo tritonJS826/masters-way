@@ -329,9 +329,11 @@ export const ChatContent = observer(() => {
             </VerticalContainer>
 
             {/*Chat list exist but messages are not available  */}
-            { !activeRoomStore?.isInitialized &&
+            {isShouldRenderChatList && !activeRoomStore?.isInitialized &&
                 (
-                  activeRoomStore ? renderLoader(false) : renderLogoInBackground()
+                  activeRoomStore
+                    ? renderLoader(false)
+                    : renderLogoInBackground()
                 )
             }
             {isShouldRenderActiveRoom && (
