@@ -94,7 +94,6 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.getCreateNewDayReportButton().click();
         dayReportsSelectors.dayReportsContent.getAddButton().first().click();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
         headerSelectors.getHeader().click();
         dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
@@ -164,7 +163,6 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
 
         dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(`Mentor ${dayReportsData.jobDoneDescription}!`);
         headerSelectors.getHeader().click();

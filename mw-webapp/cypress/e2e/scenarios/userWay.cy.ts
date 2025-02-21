@@ -61,7 +61,6 @@ describe('User Way tests', () => {
     dayReportsSelectors.getCreateNewDayReportButton().click();
     dayReportsSelectors.dayReportsContent.getAddButton().first().click();
     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-    dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(`${dayReportsData.jobDoneDescription}{enter}${dayReportsData.jobDoneDescriptionNewLine}`);
     headerSelectors.getHeader().click();
     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();

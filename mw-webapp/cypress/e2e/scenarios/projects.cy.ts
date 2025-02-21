@@ -70,7 +70,6 @@ describe('Projects tests', () => {
         dayReportsSelectors.getCreateNewDayReportButton().click();
         dayReportsSelectors.dayReportsContent.getAddButton().first().click();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
         headerSelectors.getHeader().click();
         dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
