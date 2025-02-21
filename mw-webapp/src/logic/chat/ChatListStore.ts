@@ -52,6 +52,7 @@ export class ChatListStore {
   };
 
  */
+
   /**
    * Load chat list
    */

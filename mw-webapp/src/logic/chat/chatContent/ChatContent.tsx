@@ -43,7 +43,7 @@ export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
   const {theme} = themeStore;
-  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount} = chatStore;
+  const {isChatOpen, activeRoomStore, chatListStore} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadInProcessChatListPreview;
@@ -93,7 +93,6 @@ export const ChatContent = observer(() => {
       activeRoomStore.activeRoom.addMessage(newMessage);
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
-      addUnreadMessageToAmount();
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
         type: NotificationType.INFO,
@@ -181,7 +180,10 @@ export const ChatContent = observer(() => {
           className={clsx({[styles.activeChatItem]: chatItem.roomId === activeRoomStore?.activeRoom.roomId})}
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
-            chatStore.initiateActiveRoomStore(chatItem.roomId);
+            chatItem.roomId !== activeRoomStore?.activeRoom.roomId
+              ?
+              chatStore.initiateActiveRoomStore(chatItem.roomId)
+              : null;
           }}
         />
       ),
@@ -214,6 +216,28 @@ export const ChatContent = observer(() => {
           isAbsolute={isAbsolute}
         />
       </HorizontalContainer>
+    );
+  };
+
+  /**
+   * Render logo in Background component
+   */
+  const renderLogoInBackground = () => {
+    return (
+      <VerticalContainer className={clsx(styles.chatBlockClose)}>
+        <HorizontalContainer className={styles.logoWrapper}>
+          <ThemedImage
+            className={styles.logoIcon}
+            sources={getMapThemeSources({
+              [Theme.DARK]: logoLight,
+              [Theme.LIGHT]: logo,
+              [Theme.OBSIDIAN]: logoLight,
+            })}
+            theme={theme}
+            name={LOGO_TEXT}
+          />
+        </HorizontalContainer>
+      </VerticalContainer>
     );
   };
 
@@ -306,30 +330,12 @@ export const ChatContent = observer(() => {
 
             {/*Chat list exist but messages are not available  */}
             {isShouldRenderChatList && !activeRoomStore?.isInitialized &&
-            <VerticalContainer className={clsx(styles.chatBlockClose)}>
-              <HorizontalContainer className={styles.logoWrapper}>
-                {
+                (
                   activeRoomStore
-                  // Messages in loading process
                     ? renderLoader(false)
-                  // Room is not opened yet
-                    : (
-                      <ThemedImage
-                        className={styles.logoIcon}
-                        sources={getMapThemeSources({
-                          [Theme.DARK]: logoLight,
-                          [Theme.LIGHT]: logo,
-                          [Theme.OBSIDIAN]: logoLight,
-                        })}
-                        theme={theme}
-                        name={LOGO_TEXT}
-                      />
-                    )
-                }
-              </HorizontalContainer>
-            </VerticalContainer>
+                    : renderLogoInBackground()
+                )
             }
-
             {isShouldRenderActiveRoom && (
               <VerticalContainer className={clsx(styles.chatBlock, styles.chatBlockOpen)}>
                 <HorizontalContainer className={styles.chatInfo}>
@@ -406,7 +412,7 @@ export const ChatContent = observer(() => {
             }
           </HorizontalContainer>
 
-          {!!activeRoomStore && isShouldRenderChatList &&
+          {!!activeRoomStore?.isInitialized && isShouldRenderChatList &&
             <HorizontalContainer className={styles.messageInputBlock}>
               <Textarea
                 cy={chatAccessIds.chatContainer.messageInput}

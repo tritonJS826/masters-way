@@ -46,15 +46,6 @@ export class ActiveRoomStore {
   };
 
   /**
-   * Reload room
-   */
-  public reloadRoom = async (roomId: string) => {
-    this.activeRoom.roomId = roomId;
-    this.isInitialized = false;
-    await this.initializeActiveRoom(roomId);
-  };
-
-  /**
    * Load active room by roomId
    */
   private loadActiveRoom = async (roomId: string) => {

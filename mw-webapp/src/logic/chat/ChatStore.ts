@@ -45,11 +45,7 @@ class ChatStore {
    * Initiate new activeChatStore
    */
   public initiateActiveRoomStore = (chatRoomId: string) => {
-    if (this.activeRoomStore) {
-      this.activeRoomStore.reloadRoom(chatRoomId);
-    } else {
-      this.activeRoomStore = new ActiveRoomStore(chatRoomId);
-    }
+    this.activeRoomStore = new ActiveRoomStore(chatRoomId);
   };
 
   /**
