@@ -1,10 +1,18 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {Slider, SliderItem} from "src/component/slider/Slider";
 
-const getDivElement = (content: string) =>
-  (<div style={{height: 500, display: "flex", justifyContent: "center", alignItems: "center", background: "#888"}}>
+const getDivElement = (content: string) => (
+  <div style={{
+    height: 500,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "#888",
+  }}
+  >
     {content}
-  </div>);
+  </div>
+);
 
 const sliderItems: SliderItem[] = [
   {id: 1, content: getDivElement("Slide 1")},

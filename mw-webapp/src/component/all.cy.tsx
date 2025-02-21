@@ -1,5 +1,3 @@
-import "/src/component/link/Link.cy.tsx";
-import "/src/component/loader/Loader.cy.tsx";
 import "/src/component/notification/Notification.cy.tsx";
 import "/src/component/progressBar/ProgressBar.cy.tsx";
 import "/src/component/scrollableBlock/ScrollableBlock.cy.tsx";

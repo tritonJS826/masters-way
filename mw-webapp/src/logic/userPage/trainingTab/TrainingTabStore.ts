@@ -1,5 +1,5 @@
 import {makeAutoObservable} from "mobx";
-import {AllTrainingsParams, TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
+import {AllTrainingsByUserParams, TrainingDAL, TrainingsAmount} from "src/dataAccessLogic/TrainingDAL";
 import {load} from "src/hooks/useLoad";
 import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
@@ -37,6 +37,11 @@ export class TrainingTabStore {
   public allTrainingsAmount!: number;
 
   /**
+   * All training collections amount
+   */
+  public trainingCollectionsAmount!: TrainingsAmount;
+
+  /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
@@ -61,6 +66,13 @@ export class TrainingTabStore {
   };
 
   /**
+   * Set training collections amount
+   */
+  public setTrainingCollectionsAmount = (trainingCollectionsAmount: TrainingsAmount) => {
+    this.trainingCollectionsAmount = trainingCollectionsAmount;
+  };
+
+  /**
    * Load more trainings preview
    */
   public loadMoreTrainingsPreview = async (trainingName: string, userUuid: string, trainingType: DefaultTrainingCollection) => {
@@ -76,7 +88,7 @@ export class TrainingTabStore {
    * Load trainings preview
    */
   public loadTrainingsPreview = async (params: GetTrainingsByUserIdParams) => {
-    await load<AllTrainingsParams>({
+    await load<AllTrainingsByUserParams>({
 
       /**
        * Load data
@@ -99,7 +111,7 @@ export class TrainingTabStore {
   /**
    * Load data
    */
-  private loadData = async (params: GetTrainingsByUserIdParams): Promise<AllTrainingsParams> => {
+  private loadData = async (params: GetTrainingsByUserIdParams): Promise<AllTrainingsByUserParams> => {
     const fetchedTrainings = await TrainingDAL.getTrainingsByUserId({
       trainingsType: params.trainingsType,
       userId: params.userId,
@@ -111,7 +123,7 @@ export class TrainingTabStore {
   /**
    * Validate data
    */
-  private validateData = (data: AllTrainingsParams) => {
+  private validateData = (data: AllTrainingsByUserParams) => {
     return !!data;
   };
 
@@ -125,9 +137,10 @@ export class TrainingTabStore {
   /**
    * On success
    */
-  private onSuccess = (params: AllTrainingsParams) => {
+  private onSuccess = (params: AllTrainingsByUserParams) => {
     this.setTrainingsPreview(params.trainingsPreview);
     this.setTrainingsAmount(params.size);
+    this.setTrainingCollectionsAmount(params.trainingsAmount);
   };
 
   /**

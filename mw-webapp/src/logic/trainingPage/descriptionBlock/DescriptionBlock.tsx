@@ -39,7 +39,7 @@ export const DescriptionBlock = observer((props: DescriptionBlockProps) => {
   return (
     <VerticalContainer className={styles.descriptionSection}>
       <HorizontalContainer>
-        <Infotip content={LanguageService.way.infotip.goal[language]} />
+        <Infotip content={LanguageService.training.infotip.description[language]} />
         <Title
           level={HeadingLevel.h3}
           text={LanguageService.training.trainingInfo.description[language]}

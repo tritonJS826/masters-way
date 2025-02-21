@@ -96,7 +96,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
           <CollectionCard
             isActive={props.activeTrainingCollection === DefaultTrainingCollection.OWN}
             collectionTitle={LanguageService.user.trainings.owner[language]}
-            collectionsAmount={0}
+            collectionsAmount={trainingTabStore.trainingCollectionsAmount.owner}
             collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
             onClick={() => {
               props.onClick(DefaultTrainingCollection.OWN);
@@ -111,7 +111,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
           <CollectionCard
             isActive={props.activeTrainingCollection === DefaultTrainingCollection.MENTORING}
             collectionTitle={LanguageService.user.trainings.mentor[language]}
-            collectionsAmount={0}
+            collectionsAmount={trainingTabStore.trainingCollectionsAmount.mentor}
             collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
             onClick={() => {
               props.onClick(DefaultTrainingCollection.MENTORING);
@@ -126,7 +126,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
           <CollectionCard
             isActive={props.activeTrainingCollection === DefaultTrainingCollection.STUDENT}
             collectionTitle={LanguageService.user.trainings.student[language]}
-            collectionsAmount={0}
+            collectionsAmount={trainingTabStore.trainingCollectionsAmount.student}
             collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
             onClick={() => {
               props.onClick(DefaultTrainingCollection.STUDENT);
@@ -141,7 +141,7 @@ export const TrainingTab = observer((props: TrainingTabProps) => {
           <CollectionCard
             isActive={props.activeTrainingCollection === DefaultTrainingCollection.FAVORITE}
             collectionTitle={LanguageService.user.trainings.favorite[language]}
-            collectionsAmount={0}
+            collectionsAmount={trainingTabStore.trainingCollectionsAmount.favorite}
             collectionAmountTitle={LanguageService.user.tabs.trainings[language]}
             onClick={() => {
               props.onClick(DefaultTrainingCollection.FAVORITE);

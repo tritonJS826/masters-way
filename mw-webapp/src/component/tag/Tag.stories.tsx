@@ -13,4 +13,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {args: {tagName: "Tag super tag", type: TagType.PRIMARY_TAG}};
-

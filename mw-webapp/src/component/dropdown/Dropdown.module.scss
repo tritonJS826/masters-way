@@ -1,11 +1,13 @@
 @import "src/styles/variables";
 
-$dropdownWidth: 100%;
+$dropdownMaxWidth: 45vw;
 $dropdownIndentationBottom: 8px;
+$dropdownMaxHeight: 50vh;
 
 .dropdownContent,
 .dropdownMenuSubContent {
   z-index: $dropdownZIndex;
+  max-height: $dropdownMaxHeight;
   border: $primaryBorder solid var(--generalPrimaryColor);
   border-radius: $primaryBorderRadius;
   animation-duration: 400ms;
@@ -13,6 +15,7 @@ $dropdownIndentationBottom: 8px;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   background: var(--tertiaryBgColor);
   outline: none;
+  overflow-wrap: anywhere;
   overflow-y: auto;
   user-select: none;
   will-change: transform, opacity;
@@ -30,34 +33,11 @@ $dropdownIndentationBottom: 8px;
 .dropdownMenuSubContent[data-side="bottom"] {
   animation-name: slideUpAndFade;
 }
-.dDropdownMenuContent[data-side="left"],
+.dropdownMenuContent[data-side="left"],
 .dropdownMenuSubContent[data-side="left"] {
+  max-width: $dropdownMaxWidth;
+  max-height: $dropdownMaxHeight;
   animation-name: slideRightAndFade;
-}
-
-.dropdownMenuItem {
-  padding: $paddingSmall $paddingMedium;
-  cursor: pointer;
-  font-size: $fontSizeMedium;
-  outline: none;
-  user-select: none;
-
-  &:not(:last-child) {
-    border-bottom: $primaryBorder solid var(--dropdownStrokeColor);
-  }
-  &:first-child {
-    border-top-left-radius: $primaryBorderRadius;
-    border-top-right-radius: $primaryBorderRadius;
-  }
-  &:last-child {
-    border-bottom-left-radius: $primaryBorderRadius;
-    border-bottom-right-radius: $primaryBorderRadius;
-  }
-
-  &:hover,
-  &:active {
-    color: var(--tertiaryTextColor);
-  }
 }
 
 .dropdownMenuSubTrigger {
@@ -78,9 +58,8 @@ $dropdownIndentationBottom: 8px;
   }
 }
 
-.DropdownMenuSubTrigger[data-state="open"] {
-  background-color: var(--violet-4);
-  color: var(--violet-11);
+.dropdownMenuSubTrigger[data-state="open"] {
+  color: var(--tertiaryTextColor);
 }
 
 @keyframes slideUpAndFade {

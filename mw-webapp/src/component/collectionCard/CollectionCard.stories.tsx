@@ -15,14 +15,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    onClick: () => {},
     isActive: false,
     collectionTitle: "Test collection",
     collectionsAmount: 5,
     language: Language.ENGLISH,
     collectionAmountTitle: "Ways:",
   },
-  render: (args) => (
-    <CollectionCard {...args} />
-  ),
+  render: (args) => <CollectionCard {...args} />,
 };
-

@@ -15,7 +15,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-
   args: {language: Language.ENGLISH},
   render: (args) => {
     return (

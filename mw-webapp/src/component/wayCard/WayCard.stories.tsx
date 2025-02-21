@@ -96,4 +96,3 @@ export const Default: Story = {
     </BrowserRouter>
   ),
 };
-

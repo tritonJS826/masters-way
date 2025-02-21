@@ -18,10 +18,9 @@ export class ChatListStore {
   public roomType: RoomType;
 
   /**
-   * If true chatListPreview is loading
-   * @default false
+   * Chat list  loading state
    */
-  public isLoadingchatListPreview: boolean = false;
+  public isLoadInProcessChatListPreview: boolean = false;
 
   /**
    * Group chat name
@@ -53,12 +52,13 @@ export class ChatListStore {
   };
 
  */
+
   /**
    * Load chat list
    */
   public loadChatList = async () => {
-    this.isLoadingchatListPreview = true;
-    const chatsData = await ChatDAL.getRooms(this.roomType).finally(() => this.isLoadingchatListPreview = false);
+    this.isLoadInProcessChatListPreview = true;
+    const chatsData = await ChatDAL.getRooms(this.roomType).finally(() => this.isLoadInProcessChatListPreview = false);
     runInAction(() => {
       this.chatPreviewList = chatsData.chatsPreview;
     });

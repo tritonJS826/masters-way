@@ -99,8 +99,11 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
               ? (
                 <Confirm
                   content={<p>
-                    {`${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} ${childMetric.description}
-                ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`}
+
+                    {renderMarkdown(
+                      `${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartOne[language]} 
+                  "${childMetric.description}" ${LanguageService.way.metricsBlock.uncheckGoalMetricQuestionPartTwo[language]}`,
+                    )}
                   </p>}
                   onOk={onOk}
                   okText={LanguageService.modals.confirmModal.confirmButton[language]}

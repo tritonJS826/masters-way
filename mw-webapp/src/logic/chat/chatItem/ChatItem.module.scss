@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$chatItemWrapperHeight:40px;
+$chatItemWrapperHeight: 40px;
 
 .chatItemWrapper {
   align-items: center;
@@ -9,12 +9,16 @@ $chatItemWrapperHeight:40px;
 }
 
 .chatItem {
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+.chatItemName {
   max-width: $minWidthBlock;
   padding: $paddingSmall;
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
-
 
 .activeChatItem {
   background-color: var(--generalBgColor);

@@ -1,5 +1,6 @@
 import {render, screen} from "@testing-library/react";
 import {Icon, IconDictionary, IconSize} from "src/component/icon/Icon";
+import styles from "src/component/icon/Icon.module.scss";
 
 const ICON_CY = "icon";
 const ICON_NAME: keyof typeof IconDictionary = "EyeOpenedIcon";
@@ -34,12 +35,14 @@ const renderTestIcon = (props: createTestIconProps) => {
 };
 
 describe("Icon component", () => {
-
   it.each(Object.entries(IconSize))("renders icon size %s", (iconSizeKey, iconSize) => {
-    renderTestIcon({name: ICON_NAME, size: iconSize});
-    const icon = screen.getByTestId(ICON_CY);
-    expect(icon).toBeInTheDocument();
-    expect(icon).toBeVisible();
-    expect(icon).toHaveClass(iconSize);
+    try {
+      renderTestIcon({name: ICON_NAME, size: iconSize});
+    } finally {
+      const icon = screen.getByTestId(ICON_CY);
+      expect(icon).toBeInTheDocument();
+      expect(icon).toBeVisible();
+      expect(icon).toHaveClass(styles[iconSize]);
+    }
   });
 });

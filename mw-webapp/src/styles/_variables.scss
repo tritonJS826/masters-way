@@ -40,7 +40,7 @@ $secondaryTransitionDuration: 150ms;
 $elementHoverTransition: 650ms;
 $tertiaryTransitionDuration: 500ms;
 
-// z-index;
+// z-index
 $sidebarZIndex: 100;
 $headerLandingZIndex: 100;
 $chatZIndex: 100;
@@ -139,10 +139,8 @@ $blurLight: 2px;
 }
 
 @mixin backgroundImage {
-  background-image: linear-gradient(
-      var(--opacityBgColor),
-      var(--opacityBgColor)
-    ),
+  background-image:
+    linear-gradient(var(--opacityBgColor), var(--opacityBgColor)),
     url("/src/assets/backgroundImageLogo.svg");
   background-position: center center;
   background-repeat: no-repeat;
@@ -150,10 +148,8 @@ $blurLight: 2px;
 }
 
 @mixin backgroundImageError {
-  background-image: linear-gradient(
-      var(--opacityBgColor),
-      var(--opacityBgColor)
-    ),
+  background-image:
+    linear-gradient(var(--opacityBgColor), var(--opacityBgColor)),
     url("https://drive.google.com/thumbnail?id=1H1LY6mbpgioMLS95qKRP6aNFAvFQIOCB&sz=w1000");
   background-position: bottom right;
   background-repeat: no-repeat;

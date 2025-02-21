@@ -1,6 +1,6 @@
 @import "src/styles/variables";
 
-$logoWraperWidth: 220px;
+$logoWrapperWidth: 220px;
 $logoWrapperHeight: 100px;
 
 .chatHeader {
@@ -52,14 +52,18 @@ $modal-animation-time: 150ms;
 }
 
 .loaderBlock {
-  width: 100%;
-  height: 100%;
+  flex: 2;
+  align-items: center;
+  justify-content: center;
   background-color: var(--secondaryBgColor);
 }
 
+.activeChatItem {
+  background-color: var(--generalBgColor);
+}
+
 .logoWrapper {
-  width: $logoWraperWidth;
-  height: $logoWrapperHeight;
+  width: $logoWrapperWidth;
 }
 
 .logoIcon {
@@ -152,6 +156,7 @@ $modal-animation-time: 150ms;
   background-color: var(--primaryBgColor);
   color: var(--primaryTextColor);
 }
+
 .messages {
   display: flex;
   flex-direction: column;
@@ -182,10 +187,12 @@ $modal-animation-time: 150ms;
 
 .offlineIndicator {
   background-color: red;
+
   .wayActionsIcon {
     z-index: $chatActionButton;
   }
 }
+
 .chatItemLink {
   font-size: $fontSizeBig;
   text-decoration: none;

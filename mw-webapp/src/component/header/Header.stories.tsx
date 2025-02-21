@@ -19,7 +19,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-
   args: {
     user: testUserPreview,
     language: languageStore.language,
@@ -31,6 +30,8 @@ export const Default: Story = {
     unreadNotificationsAmount: null,
     isNotificationBlockOpen: false,
     isConnectionEstablished: false,
+    clearUser: () => {},
+    openNotificationBlock: () => {},
   },
   render: (args) => {
     const [lang, setLang] = useState<Language>(args.language);
@@ -50,7 +51,7 @@ export const Default: Story = {
             setLanguage={setLang}
             theme={args.theme}
             setTheme={args.setTheme}
-            openNotificationBlock={() => { }}
+            openNotificationBlock={() => {}}
             unreadNotificationsAmount={null}
             isNotificationBlockOpen={false}
             isConnectionEstablished={false}

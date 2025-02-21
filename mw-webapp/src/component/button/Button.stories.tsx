@@ -23,26 +23,27 @@ export const Default: Story = {
 export const PrimaryButton: Story = {
   args: {
     value: "Primary button",
-    onClick: () => { },
+    onClick: () => {},
     buttonType: ButtonType.PRIMARY,
   },
 };
 export const SecondaryButton: Story = {
   args: {
     value: "Secondary button",
-    onClick: () => { },
+    onClick: () => {},
     buttonType: ButtonType.SECONDARY,
   },
 };
 
 export const IconButton: Story = {
   args: {
-    icon:
-  <Icon
-    size={IconSize.SMALL}
-    name="PlusIcon"
-  />,
-    onClick: () => { },
+    icon: (
+      <Icon
+        size={IconSize.SMALL}
+        name="PlusIcon"
+      />
+    ),
+    onClick: () => {},
     buttonType: ButtonType.ICON_BUTTON,
   },
 };

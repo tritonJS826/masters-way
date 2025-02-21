@@ -10,9 +10,8 @@ export class ActiveRoomStore {
 
   /**
    * Active room  value
-   *
    */
-  public activeRoom!: Room;
+  public activeRoom: Room;
 
   /**
    * Active chat item roomId
@@ -25,11 +24,24 @@ export class ActiveRoomStore {
    */
   public message: string = "";
 
+  /**
+   * If true then store data fully available
+   */
+  public isInitialized: boolean = false;
+
   constructor(roomId: string) {
     makeAutoObservable(this);
-    this.activeChatItemRoomId = roomId;
+    // Create stub for active room
+    this.activeRoom = new Room({
+      roomId,
+      isBlocked: true,
+      messages: [],
+      name: "",
+      imageUrl: "",
+      users: [],
+      roomType: "private",
+    });
     this.initializeActiveRoom(roomId);
-
   }
 
   /**
@@ -37,6 +49,15 @@ export class ActiveRoomStore {
    */
   public setMessage = (message: string) => {
     this.message = message;
+  };
+
+  /**
+   * Reload room
+   */
+  public reloadRoom = async (roomId: string) => {
+    this.activeRoom.roomId = roomId;
+    this.isInitialized = false;
+    await this.initializeActiveRoom(roomId);
   };
 
   /**
@@ -53,7 +74,14 @@ export class ActiveRoomStore {
    */
   private setActiveRoom = (activeRoom: Room) => {
     this.activeRoom = activeRoom;
+  };
 
+  /**
+   * On success initialize active room
+   */
+  private onSuccess = (activeRoom: Room) => {
+    this.setActiveRoom(activeRoom);
+    this.isInitialized = true;
   };
 
   /**
@@ -68,9 +96,8 @@ export class ActiveRoomStore {
       loadData: () => this.loadActiveRoom(activeRoomId),
       validateData: this.validateData,
       onError: this.onError,
-      onSuccess: this.setActiveRoom,
+      onSuccess: this.onSuccess,
     });
-
   }
 
   /**

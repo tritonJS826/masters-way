@@ -18,9 +18,7 @@ export const Default: Story = {
     projectTitle: "Test project",
     language: Language.ENGLISH,
     projectType: "public",
+    onClick: () => {},
   },
-  render: (args) => (
-    <ProjectCard {...args} />
-  ),
+  render: (args) => <ProjectCard {...args} />,
 };
-

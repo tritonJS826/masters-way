@@ -466,7 +466,7 @@ export const WayPage = observer((props: WayPageProps) => {
                 </Tooltip>
 
                 <Dropdown
-                  contentClassName={styles.wayActionMenu}
+                  isModalBehavior={true}
                   trigger={(
                     <Tooltip
                       content={LanguageService.way.wayInfo.wayActionsTooltip[language]}

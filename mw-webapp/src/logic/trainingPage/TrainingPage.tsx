@@ -379,25 +379,19 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
               className={styles.privacyBlock}
               dataCy={userWaysAccessIds.privacyStatus}
             >
-              <Tooltip content={trainingPageStore.training.isPrivate
-                ? LanguageService.training.peopleBlock.trainingPrivacy.privateTooltip[language]
-                : LanguageService.training.peopleBlock.trainingPrivacy.publicTooltip[language]
-              }
-              >
-                <HorizontalContainer>
-                  <Infotip content={LanguageService.training.infotip.privacyStatus[language]} />
-                  <Title
-                    level={HeadingLevel.h3}
-                    text={LanguageService.training.peopleBlock.trainingPrivacy.title[language]}
-                    placeholder=""
-                  />
-                  {Symbols.NO_BREAK_SPACE}
-                  {trainingPageStore.training.isPrivate
-                    ? LanguageService.training.peopleBlock.trainingPrivacy.private[language]
-                    : LanguageService.training.peopleBlock.trainingPrivacy.public[language]
-                  }
-                </HorizontalContainer>
-              </Tooltip>
+              <HorizontalContainer>
+                <Infotip content={LanguageService.training.infotip.privacyStatus[language]} />
+                <Title
+                  level={HeadingLevel.h3}
+                  text={LanguageService.training.peopleBlock.trainingPrivacy.title[language]}
+                  placeholder=""
+                />
+                {Symbols.NO_BREAK_SPACE}
+                {trainingPageStore.training.isPrivate
+                  ? LanguageService.training.peopleBlock.trainingPrivacy.private[language]
+                  : LanguageService.training.peopleBlock.trainingPrivacy.public[language]
+                }
+              </HorizontalContainer>
             </HorizontalContainer>
 
             <HorizontalContainer className={styles.ownerBlock}>

@@ -67,9 +67,9 @@ export const ChatItem = (props: ChatItemProps) => {
         alt={props.name}
         src={props.src}
       />
-      <VerticalContainer>
+      <VerticalContainer className={styles.chatItem}>
         <p
-          className={styles.chatItem}
+          className={styles.chatItemName}
           data-cy={chatAccessIds.chatContainer.chatItemName}
         >
           {props.name}
