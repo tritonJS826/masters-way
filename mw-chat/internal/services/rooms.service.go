@@ -8,6 +8,8 @@ import (
 
 	"errors"
 
+	lom "github.com/samber/lo/mutable"
+
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -123,6 +125,9 @@ func (roomsService *RoomsService) GetRoomByUUID(ctx context.Context, roomUUID uu
 			Readers:   messageReaders,
 		}
 	})
+
+	// 1 element should be oldest message, -1 element should be newest message
+	lom.Reverse(messages)
 
 	return &schemas.RoomPopulatedResponse{
 		RoomID:    utils.ConvertPgUUIDToUUID(room.Uuid).String(),

@@ -395,7 +395,7 @@ export const ChatContent = observer(() => {
                     ref={messagesEndRef}
                     className={clsx(styles.messages, styles.messageList)}
                   >
-                    { activeRoomStore.activeRoom.messages.reverse().map((messageItem) => (
+                    { activeRoomStore.activeRoom.messages.map((messageItem) => (
                       <MessageItem
                         key={messageItem.uuid}
                         src={messageItem.ownerImageUrl}
