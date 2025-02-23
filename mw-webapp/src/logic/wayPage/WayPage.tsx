@@ -20,7 +20,6 @@ import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
-import {Select} from "src/component/select/Select";
 import {Tag, TagType} from "src/component/tag/Tag";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -74,7 +73,7 @@ const MAX_LENGTH_WAYNAME = 50;
 const MIN_LENGTH_WAYNAME = 1;
 
 const LIKE_VALUE = 1;
-const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
+export const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
    * Default statistics block is opened
@@ -98,14 +97,13 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 /**
  * Validates way page settings
  */
-const wayPageSettingsValidator = (settings: WayPageSettings): boolean => {
-  return (
-    typeof settings.isStatisticsVisible === "boolean" &&
-    !!settings.view &&
-    Object.values(View).includes(settings.view) &&
-    !!settings.goalMetricsFilter &&
-    Object.values(GoalMetricsFilter).includes(settings.goalMetricsFilter)
-  );
+export const wayPageSettingsValidator = (settings: WayPageSettings): boolean => {
+  const isStatisticsVisibilityValid = typeof settings.isStatisticsVisible === "boolean";
+  const isViewValid = !!settings.view && Object.values(View).includes(settings.view);
+  const isMetricsFilterValid = !!settings.goalMetricsFilter &&
+    Object.values(GoalMetricsFilter).includes(settings.goalMetricsFilter);
+
+  return isStatisticsVisibilityValid && isViewValid && isMetricsFilterValid;
 };
 
 /**
@@ -153,12 +151,13 @@ export const WayPage = observer((props: WayPageProps) => {
     defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
 
     /**
-     * Check is stored data valid
+     * Validates stored way page setting
      */
     storedDataValidator: (
       currentSettings: WayPageSettings,
     ) => wayPageSettingsValidator(currentSettings),
   });
+
   const {user, updateCustomCollections} = userStore;
 
   const wayPageStore = useStore<
@@ -711,46 +710,11 @@ export const WayPage = observer((props: WayPageProps) => {
 
           </VerticalContainer>
           <VerticalContainer className={styles.metricsBlock}>
-            <HorizontalContainer className={styles.horizontalContainer}>
-              <HorizontalContainer>
-                <Infotip content={LanguageService.way.infotip.metrics[language]} />
-                <Title
-                  level={HeadingLevel.h3}
-                  text={LanguageService.way.metricsBlock.metrics[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
-              <Select
-                name="goalMetricsVisibility"
-                value={
-                  wayPageSettings.goalMetricsFilter
-                }
-                options={[
-                  {
-                    id: GoalMetricsFilter.All,
-                    value: GoalMetricsFilter.All,
-                    text: LanguageService.way.metricsBlock.goalMetricsFilterAll[language],
-                  },
-                  {
-                    id: GoalMetricsFilter.None,
-                    value: GoalMetricsFilter.None,
-                    text: LanguageService.way.metricsBlock.goalMetricsFilterNone[language],
-                  },
-                  {
-                    id: GoalMetricsFilter.Incomplete,
-                    value: GoalMetricsFilter.Incomplete,
-                    text: LanguageService.way.metricsBlock.goalMetricsFilterIncomplete[language],
-                  },
-                ]}
-                onChange={(value) => {
-                  updateWayPageSettings({goalMetricsFilter: value});
-                }}
-              />
-            </HorizontalContainer>
             <GoalMetricsBlock
               wayUuid={way.uuid}
               goalMetrics={way.metrics}
               goalMetricsFilter={wayPageSettings.goalMetricsFilter}
+              onFilterChange={(filter) => updateWayPageSettings({goalMetricsFilter: filter})}
               addMetric={(metric: Metric) => way.addMetric(metric)}
               deleteMetric={(metricUuid: string) => way.deleteMetric(metricUuid)}
               isEditable={isUserOwnerOrMentor}

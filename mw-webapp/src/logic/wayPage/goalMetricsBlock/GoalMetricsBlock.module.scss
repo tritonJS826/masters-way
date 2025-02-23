@@ -1,5 +1,12 @@
 @import "src/styles/variables";
 
+.horizontalContainer {
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $gapSmall;
+  gap: $gapExtraSmall;
+}
+
 .goalMetricsBlock {
   gap: $gapExtraSmall;
 }

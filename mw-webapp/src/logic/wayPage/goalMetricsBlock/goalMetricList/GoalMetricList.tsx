@@ -233,13 +233,13 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
   const filteredMetrics = props.metrics.filter((metric) => {
     switch (props.goalMetricsFilter) {
       case GoalMetricsFilter.All:
-        return metric;
+        return true;
       case GoalMetricsFilter.Incomplete:
         return !metric.isDone;
       case GoalMetricsFilter.None:
-        return;
+        return false;
       default:
-        return metric;
+        throw new Error("Unknown goal metrics filter");
     }
   });
 
