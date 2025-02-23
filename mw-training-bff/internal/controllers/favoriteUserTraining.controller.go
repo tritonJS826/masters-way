@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"mw-training-bff/internal/auth"
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,27 +27,19 @@ func NewFavoriteUserTrainingController(generalService *services.GeneralService, 
 // @Param trainingId path string true "training id"
 // @Success 200
 // @Router /favoriteUserTrainings/{trainingId} [post]
-func (nc *FavoriteUserTrainingController) CreateFavoriteUserTraining(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// page := ctx.DefaultQuery("page", "1")
-	// limit := ctx.DefaultQuery("limit", "50")
-	// isOnlyNew := ctx.DefaultQuery("isOnlyNew", "false")
+func (ftc *FavoriteUserTrainingController) CreateFavoriteUserTraining(ctx *gin.Context) {
+	userUUID := ctx.Value(auth.ContextKeyUserID).(string)
+	trainingIdRaw := ctx.Param("trainingId")
 
-	// reqPage, _ := strconv.Atoi(page)
-	// reqLimit, _ := strconv.Atoi(limit)
-	// reqIsOnlyNew, err := strconv.ParseBool(isOnlyNew)
+	args := &services.CreateFavoriteUserTrainingParams{
+		TrainingUuid: trainingIdRaw,
+		UserUuid:     userUUID,
+	}
 
-	// getNotificationListParams := &services.GetNotificationListParams{
-	// 	UserUUID:  userUUID,
-	// 	Page:      int32(reqPage),
-	// 	Limit:     int32(reqLimit),
-	// 	IsOnlyNew: reqIsOnlyNew,
-	// }
+	err := ftc.favoriteUserTrainingService.CreateFavoriteUserTraining(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	// response, err := nc.notificationService.GetNotificationList(ctx, getNotificationListParams)
-	// utils.HandleErrorGin(ctx, err)
-
-	// ctx.JSON(http.StatusOK, response)
+	ctx.Status(http.StatusOK)
 }
 
 // @Summary Delete favorite user training
@@ -56,17 +51,17 @@ func (nc *FavoriteUserTrainingController) CreateFavoriteUserTraining(ctx *gin.Co
 // @Param trainingId path string true "training id"
 // @Success 200
 // @Router /favoriteUserTrainings/{trainingId} [delete]
-func (nc *FavoriteUserTrainingController) DeleteFavoriteUserTraining(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationPayload
-	// notificationUUID := ctx.Param("notificationId")
+func (ftc *FavoriteUserTrainingController) DeleteFavoriteUserTraining(ctx *gin.Context) {
+	userUUID := ctx.Value(auth.ContextKeyUserID).(string)
+	trainingIdRaw := ctx.Param("trainingId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
+	args := &services.DeleteFavoriteUserTrainingParams{
+		TrainingUuid: trainingIdRaw,
+		UserUuid:     userUUID,
+	}
 
-	// response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// utils.HandleErrorGin(ctx, err)
+	err := ftc.favoriteUserTrainingService.DeleteFavoriteUserTraining(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	// ctx.JSON(http.StatusOK, response)
+	ctx.Status(http.StatusOK)
 }

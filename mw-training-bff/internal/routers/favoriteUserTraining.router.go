@@ -19,6 +19,6 @@ func newFavoriteUserTrainingRouter(favoriteUserTrainingController *controllers.F
 
 func (mr *favoriteUserTrainingRouter) setFavoriteUserTrainingRoutes(rg *gin.RouterGroup) {
 	favoriteUserTrainings := rg.Group("/favoriteUserTrainings", auth.HandleHeaders())
-	favoriteUserTrainings.POST(":trainingId", mr.favoriteUserTrainingController.CreateFavoriteUserTraining)
-	favoriteUserTrainings.DELETE(":trainingId", mr.favoriteUserTrainingController.DeleteFavoriteUserTraining)
+	favoriteUserTrainings.POST(":trainingId", auth.HandleHeaders(), mr.favoriteUserTrainingController.CreateFavoriteUserTraining)
+	favoriteUserTrainings.DELETE(":trainingId", auth.HandleHeaders(), mr.favoriteUserTrainingController.DeleteFavoriteUserTraining)
 }

@@ -21,7 +21,7 @@ func NewFavoriteTrainingUserController(favoriteUserService *services.FavoriteTra
 	return &FavoriteTrainingUserController{favoriteUserService: favoriteUserService}
 }
 
-func (ftc *FavoriteTrainingUserController) CreateFavoriteTrainingForUser(ctx context.Context, in *pb.CreateFavoriteUserTrainingRequest) (*emptypb.Empty, error) {
+func (ftc *FavoriteTrainingUserController) CreateFavoriteUserTraining(ctx context.Context, in *pb.CreateFavoriteUserTrainingRequest) (*emptypb.Empty, error) {
 	userUuid := in.GetUserUuid()
 	trainingUuid := in.GetTrainingUuid()
 	arg := db.CreateFavoriteTrainingForUserParams{
@@ -29,7 +29,7 @@ func (ftc *FavoriteTrainingUserController) CreateFavoriteTrainingForUser(ctx con
 		UserUuid:     pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
 	}
 
-	_, err := ftc.favoriteUserService.CreateFavoriteTrainingForUser(ctx, arg)
+	_, err := ftc.favoriteUserService.CreateFavoriteUserTraining(ctx, arg)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +37,7 @@ func (ftc *FavoriteTrainingUserController) CreateFavoriteTrainingForUser(ctx con
 	return &emptypb.Empty{}, nil
 }
 
-func (ftc *FavoriteTrainingUserController) DeleteFavoriteTrainingUserByIds(ctx context.Context, in *pb.DeleteFavoriteUserTrainingRequest) (*emptypb.Empty, error) {
+func (ftc *FavoriteTrainingUserController) DeleteFavoriteUserTraining(ctx context.Context, in *pb.DeleteFavoriteUserTrainingRequest) (*emptypb.Empty, error) {
 	userUuid := in.GetUserUuid()
 	trainingUuid := in.GetTrainingUuid()
 	arg := db.DeleteFavoriteTrainingUserByIdsParams{
@@ -45,7 +45,7 @@ func (ftc *FavoriteTrainingUserController) DeleteFavoriteTrainingUserByIds(ctx c
 		UserUuid:     pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true},
 	}
 
-	err := ftc.favoriteUserService.DeleteFavoriteTrainingUserByIds(ctx, arg)
+	err := ftc.favoriteUserService.DeleteFavoriteUserTraining(ctx, arg)
 	if err != nil {
 		return nil, err
 	}

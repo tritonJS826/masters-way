@@ -27,11 +27,11 @@ func NewFavoriteTrainingUserService(pgxPool *pgxpool.Pool, favoriteRepository Fa
 }
 
 // Create a new favorite training for a user
-func (fts *FavoriteTrainingUserService) CreateFavoriteTrainingForUser(ctx context.Context, arg db.CreateFavoriteTrainingForUserParams) (db.FavoriteUsersTraining, error) {
+func (fts *FavoriteTrainingUserService) CreateFavoriteUserTraining(ctx context.Context, arg db.CreateFavoriteTrainingForUserParams) (db.FavoriteUsersTraining, error) {
 	return fts.favoriteRepository.CreateFavoriteTrainingForUser(ctx, arg)
 }
 
 // Delete a favorite training for a user by IDs
-func (fts *FavoriteTrainingUserService) DeleteFavoriteTrainingUserByIds(ctx context.Context, arg db.DeleteFavoriteTrainingUserByIdsParams) error {
+func (fts *FavoriteTrainingUserService) DeleteFavoriteUserTraining(ctx context.Context, arg db.DeleteFavoriteTrainingUserByIdsParams) error {
 	return fts.favoriteRepository.DeleteFavoriteTrainingUserByIds(ctx, arg)
 }
