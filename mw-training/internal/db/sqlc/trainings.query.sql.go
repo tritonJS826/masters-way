@@ -485,11 +485,9 @@ FROM
 LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
+    trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
