@@ -95,6 +95,7 @@ message User {
   string image_url = 3;
 }
 
+	// FavoriteCount
 message Training {
   string uuid = 1;
   string name = 2;
@@ -104,6 +105,9 @@ message Training {
   string updated_at = 6;
   bool is_private = 7;
   repeated TrainingTag training_tag_list = 8;
+  repeated User training_students = 9;
+  repeated User training_mentors = 10;
+  int32 favorite_count = 11;
 }
 
 message TrainingPreviewList {

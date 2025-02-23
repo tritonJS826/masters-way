@@ -40,10 +40,6 @@ func NewTrainingService(pgxPool *pgxpool.Pool, trainingRepository TrainingReposi
 	}
 }
 
-// TrainingName
-// RequestOffset
-// RequestLimit
-
 type GetTrainingListParams struct {
 	TrainingName  string
 	RequestOffset int32
@@ -67,23 +63,37 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 		return &pb.TrainingPreviewList{}, err
 	}
 
-	// TODO: add
-	// FavoriteCount
-	// Tags
-	// TrainingMentors
-	// TrainingStudents
-
 	trainings := lo.Map(dbTrainings, func(training db.GetTrainingListRow, _ int) *pb.Training {
+		trainingTags := lo.Map(training.Tags, func(tag string, _ int) *pb.TrainingTag {
+			return &pb.TrainingTag{TagName: tag}
+		})
+
+		students := lo.Map(training.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(studentUuid),
+			}
+		})
+
+		mentors := lo.Map(training.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(mentorUuid),
+			}
+		})
+
 		return &pb.Training{
 			Uuid:      *utils.MarshalPgUUID(training.Uuid),
 			Name:      training.Name,
-			IsPrivate: false,
+			IsPrivate: training.IsPrivate,
 			Owner: &pb.User{
 				Uuid: *utils.MarshalPgUUID(training.OwnerUuid),
 			},
-			Description: training.Description,
-			CreatedAt:   training.CreatedAt.Time.String(),
-			UpdatedAt:   training.UpdatedAt.Time.String(),
+			Description:      training.Description,
+			CreatedAt:        training.CreatedAt.Time.String(),
+			UpdatedAt:        training.UpdatedAt.Time.String(),
+			TrainingTagList:  trainingTags,
+			TrainingStudents: students,
+			TrainingMentors:  mentors,
+			FavoriteCount:    int32(training.FavoriteCount),
 		}
 	})
 

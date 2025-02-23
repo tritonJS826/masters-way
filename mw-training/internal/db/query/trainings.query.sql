@@ -39,10 +39,11 @@ SELECT
     trainings.owner_uuid,
     trainings.created_at,
     trainings.updated_at,
+    trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
 FROM
     trainings
 LEFT JOIN
