@@ -1117,6 +1117,7 @@
                 "createdAt",
                 "name",
                 "order",
+                "owner",
                 "parentUuid",
                 "practiceMaterials",
                 "theoryMaterials",
@@ -1132,6 +1133,9 @@
                 },
                 "order": {
                     "type": "integer"
+                },
+                "owner": {
+                    "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
                 },
                 "parentUuid": {
                     "type": "string",

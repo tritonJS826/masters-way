@@ -1,5 +1,9 @@
 package schemas
 
+type CreateWayFromTrainingPayload struct {
+	TrainingId string `json:"trainingId" validate:"required"`
+}
+
 type CreateWayPayload struct {
 	Name            string  `json:"name" validate:"required"`
 	GoalDescription string  `json:"goalDescription" validate:"required"`

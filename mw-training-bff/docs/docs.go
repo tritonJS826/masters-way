@@ -1125,6 +1125,7 @@ const docTemplate = `{
                 "createdAt",
                 "name",
                 "order",
+                "owner",
                 "parentUuid",
                 "practiceMaterials",
                 "theoryMaterials",
@@ -1140,6 +1141,9 @@ const docTemplate = `{
                 },
                 "order": {
                     "type": "integer"
+                },
+                "owner": {
+                    "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
                 },
                 "parentUuid": {
                     "type": "string",
