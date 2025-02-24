@@ -326,6 +326,36 @@ const docTemplate = `{
             }
         },
         "/topics/{topicId}": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "topic"
+                ],
+                "summary": "Get topic by id",
+                "operationId": "get-topic",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "topic id",
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "consumes": [
                     "application/json"
@@ -1096,6 +1126,52 @@ const docTemplate = `{
                 "name",
                 "order",
                 "parentUuid",
+                "practiceMaterials",
+                "theoryMaterials",
+                "trainingUuid",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "parentUuid": {
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "practiceMaterials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.PracticeMaterial"
+                    }
+                },
+                "theoryMaterials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TheoryMaterial"
+                    }
+                },
+                "trainingUuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TopicPreview": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "name",
+                "order",
+                "parentUuid",
                 "practiceMaterialAmount",
                 "theoryMaterialAmount",
                 "trainingUuid",
@@ -1182,7 +1258,7 @@ const docTemplate = `{
                 "topics": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
                     }
                 },
                 "trainingTags": {

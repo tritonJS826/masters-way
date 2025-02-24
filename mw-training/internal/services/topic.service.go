@@ -9,6 +9,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/samber/lo"
 )
 
 type TopicRepository interface {
@@ -16,6 +17,8 @@ type TopicRepository interface {
 	UpdateTopic(ctx context.Context, params db.UpdateTopicParams) (db.Topic, error)
 	DeleteTopic(ctx context.Context, topicUuid pgtype.UUID) (db.Topic, error)
 	GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (db.GetTopicByUuidRow, error)
+	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]db.PracticeMaterial, error)
+	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]db.TheoryMaterial, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -29,6 +32,58 @@ func NewTopicService(pgxPool *pgxpool.Pool, topicRepository TopicRepository) *To
 		pgxPool:         pgxPool,
 		topicRepository: topicRepository,
 	}
+}
+
+func (ts *TopicService) GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (*pb.Topic, error) {
+	topic, err := ts.topicRepository.GetTopicByUuid(ctx, topicUuid)
+	if err != nil {
+		return &pb.Topic{}, err
+	}
+	theoryMaterialsRaw, err := ts.topicRepository.GetTheoryMaterialsByTopicId(ctx, topicUuid)
+	if err != nil {
+		return &pb.Topic{}, err
+	}
+	practiceMaterialsRaw, err := ts.topicRepository.GetPracticeMaterialsByTopicId(ctx, topicUuid)
+	if err != nil {
+		return &pb.Topic{}, err
+	}
+
+	theoryMaterials := lo.Map(theoryMaterialsRaw, func(material db.TheoryMaterial, _ int) *pb.TheoryMaterial {
+		return &pb.TheoryMaterial{
+			Uuid:        *utils.MarshalPgUUID(material.Uuid),
+			Name:        material.Name.String,
+			Description: material.Description.String,
+			TopicUuid:   *utils.MarshalPgUUID(material.TopicUuid),
+			CreatedAt:   material.CreatedAt.Time.String(),
+			UpdatedAt:   material.UpdatedAt.Time.String(),
+		}
+	})
+
+	practiceMaterials := lo.Map(practiceMaterialsRaw, func(material db.PracticeMaterial, _ int) *pb.PracticeMaterial {
+		return &pb.PracticeMaterial{
+			Uuid:         *utils.MarshalPgUUID(material.Uuid),
+			Name:         material.Name.String,
+			Description:  material.TaskDescription.String,
+			Order:        material.PracticeMaterialOrder,
+			Answer:       material.Answer.String,
+			PracticeType: string(material.PracticeType),
+			TimeToAnswer: material.TimeToAnswer,
+			TopicUuid:    *utils.MarshalPgUUID(material.TopicUuid),
+			UpdatedAt:    material.UpdatedAt.Time.String(),
+			CreatedAt:    material.CreatedAt.Time.String(),
+		}
+	})
+
+	return &pb.Topic{
+		Uuid:              *utils.MarshalPgUUID(topic.Uuid),
+		Name:              topic.Name.String,
+		TrainingUuid:      *utils.MarshalPgUUID(topic.TrainingUuid),
+		TopicOrder:        topic.TopicOrder,
+		ParentTopicUuid:   utils.MarshalPgUUID(topic.Parent),
+		CreatedAt:         topic.CreatedAt.Time.String(),
+		TheoryMaterials:   theoryMaterials,
+		PracticeMaterials: practiceMaterials,
+	}, nil
 }
 
 func (ts *TopicService) CreateTopic(ctx context.Context, params db.CreateTopicInTrainingParams) (*pb.TopicPreview, error) {

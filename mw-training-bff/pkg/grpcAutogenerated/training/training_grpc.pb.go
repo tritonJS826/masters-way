@@ -1165,6 +1165,7 @@ var TheoryMaterialService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TopicsServiceClient interface {
+	GetTopicById(ctx context.Context, in *GetTopicByIdRequest, opts ...grpc.CallOption) (*Topic, error)
 	CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error)
 	UpdateTopic(ctx context.Context, in *UpdateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error)
 	DeleteTopic(ctx context.Context, in *DeleteTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -1176,6 +1177,15 @@ type topicsServiceClient struct {
 
 func NewTopicsServiceClient(cc grpc.ClientConnInterface) TopicsServiceClient {
 	return &topicsServiceClient{cc}
+}
+
+func (c *topicsServiceClient) GetTopicById(ctx context.Context, in *GetTopicByIdRequest, opts ...grpc.CallOption) (*Topic, error) {
+	out := new(Topic)
+	err := c.cc.Invoke(ctx, "/training.TopicsService/GetTopicById", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *topicsServiceClient) CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error) {
@@ -1209,6 +1219,7 @@ func (c *topicsServiceClient) DeleteTopic(ctx context.Context, in *DeleteTopicRe
 // All implementations must embed UnimplementedTopicsServiceServer
 // for forward compatibility
 type TopicsServiceServer interface {
+	GetTopicById(context.Context, *GetTopicByIdRequest) (*Topic, error)
 	CreateTopic(context.Context, *CreateTopicRequest) (*TopicPreview, error)
 	UpdateTopic(context.Context, *UpdateTopicRequest) (*TopicPreview, error)
 	DeleteTopic(context.Context, *DeleteTopicRequest) (*emptypb.Empty, error)
@@ -1219,6 +1230,9 @@ type TopicsServiceServer interface {
 type UnimplementedTopicsServiceServer struct {
 }
 
+func (UnimplementedTopicsServiceServer) GetTopicById(context.Context, *GetTopicByIdRequest) (*Topic, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopicById not implemented")
+}
 func (UnimplementedTopicsServiceServer) CreateTopic(context.Context, *CreateTopicRequest) (*TopicPreview, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTopic not implemented")
 }
@@ -1239,6 +1253,24 @@ type UnsafeTopicsServiceServer interface {
 
 func RegisterTopicsServiceServer(s grpc.ServiceRegistrar, srv TopicsServiceServer) {
 	s.RegisterService(&TopicsService_ServiceDesc, srv)
+}
+
+func _TopicsService_GetTopicById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopicByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicsServiceServer).GetTopicById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TopicsService/GetTopicById",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicsServiceServer).GetTopicById(ctx, req.(*GetTopicByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _TopicsService_CreateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1302,6 +1334,10 @@ var TopicsService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "training.TopicsService",
 	HandlerType: (*TopicsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTopicById",
+			Handler:    _TopicsService_GetTopicById_Handler,
+		},
 		{
 			MethodName: "CreateTopic",
 			Handler:    _TopicsService_CreateTopic_Handler,

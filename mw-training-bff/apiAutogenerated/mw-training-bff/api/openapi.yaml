@@ -249,6 +249,11 @@ paths:
         required: true
         schema:
           type: string
+      - description: Topic parent id
+        in: query
+        name: topicParentId
+        schema:
+          type: string
       responses:
         "200":
           content:

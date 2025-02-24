@@ -142,7 +142,7 @@ func (ts *TrainingService) CreateTraining(ctx context.Context, params *CreateTra
 		Students:             make([]schemas.User, 0),
 		TrainingTags:         make([]schemas.TrainingTag, 0),
 		FavoriteForUserUuids: make([]string, 0),
-		Topics:               make([]schemas.Topic, 0),
+		Topics:               make([]schemas.TopicPreview, 0),
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, err
@@ -186,7 +186,7 @@ func (ts *TrainingService) UpdateTraining(ctx context.Context, params *UpdateTra
 		Students:             make([]schemas.User, 0),
 		TrainingTags:         make([]schemas.TrainingTag, 0),
 		FavoriteForUserUuids: make([]string, 0),
-		Topics:               make([]schemas.Topic, 0),
+		Topics:               make([]schemas.TopicPreview, 0),
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, err
@@ -364,8 +364,8 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		return schemas.TrainingTag{Name: tag.TagName}
 	})
 
-	topics := lo.Map(trainingRaw.Topics, func(topic *pb.TopicPreview, _ int) schemas.Topic {
-		return schemas.Topic{
+	topics := lo.Map(trainingRaw.Topics, func(topic *pb.TopicPreview, _ int) schemas.TopicPreview {
+		return schemas.TopicPreview{
 			Uuid:                   topic.Uuid,
 			Name:                   topic.Name,
 			TrainingUuid:           topic.TrainingUuid,

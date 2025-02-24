@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## CreateTopic
 
-> MwTrainingBffInternalSchemasTopic CreateTopic(ctx, trainingId).Execute()
+> MwTrainingBffInternalSchemasTopic CreateTopic(ctx, trainingId).TopicParentId(topicParentId).Execute()
 
 Create topic
 
@@ -30,10 +30,11 @@ import (
 
 func main() {
 	trainingId := "trainingId_example" // string | training id
+	topicParentId := "topicParentId_example" // string | Topic parent id (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicAPI.CreateTopic(context.Background(), trainingId).Execute()
+	resp, r, err := apiClient.TopicAPI.CreateTopic(context.Background(), trainingId).TopicParentId(topicParentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.CreateTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -59,6 +60,7 @@ Other parameters are passed through a pointer to a apiCreateTopicRequest struct 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **topicParentId** | **string** | Topic parent id | 
 
 ### Return type
 

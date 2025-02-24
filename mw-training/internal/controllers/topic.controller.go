@@ -53,6 +53,19 @@ func (tc *TopicController) CreateTopic(ctx context.Context, in *pb.CreateTopicRe
 	return topic, nil
 }
 
+func (tc *TopicController) GetTopicById(ctx context.Context, in *pb.GetTopicByIdRequest) (*pb.Topic, error) {
+	topicUuid := in.GetTopicUuid()
+
+	arg := pgtype.UUID{Bytes: uuid.MustParse(topicUuid), Valid: true}
+
+	topic, err := tc.topicService.GetTopicByUuid(ctx, arg)
+	if err != nil {
+		return nil, err
+	}
+
+	return topic, nil
+}
+
 func (tc *TopicController) UpdateTopic(ctx context.Context, in *pb.UpdateTopicRequest) (*pb.TopicPreview, error) {
 	topicName := in.GetName()
 	topicUuid := in.GetUuid()

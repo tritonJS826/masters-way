@@ -470,7 +470,7 @@ SELECT
     ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
     ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
     ARRAY_AGG(favorite_users_trainings.user_uuid) FILTER (WHERE favorite_users_trainings.user_uuid IS NOT NULL)::UUID[] AS favorite_users,
-    ARRAY_AGG(related_topics.uuid) FILTER (WHERE related_topics.uuid IS NOT NULL)::UUID[] AS related_topics
+    ARRAY_AGG(topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL)::UUID[] AS related_topics
 FROM
     trainings
 LEFT JOIN

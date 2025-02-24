@@ -51,6 +51,7 @@ service TheoryMaterialService {
 }
 
 service TopicsService {
+  rpc GetTopicById(GetTopicByIdRequest) returns (Topic);
   rpc CreateTopic(CreateTopicRequest) returns (TopicPreview);
   rpc UpdateTopic(UpdateTopicRequest) returns (TopicPreview);
   rpc DeleteTopic(DeleteTopicRequest) returns (google.protobuf.Empty);
@@ -245,8 +246,9 @@ message TheoryMaterial {
   string topic_uuid = 2;
   string name = 3;
   string description = 4;
-  string created_at = 5;
-  string updated_at = 6;
+  int32 order = 5;
+  string created_at = 6;
+  string updated_at = 7;
 }
 
 message UpdateTheoryMaterialRequest {
@@ -257,6 +259,10 @@ message UpdateTheoryMaterialRequest {
 
 message DeleteTheoryMaterialRequest {
   string uuid = 1;
+}
+
+message GetTopicByIdRequest {
+  string topic_uuid = 1;
 }
 
 message CreateTopicRequest {
@@ -273,10 +279,19 @@ message TopicPreview {
   int32  topic_order = 4;
   optional string parent_topic_uuid = 5;
   string created_at = 6;
-  int32 TheoryMaterialsAmount = 7;
-  int32 PracticeMaterialsAmount = 8;
+  int32 theory_materials_amount = 7;
+  int32 practice_materials_amount = 8;
+}
 
-
+message Topic {
+  string uuid = 1;
+  string name = 2;
+  string training_uuid = 3;
+  int32  topic_order = 4;
+  optional string parent_topic_uuid = 5;
+  string created_at = 6;
+  repeated TheoryMaterial theory_materials = 7;
+  repeated PracticeMaterial practice_materials = 8;
 }
 
 message UpdateTopicRequest {

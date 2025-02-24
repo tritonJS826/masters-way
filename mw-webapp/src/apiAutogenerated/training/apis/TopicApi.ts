@@ -27,6 +27,7 @@ import {
 
 export interface CreateTopicRequest {
     trainingId: string;
+    topicParentId?: string;
 }
 
 export interface DeleteTopicRequest {
@@ -52,6 +53,10 @@ export class TopicApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.topicParentId !== undefined) {
+            queryParameters['topicParentId'] = requestParameters.topicParentId;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
