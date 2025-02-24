@@ -203,6 +203,28 @@
       "ru": "Темы",
       "en": "Topics",
       "ua": "Теми"
+    },
+    "createdAt": {
+      "ru": "Создан",
+      "en": "Created at",
+      "ua": "Створено"
+    },
+    "addNewTopicButton": {
+      "ru": "Добавить тему",
+      "en": "Add topic",
+      "ua": "Додати тему"
+    },
+    "tooltips": {
+      "theoryMaterialAmount": {
+        "ru": "Количество теоретических материалов",
+        "en": "Number of theoretical materials",
+        "ua": "Кількість теоретичних матеріалів"
+      },
+      "practiceMaterialAmount": {
+        "ru": "Количество практических материалов",
+        "en": "Number of practical materials",
+        "ua": "Кількість практичних матеріалів"
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
+import {TopicPage} from "src/logic/topicPage/TopicPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -37,6 +38,11 @@ const getPathForWayPage = (params: { uuid: string }): string => `/way/${params.u
  * Create url with appropriate params for @TrainingPage
  */
 const getPathForTrainingPage = (params: { uuid: string }): string => `/training/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @TopicPage
+ */
+const getPathForTopicPage = (params: { uuid: string }): string => `/topic/${params.uuid}`;
 
 /**
  * Create url with appropriate params for @ProjectPage
@@ -211,6 +217,11 @@ export const pages = {
   training: {
     getPath: (params): string => getPathForTrainingPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<TrainingPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{ uuid: string }>,
+  topic: {
+    getPath: (params): string => getPathForTopicPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<TopicPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{ uuid: string }>,
   project: {

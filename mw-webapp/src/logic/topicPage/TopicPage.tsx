@@ -39,7 +39,7 @@ import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
-import styles from "src/logic/trainingPage/TrainingPage.module.scss";
+import styles from "src/logic/topicPage/TopicPage.module.scss";
 
 const MAX_LENGTH_TRAINING_NAME = 50;
 const MIN_LENGTH_TRAINING_NAME = 1;
@@ -69,9 +69,9 @@ const updateTraining = async (params: UpdateTrainingParams) => {
 };
 
 /**
- * PageProps
+ * TopicPage props
  */
-interface TrainingPageProps {
+interface TopicPageProps {
 
   /**
    * Page's uuid
@@ -80,9 +80,9 @@ interface TrainingPageProps {
 }
 
 /**
- * Training page
+ * Topic page
  */
-export const TrainingPage = observer((props: TrainingPageProps) => {
+export const TopicPage = observer((props: TopicPageProps) => {
   const navigate = useNavigate();
   const [isAddTrainingTagModalOpen, setIsAddTrainingTagModalOpen] = useState(false);
   const {language} = languageStore;

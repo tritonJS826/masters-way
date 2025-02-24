@@ -3,6 +3,34 @@ import {Topic} from "src/model/businessModel/Topic";
 import {TrainingTag, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 
 /**
+ * Add topic recursively
+ */
+const addTopicRecursive = (topic: Topic, newTopic: Topic): Topic => {
+  return new Topic({
+    ...topic,
+    children: topic.uuid === newTopic.parentUuid
+      ? [...topic.children, newTopic]
+      : topic.children.map(child => addTopicRecursive(child, newTopic)),
+  });
+};
+
+/**
+ * Delete topic recursively
+ */
+const deleteTopicRecursively = (topic: Topic, topicUuid: string) => {
+  topic.children = topic.children.filter(child => {
+    if (child.uuid === topicUuid) {
+      return false;
+    } else {
+      deleteTopicRecursively(child, topicUuid);
+
+      return true;
+    }
+  });
+
+};
+
+/**
  * Training props
  */
 interface TrainingProps {
@@ -217,6 +245,23 @@ export class Training {
    */
   public updateDescription(descriptionToUpdate: string): void {
     this.description = descriptionToUpdate;
+  }
+
+  /**
+   * Add new topic to training
+   */
+  public addTopic(newTopic: Topic): void {
+    newTopic.parentUuid
+      ? this.topics = this.topics.map(topic => addTopicRecursive(topic, newTopic))
+      : this.topics.push(newTopic);
+  }
+
+  /**
+   * Delete topic from training
+   */
+  public deleteTopic(topicUuid: string): void {
+    this.topics = this.topics.filter(topic => topic.uuid !== topicUuid);
+    this.topics.forEach(topic => deleteTopicRecursively(topic, topicUuid));
   }
 
 }
