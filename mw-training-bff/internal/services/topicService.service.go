@@ -91,7 +91,6 @@ func (ts *TopicService) GetTopicById(ctx context.Context, topicUuid string) (*sc
 }
 
 func (ts *TopicService) CreateTopic(ctx context.Context, params *CreateTopicParams) (*schemas.TopicPreview, error) {
-
 	topic, err := ts.topicGRPC.CreateTopic(ctx, &pb.CreateTopicRequest{
 		Name:            params.Name,
 		TrainingUuid:    params.TrainingUuid,
