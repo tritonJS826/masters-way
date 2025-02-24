@@ -364,6 +364,10 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		return schemas.TrainingTag{Name: tag.TagName}
 	})
 
+	favoriteUsers := lo.Map(trainingRaw.FavoriteForUsersPreview, func(userUuid string, _ int) string {
+		return userUuid
+	})
+
 	topics := lo.Map(trainingRaw.Topics, func(topic *pb.TopicPreview, _ int) schemas.TopicPreview {
 		return schemas.TopicPreview{
 			Uuid:                   topic.Uuid,
@@ -386,7 +390,7 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		Mentors:              mentors,
 		Students:             students,
 		TrainingTags:         trainingTags,
-		FavoriteForUserUuids: trainingRaw.FavoriteForUsersPreview,
+		FavoriteForUserUuids: favoriteUsers,
 		Topics:               topics,
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
