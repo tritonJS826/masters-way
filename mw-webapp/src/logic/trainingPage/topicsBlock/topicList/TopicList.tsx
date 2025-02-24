@@ -6,7 +6,7 @@ import {Tooltip} from "src/component/tooltip/Tooltip";
 import {TopicCard} from "src/component/topicCard/TopicCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {Topic} from "src/model/businessModel/Topic";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
@@ -20,7 +20,7 @@ interface TopicChildrenListProps {
     /**
      * Root topics
      */
-  topics: Topic[];
+  topics: TopicPreview[];
 
   /**
    * Child level (root is 0)
@@ -40,7 +40,7 @@ interface TopicChildrenListProps {
   /**
    * Add nested topic
    */
-  addTopic: (parentUuid: string, parentTopic: Topic | null) => void;
+  addTopic: (parentUuid: string, parentTopic: TopicPreview | null) => void;
 
 }
 
@@ -55,14 +55,14 @@ export const TopicChildrenList = (props: TopicChildrenListProps) => {
   /**
    * ChildrenItem
    */
-  const renderChildrenItem = (childTopic: Topic) => {
+  const renderChildrenItem = (childTopic: TopicPreview) => {
 
     const levelArray = [...Array(props.level).keys()];
 
     return (
       <VerticalContainer key={childTopic.uuid}>
         <HorizontalContainer className={styles.singularTopic}>
-          <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
+          <HorizontalContainer className={styles.topicBullet}>
             {levelArray.map(item => {
               return (
                 <div
@@ -73,18 +73,17 @@ export const TopicChildrenList = (props: TopicChildrenListProps) => {
                 </div>
               );
             })}
+            <TopicCard
+              trainingUuid={childTopic.trainingUuid}
+              topic={childTopic}
+              createdAtText={LanguageService.training.topicsBlock.createdAt[language]}
+              theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
+              practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
+            />
           </HorizontalContainer>
 
-          <TopicCard
-            trainingUuid={childTopic.trainingUuid}
-            topic={childTopic}
-            createdAtText={LanguageService.training.topicsBlock.createdAt[language]}
-            theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
-            practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
-          />
-
           {props.isEditable && (
-            <HorizontalContainer className={styles.topicActionButtons}>
+            <HorizontalContainer>
               <Button
                 icon={
                   <Icon
@@ -121,8 +120,7 @@ export const TopicChildrenList = (props: TopicChildrenListProps) => {
               </Tooltip>
 
             </HorizontalContainer>
-          )
-          }
+          )}
         </HorizontalContainer>
         <TopicChildrenList
           level={props.level + LEVEL_INCREMENT}

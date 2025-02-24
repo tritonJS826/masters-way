@@ -1,17 +1,14 @@
 @import "src/styles/variables";
 
 .singularTopic {
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  padding-top: $paddingExtraSmall;
-  gap: $gapExtraSmall;
-}
+  padding: 2px $paddingSmall;
+  border-radius: $primaryBorderRadius;
 
-.singularTopic:hover {
-  background-color: var(--primaryBgColor);
-}
-
-.topicActionButtons {
+  &:hover {
+    background-color: var(--tertiaryBgColor);
+  }
 }
 
 .tabContainer {
@@ -24,6 +21,7 @@
   justify-content: center;
 }
 
-.metricDescriptionAndCheckbox {
+.topicBullet {
   width: 100%;
+  gap: $gapExtraSmall;
 }

@@ -5,7 +5,7 @@ import {Link} from "src/component/link/Link";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {Topic} from "src/model/businessModel/Topic";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {pages} from "src/router/pages";
 import styles from "src/component/topicCard/TopicCard.module.scss";
 
@@ -22,7 +22,7 @@ interface TopicCardProps {
   /**
    * Topic
    */
-  topic: Topic;
+  topic: TopicPreview;
 
   /**
    * Created at text

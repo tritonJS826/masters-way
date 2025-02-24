@@ -1,17 +1,13 @@
+import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-import {Button, ButtonType} from "src/component/button/Button";
-import {Confirm} from "src/component/confirm/Confirm";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
-import {Tooltip} from "src/component/tooltip/Tooltip";
-import {TopicCard} from "src/component/topicCard/TopicCard";
+import {Button} from "src/component/button/Button";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {TopicChildrenList} from "src/logic/trainingPage/topicsBlock/topicList/TopicList";
-import {Topic} from "src/model/businessModel/Topic";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
-import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/trainingPage/topicsBlock/TopicsBlock.module.scss";
 
 /**
@@ -22,7 +18,7 @@ interface TopicsBlockProps {
   /**
    * Training's topics
    */
-  topics: Topic[];
+  topics: TopicPreview[];
 
   /**
    * Training's Uuid
@@ -37,7 +33,7 @@ interface TopicsBlockProps {
   /**
    * Callback to add topic
    */
-  addTopic: (topic: Topic) => void;
+  addTopic: (topic: TopicPreview) => void;
 
   /**
    * Callback to delete topic
@@ -51,6 +47,7 @@ interface TopicsBlockProps {
  */
 export const TopicsBlock = observer((props: TopicsBlockProps) => {
   const {language} = languageStore;
+  const navigate = useNavigate();
 
   /**
    * Add topic
@@ -60,7 +57,8 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
       trainingId,
       topicParentId,
     });
-    props.addTopic(newTopic);
+    // Props.addTopic(newTopic);
+    navigate(pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: newTopic.uuid}));
   };
 
   /**
@@ -71,7 +69,7 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
     await TopicDAL.deleteTopic(topicUuid);
   };
 
-  const topics: Topic[] = [
+  const topics: TopicPreview[] = [
     {
       trainingUuid: "0b467907-61a2-4d8d-9e34-7b6490f7e454",
       createdAt: new Date(),
@@ -111,51 +109,11 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
     <VerticalContainer className={styles.topicsSection}>
       <TopicChildrenList
         level={0}
-        topics={props.topics}
+        topics={topics}
         isEditable={props.isEditable}
         addTopic={(parentUuid: string) => addTopic(parentUuid)}
         deleteTopic={(topicUuid: string) => deleteTopic(topicUuid)}
       />
-      {props.topics.map((topic) => (
-        <HorizontalContainer
-          key={topic.uuid}
-          className={styles.topicItem}
-        >
-          {/* <TopicCard
-            trainingUuid={props.trainingUuid}
-            topic={topic}
-            createdAtText={LanguageService.training.topicsBlock.createdAt[language]}
-            theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
-            practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
-          />
-          {props.isEditable && (
-            <Tooltip content={LanguageService.training.topicsBlock.deleteTopicTooltip[language]}>
-              <Confirm
-                trigger={
-                  <Button
-                    icon={
-                      <Icon
-                        size={IconSize.SMALL}
-                        name="TrashIcon"
-                      />
-                    }
-                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                    onClick={() => {}}
-                  />
-                }
-                content={<p>
-                  {renderMarkdown(
-                    `${LanguageService.training.topicsBlock.deleteTopicQuestion[language]} "${topic.name}"?`,
-                  )}
-                </p>}
-                onOk={() => deleteTopic(topic.uuid)}
-                okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-              />
-            </Tooltip>
-          )} */}
-        </HorizontalContainer>
-      ))}
       {props.isEditable &&
       <Button
         value={LanguageService.training.topicsBlock.addNewTopicButton[language]}

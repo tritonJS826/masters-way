@@ -1,4 +1,6 @@
 import {makeAutoObservable} from "mobx";
+import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
+import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
 
 /**
  * Topic props
@@ -38,12 +40,12 @@ interface TopicProps {
   /**
    * Practice materials
    */
-  practiceMaterials: number;
+  practiceMaterials: PracticeMaterial[];
 
   /**
    * Theory materials
    */
-  theoryMaterials: number;
+  theoryMaterials: TheoryMaterial[];
 
   /**
    * Training's uuid
@@ -90,12 +92,12 @@ export class Topic {
   /**
    * Practice materials
    */
-  public practiceMaterials: number;
+  public practiceMaterials: PracticeMaterial[];
 
   /**
    * Theory materials
    */
-  public theoryMaterials: number;
+  public theoryMaterials: TheoryMaterial[];
 
   /**
    * Training's uuid

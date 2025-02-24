@@ -31,8 +31,8 @@ import {useStore} from "src/hooks/useStore";
 import {DescriptionBlock} from "src/logic/trainingPage/descriptionBlock/DescriptionBlock";
 import {TopicsBlock} from "src/logic/trainingPage/topicsBlock/TopicsBlock";
 import {TrainingPageStore} from "src/logic/trainingPage/TrainingPageStore";
-import {Topic} from "src/model/businessModel/Topic";
 import {Training} from "src/model/businessModel/Training";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TrainingTag} from "src/model/businessModelPreview/TrainingPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -430,7 +430,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
           />
 
           <TopicsBlock
-            addTopic={(topic: Topic) => trainingPageStore.training.addTopic(topic)}
+            addTopic={(topic: TopicPreview) => trainingPageStore.training.addTopic(topic)}
             deleteTopic={(topicUuid: string) => trainingPageStore.training.deleteTopic(topicUuid)}
             isEditable={isOwner}
             topics={trainingPageStore.training.topics}
