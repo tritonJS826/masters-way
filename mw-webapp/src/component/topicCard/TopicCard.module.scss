@@ -5,17 +5,13 @@ $wayCardAdditionalHeight: 118px;
 
 .cardLink {
   text-decoration: none;
+  width: 100%;
 }
 
 .topicCard {
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: $paddingSmall;
-  border-radius: $primaryBorderRadius;
-
-  &:hover {
-    background-color: var(--tertiaryBgColor);
-  }
 }
 
 .dateValue {
@@ -30,4 +26,5 @@ $wayCardAdditionalHeight: 118px;
 
 .topicActionButtons {
   align-items: center;
+  justify-content: space-between;
 }

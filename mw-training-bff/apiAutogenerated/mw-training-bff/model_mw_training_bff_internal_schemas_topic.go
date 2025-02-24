@@ -24,6 +24,7 @@ type MwTrainingBffInternalSchemasTopic struct {
 	CreatedAt string
 	Name string
 	Order int32
+	Owner MwTrainingBffInternalSchemasUser
 	ParentUuid NullableString
 	PracticeMaterials []MwTrainingBffInternalSchemasPracticeMaterial
 	TheoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial
@@ -37,11 +38,12 @@ type _MwTrainingBffInternalSchemasTopic MwTrainingBffInternalSchemasTopic
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, parentUuid NullableString, practiceMaterials []MwTrainingBffInternalSchemasPracticeMaterial, theoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial, trainingUuid string, uuid string) *MwTrainingBffInternalSchemasTopic {
+func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, owner MwTrainingBffInternalSchemasUser, parentUuid NullableString, practiceMaterials []MwTrainingBffInternalSchemasPracticeMaterial, theoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial, trainingUuid string, uuid string) *MwTrainingBffInternalSchemasTopic {
 	this := MwTrainingBffInternalSchemasTopic{}
 	this.CreatedAt = createdAt
 	this.Name = name
 	this.Order = order
+	this.Owner = owner
 	this.ParentUuid = parentUuid
 	this.PracticeMaterials = practiceMaterials
 	this.TheoryMaterials = theoryMaterials
@@ -128,6 +130,30 @@ func (o *MwTrainingBffInternalSchemasTopic) GetOrderOk() (*int32, bool) {
 // SetOrder sets field value
 func (o *MwTrainingBffInternalSchemasTopic) SetOrder(v int32) {
 	o.Order = v
+}
+
+// GetOwner returns the Owner field value
+func (o *MwTrainingBffInternalSchemasTopic) GetOwner() MwTrainingBffInternalSchemasUser {
+	if o == nil {
+		var ret MwTrainingBffInternalSchemasUser
+		return ret
+	}
+
+	return o.Owner
+}
+
+// GetOwnerOk returns a tuple with the Owner field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasTopic) GetOwnerOk() (*MwTrainingBffInternalSchemasUser, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Owner, true
+}
+
+// SetOwner sets field value
+func (o *MwTrainingBffInternalSchemasTopic) SetOwner(v MwTrainingBffInternalSchemasUser) {
+	o.Owner = v
 }
 
 // GetParentUuid returns the ParentUuid field value
@@ -265,6 +291,7 @@ func (o MwTrainingBffInternalSchemasTopic) ToMap() (map[string]interface{}, erro
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["name"] = o.Name
 	toSerialize["order"] = o.Order
+	toSerialize["owner"] = o.Owner
 	toSerialize["parentUuid"] = o.ParentUuid.Get()
 	toSerialize["practiceMaterials"] = o.PracticeMaterials
 	toSerialize["theoryMaterials"] = o.TheoryMaterials
@@ -281,6 +308,7 @@ func (o *MwTrainingBffInternalSchemasTopic) UnmarshalJSON(data []byte) (err erro
 		"createdAt",
 		"name",
 		"order",
+		"owner",
 		"parentUuid",
 		"practiceMaterials",
 		"theoryMaterials",

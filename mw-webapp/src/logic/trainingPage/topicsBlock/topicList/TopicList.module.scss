@@ -1,0 +1,29 @@
+@import "src/styles/variables";
+
+.singularTopic {
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: $paddingExtraSmall;
+  gap: $gapExtraSmall;
+}
+
+.singularTopic:hover {
+  background-color: var(--primaryBgColor);
+}
+
+.topicActionButtons {
+}
+
+.tabContainer {
+  display: flex;
+  overflow: hidden;
+  width: 16px;
+  height: 20px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.metricDescriptionAndCheckbox {
+  width: 100%;
+}

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **CreatedAt** | **string** |  | 
 **Name** | **string** |  | 
 **Order** | **int32** |  | 
+**Owner** | [**MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **ParentUuid** | **NullableString** |  | 
 **PracticeMaterials** | [**[]MwTrainingBffInternalSchemasPracticeMaterial**](MwTrainingBffInternalSchemasPracticeMaterial.md) |  | 
 **TheoryMaterials** | [**[]MwTrainingBffInternalSchemasTheoryMaterial**](MwTrainingBffInternalSchemasTheoryMaterial.md) |  | 
@@ -17,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasTopic
 
-`func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, parentUuid NullableString, practiceMaterials []MwTrainingBffInternalSchemasPracticeMaterial, theoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial, trainingUuid string, uuid string, ) *MwTrainingBffInternalSchemasTopic`
+`func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, owner MwTrainingBffInternalSchemasUser, parentUuid NullableString, practiceMaterials []MwTrainingBffInternalSchemasPracticeMaterial, theoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial, trainingUuid string, uuid string, ) *MwTrainingBffInternalSchemasTopic`
 
 NewMwTrainingBffInternalSchemasTopic instantiates a new MwTrainingBffInternalSchemasTopic object
 This constructor will assign default values to properties that have it defined,
@@ -90,6 +91,26 @@ and a boolean to check if the value has been set.
 `func (o *MwTrainingBffInternalSchemasTopic) SetOrder(v int32)`
 
 SetOrder sets Order field to given value.
+
+
+### GetOwner
+
+`func (o *MwTrainingBffInternalSchemasTopic) GetOwner() MwTrainingBffInternalSchemasUser`
+
+GetOwner returns the Owner field if non-nil, zero value otherwise.
+
+### GetOwnerOk
+
+`func (o *MwTrainingBffInternalSchemasTopic) GetOwnerOk() (*MwTrainingBffInternalSchemasUser, bool)`
+
+GetOwnerOk returns a tuple with the Owner field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOwner
+
+`func (o *MwTrainingBffInternalSchemasTopic) SetOwner(v MwTrainingBffInternalSchemasUser)`
+
+SetOwner sets Owner field to given value.
 
 
 ### GetParentUuid

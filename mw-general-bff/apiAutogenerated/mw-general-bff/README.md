@@ -142,6 +142,7 @@ Class | Method | HTTP request | Description
 *UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
 *UserTagAPI* | [**DeleteUserTag**](docs/UserTagAPI.md#deleteusertag) | **Delete** /userTags/{userTagId}/{userId} | Delete userTag by UUID
 *WayAPI* | [**CreateWay**](docs/WayAPI.md#createway) | **Post** /ways | Create a new way
+*WayAPI* | [**CreateWayFromTraining**](docs/WayAPI.md#createwayfromtraining) | **Post** /ways/createFromTraining | Create a new way based on training
 *WayAPI* | [**DeleteWay**](docs/WayAPI.md#deleteway) | **Delete** /ways/{wayId} | Delete way by UUID
 *WayAPI* | [**GetAllWays**](docs/WayAPI.md#getallways) | **Get** /ways | Get all ways
 *WayAPI* | [**GetWayByUuid**](docs/WayAPI.md#getwaybyuuid) | **Get** /ways/{wayId} | Get way by UUID
@@ -226,6 +227,7 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasCreateUserTagPayload](docs/MwGeneralBffInternalSchemasCreateUserTagPayload.md)
  - [MwGeneralBffInternalSchemasCreateWayCollectionPayload](docs/MwGeneralBffInternalSchemasCreateWayCollectionPayload.md)
  - [MwGeneralBffInternalSchemasCreateWayCollectionWay](docs/MwGeneralBffInternalSchemasCreateWayCollectionWay.md)
+ - [MwGeneralBffInternalSchemasCreateWayFromTrainingPayload](docs/MwGeneralBffInternalSchemasCreateWayFromTrainingPayload.md)
  - [MwGeneralBffInternalSchemasCreateWayPayload](docs/MwGeneralBffInternalSchemasCreateWayPayload.md)
  - [MwGeneralBffInternalSchemasCreateWayTagPayload](docs/MwGeneralBffInternalSchemasCreateWayTagPayload.md)
  - [MwGeneralBffInternalSchemasDeleteMentorUserWayPayload](docs/MwGeneralBffInternalSchemasDeleteMentorUserWayPayload.md)

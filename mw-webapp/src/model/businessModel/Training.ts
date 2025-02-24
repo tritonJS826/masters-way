@@ -1,12 +1,12 @@
 import {makeAutoObservable} from "mobx";
-import {Topic} from "src/model/businessModel/Topic";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TrainingTag, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 
 /**
  * Add topic recursively
  */
-const addTopicRecursive = (topic: Topic, newTopic: Topic): Topic => {
-  return new Topic({
+const addTopicRecursive = (topic: TopicPreview, newTopic: TopicPreview): TopicPreview => {
+  return new TopicPreview({
     ...topic,
     children: topic.uuid === newTopic.parentUuid
       ? [...topic.children, newTopic]
@@ -17,7 +17,7 @@ const addTopicRecursive = (topic: Topic, newTopic: Topic): Topic => {
 /**
  * Delete topic recursively
  */
-const deleteTopicRecursively = (topic: Topic, topicUuid: string) => {
+const deleteTopicRecursively = (topic: TopicPreview, topicUuid: string) => {
   topic.children = topic.children.filter(child => {
     if (child.uuid === topicUuid) {
       return false;
@@ -91,7 +91,7 @@ interface TrainingProps {
   /**
    * Training's topics
    */
-  topics: Topic[];
+  topics: TopicPreview[];
 
   /**
    * Favorite for user uuids
@@ -166,7 +166,7 @@ export class Training {
   /**
    * Training's topics
    */
-  public topics: Topic[];
+  public topics: TopicPreview[];
 
   constructor(trainingData: TrainingProps) {
     makeAutoObservable(this);
@@ -250,7 +250,7 @@ export class Training {
   /**
    * Add new topic to training
    */
-  public addTopic(newTopic: Topic): void {
+  public addTopic(newTopic: TopicPreview): void {
     newTopic.parentUuid
       ? this.topics = this.topics.map(topic => addTopicRecursive(topic, newTopic))
       : this.topics.push(newTopic);

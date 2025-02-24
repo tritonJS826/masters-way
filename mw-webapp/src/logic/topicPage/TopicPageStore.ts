@@ -1,46 +1,46 @@
 import {makeAutoObservable} from "mobx";
-import {TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
+import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {load} from "src/hooks/useLoad";
-import {Training} from "src/model/businessModel/Training";
+import {Topic} from "src/model/businessModel/Topic";
 
 /**
- * TrainingPageStore related methods
+ * TopicPageStore related methods
  */
-export class TrainingPageStore {
+export class TopicPageStore {
 
   /**
-   * Training value
+   * Topic value
    * Should be initialized!
    */
-  public training!: Training;
+  public topic!: Topic;
 
   /**
    * If it is false - store is not initialized and can't be used safely
    */
   public isInitialized: boolean = false;
 
-  constructor(trainingUuid: string) {
+  constructor(topicUuid: string) {
     makeAutoObservable(this);
-    this.initialize(trainingUuid);
+    this.initialize(topicUuid);
   }
 
   /**
-   * Set way
+   * Set topic
    */
-  private setLoadedData = (loadedData: Training) => {
-    this.training = loadedData;
+  private setLoadedData = (loadedData: Topic) => {
+    this.topic = loadedData;
   };
 
   /**
    * Initialize
    */
-  private async initialize(trainingUuid: string) {
-    await load<Training>({
+  private async initialize(topicUuid: string) {
+    await load<Topic>({
 
       /**
        * Load data
        */
-      loadData: () => this.loadData(trainingUuid),
+      loadData: () => this.loadData(topicUuid),
       validateData: this.validateData,
       onError: this.onError,
       onSuccess: this.setLoadedData,
@@ -53,16 +53,16 @@ export class TrainingPageStore {
   /**
    * Load data
    */
-  private loadData = async (trainingUuid: string): Promise<Training> => {
-    const training = await TrainingDAL.getTraining(trainingUuid);
+  private loadData = async (topicUuid: string): Promise<Topic> => {
+    const topic = await TopicDAL.getTopic(topicUuid);
 
-    return training;
+    return topic;
   };
 
   /**
    * Validate data
    */
-  private validateData = (data: Training) => {
+  private validateData = (data: Topic) => {
     return !!data;
   };
 

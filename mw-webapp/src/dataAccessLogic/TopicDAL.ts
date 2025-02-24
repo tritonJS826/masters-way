@@ -3,6 +3,22 @@ import {Topic} from "src/model/businessModel/Topic";
 import {TopicService} from "src/service/TopicService";
 
 /**
+ * Create topic params
+ */
+export interface CreateTopicParams {
+
+  /**
+   * Training uuid
+   */
+  trainingId: string;
+
+  /**
+   * Topic's name
+   */
+  topicParentId?: string;
+}
+
+/**
  * Update topic params
  */
 export interface UpdateTopicParams {
@@ -26,8 +42,21 @@ export class TopicDAL {
   /**
    * Create topic
    */
-  public static async createTopic(trainingId: string): Promise<Topic> {
-    const topicDTO = await TopicService.createTopic({trainingId});
+  public static async createTopic(params: CreateTopicParams): Promise<Topic> {
+    const topicDTO = await TopicService.createTopic({
+      trainingId: params.trainingId,
+      topicParentId: params.topicParentId,
+    });
+    const topic = topicDTOToTopic(topicDTO);
+
+    return topic;
+  }
+
+  /**
+   * Get topic by Uuid
+   */
+  public static async getTopic(topicId: string): Promise<Topic> {
+    const topicDTO = await TopicService.getTopic({topicId});
     const topic = topicDTOToTopic(topicDTO);
 
     return topic;

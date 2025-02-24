@@ -1,9 +1,9 @@
 import {makeAutoObservable} from "mobx";
 
 /**
- * Topic props
+ * TopicPreview props
  */
-interface TopicProps {
+interface TopicPreviewProps {
 
   /**
    * Topic uuid
@@ -28,7 +28,7 @@ interface TopicProps {
   /**
    * Topic children
    */
-  children: Topic[];
+  children: TopicPreview[];
 
   /**
    * Topic's createdAt Date
@@ -36,14 +36,14 @@ interface TopicProps {
   createdAt: Date;
 
   /**
-   * Practice materials
+   * Practice material amount
    */
-  practiceMaterials: number;
+  practiceMaterialAmount: number;
 
   /**
-   * Theory materials
+   * Theory material amount
    */
-  theoryMaterials: number;
+  theoryMaterialAmount: number;
 
   /**
    * Training's uuid
@@ -53,9 +53,9 @@ interface TopicProps {
 }
 
 /**
- * Topic data
+ * TopicPreview data
  */
-export class Topic {
+export class TopicPreview {
 
   /**
    * Topic uuid
@@ -80,7 +80,7 @@ export class Topic {
   /**
    * Topic children
    */
-  public children: Topic[];
+  public children: TopicPreview[];
 
   /**
    * Topic's createdAt Date
@@ -88,21 +88,21 @@ export class Topic {
   public createdAt: Date;
 
   /**
-   * Practice materials
+   * Practice material amount
    */
-  public practiceMaterials: number;
+  public practiceMaterialAmount: number;
 
   /**
-   * Theory materials
+   * Theory material amount
    */
-  public theoryMaterials: number;
+  public theoryMaterialAmount: number;
 
   /**
    * Training's uuid
    */
   public trainingUuid: string;
 
-  constructor(topic: TopicProps) {
+  constructor(topic: TopicPreviewProps) {
     makeAutoObservable(this);
     this.name = topic.name;
     this.uuid = topic.uuid;
@@ -110,8 +110,8 @@ export class Topic {
     this.parentUuid = topic.parentUuid;
     this.children = topic.children;
     this.createdAt = topic.createdAt;
-    this.practiceMaterials = topic.practiceMaterials;
-    this.theoryMaterials = topic.theoryMaterials;
+    this.practiceMaterialAmount = topic.practiceMaterialAmount;
+    this.theoryMaterialAmount = topic.theoryMaterialAmount;
     this.trainingUuid = topic.trainingUuid;
   }
 

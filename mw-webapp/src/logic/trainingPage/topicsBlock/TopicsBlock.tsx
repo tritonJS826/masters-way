@@ -1,11 +1,17 @@
 import {observer} from "mobx-react-lite";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {TopicCard} from "src/component/topicCard/TopicCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {TopicChildrenList} from "src/logic/trainingPage/topicsBlock/topicList/TopicList";
 import {Topic} from "src/model/businessModel/Topic";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/trainingPage/topicsBlock/TopicsBlock.module.scss";
 
 /**
@@ -49,8 +55,11 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
   /**
    * Add topic
    */
-  const addTopic = async (trainingId: string /*parentUuid: string | null*/) => {
-    const newTopic = await TopicDAL.createTopic(trainingId);
+  const addTopic = async (trainingId: string, topicParentId?: string) => {
+    const newTopic = await TopicDAL.createTopic({
+      trainingId,
+      topicParentId,
+    });
     props.addTopic(newTopic);
   };
 
@@ -100,20 +109,52 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
 
   return (
     <VerticalContainer className={styles.topicsSection}>
-      {topics.map((topic) => (
-        <TopicCard
+      <TopicChildrenList
+        level={0}
+        topics={props.topics}
+        isEditable={props.isEditable}
+        addTopic={(parentUuid: string) => addTopic(parentUuid)}
+        deleteTopic={(topicUuid: string) => deleteTopic(topicUuid)}
+      />
+      {props.topics.map((topic) => (
+        <HorizontalContainer
           key={topic.uuid}
-          topic={topic}
-          createdAtText={LanguageService.training.topicsBlock.createdAt[language]}
-          theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
-          practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
-          okText={LanguageService.modals.confirmModal.deleteButton[language]}
-          cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-          deleteTopic={() => deleteTopic(topic.uuid)}
-          deleteTopicQuestion={LanguageService.training.topicsBlock.deleteTopicQuestion[language]}
-          deleteTopicTooltip={LanguageService.training.topicsBlock.deleteTopicTooltip[language]}
-          isEditable={props.isEditable}
-        />
+          className={styles.topicItem}
+        >
+          {/* <TopicCard
+            trainingUuid={props.trainingUuid}
+            topic={topic}
+            createdAtText={LanguageService.training.topicsBlock.createdAt[language]}
+            theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
+            practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
+          />
+          {props.isEditable && (
+            <Tooltip content={LanguageService.training.topicsBlock.deleteTopicTooltip[language]}>
+              <Confirm
+                trigger={
+                  <Button
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="TrashIcon"
+                      />
+                    }
+                    buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                    onClick={() => {}}
+                  />
+                }
+                content={<p>
+                  {renderMarkdown(
+                    `${LanguageService.training.topicsBlock.deleteTopicQuestion[language]} "${topic.name}"?`,
+                  )}
+                </p>}
+                onOk={() => deleteTopic(topic.uuid)}
+                okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+              />
+            </Tooltip>
+          )} */}
+        </HorizontalContainer>
       ))}
       {props.isEditable &&
       <Button

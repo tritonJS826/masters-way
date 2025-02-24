@@ -15,6 +15,7 @@ import {DownloadIcon} from "src/assets/icons/DownloadIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
+import {FileTextIcon} from "src/assets/icons/FileTextIcon";
 import {FlagIcon} from "src/assets/icons/FlagIcon";
 import {GiftIcon} from "src/assets/icons/GiftIcon";
 import {GlobeIcon} from "src/assets/icons/GlobeIcon";
@@ -28,6 +29,7 @@ import {MinusIcon} from "src/assets/icons/MinusIcon";
 import {MoonIcon} from "src/assets/icons/MoonIcon";
 import {MoreVertical} from "src/assets/icons/MoreVertical";
 import {PatreonIcon} from "src/assets/icons/PatreonIcon";
+import {PenToolIcon} from "src/assets/icons/PenToolIcon";
 import {PlusIcon} from "src/assets/icons/PlusIcon";
 import {RemoveIcon} from "src/assets/icons/RemoveIcon";
 import {SearchIcon} from "src/assets/icons/SearchIcon";
@@ -281,6 +283,16 @@ export const IconDictionary = {
    * Target icon
    */
   TargetIcon: (params: IconProps) => <TargetIcon {...params} />,
+
+  /**
+   * PenTool icon
+   */
+  PenToolIcon: (params: IconProps) => <PenToolIcon {...params} />,
+
+  /**
+   * FileText icon
+   */
+  FileTextIcon: (params: IconProps) => <FileTextIcon {...params} />,
 };
 
 /**

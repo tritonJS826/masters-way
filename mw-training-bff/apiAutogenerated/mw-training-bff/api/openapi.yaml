@@ -780,6 +780,10 @@ components:
       type: object
     mw-training-bff_internal_schemas.Topic:
       example:
+        owner:
+          imageUrl: imageUrl
+          name: name
+          uuid: uuid
         theoryMaterials:
         - createdAt: createdAt
           name: name
@@ -829,6 +833,8 @@ components:
           type: string
         order:
           type: integer
+        owner:
+          $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
         parentUuid:
           nullable: true
           type: string
@@ -848,6 +854,7 @@ components:
       - createdAt
       - name
       - order
+      - owner
       - parentUuid
       - practiceMaterials
       - theoryMaterials

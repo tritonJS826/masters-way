@@ -42,7 +42,8 @@ const getPathForTrainingPage = (params: { uuid: string }): string => `/training/
 /**
  * Create url with appropriate params for @TopicPage
  */
-const getPathForTopicPage = (params: { uuid: string }): string => `/topic/${params.uuid}`;
+const getPathForTopicPage = (params: { trainingUuid: string; topicUuid: string }): string =>
+  `/training/${params.trainingUuid}/topic/${params.topicUuid}`;
 
 /**
  * Create url with appropriate params for @ProjectPage
@@ -220,10 +221,10 @@ export const pages = {
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{ uuid: string }>,
   topic: {
-    getPath: (params): string => getPathForTopicPage({uuid: params.uuid}),
+    getPath: (params): string => getPathForTopicPage({trainingUuid: params.trainingUuid, topicUuid: params.topicUuid}),
     getPageComponent: (params) => suspended(<TopicPage {...params} />),
-    urlParams: {uuid: UrlParamsType.UUID} as const,
-  } as PageParams<{ uuid: string }>,
+    urlParams: {trainingUuid: UrlParamsType.UUID, topicUuid: UrlParamsType.UUID} as const,
+  } as PageParams<{trainingUuid: string; topicUuid: string}>,
   project: {
     getPath: (params): string => getPathForProjectPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<ProjectPage {...params} />),

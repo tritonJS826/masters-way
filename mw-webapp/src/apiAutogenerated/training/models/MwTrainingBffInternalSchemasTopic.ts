@@ -25,6 +25,12 @@ import {
     MwTrainingBffInternalSchemasTheoryMaterialFromJSONTyped,
     MwTrainingBffInternalSchemasTheoryMaterialToJSON,
 } from './MwTrainingBffInternalSchemasTheoryMaterial';
+import type { MwTrainingBffInternalSchemasUser } from './MwTrainingBffInternalSchemasUser';
+import {
+    MwTrainingBffInternalSchemasUserFromJSON,
+    MwTrainingBffInternalSchemasUserFromJSONTyped,
+    MwTrainingBffInternalSchemasUserToJSON,
+} from './MwTrainingBffInternalSchemasUser';
 
 /**
  * 
@@ -50,6 +56,12 @@ export interface MwTrainingBffInternalSchemasTopic {
      * @memberof MwTrainingBffInternalSchemasTopic
      */
     order: number;
+    /**
+     * 
+     * @type {MwTrainingBffInternalSchemasUser}
+     * @memberof MwTrainingBffInternalSchemasTopic
+     */
+    owner: MwTrainingBffInternalSchemasUser;
     /**
      * 
      * @type {string}
@@ -92,6 +104,7 @@ export function instanceOfMwTrainingBffInternalSchemasTopic(
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "order" in value;
+    isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "parentUuid" in value;
     isInstance = isInstance && "practiceMaterials" in value;
     isInstance = isInstance && "theoryMaterials" in value;
@@ -117,6 +130,7 @@ export function MwTrainingBffInternalSchemasTopicFromJSONTyped(
         'createdAt': json['createdAt'],
         'name': json['name'],
         'order': json['order'],
+        'owner': MwTrainingBffInternalSchemasUserFromJSON(json['owner']),
         'parentUuid': json['parentUuid'],
         'practiceMaterials': ((json['practiceMaterials'] as Array<any>).map(MwTrainingBffInternalSchemasPracticeMaterialFromJSON)),
         'theoryMaterials': ((json['theoryMaterials'] as Array<any>).map(MwTrainingBffInternalSchemasTheoryMaterialFromJSON)),
@@ -138,6 +152,7 @@ export function MwTrainingBffInternalSchemasTopicToJSON(value?: MwTrainingBffInt
         'createdAt': value.createdAt,
         'name': value.name,
         'order': value.order,
+        'owner': MwTrainingBffInternalSchemasUserToJSON(value.owner),
         'parentUuid': value.parentUuid,
         'practiceMaterials': ((value.practiceMaterials as Array<any>).map(MwTrainingBffInternalSchemasPracticeMaterialToJSON)),
         'theoryMaterials': ((value.theoryMaterials as Array<any>).map(MwTrainingBffInternalSchemasTheoryMaterialToJSON)),

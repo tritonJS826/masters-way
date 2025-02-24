@@ -3,25 +3,16 @@
 $iconContainerSize: 25px;
 
 .topicsSection {
-  gap: $gapSmall;
+  gap: $gapExtraSmall;
 }
 
-// .description {
-//   overflow-wrap: anywhere;
-//   textarea {
-//     width: 100%;
-//   }
-// }
+.topicItem {
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: $primaryBorderRadius;
 
-// .horizontalContainer {
-//   align-items: flex-start;
-//   gap: $gapExtraSmall;
-// }
-
-// .iconContainer {
-//   width: $iconContainerSize;
-//   height: $iconContainerSize;
-//   border: none;
-//   background: none;
-//   cursor: pointer;
-// }
+  &:hover {
+    background-color: var(--tertiaryBgColor);
+  }
+}
