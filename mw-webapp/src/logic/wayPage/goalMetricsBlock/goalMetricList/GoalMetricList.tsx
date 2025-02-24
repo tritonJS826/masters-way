@@ -12,6 +12,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {Metric} from "src/model/businessModel/Metric";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
+import {GoalMetricsFilter} from "src/utils/LocalStorageWorker";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/goalMetricsBlock/goalMetricList/GoalMetricList.module.scss";
@@ -45,6 +46,11 @@ interface MetricChildrenListProps {
    * Add nested metric
    */
   addMetric: (parentUuid: string, parentMetric: Metric | null) => void;
+
+  /**
+   * Goal metrics filter
+   */
+  goalMetricsFilter: GoalMetricsFilter;
 
 }
 
@@ -82,7 +88,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
     const levelArray = [...Array(props.level).keys()];
 
     return (
-      <VerticalContainer>
+      <VerticalContainer key={childMetric.uuid}>
         <HorizontalContainer className={styles.singularMetric}>
           <HorizontalContainer className={styles.metricDescriptionAndCheckbox}>
             {levelArray.map(item => {
@@ -218,12 +224,26 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
           deleteMetric={props.deleteMetric}
           isEditable={props.isEditable}
           addMetric={props.addMetric}
+          goalMetricsFilter={props.goalMetricsFilter}
         />
       </VerticalContainer>
     );
   };
 
-  const childrenList = props.metrics.map(renderChildrenItem);
+  const filteredMetrics = props.metrics.filter((metric) => {
+    switch (props.goalMetricsFilter) {
+      case GoalMetricsFilter.All:
+        return true;
+      case GoalMetricsFilter.Incomplete:
+        return !metric.isDone;
+      case GoalMetricsFilter.None:
+        return false;
+      default:
+        throw new Error("Unknown goal metrics filter");
+    }
+  });
+
+  const childrenList = filteredMetrics.map(renderChildrenItem);
 
   return childrenList;
 };
