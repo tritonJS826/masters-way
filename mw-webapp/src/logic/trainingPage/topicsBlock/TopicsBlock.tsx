@@ -1,9 +1,5 @@
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
-import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Infotip} from "src/component/infotip/Infotip";
-import {HeadingLevel, Title} from "src/component/title/Title";
 import {TopicCard} from "src/component/topicCard/TopicCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
@@ -111,12 +107,20 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
           createdAtText={LanguageService.training.topicsBlock.createdAt[language]}
           theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
           practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
+          okText={LanguageService.modals.confirmModal.deleteButton[language]}
+          cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+          deleteTopic={() => deleteTopic(topic.uuid)}
+          deleteTopicQuestion={LanguageService.training.topicsBlock.deleteTopicQuestion[language]}
+          deleteTopicTooltip={LanguageService.training.topicsBlock.deleteTopicTooltip[language]}
+          isEditable={props.isEditable}
         />
       ))}
+      {props.isEditable &&
       <Button
         value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
         onClick={() => addTopic(props.trainingUuid)}
       />
+      }
     </VerticalContainer>
   );
 });

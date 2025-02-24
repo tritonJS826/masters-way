@@ -214,6 +214,16 @@
       "en": "Add topic",
       "ua": "Додати тему"
     },
+    "deleteTopicQuestion": {
+      "ru": "Вы уверены, что хотите удалить тему",
+      "en": "Are you sure you want to delete the topic",
+      "ua": "Ви впевнені, що хочете видалити тему"
+    },
+    "deleteTopicTooltip": {
+      "ru": "Удалить тему",
+      "en": "Delete topic",
+      "ua": "Видалити тему"
+    },
     "tooltips": {
       "theoryMaterialAmount": {
         "ru": "Количество теоретических материалов",

@@ -1,16 +1,13 @@
 import {observer} from "mobx-react-lite";
-import {Avatar} from "src/component/avatar/Avatar";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
-import {Tag, TagType} from "src/component/tag/Tag";
-import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {Topic} from "src/model/businessModel/Topic";
-import {TrainingPreview, TrainingTag, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 import {pages} from "src/router/pages";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -40,6 +37,36 @@ interface TopicCardProps {
    * Practice material tooltip
    */
   practiceMaterialTooltip: string;
+
+  /**
+   * Delete topic tooltip
+   */
+  deleteTopicTooltip: string;
+
+  /**
+   * Delete topic question
+   */
+  deleteTopicQuestion: string;
+
+  /**
+   * Ok button Text for confirm
+   */
+  okText: string;
+
+  /**
+   * Cancel button Text for confirm
+   */
+  cancelText: string;
+
+  /**
+   * If true - user can add or delete topics
+   */
+  isEditable: boolean;
+
+  /**
+   * Delete topic callback
+   */
+  deleteTopic: () => void;
 }
 
 /**
@@ -62,79 +89,64 @@ export const TopicCard = observer((props: TopicCardProps) => {
         <span className={styles.dateValue}>
           {`${props.createdAtText}: ${DateUtils.getShortISODotSplitted(props.topic.createdAt)}`}
         </span>
-        <HorizontalContainer className={styles.likes}>
+        <HorizontalContainer className={styles.topicActionButtons}>
           <Tooltip
             position={PositionTooltip.BOTTOM}
             content={props.theoryMaterialTooltip}
           >
-            <Icon
-              size={IconSize.SMALL}
-              name={"BookIcon"}
-              className={styles.icon}
-            />
-            {props.topic.theoryMaterialAmount}
+            <HorizontalContainer className={styles.amountInfo}>
+              <Icon
+                size={IconSize.SMALL}
+                name={"BookIcon"}
+                className={styles.icon}
+              />
+              {props.topic.theoryMaterialAmount}
+            </HorizontalContainer>
           </Tooltip>
           <Tooltip
             position={PositionTooltip.BOTTOM}
             content={props.practiceMaterialTooltip}
           >
-            <Icon
-              size={IconSize.SMALL}
-              name={"ActivityIcon"}
-              className={styles.icon}
-            />
-            {props.topic.practiceMaterialAmount}
+            <HorizontalContainer className={styles.amountInfo}>
+              <Icon
+                size={IconSize.SMALL}
+                name={"FileIcon"}
+                className={styles.icon}
+              />
+              {props.topic.practiceMaterialAmount}
+            </HorizontalContainer>
           </Tooltip>
+          {props.isEditable && (
+            <HorizontalContainer>
+              <Tooltip content={props.deleteTopicTooltip}>
+                <Confirm
+                  trigger={
+                    <Button
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="TrashIcon"
+                        />
+                      }
+                      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                      onClick={() => {}}
+                    />
+                  }
+                  content={<p>
+                    {renderMarkdown(
+                      `${props.deleteTopicQuestion} "${props.topic.name}"?`,
+                    )}
+                  </p>}
+                  onOk={props.deleteTopic}
+                  okText={props.okText}
+                  cancelText={props.cancelText}
+                />
+              </Tooltip>
+            </HorizontalContainer>
+          )
+          }
         </HorizontalContainer>
       </HorizontalContainer>
-      {/* <VerticalContainer className={styles.trainingCardContainer}>
-        <VerticalContainer className={styles.mainInfo}>
-          <HorizontalContainer className={styles.nameLikes}>
-            <Title
-              text={props.topic.name}
-              level={HeadingLevel.h3}
-              className={styles.title}
-              placeholder=""
-            />
-            <HorizontalContainer className={styles.likes}>
-              <Tooltip
-                position={PositionTooltip.BOTTOM}
-                content={"hhaha"}
-              >
-                <Icon
-                  size={IconSize.SMALL}
-                  name={"UsersIcon"}
-                  className={styles.icon}
-                />
-                {props.topic.theoryMaterialAmount}
-              </Tooltip>
-              <Tooltip
-                position={PositionTooltip.BOTTOM}
-                content={"hoho"}
-              >
-                <Icon
-                  size={IconSize.SMALL}
-                  name={"StarIcon"}
-                  className={styles.icon}
-                />
-                {props.topic.practiceMaterialAmount}
-              </Tooltip>
-            </HorizontalContainer>
-          </HorizontalContainer>
-
-          {renderTrainingTags(props.trainingPreview.trainingTags)}
-        </VerticalContainer>
-        <VerticalContainer className={styles.additionalInfo}>
-          <HorizontalContainer className={styles.dates}>
-            <HorizontalContainer className={styles.dateText}>
-              {props.createdAtTooltip}
-              <span className={styles.dateValue}>
-                {DateUtils.getShortISODotSplitted(props.trainingPreview.createdAt)}
-              </span>
-            </HorizontalContainer>
-          </HorizontalContainer>
-        </VerticalContainer>
-      </VerticalContainer> */}
     </Link>
   );
 });
