@@ -612,6 +612,10 @@ paths:
         name: trainingId
         required: true
         type: string
+      - description: Topic parent id
+        in: query
+        name: topicParentId
+        type: string
       produces:
       - application/json
       responses:

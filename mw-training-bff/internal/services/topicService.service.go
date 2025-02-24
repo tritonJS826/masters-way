@@ -21,10 +21,11 @@ type CreateTopicParams struct {
 	Name            string
 	TrainingUuid    string
 	TopicOrder      int32
-	ParentTopicUuid string
+	ParentTopicUuid *string
 }
 
 func (ts *TopicService) CreateTopic(ctx context.Context, params *CreateTopicParams) (*schemas.Topic, error) {
+
 	topic, err := ts.topicGRPC.CreateTopic(ctx, &pb.CreateTopicRequest{
 		Name:            params.Name,
 		TrainingUuid:    params.TrainingUuid,
@@ -62,7 +63,7 @@ func (ts *TopicService) UpdateTopic(ctx context.Context, params *UpdateTopicPara
 		Name:         topic.Name,
 		TrainingUuid: topic.TrainingUuid,
 		TopicOrder:   topic.TopicOrder,
-		ParentUuid:   &topic.ParentTopicUuid,
+		ParentUuid:   topic.ParentTopicUuid,
 		CreatedAt:    topic.CreatedAt,
 	}, nil
 }

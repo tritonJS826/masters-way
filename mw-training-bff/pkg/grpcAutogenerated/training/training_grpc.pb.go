@@ -1165,8 +1165,8 @@ var TheoryMaterialService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TopicsServiceClient interface {
-	CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*Topic, error)
-	UpdateTopic(ctx context.Context, in *UpdateTopicRequest, opts ...grpc.CallOption) (*Topic, error)
+	CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error)
+	UpdateTopic(ctx context.Context, in *UpdateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error)
 	DeleteTopic(ctx context.Context, in *DeleteTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -1178,8 +1178,8 @@ func NewTopicsServiceClient(cc grpc.ClientConnInterface) TopicsServiceClient {
 	return &topicsServiceClient{cc}
 }
 
-func (c *topicsServiceClient) CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*Topic, error) {
-	out := new(Topic)
+func (c *topicsServiceClient) CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error) {
+	out := new(TopicPreview)
 	err := c.cc.Invoke(ctx, "/training.TopicsService/CreateTopic", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1187,8 +1187,8 @@ func (c *topicsServiceClient) CreateTopic(ctx context.Context, in *CreateTopicRe
 	return out, nil
 }
 
-func (c *topicsServiceClient) UpdateTopic(ctx context.Context, in *UpdateTopicRequest, opts ...grpc.CallOption) (*Topic, error) {
-	out := new(Topic)
+func (c *topicsServiceClient) UpdateTopic(ctx context.Context, in *UpdateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error) {
+	out := new(TopicPreview)
 	err := c.cc.Invoke(ctx, "/training.TopicsService/UpdateTopic", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1209,8 +1209,8 @@ func (c *topicsServiceClient) DeleteTopic(ctx context.Context, in *DeleteTopicRe
 // All implementations must embed UnimplementedTopicsServiceServer
 // for forward compatibility
 type TopicsServiceServer interface {
-	CreateTopic(context.Context, *CreateTopicRequest) (*Topic, error)
-	UpdateTopic(context.Context, *UpdateTopicRequest) (*Topic, error)
+	CreateTopic(context.Context, *CreateTopicRequest) (*TopicPreview, error)
+	UpdateTopic(context.Context, *UpdateTopicRequest) (*TopicPreview, error)
 	DeleteTopic(context.Context, *DeleteTopicRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTopicsServiceServer()
 }
@@ -1219,10 +1219,10 @@ type TopicsServiceServer interface {
 type UnimplementedTopicsServiceServer struct {
 }
 
-func (UnimplementedTopicsServiceServer) CreateTopic(context.Context, *CreateTopicRequest) (*Topic, error) {
+func (UnimplementedTopicsServiceServer) CreateTopic(context.Context, *CreateTopicRequest) (*TopicPreview, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTopic not implemented")
 }
-func (UnimplementedTopicsServiceServer) UpdateTopic(context.Context, *UpdateTopicRequest) (*Topic, error) {
+func (UnimplementedTopicsServiceServer) UpdateTopic(context.Context, *UpdateTopicRequest) (*TopicPreview, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTopic not implemented")
 }
 func (UnimplementedTopicsServiceServer) DeleteTopic(context.Context, *DeleteTopicRequest) (*emptypb.Empty, error) {

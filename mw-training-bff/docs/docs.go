@@ -413,6 +413,12 @@ const docTemplate = `{
                         "name": "trainingId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Topic parent id",
+                        "name": "topicParentId",
+                        "in": "query"
                     }
                 ],
                 "responses": {

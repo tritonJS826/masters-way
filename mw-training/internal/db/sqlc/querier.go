@@ -41,8 +41,9 @@ type Querier interface {
 	// lets add likes to response
 	GetStudentTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetStudentTrainingListRow, error)
 	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error)
-	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]Topic, error)
-	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (Training, error)
+	GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (GetTopicByUuidRow, error)
+	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]GetTopicsByTrainingIdRow, error)
+	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (GetTrainingByIdRow, error)
 	// lets add likes to response
 	GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error)
 	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
