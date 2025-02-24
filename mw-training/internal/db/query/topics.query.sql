@@ -18,6 +18,7 @@ GROUP BY
 -- name: GetTopicByUuid :one
 SELECT 
     topics.*, 
+    trainings.owner_uuid,
     COUNT(theory_materials.uuid) AS theory_materials_amount,
     COUNT(practice_materials.uuid) AS practice_materials_amount
 FROM
@@ -26,10 +27,13 @@ LEFT JOIN
     theory_materials ON topics.uuid = theory_materials.topic_uuid
 LEFT JOIN
     practice_materials ON topics.uuid = practice_materials.topic_uuid
+LEFT JOIN
+    trainings ON topics.training_uuid = trainings.uuid
 WHERE
     topics.uuid = @topic_uuid
 GROUP BY
-    topics.uuid;
+    topics.uuid,
+    trainings.owner_uuid;
 
 -- name: CreateTopicInTraining :one
 INSERT INTO topics(

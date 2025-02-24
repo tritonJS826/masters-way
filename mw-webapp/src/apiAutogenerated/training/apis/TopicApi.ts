@@ -34,6 +34,10 @@ export interface DeleteTopicRequest {
     topicId: string;
 }
 
+export interface GetTopicRequest {
+    topicId: string;
+}
+
 export interface UpdateTopicRequest {
     topicId: string;
     request: MwTrainingBffInternalSchemasUpdateTopicPayload;
@@ -105,6 +109,36 @@ export class TopicApi extends runtime.BaseAPI {
      */
     async deleteTopic(requestParameters: DeleteTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteTopicRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Get topic by id
+     */
+    async getTopicRaw(requestParameters: GetTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTopic>> {
+        if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
+            throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling getTopic.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/topics/{topicId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicFromJSON(jsonValue));
+    }
+
+    /**
+     * Get topic by id
+     */
+    async getTopic(requestParameters: GetTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTopic> {
+        const response = await this.getTopicRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

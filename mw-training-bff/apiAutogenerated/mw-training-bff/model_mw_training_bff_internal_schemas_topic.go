@@ -25,8 +25,8 @@ type MwTrainingBffInternalSchemasTopic struct {
 	Name string
 	Order int32
 	ParentUuid NullableString
-	PracticeMaterialAmount int32
-	TheoryMaterialAmount int32
+	PracticeMaterials []MwTrainingBffInternalSchemasPracticeMaterial
+	TheoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial
 	TrainingUuid string
 	Uuid string
 }
@@ -37,14 +37,14 @@ type _MwTrainingBffInternalSchemasTopic MwTrainingBffInternalSchemasTopic
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, parentUuid NullableString, practiceMaterialAmount int32, theoryMaterialAmount int32, trainingUuid string, uuid string) *MwTrainingBffInternalSchemasTopic {
+func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, parentUuid NullableString, practiceMaterials []MwTrainingBffInternalSchemasPracticeMaterial, theoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial, trainingUuid string, uuid string) *MwTrainingBffInternalSchemasTopic {
 	this := MwTrainingBffInternalSchemasTopic{}
 	this.CreatedAt = createdAt
 	this.Name = name
 	this.Order = order
 	this.ParentUuid = parentUuid
-	this.PracticeMaterialAmount = practiceMaterialAmount
-	this.TheoryMaterialAmount = theoryMaterialAmount
+	this.PracticeMaterials = practiceMaterials
+	this.TheoryMaterials = theoryMaterials
 	this.TrainingUuid = trainingUuid
 	this.Uuid = uuid
 	return &this
@@ -156,52 +156,52 @@ func (o *MwTrainingBffInternalSchemasTopic) SetParentUuid(v string) {
 	o.ParentUuid.Set(&v)
 }
 
-// GetPracticeMaterialAmount returns the PracticeMaterialAmount field value
-func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterialAmount() int32 {
+// GetPracticeMaterials returns the PracticeMaterials field value
+func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterials() []MwTrainingBffInternalSchemasPracticeMaterial {
 	if o == nil {
-		var ret int32
+		var ret []MwTrainingBffInternalSchemasPracticeMaterial
 		return ret
 	}
 
-	return o.PracticeMaterialAmount
+	return o.PracticeMaterials
 }
 
-// GetPracticeMaterialAmountOk returns a tuple with the PracticeMaterialAmount field value
+// GetPracticeMaterialsOk returns a tuple with the PracticeMaterials field value
 // and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterialAmountOk() (*int32, bool) {
+func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterialsOk() ([]MwTrainingBffInternalSchemasPracticeMaterial, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.PracticeMaterialAmount, true
+	return o.PracticeMaterials, true
 }
 
-// SetPracticeMaterialAmount sets field value
-func (o *MwTrainingBffInternalSchemasTopic) SetPracticeMaterialAmount(v int32) {
-	o.PracticeMaterialAmount = v
+// SetPracticeMaterials sets field value
+func (o *MwTrainingBffInternalSchemasTopic) SetPracticeMaterials(v []MwTrainingBffInternalSchemasPracticeMaterial) {
+	o.PracticeMaterials = v
 }
 
-// GetTheoryMaterialAmount returns the TheoryMaterialAmount field value
-func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterialAmount() int32 {
+// GetTheoryMaterials returns the TheoryMaterials field value
+func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterials() []MwTrainingBffInternalSchemasTheoryMaterial {
 	if o == nil {
-		var ret int32
+		var ret []MwTrainingBffInternalSchemasTheoryMaterial
 		return ret
 	}
 
-	return o.TheoryMaterialAmount
+	return o.TheoryMaterials
 }
 
-// GetTheoryMaterialAmountOk returns a tuple with the TheoryMaterialAmount field value
+// GetTheoryMaterialsOk returns a tuple with the TheoryMaterials field value
 // and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterialAmountOk() (*int32, bool) {
+func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterialsOk() ([]MwTrainingBffInternalSchemasTheoryMaterial, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.TheoryMaterialAmount, true
+	return o.TheoryMaterials, true
 }
 
-// SetTheoryMaterialAmount sets field value
-func (o *MwTrainingBffInternalSchemasTopic) SetTheoryMaterialAmount(v int32) {
-	o.TheoryMaterialAmount = v
+// SetTheoryMaterials sets field value
+func (o *MwTrainingBffInternalSchemasTopic) SetTheoryMaterials(v []MwTrainingBffInternalSchemasTheoryMaterial) {
+	o.TheoryMaterials = v
 }
 
 // GetTrainingUuid returns the TrainingUuid field value
@@ -266,8 +266,8 @@ func (o MwTrainingBffInternalSchemasTopic) ToMap() (map[string]interface{}, erro
 	toSerialize["name"] = o.Name
 	toSerialize["order"] = o.Order
 	toSerialize["parentUuid"] = o.ParentUuid.Get()
-	toSerialize["practiceMaterialAmount"] = o.PracticeMaterialAmount
-	toSerialize["theoryMaterialAmount"] = o.TheoryMaterialAmount
+	toSerialize["practiceMaterials"] = o.PracticeMaterials
+	toSerialize["theoryMaterials"] = o.TheoryMaterials
 	toSerialize["trainingUuid"] = o.TrainingUuid
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
@@ -282,8 +282,8 @@ func (o *MwTrainingBffInternalSchemasTopic) UnmarshalJSON(data []byte) (err erro
 		"name",
 		"order",
 		"parentUuid",
-		"practiceMaterialAmount",
-		"theoryMaterialAmount",
+		"practiceMaterials",
+		"theoryMaterials",
 		"trainingUuid",
 		"uuid",
 	}

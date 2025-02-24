@@ -239,6 +239,25 @@ paths:
       tags:
       - topic
       x-codegen-request-body-name: request
+    post:
+      operationId: get-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+          description: OK
+      summary: Get topic by id
+      tags:
+      - topic
   /topics/{trainingId}:
     post:
       operationId: create-topic
@@ -761,6 +780,82 @@ components:
       type: object
     mw-training-bff_internal_schemas.Topic:
       example:
+        theoryMaterials:
+        - createdAt: createdAt
+          name: name
+          description: description
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          name: name
+          description: description
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        createdAt: createdAt
+        practiceMaterials:
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        trainingUuid: trainingUuid
+        name: name
+        uuid: uuid
+        parentUuid: parentUuid
+        order: 0
+      properties:
+        createdAt:
+          type: string
+        name:
+          type: string
+        order:
+          type: integer
+        parentUuid:
+          nullable: true
+          type: string
+        practiceMaterials:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
+          type: array
+        theoryMaterials:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
+          type: array
+        trainingUuid:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - name
+      - order
+      - parentUuid
+      - practiceMaterials
+      - theoryMaterials
+      - trainingUuid
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.TopicPreview:
+      example:
         createdAt: createdAt
         trainingUuid: trainingUuid
         name: name
@@ -871,7 +966,7 @@ components:
           type: array
         topics:
           items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
           type: array
         trainingTags:
           items:

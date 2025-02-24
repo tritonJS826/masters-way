@@ -79,6 +79,7 @@ func (ts *TopicService) GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUI
 		Name:              topic.Name.String,
 		TrainingUuid:      *utils.MarshalPgUUID(topic.TrainingUuid),
 		TopicOrder:        topic.TopicOrder,
+		OwnerUuid:         *utils.MarshalPgUUID(topic.OwnerUuid),
 		ParentTopicUuid:   utils.MarshalPgUUID(topic.Parent),
 		CreatedAt:         topic.CreatedAt.Time.String(),
 		TheoryMaterials:   theoryMaterials,

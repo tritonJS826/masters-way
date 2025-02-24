@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwTrainingBffInternalSchemasTopic } from './MwTrainingBffInternalSchemasTopic';
+import type { MwTrainingBffInternalSchemasTopicPreview } from './MwTrainingBffInternalSchemasTopicPreview';
 import {
-    MwTrainingBffInternalSchemasTopicFromJSON,
-    MwTrainingBffInternalSchemasTopicFromJSONTyped,
-    MwTrainingBffInternalSchemasTopicToJSON,
-} from './MwTrainingBffInternalSchemasTopic';
+    MwTrainingBffInternalSchemasTopicPreviewFromJSON,
+    MwTrainingBffInternalSchemasTopicPreviewFromJSONTyped,
+    MwTrainingBffInternalSchemasTopicPreviewToJSON,
+} from './MwTrainingBffInternalSchemasTopicPreview';
 import type { MwTrainingBffInternalSchemasTrainingTag } from './MwTrainingBffInternalSchemasTrainingTag';
 import {
     MwTrainingBffInternalSchemasTrainingTagFromJSON,
@@ -88,10 +88,10 @@ export interface MwTrainingBffInternalSchemasTraining {
     students: Array<MwTrainingBffInternalSchemasUser>;
     /**
      * 
-     * @type {Array<MwTrainingBffInternalSchemasTopic>}
+     * @type {Array<MwTrainingBffInternalSchemasTopicPreview>}
      * @memberof MwTrainingBffInternalSchemasTraining
      */
-    topics: Array<MwTrainingBffInternalSchemasTopic>;
+    topics: Array<MwTrainingBffInternalSchemasTopicPreview>;
     /**
      * 
      * @type {Array<MwTrainingBffInternalSchemasTrainingTag>}
@@ -156,7 +156,7 @@ export function MwTrainingBffInternalSchemasTrainingFromJSONTyped(
         'name': json['name'],
         'owner': MwTrainingBffInternalSchemasUserFromJSON(json['owner']),
         'students': ((json['students'] as Array<any>).map(MwTrainingBffInternalSchemasUserFromJSON)),
-        'topics': ((json['topics'] as Array<any>).map(MwTrainingBffInternalSchemasTopicFromJSON)),
+        'topics': ((json['topics'] as Array<any>).map(MwTrainingBffInternalSchemasTopicPreviewFromJSON)),
         'trainingTags': ((json['trainingTags'] as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagFromJSON)),
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
@@ -181,7 +181,7 @@ export function MwTrainingBffInternalSchemasTrainingToJSON(value?: MwTrainingBff
         'name': value.name,
         'owner': MwTrainingBffInternalSchemasUserToJSON(value.owner),
         'students': ((value.students as Array<any>).map(MwTrainingBffInternalSchemasUserToJSON)),
-        'topics': ((value.topics as Array<any>).map(MwTrainingBffInternalSchemasTopicToJSON)),
+        'topics': ((value.topics as Array<any>).map(MwTrainingBffInternalSchemasTopicPreviewToJSON)),
         'trainingTags': ((value.trainingTags as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagToJSON)),
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,

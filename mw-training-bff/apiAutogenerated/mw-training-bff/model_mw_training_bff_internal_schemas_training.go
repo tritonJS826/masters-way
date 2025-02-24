@@ -29,7 +29,7 @@ type MwTrainingBffInternalSchemasTraining struct {
 	Name string
 	Owner MwTrainingBffInternalSchemasUser
 	Students []MwTrainingBffInternalSchemasUser
-	Topics []MwTrainingBffInternalSchemasTopic
+	Topics []MwTrainingBffInternalSchemasTopicPreview
 	TrainingTags []MwTrainingBffInternalSchemasTrainingTag
 	UpdatedAt string
 	Uuid string
@@ -41,7 +41,7 @@ type _MwTrainingBffInternalSchemasTraining MwTrainingBffInternalSchemasTraining
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string) *MwTrainingBffInternalSchemasTraining {
+func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopicPreview, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string) *MwTrainingBffInternalSchemasTraining {
 	this := MwTrainingBffInternalSchemasTraining{}
 	this.CreatedAt = createdAt
 	this.Description = description
@@ -259,9 +259,9 @@ func (o *MwTrainingBffInternalSchemasTraining) SetStudents(v []MwTrainingBffInte
 }
 
 // GetTopics returns the Topics field value
-func (o *MwTrainingBffInternalSchemasTraining) GetTopics() []MwTrainingBffInternalSchemasTopic {
+func (o *MwTrainingBffInternalSchemasTraining) GetTopics() []MwTrainingBffInternalSchemasTopicPreview {
 	if o == nil {
-		var ret []MwTrainingBffInternalSchemasTopic
+		var ret []MwTrainingBffInternalSchemasTopicPreview
 		return ret
 	}
 
@@ -270,7 +270,7 @@ func (o *MwTrainingBffInternalSchemasTraining) GetTopics() []MwTrainingBffIntern
 
 // GetTopicsOk returns a tuple with the Topics field value
 // and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasTraining) GetTopicsOk() ([]MwTrainingBffInternalSchemasTopic, bool) {
+func (o *MwTrainingBffInternalSchemasTraining) GetTopicsOk() ([]MwTrainingBffInternalSchemasTopicPreview, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -278,7 +278,7 @@ func (o *MwTrainingBffInternalSchemasTraining) GetTopicsOk() ([]MwTrainingBffInt
 }
 
 // SetTopics sets field value
-func (o *MwTrainingBffInternalSchemasTraining) SetTopics(v []MwTrainingBffInternalSchemasTopic) {
+func (o *MwTrainingBffInternalSchemasTraining) SetTopics(v []MwTrainingBffInternalSchemasTopicPreview) {
 	o.Topics = v
 }
 

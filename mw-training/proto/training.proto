@@ -288,10 +288,11 @@ message Topic {
   string name = 2;
   string training_uuid = 3;
   int32  topic_order = 4;
-  optional string parent_topic_uuid = 5;
-  string created_at = 6;
-  repeated TheoryMaterial theory_materials = 7;
-  repeated PracticeMaterial practice_materials = 8;
+  string owner_uuid = 5;
+  optional string parent_topic_uuid = 6;
+  string created_at = 7;
+  repeated TheoryMaterial theory_materials = 8;
+  repeated PracticeMaterial practice_materials = 9;
 }
 
 message UpdateTopicRequest {

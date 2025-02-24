@@ -90,6 +90,7 @@ Class | Method | HTTP request | Description
 *TheoryMaterialAPI* | [**UpdateTheoryMaterial**](docs/TheoryMaterialAPI.md#updatetheorymaterial) | **Patch** /theoryMaterials | Update theory material
 *TopicAPI* | [**CreateTopic**](docs/TopicAPI.md#createtopic) | **Post** /topics/{trainingId} | Create topic
 *TopicAPI* | [**DeleteTopic**](docs/TopicAPI.md#deletetopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
+*TopicAPI* | [**GetTopic**](docs/TopicAPI.md#gettopic) | **Post** /topics/{topicId} | Get topic by id
 *TopicAPI* | [**UpdateTopic**](docs/TopicAPI.md#updatetopic) | **Patch** /topics/{topicId} | Update topic
 *TrainingAPI* | [**CreateTraining**](docs/TrainingAPI.md#createtraining) | **Post** /trainings | Create training
 *TrainingAPI* | [**DeleteTraining**](docs/TrainingAPI.md#deletetraining) | **Delete** /trainings/{trainingId} | Delete training by id
@@ -117,6 +118,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasTheoryMaterial](docs/MwTrainingBffInternalSchemasTheoryMaterial.md)
  - [MwTrainingBffInternalSchemasTheoryMaterials](docs/MwTrainingBffInternalSchemasTheoryMaterials.md)
  - [MwTrainingBffInternalSchemasTopic](docs/MwTrainingBffInternalSchemasTopic.md)
+ - [MwTrainingBffInternalSchemasTopicPreview](docs/MwTrainingBffInternalSchemasTopicPreview.md)
  - [MwTrainingBffInternalSchemasTraining](docs/MwTrainingBffInternalSchemasTraining.md)
  - [MwTrainingBffInternalSchemasTrainingList](docs/MwTrainingBffInternalSchemasTrainingList.md)
  - [MwTrainingBffInternalSchemasTrainingPreview](docs/MwTrainingBffInternalSchemasTrainingPreview.md)

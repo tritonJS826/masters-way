@@ -74,6 +74,7 @@ func (q *Queries) DeleteTopic(ctx context.Context, topicUuid pgtype.UUID) (Topic
 const getTopicByUuid = `-- name: GetTopicByUuid :one
 SELECT 
     topics.uuid, topics.name, topics.training_uuid, topics.topic_order, topics.parent, topics.created_at, 
+    trainings.owner_uuid,
     COUNT(theory_materials.uuid) AS theory_materials_amount,
     COUNT(practice_materials.uuid) AS practice_materials_amount
 FROM
@@ -82,10 +83,13 @@ LEFT JOIN
     theory_materials ON topics.uuid = theory_materials.topic_uuid
 LEFT JOIN
     practice_materials ON topics.uuid = practice_materials.topic_uuid
+LEFT JOIN
+    trainings ON topics.training_uuid = trainings.uuid
 WHERE
     topics.uuid = $1
 GROUP BY
-    topics.uuid
+    topics.uuid,
+    trainings.owner_uuid
 `
 
 type GetTopicByUuidRow struct {
@@ -95,6 +99,7 @@ type GetTopicByUuidRow struct {
 	TopicOrder              int32            `json:"topic_order"`
 	Parent                  pgtype.UUID      `json:"parent"`
 	CreatedAt               pgtype.Timestamp `json:"created_at"`
+	OwnerUuid               pgtype.UUID      `json:"owner_uuid"`
 	TheoryMaterialsAmount   int64            `json:"theory_materials_amount"`
 	PracticeMaterialsAmount int64            `json:"practice_materials_amount"`
 }
@@ -109,6 +114,7 @@ func (q *Queries) GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (Ge
 		&i.TopicOrder,
 		&i.Parent,
 		&i.CreatedAt,
+		&i.OwnerUuid,
 		&i.TheoryMaterialsAmount,
 		&i.PracticeMaterialsAmount,
 	)

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Owner** | [**MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **Students** | [**[]MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
-**Topics** | [**[]MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md) |  | 
+**Topics** | [**[]MwTrainingBffInternalSchemasTopicPreview**](MwTrainingBffInternalSchemasTopicPreview.md) |  | 
 **TrainingTags** | [**[]MwTrainingBffInternalSchemasTrainingTag**](MwTrainingBffInternalSchemasTrainingTag.md) |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasTraining
 
-`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopic, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
+`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopicPreview, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
 
 NewMwTrainingBffInternalSchemasTraining instantiates a new MwTrainingBffInternalSchemasTraining object
 This constructor will assign default values to properties that have it defined,
@@ -198,20 +198,20 @@ SetStudents sets Students field to given value.
 
 ### GetTopics
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTopics() []MwTrainingBffInternalSchemasTopic`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTopics() []MwTrainingBffInternalSchemasTopicPreview`
 
 GetTopics returns the Topics field if non-nil, zero value otherwise.
 
 ### GetTopicsOk
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTopicsOk() (*[]MwTrainingBffInternalSchemasTopic, bool)`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTopicsOk() (*[]MwTrainingBffInternalSchemasTopicPreview, bool)`
 
 GetTopicsOk returns a tuple with the Topics field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTopics
 
-`func (o *MwTrainingBffInternalSchemasTraining) SetTopics(v []MwTrainingBffInternalSchemasTopic)`
+`func (o *MwTrainingBffInternalSchemasTraining) SetTopics(v []MwTrainingBffInternalSchemasTopicPreview)`
 
 SetTopics sets Topics field to given value.
 

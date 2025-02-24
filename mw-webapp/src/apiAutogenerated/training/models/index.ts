@@ -9,6 +9,7 @@ export * from './MwTrainingBffInternalSchemasPracticeMaterials';
 export * from './MwTrainingBffInternalSchemasTheoryMaterial';
 export * from './MwTrainingBffInternalSchemasTheoryMaterials';
 export * from './MwTrainingBffInternalSchemasTopic';
+export * from './MwTrainingBffInternalSchemasTopicPreview';
 export * from './MwTrainingBffInternalSchemasTraining';
 export * from './MwTrainingBffInternalSchemasTrainingList';
 export * from './MwTrainingBffInternalSchemasTrainingPreview';

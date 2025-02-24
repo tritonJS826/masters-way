@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateTopic**](TopicAPI.md#CreateTopic) | **Post** /topics/{trainingId} | Create topic
 [**DeleteTopic**](TopicAPI.md#DeleteTopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
+[**GetTopic**](TopicAPI.md#GetTopic) | **Post** /topics/{topicId} | Get topic by id
 [**UpdateTopic**](TopicAPI.md#UpdateTopic) | **Patch** /topics/{topicId} | Update topic
 
 
@@ -140,6 +141,74 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetTopic
+
+> MwTrainingBffInternalSchemasTopic GetTopic(ctx, topicId).Execute()
+
+Get topic by id
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	topicId := "topicId_example" // string | topic id
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TopicAPI.GetTopic(context.Background(), topicId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.GetTopic``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetTopic`: MwTrainingBffInternalSchemasTopic
+	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.GetTopic`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**topicId** | **string** | topic id | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetTopicRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
