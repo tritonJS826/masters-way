@@ -240,29 +240,31 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                   dropdownMenuItems={[
                     {
                       dropdownSubMenuItems: [
-                        {
-                          id: "Make the training private/public",
-                          isPreventDefaultUsed: false,
-                          isVisible: isOwner,
-                          value: trainingPageStore.training.isPrivate
-                            ? LanguageService.training.peopleBlock.makePublicButton[language]
-                            : LanguageService.training.peopleBlock.makePrivateButton[language],
+                      // TODO: Commented till privacy logic on backend will not be fixed
+                        // {
+                        //   id: "Make the training private/public",
+                        //   isPreventDefaultUsed: false,
+                        //   isVisible: isOwner,
+                        //   value: trainingPageStore.training.isPrivate
+                        //     ? LanguageService.training.peopleBlock.makePublicButton[language]
+                        //     : LanguageService.training.peopleBlock.makePrivateButton[language],
 
-                          /**
-                           * Toggle training privacy
-                           */
-                          onClick: () => updateTraining({
-                            trainingToUpdate: {
-                              uuid: trainingPageStore.training.uuid,
-                              isPrivate: !trainingPageStore.training.isPrivate,
-                            },
+                        //   /**
+                        //    * Toggle training privacy
+                        //    */
+                        //   onClick: () => updateTraining({
+                        //     trainingToUpdate: {
+                        //       uuid: trainingPageStore.training.uuid,
+                        //       isPrivate: !trainingPageStore.training.isPrivate,
+                        //     },
 
-                            /**
-                             * Update isPrivate property
-                             */
-                            setTraining: () => trainingPageStore.training.updateIsPrivate(!trainingPageStore.training.isPrivate),
-                          }),
-                        },
+                        //     /**
+                        //      * Update isPrivate property
+                        //      */
+                        //     setTraining: () =>
+                        // trainingPageStore.training.updateIsPrivate(!trainingPageStore.training.isPrivate),
+                        //   }),
+                        // },
                         {
                           id: "Copy url to clipboard",
                           isPreventDefaultUsed: false,

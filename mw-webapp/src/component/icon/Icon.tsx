@@ -12,6 +12,7 @@ import {ChevronIcon} from "src/assets/icons/ChevronIcon";
 import {ClockIcon} from "src/assets/icons/ClockIcon";
 import {DollarIcon} from "src/assets/icons/DollarIcon";
 import {DownloadIcon} from "src/assets/icons/DownloadIcon";
+import {ExternalLinkIcon} from "src/assets/icons/ExternalLinkIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
 import {FileIcon} from "src/assets/icons/FileIcon";
@@ -293,6 +294,11 @@ export const IconDictionary = {
    * FileText icon
    */
   FileTextIcon: (params: IconProps) => <FileTextIcon {...params} />,
+
+  /**
+   * ExternalLink icon
+   */
+  ExternalLinkIcon: (params: IconProps) => <ExternalLinkIcon {...params} />,
 };
 
 /**

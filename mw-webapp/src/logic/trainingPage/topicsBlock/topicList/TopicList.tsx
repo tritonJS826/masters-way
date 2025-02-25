@@ -82,6 +82,8 @@ export const TopicChildrenList = observer((props: TopicChildrenListProps) => {
               theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
               practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
               emptyTitle={LanguageService.common.emptyMarkdown[language]}
+              isEditable={props.isEditable}
+              externalLinkTooltip={LanguageService.training.topicsBlock.tooltips.externalLink[language]}
             />
           </HorizontalContainer>
 

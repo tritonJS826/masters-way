@@ -251,7 +251,6 @@ export class Training {
    * Add new topic to training
    */
   public addTopic(newTopic: TopicPreview): void {
-    console.log(newTopic);
     newTopic.parentUuid
       ? this.topics = this.topics.map(topic => addTopicRecursive(topic, newTopic))
       : this.topics.push(newTopic);

@@ -1,4 +1,5 @@
 import {observer} from "mobx-react-lite";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
@@ -40,9 +41,19 @@ interface TopicCardProps {
   practiceMaterialTooltip: string;
 
   /**
+   * External link tooltip
+   */
+  externalLinkTooltip: string;
+
+  /**
    * Empty title for topic
    */
   emptyTitle: string;
+
+  /**
+   * If true then topic card could be editable
+   */
+  isEditable: boolean;
 }
 
 /**
@@ -53,12 +64,31 @@ export const TopicCard = observer((props: TopicCardProps) => {
   const isEmptyTopicName = props.topic.name.toString().trim() === "";
 
   return (
-    <Link
-      path={pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: props.topic.uuid})}
-      className={styles.cardLink}
-    >
+    props.isEditable ?
       <HorizontalContainer className={styles.topicCard}>
-        <Text text={isEmptyTopicName ? props.emptyTitle : props.topic.name} />
+        <HorizontalContainer className={styles.topicTitleAndLink}>
+          <Text text={isEmptyTopicName ? props.emptyTitle : props.topic.name} />
+          <Link
+            path={pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: props.topic.uuid})}
+            className={styles.cardLink}
+          >
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={props.externalLinkTooltip}
+            >
+              <Button
+                buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                onClick={() => { }}
+                icon={
+                  <Icon
+                    size={IconSize.SMALL}
+                    name={"ExternalLinkIcon"}
+                  />
+                }
+              />
+            </Tooltip>
+          </Link>
+        </HorizontalContainer>
         <HorizontalContainer className={styles.topicActionButtons}>
           <Tooltip
             position={PositionTooltip.BOTTOM}
@@ -88,32 +118,43 @@ export const TopicCard = observer((props: TopicCardProps) => {
           </Tooltip>
         </HorizontalContainer>
       </HorizontalContainer>
-      {/* {props.isEditable && (
-          <Tooltip content={props.deleteTopicTooltip}>
-            <Confirm
-              trigger={
-                <Button
-                  icon={
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="TrashIcon"
-                    />
-                  }
-                  buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                  onClick={() => {}}
+      :
+      <Link
+        path={pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: props.topic.uuid})}
+        className={styles.cardLink}
+      >
+        <HorizontalContainer className={styles.topicCard}>
+          <Text text={isEmptyTopicName ? props.emptyTitle : props.topic.name} />
+          <HorizontalContainer className={styles.topicActionButtons}>
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={props.theoryMaterialTooltip}
+            >
+              <HorizontalContainer className={styles.amountInfo}>
+                <Icon
+                  size={IconSize.SMALL}
+                  name={"FileTextIcon"}
+                  className={styles.icon}
                 />
-              }
-              content={<p>
-                {renderMarkdown(
-                  `${props.deleteTopicQuestion} "${props.topic.name}"?`,
-                )}
-              </p>}
-              onOk={props.deleteTopic}
-              okText={props.okText}
-              cancelText={props.cancelText}
-            />
-          </Tooltip>
-        )} */}
-    </Link>
+                {props.topic.theoryMaterialAmount}
+              </HorizontalContainer>
+            </Tooltip>
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={props.practiceMaterialTooltip}
+            >
+              <HorizontalContainer className={styles.amountInfo}>
+                <Icon
+                  size={IconSize.SMALL}
+                  name={"PenToolIcon"}
+                  className={styles.icon}
+                />
+                {props.topic.practiceMaterialAmount}
+              </HorizontalContainer>
+            </Tooltip>
+          </HorizontalContainer>
+        </HorizontalContainer>
+      </Link>
+
   );
 });
