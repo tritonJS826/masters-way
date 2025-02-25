@@ -26,7 +26,7 @@ func NewTopicController(generalService *services.GeneralService, topicService *s
 // @Produce json
 // @Param topicId path string true "topic id"
 // @Success 200 {object} schemas.Topic
-// @Router /topics/{topicId} [post]
+// @Router /topics/{topicId} [get]
 func (tc *TopicController) GetTopicById(ctx *gin.Context) {
 	topicId := ctx.Param("topicId")
 

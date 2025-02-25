@@ -128,7 +128,7 @@ export class TopicApi extends runtime.BaseAPI {
 
         const response = await this.request({
             path: `/topics/{topicId}`.replace(`{${"topicId"}}`, encodeURIComponent(String(requestParameters.topicId))),
-            method: 'POST',
+            method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);

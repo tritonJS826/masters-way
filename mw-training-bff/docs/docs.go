@@ -326,7 +326,7 @@ const docTemplate = `{
             }
         },
         "/topics/{topicId}": {
-            "post": {
+            "get": {
                 "consumes": [
                     "application/json"
                 ],

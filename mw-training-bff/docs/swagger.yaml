@@ -623,6 +623,26 @@ paths:
       summary: Delete topic by Uuid
       tags:
       - topic
+    get:
+      consumes:
+      - application/json
+      operationId: get-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+      summary: Get topic by id
+      tags:
+      - topic
     patch:
       consumes:
       - application/json
@@ -647,26 +667,6 @@ paths:
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
       summary: Update topic
-      tags:
-      - topic
-    post:
-      consumes:
-      - application/json
-      operationId: get-topic
-      parameters:
-      - description: topic id
-        in: path
-        name: topicId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
-      summary: Get topic by id
       tags:
       - topic
   /topics/{trainingId}:
