@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## CreateTopic
 
-> MwTrainingBffInternalSchemasTopic CreateTopic(ctx, trainingId).TopicParentId(topicParentId).Execute()
+> MwTrainingBffInternalSchemasTopicPreview CreateTopic(ctx, trainingId).TopicParentId(topicParentId).Execute()
 
 Create topic
 
@@ -40,7 +40,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.CreateTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateTopic`: MwTrainingBffInternalSchemasTopic
+	// response from `CreateTopic`: MwTrainingBffInternalSchemasTopicPreview
 	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.CreateTopic`: %v\n", resp)
 }
 ```
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md)
+[**MwTrainingBffInternalSchemasTopicPreview**](MwTrainingBffInternalSchemasTopicPreview.md)
 
 ### Authorization
 

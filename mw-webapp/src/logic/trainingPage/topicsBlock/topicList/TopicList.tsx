@@ -1,3 +1,4 @@
+import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -5,6 +6,7 @@ import {Icon, IconSize} from "src/component/icon/Icon";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {TopicCard} from "src/component/topicCard/TopicCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {CreateTopicParams} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {LanguageService} from "src/service/LanguageService";
@@ -40,7 +42,7 @@ interface TopicChildrenListProps {
   /**
    * Add nested topic
    */
-  addTopic: (parentUuid: string, parentTopic: TopicPreview | null) => void;
+  addTopic: (params: CreateTopicParams) => void;
 
 }
 
@@ -49,7 +51,7 @@ const LEVEL_INCREMENT = 1;
 /**
  * Item for topic children list
  */
-export const TopicChildrenList = (props: TopicChildrenListProps) => {
+export const TopicChildrenList = observer((props: TopicChildrenListProps) => {
   const {language} = languageStore;
 
   /**
@@ -93,7 +95,14 @@ export const TopicChildrenList = (props: TopicChildrenListProps) => {
                   />
                 }
                 buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                onClick={() => props.addTopic(childTopic.uuid, childTopic)} //????
+                onClick={() => {
+                  props.addTopic({
+                    trainingId: childTopic.trainingUuid,
+                    topicParentId: childTopic.uuid,
+                  },
+                  );
+                }
+                }
               />
               <Tooltip content={LanguageService.training.topicsBlock.deleteTopicTooltip[language]}>
                 <Confirm
@@ -137,4 +146,4 @@ export const TopicChildrenList = (props: TopicChildrenListProps) => {
   const childrenList = props.topics.map(renderChildrenItem);
 
   return childrenList;
-};
+});

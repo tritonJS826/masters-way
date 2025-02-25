@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 apis/FavoriteUserTrainingApi.ts
 apis/PracticeMaterialApi.ts
 apis/TheoryMaterialApi.ts

@@ -1,5 +1,7 @@
 import {topicDTOToTopic} from "src/dataAccessLogic/DTOToPreviewConverter/topicDTOToTopic";
+import {topicPreviewDTOToTopicPreview} from "src/dataAccessLogic/DTOToPreviewConverter/topicPreviewDTOToTopicPreview";
 import {Topic} from "src/model/businessModel/Topic";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TopicService} from "src/service/TopicService";
 
 /**
@@ -42,14 +44,14 @@ export class TopicDAL {
   /**
    * Create topic
    */
-  public static async createTopic(params: CreateTopicParams): Promise<Topic> {
-    const topicDTO = await TopicService.createTopic({
+  public static async createTopic(params: CreateTopicParams): Promise<TopicPreview> {
+    const topicPreviewDTO = await TopicService.createTopic({
       trainingId: params.trainingId,
       topicParentId: params.topicParentId,
     });
-    const topic = topicDTOToTopic(topicDTO);
+    const topicPreview = topicPreviewDTOToTopicPreview(topicPreviewDTO);
 
-    return topic;
+    return topicPreview;
   }
 
   /**

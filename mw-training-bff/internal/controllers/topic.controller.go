@@ -52,8 +52,10 @@ func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 	trainingId := ctx.Param("trainingId")
 
 	var topicParentId *string
-	if topicParentIdRaw != "" {
+	if topicParentIdRaw == "" {
 		topicParentId = nil
+	} else {
+		topicParentId = &topicParentIdRaw
 	}
 
 	args := &services.CreateTopicParams{

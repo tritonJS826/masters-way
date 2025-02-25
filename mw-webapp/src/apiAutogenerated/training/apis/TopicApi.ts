@@ -16,11 +16,14 @@
 import * as runtime from '../runtime';
 import type {
   MwTrainingBffInternalSchemasTopic,
+  MwTrainingBffInternalSchemasTopicPreview,
   MwTrainingBffInternalSchemasUpdateTopicPayload,
 } from '../models/index';
 import {
     MwTrainingBffInternalSchemasTopicFromJSON,
     MwTrainingBffInternalSchemasTopicToJSON,
+    MwTrainingBffInternalSchemasTopicPreviewFromJSON,
+    MwTrainingBffInternalSchemasTopicPreviewToJSON,
     MwTrainingBffInternalSchemasUpdateTopicPayloadFromJSON,
     MwTrainingBffInternalSchemasUpdateTopicPayloadToJSON,
 } from '../models/index';
@@ -51,7 +54,7 @@ export class TopicApi extends runtime.BaseAPI {
     /**
      * Create topic
      */
-    async createTopicRaw(requestParameters: CreateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTopic>> {
+    async createTopicRaw(requestParameters: CreateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTopicPreview>> {
         if (requestParameters.trainingId === null || requestParameters.trainingId === undefined) {
             throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling createTopic.');
         }
@@ -71,13 +74,13 @@ export class TopicApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicPreviewFromJSON(jsonValue));
     }
 
     /**
      * Create topic
      */
-    async createTopic(requestParameters: CreateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTopic> {
+    async createTopic(requestParameters: CreateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTopicPreview> {
         const response = await this.createTopicRaw(requestParameters, initOverrides);
         return await response.value();
     }

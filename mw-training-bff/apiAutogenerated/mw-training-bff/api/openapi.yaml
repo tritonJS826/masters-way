@@ -278,7 +278,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
           description: OK
       summary: Create topic
       tags:

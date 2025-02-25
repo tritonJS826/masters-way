@@ -1,12 +1,10 @@
-import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Button} from "src/component/button/Button";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
+import {CreateTopicParams, TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {TopicChildrenList} from "src/logic/trainingPage/topicsBlock/topicList/TopicList";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
-import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/trainingPage/topicsBlock/TopicsBlock.module.scss";
 
@@ -47,18 +45,16 @@ interface TopicsBlockProps {
  */
 export const TopicsBlock = observer((props: TopicsBlockProps) => {
   const {language} = languageStore;
-  const navigate = useNavigate();
 
   /**
    * Add topic
    */
-  const addTopic = async (trainingId: string, topicParentId?: string) => {
+  const addTopic = async (params: CreateTopicParams) => {
     const newTopic = await TopicDAL.createTopic({
-      trainingId,
-      topicParentId,
+      trainingId: params.trainingId,
+      topicParentId: params.topicParentId,
     });
-    // Props.addTopic(newTopic);
-    navigate(pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: newTopic.uuid}));
+    props.addTopic(newTopic);
   };
 
   /**
@@ -75,13 +71,13 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
         level={0}
         topics={props.topics}
         isEditable={props.isEditable}
-        addTopic={(parentUuid: string) => addTopic(parentUuid)}
+        addTopic={(params: CreateTopicParams) => addTopic({trainingId: params.trainingId, topicParentId: params.topicParentId})}
         deleteTopic={(topicUuid: string) => deleteTopic(topicUuid)}
       />
       {props.isEditable &&
       <Button
         value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
-        onClick={() => addTopic(props.trainingUuid)}
+        onClick={() => addTopic({trainingId: props.trainingUuid})}
       />
       }
     </VerticalContainer>

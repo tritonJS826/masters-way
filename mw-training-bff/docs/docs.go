@@ -455,7 +455,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
                         }
                     }
                 }

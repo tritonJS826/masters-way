@@ -80,7 +80,7 @@ export class TopicPreview {
   /**
    * Topic children
    */
-  public children: TopicPreview[];
+  public children: TopicPreview[]; //???
 
   /**
    * Topic's createdAt Date

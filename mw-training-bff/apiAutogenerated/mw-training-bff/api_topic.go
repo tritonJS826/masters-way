@@ -37,7 +37,7 @@ func (r ApiCreateTopicRequest) TopicParentId(topicParentId string) ApiCreateTopi
 	return r
 }
 
-func (r ApiCreateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+func (r ApiCreateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	return r.ApiService.CreateTopicExecute(r)
 }
 
@@ -57,13 +57,13 @@ func (a *TopicAPIService) CreateTopic(ctx context.Context, trainingId string) Ap
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopic
-func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreview
+func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopic")
@@ -136,11 +136,11 @@ func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTraini
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopicStream
-func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreviewStream
+func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopic")
