@@ -45,7 +45,7 @@ func (tc *TopicController) GetTopicById(ctx *gin.Context) {
 // @Produce json
 // @Param trainingId path string true "training id"
 // @Param topicParentId query string false "Topic parent id"
-// @Success 200 {object} schemas.Topic
+// @Success 200 {object} schemas.TopicPreview
 // @Router /topics/{trainingId} [post]
 func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 	topicParentIdRaw := ctx.DefaultQuery("topicParentId", "")
