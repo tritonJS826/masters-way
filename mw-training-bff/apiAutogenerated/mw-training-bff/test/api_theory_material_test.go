@@ -26,9 +26,7 @@ func Test_openapi_TheoryMaterialAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var topicId string
-
-		resp, httpRes, err := apiClient.TheoryMaterialAPI.CreateTheoryMaterial(context.Background(), topicId).Execute()
+		resp, httpRes, err := apiClient.TheoryMaterialAPI.CreateTheoryMaterial(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -67,9 +65,7 @@ func Test_openapi_TheoryMaterialAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var theoryMaterialId string
-
-		resp, httpRes, err := apiClient.TheoryMaterialAPI.UpdateTheoryMaterial(context.Background(), theoryMaterialId).Execute()
+		resp, httpRes, err := apiClient.TheoryMaterialAPI.UpdateTheoryMaterial(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

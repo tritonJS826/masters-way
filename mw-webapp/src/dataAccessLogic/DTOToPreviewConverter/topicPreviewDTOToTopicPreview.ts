@@ -29,7 +29,7 @@ import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 /**
  * Convert {@link topicDTO} to {@link TopicPreview}
  */
-export const topicDTOToTopic = (
+export const topicPreviewDTOToTopicPreview = (
   topicDTO: MwTrainingBffInternalSchemasTopicPreview,
 ): TopicPreview => {
   return new TopicPreview({

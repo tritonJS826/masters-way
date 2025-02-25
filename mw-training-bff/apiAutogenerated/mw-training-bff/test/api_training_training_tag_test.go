@@ -40,9 +40,9 @@ func Test_openapi_TrainingTrainingTagAPIService(t *testing.T) {
 		t.Skip("skip test")  // remove to run test
 
 		var trainingId string
-		var trainingTagId string
+		var trainingTagName string
 
-		httpRes, err := apiClient.TrainingTrainingTagAPI.DeleteTrainingTrainingTag(context.Background(), trainingId, trainingTagId).Execute()
+		httpRes, err := apiClient.TrainingTrainingTagAPI.DeleteTrainingTrainingTag(context.Background(), trainingId, trainingTagName).Execute()
 
 		require.Nil(t, err)
 		assert.Equal(t, 200, httpRes.StatusCode)

@@ -26,9 +26,7 @@ func Test_openapi_PracticeMaterialAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var topicId string
-
-		resp, httpRes, err := apiClient.PracticeMaterialAPI.CreatePracticeMaterial(context.Background(), topicId).Execute()
+		resp, httpRes, err := apiClient.PracticeMaterialAPI.CreatePracticeMaterial(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -67,9 +65,7 @@ func Test_openapi_PracticeMaterialAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var practiceMaterialId string
-
-		resp, httpRes, err := apiClient.PracticeMaterialAPI.UpdatePracticeMaterial(context.Background(), practiceMaterialId).Execute()
+		resp, httpRes, err := apiClient.PracticeMaterialAPI.UpdatePracticeMaterial(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

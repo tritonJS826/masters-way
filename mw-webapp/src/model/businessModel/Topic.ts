@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
 import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
+import {UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 
 /**
  * Topic props
@@ -52,6 +53,11 @@ interface TopicProps {
    */
   trainingUuid: string;
 
+  /**
+   * Topic's owner
+   */
+  owner: UserPreview;
+
 }
 
 /**
@@ -82,7 +88,7 @@ export class Topic {
   /**
    * Topic children
    */
-  public children: Topic[];
+  public children: Topic[]; // ?????
 
   /**
    * Topic's createdAt Date
@@ -104,6 +110,11 @@ export class Topic {
    */
   public trainingUuid: string;
 
+  /**
+   * Topic's owner
+   */
+  public owner: UserPreview;
+
   constructor(topic: TopicProps) {
     makeAutoObservable(this);
     this.name = topic.name;
@@ -115,6 +126,7 @@ export class Topic {
     this.practiceMaterials = topic.practiceMaterials;
     this.theoryMaterials = topic.theoryMaterials;
     this.trainingUuid = topic.trainingUuid;
+    this.owner = topic.owner;
   }
 
 }

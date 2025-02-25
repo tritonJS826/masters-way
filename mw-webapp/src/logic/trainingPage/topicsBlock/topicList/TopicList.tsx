@@ -79,6 +79,7 @@ export const TopicChildrenList = (props: TopicChildrenListProps) => {
               createdAtText={LanguageService.training.topicsBlock.createdAt[language]}
               theoryMaterialTooltip={LanguageService.training.topicsBlock.tooltips.theoryMaterialAmount[language]}
               practiceMaterialTooltip={LanguageService.training.topicsBlock.tooltips.practiceMaterialAmount[language]}
+              emptyTitle={LanguageService.common.emptyMarkdown[language]}
             />
           </HorizontalContainer>
 

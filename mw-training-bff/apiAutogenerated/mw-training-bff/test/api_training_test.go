@@ -26,9 +26,7 @@ func Test_openapi_TrainingAPIService(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		var trainingId string
-
-		resp, httpRes, err := apiClient.TrainingAPI.CreateTraining(context.Background(), trainingId).Execute()
+		resp, httpRes, err := apiClient.TrainingAPI.CreateTraining(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -82,6 +80,20 @@ func Test_openapi_TrainingAPIService(t *testing.T) {
 		var userId string
 
 		resp, httpRes, err := apiClient.TrainingAPI.GetTrainingListByUser(context.Background(), userId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test TrainingAPIService GetTrainingsAmountByUser", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var userId string
+
+		resp, httpRes, err := apiClient.TrainingAPI.GetTrainingsAmountByUser(context.Background(), userId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

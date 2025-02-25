@@ -2,7 +2,7 @@ import {observer} from "mobx-react-lite";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Link} from "src/component/link/Link";
-import {HeadingLevel, Title} from "src/component/title/Title";
+import {Text} from "src/component/text/Text";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
@@ -38,6 +38,11 @@ interface TopicCardProps {
    * Practice material tooltip
    */
   practiceMaterialTooltip: string;
+
+  /**
+   * Empty title for topic
+   */
+  emptyTitle: string;
 }
 
 /**
@@ -45,18 +50,15 @@ interface TopicCardProps {
  */
 export const TopicCard = observer((props: TopicCardProps) => {
 
+  const isEmptyTopicName = props.topic.name.toString().trim() === "";
+
   return (
     <Link
       path={pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: props.topic.uuid})}
       className={styles.cardLink}
     >
       <HorizontalContainer className={styles.topicCard}>
-        <Title
-          text={props.topic.name}
-          level={HeadingLevel.h3}
-          className={styles.title}
-          placeholder=""
-        />
+        <Text text={isEmptyTopicName ? props.emptyTitle : props.topic.name} />
         <HorizontalContainer className={styles.topicActionButtons}>
           <Tooltip
             position={PositionTooltip.BOTTOM}

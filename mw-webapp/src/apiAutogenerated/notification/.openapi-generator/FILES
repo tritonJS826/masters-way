@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/NotificationApi.ts
 apis/NotificationSettingApi.ts
 apis/index.ts

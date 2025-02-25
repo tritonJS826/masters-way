@@ -69,47 +69,11 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
     await TopicDAL.deleteTopic(topicUuid);
   };
 
-  const topics: TopicPreview[] = [
-    {
-      trainingUuid: "0b467907-61a2-4d8d-9e34-7b6490f7e454",
-      createdAt: new Date(),
-      name: "First topic",
-      order: 1,
-      parentUuid: null,
-      theoryMaterialAmount: 12,
-      practiceMaterialAmount: 5,
-      uuid: "0001",
-      children: [],
-    },
-    {
-      trainingUuid: "0b467907-61a2-4d8d-9e34-7b6490f7e454",
-      createdAt: new Date(),
-      name: "First topic",
-      order: 1,
-      parentUuid: null,
-      theoryMaterialAmount: 12,
-      practiceMaterialAmount: 5,
-      uuid: "0001",
-      children: [],
-    },
-    {
-      trainingUuid: "0b467907-61a2-4d8d-9e34-7b6490f7e454",
-      createdAt: new Date(),
-      name: "First topic",
-      order: 1,
-      parentUuid: null,
-      theoryMaterialAmount: 12,
-      practiceMaterialAmount: 5,
-      uuid: "0001",
-      children: [],
-    },
-  ];
-
   return (
     <VerticalContainer className={styles.topicsSection}>
       <TopicChildrenList
         level={0}
-        topics={topics}
+        topics={props.topics}
         isEditable={props.isEditable}
         addTopic={(parentUuid: string) => addTopic(parentUuid)}
         deleteTopic={(topicUuid: string) => deleteTopic(topicUuid)}

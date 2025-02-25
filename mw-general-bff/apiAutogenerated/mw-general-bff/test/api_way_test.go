@@ -34,6 +34,18 @@ func Test_openapi_WayAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test WayAPIService CreateWayFromTraining", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.WayAPI.CreateWayFromTraining(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test WayAPIService DeleteWay", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
