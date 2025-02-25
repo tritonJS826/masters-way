@@ -60,6 +60,7 @@ const validateParams = (
  */
 export const WithValidatedParams = (props: ValidatedParamsProps) => {
   const params = useParams();
+  console.log(params);
 
   const navigate = useNavigate();
 
