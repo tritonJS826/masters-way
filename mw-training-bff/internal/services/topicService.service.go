@@ -102,10 +102,14 @@ func (ts *TopicService) CreateTopic(ctx context.Context, params *CreateTopicPara
 	}
 
 	return &schemas.TopicPreview{
-		Uuid:         topic.Uuid,
-		Name:         topic.Name,
-		TrainingUuid: topic.TrainingUuid,
-		TopicOrder:   topic.TopicOrder,
+		Uuid:                   topic.Uuid,
+		Name:                   topic.Name,
+		TrainingUuid:           topic.TrainingUuid,
+		TopicOrder:             topic.TopicOrder,
+		ParentUuid:             topic.ParentTopicUuid,
+		TheoryMaterialAmount:   topic.PracticeMaterialsAmount,
+		PracticeMaterialAmount: topic.PracticeMaterialsAmount,
+		CreatedAt:              topic.CreatedAt,
 	}, nil
 }
 

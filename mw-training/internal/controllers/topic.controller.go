@@ -41,20 +41,9 @@ func (tc *TopicController) CreateTopic(ctx context.Context, in *pb.CreateTopicRe
 		Parent:       parentTopicUuid,
 	}
 
-	topicDb, err := tc.topicService.CreateTopic(ctx, arg)
+	topic, err := tc.topicService.CreateTopic(ctx, arg)
 	if err != nil {
 		return nil, err
-	}
-
-	topic := &pb.TopicPreview{
-		Uuid:                    topicDb.Uuid,
-		Name:                    topicDb.Name,
-		TrainingUuid:            topicDb.TrainingUuid,
-		TopicOrder:              topicDb.TopicOrder,
-		ParentTopicUuid:         topicDb.ParentTopicUuid,
-		CreatedAt:               topicDb.CreatedAt,
-		TheoryMaterialsAmount:   topicDb.TheoryMaterialsAmount,
-		PracticeMaterialsAmount: topicDb.PracticeMaterialsAmount,
 	}
 
 	return topic, nil
