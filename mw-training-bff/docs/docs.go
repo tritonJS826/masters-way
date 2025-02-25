@@ -1209,6 +1209,24 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-training-bff_internal_schemas.TopicTreeNode": {
+            "type": "object",
+            "required": [
+                "children",
+                "topic"
+            ],
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicTreeNode"
+                    }
+                },
+                "topic": {
+                    "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                }
+            }
+        },
         "mw-training-bff_internal_schemas.Training": {
             "type": "object",
             "required": [
@@ -1220,7 +1238,7 @@ const docTemplate = `{
                 "name",
                 "owner",
                 "students",
-                "topics",
+                "topicsTree",
                 "trainingTags",
                 "updatedAt",
                 "uuid"
@@ -1259,10 +1277,10 @@ const docTemplate = `{
                         "$ref": "#/definitions/mw-training-bff_internal_schemas.User"
                     }
                 },
-                "topics": {
+                "topicsTree": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicTreeNode"
                     }
                 },
                 "trainingTags": {

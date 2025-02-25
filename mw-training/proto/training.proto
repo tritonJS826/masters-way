@@ -108,7 +108,12 @@ message Training {
   repeated User training_students = 9;
   repeated User training_mentors = 10;
   repeated string favorite_for_users_preview = 11;
-  repeated TopicPreview topics = 12;
+  repeated TopicTreeNode topicsTree = 12;
+}
+
+message TopicTreeNode {
+  TopicPreview topic = 1;
+  repeated TopicTreeNode children = 2; 
 }
 
 message TrainingPreview {

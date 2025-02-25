@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { MwTrainingBffInternalSchemasTopicPreview } from './MwTrainingBffInternalSchemasTopicPreview';
+import type { MwTrainingBffInternalSchemasTopicTreeNode } from './MwTrainingBffInternalSchemasTopicTreeNode';
 import {
-    MwTrainingBffInternalSchemasTopicPreviewFromJSON,
-    MwTrainingBffInternalSchemasTopicPreviewFromJSONTyped,
-    MwTrainingBffInternalSchemasTopicPreviewToJSON,
-} from './MwTrainingBffInternalSchemasTopicPreview';
+    MwTrainingBffInternalSchemasTopicTreeNodeFromJSON,
+    MwTrainingBffInternalSchemasTopicTreeNodeFromJSONTyped,
+    MwTrainingBffInternalSchemasTopicTreeNodeToJSON,
+} from './MwTrainingBffInternalSchemasTopicTreeNode';
 import type { MwTrainingBffInternalSchemasTrainingTag } from './MwTrainingBffInternalSchemasTrainingTag';
 import {
     MwTrainingBffInternalSchemasTrainingTagFromJSON,
@@ -88,10 +88,10 @@ export interface MwTrainingBffInternalSchemasTraining {
     students: Array<MwTrainingBffInternalSchemasUser>;
     /**
      * 
-     * @type {Array<MwTrainingBffInternalSchemasTopicPreview>}
+     * @type {Array<MwTrainingBffInternalSchemasTopicTreeNode>}
      * @memberof MwTrainingBffInternalSchemasTraining
      */
-    topics: Array<MwTrainingBffInternalSchemasTopicPreview>;
+    topicsTree: Array<MwTrainingBffInternalSchemasTopicTreeNode>;
     /**
      * 
      * @type {Array<MwTrainingBffInternalSchemasTrainingTag>}
@@ -127,7 +127,7 @@ export function instanceOfMwTrainingBffInternalSchemasTraining(
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "students" in value;
-    isInstance = isInstance && "topics" in value;
+    isInstance = isInstance && "topicsTree" in value;
     isInstance = isInstance && "trainingTags" in value;
     isInstance = isInstance && "updatedAt" in value;
     isInstance = isInstance && "uuid" in value;
@@ -156,7 +156,7 @@ export function MwTrainingBffInternalSchemasTrainingFromJSONTyped(
         'name': json['name'],
         'owner': MwTrainingBffInternalSchemasUserFromJSON(json['owner']),
         'students': ((json['students'] as Array<any>).map(MwTrainingBffInternalSchemasUserFromJSON)),
-        'topics': ((json['topics'] as Array<any>).map(MwTrainingBffInternalSchemasTopicPreviewFromJSON)),
+        'topicsTree': ((json['topicsTree'] as Array<any>).map(MwTrainingBffInternalSchemasTopicTreeNodeFromJSON)),
         'trainingTags': ((json['trainingTags'] as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagFromJSON)),
         'updatedAt': json['updatedAt'],
         'uuid': json['uuid'],
@@ -181,7 +181,7 @@ export function MwTrainingBffInternalSchemasTrainingToJSON(value?: MwTrainingBff
         'name': value.name,
         'owner': MwTrainingBffInternalSchemasUserToJSON(value.owner),
         'students': ((value.students as Array<any>).map(MwTrainingBffInternalSchemasUserToJSON)),
-        'topics': ((value.topics as Array<any>).map(MwTrainingBffInternalSchemasTopicPreviewToJSON)),
+        'topicsTree': ((value.topicsTree as Array<any>).map(MwTrainingBffInternalSchemasTopicTreeNodeToJSON)),
         'trainingTags': ((value.trainingTags as Array<any>).map(MwTrainingBffInternalSchemasTrainingTagToJSON)),
         'updatedAt': value.updatedAt,
         'uuid': value.uuid,

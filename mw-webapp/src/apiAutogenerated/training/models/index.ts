@@ -10,6 +10,7 @@ export * from './MwTrainingBffInternalSchemasTheoryMaterial';
 export * from './MwTrainingBffInternalSchemasTheoryMaterials';
 export * from './MwTrainingBffInternalSchemasTopic';
 export * from './MwTrainingBffInternalSchemasTopicPreview';
+export * from './MwTrainingBffInternalSchemasTopicTreeNode';
 export * from './MwTrainingBffInternalSchemasTraining';
 export * from './MwTrainingBffInternalSchemasTrainingList';
 export * from './MwTrainingBffInternalSchemasTrainingPreview';

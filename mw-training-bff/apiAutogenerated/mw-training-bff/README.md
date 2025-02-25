@@ -119,6 +119,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasTheoryMaterials](docs/MwTrainingBffInternalSchemasTheoryMaterials.md)
  - [MwTrainingBffInternalSchemasTopic](docs/MwTrainingBffInternalSchemasTopic.md)
  - [MwTrainingBffInternalSchemasTopicPreview](docs/MwTrainingBffInternalSchemasTopicPreview.md)
+ - [MwTrainingBffInternalSchemasTopicTreeNode](docs/MwTrainingBffInternalSchemasTopicTreeNode.md)
  - [MwTrainingBffInternalSchemasTraining](docs/MwTrainingBffInternalSchemasTraining.md)
  - [MwTrainingBffInternalSchemasTrainingList](docs/MwTrainingBffInternalSchemasTrainingList.md)
  - [MwTrainingBffInternalSchemasTrainingPreview](docs/MwTrainingBffInternalSchemasTrainingPreview.md)

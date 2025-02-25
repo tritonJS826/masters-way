@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Owner** | [**MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **Students** | [**[]MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
-**Topics** | [**[]MwTrainingBffInternalSchemasTopicPreview**](MwTrainingBffInternalSchemasTopicPreview.md) |  | 
+**TopicsTree** | [**[]MwTrainingBffInternalSchemasTopicTreeNode**](MwTrainingBffInternalSchemasTopicTreeNode.md) |  | 
 **TrainingTags** | [**[]MwTrainingBffInternalSchemasTrainingTag**](MwTrainingBffInternalSchemasTrainingTag.md) |  | 
 **UpdatedAt** | **string** |  | 
 **Uuid** | **string** |  | 
@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasTraining
 
-`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topics []MwTrainingBffInternalSchemasTopicPreview, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
+`func NewMwTrainingBffInternalSchemasTraining(createdAt string, description string, favoriteForUserUuids []string, isPrivate bool, mentors []MwTrainingBffInternalSchemasUser, name string, owner MwTrainingBffInternalSchemasUser, students []MwTrainingBffInternalSchemasUser, topicsTree []MwTrainingBffInternalSchemasTopicTreeNode, trainingTags []MwTrainingBffInternalSchemasTrainingTag, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTraining`
 
 NewMwTrainingBffInternalSchemasTraining instantiates a new MwTrainingBffInternalSchemasTraining object
 This constructor will assign default values to properties that have it defined,
@@ -196,24 +196,24 @@ and a boolean to check if the value has been set.
 SetStudents sets Students field to given value.
 
 
-### GetTopics
+### GetTopicsTree
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTopics() []MwTrainingBffInternalSchemasTopicPreview`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTopicsTree() []MwTrainingBffInternalSchemasTopicTreeNode`
 
-GetTopics returns the Topics field if non-nil, zero value otherwise.
+GetTopicsTree returns the TopicsTree field if non-nil, zero value otherwise.
 
-### GetTopicsOk
+### GetTopicsTreeOk
 
-`func (o *MwTrainingBffInternalSchemasTraining) GetTopicsOk() (*[]MwTrainingBffInternalSchemasTopicPreview, bool)`
+`func (o *MwTrainingBffInternalSchemasTraining) GetTopicsTreeOk() (*[]MwTrainingBffInternalSchemasTopicTreeNode, bool)`
 
-GetTopicsOk returns a tuple with the Topics field if it's non-nil, zero value otherwise
+GetTopicsTreeOk returns a tuple with the TopicsTree field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTopics
+### SetTopicsTree
 
-`func (o *MwTrainingBffInternalSchemasTraining) SetTopics(v []MwTrainingBffInternalSchemasTopicPreview)`
+`func (o *MwTrainingBffInternalSchemasTraining) SetTopicsTree(v []MwTrainingBffInternalSchemasTopicTreeNode)`
 
-SetTopics sets Topics field to given value.
+SetTopicsTree sets TopicsTree field to given value.
 
 
 ### GetTrainingTags

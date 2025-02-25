@@ -203,6 +203,18 @@ definitions:
     - trainingUuid
     - uuid
     type: object
+  mw-training-bff_internal_schemas.TopicTreeNode:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicTreeNode'
+        type: array
+      topic:
+        $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
+    required:
+    - children
+    - topic
+    type: object
   mw-training-bff_internal_schemas.Training:
     properties:
       createdAt:
@@ -227,9 +239,9 @@ definitions:
         items:
           $ref: '#/definitions/mw-training-bff_internal_schemas.User'
         type: array
-      topics:
+      topicsTree:
         items:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicTreeNode'
         type: array
       trainingTags:
         items:
@@ -248,7 +260,7 @@ definitions:
     - name
     - owner
     - students
-    - topics
+    - topicsTree
     - trainingTags
     - updatedAt
     - uuid

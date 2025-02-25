@@ -25,7 +25,43 @@ type CreateWayFromTrainingParams struct {
 	TrainingId string
 }
 
-func (wf *WayFacade) CreateWayFromTraining(ctx context.Context, params *CreateWayFromTrainingParams) (*openapiGeneral.MwServerInternalSchemasWayPlainResponse, error) {
+func (wf *WayFacade) convertTopicTreeNode(ctx context.Context, node *pb.TopicTreeNode, wayId string, parentMetricId *string) *openapiGeneral.MwServerInternalSchemasMetricTreeNode {
+	if node == nil {
+		return nil
+	}
+
+	createMetricArgs := &schemas.CreateMetricPayload{
+		WayUuid:          wayId,
+		Description:      node.Topic.Name,
+		IsDone:           false,
+		MetricEstimation: 0,
+		DoneDate:         nil,
+		ParentUuid:       parentMetricId,
+	}
+	newMetric, _ := wf.generalService.CreateMetric(ctx, createMetricArgs)
+
+	emptyChildren := make([]openapiGeneral.MwServerInternalSchemasMetricTreeNode, 0)
+	newNode := &openapiGeneral.MwServerInternalSchemasMetricTreeNode{
+		Metric: openapiGeneral.MwServerInternalSchemasMetricResponse{
+			Description:    newMetric.Description,
+			DoneDate:       newMetric.DoneDate,
+			EstimationTime: newMetric.EstimationTime,
+			IsDone:         newMetric.IsDone,
+			ParentUuid:     newMetric.ParentUuid,
+			Uuid:           newMetric.Uuid,
+		},
+		Children: emptyChildren,
+	}
+
+	for _, child := range node.Children {
+		newChild := wf.convertTopicTreeNode(ctx, child, wayId, &newMetric.Uuid)
+		newNode.Children = append(newNode.Children, *newChild)
+	}
+
+	return newNode
+}
+
+func (wf *WayFacade) CreateWayFromTraining(ctx context.Context, params *CreateWayFromTrainingParams) (*openapiGeneral.MwServerInternalSchemasWayPopulatedResponse, error) {
 	training, err := wf.trainingService.GetTrainingById(ctx, params.TrainingId)
 	if err != nil {
 		return nil, err
@@ -45,18 +81,17 @@ func (wf *WayFacade) CreateWayFromTraining(ctx context.Context, params *CreateWa
 		return nil, err
 	}
 
-	// TODO add logic to create metrics for way from training topics after adding tree structure to topic response
-	lo.ForEach(training.Topics, func(topic *pb.TopicPreview, _ int) {
-		_, err = wf.generalService.CreateMetric(ctx, &schemas.CreateMetricPayload{
-			Description:      topic.Name,
-			WayUuid:          way.Uuid,
-			IsDone:           false,
-			MetricEstimation: 100,
-			DoneDate:         nil,
-			ParentUuid:       nil,
-		})
+	// create metrics for new way recursively
+	_ = lo.Map(training.TopicsTree, func(topicTree *pb.TopicTreeNode, _ int) *openapiGeneral.MwServerInternalSchemasMetricTreeNode {
+		return wf.convertTopicTreeNode(ctx, topicTree, way.Uuid, nil)
 	})
-	return way, err
+
+	newWay, err := wf.generalService.GetWayById(ctx, way.Uuid)
+	if err != nil {
+		return nil, err
+	}
+
+	return newWay, err
 }
 
 func (wf *WayFacade) CreateWay(ctx context.Context, payload *schemas.CreateWayPayload) (*openapiGeneral.MwServerInternalSchemasWayPlainResponse, error) {

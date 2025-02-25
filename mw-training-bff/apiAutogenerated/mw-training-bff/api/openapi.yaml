@@ -899,6 +899,31 @@ components:
       - trainingUuid
       - uuid
       type: object
+    mw-training-bff_internal_schemas.TopicTreeNode:
+      example:
+        children:
+        - null
+        - null
+        topic:
+          createdAt: createdAt
+          trainingUuid: trainingUuid
+          name: name
+          practiceMaterialAmount: 6
+          theoryMaterialAmount: 1
+          uuid: uuid
+          parentUuid: parentUuid
+          order: 0
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicTreeNode'
+          type: array
+        topic:
+          $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
+      required:
+      - children
+      - topic
+      type: object
     mw-training-bff_internal_schemas.Training:
       example:
         owner:
@@ -909,23 +934,31 @@ components:
         - name: name
         - name: name
         createdAt: createdAt
-        topics:
-        - createdAt: createdAt
-          trainingUuid: trainingUuid
-          name: name
-          practiceMaterialAmount: 6
-          theoryMaterialAmount: 1
-          uuid: uuid
-          parentUuid: parentUuid
-          order: 0
-        - createdAt: createdAt
-          trainingUuid: trainingUuid
-          name: name
-          practiceMaterialAmount: 6
-          theoryMaterialAmount: 1
-          uuid: uuid
-          parentUuid: parentUuid
-          order: 0
+        topicsTree:
+        - children:
+          - null
+          - null
+          topic:
+            createdAt: createdAt
+            trainingUuid: trainingUuid
+            name: name
+            practiceMaterialAmount: 6
+            theoryMaterialAmount: 1
+            uuid: uuid
+            parentUuid: parentUuid
+            order: 0
+        - children:
+          - null
+          - null
+          topic:
+            createdAt: createdAt
+            trainingUuid: trainingUuid
+            name: name
+            practiceMaterialAmount: 6
+            theoryMaterialAmount: 1
+            uuid: uuid
+            parentUuid: parentUuid
+            order: 0
         favoriteForUserUuids:
         - favoriteForUserUuids
         - favoriteForUserUuids
@@ -971,9 +1004,9 @@ components:
           items:
             $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
           type: array
-        topics:
+        topicsTree:
           items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicTreeNode'
           type: array
         trainingTags:
           items:
@@ -992,7 +1025,7 @@ components:
       - name
       - owner
       - students
-      - topics
+      - topicsTree
       - trainingTags
       - updatedAt
       - uuid

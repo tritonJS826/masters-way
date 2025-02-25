@@ -142,7 +142,7 @@ func (ts *TrainingService) CreateTraining(ctx context.Context, params *CreateTra
 		Students:             make([]schemas.User, 0),
 		TrainingTags:         make([]schemas.TrainingTag, 0),
 		FavoriteForUserUuids: make([]string, 0),
-		Topics:               make([]schemas.TopicPreview, 0),
+		TopicsTree:           make([]*schemas.TopicTreeNode, 0),
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, err
@@ -186,7 +186,7 @@ func (ts *TrainingService) UpdateTraining(ctx context.Context, params *UpdateTra
 		Students:             make([]schemas.User, 0),
 		TrainingTags:         make([]schemas.TrainingTag, 0),
 		FavoriteForUserUuids: make([]string, 0),
-		Topics:               make([]schemas.TopicPreview, 0),
+		TopicsTree:           make([]*schemas.TopicTreeNode, 0),
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, err
@@ -312,6 +312,32 @@ func (ts *TrainingService) GetTrainingsAmountByUserId(ctx context.Context, param
 	}, nil
 }
 
+func CloneTopicTreeNode(node *pb.TopicTreeNode) *schemas.TopicTreeNode {
+	if node == nil {
+		return nil
+	}
+
+	newNode := &schemas.TopicTreeNode{
+		Topic: schemas.TopicPreview{
+			Uuid:                   node.Topic.Uuid,
+			Name:                   node.Topic.Name,
+			TrainingUuid:           node.Topic.TrainingUuid,
+			TopicOrder:             node.Topic.TopicOrder,
+			TheoryMaterialAmount:   node.Topic.TheoryMaterialsAmount,
+			PracticeMaterialAmount: node.Topic.PracticeMaterialsAmount,
+			ParentUuid:             node.Topic.ParentTopicUuid,
+			CreatedAt:              node.Topic.CreatedAt,
+		},
+		Children: []*schemas.TopicTreeNode{},
+	}
+
+	for _, child := range node.Children {
+		newNode.Children = append(newNode.Children, CloneTopicTreeNode(child))
+	}
+
+	return newNode
+}
+
 func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID string) (*schemas.Training, error) {
 	trainingRaw, err := ts.trainingGRPC.GetTrainingById(ctx, &pb.GetTrainingRequest{
 		TrainingUuid: trainingID,
@@ -368,17 +394,8 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		return userUuid
 	})
 
-	topics := lo.Map(trainingRaw.Topics, func(topic *pb.TopicPreview, _ int) schemas.TopicPreview {
-		return schemas.TopicPreview{
-			Uuid:                   topic.Uuid,
-			Name:                   topic.Name,
-			TrainingUuid:           topic.TrainingUuid,
-			TopicOrder:             topic.TopicOrder,
-			TheoryMaterialAmount:   topic.TheoryMaterialsAmount,
-			PracticeMaterialAmount: topic.PracticeMaterialsAmount,
-			ParentUuid:             topic.ParentTopicUuid,
-			CreatedAt:              topic.CreatedAt,
-		}
+	topicsTree := lo.Map(trainingRaw.TopicsTree, func(oldTreeNode *pb.TopicTreeNode, _ int) *schemas.TopicTreeNode {
+		return CloneTopicTreeNode(oldTreeNode)
 	})
 
 	return &schemas.Training{
@@ -391,7 +408,7 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		Students:             students,
 		TrainingTags:         trainingTags,
 		FavoriteForUserUuids: favoriteUsers,
-		Topics:               topics,
+		TopicsTree:           topicsTree,
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, nil
