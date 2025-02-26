@@ -3,6 +3,7 @@ package controllers
 import (
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -63,21 +64,24 @@ func (nc *TheoryMaterialController) GetTheoryMaterialsByTopicId(ctx *gin.Context
 // @Param request body schemas.CreateTheoryMaterialPayload true "query params"
 // @Success 200 {object} schemas.TheoryMaterial
 // @Router /theoryMaterials [post]
-func (nc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
-	// 	var payload *schemas.UpdateNotificationPayload
-	// 	notificationUUID := ctx.Param("notificationId")
+func (tmc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
+	var payload *schemas.CreateTheoryMaterialPayload
 
-	// 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 		return
-	// 	}
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// 	response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// 	utils.HandleErrorGin(ctx, err)
+	args := &services.CreateTheoryMaterialParams{
+		TopicId:     payload.TopicUuid,
+		Name:        payload.Name,
+		Description: payload.Description,
+	}
 
-	stub := schemas.TheoryMaterial{}
+	response, err := tmc.theoryMaterialService.CreateTheoryMaterial(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Update theory material

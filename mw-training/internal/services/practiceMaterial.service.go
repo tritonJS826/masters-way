@@ -35,6 +35,7 @@ func (pms *PracticeMaterialService) CreatePracticeMaterial(ctx context.Context, 
 	if err != nil {
 		return &pb.PracticeMaterial{}, nil
 	}
+
 	practiceMaterial := &pb.PracticeMaterial{
 		Uuid:         *utils.MarshalPgUUID(practiceMaterialDb.Uuid),
 		TopicUuid:    *utils.MarshalPgUUID(practiceMaterialDb.TopicUuid),

@@ -57,12 +57,13 @@ func (tms *TheoryMaterialService) CreateTheoryMaterial(ctx context.Context, para
 	}
 
 	return &schemas.TheoryMaterial{
-		Uuid:        theoryMaterial.Uuid,
-		TopicUuid:   theoryMaterial.TopicUuid,
-		Name:        theoryMaterial.Name,
-		Description: theoryMaterial.Description,
-		CreatedAt:   theoryMaterial.CreatedAt,
-		UpdatedAt:   theoryMaterial.UpdatedAt,
+		Uuid:                theoryMaterial.Uuid,
+		TopicUuid:           theoryMaterial.TopicUuid,
+		Name:                theoryMaterial.Name,
+		Description:         theoryMaterial.Description,
+		CreatedAt:           theoryMaterial.CreatedAt,
+		UpdatedAt:           theoryMaterial.UpdatedAt,
+		TheoryMaterialOrder: theoryMaterial.Order,
 	}, nil
 }
 

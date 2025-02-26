@@ -77,13 +77,16 @@ func (pms *PracticeMaterialService) CreatePracticeMaterial(ctx context.Context, 
 	}
 
 	return &schemas.PracticeMaterial{
-		Uuid:            practiceMaterial.Uuid,
-		TopicUuid:       practiceMaterial.TopicUuid,
-		Name:            practiceMaterial.Name,
-		TaskDescription: practiceMaterial.Description,
-		Answer:          practiceMaterial.Answer,
-		PracticeType:    practiceMaterial.PracticeType,
-		TimeToAnswer:    practiceMaterial.TimeToAnswer,
+		Uuid:                  practiceMaterial.Uuid,
+		TopicUuid:             practiceMaterial.TopicUuid,
+		Name:                  practiceMaterial.Name,
+		TaskDescription:       practiceMaterial.Description,
+		Answer:                practiceMaterial.Answer,
+		PracticeType:          practiceMaterial.PracticeType,
+		TimeToAnswer:          practiceMaterial.TimeToAnswer,
+		PracticeMaterialOrder: practiceMaterial.Order,
+		CreatedAt:             practiceMaterial.CreatedAt,
+		UpdatedAt:             practiceMaterial.UpdatedAt,
 	}, nil
 }
 
