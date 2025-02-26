@@ -94,6 +94,7 @@ export const ChatContent = observer(() => {
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
       addUnreadMessageToAmount();
+      chatListStore?.addUnreadMessageToChatPreview(payload.roomId);
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
         type: NotificationType.INFO,
@@ -152,8 +153,8 @@ export const ChatContent = observer(() => {
       roomId: payload.roomId,
       imageUrl: payload.imageUrl,
       participantIds: payload.users.map((participant) => participant.userId),
+      unreadMessagesAmount: 0,
     });
-
     const isChatListRoomTypePrivateAndNewChatIsPrivate = !!chatListStore && chatListStore.roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
 
@@ -178,12 +179,15 @@ export const ChatContent = observer(() => {
           key={chatItem.roomId}
           name={chatItem.name}
           src={chatItem.imageUrl}
+          unreadMessagesAmount={chatItem.unreadMessagesAmount}
           className={clsx({[styles.activeChatItem]: chatItem.roomId === activeRoomStore?.activeRoom.roomId})}
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
             chatItem.roomId !== activeRoomStore?.activeRoom.roomId
-              ?
-              chatStore.initiateActiveRoomStore(chatItem.roomId)
+              ? chatStore.initiateActiveRoomStore(chatItem.roomId)
+              : null;
+            chatItem.unreadMessagesAmount
+              ? chatItem.unreadMessagesAmount = 0
               : null;
           }}
         />

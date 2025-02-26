@@ -57,6 +57,7 @@ SELECT
     )::TIMESTAMP[] AS message_status_updated_at
 FROM messages
 WHERE room_uuid = $1
+ORDER BY created_at DESC
 LIMIT 100
 `
 

@@ -47,6 +47,11 @@ interface ChatItemProps {
   src: string | null;
 
   /**
+   * Unread messages amount
+   */
+   unreadMessagesAmount?: number;
+
+  /**
    * Callback triggered on click chat item
    */
   onClick?: () => void;
@@ -63,18 +68,25 @@ export const ChatItem = (props: ChatItemProps) => {
       className={clsx(styles.chatItemWrapper, props.className)}
       dataCy={props.dataCy}
     >
-      <Avatar
-        alt={props.name}
-        src={props.src}
-      />
-      <VerticalContainer className={styles.chatItem}>
-        <p
-          className={styles.chatItemName}
-          data-cy={chatAccessIds.chatContainer.chatItemName}
-        >
-          {props.name}
-        </p>
-      </VerticalContainer>
+      <HorizontalContainer className={styles.chatItem}>
+        <Avatar
+          alt={props.name}
+          src={props.src}
+        />
+        <VerticalContainer>
+          <p
+            className={styles.chatItemName}
+            data-cy={chatAccessIds.chatContainer.chatItemName}
+          >
+            {props.name}
+          </p>
+        </VerticalContainer>
+      </HorizontalContainer>
+
+      {!!props.unreadMessagesAmount &&
+      <span className={styles.unreadMessagesWrapper}>
+        {props.unreadMessagesAmount}
+      </span>}
     </HorizontalContainer>
   );
 };

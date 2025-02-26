@@ -166,6 +166,11 @@ export type ChatRoomCreatedPayload = {
   roomType: RoomType;
 
   /**
+   * Unread messages amount
+   */
+  unreadMessagesAmount: number;
+
+  /**
    * Users list in the room
    */
   users: {

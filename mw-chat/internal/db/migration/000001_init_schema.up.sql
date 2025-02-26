@@ -37,3 +37,25 @@ CREATE TABLE message_status (
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "message_status_pkey" PRIMARY KEY ("message_uuid", "receiver_uuid")
 );
+
+CREATE OR REPLACE FUNCTION remove_old_messages()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Delete old messages if there are more than 1000 for room
+    DELETE FROM messages
+    WHERE uuid IN (
+        SELECT uuid FROM messages
+        WHERE room_uuid = NEW.room_uuid
+        ORDER BY created_at DESC
+        OFFSET 1000
+    );
+
+    -- Allow the new row to be inserted
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER remove_old_notifications_trigger
+BEFORE INSERT ON messages
+FOR EACH ROW
+EXECUTE FUNCTION remove_old_messages();

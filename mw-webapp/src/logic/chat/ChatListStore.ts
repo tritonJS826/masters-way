@@ -72,4 +72,19 @@ export class ChatListStore {
     this.chatPreviewList.unshift(chatPreview);
   };
 
+  /**
+   * Add unreadMessages to amount
+   */
+  public addUnreadMessageToChatPreview = (roomId: string) => {
+
+    this.isLoadInProcessChatListPreview = true;
+    this.chatPreviewList.forEach(chatPreview =>
+      chatPreview.roomId === roomId
+        ? {...chatPreview, unreadMessagesAmount: chatPreview.unreadMessagesAmount++}
+        : chatPreview,
+    );
+    this.isLoadInProcessChatListPreview = false;
+  };
+
 }
+
