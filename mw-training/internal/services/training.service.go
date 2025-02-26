@@ -160,6 +160,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 						Uuid: *utils.MarshalPgUUID(mentorUuid),
 					}
 				}),
+				TopicsAmount: int32(trainingRow.TopicsCount),
 			}
 		})
 	case TrainingTypeMentor:
@@ -192,6 +193,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 						Uuid: *utils.MarshalPgUUID(mentorUuid),
 					}
 				}),
+				TopicsAmount: int32(trainingRow.TopicsCount),
 			}
 		})
 	case TrainingTypeOwner:
@@ -199,6 +201,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
+
 		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetOwnTrainingListRow, _ int) *pb.TrainingPreview {
 			return &pb.TrainingPreview{
 				Uuid:        *utils.MarshalPgUUID(trainingRow.Uuid),
@@ -224,6 +227,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 						Uuid: *utils.MarshalPgUUID(mentorUuid),
 					}
 				}),
+				TopicsAmount: int32(trainingRow.TopicsCount),
 			}
 		})
 	case TrainingTypeFavorite:
@@ -256,6 +260,7 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 						Uuid: *utils.MarshalPgUUID(mentorUuid),
 					}
 				}),
+				TopicsAmount: int32(trainingRow.TopicsCount),
 			}
 		})
 	default:

@@ -32,7 +32,6 @@ WHERE
 
 -- name: GetTrainingList :many
 SELECT
-    -- TODO: add filter by is private
     trainings.uuid,
     trainings.name,
     trainings.description,
@@ -43,7 +42,8 @@ SELECT
     COALESCE(f.favorite_count, 0) AS favorite_count,
     ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
     ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
+    COUNT(topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL) AS topics_count
 FROM
     trainings
 LEFT JOIN
@@ -80,7 +80,6 @@ OFFSET @request_offset;
 
 -- name: GetOwnTrainingList :many
 SELECT
-    -- TODO: add filter by is private
     trainings.uuid,
     trainings.name,
     trainings.description,
@@ -89,20 +88,18 @@ SELECT
     trainings.updated_at,
     trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
+    ARRAY_AGG(DISTINCT training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(DISTINCT trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(DISTINCT trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
+    COUNT(DISTINCT topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL) AS topics_count
 FROM
     trainings
 LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
--- lets add likes to response
+    trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -116,6 +113,8 @@ LEFT JOIN
     trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
 LEFT JOIN
     trainings_students ON trainings_students.training_uuid = trainings.uuid
+LEFT JOIN
+    topics ON topics.training_uuid = trainings.uuid
 WHERE
     trainings.owner_uuid = @user_uuid
     AND
@@ -145,19 +144,16 @@ SELECT
     trainings.updated_at,
     trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
+    ARRAY_AGG(DISTINCT training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(DISTINCT trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(DISTINCT trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
+    COUNT(DISTINCT topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL) AS topics_count
 FROM
     trainings
 LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
+    trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
 -- lets add likes to response
 LEFT JOIN (
     SELECT
@@ -172,6 +168,8 @@ LEFT JOIN
     trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
 LEFT JOIN
     trainings_students ON trainings_students.training_uuid = trainings.uuid
+LEFT JOIN
+    topics ON topics.training_uuid = trainings.uuid
 WHERE
     trainings_mentors.mentor_uuid = @user_uuid
     AND
@@ -193,19 +191,16 @@ SELECT
     trainings.updated_at,
     trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    (ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL))::VARCHAR[] AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
+    ARRAY_AGG(DISTINCT training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(DISTINCT trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(DISTINCT trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
+    COUNT(DISTINCT topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL) AS topics_count    
 FROM
     trainings
 LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
+    trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
 -- lets add likes to response
 LEFT JOIN (
     SELECT
@@ -220,6 +215,8 @@ LEFT JOIN
     trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
 LEFT JOIN
     trainings_students ON trainings_students.training_uuid = trainings.uuid
+LEFT JOIN
+    topics ON topics.training_uuid = trainings.uuid
 WHERE
     trainings_students.student_uuid = @user_uuid
     AND
@@ -240,19 +237,16 @@ SELECT
     trainings.updated_at,
     trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[]AS training_students
+    ARRAY_AGG(DISTINCT training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(DISTINCT trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(DISTINCT trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[]AS training_students,
+    COUNT(DISTINCT topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL) AS topics_count
 FROM
     trainings
 LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
+    trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
 -- lets add likes to response
 LEFT JOIN (
     SELECT
@@ -267,6 +261,8 @@ LEFT JOIN
     trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
 LEFT JOIN
     trainings_students ON trainings_students.training_uuid = trainings.uuid
+LEFT JOIN
+    topics ON topics.training_uuid = trainings.uuid
 WHERE
     favorite_users_trainings.user_uuid = @user_uuid
     AND
@@ -286,21 +282,19 @@ SELECT
     trainings.updated_at,
     trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
-    ARRAY_AGG(favorite_users_trainings.user_uuid) FILTER (WHERE favorite_users_trainings.user_uuid IS NOT NULL)::UUID[] AS favorite_users,
-    ARRAY_AGG(topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL)::UUID[] AS related_topics
+    ARRAY_AGG(DISTINCT training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(DISTINCT trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(DISTINCT trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
+    ARRAY_AGG(DISTINCT favorite_users_trainings.user_uuid) FILTER (WHERE favorite_users_trainings.user_uuid IS NOT NULL)::UUID[] AS favorite_users,
+    ARRAY_AGG(DISTINCT topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL)::UUID[] AS related_topics
 FROM
     trainings
 LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
+    trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
