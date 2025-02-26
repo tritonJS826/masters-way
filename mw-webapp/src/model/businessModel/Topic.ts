@@ -129,4 +129,25 @@ export class Topic {
     this.owner = topic.owner;
   }
 
+  /**
+   * Update topic's name
+   */
+  public updateName(nameToUpdate: string): void {
+    this.name = nameToUpdate;
+  }
+
+  /**
+   * Add theory material
+   */
+  public addTheoryMaterial(theoryMaterial: TheoryMaterial): void {
+    this.theoryMaterials.push(theoryMaterial);
+  }
+
+  /**
+   * Add practice material
+   */
+  public addPracticeMaterial(practiceMaterial: PracticeMaterial): void {
+    this.practiceMaterials.push(practiceMaterial);
+  }
+
 }

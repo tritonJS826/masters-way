@@ -54,6 +54,7 @@ interface TopicCardProps {
    * If true then topic card could be editable
    */
   isEditable: boolean;
+
 }
 
 /**

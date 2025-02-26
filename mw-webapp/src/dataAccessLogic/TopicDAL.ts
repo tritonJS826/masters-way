@@ -3,6 +3,7 @@ import {topicPreviewDTOToTopicPreview} from "src/dataAccessLogic/DTOToPreviewCon
 import {Topic} from "src/model/businessModel/Topic";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TopicService} from "src/service/TopicService";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
 
 /**
  * Create topic params
@@ -67,10 +68,10 @@ export class TopicDAL {
   /**
    * Update topic
    */
-  public static async updateTopic(params: UpdateTopicParams): Promise<Topic> {
+  public static async updateTopic(topic: PartialWithUuid<Topic>): Promise<Topic> {
     const updatedTopicDTO = await TopicService.updateTopic({
-      topicId: params.uuid,
-      request: {name: params.name},
+      topicId: topic.uuid,
+      request: {name: topic.name ?? ""},
     });
     const updatedTopic = topicDTOToTopic(updatedTopicDTO);
 

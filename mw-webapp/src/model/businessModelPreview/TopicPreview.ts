@@ -115,4 +115,11 @@ export class TopicPreview {
     this.trainingUuid = topic.trainingUuid;
   }
 
+  /**
+   * Update topic's name
+   */
+  public updateName(nameToUpdate: string): void {
+    this.name = nameToUpdate;
+  }
+
 }
