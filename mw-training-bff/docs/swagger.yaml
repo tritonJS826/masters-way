@@ -149,6 +149,39 @@ definitions:
       parentUuid:
         type: string
         x-nullable: true
+      practiceMaterials:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
+        type: array
+      theoryMaterials:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
+        type: array
+      trainingUuid:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - name
+    - order
+    - parentUuid
+    - practiceMaterials
+    - theoryMaterials
+    - trainingUuid
+    - uuid
+    type: object
+  mw-training-bff_internal_schemas.TopicPreview:
+    properties:
+      createdAt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      parentUuid:
+        type: string
+        x-nullable: true
       practiceMaterialAmount:
         type: integer
       theoryMaterialAmount:
@@ -193,7 +226,7 @@ definitions:
         type: array
       topics:
         items:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
         type: array
       trainingTags:
         items:
@@ -601,6 +634,26 @@ paths:
       summary: Update topic
       tags:
       - topic
+    post:
+      consumes:
+      - application/json
+      operationId: get-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+      summary: Get topic by id
+      tags:
+      - topic
   /topics/{trainingId}:
     post:
       consumes:
@@ -611,6 +664,10 @@ paths:
         in: path
         name: trainingId
         required: true
+        type: string
+      - description: Topic parent id
+        in: query
+        name: topicParentId
         type: string
       produces:
       - application/json

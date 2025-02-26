@@ -172,14 +172,23 @@ export type Token = {
 }
 
 /**
+ * Available metrics visibility filters
+ */
+export enum GoalMetricsFilter {
+  All = "All",
+  Incomplete = "Incomplete",
+  None = "None",
+}
+
+/**
  * Way page settings
  */
 export type WayPageSettings = {
 
   /**
-   * Is metrics block visible on way page
+   * Metrics visibility filter
    */
-  isGoalMetricsVisible: boolean;
+  goalMetricsFilter: GoalMetricsFilter;
 
   /**
    * Is statistics block visible

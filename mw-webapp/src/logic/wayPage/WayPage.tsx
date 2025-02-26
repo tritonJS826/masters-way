@@ -62,7 +62,7 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {ArrayUtils} from "src/utils/ArrayUtils";
 import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/utils/DateUtils";
-import {View, WayPageSettings} from "src/utils/LocalStorageWorker";
+import {GoalMetricsFilter, View, WayPageSettings} from "src/utils/LocalStorageWorker";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {Symbols} from "src/utils/Symbols";
 import {TreeUtils} from "src/utils/TreeUtils";
@@ -73,13 +73,7 @@ const MAX_LENGTH_WAYNAME = 50;
 const MIN_LENGTH_WAYNAME = 1;
 
 const LIKE_VALUE = 1;
-const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
-
-  /**
-   * Default goalMetrics block is opened
-   * @default true
-   */
-  isGoalMetricsVisible: true,
+export const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
 
   /**
    * Default statistics block is opened
@@ -88,10 +82,28 @@ const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
   isStatisticsVisible: true,
 
   /**
+   * Default goal metrics filter
+   * @default GoalMetricsFilter.All
+   */
+  goalMetricsFilter: GoalMetricsFilter.All,
+
+  /**
    * Default day reports view is Table
    * @default View.Table
    */
   view: View.Table,
+};
+
+/**
+ * Validates way page settings
+ */
+export const wayPageSettingsValidator = (settings: WayPageSettings): boolean => {
+  const isStatisticsVisibilityValid = typeof settings.isStatisticsVisible === "boolean";
+  const isViewValid = !!settings.view && Object.values(View).includes(settings.view);
+  const isMetricsFilterValid = !!settings.goalMetricsFilter &&
+    Object.values(GoalMetricsFilter).includes(settings.goalMetricsFilter);
+
+  return isStatisticsVisibilityValid && isViewValid && isMetricsFilterValid;
 };
 
 /**
@@ -137,7 +149,15 @@ export const WayPage = observer((props: WayPageProps) => {
   const [wayPageSettings,, updateWayPageSettings] = usePersistanceState({
     key: "wayPage",
     defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
+
+    /**
+     * Validates stored way page setting
+     */
+    storedDataValidator: (
+      currentSettings: WayPageSettings,
+    ) => wayPageSettingsValidator(currentSettings),
   });
+
   const {user, updateCustomCollections} = userStore;
 
   const wayPageStore = useStore<
@@ -690,35 +710,11 @@ export const WayPage = observer((props: WayPageProps) => {
 
           </VerticalContainer>
           <VerticalContainer className={styles.metricsBlock}>
-            <HorizontalContainer className={styles.horizontalContainer}>
-              <HorizontalContainer>
-                <Infotip content={LanguageService.way.infotip.metrics[language]} />
-                <Title
-                  level={HeadingLevel.h3}
-                  text={LanguageService.way.metricsBlock.metrics[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
-              <Tooltip content={wayPageSettings.isGoalMetricsVisible
-                ? LanguageService.way.metricsBlock.clickToHideMetrics[language]
-                : LanguageService.way.metricsBlock.clickToShowMetrics[language]
-              }
-              >
-                <button
-                  className={styles.iconContainer}
-                  onClick={() => updateWayPageSettings({isGoalMetricsVisible: !wayPageSettings.isGoalMetricsVisible})}
-                >
-                  <Icon
-                    size={IconSize.MEDIUM}
-                    name={wayPageSettings.isGoalMetricsVisible ? "EyeOpenedIcon" : "EyeSlashedIcon"}
-                  />
-                </button>
-              </Tooltip>
-            </HorizontalContainer>
             <GoalMetricsBlock
               wayUuid={way.uuid}
-              isVisible={wayPageSettings.isGoalMetricsVisible}
               goalMetrics={way.metrics}
+              goalMetricsFilter={wayPageSettings.goalMetricsFilter}
+              onFilterChange={(filter) => updateWayPageSettings({goalMetricsFilter: filter})}
               addMetric={(metric: Metric) => way.addMetric(metric)}
               deleteMetric={(metricUuid: string) => way.deleteMetric(metricUuid)}
               isEditable={isUserOwnerOrMentor}

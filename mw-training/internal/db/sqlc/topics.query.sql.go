@@ -71,20 +71,87 @@ func (q *Queries) DeleteTopic(ctx context.Context, topicUuid pgtype.UUID) (Topic
 	return i, err
 }
 
-const getTopicsByTrainingId = `-- name: GetTopicsByTrainingId :many
-SELECT uuid, name, training_uuid, topic_order, parent, created_at FROM topics
-WHERE topics.training_uuid = $1
+const getTopicByUuid = `-- name: GetTopicByUuid :one
+SELECT 
+    topics.uuid, topics.name, topics.training_uuid, topics.topic_order, topics.parent, topics.created_at, 
+    COUNT(theory_materials.uuid) AS theory_materials_amount,
+    COUNT(practice_materials.uuid) AS practice_materials_amount
+FROM
+    topics
+LEFT JOIN
+    theory_materials ON topics.uuid = theory_materials.topic_uuid
+LEFT JOIN
+    practice_materials ON topics.uuid = practice_materials.topic_uuid
+WHERE
+    topics.uuid = $1
+GROUP BY
+    topics.uuid
 `
 
-func (q *Queries) GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]Topic, error) {
+type GetTopicByUuidRow struct {
+	Uuid                    pgtype.UUID      `json:"uuid"`
+	Name                    pgtype.Text      `json:"name"`
+	TrainingUuid            pgtype.UUID      `json:"training_uuid"`
+	TopicOrder              int32            `json:"topic_order"`
+	Parent                  pgtype.UUID      `json:"parent"`
+	CreatedAt               pgtype.Timestamp `json:"created_at"`
+	TheoryMaterialsAmount   int64            `json:"theory_materials_amount"`
+	PracticeMaterialsAmount int64            `json:"practice_materials_amount"`
+}
+
+func (q *Queries) GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (GetTopicByUuidRow, error) {
+	row := q.db.QueryRow(ctx, getTopicByUuid, topicUuid)
+	var i GetTopicByUuidRow
+	err := row.Scan(
+		&i.Uuid,
+		&i.Name,
+		&i.TrainingUuid,
+		&i.TopicOrder,
+		&i.Parent,
+		&i.CreatedAt,
+		&i.TheoryMaterialsAmount,
+		&i.PracticeMaterialsAmount,
+	)
+	return i, err
+}
+
+const getTopicsByTrainingId = `-- name: GetTopicsByTrainingId :many
+SELECT 
+    topics.uuid, topics.name, topics.training_uuid, topics.topic_order, topics.parent, topics.created_at, 
+    COUNT(theory_materials.uuid) AS theory_materials_amount,
+    COUNT(practice_materials.uuid) AS practice_materials_amount
+FROM 
+    topics
+LEFT JOIN 
+    theory_materials ON topics.uuid = theory_materials.topic_uuid
+LEFT JOIN 
+    practice_materials ON topics.uuid = practice_materials.topic_uuid
+WHERE 
+    topics.training_uuid = $1
+GROUP BY 
+    topics.uuid
+`
+
+type GetTopicsByTrainingIdRow struct {
+	Uuid                    pgtype.UUID      `json:"uuid"`
+	Name                    pgtype.Text      `json:"name"`
+	TrainingUuid            pgtype.UUID      `json:"training_uuid"`
+	TopicOrder              int32            `json:"topic_order"`
+	Parent                  pgtype.UUID      `json:"parent"`
+	CreatedAt               pgtype.Timestamp `json:"created_at"`
+	TheoryMaterialsAmount   int64            `json:"theory_materials_amount"`
+	PracticeMaterialsAmount int64            `json:"practice_materials_amount"`
+}
+
+func (q *Queries) GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]GetTopicsByTrainingIdRow, error) {
 	rows, err := q.db.Query(ctx, getTopicsByTrainingId, trainingUuid)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []Topic{}
+	items := []GetTopicsByTrainingIdRow{}
 	for rows.Next() {
-		var i Topic
+		var i GetTopicsByTrainingIdRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,
@@ -92,6 +159,8 @@ func (q *Queries) GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype
 			&i.TopicOrder,
 			&i.Parent,
 			&i.CreatedAt,
+			&i.TheoryMaterialsAmount,
+			&i.PracticeMaterialsAmount,
 		); err != nil {
 			return nil, err
 		}

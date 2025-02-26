@@ -15,7 +15,7 @@ import (
 type TrainingRepository interface {
 	CreateTraining(ctx context.Context, params db.CreateTrainingParams) (db.Training, error)
 	UpdateTraining(ctx context.Context, params db.UpdateTrainingParams) (db.Training, error)
-	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (db.Training, error)
+	GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (db.GetTrainingByIdRow, error)
 	GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.GetOwnTrainingListRow, error)
 	GetMentoringTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.GetMentoringTrainingListRow, error)
 	GetStudentTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]db.GetStudentTrainingListRow, error)
@@ -23,6 +23,7 @@ type TrainingRepository interface {
 	GetTrainingList(ctx context.Context, params db.GetTrainingListParams) ([]db.GetTrainingListRow, error)
 	GetTrainingsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (db.GetTrainingsAmountByUserIdRow, error)
 	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]db.TrainingTag, error)
+	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]db.GetTopicsByTrainingIdRow, error)
 	CountTrainings(ctx context.Context, trainingName string) (int64, error)
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
 	WithTx(tx pgx.Tx) *db.Queries
@@ -39,10 +40,6 @@ func NewTrainingService(pgxPool *pgxpool.Pool, trainingRepository TrainingReposi
 		trainingRepository: trainingRepository,
 	}
 }
-
-// TrainingName
-// RequestOffset
-// RequestLimit
 
 type GetTrainingListParams struct {
 	TrainingName  string
@@ -67,23 +64,37 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 		return &pb.TrainingPreviewList{}, err
 	}
 
-	// TODO: add
-	// FavoriteCount
-	// Tags
-	// TrainingMentors
-	// TrainingStudents
+	trainings := lo.Map(dbTrainings, func(training db.GetTrainingListRow, _ int) *pb.TrainingPreview {
+		trainingTags := lo.Map(training.Tags, func(tag string, _ int) *pb.TrainingTag {
+			return &pb.TrainingTag{TagName: tag}
+		})
 
-	trainings := lo.Map(dbTrainings, func(training db.GetTrainingListRow, _ int) *pb.Training {
-		return &pb.Training{
+		students := lo.Map(training.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(studentUuid),
+			}
+		})
+
+		mentors := lo.Map(training.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(mentorUuid),
+			}
+		})
+
+		return &pb.TrainingPreview{
 			Uuid:      *utils.MarshalPgUUID(training.Uuid),
 			Name:      training.Name,
-			IsPrivate: false,
+			IsPrivate: training.IsPrivate,
 			Owner: &pb.User{
 				Uuid: *utils.MarshalPgUUID(training.OwnerUuid),
 			},
-			Description: training.Description,
-			CreatedAt:   training.CreatedAt.Time.String(),
-			UpdatedAt:   training.UpdatedAt.Time.String(),
+			Description:      training.Description,
+			CreatedAt:        training.CreatedAt.Time.String(),
+			UpdatedAt:        training.UpdatedAt.Time.String(),
+			TrainingTagList:  trainingTags,
+			TrainingStudents: students,
+			TrainingMentors:  mentors,
+			FavoriteCount:    int32(training.FavoriteCount),
 		}
 	})
 
@@ -114,7 +125,7 @@ func (m *WrongTrainingTypeError) Error() string {
 }
 
 func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *GetTrainingListForUserParams) (*pb.TrainingPreviewList, error) {
-	var trainings []*pb.Training
+	var trainings []*pb.TrainingPreview
 
 	switch params.TrainingsType {
 	case TrainingTypeStudent:
@@ -122,16 +133,32 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
-		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetStudentTrainingListRow, _ int) *pb.Training {
-			return &pb.Training{
+
+		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetStudentTrainingListRow, _ int) *pb.TrainingPreview {
+			return &pb.TrainingPreview{
 				Uuid:        *utils.MarshalPgUUID(trainingRow.Uuid),
 				Name:        trainingRow.Name,
 				Description: trainingRow.Description,
 				Owner: &pb.User{
 					Uuid: *utils.MarshalPgUUID(trainingRow.OwnerUuid),
 				},
-				CreatedAt: trainingRow.CreatedAt.Time.String(),
-				UpdatedAt: trainingRow.UpdatedAt.Time.String(),
+				CreatedAt:     trainingRow.CreatedAt.Time.String(),
+				UpdatedAt:     trainingRow.UpdatedAt.Time.String(),
+				FavoriteCount: int32(trainingRow.FavoriteCount),
+				IsPrivate:     trainingRow.IsPrivate,
+				TrainingTagList: lo.Map(trainingRow.Tags, func(tag string, _ int) *pb.TrainingTag {
+					return &pb.TrainingTag{TagName: tag}
+				}),
+				TrainingStudents: lo.Map(trainingRow.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(studentUuid),
+					}
+				}),
+				TrainingMentors: lo.Map(trainingRow.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(mentorUuid),
+					}
+				}),
 			}
 		})
 	case TrainingTypeMentor:
@@ -139,16 +166,31 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
-		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetMentoringTrainingListRow, _ int) *pb.Training {
-			return &pb.Training{
+		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetMentoringTrainingListRow, _ int) *pb.TrainingPreview {
+			return &pb.TrainingPreview{
 				Uuid:        *utils.MarshalPgUUID(trainingRow.Uuid),
 				Name:        trainingRow.Name,
 				Description: trainingRow.Description,
 				Owner: &pb.User{
 					Uuid: *utils.MarshalPgUUID(trainingRow.OwnerUuid),
 				},
-				CreatedAt: trainingRow.CreatedAt.Time.String(),
-				UpdatedAt: trainingRow.UpdatedAt.Time.String(),
+				CreatedAt:     trainingRow.CreatedAt.Time.String(),
+				UpdatedAt:     trainingRow.UpdatedAt.Time.String(),
+				FavoriteCount: int32(trainingRow.FavoriteCount),
+				IsPrivate:     trainingRow.IsPrivate,
+				TrainingTagList: lo.Map(trainingRow.Tags, func(tag string, _ int) *pb.TrainingTag {
+					return &pb.TrainingTag{TagName: tag}
+				}),
+				TrainingStudents: lo.Map(trainingRow.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(studentUuid),
+					}
+				}),
+				TrainingMentors: lo.Map(trainingRow.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(mentorUuid),
+					}
+				}),
 			}
 		})
 	case TrainingTypeOwner:
@@ -156,16 +198,31 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
-		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetOwnTrainingListRow, _ int) *pb.Training {
-			return &pb.Training{
+		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetOwnTrainingListRow, _ int) *pb.TrainingPreview {
+			return &pb.TrainingPreview{
 				Uuid:        *utils.MarshalPgUUID(trainingRow.Uuid),
 				Name:        trainingRow.Name,
 				Description: trainingRow.Description,
 				Owner: &pb.User{
 					Uuid: *utils.MarshalPgUUID(trainingRow.OwnerUuid),
 				},
-				CreatedAt: trainingRow.CreatedAt.Time.String(),
-				UpdatedAt: trainingRow.UpdatedAt.Time.String(),
+				CreatedAt:     trainingRow.CreatedAt.Time.String(),
+				UpdatedAt:     trainingRow.UpdatedAt.Time.String(),
+				FavoriteCount: int32(trainingRow.FavoriteCount),
+				IsPrivate:     trainingRow.IsPrivate,
+				TrainingTagList: lo.Map(trainingRow.Tags, func(tag string, _ int) *pb.TrainingTag {
+					return &pb.TrainingTag{TagName: tag}
+				}),
+				TrainingStudents: lo.Map(trainingRow.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(studentUuid),
+					}
+				}),
+				TrainingMentors: lo.Map(trainingRow.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(mentorUuid),
+					}
+				}),
 			}
 		})
 	case TrainingTypeFavorite:
@@ -173,16 +230,31 @@ func (ts *TrainingService) GetTrainingListForUser(ctx context.Context, params *G
 		if err != nil {
 			return &pb.TrainingPreviewList{}, err
 		}
-		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetFavoriteTrainingListRow, _ int) *pb.Training {
-			return &pb.Training{
+		trainings = lo.Map(trainingsRaw, func(trainingRow db.GetFavoriteTrainingListRow, _ int) *pb.TrainingPreview {
+			return &pb.TrainingPreview{
 				Uuid:        *utils.MarshalPgUUID(trainingRow.Uuid),
 				Name:        trainingRow.Name,
 				Description: trainingRow.Description,
 				Owner: &pb.User{
 					Uuid: *utils.MarshalPgUUID(trainingRow.OwnerUuid),
 				},
-				CreatedAt: trainingRow.CreatedAt.Time.String(),
-				UpdatedAt: trainingRow.UpdatedAt.Time.String(),
+				CreatedAt:     trainingRow.CreatedAt.Time.String(),
+				UpdatedAt:     trainingRow.UpdatedAt.Time.String(),
+				FavoriteCount: int32(trainingRow.FavoriteCount),
+				IsPrivate:     trainingRow.IsPrivate,
+				TrainingTagList: lo.Map(trainingRow.Tags, func(tag string, _ int) *pb.TrainingTag {
+					return &pb.TrainingTag{TagName: tag}
+				}),
+				TrainingStudents: lo.Map(trainingRow.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(studentUuid),
+					}
+				}),
+				TrainingMentors: lo.Map(trainingRow.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+					return &pb.User{
+						Uuid: *utils.MarshalPgUUID(mentorUuid),
+					}
+				}),
 			}
 		})
 	default:
@@ -223,12 +295,29 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingUuid pgt
 		return pb.Training{}, err
 	}
 
-	dbTrainigTags, err := ts.trainingRepository.GetListTrainingTagsByTrainingId(ctx, trainingUuid)
+	dbTrainingTags, err := ts.trainingRepository.GetListTrainingTagsByTrainingId(ctx, trainingUuid)
 	if err != nil {
 		return pb.Training{}, err
 	}
-	tags := lo.Map(dbTrainigTags, func(tag db.TrainingTag, _ int) *pb.TrainingTag {
+	tags := lo.Map(dbTrainingTags, func(tag db.TrainingTag, _ int) *pb.TrainingTag {
 		return &pb.TrainingTag{TagName: tag.Name}
+	})
+
+	topicsRaw, err := ts.trainingRepository.GetTopicsByTrainingId(ctx, dbTraining.Uuid)
+	if err != nil {
+		return pb.Training{}, err
+	}
+	topics := lo.Map(topicsRaw, func(topic db.GetTopicsByTrainingIdRow, _ int) *pb.TopicPreview {
+		return &pb.TopicPreview{
+			Uuid:                    *utils.MarshalPgUUID(topic.Uuid),
+			Name:                    topic.Name.String,
+			CreatedAt:               topic.CreatedAt.Time.String(),
+			TrainingUuid:            *utils.MarshalPgUUID(dbTraining.Uuid),
+			TopicOrder:              int32(topic.TopicOrder),
+			ParentTopicUuid:         utils.MarshalPgUUID(topic.Parent),
+			TheoryMaterialsAmount:   int32(topic.TheoryMaterialsAmount),
+			PracticeMaterialsAmount: int32(topic.PracticeMaterialsAmount),
+		}
 	})
 
 	return pb.Training{
@@ -242,11 +331,30 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingUuid pgt
 		UpdatedAt:       dbTraining.UpdatedAt.Time.String(),
 		IsPrivate:       dbTraining.IsPrivate,
 		TrainingTagList: tags,
+		TrainingStudents: lo.Map(dbTraining.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(studentUuid),
+			}
+		}),
+		TrainingMentors: lo.Map(dbTraining.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(mentorUuid),
+			}
+		}),
+		FavoriteForUsersPreview: lo.Map(dbTraining.FavoriteUsers, func(userUuid pgtype.UUID, _ int) string {
+			return *utils.MarshalPgUUID(userUuid)
+		}),
+		Topics: topics,
 	}, nil
 }
 
 func (ts *TrainingService) CreateTraining(ctx context.Context, params db.CreateTrainingParams) (pb.Training, error) {
-	dbTraining, err := ts.trainingRepository.CreateTraining(ctx, params)
+	trainingRaw, err := ts.trainingRepository.CreateTraining(ctx, params)
+	if err != nil {
+		return pb.Training{}, err
+	}
+
+	dbTraining, err := ts.trainingRepository.GetTrainingById(ctx, trainingRaw.Uuid)
 	if err != nil {
 		return pb.Training{}, err
 	}
@@ -256,14 +364,38 @@ func (ts *TrainingService) CreateTraining(ctx context.Context, params db.CreateT
 		Owner: &pb.User{
 			Uuid: utils.ConvertPgUUIDToUUID(params.OwnerUuid).String(),
 		},
+		Name:        dbTraining.Name,
+		Description: dbTraining.Description,
+		CreatedAt:   dbTraining.CreatedAt.Time.String(),
+		UpdatedAt:   dbTraining.UpdatedAt.Time.String(),
+		IsPrivate:   dbTraining.IsPrivate,
+		TrainingTagList: lo.Map(dbTraining.Tags, func(tag string, _ int) *pb.TrainingTag {
+			return &pb.TrainingTag{TagName: tag}
+		}),
+		TrainingStudents: lo.Map(dbTraining.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(studentUuid),
+			}
+		}),
+		TrainingMentors: lo.Map(dbTraining.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(mentorUuid),
+			}
+		}),
 	}, nil
 }
 
 func (ts *TrainingService) UpdateTraining(ctx context.Context, params db.UpdateTrainingParams) (pb.Training, error) {
-	training, err := ts.trainingRepository.UpdateTraining(ctx, params)
+	trainingRaw, err := ts.trainingRepository.UpdateTraining(ctx, params)
 	if err != nil {
 		return pb.Training{}, err
 	}
+
+	training, err := ts.trainingRepository.GetTrainingById(ctx, trainingRaw.Uuid)
+	if err != nil {
+		return pb.Training{}, err
+	}
+
 	return pb.Training{
 		Uuid:        *utils.MarshalPgUUID(training.Uuid),
 		Name:        training.Name,
@@ -276,6 +408,19 @@ func (ts *TrainingService) UpdateTraining(ctx context.Context, params db.UpdateT
 		CreatedAt: training.CreatedAt.Time.String(),
 		UpdatedAt: training.UpdatedAt.Time.String(),
 		IsPrivate: training.IsPrivate,
+		TrainingTagList: lo.Map(training.Tags, func(tag string, _ int) *pb.TrainingTag {
+			return &pb.TrainingTag{TagName: tag}
+		}),
+		TrainingStudents: lo.Map(training.TrainingStudents, func(studentUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(studentUuid),
+			}
+		}),
+		TrainingMentors: lo.Map(training.TrainingMentors, func(mentorUuid pgtype.UUID, _ int) *pb.User {
+			return &pb.User{
+				Uuid: *utils.MarshalPgUUID(mentorUuid),
+			}
+		}),
 	}, nil
 }
 

@@ -227,15 +227,20 @@
       "en": "as not completed",
       "ua": "як не завершений"
     },
-    "clickToHideMetrics": {
-      "ru": "Нажмите, чтобы скрыть блок с метриками",
-      "en": "Click to hide goal metrics block",
-      "ua": "Натисніть, щоб приховати блок із метриками"
+    "goalMetricsFilterAll": {
+      "ru": "Показать все метрики",
+      "en": "Show all metrics",
+      "ua": "Показати всі метрики"
     },
-    "clickToShowMetrics": {
-      "ru": "Нажмите, чтобы открыть блок с метриками",
-      "en": "Click to show goal metrics block",
-      "ua": "Натисніть, щоб показати блок із метриками"
+    "goalMetricsFilterNone": {
+      "ru": "Скрыть все метрики",
+      "en": "Hide all metrics",
+      "ua": "Приховати всі метрики"
+    },
+    "goalMetricsFilterIncomplete": {
+      "ru": "Показать только не завершенные метрики",
+      "en": "Show only incomplete metrics",
+      "ua": "Показати тільки не завершені метрики"
     }
   },
   "peopleBlock": {

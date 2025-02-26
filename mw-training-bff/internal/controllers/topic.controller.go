@@ -18,6 +18,25 @@ func NewTopicController(generalService *services.GeneralService, topicService *s
 	return &TopicController{generalService, topicService}
 }
 
+// @Summary Get topic by id
+// @Description
+// @Tags topic
+// @ID get-topic
+// @Accept json
+// @Produce json
+// @Param topicId path string true "topic id"
+// @Success 200 {object} schemas.Topic
+// @Router /topics/{topicId} [post]
+func (tc *TopicController) GetTopicById(ctx *gin.Context) {
+	topicId := ctx.Param("topicId")
+
+	topic, err := tc.topicService.GetTopicById(ctx, topicId)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, topic)
+
+}
+
 // @Summary Create topic
 // @Description
 // @Tags topic
@@ -25,14 +44,21 @@ func NewTopicController(generalService *services.GeneralService, topicService *s
 // @Accept json
 // @Produce json
 // @Param trainingId path string true "training id"
+// @Param topicParentId query string false "Topic parent id"
 // @Success 200 {object} schemas.Topic
 // @Router /topics/{trainingId} [post]
 func (tc *TopicController) CreateTopic(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	trainningId := ctx.Param("trainningId")
+	topicParentIdRaw := ctx.DefaultQuery("topicParentId", "")
+	trainingId := ctx.Param("trainingId")
+
+	var topicParentId *string
+	if topicParentIdRaw != "" {
+		topicParentId = nil
+	}
 
 	args := &services.CreateTopicParams{
-		TrainingUuid: trainningId,
+		TrainingUuid:    trainingId,
+		ParentTopicUuid: topicParentId,
 	}
 
 	topic, err := tc.topicService.CreateTopic(ctx, args)

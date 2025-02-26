@@ -89,10 +89,11 @@ SELECT
     trainings.owner_uuid,
     trainings.created_at,
     trainings.updated_at,
+    trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[]AS training_students
 FROM
     trainings
 LEFT JOIN
@@ -133,10 +134,11 @@ type GetFavoriteTrainingListRow struct {
 	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
 	CreatedAt        pgtype.Timestamp `json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	IsPrivate        bool             `json:"is_private"`
 	FavoriteCount    int64            `json:"favorite_count"`
-	Tags             interface{}      `json:"tags"`
-	TrainingMentors  interface{}      `json:"training_mentors"`
-	TrainingStudents interface{}      `json:"training_students"`
+	Tags             []string         `json:"tags"`
+	TrainingMentors  []pgtype.UUID    `json:"training_mentors"`
+	TrainingStudents []pgtype.UUID    `json:"training_students"`
 }
 
 // lets add likes to response
@@ -156,6 +158,7 @@ func (q *Queries) GetFavoriteTrainingList(ctx context.Context, userUuid pgtype.U
 			&i.OwnerUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.IsPrivate,
 			&i.FavoriteCount,
 			&i.Tags,
 			&i.TrainingMentors,
@@ -180,10 +183,11 @@ SELECT
     trainings.owner_uuid,
     trainings.created_at,
     trainings.updated_at,
+    trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
 FROM
     trainings
 LEFT JOIN
@@ -224,10 +228,11 @@ type GetMentoringTrainingListRow struct {
 	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
 	CreatedAt        pgtype.Timestamp `json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	IsPrivate        bool             `json:"is_private"`
 	FavoriteCount    int64            `json:"favorite_count"`
-	Tags             interface{}      `json:"tags"`
-	TrainingMentors  interface{}      `json:"training_mentors"`
-	TrainingStudents interface{}      `json:"training_students"`
+	Tags             []string         `json:"tags"`
+	TrainingMentors  []pgtype.UUID    `json:"training_mentors"`
+	TrainingStudents []pgtype.UUID    `json:"training_students"`
 }
 
 // lets add likes to response
@@ -247,6 +252,7 @@ func (q *Queries) GetMentoringTrainingList(ctx context.Context, userUuid pgtype.
 			&i.OwnerUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.IsPrivate,
 			&i.FavoriteCount,
 			&i.Tags,
 			&i.TrainingMentors,
@@ -271,10 +277,11 @@ SELECT
     trainings.owner_uuid,
     trainings.created_at,
     trainings.updated_at,
+    trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
 FROM
     trainings
 LEFT JOIN
@@ -315,10 +322,11 @@ type GetOwnTrainingListRow struct {
 	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
 	CreatedAt        pgtype.Timestamp `json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	IsPrivate        bool             `json:"is_private"`
 	FavoriteCount    int64            `json:"favorite_count"`
-	Tags             interface{}      `json:"tags"`
-	TrainingMentors  interface{}      `json:"training_mentors"`
-	TrainingStudents interface{}      `json:"training_students"`
+	Tags             []string         `json:"tags"`
+	TrainingMentors  []pgtype.UUID    `json:"training_mentors"`
+	TrainingStudents []pgtype.UUID    `json:"training_students"`
 }
 
 // lets add likes to response
@@ -338,6 +346,7 @@ func (q *Queries) GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) 
 			&i.OwnerUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.IsPrivate,
 			&i.FavoriteCount,
 			&i.Tags,
 			&i.TrainingMentors,
@@ -362,10 +371,11 @@ SELECT
     trainings.owner_uuid,
     trainings.created_at,
     trainings.updated_at,
+    trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+    (ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL))::VARCHAR[] AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
 FROM
     trainings
 LEFT JOIN
@@ -406,10 +416,11 @@ type GetStudentTrainingListRow struct {
 	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
 	CreatedAt        pgtype.Timestamp `json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	IsPrivate        bool             `json:"is_private"`
 	FavoriteCount    int64            `json:"favorite_count"`
-	Tags             interface{}      `json:"tags"`
-	TrainingMentors  interface{}      `json:"training_mentors"`
-	TrainingStudents interface{}      `json:"training_students"`
+	Tags             []string         `json:"tags"`
+	TrainingMentors  []pgtype.UUID    `json:"training_mentors"`
+	TrainingStudents []pgtype.UUID    `json:"training_students"`
 }
 
 // lets add likes to response
@@ -429,6 +440,7 @@ func (q *Queries) GetStudentTrainingList(ctx context.Context, userUuid pgtype.UU
 			&i.OwnerUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.IsPrivate,
 			&i.FavoriteCount,
 			&i.Tags,
 			&i.TrainingMentors,
@@ -446,22 +458,83 @@ func (q *Queries) GetStudentTrainingList(ctx context.Context, userUuid pgtype.UU
 
 const getTrainingById = `-- name: GetTrainingById :one
 SELECT
-    uuid, name, description, is_private, updated_at, created_at, owner_uuid
-FROM trainings
-WHERE trainings.uuid = $1
+    trainings.uuid,
+    trainings.name,
+    trainings.description,
+    trainings.owner_uuid,
+    trainings.created_at,
+    trainings.updated_at,
+    trainings.is_private,
+    COALESCE(f.favorite_count, 0) AS favorite_count,
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
+    ARRAY_AGG(favorite_users_trainings.user_uuid) FILTER (WHERE favorite_users_trainings.user_uuid IS NOT NULL)::UUID[] AS favorite_users,
+    ARRAY_AGG(topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL)::UUID[] AS related_topics
+FROM
+    trainings
+LEFT JOIN
+    favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid IN (
+        SELECT uuid
+        FROM training_tags
+        WHERE uuid = trainings.uuid
+    )
+LEFT JOIN (
+    SELECT
+        training_uuid,
+        COUNT(user_uuid) AS favorite_count
+    FROM
+        favorite_users_trainings
+    GROUP BY
+        training_uuid
+) f ON f.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
+LEFT JOIN
+    trainings_students ON trainings_students.training_uuid = trainings.uuid
+LEFT JOIN
+    topics ON topics.training_uuid = trainings.uuid
+WHERE
+    trainings.uuid = $1
+GROUP BY
+    trainings.uuid, trainings.name, trainings.is_private, trainings.owner_uuid, trainings.updated_at, f.favorite_count
 `
 
-func (q *Queries) GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (Training, error) {
+type GetTrainingByIdRow struct {
+	Uuid             pgtype.UUID      `json:"uuid"`
+	Name             string           `json:"name"`
+	Description      string           `json:"description"`
+	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt        pgtype.Timestamp `json:"created_at"`
+	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	IsPrivate        bool             `json:"is_private"`
+	FavoriteCount    int64            `json:"favorite_count"`
+	Tags             []string         `json:"tags"`
+	TrainingMentors  []pgtype.UUID    `json:"training_mentors"`
+	TrainingStudents []pgtype.UUID    `json:"training_students"`
+	FavoriteUsers    []pgtype.UUID    `json:"favorite_users"`
+	RelatedTopics    []pgtype.UUID    `json:"related_topics"`
+}
+
+func (q *Queries) GetTrainingById(ctx context.Context, trainingUuid pgtype.UUID) (GetTrainingByIdRow, error) {
 	row := q.db.QueryRow(ctx, getTrainingById, trainingUuid)
-	var i Training
+	var i GetTrainingByIdRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.Name,
 		&i.Description,
-		&i.IsPrivate,
-		&i.UpdatedAt,
-		&i.CreatedAt,
 		&i.OwnerUuid,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.IsPrivate,
+		&i.FavoriteCount,
+		&i.Tags,
+		&i.TrainingMentors,
+		&i.TrainingStudents,
+		&i.FavoriteUsers,
+		&i.RelatedTopics,
 	)
 	return i, err
 }
@@ -475,20 +548,19 @@ SELECT
     trainings.owner_uuid,
     trainings.created_at,
     trainings.updated_at,
+    trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL) AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) AS training_students
+    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students
 FROM
     trainings
 LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
-    training_tags ON training_tags.uuid IN (
-        SELECT uuid
-        FROM training_tags
-        WHERE uuid = trainings.uuid
-    )
+    trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -528,10 +600,11 @@ type GetTrainingListRow struct {
 	OwnerUuid        pgtype.UUID      `json:"owner_uuid"`
 	CreatedAt        pgtype.Timestamp `json:"created_at"`
 	UpdatedAt        pgtype.Timestamp `json:"updated_at"`
+	IsPrivate        bool             `json:"is_private"`
 	FavoriteCount    int64            `json:"favorite_count"`
-	Tags             interface{}      `json:"tags"`
-	TrainingMentors  interface{}      `json:"training_mentors"`
-	TrainingStudents interface{}      `json:"training_students"`
+	Tags             []string         `json:"tags"`
+	TrainingMentors  []pgtype.UUID    `json:"training_mentors"`
+	TrainingStudents []pgtype.UUID    `json:"training_students"`
 }
 
 // lets add likes to response
@@ -551,6 +624,7 @@ func (q *Queries) GetTrainingList(ctx context.Context, arg GetTrainingListParams
 			&i.OwnerUuid,
 			&i.CreatedAt,
 			&i.UpdatedAt,
+			&i.IsPrivate,
 			&i.FavoriteCount,
 			&i.Tags,
 			&i.TrainingMentors,

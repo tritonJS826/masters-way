@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 
+	"mw-general-bff/internal/auth"
 	"mw-general-bff/internal/facades"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
@@ -63,14 +64,18 @@ func (cc *CommentController) UpdateComment(ctx *gin.Context) {
 	var payload *schemas.UpdateCommentPayload
 	commentID := ctx.Param("commentId")
 
+	modifierUserIdRaw, _ := ctx.Get(auth.ContextKeyUserID)
+	modifierUserId := modifierUserIdRaw.(string)
+
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
 		return
 	}
 
 	args := &services.UpdateCommentParams{
-		CommentID:   commentID,
-		Description: payload.Description,
+		CommentID:        commentID,
+		Description:      payload.Description,
+		ModifierUserUuid: modifierUserId,
 	}
 	response, err := cc.commentFacade.UpdateComment(ctx, args)
 	utils.HandleErrorGin(ctx, err)

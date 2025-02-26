@@ -51,8 +51,9 @@ service TheoryMaterialService {
 }
 
 service TopicsService {
-  rpc CreateTopic(CreateTopicRequest) returns (Topic);
-  rpc UpdateTopic(UpdateTopicRequest) returns (Topic);
+  rpc GetTopicById(GetTopicByIdRequest) returns (Topic);
+  rpc CreateTopic(CreateTopicRequest) returns (TopicPreview);
+  rpc UpdateTopic(UpdateTopicRequest) returns (TopicPreview);
   rpc DeleteTopic(DeleteTopicRequest) returns (google.protobuf.Empty);
 }
 
@@ -104,11 +105,30 @@ message Training {
   string updated_at = 6;
   bool is_private = 7;
   repeated TrainingTag training_tag_list = 8;
+  repeated User training_students = 9;
+  repeated User training_mentors = 10;
+  repeated string favorite_for_users_preview = 11;
+  repeated TopicPreview topics = 12;
+}
+
+message TrainingPreview {
+  string uuid = 1;
+  string name = 2;
+  string description = 3;
+  User owner = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  bool is_private = 7;
+  repeated TrainingTag training_tag_list = 8;
+  repeated User training_students = 9;
+  repeated User training_mentors = 10;
+  int32 favorite_count = 11;
+  int32 topics_amount = 12;
 }
 
 message TrainingPreviewList {
   int32 size = 1;
-  repeated Training Training_list = 2;
+  repeated TrainingPreview Training_list = 2;
 }
 
 message GetTrainingRequest {
@@ -226,8 +246,9 @@ message TheoryMaterial {
   string topic_uuid = 2;
   string name = 3;
   string description = 4;
-  string created_at = 5;
-  string updated_at = 6;
+  int32 order = 5;
+  string created_at = 6;
+  string updated_at = 7;
 }
 
 message UpdateTheoryMaterialRequest {
@@ -240,11 +261,26 @@ message DeleteTheoryMaterialRequest {
   string uuid = 1;
 }
 
+message GetTopicByIdRequest {
+  string topic_uuid = 1;
+}
+
 message CreateTopicRequest {
   string name = 1;
   string training_uuid = 2;
   int32  topic_order = 3;
-  string parent_topic_uuid = 4;
+  optional string parent_topic_uuid = 4;
+}
+
+message TopicPreview {
+  string uuid = 1;
+  string name = 2;
+  string training_uuid = 3;
+  int32  topic_order = 4;
+  optional string parent_topic_uuid = 5;
+  string created_at = 6;
+  int32 theory_materials_amount = 7;
+  int32 practice_materials_amount = 8;
 }
 
 message Topic {
@@ -252,8 +288,10 @@ message Topic {
   string name = 2;
   string training_uuid = 3;
   int32  topic_order = 4;
-  string parent_topic_uuid = 5;
+  optional string parent_topic_uuid = 5;
   string created_at = 6;
+  repeated TheoryMaterial theory_materials = 7;
+  repeated PracticeMaterial practice_materials = 8;
 }
 
 message UpdateTopicRequest {

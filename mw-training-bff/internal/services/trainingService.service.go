@@ -39,31 +39,65 @@ func (ts *TrainingService) GetTrainingList(ctx context.Context, params *GetTrain
 		return &schemas.TrainingList{}, err
 	}
 
-	ownerIds := lo.Map(trainingListRaw.TrainingList, func(training *pb.Training, _ int) string {
+	ownerIds := lo.Map(trainingListRaw.TrainingList, func(training *pb.TrainingPreview, _ int) string {
 		return training.GetOwner().Uuid
 	})
-	owners, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(ownerIds).Execute()
+
+	studentIds := lo.FlatMap(trainingListRaw.TrainingList, func(training *pb.TrainingPreview, _ int) []string {
+		return lo.Map(training.TrainingStudents, func(student *pb.User, _ int) string {
+			return student.Uuid
+		})
+	})
+
+	mentorIds := lo.FlatMap(trainingListRaw.TrainingList, func(training *pb.TrainingPreview, _ int) []string {
+		return lo.Map(training.TrainingMentors, func(mentor *pb.User, _ int) string {
+			return mentor.Uuid
+		})
+	})
+	userUuidsRelatedToTrainings := append(append(studentIds, mentorIds...), ownerIds...)
+	usersRelatedToTrainings, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userUuidsRelatedToTrainings).Execute()
 	if err != nil {
 		return &schemas.TrainingList{}, err
 	}
 
-	trainingsPreview := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.Training, i int) schemas.TrainingPreview {
+	usersMap := lo.SliceToMap(usersRelatedToTrainings, func(
+		user openapiGeneral.MwServerInternalSchemasShortUser,
+	) (string, openapiGeneral.MwServerInternalSchemasShortUser) {
+		return user.UserId, user
+	})
+
+	mentors := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.TrainingPreview, i int) []schemas.User {
+		return lo.Map(trainingGrpc.GetTrainingMentors(), func(mentor *pb.User, _ int) schemas.User {
+			return schemas.User{
+				Uuid:     usersMap[mentor.Uuid].UserId,
+				Name:     usersMap[mentor.Uuid].Name,
+				ImageUrl: usersMap[mentor.Uuid].ImageUrl,
+			}
+		})
+	})
+
+	trainingsPreview := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.TrainingPreview, i int) schemas.TrainingPreview {
+		trainingsTags := lo.Map(trainingGrpc.TrainingTagList, func(tag *pb.TrainingTag, _ int) schemas.TrainingTag {
+			return schemas.TrainingTag{Name: tag.TagName}
+		})
+
 		return schemas.TrainingPreview{
 			Uuid:        trainingGrpc.GetUuid(),
 			Name:        trainingGrpc.GetName(),
 			Description: trainingGrpc.GetDescription(),
 			IsPrivate:   trainingGrpc.GetIsPrivate(),
 			Owner: schemas.User{
-				Uuid:     owners[i].UserId,
-				Name:     owners[i].Name,
-				ImageUrl: owners[i].ImageUrl,
+				Uuid:     usersMap[trainingGrpc.Owner.Uuid].UserId,
+				Name:     usersMap[trainingGrpc.Owner.Uuid].Name,
+				ImageUrl: usersMap[trainingGrpc.Owner.Uuid].ImageUrl,
 			},
-			CreatedAt: trainingGrpc.GetCreatedAt(),
-			UpdatedAt: trainingGrpc.GetUpdatedAt(),
-			// TODO update next line - get rid of stub
-			TrainingTags: make([]schemas.TrainingTag, 0),
-			// TODO update next line - get rid of stub
-			Mentors: make([]schemas.User, 0),
+			CreatedAt:              trainingGrpc.GetCreatedAt(),
+			UpdatedAt:              trainingGrpc.GetUpdatedAt(),
+			TrainingTags:           trainingsTags,
+			Mentors:                mentors[i],
+			StudentsAmount:         int32(len(trainingGrpc.GetTrainingStudents())),
+			FavoriteForUsersAmount: trainingGrpc.GetFavoriteCount(),
+			TopicsAmount:           trainingGrpc.TopicsAmount,
 		}
 	})
 
@@ -108,7 +142,7 @@ func (ts *TrainingService) CreateTraining(ctx context.Context, params *CreateTra
 		Students:             make([]schemas.User, 0),
 		TrainingTags:         make([]schemas.TrainingTag, 0),
 		FavoriteForUserUuids: make([]string, 0),
-		Topics:               make([]schemas.Topic, 0),
+		Topics:               make([]schemas.TopicPreview, 0),
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, err
@@ -152,7 +186,7 @@ func (ts *TrainingService) UpdateTraining(ctx context.Context, params *UpdateTra
 		Students:             make([]schemas.User, 0),
 		TrainingTags:         make([]schemas.TrainingTag, 0),
 		FavoriteForUserUuids: make([]string, 0),
-		Topics:               make([]schemas.Topic, 0),
+		Topics:               make([]schemas.TopicPreview, 0),
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, err
@@ -186,31 +220,69 @@ func (ts *TrainingService) GetTrainingListByUser(ctx context.Context, params *Ge
 		return &schemas.TrainingList{}, err
 	}
 
-	ownerIds := lo.Map(trainingListRaw.TrainingList, func(training *pb.Training, _ int) string {
+	ownerIds := lo.Map(trainingListRaw.TrainingList, func(training *pb.TrainingPreview, _ int) string {
 		return training.GetOwner().Uuid
 	})
-	owners, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(ownerIds).Execute()
+
+	studentIds := lo.FlatMap(trainingListRaw.TrainingList, func(training *pb.TrainingPreview, _ int) []string {
+		return lo.Map(training.TrainingStudents, func(student *pb.User, _ int) string {
+			return student.Uuid
+		})
+	})
+
+	mentorIds := lo.FlatMap(trainingListRaw.TrainingList, func(training *pb.TrainingPreview, _ int) []string {
+		return lo.Map(training.TrainingMentors, func(mentor *pb.User, _ int) string {
+			return mentor.Uuid
+		})
+	})
+	userUuidsRelatedToTrainings := append(append(studentIds, mentorIds...), ownerIds...)
+	usersRelatedToTrainings, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userUuidsRelatedToTrainings).Execute()
 	if err != nil {
 		return &schemas.TrainingList{}, err
 	}
 
-	trainingsPreview := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.Training, i int) schemas.TrainingPreview {
+	usersMap := lo.SliceToMap(usersRelatedToTrainings, func(
+		user openapiGeneral.MwServerInternalSchemasShortUser,
+	) (string, schemas.User) {
+		return user.UserId, schemas.User{
+			Uuid:     user.UserId,
+			Name:     user.Name,
+			ImageUrl: user.ImageUrl,
+		}
+	})
+
+	mentors := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.TrainingPreview, i int) []schemas.User {
+		return lo.Map(trainingGrpc.GetTrainingMentors(), func(mentor *pb.User, _ int) schemas.User {
+			return schemas.User{
+				Uuid:     usersMap[mentor.Uuid].Uuid,
+				Name:     usersMap[mentor.Uuid].Name,
+				ImageUrl: usersMap[mentor.Uuid].ImageUrl,
+			}
+		})
+	})
+
+	trainingsPreview := lo.Map(trainingListRaw.TrainingList, func(trainingGrpc *pb.TrainingPreview, i int) schemas.TrainingPreview {
+		trainingTags := lo.Map(trainingGrpc.TrainingTagList, func(tag *pb.TrainingTag, _ int) schemas.TrainingTag {
+			return schemas.TrainingTag{Name: tag.TagName}
+		})
+
 		return schemas.TrainingPreview{
 			Uuid:        trainingGrpc.GetUuid(),
 			Name:        trainingGrpc.GetName(),
 			Description: trainingGrpc.GetDescription(),
 			IsPrivate:   trainingGrpc.GetIsPrivate(),
 			Owner: schemas.User{
-				Uuid:     owners[i].UserId,
-				Name:     owners[i].Name,
-				ImageUrl: owners[i].ImageUrl,
+				Uuid:     usersMap[trainingGrpc.Owner.Uuid].Uuid,
+				Name:     usersMap[trainingGrpc.Owner.Uuid].Name,
+				ImageUrl: usersMap[trainingGrpc.Owner.Uuid].ImageUrl,
 			},
-			CreatedAt: trainingGrpc.GetCreatedAt(),
-			UpdatedAt: trainingGrpc.GetUpdatedAt(),
-			// TODO update next line - get rid of stub
-			TrainingTags: make([]schemas.TrainingTag, 0),
-			// TODO update next line - get rid of stub
-			Mentors: make([]schemas.User, 0),
+			CreatedAt:              trainingGrpc.GetCreatedAt(),
+			UpdatedAt:              trainingGrpc.GetUpdatedAt(),
+			TrainingTags:           trainingTags,
+			Mentors:                mentors[i],
+			StudentsAmount:         int32(len(trainingGrpc.GetTrainingStudents())),
+			FavoriteForUsersAmount: trainingGrpc.GetFavoriteCount(),
+			TopicsAmount:           trainingGrpc.TopicsAmount,
 		}
 	})
 
@@ -248,24 +320,61 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		return &schemas.Training{}, err
 	}
 
-	ownerUuid := trainingRaw.GetOwner().Uuid
-	println(trainingRaw.Owner)
-	usersIdsToFetch := []string{
-		ownerUuid, // #0
-	}
-	users, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(usersIdsToFetch).Execute()
+	studentIds := lo.Map(trainingRaw.TrainingStudents, func(student *pb.User, _ int) string {
+		return student.Uuid
+	})
+
+	mentorIds := lo.Map(trainingRaw.TrainingMentors, func(mentor *pb.User, _ int) string {
+		return mentor.Uuid
+	})
+
+	userUuidsRelatedToTrainings := append(append(studentIds, mentorIds...), trainingRaw.Owner.Uuid)
+	usersRelatedToTrainings, _, err := ts.generalAPI.UserAPI.GetUsersByIds(ctx).Request(userUuidsRelatedToTrainings).Execute()
 	if err != nil {
 		return &schemas.Training{}, err
 	}
 
-	owner := schemas.User{
-		Uuid:     users[0].UserId,
-		Name:     users[0].Name,
-		ImageUrl: users[0].ImageUrl,
-	}
+	usersMap := lo.SliceToMap(usersRelatedToTrainings, func(
+		user openapiGeneral.MwServerInternalSchemasShortUser,
+	) (string, schemas.User) {
+		return user.UserId, schemas.User{
+			Uuid:     user.UserId,
+			Name:     user.Name,
+			ImageUrl: user.ImageUrl,
+		}
+	})
+
+	mentors := lo.Map(trainingRaw.GetTrainingMentors(), func(mentor *pb.User, _ int) schemas.User {
+		return schemas.User{
+			Uuid:     usersMap[mentor.Uuid].Uuid,
+			Name:     usersMap[mentor.Uuid].Name,
+			ImageUrl: usersMap[mentor.Uuid].ImageUrl,
+		}
+	})
+
+	students := lo.Map(trainingRaw.GetTrainingStudents(), func(student *pb.User, _ int) schemas.User {
+		return schemas.User{
+			Uuid:     usersMap[student.Uuid].Uuid,
+			Name:     usersMap[student.Uuid].Name,
+			ImageUrl: usersMap[student.Uuid].ImageUrl,
+		}
+	})
 
 	trainingTags := lo.Map(trainingRaw.TrainingTagList, func(tag *pb.TrainingTag, _ int) schemas.TrainingTag {
 		return schemas.TrainingTag{Name: tag.TagName}
+	})
+
+	topics := lo.Map(trainingRaw.Topics, func(topic *pb.TopicPreview, _ int) schemas.TopicPreview {
+		return schemas.TopicPreview{
+			Uuid:                   topic.Uuid,
+			Name:                   topic.Name,
+			TrainingUuid:           topic.TrainingUuid,
+			TopicOrder:             topic.TopicOrder,
+			TheoryMaterialAmount:   topic.TheoryMaterialsAmount,
+			PracticeMaterialAmount: topic.PracticeMaterialsAmount,
+			ParentUuid:             topic.ParentTopicUuid,
+			CreatedAt:              topic.CreatedAt,
+		}
 	})
 
 	return &schemas.Training{
@@ -273,12 +382,12 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingID strin
 		Name:                 trainingRaw.Name,
 		Description:          trainingRaw.Description,
 		IsPrivate:            trainingRaw.IsPrivate,
-		Owner:                owner,
-		Mentors:              make([]schemas.User, 0),
-		Students:             make([]schemas.User, 0),
+		Owner:                usersMap[trainingRaw.Owner.Uuid],
+		Mentors:              mentors,
+		Students:             students,
 		TrainingTags:         trainingTags,
-		FavoriteForUserUuids: make([]string, 0),
-		Topics:               make([]schemas.Topic, 0),
+		FavoriteForUserUuids: trainingRaw.FavoriteForUsersPreview,
+		Topics:               topics,
 		CreatedAt:            trainingRaw.CreatedAt,
 		UpdatedAt:            trainingRaw.UpdatedAt,
 	}, nil

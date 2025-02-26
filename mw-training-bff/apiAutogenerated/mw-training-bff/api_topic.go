@@ -28,6 +28,13 @@ type ApiCreateTopicRequest struct {
 	ctx context.Context
 	ApiService *TopicAPIService
 	trainingId string
+	topicParentId *string
+}
+
+// Topic parent id
+func (r ApiCreateTopicRequest) TopicParentId(topicParentId string) ApiCreateTopicRequest {
+	r.topicParentId = &topicParentId
+	return r
 }
 
 func (r ApiCreateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
@@ -71,6 +78,9 @@ func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTraini
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.topicParentId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "topicParentId", r.topicParentId, "", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -146,6 +156,10 @@ func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, requ
 	fmt.Println(localVarQueryParams)
 
 
+	if r.topicParentId != nil {
+		// TODO: It should not render
+			parameterAddToHeaderOrQuery(localVarQueryParams, "topicParentId", r.topicParentId, "", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
