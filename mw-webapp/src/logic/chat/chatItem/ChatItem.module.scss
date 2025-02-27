@@ -1,5 +1,7 @@
 @import "src/styles/variables";
 
+$unreadMessagesLineHeight: 8px;
+
 .chatItemWrapper {
   align-items: center;
   justify-content: space-between;
@@ -24,14 +26,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 7px;
+  padding: $paddingSmall;
   border-radius: $tagBorderRadius;
   margin-right: $marginSmall;
   background-color: var(--secondaryBgColor);
   color: var(--primaryTextColor);
   font-size: $fontSizeSmall;
-  font-weight: 600;
-  line-height: 8px;
+  font-weight: $fontWeightSemibold;
+  line-height: $unreadMessagesLineHeight;
 }
 
 .userStatusBlock {

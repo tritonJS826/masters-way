@@ -172,16 +172,18 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
           </HorizontalContainer>
           {props.isEditable && (
             <HorizontalContainer className={styles.metricACtionButtons}>
-              <Button
-                icon={
-                  <Icon
-                    size={IconSize.SMALL}
-                    name="PlusIcon"
-                  />
-                }
-                buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                onClick={() => props.addMetric(childMetric.uuid, childMetric)}
-              />
+              <Tooltip content={LanguageService.way.metricsBlock.addGoalSubMetricTooltip[language]}>
+                <Button
+                  icon={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="PlusIcon"
+                    />
+                  }
+                  buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                  onClick={() => props.addMetric(childMetric.uuid, childMetric)}
+                />
+              </Tooltip>
               <Tooltip content={LanguageService.way.metricsBlock.deleteGoalMetricTooltip[language]}>
                 <Confirm
                   trigger={

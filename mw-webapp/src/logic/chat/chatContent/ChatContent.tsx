@@ -94,7 +94,7 @@ export const ChatContent = observer(() => {
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
       addUnreadMessageToAmount();
-      chatListStore?.addUnreadMessageToChatPreview(payload.roomId);
+      chatListStore?.addUnreadMessageToAmountInChatPreview(payload.roomId);
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
         type: NotificationType.INFO,
@@ -186,9 +186,7 @@ export const ChatContent = observer(() => {
             chatItem.roomId !== activeRoomStore?.activeRoom.roomId
               ? chatStore.initiateActiveRoomStore(chatItem.roomId)
               : null;
-            chatItem.unreadMessagesAmount
-              ? chatItem.unreadMessagesAmount = 0
-              : null;
+            chatListStore?.resetUnreadMessagesAmount(chatItem);
           }}
         />
       ),

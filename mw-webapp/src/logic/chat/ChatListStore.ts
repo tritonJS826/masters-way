@@ -73,9 +73,9 @@ export class ChatListStore {
   };
 
   /**
-   * Add unreadMessages to amount
+   * Add one unread message to unreadMessagesAmount
    */
-  public addUnreadMessageToChatPreview = (roomId: string) => {
+  public addUnreadMessageToAmountInChatPreview = (roomId: string) => {
 
     this.isLoadInProcessChatListPreview = true;
     this.chatPreviewList.forEach(chatPreview =>
@@ -84,6 +84,16 @@ export class ChatListStore {
         : chatPreview,
     );
     this.isLoadInProcessChatListPreview = false;
+  };
+
+  /**
+   * Reset unread messages amount
+   */
+  public resetUnreadMessagesAmount = (chatPreview: ChatPreview) => {
+    chatPreview.unreadMessagesAmount > 0
+      ? chatPreview.unreadMessagesAmount = 0
+      : chatPreview;
+
   };
 
 }
