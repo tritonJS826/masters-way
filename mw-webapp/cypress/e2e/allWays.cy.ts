@@ -52,7 +52,7 @@ describe('NoAuth All Ways scope tests', () => {
     checkOwnerLink(testWayData.users.Dana);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkOwnerLink(testWayData.users.Jane);
+    checkOwnerLink(testWayData.users.Alice);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkOwnerLink(testWayData.users.Ronnie);
@@ -73,7 +73,7 @@ describe('NoAuth All Ways scope tests', () => {
     checkWayLink(testWayData.ways.danaWay);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkWayLink(testWayData.ways.janeWay);
+    checkWayLink(testWayData.ways.aliceWay);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkWayLink(testWayData.ways.ronnieWay);
@@ -94,7 +94,7 @@ describe('NoAuth All Ways scope tests', () => {
     checkMentorLink(testWayData.users.Alice);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkMentorLink(testWayData.users.Jane);
+    checkMentorLink(testWayData.users.Ronnie);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkMentorLink(testWayData.users.Dana);
@@ -114,7 +114,7 @@ describe('NoAuth All Ways scope tests', () => {
     checkWayLink(testWayData.ways.danaWay);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkWayLink(testWayData.ways.janeWay);
+    checkWayLink(testWayData.ways.aliceWay);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkWayLink(testWayData.ways.ronnieWay);

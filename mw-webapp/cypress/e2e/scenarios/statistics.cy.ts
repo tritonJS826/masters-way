@@ -1,4 +1,4 @@
-import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
+import {statisticsAccessIds, ModalPeriodBlockTitles, WayPagePeriodBlockTitles} from "cypress/accessIds/statisticsAccessIds";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {statisticsSelectors} from "cypress/scopesSelectors/statisticsSelectors";
 import {LanguageService} from "src/service/LanguageService";
@@ -9,16 +9,19 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
-import {statisticsData} from "cypress/testData/statisticTestData";
-import {Periods} from "cypress/testData/statisticTestData";
+import {statisticsData, studentStatsData} from "cypress/testData/statisticTestData";
 
-type MinDayReports = "0" | "5" | "20" | "50";
 type WayStatus = keyof typeof LanguageService.allWays.filterBlock.typeOptions;
 
 type StatisticsPlacement = keyof typeof statisticsData.statisticsPlacement;
-type PagePeriodBlockTitle = keyof typeof statisticsData.periodBlockTitles.wayPage;
-type ModalPeriodBlockTitle = keyof typeof statisticsData.periodBlockTitles.modal;
-type PeriodBlockTitle = ModalPeriodBlockTitle | PagePeriodBlockTitle;
+type PeriodBlockTitle = WayPagePeriodBlockTitles | ModalPeriodBlockTitles;
+
+enum MinDayReports {
+    any = "0",
+    atLeast5Reports = "5",
+    atLeast20Reports = "20",
+    atLeast50Reports = "50"
+};
 
 type OverallInfo = {
     totalTime: string,
@@ -44,18 +47,12 @@ interface WayDayReportData {
         commentDescription?: string;
 };
 
-function getPeriodBlockTitleForPlacement(statisticsPlacement: StatisticsPlacement, periodBlockTitle: PeriodBlockTitle): string {
-    return statisticsPlacement === statisticsData.statisticsPlacement.wayPage
-        ? statisticsData.periodBlockTitles.wayPage[periodBlockTitle]
-        : statisticsData.periodBlockTitles.modal[periodBlockTitle];
-}
-
 function adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
     const reportOptions = {
-        0: LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en,
-        5: LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en,
-        20: LanguageService.allWays.filterBlock.minDayReportsAmountOption2.en,
-        50: LanguageService.allWays.filterBlock.minDayReportsAmountOption3.en
+        [MinDayReports.any]: LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en,
+        [MinDayReports.atLeast5Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en,
+        [MinDayReports.atLeast20Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption2.en,
+        [MinDayReports.atLeast50Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption3.en
     };
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
     allWaysSelectors.filterViewBlock.getDayReportsSelectOption(reportOptions[minDayReports]).click();
@@ -141,17 +138,13 @@ function adjustLabelForWay (labelName: string) {
 }
 
 function verifyStatisticsOverallInfo({
-    statisticsPlacement,
     periodBlockTitle,
     expectedOverallInformation,
 }: {
-    statisticsPlacement: StatisticsPlacement,
     periodBlockTitle: PeriodBlockTitle,
     expectedOverallInformation: OverallInfo
     }
 ) {
-    const periodBlockTitleForStatisticsForPlacement = getPeriodBlockTitleForPlacement(statisticsPlacement, periodBlockTitle);
-
     const checkStatisticValue = (selector: any, value: string) =>
         selector.find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
             .should('have.text', value);
@@ -159,12 +152,12 @@ function verifyStatisticsOverallInfo({
     const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
     const unitOfMeasurement = LanguageService.way.statisticsBlock.unitOfMeasurement.en;
 
-    checkStatisticValue(overallInfo.getTotalTime(periodBlockTitleForStatisticsForPlacement), `${expectedOverallInformation.totalTime}${unitOfMeasurement}`);
-    checkStatisticValue(overallInfo.getTotalReports(periodBlockTitleForStatisticsForPlacement), `${expectedOverallInformation.totalReports}`);
-    checkStatisticValue(overallInfo.getFinishedJobs(periodBlockTitleForStatisticsForPlacement), `${expectedOverallInformation.finishedJobs}`);
-    checkStatisticValue(overallInfo.getAvgTimePerCalendarDay(periodBlockTitleForStatisticsForPlacement), `${expectedOverallInformation.avgTimePerCalendarDay}${unitOfMeasurement}`);
-    checkStatisticValue(overallInfo.getAverageTimePerWorkingDay(periodBlockTitleForStatisticsForPlacement), `${expectedOverallInformation.avgTimePerWorkingDay}${unitOfMeasurement}`);
-    checkStatisticValue(overallInfo.getAvgJobTime(periodBlockTitleForStatisticsForPlacement), `${expectedOverallInformation.avgJobTime}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getTotalTime(periodBlockTitle), `${expectedOverallInformation.totalTime}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getTotalReports(periodBlockTitle), `${expectedOverallInformation.totalReports}`);
+    checkStatisticValue(overallInfo.getFinishedJobs(periodBlockTitle), `${expectedOverallInformation.finishedJobs}`);
+    checkStatisticValue(overallInfo.getAvgTimePerCalendarDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerCalendarDay}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getAverageTimePerWorkingDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerWorkingDay}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getAvgJobTime(periodBlockTitle), `${expectedOverallInformation.avgJobTime}${unitOfMeasurement}`);
 }
 
 function verifyNumberOfLabelStatisticsRows({
@@ -178,15 +171,14 @@ function verifyNumberOfLabelStatisticsRows({
     }
 ) {
     if (statisticsPlacement === statisticsData.statisticsPlacement.wayPage) {
-        statisticsSelectors.statistics.periodBlocks.periodBlock(
-            statisticsData.periodBlockTitles.wayPage[periodBlockTitle])
+        statisticsSelectors.statistics.periodBlocks.periodBlock(periodBlockTitle)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
             .should('have.length', expectedLabelLinesCount);
-    } else {     
+    } else {
         statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks
-                .periodBlock(LanguageService.way.statisticsBlock[
-                    periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal].en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock((
+                LanguageService.way.statisticsBlock[
+                    periodBlockTitle as keyof typeof LanguageService.way.statisticsBlock] as { en: string }).en)}"]`)
             .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
             .should('have.length', expectedLabelLinesCount);
     }
@@ -202,14 +194,13 @@ function verifyLabelStatisticsRow({
     expectedLabelRowData: { name: string, color: string, jobsAmount: string, time: string }
     }
 ) {
-    // Get the correct key for the period block title based on placement
-    const periodBlockTitleForStatisticsForPlacement = getPeriodBlockTitleForPlacement(statisticsPlacement, periodBlockTitle);
-
     // Select the correct statistics label block based on the placement
     const labelStatisticsSector = statisticsPlacement === statisticsData.statisticsPlacement.wayPage
-        ? cy.get(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(periodBlockTitleForStatisticsForPlacement)}"]`)
+        ? cy.get(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(periodBlockTitle)}"]`)
         : statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock[periodBlockTitle as keyof typeof statisticsData.periodBlockTitles.modal].en)}"]`);
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock((
+                LanguageService.way.statisticsBlock[
+                    periodBlockTitle as keyof typeof LanguageService.way.statisticsBlock] as { en: string }).en)}"]`);
 
     labelStatisticsSector
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
@@ -251,14 +242,13 @@ afterEach(() => {
 describe('Statistics tests', () => {
 
     it('Scenario_Student_wayStatistics', () => {
-        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: "5"});
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
  
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
@@ -269,8 +259,7 @@ describe('Statistics tests', () => {
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
@@ -282,56 +271,62 @@ describe('Statistics tests', () => {
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
         });
         
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
             
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
         });
 
         statisticsSelectors.getShowAllStatisticsButton().click();
@@ -339,8 +334,7 @@ describe('Statistics tests', () => {
         statisticsSelectors.statistics.getModal().should('be.visible');
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
@@ -351,8 +345,7 @@ describe('Statistics tests', () => {
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalReports,
@@ -363,8 +356,7 @@ describe('Statistics tests', () => {
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
@@ -376,86 +368,92 @@ describe('Statistics tests', () => {
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal, 
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
         });
 
         statisticsSelectors.statistics.getCloseButton().click();
@@ -471,12 +469,12 @@ describe('Statistics tests', () => {
             .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.johnDoeWay.statistic.total.totalReports})`);
     });
 
-    it('Scenario_Mentor_CompositeWayStatistics', () => {
+    it.only('Scenario_Mentor_CompositeWayStatistics', () => {
         // Create a user-mentor with a composite way that includes one child way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
-        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: "5"});
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
         addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
 
@@ -484,7 +482,7 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
         addDayReportToWay({jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
-        adjustLabelForWay(dayReportsData.labels.student);
+        adjustLabelForWay(studentStatsData.labelActivityNames.studentLabel);
         dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
         dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
         dayReportsSelectors.labels.addLabel.getSaveButton().click();
@@ -492,11 +490,14 @@ describe('Statistics tests', () => {
         cy.logout();
 
         // Open the mentor composite way
-        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: "0"});
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+
+        //Bug #1851
+        // statisticsSelectors.getDaysFromStart()
+        //     .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
@@ -507,8 +508,7 @@ describe('Statistics tests', () => {
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
@@ -520,65 +520,69 @@ describe('Statistics tests', () => {
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
         });
         
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
+
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
             
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
         });
 
         statisticsSelectors.getShowAllStatisticsButton().click();
 
-        statisticsSelectors.statistics.getModal().should('be.visible');
-
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
@@ -589,8 +593,7 @@ describe('Statistics tests', () => {
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalReports,
@@ -601,8 +604,7 @@ describe('Statistics tests', () => {
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedOverallInformation: {
                 totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
                 totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
@@ -614,91 +616,97 @@ describe('Statistics tests', () => {
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal, 
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
         });
 
+
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4
         });
 
+
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
         });
 
-        statisticsSelectors.statistics.getCloseButton().click();
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
+        });
 
-        statisticsSelectors.statistics.getModal().should('not.exist');
+        statisticsSelectors.statistics.getCloseButton().click();
 
         dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
             .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.johnDoeWay.statistic.total.totalReports}`);
@@ -710,193 +718,253 @@ describe('Statistics tests', () => {
 
         // Mentor adds the student way to the compisite way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        openWayFromAllWayPageByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: "0"});
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any});
         addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: "0"});
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+
+        //Bug #1851
+        // statisticsSelectors.getDaysFromStart()
+        //     .should('have.text', `${statisticsData.testWays.mentorCompositeTwoChildWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
             expectedOverallInformation: {
-                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.total.totalTime,
-                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports,
-                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.total.finishedJobs,
-                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerCalendarDay,
-                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerWorkingDay,
-                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.total.avgJobTime},
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgJobTime},
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
             expectedOverallInformation: {
-                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalTime,
-                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalReports,
-                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.finishedJobs,
-                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerCalendarDay,
-                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerWorkingDay,
-                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgJobTime},
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgJobTime},
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
-            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.total).length
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
-            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek).length
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek).length
         });
         
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row1
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row2
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row3
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row4
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row5
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row5
+        });
+
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
-            periodBlockTitle: Periods.LastWeek,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek.row1
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row4
         });
 
         statisticsSelectors.getShowAllStatisticsButton().click();
 
-        statisticsSelectors.statistics.getModal().should('be.visible');
-
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
             expectedOverallInformation: {
-                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.total.totalTime,
-                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports,
-                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.total.finishedJobs,
-                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerCalendarDay,
-                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.total.avgTimePerWorkingDay,
-                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.total.avgJobTime},
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgJobTime},
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
             expectedOverallInformation: {
-                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.totalTime,
-                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.totalReports,
-                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.finishedJobs,
-                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.avgTimePerCalendarDay,
-                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.avgTimePerWorkingDay,
-                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.lastMonth.avgJobTime},
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.avgJobTime},
         });
 
         verifyStatisticsOverallInfo({
-            statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
             expectedOverallInformation: {
-                totalTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalTime,
-                totalReports: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.totalReports,
-                finishedJobs: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.finishedJobs,
-                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerCalendarDay,
-                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgTimePerWorkingDay,
-                avgJobTime: statisticsData.testWays.mentorCompositeWay.statistic.lastWeek.avgJobTime},
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgJobTime},
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
-            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.total).length
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
-            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.lastMonth).length
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth).length
         });
 
         verifyNumberOfLabelStatisticsRows({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
-            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek).length
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek).length
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row1
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row2
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row2
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row3
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal, 
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row4
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row4
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal, 
-            periodBlockTitle: Periods.Total,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.total.row5
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row5
+        });
+
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row1
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastMonth,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.lastMonth.row1
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row2
+        });
+        
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row3
         });
 
         verifyLabelStatisticsRow({
             statisticsPlacement: statisticsData.statisticsPlacement.modal,
-            periodBlockTitle: Periods.LastWeek,
-            expectedLabelRowData: statisticsData.testWays.mentorCompositeWay.labelStatistics.lastWeek.row1
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row4
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row5
+        });
+
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row4
         });
 
         statisticsSelectors.statistics.getCloseButton().click();
     
         // Check "Total reports" and "Total" in the header of day report table on the way page
         dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports}`);
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports}`);
     
         dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
     
         dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.mentorCompositeWay.statistic.total.totalReports})`);
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports})`);
     });
 
 });
