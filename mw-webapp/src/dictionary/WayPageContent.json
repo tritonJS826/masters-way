@@ -207,6 +207,12 @@
       "en": "Add selected metrics",
       "ua": "Додати вибрані метрики"
     },
+
+    "addGoalSubMetricTooltip": {
+      "ru": "Добавить подметрику",
+      "en": "Add submetric",
+      "ua": "Додати підметрику"
+    },
     "deleteGoalMetricQuestion": {
       "ru": "Вы уверены, что хотите удалить целевой показатель",
       "en": "Are you sure that you want to delete goal metric",
