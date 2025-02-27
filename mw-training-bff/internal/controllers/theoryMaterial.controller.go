@@ -92,14 +92,26 @@ func (tmc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
 // @Produce json
 // @Param request body schemas.UpdateTheoryMaterialPayload true "query params"
 // @Success 200 {object} schemas.TheoryMaterial
-// @Router /theoryMaterials [patch]
-func (nc *TheoryMaterialController) UpdateTheoryMaterial(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// response, err := nc.notificationService.GetNotificationSettingList(ctx, userUUID)
-	// utils.HandleErrorGin(ctx, err)
+// @Router /theoryMaterials/{theoryMaterialId} [patch]
+func (tmc *TheoryMaterialController) UpdateTheoryMaterial(ctx *gin.Context) {
+	var payload *schemas.UpdateTheoryMaterialPayload
+	theoryMaterialId := ctx.Param("theoryMaterialId")
 
-	stub := schemas.TheoryMaterial{}
-	ctx.JSON(http.StatusOK, stub)
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	args := &services.UpdateTheoryMaterialParams{
+		TheoryMaterialId: theoryMaterialId,
+		Name:             payload.Name,
+		Description:      payload.Description,
+	}
+
+	response, err := tmc.theoryMaterialService.UpdateTheoryMaterial(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Delete theory material
@@ -111,18 +123,11 @@ func (nc *TheoryMaterialController) UpdateTheoryMaterial(ctx *gin.Context) {
 // @Param theoryMaterialId path string true "theory material id"
 // @Success 200
 // @Router /theoryMaterials/{theoryMaterialId} [delete]
-func (nc *TheoryMaterialController) DeleteTheoryMaterial(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationSettingPayload
+func (tmc *TheoryMaterialController) DeleteTheoryMaterial(ctx *gin.Context) {
+	theoryMaterialId := ctx.Param("theoryMaterialId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
-
-	// notificationID := ctx.Param("notificationSettingId")
-
-	// response, err := nc.notificationService.UpdateNotificationSetting(ctx, notificationID, payload.IsEnabled)
-	// utils.HandleErrorGin(ctx, err)
+	err := tmc.theoryMaterialService.DeleteTheoryMaterial(ctx, theoryMaterialId)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }

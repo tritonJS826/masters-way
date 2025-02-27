@@ -101,17 +101,27 @@ type UpdatePracticeMaterialParams struct {
 }
 
 func (pms *PracticeMaterialService) UpdatePracticeMaterial(ctx context.Context, params *UpdatePracticeMaterialParams) (*schemas.PracticeMaterial, error) {
-	// notificationSettingListRaw, err := pms.notificationSettingGRPC.GetNotificationSettingList(
-	// 	ctx,
-	// 	&pb.GetNotificationSettingListRequest{
-	// 		UserUuid: userUUID,
-	// 	},
-	// )
-	// if err != nil {
-	// 	return nil, err
-	// }
+	practiceMaterial, err := pms.practiceMaterialGRPC.UpdatePracticeMaterial(ctx, &pb.UpdatePracticeMaterialRequest{
+		Uuid:         params.TopicId,
+		Name:         params.Name,
+		Description:  params.Description,
+		Answer:       params.Answer,
+		PracticeType: params.PracticeType,
+		TimeToAnswer: params.TimeToAnswer,
+	})
 
-	return &schemas.PracticeMaterial{}, nil
+	return &schemas.PracticeMaterial{
+		Uuid:                  practiceMaterial.Uuid,
+		TopicUuid:             practiceMaterial.TopicUuid,
+		Name:                  practiceMaterial.Name,
+		TaskDescription:       practiceMaterial.Description,
+		Answer:                practiceMaterial.Answer,
+		PracticeType:          practiceMaterial.PracticeType,
+		TimeToAnswer:          practiceMaterial.TimeToAnswer,
+		CreatedAt:             practiceMaterial.CreatedAt,
+		UpdatedAt:             practiceMaterial.UpdatedAt,
+		PracticeMaterialOrder: practiceMaterial.Order,
+	}, err
 }
 
 func (pms *PracticeMaterialService) DeletePracticeMaterial(ctx context.Context, practiceMaterialID string) error {
@@ -120,7 +130,6 @@ func (pms *PracticeMaterialService) DeletePracticeMaterial(ctx context.Context, 
 	}
 
 	_, err := pms.practiceMaterialGRPC.DeletePracticeMaterial(ctx, deletePracticeMaterialRequest)
-
 	if err != nil {
 		return err
 	}

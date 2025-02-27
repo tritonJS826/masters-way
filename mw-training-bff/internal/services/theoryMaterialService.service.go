@@ -68,49 +68,38 @@ func (tms *TheoryMaterialService) CreateTheoryMaterial(ctx context.Context, para
 }
 
 type UpdateTheoryMaterialParams struct {
-	TopicId     string
-	Name        string
-	Description string
+	TheoryMaterialId string
+	Name             string
+	Description      string
 }
 
 func (tms *TheoryMaterialService) UpdateTheoryMaterial(ctx context.Context, params *UpdateTheoryMaterialParams) (*schemas.TheoryMaterial, error) {
 	theoryMaterialRaw, err := tms.theoryMaterialGRPC.UpdateTheoryMaterial(ctx, &pb.UpdateTheoryMaterialRequest{
-		Uuid:        params.TopicId,
+		Uuid:        params.TheoryMaterialId,
 		Name:        params.Name,
 		Description: params.Description,
-	},
-	)
+	})
 	if err != nil {
 		return nil, err
 	}
 
 	return &schemas.TheoryMaterial{
-		Uuid:      theoryMaterialRaw.Uuid,
-		TopicUuid: theoryMaterialRaw.TopicUuid,
-		Name:      theoryMaterialRaw.Name,
-		// TheoryMaterialOrder: theoryMaterialRaw.Order,
-		Description: theoryMaterialRaw.Description,
-		CreatedAt:   theoryMaterialRaw.CreatedAt,
-		UpdatedAt:   theoryMaterialRaw.UpdatedAt,
+		Uuid:                theoryMaterialRaw.Uuid,
+		TopicUuid:           theoryMaterialRaw.TopicUuid,
+		Name:                theoryMaterialRaw.Name,
+		Description:         theoryMaterialRaw.Description,
+		CreatedAt:           theoryMaterialRaw.CreatedAt,
+		UpdatedAt:           theoryMaterialRaw.UpdatedAt,
+		TheoryMaterialOrder: theoryMaterialRaw.Order,
 	}, nil
 }
 
 func (tms *TheoryMaterialService) DeleteTheoryMaterial(ctx context.Context, theoryMaterialID string) error {
-	// in := &pb.UpdateNotificationSettingRequest{
-	// 	NotificationSettingUuid: notificationSettingID,
-	// 	IsEnabled:               isEnabled,
-	// }
-	// notificationSetting, err := pms.notificationSettingGRPC.UpdateNotificationSetting(ctx, in)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	deleteTheoryMaterialRequest := &training.DeleteTheoryMaterialRequest{
 		Uuid: theoryMaterialID,
 	}
 
 	_, err := tms.theoryMaterialGRPC.DeleteTheoryMaterial(ctx, deleteTheoryMaterialRequest)
-
 	if err != nil {
 		return err
 	}
