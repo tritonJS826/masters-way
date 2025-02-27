@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {LocalStorageData, localStorageWorker, WayPageSettings} from "src/utils/LocalStorageWorker";
+import {LocalStorageData, localStorageWorker} from "src/utils/LocalStorageWorker";
 
 type usePersistanceStateParams<T extends keyof LocalStorageData> = {
 
@@ -50,11 +50,15 @@ export const usePersistanceState = <
    */
   (newValue: Partial<LocalStorageData[T]>) => void
 ] => {
-  const storedValue = localStorageWorker.getItemByKey<WayPageSettings>(params.key) ?? params.defaultValue;
+
+  const storedValue = localStorageWorker.getItemByKey<LocalStorageData[T]>(params.key) ?? params.defaultValue;
   const validateData = params.storedDataValidator ?? (() => true);
   const validatedStoredValue = validateData(storedValue as LocalStorageData[T])
     ? storedValue
     : params.defaultValue;
+  if (!validateData(storedValue)) {
+    localStorageWorker.setItemByKey(params.key, params.defaultValue);
+  }
 
   const [value, setValue] = useState(validatedStoredValue);
 
@@ -79,6 +83,7 @@ export const usePersistanceState = <
     }
     const updatedValue = {...value as object, ...newPartialValue};
     localStorageWorker.setItemByKey(params.key, updatedValue as LocalStorageData[T]);
+
     setValue(updatedValue as LocalStorageData[T]);
   };
 
