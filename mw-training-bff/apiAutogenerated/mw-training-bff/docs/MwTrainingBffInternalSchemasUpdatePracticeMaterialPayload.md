@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Answer** | Pointer to **string** |  | [optional] 
 **Name** | Pointer to **string** |  | [optional] 
+**Order** | Pointer to **int32** |  | [optional] 
 **PracticeType** | Pointer to **string** |  | [optional] 
 **TaskDescription** | Pointer to **string** |  | [optional] 
 **TimeToAnswer** | Pointer to **int32** |  | [optional] 
@@ -78,6 +79,31 @@ SetName sets Name field to given value.
 `func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) HasName() bool`
 
 HasName returns a boolean if a field has been set.
+
+### GetOrder
+
+`func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) GetOrder() int32`
+
+GetOrder returns the Order field if non-nil, zero value otherwise.
+
+### GetOrderOk
+
+`func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) GetOrderOk() (*int32, bool)`
+
+GetOrderOk returns a tuple with the Order field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOrder
+
+`func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) SetOrder(v int32)`
+
+SetOrder sets Order field to given value.
+
+### HasOrder
+
+`func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) HasOrder() bool`
+
+HasOrder returns a boolean if a field has been set.
 
 ### GetPracticeType
 

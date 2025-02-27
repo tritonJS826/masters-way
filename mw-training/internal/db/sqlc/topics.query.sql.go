@@ -75,8 +75,8 @@ const getTopicByUuid = `-- name: GetTopicByUuid :one
 SELECT 
     topics.uuid, topics.name, topics.training_uuid, topics.topic_order, topics.parent, topics.created_at, 
     trainings.owner_uuid,
-    COUNT(theory_materials.uuid) AS theory_materials_amount,
-    COUNT(practice_materials.uuid) AS practice_materials_amount
+    COUNT(DISTINCT theory_materials.uuid) AS theory_materials_amount,
+    COUNT(DISTINCT practice_materials.uuid) AS practice_materials_amount
 FROM
     topics
 LEFT JOIN
@@ -124,8 +124,8 @@ func (q *Queries) GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (Ge
 const getTopicsByTrainingId = `-- name: GetTopicsByTrainingId :many
 SELECT 
     topics.uuid, topics.name, topics.training_uuid, topics.topic_order, topics.parent, topics.created_at, 
-    COUNT(theory_materials.uuid) AS theory_materials_amount,
-    COUNT(practice_materials.uuid) AS practice_materials_amount
+    COUNT(DISTINCT theory_materials.uuid) AS theory_materials_amount,
+    COUNT(DISTINCT practice_materials.uuid) AS practice_materials_amount
 FROM 
     topics
 LEFT JOIN 
@@ -136,6 +136,7 @@ WHERE
     topics.training_uuid = $1
 GROUP BY 
     topics.uuid
+ORDER BY topics.created_at
 `
 
 type GetTopicsByTrainingIdRow struct {

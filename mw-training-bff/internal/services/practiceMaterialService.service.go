@@ -91,18 +91,18 @@ func (pms *PracticeMaterialService) CreatePracticeMaterial(ctx context.Context, 
 }
 
 type UpdatePracticeMaterialParams struct {
-	TopicId      string
-	Name         string
-	Order        int32
-	Description  string
-	Answer       string
-	PracticeType string
-	TimeToAnswer int32
+	PracticeMaterialId string
+	Name               *string
+	Order              *int32
+	Description        *string
+	Answer             *string
+	PracticeType       *string
+	TimeToAnswer       *int32
 }
 
 func (pms *PracticeMaterialService) UpdatePracticeMaterial(ctx context.Context, params *UpdatePracticeMaterialParams) (*schemas.PracticeMaterial, error) {
 	practiceMaterial, err := pms.practiceMaterialGRPC.UpdatePracticeMaterial(ctx, &pb.UpdatePracticeMaterialRequest{
-		Uuid:         params.TopicId,
+		Uuid:         params.PracticeMaterialId,
 		Name:         params.Name,
 		Description:  params.Description,
 		Answer:       params.Answer,

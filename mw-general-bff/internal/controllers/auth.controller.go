@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 // Without next lines swagger does not see openapi models
@@ -74,13 +75,138 @@ func (ac *AuthController) BeginAuth(ctx *gin.Context) {
 // @ID get-current-authorized-user
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasUserPopulatedResponse
+// @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /auth/current [get]
 func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 	populatedUser, err := ac.authFacade.GetCurrentAuthorizedUserByToken(ctx)
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, populatedUser)
+	customWayCollections := lo.Map(populatedUser.CustomWayCollections, func(collection openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse, _ int) schemas.WayCollectionPopulatedResponse {
+		return schemas.WayCollectionPopulatedResponse{
+			Uuid: collection.Uuid,
+			Name: collection.Name,
+			Ways: lo.Map(collection.Ways, func(way openapiGeneral.MwServerInternalSchemasWayPlainResponse, _ int) schemas.WayPlainResponse {
+				return schemas.WayPlainResponse{
+					Uuid:            way.Uuid,
+					Name:            way.Name,
+					GoalDescription: way.GoalDescription,
+					UpdatedAt:       way.UpdatedAt,
+					CreatedAt:       way.CreatedAt,
+					EstimationTime:  way.EstimationTime,
+					IsCompleted:     way.IsCompleted,
+					Owner: schemas.UserPlainResponse{
+						Uuid:        way.Owner.Uuid,
+						Name:        way.Owner.Name,
+						Email:       way.Owner.Email,
+						Description: way.Owner.Description,
+						CreatedAt:   way.Owner.CreatedAt,
+						ImageUrl:    way.Owner.ImageUrl,
+						IsMentor:    way.Owner.IsMentor,
+					},
+					CopiedFromWayUuid: way.CopiedFromWayUuid.Get(),
+					ProjectUuid:       way.ProjectUuid.Get(),
+					IsPrivate:         way.IsPrivate,
+					FavoriteForUsers:  way.FavoriteForUsers,
+					DayReportsAmount:  way.DayReportsAmount,
+					Mentors: lo.Map(way.Mentors, func(mentor openapiGeneral.MwServerInternalSchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+						return schemas.UserPlainResponse{
+							Uuid:        mentor.Uuid,
+							Name:        mentor.Name,
+							Email:       mentor.Email,
+							Description: mentor.Description,
+							CreatedAt:   mentor.CreatedAt,
+							ImageUrl:    mentor.ImageUrl,
+							IsMentor:    mentor.IsMentor,
+						}
+					}),
+					MetricsDone:   way.MetricsDone,
+					MetricsTotal:  way.MetricsTotal,
+					ChildrenUuids: way.ChildrenUuids,
+					WayTags: lo.Map(way.WayTags, func(tag openapiGeneral.MwServerInternalSchemasWayTagResponse, _ int) schemas.WayTagResponse {
+						return schemas.WayTagResponse{
+							Uuid: tag.Uuid,
+							Name: tag.Name,
+						}
+					}),
+				}
+			}),
+			CreatedAt: collection.CreatedAt,
+			UpdatedAt: collection.UpdatedAt,
+			OwnerUuid: collection.OwnerUuid,
+			Type:      collection.Type,
+		}
+	})
+
+	defaultWayCollections := schemas.DefaultWayCollections{
+		Own: schemas.WayCollectionPopulatedResponse{
+			Uuid:      populatedUser.DefaultWayCollections.Own.Uuid,
+			Name:      populatedUser.DefaultWayCollections.Own.Name,
+			CreatedAt: populatedUser.DefaultWayCollections.Own.CreatedAt,
+			UpdatedAt: populatedUser.DefaultWayCollections.Own.UpdatedAt,
+			OwnerUuid: populatedUser.DefaultWayCollections.Own.OwnerUuid,
+			Type:      populatedUser.DefaultWayCollections.Own.Type,
+			Ways:      lo.Map(populatedUser.DefaultWayCollections.Own.Ways, ConvertWay),
+		},
+		Favorite: schemas.WayCollectionPopulatedResponse{
+			Uuid:      populatedUser.DefaultWayCollections.Own.Uuid,
+			Name:      populatedUser.DefaultWayCollections.Own.Name,
+			CreatedAt: populatedUser.DefaultWayCollections.Own.CreatedAt,
+			UpdatedAt: populatedUser.DefaultWayCollections.Own.UpdatedAt,
+			OwnerUuid: populatedUser.DefaultWayCollections.Own.OwnerUuid,
+			Type:      populatedUser.DefaultWayCollections.Own.Type,
+			Ways:      lo.Map(populatedUser.DefaultWayCollections.Own.Ways, ConvertWay),
+		},
+		Mentoring: schemas.WayCollectionPopulatedResponse{
+			Uuid:      populatedUser.DefaultWayCollections.Own.Uuid,
+			Name:      populatedUser.DefaultWayCollections.Own.Name,
+			CreatedAt: populatedUser.DefaultWayCollections.Own.CreatedAt,
+			UpdatedAt: populatedUser.DefaultWayCollections.Own.UpdatedAt,
+			OwnerUuid: populatedUser.DefaultWayCollections.Own.OwnerUuid,
+			Type:      populatedUser.DefaultWayCollections.Own.Type,
+			Ways:      lo.Map(populatedUser.DefaultWayCollections.Own.Ways, ConvertWay),
+		},
+	}
+
+	response := schemas.UserPopulatedResponse{
+		Uuid:               populatedUser.Uuid,
+		Name:               populatedUser.Name,
+		Email:              populatedUser.Email,
+		Description:        populatedUser.Description,
+		CreatedAt:          populatedUser.CreatedAt,
+		ImageUrl:           populatedUser.ImageUrl,
+		IsMentor:           populatedUser.IsMentor,
+		WayCollections:     customWayCollections,
+		DefaultCollections: defaultWayCollections,
+		FavoriteForUsers:   populatedUser.FavoriteForUsers,
+		FavoriteUsers: lo.Map(populatedUser.FavoriteUsers, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        user.Uuid,
+				Name:        user.Name,
+				Email:       user.Email,
+				Description: user.Description,
+				CreatedAt:   user.CreatedAt,
+				ImageUrl:    user.ImageUrl,
+				IsMentor:    user.IsMentor,
+			}
+		}),
+		Tags: lo.Map(populatedUser.Tags, func(tag openapiGeneral.MwServerInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
+			return schemas.UserTagResponse{
+				Uuid: tag.Uuid,
+				Name: tag.Name,
+			}
+		}),
+		WayRequests: lo.Map(populatedUser.WayRequests, ConvertWay),
+		Projects: lo.Map(populatedUser.Projects, func(project openapiGeneral.MwServerInternalSchemasProjectPlainResponse, _ int) schemas.ProjectPlainResponse {
+			return schemas.ProjectPlainResponse{
+				ID:        project.Id,
+				Name:      project.Name,
+				IsPrivate: project.IsPrivate,
+				UserIDs:   project.UserIds,
+			}
+		}),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // GetUserTokenByEmail handler
@@ -142,7 +268,7 @@ func (ac *AuthController) GetGoogleAccessToken(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body schemas.RefreshAccessTokenPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasRefreshAccessTokenResponse
+// @Success 200 {object} schemas.RefreshAccessTokenResponse
 // @Router /auth/refreshToken [post]
 func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
 	var payload *schemas.RefreshAccessTokenPayload
@@ -152,8 +278,58 @@ func (ac *AuthController) RefreshAccessToken(ctx *gin.Context) {
 		return
 	}
 
-	response, err := ac.authFacade.RefreshAccessToken(ctx, payload.RefreshToken)
+	responseRaw, err := ac.authFacade.RefreshAccessToken(ctx, payload.RefreshToken)
 	utils.HandleErrorGin(ctx, err)
 
+	response := schemas.RefreshAccessTokenResponse{
+		AccessToken: responseRaw.AccessToken,
+	}
+
 	ctx.JSON(http.StatusOK, response)
+}
+
+func ConvertWay(way openapiGeneral.MwServerInternalSchemasWayPlainResponse, _ int) schemas.WayPlainResponse {
+	return schemas.WayPlainResponse{
+		Uuid:            way.Uuid,
+		Name:            way.Name,
+		GoalDescription: way.GoalDescription,
+		UpdatedAt:       way.UpdatedAt,
+		CreatedAt:       way.CreatedAt,
+		EstimationTime:  way.EstimationTime,
+		IsCompleted:     way.IsCompleted,
+		Owner: schemas.UserPlainResponse{
+			Uuid:        way.Owner.Uuid,
+			Name:        way.Owner.Name,
+			Email:       way.Owner.Email,
+			Description: way.Owner.Description,
+			CreatedAt:   way.Owner.CreatedAt,
+			ImageUrl:    way.Owner.ImageUrl,
+			IsMentor:    way.Owner.IsMentor,
+		},
+		CopiedFromWayUuid: way.CopiedFromWayUuid.Get(),
+		ProjectUuid:       way.ProjectUuid.Get(),
+		IsPrivate:         way.IsPrivate,
+		FavoriteForUsers:  way.FavoriteForUsers,
+		DayReportsAmount:  way.DayReportsAmount,
+		Mentors: lo.Map(way.Mentors, func(mentor openapiGeneral.MwServerInternalSchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        mentor.Uuid,
+				Name:        mentor.Name,
+				Email:       mentor.Email,
+				Description: mentor.Description,
+				CreatedAt:   mentor.CreatedAt,
+				ImageUrl:    mentor.ImageUrl,
+				IsMentor:    mentor.IsMentor,
+			}
+		}),
+		MetricsDone:   way.MetricsDone,
+		MetricsTotal:  way.MetricsTotal,
+		ChildrenUuids: way.ChildrenUuids,
+		WayTags: lo.Map(way.WayTags, func(tag openapiGeneral.MwServerInternalSchemasWayTagResponse, _ int) schemas.WayTagResponse {
+			return schemas.WayTagResponse{
+				Uuid: tag.Uuid,
+				Name: tag.Name,
+			}
+		}),
+	}
 }

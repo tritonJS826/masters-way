@@ -77,7 +77,7 @@ func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 // @Produce json
 // @Param request body schemas.UpdateTopicPayload true "query params"
 // @Param topicId path string true "topic id"
-// @Success 200 {object} schemas.Topic
+// @Success 200 {object} schemas.TopicPreview
 // @Router /topics/{topicId} [patch]
 func (tc *TopicController) UpdateTopic(ctx *gin.Context) {
 	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)

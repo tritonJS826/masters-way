@@ -1,8 +1,8 @@
 -- name: GetTopicsByTrainingId :many
 SELECT 
     topics.*, 
-    COUNT(theory_materials.uuid) AS theory_materials_amount,
-    COUNT(practice_materials.uuid) AS practice_materials_amount
+    COUNT(DISTINCT theory_materials.uuid) AS theory_materials_amount,
+    COUNT(DISTINCT practice_materials.uuid) AS practice_materials_amount
 FROM 
     topics
 LEFT JOIN 
@@ -12,15 +12,16 @@ LEFT JOIN
 WHERE 
     topics.training_uuid = @training_uuid
 GROUP BY 
-    topics.uuid;
+    topics.uuid
+ORDER BY topics.created_at;
 
 
 -- name: GetTopicByUuid :one
 SELECT 
     topics.*, 
     trainings.owner_uuid,
-    COUNT(theory_materials.uuid) AS theory_materials_amount,
-    COUNT(practice_materials.uuid) AS practice_materials_amount
+    COUNT(DISTINCT theory_materials.uuid) AS theory_materials_amount,
+    COUNT(DISTINCT practice_materials.uuid) AS practice_materials_amount
 FROM
     topics
 LEFT JOIN

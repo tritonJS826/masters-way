@@ -147,7 +147,7 @@ export class TopicApi extends runtime.BaseAPI {
     /**
      * Update topic
      */
-    async updateTopicRaw(requestParameters: UpdateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTopic>> {
+    async updateTopicRaw(requestParameters: UpdateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTopicPreview>> {
         if (requestParameters.topicId === null || requestParameters.topicId === undefined) {
             throw new runtime.RequiredError('topicId','Required parameter requestParameters.topicId was null or undefined when calling updateTopic.');
         }
@@ -170,13 +170,13 @@ export class TopicApi extends runtime.BaseAPI {
             body: MwTrainingBffInternalSchemasUpdateTopicPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicPreviewFromJSON(jsonValue));
     }
 
     /**
      * Update topic
      */
-    async updateTopic(requestParameters: UpdateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTopic> {
+    async updateTopic(requestParameters: UpdateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTopicPreview> {
         const response = await this.updateTopicRaw(requestParameters, initOverrides);
         return await response.value();
     }

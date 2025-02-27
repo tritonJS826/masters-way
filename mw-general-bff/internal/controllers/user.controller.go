@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/samber/lo"
 )
 
 // Without next lines swagger does not see openapi models
@@ -32,7 +33,7 @@ func NewUserController(toUserMentoringRequestFacade *facades.UserFacade) *UserCo
 // @Produce  json
 // @Param request body schemas.UpdateUserPayload true "query params"
 // @Param userId path string true "user ID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasUserPlainResponse
+// @Success 200 {object} schemas.UserPlainResponse
 // @Router /users/{userId} [patch]
 func (uc *UserController) UpdateUser(ctx *gin.Context) {
 	var payload *schemas.UpdateUserPayload
@@ -43,7 +44,7 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	user, err := uc.toUserMentoringRequestFacade.UpdateUser(ctx, &services.UpdateUserParams{
+	userRaw, err := uc.toUserMentoringRequestFacade.UpdateUser(ctx, &services.UpdateUserParams{
 		UserID:      userID,
 		Name:        payload.Name,
 		Description: payload.Description,
@@ -51,6 +52,16 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 		IsMentor:    payload.IsMentor,
 	})
 	utils.HandleErrorGin(ctx, err)
+
+	user := schemas.UserPlainResponse{
+		Uuid:        userRaw.Uuid,
+		Name:        userRaw.Name,
+		Email:       userRaw.Email,
+		Description: userRaw.Description,
+		CreatedAt:   userRaw.CreatedAt,
+		ImageUrl:    userRaw.ImageUrl,
+		IsMentor:    userRaw.IsMentor,
+	}
 
 	ctx.JSON(http.StatusOK, user)
 }
@@ -62,15 +73,140 @@ func (uc *UserController) UpdateUser(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param userId path string true "user ID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasUserPopulatedResponse
+// @Success 200 {object} schemas.UserPopulatedResponse
 // @Router /users/{userId} [get]
 func (uc *UserController) GetUserById(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 
-	populatedUser, err := uc.toUserMentoringRequestFacade.GetPopulatedUserById(ctx, uuid.MustParse(userID))
+	populatedUserRaw, err := uc.toUserMentoringRequestFacade.GetPopulatedUserById(ctx, uuid.MustParse(userID))
 	utils.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, populatedUser)
+	customWayCollections := lo.Map(populatedUserRaw.CustomWayCollections, func(collection openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse, _ int) schemas.WayCollectionPopulatedResponse {
+		return schemas.WayCollectionPopulatedResponse{
+			Uuid: collection.Uuid,
+			Name: collection.Name,
+			Ways: lo.Map(collection.Ways, func(way openapiGeneral.MwServerInternalSchemasWayPlainResponse, _ int) schemas.WayPlainResponse {
+				return schemas.WayPlainResponse{
+					Uuid:            way.Uuid,
+					Name:            way.Name,
+					GoalDescription: way.GoalDescription,
+					UpdatedAt:       way.UpdatedAt,
+					CreatedAt:       way.CreatedAt,
+					EstimationTime:  way.EstimationTime,
+					IsCompleted:     way.IsCompleted,
+					Owner: schemas.UserPlainResponse{
+						Uuid:        way.Owner.Uuid,
+						Name:        way.Owner.Name,
+						Email:       way.Owner.Email,
+						Description: way.Owner.Description,
+						CreatedAt:   way.Owner.CreatedAt,
+						ImageUrl:    way.Owner.ImageUrl,
+						IsMentor:    way.Owner.IsMentor,
+					},
+					CopiedFromWayUuid: way.CopiedFromWayUuid.Get(),
+					ProjectUuid:       way.ProjectUuid.Get(),
+					IsPrivate:         way.IsPrivate,
+					FavoriteForUsers:  way.FavoriteForUsers,
+					DayReportsAmount:  way.DayReportsAmount,
+					Mentors: lo.Map(way.Mentors, func(mentor openapiGeneral.MwServerInternalSchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+						return schemas.UserPlainResponse{
+							Uuid:        mentor.Uuid,
+							Name:        mentor.Name,
+							Email:       mentor.Email,
+							Description: mentor.Description,
+							CreatedAt:   mentor.CreatedAt,
+							ImageUrl:    mentor.ImageUrl,
+							IsMentor:    mentor.IsMentor,
+						}
+					}),
+					MetricsDone:   way.MetricsDone,
+					MetricsTotal:  way.MetricsTotal,
+					ChildrenUuids: way.ChildrenUuids,
+					WayTags: lo.Map(way.WayTags, func(tag openapiGeneral.MwServerInternalSchemasWayTagResponse, _ int) schemas.WayTagResponse {
+						return schemas.WayTagResponse{
+							Uuid: tag.Uuid,
+							Name: tag.Name,
+						}
+					}),
+				}
+			}),
+			CreatedAt: collection.CreatedAt,
+			UpdatedAt: collection.UpdatedAt,
+			OwnerUuid: collection.OwnerUuid,
+			Type:      collection.Type,
+		}
+	})
+
+	defaultWayCollections := schemas.DefaultWayCollections{
+		Own: schemas.WayCollectionPopulatedResponse{
+			Uuid:      populatedUserRaw.DefaultWayCollections.Own.Uuid,
+			Name:      populatedUserRaw.DefaultWayCollections.Own.Name,
+			CreatedAt: populatedUserRaw.DefaultWayCollections.Own.CreatedAt,
+			UpdatedAt: populatedUserRaw.DefaultWayCollections.Own.UpdatedAt,
+			OwnerUuid: populatedUserRaw.DefaultWayCollections.Own.OwnerUuid,
+			Type:      populatedUserRaw.DefaultWayCollections.Own.Type,
+			Ways:      lo.Map(populatedUserRaw.DefaultWayCollections.Own.Ways, ConvertWay),
+		},
+		Favorite: schemas.WayCollectionPopulatedResponse{
+			Uuid:      populatedUserRaw.DefaultWayCollections.Favorite.Uuid,
+			Name:      populatedUserRaw.DefaultWayCollections.Favorite.Name,
+			CreatedAt: populatedUserRaw.DefaultWayCollections.Favorite.CreatedAt,
+			UpdatedAt: populatedUserRaw.DefaultWayCollections.Favorite.UpdatedAt,
+			OwnerUuid: populatedUserRaw.DefaultWayCollections.Favorite.OwnerUuid,
+			Type:      populatedUserRaw.DefaultWayCollections.Favorite.Type,
+			Ways:      lo.Map(populatedUserRaw.DefaultWayCollections.Favorite.Ways, ConvertWay),
+		},
+		Mentoring: schemas.WayCollectionPopulatedResponse{
+			Uuid:      populatedUserRaw.DefaultWayCollections.Mentoring.Uuid,
+			Name:      populatedUserRaw.DefaultWayCollections.Mentoring.Name,
+			CreatedAt: populatedUserRaw.DefaultWayCollections.Mentoring.CreatedAt,
+			UpdatedAt: populatedUserRaw.DefaultWayCollections.Mentoring.UpdatedAt,
+			OwnerUuid: populatedUserRaw.DefaultWayCollections.Mentoring.OwnerUuid,
+			Type:      populatedUserRaw.DefaultWayCollections.Mentoring.Type,
+			Ways:      lo.Map(populatedUserRaw.DefaultWayCollections.Mentoring.Ways, ConvertWay),
+		},
+	}
+
+	response := schemas.UserPopulatedResponse{
+		Uuid:               populatedUserRaw.Uuid,
+		Name:               populatedUserRaw.Name,
+		Email:              populatedUserRaw.Email,
+		Description:        populatedUserRaw.Description,
+		CreatedAt:          populatedUserRaw.CreatedAt,
+		ImageUrl:           populatedUserRaw.ImageUrl,
+		IsMentor:           populatedUserRaw.IsMentor,
+		WayCollections:     customWayCollections,
+		DefaultCollections: defaultWayCollections,
+		FavoriteForUsers:   populatedUserRaw.FavoriteForUsers,
+		FavoriteUsers: lo.Map(populatedUserRaw.FavoriteUsers, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponse, _ int) schemas.UserPlainResponse {
+			return schemas.UserPlainResponse{
+				Uuid:        user.Uuid,
+				Name:        user.Name,
+				Email:       user.Email,
+				Description: user.Description,
+				CreatedAt:   user.CreatedAt,
+				ImageUrl:    user.ImageUrl,
+				IsMentor:    user.IsMentor,
+			}
+		}),
+		Tags: lo.Map(populatedUserRaw.Tags, func(tag openapiGeneral.MwServerInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
+			return schemas.UserTagResponse{
+				Uuid: tag.Uuid,
+				Name: tag.Name,
+			}
+		}),
+		WayRequests: lo.Map(populatedUserRaw.WayRequests, ConvertWay),
+		Projects: lo.Map(populatedUserRaw.Projects, func(project openapiGeneral.MwServerInternalSchemasProjectPlainResponse, _ int) schemas.ProjectPlainResponse {
+			return schemas.ProjectPlainResponse{
+				ID:        project.Id,
+				Name:      project.Name,
+				IsPrivate: project.IsPrivate,
+				UserIDs:   project.UserIds,
+			}
+		}),
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Get all users
@@ -84,7 +220,7 @@ func (uc *UserController) GetUserById(ctx *gin.Context) {
 // @Param email query string false "Part of user email for filters"
 // @Param name query string false "Part of user name for filters"
 // @Param mentorStatus query string false "'mentor' | 'all' status for filter"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasGetAllUsersResponse
+// @Success 200 {object} schemas.GetAllUsersResponse
 // @Router /users [get]
 func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 	page := ctx.DefaultQuery("page", "1")
@@ -99,7 +235,7 @@ func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 	reqLimit, err := strconv.Atoi(limit)
 	utils.HandleErrorGin(ctx, err)
 
-	response, err := uc.toUserMentoringRequestFacade.GetAllUsers(ctx, &services.GetAllUsersParams{
+	responseRaw, err := uc.toUserMentoringRequestFacade.GetAllUsers(ctx, &services.GetAllUsersParams{
 		MentorStatus: mentorStatus,
 		UserName:     name,
 		UserEmail:    email,
@@ -107,6 +243,31 @@ func (uc *UserController) GetAllUsers(ctx *gin.Context) {
 		Limit:        reqLimit,
 	})
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.GetAllUsersResponse{
+		Size: int64(responseRaw.Size),
+		Users: lo.Map(responseRaw.Users, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponseWithInfo, _ int) schemas.UserPlainResponseWithInfo {
+			return schemas.UserPlainResponseWithInfo{
+				Uuid:             user.Uuid,
+				Name:             user.Name,
+				Email:            user.Email,
+				ImageUrl:         user.ImageUrl,
+				IsMentor:         user.IsMentor,
+				Description:      user.Description,
+				CreatedAt:        user.CreatedAt,
+				FavoriteForUsers: user.FavoriteForUsers,
+				FavoriteWays:     user.FavoriteWays,
+				MentoringWays:    user.MentoringWays,
+				OwnWays:          user.OwnWays,
+				Tags: lo.Map(user.Tags, func(tag openapiGeneral.MwServerInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
+					return schemas.UserTagResponse{
+						Uuid: tag.Uuid,
+						Name: tag.Name,
+					}
+				}),
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }

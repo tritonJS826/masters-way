@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 // Without next lines swagger does not see openapi models
@@ -31,7 +32,7 @@ func NewJobDoneController(jobDoneFacade *facades.JobDoneFacade) *JobDoneControll
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateJobDonePayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse
+// @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Router /jobDones [post]
 func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 	var payload *schemas.CreateJobDonePayload
@@ -41,8 +42,29 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 		return
 	}
 
-	response, err := jc.jobDoneFacade.CreateJobDone(ctx, payload)
+	responseRaw, err := jc.jobDoneFacade.CreateJobDone(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          responseRaw.Uuid,
+		CreatedAt:     responseRaw.CreatedAt,
+		UpdatedAt:     responseRaw.UpdatedAt,
+		Description:   responseRaw.Description,
+		Time:          responseRaw.Time,
+		OwnerUuid:     responseRaw.OwnerUuid,
+		OwnerName:     responseRaw.OwnerName,
+		DayReportUuid: responseRaw.DayReportUuid,
+		WayUUID:       responseRaw.WayUuid,
+		WayName:       responseRaw.WayName,
+		Tags: lo.Map(responseRaw.Tags, func(tag openapiGeneral.MwServerInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -56,7 +78,7 @@ func (jc *JobDoneController) CreateJobDone(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateJobDone true "query params"
 // @Param jobDoneId path string true "jobDone UUID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse
+// @Success 200 {object} schemas.JobDonePopulatedResponse
 // @Router /jobDones/{jobDoneId} [patch]
 func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 	var payload *schemas.UpdateJobDone
@@ -77,8 +99,29 @@ func (jc *JobDoneController) UpdateJobDone(ctx *gin.Context) {
 		ModifierUserUuid: modifierUserId,
 	}
 
-	response, err := jc.jobDoneFacade.UpdateJobDone(ctx, params)
+	responseRaw, err := jc.jobDoneFacade.UpdateJobDone(ctx, params)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.JobDonePopulatedResponse{
+		Uuid:          responseRaw.Uuid,
+		CreatedAt:     responseRaw.CreatedAt,
+		UpdatedAt:     responseRaw.UpdatedAt,
+		Description:   responseRaw.Description,
+		Time:          responseRaw.Time,
+		OwnerUuid:     responseRaw.OwnerUuid,
+		OwnerName:     responseRaw.OwnerName,
+		DayReportUuid: responseRaw.DayReportUuid,
+		WayUUID:       responseRaw.WayUuid,
+		WayName:       responseRaw.WayName,
+		Tags: lo.Map(responseRaw.Tags, func(tag openapiGeneral.MwServerInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }

@@ -44,6 +44,7 @@ export interface GetTheoryMaterialsByTopicIdRequest {
 }
 
 export interface UpdateTheoryMaterialRequest {
+    theoryMaterialId: string;
     request: MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload;
 }
 
@@ -148,6 +149,10 @@ export class TheoryMaterialApi extends runtime.BaseAPI {
      * Update theory material
      */
     async updateTheoryMaterialRaw(requestParameters: UpdateTheoryMaterialRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTheoryMaterial>> {
+        if (requestParameters.theoryMaterialId === null || requestParameters.theoryMaterialId === undefined) {
+            throw new runtime.RequiredError('theoryMaterialId','Required parameter requestParameters.theoryMaterialId was null or undefined when calling updateTheoryMaterial.');
+        }
+
         if (requestParameters.request === null || requestParameters.request === undefined) {
             throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling updateTheoryMaterial.');
         }
@@ -159,7 +164,7 @@ export class TheoryMaterialApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/theoryMaterials`,
+            path: `/theoryMaterials/{theoryMaterialId}`.replace(`{${"theoryMaterialId"}}`, encodeURIComponent(String(requestParameters.theoryMaterialId))),
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,

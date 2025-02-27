@@ -576,6 +576,8 @@ LEFT JOIN
     trainings_mentors ON trainings_mentors.training_uuid = trainings.uuid
 LEFT JOIN
     trainings_students ON trainings_students.training_uuid = trainings.uuid
+LEFT JOIN
+    topics ON topics.training_uuid = trainings.uuid
 WHERE
     (LOWER(trainings.name) LIKE '%' || LOWER($1) || '%' OR $1 = '')
     AND

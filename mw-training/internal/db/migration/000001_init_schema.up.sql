@@ -48,7 +48,7 @@ CREATE TABLE "trainings_students" (
 
 CREATE TABLE topics (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "name" VARCHAR (512),
+    "name" VARCHAR (300),
     "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "topic_order" INTEGER NOT NULL CHECK (topic_order BETWEEN 0 AND 52560000) DEFAULT 0,
     "parent" UUID REFERENCES topics("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
@@ -59,7 +59,7 @@ CREATE TABLE topics (
 CREATE TABLE theory_materials (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "topic_uuid" UUID NOT NULL REFERENCES topics("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "name" VARCHAR(50),
+    "name" VARCHAR(128),
     "theory_material_order" INTEGER NOT NULL CHECK (theory_material_order BETWEEN 0 AND 10000) DEFAULT 0,
     "description" VARCHAR(10000),
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -73,7 +73,7 @@ CREATE TYPE practice_type AS ENUM ('input_word');
 CREATE TABLE practice_materials (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "topic_uuid" UUID NOT NULL REFERENCES topics("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "name" VARCHAR(50),
+    "name" VARCHAR(128),
     "practice_material_order" INTEGER NOT NULL CHECK (practice_material_order BETWEEN 0 AND 10000) DEFAULT 0,
     "task_description" VARCHAR(10000),
     "answer" VARCHAR(10000),

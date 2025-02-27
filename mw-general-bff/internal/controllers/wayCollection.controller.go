@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 // Without next lines swagger does not see openapi models
@@ -29,7 +30,7 @@ func NewWayCollectionController(wayCollectionFacade *facades.WayCollectionFacade
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayCollectionPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayCollectionPopulatedResponse
+// @Success 200 {object} schemas.WayCollectionPopulatedResponse
 // @Router /wayCollections [post]
 func (wc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 	var payload *schemas.CreateWayCollectionPayload
@@ -43,8 +44,18 @@ func (wc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 		Name:      payload.Name,
 		OwnerUuid: payload.OwnerUuid,
 	}
-	response, err := wc.wayCollectionFacade.CreateWayCollection(ctx, args)
+	responseRaw, err := wc.wayCollectionFacade.CreateWayCollection(ctx, args)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.WayCollectionPopulatedResponse{
+		Uuid:      responseRaw.Uuid,
+		Name:      responseRaw.Name,
+		Ways:      lo.Map(responseRaw.Ways, ConvertWay),
+		CreatedAt: responseRaw.CreatedAt,
+		UpdatedAt: responseRaw.UpdatedAt,
+		OwnerUuid: responseRaw.OwnerUuid,
+		Type:      responseRaw.Type,
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -58,7 +69,7 @@ func (wc *WayCollectionController) CreateWayCollection(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateWayCollectionPayload true "query params"
 // @Param wayCollectionId path string true "wayCollection ID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayCollectionPlainResponse
+// @Success 200 {object} schemas.WayCollectionPlainResponse
 // @Router /wayCollections/{wayCollectionId} [patch]
 func (wc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 	var payload *schemas.UpdateWayCollectionPayload
@@ -69,8 +80,13 @@ func (wc *WayCollectionController) UpdateWayCollection(ctx *gin.Context) {
 		return
 	}
 
-	wayCollection, err := wc.wayCollectionFacade.UpdateWayCollection(ctx, wayCollectionID, payload.Name)
+	wayCollectionRaw, err := wc.wayCollectionFacade.UpdateWayCollection(ctx, wayCollectionID, payload.Name)
 	utils.HandleErrorGin(ctx, err)
+
+	wayCollection := schemas.WayCollectionPlainResponse{
+		Uuid: wayCollectionRaw.Uuid,
+		Name: wayCollectionRaw.Name,
+	}
 
 	ctx.JSON(http.StatusOK, wayCollection)
 }

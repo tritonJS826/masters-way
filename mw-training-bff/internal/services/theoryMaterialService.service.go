@@ -69,8 +69,8 @@ func (tms *TheoryMaterialService) CreateTheoryMaterial(ctx context.Context, para
 
 type UpdateTheoryMaterialParams struct {
 	TheoryMaterialId string
-	Name             string
-	Description      string
+	Name             *string
+	Description      *string
 }
 
 func (tms *TheoryMaterialService) UpdateTheoryMaterial(ctx context.Context, params *UpdateTheoryMaterialParams) (*schemas.TheoryMaterial, error) {

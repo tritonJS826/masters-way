@@ -40,26 +40,6 @@ paths:
       tags:
       - favorite-user-training
   /practiceMaterials:
-    patch:
-      operationId: update-practice-material
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
-          description: OK
-      summary: Update practice material
-      tags:
-      - practice-material
-      x-codegen-request-body-name: request
     post:
       operationId: create-practice-material
       requestBody:
@@ -67,7 +47,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
-        description: query params
+        description: "query params, client must use for PracticeType: 'input_word'"
         required: true
       responses:
         "200":
@@ -97,6 +77,33 @@ paths:
       summary: Delete practice material
       tags:
       - practice-material
+    patch:
+      operationId: update-practice-material
+      parameters:
+      - description: practice material id
+        in: path
+        name: practiceMaterialId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
+          description: OK
+      summary: Update practice material
+      tags:
+      - practice-material
+      x-codegen-request-body-name: request
   /practiceMaterials/{topicId}:
     get:
       operationId: get-practice-materials-by-topic-id
@@ -118,26 +125,6 @@ paths:
       tags:
       - practice-material
   /theoryMaterials:
-    patch:
-      operationId: update-theory-material
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
-          description: OK
-      summary: Update theory material
-      tags:
-      - theory-material
-      x-codegen-request-body-name: request
     post:
       operationId: create-theory-material
       requestBody:
@@ -175,6 +162,33 @@ paths:
       summary: Delete theory material
       tags:
       - theory-material
+    patch:
+      operationId: update-theory-material
+      parameters:
+      - description: theory material id
+        in: path
+        name: theoryMaterialId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
+          description: OK
+      summary: Update theory material
+      tags:
+      - theory-material
+      x-codegen-request-body-name: request
   /theoryMaterials/{topicId}:
     get:
       operationId: get-theory-materials-by-topic-id
@@ -212,6 +226,25 @@ paths:
       summary: Delete topic by Uuid
       tags:
       - topic
+    get:
+      operationId: get-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+          description: OK
+      summary: Get topic by id
+      tags:
+      - topic
     patch:
       operationId: update-topic
       parameters:
@@ -233,31 +266,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
           description: OK
       summary: Update topic
       tags:
       - topic
       x-codegen-request-body-name: request
-    post:
-      operationId: get-topic
-      parameters:
-      - description: topic id
-        in: path
-        name: topicId
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
-          description: OK
-      summary: Get topic by id
-      tags:
-      - topic
   /topics/{trainingId}:
     post:
       operationId: create-topic
@@ -1195,6 +1209,8 @@ components:
           type: string
         name:
           type: string
+        order:
+          type: integer
         practiceType:
           type: string
         taskDescription:

@@ -1,6 +1,7 @@
 -- name: GetTheoryMaterialsByTopicId :many
 SELECT * FROM theory_materials
-WHERE theory_materials.topic_uuid = @topic_uuid;
+WHERE theory_materials.topic_uuid = @topic_uuid
+ORDER BY created_at;
 
 -- name: CreateTheoryMaterialInTopic :one
 INSERT INTO theory_materials(

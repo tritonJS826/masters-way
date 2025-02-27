@@ -229,11 +229,11 @@ message PracticeMaterial {
 
 message UpdatePracticeMaterialRequest {
   string uuid = 1;
-  string name = 2;
-  string description = 3;
-  string answer = 4;
-  string practice_type = 5;
-  int32 time_to_answer = 6;
+  optional string name = 2;
+  optional string description = 3;
+  optional string answer = 4;
+  optional string practice_type = 5;
+  optional int32 time_to_answer = 6;
 }
 
 message DeletePracticeMaterialRequest {
@@ -258,8 +258,8 @@ message TheoryMaterial {
 
 message UpdateTheoryMaterialRequest {
   string uuid = 1;
-  string name = 2;
-  string description = 3;
+  optional string name = 2;
+  optional string description = 3;
 }
 
 message DeleteTheoryMaterialRequest {

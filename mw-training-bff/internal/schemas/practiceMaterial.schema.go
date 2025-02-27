@@ -7,8 +7,8 @@ type CreateTheoryMaterialPayload struct {
 }
 
 type UpdateTheoryMaterialPayload struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	Name        *string `json:"name"`
+	Description *string `json:"description"`
 }
 
 type TheoryMaterials struct {

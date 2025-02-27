@@ -11,6 +11,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 // Without next lines swagger does not see openapi models
@@ -33,7 +34,7 @@ func NewWayController(wayFacade *facades.WayFacade) *WayController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayFromTrainingPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayPlainResponse
+// @Success 200 {object} schemas.CreateWayFromTrainingResponse
 // @Router /ways/createFromTraining [post]
 func (wc *WayController) CreateWayFromTraining(ctx *gin.Context) {
 	var payload *schemas.CreateWayFromTrainingPayload
@@ -50,8 +51,12 @@ func (wc *WayController) CreateWayFromTraining(ctx *gin.Context) {
 		TrainingId: payload.TrainingId,
 		OwnerId:    userID,
 	}
-	way, err := wc.wayFacade.CreateWayFromTraining(ctx, args)
+	wayRaw, err := wc.wayFacade.CreateWayFromTraining(ctx, args)
 	utils.HandleErrorGin(ctx, err)
+
+	way := schemas.CreateWayFromTrainingResponse{
+		WayUuid: wayRaw.Uuid,
+	}
 
 	ctx.JSON(http.StatusOK, way)
 }
@@ -64,7 +69,7 @@ func (wc *WayController) CreateWayFromTraining(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayPlainResponse
+// @Success 200 {object} schemas.WayPlainResponse
 // @Router /ways [post]
 func (wc *WayController) CreateWay(ctx *gin.Context) {
 	var payload *schemas.CreateWayPayload
@@ -74,8 +79,10 @@ func (wc *WayController) CreateWay(ctx *gin.Context) {
 		return
 	}
 
-	way, err := wc.wayFacade.CreateWay(ctx, payload)
+	wayRaw, err := wc.wayFacade.CreateWay(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
+
+	way := ConvertWay(*wayRaw, 0)
 
 	ctx.JSON(http.StatusOK, way)
 }
@@ -89,7 +96,7 @@ func (wc *WayController) CreateWay(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateWayPayload true "query params"
 // @Param wayId path string true "way ID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayPlainResponse
+// @Success 200 {object} schemas.WayPlainResponse
 // @Router /ways/{wayId} [patch]
 func (wc *WayController) UpdateWay(ctx *gin.Context) {
 	var payload *schemas.UpdateWayPayload
@@ -109,8 +116,10 @@ func (wc *WayController) UpdateWay(ctx *gin.Context) {
 		IsCompleted:     payload.IsCompleted,
 	}
 
-	way, err := wc.wayFacade.UpdateWay(ctx, args)
+	wayRaw, err := wc.wayFacade.UpdateWay(ctx, args)
 	utils.HandleErrorGin(ctx, err)
+
+	way := ConvertWay(*wayRaw, 0)
 
 	ctx.JSON(http.StatusOK, way)
 }
@@ -123,7 +132,7 @@ func (wc *WayController) UpdateWay(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayId path string true "way ID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayPopulatedResponse
+// @Success 200 {object} schemas.WayPopulatedResponse
 // @Router /ways/{wayId} [get]
 func (wc *WayController) GetWayById(ctx *gin.Context) {
 	wayUUID := ctx.Param("wayId")
@@ -146,7 +155,7 @@ func (wc *WayController) GetWayById(ctx *gin.Context) {
 // @Param minDayReportsAmount query integer false "Min day reports amount"
 // @Param wayName query string false "Way name"
 // @Param status query string false "Ways type: all | completed | inProgress | abandoned"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasGetAllWaysResponse
+// @Success 200 {object} schemas.GetAllWaysResponse
 // @Router /ways [get]
 func (wc *WayController) GetAllWays(ctx *gin.Context) {
 	page := ctx.DefaultQuery("page", "1")
@@ -159,7 +168,7 @@ func (wc *WayController) GetAllWays(ctx *gin.Context) {
 	reqLimit, _ := strconv.Atoi(limit)
 	reqMinDayReportsAmount, _ := strconv.Atoi(minDayReportsAmount)
 
-	allWays, err := wc.wayFacade.GetAllWays(ctx, &services.GetAllWaysParams{
+	allWaysRaw, err := wc.wayFacade.GetAllWays(ctx, &services.GetAllWaysParams{
 		Status:                 status,
 		WayName:                wayName,
 		Page:                   reqPage,
@@ -167,6 +176,11 @@ func (wc *WayController) GetAllWays(ctx *gin.Context) {
 		Limit:                  reqLimit,
 	})
 	utils.HandleErrorGin(ctx, err)
+
+	allWays := schemas.GetAllWaysResponse{
+		Size: allWaysRaw.Size,
+		Ways: lo.Map(allWaysRaw.Ways, ConvertWay),
+	}
 
 	ctx.JSON(http.StatusOK, allWays)
 }
@@ -198,13 +212,112 @@ func (wc *WayController) DeleteWayById(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param wayId path string true "way ID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayStatisticsTriplePeriod
+// @Success 200 {object} schemas.WayStatisticsTriplePeriod
 // @Router /ways/{wayId}/statistics [get]
 func (wc *WayController) GetWayStatisticsById(ctx *gin.Context) {
 	wayUUID := ctx.Param("wayId")
 
-	response, err := wc.wayFacade.GetWayStatisticsById(ctx, wayUUID)
+	responseRaw, err := wc.wayFacade.GetWayStatisticsById(ctx, wayUUID)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.WayStatisticsTriplePeriod{
+		TotalTime: schemas.WayStatistics{
+			TimeSpentByDayChart: lo.Map(responseRaw.TotalTime.TimeSpentByDayChart, func(point openapiGeneral.MwServerInternalSchemasTimeSpentByDayPoint, _ int) schemas.TimeSpentByDayPoint {
+				return schemas.TimeSpentByDayPoint{
+					Value: int(point.Value),
+					Date:  point.Date,
+				}
+			}),
+			OverallInformation: schemas.OverallInformation{
+				TotalTime:                 int(responseRaw.TotalTime.OverallInformation.TotalTime),
+				TotalReports:              int(responseRaw.TotalTime.OverallInformation.TotalReports),
+				FinishedJobs:              int(responseRaw.TotalTime.OverallInformation.FinishedJobs),
+				AverageTimePerCalendarDay: int(responseRaw.TotalTime.OverallInformation.AverageTimePerCalendarDay),
+				AverageTimePerWorkingDay:  int(responseRaw.TotalTime.OverallInformation.AverageTimePerWorkingDay),
+				AverageJobTime:            int(responseRaw.TotalTime.OverallInformation.AverageJobTime),
+			},
+			LabelStatistics: schemas.LabelStatistics{
+				Labels: lo.Map(responseRaw.TotalTime.LabelStatistics.Labels, func(labelInfo openapiGeneral.MwServerInternalSchemasLabelInfo, _ int) schemas.LabelInfo {
+					return schemas.LabelInfo{
+						Label: schemas.Label{
+							ID:          labelInfo.Label.Uuid,
+							Name:        labelInfo.Label.Name,
+							Color:       labelInfo.Label.Color,
+							Description: labelInfo.Label.Description,
+						},
+						JobsAmount:           int(labelInfo.JobsAmount),
+						JobsAmountPercentage: int(labelInfo.JobsAmountPercentage),
+						Time:                 int(labelInfo.Time),
+						TimePercentage:       int(labelInfo.TimePercentage),
+					}
+				}),
+			},
+		},
+		LastMonth: schemas.WayStatistics{
+			TimeSpentByDayChart: lo.Map(responseRaw.LastMonth.TimeSpentByDayChart, func(point openapiGeneral.MwServerInternalSchemasTimeSpentByDayPoint, _ int) schemas.TimeSpentByDayPoint {
+				return schemas.TimeSpentByDayPoint{
+					Value: int(point.Value),
+					Date:  point.Date,
+				}
+			}),
+			OverallInformation: schemas.OverallInformation{
+				TotalTime:                 int(responseRaw.LastMonth.OverallInformation.TotalTime),
+				TotalReports:              int(responseRaw.LastMonth.OverallInformation.TotalReports),
+				FinishedJobs:              int(responseRaw.LastMonth.OverallInformation.FinishedJobs),
+				AverageTimePerCalendarDay: int(responseRaw.LastMonth.OverallInformation.AverageTimePerCalendarDay),
+				AverageTimePerWorkingDay:  int(responseRaw.LastMonth.OverallInformation.AverageTimePerWorkingDay),
+				AverageJobTime:            int(responseRaw.LastMonth.OverallInformation.AverageJobTime),
+			},
+			LabelStatistics: schemas.LabelStatistics{
+				Labels: lo.Map(responseRaw.LastMonth.LabelStatistics.Labels, func(labelInfo openapiGeneral.MwServerInternalSchemasLabelInfo, _ int) schemas.LabelInfo {
+					return schemas.LabelInfo{
+						Label: schemas.Label{
+							ID:          labelInfo.Label.Uuid,
+							Name:        labelInfo.Label.Name,
+							Color:       labelInfo.Label.Color,
+							Description: labelInfo.Label.Description,
+						},
+						JobsAmount:           int(labelInfo.JobsAmount),
+						JobsAmountPercentage: int(labelInfo.JobsAmountPercentage),
+						Time:                 int(labelInfo.Time),
+						TimePercentage:       int(labelInfo.TimePercentage),
+					}
+				}),
+			},
+		},
+		LastWeek: schemas.WayStatistics{
+			TimeSpentByDayChart: lo.Map(responseRaw.LastWeek.TimeSpentByDayChart, func(point openapiGeneral.MwServerInternalSchemasTimeSpentByDayPoint, _ int) schemas.TimeSpentByDayPoint {
+				return schemas.TimeSpentByDayPoint{
+					Value: int(point.Value),
+					Date:  point.Date,
+				}
+			}),
+			OverallInformation: schemas.OverallInformation{
+				TotalTime:                 int(responseRaw.LastWeek.OverallInformation.TotalTime),
+				TotalReports:              int(responseRaw.LastWeek.OverallInformation.TotalReports),
+				FinishedJobs:              int(responseRaw.LastWeek.OverallInformation.FinishedJobs),
+				AverageTimePerCalendarDay: int(responseRaw.LastWeek.OverallInformation.AverageTimePerCalendarDay),
+				AverageTimePerWorkingDay:  int(responseRaw.LastWeek.OverallInformation.AverageTimePerWorkingDay),
+				AverageJobTime:            int(responseRaw.LastWeek.OverallInformation.AverageJobTime),
+			},
+			LabelStatistics: schemas.LabelStatistics{
+				Labels: lo.Map(responseRaw.LastWeek.LabelStatistics.Labels, func(labelInfo openapiGeneral.MwServerInternalSchemasLabelInfo, _ int) schemas.LabelInfo {
+					return schemas.LabelInfo{
+						Label: schemas.Label{
+							ID:          labelInfo.Label.Uuid,
+							Name:        labelInfo.Label.Name,
+							Color:       labelInfo.Label.Color,
+							Description: labelInfo.Label.Description,
+						},
+						JobsAmount:           int(labelInfo.JobsAmount),
+						JobsAmountPercentage: int(labelInfo.JobsAmountPercentage),
+						Time:                 int(labelInfo.Time),
+						TimePercentage:       int(labelInfo.TimePercentage),
+					}
+				}),
+			},
+		},
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }

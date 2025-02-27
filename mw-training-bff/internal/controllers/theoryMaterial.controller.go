@@ -90,6 +90,7 @@ func (tmc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
 // @ID update-theory-material
 // @Accept json
 // @Produce json
+// @Param theoryMaterialId path string true "theory material id"
 // @Param request body schemas.UpdateTheoryMaterialPayload true "query params"
 // @Success 200 {object} schemas.TheoryMaterial
 // @Router /theoryMaterials/{theoryMaterialId} [patch]

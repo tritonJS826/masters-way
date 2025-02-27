@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 // Without next lines swagger does not see openapi models
@@ -31,7 +32,7 @@ func NewPlanController(planFacade *facades.PlanFacade) *PlanController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreatePlanPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasCreatePlanPayload
+// @Success 200 {object} schemas.PlanPopulatedResponse
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to create plan."
 // @Router /plans [post]
 func (pc *PlanController) CreatePlan(ctx *gin.Context) {
@@ -42,8 +43,30 @@ func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 		return
 	}
 
-	response, err := pc.planFacade.CreatePlan(ctx, payload)
+	responseRaw, err := pc.planFacade.CreatePlan(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.PlanPopulatedResponse{
+		Uuid:          responseRaw.Uuid,
+		CreatedAt:     responseRaw.CreatedAt,
+		UpdatedAt:     responseRaw.UpdatedAt,
+		Description:   responseRaw.Description,
+		Time:          responseRaw.Time,
+		OwnerUuid:     responseRaw.OwnerUuid,
+		OwnerName:     responseRaw.OwnerName,
+		IsDone:        responseRaw.IsDone,
+		DayReportUuid: responseRaw.DayReportUuid,
+		WayUUID:       responseRaw.WayUuid,
+		WayName:       responseRaw.WayName,
+		Tags: lo.Map(responseRaw.Tags, func(tag openapiGeneral.MwServerInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -57,7 +80,7 @@ func (pc *PlanController) CreatePlan(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdatePlanPayload true "query params"
 // @Param planId path string true "plan UUID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasCreatePlanPayload
+// @Success 200 {object} schemas.PlanPopulatedResponse
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to update plan."
 // @Router /plans/{planId} [patch]
 func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
@@ -72,7 +95,7 @@ func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
 		return
 	}
 
-	plan, err := pc.planFacade.UpdatePlan(ctx, &services.UpdatePlanParams{
+	planRaw, err := pc.planFacade.UpdatePlan(ctx, &services.UpdatePlanParams{
 		PlanID:           planID,
 		Description:      payload.Description,
 		Time:             payload.Time,
@@ -80,6 +103,28 @@ func (pc *PlanController) UpdatePlan(ctx *gin.Context) {
 		ModifierUserUuid: modifierUserId,
 	})
 	utils.HandleErrorGin(ctx, err)
+
+	plan := schemas.PlanPopulatedResponse{
+		Uuid:          planRaw.Uuid,
+		CreatedAt:     planRaw.CreatedAt,
+		UpdatedAt:     planRaw.UpdatedAt,
+		Description:   planRaw.Description,
+		Time:          planRaw.Time,
+		OwnerUuid:     planRaw.OwnerUuid,
+		OwnerName:     planRaw.OwnerName,
+		IsDone:        planRaw.IsDone,
+		DayReportUuid: planRaw.DayReportUuid,
+		WayUUID:       planRaw.WayUuid,
+		WayName:       planRaw.WayName,
+		Tags: lo.Map(planRaw.Tags, func(tag openapiGeneral.MwServerInternalSchemasJobTagResponse, _ int) schemas.JobTagResponse {
+			return schemas.JobTagResponse{
+				Uuid:        tag.Uuid,
+				Name:        tag.Name,
+				Description: tag.Description,
+				Color:       tag.Color,
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, plan)
 }

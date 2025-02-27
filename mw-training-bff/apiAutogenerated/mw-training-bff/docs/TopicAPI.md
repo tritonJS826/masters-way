@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateTopic**](TopicAPI.md#CreateTopic) | **Post** /topics/{trainingId} | Create topic
 [**DeleteTopic**](TopicAPI.md#DeleteTopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
-[**GetTopic**](TopicAPI.md#GetTopic) | **Post** /topics/{topicId} | Get topic by id
+[**GetTopic**](TopicAPI.md#GetTopic) | **Get** /topics/{topicId} | Get topic by id
 [**UpdateTopic**](TopicAPI.md#UpdateTopic) | **Patch** /topics/{topicId} | Update topic
 
 
@@ -217,7 +217,7 @@ No authorization required
 
 ## UpdateTopic
 
-> MwTrainingBffInternalSchemasTopic UpdateTopic(ctx, topicId).Request(request).Execute()
+> MwTrainingBffInternalSchemasTopicPreview UpdateTopic(ctx, topicId).Request(request).Execute()
 
 Update topic
 
@@ -244,7 +244,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.UpdateTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateTopic`: MwTrainingBffInternalSchemasTopic
+	// response from `UpdateTopic`: MwTrainingBffInternalSchemasTopicPreview
 	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.UpdateTopic`: %v\n", resp)
 }
 ```
@@ -269,7 +269,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md)
+[**MwTrainingBffInternalSchemasTopicPreview**](MwTrainingBffInternalSchemasTopicPreview.md)
 
 ### Authorization
 

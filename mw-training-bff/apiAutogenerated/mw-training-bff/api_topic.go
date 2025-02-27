@@ -415,7 +415,7 @@ func (a *TopicAPIService) GetTopic(ctx context.Context, topicId string) ApiGetTo
 //  @return MwTrainingBffInternalSchemasTopic
 func (a *TopicAPIService) GetTopicExecute(r ApiGetTopicRequest) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
 		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
@@ -491,7 +491,7 @@ func (a *TopicAPIService) GetTopicExecute(r ApiGetTopicRequest) (*MwTrainingBffI
 //  @return MwTrainingBffInternalSchemasTopicStream
 func (a *TopicAPIService) GetTopicStreamExecute(r ApiGetTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
 	)
 
@@ -584,7 +584,7 @@ func (r ApiUpdateTopicRequest) Request(request MwTrainingBffInternalSchemasUpdat
 	return r
 }
 
-func (r ApiUpdateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+func (r ApiUpdateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	return r.ApiService.UpdateTopicExecute(r)
 }
 
@@ -604,13 +604,13 @@ func (a *TopicAPIService) UpdateTopic(ctx context.Context, topicId string) ApiUp
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopic
-func (a *TopicAPIService) UpdateTopicExecute(r ApiUpdateTopicRequest) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreview
+func (a *TopicAPIService) UpdateTopicExecute(r ApiUpdateTopicRequest) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.UpdateTopic")
@@ -685,11 +685,11 @@ func (a *TopicAPIService) UpdateTopicExecute(r ApiUpdateTopicRequest) (*MwTraini
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopicStream
-func (a *TopicAPIService) UpdateTopicStreamExecute(r ApiUpdateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreviewStream
+func (a *TopicAPIService) UpdateTopicStreamExecute(r ApiUpdateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.UpdateTopic")

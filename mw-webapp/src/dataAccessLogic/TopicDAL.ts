@@ -68,12 +68,12 @@ export class TopicDAL {
   /**
    * Update topic
    */
-  public static async updateTopic(topic: PartialWithUuid<Topic>): Promise<Topic> {
+  public static async updateTopic(topic: PartialWithUuid<Topic>): Promise<TopicPreview> {
     const updatedTopicDTO = await TopicService.updateTopic({
       topicId: topic.uuid,
       request: {name: topic.name ?? ""},
     });
-    const updatedTopic = topicDTOToTopic(updatedTopicDTO);
+    const updatedTopic = topicPreviewDTOToTopicPreview(updatedTopicDTO);
 
     return updatedTopic;
   }

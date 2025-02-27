@@ -491,7 +491,7 @@ func TestGetUsersByIDs(t *testing.T) {
 			t.Fatalf("Failed to get users by ids: %v", err)
 		}
 
-		expectedData := []openapiGeneral.MwServerInternalSchemasGetUsersByIDsResponse{
+		expectedData := []openapiGeneral.MwServerInternalSchemasShortUser{
 			{
 				ImageUrl: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fyandex.com%2Fimages%2F%3Flr%3D87%26redircnt%3D1694438178.1&psig=AOvVaw2zWpFWOHXwuTI0x6EM4vXB&ust=1719409370844000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCID3x67x9oYDFQAAAAAdAAAAABAE",
 				Name:     "John Doe",

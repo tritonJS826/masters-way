@@ -34,7 +34,7 @@ export class TopicService {
   /**
    * Update topic
    */
-  public static async updateTopic(requestParameters: UpdateTopicRequest): Promise<MwTrainingBffInternalSchemasTopic> {
+  public static async updateTopic(requestParameters: UpdateTopicRequest): Promise<MwTrainingBffInternalSchemasTopicPreview> {
     const updatedTopic = await topicService.updateTopic(requestParameters);
 
     return updatedTopic;

@@ -33,6 +33,12 @@ export interface MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload {
     name?: string;
     /**
      * 
+     * @type {number}
+     * @memberof MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload
+     */
+    order?: number;
+    /**
+     * 
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload
      */
@@ -77,6 +83,7 @@ export function MwTrainingBffInternalSchemasUpdatePracticeMaterialPayloadFromJSO
         
         'answer': !exists(json, 'answer') ? undefined : json['answer'],
         'name': !exists(json, 'name') ? undefined : json['name'],
+        'order': !exists(json, 'order') ? undefined : json['order'],
         'practiceType': !exists(json, 'practiceType') ? undefined : json['practiceType'],
         'taskDescription': !exists(json, 'taskDescription') ? undefined : json['taskDescription'],
         'timeToAnswer': !exists(json, 'timeToAnswer') ? undefined : json['timeToAnswer'],
@@ -95,6 +102,7 @@ export function MwTrainingBffInternalSchemasUpdatePracticeMaterialPayloadToJSON(
         
         'answer': value.answer,
         'name': value.name,
+        'order': value.order,
         'practiceType': value.practiceType,
         'taskDescription': value.taskDescription,
         'timeToAnswer': value.timeToAnswer,

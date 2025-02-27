@@ -86,44 +86,12 @@ const docTemplate = `{
                 "operationId": "create-practice-material",
                 "parameters": [
                     {
-                        "description": "query params",
+                        "description": "query params, client must use for PracticeType: 'input_word'",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.PracticeMaterial"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "practice-material"
-                ],
-                "summary": "Update practice material",
-                "operationId": "update-practice-material",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload"
                         }
                     }
                 ],
@@ -162,6 +130,45 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "practice-material"
+                ],
+                "summary": "Update practice material",
+                "operationId": "update-practice-material",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "practice material id",
+                        "name": "practiceMaterialId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.PracticeMaterial"
+                        }
                     }
                 }
             }
@@ -230,38 +237,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "theory-material"
-                ],
-                "summary": "Update theory material",
-                "operationId": "update-theory-material",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TheoryMaterial"
-                        }
-                    }
-                }
             }
         },
         "/theoryMaterials/{theoryMaterialId}": {
@@ -289,6 +264,45 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "theory-material"
+                ],
+                "summary": "Update theory material",
+                "operationId": "update-theory-material",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "theory material id",
+                        "name": "theoryMaterialId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TheoryMaterial"
+                        }
                     }
                 }
             }
@@ -417,7 +431,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Topic"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
                         }
                     }
                 }
@@ -1418,6 +1432,9 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "order": {
+                    "type": "integer"
                 },
                 "practiceType": {
                     "type": "string"

@@ -9,7 +9,7 @@ export class HealthCheckService {
    * Check the health of the API
    */
   public static async getHealthCheck(): Promise<void> {
-    await healthCheckService.generalHealthCheck();
+    await healthCheckService.healthcheckGet();
   }
 
 }

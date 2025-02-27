@@ -4,6 +4,10 @@ type CreateWayFromTrainingPayload struct {
 	TrainingId string `json:"trainingId" validate:"required"`
 }
 
+type CreateWayFromTrainingResponse struct {
+	WayUuid string `json:"wayUuid" validate:"required"`
+}
+
 type CreateWayPayload struct {
 	Name            string  `json:"name" validate:"required"`
 	GoalDescription string  `json:"goalDescription" validate:"required"`
@@ -44,6 +48,10 @@ type WayPlainResponse struct {
 	ChildrenUuids     []string            `json:"childrenUuids" validate:"required"`
 }
 
+type MetricTreeNode struct {
+	Metric   MetricResponse    `json:"metric" validate:"required"`
+	Children []*MetricTreeNode `json:"children" validate:"required"`
+}
 type WayPopulatedResponse struct {
 	Uuid                   string                 `json:"uuid" validate:"required"`
 	Name                   string                 `json:"name" validate:"required"`
@@ -55,13 +63,13 @@ type WayPopulatedResponse struct {
 	IsPrivate              bool                   `json:"isPrivate" validate:"required"`
 	Owner                  UserPlainResponse      `json:"owner" validate:"required"`
 	Mentors                []UserPlainResponse    `json:"mentors" validate:"required"`
-	FormerMentors          []UserPlainResponse    `json:"formerMentors" validate:"required"`
-	FromUserMentorRequests []UserPlainResponse    `json:"mentorRequests" validate:"required"`
 	FavoriteForUsersAmount int32                  `json:"favoriteForUsersAmount" validate:"required"`
 	WayTags                []WayTagResponse       `json:"wayTags" validate:"required"`
-	JobTags                []JobTagResponse       `json:"jobTags" validate:"required"`
-	Metrics                []MetricResponse       `json:"metrics" validate:"required"`
 	CopiedFromWayUuid      *string                `json:"copiedFromWayUuid" validate:"required" extensions:"x-nullable"`
+	FormerMentors          []UserPlainResponse    `json:"formerMentors" validate:"required"`
+	FromUserMentorRequests []UserPlainResponse    `json:"mentorRequests" validate:"required"`
+	JobTags                []JobTagResponse       `json:"jobTags" validate:"required"`
+	Metrics                []*MetricTreeNode      `json:"metrics" validate:"required"`
 	ProjectUuid            *string                `json:"projectUuid" validate:"required" extensions:"x-nullable"`
 	Children               []WayPopulatedResponse `json:"children" validate:"required"`
 }

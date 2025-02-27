@@ -29,7 +29,7 @@ func NewWayTagController(wayTagFacade *facades.WayTagFacade) *WayTagController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateWayTagPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasWayTagResponse
+// @Success 200 {object} schemas.WayTagResponse
 // @Router /wayTags [post]
 func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 	var payload *schemas.CreateWayTagPayload
@@ -39,8 +39,13 @@ func (cc *WayTagController) AddWayTagToWay(ctx *gin.Context) {
 		return
 	}
 
-	response, err := cc.wayTagFacade.AddWayTagToWay(ctx, payload.Name, payload.WayUuid)
+	responseRaw, err := cc.wayTagFacade.AddWayTagToWay(ctx, payload.Name, payload.WayUuid)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.WayTagResponse{
+		Uuid: responseRaw.Uuid,
+		Name: responseRaw.Name,
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
