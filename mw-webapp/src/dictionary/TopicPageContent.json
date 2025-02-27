@@ -85,7 +85,7 @@
       "en": "Are you sure you want to delete the practical material",
       "ua": "Ви впевнені, що хочете видалити практичний матеріал"
     },
-    "deleteTopicTooltip": {
+    "deleteMaterialTooltip": {
       "ru": "Удалить материал",
       "en": "Delete material",
       "ua": "Видалити матеріал"

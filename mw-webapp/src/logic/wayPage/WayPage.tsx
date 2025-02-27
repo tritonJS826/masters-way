@@ -69,8 +69,8 @@ import {TreeUtils} from "src/utils/TreeUtils";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/wayPage/WayPage.module.scss";
 
-const MAX_LENGTH_WAYNAME = 50;
-const MIN_LENGTH_WAYNAME = 1;
+export const MAX_LENGTH_WAYNAME = 50;
+export const MIN_LENGTH_WAYNAME = 1;
 
 const LIKE_VALUE = 1;
 export const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {

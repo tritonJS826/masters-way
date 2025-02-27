@@ -5,7 +5,7 @@ $wayCardAdditionalHeight: 118px;
 
 .cardLink {
   text-decoration: none;
-  width: 100%;
+  // width: 100%;
 }
 
 .topicCard {
@@ -17,6 +17,12 @@ $wayCardAdditionalHeight: 118px;
 
 .topicTitleAndLink {
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.topicTitle {
+  width: 100%;
 }
 
 .dateValue {

@@ -4,12 +4,14 @@ import {AnchorLink} from "src/component/anchorLink/AnchorLink";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
+import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
 import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
+import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -22,28 +24,29 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {TopicPageStore} from "src/logic/topicPage/TopicPageStore";
+import {MAX_LENGTH_WAYNAME, MIN_LENGTH_WAYNAME} from "src/logic/wayPage/WayPage";
+import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
+import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
 import {Topic} from "src/model/businessModel/Topic";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
+import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/topicPage/TopicPage.module.scss";
 
-const MAX_LENGTH_TRAINING_NAME = 50;
-const MIN_LENGTH_TRAINING_NAME = 1;
-
 /**
- * Update Training params
+ * Update Topic params
  */
 interface UpdateTopicParams {
 
   /**
-   * Training to update
+   * Topic to update
    */
   topicToUpdate: PartialWithUuid<Topic>;
 
   /**
-   * Callback to update training
+   * Callback to update topic
    */
   setTopic: (topic: PartialWithUuid<Topic>) => void;
 }
@@ -54,6 +57,54 @@ interface UpdateTopicParams {
 export const updateTopic = async (params: UpdateTopicParams) => {
   params.setTopic(params.topicToUpdate);
   await TopicDAL.updateTopic(params.topicToUpdate);
+};
+
+/**
+ * Update TheoryMaterial params
+ */
+interface UpdateTheoryMaterialParams {
+
+  /**
+   * TheoryMaterial to update
+   */
+  theoryMaterialToUpdate: PartialWithUuid<TheoryMaterial>;
+
+  /**
+   * Callback to update TheoryMaterial
+   */
+  setTheoryMaterial: (theoryMaterial: PartialWithUuid<TheoryMaterial>) => void;
+}
+
+/**
+ * Update TheoryMaterial
+ */
+export const updateTheoryMaterial = async (params: UpdateTheoryMaterialParams) => {
+  params.setTheoryMaterial(params.theoryMaterialToUpdate);
+  await TheoryMaterialDAL.updateTheoryMaterial(params.theoryMaterialToUpdate);
+};
+
+/**
+ * Update PracticeMaterial params
+ */
+interface UpdatePracticeMaterialParams {
+
+  /**
+   * PracticeMaterial to update
+   */
+  practiceMaterialToUpdate: PartialWithUuid<PracticeMaterial>;
+
+  /**
+   * Callback to update PracticeMaterial
+   */
+  setPracticeMaterial: (practiceMaterial: PartialWithUuid<PracticeMaterial>) => void;
+}
+
+/**
+ * Update PracticeMaterial
+ */
+export const updatePracticeMaterial = async (params: UpdatePracticeMaterialParams) => {
+  params.setPracticeMaterial(params.practiceMaterialToUpdate);
+  await PracticeMaterialDAL.updatePracticeMaterial(params.practiceMaterialToUpdate);
 };
 
 /**
@@ -70,6 +121,13 @@ interface TopicPageProps {
    * Topic's Uuid
    */
   topicUuid: string;
+}
+
+/**
+ * Practice material type
+ */
+export enum PracticeMaterialType {
+  INPUT_WORD = "input_word"
 }
 
 /**
@@ -120,7 +178,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
       taskDescription: "",
       topicUuid,
       answer: "",
-      practiceType: "",
+      practiceType: PracticeMaterialType.INPUT_WORD,
       timeToAnswer: 0,
     });
     topicPageStore.topic.addPracticeMaterial(newPracticeMaterial);
@@ -135,6 +193,28 @@ export const TopicPage = observer((props: TopicPageProps) => {
     }
     isOwner && await TopicDAL.deleteTopic(topicPageStore.topic.uuid);
     navigate(pages.training.getPath({uuid: topicPageStore.topic.trainingUuid}));
+  };
+
+  /**
+   * Delete theoryMaterial
+   */
+  const deleteTheoryMaterial = async (theoryMaterialUuid: string) => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    topicPageStore.topic.deleteTheoryMaterial(theoryMaterialUuid);
+    isOwner && await TheoryMaterialDAL.deleteTheoryMaterial(theoryMaterialUuid);
+  };
+
+  /**
+   * Delete practiceMaterial
+   */
+  const deletePracticeMaterial = async (practiceMaterialUuid: string) => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    topicPageStore.topic.deletePracticeMaterial(practiceMaterialUuid);
+    isOwner && await PracticeMaterialDAL.deletePracticeMaterial(practiceMaterialUuid);
   };
 
   const renderDeleteTopicDropdownItem = (
@@ -177,8 +257,8 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 isEditable={isOwner}
                 className={styles.topicName}
                 validators={[
-                  minLengthValidator(MIN_LENGTH_TRAINING_NAME, LanguageService.way.notifications.wayNameMinLength[language]),
-                  maxLengthValidator(MAX_LENGTH_TRAINING_NAME, LanguageService.way.notifications.wayNameMaxLength[language]),
+                  minLengthValidator(MIN_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMinLength[language]),
+                  maxLengthValidator(MAX_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMaxLength[language]),
                 ]}
               />
 
@@ -227,13 +307,46 @@ export const TopicPage = observer((props: TopicPageProps) => {
             />
 
             {topicPageStore.topic.theoryMaterials.map((theoryMaterial) => (
-              <AnchorLink
-                path={theoryMaterial.name}
+              <HorizontalContainer
                 key={theoryMaterial.uuid}
+                className={styles.materialShortBlock}
               >
-                1231232132131231
-                {theoryMaterial.name}
-              </AnchorLink>
+                <AnchorLink
+                  path={theoryMaterial.name}
+                  key={theoryMaterial.uuid}
+                >
+                  <Text text={theoryMaterial.name} />
+                  {theoryMaterial.name.trim() === ""
+                    ? LanguageService.common.emptyMarkdown[language]
+                    : theoryMaterial.name
+                  }
+                </AnchorLink>
+                <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
+                  <Confirm
+                    trigger={
+                      <Button
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name="TrashIcon"
+                          />
+                        }
+                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                        onClick={() => {}}
+                      />
+                    }
+                    content={<p>
+                      {renderMarkdown(
+                        `${LanguageService.topic.materialsBlock.deleteTheoryMaterialQuestion[language]}
+                          "${theoryMaterial.name}"?`,
+                      )}
+                    </p>}
+                    onOk={() => deleteTheoryMaterial(theoryMaterial.uuid)}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  />
+                </Tooltip>
+              </HorizontalContainer>
             ),
             )}
 
@@ -244,11 +357,44 @@ export const TopicPage = observer((props: TopicPageProps) => {
             />
 
             {topicPageStore.topic.practiceMaterials.map((practiceMaterial) => (
+              <HorizontalContainer
+                key={practiceMaterial.uuid}
+                className={styles.materialShortBlock}
+              >
+                <AnchorLink path={practiceMaterial.name}>
+                  <Text text={practiceMaterial.name} />
+                  {practiceMaterial.name.trim() === ""
+                    ? LanguageService.common.emptyMarkdown[language]
+                    : practiceMaterial.name
+                  }
+                </AnchorLink>
 
-              <div key={practiceMaterial.uuid}>
-                1231232132131231
-                {practiceMaterial.name}
-              </div>
+                <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
+                  <Confirm
+                    trigger={
+                      <Button
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name="TrashIcon"
+                          />
+                        }
+                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                        onClick={() => {}}
+                      />
+                    }
+                    content={<p>
+                      {renderMarkdown(
+                        `${LanguageService.topic.materialsBlock.deletePracticalMaterialQuestion[language]}
+                          "${practiceMaterial.name}"?`,
+                      )}
+                    </p>}
+                    onOk={() => deletePracticeMaterial(practiceMaterial.uuid)}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  />
+                </Tooltip>
+              </HorizontalContainer>
             ),
             )}
 
@@ -274,15 +420,53 @@ export const TopicPage = observer((props: TopicPageProps) => {
 
         <VerticalContainer className={styles.materials}>
           {topicPageStore.topic.theoryMaterials.map((theoryMaterial) => (
-
-            <div
+            <VerticalContainer
               key={theoryMaterial.uuid}
-              id={theoryMaterial.name}
+              className={styles.materialContainer}
             >
-              1231232132131231
-              {theoryMaterial.name}
-              {theoryMaterial.description}
-            </div>
+              <Title
+                level={HeadingLevel.h3}
+                text={theoryMaterial.name}
+                isEditable={isOwner}
+                placeholder={isOwner
+                  ? LanguageService.common.emptyMarkdownAction[language]
+                  : LanguageService.common.emptyMarkdown[language]}
+                onChangeFinish={(name) => {
+                  updateTheoryMaterial({
+                    theoryMaterialToUpdate: {
+                      uuid: theoryMaterial.uuid,
+                      name,
+                    },
+
+                    /**
+                     * Update theoryMaterial's name
+                     */
+                    setTheoryMaterial: () => theoryMaterial.updateName(name),
+                  });
+                }}
+              />
+              <EditableTextarea
+                text={theoryMaterial.description}
+                onChangeFinish={(description) => {
+                  updateTheoryMaterial({
+                    theoryMaterialToUpdate: {
+                      uuid: theoryMaterial.uuid,
+                      description,
+                    },
+
+                    /**
+                     * Update theoryMaterial's description
+                     */
+                    setTheoryMaterial: () => theoryMaterial.updateDescription(description),
+                  });
+                }}
+                isEditable={isOwner}
+                className={styles.editableTextarea}
+                placeholder={isOwner
+                  ? LanguageService.common.emptyMarkdownAction[language]
+                  : LanguageService.common.emptyMarkdown[language]}
+              />
+            </VerticalContainer>
           ),
           )}
 
@@ -295,14 +479,53 @@ export const TopicPage = observer((props: TopicPageProps) => {
 
           {topicPageStore.topic.practiceMaterials.map((practiceMaterial) => (
 
-            <div
+            <VerticalContainer
               key={practiceMaterial.uuid}
-              id={practiceMaterial.name}
+              className={styles.materialContainer}
             >
-              1231232132131231
-              {practiceMaterial.name}
-              {practiceMaterial.taskDescription}
-            </div>
+              <Title
+                level={HeadingLevel.h3}
+                text={practiceMaterial.name}
+                isEditable={isOwner}
+                placeholder={isOwner
+                  ? LanguageService.common.emptyMarkdownAction[language]
+                  : LanguageService.common.emptyMarkdown[language]}
+                onChangeFinish={(name) => {
+                  updatePracticeMaterial({
+                    practiceMaterialToUpdate: {
+                      uuid: practiceMaterial.uuid,
+                      name,
+                    },
+
+                    /**
+                     * Update practiceMaterial's name
+                     */
+                    setPracticeMaterial: () => practiceMaterial.updateName(name),
+                  });
+                }}
+              />
+              <EditableTextarea
+                text={practiceMaterial.taskDescription}
+                onChangeFinish={(taskDescription) => {
+                  updatePracticeMaterial({
+                    practiceMaterialToUpdate: {
+                      uuid: practiceMaterial.uuid,
+                      taskDescription,
+                    },
+
+                    /**
+                     * Update practiceMaterial's description
+                     */
+                    setPracticeMaterial: () => practiceMaterial.updateDescription(taskDescription),
+                  });
+                }}
+                isEditable={isOwner}
+                className={styles.editableTextarea}
+                placeholder={isOwner
+                  ? LanguageService.common.emptyMarkdownAction[language]
+                  : LanguageService.common.emptyMarkdown[language]}
+              />
+            </VerticalContainer>
           ),
           )}
 

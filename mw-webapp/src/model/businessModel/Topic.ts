@@ -150,4 +150,18 @@ export class Topic {
     this.practiceMaterials.push(practiceMaterial);
   }
 
+  /**
+   * Delete theoryMaterial from topic
+   */
+  public deleteTheoryMaterial(theoryMaterialUuid: string): void {
+    this.theoryMaterials = this.theoryMaterials.filter(theoryMaterial => theoryMaterial.uuid !== theoryMaterialUuid);
+  }
+
+  /**
+   * Delete practiceMaterial from topic
+   */
+  public deletePracticeMaterial(practiceMaterialUuid: string): void {
+    this.practiceMaterials = this.practiceMaterials.filter(practiceMaterial => practiceMaterial.uuid !== practiceMaterialUuid);
+  }
+
 }

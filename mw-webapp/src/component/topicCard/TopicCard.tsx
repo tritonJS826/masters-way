@@ -68,7 +68,6 @@ export const TopicCard = observer((props: TopicCardProps) => {
     props.isEditable ?
       <HorizontalContainer className={styles.topicCard}>
         <HorizontalContainer className={styles.topicTitleAndLink}>
-          <Text text={isEmptyTopicName ? props.emptyTitle : props.topic.name} />
           <Link
             path={pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: props.topic.uuid})}
             className={styles.cardLink}
@@ -89,6 +88,10 @@ export const TopicCard = observer((props: TopicCardProps) => {
               />
             </Tooltip>
           </Link>
+          <Text
+            text={isEmptyTopicName ? props.emptyTitle : props.topic.name}
+            className={styles.topicTitle}
+          />
         </HorizontalContainer>
         <HorizontalContainer className={styles.topicActionButtons}>
           <Tooltip
