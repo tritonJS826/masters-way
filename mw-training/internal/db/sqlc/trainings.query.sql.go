@@ -101,6 +101,8 @@ LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
     trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -196,6 +198,8 @@ LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
     trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -386,6 +390,8 @@ LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
     trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -551,10 +557,10 @@ SELECT
     trainings.updated_at,
     trainings.is_private,
     COALESCE(f.favorite_count, 0) AS favorite_count,
-    ARRAY_AGG(training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
-    ARRAY_AGG(trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
-    ARRAY_AGG(trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
-    COUNT(topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL) AS topics_count
+    ARRAY_AGG(DISTINCT training_tags.name) FILTER (WHERE training_tags.name IS NOT NULL)::VARCHAR[] AS tags,
+    ARRAY_AGG(DISTINCT trainings_mentors.mentor_uuid) FILTER (WHERE trainings_mentors.mentor_uuid IS NOT NULL)::UUID[] AS training_mentors,
+    ARRAY_AGG(DISTINCT trainings_students.student_uuid) FILTER (WHERE trainings_students.student_uuid IS NOT NULL)::UUID[] AS training_students,
+    COUNT(DISTINCT topics.uuid) FILTER (WHERE topics.uuid IS NOT NULL) AS topics_count
 FROM
     trainings
 LEFT JOIN

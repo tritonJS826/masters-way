@@ -1,7 +1,7 @@
 import {Language} from "src/globalStore/LanguageStore";
 import {Theme} from "src/globalStore/ThemeStore";
 import {MentoringStatusType} from "src/logic/allUsersPage/AllUsersPage";
-import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
+import {DefaultTrainingCollection} from "src/logic/userPage/DefaultTrainingCollection";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatusType} from "src/logic/waysTable/wayStatus";
 
