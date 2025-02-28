@@ -113,21 +113,16 @@ function calculateAvgJobTime(totalTime: string, finishedJobs: string): string {
     return (Math.round((time / jobs) * 10) / 10).toFixed(1);
 }
 
-function calculateWorkingDays(totalDays: number): number {
-    const fullWeeks = Math.floor(totalDays / 7);
-    const remainingDays = totalDays % 7;
-    const workingDays = fullWeeks * 5 + Math.min(remainingDays, 5);
-    return workingDays;
-}
-
-function calculateAvgTimePerWorkingDay(totalTime: string, totalDays: string): string {
+function calculateAvgTimePerWorkingDay(totalTime: string, totalReports: string): string {
     const total = parseFloat(totalTime);
-    const days = parseFloat(totalDays);
-    if (days === 0) return "0.0";
+    const reports = parseFloat(totalReports);
 
-    const workingDays = calculateWorkingDays(days);
+    if (reports === 0) return "0.0";
 
-    return (Math.round((total / workingDays) * 10) / 10).toFixed(1);
+    const workingDays = reports;
+    const avgTime = total / workingDays;
+
+    return (Math.round(avgTime * 10) / 10).toFixed(1);
 }
 
 export const statisticsData = {
@@ -147,27 +142,30 @@ export const statisticsData = {
                     totalReports: johnDoeWayStatsData.total.totalReports, 
                     finishedJobs: johnDoeWayStatsData.total.finishedJobs,
                     avgTimePerCalendarDay: calculateAvgTimePerCalendarDay(johnDoeWayStatsData.total.totalTime, johnDoeWayStatsData.daysFromStart),
-                    avgTimePerWorkingDay: "0.9",
-                    // calculateAvgTimePerWorkingDay(johnDoeWayStatsData.total.totalTime, johnDoeWayStatsData.daysFromStart),
-                    avgJobTime: calculateAvgJobTime(johnDoeWayStatsData.total.totalTime, johnDoeWayStatsData.total.finishedJobs) 
+                    avgTimePerWorkingDay: calculateAvgTimePerWorkingDay(
+                        johnDoeWayStatsData.total.totalTime, johnDoeWayStatsData.total.totalReports),
+                    avgJobTime: calculateAvgJobTime(
+                        johnDoeWayStatsData.total.totalTime, johnDoeWayStatsData.total.finishedJobs) 
                 },
                 [Periods.LastMonth]: {
                     totalTime: johnDoeWayStatsData.lastMonth.totalTime,
                     totalReports: johnDoeWayStatsData.lastMonth.totalReports,
                     finishedJobs: johnDoeWayStatsData.lastMonth.finishedJobs,
                     avgTimePerCalendarDay: calculateAvgTimePerCalendarDay(johnDoeWayStatsData.lastMonth.totalTime, DAYS_IN_MONTH),
-                    avgTimePerWorkingDay: "0.9",
-                    // calculateAvgTimePerWorkingDay(johnDoeWayStatsData.lastMonth.totalTime, "30"),
-                    avgJobTime: calculateAvgJobTime(johnDoeWayStatsData.lastMonth.totalTime, johnDoeWayStatsData.lastMonth.finishedJobs) 
+                    avgTimePerWorkingDay: calculateAvgTimePerWorkingDay(
+                        johnDoeWayStatsData.lastMonth.totalTime, johnDoeWayStatsData.lastMonth.totalReports),
+                    avgJobTime: calculateAvgJobTime(
+                        johnDoeWayStatsData.lastMonth.totalTime, johnDoeWayStatsData.lastMonth.finishedJobs) 
                 },
                 [Periods.LastWeek]: {
                     totalTime: johnDoeWayStatsData.lastWeek.totalTime,
                     totalReports: johnDoeWayStatsData.lastWeek.totalReports,
                     finishedJobs: johnDoeWayStatsData.lastWeek.finishedJobs,
                     avgTimePerCalendarDay: calculateAvgTimePerCalendarDay(johnDoeWayStatsData.lastWeek.totalTime, DAYS_IN_WEEK),
-                    avgTimePerWorkingDay: "0.8",
-                    // calculateAvgTimePerWorkingDay(johnDoeWayStatsData.lastWeek.totalTime, "7"),
-                    avgJobTime: calculateAvgJobTime(johnDoeWayStatsData.lastWeek.totalTime, johnDoeWayStatsData.lastWeek.finishedJobs)
+                    avgTimePerWorkingDay: calculateAvgTimePerWorkingDay(
+                        johnDoeWayStatsData.lastWeek.totalTime, johnDoeWayStatsData.lastWeek.totalReports),
+                    avgJobTime: calculateAvgJobTime(
+                        johnDoeWayStatsData.lastWeek.totalTime, johnDoeWayStatsData.lastWeek.finishedJobs)
                 }
             },
 
@@ -265,7 +263,8 @@ export const statisticsData = {
                     finishedJobs: mentorCompositeTwoChildWayStatsData.total.finishedJobs,
                     avgTimePerCalendarDay: calculateAvgTimePerCalendarDay(
                         mentorCompositeTwoChildWayStatsData.total.totalTime, mentorCompositeTwoChildWayStatsData.daysFromStart),
-                    avgTimePerWorkingDay: "1.0", 
+                    avgTimePerWorkingDay: calculateAvgTimePerWorkingDay(
+                        mentorCompositeTwoChildWayStatsData.total.totalTime, mentorCompositeTwoChildWayStatsData.total.totalReports), 
                     avgJobTime: calculateAvgJobTime(
                         mentorCompositeTwoChildWayStatsData.total.totalTime, mentorCompositeTwoChildWayStatsData.total.finishedJobs)
                 },
@@ -274,11 +273,11 @@ export const statisticsData = {
                     totalReports: mentorCompositeTwoChildWayStatsData.lastMonth.totalReports,
                     finishedJobs: mentorCompositeTwoChildWayStatsData.lastMonth.finishedJobs,
                     avgTimePerCalendarDay: calculateAvgTimePerCalendarDay(
-                        (Number(johnDoeWayStatsData.lastMonth.totalTime) + Number(studentStatsData.lastMonth.totalTime)).toFixed(1), DAYS_IN_MONTH),
-                    avgTimePerWorkingDay: "1.0",
+                        mentorCompositeTwoChildWayStatsData.lastMonth.totalTime, DAYS_IN_MONTH),
+                    avgTimePerWorkingDay: calculateAvgTimePerWorkingDay(
+                        mentorCompositeTwoChildWayStatsData.lastMonth.totalTime, mentorCompositeTwoChildWayStatsData.lastMonth.totalReports), 
                     avgJobTime: calculateAvgJobTime(
-                        (Number(johnDoeWayStatsData.total.totalTime) + Number(studentStatsData.total.totalTime)).toFixed(1),
-                        (Number(johnDoeWayStatsData.total.finishedJobs) + Number(studentStatsData.total.finishedJobs)).toFixed(1)) 
+                        mentorCompositeTwoChildWayStatsData.lastMonth.totalTime, mentorCompositeTwoChildWayStatsData.lastMonth.finishedJobs)
                 },
                 [Periods.LastWeek]: {
                     totalTime: mentorCompositeTwoChildWayStatsData.lastWeek.totalTime,
@@ -286,7 +285,8 @@ export const statisticsData = {
                     finishedJobs: mentorCompositeTwoChildWayStatsData.lastWeek.finishedJobs,
                     avgTimePerCalendarDay: calculateAvgTimePerCalendarDay(
                         mentorCompositeTwoChildWayStatsData.lastWeek.totalTime, DAYS_IN_WEEK),
-                    avgTimePerWorkingDay: "1.0",
+                    avgTimePerWorkingDay: calculateAvgTimePerWorkingDay(
+                        mentorCompositeTwoChildWayStatsData.lastWeek.totalTime, mentorCompositeTwoChildWayStatsData.lastWeek.totalReports), 
                     avgJobTime: calculateAvgJobTime(
                         mentorCompositeTwoChildWayStatsData.lastWeek.totalTime, mentorCompositeTwoChildWayStatsData.lastWeek.finishedJobs)
                 }
