@@ -1,9 +1,11 @@
 import {
+  CreateWayFromTrainingRequest,
   CreateWayRequest,
   DeleteWayRequest,
   GetAllWaysRequest,
   GetWayByUuidRequest,
   GetWayStatisticsByUuidRequest,
+  MwGeneralBffInternalSchemasCreateWayFromTrainingResponse,
   MwGeneralBffInternalSchemasGetAllWaysResponse,
   MwGeneralBffInternalSchemasWayPlainResponse,
   MwGeneralBffInternalSchemasWayPopulatedResponse,
@@ -88,6 +90,17 @@ export class WayService {
    */
   public static async createWay(requestParameters: CreateWayRequest): Promise<MwGeneralBffInternalSchemasWayPlainResponse> {
     const way = await wayService.createWay(requestParameters);
+
+    return way;
+  }
+
+  /**
+   * Create way from training
+   */
+  public static async createWayFromTraining(
+    requestParameters: CreateWayFromTrainingRequest,
+  ): Promise<MwGeneralBffInternalSchemasCreateWayFromTrainingResponse> {
+    const way = await wayService.createWayFromTraining(requestParameters);
 
     return way;
   }

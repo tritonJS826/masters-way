@@ -182,6 +182,11 @@
     }
   },
   "trainingActions": {
+    "createWayOnTraining": {
+      "ru": "Создать путь на основе тренинга",
+      "en": "Create way based on training",
+      "ua": "Створити шлях на основі тренінгу"
+    },
     "copyUrlToClipboard": {
       "ru": "Скопировать url",
       "en": "Copy url to clipboard",

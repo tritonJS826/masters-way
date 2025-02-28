@@ -139,6 +139,15 @@ export class WayDAL {
   }
 
   /**
+   * Create way from training
+   */
+  public static async createWayFromTraining(trainingId: string): Promise<string> {
+    const way = await WayService.createWayFromTraining({request: {trainingId}});
+
+    return way.wayUuid;
+  }
+
+  /**
    * Update Way
    */
   public static async updateWay(way: PartialWithUuid<Way>) {

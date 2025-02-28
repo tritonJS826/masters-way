@@ -24,6 +24,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {FavoriteUserTrainingDAL} from "src/dataAccessLogic/FavoriteUserTrainingDAL";
 import {TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
 import {TrainingTrainingTagDAL} from "src/dataAccessLogic/TrainingTrainingTagDAL";
+import {BaseWayData, WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
@@ -34,6 +35,7 @@ import {TrainingPageStore} from "src/logic/trainingPage/TrainingPageStore";
 import {Training} from "src/model/businessModel/Training";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TrainingTag} from "src/model/businessModelPreview/TrainingPreview";
+import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -148,6 +150,20 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
       okText={LanguageService.modals.confirmModal.deleteButton[language]}
       cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
     />);
+
+  /**
+   * Create way based on the training
+   */
+  const createWayOnTraining = async () => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+
+    const newWayUuid = await WayDAL.createWayFromTraining(trainingPageStore.training.uuid);
+
+    navigate(pages.way.getPath({uuid: newWayUuid}));
+    displayNotification({text: `Way ${trainingPageStore.training.name} created`, type: NotificationType.INFO});
+  };
 
   return (
     <VerticalContainer className={styles.container}>
@@ -265,6 +281,17 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                         // trainingPageStore.training.updateIsPrivate(!trainingPageStore.training.isPrivate),
                         //   }),
                         // },
+                        {
+                          id: "Create way based on the training",
+                          isPreventDefaultUsed: false,
+                          value: LanguageService.training.trainingActions.createWayOnTraining[language],
+
+                          /**
+                           * Create way based on the training
+                           */
+                          onClick: createWayOnTraining,
+                          isVisible: !!user,
+                        },
                         {
                           id: "Copy url to clipboard",
                           isPreventDefaultUsed: false,
