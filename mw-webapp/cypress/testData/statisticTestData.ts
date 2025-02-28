@@ -3,6 +3,22 @@ import {LabelColors} from "cypress/testData/testData";
 const DAYS_IN_MONTH = "30";
 const DAYS_IN_WEEK = "7";
 
+function colorNameToRgbString(colorName: string): string | null {
+    const colorMap: { [key: string]: { r: number; g: number; b: number } } = {
+        teal: { r: 0, g: 128, b: 128 },
+        red: { r: 255, g: 0, b: 0 },
+        green: { r: 0, g: 128, b: 0 },
+        blue: { r: 0, g: 0, b: 255 },
+        yellow: { r: 255, g: 255, b: 0 },
+    };
+
+    if (colorMap[colorName]) {
+        const { r, g, b } = colorMap[colorName];
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+    return null;
+}
+
 const johnDoeWayStatsData = {
     daysFromStart: "9",
     total: {
@@ -25,7 +41,6 @@ const johnDoeWayStatsData = {
         green: `background-color: ${LabelColors.green};`,
         blue: `background-color: ${LabelColors.blue};`,
         red: `background-color: ${LabelColors.red};`,
-        teal: `background-color: ${LabelColors.teal};`,
     },
     labelActivityNames: {
         generalMeeting: "general meeting",
@@ -52,7 +67,7 @@ export const studentStatsData = {
         finishedJobs: "1"
     },
     labelColors: {
-        teal: `background-color: ${LabelColors.teal};`,
+        teal: `background-color: ${colorNameToRgbString(LabelColors.teal)};`,
     },
     labelActivityNames: {
         studentLabel: "student label"
