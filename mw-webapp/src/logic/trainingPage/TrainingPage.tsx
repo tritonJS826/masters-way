@@ -438,14 +438,6 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                 {trainingPageStore.training.owner.name}
               </Link>
             </HorizontalContainer>
-            {/* {!!trainingPageStore.training.mentors.size &&
-              <MentorsSection
-                way={way}
-                setWay={() => {}}
-                isOwner={isOwner}
-              />
-            } */}
-
           </VerticalContainer>
 
         </VerticalContainer>

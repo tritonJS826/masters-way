@@ -4,19 +4,20 @@ $wayCardMainHeight: 190px;
 $wayCardAdditionalHeight: 118px;
 
 .cardLink {
+  width: 100%;
   text-decoration: none;
 }
 
 .topicCard {
-  width: 100%;
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
 }
 
 .topicTitleAndLink {
-  align-items: center;
   width: 100%;
+  align-items: center;
   justify-content: space-between;
 }
 
