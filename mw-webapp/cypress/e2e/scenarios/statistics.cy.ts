@@ -469,7 +469,7 @@ describe('Statistics tests', () => {
             .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.johnDoeWay.statistic.total.totalReports})`);
     });
 
-    it.only('Scenario_Mentor_CompositeWayStatistics', () => {
+    it('Scenario_Mentor_CompositeWayStatistics', () => {
         // Create a user-mentor with a composite way that includes one child way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
