@@ -101,6 +101,8 @@ LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
     trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -196,6 +198,8 @@ LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
     trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
@@ -386,6 +390,8 @@ LEFT JOIN
     favorite_users_trainings ON trainings.uuid = favorite_users_trainings.training_uuid
 LEFT JOIN
     trainings_training_tags ON trainings_training_tags.training_uuid = trainings.uuid
+LEFT JOIN
+    training_tags ON training_tags.uuid = trainings_training_tags.tag_uuid
 LEFT JOIN (
     SELECT
         training_uuid,
