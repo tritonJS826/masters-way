@@ -26,7 +26,7 @@ func NewTopicController(generalService *services.GeneralService, topicService *s
 // @Produce json
 // @Param topicId path string true "topic id"
 // @Success 200 {object} schemas.Topic
-// @Router /topics/{topicId} [post]
+// @Router /topics/{topicId} [get]
 func (tc *TopicController) GetTopicById(ctx *gin.Context) {
 	topicId := ctx.Param("topicId")
 
@@ -45,15 +45,17 @@ func (tc *TopicController) GetTopicById(ctx *gin.Context) {
 // @Produce json
 // @Param trainingId path string true "training id"
 // @Param topicParentId query string false "Topic parent id"
-// @Success 200 {object} schemas.Topic
+// @Success 200 {object} schemas.TopicPreview
 // @Router /topics/{trainingId} [post]
 func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 	topicParentIdRaw := ctx.DefaultQuery("topicParentId", "")
 	trainingId := ctx.Param("trainingId")
 
 	var topicParentId *string
-	if topicParentIdRaw != "" {
+	if topicParentIdRaw == "" {
 		topicParentId = nil
+	} else {
+		topicParentId = &topicParentIdRaw
 	}
 
 	args := &services.CreateTopicParams{
@@ -75,7 +77,7 @@ func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 // @Produce json
 // @Param request body schemas.UpdateTopicPayload true "query params"
 // @Param topicId path string true "topic id"
-// @Success 200 {object} schemas.Topic
+// @Success 200 {object} schemas.TopicPreview
 // @Router /topics/{topicId} [patch]
 func (tc *TopicController) UpdateTopic(ctx *gin.Context) {
 	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)

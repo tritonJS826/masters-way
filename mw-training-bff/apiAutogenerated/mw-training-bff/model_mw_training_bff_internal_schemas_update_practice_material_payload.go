@@ -21,6 +21,7 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasUpdatePracticeMaterialPayloa
 type MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload struct {
 	Answer *string
 	Name *string
+	Order *int32
 	PracticeType *string
 	TaskDescription *string
 	TimeToAnswer *int32
@@ -105,6 +106,38 @@ func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) HasName() bo
 // SetName gets a reference to the given string and assigns it to the Name field.
 func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) SetName(v string) {
 	o.Name = &v
+}
+
+// GetOrder returns the Order field value if set, zero value otherwise.
+func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) GetOrder() int32 {
+	if o == nil || IsNil(o.Order) {
+		var ret int32
+		return ret
+	}
+	return *o.Order
+}
+
+// GetOrderOk returns a tuple with the Order field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) GetOrderOk() (*int32, bool) {
+	if o == nil || IsNil(o.Order) {
+		return nil, false
+	}
+	return o.Order, true
+}
+
+// HasOrder returns a boolean if a field has been set.
+func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) HasOrder() bool {
+	if o != nil && !IsNil(o.Order) {
+		return true
+	}
+
+	return false
+}
+
+// SetOrder gets a reference to the given int32 and assigns it to the Order field.
+func (o *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) SetOrder(v int32) {
+	o.Order = &v
 }
 
 // GetPracticeType returns the PracticeType field value if set, zero value otherwise.
@@ -218,6 +251,9 @@ func (o MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload) ToMap() (map[
 	}
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
+	}
+	if !IsNil(o.Order) {
+		toSerialize["order"] = o.Order
 	}
 	if !IsNil(o.PracticeType) {
 		toSerialize["practiceType"] = o.PracticeType

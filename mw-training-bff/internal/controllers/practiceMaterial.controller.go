@@ -29,7 +29,6 @@ func NewPracticeMaterialController(generalService *services.GeneralService, prac
 // @Router /practiceMaterials/{topicId} [get]
 func (pmc *PracticeMaterialController) GetPracticeMaterialsByTopicId(ctx *gin.Context) {
 	topicIdRaw := ctx.Param("topicId")
-	// topicId := uuid.MustParse(topicIdRaw)
 
 	args := &services.GetPracticeMaterialsByTopicIdParams{
 		TopicId: topicIdRaw,
@@ -47,24 +46,31 @@ func (pmc *PracticeMaterialController) GetPracticeMaterialsByTopicId(ctx *gin.Co
 // @ID create-practice-material
 // @Accept json
 // @Produce json
-// @Param request body schemas.CreatePracticeMaterialPayload true "query params"
+// @Param request body schemas.CreatePracticeMaterialPayload true "query params, client must use for PracticeType: 'input_word'"
 // @Success 200 {object} schemas.PracticeMaterial
 // @Router /practiceMaterials [post]
-func (nc *PracticeMaterialController) CreatePracticeMaterial(ctx *gin.Context) {
-	// 	var payload *schemas.UpdateNotificationPayload
-	// 	notificationUUID := ctx.Param("notificationId")
+func (pmc *PracticeMaterialController) CreatePracticeMaterial(ctx *gin.Context) {
+	var payload *schemas.PracticeMaterial
 
-	// 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 		return
-	// 	}
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// 	response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// 	utils.HandleErrorGin(ctx, err)
+	args := &services.CreatePracticeMaterialParams{
+		TopicId:      payload.TopicUuid,
+		Name:         payload.Name,
+		Order:        payload.PracticeMaterialOrder,
+		Description:  payload.TaskDescription,
+		Answer:       payload.Answer,
+		PracticeType: payload.PracticeType,
+		TimeToAnswer: payload.TimeToAnswer,
+	}
 
-	stub := schemas.PracticeMaterial{}
+	response, err := pmc.practiceMaterialService.CreatePracticeMaterial(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Update practice material
@@ -73,16 +79,33 @@ func (nc *PracticeMaterialController) CreatePracticeMaterial(ctx *gin.Context) {
 // @ID update-practice-material
 // @Accept json
 // @Produce json
+// @Param practiceMaterialId path string true "practice material id"
 // @Param request body schemas.UpdatePracticeMaterialPayload true "query params"
 // @Success 200 {object} schemas.PracticeMaterial
-// @Router /practiceMaterials [patch]
-func (nc *PracticeMaterialController) UpdatePracticeMaterial(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// response, err := nc.notificationService.GetNotificationSettingList(ctx, userUUID)
-	// utils.HandleErrorGin(ctx, err)
+// @Router /practiceMaterials/{practiceMaterialId} [patch]
+func (pmc *PracticeMaterialController) UpdatePracticeMaterial(ctx *gin.Context) {
+	var payload *schemas.UpdatePracticeMaterialPayload
+	practiceMaterialId := ctx.Param("practiceMaterialId")
 
-	stub := schemas.PracticeMaterial{}
-	ctx.JSON(http.StatusOK, stub)
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	args := &services.UpdatePracticeMaterialParams{
+		PracticeMaterialId: practiceMaterialId,
+		Name:               payload.Name,
+		Order:              payload.Order,
+		Description:        payload.TaskDescription,
+		Answer:             payload.Answer,
+		PracticeType:       payload.PracticeType,
+		TimeToAnswer:       payload.TimeToAnswer,
+	}
+
+	response, err := pmc.practiceMaterialService.UpdatePracticeMaterial(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Delete practice material
@@ -94,18 +117,11 @@ func (nc *PracticeMaterialController) UpdatePracticeMaterial(ctx *gin.Context) {
 // @Param practiceMaterialId path string true "practice material id"
 // @Success 200
 // @Router /practiceMaterials/{practiceMaterialId} [delete]
-func (nc *PracticeMaterialController) DeletePracticeMaterial(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationSettingPayload
+func (pmc *PracticeMaterialController) DeletePracticeMaterial(ctx *gin.Context) {
+	practiceMaterialId := ctx.Param("theoryMaterialId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
-
-	// notificationID := ctx.Param("notificationSettingId")
-
-	// response, err := nc.notificationService.UpdateNotificationSetting(ctx, notificationID, payload.IsEnabled)
-	// utils.HandleErrorGin(ctx, err)
+	err := pmc.practiceMaterialService.DeletePracticeMaterial(ctx, practiceMaterialId)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }

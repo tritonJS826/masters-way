@@ -1,6 +1,34 @@
 import {makeAutoObservable} from "mobx";
-import {Topic} from "src/model/businessModel/Topic";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TrainingTag, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
+
+/**
+ * Add topic recursively
+ */
+const addTopicRecursive = (topic: TopicPreview, newTopic: TopicPreview): TopicPreview => {
+  return new TopicPreview({
+    ...topic,
+    children: topic.uuid === newTopic.parentUuid
+      ? [...topic.children, newTopic]
+      : topic.children.map(child => addTopicRecursive(child, newTopic)),
+  });
+};
+
+/**
+ * Delete topic recursively
+ */
+const deleteTopicRecursively = (topic: TopicPreview, topicUuid: string) => {
+  topic.children = topic.children.filter(child => {
+    if (child.uuid === topicUuid) {
+      return false;
+    } else {
+      deleteTopicRecursively(child, topicUuid);
+
+      return true;
+    }
+  });
+
+};
 
 /**
  * Training props
@@ -63,7 +91,7 @@ interface TrainingProps {
   /**
    * Training's topics
    */
-  topics: Topic[];
+  topics: TopicPreview[];
 
   /**
    * Favorite for user uuids
@@ -138,7 +166,7 @@ export class Training {
   /**
    * Training's topics
    */
-  public topics: Topic[];
+  public topics: TopicPreview[];
 
   constructor(trainingData: TrainingProps) {
     makeAutoObservable(this);
@@ -217,6 +245,23 @@ export class Training {
    */
   public updateDescription(descriptionToUpdate: string): void {
     this.description = descriptionToUpdate;
+  }
+
+  /**
+   * Add new topic to training
+   */
+  public addTopic(newTopic: TopicPreview): void {
+    newTopic.parentUuid
+      ? this.topics = this.topics.map(topic => addTopicRecursive(topic, newTopic))
+      : this.topics.push(newTopic);
+  }
+
+  /**
+   * Delete topic from training
+   */
+  public deleteTopic(topicUuid: string): void {
+    this.topics = this.topics.filter(topic => topic.uuid !== topicUuid);
+    this.topics.forEach(topic => deleteTopicRecursively(topic, topicUuid));
   }
 
 }

@@ -93,4 +93,18 @@ export class TheoryMaterial {
     this.order = theoryMaterialData.order;
   }
 
+  /**
+   * Update theoryMaterial's name
+   */
+  public updateName(nameToUpdate: string): void {
+    this.name = nameToUpdate;
+  }
+
+  /**
+   * Update theoryMaterial's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
+  }
+
 }

@@ -126,4 +126,18 @@ export class PracticeMaterial {
     this.timeToAnswer = practiceMaterialData.timeToAnswer;
   }
 
+  /**
+   * Update practiceMaterial's name
+   */
+  public updateName(nameToUpdate: string): void {
+    this.name = nameToUpdate;
+  }
+
+  /**
+   * Update practiceMaterial's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.taskDescription = descriptionToUpdate;
+  }
+
 }

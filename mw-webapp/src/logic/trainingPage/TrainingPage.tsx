@@ -24,13 +24,16 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {FavoriteUserTrainingDAL} from "src/dataAccessLogic/FavoriteUserTrainingDAL";
 import {TrainingDAL} from "src/dataAccessLogic/TrainingDAL";
 import {TrainingTrainingTagDAL} from "src/dataAccessLogic/TrainingTrainingTagDAL";
+import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {DescriptionBlock} from "src/logic/trainingPage/descriptionBlock/DescriptionBlock";
+import {TopicsBlock} from "src/logic/trainingPage/topicsBlock/TopicsBlock";
 import {TrainingPageStore} from "src/logic/trainingPage/TrainingPageStore";
 import {Training} from "src/model/businessModel/Training";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TrainingTag} from "src/model/businessModelPreview/TrainingPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -147,6 +150,20 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
       cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
     />);
 
+  /**
+   * Create way based on the training
+   */
+  const createWayOnTraining = async () => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+
+    const newWayUuid = await WayDAL.createWayFromTraining(trainingPageStore.training.uuid);
+
+    navigate(pages.way.getPath({uuid: newWayUuid}));
+    displayNotification({text: `Way ${trainingPageStore.training.name} created`, type: NotificationType.INFO});
+  };
+
   return (
     <VerticalContainer className={styles.container}>
       <HorizontalGridContainer className={styles.trainingDashboard}>
@@ -238,28 +255,41 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                   dropdownMenuItems={[
                     {
                       dropdownSubMenuItems: [
+                      // TODO: Commented till privacy logic on backend will not be fixed
+                        // {
+                        //   id: "Make the training private/public",
+                        //   isPreventDefaultUsed: false,
+                        //   isVisible: isOwner,
+                        //   value: trainingPageStore.training.isPrivate
+                        //     ? LanguageService.training.peopleBlock.makePublicButton[language]
+                        //     : LanguageService.training.peopleBlock.makePrivateButton[language],
+
+                        //   /**
+                        //    * Toggle training privacy
+                        //    */
+                        //   onClick: () => updateTraining({
+                        //     trainingToUpdate: {
+                        //       uuid: trainingPageStore.training.uuid,
+                        //       isPrivate: !trainingPageStore.training.isPrivate,
+                        //     },
+
+                        //     /**
+                        //      * Update isPrivate property
+                        //      */
+                        //     setTraining: () =>
+                        // trainingPageStore.training.updateIsPrivate(!trainingPageStore.training.isPrivate),
+                        //   }),
+                        // },
                         {
-                          id: "Make the training private/public",
+                          id: "Create way based on the training",
                           isPreventDefaultUsed: false,
-                          isVisible: isOwner,
-                          value: trainingPageStore.training.isPrivate
-                            ? LanguageService.training.peopleBlock.makePublicButton[language]
-                            : LanguageService.training.peopleBlock.makePrivateButton[language],
+                          value: LanguageService.training.trainingActions.createWayOnTraining[language],
 
                           /**
-                           * Toggle training privacy
+                           * Create way based on the training
                            */
-                          onClick: () => updateTraining({
-                            trainingToUpdate: {
-                              uuid: trainingPageStore.training.uuid,
-                              isPrivate: !trainingPageStore.training.isPrivate,
-                            },
-
-                            /**
-                             * Update isPrivate property
-                             */
-                            setTraining: () => trainingPageStore.training.updateIsPrivate(!trainingPageStore.training.isPrivate),
-                          }),
+                          onClick: createWayOnTraining,
+                          isVisible: !!user,
                         },
                         {
                           id: "Copy url to clipboard",
@@ -427,10 +457,13 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
             placeholder=""
           />
 
-          <div>
-            {" "}
-            Hello
-          </div>
+          <TopicsBlock
+            addTopic={(topic: TopicPreview) => trainingPageStore.training.addTopic(topic)}
+            deleteTopic={(topicUuid: string) => trainingPageStore.training.deleteTopic(topicUuid)}
+            isEditable={isOwner}
+            topics={trainingPageStore.training.topics}
+            trainingUuid={trainingPageStore.training.uuid}
+          />
         </VerticalContainer>
 
       </HorizontalGridContainer>

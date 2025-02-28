@@ -1,0 +1,40 @@
+@import "src/styles/variables";
+
+$wayCardMainHeight: 190px;
+$wayCardAdditionalHeight: 118px;
+
+.cardLink {
+  text-decoration: none;
+}
+
+.topicCard {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topicTitleAndLink {
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.topicTitle {
+  width: 100%;
+}
+
+.dateValue {
+  font-size: $fontSizeSmall;
+}
+
+.amountInfo {
+  align-items: center;
+  justify-content: center;
+  gap: $gapExtraSmall;
+}
+
+.topicActionButtons {
+  align-items: center;
+  justify-content: space-between;
+}

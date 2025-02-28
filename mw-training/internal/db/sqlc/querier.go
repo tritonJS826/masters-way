@@ -35,7 +35,6 @@ type Querier interface {
 	GetListTrainingTagsByTrainingIds(ctx context.Context, trainingUuids []pgtype.UUID) ([]GetListTrainingTagsByTrainingIdsRow, error)
 	// lets add likes to response
 	GetMentoringTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringTrainingListRow, error)
-	// lets add likes to response
 	GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetOwnTrainingListRow, error)
 	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error)
 	// lets add likes to response

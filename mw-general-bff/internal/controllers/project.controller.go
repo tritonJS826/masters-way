@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 )
 
 // Without next lines swagger does not see openapi models
@@ -30,7 +31,7 @@ func NewProjectController(projectFacade *facades.ProjectFacade) *ProjectControll
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateProjectPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasProjectPopulatedResponse
+// @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects [post]
 func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 	var payload *schemas.CreateProjectPayload
@@ -40,8 +41,37 @@ func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 		return
 	}
 
-	response, err := pc.projectFacade.CreateProject(ctx, payload)
+	responseRaw, err := pc.projectFacade.CreateProject(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.ProjectPopulatedResponse{
+		ID:        responseRaw.Id,
+		Name:      responseRaw.Name,
+		OwnerID:   responseRaw.OwnerId,
+		IsPrivate: responseRaw.IsPrivate,
+		Ways:      lo.Map(responseRaw.Ways, ConvertWay),
+		Users: lo.Map(responseRaw.Users, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponseWithInfo, _ int) schemas.UserPlainResponseWithInfo {
+			return schemas.UserPlainResponseWithInfo{
+				Uuid:             user.Uuid,
+				Name:             user.Name,
+				Email:            user.Email,
+				ImageUrl:         user.ImageUrl,
+				IsMentor:         user.IsMentor,
+				Description:      user.Description,
+				CreatedAt:        user.CreatedAt,
+				FavoriteForUsers: user.FavoriteForUsers,
+				FavoriteWays:     user.FavoriteWays,
+				MentoringWays:    user.MentoringWays,
+				OwnWays:          user.OwnWays,
+				Tags: lo.Map(user.Tags, func(tag openapiGeneral.MwServerInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
+					return schemas.UserTagResponse{
+						Uuid: tag.Uuid,
+						Name: tag.Name,
+					}
+				}),
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -55,7 +85,7 @@ func (pc *ProjectController) CreateProject(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateProjectPayload true "query params"
 // @Param projectId path string true "project id"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasProjectPopulatedResponse
+// @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects/{projectId} [patch]
 func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 	var payload *schemas.UpdateProjectPayload
@@ -66,12 +96,41 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 		return
 	}
 
-	response, err := pc.projectFacade.UpdateProject(ctx, &services.UpdateProjectParams{
+	responseRaw, err := pc.projectFacade.UpdateProject(ctx, &services.UpdateProjectParams{
 		ID:        projectID,
 		Name:      payload.Name,
 		IsPrivate: payload.IsPrivate,
 	})
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.ProjectPopulatedResponse{
+		ID:        responseRaw.Id,
+		Name:      responseRaw.Name,
+		OwnerID:   responseRaw.OwnerId,
+		IsPrivate: responseRaw.IsPrivate,
+		Ways:      lo.Map(responseRaw.Ways, ConvertWay),
+		Users: lo.Map(responseRaw.Users, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponseWithInfo, _ int) schemas.UserPlainResponseWithInfo {
+			return schemas.UserPlainResponseWithInfo{
+				Uuid:             user.Uuid,
+				Name:             user.Name,
+				Email:            user.Email,
+				ImageUrl:         user.ImageUrl,
+				IsMentor:         user.IsMentor,
+				Description:      user.Description,
+				CreatedAt:        user.CreatedAt,
+				FavoriteForUsers: user.FavoriteForUsers,
+				FavoriteWays:     user.FavoriteWays,
+				MentoringWays:    user.MentoringWays,
+				OwnWays:          user.OwnWays,
+				Tags: lo.Map(user.Tags, func(tag openapiGeneral.MwServerInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
+					return schemas.UserTagResponse{
+						Uuid: tag.Uuid,
+						Name: tag.Name,
+					}
+				}),
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }
@@ -84,13 +143,42 @@ func (pc *ProjectController) UpdateProject(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param projectId path string true "project id"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasProjectPopulatedResponse
+// @Success 200 {object} schemas.ProjectPopulatedResponse
 // @Router /projects/{projectId} [get]
 func (pc *ProjectController) GetProjectByID(ctx *gin.Context) {
 	projectID := ctx.Param("projectId")
 
-	response, err := pc.projectFacade.GetProjectByID(ctx, projectID)
+	responseRaw, err := pc.projectFacade.GetProjectByID(ctx, projectID)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.ProjectPopulatedResponse{
+		ID:        responseRaw.Id,
+		Name:      responseRaw.Name,
+		OwnerID:   responseRaw.OwnerId,
+		IsPrivate: responseRaw.IsPrivate,
+		Ways:      lo.Map(responseRaw.Ways, ConvertWay),
+		Users: lo.Map(responseRaw.Users, func(user openapiGeneral.MwServerInternalSchemasUserPlainResponseWithInfo, _ int) schemas.UserPlainResponseWithInfo {
+			return schemas.UserPlainResponseWithInfo{
+				Uuid:             user.Uuid,
+				Name:             user.Name,
+				Email:            user.Email,
+				ImageUrl:         user.ImageUrl,
+				IsMentor:         user.IsMentor,
+				Description:      user.Description,
+				CreatedAt:        user.CreatedAt,
+				FavoriteForUsers: user.FavoriteForUsers,
+				FavoriteWays:     user.FavoriteWays,
+				MentoringWays:    user.MentoringWays,
+				OwnWays:          user.OwnWays,
+				Tags: lo.Map(user.Tags, func(tag openapiGeneral.MwServerInternalSchemasUserTagResponse, _ int) schemas.UserTagResponse {
+					return schemas.UserTagResponse{
+						Uuid: tag.Uuid,
+						Name: tag.Name,
+					}
+				}),
+			}
+		}),
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }

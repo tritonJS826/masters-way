@@ -68,6 +68,7 @@ func (q *Queries) DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid p
 const getTheoryMaterialsByTopicId = `-- name: GetTheoryMaterialsByTopicId :many
 SELECT uuid, topic_uuid, name, theory_material_order, description, created_at, updated_at FROM theory_materials
 WHERE theory_materials.topic_uuid = $1
+ORDER BY created_at
 `
 
 func (q *Queries) GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error) {

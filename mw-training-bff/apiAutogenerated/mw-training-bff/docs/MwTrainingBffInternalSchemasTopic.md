@@ -7,9 +7,10 @@ Name | Type | Description | Notes
 **CreatedAt** | **string** |  | 
 **Name** | **string** |  | 
 **Order** | **int32** |  | 
+**Owner** | [**MwTrainingBffInternalSchemasUser**](MwTrainingBffInternalSchemasUser.md) |  | 
 **ParentUuid** | **NullableString** |  | 
-**PracticeMaterialAmount** | **int32** |  | 
-**TheoryMaterialAmount** | **int32** |  | 
+**PracticeMaterials** | [**[]MwTrainingBffInternalSchemasPracticeMaterial**](MwTrainingBffInternalSchemasPracticeMaterial.md) |  | 
+**TheoryMaterials** | [**[]MwTrainingBffInternalSchemasTheoryMaterial**](MwTrainingBffInternalSchemasTheoryMaterial.md) |  | 
 **TrainingUuid** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -17,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasTopic
 
-`func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, parentUuid NullableString, practiceMaterialAmount int32, theoryMaterialAmount int32, trainingUuid string, uuid string, ) *MwTrainingBffInternalSchemasTopic`
+`func NewMwTrainingBffInternalSchemasTopic(createdAt string, name string, order int32, owner MwTrainingBffInternalSchemasUser, parentUuid NullableString, practiceMaterials []MwTrainingBffInternalSchemasPracticeMaterial, theoryMaterials []MwTrainingBffInternalSchemasTheoryMaterial, trainingUuid string, uuid string, ) *MwTrainingBffInternalSchemasTopic`
 
 NewMwTrainingBffInternalSchemasTopic instantiates a new MwTrainingBffInternalSchemasTopic object
 This constructor will assign default values to properties that have it defined,
@@ -92,6 +93,26 @@ and a boolean to check if the value has been set.
 SetOrder sets Order field to given value.
 
 
+### GetOwner
+
+`func (o *MwTrainingBffInternalSchemasTopic) GetOwner() MwTrainingBffInternalSchemasUser`
+
+GetOwner returns the Owner field if non-nil, zero value otherwise.
+
+### GetOwnerOk
+
+`func (o *MwTrainingBffInternalSchemasTopic) GetOwnerOk() (*MwTrainingBffInternalSchemasUser, bool)`
+
+GetOwnerOk returns a tuple with the Owner field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOwner
+
+`func (o *MwTrainingBffInternalSchemasTopic) SetOwner(v MwTrainingBffInternalSchemasUser)`
+
+SetOwner sets Owner field to given value.
+
+
 ### GetParentUuid
 
 `func (o *MwTrainingBffInternalSchemasTopic) GetParentUuid() string`
@@ -122,44 +143,44 @@ SetParentUuid sets ParentUuid field to given value.
 `func (o *MwTrainingBffInternalSchemasTopic) UnsetParentUuid()`
 
 UnsetParentUuid ensures that no value is present for ParentUuid, not even an explicit nil
-### GetPracticeMaterialAmount
+### GetPracticeMaterials
 
-`func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterialAmount() int32`
+`func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterials() []MwTrainingBffInternalSchemasPracticeMaterial`
 
-GetPracticeMaterialAmount returns the PracticeMaterialAmount field if non-nil, zero value otherwise.
+GetPracticeMaterials returns the PracticeMaterials field if non-nil, zero value otherwise.
 
-### GetPracticeMaterialAmountOk
+### GetPracticeMaterialsOk
 
-`func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterialAmountOk() (*int32, bool)`
+`func (o *MwTrainingBffInternalSchemasTopic) GetPracticeMaterialsOk() (*[]MwTrainingBffInternalSchemasPracticeMaterial, bool)`
 
-GetPracticeMaterialAmountOk returns a tuple with the PracticeMaterialAmount field if it's non-nil, zero value otherwise
+GetPracticeMaterialsOk returns a tuple with the PracticeMaterials field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPracticeMaterialAmount
+### SetPracticeMaterials
 
-`func (o *MwTrainingBffInternalSchemasTopic) SetPracticeMaterialAmount(v int32)`
+`func (o *MwTrainingBffInternalSchemasTopic) SetPracticeMaterials(v []MwTrainingBffInternalSchemasPracticeMaterial)`
 
-SetPracticeMaterialAmount sets PracticeMaterialAmount field to given value.
+SetPracticeMaterials sets PracticeMaterials field to given value.
 
 
-### GetTheoryMaterialAmount
+### GetTheoryMaterials
 
-`func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterialAmount() int32`
+`func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterials() []MwTrainingBffInternalSchemasTheoryMaterial`
 
-GetTheoryMaterialAmount returns the TheoryMaterialAmount field if non-nil, zero value otherwise.
+GetTheoryMaterials returns the TheoryMaterials field if non-nil, zero value otherwise.
 
-### GetTheoryMaterialAmountOk
+### GetTheoryMaterialsOk
 
-`func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterialAmountOk() (*int32, bool)`
+`func (o *MwTrainingBffInternalSchemasTopic) GetTheoryMaterialsOk() (*[]MwTrainingBffInternalSchemasTheoryMaterial, bool)`
 
-GetTheoryMaterialAmountOk returns a tuple with the TheoryMaterialAmount field if it's non-nil, zero value otherwise
+GetTheoryMaterialsOk returns a tuple with the TheoryMaterials field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTheoryMaterialAmount
+### SetTheoryMaterials
 
-`func (o *MwTrainingBffInternalSchemasTopic) SetTheoryMaterialAmount(v int32)`
+`func (o *MwTrainingBffInternalSchemasTopic) SetTheoryMaterials(v []MwTrainingBffInternalSchemasTheoryMaterial)`
 
-SetTheoryMaterialAmount sets TheoryMaterialAmount field to given value.
+SetTheoryMaterials sets TheoryMaterials field to given value.
 
 
 ### GetTrainingUuid

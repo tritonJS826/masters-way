@@ -40,26 +40,6 @@ paths:
       tags:
       - favorite-user-training
   /practiceMaterials:
-    patch:
-      operationId: update-practice-material
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
-          description: OK
-      summary: Update practice material
-      tags:
-      - practice-material
-      x-codegen-request-body-name: request
     post:
       operationId: create-practice-material
       requestBody:
@@ -67,7 +47,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreatePracticeMaterialPayload'
-        description: query params
+        description: "query params, client must use for PracticeType: 'input_word'"
         required: true
       responses:
         "200":
@@ -97,6 +77,33 @@ paths:
       summary: Delete practice material
       tags:
       - practice-material
+    patch:
+      operationId: update-practice-material
+      parameters:
+      - description: practice material id
+        in: path
+        name: practiceMaterialId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
+          description: OK
+      summary: Update practice material
+      tags:
+      - practice-material
+      x-codegen-request-body-name: request
   /practiceMaterials/{topicId}:
     get:
       operationId: get-practice-materials-by-topic-id
@@ -118,26 +125,6 @@ paths:
       tags:
       - practice-material
   /theoryMaterials:
-    patch:
-      operationId: update-theory-material
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
-          description: OK
-      summary: Update theory material
-      tags:
-      - theory-material
-      x-codegen-request-body-name: request
     post:
       operationId: create-theory-material
       requestBody:
@@ -175,6 +162,33 @@ paths:
       summary: Delete theory material
       tags:
       - theory-material
+    patch:
+      operationId: update-theory-material
+      parameters:
+      - description: theory material id
+        in: path
+        name: theoryMaterialId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
+          description: OK
+      summary: Update theory material
+      tags:
+      - theory-material
+      x-codegen-request-body-name: request
   /theoryMaterials/{topicId}:
     get:
       operationId: get-theory-materials-by-topic-id
@@ -212,6 +226,25 @@ paths:
       summary: Delete topic by Uuid
       tags:
       - topic
+    get:
+      operationId: get-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+          description: OK
+      summary: Get topic by id
+      tags:
+      - topic
     patch:
       operationId: update-topic
       parameters:
@@ -233,7 +266,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
           description: OK
       summary: Update topic
       tags:
@@ -259,7 +292,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
           description: OK
       summary: Create topic
       tags:
@@ -761,6 +794,89 @@ components:
       type: object
     mw-training-bff_internal_schemas.Topic:
       example:
+        owner:
+          imageUrl: imageUrl
+          name: name
+          uuid: uuid
+        theoryMaterials:
+        - createdAt: createdAt
+          name: name
+          description: description
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        - createdAt: createdAt
+          name: name
+          description: description
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        createdAt: createdAt
+        practiceMaterials:
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        trainingUuid: trainingUuid
+        name: name
+        uuid: uuid
+        parentUuid: parentUuid
+        order: 0
+      properties:
+        createdAt:
+          type: string
+        name:
+          type: string
+        order:
+          type: integer
+        owner:
+          $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
+        parentUuid:
+          nullable: true
+          type: string
+        practiceMaterials:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.PracticeMaterial'
+          type: array
+        theoryMaterials:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TheoryMaterial'
+          type: array
+        trainingUuid:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - name
+      - order
+      - owner
+      - parentUuid
+      - practiceMaterials
+      - theoryMaterials
+      - trainingUuid
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.TopicPreview:
+      example:
         createdAt: createdAt
         trainingUuid: trainingUuid
         name: name
@@ -797,6 +913,31 @@ components:
       - trainingUuid
       - uuid
       type: object
+    mw-training-bff_internal_schemas.TopicTreeNode:
+      example:
+        children:
+        - null
+        - null
+        topic:
+          createdAt: createdAt
+          trainingUuid: trainingUuid
+          name: name
+          practiceMaterialAmount: 6
+          theoryMaterialAmount: 1
+          uuid: uuid
+          parentUuid: parentUuid
+          order: 0
+      properties:
+        children:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicTreeNode'
+          type: array
+        topic:
+          $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
+      required:
+      - children
+      - topic
+      type: object
     mw-training-bff_internal_schemas.Training:
       example:
         owner:
@@ -807,23 +948,31 @@ components:
         - name: name
         - name: name
         createdAt: createdAt
-        topics:
-        - createdAt: createdAt
-          trainingUuid: trainingUuid
-          name: name
-          practiceMaterialAmount: 6
-          theoryMaterialAmount: 1
-          uuid: uuid
-          parentUuid: parentUuid
-          order: 0
-        - createdAt: createdAt
-          trainingUuid: trainingUuid
-          name: name
-          practiceMaterialAmount: 6
-          theoryMaterialAmount: 1
-          uuid: uuid
-          parentUuid: parentUuid
-          order: 0
+        topicsTree:
+        - children:
+          - null
+          - null
+          topic:
+            createdAt: createdAt
+            trainingUuid: trainingUuid
+            name: name
+            practiceMaterialAmount: 6
+            theoryMaterialAmount: 1
+            uuid: uuid
+            parentUuid: parentUuid
+            order: 0
+        - children:
+          - null
+          - null
+          topic:
+            createdAt: createdAt
+            trainingUuid: trainingUuid
+            name: name
+            practiceMaterialAmount: 6
+            theoryMaterialAmount: 1
+            uuid: uuid
+            parentUuid: parentUuid
+            order: 0
         favoriteForUserUuids:
         - favoriteForUserUuids
         - favoriteForUserUuids
@@ -869,9 +1018,9 @@ components:
           items:
             $ref: '#/components/schemas/mw-training-bff_internal_schemas.User'
           type: array
-        topics:
+        topicsTree:
           items:
-            $ref: '#/components/schemas/mw-training-bff_internal_schemas.Topic'
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicTreeNode'
           type: array
         trainingTags:
           items:
@@ -890,7 +1039,7 @@ components:
       - name
       - owner
       - students
-      - topics
+      - topicsTree
       - trainingTags
       - updatedAt
       - uuid
@@ -1060,6 +1209,8 @@ components:
           type: string
         name:
           type: string
+        order:
+          type: integer
         practiceType:
           type: string
         taskDescription:

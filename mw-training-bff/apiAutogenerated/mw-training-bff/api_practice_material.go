@@ -30,7 +30,7 @@ type ApiCreatePracticeMaterialRequest struct {
 	request *MwTrainingBffInternalSchemasCreatePracticeMaterialPayload
 }
 
-// query params
+// query params, client must use for PracticeType: &#39;input_word&#39;
 func (r ApiCreatePracticeMaterialRequest) Request(request MwTrainingBffInternalSchemasCreatePracticeMaterialPayload) ApiCreatePracticeMaterialRequest {
 	r.request = &request
 	return r
@@ -567,6 +567,7 @@ func (a *PracticeMaterialAPIService) GetPracticeMaterialsByTopicIdStreamExecute(
 type ApiUpdatePracticeMaterialRequest struct {
 	ctx context.Context
 	ApiService *PracticeMaterialAPIService
+	practiceMaterialId string
 	request *MwTrainingBffInternalSchemasUpdatePracticeMaterialPayload
 }
 
@@ -584,12 +585,14 @@ func (r ApiUpdatePracticeMaterialRequest) Execute() (*MwTrainingBffInternalSchem
 UpdatePracticeMaterial Update practice material
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param practiceMaterialId practice material id
  @return ApiUpdatePracticeMaterialRequest
 */
-func (a *PracticeMaterialAPIService) UpdatePracticeMaterial(ctx context.Context) ApiUpdatePracticeMaterialRequest {
+func (a *PracticeMaterialAPIService) UpdatePracticeMaterial(ctx context.Context, practiceMaterialId string) ApiUpdatePracticeMaterialRequest {
 	return ApiUpdatePracticeMaterialRequest{
 		ApiService: a,
 		ctx: ctx,
+		practiceMaterialId: practiceMaterialId,
 	}
 }
 
@@ -608,7 +611,8 @@ func (a *PracticeMaterialAPIService) UpdatePracticeMaterialExecute(r ApiUpdatePr
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/practiceMaterials"
+	localVarPath := localBasePath + "/practiceMaterials/{practiceMaterialId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"practiceMaterialId"+"}", url.PathEscape(parameterValueToString(r.practiceMaterialId, "practiceMaterialId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -686,11 +690,13 @@ func (a *PracticeMaterialAPIService) UpdatePracticeMaterialStreamExecute(r ApiUp
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/practiceMaterials"
+	localVarPath := localBasePath + "/practiceMaterials/{practiceMaterialId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"practiceMaterialId"+"}", url.PathEscape(parameterValueToString(r.practiceMaterialId, "practiceMaterialId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
+
 
 
 	// to determine the Content-Type header

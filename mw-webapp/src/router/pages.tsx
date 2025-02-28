@@ -1,5 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import React, {ReactElement} from "react";
+import {TopicPage} from "src/logic/topicPage/TopicPage";
 import {UrlParamsType} from "src/router/PageUrlValidator/UrlParamsType";
 
 export type ParamName = string;
@@ -37,6 +38,12 @@ const getPathForWayPage = (params: { uuid: string }): string => `/way/${params.u
  * Create url with appropriate params for @TrainingPage
  */
 const getPathForTrainingPage = (params: { uuid: string }): string => `/training/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @TopicPage
+ */
+const getPathForTopicPage = (params: { trainingUuid: string; topicUuid: string }): string =>
+  `/training/${params.trainingUuid}/topic/${params.topicUuid}`;
 
 /**
  * Create url with appropriate params for @ProjectPage
@@ -213,6 +220,11 @@ export const pages = {
     getPageComponent: (params) => suspended(<TrainingPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{ uuid: string }>,
+  topic: {
+    getPath: (params): string => getPathForTopicPage({trainingUuid: params.trainingUuid, topicUuid: params.topicUuid}),
+    getPageComponent: (params) => suspended(<TopicPage {...params} />),
+    urlParams: {trainingUuid: UrlParamsType.UUID, topicUuid: UrlParamsType.UUID} as const,
+  } as PageParams<{trainingUuid: string; topicUuid: string}>,
   project: {
     getPath: (params): string => getPathForProjectPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<ProjectPage {...params} />),

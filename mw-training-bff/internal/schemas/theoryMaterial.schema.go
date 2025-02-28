@@ -10,11 +10,12 @@ type CreatePracticeMaterialPayload struct {
 }
 
 type UpdatePracticeMaterialPayload struct {
-	Name            string `json:"name"`
-	TaskDescription string `json:"taskDescription"`
-	Answer          string `json:"answer"`
-	PracticeType    string `json:"practiceType"`
-	TimeToAnswer    int32  `json:"timeToAnswer"`
+	Name            *string `json:"name"`
+	TaskDescription *string `json:"taskDescription"`
+	Answer          *string `json:"answer"`
+	PracticeType    *string `json:"practiceType"`
+	TimeToAnswer    *int32  `json:"timeToAnswer"`
+	Order           *int32  `json:"order"`
 }
 
 type PracticeMaterials struct {

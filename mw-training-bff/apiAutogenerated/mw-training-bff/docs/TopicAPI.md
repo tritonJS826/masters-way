@@ -6,13 +6,14 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**CreateTopic**](TopicAPI.md#CreateTopic) | **Post** /topics/{trainingId} | Create topic
 [**DeleteTopic**](TopicAPI.md#DeleteTopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
+[**GetTopic**](TopicAPI.md#GetTopic) | **Get** /topics/{topicId} | Get topic by id
 [**UpdateTopic**](TopicAPI.md#UpdateTopic) | **Patch** /topics/{topicId} | Update topic
 
 
 
 ## CreateTopic
 
-> MwTrainingBffInternalSchemasTopic CreateTopic(ctx, trainingId).TopicParentId(topicParentId).Execute()
+> MwTrainingBffInternalSchemasTopicPreview CreateTopic(ctx, trainingId).TopicParentId(topicParentId).Execute()
 
 Create topic
 
@@ -39,7 +40,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.CreateTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateTopic`: MwTrainingBffInternalSchemasTopic
+	// response from `CreateTopic`: MwTrainingBffInternalSchemasTopicPreview
 	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.CreateTopic`: %v\n", resp)
 }
 ```
@@ -64,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md)
+[**MwTrainingBffInternalSchemasTopicPreview**](MwTrainingBffInternalSchemasTopicPreview.md)
 
 ### Authorization
 
@@ -146,9 +147,77 @@ No authorization required
 [[Back to README]](../README.md)
 
 
+## GetTopic
+
+> MwTrainingBffInternalSchemasTopic GetTopic(ctx, topicId).Execute()
+
+Get topic by id
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	topicId := "topicId_example" // string | topic id
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.TopicAPI.GetTopic(context.Background(), topicId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.GetTopic``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetTopic`: MwTrainingBffInternalSchemasTopic
+	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.GetTopic`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**topicId** | **string** | topic id | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetTopicRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## UpdateTopic
 
-> MwTrainingBffInternalSchemasTopic UpdateTopic(ctx, topicId).Request(request).Execute()
+> MwTrainingBffInternalSchemasTopicPreview UpdateTopic(ctx, topicId).Request(request).Execute()
 
 Update topic
 
@@ -175,7 +244,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.UpdateTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `UpdateTopic`: MwTrainingBffInternalSchemasTopic
+	// response from `UpdateTopic`: MwTrainingBffInternalSchemasTopicPreview
 	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.UpdateTopic`: %v\n", resp)
 }
 ```
@@ -200,7 +269,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwTrainingBffInternalSchemasTopic**](MwTrainingBffInternalSchemasTopic.md)
+[**MwTrainingBffInternalSchemasTopicPreview**](MwTrainingBffInternalSchemasTopicPreview.md)
 
 ### Authorization
 

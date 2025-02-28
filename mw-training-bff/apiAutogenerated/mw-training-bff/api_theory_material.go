@@ -567,6 +567,7 @@ func (a *TheoryMaterialAPIService) GetTheoryMaterialsByTopicIdStreamExecute(r Ap
 type ApiUpdateTheoryMaterialRequest struct {
 	ctx context.Context
 	ApiService *TheoryMaterialAPIService
+	theoryMaterialId string
 	request *MwTrainingBffInternalSchemasUpdateTheoryMaterialPayload
 }
 
@@ -584,12 +585,14 @@ func (r ApiUpdateTheoryMaterialRequest) Execute() (*MwTrainingBffInternalSchemas
 UpdateTheoryMaterial Update theory material
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param theoryMaterialId theory material id
  @return ApiUpdateTheoryMaterialRequest
 */
-func (a *TheoryMaterialAPIService) UpdateTheoryMaterial(ctx context.Context) ApiUpdateTheoryMaterialRequest {
+func (a *TheoryMaterialAPIService) UpdateTheoryMaterial(ctx context.Context, theoryMaterialId string) ApiUpdateTheoryMaterialRequest {
 	return ApiUpdateTheoryMaterialRequest{
 		ApiService: a,
 		ctx: ctx,
+		theoryMaterialId: theoryMaterialId,
 	}
 }
 
@@ -608,7 +611,8 @@ func (a *TheoryMaterialAPIService) UpdateTheoryMaterialExecute(r ApiUpdateTheory
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/theoryMaterials"
+	localVarPath := localBasePath + "/theoryMaterials/{theoryMaterialId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"theoryMaterialId"+"}", url.PathEscape(parameterValueToString(r.theoryMaterialId, "theoryMaterialId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -686,11 +690,13 @@ func (a *TheoryMaterialAPIService) UpdateTheoryMaterialStreamExecute(r ApiUpdate
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/theoryMaterials"
+	localVarPath := localBasePath + "/theoryMaterials/{theoryMaterialId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"theoryMaterialId"+"}", url.PathEscape(parameterValueToString(r.theoryMaterialId, "theoryMaterialId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
+
 
 
 	// to determine the Content-Type header

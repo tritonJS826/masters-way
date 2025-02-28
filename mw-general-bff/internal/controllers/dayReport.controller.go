@@ -38,7 +38,7 @@ func NewDayReportController(dayReportFacade *facades.DayReportFacade) *DayReport
 // @Param wayId path string true "way ID"
 // @Param page query integer false "Page number for pagination"
 // @Param limit query integer false "Number of items per page"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasListDayReportsResponse
+// @Success 200 {object} schemas.ListDayReportsResponse
 // @Router /dayReports/{wayId} [get]
 func (dc *DayReportController) GetDayReports(ctx *gin.Context) {
 	wayUUIDRaw := ctx.Param("wayId")
@@ -68,7 +68,7 @@ func (dc *DayReportController) GetDayReports(ctx *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateDayReportPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasCompositeDayReportPopulatedResponse
+// @Success 200 {object} schemas.CompositeDayReportPopulatedResponse
 // @Router /dayReports [post]
 func (dc *DayReportController) CreateDayReport(ctx *gin.Context) {
 	var payload *schemas.CreateDayReportPayload

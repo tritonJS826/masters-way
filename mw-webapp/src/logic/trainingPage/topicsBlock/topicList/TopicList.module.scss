@@ -1,0 +1,27 @@
+@import "src/styles/variables";
+
+.singularTopic {
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px $paddingSmall;
+  border-radius: $primaryBorderRadius;
+
+  &:hover {
+    background-color: var(--tertiaryBgColor);
+  }
+}
+
+.tabContainer {
+  display: flex;
+  overflow: hidden;
+  width: 16px;
+  height: 20px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.topicBullet {
+  width: 100%;
+  gap: $gapExtraSmall;
+}

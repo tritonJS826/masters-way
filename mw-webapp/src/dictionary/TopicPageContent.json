@@ -1,0 +1,111 @@
+{
+  "infotip": {
+    "topicName": {
+      "ru": "Изменить название темы можно по двойному клику.",
+      "en": "You can change the name of the topic by double clicking.",
+      "ua": "Змінити назву теми можна за подвійним кліком."
+    },
+    "topicOwner": {
+      "ru": "Ссылка на пользователя, который создал данную тему.",
+      "en": "Link to the user who created this topic.",
+      "ua": "Посилання на користувача, який створив цю тему."
+    }
+  },
+  "notifications": {
+    "topicNameMaxLength": {
+      "ru": "Имя не должно превышать 50 символов",
+      "en": "Name should not exceed 50 characters",
+      "ua": "Ім'я не повинно перевищувати 50 символів"
+    },
+    "topicNameMinLength": {
+      "ru": "Имя должно содержать хотя бы один символ",
+      "en": "Name should include at least one character",
+      "ua": "Ім'я повинно містити принаймні один символ"
+    }
+  },
+  "topicInfo": {
+    "topicActionsTooltip": {
+      "ru": "Доступные действия",
+      "en": "Training actions",
+      "ua": "Доступні дії"
+    }
+  },
+  "topicActions": {
+    "deleteTopic": {
+      "ru": "Удалить тему",
+      "en": "Delete the topic",
+      "ua": "Видалити тему"
+    },
+    "deleteTopicQuestion": {
+      "ru": "Вы уверены, что хотите удалить тему",
+      "en": "Are you sure you want to delete the topic",
+      "ua": "Ви впевнені, що хочете видалити тему"
+    }
+  },
+  "peopleBlock": {
+    "topicOwner": {
+      "ru": "Владелец темы:",
+      "en": "Topic's owner:",
+      "ua": "Власник теми:"
+    }
+  },
+  "materialsBlock": {
+    "theoryMaterialsTitle": {
+      "ru": "Теоретические материалы:",
+      "en": "Theoretical materials:",
+      "ua": "Теоретичні матеріали:"
+    },
+    "practiceMaterialsTitle": {
+      "ru": "Практические материалы:",
+      "en": "Practical materials:",
+      "ua": "Практичні матеріали:"
+    },
+    "createdAt": {
+      "ru": "Создан",
+      "en": "Created at",
+      "ua": "Створено"
+    },
+    "addNewTheoryMaterialButton": {
+      "ru": "Добавить теоретический материал",
+      "en": "Add theoretical material",
+      "ua": "Додати теоретичний матеріал"
+    },
+    "addNewPracticalMaterialButton": {
+      "ru": "Добавить практический материал",
+      "en": "Add practical material",
+      "ua": "Додайте практичний матеріал"
+    },
+    "deleteTheoryMaterialQuestion": {
+      "ru": "Вы уверены, что хотите удалить теоретический материал",
+      "en": "Are you sure you want to delete the theoretical material",
+      "ua": "Ви впевнені, що хочете видалити теоретичний матеріал"
+    },
+    "deletePracticalMaterialQuestion": {
+      "ru": "Вы уверены, что хотите удалить практический материал",
+      "en": "Are you sure you want to delete the practical material",
+      "ua": "Ви впевнені, що хочете видалити практичний матеріал"
+    },
+    "deleteMaterialTooltip": {
+      "ru": "Удалить материал",
+      "en": "Delete material",
+      "ua": "Видалити матеріал"
+    },
+    "tooltips": {
+      "theoryMaterialAmount": {
+        "ru": "Количество теоретических материалов",
+        "en": "Number of theoretical materials",
+        "ua": "Кількість теоретичних матеріалів"
+      },
+      "practiceMaterialAmount": {
+        "ru": "Количество практических материалов",
+        "en": "Number of practical materials",
+        "ua": "Кількість практичних матеріалів"
+      },
+      "externalLink": {
+        "ru": "Ссылка для перехода на страницу Темы и возможности ее редактировать",
+        "en": "The link to go to the Topic's page and the ability to edit it",
+        "ua": "Посилання для переходу на сторінку тем і можливість її редагування"
+      }
+    }
+  }
+}
