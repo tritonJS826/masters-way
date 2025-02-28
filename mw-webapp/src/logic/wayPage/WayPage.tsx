@@ -39,12 +39,13 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
-import {getAllCollections} from "src/logic/userPage/UserPage";
+import {getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
 import {GoalMetricsBlock} from "src/logic/wayPage/goalMetricsBlock/GoalMetricsBlock";
 import {AdjustLabelsBlock} from "src/logic/wayPage/labels/AdjustLabelsModalContent";
 import {MentorRequestsSection} from "src/logic/wayPage/MentorRequestsSection";
 import {MentorsSection} from "src/logic/wayPage/MentorsSection";
+import {MAX_LENGTH_WAYNAME, MIN_LENGTH_WAYNAME} from "src/logic/wayPage/MIN_LENGTH_WAYNAME";
 import {downloadWayPdf} from "src/logic/wayPage/renderWayToPdf/downloadWayPdf";
 import {DayReports} from "src/logic/wayPage/reports/dayReports/DayReports";
 import {WayChildrenList} from "src/logic/wayPage/WayChildrenList/WayChildrenList";
@@ -68,9 +69,6 @@ import {Symbols} from "src/utils/Symbols";
 import {TreeUtils} from "src/utils/TreeUtils";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/wayPage/WayPage.module.scss";
-
-export const MAX_LENGTH_WAYNAME = 50;
-export const MIN_LENGTH_WAYNAME = 1;
 
 const LIKE_VALUE = 1;
 export const DEFAULT_WAY_PAGE_SETTINGS: WayPageSettings = {
