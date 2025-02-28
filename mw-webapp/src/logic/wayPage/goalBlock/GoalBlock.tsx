@@ -7,7 +7,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {userStore} from "src/globalStore/UserStore";
-import {getAllCollections} from "src/logic/userPage/UserPage";
+import {getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 

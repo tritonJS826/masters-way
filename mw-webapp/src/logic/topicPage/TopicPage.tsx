@@ -24,7 +24,7 @@ import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {TopicPageStore} from "src/logic/topicPage/TopicPageStore";
-import {MAX_LENGTH_WAYNAME, MIN_LENGTH_WAYNAME} from "src/logic/wayPage/WayPage";
+import {MAX_LENGTH_WAYNAME, MIN_LENGTH_WAYNAME} from "src/logic/wayPage/MIN_LENGTH_WAYNAME";
 import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
 import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
 import {Topic} from "src/model/businessModel/Topic";

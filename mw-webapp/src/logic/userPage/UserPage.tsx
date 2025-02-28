@@ -45,6 +45,7 @@ import {userStore} from "src/globalStore/UserStore";
 import {usePersistanceState} from "src/hooks/usePersistanceState";
 import {useStore} from "src/hooks/useStore";
 import {chatStore} from "src/logic/chat/ChatStore";
+import {DefaultTrainingCollection, getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {TrainingTab} from "src/logic/userPage/trainingTab/TrainingTab";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -63,20 +64,6 @@ import styles from "src/logic/userPage/UserPage.module.scss";
 
 const MAX_LENGTH_USERNAME = 50;
 const MIN_LENGTH_USERNAME = 1;
-
-/**
- * Get all collections
- */
-export const getAllCollections = (defaultWayCollections: DefaultWayCollections, customWayCollections: WayCollection[]) => {
-  const allWayCollections = [
-    defaultWayCollections.own,
-    defaultWayCollections.mentoring,
-    defaultWayCollections.favorite,
-    ...customWayCollections,
-  ];
-
-  return allWayCollections;
-};
 
 /**
  * Update User params
@@ -120,16 +107,6 @@ enum DefaultCollections {
   OWN = "own",
   MENTORING = "mentoring",
   FAVORITE = "favorite",
-}
-
-/**
- * Default trainings collections
- */
-export enum DefaultTrainingCollection {
-  OWN = "owner",
-  MENTORING = "mentor",
-  FAVORITE = "favorite",
-  STUDENT = "student"
 }
 
 const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
