@@ -13,11 +13,21 @@
   },
   "notifications": {
     "topicNameMaxLength": {
-      "ru": "Имя не должно превышать 50 символов",
-      "en": "Name should not exceed 50 characters",
-      "ua": "Ім'я не повинно перевищувати 50 символів"
+      "ru": "Имя не должно превышать 300 символов",
+      "en": "Name should not exceed 300 characters",
+      "ua": "Ім'я не повинно перевищувати 300 символів"
     },
     "topicNameMinLength": {
+      "ru": "Имя должно содержать хотя бы один символ",
+      "en": "Name should include at least one character",
+      "ua": "Ім'я повинно містити принаймні один символ"
+    },
+    "materialNameMaxLength": {
+      "ru": "Имя не должно превышать 128 символов",
+      "en": "Name should not exceed 128 characters",
+      "ua": "Ім'я не повинно перевищувати 128 символів"
+    },
+    "materialNameMinLength": {
       "ru": "Имя должно содержать хотя бы один символ",
       "en": "Name should include at least one character",
       "ua": "Ім'я повинно містити принаймні один символ"
@@ -47,6 +57,11 @@
       "ru": "Владелец темы:",
       "en": "Topic's owner:",
       "ua": "Власник теми:"
+    },
+    "parentTraining": {
+      "ru": "Тренинг:",
+      "en": "Training:",
+      "ua": "Тренинг:"
     }
   },
   "materialsBlock": {
@@ -107,5 +122,10 @@
         "ua": "Посилання для переходу на сторінку тем і можливість її редагування"
       }
     }
+  },
+  "backToTrainingButton": {
+    "ru": "Вернуться на страницу тренинга",
+    "en": "Return to training page",
+    "ua": "Повернутися на сторінку тренінгу"
   }
 }
