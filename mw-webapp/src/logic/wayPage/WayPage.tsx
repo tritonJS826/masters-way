@@ -37,7 +37,7 @@ import {WayTagDAL} from "src/dataAccessLogic/WayTagDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
 import {getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {GoalBlock} from "src/logic/wayPage/goalBlock/GoalBlock";
@@ -144,7 +144,7 @@ interface WayPageProps {
  */
 export const WayPage = observer((props: WayPageProps) => {
   const navigate = useNavigate();
-  const [wayPageSettings,, updateWayPageSettings] = usePersistanceState({
+  const [wayPageSettings,, updateWayPageSettings] = usePersistenceState({
     key: "wayPage",
     defaultValue: DEFAULT_WAY_PAGE_SETTINGS,
 

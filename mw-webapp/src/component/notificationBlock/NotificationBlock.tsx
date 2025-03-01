@@ -6,7 +6,7 @@ import {Select} from "src/component/select/Select";
 import {Separator} from "src/component/separator/Separator";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {notificationStore} from "src/globalStore/NotificationStore";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useScroll} from "src/hooks/useScroll";
 import {Notification} from "src/model/businessModel/Notification";
 import {LanguageService} from "src/service/LanguageService";
@@ -90,9 +90,16 @@ interface NotificationBlockProps {
  */
 export const NotificationBlock = observer((props: NotificationBlockProps) => {
   const {language} = languageStore;
-  const [notificationBlockSettings,, updateNotificationBlockSettings] = usePersistanceState({
+  const [notificationBlockSettings,, updateNotificationBlockSettings] = usePersistenceState({
     key: "notificationBlock",
     defaultValue: DEFAULT_NOTIFICATION_BLOCK_SETTINGS,
+
+    /**
+     * Check is stored data valid
+     */
+    storedDataValidator: (currentSettings: NotificationBlockSettings) => {
+      return typeof currentSettings.isOnlyNew === "boolean";
+    },
   });
   const [isHandleScrollInProgress, setHandleSCrollInProgress] = useState(false);
 

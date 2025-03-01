@@ -17,7 +17,7 @@ import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useLoad} from "src/hooks/useLoad";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
@@ -42,7 +42,13 @@ const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
  * Safe opened tab from localStorage
  */
 const allWaysPageSettingsValidator = (currentSettings: AllWaysPageSettings) => {
-  return !!currentSettings.filterStatus && Number.isInteger(currentSettings.minDayReportsAmount);
+  const isFilterStatusValid = currentSettings.filterStatus === FILTER_STATUS_ALL_VALUE ||
+    Object.values(WayStatus).includes(currentSettings.filterStatus);
+  const isMinDayReportsAmountValid = Number.isInteger(currentSettings.minDayReportsAmount);
+  const isViewValid = !!currentSettings.view && Object.values(View).includes(currentSettings.view);
+  const isWayNameValid = typeof currentSettings.wayName === "string";
+
+  return isFilterStatusValid && isMinDayReportsAmountValid && isViewValid && isWayNameValid;
 };
 
 /**
@@ -73,7 +79,7 @@ export const AllWaysPage = observer(() => {
 
   const isMoreWaysExist = allWays && allWaysAmount && allWays.length < allWaysAmount;
 
-  const [allWaysPageSettings, updateAllWaysPageSettings] = usePersistanceState({
+  const [allWaysPageSettings, updateAllWaysPageSettings] = usePersistenceState({
     key: "allWaysPage",
     defaultValue: DEFAULT_ALL_WAYS_PAGE_SETTINGS,
 
