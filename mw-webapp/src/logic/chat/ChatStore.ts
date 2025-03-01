@@ -89,9 +89,9 @@ class ChatStore {
   };
 
   /**
-   * Add one unread message to amount
+   * Increase unread messages counter in chat trigger
    */
-  public addUnreadMessageToAmount = () => {
+  public increaseUnreadMessagesCounterInChatTrigger = () => {
     this.unreadMessagesAmount++;
   };
 

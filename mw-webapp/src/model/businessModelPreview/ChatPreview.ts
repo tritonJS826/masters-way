@@ -72,4 +72,18 @@ export class ChatPreview {
     this.unreadMessagesAmount = chatGroupData.unreadMessagesAmount;
   }
 
+  /**
+   * Increase unreadMessagesAmount value
+   */
+  public increaseUnreadMessagesAmount() {
+    this.unreadMessagesAmount++;
+  }
+
+  /**
+   * Reset unreadMessagesAmount value
+   */
+  public resetUnreadMessagesAmount() {
+    this.unreadMessagesAmount = 0;
+  }
+
 }

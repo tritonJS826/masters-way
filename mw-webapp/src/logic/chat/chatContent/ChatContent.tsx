@@ -43,7 +43,7 @@ export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
   const {theme} = themeStore;
-  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount} = chatStore;
+  const {isChatOpen, activeRoomStore, chatListStore, increaseUnreadMessagesCounterInChatTrigger} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadInProcessChatListPreview;
@@ -93,8 +93,8 @@ export const ChatContent = observer(() => {
       activeRoomStore.activeRoom.addMessage(newMessage);
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
-      addUnreadMessageToAmount();
-      chatListStore?.addUnreadMessageToAmountInChatPreview(payload.roomId);
+      increaseUnreadMessagesCounterInChatTrigger();
+      !!chatListStore && chatListStore.increaseUnreadMessagesCounterInChatPreview(payload.roomId);
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
         type: NotificationType.INFO,
@@ -186,7 +186,9 @@ export const ChatContent = observer(() => {
             chatItem.roomId !== activeRoomStore?.activeRoom.roomId
               ? chatStore.initiateActiveRoomStore(chatItem.roomId)
               : null;
-            chatListStore?.resetUnreadMessagesAmount(chatItem);
+            chatItem.unreadMessagesAmount
+              ? chatItem.resetUnreadMessagesAmount()
+              : null;
           }}
         />
       ),

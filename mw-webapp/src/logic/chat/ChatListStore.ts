@@ -73,27 +73,16 @@ export class ChatListStore {
   };
 
   /**
-   * Add one unread message to unreadMessagesAmount
+   * Increase unread messages counter in chatPreview
    */
-  public addUnreadMessageToAmountInChatPreview = (roomId: string) => {
-
+  public increaseUnreadMessagesCounterInChatPreview = (roomId: string) => {
     this.isLoadInProcessChatListPreview = true;
-    this.chatPreviewList.forEach(chatPreview =>
-      chatPreview.roomId === roomId
-        ? {...chatPreview, unreadMessagesAmount: chatPreview.unreadMessagesAmount++}
-        : chatPreview,
-    );
+    const chatPreview = this.chatPreviewList.find(chat => chat.roomId === roomId);
+    if (chatPreview) {
+      chatPreview.increaseUnreadMessagesAmount();
+    }
+
     this.isLoadInProcessChatListPreview = false;
-  };
-
-  /**
-   * Reset unread messages amount
-   */
-  public resetUnreadMessagesAmount = (chatPreview: ChatPreview) => {
-    chatPreview.unreadMessagesAmount > 0
-      ? chatPreview.unreadMessagesAmount = 0
-      : chatPreview;
-
   };
 
 }
