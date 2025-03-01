@@ -49,6 +49,20 @@ func Test_openapi_TopicAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test TopicAPIService GetTopic", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		var topicId string
+
+		resp, httpRes, err := apiClient.TopicAPI.GetTopic(context.Background(), topicId).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test TopicAPIService UpdateTopic", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

@@ -106,7 +106,10 @@ export class PracticeMaterialDAL {
   public static async updatePracticeMaterial(practiceMaterial: PartialWithUuid<PracticeMaterial>): Promise<PracticeMaterial> {
     const practiceMaterialDTOPartial = practiceMaterialToPracticeMaterialDTOPartial(practiceMaterial);
     const updatedPracticeMaterialDTO =
-      await PracticeMaterialService.updatePracticeMaterial({request: practiceMaterialDTOPartial});
+      await PracticeMaterialService.updatePracticeMaterial({
+        request: practiceMaterialDTOPartial,
+        practiceMaterialId: practiceMaterial.uuid,
+      });
 
     const updatedPracticeMaterial = practiceMaterialDTOToPracticeMaterial(updatedPracticeMaterialDTO);
 

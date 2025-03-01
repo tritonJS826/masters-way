@@ -60,12 +60,13 @@ func (cs *ChatWebSocketService) SendRoom(ctx *gin.Context, populatedRoom *schema
 	})
 
 	request := openapiMWChatWebSocket.MwChatWebsocketInternalSchemasRoomPopulatedResponse{
-		ImageUrl: populatedRoom.ImageURL,
-		Messages: openapiMessages,
-		Name:     populatedRoom.Name,
-		RoomId:   populatedRoom.RoomID,
-		RoomType: populatedRoom.RoomType,
-		Users:    openapiUsers,
+		ImageUrl:             populatedRoom.ImageURL,
+		Messages:             openapiMessages,
+		Name:                 populatedRoom.Name,
+		RoomId:               populatedRoom.RoomID,
+		RoomType:             populatedRoom.RoomType,
+		Users:                openapiUsers,
+		UnreadMessagesAmount: populatedRoom.UnreadMessagesAmount,
 	}
 
 	_, err := cs.chatWebSocketAPI.SocketAPI.SendRoomEvent(ctx).Request(request).Execute()

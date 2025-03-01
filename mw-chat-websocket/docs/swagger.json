@@ -169,6 +169,7 @@
                 "name",
                 "roomId",
                 "roomType",
+                "unreadMessagesAmount",
                 "users"
             ],
             "properties": {
@@ -189,6 +190,9 @@
                 },
                 "roomType": {
                     "type": "string"
+                },
+                "unreadMessagesAmount": {
+                    "type": "integer"
                 },
                 "users": {
                     "type": "array",

@@ -18,9 +18,9 @@
       "ua": "Змінити назву тренінгу можна за подвійним кліком. Рекомендуємо формулювати назву коротко, але інформативно. Це важливо, щоб інші користувачі могли зрозуміти, до чого належить тренінг."
     },
     "privacyStatus": {
-      "ru": "Твой тренинг может быть 'Публичным', то есть доступным для просмотра другими пользователями, или 'Приватным', то есть быть скрыт от всех, кроме менторов и студентов, уже имеющих доступ к твоему тренингу. Изменить статус приватности можно в 'Доступных действиях'.",
-      "en": "Your training can be 'Public', that is, available for viewing by other users, or 'Private', that is, hidden from everyone except mentors and students who already have access to your training. You can change your privacy status in 'Available Actions'.",
-      "ua": "Твій тренінг може бути 'Публічним', тобто доступним для перегляду іншими користувачами, або 'Приватним', тобто бути прихованим від усіх, крім менторів і учнів, які вже мають доступ до твого тренінгу. Змінити статус приватності можна в 'Доступних діях'."
+      "ru": "Твой тренинг может быть 'Публичным', то есть доступным для просмотра другими пользователями, или 'Приватным', то есть быть скрыт от всех, кроме менторов и студентов, уже имеющих доступ к твоему тренингу. Изменить статус приватности можно в 'Доступных действиях'. На данный момент функционал не реализован.",
+      "en": "Your training can be 'Public', that is, available for viewing by other users, or 'Private', that is, hidden from everyone except mentors and students who already have access to your training. You can change your privacy status in 'Available Actions'. At the moment the functionality is not implemented.",
+      "ua": "Твій тренінг може бути 'Публічним', тобто доступним для перегляду іншими користувачами, або 'Приватним', тобто бути прихованим від усіх, крім менторів і учнів, які вже мають доступ до твого тренінгу. Змінити статус приватності можна в 'Доступних діях'. На даний момент функціонал не реалізований."
     },
     "trainingOwner": {
       "ru": "Ссылка на пользователя, который создал данный тренинг.",
@@ -182,6 +182,11 @@
     }
   },
   "trainingActions": {
+    "createWayOnTraining": {
+      "ru": "Создать путь на основе тренинга",
+      "en": "Create way based on training",
+      "ua": "Створити шлях на основі тренінгу"
+    },
     "copyUrlToClipboard": {
       "ru": "Скопировать url",
       "en": "Copy url to clipboard",
@@ -203,6 +208,43 @@
       "ru": "Темы",
       "en": "Topics",
       "ua": "Теми"
+    },
+    "createdAt": {
+      "ru": "Создан",
+      "en": "Created at",
+      "ua": "Створено"
+    },
+    "addNewTopicButton": {
+      "ru": "Добавить тему",
+      "en": "Add topic",
+      "ua": "Додати тему"
+    },
+    "deleteTopicQuestion": {
+      "ru": "Вы уверены, что хотите удалить тему",
+      "en": "Are you sure you want to delete the topic",
+      "ua": "Ви впевнені, що хочете видалити тему"
+    },
+    "deleteTopicTooltip": {
+      "ru": "Удалить тему",
+      "en": "Delete topic",
+      "ua": "Видалити тему"
+    },
+    "tooltips": {
+      "theoryMaterialAmount": {
+        "ru": "Количество теоретических материалов",
+        "en": "Number of theoretical materials",
+        "ua": "Кількість теоретичних матеріалів"
+      },
+      "practiceMaterialAmount": {
+        "ru": "Количество практических материалов",
+        "en": "Number of practical materials",
+        "ua": "Кількість практичних матеріалів"
+      },
+      "externalLink": {
+        "ru": "Ссылка для перехода на страницу Темы и возможности ее редактировать",
+        "en": "The link to go to the Topic's page and the ability to edit it",
+        "ua": "Посилання для переходу на сторінку тем і можливість її редагування"
+      }
     }
   }
 }

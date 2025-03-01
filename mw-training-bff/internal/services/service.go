@@ -41,7 +41,7 @@ func NewService(
 		TrainingStudentService:      NewTrainingStudentService(trainingStudentGRPC),
 		TrainingMentorService:       NewTrainingMentorService(trainingMentorGRPC),
 		TrainingService:             NewTrainingService(trainingGRPC, generalApi),
-		TopicService:                NewTopicService(topicGRPC),
+		TopicService:                NewTopicService(topicGRPC, generalApi),
 		TheoryMaterialService:       NewTheoryMaterialService(theoryMaterialGRPC),
 		PracticeMaterialService:     NewPracticeMaterialService(practiceMaterialGRPC),
 		FavoriteUserTrainingService: NewFavoriteUserTrainingService(favoriteUserTrainingGRPC),

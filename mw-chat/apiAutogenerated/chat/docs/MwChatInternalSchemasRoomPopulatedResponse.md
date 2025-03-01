@@ -9,13 +9,14 @@ Name | Type | Description | Notes
 **Name** | **NullableString** |  | 
 **RoomId** | **string** |  | 
 **RoomType** | **string** |  | 
+**UnreadMessagesAmount** | **int32** |  | 
 **Users** | [**[]MwChatInternalSchemasUserResponse**](MwChatInternalSchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewMwChatInternalSchemasRoomPopulatedResponse
 
-`func NewMwChatInternalSchemasRoomPopulatedResponse(isBlocked bool, messages []MwChatInternalSchemasMessageResponse, name NullableString, roomId string, roomType string, users []MwChatInternalSchemasUserResponse, ) *MwChatInternalSchemasRoomPopulatedResponse`
+`func NewMwChatInternalSchemasRoomPopulatedResponse(isBlocked bool, messages []MwChatInternalSchemasMessageResponse, name NullableString, roomId string, roomType string, unreadMessagesAmount int32, users []MwChatInternalSchemasUserResponse, ) *MwChatInternalSchemasRoomPopulatedResponse`
 
 NewMwChatInternalSchemasRoomPopulatedResponse instantiates a new MwChatInternalSchemasRoomPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -138,6 +139,26 @@ and a boolean to check if the value has been set.
 `func (o *MwChatInternalSchemasRoomPopulatedResponse) SetRoomType(v string)`
 
 SetRoomType sets RoomType field to given value.
+
+
+### GetUnreadMessagesAmount
+
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetUnreadMessagesAmount() int32`
+
+GetUnreadMessagesAmount returns the UnreadMessagesAmount field if non-nil, zero value otherwise.
+
+### GetUnreadMessagesAmountOk
+
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) GetUnreadMessagesAmountOk() (*int32, bool)`
+
+GetUnreadMessagesAmountOk returns a tuple with the UnreadMessagesAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnreadMessagesAmount
+
+`func (o *MwChatInternalSchemasRoomPopulatedResponse) SetUnreadMessagesAmount(v int32)`
+
+SetUnreadMessagesAmount sets UnreadMessagesAmount field to given value.
 
 
 ### GetUsers

@@ -1,0 +1,128 @@
+@import "src/styles/variables";
+
+$iconContainerSize: 25px;
+$labelMaxWidthBlock: 650px;
+
+.container {
+  width: 100%;
+  max-width: $maxWidthContainer;
+  margin-top: $headerHeight;
+  gap: $gapSmall;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.topicDashboard {
+  gap: $gapSmall;
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
+
+  @media (max-width: $mediaWidthTabletBig) {
+    grid-template-columns: minmax($minWidthBlock, 1fr);
+  }
+}
+
+.topicInfo {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapSmall;
+}
+
+.topicDashBoardLeft {
+  position: sticky;
+  top: $headerHeight;
+  max-height: calc(100vh - $headerHeight - $gapSmall);
+  gap: $gapSmall;
+  overflow-y: auto;
+
+  @media (max-width: $mediaWidthTabletBig) {
+    position: static;
+    width: 100%;
+    max-height: none;
+  }
+}
+
+.topicTitleBlock {
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.topicName {
+  flex: 1;
+  input {
+    width: $minWidthBlock;
+    height: $heightH2;
+    margin-top: $marginMedium;
+    margin-bottom: $marginMedium;
+  }
+}
+
+.topicActionButtons {
+  align-items: start;
+}
+
+.topicActionsIcon {
+  height: 38px;
+  padding: 0 $paddingSmall;
+}
+
+.peopleBlock {
+  @include regularContainer;
+  min-width: $minWidthBlock;
+  gap: $gapSmall;
+}
+
+.ownerBlock {
+  flex-wrap: wrap;
+}
+
+.materials {
+  @include regularContainer;
+  width: 100%;
+  gap: $gapMedium;
+}
+
+.materialContainer {
+  width: 100%;
+  align-items: stretch;
+  gap: $gapExtraSmall;
+  scroll-margin-top: calc($headerHeight + $paddingBig);
+}
+
+.editableTextarea {
+  width: 100%;
+}
+
+.materialShortBlock {
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 $paddingExtraSmall;
+  border-radius: $primaryBorderRadius;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tertiaryBgColor);
+  }
+}
+
+.materialTitleAndActionsBlock {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  width: 100%;
+}
+
+.separator {
+  margin-top: $paddingMedium;
+}
+
+.addMaterial {
+  max-width: $minWidthBlock;
+  margin: auto;
+}

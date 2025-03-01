@@ -31,7 +31,7 @@ func NewProblemController(problemFacade *facades.ProblemFacade) *ProblemControll
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateProblemPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse
+// @Success 200 {object} schemas.ProblemPopulatedResponse
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to create problem."
 // @Router /problems [post]
 func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
@@ -42,8 +42,21 @@ func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 		return
 	}
 
-	problem, err := pc.problemFacade.CreateProblem(ctx, payload)
+	problemRaw, err := pc.problemFacade.CreateProblem(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
+
+	problem := schemas.ProblemPopulatedResponse{
+		Uuid:          problemRaw.Uuid,
+		CreatedAt:     problemRaw.CreatedAt,
+		UpdatedAt:     problemRaw.UpdatedAt,
+		Description:   problemRaw.Description,
+		IsDone:        problemRaw.IsDone,
+		OwnerUuid:     problemRaw.OwnerUuid,
+		OwnerName:     problemRaw.OwnerName,
+		DayReportUuid: problemRaw.DayReportUuid,
+		WayUUID:       problemRaw.WayUuid,
+		WayName:       problemRaw.WayName,
+	}
 
 	ctx.JSON(http.StatusOK, problem)
 }
@@ -57,7 +70,7 @@ func (pc *ProblemController) CreateProblem(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateProblemPayload true "query params"
 // @Param problemId path string true "problem ID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasProblemPopulatedResponse
+// @Success 200 {object} schemas.ProblemPopulatedResponse
 // @Failure 403 {object} schemas.NoRightToChangeDayReportError "User doesn't have rights to update problem."
 // @Router /problems/{problemId} [patch]
 func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
@@ -72,13 +85,26 @@ func (pc *ProblemController) UpdateProblem(ctx *gin.Context) {
 		return
 	}
 
-	problem, err := pc.problemFacade.UpdateProblem(ctx, &services.UpdateProblemParams{
+	problemRaw, err := pc.problemFacade.UpdateProblem(ctx, &services.UpdateProblemParams{
 		ProblemID:        problemID,
 		Description:      payload.Description,
 		IsDone:           payload.IsDone,
 		ModifierUserUuid: modifierUserId,
 	})
 	utils.HandleErrorGin(ctx, err)
+
+	problem := schemas.ProblemPopulatedResponse{
+		Uuid:          problemRaw.Uuid,
+		CreatedAt:     problemRaw.CreatedAt,
+		UpdatedAt:     problemRaw.UpdatedAt,
+		Description:   problemRaw.Description,
+		IsDone:        problemRaw.IsDone,
+		OwnerUuid:     problemRaw.OwnerUuid,
+		OwnerName:     problemRaw.OwnerName,
+		DayReportUuid: problemRaw.DayReportUuid,
+		WayUUID:       problemRaw.WayUuid,
+		WayName:       problemRaw.WayName,
+	}
 
 	ctx.JSON(http.StatusOK, problem)
 }

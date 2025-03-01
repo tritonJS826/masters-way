@@ -57,12 +57,12 @@ func (pmc *PracticeMaterialController) UpdatePracticeMaterial(ctx context.Contex
 	timeToAnswer := in.GetTimeToAnswer()
 
 	arg := db.UpdatePracticeMaterialParams{
-		Name:            pgtype.Text{String: practiceMaterialName, Valid: true},
 		Uuid:            pgtype.UUID{Bytes: uuid.MustParse(practiceMaterialUuid), Valid: true},
-		TaskDescription: pgtype.Text{String: description, Valid: true},
-		TimeToAnswer:    pgtype.Int4{Int32: timeToAnswer, Valid: true},
-		Answer:          pgtype.Text{String: answer, Valid: true},
-		PracticeType:    db.NullPracticeType{PracticeType: db.PracticeType(practiceType), Valid: true},
+		Name:            pgtype.Text{String: practiceMaterialName, Valid: in.Name != nil},
+		TaskDescription: pgtype.Text{String: description, Valid: in.Description != nil},
+		TimeToAnswer:    pgtype.Int4{Int32: timeToAnswer, Valid: in.TimeToAnswer != nil},
+		Answer:          pgtype.Text{String: answer, Valid: in.Answer != nil},
+		PracticeType:    db.NullPracticeType{PracticeType: db.PracticeType(practiceType), Valid: in.PracticeType != nil},
 	}
 	practiceMaterial, err := pmc.practiceMaterialService.UpdatePracticeMaterial(ctx, arg)
 	if err != nil {

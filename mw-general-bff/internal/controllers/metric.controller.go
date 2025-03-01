@@ -30,7 +30,7 @@ func NewMetricController(metricFacade *facades.MetricFacade) *MetricController {
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateMetricPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasMetricResponse
+// @Success 200 {object} schemas.MetricResponse
 // @Router /metrics [post]
 func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 	var payload *schemas.CreateMetricPayload
@@ -40,8 +40,17 @@ func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 		return
 	}
 
-	metric, err := mc.metricFacade.CreateMetric(ctx, payload)
+	metricRaw, err := mc.metricFacade.CreateMetric(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
+
+	metric := schemas.MetricResponse{
+		Uuid:             metricRaw.Uuid,
+		Description:      metricRaw.Description,
+		IsDone:           metricRaw.IsDone,
+		DoneDate:         metricRaw.DoneDate.Get(),
+		MetricEstimation: metricRaw.EstimationTime,
+		ParentUuid:       metricRaw.ParentUuid.Get(),
+	}
 
 	ctx.JSON(http.StatusOK, metric)
 }
@@ -55,7 +64,7 @@ func (mc *MetricController) CreateMetric(ctx *gin.Context) {
 // @Produce  json
 // @Param request body schemas.UpdateMetricPayload true "query params"
 // @Param metricId path string true "metric UUID"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasMetricResponse
+// @Success 200 {object} schemas.MetricResponse
 // @Router /metrics/{metricId} [patch]
 func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 	var payload *schemas.UpdateMetricPayload
@@ -66,13 +75,22 @@ func (mc *MetricController) UpdateMetric(ctx *gin.Context) {
 		return
 	}
 
-	metric, err := mc.metricFacade.UpdateMetric(ctx, &services.UpdateMetricParams{
+	metricRaw, err := mc.metricFacade.UpdateMetric(ctx, &services.UpdateMetricParams{
 		MetricID:         metricID,
 		Description:      payload.Description,
 		IsDone:           payload.IsDone,
 		MetricEstimation: payload.MetricEstimation,
 	})
 	utils.HandleErrorGin(ctx, err)
+
+	metric := schemas.MetricResponse{
+		Uuid:             metricRaw.Uuid,
+		Description:      metricRaw.Description,
+		IsDone:           metricRaw.IsDone,
+		DoneDate:         metricRaw.DoneDate.Get(),
+		MetricEstimation: metricRaw.EstimationTime,
+		ParentUuid:       metricRaw.ParentUuid.Get(),
+	}
 
 	ctx.JSON(http.StatusOK, metric)
 }

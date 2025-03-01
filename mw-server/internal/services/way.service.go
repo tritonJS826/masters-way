@@ -116,8 +116,8 @@ func (ws *WayService) GetPopulatedWayById(ctx context.Context, params GetPopulat
 			IsMentor:    dbMentor.IsMentor,
 		}
 	})
-	metricsRaw, _ := ws.wayRepository.GetListMetricsByWayUuid(ctx, wayPgUUID)
 
+	metricsRaw, _ := ws.wayRepository.GetListMetricsByWayUuid(ctx, wayPgUUID)
 	metrics := lo.Map(metricsRaw, func(dbMetric db.Metric, i int) schemas.MetricResponse {
 		return schemas.MetricResponse{
 			Uuid:             util.ConvertPgUUIDToUUID(dbMetric.Uuid).String(),

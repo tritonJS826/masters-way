@@ -1,6 +1,7 @@
 -- name: GetPracticeMaterialsByTopicId :many
 SELECT * FROM practice_materials
-WHERE practice_materials.topic_uuid = @topic_uuid;
+WHERE practice_materials.topic_uuid = @topic_uuid
+ORDER BY created_at;
 
 -- name: CreatePracticeMaterialInTopic :one
 INSERT INTO practice_materials(

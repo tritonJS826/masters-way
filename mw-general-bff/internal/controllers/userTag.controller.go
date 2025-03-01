@@ -29,7 +29,7 @@ func NewUserTagController(userTagFacade *facades.UserTagFacade) *UserTagControll
 // @Accept  json
 // @Produce  json
 // @Param request body schemas.CreateUserTagPayload true "query params"
-// @Success 200 {object} openapiGeneral.MwServerInternalSchemasUserTagResponse
+// @Success 200 {object} schemas.UserTagResponse
 // @Router /userTags [post]
 func (uc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 	var payload *schemas.CreateUserTagPayload
@@ -39,8 +39,13 @@ func (uc *UserTagController) AddUserTagByName(ctx *gin.Context) {
 		return
 	}
 
-	response, err := uc.userTagFacade.AddUserTagByName(ctx, payload)
+	responseRaw, err := uc.userTagFacade.AddUserTagByName(ctx, payload)
 	utils.HandleErrorGin(ctx, err)
+
+	response := schemas.UserTagResponse{
+		Uuid: responseRaw.Uuid,
+		Name: responseRaw.Name,
+	}
 
 	ctx.JSON(http.StatusOK, response)
 }

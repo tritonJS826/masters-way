@@ -29,14 +29,21 @@ func main() {
 		os.Exit(1)
 	}
 
-	conn, err := grpc.NewClient(newConfig.NotificationAPIHost, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	notificationConfig, err := grpc.NewClient(newConfig.NotificationAPIHost, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create connection: %v", err)
 		os.Exit(1)
 	}
-	defer conn.Close()
+	defer notificationConfig.Close()
 
-	newService := services.NewService(&newConfig, conn)
+	trainingConfig, err := grpc.NewClient(newConfig.TrainingAPIHost, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create connection: %v", err)
+		os.Exit(1)
+	}
+	defer trainingConfig.Close()
+
+	newService := services.NewService(&newConfig, notificationConfig, trainingConfig)
 	newFacade := facades.NewFacade(newService, &newConfig)
 	newController := controllers.NewController(newFacade)
 

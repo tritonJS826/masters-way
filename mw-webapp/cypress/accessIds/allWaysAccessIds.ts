@@ -19,11 +19,15 @@ export const allWaysAccessIds = {
     },
 
     filterViewBlock: {
-        filterByStatus: 'filterByStatus',
-        viewButton: 'ViewButton',
+        searchByWayNameInput: 'searchByWayNameInput',
+
+        statusSelect: 'filterByStatusSelect',
+        statusSelectOption: (option: string) => `statusSelectOption${option}`,
+
         dayReportsSelect: 'dayReportsSelect',
-        dayReportsSelectOption0: 'dayReportsSelectOption0',
-        dayReportsSelectOptionAtLeast5: 'dayReportsSelectOptionAtLeast5',
+        dayReportsSelectOption: (option: string) => `dayReportsSelect_${option}`,
+
+        viewButton: 'ViewButton',
     }
     
 };

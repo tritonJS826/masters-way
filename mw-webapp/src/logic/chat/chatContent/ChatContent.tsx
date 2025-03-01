@@ -153,7 +153,7 @@ export const ChatContent = observer(() => {
       roomId: payload.roomId,
       imageUrl: payload.imageUrl,
       participantIds: payload.users.map((participant) => participant.userId),
-      unreadMessagesAmount: 0,
+      unreadMessagesAmount: payload.unreadMessagesAmount,
     });
     const isChatListRoomTypePrivateAndNewChatIsPrivate = !!chatListStore && chatListStore.roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;

@@ -37,7 +37,7 @@ func (r ApiCreateTopicRequest) TopicParentId(topicParentId string) ApiCreateTopi
 	return r
 }
 
-func (r ApiCreateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+func (r ApiCreateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	return r.ApiService.CreateTopicExecute(r)
 }
 
@@ -57,13 +57,13 @@ func (a *TopicAPIService) CreateTopic(ctx context.Context, trainingId string) Ap
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopic
-func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreview
+func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopic")
@@ -136,11 +136,11 @@ func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTraini
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopicStream
-func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreviewStream
+func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopic")
@@ -386,6 +386,191 @@ func (a *TopicAPIService) DeleteTopicStreamExecute(r ApiDeleteTopicRequest, requ
 	return localVarHTTPResponse, nil
 }
 
+type ApiGetTopicRequest struct {
+	ctx context.Context
+	ApiService *TopicAPIService
+	topicId string
+}
+
+func (r ApiGetTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+	return r.ApiService.GetTopicExecute(r)
+}
+
+/*
+GetTopic Get topic by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param topicId topic id
+ @return ApiGetTopicRequest
+*/
+func (a *TopicAPIService) GetTopic(ctx context.Context, topicId string) ApiGetTopicRequest {
+	return ApiGetTopicRequest{
+		ApiService: a,
+		ctx: ctx,
+		topicId: topicId,
+	}
+}
+
+// Execute executes the request
+//  @return MwTrainingBffInternalSchemasTopic
+func (a *TopicAPIService) GetTopicExecute(r ApiGetTopicRequest) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.GetTopic")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/topics/{topicId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"topicId"+"}", url.PathEscape(parameterValueToString(r.topicId, "topicId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// Execute executes the request
+//  @return MwTrainingBffInternalSchemasTopicStream
+func (a *TopicAPIService) GetTopicStreamExecute(r ApiGetTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.GetTopic")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/topics/{topicId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"topicId"+"}", url.PathEscape(parameterValueToString(r.topicId, "topicId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	fmt.Println(localVarQueryParams)
+
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := http.NewRequest(localVarHTTPMethod, localVarPath, request.Body)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	for key, values := range request.Header {
+	   if key == "Origin" { continue }
+	   for _, value := range values {
+	       req.Header.Add(key, value)
+	   }
+	}
+
+	req.Header.Add("GoogleAccessToken", GoogleAccessToken)
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpdateTopicRequest struct {
 	ctx context.Context
 	ApiService *TopicAPIService
@@ -399,7 +584,7 @@ func (r ApiUpdateTopicRequest) Request(request MwTrainingBffInternalSchemasUpdat
 	return r
 }
 
-func (r ApiUpdateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+func (r ApiUpdateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	return r.ApiService.UpdateTopicExecute(r)
 }
 
@@ -419,13 +604,13 @@ func (a *TopicAPIService) UpdateTopic(ctx context.Context, topicId string) ApiUp
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopic
-func (a *TopicAPIService) UpdateTopicExecute(r ApiUpdateTopicRequest) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreview
+func (a *TopicAPIService) UpdateTopicExecute(r ApiUpdateTopicRequest) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.UpdateTopic")
@@ -500,11 +685,11 @@ func (a *TopicAPIService) UpdateTopicExecute(r ApiUpdateTopicRequest) (*MwTraini
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopicStream
-func (a *TopicAPIService) UpdateTopicStreamExecute(r ApiUpdateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopic, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicPreviewStream
+func (a *TopicAPIService) UpdateTopicStreamExecute(r ApiUpdateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPatch
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopic
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.UpdateTopic")

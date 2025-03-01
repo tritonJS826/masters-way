@@ -9,13 +9,14 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **RoomId** | **string** |  | 
 **RoomType** | **string** |  | 
+**UnreadMessagesAmount** | **int32** |  | 
 **Users** | [**[]MwChatWebsocketInternalSchemasUserResponse**](MwChatWebsocketInternalSchemasUserResponse.md) |  | 
 
 ## Methods
 
 ### NewMwChatWebsocketInternalSchemasRoomPopulatedResponse
 
-`func NewMwChatWebsocketInternalSchemasRoomPopulatedResponse(imageUrl string, messages []MwChatWebsocketInternalSchemasMessageResponse, name string, roomId string, roomType string, users []MwChatWebsocketInternalSchemasUserResponse, ) *MwChatWebsocketInternalSchemasRoomPopulatedResponse`
+`func NewMwChatWebsocketInternalSchemasRoomPopulatedResponse(imageUrl string, messages []MwChatWebsocketInternalSchemasMessageResponse, name string, roomId string, roomType string, unreadMessagesAmount int32, users []MwChatWebsocketInternalSchemasUserResponse, ) *MwChatWebsocketInternalSchemasRoomPopulatedResponse`
 
 NewMwChatWebsocketInternalSchemasRoomPopulatedResponse instantiates a new MwChatWebsocketInternalSchemasRoomPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -128,6 +129,26 @@ and a boolean to check if the value has been set.
 `func (o *MwChatWebsocketInternalSchemasRoomPopulatedResponse) SetRoomType(v string)`
 
 SetRoomType sets RoomType field to given value.
+
+
+### GetUnreadMessagesAmount
+
+`func (o *MwChatWebsocketInternalSchemasRoomPopulatedResponse) GetUnreadMessagesAmount() int32`
+
+GetUnreadMessagesAmount returns the UnreadMessagesAmount field if non-nil, zero value otherwise.
+
+### GetUnreadMessagesAmountOk
+
+`func (o *MwChatWebsocketInternalSchemasRoomPopulatedResponse) GetUnreadMessagesAmountOk() (*int32, bool)`
+
+GetUnreadMessagesAmountOk returns a tuple with the UnreadMessagesAmount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnreadMessagesAmount
+
+`func (o *MwChatWebsocketInternalSchemasRoomPopulatedResponse) SetUnreadMessagesAmount(v int32)`
+
+SetUnreadMessagesAmount sets UnreadMessagesAmount field to given value.
 
 
 ### GetUsers

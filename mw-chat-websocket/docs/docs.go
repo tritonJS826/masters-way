@@ -177,6 +177,7 @@ const docTemplate = `{
                 "name",
                 "roomId",
                 "roomType",
+                "unreadMessagesAmount",
                 "users"
             ],
             "properties": {
@@ -197,6 +198,9 @@ const docTemplate = `{
                 },
                 "roomType": {
                     "type": "string"
+                },
+                "unreadMessagesAmount": {
+                    "type": "integer"
                 },
                 "users": {
                     "type": "array",

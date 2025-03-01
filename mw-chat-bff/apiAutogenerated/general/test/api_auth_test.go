@@ -101,4 +101,16 @@ func Test_openapi_AuthAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test AuthAPIService RefreshAccessToken", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.AuthAPI.RefreshAccessToken(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 }

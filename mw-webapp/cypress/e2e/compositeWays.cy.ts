@@ -5,6 +5,7 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
+import {LanguageService} from "src/service/LanguageService";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -28,23 +29,23 @@ describe('IsAuth Composite ways scope tests', () => {
 
         cy.openAllWaysPage();
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+        allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
+            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
+            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.logout();
 
@@ -87,23 +88,23 @@ describe('IsAuth Composite ways scope tests', () => {
 
         cy.openAllWaysPage();
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
+        allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
+            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
+            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
             .click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
+            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
 
         cy.openAllWaysPage();

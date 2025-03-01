@@ -1,6 +1,25 @@
 import {topicDTOToTopic} from "src/dataAccessLogic/DTOToPreviewConverter/topicDTOToTopic";
+import {topicPreviewDTOToTopicPreview} from "src/dataAccessLogic/DTOToPreviewConverter/topicPreviewDTOToTopicPreview";
 import {Topic} from "src/model/businessModel/Topic";
+import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {TopicService} from "src/service/TopicService";
+import {PartialWithUuid} from "src/utils/PartialWithUuid";
+
+/**
+ * Create topic params
+ */
+export interface CreateTopicParams {
+
+  /**
+   * Training uuid
+   */
+  trainingId: string;
+
+  /**
+   * Topic's name
+   */
+  topicParentId?: string;
+}
 
 /**
  * Update topic params
@@ -26,8 +45,21 @@ export class TopicDAL {
   /**
    * Create topic
    */
-  public static async createTopic(trainingId: string): Promise<Topic> {
-    const topicDTO = await TopicService.createTopic({trainingId});
+  public static async createTopic(params: CreateTopicParams): Promise<TopicPreview> {
+    const topicPreviewDTO = await TopicService.createTopic({
+      trainingId: params.trainingId,
+      topicParentId: params.topicParentId,
+    });
+    const topicPreview = topicPreviewDTOToTopicPreview(topicPreviewDTO);
+
+    return topicPreview;
+  }
+
+  /**
+   * Get topic by Uuid
+   */
+  public static async getTopic(topicId: string): Promise<Topic> {
+    const topicDTO = await TopicService.getTopic({topicId});
     const topic = topicDTOToTopic(topicDTO);
 
     return topic;
@@ -36,12 +68,12 @@ export class TopicDAL {
   /**
    * Update topic
    */
-  public static async updateTopic(params: UpdateTopicParams): Promise<Topic> {
+  public static async updateTopic(topic: PartialWithUuid<Topic>): Promise<TopicPreview> {
     const updatedTopicDTO = await TopicService.updateTopic({
-      topicId: params.uuid,
-      request: {name: params.name},
+      topicId: topic.uuid,
+      request: {name: topic.name ?? ""},
     });
-    const updatedTopic = topicDTOToTopic(updatedTopicDTO);
+    const updatedTopic = topicPreviewDTOToTopicPreview(updatedTopicDTO);
 
     return updatedTopic;
   }

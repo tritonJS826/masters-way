@@ -3,6 +3,7 @@ package controllers
 import (
 	"mw-training-bff/internal/schemas"
 	"mw-training-bff/internal/services"
+	util "mw-training-bff/internal/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -63,21 +64,24 @@ func (nc *TheoryMaterialController) GetTheoryMaterialsByTopicId(ctx *gin.Context
 // @Param request body schemas.CreateTheoryMaterialPayload true "query params"
 // @Success 200 {object} schemas.TheoryMaterial
 // @Router /theoryMaterials [post]
-func (nc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
-	// 	var payload *schemas.UpdateNotificationPayload
-	// 	notificationUUID := ctx.Param("notificationId")
+func (tmc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
+	var payload *schemas.CreateTheoryMaterialPayload
 
-	// 	if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 		return
-	// 	}
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
 
-	// 	response, err := nc.notificationService.UpdateNotification(ctx, notificationUUID, payload.IsRead)
-	// 	utils.HandleErrorGin(ctx, err)
+	args := &services.CreateTheoryMaterialParams{
+		TopicId:     payload.TopicUuid,
+		Name:        payload.Name,
+		Description: payload.Description,
+	}
 
-	stub := schemas.TheoryMaterial{}
+	response, err := tmc.theoryMaterialService.CreateTheoryMaterial(ctx, args)
+	util.HandleErrorGin(ctx, err)
 
-	ctx.JSON(http.StatusOK, stub)
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Update theory material
@@ -86,16 +90,29 @@ func (nc *TheoryMaterialController) CreateTheoryMaterial(ctx *gin.Context) {
 // @ID update-theory-material
 // @Accept json
 // @Produce json
+// @Param theoryMaterialId path string true "theory material id"
 // @Param request body schemas.UpdateTheoryMaterialPayload true "query params"
 // @Success 200 {object} schemas.TheoryMaterial
-// @Router /theoryMaterials [patch]
-func (nc *TheoryMaterialController) UpdateTheoryMaterial(ctx *gin.Context) {
-	// userUUID := ctx.Value(auth.ContextKeyUserID).(string)
-	// response, err := nc.notificationService.GetNotificationSettingList(ctx, userUUID)
-	// utils.HandleErrorGin(ctx, err)
+// @Router /theoryMaterials/{theoryMaterialId} [patch]
+func (tmc *TheoryMaterialController) UpdateTheoryMaterial(ctx *gin.Context) {
+	var payload *schemas.UpdateTheoryMaterialPayload
+	theoryMaterialId := ctx.Param("theoryMaterialId")
 
-	stub := schemas.TheoryMaterial{}
-	ctx.JSON(http.StatusOK, stub)
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
+	args := &services.UpdateTheoryMaterialParams{
+		TheoryMaterialId: theoryMaterialId,
+		Name:             payload.Name,
+		Description:      payload.Description,
+	}
+
+	response, err := tmc.theoryMaterialService.UpdateTheoryMaterial(ctx, args)
+	util.HandleErrorGin(ctx, err)
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 // @Summary Delete theory material
@@ -107,18 +124,11 @@ func (nc *TheoryMaterialController) UpdateTheoryMaterial(ctx *gin.Context) {
 // @Param theoryMaterialId path string true "theory material id"
 // @Success 200
 // @Router /theoryMaterials/{theoryMaterialId} [delete]
-func (nc *TheoryMaterialController) DeleteTheoryMaterial(ctx *gin.Context) {
-	// var payload *schemas.UpdateNotificationSettingPayload
+func (tmc *TheoryMaterialController) DeleteTheoryMaterial(ctx *gin.Context) {
+	theoryMaterialId := ctx.Param("theoryMaterialId")
 
-	// if err := ctx.ShouldBindJSON(&payload); err != nil {
-	// 	ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
-	// 	return
-	// }
-
-	// notificationID := ctx.Param("notificationSettingId")
-
-	// response, err := nc.notificationService.UpdateNotificationSetting(ctx, notificationID, payload.IsEnabled)
-	// utils.HandleErrorGin(ctx, err)
+	err := tmc.theoryMaterialService.DeleteTheoryMaterial(ctx, theoryMaterialId)
+	util.HandleErrorGin(ctx, err)
 
 	ctx.Status(http.StatusOK)
 }

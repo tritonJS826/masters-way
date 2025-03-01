@@ -146,6 +146,8 @@ definitions:
         type: string
       order:
         type: integer
+      owner:
+        $ref: '#/definitions/mw-training-bff_internal_schemas.User'
       parentUuid:
         type: string
         x-nullable: true
@@ -165,6 +167,7 @@ definitions:
     - createdAt
     - name
     - order
+    - owner
     - parentUuid
     - practiceMaterials
     - theoryMaterials
@@ -200,6 +203,18 @@ definitions:
     - trainingUuid
     - uuid
     type: object
+  mw-training-bff_internal_schemas.TopicTreeNode:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicTreeNode'
+        type: array
+      topic:
+        $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
+    required:
+    - children
+    - topic
+    type: object
   mw-training-bff_internal_schemas.Training:
     properties:
       createdAt:
@@ -224,9 +239,9 @@ definitions:
         items:
           $ref: '#/definitions/mw-training-bff_internal_schemas.User'
         type: array
-      topics:
+      topicsTree:
         items:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicTreeNode'
         type: array
       trainingTags:
         items:
@@ -245,7 +260,7 @@ definitions:
     - name
     - owner
     - students
-    - topics
+    - topicsTree
     - trainingTags
     - updatedAt
     - uuid
@@ -335,6 +350,8 @@ definitions:
         type: string
       name:
         type: string
+      order:
+        type: integer
       practiceType:
         type: string
       taskDescription:
@@ -424,33 +441,12 @@ paths:
       tags:
       - favorite-user-training
   /practiceMaterials:
-    patch:
-      consumes:
-      - application/json
-      operationId: update-practice-material
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
-      summary: Update practice material
-      tags:
-      - practice-material
     post:
       consumes:
       - application/json
       operationId: create-practice-material
       parameters:
-      - description: query params
+      - description: 'query params, client must use for PracticeType: ''input_word'''
         in: body
         name: request
         required: true
@@ -485,6 +481,32 @@ paths:
       summary: Delete practice material
       tags:
       - practice-material
+    patch:
+      consumes:
+      - application/json
+      operationId: update-practice-material
+      parameters:
+      - description: practice material id
+        in: path
+        name: practiceMaterialId
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdatePracticeMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.PracticeMaterial'
+      summary: Update practice material
+      tags:
+      - practice-material
   /practiceMaterials/{topicId}:
     get:
       consumes:
@@ -507,27 +529,6 @@ paths:
       tags:
       - practice-material
   /theoryMaterials:
-    patch:
-      consumes:
-      - application/json
-      operationId: update-theory-material
-      parameters:
-      - description: query params
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
-      summary: Update theory material
-      tags:
-      - theory-material
     post:
       consumes:
       - application/json
@@ -566,6 +567,32 @@ paths:
         "200":
           description: OK
       summary: Delete theory material
+      tags:
+      - theory-material
+    patch:
+      consumes:
+      - application/json
+      operationId: update-theory-material
+      parameters:
+      - description: theory material id
+        in: path
+        name: theoryMaterialId
+        required: true
+        type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TheoryMaterial'
+      summary: Update theory material
       tags:
       - theory-material
   /theoryMaterials/{topicId}:
@@ -608,6 +635,26 @@ paths:
       summary: Delete topic by Uuid
       tags:
       - topic
+    get:
+      consumes:
+      - application/json
+      operationId: get-topic
+      parameters:
+      - description: topic id
+        in: path
+        name: topicId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+      summary: Get topic by id
+      tags:
+      - topic
     patch:
       consumes:
       - application/json
@@ -630,28 +677,8 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
       summary: Update topic
-      tags:
-      - topic
-    post:
-      consumes:
-      - application/json
-      operationId: get-topic
-      parameters:
-      - description: topic id
-        in: path
-        name: topicId
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
-      summary: Get topic by id
       tags:
       - topic
   /topics/{trainingId}:
@@ -675,7 +702,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.Topic'
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
       summary: Create topic
       tags:
       - topic

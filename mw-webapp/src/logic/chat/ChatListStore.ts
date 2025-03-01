@@ -81,7 +81,6 @@ export class ChatListStore {
     if (chatPreview) {
       chatPreview.increaseUnreadMessagesAmount();
     }
-
     this.isLoadInProcessChatListPreview = false;
   };
 

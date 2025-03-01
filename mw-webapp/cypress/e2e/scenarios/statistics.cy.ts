@@ -1,7 +1,6 @@
-import {statisticsAccessIds} from "cypress/accessIds/statisticsAccessIds";
+import {statisticsAccessIds, ModalPeriodBlockTitles, WayPagePeriodBlockTitles} from "cypress/accessIds/statisticsAccessIds";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import {statisticsSelectors} from "cypress/scopesSelectors/statistics.Selectors";
-import statisticsData from "cypress/fixtures/statisticsFixture.json"
+import {statisticsSelectors} from "cypress/scopesSelectors/statisticsSelectors";
 import {LanguageService} from "src/service/LanguageService";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
@@ -10,6 +9,226 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
+import {statisticsData, studentStatsData} from "cypress/testData/statisticTestData";
+
+type WayStatus = keyof typeof LanguageService.allWays.filterBlock.typeOptions;
+
+type StatisticsPlacement = keyof typeof statisticsData.statisticsPlacement;
+type PeriodBlockTitle = WayPagePeriodBlockTitles | ModalPeriodBlockTitles;
+
+enum MinDayReports {
+    any = "0",
+    atLeast5Reports = "5",
+    atLeast20Reports = "20",
+    atLeast50Reports = "50"
+};
+
+type OverallInfo = {
+    totalTime: string,
+    totalReports: string,
+    finishedJobs: string,
+    avgTimePerCalendarDay: string,
+    avgTimePerWorkingDay: string,
+    avgJobTime: string
+};
+
+interface WayFilters {
+    searchByWayName?: string;
+    status?: WayStatus;
+    minDayReports?: MinDayReports;
+};
+
+interface WayDayReportData {
+        jobDoneDescription?: string;
+        timeSpentOnJob?: string;
+        planDescription?: string;
+        estimatedPlanTime?: string;
+        problemDescription?: string;
+        commentDescription?: string;
+};
+
+function adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
+    const reportOptions = {
+        [MinDayReports.any]: LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en,
+        [MinDayReports.atLeast5Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en,
+        [MinDayReports.atLeast20Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption2.en,
+        [MinDayReports.atLeast50Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption3.en
+    };
+    allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(reportOptions[minDayReports]).click();
+}
+
+function adjustWayFilterStatus(status: WayStatus) {
+    allWaysSelectors.filterViewBlock.getStatusSelect().click();
+    allWaysSelectors.filterViewBlock.getStatusSelectOption(status).click();
+}
+
+function searchByWayName(wayName: string) {
+    allWaysSelectors.filterViewBlock.getSearchByWayNameInput().click().type(`${wayName}{enter}`);
+}
+
+function openWayFromAllWayPageByClickingCard(
+    wayTitle: string,
+    wayFilters?: WayFilters
+) {
+    cy.openAllWaysPage();
+    if (wayFilters) {
+        wayFilters.searchByWayName && searchByWayName(wayFilters.searchByWayName);
+        wayFilters.status && adjustWayFilterStatus(wayFilters.status);
+        wayFilters.minDayReports && adjustWayFilterMinDayReports(wayFilters.minDayReports);
+    }
+    allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
+}
+
+function addThisWayToCompositeWay(compositeWayTitle: string) {
+    wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+    wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
+        .contains(LanguageService.way.wayActions.compositeWayManagement.en)
+        .click();
+    wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
+        .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${compositeWayTitle}`)
+        .click();
+}
+
+function addDayReportToWay(wayDayReportData?: WayDayReportData) {        
+    dayReportsSelectors.getCreateNewDayReportButton().click();
+    if (!wayDayReportData) return;
+    if (wayDayReportData.jobDoneDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(wayDayReportData.jobDoneDescription);
+        headerSelectors.getHeader().click();    
+            if (wayDayReportData.timeSpentOnJob) {
+                dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
+                dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(wayDayReportData.timeSpentOnJob);
+                headerSelectors.getHeader().click();
+            }
+    }
+    if (wayDayReportData.planDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
+        dayReportsSelectors.dayReportsContent.plans.getPlanDescription().dblclick()
+        dayReportsSelectors.dayReportsContent.plans.getPlanDescriptionInput().type(wayDayReportData.planDescription);
+        headerSelectors.getHeader().click();    
+            if (wayDayReportData.estimatedPlanTime) {
+                dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().dblclick();
+                dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTimeInput().type(wayDayReportData.estimatedPlanTime);
+                headerSelectors.getHeader().click(); 
+            }
+    }
+    if (wayDayReportData.problemDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
+        dayReportsSelectors.dayReportsContent.problems.getProblemDescription().dblclick()
+        dayReportsSelectors.dayReportsContent.problems.getProblemDescriptionInput().type(wayDayReportData.problemDescription);
+        headerSelectors.getHeader().click();
+    }
+    if (wayDayReportData.commentDescription) {
+        dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
+        dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick()
+        dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(wayDayReportData.commentDescription);
+        headerSelectors.getHeader().click();
+    }
+}
+
+function adjustLabelForWay (labelName: string) {
+    dayReportsSelectors.labels.getAdjustLabelsButton().click();
+    dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
+    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(labelName);
+    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
+    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
+}
+
+function verifyStatisticsOverallInfo({
+    periodBlockTitle,
+    expectedOverallInformation,
+}: {
+    periodBlockTitle: PeriodBlockTitle,
+    expectedOverallInformation: OverallInfo
+    }
+) {
+    const checkStatisticValue = (selector: any, value: string) =>
+        selector.find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
+            .should('have.text', value);
+ 
+    const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
+    const unitOfMeasurement = LanguageService.way.statisticsBlock.unitOfMeasurement.en;
+
+    checkStatisticValue(overallInfo.getTotalTime(periodBlockTitle), `${expectedOverallInformation.totalTime}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getTotalReports(periodBlockTitle), `${expectedOverallInformation.totalReports}`);
+    checkStatisticValue(overallInfo.getFinishedJobs(periodBlockTitle), `${expectedOverallInformation.finishedJobs}`);
+    checkStatisticValue(overallInfo.getAvgTimePerCalendarDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerCalendarDay}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getAverageTimePerWorkingDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerWorkingDay}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getAvgJobTime(periodBlockTitle), `${expectedOverallInformation.avgJobTime}${unitOfMeasurement}`);
+}
+
+function verifyNumberOfLabelStatisticsRows({
+    statisticsPlacement,
+    periodBlockTitle,
+    expectedLabelLinesCount,
+}: {
+    statisticsPlacement: StatisticsPlacement,
+    periodBlockTitle: PeriodBlockTitle,
+    expectedLabelLinesCount: number
+    }
+) {
+    if (statisticsPlacement === statisticsData.statisticsPlacement.wayPage) {
+        statisticsSelectors.statistics.periodBlocks.periodBlock(periodBlockTitle)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
+            .should('have.length', expectedLabelLinesCount);
+    } else {
+        statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock((
+                LanguageService.way.statisticsBlock[
+                    periodBlockTitle as keyof typeof LanguageService.way.statisticsBlock] as { en: string }).en)}"]`)
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`)
+            .should('have.length', expectedLabelLinesCount);
+    }
+}
+
+function verifyLabelStatisticsRow({
+    statisticsPlacement,
+    periodBlockTitle,
+    expectedLabelRowData: expectedLabelRowData
+}: {
+    statisticsPlacement: StatisticsPlacement,
+    periodBlockTitle: PeriodBlockTitle,
+    expectedLabelRowData: { name: string, color: string, jobsAmount: string, time: string }
+    }
+) {
+    // Select the correct statistics label block based on the placement
+    const labelStatisticsSector = statisticsPlacement === statisticsData.statisticsPlacement.wayPage
+        ? cy.get(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(periodBlockTitle)}"]`)
+        : statisticsSelectors.statistics.getModal()
+            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock((
+                LanguageService.way.statisticsBlock[
+                    periodBlockTitle as keyof typeof LanguageService.way.statisticsBlock] as { en: string }).en)}"]`);
+
+    labelStatisticsSector
+        .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
+        .then((labelNames) => {
+            // Find the label name that matches the expected label name
+            const matchedLabelByName = Cypress._.find(labelNames, (el) => Cypress.$(el).text() === expectedLabelRowData.name);
+
+            if (matchedLabelByName) {
+                // Find the entire row containing the matched label
+                const matchedLabelRow = Cypress.$(matchedLabelByName).closest(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}"]`);
+
+                // Check the label text, amount and time
+                const checkLabelParameter = (selector: string, assertion: string, value: string) => {
+                    cy.wrap(matchedLabelRow).find(`[data-cy="${selector}"]`).should(assertion, value);
+                };
+
+                checkLabelParameter(statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName, 'have.text', expectedLabelRowData.name);
+                checkLabelParameter(statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount, 'have.text', expectedLabelRowData.jobsAmount);
+                checkLabelParameter(statisticsAccessIds.statistics.periodBlocks.labelStatistic.time, 'have.text', expectedLabelRowData.time);
+
+                // Check the color
+                cy.wrap(matchedLabelRow)
+                    .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
+                    .should('have.attr', 'style')
+                    .and('contains', expectedLabelRowData.color);
+            }
+        });
+}
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -23,576 +242,231 @@ afterEach(() => {
 describe('Statistics tests', () => {
 
     it('Scenario_Student_wayStatistics', () => {
-        // Open the test way
-        cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5().click();
-        allWaysSelectors.allWaysCard.getCardLink(statisticsData.johnDoeWay.title).click();
-
-        // Check "Days from start" value on the way page
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
+ 
         statisticsSelectors.getDaysFromStart()
-            .should('have.text', `${statisticsData.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
+            .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
 
-        // Check "Overall information" section for the "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.total.avgJobTime},
+        });
+
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgJobTime},
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
+        });
         
-        // Check "Overall information" section for the "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.total[4].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[0].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[1].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
+        });
 
-        // Check the third label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[2].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
+        });
 
-        // Check the fourth label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(3)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[3].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].time);
-
-        // Check the number of labels in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastWeek[3].length);
-
-        // Check the first label data in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].time);
-
-        // Check the second label data in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].time);
-
-        // Check the third label data in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
+        });
             
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
+        });
+
         statisticsSelectors.getShowAllStatisticsButton().click();
 
         statisticsSelectors.statistics.getModal().should('be.visible');
 
-        // Check "Overall information" section for the "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.total.avgJobTime},
+        });
 
-        // Check "Overall information" section for the "Last month" block in the Statistic modal window      
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastMonth.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastMonth.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastMonth.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgJobTime},
+        });
 
-        // Check "Overall information" section for the "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgJobTime},
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.total[4].length);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].time);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth).length
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[1].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].time);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
+        });
 
-        // Check the third label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[2].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
+        });
 
-        // Check the fourth label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(3)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[3].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastMonth[4].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1
+        });
 
-        // Check the third label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2
+        });
 
-        // Check the fourth label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(3)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastWeek[3].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
+        });
 
-        // Check the third label data in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
 
-        statisticsSelectors.statistics.getCloseButton().click({force:true});
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
+        });
+
+        statisticsSelectors.statistics.getCloseButton().click();
 
         statisticsSelectors.statistics.getModal().should('not.exist');
 
-        // Check "Total reports" and "Total" in the header of day report table on the way page
         dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.johnDoeWay.statistic.total.totalReports}`);
 
         dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
 
         dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.johnDoeWay.statistic.total.totalReports})`);
     });
 
     it('Scenario_Mentor_CompositeWayStatistics', () => {
@@ -600,866 +474,497 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
-        cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOptionAtLeast5().click();
-        allWaysSelectors.allWaysCard.getCardLink(statisticsData.johnDoeWay.title).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
+        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
+        addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
 
         // Create user-student with a way that includes one day report
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
-        dayReportsSelectors.labels.getAdjustLabelsButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(dayReportsData.labels.student);
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
-        dayReportsSelectors.getCreateNewDayReportButton().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        // dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
-        headerSelectors.getHeader().click();
+        addDayReportToWay({jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
+        adjustLabelForWay(studentStatsData.labelActivityNames.studentLabel);
         dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
         dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
         dayReportsSelectors.labels.addLabel.getSaveButton().click();
         headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(dayReportsData.timeSpentOnJob);
-        headerSelectors.getHeader().click();
         cy.logout();
 
         // Open the mentor composite way
-        cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).click();
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
-        // Check "Overall information" section for the "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        //Bug #1851
+        // statisticsSelectors.getDaysFromStart()
+        //     .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
+
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.total.avgJobTime},
+        });
+
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgJobTime},
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
+        });
         
-        // Check "Overall information" section for the "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.total[4].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[0].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[1].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
+        });
 
-        // Check the third label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[2].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].time);
 
-        // Check the fourth label data in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(3)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[3].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastWeek[3].length);
-
-        // Check the first label data in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].time);
-
-        // Check the second label data in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].time);
-
-        // Check the third label data in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
+        });
             
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
+        });
+
         statisticsSelectors.getShowAllStatisticsButton().click();
 
-        // Check "Overall information" section for the "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.total.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.total.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.total.avgJobTime},
+        });
 
-        // Check "Overall information" section for the "Last month" block in the Statistic modal window      
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastMonth.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastMonth.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastMonth.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastMonth.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastMonth.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastMonth.avgJobTime},
+        });
 
-        // Check "Overall information" section for the "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.johnDoeWay.lastWeek.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.johnDoeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.johnDoeWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.johnDoeWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.johnDoeWay.statistic.lastWeek.avgJobTime},
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.total[4].length);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.total).length
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[0].time);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth).length
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[1].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[1].time);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek).length
+        });
 
-        // Check the third label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[2].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row1
+        });
 
-        // Check the fourth label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(3)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.total[3].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.total[3].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row2
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastMonth[4].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row3
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[0].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.total.row4
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[1].time);
 
-        // Check the third label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row1
+        });
 
-        // Check the fourth label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(3)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(3)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastMonth[3].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row2
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.johnDoeWay.labelStatistic.lastWeek[3].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row3
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[0].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastMonth.row4
+        });
 
-        // Check the second label data in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(1)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(1)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[1].time);
 
-        // Check the third label data in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(2)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(2)
-            .should('have.text', statisticsData.johnDoeWay.labelStatistic.lastWeek[2].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.johnDoeWay.labelStatistics.lastWeek.row4
+        });
 
         statisticsSelectors.statistics.getCloseButton().click();
 
-        // Check "Total reports" and "Total" in the header of day report table on the way page
         dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.johnDoeWay.total.totalReports}`);
-            
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.johnDoeWay.statistic.total.totalReports}`);
+
         dayReportsSelectors.dayReportsContent.getLoadMoreButton().click({force: true});
 
         dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.johnDoeWay.total.totalReports})`);
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.johnDoeWay.statistic.total.totalReports})`);
 
         // Mentor adds the student way to the compisite way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(`Composite ways`)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`Add to composite way ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any});
+        addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        // Open the mentor composite way
-        headerSelectors.getAvatar().click();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).click();
+        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
-        // Check "Overall information" section for the "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.total.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.total.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.total.finishedJobs);
-        // TODO: wrong test - for now returns error, because of wrong math calculations - don't replace witn 0.0. we should check logic 
-        // statisticsSelectors.statistics.periodBlocks.overallInfo
-        //     .getAvgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.total)
-        //     .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        //     .should('have.text', `${statisticsData.mentorCompositeWay.total.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.total.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.total.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        //Bug #1851
+        // statisticsSelectors.getDaysFromStart()
+        //     .should('have.text', `${statisticsData.testWays.mentorCompositeTwoChildWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
+
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgJobTime},
+        });
+
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgJobTime},
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total).length
+        });
+
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek).length
+        });
         
-        // Check "Overall information" section for the "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.lastWeek.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.lastWeek.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row1
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Total" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.mentorCompositeWay.labelStatistic.total[5].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row2
+        });
 
-        // Check data in the "Labels Statistic" section for "Total" block on the way page      
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row3
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[1].length);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row4
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Last week" block on the way page
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].color);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].name);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].jobsAmount);
-        statisticsSelectors.statistics.periodBlocks.periodBlock(statisticsData.periodBlockWayPageTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].time);
-            
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row5
+        });
+
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.wayPage,
+            periodBlockTitle: WayPagePeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row4
+        });
+
         statisticsSelectors.getShowAllStatisticsButton().click();
-    
-        // Check "Overall information" section for the "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.total.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.total.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.total.finishedJobs);
-        // TODO: wrong test - for now returns error, because of wrong math calculations - don't replace with 0.0. we should check logic 
 
-        // statisticsSelectors.statistics.periodBlocks.overallInfo
-        //     .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.total)
-        //     .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-        //     .should('have.text', `${statisticsData.mentorCompositeWay.total.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.total.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.total)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.total.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    
-        // Check "Overall information" section for the "Last month" block in the Statistic modal window      
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastMonth.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.lastMonth.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.lastMonth.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastMonth.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastMonth.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.lastMonth)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastMonth.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-    
-        // Check "Overall information" section for the "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalTime(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.totalTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getTotalReports(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.lastWeek.totalReports);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getFinishedJobs(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', statisticsData.mentorCompositeWay.lastWeek.finishedJobs);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgTimePerCalendarDay(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.avgTimePerCalendarDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAverageTimePerWorkingDay(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.avgTimePerWorkingDay}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`); 
-        statisticsSelectors.statistics.periodBlocks.overallInfo
-            .getAvgJobTime(statisticsData.periodBlockTitles.lastWeek)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.overallInfo.statisticValue}"]`)
-            .should('have.text', `${statisticsData.mentorCompositeWay.lastWeek.avgJobTime}${LanguageService.way.statisticsBlock.unitOfMeasurement.en}`);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.avgJobTime},
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Total" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.total.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.mentorCompositeWay.labelStatistic.total[5].length);
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastMonth.avgJobTime},
+        });
 
-        // Check label data in the "Labels Statistic" section for "Total" block in the Statistic modal window
+        verifyStatisticsOverallInfo({
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedOverallInformation: {
+                totalTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalTime,
+                totalReports: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.totalReports,
+                finishedJobs: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.finishedJobs,
+                avgTimePerCalendarDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerCalendarDay,
+                avgTimePerWorkingDay: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgTimePerWorkingDay,
+                avgJobTime: statisticsData.testWays.mentorCompositeTwoChildWay.statistic.lastWeek.avgJobTime},
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.mentorCompositeWay.labelStatistic.lastMonth[1].length);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total).length
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Last month" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.mentorCompositeWay.labelStatistic.lastMonth[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastMonth[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastMonth[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastMonth.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastMonth[0].time);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth).length
+        });
 
-        // Check the number of labels in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .should('have.length', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[1].length);
+        verifyNumberOfLabelStatisticsRows({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelLinesCount: Object.keys(statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek).length
+        });
 
-        // Check the first label data in the "Labels Statistic" section for "Last week" block in the Statistic modal window
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}"]`)
-            .eq(0)
-            .should('have.attr', 'style')
-            .and('include', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].color);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].name);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].jobsAmount);
-        statisticsSelectors.statistics.getModal()
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.periodBlock(LanguageService.way.statisticsBlock.lastWeek.en)}"]`)
-            .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}"]`)
-            .eq(0)
-            .should('have.text', statisticsData.mentorCompositeWay.labelStatistic.lastWeek[0].time);
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row4
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal, 
+            periodBlockTitle: ModalPeriodBlockTitles.Total,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.total.row5
+        });
+
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row2
+        });
         
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row4
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastMonth,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastMonth.row5
+        });
+
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row1
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row2
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row3
+        });
+
+        verifyLabelStatisticsRow({
+            statisticsPlacement: statisticsData.statisticsPlacement.modal,
+            periodBlockTitle: ModalPeriodBlockTitles.LastWeek,
+            expectedLabelRowData: statisticsData.testWays.mentorCompositeTwoChildWay.labelStatistics.lastWeek.row4
+        });
+
         statisticsSelectors.statistics.getCloseButton().click();
     
         // Check "Total reports" and "Total" in the header of day report table on the way page
         dayReportsSelectors.dayReportsContent.titleContainer.getTotalHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.mentorCompositeWay.total.totalReports}`);
+            .should('have.text', `${LanguageService.way.reportsTable.total.en} ${statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports}`);
     
         dayReportsSelectors.dayReportsContent.getLoadMoreButton().click();
     
         dayReportsSelectors.dayReportsContent.titleContainer.getReportsHeader()
-            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.mentorCompositeWay.total.totalReports})`);
+            .should('have.text', `${LanguageService.way.reportsTable.title.en} (${statisticsData.testWays.mentorCompositeTwoChildWay.statistic.total.totalReports})`);
     });
 
 });

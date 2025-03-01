@@ -9,9 +9,9 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useStore} from "src/hooks/useStore";
+import {DefaultTrainingCollection} from "src/logic/userPage/DefaultTrainingCollection";
 import {Trainings} from "src/logic/userPage/trainings/Trainings";
 import {GetTrainingsByUserIdParams, TrainingTabStore} from "src/logic/userPage/trainingTab/TrainingTabStore";
-import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
 import {LanguageService} from "src/service/LanguageService";
 import {View} from "src/utils/LocalStorageWorker";
 import styles from "src/logic/userPage/trainingTab/TrainingTab.module.scss";

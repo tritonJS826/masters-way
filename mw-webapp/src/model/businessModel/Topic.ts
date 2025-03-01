@@ -1,4 +1,7 @@
 import {makeAutoObservable} from "mobx";
+import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
+import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
+import {UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 
 /**
  * Topic props
@@ -36,19 +39,24 @@ interface TopicProps {
   createdAt: Date;
 
   /**
-   * Practice material amount
+   * Practice materials
    */
-  practiceMaterialAmount: number;
+  practiceMaterials: PracticeMaterial[];
 
   /**
-   * Theory material amount
+   * Theory materials
    */
-  theoryMaterialAmount: number;
+  theoryMaterials: TheoryMaterial[];
 
   /**
    * Training's uuid
    */
   trainingUuid: string;
+
+  /**
+   * Topic's owner
+   */
+  owner: UserPreview;
 
 }
 
@@ -80,7 +88,7 @@ export class Topic {
   /**
    * Topic children
    */
-  public children: Topic[];
+  public children: Topic[]; // ?????
 
   /**
    * Topic's createdAt Date
@@ -88,19 +96,24 @@ export class Topic {
   public createdAt: Date;
 
   /**
-   * Practice material amount
+   * Practice materials
    */
-  public practiceMaterialAmount: number;
+  public practiceMaterials: PracticeMaterial[];
 
   /**
-   * Theory material amount
+   * Theory materials
    */
-  public theoryMaterialAmount: number;
+  public theoryMaterials: TheoryMaterial[];
 
   /**
    * Training's uuid
    */
   public trainingUuid: string;
+
+  /**
+   * Topic's owner
+   */
+  public owner: UserPreview;
 
   constructor(topic: TopicProps) {
     makeAutoObservable(this);
@@ -110,9 +123,45 @@ export class Topic {
     this.parentUuid = topic.parentUuid;
     this.children = topic.children;
     this.createdAt = topic.createdAt;
-    this.practiceMaterialAmount = topic.practiceMaterialAmount;
-    this.theoryMaterialAmount = topic.theoryMaterialAmount;
+    this.practiceMaterials = topic.practiceMaterials;
+    this.theoryMaterials = topic.theoryMaterials;
     this.trainingUuid = topic.trainingUuid;
+    this.owner = topic.owner;
+  }
+
+  /**
+   * Update topic's name
+   */
+  public updateName(nameToUpdate: string): void {
+    this.name = nameToUpdate;
+  }
+
+  /**
+   * Add theory material
+   */
+  public addTheoryMaterial(theoryMaterial: TheoryMaterial): void {
+    this.theoryMaterials.push(theoryMaterial);
+  }
+
+  /**
+   * Add practice material
+   */
+  public addPracticeMaterial(practiceMaterial: PracticeMaterial): void {
+    this.practiceMaterials.push(practiceMaterial);
+  }
+
+  /**
+   * Delete theoryMaterial from topic
+   */
+  public deleteTheoryMaterial(theoryMaterialUuid: string): void {
+    this.theoryMaterials = this.theoryMaterials.filter(theoryMaterial => theoryMaterial.uuid !== theoryMaterialUuid);
+  }
+
+  /**
+   * Delete practiceMaterial from topic
+   */
+  public deletePracticeMaterial(practiceMaterialUuid: string): void {
+    this.practiceMaterials = this.practiceMaterials.filter(practiceMaterial => practiceMaterial.uuid !== practiceMaterialUuid);
   }
 
 }

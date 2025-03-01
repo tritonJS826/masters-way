@@ -3,14 +3,13 @@ SET TIMEZONE = 'UTC';
 CREATE TABLE users(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "name" VARCHAR(50) NOT NULL CHECK (LENGTH(name) > 0),
-    "email" VARCHAR(128) NOT NULL,
+    "email" VARCHAR(128) NOT NULL UNIQUE,
     "description" VARCHAR(300) NOT NULL,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "image_url" VARCHAR(300) NOT NULL,
     "is_mentor" BOOLEAN NOT NULL,
     CONSTRAINT "users_pkey" PRIMARY KEY("uuid")
 );
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 CREATE TABLE favorite_users(
     "donor_user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,

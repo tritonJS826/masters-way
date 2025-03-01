@@ -12,19 +12,24 @@ type UpdateTrainingPayload struct {
 	IsPrivate   *bool   `json:"isPrivate" extensions:"x-nullable"`
 }
 
+type TopicTreeNode struct {
+	Topic    TopicPreview     `json:"topic" validate:"required"`
+	Children []*TopicTreeNode `json:"children" validate:"required"`
+}
+
 type Training struct {
-	Uuid                 string         `json:"uuid" validate:"required"`
-	Name                 string         `json:"name" validate:"required"`
-	Description          string         `json:"description" validate:"required"`
-	IsPrivate            bool           `json:"isPrivate" validate:"required"`
-	Owner                User           `json:"owner" validate:"required"`
-	Mentors              []User         `json:"mentors" validate:"required"`
-	Students             []User         `json:"students" validate:"required"`
-	TrainingTags         []TrainingTag  `json:"trainingTags" validate:"required"`
-	FavoriteForUserUuids []string       `json:"favoriteForUserUuids" validate:"required"`
-	Topics               []TopicPreview `json:"topics" validate:"required"`
-	CreatedAt            string         `json:"createdAt" validate:"required"`
-	UpdatedAt            string         `json:"updatedAt" validate:"required"`
+	Uuid                 string           `json:"uuid" validate:"required"`
+	Name                 string           `json:"name" validate:"required"`
+	Description          string           `json:"description" validate:"required"`
+	IsPrivate            bool             `json:"isPrivate" validate:"required"`
+	Owner                User             `json:"owner" validate:"required"`
+	Mentors              []User           `json:"mentors" validate:"required"`
+	Students             []User           `json:"students" validate:"required"`
+	TrainingTags         []TrainingTag    `json:"trainingTags" validate:"required"`
+	FavoriteForUserUuids []string         `json:"favoriteForUserUuids" validate:"required"`
+	TopicsTree           []*TopicTreeNode `json:"topicsTree" validate:"required"`
+	CreatedAt            string           `json:"createdAt" validate:"required"`
+	UpdatedAt            string           `json:"updatedAt" validate:"required"`
 }
 
 type TrainingPreview struct {

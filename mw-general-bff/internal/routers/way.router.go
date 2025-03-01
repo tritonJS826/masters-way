@@ -21,9 +21,10 @@ func (cr *wayRouter) setWayRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("ways")
 	{
 		router.GET("", cr.wayController.GetAllWays)
+		router.POST("", auth.HandleHeaders(cr.config), cr.wayController.CreateWay)
+		router.POST("/createFromTraining", auth.HandleHeaders(cr.config), cr.wayController.CreateWayFromTraining)
 		router.GET("/:wayId", cr.wayController.GetWayById)
 		router.GET("/:wayId/statistics", cr.wayController.GetWayStatisticsById)
-		router.POST("", auth.HandleHeaders(cr.config), cr.wayController.CreateWay)
 		router.PATCH("/:wayId", auth.HandleHeaders(cr.config), cr.wayController.UpdateWay)
 		router.DELETE("/:wayId", auth.HandleHeaders(cr.config), cr.wayController.DeleteWayById)
 	}

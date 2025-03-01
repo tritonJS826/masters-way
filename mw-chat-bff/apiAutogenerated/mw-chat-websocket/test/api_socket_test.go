@@ -11,10 +11,11 @@ package openapi
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"testing"
+
 	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"github.com/go-playground/assert/v2"
+	"github.com/stretchr/testify/require"
 )
 
 func Test_openapi_SocketAPIService(t *testing.T) {
@@ -24,7 +25,7 @@ func Test_openapi_SocketAPIService(t *testing.T) {
 
 	t.Run("Test SocketAPIService ConnectSocket", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var token string
 
@@ -37,7 +38,7 @@ func Test_openapi_SocketAPIService(t *testing.T) {
 
 	t.Run("Test SocketAPIService SendMessageEvent", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.SocketAPI.SendMessageEvent(context.Background()).Execute()
 
@@ -48,7 +49,7 @@ func Test_openapi_SocketAPIService(t *testing.T) {
 
 	t.Run("Test SocketAPIService SendRoomEvent", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.SocketAPI.SendRoomEvent(context.Background()).Execute()
 

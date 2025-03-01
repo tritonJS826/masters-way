@@ -94,6 +94,7 @@ func (q *Queries) DeletePracticeMaterial(ctx context.Context, practiceMaterialUu
 const getPracticeMaterialsByTopicId = `-- name: GetPracticeMaterialsByTopicId :many
 SELECT uuid, topic_uuid, name, practice_material_order, task_description, answer, practice_type, time_to_answer, created_at, updated_at FROM practice_materials
 WHERE practice_materials.topic_uuid = $1
+ORDER BY created_at
 `
 
 func (q *Queries) GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error) {

@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {AllTrainingsByUserParams, TrainingDAL, TrainingsAmount} from "src/dataAccessLogic/TrainingDAL";
 import {load} from "src/hooks/useLoad";
-import {DefaultTrainingCollection} from "src/logic/userPage/UserPage";
+import {DefaultTrainingCollection} from "src/logic/userPage/DefaultTrainingCollection";
 import {TrainingPreview} from "src/model/businessModelPreview/TrainingPreview";
 
 /**

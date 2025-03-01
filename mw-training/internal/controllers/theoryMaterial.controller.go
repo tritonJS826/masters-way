@@ -51,14 +51,27 @@ func (ftc *TheoryMaterialController) CreateTheoryMaterial(ctx context.Context, i
 }
 
 func (pmc *TheoryMaterialController) UpdateTheoryMaterial(ctx context.Context, in *pb.UpdateTheoryMaterialRequest) (*pb.TheoryMaterial, error) {
-	theoryMaterialName := in.GetName()
 	theoryMaterialUuid := in.GetUuid()
-	description := in.GetDescription()
+	theoryMaterialNameRaw := in.Name
+	descriptionRaw := in.Description
 
+	var theoryMaterialName string
+	if theoryMaterialNameRaw != nil {
+		theoryMaterialName = *theoryMaterialNameRaw
+	} else {
+		theoryMaterialName = ""
+	}
+
+	var description string
+	if descriptionRaw != nil {
+		description = *descriptionRaw
+	} else {
+		description = ""
+	}
 	arg := db.UpdateTheoryMaterialParams{
-		Name:        pgtype.Text{String: theoryMaterialName, Valid: true},
 		Uuid:        pgtype.UUID{Bytes: uuid.MustParse(theoryMaterialUuid), Valid: true},
-		Description: pgtype.Text{String: description, Valid: true},
+		Name:        pgtype.Text{String: theoryMaterialName, Valid: theoryMaterialNameRaw != nil},
+		Description: pgtype.Text{String: description, Valid: descriptionRaw != nil},
 	}
 	theoryMaterial, err := pmc.theoryMaterialService.UpdateTheoryMaterial(ctx, arg)
 	if err != nil {

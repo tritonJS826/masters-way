@@ -389,6 +389,7 @@ components:
       type: object
     mw-chat-bff_internal_schemas.RoomPopulatedResponse:
       example:
+        unreadMessagesAmount: 0
         imageUrl: imageUrl
         isBlocked: true
         name: name
@@ -447,6 +448,8 @@ components:
           type: string
         roomType:
           type: string
+        unreadMessagesAmount:
+          type: integer
         users:
           items:
             $ref: '#/components/schemas/mw-chat-bff_internal_schemas.UserResponse'
@@ -458,6 +461,7 @@ components:
       - name
       - roomId
       - roomType
+      - unreadMessagesAmount
       - users
       type: object
     mw-chat-bff_internal_schemas.RoomPreviewResponse:

@@ -1,0 +1,16 @@
+@import "src/styles/variables";
+
+.topicsSection {
+  gap: $gapExtraSmall;
+}
+
+.topicItem {
+  align-items: center;
+  justify-content: space-between;
+  border-radius: $primaryBorderRadius;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tertiaryBgColor);
+  }
+}

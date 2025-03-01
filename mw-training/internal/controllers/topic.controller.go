@@ -25,29 +25,25 @@ func (tc *TopicController) CreateTopic(ctx context.Context, in *pb.CreateTopicRe
 	trainingUuid := in.GetTrainingUuid()
 	name := in.GetName()
 	topicOrder := in.GetTopicOrder()
-	parentTopicUuid := in.GetParentTopicUuid()
+	parentTopicUuidRaw := in.ParentTopicUuid
+
+	var parentTopicUuid pgtype.UUID
+	if parentTopicUuidRaw != nil {
+		parentTopicUuid = pgtype.UUID{Bytes: uuid.MustParse(*parentTopicUuidRaw), Valid: true}
+	} else {
+		parentTopicUuid = pgtype.UUID{Valid: false}
+	}
 
 	arg := db.CreateTopicInTrainingParams{
 		TrainingUuid: pgtype.UUID{Bytes: uuid.MustParse(trainingUuid), Valid: true},
 		Name:         pgtype.Text{String: name, Valid: true},
 		TopicOrder:   topicOrder,
-		Parent:       pgtype.UUID{Bytes: uuid.MustParse(parentTopicUuid), Valid: true},
+		Parent:       parentTopicUuid,
 	}
 
-	topicDb, err := tc.topicService.CreateTopic(ctx, arg)
+	topic, err := tc.topicService.CreateTopic(ctx, arg)
 	if err != nil {
 		return nil, err
-	}
-
-	topic := &pb.TopicPreview{
-		Uuid:                    topicDb.Uuid,
-		Name:                    topicDb.Name,
-		TrainingUuid:            topicDb.TrainingUuid,
-		TopicOrder:              topicDb.TopicOrder,
-		ParentTopicUuid:         topicDb.ParentTopicUuid,
-		CreatedAt:               topicDb.CreatedAt,
-		TheoryMaterialsAmount:   topicDb.TheoryMaterialsAmount,
-		PracticeMaterialsAmount: topicDb.PracticeMaterialsAmount,
 	}
 
 	return topic, nil

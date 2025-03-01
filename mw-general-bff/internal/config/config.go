@@ -19,12 +19,14 @@ type Config struct {
 	StorageBaseURL           string `mapstructure:"STORAGE_BASE_URL"`
 	NotificationAPIHost      string `mapstructure:"NOTIFICATION_API_HOST"`
 	NotificationBaseURL      string `mapstructure:"NOTIFICATION_BASE_URL"`
+	TrainingAPIHost          string `mapstructure:"TRAINING_API_HOST"`
+	TrainingBaseURL          string `mapstructure:"TRAINING_BASE_URL"`
 	TestGeneralBffAPIHost    string `mapstructure:"TEST_GENERAL_BFF_API_HOST"`
 	TestGeneralBffAPIBaseUrl string `mapstructure:"TEST_GENERAL_BFF_BASE_URL"`
 	SecretSessionKey         string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [12]string{
+var prodRequiredVariables = [14]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -34,12 +36,14 @@ var prodRequiredVariables = [12]string{
 	"STORAGE_BASE_URL",
 	"NOTIFICATION_API_HOST",
 	"NOTIFICATION_BASE_URL",
+	"TRAINING_API_HOST",
+	"TRAINING_BASE_URL",
 	"TEST_GENERAL_BFF_API_HOST",
 	"TEST_GENERAL_BFF_BASE_URL",
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [12]string{
+var devRequiredVariables = [14]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -49,6 +53,8 @@ var devRequiredVariables = [12]string{
 	"STORAGE_BASE_URL",
 	"NOTIFICATION_API_HOST",
 	"NOTIFICATION_BASE_URL",
+	"TRAINING_API_HOST",
+	"TRAINING_BASE_URL",
 	"TEST_GENERAL_BFF_API_HOST",
 	"TEST_GENERAL_BFF_BASE_URL",
 	"SECRET_SESSION_KEY",

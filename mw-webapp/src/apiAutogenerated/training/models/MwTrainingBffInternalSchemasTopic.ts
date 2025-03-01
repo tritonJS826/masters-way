@@ -13,6 +13,25 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { MwTrainingBffInternalSchemasPracticeMaterial } from './MwTrainingBffInternalSchemasPracticeMaterial';
+import {
+    MwTrainingBffInternalSchemasPracticeMaterialFromJSON,
+    MwTrainingBffInternalSchemasPracticeMaterialFromJSONTyped,
+    MwTrainingBffInternalSchemasPracticeMaterialToJSON,
+} from './MwTrainingBffInternalSchemasPracticeMaterial';
+import type { MwTrainingBffInternalSchemasTheoryMaterial } from './MwTrainingBffInternalSchemasTheoryMaterial';
+import {
+    MwTrainingBffInternalSchemasTheoryMaterialFromJSON,
+    MwTrainingBffInternalSchemasTheoryMaterialFromJSONTyped,
+    MwTrainingBffInternalSchemasTheoryMaterialToJSON,
+} from './MwTrainingBffInternalSchemasTheoryMaterial';
+import type { MwTrainingBffInternalSchemasUser } from './MwTrainingBffInternalSchemasUser';
+import {
+    MwTrainingBffInternalSchemasUserFromJSON,
+    MwTrainingBffInternalSchemasUserFromJSONTyped,
+    MwTrainingBffInternalSchemasUserToJSON,
+} from './MwTrainingBffInternalSchemasUser';
+
 /**
  * 
  * @export
@@ -39,22 +58,28 @@ export interface MwTrainingBffInternalSchemasTopic {
     order: number;
     /**
      * 
+     * @type {MwTrainingBffInternalSchemasUser}
+     * @memberof MwTrainingBffInternalSchemasTopic
+     */
+    owner: MwTrainingBffInternalSchemasUser;
+    /**
+     * 
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasTopic
      */
     parentUuid: string | null;
     /**
      * 
-     * @type {number}
+     * @type {Array<MwTrainingBffInternalSchemasPracticeMaterial>}
      * @memberof MwTrainingBffInternalSchemasTopic
      */
-    practiceMaterialAmount: number;
+    practiceMaterials: Array<MwTrainingBffInternalSchemasPracticeMaterial>;
     /**
      * 
-     * @type {number}
+     * @type {Array<MwTrainingBffInternalSchemasTheoryMaterial>}
      * @memberof MwTrainingBffInternalSchemasTopic
      */
-    theoryMaterialAmount: number;
+    theoryMaterials: Array<MwTrainingBffInternalSchemasTheoryMaterial>;
     /**
      * 
      * @type {string}
@@ -79,9 +104,10 @@ export function instanceOfMwTrainingBffInternalSchemasTopic(
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "order" in value;
+    isInstance = isInstance && "owner" in value;
     isInstance = isInstance && "parentUuid" in value;
-    isInstance = isInstance && "practiceMaterialAmount" in value;
-    isInstance = isInstance && "theoryMaterialAmount" in value;
+    isInstance = isInstance && "practiceMaterials" in value;
+    isInstance = isInstance && "theoryMaterials" in value;
     isInstance = isInstance && "trainingUuid" in value;
     isInstance = isInstance && "uuid" in value;
 
@@ -104,9 +130,10 @@ export function MwTrainingBffInternalSchemasTopicFromJSONTyped(
         'createdAt': json['createdAt'],
         'name': json['name'],
         'order': json['order'],
+        'owner': MwTrainingBffInternalSchemasUserFromJSON(json['owner']),
         'parentUuid': json['parentUuid'],
-        'practiceMaterialAmount': json['practiceMaterialAmount'],
-        'theoryMaterialAmount': json['theoryMaterialAmount'],
+        'practiceMaterials': ((json['practiceMaterials'] as Array<any>).map(MwTrainingBffInternalSchemasPracticeMaterialFromJSON)),
+        'theoryMaterials': ((json['theoryMaterials'] as Array<any>).map(MwTrainingBffInternalSchemasTheoryMaterialFromJSON)),
         'trainingUuid': json['trainingUuid'],
         'uuid': json['uuid'],
     };
@@ -125,9 +152,10 @@ export function MwTrainingBffInternalSchemasTopicToJSON(value?: MwTrainingBffInt
         'createdAt': value.createdAt,
         'name': value.name,
         'order': value.order,
+        'owner': MwTrainingBffInternalSchemasUserToJSON(value.owner),
         'parentUuid': value.parentUuid,
-        'practiceMaterialAmount': value.practiceMaterialAmount,
-        'theoryMaterialAmount': value.theoryMaterialAmount,
+        'practiceMaterials': ((value.practiceMaterials as Array<any>).map(MwTrainingBffInternalSchemasPracticeMaterialToJSON)),
+        'theoryMaterials': ((value.theoryMaterials as Array<any>).map(MwTrainingBffInternalSchemasTheoryMaterialToJSON)),
         'trainingUuid': value.trainingUuid,
         'uuid': value.uuid,
     };

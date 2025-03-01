@@ -169,13 +169,14 @@ func (cs *ChatService) FindOrCreateRoom(ctx *gin.Context, createRoomPayload *sch
 
 	return &schemas.FindOrCreateRoomResponse{
 		Room: &schemas.RoomPopulatedResponse{
-			RoomID:    findOrCreateRoomRaw.Room.RoomId,
-			Name:      roomPopulatedName,
-			ImageURL:  "",
-			RoomType:  findOrCreateRoomRaw.Room.RoomType,
-			IsBlocked: findOrCreateRoomRaw.Room.IsBlocked,
-			Users:     users,
-			Messages:  messages,
+			RoomID:               findOrCreateRoomRaw.Room.RoomId,
+			Name:                 roomPopulatedName,
+			ImageURL:             "",
+			RoomType:             findOrCreateRoomRaw.Room.RoomType,
+			IsBlocked:            findOrCreateRoomRaw.Room.IsBlocked,
+			Users:                users,
+			Messages:             messages,
+			UnreadMessagesAmount: findOrCreateRoomRaw.Room.UnreadMessagesAmount,
 		},
 		IsAlreadyCreated: findOrCreateRoomRaw.IsAlreadyCreated,
 	}, nil

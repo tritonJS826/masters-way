@@ -86,7 +86,10 @@ export class TheoryMaterialDAL {
    */
   public static async updateTheoryMaterial(theoryMaterial: PartialWithUuid<TheoryMaterial>): Promise<TheoryMaterial> {
     const theoryMaterialDTOPartial = theoryMaterialToTheoryMaterialDTOPartial(theoryMaterial);
-    const updatedTheoryMaterialDTO = await TheoryMaterialService.updateTheoryMaterial({request: theoryMaterialDTOPartial});
+    const updatedTheoryMaterialDTO = await TheoryMaterialService.updateTheoryMaterial({
+      request: theoryMaterialDTOPartial,
+      theoryMaterialId: theoryMaterial.uuid,
+    });
 
     const updatedTheoryMaterial = theoryMaterialDTOToTheoryMaterial(updatedTheoryMaterialDTO);
 
