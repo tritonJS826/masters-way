@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {LocalStorageData, localStorageWorker} from "src/utils/LocalStorageWorker";
 
-type usePersistanceStateParams<T extends keyof LocalStorageData> = {
+type usePersistenceStateParams<T extends keyof LocalStorageData> = {
 
   /**
    * Persistent value
@@ -31,9 +31,9 @@ type usePersistanceStateParams<T extends keyof LocalStorageData> = {
 /**
  * Hook allows to have persistent state (persistent between sessions)
  */
-export const usePersistanceState = <
+export const usePersistenceState = <
   T extends keyof LocalStorageData
->(params: usePersistanceStateParams<T>): [
+>(params: usePersistenceStateParams<T>): [
 
   /**
    * Persistent value

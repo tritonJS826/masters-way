@@ -211,14 +211,15 @@ class ThemeStore {
 
   /**
    * Set theme
+   * Falls back to DEFAULT_THEME if invalid theme is provided
    */
   public setTheme = (theme: Theme) => {
+    const validatedTheme = this.validateTheme(theme) ? theme : DEFAULT_THEME;
     Object.entries(themedVariables).forEach(([variableName, variableValue]) => {
-      document.documentElement.style.setProperty(`--${variableName}`, variableValue[theme]);
+      document.documentElement.style.setProperty(`--${variableName}`, variableValue[validatedTheme]);
     });
-    localStorageWorker.setItemByKey("theme", theme);
-
-    this.theme = theme;
+    localStorageWorker.setItemByKey("theme", validatedTheme);
+    this.theme = validatedTheme;
   };
 
   /**
@@ -227,6 +228,13 @@ class ThemeStore {
   public loadTheme = () => {
     const theme = localStorageWorker.getItemByKey<Theme>("theme");
     this.setTheme(theme ?? DEFAULT_THEME);
+  };
+
+  /**
+   * Validate theme
+   */
+  public validateTheme = (theme: Theme) => {
+    return Object.values(Theme).includes(theme);
   };
 
 }

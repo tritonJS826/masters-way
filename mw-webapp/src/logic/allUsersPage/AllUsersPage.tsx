@@ -17,7 +17,7 @@ import {UserDAL} from "src/dataAccessLogic/UserDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useLoad} from "src/hooks/useLoad";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
 import {UsersTableBlock} from "src/logic/usersTable/UsersTableBlock";
 import {UserNotSaturatedWay} from "src/model/businessModelPreview/UserNotSaturatedWay";
@@ -43,6 +43,19 @@ const DEFAULT_ALL_USERS_PAGE_SETTINGS: AllUsersPageSettings = {
   view: View.Card,
   name: "",
   email: "",
+};
+
+/**
+ * Validates all users page settings
+ */
+const allUsersPageSettingsValidator = (currentSettings: AllUsersPageSettings) => {
+  const isViewValid = !!currentSettings.view && Object.values(View).includes(currentSettings.view);
+  const isEmailValid = typeof currentSettings.email === "string";
+  const isNameValid = typeof currentSettings.name === "string";
+  const isFilterStatusValid = !!currentSettings.filterStatus &&
+  Object.values(MentoringStatus).includes(currentSettings.filterStatus);
+
+  return isViewValid && isEmailValid && isNameValid && isFilterStatusValid;
 };
 
 /**
@@ -73,9 +86,16 @@ export const AllUsersPage = observer(() => {
   const {language} = languageStore;
   const {theme} = themeStore;
 
-  const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistanceState({
+  const [allUsersPageSettings, updateAllUsersPageSettings] = usePersistenceState({
     key: "allUsersPage",
     defaultValue: DEFAULT_ALL_USERS_PAGE_SETTINGS,
+
+    /**
+     * Check is stored data valid
+     */
+    storedDataValidator: (
+      currentSettings: AllUsersPageSettings,
+    ) => allUsersPageSettingsValidator(currentSettings),
   });
 
   const [debouncedEmail] = useDebounce(allUsersPageSettings.email, DEBOUNCE_DELAY_MILLISECONDS);

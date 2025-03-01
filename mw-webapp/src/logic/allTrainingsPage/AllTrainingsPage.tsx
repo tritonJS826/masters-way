@@ -14,7 +14,7 @@ import {renderViewCardOption, renderViewTableOption, ViewSwitcher} from "src/com
 import {GetTrainingsParams} from "src/dataAccessLogic/TrainingDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
 import {AllTrainingsPageStore} from "src/logic/allTrainingsPage/AllTrainingsPageStore";
 import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
@@ -31,10 +31,13 @@ const DEFAULT_ALL_TRAININGS_PAGE_SETTINGS: AllTrainingsPageSettings = {
 };
 
 /**
- * Safe opened tab from localStorage
+ * Validates all trainings page settings
  */
 const allTrainingsPageSettingsValidator = (currentSettings: AllTrainingsPageSettings) => {
-  return typeof currentSettings.trainingName === "string";
+  const isViewValid = !!currentSettings.view && Object.values(View).includes(currentSettings.view);
+  const isTrainingNameValid = typeof currentSettings.trainingName === "string";
+
+  return isViewValid && isTrainingNameValid;
 };
 
 /**
@@ -44,7 +47,7 @@ export const AllTrainingsPage = observer(() => {
   const {language} = languageStore;
   const {theme} = themeStore;
 
-  const [allTrainingsPageSettings, updateAllTrainingsPageSettings] = usePersistanceState({
+  const [allTrainingsPageSettings, updateAllTrainingsPageSettings] = usePersistenceState({
     key: "allTrainingsPage",
     defaultValue: DEFAULT_ALL_TRAININGS_PAGE_SETTINGS,
 

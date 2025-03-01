@@ -33,10 +33,12 @@ class LanguageStore {
 
   /**
    * Set language
+   * Falls back to DEFAULT_LANGUAGE if invalid language is provided
    */
   public setLanguage = (language: Language) => {
-    localStorageWorker.setItemByKey("language", language);
-    this.language = language;
+    const validatedLanguage = this.validateLanguage(language) ? language : DEFAULT_LANGUAGE;
+    localStorageWorker.setItemByKey("language", validatedLanguage);
+    this.language = validatedLanguage;
   };
 
   /**
@@ -46,6 +48,13 @@ class LanguageStore {
     const language = localStorageWorker.getItemByKey<Language>("language");
 
     this.setLanguage(language ?? DEFAULT_LANGUAGE);
+  };
+
+  /**
+   * Validate language
+   */
+  public validateLanguage = (language: Language) => {
+    return Object.values(Language).includes(language);
   };
 
 }
