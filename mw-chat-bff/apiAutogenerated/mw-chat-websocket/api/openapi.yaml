@@ -118,6 +118,8 @@ components:
           type: string
         roomType:
           type: string
+        unreadMessagesAmount:
+          type: integer
         users:
           items:
             $ref: '#/components/schemas/mw-chat-websocket_internal_schemas.UserResponse'
@@ -128,6 +130,7 @@ components:
       - name
       - roomId
       - roomType
+      - unreadMessagesAmount
       - users
       type: object
     mw-chat-websocket_internal_schemas.SendMessagePayload:

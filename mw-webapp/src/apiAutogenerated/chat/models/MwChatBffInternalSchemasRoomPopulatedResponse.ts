@@ -70,6 +70,12 @@ export interface MwChatBffInternalSchemasRoomPopulatedResponse {
     roomType: string;
     /**
      * 
+     * @type {number}
+     * @memberof MwChatBffInternalSchemasRoomPopulatedResponse
+     */
+    unreadMessagesAmount: number;
+    /**
+     * 
      * @type {Array<MwChatBffInternalSchemasUserResponse>}
      * @memberof MwChatBffInternalSchemasRoomPopulatedResponse
      */
@@ -89,6 +95,7 @@ export function instanceOfMwChatBffInternalSchemasRoomPopulatedResponse(
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "roomId" in value;
     isInstance = isInstance && "roomType" in value;
+    isInstance = isInstance && "unreadMessagesAmount" in value;
     isInstance = isInstance && "users" in value;
 
     return isInstance;
@@ -113,6 +120,7 @@ export function MwChatBffInternalSchemasRoomPopulatedResponseFromJSONTyped(
         'name': json['name'],
         'roomId': json['roomId'],
         'roomType': json['roomType'],
+        'unreadMessagesAmount': json['unreadMessagesAmount'],
         'users': ((json['users'] as Array<any>).map(MwChatBffInternalSchemasUserResponseFromJSON)),
     };
 }
@@ -133,6 +141,7 @@ export function MwChatBffInternalSchemasRoomPopulatedResponseToJSON(value?: MwCh
         'name': value.name,
         'roomId': value.roomId,
         'roomType': value.roomType,
+        'unreadMessagesAmount': value.unreadMessagesAmount,
         'users': ((value.users as Array<any>).map(MwChatBffInternalSchemasUserResponseToJSON)),
     };
 }

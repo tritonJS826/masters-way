@@ -27,7 +27,7 @@ type RoomsRepository interface {
 	GetPrivateRoomByUserUUIDs(ctx context.Context, arg db.GetPrivateRoomByUserUUIDsParams) (pgtype.UUID, error)
 	GetMessagesByRoomUUID(ctx context.Context, roomUuid pgtype.UUID) ([]db.GetMessagesByRoomUUIDRow, error)
 	GetRoomsByUserUUID(ctx context.Context, arg db.GetRoomsByUserUUIDParams) ([]db.GetRoomsByUserUUIDRow, error)
-	GetRoomByUUID(ctx context.Context, roomUuid pgtype.UUID) (db.GetRoomByUUIDRow, error)
+	GetRoomByUUID(ctx context.Context, params db.GetRoomByUUIDParams) (db.GetRoomByUUIDRow, error)
 	GetUsersUUIDsInRoom(ctx context.Context, roomUuid pgtype.UUID) ([]pgtype.UUID, error)
 	AddUserToRoom(ctx context.Context, arg db.AddUserToRoomParams) (db.AddUserToRoomRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
@@ -89,10 +89,18 @@ func (roomsService *RoomsService) GetRooms(ctx context.Context, userUUID uuid.UU
 	}, nil
 }
 
-func (roomsService *RoomsService) GetRoomByUUID(ctx context.Context, roomUUID uuid.UUID) (*schemas.RoomPopulatedResponse, error) {
-	roomPgUUID := pgtype.UUID{Bytes: roomUUID, Valid: true}
+type GetRoomByUUIDParams struct {
+	UserUUID uuid.UUID
+	RoomUUID uuid.UUID
+}
 
-	room, err := roomsService.roomsRepository.GetRoomByUUID(ctx, roomPgUUID)
+func (roomsService *RoomsService) GetRoomByUUID(ctx context.Context, params GetRoomByUUIDParams) (*schemas.RoomPopulatedResponse, error) {
+	args := db.GetRoomByUUIDParams{
+		UserUuid: pgtype.UUID{Bytes: params.UserUUID, Valid: true},
+		RoomUuid: pgtype.UUID{Bytes: params.RoomUUID, Valid: true},
+	}
+
+	room, err := roomsService.roomsRepository.GetRoomByUUID(ctx, args)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +112,7 @@ func (roomsService *RoomsService) GetRoomByUUID(ctx context.Context, roomUUID uu
 		}
 	})
 
-	messagesRaw, err := roomsService.roomsRepository.GetMessagesByRoomUUID(ctx, roomPgUUID)
+	messagesRaw, err := roomsService.roomsRepository.GetMessagesByRoomUUID(ctx, args.RoomUuid)
 	if err != nil {
 		return nil, err
 	}
@@ -130,12 +138,13 @@ func (roomsService *RoomsService) GetRoomByUUID(ctx context.Context, roomUUID uu
 	lom.Reverse(messages)
 
 	return &schemas.RoomPopulatedResponse{
-		RoomID:    utils.ConvertPgUUIDToUUID(room.Uuid).String(),
-		Users:     users,
-		Name:      utils.MarshalPgText(room.Name),
-		Messages:  messages,
-		IsBlocked: room.IsRoomBlocked,
-		RoomType:  string(room.Type),
+		RoomID:               utils.ConvertPgUUIDToUUID(room.Uuid).String(),
+		Users:                users,
+		Name:                 utils.MarshalPgText(room.Name),
+		Messages:             messages,
+		IsBlocked:            room.IsRoomBlocked,
+		RoomType:             string(room.Type),
+		UnreadMessagesAmount: int32(room.UnreadMessageCount),
 	}, nil
 }
 

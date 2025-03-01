@@ -261,6 +261,7 @@ components:
       example:
         isAlreadyCreated: true
         room:
+          unreadMessagesAmount: 0
           isBlocked: true
           name: name
           messages:
@@ -382,6 +383,7 @@ components:
       type: object
     mw-chat_internal_schemas.RoomPopulatedResponse:
       example:
+        unreadMessagesAmount: 0
         isBlocked: true
         name: name
         messages:
@@ -422,6 +424,8 @@ components:
           type: string
         roomType:
           type: string
+        unreadMessagesAmount:
+          type: integer
         users:
           items:
             $ref: '#/components/schemas/mw-chat_internal_schemas.UserResponse'
@@ -432,6 +436,7 @@ components:
       - name
       - roomId
       - roomType
+      - unreadMessagesAmount
       - users
       type: object
     mw-chat_internal_schemas.RoomPreviewResponse:

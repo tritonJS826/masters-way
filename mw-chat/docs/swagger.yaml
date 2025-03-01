@@ -107,6 +107,8 @@ definitions:
         type: string
       roomType:
         type: string
+      unreadMessagesAmount:
+        type: integer
       users:
         items:
           $ref: '#/definitions/mw-chat_internal_schemas.UserResponse'
@@ -117,6 +119,7 @@ definitions:
     - name
     - roomId
     - roomType
+    - unreadMessagesAmount
     - users
     type: object
   mw-chat_internal_schemas.RoomPreviewResponse:

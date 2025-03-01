@@ -242,13 +242,14 @@ func (cc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 	}
 
 	room = &schemas.RoomPopulatedResponse{
-		RoomID:    findOrCreateRoomChResponse.Room.Room.RoomID,
-		Name:      roomName,
-		ImageURL:  imageUrl,
-		RoomType:  findOrCreateRoomChResponse.Room.Room.RoomType,
-		IsBlocked: findOrCreateRoomChResponse.Room.Room.IsBlocked,
-		Users:     roomUsers,
-		Messages:  roomMessages,
+		RoomID:               findOrCreateRoomChResponse.Room.Room.RoomID,
+		Name:                 roomName,
+		ImageURL:             imageUrl,
+		RoomType:             findOrCreateRoomChResponse.Room.Room.RoomType,
+		IsBlocked:            findOrCreateRoomChResponse.Room.Room.IsBlocked,
+		Users:                roomUsers,
+		Messages:             roomMessages,
+		UnreadMessagesAmount: findOrCreateRoomChResponse.Room.Room.UnreadMessagesAmount,
 	}
 
 	if findOrCreateRoomChResponse.Room.IsAlreadyCreated {

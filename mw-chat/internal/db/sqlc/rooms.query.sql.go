@@ -77,23 +77,37 @@ SELECT
         FROM users_rooms
         WHERE users_rooms.room_uuid = rooms.uuid
         ORDER BY updated_at DESC
-    )::VARCHAR[] AS user_roles
+    )::VARCHAR[] AS user_roles,
+    COALESCE((
+        SELECT COUNT(*)
+        FROM messages
+        LEFT JOIN message_status ON message_status.message_uuid = messages.uuid
+        WHERE message_status.is_read = false
+        AND messages.owner_uuid <> $1
+        AND messages.room_uuid = rooms.uuid), 0
+    )::INTEGER AS unread_message_count
 FROM rooms
 JOIN users_rooms ON rooms.uuid = users_rooms.room_uuid
-WHERE rooms.uuid = $1
+WHERE rooms.uuid = $2
 `
 
-type GetRoomByUUIDRow struct {
-	Uuid          pgtype.UUID   `json:"uuid"`
-	Name          pgtype.Text   `json:"name"`
-	Type          RoomType      `json:"type"`
-	IsRoomBlocked bool          `json:"is_room_blocked"`
-	UserUuids     []pgtype.UUID `json:"user_uuids"`
-	UserRoles     []string      `json:"user_roles"`
+type GetRoomByUUIDParams struct {
+	UserUuid pgtype.UUID `json:"user_uuid"`
+	RoomUuid pgtype.UUID `json:"room_uuid"`
 }
 
-func (q *Queries) GetRoomByUUID(ctx context.Context, roomUuid pgtype.UUID) (GetRoomByUUIDRow, error) {
-	row := q.db.QueryRow(ctx, getRoomByUUID, roomUuid)
+type GetRoomByUUIDRow struct {
+	Uuid               pgtype.UUID   `json:"uuid"`
+	Name               pgtype.Text   `json:"name"`
+	Type               RoomType      `json:"type"`
+	IsRoomBlocked      bool          `json:"is_room_blocked"`
+	UserUuids          []pgtype.UUID `json:"user_uuids"`
+	UserRoles          []string      `json:"user_roles"`
+	UnreadMessageCount int32         `json:"unread_message_count"`
+}
+
+func (q *Queries) GetRoomByUUID(ctx context.Context, arg GetRoomByUUIDParams) (GetRoomByUUIDRow, error) {
+	row := q.db.QueryRow(ctx, getRoomByUUID, arg.UserUuid, arg.RoomUuid)
 	var i GetRoomByUUIDRow
 	err := row.Scan(
 		&i.Uuid,
@@ -102,6 +116,7 @@ func (q *Queries) GetRoomByUUID(ctx context.Context, roomUuid pgtype.UUID) (GetR
 		&i.IsRoomBlocked,
 		&i.UserUuids,
 		&i.UserRoles,
+		&i.UnreadMessageCount,
 	)
 	return i, err
 }

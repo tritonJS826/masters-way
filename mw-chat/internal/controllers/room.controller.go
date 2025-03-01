@@ -77,7 +77,12 @@ func (rc *RoomController) GetRoomById(ctx *gin.Context) {
 	err := rc.messagesService.SetAllRoomMessagesAsRead(ctx, userUUID, roomUUID)
 	utils.HandleErrorGin(ctx, err)
 
-	room, err := rc.roomService.GetRoomByUUID(ctx, roomUUID)
+	args := services.GetRoomByUUIDParams{
+		UserUUID: userUUID,
+		RoomUUID: roomUUID,
+	}
+
+	room, err := rc.roomService.GetRoomByUUID(ctx, args)
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, room)
@@ -117,7 +122,12 @@ func (rc *RoomController) FindOrCreateRoom(ctx *gin.Context) {
 		utils.HandleErrorGin(ctx, err)
 	}
 
-	room, err := rc.roomService.GetRoomByUUID(ctx, findOrCreateRoomUUIDResponse.RoomUUID)
+	args := services.GetRoomByUUIDParams{
+		UserUUID: currentUserUUID,
+		RoomUUID: findOrCreateRoomUUIDResponse.RoomUUID,
+	}
+
+	room, err := rc.roomService.GetRoomByUUID(ctx, args)
 	utils.HandleErrorGin(ctx, err)
 
 	response := schemas.FindOrCreateRoomResponse{

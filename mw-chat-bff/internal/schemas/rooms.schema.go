@@ -11,13 +11,14 @@ type CreateRoomPayload struct {
 }
 
 type RoomPopulatedResponse struct {
-	RoomID    string            `json:"roomId" validate:"required"`
-	Name      string            `json:"name" validate:"required"`
-	ImageURL  string            `json:"imageUrl" validate:"required"`
-	RoomType  string            `json:"roomType" validate:"required"`
-	IsBlocked bool              `json:"isBlocked" validate:"required"`
-	Users     []UserResponse    `json:"users" validate:"required"`
-	Messages  []MessageResponse `json:"messages" validate:"required"`
+	RoomID               string            `json:"roomId" validate:"required"`
+	Name                 string            `json:"name" validate:"required"`
+	ImageURL             string            `json:"imageUrl" validate:"required"`
+	RoomType             string            `json:"roomType" validate:"required"`
+	IsBlocked            bool              `json:"isBlocked" validate:"required"`
+	Users                []UserResponse    `json:"users" validate:"required"`
+	Messages             []MessageResponse `json:"messages" validate:"required"`
+	UnreadMessagesAmount int32             `json:"unreadMessagesAmount" validate:"required"`
 }
 
 type UserResponse struct {
