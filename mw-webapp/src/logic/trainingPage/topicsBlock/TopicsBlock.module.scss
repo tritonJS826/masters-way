@@ -7,8 +7,9 @@
 .topicItem {
   align-items: center;
   justify-content: space-between;
-  border-radius: $primaryBorderRadius;
   cursor: pointer;
+  border-radius: $primaryBorderRadius;
+
 
   &:hover {
     background-color: var(--tertiaryBgColor);
