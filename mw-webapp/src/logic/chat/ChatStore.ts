@@ -89,10 +89,19 @@ class ChatStore {
   };
 
   /**
-   * Increase unread messages counter in chat trigger
+   * Increment unread messages counter
    */
-  public increaseUnreadMessagesCounterInChatTrigger = () => {
+  public incrementUnreadMessagesCounters = (roomId: string) => {
+    this.incrementUnreadMessagesCounterInChatTrigger();
+    this.chatListStore && this.chatListStore.incrementUnreadMessagesCounterInChatPreview(roomId);
+  };
+
+  /**
+   * Increment unread messages counter in chat trigger
+   */
+  private incrementUnreadMessagesCounterInChatTrigger = () => {
     this.unreadMessagesAmount++;
+
   };
 
 }

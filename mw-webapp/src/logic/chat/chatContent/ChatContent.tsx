@@ -43,7 +43,7 @@ export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
   const {theme} = themeStore;
-  const {isChatOpen, activeRoomStore, chatListStore, increaseUnreadMessagesCounterInChatTrigger} = chatStore;
+  const {isChatOpen, activeRoomStore, chatListStore, incrementUnreadMessagesCounters} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadInProcessChatListPreview;
@@ -93,8 +93,7 @@ export const ChatContent = observer(() => {
       activeRoomStore.activeRoom.addMessage(newMessage);
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
-      increaseUnreadMessagesCounterInChatTrigger();
-      !!chatListStore && chatListStore.increaseUnreadMessagesCounterInChatPreview(payload.roomId);
+      incrementUnreadMessagesCounters(payload.roomId);
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
         type: NotificationType.INFO,
