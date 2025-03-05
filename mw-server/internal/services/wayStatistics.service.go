@@ -52,7 +52,7 @@ func (ws *WayStatisticsService) GetWayStatisticsTriplePeriod(ctx context.Context
 
 	lastMonthStatisticsParams := &GetWayStatisticsParams{
 		WayPgUUIDs:           wayPgUUIDs,
-		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, -1, 1).Truncate(24 * time.Hour), Valid: true},
+		StartDatePgTimestamp: pgtype.Timestamp{Time: params.EndDate.AddDate(0, 0, -29).Truncate(24 * time.Hour), Valid: true},
 		EndDatePgTimestamp:   endDatePgTimestamp,
 	}
 	lastMonthStatistics, err := ws.GetWayStatistics(ctx, lastMonthStatisticsParams)

@@ -7,7 +7,6 @@ import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSel
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import allWayData from "cypress/fixtures/allWaysFixture.json";
-import {LanguageService} from "src/service/LanguageService";
 
 beforeEach(() => {
   cy.resetGeneralDb();
@@ -27,7 +26,7 @@ describe('NoAuth All Ways scope tests', () => {
     tableHeadersEn.push(Symbols.STAR);
 
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
     allWaysSelectors.allWaysTable.getTable().should('exist');
@@ -40,7 +39,7 @@ describe('NoAuth All Ways scope tests', () => {
 
   it('NoAuth_AllWaysTable_LinkToOwner', () => {
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
     const checkOwnerLink = (userData: {userName: string, userId: string}) => {
@@ -52,7 +51,7 @@ describe('NoAuth All Ways scope tests', () => {
     checkOwnerLink(testWayData.users.Dana);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkOwnerLink(testWayData.users.Alice);
+    checkOwnerLink(testWayData.users.Jane);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkOwnerLink(testWayData.users.Ronnie);
@@ -68,12 +67,12 @@ describe('NoAuth All Ways scope tests', () => {
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
     }
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
 
     checkWayLink(testWayData.ways.danaWay);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkWayLink(testWayData.ways.aliceWay);
+    checkWayLink(testWayData.ways.janeWay);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkWayLink(testWayData.ways.ronnieWay);
@@ -83,7 +82,7 @@ describe('NoAuth All Ways scope tests', () => {
   it('NoAuth_AllWaysTable_LinkToMentor', () => {
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
     
     const checkMentorLink = (userData: {userName: string, userId: string}) => {
       allWaysSelectors.allWaysTable.getOwnerLink(userData.userName).first().click();
@@ -94,7 +93,7 @@ describe('NoAuth All Ways scope tests', () => {
     checkMentorLink(testWayData.users.Alice);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkMentorLink(testWayData.users.Ronnie);
+    checkMentorLink(testWayData.users.Jane);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkMentorLink(testWayData.users.Dana);
@@ -109,12 +108,12 @@ describe('NoAuth All Ways scope tests', () => {
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
     }
     allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+    allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
 
     checkWayLink(testWayData.ways.danaWay);
     cy.visit(`/${allWayData.endpoint}`);
 
-    checkWayLink(testWayData.ways.aliceWay);
+    checkWayLink(testWayData.ways.janeWay);
     cy.visit(`/${allWayData.endpoint}`);
 
     checkWayLink(testWayData.ways.ronnieWay);

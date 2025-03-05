@@ -17,11 +17,11 @@ import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
 import {ProjectPageStore} from "src/logic/projectPage/ProjectPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
-import {WayStatusType} from "src/logic/waysTable/wayStatus";
+import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
 import {Project} from "src/model/businessModel/Project";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -36,6 +36,17 @@ const MIN_LENGTH_PROJECT_NAME = 1;
 const DEFAULT_PROJECT_PAGE_SETTINGS: ProjectPageSettings = {
   filterStatus: FILTER_STATUS_ALL_VALUE,
   view: View.Card,
+};
+
+/**
+ * Validates project page settings
+ */
+const projectPageSettingsValidator = (currentSettings: ProjectPageSettings) => {
+  const isFilterStatusValid = currentSettings.filterStatus === FILTER_STATUS_ALL_VALUE ||
+    Object.values(WayStatus).includes(currentSettings.filterStatus);
+  const isViewValid = !!currentSettings.view && Object.values(View).includes(currentSettings.view);
+
+  return isFilterStatusValid && isViewValid;
 };
 
 /**
@@ -92,9 +103,16 @@ export const ProjectPage = observer((props: ProjectPageProps) => {
 
   const {project} = projectStore;
 
-  const [projectPageSettings,, updateProjectPageSettings] = usePersistanceState({
+  const [projectPageSettings,, updateProjectPageSettings] = usePersistenceState({
     key: "projectPage",
     defaultValue: DEFAULT_PROJECT_PAGE_SETTINGS,
+
+    /**
+     * Check is stored data valid
+     */
+    storedDataValidator: (
+      currentSettings: ProjectPageSettings,
+    ) => projectPageSettingsValidator(currentSettings),
   });
 
   /**

@@ -17,7 +17,7 @@ import {WayDAL} from "src/dataAccessLogic/WayDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {useLoad} from "src/hooks/useLoad";
-import {usePersistanceState} from "src/hooks/usePersistanceState";
+import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {DEBOUNCE_DELAY_MILLISECONDS} from "src/logic/FilterSettings";
 import {FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {getWaysColumns} from "src/logic/waysTable/waysColumns";
@@ -42,7 +42,13 @@ const DEFAULT_ALL_WAYS_PAGE_SETTINGS: AllWaysPageSettings = {
  * Safe opened tab from localStorage
  */
 const allWaysPageSettingsValidator = (currentSettings: AllWaysPageSettings) => {
-  return !!currentSettings.filterStatus && Number.isInteger(currentSettings.minDayReportsAmount);
+  const isFilterStatusValid = currentSettings.filterStatus === FILTER_STATUS_ALL_VALUE ||
+    Object.values(WayStatus).includes(currentSettings.filterStatus);
+  const isMinDayReportsAmountValid = Number.isInteger(currentSettings.minDayReportsAmount);
+  const isViewValid = !!currentSettings.view && Object.values(View).includes(currentSettings.view);
+  const isWayNameValid = typeof currentSettings.wayName === "string";
+
+  return isFilterStatusValid && isMinDayReportsAmountValid && isViewValid && isWayNameValid;
 };
 
 /**
@@ -73,7 +79,7 @@ export const AllWaysPage = observer(() => {
 
   const isMoreWaysExist = allWays && allWaysAmount && allWays.length < allWaysAmount;
 
-  const [allWaysPageSettings, updateAllWaysPageSettings] = usePersistanceState({
+  const [allWaysPageSettings, updateAllWaysPageSettings] = usePersistenceState({
     key: "allWaysPage",
     defaultValue: DEFAULT_ALL_WAYS_PAGE_SETTINGS,
 
@@ -171,7 +177,6 @@ export const AllWaysPage = observer(() => {
               placeholder={LanguageService.allWays.filterBlock.wayNamePlaceholder[language]}
               typeInputIcon={"SearchIcon"}
               typeInput={InputType.Border}
-              dataCy={allWaysAccessIds.filterViewBlock.searchByWayNameInput}
             />
           </div>
 
@@ -179,36 +184,11 @@ export const AllWaysPage = observer(() => {
             label={LanguageService.allWays.filterBlock.type[language]}
             defaultValue={allWaysPageSettings.filterStatus}
             name="filterStatus"
-            cy={{dataCyTrigger: allWaysAccessIds.filterViewBlock.statusSelect}}
             options={[
-              {
-                id: "1",
-                value: FILTER_STATUS_ALL_VALUE,
-                text: LanguageService.allWays.filterBlock.typeOptions.all[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.all.en),
-              },
-              {
-                id: "2",
-                value: WayStatus.completed,
-                text: LanguageService.allWays.filterBlock.typeOptions.completed[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.completed.en),
-              },
-              {
-                id: "3",
-                value: WayStatus.abandoned,
-                text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.abandoned.en),
-              },
-              {
-                id: "4",
-                value: WayStatus.inProgress,
-                text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .statusSelectOption(LanguageService.allWays.filterBlock.typeOptions.inProgress.en),
-              },
+              {id: "1", value: FILTER_STATUS_ALL_VALUE, text: LanguageService.allWays.filterBlock.typeOptions.all[language]},
+              {id: "2", value: WayStatus.completed, text: LanguageService.allWays.filterBlock.typeOptions.completed[language]},
+              {id: "3", value: WayStatus.abandoned, text: LanguageService.allWays.filterBlock.typeOptions.abandoned[language]},
+              {id: "4", value: WayStatus.inProgress, text: LanguageService.allWays.filterBlock.typeOptions.inProgress[language]},
             ]}
             onChange={(status) => {
               updateAllWaysPageSettings({
@@ -222,38 +202,32 @@ export const AllWaysPage = observer(() => {
           />
 
           <Select
+            cy={{dataCyTrigger: allWaysAccessIds.filterViewBlock.dayReportsSelect}}
             label={LanguageService.allWays.filterBlock.minDayReportsAmountLabel[language]}
             defaultValue={String(allWaysPageSettings.minDayReportsAmount)}
             name="minDayReportsStatus"
-            cy={{dataCyTrigger: allWaysAccessIds.filterViewBlock.dayReportsSelect}}
             options={[
               {
                 id: "1",
                 value: "0",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption0[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en),
+                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOption0,
               },
               {
                 id: "2",
                 value: String(DEFAULT_ALL_WAYS_PAGE_SETTINGS.minDayReportsAmount),
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption1[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en),
+                dataCy: allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast5,
               },
               {
                 id: "3",
                 value: "20",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption2[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption2.en),
               },
               {
                 id: "4",
                 value: "50",
                 text: LanguageService.allWays.filterBlock.minDayReportsAmountOption3[language],
-                dataCy: allWaysAccessIds.filterViewBlock
-                  .dayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption3.en),
               },
             ]}
             onChange={(minDayReportsAmount) => {

@@ -576,7 +576,6 @@ func TestGetWayStatisticsById(t *testing.T) {
 			},
 			LastMonth: openapiGeneral.MwServerInternalSchemasWayStatistics{
 				TimeSpentByDayChart: []openapiGeneral.MwServerInternalSchemasTimeSpentByDayPoint{
-					{Date: "2024-07-16T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-17T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-18T00:00:00.000Z", Value: 0},
 					{Date: "2024-07-19T00:00:00.000Z", Value: 0},
@@ -731,7 +730,17 @@ func TestGetWayStatisticsById(t *testing.T) {
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)
-		assert.Equal(t, expectedData, wayStatistics)
+		assert.Equal(t, expectedData.LastWeek.TimeSpentByDayChart, wayStatistics.LastWeek.TimeSpentByDayChart)
+		assert.Equal(t, expectedData.LastWeek.OverallInformation, wayStatistics.LastWeek.OverallInformation)
+		assert.Equal(t, expectedData.LastWeek.LabelStatistics, wayStatistics.LastWeek.LabelStatistics)
+
+		assert.Equal(t, expectedData.TotalTime.TimeSpentByDayChart, wayStatistics.TotalTime.TimeSpentByDayChart)
+		assert.Equal(t, expectedData.TotalTime.OverallInformation, wayStatistics.TotalTime.OverallInformation)
+		assert.Equal(t, expectedData.TotalTime.LabelStatistics, wayStatistics.TotalTime.LabelStatistics)
+
+		assert.Equal(t, expectedData.LastMonth.TimeSpentByDayChart, wayStatistics.LastMonth.TimeSpentByDayChart)
+		assert.Equal(t, expectedData.LastMonth.OverallInformation, wayStatistics.LastMonth.OverallInformation)
+		assert.Equal(t, expectedData.LastMonth.LabelStatistics, wayStatistics.LastMonth.LabelStatistics)
 	})
 }
 

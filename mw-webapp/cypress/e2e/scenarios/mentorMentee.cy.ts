@@ -59,7 +59,7 @@ describe('Mentor-mentee tests', () => {
         cy.logout();
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+        allWaysSelectors.filterViewBlock.getDayReportsSelectOption0().click();
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
         
         wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);
@@ -93,6 +93,7 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
         dayReportsSelectors.getCreateNewDayReportButton().click();
         dayReportsSelectors.dayReportsContent.getAddButton().first().click();
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
         headerSelectors.getHeader().click();
@@ -163,6 +164,7 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
 
         dayReportsSelectors.dayReportsContent.getAddButton().first().click();
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(`Mentor ${dayReportsData.jobDoneDescription}!`);
         headerSelectors.getHeader().click();
