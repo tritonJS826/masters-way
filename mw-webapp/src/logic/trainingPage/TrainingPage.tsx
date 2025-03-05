@@ -44,6 +44,7 @@ import styles from "src/logic/trainingPage/TrainingPage.module.scss";
 
 const MAX_LENGTH_TRAINING_NAME = 50;
 const MIN_LENGTH_TRAINING_NAME = 1;
+const MAX_TRAINING_TAGS_AMOUNT = 3;
 
 /**
  * Update Training params
@@ -163,6 +164,8 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
     navigate(pages.way.getPath({uuid: newWayUuid}));
     displayNotification({text: `Way ${trainingPageStore.training.name} created`, type: NotificationType.INFO});
   };
+
+  const isShouldRenderAddTrainingTagButton = trainingPageStore.training.trainingTags.length < MAX_TRAINING_TAGS_AMOUNT;
 
   return (
     <VerticalContainer className={styles.container}>
@@ -338,7 +341,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                 />
               ))}
               {!trainingPageStore.training.trainingTags.length && LanguageService.training.trainingInfo.noTags[language]}
-              {isOwner && (
+              {isOwner && isShouldRenderAddTrainingTagButton && (
                 <Modal
                   isOpen={isAddTrainingTagModalOpen}
                   trigger={

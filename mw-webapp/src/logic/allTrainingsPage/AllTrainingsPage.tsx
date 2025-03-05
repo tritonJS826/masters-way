@@ -67,6 +67,7 @@ export const AllTrainingsPage = observer(() => {
   });
 
   const [debouncedTrainingName] = useDebounce(allTrainingsPageSettings.trainingName, DEBOUNCE_DELAY_MILLISECONDS);
+
   useEffect(() => {
     allTrainingsPageStore.loadTrainings({trainingName: debouncedTrainingName});
   }, [debouncedTrainingName]);
