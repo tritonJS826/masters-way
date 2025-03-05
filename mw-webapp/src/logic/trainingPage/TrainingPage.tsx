@@ -165,6 +165,8 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
     displayNotification({text: `Way ${trainingPageStore.training.name} created`, type: NotificationType.INFO});
   };
 
+  const isRenderAddTrainingTagButton = trainingPageStore.training.trainingTags.length < MAX_TRAINING_TAGS_AMOUNT;
+
   return (
     <VerticalContainer className={styles.container}>
       <HorizontalGridContainer className={styles.trainingDashboard}>
@@ -339,7 +341,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                 />
               ))}
               {!trainingPageStore.training.trainingTags.length && LanguageService.training.trainingInfo.noTags[language]}
-              {isOwner && trainingPageStore.training.trainingTags.length < MAX_TRAINING_TAGS_AMOUNT && (
+              {isOwner && isRenderAddTrainingTagButton && (
                 <Modal
                   isOpen={isAddTrainingTagModalOpen}
                   trigger={

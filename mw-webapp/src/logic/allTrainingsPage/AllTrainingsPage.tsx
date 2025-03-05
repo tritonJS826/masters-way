@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {useEffect} from "react";
 import {allTrainingsAccessIds} from "cypress/accessIds/allTrainingsAccessIds";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -68,13 +68,7 @@ export const AllTrainingsPage = observer(() => {
 
   const [debouncedTrainingName] = useDebounce(allTrainingsPageSettings.trainingName, DEBOUNCE_DELAY_MILLISECONDS);
 
-  const isFirstRender = useRef(true);
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-
-      return;
-    }
     allTrainingsPageStore.loadTrainings({trainingName: debouncedTrainingName});
   }, [debouncedTrainingName]);
 
