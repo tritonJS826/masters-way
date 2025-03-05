@@ -183,11 +183,10 @@ export const ChatContent = observer(() => {
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
             chatItem.roomId !== activeRoomStore?.activeRoom.roomId
-              ? chatStore.initiateActiveRoomStore(chatItem.roomId)
+              ? (chatStore.initiateActiveRoomStore(chatItem.roomId),
+              chatItem.resetUnreadMessagesAmount())
               : null;
-            chatItem.unreadMessagesAmount
-              ? chatItem.resetUnreadMessagesAmount()
-              : null;
+
           }}
         />
       ),
