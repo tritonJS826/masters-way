@@ -35,6 +35,7 @@ export const SidebarContent = (props: SidebarContentProps) => {
   return (
     <DialogPortal>
       <DialogOverlay
+        role="overlay"
         data-cy={props.dataCyContent?.dataCyOverlay}
         className={styles.dialogOverlay}
       />
