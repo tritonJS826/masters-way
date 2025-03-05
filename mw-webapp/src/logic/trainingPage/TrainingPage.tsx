@@ -165,7 +165,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
     displayNotification({text: `Way ${trainingPageStore.training.name} created`, type: NotificationType.INFO});
   };
 
-  const isRenderAddTrainingTagButton = trainingPageStore.training.trainingTags.length < MAX_TRAINING_TAGS_AMOUNT;
+  const isShouldRenderAddTrainingTagButton = trainingPageStore.training.trainingTags.length < MAX_TRAINING_TAGS_AMOUNT;
 
   return (
     <VerticalContainer className={styles.container}>
