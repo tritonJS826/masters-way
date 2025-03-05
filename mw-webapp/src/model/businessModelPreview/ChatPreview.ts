@@ -1,3 +1,5 @@
+import {makeAutoObservable} from "mobx";
+
 /**
  * ChatPreview props
  */
@@ -27,6 +29,11 @@ interface ChatPreviewProps {
    * Participants users IDs
    */
   participantIds: string[];
+
+  /**
+   * Unread messages amount
+   */
+   unreadMessagesAmount: number;
 }
 
 /**
@@ -54,11 +61,32 @@ export class ChatPreview {
    */
   public participantIds: string[];
 
+  /**
+   * Unread messages amount
+   */
+  public unreadMessagesAmount: number;
+
   constructor(chatGroupData: ChatPreviewProps) {
+    makeAutoObservable(this);
     this.roomId = chatGroupData.roomId;
     this.name = chatGroupData.name;
     this.imageUrl = chatGroupData.imageUrl;
     this.participantIds = chatGroupData.participantIds;
+    this.unreadMessagesAmount = chatGroupData.unreadMessagesAmount;
+  }
+
+  /**
+   * Increment unreadMessagesAmount value
+   */
+  public incrementUnreadMessagesAmount() {
+    this.unreadMessagesAmount++;
+  }
+
+  /**
+   * Reset unreadMessagesAmount value
+   */
+  public resetUnreadMessagesAmount() {
+    this.unreadMessagesAmount = 0;
   }
 
 }

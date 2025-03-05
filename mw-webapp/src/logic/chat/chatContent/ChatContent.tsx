@@ -43,7 +43,7 @@ export const ChatContent = observer(() => {
   const {language} = languageStore;
   const {user} = userStore;
   const {theme} = themeStore;
-  const {isChatOpen, activeRoomStore, chatListStore, addUnreadMessageToAmount} = chatStore;
+  const {isChatOpen, activeRoomStore, chatListStore, incrementUnreadMessagesCounters} = chatStore;
   const [isInputDisabled, setInputDisabled] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isShouldRenderChatList = !!chatListStore && !chatListStore.isLoadInProcessChatListPreview;
@@ -93,7 +93,7 @@ export const ChatContent = observer(() => {
       activeRoomStore.activeRoom.addMessage(newMessage);
       readMessage(newMessage.uuid, newMessage.ownerId);
     } else {
-      addUnreadMessageToAmount();
+      incrementUnreadMessagesCounters(payload.roomId);
       displayNotification({
         text: `${payload.ownerName}: ${payload.message}`,
         type: NotificationType.INFO,
@@ -152,8 +152,8 @@ export const ChatContent = observer(() => {
       roomId: payload.roomId,
       imageUrl: payload.imageUrl,
       participantIds: payload.users.map((participant) => participant.userId),
+      unreadMessagesAmount: payload.unreadMessagesAmount,
     });
-
     const isChatListRoomTypePrivateAndNewChatIsPrivate = !!chatListStore && chatListStore.roomType === RoomType.PRIVATE
       && payload.roomType === RoomType.PRIVATE;
 
@@ -178,13 +178,16 @@ export const ChatContent = observer(() => {
           key={chatItem.roomId}
           name={chatItem.name}
           src={chatItem.imageUrl}
+          unreadMessagesAmount={chatItem.unreadMessagesAmount}
           className={clsx({[styles.activeChatItem]: chatItem.roomId === activeRoomStore?.activeRoom.roomId})}
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
-            chatItem.roomId !== activeRoomStore?.activeRoom.roomId
-              ?
-              chatStore.initiateActiveRoomStore(chatItem.roomId)
-              : null;
+            const isChatRoomAlreadyOpen = chatItem.roomId === activeRoomStore?.activeRoom.roomId;
+
+            if (!isChatRoomAlreadyOpen) {
+              chatStore.initiateActiveRoomStore(chatItem.roomId);
+              chatItem.resetUnreadMessagesAmount();
+            }
           }}
         />
       ),

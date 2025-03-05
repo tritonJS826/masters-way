@@ -1,13 +1,17 @@
 @import "src/styles/variables";
 
+$unreadMessagesLineHeight: 8px;
+
 .chatItemWrapper {
   align-items: center;
+  justify-content: space-between;
   padding-left: $paddingMedium;
   cursor: pointer;
 }
 
 .chatItem {
   overflow: hidden;
+  align-items: center;
   white-space: pre-wrap;
 }
 
@@ -18,8 +22,18 @@
   text-overflow: ellipsis;
 }
 
-.activeChatItem {
-  background-color: var(--generalBgColor);
+.unreadMessagesWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $paddingSmall;
+  border-radius: $tagBorderRadius;
+  margin-right: $marginSmall;
+  background-color: var(--secondaryBgColor);
+  color: var(--primaryTextColor);
+  font-size: $fontSizeSmall;
+  font-weight: $fontWeightSemibold;
+  line-height: $unreadMessagesLineHeight;
 }
 
 .userStatusBlock {

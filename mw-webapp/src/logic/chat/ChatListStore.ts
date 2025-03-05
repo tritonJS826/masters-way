@@ -72,4 +72,17 @@ export class ChatListStore {
     this.chatPreviewList.unshift(chatPreview);
   };
 
+  /**
+   * Increment unread messages counter in chatPreview
+   */
+  public incrementUnreadMessagesCounterInChatPreview = (roomId: string) => {
+    const chatPreview = this.chatPreviewList.find(chat => chat.roomId === roomId);
+
+    if (!chatPreview) {
+      throw new Error("chat preview not found");
+    }
+    chatPreview.incrementUnreadMessagesAmount();
+  };
+
 }
+
