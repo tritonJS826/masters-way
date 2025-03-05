@@ -182,11 +182,12 @@ export const ChatContent = observer(() => {
           className={clsx({[styles.activeChatItem]: chatItem.roomId === activeRoomStore?.activeRoom.roomId})}
           dataCy={chatAccessIds.chatContainer.listChatItem(chatItem.name)}
           onClick={() => {
-            chatItem.roomId !== activeRoomStore?.activeRoom.roomId
-              ? (chatStore.initiateActiveRoomStore(chatItem.roomId),
-              chatItem.resetUnreadMessagesAmount())
-              : null;
+            const isChatRoomAlreadyOpen = chatItem.roomId === activeRoomStore?.activeRoom.roomId;
 
+            if (!isChatRoomAlreadyOpen) {
+              chatStore.initiateActiveRoomStore(chatItem.roomId);
+              chatItem.resetUnreadMessagesAmount();
+            }
           }}
         />
       ),
