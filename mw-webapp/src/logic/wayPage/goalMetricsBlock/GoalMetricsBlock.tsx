@@ -95,7 +95,25 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
     await MetricDAL.deleteMetric(metricUuid);
   };
 
-  const doneMetricsAmount = props.goalMetrics.filter((metric) => !!metric.isDone).length;
+  /**
+   * Flattens metric tree into array including all nested children
+   */
+  const flattenMetrics = (metrics: Metric[]): Metric[] => {
+    return metrics.flatMap(metric => {
+      if (!metric.children) {
+        return [metric];
+      }
+
+      return [
+        metric,
+        ...flattenMetrics(metric.children),
+      ];
+    });
+
+  };
+  const flattenedMetrics = flattenMetrics(props.goalMetrics);
+  const doneMetricsCount = flattenedMetrics.filter((metric) => metric.isDone).length;
+  const totalMetricsCount = flattenedMetrics.length;
 
   return (
     <VerticalContainer>
@@ -135,8 +153,8 @@ export const GoalMetricsBlock = observer((props: GoalMetricStatisticsBlockProps)
       </HorizontalContainer>
       <VerticalContainer className={styles.goalMetricsBlock}>
         <ProgressBar
-          value={doneMetricsAmount}
-          max={props.goalMetrics.length}
+          value={doneMetricsCount}
+          max={totalMetricsCount}
           cy={{
             root: "",
             leftLabel: wayMetricsAccessIds.progressBar.leftLabel,
