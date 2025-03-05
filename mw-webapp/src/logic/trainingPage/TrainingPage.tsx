@@ -341,7 +341,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                 />
               ))}
               {!trainingPageStore.training.trainingTags.length && LanguageService.training.trainingInfo.noTags[language]}
-              {isOwner && isRenderAddTrainingTagButton && (
+              {isOwner && isShouldRenderAddTrainingTagButton && (
                 <Modal
                   isOpen={isAddTrainingTagModalOpen}
                   trigger={
