@@ -43,20 +43,17 @@ type StatisticLineProps = {
  */
 export const StatisticLine = (props: StatisticLineProps) => {
   return (
-    <HorizontalGridContainer
-      className={styles.statisticLine}
-      dataCy={statisticsAccessIds.statistics.periodBlocks.labelStatistic.line}
-    >
+    <HorizontalGridContainer className={styles.statisticLine}>
       <HorizontalContainer className={styles.labelColorName}>
         <div
           style={{backgroundColor: props.color}}
           className={styles.labelColor}
-          data-cy={statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}
+          data-cy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.tagColor}
         />
         <Tooltip content={props.name}>
           <span
             className={styles.labelName}
-            data-cy={statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}
+            data-cy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.labelName}
           >
             {props.name}
           </span>
@@ -64,7 +61,7 @@ export const StatisticLine = (props: StatisticLineProps) => {
       </HorizontalContainer>
       <HorizontalContainer
         className={styles.amountTime}
-        dataCy={statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount}
+        dataCy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.jobsAmount}
       >
         {props.amount}
         <span className={styles.percentageBLock}>
@@ -73,7 +70,7 @@ export const StatisticLine = (props: StatisticLineProps) => {
       </HorizontalContainer>
       <HorizontalContainer
         className={styles.amountTime}
-        dataCy={statisticsAccessIds.statistics.periodBlocks.labelStatistic.time}
+        dataCy={statisticsAccessIds.statistics.periodBlocks.labelsStatistic.time}
       >
         {props.time}
         <span className={styles.percentageBLock}>

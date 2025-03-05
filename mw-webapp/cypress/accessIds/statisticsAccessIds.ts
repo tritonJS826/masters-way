@@ -1,14 +1,3 @@
-export enum ModalPeriodBlockTitles {
-    Total = "total",
-    LastMonth = "lastMonth",
-    LastWeek = "lastWeek"
-};
-
-export enum WayPagePeriodBlockTitles {
-    Total = "Total",
-    LastWeek = "Last week"
-};
-
 export const statisticsAccessIds = {
     showAllStatisticsButton: 'showAllStatisticsButton',
     daysFromStart: 'daysFromStart',
@@ -23,16 +12,15 @@ export const statisticsAccessIds = {
             overallInfo: {
                 statisticValue: 'statisticValue',
                 statisticText: 'statisticText',
-                totalTime: (period: ModalPeriodBlockTitles | WayPagePeriodBlockTitles) => `totalTime_${period}`,
-                totalReports: (period: ModalPeriodBlockTitles | WayPagePeriodBlockTitles) => `totalReports_${period}`,
-                finishedJobs: (period: ModalPeriodBlockTitles | WayPagePeriodBlockTitles) => `finishedJobs_${period}`,
-                avgTimePerCalendarDay: (period: ModalPeriodBlockTitles | WayPagePeriodBlockTitles) => `averageTimePerCalendarDay_${period}`,
-                avgTimePerWorkingDay: (period: ModalPeriodBlockTitles | WayPagePeriodBlockTitles) => `averageTimePerWorkingDay_${period}`,
-                avgJobTime: (period: ModalPeriodBlockTitles | WayPagePeriodBlockTitles) => `averageJobTime_${period}`,
+                totalTime: (period: string) => `totalTime${period}`,
+                totalReports: (period: string) => `totalReports${period}`,
+                finishedJobs: (period: string) => `finishedJobs${period}`,
+                avgTimePerCalendarDay: (period: string) => `averageTimePerCalendarDay${period}`,
+                avgTimePerWorkingDay: (period: string) => `averageTimePerWorkingDay${period}`,
+                avgJobTime: (period: string) => `averageJobTime${period}`,
             },
 
-            labelStatistic: {
-                line: 'statisticLine',
+            labelsStatistic: {
                 tagColor: 'tagColor',
                 labelName: 'labelName',
                 jobsAmount: 'jobsAmount',

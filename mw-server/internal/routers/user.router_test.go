@@ -221,8 +221,8 @@ func TestGetUserById(t *testing.T) {
 							Uuid:            "550e8400-e29b-41d4-a716-446655440000",
 							Name:            "john doe way",
 							GoalDescription: "john doe goal",
-							UpdatedAt:       GetTimestampMinusDays(10),
-							CreatedAt:       GetTimestampMinusDays(10),
+							UpdatedAt:       "2024-07-09T00:00:00.000Z",
+							CreatedAt:       "2024-07-09T00:00:00.000Z",
 							EstimationTime:  10101010,
 							IsCompleted:     false,
 							Owner: openapiGeneral.MwServerInternalSchemasUserPlainResponse{
