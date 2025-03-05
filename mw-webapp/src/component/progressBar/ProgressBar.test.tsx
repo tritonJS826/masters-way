@@ -1,5 +1,5 @@
+import {render, screen} from "@testing-library/react";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const PROGRESS_BAR_CY = {
   root: "progress-bar-root",
@@ -10,25 +10,28 @@ const VALUE = 50;
 const MAX = 200;
 
 describe("ProgressBar component", () => {
-
-  beforeEach(() => {
-    cy.mount(
+  it("should render ProgressBar component correctly", () => {
+    render(
       <ProgressBar
         value={VALUE}
         max={MAX}
         cy={PROGRESS_BAR_CY}
       />,
     );
-  });
-
-  it("should render ProgressBar component correctly", () => {
-    cy.get(getDataCy(PROGRESS_BAR_CY.root)).should("exist");
+    expect(screen.getByTestId(PROGRESS_BAR_CY.root)).toBeInTheDocument();
   });
 
   it("should display the correct default progress labels left value", () => {
     const MAX_PERCENTAGE = 100;
-    cy.get(getDataCy(PROGRESS_BAR_CY.leftLabel)).contains(`${VALUE / MAX * MAX_PERCENTAGE}%`);
-    cy.get(getDataCy(PROGRESS_BAR_CY.rightLabel)).contains(`${VALUE} / ${MAX}`);
+    render(
+      <ProgressBar
+        value={VALUE}
+        max={MAX}
+        cy={PROGRESS_BAR_CY}
+      />,
+    );
+    expect(screen.getByTestId(PROGRESS_BAR_CY.leftLabel)).toHaveTextContent(`${(VALUE / MAX) * MAX_PERCENTAGE}%`);
+    expect(screen.getByTestId(PROGRESS_BAR_CY.rightLabel)).toHaveTextContent(`${VALUE} / ${MAX}`);
   });
 
   it("should have a custom value label", () => {
@@ -43,7 +46,7 @@ describe("ProgressBar component", () => {
      */
     const customLeftLabel = (value: number, max: number) => `Custom left label: ${value}/${max}`;
 
-    cy.mount(
+    render(
       <ProgressBar
         value={VALUE}
         max={MAX}
@@ -52,8 +55,8 @@ describe("ProgressBar component", () => {
         getLeftValueLabel={customLeftLabel}
       />,
     );
-    cy.get(getDataCy(PROGRESS_BAR_CY.rightLabel)).contains(customRightLabel(VALUE, MAX));
+
+    expect(screen.getByTestId(PROGRESS_BAR_CY.rightLabel)).toHaveTextContent(customRightLabel(VALUE, MAX));
+    expect(screen.getByTestId(PROGRESS_BAR_CY.leftLabel)).toHaveTextContent(customLeftLabel(VALUE, MAX));
   });
-
 });
-

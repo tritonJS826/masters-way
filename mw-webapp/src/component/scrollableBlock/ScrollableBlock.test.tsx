@@ -1,20 +1,20 @@
+import {render, screen} from "@testing-library/react";
 import {ScrollableBlock} from "src/component/scrollableBlock/ScrollableBlock";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const CHILDRENS_TEXT = [
   "Example text 1,Example text 1,Example text 1,Example text 1,Example text 1,Example text 1,Example text 1",
   "Example text 2,Example text 2,Example text 2,Example text 2,Example text 2,Example text 2,Example text 2",
   "Example text 3,Example text 3,Example text 3,Example text 3,Example text 3,Example text 3,Example text 3",
 ];
-const SCROLLABLE_BLOCK_CY = "ScrollableBlock";
+const SCROLLABLE_BLOCK_TEST_ID = "scrollable-block";
 const WIDTH = "150px";
 const HEIGHT = "200px";
 
 describe("ScrollableBlock component", () => {
   beforeEach(() => {
-    cy.mount(
+    render(
       <ScrollableBlock
-        dataCy={SCROLLABLE_BLOCK_CY}
+        dataCy={SCROLLABLE_BLOCK_TEST_ID}
         height={HEIGHT}
         width={WIDTH}
       >
@@ -28,16 +28,13 @@ describe("ScrollableBlock component", () => {
   });
 
   it("should render ScrollableBlock correctly", () => {
-    cy.get(getDataCy(SCROLLABLE_BLOCK_CY)).should("exist");
+    const scrollableBlock = screen.getByTestId(SCROLLABLE_BLOCK_TEST_ID);
+    expect(scrollableBlock).toBeInTheDocument();
   });
-  it("should scroll content if it overflows the block", () => {
-    cy.get(getDataCy(SCROLLABLE_BLOCK_CY)).should("have.css", "width", WIDTH);
-    cy.get(getDataCy(SCROLLABLE_BLOCK_CY)).should("have.css", "height", HEIGHT);
 
-    cy.get(getDataCy(SCROLLABLE_BLOCK_CY)).should(
-      "have.css",
-      "overflow",
-      "auto",
-    );
+  it("should have correct dimensions and allow scrolling", () => {
+    const scrollableBlock = screen.getByTestId(SCROLLABLE_BLOCK_TEST_ID);
+    expect(scrollableBlock).toHaveStyle({width: WIDTH, height: HEIGHT});
+    expect(scrollableBlock).toHaveStyle({overflow: "auto"});
   });
 });
