@@ -44,6 +44,7 @@ import styles from "src/logic/trainingPage/TrainingPage.module.scss";
 
 const MAX_LENGTH_TRAINING_NAME = 50;
 const MIN_LENGTH_TRAINING_NAME = 1;
+const MAX_TRAINING_TAGS_AMOUNT = 3;
 
 /**
  * Update Training params
@@ -338,7 +339,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                 />
               ))}
               {!trainingPageStore.training.trainingTags.length && LanguageService.training.trainingInfo.noTags[language]}
-              {isOwner && (
+              {isOwner && trainingPageStore.training.trainingTags.length < MAX_TRAINING_TAGS_AMOUNT && (
                 <Modal
                   isOpen={isAddTrainingTagModalOpen}
                   trigger={
