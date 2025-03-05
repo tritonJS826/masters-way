@@ -78,11 +78,10 @@ export class ChatListStore {
   public incrementUnreadMessagesCounterInChatPreview = (roomId: string) => {
     const chatPreview = this.chatPreviewList.find(chat => chat.roomId === roomId);
 
-    if (chatPreview) {
-      chatPreview.incrementUnreadMessagesAmount();
-    } else {
+    if (!chatPreview) {
       throw new Error("chat preview not found");
     }
+    chatPreview.incrementUnreadMessagesAmount();
   };
 
 }
