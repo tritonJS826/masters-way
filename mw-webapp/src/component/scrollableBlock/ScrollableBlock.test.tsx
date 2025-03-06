@@ -6,7 +6,7 @@ const CHILDRENS_TEXT = [
   "Example text 2,Example text 2,Example text 2,Example text 2,Example text 2,Example text 2,Example text 2",
   "Example text 3,Example text 3,Example text 3,Example text 3,Example text 3,Example text 3,Example text 3",
 ];
-const SCROLLABLE_BLOCK_CY = "scrollable-block";
+const SCROLLABLE_BLOCK_CY = "ScrollableBlock";
 const WIDTH = "150px";
 const HEIGHT = "200px";
 
