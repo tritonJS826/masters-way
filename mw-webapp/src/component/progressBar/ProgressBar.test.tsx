@@ -1,6 +1,8 @@
 import {render, screen} from "@testing-library/react";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 
+type getValueType = (value: number, max: number) => string;
+
 const PROGRESS_BAR_CY = {
   root: "progress-bar-root",
   leftLabel: "progress-bar-left-label",
@@ -9,27 +11,38 @@ const PROGRESS_BAR_CY = {
 const VALUE = 50;
 const MAX = 200;
 
-describe("ProgressBar component", () => {
-  it("should render ProgressBar component correctly", () => {
-    render(
-      <ProgressBar
-        value={VALUE}
-        max={MAX}
-        cy={PROGRESS_BAR_CY}
-      />,
-    );
-    expect(screen.getByTestId(PROGRESS_BAR_CY.root)).toBeInTheDocument();
-  });
+/**
+ * Render ProgressBar component
+ */
+const renderProgressBar = (props?: {
 
-  it("should display the correct default progress labels left value", () => {
+  /**
+   * GetRightValueLabel function
+   */
+  getRightValueLabel: getValueType;
+
+  /**
+   * GetLeftValueLabel function
+   */
+  getLeftValueLabel: getValueType;
+
+}) => {
+  return render(
+    <ProgressBar
+      value={VALUE}
+      max={MAX}
+      cy={PROGRESS_BAR_CY}
+      getRightValueLabel={props?.getRightValueLabel}
+      getLeftValueLabel={props?.getLeftValueLabel}
+    />,
+  );
+};
+
+describe("ProgressBar component", () => {
+  it("should render ProgressBar component correctly with default progress labels left value", () => {
     const MAX_PERCENTAGE = 100;
-    render(
-      <ProgressBar
-        value={VALUE}
-        max={MAX}
-        cy={PROGRESS_BAR_CY}
-      />,
-    );
+    renderProgressBar();
+    expect(screen.getByTestId(PROGRESS_BAR_CY.root)).toBeInTheDocument();
     expect(screen.getByTestId(PROGRESS_BAR_CY.leftLabel)).toHaveTextContent(`${(VALUE / MAX) * MAX_PERCENTAGE}%`);
     expect(screen.getByTestId(PROGRESS_BAR_CY.rightLabel)).toHaveTextContent(`${VALUE} / ${MAX}`);
   });
@@ -46,16 +59,7 @@ describe("ProgressBar component", () => {
      */
     const customLeftLabel = (value: number, max: number) => `Custom left label: ${value}/${max}`;
 
-    render(
-      <ProgressBar
-        value={VALUE}
-        max={MAX}
-        cy={PROGRESS_BAR_CY}
-        getRightValueLabel={customRightLabel}
-        getLeftValueLabel={customLeftLabel}
-      />,
-    );
-
+    renderProgressBar({getRightValueLabel: customRightLabel, getLeftValueLabel: customLeftLabel});
     expect(screen.getByTestId(PROGRESS_BAR_CY.rightLabel)).toHaveTextContent(customRightLabel(VALUE, MAX));
     expect(screen.getByTestId(PROGRESS_BAR_CY.leftLabel)).toHaveTextContent(customLeftLabel(VALUE, MAX));
   });
