@@ -98,7 +98,6 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
         props.className,
       )}
       onClick={handleClick}
-      aria-label={props.dataCy}
       data-cy={props.dataCy}
       disabled={isHandleClickInProgress || props.isDisabled}
     >

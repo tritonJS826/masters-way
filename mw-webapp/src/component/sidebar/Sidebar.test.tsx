@@ -7,8 +7,22 @@ import {MenuItemLink, Sidebar} from "src/component/sidebar/Sidebar";
 
 const SIDEBAR_CY = {
   dataCyTrigger: "trigger",
-  dataCyContent: {dataCyClose: "close"},
+  dataCyContent: {
+    dataCyOverlay: "overlay",
+    dataCyClose: "close",
+    dataCyContent: "content",
+    dataCyLogo: "logo",
+  },
 };
+
+const VALUE_TRIGGER = "Sidebar trigger";
+
+const SIDEBAR_TRIGGER = (
+  <Button
+    value={VALUE_TRIGGER}
+    onClick={() => {}}
+  />
+);
 
 const SIDEBAR_LINKS: MenuItemLink[] = [
   {
@@ -18,6 +32,7 @@ const SIDEBAR_LINKS: MenuItemLink[] = [
       <img
         width="5px"
         height="5px"
+        data-cy={SIDEBAR_CY.dataCyContent.dataCyLogo}
       />
     ),
   },
@@ -37,7 +52,7 @@ describe("Sidebar component", () => {
       <BrowserRouter>
         <Sidebar
           cy={SIDEBAR_CY}
-          trigger={<div />}
+          trigger={SIDEBAR_TRIGGER}
           linkList={SIDEBAR_LINKS}
           onOpenStatusChanged={() => {}}
           bottomChildren={
@@ -53,37 +68,31 @@ describe("Sidebar component", () => {
   });
 
   it("should render sidebar trigger and should not render sidebar content by default", () => {
-    expect(screen.getByRole("button")).toBeInTheDocument();
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByTestId(SIDEBAR_CY.dataCyTrigger)).toBeInTheDocument();
+    expect(screen.queryByTestId(SIDEBAR_CY.dataCyContent.dataCyContent)).not.toBeInTheDocument();
   });
 
   it("should open sidebar on trigger click", async () => {
-    await act(async () => await userEvent.click(screen.getByRole("button")));
-    expect(screen.queryByRole("dialog")).toBeInTheDocument();
+    await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyTrigger)));
+    expect(screen.queryByTestId(SIDEBAR_CY.dataCyContent.dataCyContent)).toBeInTheDocument();
   });
 
   it("should close sidebar when clicking the close button", async () => {
-    await act(async () => await userEvent.click(screen.getByRole("button")));
-
-    const buttonClose = screen.getByRole("button", {name: /close/i});
-    await act(async () => await userEvent.click(buttonClose));
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyTrigger)));
+    await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyContent.dataCyClose)));
+    expect(screen.queryByTestId(SIDEBAR_CY.dataCyContent.dataCyContent)).not.toBeInTheDocument();
   });
 
   it("should sidebar be closed when click background", async () => {
-    await act(async () => await userEvent.click(screen.getByRole("button")));
-
-    const overlay = screen.getByRole("overlay", {hidden: true});
-    await act(async () => await userEvent.click(overlay));
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyTrigger)));
+    await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyContent.dataCyOverlay)));
+    expect(screen.queryByTestId(SIDEBAR_CY.dataCyContent.dataCyContent)).not.toBeInTheDocument();
   });
 
   it("should close sidebar when clicking the logo", async () => {
-    await act(async () => await userEvent.click(screen.getByRole("button")));
-
-    const logo = screen.getByRole("img");
-    // Await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyContent.dataCyLogo)));
-    await act(async () => await userEvent.click(logo));
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyTrigger)));
+    await act(async () => await userEvent.click(screen.getByTestId(SIDEBAR_CY.dataCyContent.dataCyLogo)));
+    expect(screen.queryByTestId(SIDEBAR_CY.dataCyContent.dataCyContent)).not.toBeInTheDocument();
   });
+
 });
