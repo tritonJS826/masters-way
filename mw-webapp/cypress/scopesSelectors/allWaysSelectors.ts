@@ -23,12 +23,16 @@ export const allWaysSelectors = {
     },
 
     filterViewBlock: {
-        getStatusSelect: () => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.filterByStatus)),
+        getSearchByWayNameInput: () => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.searchByWayNameInput)),
+
+        getStatusSelect: () => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.statusSelect)),
+        getStatusSelectOption: (option: string) => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.statusSelectOption(option))),
+
         getDayReportsSelect: () => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.dayReportsSelect)),
-        getDayReportsSelectOption0: () => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.dayReportsSelectOption0)),
-        getDayReportsSelectOptionAtLeast5: () => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.dayReportsSelectOptionAtLeast5)),
-        getCardViewButton: () => cy.get(getDataCy(View.Card + allWaysAccessIds.filterViewBlock.viewButton)),
-        getTableViewButton: () => cy.get(getDataCy(View.Table + allWaysAccessIds.filterViewBlock.viewButton))
+        getDayReportsSelectOption: (option: string) => cy.get(getDataCy(allWaysAccessIds.filterViewBlock.dayReportsSelectOption(option))),
+        
+        getCardViewButton: () => cy.get(getDataCy(`${View.Card }${allWaysAccessIds.filterViewBlock.viewButton}`)),
+        getTableViewButton: () => cy.get(getDataCy(`${View.Table }${allWaysAccessIds.filterViewBlock.viewButton}`))
     }
 
 };
