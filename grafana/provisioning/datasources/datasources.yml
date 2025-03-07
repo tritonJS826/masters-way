@@ -14,7 +14,7 @@ datasources:
   - name: postgres-chat
     type: postgres
     access: proxy
-    url: postgres-chat:5433
+    url: postgres-chat:5432
     user: ${POSTGRES_CHAT_USER}
     password: ${POSTGRES_CHAT_PASSWORD}
     database: ${POSTGRES_CHAT_DB}
@@ -25,7 +25,7 @@ datasources:
   - name: postgres-training
     type: postgres
     access: proxy
-    url: postgres-training:5440
+    url: postgres-training:5432
     user: ${POSTGRES_TRAINING_USER}
     password: ${POSTGRES_TRAINING_PASSWORD}
     database: ${POSTGRES_TRAINING_DB}
@@ -36,7 +36,7 @@ datasources:
   - name: postgres-survey
     type: postgres
     access: proxy
-    url: postgres-survey:5436
+    url: postgres-survey:5432
     user: ${POSTGRES_SURVEY_USER}
     password: ${POSTGRES_SURVEY_PASSWORD}
     database: ${POSTGRES_SURVEY_DB}
@@ -47,7 +47,7 @@ datasources:
   - name: postgres-storage
     type: postgres
     access: proxy
-    url: postgres-storage:5435
+    url: postgres-storage:5432
     user: ${POSTGRES_STORAGE_USER}
     password: ${POSTGRES_STORAGE_PASSWORD}
     database: ${POSTGRES_STORAGE_DB}
@@ -55,4 +55,3 @@ datasources:
     editable: true
     jsonData:
       sslmode: "disable"
-
