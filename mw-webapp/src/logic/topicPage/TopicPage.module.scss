@@ -87,9 +87,11 @@ $labelMaxWidthBlock: 650px;
 }
 
 .materialContainer {
+  display: flex;
   width: 100%;
+  flex-direction: column;
   align-items: stretch;
-  gap: $gapExtraSmall;
+  gap: $gapSmall;
   scroll-margin-top: calc($headerHeight + $paddingBig);
 }
 
@@ -125,4 +127,8 @@ $labelMaxWidthBlock: 650px;
 .addMaterial {
   max-width: $minWidthBlock;
   margin: auto;
+}
+
+.practiceMaterialInput {
+  padding-block: $paddingSmall;
 }

@@ -1,9 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
+import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
 import {AnchorLink} from "src/component/anchorLink/AnchorLink";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
+import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
@@ -601,6 +603,11 @@ export const TopicPage = observer((props: TopicPageProps) => {
                   />
                 </Tooltip>
               </HorizontalContainer>
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.topic.materialsBlock.practiceDescriptionTitle[language]}
+                placeholder=""
+              />
               <EditableTextarea
                 text={practiceMaterial.taskDescription}
                 onChangeFinish={(taskDescription) => {
@@ -622,6 +629,81 @@ export const TopicPage = observer((props: TopicPageProps) => {
                   ? LanguageService.common.emptyMarkdownAction[language]
                   : LanguageService.common.emptyMarkdown[language]}
               />
+
+              <Title
+                level={HeadingLevel.h3}
+                isEditable={false}
+                text={isOwner
+                  ? LanguageService.topic.materialsBlock.timeToAnswerTitle[language]
+                  : `${LanguageService.topic.materialsBlock.timeToAnswerTitle[language]}
+                  ${practiceMaterial.timeToAnswer}`
+                }
+                placeholder=""
+              />
+              {isOwner &&
+              <EditableText
+                value={practiceMaterial.timeToAnswer}
+                type="number"
+                min={0}
+                onChangeFinish={(timeToAnswer) => {
+                  updatePracticeMaterial({
+                    practiceMaterialToUpdate: {
+                      uuid: practiceMaterial.uuid,
+                      timeToAnswer,
+                    },
+
+                    /**
+                     * Update practiceMaterial's time to answer
+                     */
+                    setPracticeMaterial: () => practiceMaterial.updateTimeToAnswer(timeToAnswer),
+                  });
+                }}
+                className={styles.practiceMaterialInput}
+                isEditable={isOwner}
+                placeholder=""
+              />
+              }
+
+              {isOwner ?
+                <VerticalContainer>
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={LanguageService.topic.materialsBlock.answerPlaceholder[language]}
+                    placeholder=""
+                  />
+                  <EditableTextarea
+                    placeholder={isOwner
+                      ? LanguageService.common.emptyMarkdownAction[language]
+                      : LanguageService.common.emptyMarkdown[language]}
+                    text={practiceMaterial.answer}
+                    className={styles.practiceMaterialInput}
+                    onChangeFinish={(answer) => {
+                      updatePracticeMaterial({
+                        practiceMaterialToUpdate: {
+                          uuid: practiceMaterial.uuid,
+                          answer,
+                        },
+
+                        /**
+                         * Update practiceMaterial's name
+                         */
+                        setPracticeMaterial: () => practiceMaterial.updateAnswer(answer),
+                      });
+                    }}
+                  />
+                </VerticalContainer>
+                : (
+                  <Accordion
+                    items={[
+                      {
+                        trigger: {child: LanguageService.topic.materialsBlock.answerTitle[language]},
+                        content: {child: renderMarkdown(practiceMaterial.answer)},
+                      },
+                    ]}
+                    type={accordionTypes.MULTIPLE}
+                  />
+                )
+              }
               <Separator className={styles.separator} />
             </div>
           ),
