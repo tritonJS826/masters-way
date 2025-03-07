@@ -5,5 +5,5 @@ COPY grafana/provisioning/datasources /etc/grafana/provisioning/datasources
 COPY grafana/dashboards /var/lib/grafana/dashboards
 COPY grafana/grafana.ini /etc/grafana/grafana.ini
 
-# Ensure the correct permissions
-# RUN chown -R grafana:grafana /etc/grafana/provisioning /var/lib/grafana/dashboards
+USER root
+RUN chown -R grafana:grafana /etc/grafana/provisioning /var/lib/grafana/dashboards
