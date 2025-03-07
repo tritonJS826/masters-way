@@ -24,12 +24,12 @@ enum MinDayReports {
 };
 
 type OverallInfo = {
-    totalTime: string,
-    totalReports: string,
-    finishedJobs: string,
-    avgTimePerCalendarDay: string,
-    avgTimePerWorkingDay: string,
-    avgJobTime: string
+    totalTime: number,
+    totalReports: number,
+    finishedJobs: number,
+    avgTimePerCalendarDay: number,
+    avgTimePerWorkingDay: number,
+    avgJobTime: number
 };
 
 interface WayFilters {
@@ -152,12 +152,12 @@ function verifyStatisticsOverallInfo({
     const overallInfo = statisticsSelectors.statistics.periodBlocks.overallInfo;
     const unitOfMeasurement = LanguageService.way.statisticsBlock.unitOfMeasurement.en;
 
-    checkStatisticValue(overallInfo.getTotalTime(periodBlockTitle), `${expectedOverallInformation.totalTime}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getTotalTime(periodBlockTitle), `${expectedOverallInformation.totalTime.toFixed(1)}${unitOfMeasurement}`);
     checkStatisticValue(overallInfo.getTotalReports(periodBlockTitle), `${expectedOverallInformation.totalReports}`);
     checkStatisticValue(overallInfo.getFinishedJobs(periodBlockTitle), `${expectedOverallInformation.finishedJobs}`);
-    checkStatisticValue(overallInfo.getAvgTimePerCalendarDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerCalendarDay}${unitOfMeasurement}`);
-    checkStatisticValue(overallInfo.getAverageTimePerWorkingDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerWorkingDay}${unitOfMeasurement}`);
-    checkStatisticValue(overallInfo.getAvgJobTime(periodBlockTitle), `${expectedOverallInformation.avgJobTime}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getAvgTimePerCalendarDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerCalendarDay.toFixed(1)}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getAverageTimePerWorkingDay(periodBlockTitle), `${expectedOverallInformation.avgTimePerWorkingDay.toFixed(1)}${unitOfMeasurement}`);
+    checkStatisticValue(overallInfo.getAvgJobTime(periodBlockTitle), `${expectedOverallInformation.avgJobTime.toFixed(1)}${unitOfMeasurement}`);
 }
 
 function verifyNumberOfLabelStatisticsRows({
@@ -191,7 +191,7 @@ function verifyLabelStatisticsRow({
 }: {
     statisticsPlacement: StatisticsPlacement,
     periodBlockTitle: PeriodBlockTitle,
-    expectedLabelRowData: { name: string, color: string, jobsAmount: string, time: string }
+    expectedLabelRowData: { label: { name: string, color: string }, jobsAmount: string, time: string }
     }
 ) {
     // Select the correct statistics label block based on the placement
@@ -206,7 +206,7 @@ function verifyLabelStatisticsRow({
         .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName}"]`)
         .then((labelNames) => {
             // Find the label name that matches the expected label name
-            const matchedLabelByName = Cypress._.find(labelNames, (el) => Cypress.$(el).text() === expectedLabelRowData.name);
+            const matchedLabelByName = Cypress._.find(labelNames, (el) => Cypress.$(el).text() === expectedLabelRowData.label.name);
 
             if (matchedLabelByName) {
                 // Find the entire row containing the matched label
@@ -217,7 +217,7 @@ function verifyLabelStatisticsRow({
                     cy.wrap(matchedLabelRow).find(`[data-cy="${selector}"]`).should(assertion, value);
                 };
 
-                checkLabelParameter(statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName, 'have.text', expectedLabelRowData.name);
+                checkLabelParameter(statisticsAccessIds.statistics.periodBlocks.labelStatistic.labelName, 'have.text', expectedLabelRowData.label.name);
                 checkLabelParameter(statisticsAccessIds.statistics.periodBlocks.labelStatistic.jobsAmount, 'have.text', expectedLabelRowData.jobsAmount);
                 checkLabelParameter(statisticsAccessIds.statistics.periodBlocks.labelStatistic.time, 'have.text', expectedLabelRowData.time);
 
@@ -225,7 +225,7 @@ function verifyLabelStatisticsRow({
                 cy.wrap(matchedLabelRow)
                     .find(`[data-cy="${statisticsAccessIds.statistics.periodBlocks.labelStatistic.tagColor}"]`)
                     .should('have.attr', 'style')
-                    .and('contains', expectedLabelRowData.color);
+                    .and('contains', expectedLabelRowData.label.color);
             }
         });
 }
@@ -482,7 +482,7 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
         addDayReportToWay({jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
-        adjustLabelForWay(studentStatsData.labelActivityNames.studentLabel);
+        adjustLabelForWay(studentStatsData.labels.studentLabel.name);
         dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
         dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
         dayReportsSelectors.labels.addLabel.getSaveButton().click();
