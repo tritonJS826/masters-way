@@ -75,6 +75,31 @@
       "en": "Practical materials:",
       "ua": "Практичні матеріали:"
     },
+    "answerTitle": {
+      "ru": "Показать ответ",
+      "en": "Show answer",
+      "ua": "Показати відповідь"
+    },
+    "practiceDescriptionTitle": {
+      "ru": "Описание практического задания:",
+      "en": "Description of the practical task:",
+      "ua": "Опис практичного завдання:"
+    },
+    "answerPlaceholder": {
+      "ru": "Ответ на практический материал:",
+      "en": "Answer to practical material:",
+      "ua": "Відповідь на практичний матеріал:"
+    },
+    "timeToAnswerTitle": {
+      "ru": "Рекомендуемое время для ответа:",
+      "en": "Recommended time to answer:",
+      "ua": "Рекомендований час для відповіді:"
+    },
+    "timeToAnswerPlaceholder": {
+      "ru": "***Напишите время ответа на практический материал, дважды щелкнув мышью***",
+      "en": "***Write the time to answer to the practical material by double clicking the mouse***",
+      "ua": "***Подвійним клацанням мишки напишіть час відповіді на практичний матеріал***"
+    },
     "createdAt": {
       "ru": "Создан",
       "en": "Created at",

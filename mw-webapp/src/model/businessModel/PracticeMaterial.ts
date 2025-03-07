@@ -140,4 +140,18 @@ export class PracticeMaterial {
     this.taskDescription = descriptionToUpdate;
   }
 
+  /**
+   * Update practiceMaterial's answer
+   */
+  public updateAnswer(answerToUpdate: string): void {
+    this.answer = answerToUpdate;
+  }
+
+  /**
+   * Update practiceMaterial's time to answer
+   */
+  public updateTimeToAnswer(timeToAnswerToUpdate: number): void {
+    this.timeToAnswer = timeToAnswerToUpdate;
+  }
+
 }
