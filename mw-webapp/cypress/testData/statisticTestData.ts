@@ -107,7 +107,7 @@ enum Periods {
 };
 
 function calculateAverage(time: number, divisor: number): number {
-    return divisor === 0 ? NaN : DateUtils.minutesToHoursFixed1(time / divisor);
+    return divisor === 0 ? DateUtils.minutesToHoursFixed1(time) : DateUtils.minutesToHoursFixed1(time / divisor);
 }
 
 export const statisticsData = {
