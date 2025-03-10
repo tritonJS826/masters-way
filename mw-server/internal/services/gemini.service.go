@@ -97,7 +97,7 @@ func (gs *GeminiService) AIChat(ctx context.Context, payload *schemas.AIChatPayl
 
 	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
 
-	var payloadMessage = payload.Message + " \n Give me answer with max 300 symbols"
+	var payloadMessage = payload.Message + " \n Answer with max 1000 symbols"
 	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate content: %w", err)

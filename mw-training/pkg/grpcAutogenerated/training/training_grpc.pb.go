@@ -1440,3 +1440,126 @@ var Dev_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "training.proto",
 }
+
+// TrainingMessageToAIServiceClient is the client API for TrainingMessageToAIService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TrainingMessageToAIServiceClient interface {
+	GetMessageToAI(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MessageToAI, error)
+	HandleResponseFromAiForItem(ctx context.Context, in *MessageFromAI, opts ...grpc.CallOption) (*emptypb.Empty, error)
+}
+
+type trainingMessageToAIServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTrainingMessageToAIServiceClient(cc grpc.ClientConnInterface) TrainingMessageToAIServiceClient {
+	return &trainingMessageToAIServiceClient{cc}
+}
+
+func (c *trainingMessageToAIServiceClient) GetMessageToAI(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*MessageToAI, error) {
+	out := new(MessageToAI)
+	err := c.cc.Invoke(ctx, "/training.TrainingMessageToAIService/GetMessageToAI", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *trainingMessageToAIServiceClient) HandleResponseFromAiForItem(ctx context.Context, in *MessageFromAI, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/training.TrainingMessageToAIService/HandleResponseFromAiForItem", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TrainingMessageToAIServiceServer is the server API for TrainingMessageToAIService service.
+// All implementations must embed UnimplementedTrainingMessageToAIServiceServer
+// for forward compatibility
+type TrainingMessageToAIServiceServer interface {
+	GetMessageToAI(context.Context, *emptypb.Empty) (*MessageToAI, error)
+	HandleResponseFromAiForItem(context.Context, *MessageFromAI) (*emptypb.Empty, error)
+	mustEmbedUnimplementedTrainingMessageToAIServiceServer()
+}
+
+// UnimplementedTrainingMessageToAIServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTrainingMessageToAIServiceServer struct {
+}
+
+func (UnimplementedTrainingMessageToAIServiceServer) GetMessageToAI(context.Context, *emptypb.Empty) (*MessageToAI, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMessageToAI not implemented")
+}
+func (UnimplementedTrainingMessageToAIServiceServer) HandleResponseFromAiForItem(context.Context, *MessageFromAI) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleResponseFromAiForItem not implemented")
+}
+func (UnimplementedTrainingMessageToAIServiceServer) mustEmbedUnimplementedTrainingMessageToAIServiceServer() {
+}
+
+// UnsafeTrainingMessageToAIServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TrainingMessageToAIServiceServer will
+// result in compilation errors.
+type UnsafeTrainingMessageToAIServiceServer interface {
+	mustEmbedUnimplementedTrainingMessageToAIServiceServer()
+}
+
+func RegisterTrainingMessageToAIServiceServer(s grpc.ServiceRegistrar, srv TrainingMessageToAIServiceServer) {
+	s.RegisterService(&TrainingMessageToAIService_ServiceDesc, srv)
+}
+
+func _TrainingMessageToAIService_GetMessageToAI_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TrainingMessageToAIServiceServer).GetMessageToAI(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TrainingMessageToAIService/GetMessageToAI",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TrainingMessageToAIServiceServer).GetMessageToAI(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TrainingMessageToAIService_HandleResponseFromAiForItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MessageFromAI)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TrainingMessageToAIServiceServer).HandleResponseFromAiForItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TrainingMessageToAIService/HandleResponseFromAiForItem",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TrainingMessageToAIServiceServer).HandleResponseFromAiForItem(ctx, req.(*MessageFromAI))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TrainingMessageToAIService_ServiceDesc is the grpc.ServiceDesc for TrainingMessageToAIService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TrainingMessageToAIService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.TrainingMessageToAIService",
+	HandlerType: (*TrainingMessageToAIServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetMessageToAI",
+			Handler:    _TrainingMessageToAIService_GetMessageToAI_Handler,
+		},
+		{
+			MethodName: "HandleResponseFromAiForItem",
+			Handler:    _TrainingMessageToAIService_HandleResponseFromAiForItem_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "training.proto",
+}

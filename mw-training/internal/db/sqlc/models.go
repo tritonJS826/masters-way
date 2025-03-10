@@ -11,6 +11,48 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type GeneratedItemType string
+
+const (
+	GeneratedItemTypeTheoryMaterial        GeneratedItemType = "theory_material"
+	GeneratedItemTypePracticeMaterialtopic GeneratedItemType = "practice_material, topic"
+)
+
+func (e *GeneratedItemType) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = GeneratedItemType(s)
+	case string:
+		*e = GeneratedItemType(s)
+	default:
+		return fmt.Errorf("unsupported scan type for GeneratedItemType: %T", src)
+	}
+	return nil
+}
+
+type NullGeneratedItemType struct {
+	GeneratedItemType GeneratedItemType `json:"generated_item_type"`
+	Valid             bool              `json:"valid"` // Valid is true if GeneratedItemType is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullGeneratedItemType) Scan(value interface{}) error {
+	if value == nil {
+		ns.GeneratedItemType, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.GeneratedItemType.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullGeneratedItemType) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.GeneratedItemType), nil
+}
+
 type PracticeType string
 
 const (
@@ -56,6 +98,14 @@ type FavoriteUsersTraining struct {
 	TrainingUuid pgtype.UUID      `json:"training_uuid"`
 	UserUuid     pgtype.UUID      `json:"user_uuid"`
 	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type MessagesToGenerateWithAi struct {
+	Uuid                     pgtype.UUID       `json:"uuid"`
+	Message                  string            `json:"message"`
+	DataToUseAfterGeneration []byte            `json:"dataToUseAfterGeneration"`
+	ItemType                 GeneratedItemType `json:"item_type"`
+	CreatedAt                pgtype.Timestamp  `json:"created_at"`
 }
 
 type PracticeMaterial struct {

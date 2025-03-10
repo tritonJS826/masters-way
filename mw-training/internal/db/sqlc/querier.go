@@ -22,6 +22,7 @@ type Querier interface {
 	CreateTrainingTag(ctx context.Context, name string) (TrainingTag, error)
 	CreateTrainingTrainingTag(ctx context.Context, arg CreateTrainingTrainingTagParams) (TrainingsTrainingTag, error)
 	DeleteFavoriteTrainingUserByIds(ctx context.Context, arg DeleteFavoriteTrainingUserByIdsParams) error
+	DeleteMessageToAI(ctx context.Context, messageToGenerateWithAiUuid pgtype.UUID) error
 	DeletePracticeMaterial(ctx context.Context, practiceMaterialUuid pgtype.UUID) (PracticeMaterial, error)
 	DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid pgtype.UUID) (TheoryMaterial, error)
 	DeleteTopic(ctx context.Context, topicUuid pgtype.UUID) (Topic, error)
@@ -35,6 +36,8 @@ type Querier interface {
 	GetListTrainingTagsByTrainingIds(ctx context.Context, trainingUuids []pgtype.UUID) ([]GetListTrainingTagsByTrainingIdsRow, error)
 	// lets add likes to response
 	GetMentoringTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetMentoringTrainingListRow, error)
+	GetMessageToAIById(ctx context.Context, messageToGenerateWithAiUuid pgtype.UUID) (MessagesToGenerateWithAi, error)
+	GetNextMessageToAI(ctx context.Context) (MessagesToGenerateWithAi, error)
 	GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetOwnTrainingListRow, error)
 	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error)
 	// lets add likes to response

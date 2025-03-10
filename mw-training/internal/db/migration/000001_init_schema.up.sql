@@ -83,3 +83,14 @@ CREATE TABLE practice_materials (
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "practice_materials_pkey" PRIMARY KEY (uuid)
 );
+
+
+CREATE TYPE generated_item_type AS ENUM ('theory_material', 'practice_material, topic');
+CREATE TABLE messages_to_generate_with_ai (
+    "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "message" VARCHAR NOT NULL,
+    "dataToUseAfterGeneration" JSONB NOT NULL,
+    "item_type" generated_item_type NOT NULL,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "messages_to_generate_with_ai_pkey" PRIMARY KEY (uuid)
+);
