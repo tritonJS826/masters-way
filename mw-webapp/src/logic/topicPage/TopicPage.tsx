@@ -438,284 +438,294 @@ export const TopicPage = observer((props: TopicPageProps) => {
         </VerticalContainer>
 
         <VerticalContainer className={styles.materials}>
-          {topicPageStore.topic.theoryMaterials.map((theoryMaterial: TheoryMaterial) => (
-            <div
-              key={theoryMaterial.uuid}
-              className={styles.materialContainer}
-              id={theoryMaterial.name}
-            >
-              <HorizontalContainer className={styles.materialTitleAndActionsBlock}>
-                <Title
-                  level={HeadingLevel.h2}
-                  text={theoryMaterial.name}
-                  isEditable={isOwner}
-                  placeholder={isOwner
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                  onChangeFinish={(name) => {
-                    updateTheoryMaterial({
-                      theoryMaterialToUpdate: {
-                        uuid: theoryMaterial.uuid,
-                        name,
-                      },
 
-                      /**
-                       * Update theoryMaterial's name
-                       */
-                      setTheoryMaterial: () => theoryMaterial.updateName(name),
-                    });
-                  }}
-                  className={styles.title}
-                  validators={[
-                    minLengthValidator(
-                      MIN_LENGTH_MATERIAL_NAME,
-                      LanguageService.topic.notifications.materialNameMinLength[language],
-                    ),
-                    maxLengthValidator(
-                      MAX_LENGTH_MATERIAL_NAME,
-                      LanguageService.topic.notifications.materialNameMaxLength[language],
-                    ),
-                  ]}
-                />
-                <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
-                  <Confirm
-                    trigger={
-                      <Button
-                        icon={
-                          <Icon
-                            size={IconSize.SMALL}
-                            name="TrashIcon"
-                          />
-                        }
-                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                        onClick={() => {}}
-                      />
-                    }
-                    content={<p>
-                      {renderMarkdown(
-                        `${LanguageService.topic.materialsBlock.deleteTheoryMaterialQuestion[language]}
-                          "${theoryMaterial.name}"?`,
-                      )}
-                    </p>}
-                    onOk={() => deleteTheoryMaterial(theoryMaterial.uuid)}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  />
-                </Tooltip>
-              </HorizontalContainer>
-              <EditableTextarea
-                text={theoryMaterial.description}
-                onChangeFinish={(description) => {
-                  updateTheoryMaterial({
-                    theoryMaterialToUpdate: {
-                      uuid: theoryMaterial.uuid,
-                      description,
-                    },
-
-                    /**
-                     * Update theoryMaterial's description
-                     */
-                    setTheoryMaterial: () => theoryMaterial.updateDescription(description),
-                  });
-                }}
-                isEditable={isOwner}
-                className={styles.editableTextarea}
-                placeholder={isOwner
-                  ? LanguageService.common.emptyMarkdownAction[language]
-                  : LanguageService.common.emptyMarkdown[language]}
-              />
-              <Separator className={styles.separator} />
-            </div>
-          ),
-          )}
-
-          {isOwner &&
-          <Button
-            value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
-            onClick={() => addTheoryMaterial(topicPageStore.topic.uuid)}
-            className={styles.addMaterial}
-          />
-          }
-
-          {topicPageStore.topic.practiceMaterials.map((practiceMaterial: PracticeMaterial) => (
-
-            <div
-              key={practiceMaterial.uuid}
-              className={styles.materialContainer}
-              id={practiceMaterial.name}
-            >
-              <HorizontalContainer className={styles.materialTitleAndActionsBlock}>
-                <Title
-                  level={HeadingLevel.h2}
-                  text={practiceMaterial.name}
-                  isEditable={isOwner}
-                  placeholder={isOwner
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                  onChangeFinish={(name) => {
-                    updatePracticeMaterial({
-                      practiceMaterialToUpdate: {
-                        uuid: practiceMaterial.uuid,
-                        name,
-                      },
-
-                      /**
-                       * Update practiceMaterial's name
-                       */
-                      setPracticeMaterial: () => practiceMaterial.updateName(name),
-                    });
-                  }}
-                  className={styles.title}
-                  validators={[
-                    minLengthValidator(
-                      MIN_LENGTH_MATERIAL_NAME,
-                      LanguageService.topic.notifications.materialNameMinLength[language],
-                    ),
-                    maxLengthValidator(
-                      MAX_LENGTH_MATERIAL_NAME,
-                      LanguageService.topic.notifications.materialNameMaxLength[language],
-                    ),
-                  ]}
-                />
-                <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
-                  <Confirm
-                    trigger={
-                      <Button
-                        icon={
-                          <Icon
-                            size={IconSize.SMALL}
-                            name="TrashIcon"
-                          />
-                        }
-                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                        onClick={() => {}}
-                      />
-                    }
-                    content={<p>
-                      {renderMarkdown(
-                        `${LanguageService.topic.materialsBlock.deletePracticalMaterialQuestion[language]}
-                          "${practiceMaterial.name}"?`,
-                      )}
-                    </p>}
-                    onOk={() => deletePracticeMaterial(practiceMaterial.uuid)}
-                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                  />
-                </Tooltip>
-              </HorizontalContainer>
-              <Title
-                level={HeadingLevel.h3}
-                text={LanguageService.topic.materialsBlock.practiceDescriptionTitle[language]}
-                placeholder=""
-              />
-              <EditableTextarea
-                text={practiceMaterial.taskDescription}
-                onChangeFinish={(taskDescription) => {
-                  updatePracticeMaterial({
-                    practiceMaterialToUpdate: {
-                      uuid: practiceMaterial.uuid,
-                      taskDescription,
-                    },
-
-                    /**
-                     * Update practiceMaterial's description
-                     */
-                    setPracticeMaterial: () => practiceMaterial.updateDescription(taskDescription),
-                  });
-                }}
-                isEditable={isOwner}
-                className={styles.editableTextarea}
-                placeholder={isOwner
-                  ? LanguageService.common.emptyMarkdownAction[language]
-                  : LanguageService.common.emptyMarkdown[language]}
-              />
-
-              <Title
-                level={HeadingLevel.h3}
-                isEditable={false}
-                text={isOwner
-                  ? LanguageService.topic.materialsBlock.timeToAnswerTitle[language]
-                  : `${LanguageService.topic.materialsBlock.timeToAnswerTitle[language]}
-                  ${practiceMaterial.timeToAnswer}`
-                }
-                placeholder=""
-              />
-              {isOwner &&
-              <EditableText
-                value={practiceMaterial.timeToAnswer}
-                type="number"
-                min={0}
-                onChangeFinish={(timeToAnswer) => {
-                  updatePracticeMaterial({
-                    practiceMaterialToUpdate: {
-                      uuid: practiceMaterial.uuid,
-                      timeToAnswer,
-                    },
-
-                    /**
-                     * Update practiceMaterial's time to answer
-                     */
-                    setPracticeMaterial: () => practiceMaterial.updateTimeToAnswer(timeToAnswer),
-                  });
-                }}
-                className={styles.practiceMaterialInput}
-                isEditable={isOwner}
-                placeholder=""
-              />
-              }
-
-              {isOwner ?
-                <VerticalContainer>
+          <VerticalContainer className={styles.theoryMaterials}>
+            {topicPageStore.topic.theoryMaterials.map((theoryMaterial: TheoryMaterial) => (
+              <div
+                key={theoryMaterial.uuid}
+                className={styles.materialContainer}
+                id={theoryMaterial.name}
+              >
+                <HorizontalContainer className={styles.materialTitleAndActionsBlock}>
                   <Title
-                    level={HeadingLevel.h3}
-                    text={LanguageService.topic.materialsBlock.answerPlaceholder[language]}
-                    placeholder=""
-                  />
-                  <EditableTextarea
+                    level={HeadingLevel.h2}
+                    text={theoryMaterial.name}
+                    isEditable={isOwner}
                     placeholder={isOwner
                       ? LanguageService.common.emptyMarkdownAction[language]
                       : LanguageService.common.emptyMarkdown[language]}
-                    text={practiceMaterial.answer}
-                    className={styles.practiceMaterialInput}
-                    onChangeFinish={(answer) => {
-                      updatePracticeMaterial({
-                        practiceMaterialToUpdate: {
-                          uuid: practiceMaterial.uuid,
-                          answer,
+                    onChangeFinish={(name) => {
+                      updateTheoryMaterial({
+                        theoryMaterialToUpdate: {
+                          uuid: theoryMaterial.uuid,
+                          name,
                         },
 
                         /**
-                         * Update practiceMaterial's name
+                         * Update theoryMaterial's name
                          */
-                        setPracticeMaterial: () => practiceMaterial.updateAnswer(answer),
+                        setTheoryMaterial: () => theoryMaterial.updateName(name),
                       });
                     }}
-                  />
-                </VerticalContainer>
-                : (
-                  <Accordion
-                    items={[
-                      {
-                        trigger: {child: LanguageService.topic.materialsBlock.answerTitle[language]},
-                        content: {child: renderMarkdown(practiceMaterial.answer)},
-                      },
+                    className={styles.title}
+                    validators={[
+                      minLengthValidator(
+                        MIN_LENGTH_MATERIAL_NAME,
+                        LanguageService.topic.notifications.materialNameMinLength[language],
+                      ),
+                      maxLengthValidator(
+                        MAX_LENGTH_MATERIAL_NAME,
+                        LanguageService.topic.notifications.materialNameMaxLength[language],
+                      ),
                     ]}
-                    type={accordionTypes.MULTIPLE}
                   />
-                )
-              }
-              <Separator className={styles.separator} />
-            </div>
-          ),
-          )}
+                  <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
+                    <Confirm
+                      trigger={
+                        <Button
+                          icon={
+                            <Icon
+                              size={IconSize.SMALL}
+                              name="TrashIcon"
+                            />
+                          }
+                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                          onClick={() => {}}
+                        />
+                      }
+                      content={<p>
+                        {renderMarkdown(
+                          `${LanguageService.topic.materialsBlock.deleteTheoryMaterialQuestion[language]}
+                          "${theoryMaterial.name}"?`,
+                        )}
+                      </p>}
+                      onOk={() => deleteTheoryMaterial(theoryMaterial.uuid)}
+                      okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                    />
+                  </Tooltip>
+                </HorizontalContainer>
+                <EditableTextarea
+                  text={theoryMaterial.description}
+                  onChangeFinish={(description) => {
+                    updateTheoryMaterial({
+                      theoryMaterialToUpdate: {
+                        uuid: theoryMaterial.uuid,
+                        description,
+                      },
 
-          {isOwner &&
-          <Button
-            value={LanguageService.topic.materialsBlock.addNewPracticalMaterialButton[language]}
-            onClick={() => addPracticeMaterial(topicPageStore.topic.uuid)}
-            className={styles.addMaterial}
-          />
-          }
+                      /**
+                       * Update theoryMaterial's description
+                       */
+                      setTheoryMaterial: () => theoryMaterial.updateDescription(description),
+                    });
+                  }}
+                  isEditable={isOwner}
+                  className={styles.editableTextarea}
+                  placeholder={isOwner
+                    ? LanguageService.common.emptyMarkdownAction[language]
+                    : LanguageService.common.emptyMarkdown[language]}
+                />
+                <Separator className={styles.separator} />
+              </div>
+            ),
+            )}
+
+            {isOwner &&
+            <Button
+              value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
+              onClick={() => addTheoryMaterial(topicPageStore.topic.uuid)}
+              className={styles.addMaterial}
+            />
+            }
+
+          </VerticalContainer>
+
+          <VerticalContainer className={styles.practiceMaterials}>
+
+            {topicPageStore.topic.practiceMaterials.map((practiceMaterial: PracticeMaterial) => (
+
+              <div
+                key={practiceMaterial.uuid}
+                className={styles.materialContainer}
+                id={practiceMaterial.name}
+              >
+                <VerticalContainer>
+                  <HorizontalContainer className={styles.materialTitleAndActionsBlock}>
+                    <Title
+                      level={HeadingLevel.h2}
+                      text={practiceMaterial.name}
+                      isEditable={isOwner}
+                      placeholder={isOwner
+                        ? LanguageService.common.emptyMarkdownAction[language]
+                        : LanguageService.common.emptyMarkdown[language]}
+                      onChangeFinish={(name) => {
+                        updatePracticeMaterial({
+                          practiceMaterialToUpdate: {
+                            uuid: practiceMaterial.uuid,
+                            name,
+                          },
+
+                          /**
+                           * Update practiceMaterial's name
+                           */
+                          setPracticeMaterial: () => practiceMaterial.updateName(name),
+                        });
+                      }}
+                      className={styles.title}
+                      validators={[
+                        minLengthValidator(
+                          MIN_LENGTH_MATERIAL_NAME,
+                          LanguageService.topic.notifications.materialNameMinLength[language],
+                        ),
+                        maxLengthValidator(
+                          MAX_LENGTH_MATERIAL_NAME,
+                          LanguageService.topic.notifications.materialNameMaxLength[language],
+                        ),
+                      ]}
+                    />
+                    <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
+                      <Confirm
+                        trigger={
+                          <Button
+                            icon={
+                              <Icon
+                                size={IconSize.SMALL}
+                                name="TrashIcon"
+                              />
+                            }
+                            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                            onClick={() => {}}
+                          />
+                        }
+                        content={<p>
+                          {renderMarkdown(
+                            `${LanguageService.topic.materialsBlock.deletePracticalMaterialQuestion[language]}
+                          "${practiceMaterial.name}"?`,
+                          )}
+                        </p>}
+                        onOk={() => deletePracticeMaterial(practiceMaterial.uuid)}
+                        okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                        cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                      />
+                    </Tooltip>
+                  </HorizontalContainer>
+
+                  <HorizontalContainer className={styles.timeToAnswerBlock}>
+                    <Text
+                      className={styles.timeToAnswerTitle}
+                      text={isOwner
+                        ? LanguageService.topic.materialsBlock.timeToAnswerTitle[language]
+                        : `${LanguageService.topic.materialsBlock.timeToAnswerTitle[language]} ${practiceMaterial.timeToAnswer}`}
+                    />
+
+                    {isOwner &&
+                    <EditableText
+                      value={practiceMaterial.timeToAnswer}
+                      type="number"
+                      min={0}
+                      onChangeFinish={(timeToAnswer) => {
+                        updatePracticeMaterial({
+                          practiceMaterialToUpdate: {
+                            uuid: practiceMaterial.uuid,
+                            timeToAnswer,
+                          },
+
+                          /**
+                           * Update practiceMaterial's time to answer
+                           */
+                          setPracticeMaterial: () => practiceMaterial.updateTimeToAnswer(timeToAnswer),
+                        });
+                      }}
+                      className={styles.timeToAnswerInput}
+                      isEditable={isOwner}
+                      placeholder=""
+                    />
+                    }
+                  </HorizontalContainer>
+                </VerticalContainer>
+
+                <Title
+                  level={HeadingLevel.h3}
+                  text={LanguageService.topic.materialsBlock.practiceDescriptionTitle[language]}
+                  placeholder=""
+                />
+                <EditableTextarea
+                  text={practiceMaterial.taskDescription}
+                  onChangeFinish={(taskDescription) => {
+                    updatePracticeMaterial({
+                      practiceMaterialToUpdate: {
+                        uuid: practiceMaterial.uuid,
+                        taskDescription,
+                      },
+
+                      /**
+                       * Update practiceMaterial's description
+                       */
+                      setPracticeMaterial: () => practiceMaterial.updateDescription(taskDescription),
+                    });
+                  }}
+                  isEditable={isOwner}
+                  className={styles.editableTextarea}
+                  placeholder={isOwner
+                    ? LanguageService.common.emptyMarkdownAction[language]
+                    : LanguageService.common.emptyMarkdown[language]}
+                />
+
+                {isOwner ?
+                  <VerticalContainer>
+                    <Title
+                      level={HeadingLevel.h3}
+                      text={LanguageService.topic.materialsBlock.answerPlaceholder[language]}
+                      placeholder=""
+                    />
+                    <EditableTextarea
+                      placeholder={isOwner
+                        ? LanguageService.common.emptyMarkdownAction[language]
+                        : LanguageService.common.emptyMarkdown[language]}
+                      text={practiceMaterial.answer}
+                      className={styles.practiceMaterialInput}
+                      onChangeFinish={(answer) => {
+                        updatePracticeMaterial({
+                          practiceMaterialToUpdate: {
+                            uuid: practiceMaterial.uuid,
+                            answer,
+                          },
+
+                          /**
+                           * Update practiceMaterial's name
+                           */
+                          setPracticeMaterial: () => practiceMaterial.updateAnswer(answer),
+                        });
+                      }}
+                    />
+                  </VerticalContainer>
+                  : (
+                    <Accordion
+                      items={[
+                        {
+                          trigger: {child: LanguageService.topic.materialsBlock.answerTitle[language]},
+                          content: {child: renderMarkdown(practiceMaterial.answer)},
+                        },
+                      ]}
+                      type={accordionTypes.MULTIPLE}
+                    />
+                  )
+                }
+                <Separator className={styles.separator} />
+              </div>
+            ),
+            )}
+
+            {isOwner &&
+            <Button
+              value={LanguageService.topic.materialsBlock.addNewPracticalMaterialButton[language]}
+              onClick={() => addPracticeMaterial(topicPageStore.topic.uuid)}
+              className={styles.addMaterial}
+            />
+            }
+          </VerticalContainer>
+
         </VerticalContainer>
 
       </HorizontalGridContainer>
