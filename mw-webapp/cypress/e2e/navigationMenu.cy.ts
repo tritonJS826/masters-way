@@ -66,13 +66,14 @@ describe('NoAuth Navigation menu scope tests', () => {
         allUsersSelectors.allUsersTitles.getTitle().should('contain', allUsersPageContent.usersTable.leftTitle.en);
     });
 
-    it('NoAuth_NavMenu_AllTrainings', () => {
-        navigationMenuSelectors.menuItemLinks.getAllTrainingsItemLink().click();
+    //It is necessary to add reset training db
+    // it('NoAuth_NavMenu_AllTrainings', () => {
+    //     navigationMenuSelectors.menuItemLinks.getAllTrainingsItemLink().click();
 
-        navigationMenuSelectors.getNavigationMenu().should('not.exist');
-        cy.url().should('include', allTrainingsPageData.endpoint);
-        allTrainingsSelectors.allTrainingsTitles.getTitle().should('contain', allTrainingsPageContent.trainingsTable.leftTitle.en);
-    });
+    //     navigationMenuSelectors.getNavigationMenu().should('not.exist');
+    //     cy.url().should('include', allTrainingsPageData.endpoint);
+    //     allTrainingsSelectors.allTrainingsTitles.getTitle().should('contain', allTrainingsPageContent.trainingsTable.leftTitle.en);
+    // });
 
     it('NoAuth_NavMenu_AllWays', () => {
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
