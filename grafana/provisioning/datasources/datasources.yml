@@ -55,3 +55,25 @@ datasources:
     editable: true
     jsonData:
       sslmode: "disable"
+  - name: postgres-notification
+    type: postgres
+    access: proxy
+    url: postgres-notification:5432
+    user: ${POSTGRES_NOTIFICATION_USER}
+    password: ${POSTGRES_NOTIFICATION_PASSWORD}
+    database: ${POSTGRES_NOTIFICATION_DB}
+    isDefault: false
+    editable: true
+    jsonData:
+      sslmode: "disable"
+  - name: postgres-mail
+    type: postgres
+    access: proxy
+    url: postgres-mail:5432
+    user: ${POSTGRES_MAIL_USER}
+    password: ${POSTGRES_MAIL_PASSWORD}
+    database: ${POSTGRES_MAIL_DB}
+    isDefault: false
+    editable: true
+    jsonData:
+      sslmode: "disable"

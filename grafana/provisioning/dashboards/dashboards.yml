@@ -6,6 +6,7 @@ providers:
     type: file
     disableDeletion: true
     editable: false
+    allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards
 
@@ -16,5 +17,6 @@ providers:
     type: file
     disableDeletion: true
     editable: false
+    allowUiUpdates: true
     options:
       path: /var/lib/grafana/dashboards/databases
