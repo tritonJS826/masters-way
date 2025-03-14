@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 9,
   "links": [],
   "panels": [
     {
@@ -115,7 +115,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "general_db_status",
+      "title": "General_db_status",
       "type": "stat"
     },
     {
@@ -359,7 +359,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "chat_db_status",
+      "title": "Chat_db_status",
       "type": "stat"
     },
     {
@@ -845,7 +845,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "storage_db_status",
+      "title": "Storage_db_status",
       "type": "stat"
     },
     {
@@ -1759,5 +1759,5 @@
   "variables": {
     "list": []
   },
-  "version": 3
+  "version": 2
 }
