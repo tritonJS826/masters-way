@@ -20,6 +20,8 @@ afterEach(() => {
 
 describe('NoAuth All Ways scope tests', () => {
 
+  const allWaysPage = new AllWaysPage();
+
   it('NoAuth_AllWays_SelectTableView', () => {
     const tableHeadersEn = Object.values(allWaysPageContent.waysTable.columns).map(column => column.en);
     tableHeadersEn.push(Symbols.STAR);

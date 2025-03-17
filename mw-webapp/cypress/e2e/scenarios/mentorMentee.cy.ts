@@ -28,6 +28,9 @@ afterEach(() => {
 
 describe('Mentor-mentee tests', () => {
 
+    const allWaysPage = new AllWaysPage();
+    const wayPage = new WayPage();
+
     it('Scenario_Mentor_AddAsWayMentor', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
