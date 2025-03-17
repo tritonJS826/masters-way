@@ -22,13 +22,11 @@ afterEach(() => {
 
 describe('NoAuth All Ways scope tests', () => {
 
-  const allWaysPage = new AllWaysPage();
-
   it('NoAuth_AllWays_SelectTableView', () => {
     const tableHeadersEn = Object.values(allWaysPageContent.waysTable.columns).map(column => column.en);
     tableHeadersEn.push(Symbols.STAR);
 
-    allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+    AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
     allWaysSelectors.allWaysTable.getTable().should('exist');
@@ -46,7 +44,7 @@ describe('NoAuth All Ways scope tests', () => {
       userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
     }
 
-    allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+    AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
 
     checkOwnerLink(testWayData.users.Dana);
@@ -66,7 +64,7 @@ describe('NoAuth All Ways scope tests', () => {
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
     }
     
-    allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+    AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
   
     checkWayLink(testWayData.ways.danaWay);
@@ -87,7 +85,7 @@ describe('NoAuth All Ways scope tests', () => {
     }
 
     allWaysSelectors.filterViewBlock.getTableViewButton().click();
-    allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+    AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
     
     checkMentorLink(testWayData.users.Alice);
     cy.visit(`/${allWayData.endpoint}`);
@@ -106,7 +104,7 @@ describe('NoAuth All Ways scope tests', () => {
       wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', wayData.wayName);
     }
     
-    allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+    AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
 
     checkWayLink(testWayData.ways.danaWay);
     cy.visit(`/${allWayData.endpoint}`);

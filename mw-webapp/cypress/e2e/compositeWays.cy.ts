@@ -17,9 +17,7 @@ afterEach(() => {
 });
 
 describe('IsAuth Composite ways scope tests', () => {
-
-    const allWaysPage = new AllWaysPage();
-
+    
     it('IsAuth_CompositeWay_Creation', () => {
         const danaEvansNameForReports = testUserData.users.Dana.userName.split(" ")[0];
 
@@ -31,7 +29,7 @@ describe('IsAuth Composite ways scope tests', () => {
         userWaysSelectors.getCreateNewWayButton().click();
 
         cy.openAllWaysPage();
-        allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+        AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
@@ -89,7 +87,7 @@ describe('IsAuth Composite ways scope tests', () => {
         userWaysSelectors.getCreateNewWayButton().click();
 
         cy.openAllWaysPage();
-        allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+        AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
@@ -99,7 +97,7 @@ describe('IsAuth Composite ways scope tests', () => {
             .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.openAllWaysPage();
-        allWaysPage
+        AllWaysPage
             .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 

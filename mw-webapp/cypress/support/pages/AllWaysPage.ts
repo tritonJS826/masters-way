@@ -18,7 +18,7 @@ export interface WayFilters {
 };
 
 export class AllWaysPage {
-    adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
+    static adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
         const reportOptions = {
             [MinDayReports.any]: LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en,
             [MinDayReports.atLeast5Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en,
@@ -29,16 +29,16 @@ export class AllWaysPage {
         allWaysSelectors.filterViewBlock.getDayReportsSelectOption(reportOptions[minDayReports]).click();
     }
 
-    adjustWayFilterStatus(status: WayStatus) {
+    static adjustWayFilterStatus(status: WayStatus) {
         allWaysSelectors.filterViewBlock.getStatusSelect().click();
         allWaysSelectors.filterViewBlock.getStatusSelectOption(status).click();
     }
     
-    searchByWayName(wayName: string) {
+    static searchByWayName(wayName: string) {
         allWaysSelectors.filterViewBlock.getSearchByWayNameInput().click().type(`${wayName}{enter}`);
     }
     
-    openWayByClickingCard(
+    static openWayByClickingCard(
         wayTitle: string,
         wayFilters?: WayFilters
     ) {
@@ -48,7 +48,7 @@ export class AllWaysPage {
             wayFilters.minDayReports && this.adjustWayFilterMinDayReports(wayFilters.minDayReports);
         }
         allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
-        return new WayPage();
+        return WayPage;
     }
     
 }

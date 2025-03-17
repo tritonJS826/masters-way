@@ -134,13 +134,9 @@ afterEach(() => {
 });
 
 describe('Statistics tests', () => {
-
-    const allWaysPage = new AllWaysPage();
-    const wayPage = new WayPage();
-
     it('Scenario_Student_wayStatistics', () => {
         cy.openAllWaysPage();
-        allWaysPage.openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
+        AllWaysPage.openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
  
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
@@ -373,7 +369,7 @@ describe('Statistics tests', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
         cy.openAllWaysPage();
-        allWaysPage
+        AllWaysPage
             .openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports})
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
@@ -382,7 +378,7 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
         dayReportsSelectors.getCreateNewDayReportButton().click();
-        wayPage.addDayReportToWay({reportIndex: 0, jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
+        WayPage.addDayReportToWay({reportIndex: 0, jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
         adjustLabelForWay(studentStatsData.labels.studentLabel.name);
         dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
         dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
@@ -392,7 +388,7 @@ describe('Statistics tests', () => {
 
         cy.openAllWaysPage();
         // Open the mentor composite way
-        allWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()
@@ -621,12 +617,12 @@ describe('Statistics tests', () => {
         // Mentor adds the student way to the compisite way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         cy.openAllWaysPage();
-        allWaysPage
+        AllWaysPage
             .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any})
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
         cy.openAllWaysPage();
-        allWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()

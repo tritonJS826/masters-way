@@ -14,7 +14,7 @@ interface WayDayReportData {
 };
 
 export class WayPage {
-    addDayReportToWay(wayDayReportData?: WayDayReportData) {        
+    static addDayReportToWay(wayDayReportData?: WayDayReportData) {        
         if (!wayDayReportData) return;
         if (wayDayReportData.jobDoneDescription) {
             dayReportsSelectors.dayReportsContent.getAddButton().first().click();
@@ -52,7 +52,7 @@ export class WayPage {
         }
     }
 
-    addThisWayToCompositeWay(compositeWayTitle: string) {
+    static addThisWayToCompositeWay(compositeWayTitle: string) {
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
             .contains(LanguageService.way.wayActions.compositeWayManagement.en)

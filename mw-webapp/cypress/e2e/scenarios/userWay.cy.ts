@@ -22,8 +22,6 @@ afterEach(() => {
 
 describe('User Way tests', () => {
 
-  const allWaysPage = new AllWaysPage();
-
   it('Scenario_Student_CreateNewWay', () => {
     cy.viewport(1200, 900);
     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
@@ -97,7 +95,7 @@ describe('User Way tests', () => {
     cy.logout();
     navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
     allWaysSelectors.filterViewBlock.getCardViewButton().click();
-    allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+    AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
     allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.newWayTitle).first().click();
     wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal}\n${testUserData.testUsers.studentJonh.goalNewLine}`);
     wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJonh.wayTag1);

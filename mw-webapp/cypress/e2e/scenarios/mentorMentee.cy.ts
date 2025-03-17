@@ -28,9 +28,6 @@ afterEach(() => {
 
 describe('Mentor-mentee tests', () => {
 
-    const allWaysPage = new AllWaysPage();
-    const wayPage = new WayPage();
-
     it('Scenario_Mentor_AddAsWayMentor', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
@@ -63,7 +60,7 @@ describe('Mentor-mentee tests', () => {
 
         cy.logout();
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
-        allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
+        AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
         
         wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);
@@ -96,7 +93,7 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
         dayReportsSelectors.getCreateNewDayReportButton().click();
-        wayPage.addDayReportToWay({
+        WayPage.addDayReportToWay({
             reportIndex:0,
             jobDoneDescription: dayReportsData.jobDoneDescription,
             timeSpentOnJob: dayReportsData.timeSpentOnJob,
@@ -155,7 +152,7 @@ describe('Mentor-mentee tests', () => {
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
         dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
 
-        wayPage.addDayReportToWay({
+        WayPage.addDayReportToWay({
             reportIndex: 1,
             jobDoneDescription: `Mentor ${dayReportsData.jobDoneDescription}!`,
             timeSpentOnJob: mentorTimeSpentOnJob,
