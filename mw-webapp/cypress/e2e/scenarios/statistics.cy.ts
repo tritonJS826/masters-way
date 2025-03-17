@@ -1,27 +1,18 @@
 import {statisticsAccessIds, ModalPeriodBlockTitles, WayPagePeriodBlockTitles} from "cypress/accessIds/statisticsAccessIds";
-import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {statisticsSelectors} from "cypress/scopesSelectors/statisticsSelectors";
 import {LanguageService} from "src/service/LanguageService";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
-import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {statisticsData, studentStatsData} from "cypress/testData/statisticTestData";
-
-type WayStatus = keyof typeof LanguageService.allWays.filterBlock.typeOptions;
+import {MinDayReports, AllWaysPage} from "cypress/support/pages/AllWaysPage";
+import {WayPage} from "cypress/support/pages/WayPage";
 
 type StatisticsPlacement = keyof typeof statisticsData.statisticsPlacement;
 type PeriodBlockTitle = WayPagePeriodBlockTitles | ModalPeriodBlockTitles;
-
-enum MinDayReports {
-    any = "0",
-    atLeast5Reports = "5",
-    atLeast20Reports = "20",
-    atLeast50Reports = "50"
-};
 
 type OverallInfo = {
     totalTime: number,
@@ -31,103 +22,6 @@ type OverallInfo = {
     avgTimePerWorkingDay: number,
     avgJobTime: number
 };
-
-interface WayFilters {
-    searchByWayName?: string;
-    status?: WayStatus;
-    minDayReports?: MinDayReports;
-};
-
-interface WayDayReportData {
-        jobDoneDescription?: string;
-        timeSpentOnJob?: string;
-        planDescription?: string;
-        estimatedPlanTime?: string;
-        problemDescription?: string;
-        commentDescription?: string;
-};
-
-function adjustWayFilterMinDayReports(minDayReports: MinDayReports) {
-    const reportOptions = {
-        [MinDayReports.any]: LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en,
-        [MinDayReports.atLeast5Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption1.en,
-        [MinDayReports.atLeast20Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption2.en,
-        [MinDayReports.atLeast50Reports]: LanguageService.allWays.filterBlock.minDayReportsAmountOption3.en
-    };
-    allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-    allWaysSelectors.filterViewBlock.getDayReportsSelectOption(reportOptions[minDayReports]).click();
-}
-
-function adjustWayFilterStatus(status: WayStatus) {
-    allWaysSelectors.filterViewBlock.getStatusSelect().click();
-    allWaysSelectors.filterViewBlock.getStatusSelectOption(status).click();
-}
-
-function searchByWayName(wayName: string) {
-    allWaysSelectors.filterViewBlock.getSearchByWayNameInput().click().type(`${wayName}{enter}`);
-}
-
-function openWayFromAllWayPageByClickingCard(
-    wayTitle: string,
-    wayFilters?: WayFilters
-) {
-    cy.openAllWaysPage();
-    if (wayFilters) {
-        wayFilters.searchByWayName && searchByWayName(wayFilters.searchByWayName);
-        wayFilters.status && adjustWayFilterStatus(wayFilters.status);
-        wayFilters.minDayReports && adjustWayFilterMinDayReports(wayFilters.minDayReports);
-    }
-    allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
-}
-
-function addThisWayToCompositeWay(compositeWayTitle: string) {
-    wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-    wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-        .contains(LanguageService.way.wayActions.compositeWayManagement.en)
-        .click();
-    wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-        .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${compositeWayTitle}`)
-        .click();
-}
-
-function addDayReportToWay(wayDayReportData?: WayDayReportData) {        
-    dayReportsSelectors.getCreateNewDayReportButton().click();
-    if (!wayDayReportData) return;
-    if (wayDayReportData.jobDoneDescription) {
-        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(wayDayReportData.jobDoneDescription);
-        headerSelectors.getHeader().click();    
-            if (wayDayReportData.timeSpentOnJob) {
-                dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-                dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(wayDayReportData.timeSpentOnJob);
-                headerSelectors.getHeader().click();
-            }
-    }
-    if (wayDayReportData.planDescription) {
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
-        dayReportsSelectors.dayReportsContent.plans.getPlanDescription().dblclick()
-        dayReportsSelectors.dayReportsContent.plans.getPlanDescriptionInput().type(wayDayReportData.planDescription);
-        headerSelectors.getHeader().click();    
-            if (wayDayReportData.estimatedPlanTime) {
-                dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().dblclick();
-                dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTimeInput().type(wayDayReportData.estimatedPlanTime);
-                headerSelectors.getHeader().click(); 
-            }
-    }
-    if (wayDayReportData.problemDescription) {
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescription().dblclick()
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescriptionInput().type(wayDayReportData.problemDescription);
-        headerSelectors.getHeader().click();
-    }
-    if (wayDayReportData.commentDescription) {
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick()
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(wayDayReportData.commentDescription);
-        headerSelectors.getHeader().click();
-    }
-}
 
 function adjustLabelForWay (labelName: string) {
     dayReportsSelectors.labels.getAdjustLabelsButton().click();
@@ -241,8 +135,12 @@ afterEach(() => {
 
 describe('Statistics tests', () => {
 
+    const allWaysPage = new AllWaysPage();
+    const wayPage = new WayPage();
+
     it('Scenario_Student_wayStatistics', () => {
-        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
+        cy.openAllWaysPage();
+        allWaysPage.openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
  
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
@@ -474,14 +372,17 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
-        openWayFromAllWayPageByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
-        addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
+        cy.openAllWaysPage();
+        allWaysPage
+            .openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports})
+            .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
 
         // Create user-student with a way that includes one day report
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
-        addDayReportToWay({jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
+        dayReportsSelectors.getCreateNewDayReportButton().click();
+        wayPage.addDayReportToWay({reportIndex: 0, jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
         adjustLabelForWay(studentStatsData.labels.studentLabel.name);
         dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
         dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
@@ -489,8 +390,9 @@ describe('Statistics tests', () => {
         headerSelectors.getHeader().click();
         cy.logout();
 
+        cy.openAllWaysPage();
         // Open the mentor composite way
-        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        allWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()
@@ -718,10 +620,13 @@ describe('Statistics tests', () => {
 
         // Mentor adds the student way to the compisite way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        openWayFromAllWayPageByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any});
-        addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
+        cy.openAllWaysPage();
+        allWaysPage
+            .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any})
+            .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        openWayFromAllWayPageByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        cy.openAllWaysPage();
+        allWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()

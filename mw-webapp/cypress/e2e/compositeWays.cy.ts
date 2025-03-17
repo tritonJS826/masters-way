@@ -6,6 +6,7 @@ import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import {LanguageService} from "src/service/LanguageService";
+import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -16,6 +17,8 @@ afterEach(() => {
 });
 
 describe('IsAuth Composite ways scope tests', () => {
+
+    const allWaysPage = new AllWaysPage();
 
     it('IsAuth_CompositeWay_Creation', () => {
         const danaEvansNameForReports = testUserData.users.Dana.userName.split(" ")[0];
@@ -28,8 +31,7 @@ describe('IsAuth Composite ways scope tests', () => {
         userWaysSelectors.getCreateNewWayButton().click();
 
         cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+        allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
@@ -87,8 +89,7 @@ describe('IsAuth Composite ways scope tests', () => {
         userWaysSelectors.getCreateNewWayButton().click();
 
         cy.openAllWaysPage();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
+        allWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
         allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
@@ -98,14 +99,9 @@ describe('IsAuth Composite ways scope tests', () => {
             .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
             .click();
         cy.openAllWaysPage();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
+        allWaysPage
+            .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
+            .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
         cy.openAllWaysPage();
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).first().click();
