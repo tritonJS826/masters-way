@@ -23,8 +23,6 @@ afterEach(() => {
 
 describe('User Way tests', () => {
 
-  const allWaysPage = new AllWaysPage();
-
   it('Scenario_Student_CreateNewWay', () => {
     cy.viewport(1200, 900);
     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
