@@ -6,10 +6,10 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
-import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {statisticsData, studentStatsData} from "cypress/testData/statisticTestData";
-import {MinDayReports, AllWaysPage} from "cypress/support/pages/AllWaysPage";
-import {WayPage} from "cypress/support/pages/WayPage";
+import {MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {WayPage, JobDoneOrPlanLabelTarget} from "cypress/support/pages/WayPage";
+import {Navigation} from "cypress/support/Navigation";
 
 type StatisticsPlacement = keyof typeof statisticsData.statisticsPlacement;
 type PeriodBlockTitle = WayPagePeriodBlockTitles | ModalPeriodBlockTitles;
@@ -22,14 +22,6 @@ type OverallInfo = {
     avgTimePerWorkingDay: number,
     avgJobTime: number
 };
-
-function adjustLabelForWay (labelName: string) {
-    dayReportsSelectors.labels.getAdjustLabelsButton().click();
-    dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
-    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(labelName);
-    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
-    dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
-}
 
 function verifyStatisticsOverallInfo({
     periodBlockTitle,
@@ -135,8 +127,9 @@ afterEach(() => {
 
 describe('Statistics tests', () => {
     it('Scenario_Student_wayStatistics', () => {
-        cy.openAllWaysPage();
-        AllWaysPage.openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
+        Navigation
+            .openAllWaysPage()
+            .openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
  
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
@@ -368,8 +361,8 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.getCreateNewWayButton().click();
-        cy.openAllWaysPage();
-        AllWaysPage
+        Navigation
+            .openAllWaysPage()
             .openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports})
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
@@ -378,17 +371,24 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
         dayReportsSelectors.getCreateNewDayReportButton().click();
-        WayPage.addDayReportToWay({reportIndex: 0, jobDoneDescription: dayReportsData.jobDoneDescription, timeSpentOnJob: dayReportsData.timeSpentOnJob});
-        adjustLabelForWay(studentStatsData.labels.studentLabel.name);
-        dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
-        dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
-        dayReportsSelectors.labels.addLabel.getSaveButton().click();
-        headerSelectors.getHeader().click();
+        WayPage
+            .addDayReport({
+                reportIndex: 0,
+                jobDoneDescription: dayReportsData.jobDoneDescription,
+                timeSpentOnJob: dayReportsData.timeSpentOnJob
+            })
+            .adjustLabel(studentStatsData.labels.studentLabel.name)
+            .addLabel({
+                labelName: studentStatsData.labels.studentLabel.name,
+                labelTarget: JobDoneOrPlanLabelTarget.jobDone,
+                numberOfJobDoneOrPlan: 0
+            });
         cy.logout();
 
-        cy.openAllWaysPage();
         // Open the mentor composite way
-        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        Navigation
+            .openAllWaysPage()
+            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()
@@ -616,13 +616,14 @@ describe('Statistics tests', () => {
 
         // Mentor adds the student way to the compisite way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        cy.openAllWaysPage();
-        AllWaysPage
+        Navigation
+            .openAllWaysPage()
             .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any})
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        cy.openAllWaysPage();
-        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        Navigation
+            .openAllWaysPage()
+            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()

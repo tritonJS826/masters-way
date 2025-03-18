@@ -9,6 +9,7 @@ import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {LanguageService} from "src/service/LanguageService";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
+import {Navigation} from "cypress/support/Navigation";
 
 afterEach(() => {
     cy.clearAllStorage();
@@ -33,7 +34,7 @@ describe("NoAuth User's ways scope tests", () => {
     beforeEach(() => {
         cy.resetGeneralDb();
         cy.visit('/');
-        cy.openAllUsersPage();
+        Navigation.openAllUsersPage();
     });
 
     const expectedCollectionButtonColor = hexToRgb(themedVariables.collectionCardActiveColor[Theme.DARK]);

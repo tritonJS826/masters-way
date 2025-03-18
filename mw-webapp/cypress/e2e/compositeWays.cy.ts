@@ -6,7 +6,8 @@ import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import {LanguageService} from "src/service/LanguageService";
-import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {Navigation} from "cypress/support/Navigation";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -28,29 +29,21 @@ describe('IsAuth Composite ways scope tests', () => {
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
 
-        cy.openAllWaysPage();
-        AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
-        cy.openAllWaysPage();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click({ force: true });
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
+        Navigation
+            .openAllWaysPage()
+            .adjustWayFilterMinDayReports(MinDayReports.any)
+            .openWayByClickingCard(testUserData.users.Dana.way.wayTitle)
+            .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
+
+        Navigation
+            .openAllWaysPage()
+            .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
+            .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
 
-        cy.openAllWaysPage();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).first().click();
+        Navigation
+            .openAllWaysPage()
+            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
 
         wayDescriptionSelectors.peopleBlock.childWaysTitle().should('have.text', wayDescriptionData.peopleBlock.childWaysTitle);
         wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.users.Dana.way.wayTitle)
@@ -86,23 +79,20 @@ describe('IsAuth Composite ways scope tests', () => {
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userWaysSelectors.getCreateNewWayButton().click();
 
-        cy.openAllWaysPage();
-        AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.users.Dana.way.wayTitle).first().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem()
-            .contains(LanguageService.way.wayActions.compositeWayManagement.en)
-            .click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
-            .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${testUserData.testUsers.mentorMax.wayTitle}`)
-            .click();
-        cy.openAllWaysPage();
-        AllWaysPage
+        Navigation
+            .openAllWaysPage()
+            .adjustWayFilterMinDayReports(MinDayReports.any)
+            .openWayByClickingCard(testUserData.users.Dana.way.wayTitle)
+            .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
+
+        Navigation
+            .openAllWaysPage()
             .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        cy.openAllWaysPage();
-        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.mentorMax.wayTitle).first().click();
+        Navigation
+            .openAllWaysPage()
+            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
         wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.testUsers.studentJonh.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.deleteFromCompositeDialogContent.getDeleteButton().click();
         wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.users.Dana.way.wayTitle).click();

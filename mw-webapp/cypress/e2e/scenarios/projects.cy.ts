@@ -9,6 +9,7 @@ import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {LanguageService} from "src/service/LanguageService";
+import {Navigation} from "cypress/support/Navigation";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -50,7 +51,7 @@ describe('Projects tests', () => {
 
         projectsSelectors.projectPageContent.infoBlock.getTitle().should('have.text', projectsData.newProjectName);
        
-        cy.openAllUsersPage();
+        Navigation.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name).click();
         userPersonalSelectors.userActionMenu.getMenuButton().click();
         userPersonalSelectors.userActionMenu.projectItems.getProjectsItem().click();
@@ -96,7 +97,7 @@ describe('Projects tests', () => {
         // after this fix we should uncomment the next line
         // TODO: #1779 
         // cy.logout();
-        cy.openAllUsersPage();
+        Navigation.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
         projectsSelectors.getProjectsButton().click();
 

@@ -27,6 +27,8 @@ export class AllWaysPage {
         };
         allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
         allWaysSelectors.filterViewBlock.getDayReportsSelectOption(reportOptions[minDayReports]).click();
+
+        return this;
     }
 
     static adjustWayFilterStatus(status: WayStatus) {
@@ -48,6 +50,7 @@ export class AllWaysPage {
             wayFilters.minDayReports && this.adjustWayFilterMinDayReports(wayFilters.minDayReports);
         }
         allWaysSelectors.allWaysCard.getCardLink(wayTitle).click();
+        
         return WayPage;
     }
     

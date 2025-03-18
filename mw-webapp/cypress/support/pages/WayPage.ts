@@ -13,9 +13,14 @@ interface WayDayReportData {
     commentDescription?: string;
 };
 
+export enum JobDoneOrPlanLabelTarget {
+    jobDone = "jobDone",
+    plan = "plan"
+};
+
 export class WayPage {
-    static addDayReportToWay(wayDayReportData?: WayDayReportData) {        
-        if (!wayDayReportData) return;
+    static addDayReport(wayDayReportData?: WayDayReportData) {        
+        if (!wayDayReportData) return this;
         if (wayDayReportData.jobDoneDescription) {
             dayReportsSelectors.dayReportsContent.getAddButton().first().click();
             dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
@@ -50,6 +55,8 @@ export class WayPage {
             dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(wayDayReportData.commentDescription);
             headerSelectors.getHeader().click();
         }
+
+        return this;
     }
 
     static addThisWayToCompositeWay(compositeWayTitle: string) {
@@ -60,5 +67,32 @@ export class WayPage {
         wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem()
             .contains(`${LanguageService.way.wayActions.addToCompositeWay.en} ${compositeWayTitle}`)
             .click();
+    }
+
+    static adjustLabel(labelName: string) {
+        dayReportsSelectors.labels.getAdjustLabelsButton().click();
+        dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
+        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(labelName);
+        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
+        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
+
+        return this;
+    }
+
+    static addLabel({
+        labelName,
+        labelTarget,
+        numberOfJobDoneOrPlan,
+    }: {
+        labelName: string,
+        labelTarget: JobDoneOrPlanLabelTarget,
+        numberOfJobDoneOrPlan: number
+    }) {
+        dayReportsSelectors.labels.addLabel.getAddLabelLine(labelTarget).eq(numberOfJobDoneOrPlan).click();
+        dayReportsSelectors.labels.addLabel.getLabelToChoose().contains(labelName).click();
+        dayReportsSelectors.labels.addLabel.getSaveButton().click();
+        headerSelectors.getHeader().click();
+
+        return this;
     }
 }

@@ -8,6 +8,7 @@ import userPageContent from "src/dictionary/UserPageContent.json";
 import {LanguageService} from "src/service/LanguageService";
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
+import {Navigation} from "cypress/support/Navigation";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -71,7 +72,7 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
 
-        cy.openAllUsersPage();
+        Navigation.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
             .contains(testUserData.testUsers.studentJonh.name)
             .click();
@@ -89,7 +90,7 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (2)`);
 
-        cy.openAllUsersPage();
+        Navigation.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
             .contains(testUserData.testUsers.studentJonh.name)
             .click();

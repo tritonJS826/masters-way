@@ -10,6 +10,7 @@ import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSel
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {WayPage} from "cypress/support/pages/WayPage";
 
 beforeEach(() => {
   cy.resetGeneralDb();
@@ -59,44 +60,27 @@ describe('User Way tests', () => {
     wayMetricsSelectors.getMetricDescription().should('not.contain', wayMetricsData.wayMetricDescriptions[1]);
 
     dayReportsSelectors.getCreateNewDayReportButton().click();
-    dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-    dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-    dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(`${dayReportsData.jobDoneDescription}{enter}${dayReportsData.jobDoneDescriptionNewLine}`);
-    headerSelectors.getHeader().click();
-    dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-    dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-    dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(dayReportsData.timeSpentOnJob);
-    headerSelectors.getHeader().click();
+    WayPage.addDayReport({
+      reportIndex: 0,
+      jobDoneDescription: `${dayReportsData.jobDoneDescription}{enter}${dayReportsData.jobDoneDescriptionNewLine}`,
+      timeSpentOnJob: dayReportsData.timeSpentOnJob,
+      planDescription: dayReportsData.planDescription,
+      estimatedPlanTime: dayReportsData.estimatedPlanTime,
+      problemDescription: dayReportsData.problemDescription,
+      commentDescription: dayReportsData.commentDescription
+    });
+
     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('contain', dayReportsData.jobDoneDescription);
     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().should('contain', dayReportsData.timeSpentOnJob);
-
-    dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
-    dayReportsSelectors.dayReportsContent.plans.getPlanDescription().dblclick()
-    dayReportsSelectors.dayReportsContent.plans.getPlanDescriptionInput().type(dayReportsData.planDescription);
-    headerSelectors.getHeader().click();
-    dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().dblclick();
-    dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTimeInput().type(dayReportsData.estimatedPlanTime);
-    headerSelectors.getHeader().click();           
-    dayReportsSelectors.dayReportsContent.plans.getPlanDescription().should('contain', dayReportsData.planDescription);
-    dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().should('contain', dayReportsData.estimatedPlanTime);
-
-    dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
-    dayReportsSelectors.dayReportsContent.problems.getProblemDescription().dblclick()
-    dayReportsSelectors.dayReportsContent.problems.getProblemDescriptionInput().type(dayReportsData.problemDescription);
-    headerSelectors.getHeader().click();
     dayReportsSelectors.dayReportsContent.problems.getProblemDescription().should('contain', dayReportsData.problemDescription);
-
-    dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
-    dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick()
-    dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(dayReportsData.commentDescription);
-    headerSelectors.getHeader().click();
     dayReportsSelectors.dayReportsContent.comments.getCommentDescription().should('contain', dayReportsData.commentDescription);
 
     cy.logout();
     navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
     allWaysSelectors.filterViewBlock.getCardViewButton().click();
-    AllWaysPage.adjustWayFilterMinDayReports(MinDayReports.any);
-    allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.newWayTitle).first().click();
+    AllWaysPage
+      .adjustWayFilterMinDayReports(MinDayReports.any)
+      .openWayByClickingCard(testUserData.testUsers.studentJonh.newWayTitle);
     wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal}\n${testUserData.testUsers.studentJonh.goalNewLine}`);
     wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJonh.wayTag1);
     wayMetricsSelectors.getMetricDescription().first().should('have.text', wayMetricsData.wayMetricDescriptions[0]);
