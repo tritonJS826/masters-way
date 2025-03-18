@@ -385,7 +385,6 @@ describe('Statistics tests', () => {
             });
         cy.logout();
 
-        cy.openAllWaysPage();
         // Open the mentor composite way
         Navigation
             .openAllWaysPage()
