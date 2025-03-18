@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:7",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -16,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 3,
   "links": [],
   "panels": [
     {
@@ -371,7 +370,6 @@
           "defaults": {
             "mappings": [
               {
-                "$$hashKey": "object:75",
                 "id": 0,
                 "op": "=",
                 "text": "0",
@@ -467,7 +465,6 @@
           "defaults": {
             "mappings": [
               {
-                "$$hashKey": "object:75",
                 "id": 0,
                 "op": "=",
                 "text": "0",
@@ -779,7 +776,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Users who create ways n last 30 days",
+      "title": "Users who create ways in last 30 days",
       "type": "gauge"
     },
     {
@@ -1217,7 +1214,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:194",
           "decimals": 0,
           "format": "none",
           "label": "users",
@@ -1227,7 +1223,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:195",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1336,7 +1331,6 @@
       "timeFrom": "2y",
       "timeRegions": [
         {
-          "$$hashKey": "object:168",
           "colorMode": "background6",
           "fill": true,
           "fillColor": "rgba(234, 112, 112, 0.12)",
@@ -1362,7 +1356,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:479",
           "decimals": 0,
           "format": "short",
           "label": "",
@@ -1372,7 +1365,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:480",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1440,7 +1432,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
-        "w": 9,
+        "w": 11,
         "x": 0,
         "y": 43
       },
@@ -1485,7 +1477,7 @@
           ],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  DATE_TRUNC('month', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('month', users.created_at))\n    AS total_users\nFROM users\nJOIN (\n  SELECT DISTINCT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 1\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('month', users.created_at)\nORDER BY time;",
+          "rawSql": "SELECT\n  DATE_TRUNC('day', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('day', users.created_at)) AS total_users\nFROM users\nJOIN (\n  SELECT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 1\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('day', users.created_at)",
           "refId": "A",
           "select": [
             [
@@ -1525,7 +1517,7 @@
       "timeFrom": "2y",
       "timeRegions": [],
       "timeShift": null,
-      "title": "Total number of users which have more than 1 report",
+      "title": "Total number of users which have more than 1 report ",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1541,7 +1533,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:479",
           "decimals": 0,
           "format": "short",
           "label": "",
@@ -1551,7 +1542,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:480",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1575,8 +1565,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
-        "w": 10,
-        "x": 9,
+        "w": 12,
+        "x": 11,
         "y": 43
       },
       "hiddenSeries": false,
@@ -1620,7 +1610,7 @@
           ],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  DATE_TRUNC('month', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('month', users.created_at))\n    AS total_users\nFROM users\nJOIN (\n  SELECT DISTINCT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 3\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('month', users.created_at)\nORDER BY time;",
+          "rawSql": "SELECT\n  DATE_TRUNC('day', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('day', users.created_at))\n    AS total_users\nFROM users\nJOIN (\n  SELECT DISTINCT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 3\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('day', users.created_at)\nORDER BY time;",
           "refId": "A",
           "select": [
             [
@@ -1660,7 +1650,7 @@
       "timeFrom": "2y",
       "timeRegions": [],
       "timeShift": null,
-      "title": "Total number of users which have more than 3 reports",
+      "title": "Total number of users which have more than 3 reports ",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1676,7 +1666,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:479",
           "decimals": 0,
           "format": "short",
           "label": "",
@@ -1686,7 +1675,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:480",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1710,7 +1698,7 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
-        "w": 9,
+        "w": 11,
         "x": 0,
         "y": 49
       },
@@ -1755,7 +1743,7 @@
           ],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  DATE_TRUNC('month', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('month', users.created_at))\n    AS total_users\nFROM users\nJOIN (\n  SELECT DISTINCT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 20\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('month', users.created_at)\nORDER BY time;",
+          "rawSql": "SELECT\n  DATE_TRUNC('day', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('day', users.created_at))\n    AS total_users\nFROM users\nJOIN (\n  SELECT DISTINCT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 20\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('day', users.created_at)\nORDER BY time;",
           "refId": "A",
           "select": [
             [
@@ -1795,7 +1783,7 @@
       "timeFrom": "2y",
       "timeRegions": [],
       "timeShift": null,
-      "title": "Total number of users which have more than 20 reports",
+      "title": "Total number of users which have more than 20 reports ",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1811,7 +1799,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:479",
           "decimals": 0,
           "format": "short",
           "label": "",
@@ -1821,7 +1808,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:480",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1845,8 +1831,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 6,
-        "w": 10,
-        "x": 9,
+        "w": 12,
+        "x": 11,
         "y": 49
       },
       "hiddenSeries": false,
@@ -1890,7 +1876,7 @@
           ],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n  DATE_TRUNC('month', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('month', users.created_at))\n    AS total_users\nFROM users\nJOIN (\n  SELECT DISTINCT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 30\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('month', users.created_at)\nORDER BY time;",
+          "rawSql": "SELECT\n  DATE_TRUNC('day', users.created_at) AS time,\n  SUM(COUNT(*)) OVER (ORDER BY DATE_TRUNC('day', users.created_at))\n    AS total_users\nFROM users\nJOIN (\n  SELECT DISTINCT ways.owner_uuid\n  FROM ways\n  JOIN day_reports ON ways.uuid = day_reports.way_uuid\n  GROUP BY ways.owner_uuid\n  HAVING COUNT(day_reports.uuid) > 30\n) AS report_counts ON users.uuid = report_counts.owner_uuid\nGROUP BY DATE_TRUNC('day', users.created_at)",
           "refId": "A",
           "select": [
             [
@@ -1930,7 +1916,7 @@
       "timeFrom": "2y",
       "timeRegions": [],
       "timeShift": null,
-      "title": "Total number of users which have more than 30 reports",
+      "title": "Total number of users which have more than 30 reports ",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1946,7 +1932,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:479",
           "decimals": 0,
           "format": "short",
           "label": "",
@@ -1956,7 +1941,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:480",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2119,7 +2103,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:142",
           "decimals": 0,
           "format": "none",
           "label": "way_count",
@@ -2129,7 +2112,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:143",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2228,7 +2210,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Number of Reports per Way ALL TIME",
+      "title": "Number of Reports per Way for all time",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -2248,7 +2230,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:142",
           "decimals": 0,
           "format": "none",
           "label": "way_count",
@@ -2258,7 +2239,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:143",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2377,7 +2357,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:142",
           "decimals": 0,
           "format": "none",
           "label": "way_count",
@@ -2387,7 +2366,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:143",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2506,7 +2484,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:142",
           "decimals": 0,
           "format": "none",
           "label": "way_count",
@@ -2516,7 +2493,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:143",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2635,7 +2611,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:142",
           "decimals": 0,
           "format": "none",
           "label": "way_count",
@@ -2645,7 +2620,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:143",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2668,7 +2642,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-2y",
     "to": "now"
   },
   "timepicker": {
@@ -2691,5 +2665,5 @@
   "variables": {
     "list": []
   },
-  "version": 4
+  "version": 3
 }
