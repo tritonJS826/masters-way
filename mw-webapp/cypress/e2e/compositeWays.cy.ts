@@ -4,8 +4,9 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
-import {MinDayReports} from "cypress/support/pages/AllWaysPage";
-import {Navigation} from "cypress/support/Navigation";
+import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {Navigation, Page} from "cypress/support/Navigation";
+import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -22,26 +23,24 @@ describe('IsAuth Composite ways scope tests', () => {
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
 
-        Navigation
-            .openAllWaysPage()
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage
             .adjustWayFilterMinDayReports(MinDayReports.any)
             .openWayByClickingCard(testUserData.users.Dana.way.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
-
-        Navigation
-            .openAllWaysPage()
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage
             .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
 
-        Navigation
-            .openAllWaysPage()
-            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
 
         wayDescriptionSelectors.peopleBlock.childWaysTitle().should('have.text', wayDescriptionData.peopleBlock.childWaysTitle);
         wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.users.Dana.way.wayTitle)
@@ -72,25 +71,24 @@ describe('IsAuth Composite ways scope tests', () => {
     it('IsAuth_CompositeWay_DeleteWay', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({ force: true });
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
 
-        Navigation
-            .openAllWaysPage()
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage
             .adjustWayFilterMinDayReports(MinDayReports.any)
             .openWayByClickingCard(testUserData.users.Dana.way.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        Navigation
-            .openAllWaysPage()
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage
             .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        Navigation
-            .openAllWaysPage()
-            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
         wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.testUsers.studentJonh.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.deleteFromCompositeDialogContent.getDeleteButton().click();
         wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.users.Dana.way.wayTitle).click();

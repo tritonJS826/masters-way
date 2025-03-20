@@ -1,20 +1,22 @@
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
-import {AllWaysPage} from "cypress/support/pages/AllWaysPage";
-import {AllUsersPage} from "cypress/support/pages/AllUsersPage";
+
+export enum Page {
+  LogoHome = "Logo",
+  Home = "Home",
+  UserPersonalArea = "PersonalArea",
+  AllWays = "AllWays",
+  AllTrainings = "AllTrainings",
+  AllUsers = "AllUsers",
+  AboutProject = "AboutProject",
+  Partnership = "Partnership",
+  Pricing = "Pricing",
+  Settings = "Settings",
+}
 
 export class Navigation {
-    static openAllUsersPage() {
-      headerSelectors.getBurgerMenu().click({force: true});
-      navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
-
-      return AllUsersPage;
-    };
-    
-    static openAllWaysPage() {
-      headerSelectors.getBurgerMenu().click({force: true});
-      navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
-
-      return AllWaysPage;
-    };
+    static openPage(page: Page) {
+      headerSelectors.getBurgerMenu().click({ force: true });
+      navigationMenuSelectors.menuItemLinks[`get${page}ItemLink`]().click();
+  }
 }

@@ -7,8 +7,10 @@ import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {LanguageService} from "src/service/LanguageService";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
 import {WayPage} from "cypress/support/pages/WayPage";
+import {AllUsersPage} from "cypress/support/pages/AllUsersPage";
+import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -35,6 +37,7 @@ describe('Projects tests', () => {
         projectsSelectors.getProjectCardButton().click();
 
         cy.url().should('match', new RegExp(`\\${projectsData.endpoint}\\/${testUserData.urlPattern}`));
+        cy.url().should('match', new RegExp(`\\${projectsData.endpoint}\\/${testUserData.urlPattern}`));
         projectsSelectors.projectPageContent.infoBlock.getStatus().contains(`${LanguageService.project.projectPrivacy.public.en}`);
         const expectedAvatarMax = testUserData.testUsers.mentorMax.name.substring(0, 2).toUpperCase();
 
@@ -50,9 +53,8 @@ describe('Projects tests', () => {
 
         projectsSelectors.projectPageContent.infoBlock.getTitle().should('have.text', projectsData.newProjectName);
        
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userPersonalSelectors.userActionMenu.getMenuButton().click();
         userPersonalSelectors.userActionMenu.projectItems.getProjectsItem().click();
         userPersonalSelectors.userActionMenu.projectItems.getAddToProjectItem().contains(`${LanguageService.user.userActions.addToProject.en} ${projectsData.newProjectName}`).click();
@@ -67,10 +69,10 @@ describe('Projects tests', () => {
         const expectedAvatarJohn = testUserData.testUsers.studentJonh.name.substring(0, 2).toUpperCase();
         projectsSelectors.projectPageContent.infoBlock.participantsBlock.getAvatar().first().should('have.text', expectedAvatarJohn);
 
-        userWaysSelectors.getCreateNewWayButton().click();
-        dayReportsSelectors.getCreateNewDayReportButton().click();
+        UserPage.createNewWay();
         WayPage
-            .addDayReport({
+            .createNewDayReport()
+            .addDayReportData({
                 reportIndex:0,
                 jobDoneDescription: dayReportsData.jobDoneDescription,
                 timeSpentOnJob: dayReportsData.timeSpentOnJob,
@@ -84,9 +86,8 @@ describe('Projects tests', () => {
         // after this fix we should uncomment the next line
         // TODO: #1779 
         // cy.logout();
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         projectsSelectors.getProjectsButton().click();
 
         projectsSelectors.projectPageContent.infoBlock.getTitle().should('have.text', projectsData.newProjectName);

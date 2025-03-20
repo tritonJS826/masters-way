@@ -6,12 +6,12 @@ import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import allWayData from "cypress/fixtures/allWaysFixture.json";
 import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
 
 beforeEach(() => {
   cy.resetGeneralDb();
   cy.visit('/');
-  Navigation.openAllWaysPage();
+  Navigation.openPage(Page.AllWays);
 });
 
 afterEach(() => {
