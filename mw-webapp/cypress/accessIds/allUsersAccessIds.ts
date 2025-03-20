@@ -6,7 +6,9 @@ export const allUsersAccessIds = {
 
     filterViewBlock: {
         searchByEmailInput: 'searchByEmailInput',
-        searchByNameInput: 'searchByNameInput'
+        searchByNameInput: 'searchByNameInput',
+        statusSelect: 'filterByStatusSelect',
+        statusSelectOption: (option: string) => `statusSelectOption${option}`,
     },
 
     allUsersTable: {

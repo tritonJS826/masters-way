@@ -1,11 +1,9 @@
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
-import {LanguageService} from "src/service/LanguageService";
 import {MinDayReports} from "cypress/support/pages/AllWaysPage";
 import {Navigation} from "cypress/support/Navigation";
 

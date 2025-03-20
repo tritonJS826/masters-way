@@ -69,6 +69,30 @@ export class WayPage {
             .click();
     }
 
+    static addWayToCollection(collectionName: string) {
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu
+            .getWayActionSubTriggerItem()
+            .contains(LanguageService.way.wayActions.collectionManagement.en)
+            .click();
+        wayDescriptionSelectors.wayActionMenu
+            .getWayActionSubMenuItem()
+            .contains(`${LanguageService.way.wayActions.addTo.en} ${collectionName}`)
+            .click();
+    }
+
+    static deleteWayFromCollection(collectionName: string) {
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu
+            .getWayActionSubTriggerItem()
+            .contains(LanguageService.way.wayActions.collectionManagement.en)
+            .click();
+        wayDescriptionSelectors.wayActionMenu
+            .getWayActionSubMenuItem()
+            .contains(`${LanguageService.way.wayActions.deleteFrom.en} ${collectionName}`)
+            .click();
+    }
+
     static adjustLabel(labelName: string) {
         dayReportsSelectors.labels.getAdjustLabelsButton().click();
         dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();

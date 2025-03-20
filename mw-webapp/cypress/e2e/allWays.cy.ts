@@ -1,19 +1,17 @@
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
-import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
-import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import {Symbols} from "src/utils/Symbols";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import allWayData from "cypress/fixtures/allWaysFixture.json";
 import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {Navigation} from "cypress/support/Navigation";
 
 beforeEach(() => {
   cy.resetGeneralDb();
   cy.visit('/');
-  headerSelectors.getBurgerMenu().click();
-  navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
+  Navigation.openAllWaysPage();
 });
 
 afterEach(() => {

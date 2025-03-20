@@ -1,5 +1,4 @@
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
@@ -35,11 +34,9 @@ describe('Mentor-mentee tests', () => {
         userWaysSelectors.getCreateNewWayButton().click();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        Navigation.openAllUsersPage();
-
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
-            .contains(testUserData.testUsers.studentJonh.name)
-            .click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
@@ -68,8 +65,9 @@ describe('Mentor-mentee tests', () => {
         wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);
         wayDescriptionSelectors.peopleBlock.getWayMentorLink().should('have.text', testUserData.testUsers.mentorMax.name);
 
-        Navigation.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(1).should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist').and('be.visible');
@@ -114,10 +112,9 @@ describe('Mentor-mentee tests', () => {
 
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        Navigation.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
-            .contains(testUserData.testUsers.studentJonh.name)
-            .click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
@@ -201,8 +198,9 @@ describe('Mentor-mentee tests', () => {
 
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-        Navigation.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
@@ -210,8 +208,9 @@ describe('Mentor-mentee tests', () => {
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-        Navigation.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()

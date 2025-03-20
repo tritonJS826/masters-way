@@ -210,16 +210,21 @@ export const AllUsersPage = observer(() => {
             label={`${LanguageService.allUsers.filterBlock.type[language]}`}
             defaultValue={allUsersPageSettings.filterStatus}
             name="filterStatus"
+            cy={{dataCyTrigger: allUsersAccessIds.filterViewBlock.statusSelect}}
             options={[
               {
                 id: "1",
                 value: MentoringStatus.all,
                 text: LanguageService.allUsers.filterBlock.mentoringTypeOptions.all[language],
+                dataCy: allUsersAccessIds.filterViewBlock
+                  .statusSelectOption(LanguageService.allUsers.filterBlock.mentoringTypeOptions.all.en),
               },
               {
                 id: "2",
                 value: MentoringStatus.mentor,
                 text: LanguageService.allUsers.filterBlock.mentoringTypeOptions.mentor[language],
+                dataCy: allUsersAccessIds.filterViewBlock
+                  .statusSelectOption(LanguageService.allUsers.filterBlock.mentoringTypeOptions.mentor.en),
               },
             ]}
             onChange={(status) => {

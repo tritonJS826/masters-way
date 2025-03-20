@@ -2,14 +2,13 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {projectsSelectors} from "cypress/scopesSelectors/projectsSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import projectsData from "cypress/fixtures/projectsFixture.json"
-import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
-import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {LanguageService} from "src/service/LanguageService";
 import {Navigation} from "cypress/support/Navigation";
+import {WayPage} from "cypress/support/pages/WayPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -35,7 +34,7 @@ describe('Projects tests', () => {
 
         projectsSelectors.getProjectCardButton().click();
 
-        cy.url().should('match', new RegExp(`\\/${projectsData.endpoint}\\/${testUserData.urlPattern}`));
+        cy.url().should('match', new RegExp(`\\${projectsData.endpoint}\\/${testUserData.urlPattern}`));
         projectsSelectors.projectPageContent.infoBlock.getStatus().contains(`${LanguageService.project.projectPrivacy.public.en}`);
         const expectedAvatarMax = testUserData.testUsers.mentorMax.name.substring(0, 2).toUpperCase();
 
@@ -51,8 +50,9 @@ describe('Projects tests', () => {
 
         projectsSelectors.projectPageContent.infoBlock.getTitle().should('have.text', projectsData.newProjectName);
        
-        Navigation.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userPersonalSelectors.userActionMenu.getMenuButton().click();
         userPersonalSelectors.userActionMenu.projectItems.getProjectsItem().click();
         userPersonalSelectors.userActionMenu.projectItems.getAddToProjectItem().contains(`${LanguageService.user.userActions.addToProject.en} ${projectsData.newProjectName}`).click();
@@ -69,36 +69,24 @@ describe('Projects tests', () => {
 
         userWaysSelectors.getCreateNewWayButton().click();
         dayReportsSelectors.getCreateNewDayReportButton().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(dayReportsData.timeSpentOnJob);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
-        dayReportsSelectors.dayReportsContent.plans.getPlanDescription().dblclick()
-        dayReportsSelectors.dayReportsContent.plans.getPlanDescriptionInput().type(dayReportsData.planDescription);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().dblclick();
-        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTimeInput().type(dayReportsData.estimatedPlanTime);
-        headerSelectors.getHeader().click();           
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescription().dblclick()
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescriptionInput().type(dayReportsData.problemDescription);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick()
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(dayReportsData.commentDescription);
-        headerSelectors.getHeader().click();
+        WayPage
+            .addDayReport({
+                reportIndex:0,
+                jobDoneDescription: dayReportsData.jobDoneDescription,
+                timeSpentOnJob: dayReportsData.timeSpentOnJob,
+                planDescription: dayReportsData.planDescription,
+                estimatedPlanTime: dayReportsData.estimatedPlanTime,
+                problemDescription: dayReportsData.problemDescription,
+                commentDescription: dayReportsData.commentDescription
+            });
         // TODO: for now projects are available only for authorized users on the backend
         // so we should make not private projects available for all users (even not authorized)
         // after this fix we should uncomment the next line
         // TODO: #1779 
         // cy.logout();
-        Navigation.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         projectsSelectors.getProjectsButton().click();
 
         projectsSelectors.projectPageContent.infoBlock.getTitle().should('have.text', projectsData.newProjectName);
