@@ -1,4 +1,4 @@
-FROM grafana/grafana:6.7.4
+FROM grafana/grafana:11.5.2
 
 # Create directories
 RUN mkdir -p /etc/grafana/provisioning/dashboards \
@@ -15,5 +15,5 @@ COPY grafana/grafana.ini /etc/grafana/grafana.ini
 
 # Set permissions
 USER root
-RUN chown -R grafana:grafana /etc/grafana/provisioning/ /var/lib/grafana/dashboards/ 
+RUN chown -R 472:472 /etc/grafana/provisioning/ /var/lib/grafana/dashboards/
 
