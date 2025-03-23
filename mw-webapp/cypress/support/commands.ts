@@ -102,14 +102,4 @@ Cypress.Commands.add("getFirstLetters", (str: any) => {
   }
 });
 
-Cypress.Commands.add('openAllUsersPage', () => {
-  headerSelectors.getBurgerMenu().click({force: true});
-  navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
-});
-
-Cypress.Commands.add('openAllWaysPage', () => {
-  headerSelectors.getBurgerMenu().click({force: true});
-  navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
-});
-
 export {};

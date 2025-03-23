@@ -6,8 +6,9 @@ import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSel
 import userWaysData from "cypress/fixtures/userWaysFixture.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import {LanguageService} from "src/service/LanguageService";
-import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
+import {Navigation} from "cypress/support/Navigation";
+import {WayPage} from "cypress/support/pages/WayPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -60,9 +61,7 @@ describe('Collections tests', () => {
             .should('have.text', userWaysData.customCollection.newName);
 
         userWaysSelectors.getCreateNewWayButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${userWaysData.customCollection.newName}`).click();
+        WayPage.addWayToCollection(userWaysData.customCollection.newName);
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
@@ -71,14 +70,11 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
 
-        cy.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
-            .contains(testUserData.testUsers.studentJonh.name)
-            .click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.addTo.en} ${userWaysData.customCollection.newName}`).click();
+        WayPage.addWayToCollection(userWaysData.customCollection.newName);
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
@@ -89,10 +85,9 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (2)`);
 
-        cy.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
-            .contains(testUserData.testUsers.studentJonh.name)
-            .click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).click();
         wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().click();
         wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().contains(1);
@@ -106,9 +101,7 @@ describe('Collections tests', () => {
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubTriggerItem().contains(LanguageService.way.wayActions.collectionManagement.en).click();
-        wayDescriptionSelectors.wayActionMenu.getWayActionSubMenuItem().contains(`${LanguageService.way.wayActions.deleteFrom.en} ${userWaysData.customCollection.newName}`).click();
+        WayPage.deleteWayFromCollection(userWaysData.customCollection.newName);
         headerSelectors.getAvatar().click();
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();

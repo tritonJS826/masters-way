@@ -9,7 +9,9 @@ export const allUsersSelectors = {
 
     filterViewBlock: {
         getSearchByEmailInput: () => cy.get(getDataCy(allUsersAccessIds.filterViewBlock.searchByEmailInput)),
-        getSearchByNameInput: () => cy.get(getDataCy(allUsersAccessIds.filterViewBlock.searchByNameInput))
+        getSearchByNameInput: () => cy.get(getDataCy(allUsersAccessIds.filterViewBlock.searchByNameInput)),
+        getStatusSelect: () => cy.get(getDataCy(allUsersAccessIds.filterViewBlock.statusSelect)),
+        getStatusSelectOption: (status: string) => cy.get(getDataCy(allUsersAccessIds.filterViewBlock.statusSelectOption(status))),
     },
 
     allUsersTable: {

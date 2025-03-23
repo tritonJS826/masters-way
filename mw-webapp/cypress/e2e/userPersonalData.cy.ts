@@ -6,6 +6,7 @@ import {allWaysSelectors}  from "cypress/scopesSelectors/allWaysSelectors";
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import ServeyModalsContent from "src/dictionary/SurveyModalsContent.json";
 import {Theme, themedVariables} from "src/globalStore/ThemeStore";
+import {Navigation} from "cypress/support/Navigation";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -100,7 +101,7 @@ describe('IsAuth User personal data scope tests', () => {
         userPersonalSelectors.descriptionSection.getMentorCheckbox().should('be.checked');
 
         cy.logout();
-        cy.openAllUsersPage();
+        Navigation.openAllUsersPage();
         allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).within(() => {
             allUsersSelectors.card.getMentorFlag()
                 .should('exist')

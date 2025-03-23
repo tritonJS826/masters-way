@@ -1,5 +1,4 @@
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import wayDescriptionData from "cypress/fixtures/wayDescriptionFixture.json";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
@@ -15,6 +14,9 @@ import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import wayPageContent from "src/dictionary/WayPageContent.json";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {Symbols} from "src/utils/Symbols";
+import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {WayPage, JobDoneOrPlanLabelTarget} from "cypress/support/pages/WayPage";
+import {Navigation} from "cypress/support/Navigation";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -32,11 +34,9 @@ describe('Mentor-mentee tests', () => {
         userWaysSelectors.getCreateNewWayButton().click();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        cy.openAllUsersPage();
-
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
-            .contains(testUserData.testUsers.studentJonh.name)
-            .click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
@@ -58,15 +58,16 @@ describe('Mentor-mentee tests', () => {
 
         cy.logout();
         navigationMenuSelectors.menuItemLinks.getAllWaysItemLink().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelect().click();
-        allWaysSelectors.filterViewBlock.getDayReportsSelectOption(LanguageService.allWays.filterBlock.minDayReportsAmountOption0.en).click();
-        allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).first().click();
+        AllWaysPage
+            .adjustWayFilterMinDayReports(MinDayReports.any)
+            .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         
         wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);
         wayDescriptionSelectors.peopleBlock.getWayMentorLink().should('have.text', testUserData.testUsers.mentorMax.name);
 
-        cy.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(1).should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist').and('be.visible');
@@ -86,47 +87,34 @@ describe('Mentor-mentee tests', () => {
         wayMetricsSelectors.getMetricDescription().dblclick();
         wayMetricsSelectors.getMetricDescriptionInput().type(wayMetricsData.wayMetricDescriptions[0]);
         headerSelectors.getHeader().click();
-        dayReportsSelectors.labels.getAdjustLabelsButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(dayReportsData.labels.student);
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
         dayReportsSelectors.getCreateNewDayReportButton().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(dayReportsData.jobDoneDescription);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').click();
-        dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
-        dayReportsSelectors.labels.addLabel.getSaveButton().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(dayReportsData.timeSpentOnJob);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
-        dayReportsSelectors.dayReportsContent.plans.getPlanDescription().dblclick()
-        dayReportsSelectors.dayReportsContent.plans.getPlanDescriptionInput().type(dayReportsData.planDescription);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.labels.addLabel.getAddLabelLine('plan').click();
-        dayReportsSelectors.labels.addLabel.getLabelToChoose().click();
-        dayReportsSelectors.labels.addLabel.getSaveButton().click();
-        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().dblclick();
-        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTimeInput().type(dayReportsData.estimatedPlanTime);
-        headerSelectors.getHeader().click();           
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescriptionInput().type(dayReportsData.problemDescription);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(dayReportsData.commentDescription);
-        headerSelectors.getHeader().click();
+        WayPage
+            .addDayReport({
+                reportIndex:0,
+                jobDoneDescription: dayReportsData.jobDoneDescription,
+                timeSpentOnJob: dayReportsData.timeSpentOnJob,
+                planDescription: dayReportsData.planDescription,
+                estimatedPlanTime: dayReportsData.estimatedPlanTime,
+                problemDescription: dayReportsData.problemDescription,
+                commentDescription: dayReportsData.commentDescription
+            })
+            .adjustLabel(dayReportsData.labels.student)
+            .addLabel({
+                labelName: dayReportsData.labels.student,
+                labelTarget: JobDoneOrPlanLabelTarget.jobDone,
+                numberOfJobDoneOrPlan: 0
+            })
+            .addLabel({
+                labelName: dayReportsData.labels.student,
+                labelTarget: JobDoneOrPlanLabelTarget.plan,
+                numberOfJobDoneOrPlan: 0
+            });
+
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        cy.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name)
-            .contains(testUserData.testUsers.studentJonh.name)
-            .click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
@@ -156,43 +144,31 @@ describe('Mentor-mentee tests', () => {
 
         wayDescriptionSelectors.wayDashBoardLeft.getGoal().dblclick().type(' mentor edition');
         headerSelectors.getHeader().click();
-        dayReportsSelectors.labels.getAdjustLabelsButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.getAddLabelButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getInput().click().type(dayReportsData.labels.mentor);
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getOkButton().click();
-        dayReportsSelectors.labels.adjustLabelsDialog.addLabelDialog.getCancelButton().click();
 
-        dayReportsSelectors.dayReportsContent.getAddButton().first().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(`Mentor ${dayReportsData.jobDoneDescription}!`);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.labels.addLabel.getAddLabelLine('jobDone').eq(1).click();
-        dayReportsSelectors.labels.addLabel.getLabelToChoose().eq(1).click();
+        WayPage
+            .adjustLabel(dayReportsData.labels.mentor)
+            .addDayReport({
+                reportIndex: 1,
+                jobDoneDescription: `Mentor ${dayReportsData.jobDoneDescription}!`,
+                timeSpentOnJob: mentorTimeSpentOnJob,
+                planDescription: `Mentor ${dayReportsData.planDescription}!`,
+                estimatedPlanTime: mentorEstimatedPlanTime,
+                problemDescription: `Mentor ${dayReportsData.problemDescription}!`,
+                commentDescription: `Mentor ${dayReportsData.commentDescription}!`
+            })
+            .addLabel({
+                labelName: dayReportsData.labels.mentor,
+                labelTarget: JobDoneOrPlanLabelTarget.jobDone,
+                numberOfJobDoneOrPlan: 1})
+            .addLabel({
+                labelName: dayReportsData.labels.mentor,
+                labelTarget: JobDoneOrPlanLabelTarget.plan,
+                numberOfJobDoneOrPlan: 1});
 
+        dayReportsSelectors.labels.addLabel.getAddLabelLine(JobDoneOrPlanLabelTarget.jobDone).eq(1).click();
         dayReportsSelectors.labels.addLabel.getLabelToChoose().should('have.length', 2);
+        dayReportsSelectors.labels.addLabel.getCancelButton().click();
 
-        dayReportsSelectors.labels.addLabel.getSaveButton().click();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).dblclick();
-        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJobInput().type(mentorTimeSpentOnJob);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(1).click();
-        dayReportsSelectors.dayReportsContent.plans.getPlanDescription().eq(1).dblclick().type(`Mentor ${dayReportsData.planDescription}!`);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.labels.addLabel.getAddLabelLine('plan').eq(1).click();
-        dayReportsSelectors.labels.addLabel.getLabelToChoose().first().click();
-        dayReportsSelectors.labels.addLabel.getLabelToChoose().eq(1).click();
-        dayReportsSelectors.labels.addLabel.getSaveButton().click();
-        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().eq(1).dblclick().type(mentorEstimatedPlanTime);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(2).click();
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescription().eq(1).dblclick();
-        dayReportsSelectors.dayReportsContent.problems.getProblemDescriptionInput().type(`Mentor ${dayReportsData.problemDescription}!`);
-        headerSelectors.getHeader().click();
-        dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescription().eq(1).dblclick();
-        dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(`Mentor ${dayReportsData.commentDescription}!`);
-        headerSelectors.getHeader().click();
         cy.logout();
         headerSelectors.getHeader().click({force: true});
 
@@ -218,12 +194,13 @@ describe('Mentor-mentee tests', () => {
         userWaysSelectors.getPrivacyStatus().contains(wayPageContent.peopleBlock.wayPrivacy.private.en);
 
         cy.logout();
-        cy.openAllWaysPage();
+        Navigation.openAllWaysPage();
 
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-        cy.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.studentJonh.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
@@ -231,8 +208,9 @@ describe('Mentor-mentee tests', () => {
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-        cy.openAllUsersPage();
-        allUsersSelectors.card.getCardLink(testUserData.testUsers.mentorMax.name).click();
+        Navigation
+            .openAllUsersPage()
+            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()

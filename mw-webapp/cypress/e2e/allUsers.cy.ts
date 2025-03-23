@@ -1,16 +1,14 @@
 import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
-import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
-import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
-import {navigationMenuSelectors} from "cypress/scopesSelectors/navigationMenuSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import allUsersData from "cypress/fixtures/allUsersFixture.json";
+import {Navigation} from "cypress/support/Navigation";
+import {AllUsersPage, ViewMode} from "cypress/support/pages/AllUsersPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
     cy.visit('/');
-    headerSelectors.getBurgerMenu().click();
-    navigationMenuSelectors.menuItemLinks.getAllUsersItemLink().click();
+    Navigation.openAllUsersPage();
 });
 
 afterEach(() => {
@@ -26,7 +24,7 @@ function getLowerCaseTextAndCheck(element: JQuery<HTMLElement>, symbols: string)
 describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_OpenUserPersonalAreaTableView', () => {
-        allWaysSelectors.filterViewBlock.getTableViewButton().click();
+        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const checkUserNameLink = (userData: {userName: string, userId: string}) => {
             allUsersSelectors.allUsersTable.getUserLink(userData.userName).contains(userData.userName).click();
@@ -46,7 +44,7 @@ describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_OpenUserPersonalAreaCardView', () => {
         const checkWayLink = (userData: {userName: string, userId: string}) => {
-            allUsersSelectors.card.getCardLink(userData.userName).click();
+            AllUsersPage.openUserPersonalAreaPageByClickingCard(userData.userName);
             cy.url().should('include', userData.userId);
             userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
         }
@@ -62,10 +60,10 @@ describe('NoAuth All Users scope tests', () => {
     });
 
     it('NoAuth_AllUsers_SearchByEmail', () => {
-        allWaysSelectors.filterViewBlock.getTableViewButton().click();
+        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const searchByEmail = (searchData: {symbols: string, expectedCount: number}) => {
-            allUsersSelectors.filterViewBlock.getSearchByEmailInput().type(searchData.symbols);
+            AllUsersPage.searchUserByEmail(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserContact()
                 .should('have.length', searchData.expectedCount)
@@ -83,10 +81,10 @@ describe('NoAuth All Users scope tests', () => {
     });
 
     it('NoAuth_AllUsers_SearchByName', () => {
-        allWaysSelectors.filterViewBlock.getTableViewButton().click();
+        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const searchByName = (searchData: {symbols: string, expectedCount: number}) => {
-            allUsersSelectors.filterViewBlock.getSearchByNameInput().type(searchData.symbols);
+            AllUsersPage.searchUserByName(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserName()
                 .should('have.length', searchData.expectedCount)
