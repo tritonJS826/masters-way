@@ -6,7 +6,7 @@ import {Theme} from "src/globalStore/ThemeStore";
 import sideBarContent from "src/dictionary/Sidebar.json";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
 
 describe('NoAuth Header scope tests', () => {
 
@@ -27,12 +27,12 @@ describe('NoAuth Header scope tests', () => {
     });
 
     it('NoAuth_Header_LightThemeSwitchIcon', () => {
-        Navigation.openAllWaysPage();
+        Navigation.openPage(Page.AllWays);
         cy.checkThemeColors(Theme.LIGHT);
     });
 
     it('NoAuth_Header_DarkThemeSwitchIcon', () => {
-        Navigation.openAllWaysPage();
+        Navigation.openPage(Page.AllWays);
         headerSelectors.settings.getThemeSwitcher().click();
         headerSelectors.settings.getThemeSwitcher().click();
 
@@ -40,7 +40,7 @@ describe('NoAuth Header scope tests', () => {
     });
 
     it('NoAuth_Header_ObsidianThemeSwitchIcon', () => {
-        Navigation.openAllWaysPage();
+        Navigation.openPage(Page.AllWays);
         headerSelectors.settings.getThemeSwitcher().click();
 
         cy.checkThemeColors(Theme.OBSIDIAN);

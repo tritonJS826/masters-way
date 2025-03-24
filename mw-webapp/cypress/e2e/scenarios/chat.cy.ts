@@ -3,7 +3,8 @@ import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {chatSelectors} from "cypress/scopesSelectors/chatSelectors";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
 import chatData from "cypress/fixtures/chatFixture.json"
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
+import {AllUsersPage} from "cypress/support/pages/AllUsersPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -18,9 +19,8 @@ describe('Chat tests', () => {
 
     it('Scenario_AnyLoggedinUser_SendMessageInChat', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
 
         userPersonalSelectors.getConnectButton().click();
         chatSelectors.getOpenChatButton().click({force: true});
@@ -35,9 +35,8 @@ describe('Chat tests', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         cy.logout();
         cy.login(testUserData.testUsers.studentJonh.loginLink); 
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
 
         userPersonalSelectors.getConnectButton().click();
         chatSelectors.getOpenChatButton().click({force: true});

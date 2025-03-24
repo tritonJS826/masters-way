@@ -19,7 +19,7 @@ export enum JobDoneOrPlanLabelTarget {
 };
 
 export class WayPage {
-    static addDayReport(wayDayReportData?: WayDayReportData) {        
+    static addDayReportData(wayDayReportData?: WayDayReportData) {        
         if (!wayDayReportData) return this;
         if (wayDayReportData.jobDoneDescription) {
             dayReportsSelectors.dayReportsContent.getAddButton().first().click();
@@ -116,6 +116,31 @@ export class WayPage {
         dayReportsSelectors.labels.addLabel.getLabelToChoose().contains(labelName).click();
         dayReportsSelectors.labels.addLabel.getSaveButton().click();
         headerSelectors.getHeader().click();
+
+        return this;
+    }
+
+    static createNewDayReport() {
+        dayReportsSelectors.getCreateNewDayReportButton().click();
+
+        return this;
+    }
+
+    static editGoal(goal: string) {
+        wayDescriptionSelectors.wayDashBoardLeft.getGoal()
+            .dblclick()
+            .type('{selectall}')
+            .type(goal);
+        headerSelectors.getHeader().click();
+        
+        return this;
+    }
+
+    static renameWay(newName: string) {
+        wayDescriptionSelectors.wayDashBoardLeft.getTitle()
+            .dblclick()
+            .type('{selectall}')
+            .type(newName + '{enter}');
 
         return this;
     }

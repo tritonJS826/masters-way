@@ -16,7 +16,9 @@ import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {Symbols} from "src/utils/Symbols";
 import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
 import {WayPage, JobDoneOrPlanLabelTarget} from "cypress/support/pages/WayPage";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
+import {AllUsersPage} from "cypress/support/pages/AllUsersPage";
+import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -31,14 +33,13 @@ describe('Mentor-mentee tests', () => {
     it('Scenario_Mentor_AddAsWayMentor', () => {
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
 
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().should('not.exist');
@@ -47,7 +48,7 @@ describe('Mentor-mentee tests', () => {
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         
         wayDescriptionSelectors.mentorRequestDialog.getMentorNameLink().should('have.text', testUserData.testUsers.mentorMax.name);
         
@@ -65,9 +66,8 @@ describe('Mentor-mentee tests', () => {
         wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().find('h3').should('have.text', wayDescriptionData.peopleBlock.mentorOfWayText);
         wayDescriptionSelectors.peopleBlock.getWayMentorLink().should('have.text', testUserData.testUsers.mentorMax.name);
 
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         userWaysSelectors.collectionBlock.getWayAmountCollectionButton().eq(1).should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist').and('be.visible');
@@ -78,18 +78,15 @@ describe('Mentor-mentee tests', () => {
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.getCreateNewWayButton().click();
-        wayDescriptionSelectors.wayDashBoardLeft.getGoal()
-            .dblclick()
-            .type(testUserData.testUsers.studentJonh.goal);
-        headerSelectors.getHeader().click();
+        UserPage.createNewWay();
+        WayPage.editGoal(testUserData.testUsers.studentJonh.goal);
         wayMetricsSelectors.metricButtons.getAddNewGoalMetricButton().click();
         wayMetricsSelectors.getMetricDescription().dblclick();
         wayMetricsSelectors.getMetricDescriptionInput().type(wayMetricsData.wayMetricDescriptions[0]);
         headerSelectors.getHeader().click();
-        dayReportsSelectors.getCreateNewDayReportButton().click();
         WayPage
-            .addDayReport({
+            .createNewDayReport()
+            .addDayReportData({
                 reportIndex:0,
                 jobDoneDescription: dayReportsData.jobDoneDescription,
                 timeSpentOnJob: dayReportsData.timeSpentOnJob,
@@ -112,22 +109,21 @@ describe('Mentor-mentee tests', () => {
 
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
         cy.logout();
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         wayDescriptionSelectors.mentorRequestDialog.getAcceptButton().click();
         cy.logout();
         
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         wayMetricsSelectors.getCompleteMetricCheckbox().check();
 
         wayMetricsSelectors.progressBar.getLeftLabel().should('have.text', wayMetricsData.progressBar["leftLabel100%"]);
@@ -142,12 +138,10 @@ describe('Mentor-mentee tests', () => {
         wayMetricsSelectors.progressBar.getLeftLabel().should('have.text', wayMetricsData.progressBar["leftLabel50%"]);
         wayMetricsSelectors.progressBar.getRightLabel().should('have.text', wayMetricsData.progressBar["rightLabel1/2"]);
 
-        wayDescriptionSelectors.wayDashBoardLeft.getGoal().dblclick().type(' mentor edition');
-        headerSelectors.getHeader().click();
-
         WayPage
+            .editGoal(`${testUserData.testUsers.studentJonh.goal} mentor edition`)
             .adjustLabel(dayReportsData.labels.mentor)
-            .addDayReport({
+            .addDayReportData({
                 reportIndex: 1,
                 jobDoneDescription: `Mentor ${dayReportsData.jobDoneDescription}!`,
                 timeSpentOnJob: mentorTimeSpentOnJob,
@@ -187,20 +181,19 @@ describe('Mentor-mentee tests', () => {
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem().contains(wayPageContent.peopleBlock.makePrivateButton.en).click();
 
         userWaysSelectors.getPrivacyStatus().contains(wayPageContent.peopleBlock.wayPrivacy.private.en);
 
         cy.logout();
-        Navigation.openAllWaysPage();
+        Navigation.openPage(Page.AllWays);
 
         allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
@@ -208,9 +201,8 @@ describe('Mentor-mentee tests', () => {
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()
@@ -220,7 +212,7 @@ describe('Mentor-mentee tests', () => {
 
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
 
         wayDescriptionSelectors.peopleBlock.deleteFromMentors.getTrashIcon(testUserData.testUsers.mentorMax.name).click();
         wayDescriptionSelectors.peopleBlock.deleteFromMentors.getDialogContent()
@@ -240,7 +232,7 @@ describe('Mentor-mentee tests', () => {
         cy.logout();
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
         wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
         wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem().contains(wayPageContent.wayActions.deleteTheWay.en).click();
         wayDescriptionSelectors.wayActionMenu.DeleteWayItem.dialog.getContent().contains(`${wayPageContent.wayActions.deleteWayQuestion.en} "${testUserData.testUsers.studentJonh.wayTitle}"?`)

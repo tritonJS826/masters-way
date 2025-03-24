@@ -1,5 +1,4 @@
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {wayMetricsSelectors} from "cypress/scopesSelectors/wayMetricsSelectors";
 import wayMetricsData from "cypress/fixtures/wayMetricsFixture.json"
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
@@ -11,6 +10,7 @@ import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import {wayDescriptionSelectors} from "cypress/scopesSelectors/wayDescriptionSelectors";
 import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
 import {WayPage} from "cypress/support/pages/WayPage";
+import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
   cy.resetGeneralDb();
@@ -27,12 +27,13 @@ describe('User Way tests', () => {
     cy.viewport(1200, 900);
     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
 
-    userWaysSelectors.getCreateNewWayButton().click();
-    wayDescriptionSelectors.wayDashBoardLeft.getTitle().dblclick().type('{selectall}').type(testUserData.testUsers.studentJonh.newWayTitle + '{enter}');
+    UserPage.createNewWay();
+    WayPage.renameWay(testUserData.testUsers.studentJonh.newWayTitle);
+    
     wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', testUserData.testUsers.studentJonh.newWayTitle);
 
-    wayDescriptionSelectors.wayDashBoardLeft.getGoal().dblclick().type(`${testUserData.testUsers.studentJonh.goal}{enter}${testUserData.testUsers.studentJonh.goalNewLine}{ctrl+enter}`);
-
+    WayPage.editGoal(`${testUserData.testUsers.studentJonh.goal}{enter}${testUserData.testUsers.studentJonh.goalNewLine}{ctrl+enter}`)
+    
     wayDescriptionSelectors.wayDashBoardLeft.tag.getAddTagButton().click();
     wayDescriptionSelectors.wayDashBoardLeft.tag.getTagInput().type(testUserData.testUsers.studentJonh.wayTag1);
     wayDescriptionSelectors.wayDashBoardLeft.tag.getCreateTagButton().click();
@@ -59,16 +60,17 @@ describe('User Way tests', () => {
     wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics4 - 1);
     wayMetricsSelectors.getMetricDescription().should('not.contain', wayMetricsData.wayMetricDescriptions[1]);
 
-    dayReportsSelectors.getCreateNewDayReportButton().click();
-    WayPage.addDayReport({
-      reportIndex: 0,
-      jobDoneDescription: `${dayReportsData.jobDoneDescription}{enter}${dayReportsData.jobDoneDescriptionNewLine}`,
-      timeSpentOnJob: dayReportsData.timeSpentOnJob,
-      planDescription: dayReportsData.planDescription,
-      estimatedPlanTime: dayReportsData.estimatedPlanTime,
-      problemDescription: dayReportsData.problemDescription,
-      commentDescription: dayReportsData.commentDescription
-    });
+    WayPage
+      .createNewDayReport()
+      .addDayReportData({
+        reportIndex: 0,
+        jobDoneDescription: `${dayReportsData.jobDoneDescription}{enter}${dayReportsData.jobDoneDescriptionNewLine}`,
+        timeSpentOnJob: dayReportsData.timeSpentOnJob,
+        planDescription: dayReportsData.planDescription,
+        estimatedPlanTime: dayReportsData.estimatedPlanTime,
+        problemDescription: dayReportsData.problemDescription,
+        commentDescription: dayReportsData.commentDescription
+      });
 
     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('contain', dayReportsData.jobDoneDescription);
     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().should('contain', dayReportsData.timeSpentOnJob);

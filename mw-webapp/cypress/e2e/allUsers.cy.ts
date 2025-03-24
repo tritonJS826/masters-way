@@ -2,13 +2,13 @@ import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import allUsersData from "cypress/fixtures/allUsersFixture.json";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
 import {AllUsersPage, ViewMode} from "cypress/support/pages/AllUsersPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
     cy.visit('/');
-    Navigation.openAllUsersPage();
+    Navigation.openPage(Page.AllUsers);
 });
 
 afterEach(() => {
