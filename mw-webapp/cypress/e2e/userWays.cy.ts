@@ -8,9 +8,10 @@ import {allWaysSelectors} from "cypress/scopesSelectors/allWaysSelectors";
 import testWayData from "cypress/fixtures/testWayDataFixture.json";
 import {LanguageService} from "src/service/LanguageService";
 import {headerSelectors} from "cypress/scopesSelectors/headerSelectors";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
 import {AllUsersPage} from "cypress/support/pages/AllUsersPage";
 import {WayPage} from "cypress/support/pages/WayPage";
+import {UserPage} from "cypress/support/pages/UserPage";
 
 afterEach(() => {
     cy.clearAllStorage();
@@ -35,12 +36,13 @@ describe("NoAuth User's ways scope tests", () => {
     beforeEach(() => {
         cy.resetGeneralDb();
         cy.visit('/');
-        Navigation.openAllUsersPage();
+        Navigation.openPage(Page.AllUsers);
     });
 
     const expectedCollectionButtonColor = hexToRgb(themedVariables.collectionCardActiveColor[Theme.DARK]);
 
     it('NoAuth_UserWay_ClickCollectionButton', () => {
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(userWaysData.users.Alice.userName);
         AllUsersPage.openUserPersonalAreaPageByClickingCard(userWaysData.users.Alice.userName);
 
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
@@ -88,6 +90,7 @@ describe("NoAuth User's ways scope tests", () => {
 
     it('NoAuth_UserWay_CardViewOpenWay', () => {
         AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
         allWaysSelectors.allWaysCard.getCardLink(testWayData.ways.janeWay.wayName).first().click();
 
         cy.url().should('include', testWayData.ways.janeWay.wayId);
@@ -95,6 +98,7 @@ describe("NoAuth User's ways scope tests", () => {
     });
 
     it('NoAuth_UserWay_TableViewOpenWay', () => {
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
         AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
         allWaysSelectors.allWaysTable.getWayLink(testWayData.ways.janeWay.wayName).first().click();
@@ -113,7 +117,7 @@ describe("IsAuth User's ways scope tests", () => {
 
     it('IsAuth_UserWays_CreateNewWay', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
 
         cy.url().should('match', new RegExp(`\\/way\\/${testUserData.urlPattern}`));
         wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.testUsers.studentJonh.email}`);
@@ -122,8 +126,9 @@ describe("IsAuth User's ways scope tests", () => {
     it('IsAuth_UserWays_AddWayToCustomerCollection', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         userWaysSelectors.collectionBlock.getAddCollectionButton().click();
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
 
+        WayPage.addWayToCollection(LanguageService.user.collections.newCollection.en);
         WayPage.addWayToCollection(LanguageService.user.collections.newCollection.en);
         headerSelectors.getAvatar().click();
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();

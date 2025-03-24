@@ -2,13 +2,13 @@ import {allUsersSelectors} from "cypress/scopesSelectors/allUsersSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import allUsersData from "cypress/fixtures/allUsersFixture.json";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
 import {AllUsersPage, ViewMode} from "cypress/support/pages/AllUsersPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
     cy.visit('/');
-    Navigation.openAllUsersPage();
+    Navigation.openPage(Page.AllUsers);
 });
 
 afterEach(() => {
@@ -24,6 +24,7 @@ function getLowerCaseTextAndCheck(element: JQuery<HTMLElement>, symbols: string)
 describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_OpenUserPersonalAreaTableView', () => {
+        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
         AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const checkUserNameLink = (userData: {userName: string, userId: string}) => {
@@ -45,6 +46,7 @@ describe('NoAuth All Users scope tests', () => {
     it('NoAuth_AllUsers_OpenUserPersonalAreaCardView', () => {
         const checkWayLink = (userData: {userName: string, userId: string}) => {
             AllUsersPage.openUserPersonalAreaPageByClickingCard(userData.userName);
+            AllUsersPage.openUserPersonalAreaPageByClickingCard(userData.userName);
             cy.url().should('include', userData.userId);
             userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
         }
@@ -61,8 +63,10 @@ describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_SearchByEmail', () => {
         AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
+        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const searchByEmail = (searchData: {symbols: string, expectedCount: number}) => {
+            AllUsersPage.searchUserByEmail(searchData.symbols);
             AllUsersPage.searchUserByEmail(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserContact()
@@ -82,8 +86,10 @@ describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_SearchByName', () => {
         AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
+        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const searchByName = (searchData: {symbols: string, expectedCount: number}) => {
+            AllUsersPage.searchUserByName(searchData.symbols);
             AllUsersPage.searchUserByName(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserName()

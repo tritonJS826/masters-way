@@ -3,13 +3,13 @@ import {statisticsSelectors} from "cypress/scopesSelectors/statisticsSelectors";
 import {LanguageService} from "src/service/LanguageService";
 import {dayReportsSelectors} from "cypress/scopesSelectors/dayReportsSelectors";
 import testUserData from "cypress/fixtures/testUserDataFixture.json";
-import {userWaysSelectors} from "cypress/scopesSelectors/userWaysSelectors";
 import {userPersonalSelectors} from "cypress/scopesSelectors/userPersonalDataSelectors";
 import dayReportsData from "cypress/fixtures/dayReportsFixture.json";
 import {statisticsData, studentStatsData} from "cypress/testData/statisticTestData";
-import {MinDayReports} from "cypress/support/pages/AllWaysPage";
+import {AllWaysPage, MinDayReports} from "cypress/support/pages/AllWaysPage";
 import {WayPage, JobDoneOrPlanLabelTarget} from "cypress/support/pages/WayPage";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
+import {UserPage} from "cypress/support/pages/UserPage";
 
 type StatisticsPlacement = keyof typeof statisticsData.statisticsPlacement;
 type PeriodBlockTitle = WayPagePeriodBlockTitles | ModalPeriodBlockTitles;
@@ -127,9 +127,8 @@ afterEach(() => {
 
 describe('Statistics tests', () => {
     it('Scenario_Student_wayStatistics', () => {
-        Navigation
-            .openAllWaysPage()
-            .openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage.openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports});
  
         statisticsSelectors.getDaysFromStart()
             .should('have.text', `${statisticsData.testWays.johnDoeWay.daysFromStart} ${LanguageService.way.wayInfo.daysFromStart.en}`);
@@ -360,19 +359,19 @@ describe('Statistics tests', () => {
         // Create a user-mentor with a composite way that includes one child way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.getCreateNewWayButton().click();
-        Navigation
-            .openAllWaysPage()
+        UserPage.createNewWay();
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage
             .openWayByClickingCard(statisticsData.testWays.johnDoeWay.title, {minDayReports: MinDayReports.atLeast5Reports})
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
 
         // Create user-student with a way that includes one day report
         cy.login(testUserData.testUsers.studentJonh.loginLink);
-        userWaysSelectors.getCreateNewWayButton().click();
-        dayReportsSelectors.getCreateNewDayReportButton().click();
+        UserPage.createNewWay();
         WayPage
-            .addDayReport({
+            .createNewDayReport()
+            .addDayReportData({
                 reportIndex: 0,
                 jobDoneDescription: dayReportsData.jobDoneDescription,
                 timeSpentOnJob: dayReportsData.timeSpentOnJob
@@ -386,9 +385,8 @@ describe('Statistics tests', () => {
         cy.logout();
 
         // Open the mentor composite way
-        Navigation
-            .openAllWaysPage()
-            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()
@@ -616,14 +614,13 @@ describe('Statistics tests', () => {
 
         // Mentor adds the student way to the compisite way
         cy.login(testUserData.testUsers.mentorMax.loginLink);
-        Navigation
-            .openAllWaysPage()
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage
             .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any})
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
-        Navigation
-            .openAllWaysPage()
-            .openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
+        Navigation.openPage(Page.AllWays);
+        AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle, {minDayReports: MinDayReports.any});
 
         //Bug #1851
         // statisticsSelectors.getDaysFromStart()

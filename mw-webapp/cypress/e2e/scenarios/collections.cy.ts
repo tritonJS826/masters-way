@@ -7,8 +7,10 @@ import userWaysData from "cypress/fixtures/userWaysFixture.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
 import {LanguageService} from "src/service/LanguageService";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
-import {Navigation} from "cypress/support/Navigation";
+import {Navigation, Page} from "cypress/support/Navigation";
 import {WayPage} from "cypress/support/pages/WayPage";
+import {AllUsersPage} from "cypress/support/pages/AllUsersPage";
+import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
@@ -24,17 +26,11 @@ describe('Collections tests', () => {
     it('Scenario_AnyLoggedinUser_CustomCollections', () => {
         cy.viewport(1200, 900);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        userWaysSelectors.getCreateNewWayButton().click();
-        wayDescriptionSelectors.wayDashBoardLeft.getTitle()
-            .dblclick()
-            .type('{selectall}')
-            .type(testUserData.testUsers.studentJonh.newWayTitle + '{enter}');
+        UserPage.createNewWay();
+        WayPage.renameWay(testUserData.testUsers.studentJonh.newWayTitle);
         headerSelectors.getAvatar().click();
-        userWaysSelectors.getCreateNewWayButton().click();
-        wayDescriptionSelectors.wayDashBoardLeft.getTitle()
-            .dblclick()
-            .type('{selectall}')
-            .type(testUserData.testUsers.studentJonh.newWayTitleForFavorite + '{enter}');
+        UserPage.createNewWay();
+        WayPage.renameWay(testUserData.testUsers.studentJonh.newWayTitleForFavorite);
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
 
@@ -60,7 +56,7 @@ describe('Collections tests', () => {
             .find(`[data-cy="${userWaysAccessIds.collectionBlock.collectionButtonMainInfo}"]`)
             .should('have.text', userWaysData.customCollection.newName);
 
-        userWaysSelectors.getCreateNewWayButton().click();
+        UserPage.createNewWay();
         WayPage.addWayToCollection(userWaysData.customCollection.newName);
         headerSelectors.getAvatar().click();
 
@@ -70,10 +66,9 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
 
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).click();
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.newWayTitle);
         WayPage.addWayToCollection(userWaysData.customCollection.newName);
         headerSelectors.getAvatar().click();
 
@@ -85,10 +80,9 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (2)`);
 
-        Navigation
-            .openAllUsersPage()
-            .openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).click();
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.newWayTitleForFavorite);
         wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().click();
         wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().contains(1);
         headerSelectors.getAvatar().click();
@@ -100,7 +94,7 @@ describe('Collections tests', () => {
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).should('be.visible');
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
         WayPage.deleteWayFromCollection(userWaysData.customCollection.newName);
         headerSelectors.getAvatar().click();
 
