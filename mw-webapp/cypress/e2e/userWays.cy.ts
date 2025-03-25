@@ -43,7 +43,6 @@ describe("NoAuth User's ways scope tests", () => {
 
     it('NoAuth_UserWay_ClickCollectionButton', () => {
         AllUsersPage.openUserPersonalAreaPageByClickingCard(userWaysData.users.Alice.userName);
-        AllUsersPage.openUserPersonalAreaPageByClickingCard(userWaysData.users.Alice.userName);
 
         userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
 
@@ -90,7 +89,7 @@ describe("NoAuth User's ways scope tests", () => {
 
     it('NoAuth_UserWay_CardViewOpenWay', () => {
         AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
-        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
+
         allWaysSelectors.allWaysCard.getCardLink(testWayData.ways.janeWay.wayName).first().click();
 
         cy.url().should('include', testWayData.ways.janeWay.wayId);
@@ -99,7 +98,7 @@ describe("NoAuth User's ways scope tests", () => {
 
     it('NoAuth_UserWay_TableViewOpenWay', () => {
         AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
-        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.users.Jane.userName);
+
         allWaysSelectors.filterViewBlock.getTableViewButton().click();
         allWaysSelectors.allWaysTable.getWayLink(testWayData.ways.janeWay.wayName).first().click();
 
@@ -128,7 +127,6 @@ describe("IsAuth User's ways scope tests", () => {
         userWaysSelectors.collectionBlock.getAddCollectionButton().click();
         UserPage.createNewWay();
 
-        WayPage.addWayToCollection(LanguageService.user.collections.newCollection.en);
         WayPage.addWayToCollection(LanguageService.user.collections.newCollection.en);
         headerSelectors.getAvatar().click();
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
