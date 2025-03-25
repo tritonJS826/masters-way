@@ -25,7 +25,6 @@ describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_OpenUserPersonalAreaTableView', () => {
         AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
-        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const checkUserNameLink = (userData: {userName: string, userId: string}) => {
             allUsersSelectors.allUsersTable.getUserLink(userData.userName).contains(userData.userName).click();
@@ -46,7 +45,7 @@ describe('NoAuth All Users scope tests', () => {
     it('NoAuth_AllUsers_OpenUserPersonalAreaCardView', () => {
         const checkWayLink = (userData: {userName: string, userId: string}) => {
             AllUsersPage.openUserPersonalAreaPageByClickingCard(userData.userName);
-            AllUsersPage.openUserPersonalAreaPageByClickingCard(userData.userName);
+
             cy.url().should('include', userData.userId);
             userPersonalSelectors.descriptionSection.getName().should('have.text', userData.userName);
         }
@@ -63,10 +62,8 @@ describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_SearchByEmail', () => {
         AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
-        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const searchByEmail = (searchData: {symbols: string, expectedCount: number}) => {
-            AllUsersPage.searchUserByEmail(searchData.symbols);
             AllUsersPage.searchUserByEmail(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserContact()
@@ -86,10 +83,8 @@ describe('NoAuth All Users scope tests', () => {
 
     it('NoAuth_AllUsers_SearchByName', () => {
         AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
-        AllUsersPage.adjustUsersViewMode(ViewMode.tableView);
 
         const searchByName = (searchData: {symbols: string, expectedCount: number}) => {
-            AllUsersPage.searchUserByName(searchData.symbols);
             AllUsersPage.searchUserByName(searchData.symbols);
 
             allUsersSelectors.allUsersTable.getUserName()

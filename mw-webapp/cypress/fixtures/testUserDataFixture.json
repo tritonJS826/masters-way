@@ -16,6 +16,12 @@
         "goalNewLine": "New line. My first way goal",
         "wayTag1": "tag1"
       },
+      "studentAnna": {
+        "name": "studentAnna@gmail.com",
+        "email": "studentAnna@gmail.com",
+        "loginLink": "http://localhost:7995/general/auth/login/local/studentAnna@gmail.com",
+        "wayTitle": "Way of studentAnna@gmail.com"
+      },
       "mentorMax": {
         "name": "mentorMax@gmail.com",
         "email": "mentorMax@gmail.com",
