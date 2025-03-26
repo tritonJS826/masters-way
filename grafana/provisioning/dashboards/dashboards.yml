@@ -7,8 +7,9 @@ providers:
     disableDeletion: true
     editable: false
     allowUiUpdates: true
+    uid: 'general-dashboards'
     options:
-      path: /var/lib/grafana/dashboards
+      path: /var/lib/grafana/dashboards/general
 
   - name: 'Databases'
     orgId: 1
@@ -18,5 +19,6 @@ providers:
     disableDeletion: true
     editable: false
     allowUiUpdates: true
+    uid: 'database-dashboards'
     options:
       path: /var/lib/grafana/dashboards/databases

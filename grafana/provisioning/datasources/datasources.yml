@@ -5,7 +5,8 @@ datasources:
     access: proxy
     url: postgres-general:5432
     user: ${POSTGRES_GENERAL_USER}
-    password: ${POSTGRES_GENERAL_PASSWORD}
+    secureJsonData:
+      password: ${POSTGRES_GENERAL_PASSWORD}
     database: ${POSTGRES_GENERAL_DB}
     isDefault: true
     editable: true
@@ -16,7 +17,8 @@ datasources:
     access: proxy
     url: postgres-chat:5432
     user: ${POSTGRES_CHAT_USER}
-    password: ${POSTGRES_CHAT_PASSWORD}
+    secureJsonData:
+      password: ${POSTGRES_CHAT_PASSWORD}
     database: ${POSTGRES_CHAT_DB}
     isDefault: false
     editable: true
@@ -27,7 +29,8 @@ datasources:
     access: proxy
     url: postgres-training:5432
     user: ${POSTGRES_TRAINING_USER}
-    password: ${POSTGRES_TRAINING_PASSWORD}
+    secureJsonData:
+      password: ${POSTGRES_TRAINING_PASSWORD}
     database: ${POSTGRES_TRAINING_DB}
     isDefault: false
     editable: true
@@ -38,7 +41,8 @@ datasources:
     access: proxy
     url: postgres-survey:5432
     user: ${POSTGRES_SURVEY_USER}
-    password: ${POSTGRES_SURVEY_PASSWORD}
+    secureJsonData:
+      password: ${POSTGRES_SURVEY_PASSWORD}
     database: ${POSTGRES_SURVEY_DB}
     isDefault: false
     editable: true
@@ -49,7 +53,8 @@ datasources:
     access: proxy
     url: postgres-storage:5432
     user: ${POSTGRES_STORAGE_USER}
-    password: ${POSTGRES_STORAGE_PASSWORD}
+    secureJsonData:
+      password: ${POSTGRES_STORAGE_PASSWORD}
     database: ${POSTGRES_STORAGE_DB}
     isDefault: false
     editable: true
@@ -60,7 +65,8 @@ datasources:
     access: proxy
     url: postgres-notification:5432
     user: ${POSTGRES_NOTIFICATION_USER}
-    password: ${POSTGRES_NOTIFICATION_PASSWORD}
+    secureJsonData:
+      password: ${POSTGRES_NOTIFICATION_PASSWORD}
     database: ${POSTGRES_NOTIFICATION_DB}
     isDefault: false
     editable: true
@@ -71,7 +77,8 @@ datasources:
     access: proxy
     url: postgres-mail:5432
     user: ${POSTGRES_MAIL_USER}
-    password: ${POSTGRES_MAIL_PASSWORD}
+    secureJsonData:
+      password: ${POSTGRES_MAIL_PASSWORD}
     database: ${POSTGRES_MAIL_DB}
     isDefault: false
     editable: true
