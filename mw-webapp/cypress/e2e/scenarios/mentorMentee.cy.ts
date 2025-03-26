@@ -73,177 +73,176 @@ describe('Mentor-mentee tests', () => {
         allWaysSelectors.allWaysTable.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist').and('be.visible');
     });
 
+    it('Scenario_MentorStudent_WayMentoring', () => {
+        const mentorTimeSpentOnJob = '20';
+        const mentorEstimatedPlanTime = '14';
 
-    //TO FIX
-    // it('Scenario_MentorStudent_WayMentoring', () => {
-    //     const mentorTimeSpentOnJob = '20', mentorEstimatedPlanTime = '14';
+        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
+        UserPage.createNewWay();
+        WayPage.editGoal(testUserData.testUsers.studentJonh.goal);
+        wayMetricsSelectors.metricButtons.getAddNewGoalMetricButton().click();
+        wayMetricsSelectors.getMetricDescription().dblclick();
+        wayMetricsSelectors.getMetricDescriptionInput().type(wayMetricsData.wayMetricDescriptions[0]);
+        headerSelectors.getHeader().click();
+        WayPage
+            .createNewDayReport()
+            .addDayReportData({
+                reportIndex:0,
+                jobDoneDescription: dayReportsData.jobDoneDescription,
+                timeSpentOnJob: dayReportsData.timeSpentOnJob,
+                planDescription: dayReportsData.planDescription,
+                estimatedPlanTime: dayReportsData.estimatedPlanTime,
+                problemDescription: dayReportsData.problemDescription,
+                commentDescription: dayReportsData.commentDescription
+            })
+            .adjustLabel(dayReportsData.labels.student)
+            .addLabel({
+                labelName: dayReportsData.labels.student,
+                labelTarget: JobDoneOrPlanLabelTarget.jobDone,
+                numberOfJobDoneOrPlan: 0
+            })
+            .addLabel({
+                labelName: dayReportsData.labels.student,
+                labelTarget: JobDoneOrPlanLabelTarget.plan,
+                numberOfJobDoneOrPlan: 0
+            });
+        cy.logout();
 
-    //     cy.login(testUserData.testUsers.studentJonh.loginLink);
-    //     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-    //     UserPage.createNewWay();
-    //     WayPage.editGoal(testUserData.testUsers.studentJonh.goal);
-    //     wayMetricsSelectors.metricButtons.getAddNewGoalMetricButton().click();
-    //     wayMetricsSelectors.getMetricDescription().dblclick();
-    //     wayMetricsSelectors.getMetricDescriptionInput().type(wayMetricsData.wayMetricDescriptions[0]);
-    //     headerSelectors.getHeader().click();
-    //     WayPage
-    //         .createNewDayReport()
-    //         .addDayReportData({
-    //             reportIndex:0,
-    //             jobDoneDescription: dayReportsData.jobDoneDescription,
-    //             timeSpentOnJob: dayReportsData.timeSpentOnJob,
-    //             planDescription: dayReportsData.planDescription,
-    //             estimatedPlanTime: dayReportsData.estimatedPlanTime,
-    //             problemDescription: dayReportsData.problemDescription,
-    //             commentDescription: dayReportsData.commentDescription
-    //         })
-    //         .adjustLabel(dayReportsData.labels.student)
-    //         .addLabel({
-    //             labelName: dayReportsData.labels.student,
-    //             labelTarget: JobDoneOrPlanLabelTarget.jobDone,
-    //             numberOfJobDoneOrPlan: 0
-    //         })
-    //         .addLabel({
-    //             labelName: dayReportsData.labels.student,
-    //             labelTarget: JobDoneOrPlanLabelTarget.plan,
-    //             numberOfJobDoneOrPlan: 0
-    //         });
-
-    //     cy.logout();
-    //     cy.login(testUserData.testUsers.mentorMax.loginLink);
-    //     Navigation.openPage(Page.AllUsers);
-    //     AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
-    //     userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-    //     UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
-    //     wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
-    //     cy.logout();
-    //     cy.login(testUserData.testUsers.studentJonh.loginLink);
-    //     userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-    //     UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
-    //     wayDescriptionSelectors.mentorRequestDialog.getAcceptButton().click();
-    //     cy.logout();
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
+        wayDescriptionSelectors.peopleBlock.getApplyAsMentorButton().click();
+        cy.logout();
+        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
+        wayDescriptionSelectors.mentorRequestDialog.getAcceptButton().click();
+        cy.logout();
         
-    //     cy.login(testUserData.testUsers.mentorMax.loginLink);
-    //     userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
-    //     UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
-    //     wayMetricsSelectors.getCompleteMetricCheckbox().check();
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
+        wayMetricsSelectors.getCompleteMetricCheckbox().check();
 
-    //     wayMetricsSelectors.progressBar.getLeftLabel().should('have.text', wayMetricsData.progressBar["leftLabel100%"]);
-    //     wayMetricsSelectors.progressBar.getRightLabel().should('have.text', wayMetricsData.progressBar["rightLabel1/1"]);
+        wayMetricsSelectors.progressBar.getLeftLabel().should('have.text', wayMetricsData.progressBar["leftLabel100%"]);
+        wayMetricsSelectors.progressBar.getRightLabel().should('have.text', wayMetricsData.progressBar["rightLabel1/1"]);
 
-    //     wayMetricsSelectors.metricButtons.getAddNewGoalMetricButton().click();
-    //     wayMetricsSelectors.getMetricDescription().eq(1).dblclick().type(wayMetricsData.mentorMetricDescriptions);
-    //     headerSelectors.getHeader().click();
+        wayMetricsSelectors.metricButtons.getAddNewGoalMetricButton().click();
+        wayMetricsSelectors.getMetricDescription().eq(1).dblclick().type(wayMetricsData.mentorMetricDescriptions);
+        headerSelectors.getHeader().click();
 
-    //     wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics2);
-    //     wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.mentorMetricDescriptions);
-    //     wayMetricsSelectors.progressBar.getLeftLabel().should('have.text', wayMetricsData.progressBar["leftLabel50%"]);
-    //     wayMetricsSelectors.progressBar.getRightLabel().should('have.text', wayMetricsData.progressBar["rightLabel1/2"]);
+        wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics2);
+        wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.mentorMetricDescriptions);
+        wayMetricsSelectors.progressBar.getLeftLabel().should('have.text', wayMetricsData.progressBar["leftLabel50%"]);
+        wayMetricsSelectors.progressBar.getRightLabel().should('have.text', wayMetricsData.progressBar["rightLabel1/2"]);
 
-    //     WayPage
-    //         .editGoal(`${testUserData.testUsers.studentJonh.goal} mentor edition`)
-    //         .adjustLabel(dayReportsData.labels.mentor)
-    //         .addDayReportData({
-    //             reportIndex: 1,
-    //             jobDoneDescription: `Mentor ${dayReportsData.jobDoneDescription}!`,
-    //             timeSpentOnJob: mentorTimeSpentOnJob,
-    //             planDescription: `Mentor ${dayReportsData.planDescription}!`,
-    //             estimatedPlanTime: mentorEstimatedPlanTime,
-    //             problemDescription: `Mentor ${dayReportsData.problemDescription}!`,
-    //             commentDescription: `Mentor ${dayReportsData.commentDescription}!`
-    //         })
-    //         .addLabel({
-    //             labelName: dayReportsData.labels.mentor,
-    //             labelTarget: JobDoneOrPlanLabelTarget.jobDone,
-    //             numberOfJobDoneOrPlan: 1})
-    //         .addLabel({
-    //             labelName: dayReportsData.labels.mentor,
-    //             labelTarget: JobDoneOrPlanLabelTarget.plan,
-    //             numberOfJobDoneOrPlan: 1});
+        WayPage
+            .editGoal(`${testUserData.testUsers.studentJonh.goal} mentor edition`)
+            .adjustLabel(dayReportsData.labels.mentor)
+            .addDayReportData({
+                reportIndex: 1,
+                jobDoneDescription: `Mentor ${dayReportsData.jobDoneDescription}!`,
+                timeSpentOnJob: mentorTimeSpentOnJob,
+                planDescription: `Mentor ${dayReportsData.planDescription}!`,
+                estimatedPlanTime: mentorEstimatedPlanTime,
+                problemDescription: `Mentor ${dayReportsData.problemDescription}!`,
+                commentDescription: `Mentor ${dayReportsData.commentDescription}!`
+            })
+            .addLabel({
+                labelName: dayReportsData.labels.mentor,
+                labelTarget: JobDoneOrPlanLabelTarget.jobDone,
+                numberOfJobDoneOrPlan: 1})
+            .addLabel({
+                labelName: dayReportsData.labels.mentor,
+                labelTarget: JobDoneOrPlanLabelTarget.plan,
+                numberOfJobDoneOrPlan: 1});
 
-    //     dayReportsSelectors.labels.addLabel.getAddLabelLine(JobDoneOrPlanLabelTarget.jobDone).eq(1).click();
-    //     dayReportsSelectors.labels.addLabel.getLabelToChoose().should('have.length', 2);
-    //     dayReportsSelectors.labels.addLabel.getCancelButton().click();
+        dayReportsSelectors.labels.addLabel.getAddLabelLine(JobDoneOrPlanLabelTarget.jobDone).eq(1).click();
+        dayReportsSelectors.labels.addLabel.getLabelToChoose().should('have.length', 2);
+        dayReportsSelectors.labels.addLabel.getCancelButton().click();
 
-    //     cy.logout();
-    //     headerSelectors.getHeader().click({force: true});
+        cy.logout();
+        headerSelectors.getHeader().click({force: true});
 
-    //     wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal} mentor edition`); 
-    //     wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.mentorMetricDescriptions);
-    //     dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().eq(1).should('have.text', `Mentor ${dayReportsData.jobDoneDescription}!`);
-    //     dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).should('have.text', mentorTimeSpentOnJob);
-    //     dayReportsSelectors.dayReportsContent.plans.getPlanDescription().eq(1).should('have.text', `Mentor ${dayReportsData.planDescription}!`);
-    //     dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().eq(1).should('have.text', mentorEstimatedPlanTime);
-    //     dayReportsSelectors.dayReportsContent.problems.getProblemDescription().eq(1).should('have.text', `Mentor ${dayReportsData.problemDescription}!`);
-    //     dayReportsSelectors.dayReportsContent.comments.getCommentDescription().eq(1).should('have.text', `Mentor ${dayReportsData.commentDescription}!`);
-    //     dayReportsSelectors.dayReportsContent.getSummaryText().first().should('have.text', `${LanguageService.way.reportsTable.total.en}${Symbols.NO_BREAK_SPACE}
-    //       ${+dayReportsData.timeSpentOnJob + +mentorTimeSpentOnJob}`);
-    //     dayReportsSelectors.dayReportsContent.getSummaryText().eq(1).should('have.text', `${LanguageService.way.reportsTable.total.en}${Symbols.NO_BREAK_SPACE}
-    //       ${+dayReportsData.estimatedPlanTime + +mentorEstimatedPlanTime}`);
+        wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal} mentor edition`); 
+        wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.mentorMetricDescriptions);
+        dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().eq(1).should('have.text', `Mentor ${dayReportsData.jobDoneDescription}!`);
+        dayReportsSelectors.dayReportsContent.jobDone.getTimeSpentOnJob().eq(1).should('have.text', mentorTimeSpentOnJob);
+        dayReportsSelectors.dayReportsContent.plans.getPlanDescription().eq(1).should('have.text', `Mentor ${dayReportsData.planDescription}!`);
+        dayReportsSelectors.dayReportsContent.plans.getEstimatedPlanTime().eq(1).should('have.text', mentorEstimatedPlanTime);
+        dayReportsSelectors.dayReportsContent.problems.getProblemDescription().eq(1).should('have.text', `Mentor ${dayReportsData.problemDescription}!`);
+        dayReportsSelectors.dayReportsContent.comments.getCommentDescription().eq(1).should('have.text', `Mentor ${dayReportsData.commentDescription}!`);
+        dayReportsSelectors.dayReportsContent.getSummaryText().first().should('have.text', `${LanguageService.way.reportsTable.total.en}${Symbols.NO_BREAK_SPACE}
+          ${+dayReportsData.timeSpentOnJob + +mentorTimeSpentOnJob}`);
+        dayReportsSelectors.dayReportsContent.getSummaryText().eq(1).should('have.text', `${LanguageService.way.reportsTable.total.en}${Symbols.NO_BREAK_SPACE}
+          ${+dayReportsData.estimatedPlanTime + +mentorEstimatedPlanTime}`);
 
-    //     cy.login(testUserData.testUsers.studentJonh.loginLink);
-    //     userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-    //     UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem().contains(wayPageContent.peopleBlock.makePrivateButton.en).click();
+        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem().contains(wayPageContent.peopleBlock.makePrivateButton.en).click();
 
-    //     userWaysSelectors.getPrivacyStatus().contains(wayPageContent.peopleBlock.wayPrivacy.private.en);
+        userWaysSelectors.getPrivacyStatus().contains(wayPageContent.peopleBlock.wayPrivacy.private.en);
 
-    //     cy.logout();
-    //     Navigation.openPage(Page.AllWays);
+        cy.logout();
+        Navigation.openPage(Page.AllWays);
 
-    //     allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
+        allWaysSelectors.allWaysCard.getCardLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-    //     Navigation.openPage(Page.AllUsers);
-    //     AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
-    //     userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
 
-    //     userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
-    //         .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
-    //         .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
-    //     userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-    //     Navigation.openPage(Page.AllUsers);
-    //     AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
-    //     userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
+        Navigation.openPage(Page.AllUsers);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
-    //     userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()
-    //         .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
-    //         .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
-    //     userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-    //     cy.login(testUserData.testUsers.mentorMax.loginLink);
-    //     userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
-    //     UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
+        cy.login(testUserData.testUsers.mentorMax.loginLink);
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
 
-    //     wayDescriptionSelectors.peopleBlock.deleteFromMentors.getTrashIcon(testUserData.testUsers.mentorMax.name).click();
-    //     wayDescriptionSelectors.peopleBlock.deleteFromMentors.getDialogContent()
-    //         .contains(wayPageContent.peopleBlock.deleteMentorModalContent.en.replace("$mentor", `"${testUserData.testUsers.mentorMax.name}"`));
-    //     wayDescriptionSelectors.peopleBlock.deleteFromMentors.getDeleteButton().click();
+        wayDescriptionSelectors.peopleBlock.deleteFromMentors.getTrashIcon(testUserData.testUsers.mentorMax.name).click();
+        wayDescriptionSelectors.peopleBlock.deleteFromMentors.getDialogContent()
+            .contains(wayPageContent.peopleBlock.deleteMentorModalContent.en.replace("$mentor", `"${testUserData.testUsers.mentorMax.name}"`));
+        wayDescriptionSelectors.peopleBlock.deleteFromMentors.getDeleteButton().click();
 
-    //     wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().should('not.exist');
+        wayDescriptionSelectors.peopleBlock.getMentorsOfWayText().should('not.exist');
 
-    //     headerSelectors.getAvatar().click();
-    //     userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
+        headerSelectors.getAvatar().click();
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton().click();
 
-    //     userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()
-    //         .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
-    //         .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
-    //     userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
+        userWaysSelectors.collectionBlock.getMentoringWayCollectionButton()
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
 
-    //     cy.logout();
-    //     cy.login(testUserData.testUsers.studentJonh.loginLink);
-    //     userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
-    //     UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
-    //     wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem().contains(wayPageContent.wayActions.deleteTheWay.en).click();
-    //     wayDescriptionSelectors.wayActionMenu.DeleteWayItem.dialog.getContent().contains(`${wayPageContent.wayActions.deleteWayQuestion.en} "${testUserData.testUsers.studentJonh.wayTitle}"?`)
-    //     wayDescriptionSelectors.wayActionMenu.DeleteWayItem.dialog.getDeleteButton().click();
+        cy.logout();
+        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton().click();
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle);
+        wayDescriptionSelectors.wayActionMenu.getWayActionButton().click();
+        wayDescriptionSelectors.wayActionMenu.getWayActionMenuItem().contains(wayPageContent.wayActions.deleteTheWay.en).click();
+        wayDescriptionSelectors.wayActionMenu.DeleteWayItem.dialog.getContent().contains(`${wayPageContent.wayActions.deleteWayQuestion.en} "${testUserData.testUsers.studentJonh.wayTitle}"?`)
+        wayDescriptionSelectors.wayActionMenu.DeleteWayItem.dialog.getDeleteButton().click();
 
-    //     userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
-    //         .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
-    //         .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
-    //     userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
-    // });
+        userWaysSelectors.collectionBlock.getOwnWayCollectionButton()
+            .find(`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`)
+            .should('have.text', `${LanguageService.user.collections.ways.en}: 0`);
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
+    });
 
 });
