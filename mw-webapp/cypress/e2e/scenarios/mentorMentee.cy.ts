@@ -74,7 +74,8 @@ describe('Mentor-mentee tests', () => {
     });
 
     it('Scenario_MentorStudent_WayMentoring', () => {
-        const mentorTimeSpentOnJob = '20', mentorEstimatedPlanTime = '14';
+        const mentorTimeSpentOnJob = '20';
+        const mentorEstimatedPlanTime = '14';
 
         cy.login(testUserData.testUsers.studentJonh.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
