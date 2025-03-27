@@ -1,3 +1,4 @@
+import {act} from "react-dom/test-utils";
 import {BrowserRouter} from "react-router-dom";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -35,7 +36,10 @@ describe("Footer component", () => {
     expect(googlePlayButton).toBeVisible();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
-    await userEvent.click(googlePlayButton);
+    await act(async () => {
+      await userEvent.click(googlePlayButton);
+    });
+
     const modalDialog = screen.getByRole("dialog");
     expect(modalDialog).toBeVisible();
   });
@@ -45,7 +49,10 @@ describe("Footer component", () => {
     expect(appStoreButton).toBeVisible();
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
-    await userEvent.click(appStoreButton);
+    await act(async () => {
+      await userEvent.click(appStoreButton);
+    });
+
     const modalDialog = screen.getByRole("dialog");
     expect(modalDialog).toBeVisible();
   });
