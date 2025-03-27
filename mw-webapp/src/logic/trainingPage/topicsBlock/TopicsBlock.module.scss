@@ -7,10 +7,15 @@
 .topicItem {
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
   border-radius: $primaryBorderRadius;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--tertiaryBgColor);
   }
+}
+
+.addTopicButton {
+  width: fit-content;
+  margin: auto;
 }

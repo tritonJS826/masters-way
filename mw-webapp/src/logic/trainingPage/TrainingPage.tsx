@@ -406,6 +406,19 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
               isEditable={isOwner}
             />
 
+            <HorizontalContainer className={styles.generateTrainingAI}>
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content={LanguageService.common.comingSoon[language]}
+              >
+                <Button
+                  value={LanguageService.training.aiButtons.generateTrainingWithAIButton[language]}
+                  onClick={() => { }}
+                  buttonType={ButtonType.PRIMARY}
+                />
+              </Tooltip>
+            </HorizontalContainer>
+
           </VerticalContainer>
           <VerticalContainer className={styles.peopleBlock}>
             <HorizontalContainer
