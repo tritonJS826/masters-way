@@ -148,6 +148,18 @@
       }
     }
   },
+  "aiButtons": {
+    "generateTheoryMaterialWithAIButton": {
+      "ru": "Сгенерировать теоретический материал с использованием ИИ",
+      "en": "Generate theoretical material using AI",
+      "ua": "Згенерувати теоретичний матеріал з використанням ІІ"
+    },
+    "generatePracticeMaterialWithAIButton": {
+      "ru": "Сгенерировать практический материал с использованием ИИ",
+      "en": "Generate practical material using AI",
+      "ua": "Згенерувати практичний матеріал з використанням ІІ"
+    }
+  },
   "backToTrainingButton": {
     "ru": "Вернуться на страницу тренинга",
     "en": "Return to training page",

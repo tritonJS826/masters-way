@@ -22,7 +22,7 @@ export class WayPage {
     static addDayReportData(wayDayReportData?: WayDayReportData) {        
         if (!wayDayReportData) return this;
         if (wayDayReportData.jobDoneDescription) {
-            dayReportsSelectors.dayReportsContent.getAddButton().first().click();
+            dayReportsSelectors.dayReportsContent.getAddButton().first().click().wait(500);
             dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().dblclick();
             dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescriptionInput().type(wayDayReportData.jobDoneDescription);
             headerSelectors.getHeader().click();    
@@ -51,7 +51,7 @@ export class WayPage {
         }
         if (wayDayReportData.commentDescription) {
             dayReportsSelectors.dayReportsContent.getAddButton().eq(3).click();
-            dayReportsSelectors.dayReportsContent.comments.getCommentDescription().dblclick()
+            dayReportsSelectors.dayReportsContent.comments.getCommentDescription().eq(wayDayReportData.reportIndex).dblclick()
             dayReportsSelectors.dayReportsContent.comments.getCommentDescriptionInput().type(wayDayReportData.commentDescription);
             headerSelectors.getHeader().click();
         }

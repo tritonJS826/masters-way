@@ -1,4 +1,9 @@
 {
+  "comingSoon": {
+    "ru": "В разработке!",
+    "en": "Coming soon!",
+    "ua": "Скоро буде!"
+  },
   "emptyMarkdown": {
     "ru": "*Пусто!*",
     "en": "*Empty!*",

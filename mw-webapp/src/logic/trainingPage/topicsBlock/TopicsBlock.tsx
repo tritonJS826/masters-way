@@ -78,6 +78,7 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
       <Button
         value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
         onClick={() => addTopic({trainingId: props.trainingUuid})}
+        className={styles.addTopicButton}
       />
       }
     </VerticalContainer>

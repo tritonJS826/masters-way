@@ -530,11 +530,22 @@ export const TopicPage = observer((props: TopicPageProps) => {
           )}
 
           {isOwner &&
-          <Button
-            value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
-            onClick={() => addTheoryMaterial(topicPageStore.topic.uuid)}
-            className={styles.addMaterial}
-          />
+            <HorizontalContainer className={styles.generateMaterialButtons}>
+              <Button
+                value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
+                onClick={() => addTheoryMaterial(topicPageStore.topic.uuid)}
+              />
+              <Tooltip
+                position={PositionTooltip.BOTTOM}
+                content={LanguageService.common.comingSoon[language]}
+              >
+                <Button
+                  value={LanguageService.training.aiButtons.generateTrainingWithAIButton[language]}
+                  onClick={() => { }}
+                  buttonType={ButtonType.PRIMARY}
+                />
+              </Tooltip>
+            </HorizontalContainer>
           }
 
           {topicPageStore.topic.practiceMaterials.map((practiceMaterial: PracticeMaterial) => (
@@ -710,11 +721,23 @@ export const TopicPage = observer((props: TopicPageProps) => {
           )}
 
           {isOwner &&
-          <Button
-            value={LanguageService.topic.materialsBlock.addNewPracticalMaterialButton[language]}
-            onClick={() => addPracticeMaterial(topicPageStore.topic.uuid)}
-            className={styles.addMaterial}
-          />
+          <HorizontalContainer className={styles.generateMaterialButtons}>
+            <Button
+              value={LanguageService.topic.materialsBlock.addNewPracticalMaterialButton[language]}
+              onClick={() => addPracticeMaterial(topicPageStore.topic.uuid)}
+              className={styles.addMaterial}
+            />
+            <Tooltip
+              position={PositionTooltip.BOTTOM}
+              content={LanguageService.common.comingSoon[language]}
+            >
+              <Button
+                value={LanguageService.training.aiButtons.generateTrainingWithAIButton[language]}
+                onClick={() => { }}
+                buttonType={ButtonType.PRIMARY}
+              />
+            </Tooltip>
+          </HorizontalContainer>
           }
         </VerticalContainer>
 

@@ -124,11 +124,11 @@ $labelMaxWidthBlock: 650px;
   margin-top: $paddingMedium;
 }
 
-.addMaterial {
-  max-width: $minWidthBlock;
-  margin: auto;
-}
-
 .practiceMaterialInput {
   padding-block: $paddingSmall;
+}
+
+.generateMaterialButtons {
+  align-items: center;
+  justify-content: center;
 }
