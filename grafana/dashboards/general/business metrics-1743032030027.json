@@ -41,7 +41,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 10,
+  "id": 11,
   "links": [],
   "panels": [
     {
@@ -204,11 +204,12 @@
             "type": "grafana-postgresql-datasource",
             "uid": "P736DD6B4EE295BAC"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT *\nFROM (\n    SELECT \n        COUNT(day_reports.uuid) AS day_reports_amount, \n        users.name\n    FROM users\n    LEFT JOIN ways ON ways.owner_uuid = users.uuid\n    LEFT JOIN day_reports ON day_reports.way_uuid = ways.uuid\n    WHERE day_reports.created_at >= CURRENT_DATE - INTERVAL '30 days'\n    GROUP BY users.uuid, users.name\n) AS subquery\nWHERE day_reports_amount >= 3;\n\n",
+          "rawSql": "SELECT *\nFROM (\n    SELECT \n        COUNT(day_reports.uuid) AS day_reports_amount, \n        users.name\n    FROM users\n    LEFT JOIN ways ON ways.owner_uuid = users.uuid\n    LEFT JOIN day_reports ON day_reports.way_uuid = ways.uuid\n    GROUP BY users.uuid, users.name\n) AS subquery\nWHERE day_reports_amount >= 3;\n\n",
           "refId": "A",
           "select": [
             [
@@ -220,6 +221,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -309,11 +327,12 @@
             "type": "grafana-postgresql-datasource",
             "uid": "P736DD6B4EE295BAC"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT *\nFROM (\n    SELECT \n        COUNT(day_reports.uuid) AS day_reports_amount, \n        users.name\n    FROM users\n    LEFT JOIN ways ON ways.owner_uuid = users.uuid\n    LEFT JOIN day_reports ON day_reports.way_uuid = ways.uuid\n    WHERE day_reports.created_at >= CURRENT_DATE - INTERVAL '30 days'\n    GROUP BY users.uuid, users.name\n) AS subquery\nWHERE day_reports_amount >= 10;\n",
+          "rawSql": "SELECT *\nFROM (\n    SELECT \n        COUNT(day_reports.uuid) AS day_reports_amount, \n        users.name\n    FROM users\n    LEFT JOIN ways ON ways.owner_uuid = users.uuid\n    LEFT JOIN day_reports ON day_reports.way_uuid = ways.uuid\n    GROUP BY users.uuid, users.name\n) AS subquery\nWHERE day_reports_amount >= 10;\n",
           "refId": "A",
           "select": [
             [
@@ -325,6 +344,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -879,11 +915,12 @@
             "type": "grafana-postgresql-datasource",
             "uid": "P736DD6B4EE295BAC"
           },
+          "editorMode": "code",
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT users.uuid) FROM users join ways on ways.owner_uuid = users.uuid WHERE users.created_at > NOW() - INTERVAL '30 days';",
+          "rawSql": "SELECT COUNT(DISTINCT users.uuid) FROM users join ways on ways.owner_uuid = users.uuid WHERE ways.created_at > NOW() - INTERVAL '30 days';",
           "refId": "A",
           "select": [
             [
@@ -895,6 +932,23 @@
               }
             ]
           ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
           "timeColumn": "time",
           "where": [
             {
@@ -905,7 +959,7 @@
           ]
         }
       ],
-      "title": "Users who create ways in last 30 days",
+      "title": "Ways created in last 30 days",
       "type": "gauge"
     },
     {
@@ -1102,7 +1156,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
+        "w": 3,
         "x": 13,
         "y": 22
       },
@@ -1157,7 +1211,109 @@
           ]
         }
       ],
-      "title": "Number of ways copied from trainings",
+      "title": "Number of ways copied from Ways",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "P736DD6B4EE295BAC"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 16,
+        "y": 22
+      },
+      "id": 46,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "P736DD6B4EE295BAC"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n    COUNT (ways.copied_from_trainings_uuid )\nFROM \n    ways\nwhere \n ways.copied_from_way_uuid IS NOT NULL;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Number of ways copied from Ways",
       "type": "stat"
     },
     {
@@ -1315,6 +1471,7 @@
       },
       "id": 39,
       "options": {
+        "bucketSize": 1,
         "combine": false,
         "dataLinks": [],
         "legend": {
@@ -1868,8 +2025,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2011,8 +2167,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2161,8 +2316,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2175,13 +2329,14 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 7,
+        "w": 5,
         "x": 0,
         "y": 62
       },
       "id": 31,
       "options": {
         "bucketCount": 10,
+        "bucketSize": 1,
         "combine": false,
         "dataLinks": [],
         "legend": {
@@ -2209,7 +2364,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH report_counts AS (\n  SELECT\n    COUNT(day_reports.uuid) AS report_count \n  FROM ways\n  LEFT JOIN day_reports ON ways.uuid = day_reports.way_uuid \n  GROUP BY ways.uuid \n)\nSELECT\n  COUNT(*) AS way_count,\n  NOW() AS time \nFROM report_counts\nGROUP BY report_count\nORDER BY report_count ASC; \n",
+          "rawSql": "WITH report_counts_per_way AS (\n  SELECT\n    way_uuid,\n    COUNT(uuid) AS report_count\n  FROM day_reports\n  GROUP BY way_uuid\n)\nSELECT\n  report_count,\n  COUNT(way_uuid) AS way_count,\n  NOW() AS time\nFROM report_counts_per_way\nGROUP BY report_count\nORDER BY report_count ASC;",
           "refId": "A",
           "select": [
             [
@@ -2256,7 +2411,7 @@
           ]
         }
       ],
-      "title": "Number of Reports per Way for all time",
+      "title": "Number of Reports per Way for all time(reports/way)",
       "type": "histogram"
     },
     {
@@ -2289,8 +2444,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2303,12 +2457,13 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 7,
+        "w": 5,
+        "x": 5,
         "y": 62
       },
       "id": 32,
       "options": {
+        "bucketSize": 1,
         "combine": false,
         "dataLinks": [],
         "legend": {
@@ -2334,7 +2489,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "WITH report_counts AS (\n  SELECT\n    COUNT(day_reports.uuid) AS report_count \n  FROM ways\n  LEFT JOIN day_reports ON ways.uuid = day_reports.way_uuid \n   WHERE\n  day_reports.created_at >= NOW() - INTERVAL '1 year'\n  GROUP BY ways.uuid \n)\nSELECT\n  COUNT(*) AS way_count,\n  NOW() AS time \nFROM report_counts\nGROUP BY report_count\nORDER BY report_count ASC; \n",
+          "rawSql": "WITH report_counts_per_way AS (\n  SELECT\n    way_uuid,\n    COUNT(uuid) AS report_count\n  FROM day_reports\n  WHERE created_at >= NOW() - INTERVAL '1 year'\n  GROUP BY way_uuid\n)\nSELECT\n  report_count,\n  COUNT(way_uuid) AS way_count,\n  NOW() AS time\nFROM report_counts_per_way\nGROUP BY report_count\nORDER BY report_count ASC;",
           "refId": "B",
           "sql": {
             "columns": [
@@ -2355,7 +2510,7 @@
           }
         }
       ],
-      "title": "Number of Reports per Way for last year",
+      "title": "Number of Reports per Way for last year(reports/way)",
       "type": "histogram"
     },
     {
@@ -2387,8 +2542,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2401,8 +2555,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 8,
-        "x": 15,
+        "w": 4,
+        "x": 10,
         "y": 62
       },
       "id": 33,
@@ -2433,7 +2587,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH report_counts AS (\n  SELECT\n    COUNT(day_reports.uuid) AS report_count \n  FROM ways\n  LEFT JOIN day_reports ON ways.uuid = day_reports.way_uuid \n   WHERE\n  day_reports.created_at >= NOW() - INTERVAL '90 days'\n  GROUP BY ways.uuid \n)\nSELECT\n  COUNT(*) AS way_count,\n  NOW() AS time \nFROM report_counts\nGROUP BY report_count\nORDER BY report_count ASC; \n",
+          "rawSql": "WITH report_counts_per_way AS (\n  SELECT\n    way_uuid,\n    COUNT(uuid) AS report_count\n  FROM day_reports\n  WHERE created_at >= NOW() - INTERVAL '90 days'\n  GROUP BY way_uuid\n)\nSELECT\n  report_count,\n  COUNT(way_uuid) AS way_count,\n  NOW() AS time\nFROM report_counts_per_way\nGROUP BY report_count\nORDER BY report_count ASC;",
           "refId": "A",
           "select": [
             [
@@ -2480,7 +2634,7 @@
           ]
         }
       ],
-      "title": "Number of Reports per Way for last 90 days",
+      "title": "Number of Reports per Way for last 90 days(reports/way)",
       "type": "histogram"
     },
     {
@@ -2513,8 +2667,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2526,10 +2679,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 7,
-        "x": 0,
-        "y": 68
+        "h": 6,
+        "w": 5,
+        "x": 14,
+        "y": 62
       },
       "id": 34,
       "options": {
@@ -2560,7 +2713,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH report_counts AS (\n  SELECT\n    COUNT(day_reports.uuid) AS report_count \n  FROM ways\n  LEFT JOIN day_reports ON ways.uuid = day_reports.way_uuid \n   WHERE\n  day_reports.created_at >= NOW() - INTERVAL '30 days'\n  GROUP BY ways.uuid \n)\nSELECT\n  COUNT(*) AS way_count,\n  NOW() AS time \nFROM report_counts\nGROUP BY report_count\nORDER BY report_count ASC; \n",
+          "rawSql": "WITH report_counts_per_way AS (\n  SELECT\n    way_uuid,\n    COUNT(uuid) AS report_count\n  FROM day_reports\n  WHERE created_at >= NOW() - INTERVAL '30 days'\n  GROUP BY way_uuid\n)\nSELECT\n  report_count,\n  COUNT(way_uuid) AS way_count,\n  NOW() AS time\nFROM report_counts_per_way\nGROUP BY report_count\nORDER BY report_count ASC;",
           "refId": "A",
           "select": [
             [
@@ -2607,7 +2760,7 @@
           ]
         }
       ],
-      "title": "Number of Reports per Way for last 30 days",
+      "title": "Number of Reports per Way for last 30 days(reports/way)",
       "type": "histogram"
     },
     {
@@ -2639,8 +2792,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2652,10 +2804,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 7,
-        "x": 7,
-        "y": 68
+        "h": 6,
+        "w": 5,
+        "x": 19,
+        "y": 62
       },
       "id": 35,
       "options": {
@@ -2685,7 +2837,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "WITH report_counts AS (\n  SELECT\n    COUNT(day_reports.uuid) AS report_count \n  FROM ways\n  LEFT JOIN day_reports ON ways.uuid = day_reports.way_uuid \n   WHERE\n  day_reports.created_at >= NOW() - INTERVAL '7 days'\n  GROUP BY ways.uuid \n)\nSELECT\n  COUNT(*) AS way_count,\n  NOW() AS time \nFROM report_counts\nGROUP BY report_count\nORDER BY report_count ASC; \n",
+          "rawSql": "WITH report_counts_per_way AS (\n  SELECT\n    way_uuid,\n    COUNT(uuid) AS report_count\n  FROM day_reports\n  WHERE created_at >= NOW() - INTERVAL '30 days'\n  GROUP BY way_uuid\n)\nSELECT\n  report_count,\n  COUNT(way_uuid) AS way_count,\n  NOW() AS time\nFROM report_counts_per_way\nGROUP BY report_count\nORDER BY report_count ASC;",
           "refId": "A",
           "select": [
             [
@@ -2732,7 +2884,7 @@
           ]
         }
       ],
-      "title": "Number of Reports per Way for last 7 days",
+      "title": "Number of Reports per Way for last 7 days(reports/way)",
       "type": "histogram"
     }
   ],
@@ -2750,7 +2902,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "business metrics",
-  "uid": "aqJ7lthNz",
-  "version": 4,
+  "uid": "ceh1sgquunhtsd",
+  "version": 1,
   "weekStart": ""
 }
