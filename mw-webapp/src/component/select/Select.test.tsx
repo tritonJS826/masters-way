@@ -87,12 +87,10 @@ describe("Select component", () => {
     const secondOption = screen.getByText(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
     expect(secondOption).toBeInTheDocument();
 
-    // Looks like click does not work properly in current scenario
-    // The reason is not clear, but onChange function does not triggered after clicking on second options this way
-    // Strange, but double click solves this issue in the test environment
-    // await act(async () => await userEvent.click(secondOption));
-    // TODO: fix dblClick -> click
-    await act(async () => await userEvent.dblClick(secondOption));
+    await act(async () => {
+      await userEvent.pointer({keys: "[MouseLeft]", target: secondOption});
+      await userEvent.click(secondOption);
+    });
 
     expect(screen.getByText(SELECT_OPTIONS[SECOND_OPTION_INDEX].text)).toBeInTheDocument();
     expect(screen.getByTestId(SELECT_CY.dataCyValue)).toHaveTextContent(SELECT_OPTIONS[SECOND_OPTION_INDEX].text);
@@ -106,12 +104,10 @@ describe("Select component", () => {
     expect(trigger).toHaveAttribute("aria-expanded", "true");
 
     const secondOption = screen.getByTestId(SELECT_OPTIONS[SECOND_OPTION_INDEX].dataCy);
-    // Looks like click does not work properly in current scenario
-    // The reason is not clear, but onChange function does not triggered after clicking on second options this way
-    // Strange, but double click solves this issue in the test environment
-    // await act(async () => await userEvent.click(secondOption));
-    // TODO: fix dblClick -> click
-    await act(async () => await userEvent.dblClick(secondOption));
+    await act(async () => {
+      await userEvent.pointer({keys: "[MouseLeft]", target: secondOption});
+      await userEvent.click(secondOption);
+    });
     expect(mockOnChange).toHaveBeenCalledWith(SELECT_OPTIONS[SECOND_OPTION_INDEX].value);
   }));
 
