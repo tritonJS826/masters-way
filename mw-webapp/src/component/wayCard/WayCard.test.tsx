@@ -65,8 +65,6 @@ const renderWayCard = () =>
     </BrowserRouter>,
   );
 
-//Ошибка с вложенностью <p> в компоненте:
-// Warning: validateDOMNesting(...): <p> cannot appear as a descendant of <p>.
 describe("WayCard component", () => {
   it("should navigate to way page on click", async () => {
     renderWayCard();
