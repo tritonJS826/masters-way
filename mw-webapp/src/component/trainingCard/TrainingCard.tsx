@@ -152,9 +152,9 @@ export const TrainingCard = observer((props: TrainingCardProps) => {
             position={PositionTooltip.BOTTOM}
             content={renderMarkdown(props.trainingPreview.description)}
           >
-            <p className={styles.trainingDescription}>
+            <span className={styles.trainingDescription}>
               {renderMarkdown(props.trainingPreview.description)}
-            </p>
+            </span>
           </Tooltip>
           {renderTrainingTags(props.trainingPreview.trainingTags)}
         </VerticalContainer>
