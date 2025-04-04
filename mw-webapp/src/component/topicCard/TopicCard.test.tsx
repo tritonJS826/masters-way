@@ -23,7 +23,7 @@ const TOPIC_PREVIEW_DATA: TopicPreview = {
   updateName: () => {},
 };
 
-describe("TrainingCard component", () => {
+describe("TopicCard component", () => {
   beforeEach(() => {
     render(
       <BrowserRouter>
@@ -41,11 +41,11 @@ describe("TrainingCard component", () => {
     );
   });
 
-  it("should render trainingCard correctly", () => {
+  it("should render topicCard correctly", () => {
     expect(screen.getByRole("link")).toBeInTheDocument();
   });
 
-  it("should navigate to training page on click", async () => {
+  it("should navigate to topic page on click", async () => {
     await act(async () => await userEvent.click(screen.getByRole("link")));
     expect(window.location.pathname).toBe(pages.topic.getPath({
       trainingUuid: TOPIC_PREVIEW_DATA.trainingUuid,
