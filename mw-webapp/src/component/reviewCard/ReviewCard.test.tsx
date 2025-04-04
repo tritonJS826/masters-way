@@ -1,5 +1,5 @@
+import {render, screen} from "@testing-library/react";
 import {ReviewCard} from "src/component/reviewCard/ReviewCard";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 
 const REVIEW_CARD_CY = "review-card";
 const REVIEW = "Haha";
@@ -9,7 +9,7 @@ const REVIEWER_PROFESSION = "React, TS mentor";
 
 describe("ReviewCard component", () => {
   beforeEach(() => {
-    cy.mount(
+    render(
       <ReviewCard
         gradeAmount={5}
         review={REVIEW}
@@ -22,9 +22,10 @@ describe("ReviewCard component", () => {
   });
 
   it("should display the correct content elements", () => {
-    cy.get(getDataCy(REVIEW_CARD_CY)).contains(REVIEW);
-    cy.get(getDataCy(REVIEW_CARD_CY)).contains(REVIEWER_NAME);
-    cy.get(getDataCy(REVIEW_CARD_CY)).contains(REVIEWER_PROFESSION);
+    const card = screen.getByTestId(REVIEW_CARD_CY);
+    expect(card).toHaveTextContent(REVIEW);
+    expect(card).toHaveTextContent(REVIEWER_NAME);
+    expect(card).toHaveTextContent(REVIEWER_PROFESSION);
   });
 
 });

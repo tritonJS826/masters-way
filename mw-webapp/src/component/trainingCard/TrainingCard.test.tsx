@@ -1,8 +1,10 @@
+import {act} from "react-dom/test-utils";
 import {BrowserRouter} from "react-router-dom";
+import {render, screen} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import {TrainingCard} from "src/component/trainingCard/TrainingCard";
 import {TrainingPreview, UserPreview} from "src/model/businessModelPreview/TrainingPreview";
 import {pages} from "src/router/pages";
-import {getDataCy} from "src/utils/cyTesting/getDataCy";
 import {DateUtils} from "src/utils/DateUtils";
 
 const USER_PREVIEW_DATA: UserPreview = {
@@ -36,7 +38,7 @@ const TRAINING_CARD_CY = "training-card";
 
 describe("TrainingCard component", () => {
   beforeEach(() => {
-    cy.mount(
+    render(
       <BrowserRouter>
         <TrainingCard
           trainingPreview={TRAINING_PREVIEW_DATA}
@@ -51,37 +53,32 @@ describe("TrainingCard component", () => {
     );
   });
 
-  it("should navigate to training page on click", () => {
-    cy.get(getDataCy(TRAINING_CARD_CY)).click();
-    cy.url().should(
-      "eq",
-      Cypress.config().baseUrl +
-        pages.training.getPath({uuid: TRAINING_PREVIEW_DATA.uuid}),
-    );
+  it("should render trainingCard correctly", () => {
+    expect(screen.getByTestId(TRAINING_CARD_CY)).toBeInTheDocument();
   });
 
-  it("should render trainingCard correctly", () => {
-    cy.get(getDataCy(TRAINING_CARD_CY)).should("exist");
+  it("should navigate to training page on click", async () => {
+    await act(async () => await userEvent.click(screen.getByTestId(TRAINING_CARD_CY)));
+    expect(window.location.pathname).toBe(pages.training.getPath({uuid: TRAINING_PREVIEW_DATA.uuid}));
   });
 
   it("should display the correct content elements", () => {
-    cy.get(getDataCy(TRAINING_CARD_CY)).contains(TRAINING_PREVIEW_DATA.description);
-    cy.get(getDataCy(TRAINING_CARD_CY)).contains(TRAINING_PREVIEW_DATA.name);
-    cy.get(getDataCy(TRAINING_CARD_CY)).contains(
-      `${TRAINING_PREVIEW_DATA.studentsAmount}`,
-    );
-    cy.get(getDataCy(TRAINING_CARD_CY)).contains(
-      `${TRAINING_PREVIEW_DATA.favoriteForUsersAmount}`,
-    );
+    const card = screen.getByTestId(TRAINING_CARD_CY);
+    expect(card).toHaveTextContent(TRAINING_PREVIEW_DATA.description);
+    expect(card).toHaveTextContent(TRAINING_PREVIEW_DATA.name);
+    expect(card).toHaveTextContent(`${TRAINING_PREVIEW_DATA.studentsAmount}`);
+    expect(card).toHaveTextContent(`${TRAINING_PREVIEW_DATA.favoriteForUsersAmount}`);
+
     const creationDate = DateUtils.getShortISODotSplitted(
       TRAINING_PREVIEW_DATA.createdAt,
     );
-    cy.get(getDataCy(TRAINING_CARD_CY)).contains(creationDate);
+    expect(card).toHaveTextContent(creationDate);
   });
 
   it("should display tags", () => {
     TRAINING_PREVIEW_DATA.trainingTags.map((tag) => {
-      cy.get(getDataCy(TRAINING_CARD_CY)).contains(tag.name);
+      expect(screen.getByTestId(TRAINING_CARD_CY)).toHaveTextContent(tag.name);
     });
   });
+
 });
