@@ -4,6 +4,7 @@ import {observer} from "mobx-react-lite";
 import {NotificationItem, NotificationNature} from "src/component/notificationBlock/notificationItem/NotificationItem";
 import {Select} from "src/component/select/Select";
 import {Separator} from "src/component/separator/Separator";
+import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {notificationStore} from "src/globalStore/NotificationStore";
 import {usePersistenceState} from "src/hooks/usePersistenceState";
@@ -22,6 +23,8 @@ export const NotificationStatus = {
 } as const;
 
 const HEIGHT_FOR_SCROLL_CALLBACK_FROM_BOTTOM = 1000;
+const DEFAULT_NOTIFICATIONS_PAGINATION_VALUE = 1;
+const PAGINATION_INCREMENT = 1;
 
 export const DEFAULT_NOTIFICATION_BLOCK_SETTINGS: NotificationBlockSettings = {
 
@@ -65,16 +68,6 @@ interface NotificationBlockProps {
   getTitle: (notificationNature: NotificationNature) => string;
 
   /**
-   * Callback triggered when notification clicked
-   */
-  onClick: (notificationId: string, isRead: boolean) => void;
-
-  /**
-   * Callback triggered when scroll at the bottom and need to load more notifications
-   */
-  loadMore: (isOnlyNew: boolean) => Promise<void>;
-
-  /**
    * Is more notifications exists
    */
   isMoreNotificationsExist: boolean;
@@ -102,14 +95,31 @@ export const NotificationBlock = observer((props: NotificationBlockProps) => {
     },
   });
   const [isHandleScrollInProgress, setHandleSCrollInProgress] = useState(false);
+  const [notificationsPagination, setNotificationsPagination] = useState<number>(DEFAULT_NOTIFICATIONS_PAGINATION_VALUE);
 
   /**
-   * Load more notifications
+   * Reset pagination to the first page
+   */
+  const resetPagination = () => {
+    setNotificationsPagination(DEFAULT_NOTIFICATIONS_PAGINATION_VALUE);
+  };
+
+  /**
+   * Load more notifications on scroll
    */
   const loadMoreNotifications = async () => {
     setHandleSCrollInProgress(true);
-    await Promise.resolve(props.loadMore(notificationBlockSettings.isOnlyNew));
-    setHandleSCrollInProgress(false);
+    try {
+      const nextPage = notificationsPagination + PAGINATION_INCREMENT;
+      const notifications = await NotificationDAL.getOwnNotificationList({
+        page: nextPage,
+        isOnlyNew: notificationBlockSettings.isOnlyNew,
+      });
+      notificationStore.addNotifications(notifications.notificationList);
+      setNotificationsPagination(nextPage);
+    } finally {
+      setHandleSCrollInProgress(false);
+    }
   };
 
   const {ref} = useScroll({
@@ -128,15 +138,25 @@ export const NotificationBlock = observer((props: NotificationBlockProps) => {
    * Load notifications
    */
   const loadNotifications = async () => {
+    resetPagination();
     const notifications = await notificationStore.loadNotifications(notificationBlockSettings.isOnlyNew);
     notificationStore.setUnreadNotificationsAmount(notifications.unreadSize);
     notificationStore.setTotalNotificationsAmount(notifications.totalSize);
     notificationStore.setNotifications(notifications.notificationList);
   };
 
+  /**
+   * Handle click on a notification - mark as read but don't reset pagination
+   */
+  const handleNotificationClick = async (notificationId: string, isRead: boolean) => {
+    if (!isRead) {
+      notificationStore.deleteUnreadNotificationFromAmount();
+      await NotificationDAL.updateNotification(notificationId);
+    }
+  };
+
   useEffect(() => {
     loadNotifications();
-
   }, [notificationBlockSettings.isOnlyNew]);
 
   return (
@@ -171,7 +191,7 @@ export const NotificationBlock = observer((props: NotificationBlockProps) => {
           originalUrl={notificationItem.url}
           isNotificationRead={!notificationItem.isRead}
           onClick={() => {
-            props.onClick(notificationItem.uuid, notificationItem.isRead);
+            handleNotificationClick(notificationItem.uuid, notificationItem.isRead);
             !notificationItem.isRead && notificationItem.updateIsRead(true);
           }}
         />

@@ -12,7 +12,6 @@ import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {HealthCheckDAL} from "src/dataAccessLogic/HealthCheckDAL";
-import {NotificationDAL} from "src/dataAccessLogic/NotificationDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {notificationStore} from "src/globalStore/NotificationStore";
 import {themeStore} from "src/globalStore/ThemeStore";
@@ -24,7 +23,6 @@ import {INDEPENDENT_ROUTES, pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/Layout.module.scss";
 
-const DEFAULT_NOTIFICATIONS_PAGINATION_VALUE = 1;
 const RELOAD_PAGE_CODE = 0;
 
 /**
@@ -35,7 +33,6 @@ export const Layout = observer(() => {
   const {language, setLanguage} = languageStore;
   const {theme, setTheme} = themeStore;
   const {isNotificationOpen, setIsNotificationOpen, notificationList, unreadNotificationsAmount} = notificationStore;
-
   const [isApiWorking, setIsApiWorking] = useState(true);
   const navigate = useNavigate();
 
@@ -55,7 +52,6 @@ export const Layout = observer(() => {
     checkApiHealth();
   }, []);
 
-  const [notificationsPagination, setNotificationsPagination] = useState<number>(DEFAULT_NOTIFICATIONS_PAGINATION_VALUE);
   // Const [isConnectionEstablished, setIsConnectionEstablished] = useState(false);
   // useListenEventBus(ChannelId.NOTIFICATION, NotificationEventId.CONNECTION_ESTABLISHED, () => {
   //   setIsConnectionEstablished(true);
@@ -85,16 +81,6 @@ export const Layout = observer(() => {
   //     });
   //   }
   // });
-
-  /**
-   * Load more notifications
-   */
-  const loadMoreNotifications = async (isOnlyNew: boolean) => {
-    const nextPage = notificationsPagination + DEFAULT_NOTIFICATIONS_PAGINATION_VALUE;
-    const notifications = await NotificationDAL.getOwnNotificationList({page: nextPage, isOnlyNew});
-    notificationStore.addNotifications(notifications.notificationList);
-    setNotificationsPagination(nextPage);
-  };
 
   const isMoreNotificationsExist = !!(notificationStore.notificationList
     && notificationStore.notificationList.length < notificationStore.totalNotificationsAmount);
@@ -163,11 +149,6 @@ export const Layout = observer(() => {
           getTitle={(nature: NotificationNature) => LanguageService.notifications.nature[nature][language]}
           notificationList={notificationList}
           isOpen={isNotificationOpen}
-          onClick={async (notificationId: string, isRead: boolean) => {
-            !isRead && notificationStore.deleteUnreadNotificationFromAmount();
-            !isRead && await NotificationDAL.updateNotification(notificationId);
-          }}
-          loadMore={loadMoreNotifications}
           isMoreNotificationsExist={isMoreNotificationsExist}
           totalNotificationsAmount={notificationStore.totalNotificationsAmount}
         />
