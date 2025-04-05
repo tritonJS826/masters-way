@@ -254,10 +254,6 @@ export const Header = observer((props: HeaderProps) => {
           />
         </Link>
         {props.user &&
-        <Tooltip
-          position={PositionTooltip.BOTTOM}
-          content="Coming soon..."
-        >
           <HorizontalContainer className={styles.bellWithUnreadNotificationsAmount}>
             <Button
               onClick={() => props.isNotificationBlockOpen
@@ -285,7 +281,6 @@ export const Header = observer((props: HeaderProps) => {
               </HorizontalContainer>
             }
           </HorizontalContainer>
-        </Tooltip>
         }
       </HorizontalContainer>
       <HorizontalContainer className={styles.headerButtonsContainer}>
