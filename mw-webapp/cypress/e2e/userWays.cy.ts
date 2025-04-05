@@ -111,7 +111,7 @@ describe("NoAuth User's ways scope tests", () => {
 describe("IsAuth User's ways scope tests", () => {
     beforeEach(() => {
         cy.resetGeneralDb();
-        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        cy.login(testUserData.testUsers.studentJohn.loginLink);
     });
 
     it('IsAuth_UserWays_CreateNewWay', () => {
@@ -119,7 +119,7 @@ describe("IsAuth User's ways scope tests", () => {
         UserPage.createNewWay();
 
         cy.url().should('match', new RegExp(`\\/way\\/${testUserData.urlPattern}`));
-        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.testUsers.studentJonh.email}`);
+        wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text',`Way of ${testUserData.testUsers.studentJohn.email}`);
     });
 
     it('IsAuth_UserWays_AddWayToCustomerCollection', () => {
@@ -138,7 +138,7 @@ describe("IsAuth User's ways scope tests", () => {
                 .getWayAmountCollectionButton()
                 .should('have.text', 'Ways: 1');
             });
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.wayTitle).should('exist');
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJohn.wayTitle).should('exist');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${LanguageService.user.collections.newCollection.en} (1)`);
     });
 

@@ -33,6 +33,7 @@ type MwGeneralBffInternalSchemasUserPopulatedResponse struct {
 	Name string
 	Projects []MwGeneralBffInternalSchemasProjectPlainResponse
 	Tags []MwGeneralBffInternalSchemasUserTagResponse
+	UserContacts []MwGeneralBffInternalSchemasUserContact
 	Uuid string
 	WayRequests []MwGeneralBffInternalSchemasWayPlainResponse
 }
@@ -43,7 +44,7 @@ type _MwGeneralBffInternalSchemasUserPopulatedResponse MwGeneralBffInternalSchem
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwGeneralBffInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwGeneralBffInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwGeneralBffInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwGeneralBffInternalSchemasProjectPlainResponse, tags []MwGeneralBffInternalSchemasUserTagResponse, uuid string, wayRequests []MwGeneralBffInternalSchemasWayPlainResponse) *MwGeneralBffInternalSchemasUserPopulatedResponse {
+func NewMwGeneralBffInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwGeneralBffInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwGeneralBffInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwGeneralBffInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwGeneralBffInternalSchemasProjectPlainResponse, tags []MwGeneralBffInternalSchemasUserTagResponse, userContacts []MwGeneralBffInternalSchemasUserContact, uuid string, wayRequests []MwGeneralBffInternalSchemasWayPlainResponse) *MwGeneralBffInternalSchemasUserPopulatedResponse {
 	this := MwGeneralBffInternalSchemasUserPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.CustomWayCollections = customWayCollections
@@ -57,6 +58,7 @@ func NewMwGeneralBffInternalSchemasUserPopulatedResponse(createdAt string, custo
 	this.Name = name
 	this.Projects = projects
 	this.Tags = tags
+	this.UserContacts = userContacts
 	this.Uuid = uuid
 	this.WayRequests = wayRequests
 	return &this
@@ -358,6 +360,30 @@ func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) SetTags(v []MwGeneral
 	o.Tags = v
 }
 
+// GetUserContacts returns the UserContacts field value
+func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) GetUserContacts() []MwGeneralBffInternalSchemasUserContact {
+	if o == nil {
+		var ret []MwGeneralBffInternalSchemasUserContact
+		return ret
+	}
+
+	return o.UserContacts
+}
+
+// GetUserContactsOk returns a tuple with the UserContacts field value
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) GetUserContactsOk() ([]MwGeneralBffInternalSchemasUserContact, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.UserContacts, true
+}
+
+// SetUserContacts sets field value
+func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) SetUserContacts(v []MwGeneralBffInternalSchemasUserContact) {
+	o.UserContacts = v
+}
+
 // GetUuid returns the Uuid field value
 func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) GetUuid() string {
 	if o == nil {
@@ -428,6 +454,7 @@ func (o MwGeneralBffInternalSchemasUserPopulatedResponse) ToMap() (map[string]in
 	toSerialize["name"] = o.Name
 	toSerialize["projects"] = o.Projects
 	toSerialize["tags"] = o.Tags
+	toSerialize["userContacts"] = o.UserContacts
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["wayRequests"] = o.WayRequests
 	return toSerialize, nil
@@ -450,6 +477,7 @@ func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) UnmarshalJSON(data []
 		"name",
 		"projects",
 		"tags",
+		"userContacts",
 		"uuid",
 		"wayRequests",
 	}

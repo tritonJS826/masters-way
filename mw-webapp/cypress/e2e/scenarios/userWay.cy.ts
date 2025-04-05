@@ -14,7 +14,7 @@ import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
   cy.resetGeneralDb();
-  cy.login(testUserData.testUsers.studentJonh.loginLink); 
+  cy.login(testUserData.testUsers.studentJohn.loginLink); 
 });
 
 afterEach(() => {
@@ -28,16 +28,16 @@ describe('User Way tests', () => {
     userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
 
     UserPage.createNewWay();
-    WayPage.renameWay(testUserData.testUsers.studentJonh.newWayTitle);
+    WayPage.renameWay(testUserData.testUsers.studentJohn.newWayTitle);
     
-    wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', testUserData.testUsers.studentJonh.newWayTitle);
+    wayDescriptionSelectors.wayDashBoardLeft.getTitle().should('have.text', testUserData.testUsers.studentJohn.newWayTitle);
 
-    WayPage.editGoal(`${testUserData.testUsers.studentJonh.goal}{enter}${testUserData.testUsers.studentJonh.goalNewLine}{ctrl+enter}`)
+    WayPage.editGoal(`${testUserData.testUsers.studentJohn.goal}{enter}${testUserData.testUsers.studentJohn.goalNewLine}{ctrl+enter}`)
     
     wayDescriptionSelectors.wayDashBoardLeft.tag.getAddTagButton().click();
-    wayDescriptionSelectors.wayDashBoardLeft.tag.getTagInput().type(testUserData.testUsers.studentJonh.wayTag1);
+    wayDescriptionSelectors.wayDashBoardLeft.tag.getTagInput().type(testUserData.testUsers.studentJohn.wayTag1);
     wayDescriptionSelectors.wayDashBoardLeft.tag.getCreateTagButton().click();
-    wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJonh.wayTag1);
+    wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJohn.wayTag1);
 
     wayMetricsSelectors.metricButtons.getAddNewGoalMetricButton().click();
     wayMetricsSelectors.getMetricDescription().dblclick();
@@ -82,9 +82,9 @@ describe('User Way tests', () => {
     allWaysSelectors.filterViewBlock.getCardViewButton().click();
     AllWaysPage
       .adjustWayFilterMinDayReports(MinDayReports.any)
-      .openWayByClickingCard(testUserData.testUsers.studentJonh.newWayTitle);
-    wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJonh.goal}\n${testUserData.testUsers.studentJonh.goalNewLine}`);
-    wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJonh.wayTag1);
+      .openWayByClickingCard(testUserData.testUsers.studentJohn.newWayTitle);
+    wayDescriptionSelectors.wayDashBoardLeft.getGoal().should('have.text', `${testUserData.testUsers.studentJohn.goal}\n${testUserData.testUsers.studentJohn.goalNewLine}`);
+    wayDescriptionSelectors.wayDashBoardLeft.tag.getTagTitle().should('have.text', testUserData.testUsers.studentJohn.wayTag1);
     wayMetricsSelectors.getMetricDescription().first().should('have.text', wayMetricsData.wayMetricDescriptions[0]);
     wayMetricsSelectors.getMetricDescription().eq(1).should('have.text', wayMetricsData.wayMetricDescriptions[2]);
     wayMetricsSelectors.getMetricDescription().eq(2).should('have.text', wayMetricsData.wayMetricDescriptions[3]);

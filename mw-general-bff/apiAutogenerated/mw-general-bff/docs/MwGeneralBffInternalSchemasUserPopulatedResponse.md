@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Projects** | [**[]MwGeneralBffInternalSchemasProjectPlainResponse**](MwGeneralBffInternalSchemasProjectPlainResponse.md) |  | 
 **Tags** | [**[]MwGeneralBffInternalSchemasUserTagResponse**](MwGeneralBffInternalSchemasUserTagResponse.md) |  | 
+**UserContacts** | [**[]MwGeneralBffInternalSchemasUserContact**](MwGeneralBffInternalSchemasUserContact.md) |  | 
 **Uuid** | **string** |  | 
 **WayRequests** | [**[]MwGeneralBffInternalSchemasWayPlainResponse**](MwGeneralBffInternalSchemasWayPlainResponse.md) |  | 
 
@@ -23,7 +24,7 @@ Name | Type | Description | Notes
 
 ### NewMwGeneralBffInternalSchemasUserPopulatedResponse
 
-`func NewMwGeneralBffInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwGeneralBffInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwGeneralBffInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwGeneralBffInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwGeneralBffInternalSchemasProjectPlainResponse, tags []MwGeneralBffInternalSchemasUserTagResponse, uuid string, wayRequests []MwGeneralBffInternalSchemasWayPlainResponse, ) *MwGeneralBffInternalSchemasUserPopulatedResponse`
+`func NewMwGeneralBffInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwGeneralBffInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwGeneralBffInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwGeneralBffInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwGeneralBffInternalSchemasProjectPlainResponse, tags []MwGeneralBffInternalSchemasUserTagResponse, userContacts []MwGeneralBffInternalSchemasUserContact, uuid string, wayRequests []MwGeneralBffInternalSchemasWayPlainResponse, ) *MwGeneralBffInternalSchemasUserPopulatedResponse`
 
 NewMwGeneralBffInternalSchemasUserPopulatedResponse instantiates a new MwGeneralBffInternalSchemasUserPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -276,6 +277,26 @@ and a boolean to check if the value has been set.
 `func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) SetTags(v []MwGeneralBffInternalSchemasUserTagResponse)`
 
 SetTags sets Tags field to given value.
+
+
+### GetUserContacts
+
+`func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) GetUserContacts() []MwGeneralBffInternalSchemasUserContact`
+
+GetUserContacts returns the UserContacts field if non-nil, zero value otherwise.
+
+### GetUserContactsOk
+
+`func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) GetUserContactsOk() (*[]MwGeneralBffInternalSchemasUserContact, bool)`
+
+GetUserContactsOk returns a tuple with the UserContacts field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserContacts
+
+`func (o *MwGeneralBffInternalSchemasUserPopulatedResponse) SetUserContacts(v []MwGeneralBffInternalSchemasUserContact)`
+
+SetUserContacts sets UserContacts field to given value.
 
 
 ### GetUuid

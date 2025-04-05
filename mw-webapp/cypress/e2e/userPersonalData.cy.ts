@@ -10,7 +10,7 @@ import {Navigation, Page} from "cypress/support/Navigation";
 
 beforeEach(() => {
     cy.resetGeneralDb();
-    cy.login(testUserData.testUsers.studentJonh.loginLink); 
+    cy.login(testUserData.testUsers.studentJohn.loginLink); 
 });
 
 afterEach(() => {

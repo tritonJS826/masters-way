@@ -21,7 +21,7 @@ describe('IsAuth Composite ways scope tests', () => {
     it('IsAuth_CompositeWay_Creation', () => {
         const danaEvansNameForReports = testUserData.users.Dana.userName.split(" ")[0];
 
-        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        cy.login(testUserData.testUsers.studentJohn.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         UserPage.createNewWay();
         cy.logout();
@@ -35,7 +35,7 @@ describe('IsAuth Composite ways scope tests', () => {
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         Navigation.openPage(Page.AllWays);
         AllWaysPage
-            .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
+            .openWayByClickingCard(testUserData.testUsers.studentJohn.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
         cy.logout();
 
@@ -49,12 +49,12 @@ describe('IsAuth Composite ways scope tests', () => {
         wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.users.Dana.userName)
             .should('be.visible')
             .should('have.text', testUserData.users.Dana.userName);
-        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.testUsers.studentJonh.wayTitle)
+        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.testUsers.studentJohn.wayTitle)
             .should('be.visible')
-            .should('have.text', testUserData.testUsers.studentJonh.wayTitle);
-        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.testUsers.studentJonh.name)
+            .should('have.text', testUserData.testUsers.studentJohn.wayTitle);
+        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.testUsers.studentJohn.name)
             .should('be.visible')
-            .should('have.text', testUserData.testUsers.studentJonh.name);
+            .should('have.text', testUserData.testUsers.studentJohn.name);
 
         dayReportsSelectors.dayReportsContent.getReportDate().should('have.length', testUserData.users.Dana.way.reportTotalAmount);
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('have.length', testUserData.users.Dana.way.reportTotalAmount);
@@ -69,7 +69,7 @@ describe('IsAuth Composite ways scope tests', () => {
     });
 
     it('IsAuth_CompositeWay_DeleteWay', () => {
-        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        cy.login(testUserData.testUsers.studentJohn.loginLink);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({ force: true });
         UserPage.createNewWay();
         cy.logout();
@@ -84,19 +84,19 @@ describe('IsAuth Composite ways scope tests', () => {
 
         Navigation.openPage(Page.AllWays);
         AllWaysPage
-            .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle)
+            .openWayByClickingCard(testUserData.testUsers.studentJohn.wayTitle)
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
         Navigation.openPage(Page.AllWays);
         AllWaysPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
-        wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.testUsers.studentJonh.wayTitle).click();
+        wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.testUsers.studentJohn.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.deleteFromCompositeDialogContent.getDeleteButton().click();
         wayDescriptionSelectors.peopleBlock.getDeleteFromCompositeWay(testUserData.users.Dana.way.wayTitle).click();
         wayDescriptionSelectors.peopleBlock.deleteFromCompositeDialogContent.getDeleteButton().click();
 
         wayDescriptionSelectors.peopleBlock.childWaysTitle().should('not.exist');
         wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.users.Dana.userName).should('not.exist');
-        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.testUsers.studentJonh.wayTitle).should('not.exist');
+        wayDescriptionSelectors.peopleBlock.getChildLink(testUserData.testUsers.studentJohn.wayTitle).should('not.exist');
         dayReportsSelectors.dayReportsContent.getReportDate().should('not.exist');
         dayReportsSelectors.dayReportsContent.jobDone.getJobDoneDescription().should('not.exist');
     });

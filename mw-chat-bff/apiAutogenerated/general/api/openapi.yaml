@@ -1490,6 +1490,84 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: request
+  /users/{userId}/contact/{contactId}:
+    patch:
+      operationId: update-userContact
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      - description: contactId ID
+        in: path
+        name: contactId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateUserContactPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.UserContact'
+          description: OK
+      summary: Update user contact by UUID
+      tags:
+      - userContact
+      x-codegen-request-body-name: request
+  /users/{userId}/contacts:
+    post:
+      description: create user contact
+      operationId: create-userContact
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.UserContact'
+          description: OK
+      summary: Create user contact
+      tags:
+      - user-contact user
+  /users/{userId}/contacts/{contactId}:
+    delete:
+      operationId: delete-userContact
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      - description: contactId ID
+        in: path
+        name: contactId
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          content: {}
+          description: No Content
+      summary: Delete DeleteUserContact by UUID
+      tags:
+      - userContact
   /wayCollectionWays:
     post:
       operationId: create-wayCollectionWay
@@ -4079,6 +4157,13 @@ components:
         name:
           type: string
       type: object
+    mw-server_internal_schemas.UpdateUserContactPayload:
+      properties:
+        contactLink:
+          type: string
+        description:
+          type: string
+      type: object
     mw-server_internal_schemas.UpdateUserPayload:
       properties:
         description:
@@ -4107,6 +4192,23 @@ components:
           type: boolean
         name:
           type: string
+      type: object
+    mw-server_internal_schemas.UserContact:
+      example:
+        contactLink: contactLink
+        description: description
+        uuid: uuid
+      properties:
+        contactLink:
+          type: string
+        description:
+          type: string
+        uuid:
+          type: string
+      required:
+      - contactLink
+      - description
+      - uuid
       type: object
     mw-server_internal_schemas.UserPlainResponse:
       example:
@@ -4824,6 +4926,13 @@ components:
           updatedAt: updatedAt
         imageUrl: imageUrl
         name: name
+        userContacts:
+        - contactLink: contactLink
+          description: description
+          uuid: uuid
+        - contactLink: contactLink
+          description: description
+          uuid: uuid
         isMentor: true
         email: email
       properties:
@@ -4861,6 +4970,10 @@ components:
           items:
             $ref: '#/components/schemas/mw-server_internal_schemas.UserTagResponse'
           type: array
+        userContacts:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.UserContact'
+          type: array
         uuid:
           type: string
         wayRequests:
@@ -4880,6 +4993,7 @@ components:
       - name
       - projects
       - tags
+      - userContacts
       - uuid
       - wayRequests
       type: object

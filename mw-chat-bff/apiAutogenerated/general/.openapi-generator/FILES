@@ -23,6 +23,8 @@ api_problem.go
 api_project.go
 api_to_user_mentoring_request.go
 api_user.go
+api_user_contact.go
+api_user_contact_user.go
 api_user_project.go
 api_user_tag.go
 api_way.go
@@ -125,9 +127,11 @@ docs/MwServerInternalSchemasUpdateMetricPayload.md
 docs/MwServerInternalSchemasUpdatePlanPayload.md
 docs/MwServerInternalSchemasUpdateProblemPayload.md
 docs/MwServerInternalSchemasUpdateProjectPayload.md
+docs/MwServerInternalSchemasUpdateUserContactPayload.md
 docs/MwServerInternalSchemasUpdateUserPayload.md
 docs/MwServerInternalSchemasUpdateWayCollectionPayload.md
 docs/MwServerInternalSchemasUpdateWayPayload.md
+docs/MwServerInternalSchemasUserContact.md
 docs/MwServerInternalSchemasUserPlainResponse.md
 docs/MwServerInternalSchemasUserPlainResponseWithInfo.md
 docs/MwServerInternalSchemasUserPopulatedResponse.md
@@ -147,6 +151,8 @@ docs/ProblemAPI.md
 docs/ProjectAPI.md
 docs/ToUserMentoringRequestAPI.md
 docs/UserAPI.md
+docs/UserContactAPI.md
+docs/UserContactUserAPI.md
 docs/UserProjectAPI.md
 docs/UserTagAPI.md
 docs/WayAPI.md
@@ -235,9 +241,11 @@ model_mw_server_internal_schemas_update_metric_payload.go
 model_mw_server_internal_schemas_update_plan_payload.go
 model_mw_server_internal_schemas_update_problem_payload.go
 model_mw_server_internal_schemas_update_project_payload.go
+model_mw_server_internal_schemas_update_user_contact_payload.go
 model_mw_server_internal_schemas_update_user_payload.go
 model_mw_server_internal_schemas_update_way_collection_payload.go
 model_mw_server_internal_schemas_update_way_payload.go
+model_mw_server_internal_schemas_user_contact.go
 model_mw_server_internal_schemas_user_plain_response.go
 model_mw_server_internal_schemas_user_plain_response_with_info.go
 model_mw_server_internal_schemas_user_populated_response.go

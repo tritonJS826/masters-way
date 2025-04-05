@@ -14,7 +14,7 @@ import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
-    cy.login(testUserData.testUsers.studentJonh.loginLink);
+    cy.login(testUserData.testUsers.studentJohn.loginLink);
 });
 
 afterEach(() => {
@@ -54,7 +54,7 @@ describe('Projects tests', () => {
         projectsSelectors.projectPageContent.infoBlock.getTitle().should('have.text', projectsData.newProjectName);
        
         Navigation.openPage(Page.AllUsers);
-        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJohn.name);
         userPersonalSelectors.userActionMenu.getMenuButton().click();
         userPersonalSelectors.userActionMenu.projectItems.getProjectsItem().click();
         userPersonalSelectors.userActionMenu.projectItems.getAddToProjectItem().contains(`${LanguageService.user.userActions.addToProject.en} ${projectsData.newProjectName}`).click();
@@ -66,7 +66,7 @@ describe('Projects tests', () => {
 
         projectsSelectors.projectPageContent.infoBlock.participantsBlock.getAvatar().should('have.length', 2);
         projectsSelectors.projectPageContent.infoBlock.participantsBlock.getAvatar().eq(1).should('have.text', expectedAvatarMax);
-        const expectedAvatarJohn = testUserData.testUsers.studentJonh.name.substring(0, 2).toUpperCase();
+        const expectedAvatarJohn = testUserData.testUsers.studentJohn.name.substring(0, 2).toUpperCase();
         projectsSelectors.projectPageContent.infoBlock.participantsBlock.getAvatar().first().should('have.text', expectedAvatarJohn);
 
         UserPage.createNewWay();

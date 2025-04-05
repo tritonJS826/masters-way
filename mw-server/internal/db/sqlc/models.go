@@ -193,6 +193,13 @@ type User struct {
 	IsMentor    bool             `json:"is_mentor"`
 }
 
+type UserContact struct {
+	Uuid        pgtype.UUID `json:"uuid"`
+	UserUuid    pgtype.UUID `json:"user_uuid"`
+	ContactLink string      `json:"contact_link"`
+	Description string      `json:"description"`
+}
+
 type UserTag struct {
 	Uuid pgtype.UUID `json:"uuid"`
 	Name string      `json:"name"`

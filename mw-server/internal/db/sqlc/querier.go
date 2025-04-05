@@ -31,6 +31,7 @@ type Querier interface {
 	CreateProject(ctx context.Context, arg CreateProjectParams) (CreateProjectRow, error)
 	CreateToUserMentoringRequest(ctx context.Context, arg CreateToUserMentoringRequestParams) (ToUserMentoringRequest, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	CreateUserContact(ctx context.Context, arg CreateUserContactParams) (UserContact, error)
 	CreateUserTag(ctx context.Context, tagName string) (UserTag, error)
 	CreateUsersProjects(ctx context.Context, arg CreateUsersProjectsParams) (UsersProject, error)
 	CreateUsersUserTag(ctx context.Context, arg CreateUsersUserTagParams) (UsersUserTag, error)
@@ -54,6 +55,7 @@ type Querier interface {
 	DeleteProblem(ctx context.Context, problemUuid pgtype.UUID) error
 	DeleteToUserMentoringRequestByIds(ctx context.Context, arg DeleteToUserMentoringRequestByIdsParams) error
 	DeleteUser(ctx context.Context, userUuid pgtype.UUID) error
+	DeleteUserContact(ctx context.Context, arg DeleteUserContactParams) error
 	DeleteUserTagFromUser(ctx context.Context, arg DeleteUserTagFromUserParams) error
 	DeleteUsersProjects(ctx context.Context, arg DeleteUsersProjectsParams) error
 	DeleteWay(ctx context.Context, wayUuid pgtype.UUID) error
@@ -115,6 +117,7 @@ type Querier interface {
 	GetToMentorUserRequestsByWayId(ctx context.Context, wayUuid pgtype.UUID) ([]pgtype.UUID, error)
 	GetUserByEmail(ctx context.Context, userEmail string) (User, error)
 	GetUserByID(ctx context.Context, userUuid pgtype.UUID) (User, error)
+	GetUserContactsByUserUuid(ctx context.Context, userUuid pgtype.UUID) ([]UserContact, error)
 	GetUserTagByName(ctx context.Context, tagName string) (UserTag, error)
 	GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]User, error)
 	// TODO exclude ways from private projects for initiator user
@@ -136,6 +139,7 @@ type Querier interface {
 	RegenerateDbData(ctx context.Context) error
 	RemoveEverything(ctx context.Context) error
 	UpdateComment(ctx context.Context, arg UpdateCommentParams) (UpdateCommentRow, error)
+	UpdateContactByID(ctx context.Context, arg UpdateContactByIDParams) (UserContact, error)
 	UpdateJobDone(ctx context.Context, arg UpdateJobDoneParams) (UpdateJobDoneRow, error)
 	UpdateJobTag(ctx context.Context, arg UpdateJobTagParams) (JobTag, error)
 	UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Metric, error)

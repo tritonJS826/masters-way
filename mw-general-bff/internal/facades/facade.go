@@ -28,6 +28,7 @@ type Facade struct {
 	WayTagFacade                   *WayTagFacade
 	ToUserMentoringRequestFacade   *ToUserMentoringRequestFacade
 	UserFacade                     *UserFacade
+	UserContactFacade              *UserContactFacade
 	UserTagFacade                  *UserTagFacade
 	UserProjectFacade              *UserProjectFacade
 	WayCollectionFacade            *WayCollectionFacade
@@ -59,6 +60,7 @@ func NewFacade(service *services.Service, config *config.Config) *Facade {
 		WayTagFacade:                   newWayTagFacade(service.GeneralService),
 		ToUserMentoringRequestFacade:   newToUserMentoringRequestFacade(service.GeneralService),
 		UserFacade:                     newUserFacade(service.GeneralService),
+		UserContactFacade:              newUserContactFacade(service.GeneralService),
 		UserTagFacade:                  newUserTagFacade(service.GeneralService),
 		UserProjectFacade:              newUserProjectFacade(service.GeneralService),
 		WayCollectionFacade:            newWayCollectionFacade(service.GeneralService),

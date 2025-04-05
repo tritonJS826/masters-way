@@ -89,7 +89,7 @@ describe('IsAuth Header scope tests', () => {
 
     beforeEach(() => {
         cy.resetGeneralDb();
-        cy.login(testUserData.testUsers.studentJonh.loginLink);  
+        cy.login(testUserData.testUsers.studentJohn.loginLink);  
     });
 
     afterEach(() => {
@@ -101,12 +101,12 @@ describe('IsAuth Header scope tests', () => {
         headerSelectors.getAvatar().click();
 
         cy.url().should('match', new RegExp(`\\/user\\/${testUserData.urlPattern}`));
-        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.studentJonh.name);
+        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.studentJohn.name);
     });
 
     it('IsAuth_Header_UserNameLinkOneWord', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
-        const expectedAvatar = testUserData.testUsers.studentJonh.name.substring(0, 2).toUpperCase();
+        const expectedAvatar = testUserData.testUsers.studentJohn.name.substring(0, 2).toUpperCase();
 
         headerSelectors.getAvatar().should('have.text', expectedAvatar);
     });

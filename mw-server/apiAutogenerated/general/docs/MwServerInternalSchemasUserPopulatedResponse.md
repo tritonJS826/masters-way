@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Projects** | [**[]MwServerInternalSchemasProjectPlainResponse**](MwServerInternalSchemasProjectPlainResponse.md) |  | 
 **Tags** | [**[]MwServerInternalSchemasUserTagResponse**](MwServerInternalSchemasUserTagResponse.md) |  | 
+**UserContacts** | [**[]MwServerInternalSchemasUserContact**](MwServerInternalSchemasUserContact.md) |  | 
 **Uuid** | **string** |  | 
 **WayRequests** | [**[]MwServerInternalSchemasWayPlainResponse**](MwServerInternalSchemasWayPlainResponse.md) |  | 
 
@@ -23,7 +24,7 @@ Name | Type | Description | Notes
 
 ### NewMwServerInternalSchemasUserPopulatedResponse
 
-`func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse, ) *MwServerInternalSchemasUserPopulatedResponse`
+`func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, userContacts []MwServerInternalSchemasUserContact, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse, ) *MwServerInternalSchemasUserPopulatedResponse`
 
 NewMwServerInternalSchemasUserPopulatedResponse instantiates a new MwServerInternalSchemasUserPopulatedResponse object
 This constructor will assign default values to properties that have it defined,
@@ -276,6 +277,26 @@ and a boolean to check if the value has been set.
 `func (o *MwServerInternalSchemasUserPopulatedResponse) SetTags(v []MwServerInternalSchemasUserTagResponse)`
 
 SetTags sets Tags field to given value.
+
+
+### GetUserContacts
+
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetUserContacts() []MwServerInternalSchemasUserContact`
+
+GetUserContacts returns the UserContacts field if non-nil, zero value otherwise.
+
+### GetUserContactsOk
+
+`func (o *MwServerInternalSchemasUserPopulatedResponse) GetUserContactsOk() (*[]MwServerInternalSchemasUserContact, bool)`
+
+GetUserContactsOk returns a tuple with the UserContacts field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserContacts
+
+`func (o *MwServerInternalSchemasUserPopulatedResponse) SetUserContacts(v []MwServerInternalSchemasUserContact)`
+
+SetUserContacts sets UserContacts field to given value.
 
 
 ### GetUuid

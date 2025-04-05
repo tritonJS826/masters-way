@@ -399,6 +399,7 @@ func TestGetUserById(t *testing.T) {
 					},
 				},
 			},
+			UserContacts: []openapiGeneral.MwServerInternalSchemasUserContact{},
 		}
 
 		assert.Equal(t, http.StatusOK, response.StatusCode)

@@ -226,6 +226,14 @@ CREATE TABLE "profile_settings" (
     CONSTRAINT "profile_settings_pkey" PRIMARY KEY("uuid")
 );
 
+CREATE TABLE "user_contacts" (
+    "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "user_uuid" UUID NOT NULL REFERENCES users("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "contact_link" VARCHAR(512) NOT NULL,
+    "description" VARCHAR(64) NOT NULL,
+    CONSTRAINT "user_contacts_pkey" PRIMARY KEY("uuid")
+);
+
 -- triggers
 
 CREATE OR REPLACE FUNCTION init_user()

@@ -39,6 +39,7 @@ type Router struct {
 	wayRouter                      *wayRouter
 	toUserMentoringRequestRouter   *toUserMentoringRequestRouter
 	userRouter                     *userRouter
+	UserContactController          *userContactRouter
 	userTagRouter                  *userTagRouter
 	userProjectRouter              *userProjectRouter
 	wayCollectionRouter            *wayCollectionRouter
@@ -87,6 +88,7 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		wayTagRouter:                   newWayTagRouter(controller.WayTagController, config),
 		toUserMentoringRequestRouter:   newToUserMentoringRequestRouter(controller.ToUserMentoringRequestController, config),
 		userRouter:                     newUserRouter(controller.UserController, config),
+		UserContactController:          newUserContactRouter(controller.UserContactController, config),
 		userTagRouter:                  newUserTagRouter(controller.UserTagController, config),
 		userProjectRouter:              newUserProjectRouter(controller.UserProjectController, config),
 		wayCollectionRouter:            newWayCollectionRouter(controller.WayCollectionController, config),

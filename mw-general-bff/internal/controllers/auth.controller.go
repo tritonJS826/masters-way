@@ -204,6 +204,13 @@ func (ac *AuthController) GetCurrentAuthorizedUserByToken(ctx *gin.Context) {
 				UserIDs:   project.UserIds,
 			}
 		}),
+		UserContacts: lo.Map(populatedUser.UserContacts, func(contact openapiGeneral.MwServerInternalSchemasUserContact, _ int) schemas.UserContact {
+			return schemas.UserContact{
+				Uuid:        contact.Uuid,
+				ContactLink: contact.ContactLink,
+				Description: contact.Description,
+			}
+		}),
 	}
 
 	ctx.JSON(http.StatusOK, response)

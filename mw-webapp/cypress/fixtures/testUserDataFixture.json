@@ -2,7 +2,7 @@
     "urlPattern": "[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$",
 
     "testUsers": {
-      "studentJonh": {
+      "studentJohn": {
         "name": "studentJonh@gmail.com",
         "email": "studentJonh@gmail.com",
         "loginLink": "http://localhost:7995/general/auth/login/local/studentJonh@gmail.com",

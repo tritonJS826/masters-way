@@ -14,7 +14,7 @@ import {UserPage} from "cypress/support/pages/UserPage";
 
 beforeEach(() => {
     cy.resetGeneralDb();
-    cy.login(testUserData.testUsers.studentJonh.loginLink); 
+    cy.login(testUserData.testUsers.studentJohn.loginLink); 
 });
 
 afterEach(() => {
@@ -27,10 +27,10 @@ describe('Collections tests', () => {
         cy.viewport(1200, 900);
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         UserPage.createNewWay();
-        WayPage.renameWay(testUserData.testUsers.studentJonh.newWayTitle);
+        WayPage.renameWay(testUserData.testUsers.studentJohn.newWayTitle);
         headerSelectors.getAvatar().click();
         UserPage.createNewWay();
-        WayPage.renameWay(testUserData.testUsers.studentJonh.newWayTitleForFavorite);
+        WayPage.renameWay(testUserData.testUsers.studentJohn.newWayTitleForFavorite);
         cy.logout();
         cy.login(testUserData.testUsers.mentorMax.loginLink);
 
@@ -67,8 +67,8 @@ describe('Collections tests', () => {
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
 
         Navigation.openPage(Page.AllUsers);
-        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
-        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.newWayTitle);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJohn.name);
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJohn.newWayTitle);
         WayPage.addWayToCollection(userWaysData.customCollection.newName);
         headerSelectors.getAvatar().click();
 
@@ -77,12 +77,12 @@ describe('Collections tests', () => {
             .should('have.text', `${LanguageService.user.collections.ways.en}: 2`);
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('be.visible');
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJohn.newWayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (2)`);
 
         Navigation.openPage(Page.AllUsers);
-        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJonh.name);
-        UserPage.openWayByClickingCard(testUserData.testUsers.studentJonh.newWayTitleForFavorite);
+        AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.studentJohn.name);
+        UserPage.openWayByClickingCard(testUserData.testUsers.studentJohn.newWayTitleForFavorite);
         wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().click();
         wayDescriptionSelectors.wayDashBoardLeft.getAddToFavoritesButton().contains(1);
         headerSelectors.getAvatar().click();
@@ -91,7 +91,7 @@ describe('Collections tests', () => {
             .find((`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`))
             .should('have.text', `${LanguageService.user.collections.ways.en}: 1`);
         userWaysSelectors.collectionBlock.getFavoriteWayCollectionButton().click();
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitleForFavorite).should('be.visible');
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJohn.newWayTitleForFavorite).should('be.visible');
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         UserPage.openWayByClickingCard(testUserData.testUsers.mentorMax.wayTitle);
@@ -100,7 +100,7 @@ describe('Collections tests', () => {
 
         userWaysSelectors.collectionBlock.getCustomerCollectionButton().click();
         userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.mentorMax.wayTitle).should('not.exist');
-        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJonh.newWayTitle).should('be.visible');
+        userWaysSelectors.collectionBlock.getWayLink(testUserData.testUsers.studentJohn.newWayTitle).should('be.visible');
         userWaysSelectors.wayTitles.getWayStatusTitle().contains(`${userWaysData.customCollection.newName} (1)`);
         userWaysSelectors.collectionBlock.getCustomerCollectionButton()
             .find((`[data-cy="${userWaysAccessIds.collectionBlock.amountCollectionButton}"]`))
