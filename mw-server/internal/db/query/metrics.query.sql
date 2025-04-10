@@ -35,7 +35,8 @@ SET
     description = coalesce(sqlc.narg('description'), description),
     is_done = coalesce(sqlc.narg('is_done'), is_done),
     done_date = coalesce(sqlc.narg('done_date'), done_date),
-    metric_estimation = coalesce(sqlc.narg('metric_estimation'), metric_estimation)
+    metric_estimation = coalesce(sqlc.narg('metric_estimation'), metric_estimation),
+    parent_uuid = coalesce(sqlc.narg('parent_uuid'), parent_uuid)
 WHERE uuid = sqlc.arg('uuid')
 RETURNING *;
 

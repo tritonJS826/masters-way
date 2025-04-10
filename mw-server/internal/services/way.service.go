@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"log"
 	db "mw-server/internal/db/sqlc"
 	"mw-server/internal/schemas"
@@ -18,6 +19,7 @@ type IWayRepository interface {
 	CountWaysByType(ctx context.Context, arg db.CountWaysByTypeParams) (int64, error)
 	CreateJobTag(ctx context.Context, arg db.CreateJobTagParams) (db.JobTag, error)
 	CreateMetric(ctx context.Context, arg db.CreateMetricParams) (db.Metric, error)
+	UpdateMetric(ctx context.Context, arg db.UpdateMetricParams) (db.Metric, error)
 	CreateWay(ctx context.Context, arg db.CreateWayParams) (db.CreateWayRow, error)
 	CreateWaysWayTag(ctx context.Context, arg db.CreateWaysWayTagParams) (db.WaysWayTag, error)
 	DeleteWay(ctx context.Context, wayUuid pgtype.UUID) error
@@ -337,9 +339,11 @@ func (ws *WayService) CreateWay(ctx context.Context, payload *schemas.CreateWayP
 
 // Flatten the metric tree into a flat list of metrics
 func flatMetricTree(nodes []*schemas.MetricTreeNode) []*schemas.MetricResponse {
+	fmt.Printf("nodes: %v\n", nodes)
 	flatList := []*schemas.MetricResponse{}
 	for _, node := range nodes {
-		flatList = append(flatList, &node.Metric)
+		metricCopy := node.Metric
+		flatList = append(flatList, &metricCopy)
 		flatList = append(flatList, flatMetricTree(node.Children)...)
 	}
 	return flatList
@@ -348,7 +352,6 @@ func flatMetricTree(nodes []*schemas.MetricTreeNode) []*schemas.MetricResponse {
 func (ws *WayService) CopyWay(ctx context.Context, fromWayUUID, toWayUUID uuid.UUID) error {
 	toWayPgUUID := pgtype.UUID{Bytes: toWayUUID, Valid: true}
 
-	now := time.Now()
 	args := GetPopulatedWayByIdParams{
 		WayUuid:              fromWayUUID,
 		CurrentChildrenDepth: 1,
@@ -378,18 +381,36 @@ func (ws *WayService) CopyWay(ctx context.Context, fromWayUUID, toWayUUID uuid.U
 
 	flattenMetrics := flatMetricTree(originalWay.Metrics)
 
-	// copy metrics from the copied way
-	lo.ForEach(flattenMetrics, func(metric *schemas.MetricResponse, i int) {
-		parsedParentUuid, parserParentUuidErr := uuid.Parse(*metric.ParentUuid)
-		ws.wayRepository.CreateMetric(ctx, db.CreateMetricParams{
+	// CloneMetricTree creates a deep copy of the metric tree, remapping UUIDs
+
+	// @key oldMetricUuid: @value newMetricUuid
+	uuidMap := make(map[string]string)
+	for _, metric := range flattenMetrics {
+		// Copy metrics with no parent UUID
+		now := time.Now()
+		newMetric, _ := ws.wayRepository.CreateMetric(ctx, db.CreateMetricParams{
 			UpdatedAt:        pgtype.Timestamp{Time: now, Valid: true},
 			Description:      metric.Description,
 			IsDone:           false,
 			MetricEstimation: metric.MetricEstimation,
 			WayUuid:          toWayPgUUID,
-			ParentUuid:       pgtype.UUID{Bytes: parsedParentUuid, Valid: parserParentUuidErr != nil},
 		})
-	})
+
+		uuidMap[metric.Uuid] = *util.MarshalPgUUID(newMetric.Uuid)
+	}
+
+	// setup right parent UUID for new metrics
+	for _, metric := range flattenMetrics {
+		if metric.ParentUuid != nil {
+			newUUID := uuidMap[metric.Uuid]
+			newParentUUID := uuidMap[*metric.ParentUuid]
+
+			ws.wayRepository.UpdateMetric(ctx, db.UpdateMetricParams{
+				Uuid:       pgtype.UUID{Bytes: uuid.MustParse(newUUID), Valid: true},
+				ParentUuid: pgtype.UUID{Bytes: uuid.MustParse(newParentUUID), Valid: metric.ParentUuid != nil},
+			})
+		}
+	}
 
 	return nil
 }

@@ -146,8 +146,9 @@ SET
     description = coalesce($2, description),
     is_done = coalesce($3, is_done),
     done_date = coalesce($4, done_date),
-    metric_estimation = coalesce($5, metric_estimation)
-WHERE uuid = $6
+    metric_estimation = coalesce($5, metric_estimation),
+    parent_uuid = coalesce($6, parent_uuid)
+WHERE uuid = $7
 RETURNING uuid, created_at, updated_at, description, is_done, done_date, metric_estimation, way_uuid, parent_uuid
 `
 
@@ -157,6 +158,7 @@ type UpdateMetricParams struct {
 	IsDone           pgtype.Bool      `json:"is_done"`
 	DoneDate         pgtype.Timestamp `json:"done_date"`
 	MetricEstimation pgtype.Int4      `json:"metric_estimation"`
+	ParentUuid       pgtype.UUID      `json:"parent_uuid"`
 	Uuid             pgtype.UUID      `json:"uuid"`
 }
 
@@ -167,6 +169,7 @@ func (q *Queries) UpdateMetric(ctx context.Context, arg UpdateMetricParams) (Met
 		arg.IsDone,
 		arg.DoneDate,
 		arg.MetricEstimation,
+		arg.ParentUuid,
 		arg.Uuid,
 	)
 	var i Metric
