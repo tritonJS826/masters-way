@@ -66,6 +66,16 @@
       "ru": "Страница Master's Way на Github",
       "en": "Master's Way Github page",
       "ua": "Сторінка Master's Way на Github"
+    },
+    "telegram": {
+      "ru": "Страница Master's Way в Telegram",
+      "en": "Master's Way Telegram page",
+      "ua": "Сторінка Master's Way в Telegram"
+    },
+    "discord": {
+      "ru": "Страница Master's Way в Discord",
+      "en": "Master's Way Discord page",
+      "ua": "Сторінка Master's Way в Discord"
     }
   },
   "chat": {

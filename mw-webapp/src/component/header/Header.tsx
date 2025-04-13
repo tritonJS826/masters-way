@@ -488,6 +488,32 @@ export const Header = observer((props: HeaderProps) => {
                         />
                       </div>
                     </Link>
+                    <Link
+                      path="https://t.me/tsSandbox"
+                      isNewTab
+                      ariaLabel={LanguageService.common.socialMediaAriaLabel.telegram[props.language]}
+                    >
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="TelegramIcon"
+                          className={clsx(styles.socialMediaIcon, styles.telegramIcon)}
+                        />
+                      </div>
+                    </Link>
+                    <Link
+                      path="https://discord.gg/JEUJGJ3A"
+                      isNewTab
+                      ariaLabel={LanguageService.common.socialMediaAriaLabel.discord[props.language]}
+                    >
+                      <div className={styles.iconWrapper}>
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="DiscordIcon"
+                          className={clsx(styles.socialMediaIcon, styles.discordIcon)}
+                        />
+                      </div>
+                    </Link>
                   </HorizontalContainer>
                 </VerticalContainer>
                 {props.user &&

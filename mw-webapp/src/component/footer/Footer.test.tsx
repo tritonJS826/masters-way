@@ -69,6 +69,15 @@ describe("Footer component", () => {
     const patreonLabel = LanguageService.common.socialMediaAriaLabel.patreon[language];
     const patreonLink = screen.getByRole("link", {name: patreonLabel});
     expect(patreonLink).toBeVisible();
+
+    const telegramLabel = LanguageService.common.socialMediaAriaLabel.telegram[language];
+    const telegramLink = screen.getByRole("link", {name: telegramLabel});
+    expect(telegramLink).toBeVisible();
+
+    const discordLabel = LanguageService.common.socialMediaAriaLabel.discord[language];
+    const discordLink = screen.getByRole("link", {name: discordLabel});
+    expect(discordLink).toBeVisible();
+
   });
 
   it("Privacy policy link should be visible", () => {

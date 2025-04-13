@@ -10,6 +10,7 @@ import {BurgerMenu} from "src/assets/icons/BurgerMenu";
 import {CheckIcon} from "src/assets/icons/Check";
 import {ChevronIcon} from "src/assets/icons/ChevronIcon";
 import {ClockIcon} from "src/assets/icons/ClockIcon";
+import {DiscordIcon} from "src/assets/icons/DiscordIcon";
 import {DollarIcon} from "src/assets/icons/DollarIcon";
 import {DownloadIcon} from "src/assets/icons/DownloadIcon";
 import {ExternalLinkIcon} from "src/assets/icons/ExternalLinkIcon";
@@ -40,6 +41,7 @@ import {SunIcon} from "src/assets/icons/SunIcon";
 import {SunsetIcon} from "src/assets/icons/SunsetIcon";
 import {TableViewIcon} from "src/assets/icons/TableViewIcon";
 import {TargetIcon} from "src/assets/icons/TargetIcon";
+import {TelegramIcon} from "src/assets/icons/TelegramIcon";
 import {TrashIcon} from "src/assets/icons/TrashIcon";
 import {TrendingUpIcon} from "src/assets/icons/TrendingUpIcon";
 import {UploadIcon} from "src/assets/icons/UploadIcon";
@@ -226,6 +228,11 @@ export const IconDictionary = {
   BoxIcon: (params: IconProps) => <BoxIcon {...params} />,
 
   /**
+   * Discord icon
+   */
+  DiscordIcon: (params: IconProps) => <DiscordIcon {...params} />,
+
+  /**
    * Dollar icon
    */
   DollarIcon: (params: IconProps) => <DollarIcon {...params} />,
@@ -284,6 +291,11 @@ export const IconDictionary = {
    * Target icon
    */
   TargetIcon: (params: IconProps) => <TargetIcon {...params} />,
+
+  /**
+   * Telegram icon
+   */
+  TelegramIcon: (params: IconProps) => <TelegramIcon {...params} />,
 
   /**
    * PenTool icon
