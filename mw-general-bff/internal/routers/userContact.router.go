@@ -19,7 +19,7 @@ func newUserContactRouter(userContactController *controllers.UserContactControll
 
 func (ur *userContactRouter) setUserContactRoutes(rg *gin.RouterGroup) {
 	router := rg.Group("users/:userId/contacts")
-	router.POST("", ur.userContactController.CreateUserContact)
+	router.POST("", auth.HandleHeaders(ur.config), ur.userContactController.CreateUserContact)
 	router.PATCH("/:contactId", auth.HandleHeaders(ur.config), ur.userContactController.UpdateUserContact)
 	router.DELETE("/:contactId", auth.HandleHeaders(ur.config), ur.userContactController.DeleteUserContact)
 }
