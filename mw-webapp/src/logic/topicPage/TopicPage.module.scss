@@ -81,9 +81,25 @@ $labelMaxWidthBlock: 650px;
 }
 
 .materials {
+  gap: $gapSmall;
+}
+
+.theoryMaterials,
+.practiceMaterials {
   @include regularContainer;
   width: 100%;
   gap: $gapMedium;
+}
+
+.timeToAnswerBlock {
+  align-items: baseline;
+}
+
+.timeToAnswerTitle {
+  flex-shrink: 0;
+  color: grey;
+  font-size: $fontSizeMedium;
+  font-style: italic;
 }
 
 .materialContainer {
@@ -126,6 +142,13 @@ $labelMaxWidthBlock: 650px;
 
 .practiceMaterialInput {
   padding-block: $paddingSmall;
+}
+
+.timeToAnswerInput {
+  padding: none;
+  color: grey;
+  font-size: $fontSizeMedium;
+  font-style: italic;
 }
 
 .generateMaterialButtons {

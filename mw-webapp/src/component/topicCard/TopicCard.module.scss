@@ -4,7 +4,13 @@ $wayCardMainHeight: 190px;
 $wayCardAdditionalHeight: 118px;
 
 .cardLink {
+  display: flex;
+  justify-content: space-between;
   text-decoration: none;
+}
+
+.fullWidth {
+  width: 100%;
 }
 
 .topicCard {
