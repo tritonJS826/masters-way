@@ -2386,6 +2386,15 @@ const docTemplate = `{
                 "operationId": "create-userContact",
                 "parameters": [
                     {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateUserContactPayload"
+                        }
+                    },
+                    {
                         "type": "string",
                         "description": "user ID",
                         "name": "userId",

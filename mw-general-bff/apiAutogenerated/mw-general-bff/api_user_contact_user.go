@@ -28,6 +28,13 @@ type ApiCreateUserContactRequest struct {
 	ctx context.Context
 	ApiService *UserContactUserAPIService
 	userId string
+	request *MwGeneralBffInternalSchemasUpdateUserContactPayload
+}
+
+// query params
+func (r ApiCreateUserContactRequest) Request(request MwGeneralBffInternalSchemasUpdateUserContactPayload) ApiCreateUserContactRequest {
+	r.request = &request
+	return r
 }
 
 func (r ApiCreateUserContactRequest) Execute() (*MwGeneralBffInternalSchemasUserContact, *http.Response, error) {
@@ -72,9 +79,12 @@ func (a *UserContactUserAPIService) CreateUserContactExecute(r ApiCreateUserCont
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.request == nil {
+		return localVarReturnValue, nil, reportError("request is required and must be specified")
+	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -90,6 +100,8 @@ func (a *UserContactUserAPIService) CreateUserContactExecute(r ApiCreateUserCont
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -148,8 +160,9 @@ func (a *UserContactUserAPIService) CreateUserContactStreamExecute(r ApiCreateUs
 	fmt.Println(localVarQueryParams)
 
 
+
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)

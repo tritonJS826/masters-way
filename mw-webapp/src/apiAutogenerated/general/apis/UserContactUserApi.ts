@@ -15,15 +15,19 @@
 
 import * as runtime from '../runtime';
 import type {
+  MwGeneralBffInternalSchemasUpdateUserContactPayload,
   MwGeneralBffInternalSchemasUserContact,
 } from '../models/index';
 import {
+    MwGeneralBffInternalSchemasUpdateUserContactPayloadFromJSON,
+    MwGeneralBffInternalSchemasUpdateUserContactPayloadToJSON,
     MwGeneralBffInternalSchemasUserContactFromJSON,
     MwGeneralBffInternalSchemasUserContactToJSON,
 } from '../models/index';
 
 export interface CreateUserContactRequest {
     userId: string;
+    request: MwGeneralBffInternalSchemasUpdateUserContactPayload;
 }
 
 /**
@@ -40,15 +44,22 @@ export class UserContactUserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling createUserContact.');
         }
 
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createUserContact.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/users/{userId}/contacts`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: MwGeneralBffInternalSchemasUpdateUserContactPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasUserContactFromJSON(jsonValue));

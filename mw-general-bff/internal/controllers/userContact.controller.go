@@ -81,13 +81,23 @@ func (uc *UserContactController) UpdateUserContact(ctx *gin.Context) {
 // @ID create-userContact
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.UpdateUserContactPayload true "query params"
 // @Param userId path string true "user ID"
 // @Success 200 {object} schemas.UserContact
 // @Router /users/{userId}/contacts [post]
 func (uc *UserContactController) CreateUserContact(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 
-	userContact, err := uc.userContactFacade.CreateUserContact(ctx, userID)
+	var payload *schemas.UpdateUserContactPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	userContact, err := uc.userContactFacade.CreateUserContact(ctx, userID, &openapiGeneral.MwServerInternalSchemasUpdateUserContactPayload{
+		Description: payload.Description,
+		ContactLink: payload.ContactLink,
+	})
 	utils.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, userContact)

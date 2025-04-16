@@ -3092,6 +3092,12 @@ paths:
       description: create user contact
       operationId: create-userContact
       parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateUserContactPayload'
       - description: user ID
         in: path
         name: userId

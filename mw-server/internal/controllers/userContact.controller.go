@@ -67,11 +67,17 @@ func (uc *UserContactController) UpdateUserContact(ctx *gin.Context) {
 // @ID create-userContact
 // @Accept  json
 // @Produce  json
+// @Param request body schemas.UpdateUserContactPayload true "query params"
 // @Param userId path string true "user ID"
 // @Success 200 {object} schemas.UserContact
 // @Router /users/{userId}/contacts [post]
 func (uc *UserContactController) CreateUserContact(ctx *gin.Context) {
 	userID := ctx.Param("userId")
+	var payload *schemas.UpdateUserContactPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	currentUserIDRaw, _ := ctx.Get(auth.ContextKeyUserID)
 	currentUserID := currentUserIDRaw.(string)
@@ -82,7 +88,21 @@ func (uc *UserContactController) CreateUserContact(ctx *gin.Context) {
 		return
 	}
 
-	userContact, err := uc.userContactService.CreateUserContact(ctx, uuid.MustParse(userID))
+	var description string = ""
+	if payload.Description != nil {
+		description = *payload.Description
+	}
+
+	var contactLink string = ""
+	if payload.ContactLink != nil {
+		contactLink = *payload.ContactLink
+	}
+
+	userContact, err := uc.userContactService.CreateUserContact(ctx, &services.CreateUserContactParams{
+		UserUuid:    uuid.MustParse(userID),
+		Description: description,
+		ContactLink: contactLink,
+	})
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, userContact)

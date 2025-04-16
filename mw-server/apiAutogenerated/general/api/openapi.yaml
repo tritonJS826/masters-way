@@ -1535,6 +1535,13 @@ paths:
         required: true
         schema:
           type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.UpdateUserContactPayload'
+        description: query params
+        required: true
       responses:
         "200":
           content:
@@ -1545,6 +1552,7 @@ paths:
       summary: Create user contact
       tags:
       - user-contact user
+      x-codegen-request-body-name: request
   /users/{userId}/contacts/{contactId}:
     delete:
       operationId: delete-userContact

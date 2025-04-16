@@ -24,11 +24,17 @@ func NewUserContactService(userContactRepository IUserContactRepository) *UserCo
 	return &UserContactService{userContactRepository}
 }
 
-func (uc *UserContactService) CreateUserContact(ctx context.Context, userUuid uuid.UUID) (*schemas.UserContact, error) {
+type CreateUserContactParams struct {
+	UserUuid    uuid.UUID
+	ContactLink string
+	Description string
+}
+
+func (uc *UserContactService) CreateUserContact(ctx context.Context, params *CreateUserContactParams) (*schemas.UserContact, error) {
 	userContact, err := uc.userContactRepository.CreateUserContact(ctx, db.CreateUserContactParams{
-		UserUuid:    pgtype.UUID{Bytes: userUuid, Valid: true},
-		ContactLink: "",
-		Description: "",
+		UserUuid:    pgtype.UUID{Bytes: params.UserUuid, Valid: true},
+		ContactLink: params.ContactLink,
+		Description: params.Description,
 	})
 	if err != nil {
 		return nil, err

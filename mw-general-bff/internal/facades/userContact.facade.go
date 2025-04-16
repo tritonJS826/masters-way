@@ -14,8 +14,8 @@ func newUserContactFacade(generalService *services.GeneralService) *UserContactF
 	return &UserContactFacade{generalService}
 }
 
-func (uf *UserContactFacade) CreateUserContact(ctx context.Context, userId string) (*openapiGeneral.MwServerInternalSchemasUserContact, error) {
-	return uf.generalService.CreateUserContact(ctx, userId)
+func (uf *UserContactFacade) CreateUserContact(ctx context.Context, userId string, payload *openapiGeneral.MwServerInternalSchemasUpdateUserContactPayload) (*openapiGeneral.MwServerInternalSchemasUserContact, error) {
+	return uf.generalService.CreateUserContact(ctx, userId, payload)
 }
 
 func (uf *UserContactFacade) UpdateUserContact(ctx context.Context, userID, userContactId string, payload *openapiGeneral.MwServerInternalSchemasUpdateUserContactPayload) (*openapiGeneral.MwServerInternalSchemasUserContact, error) {

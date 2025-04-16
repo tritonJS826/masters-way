@@ -1001,8 +1001,8 @@ func (gs *GeneralService) DeleteUserProject(ctx context.Context, projectID, user
 	return nil
 }
 
-func (gs *GeneralService) CreateUserContact(ctx context.Context, userUuid string) (*openapiGeneral.MwServerInternalSchemasUserContact, error) {
-	userContact, response, err := gs.generalAPI.UserContactUserAPI.CreateUserContact(ctx, userUuid).Execute()
+func (gs *GeneralService) CreateUserContact(ctx context.Context, userUuid string, payload *openapiGeneral.MwServerInternalSchemasUpdateUserContactPayload) (*openapiGeneral.MwServerInternalSchemasUserContact, error) {
+	userContact, response, err := gs.generalAPI.UserContactUserAPI.CreateUserContact(ctx, userUuid).Request(*payload).Execute()
 
 	if err != nil {
 		return nil, utils.ExtractErrorMessageFromResponse(response)
