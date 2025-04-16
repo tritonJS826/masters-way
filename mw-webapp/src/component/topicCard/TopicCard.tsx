@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
@@ -125,7 +126,7 @@ export const TopicCard = observer((props: TopicCardProps) => {
       :
       <Link
         path={pages.topic.getPath({trainingUuid: props.trainingUuid, topicUuid: props.topic.uuid})}
-        className={styles.cardLink}
+        className={clsx(styles.cardLink, styles.fullWidth)}
       >
         <HorizontalContainer className={styles.topicCard}>
           <Text text={isEmptyTopicName ? props.emptyTitle : props.topic.name} />
