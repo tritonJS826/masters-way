@@ -686,10 +686,7 @@ BEGIN
         FROM day_reports
         WHERE
             way_uuid = NEW.way_uuid AND
-            DATE_TRUNC('day', created_at AT TIME ZONE concat(
-                'UTC',
-                to_char(NEW.created_at AT TIME ZONE 'UTC', 'OF'
-            ))) = DATE_TRUNC('day', NEW.created_at)
+            DATE_TRUNC('day', created_at) = DATE_TRUNC('day', NEW.created_at)
     ) THEN
         RAISE EXCEPTION 'A report for this way_uuid already exists for today';
     END IF;
