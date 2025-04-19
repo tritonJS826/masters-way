@@ -54,7 +54,7 @@ func NewUserContactController(userContactFacade *facades.UserContactFacade) *Use
 // @Param userId path string true "user ID"
 // @Param contactId path string true "contactId ID"
 // @Success 200 {object} schemas.UserContact
-// @Router /users/{userId}/contact/{contactId} [patch]
+// @Router /users/{userId}/contacts/{contactId} [patch]
 func (uc *UserContactController) UpdateUserContact(ctx *gin.Context) {
 	userID := ctx.Param("userId")
 	contactId := ctx.Param("contactId")
