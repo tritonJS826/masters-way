@@ -1,5 +1,8 @@
 import { defineConfig } from "cypress";
 import dotenv from "dotenv";
+import { addMatchImageSnapshotPlugin } from 'cypress-image-snapshot/plugin';
+import fs from 'fs';
+import path from 'path';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -32,6 +35,21 @@ const cypressConfig = defineConfig({
     baseUrl: "http://localhost:5173",
     setupNodeEvents(on, config) {
       // implement node event listeners here
+
+      addMatchImageSnapshotPlugin(on, config);
+
+      on('task', {
+        clearSnapshots() {
+          const clearFolder = (folderPath: string) => {
+            const files = fs.readdirSync(folderPath);
+            files.forEach(file => fs.unlinkSync(path.join(folderPath, file)));
+          };
+      
+          const baseDir = path.join('cypress', 'snapshots');
+          clearFolder(path.join(baseDir, 'diff'));
+          return null;
+        }
+      });
 
       config.env = {
         ...config.env,
