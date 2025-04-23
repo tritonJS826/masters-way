@@ -1454,40 +1454,6 @@ paths:
       tags:
       - user
       x-codegen-request-body-name: request
-  /users/{userId}/contact/{contactId}:
-    patch:
-      operationId: update-userContact
-      parameters:
-      - description: user ID
-        in: path
-        name: userId
-        required: true
-        schema:
-          type: string
-      - description: contactId ID
-        in: path
-        name: contactId
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/mw-general-bff_internal_schemas.UpdateUserContactPayload'
-        description: query params
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/mw-general-bff_internal_schemas.UserContact'
-          description: OK
-      summary: Update user contact by UUID
-      tags:
-      - userContact
-      x-codegen-request-body-name: request
   /users/{userId}/contacts:
     post:
       description: create user contact
@@ -1540,6 +1506,39 @@ paths:
       summary: Delete DeleteUserContact by UUID
       tags:
       - userContact
+    patch:
+      operationId: update-userContact
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      - description: contactId ID
+        in: path
+        name: contactId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.UpdateUserContactPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.UserContact'
+          description: OK
+      summary: Update user contact by UUID
+      tags:
+      - userContact
+      x-codegen-request-body-name: request
   /wayCollectionWays:
     post:
       operationId: create-wayCollectionWay

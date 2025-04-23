@@ -23,18 +23,21 @@ import {HorizontalGridContainer} from "src/component/horizontalGridContainer/Hor
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
 import {Loader} from "src/component/loader/Loader";
+import {ContactsModalContent} from "src/component/modal/ContactsModalContent";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {ProjectCard} from "src/component/projectCard/ProjectCard";
 import {Tab, TabItemProps} from "src/component/tab/Tab";
 import {Tag, TagType} from "src/component/tag/Tag";
+import {TagWithAvatar} from "src/component/tagWithAvatar/TagWIthAvatar";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
+import {ContactDAL} from "src/dataAccessLogic/ContactDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
 import {SkillDAL} from "src/dataAccessLogic/SkillDAL";
@@ -54,7 +57,7 @@ import {TrainingTab} from "src/logic/userPage/trainingTab/TrainingTab";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
-import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
+import {Contact, DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
 import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -180,6 +183,7 @@ export const UserPage = observer((props: UserPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const [isAddSkillModalOpen, setIsAddSkillModalOpen] = useState(false);
+  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
   const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
 
@@ -797,6 +801,169 @@ export const UserPage = observer((props: UserPageProps) => {
                 : LanguageService.common.emptyMarkdown[language]}
             />
 
+            <HorizontalContainer className={styles.skillsContainer}>
+              {userPageOwner?.skills.map(tag => (
+                <Tag
+                  cy={
+                    {
+                      dataCyTag: userPersonalDataAccessIds.userSkillsBlock.skillTag.tag,
+                      dataCyCross: userPersonalDataAccessIds.userSkillsBlock.skillTag.removeTagButton,
+                    }
+                  }
+                  tagName={tag.name}
+                  key={tag.uuid}
+                  isDeletable={isPageOwner}
+                  type={TagType.PRIMARY_TAG}
+                  onDelete={async () => {
+                    user?.deleteSkill(tag.uuid);
+                    userPageOwner.deleteSkill(tag.uuid);
+                    await SkillDAL.deleteSkill({userTagId: tag.uuid, userId: userPageOwner.uuid});
+                  }}
+                />
+              ))}
+              {!userPageOwner?.skills.length && LanguageService.user.personalInfo.noSkills[language]}
+            </HorizontalContainer>
+
+            <HorizontalContainer className={styles.skillsTitleBlock}>
+              <Infotip content={LanguageService.user.personalInfo.contactsInfotip[language]} />
+              <Title
+                level={HeadingLevel.h2}
+                text={LanguageService.user.personalInfo.contacts[language]}
+                placeholder=""
+              />
+              {isPageOwner && (
+                <Modal
+                  isOpen={isAddContactModalOpen}
+                  trigger={
+                    <Tooltip content={LanguageService.user.personalInfo.addContactModal[language]}>
+                      <Button
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name="PlusIcon"
+                          />
+                        }
+                        onClick={() => {}}
+                        buttonType={ButtonType.ICON_BUTTON}
+                        dataCy={userPersonalDataAccessIds.descriptionSection.addContactButton}
+                      />
+                    </Tooltip>
+                  }
+                  content={
+                    <ContactsModalContent
+                      cy={
+                        {
+                          dataCyInput: userPersonalDataAccessIds
+                            .userContactsBlock.contactsModalContent.contactLinkInput,
+                          dataCyCreateButton: userPersonalDataAccessIds
+                            .userContactsBlock.contactsModalContent.createContactButton,
+                        }
+                      }
+                      title={LanguageService.user.personalInfo.addContactModalTitle[language]}
+                      placeholderForFirstInput={LanguageService.user.personalInfo.addContactModalLink[language]}
+                      placeholderForSecondInput={LanguageService.user.personalInfo.addContactModalDescription[language]}
+                      close={() => setIsAddContactModalOpen(false)}
+                      onOk={async (contactLink: string, contactDescription: string) => {
+                        const contact = await ContactDAL.createContact({
+                          ownerUuid: user.uuid,
+                          contactLink,
+                          description: contactDescription,
+                        });
+                        user.addContact(contact);
+                        userPageOwner.addContact(contact);
+                      }}
+                      okButtonValue={LanguageService.user.personalInfo.addContactModal[language]}
+                      cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
+                    />
+                  }
+                />
+              )}
+            </HorizontalContainer>
+            <HorizontalContainer className={styles.skillsContainer}>
+              {userPageOwner?.contacts.map(contact => (
+                <TagWithAvatar
+                  cy={
+                    {
+                      dataCyTag: userPersonalDataAccessIds.userContactsBlock.contactTag.tag,
+                      dataCyCross: userPersonalDataAccessIds.userContactsBlock.contactTag.removeTagButton,
+                      dataCyUpdate: userPersonalDataAccessIds.userContactsBlock.contactTag.updateTagButton,
+                    }
+                  }
+                  key={contact.uuid}
+                  isDeletable={isPageOwner}
+                  contactLink={contact.contactLink}
+                  description={contact.description}
+                  userId={userPageOwner.uuid}
+                  contactId={contact.uuid}
+                  onDelete={async () => {
+                    user?.deleteContact(contact.uuid);
+                    userPageOwner.deleteContact(contact.uuid);
+                    await ContactDAL.deleteContact({contactId: contact.uuid, userId: userPageOwner.uuid});
+                  }}
+                  onUpdate={async (request) => {
+                    const updatedContact = new Contact({
+                      uuid: contact.uuid,
+                      contactLink: request.request.contactLink,
+                      description: request.request.description ?? contact.description,
+                    });
+                    user?.updateContact(contact.uuid, updatedContact);
+                    userPageOwner.updateContact(contact.uuid, updatedContact);
+                    await ContactDAL.updateContact(request);
+                  }}
+                />
+              ))}
+              {!userPageOwner?.contacts.length && LanguageService.user.personalInfo.noContacts[language]}
+            </HorizontalContainer>
+
+            {isPageOwner && <>
+              <HorizontalContainer className={styles.supportTitleBlock}>
+                <Infotip content={LanguageService.user.infotip.support[language]} />
+                <Title
+                  level={HeadingLevel.h2}
+                  text={LanguageService.user.personalInfo.support[language]}
+                  placeholder=""
+                />
+              </HorizontalContainer>
+              <HorizontalContainer className={styles.supportBlock}>
+                <>
+                  <Modal
+                    trigger={
+                      <Button
+                        onClick={TrackUserPage.trackDonateClick}
+                        value={LanguageService.user.personalInfo.donateButton[language]}
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name={"DollarIcon"}
+                          />
+                        }
+                        buttonType={ButtonType.SECONDARY}
+                      />
+                    }
+                    content={
+                      <VerticalContainer>
+                        {renderMarkdown(LanguageService.common.payments.donateModal[language])}
+                      </VerticalContainer>
+                    }
+                  />
+                  <Button
+                    onClick={() => {
+                      TrackUserPage.trackUpgradeToPremiumClick;
+                      navigate(pages.pricing.getPath({}));
+                    }}
+                    value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name={"AwardIcon"}
+                      />
+                    }
+                    buttonType={ButtonType.SECONDARY}
+                  />
+                </>
+              </HorizontalContainer>
+            </>
+            }
           </VerticalContainer>
 
           {!isPageOwner && user &&

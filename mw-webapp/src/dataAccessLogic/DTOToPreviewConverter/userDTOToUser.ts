@@ -22,5 +22,6 @@ export const userDTOToUserConverter = (userDTO: MwGeneralBffInternalSchemasUserP
     wayRequests: userDTO.wayRequests.map(wayDTOToWayPreview),
     projects: userDTO.projects.map(projectPlainDTOToProjectPreview),
     skills: userDTO.tags,
+    contacts: userDTO.userContacts,
   });
 };

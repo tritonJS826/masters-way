@@ -97,7 +97,7 @@ export class UserContactApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/users/{userId}/contact/{contactId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))).replace(`{${"contactId"}}`, encodeURIComponent(String(requestParameters.contactId))),
+            path: `/users/{userId}/contacts/{contactId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))).replace(`{${"contactId"}}`, encodeURIComponent(String(requestParameters.contactId))),
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,

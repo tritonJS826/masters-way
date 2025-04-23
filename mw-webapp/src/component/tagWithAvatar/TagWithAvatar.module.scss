@@ -1,0 +1,64 @@
+@import "src/styles/variables";
+
+$tagPaddingBlockSmall: 3px;
+
+.tag {
+  position: relative;
+  padding: $tagPaddingBlockSmall;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.tagContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  padding: $tagPaddingBlockSmall;
+  border-radius: var(--border-radius-small);
+  background: var(--color-background);
+  box-shadow: var(--box-shadow-small);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: all 0.2s ease-in-out;
+
+  .tag:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: var(--color-background-hover);
+    opacity: 1;
+  }
+}
+
+.removeButton {
+  @extend .actionButton;
+  top: -30px;
+
+  .tag:hover & {
+    top: -20px;
+  }
+}
+
+.updateButton {
+  @extend .actionButton;
+  bottom: -30px;
+
+  .tag:hover & {
+    bottom: -20px;
+  }
+}
+
+.actionButtonIcon {
+  width: 16px;
+  height: 16px;
+}

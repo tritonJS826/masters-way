@@ -20,6 +20,11 @@
       "en": "Skills",
       "ua": "Навички"
     },
+    "contacts": {
+      "ru": "Контакты",
+      "en": "Contacts",
+      "ua": "Контакти"
+    },
     "support": {
       "ru": "Поддержка проекта",
       "en": "Project support",
@@ -29,6 +34,11 @@
       "ru": "Нет навыков",
       "en": "No skills",
       "ua": "Без навичок"
+    },
+    "noContacts": {
+      "ru": "Нет контактов",
+      "en": "No contacts",
+      "ua": "Без контактів"
     },
     "favoriteAmountTooltip": {
       "ru": "Количество лайков",
@@ -90,6 +100,42 @@
       "en": "Add new user skill",
       "ua": "Додати новий навик користувача"
     },
+
+    "contactsInfotip": {
+      "ru": "Добавьте контакты, чтобы другие пользователи могли связаться с вами",
+      "en": "Add contacts so that other users can contact you",
+      "ua": "Додайте контакти, щоб інші користувачі могли зв'язатися з вами"
+    },
+
+    "addContactModal": {
+      "ru": "Добавить контакт",
+      "en": "Add contact",
+      "ua": "Додати контакт"
+    },
+
+    "addContactModalTitle": {
+      "ru": "Контакты",
+      "en": "Contacts",
+      "ua": "Контакти"
+    },
+    "addContactModalLink": {
+      "ru": "Ссылка",
+      "en": "Link",
+      "ua": "Посилання"
+    },
+    "addContactModalDescription": {
+      "ru": "Описание",
+      "en": "Description",
+      "ua": "Опис"
+    },
+
+    "updateContactModal": {
+      "ru": "Обновить контакт",
+      "en": "Update contact",
+      "ua": "Оновити контакт"
+    },
+    
+
     "upgradeToPremiumButton": {
       "ru": "Обновить до Премиум",
       "en": "Upgrade to Premium",

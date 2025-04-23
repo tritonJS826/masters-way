@@ -5,7 +5,7 @@ All URIs are relative to */general*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**DeleteUserContact**](UserContactAPI.md#DeleteUserContact) | **Delete** /users/{userId}/contacts/{contactId} | Delete DeleteUserContact by UUID
-[**UpdateUserContact**](UserContactAPI.md#UpdateUserContact) | **Patch** /users/{userId}/contact/{contactId} | Update user contact by UUID
+[**UpdateUserContact**](UserContactAPI.md#UpdateUserContact) | **Patch** /users/{userId}/contacts/{contactId} | Update user contact by UUID
 
 
 

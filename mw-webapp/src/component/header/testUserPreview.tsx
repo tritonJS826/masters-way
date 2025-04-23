@@ -36,6 +36,7 @@ export const testUserPreview = new User({
   favoriteForUserUuids: [],
   favoriteUsers: [],
   skills: [],
+  contacts: [],
   wayRequests: [],
   imageUrl: "",
   isMentor: false,

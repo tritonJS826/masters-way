@@ -141,7 +141,7 @@ Class | Method | HTTP request | Description
 *UserAPI* | [**GetUsersByIds**](docs/UserAPI.md#getusersbyids) | **Get** /users/list-by-ids | Get users by ids
 *UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
 *UserContactAPI* | [**DeleteUserContact**](docs/UserContactAPI.md#deleteusercontact) | **Delete** /users/{userId}/contacts/{contactId} | Delete DeleteUserContact by UUID
-*UserContactAPI* | [**UpdateUserContact**](docs/UserContactAPI.md#updateusercontact) | **Patch** /users/{userId}/contact/{contactId} | Update user contact by UUID
+*UserContactAPI* | [**UpdateUserContact**](docs/UserContactAPI.md#updateusercontact) | **Patch** /users/{userId}/contacts/{contactId} | Update user contact by UUID
 *UserContactUserAPI* | [**CreateUserContact**](docs/UserContactUserAPI.md#createusercontact) | **Post** /users/{userId}/contacts | Create user contact
 *UserProjectAPI* | [**CreateUserProject**](docs/UserProjectAPI.md#createuserproject) | **Post** /userProjects | Add user to project
 *UserProjectAPI* | [**DeleteUserProject**](docs/UserProjectAPI.md#deleteuserproject) | **Delete** /userProjects/{projectId}/{userId} | Delete userProject by UUID

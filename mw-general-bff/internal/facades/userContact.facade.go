@@ -23,5 +23,5 @@ func (uf *UserContactFacade) UpdateUserContact(ctx context.Context, userID, user
 }
 
 func (uf *UserContactFacade) DeleteUserContact(ctx context.Context, userTagID, userID string) error {
-	return uf.generalService.DeleteUserTagByFromUserByTag(ctx, userTagID, userID)
+	return uf.generalService.DeleteUserContact(ctx, userTagID, userID)
 }

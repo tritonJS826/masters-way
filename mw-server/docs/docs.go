@@ -2322,54 +2322,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{userId}/contact/{contactId}": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "userContact"
-                ],
-                "summary": "Update user contact by UUID",
-                "operationId": "update-userContact",
-                "parameters": [
-                    {
-                        "description": "query params",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateUserContactPayload"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "user ID",
-                        "name": "userId",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "contactId ID",
-                        "name": "contactId",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.UserContact"
-                        }
-                    }
-                }
-            }
-        },
         "/users/{userId}/contacts": {
             "post": {
                 "description": "create user contact",
@@ -2444,6 +2396,52 @@ const docTemplate = `{
                 "responses": {
                     "204": {
                         "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userContact"
+                ],
+                "summary": "Update user contact by UUID",
+                "operationId": "update-userContact",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.UpdateUserContactPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "contactId ID",
+                        "name": "contactId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.UserContact"
+                        }
                     }
                 }
             }

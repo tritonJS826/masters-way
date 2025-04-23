@@ -30,7 +30,7 @@ func NewUserContactController(userContactService *services.UserContactService) *
 // @Param userId path string true "user ID"
 // @Param contactId path string true "contactId ID"
 // @Success 200 {object} schemas.UserContact
-// @Router /users/{userId}/contact/{contactId} [patch]
+// @Router /users/{userId}/contacts/{contactId} [patch]
 func (uc *UserContactController) UpdateUserContact(ctx *gin.Context) {
 	var payload *schemas.UpdateUserContactPayload
 	userID := ctx.Param("userId")

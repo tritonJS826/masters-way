@@ -243,7 +243,7 @@ func (a *UserContactAPIService) UpdateUserContactExecute(r ApiUpdateUserContactR
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/users/{userId}/contact/{contactId}"
+	localVarPath := localBasePath + "/users/{userId}/contacts/{contactId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"contactId"+"}", url.PathEscape(parameterValueToString(r.contactId, "contactId")), -1)
 
@@ -323,7 +323,7 @@ func (a *UserContactAPIService) UpdateUserContactStreamExecute(r ApiUpdateUserCo
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/users/{userId}/contact/{contactId}"
+	localVarPath := localBasePath + "/users/{userId}/contacts/{contactId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"contactId"+"}", url.PathEscape(parameterValueToString(r.contactId, "contactId")), -1)
 

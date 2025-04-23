@@ -174,6 +174,35 @@ export class Skill {
 }
 
 /**
+ * Contact data
+ */
+export class Contact {
+
+  /**
+   * User contact uuid
+   */
+  public uuid: string;
+
+  /**
+   * User contact name
+   */
+  public contactLink: string;
+
+  /**
+   * User contact description
+   */
+  public description: string;
+
+  constructor(contact: Contact) {
+    makeAutoObservable(this);
+    this.contactLink = contact.contactLink;
+    this.uuid = contact.uuid;
+    this.description = contact.description;
+  }
+
+}
+
+/**
  * Main short user information
  */
 export class UserPlain {
@@ -282,6 +311,11 @@ interface UserProps {
   skills: Skill[];
 
   /**
+   * User's contacts {@link Contact}
+   */
+  contacts: Contact[];
+
+  /**
    * User's image path
    */
   imageUrl: string;
@@ -358,6 +392,11 @@ export class User {
   public skills: Skill[];
 
   /**
+   * User's contacts {@link Contact}
+   */
+  public contacts: Contact[];
+
+  /**
    * User's image path
    */
   public imageUrl: string;
@@ -389,6 +428,7 @@ export class User {
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUsers = userData.favoriteUsers;
     this.skills = userData.skills.map(skill => new Skill(skill));
+    this.contacts = userData.contacts.map(contact => new Contact(contact));
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;
     this.wayRequests = userData.wayRequests;
@@ -458,6 +498,27 @@ export class User {
    */
   public deleteSkill(skillUuid: string): void {
     this.skills = this.skills.filter(skill => skill.uuid !== skillUuid);
+  }
+
+  /**
+   * Add new contact to user
+   */
+  public addContact(newContact: Contact): void {
+    this.contacts.push(newContact);
+  }
+
+  /**
+   * Update contact
+   */
+  public updateContact(contactUuid: string, updatedContact: Contact): void {
+    this.contacts = this.contacts.map(contact => contact.uuid === contactUuid ? updatedContact : contact);
+  }
+
+  /**
+   * Delete contact from user
+   */
+  public deleteContact(contactUuid: string): void {
+    this.contacts = this.contacts.filter(contact => contact.uuid !== contactUuid);
   }
 
   /**

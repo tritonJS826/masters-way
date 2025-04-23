@@ -24,7 +24,9 @@ import {
   RequestContext,
   ResponseContext,
   ToUserMentoringRequestApi,
-  UserApi, UserProjectApi,
+  UserApi, UserContactApi,
+  UserContactUserApi,
+  UserProjectApi,
   UserTagApi,
   WayApi,
   WayCollectionApi,
@@ -138,6 +140,8 @@ export const userService = new UserApi(generalConfiguration);
 export const wayCollectionService = new WayCollectionApi(generalConfiguration);
 export const favoriteUserService = new FavoriteUserApi(generalConfiguration);
 export const skillService = new UserTagApi(generalConfiguration);
+export const createContactService = new UserContactUserApi(generalConfiguration);
+export const updateDeleteContactService = new UserContactApi(generalConfiguration);
 export const wayTagService = new WayTagApi(generalConfiguration);
 export const wayCollectionWayService = new WayCollectionWayApi(generalConfiguration);
 export const wayService = new WayApi(generalConfiguration);
