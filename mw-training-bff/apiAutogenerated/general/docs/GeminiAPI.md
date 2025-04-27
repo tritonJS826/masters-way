@@ -348,7 +348,7 @@ No authorization required
 
 ## AiPracticeMaterialForTopic
 
-> MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse AiPracticeMaterialForTopic(ctx).Request(request).Execute()
+> MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse AiPracticeMaterialForTopic(ctx).Request(request).Execute()
 
 Generate practice material for training
 
@@ -367,7 +367,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwServerInternalSchemasAIGeneratePracticeMaterialForTrainingPayload([]string{"ExistentPracticeMaterials_example"}, []string{"ExistentTopics_example"}, int32(123), "Goal_example", "TopicName_example", "TrainingName_example") // MwServerInternalSchemasAIGeneratePracticeMaterialForTrainingPayload | Request payload
+	request := *openapiclient.NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload([]string{"ExistentPracticeMaterials_example"}, []string{"ExistentTheoryMaterials_example"}, int32(123), "TopicName_example", "TrainingDescription_example", "TrainingName_example") // MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -376,7 +376,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiPracticeMaterialForTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AiPracticeMaterialForTopic`: MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse
+	// response from `AiPracticeMaterialForTopic`: MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiPracticeMaterialForTopic`: %v\n", resp)
 }
 ```
@@ -392,11 +392,11 @@ Other parameters are passed through a pointer to a apiAiPracticeMaterialForTopic
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwServerInternalSchemasAIGeneratePracticeMaterialForTrainingPayload**](MwServerInternalSchemasAIGeneratePracticeMaterialForTrainingPayload.md) | Request payload | 
+ **request** | [**MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload**](MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload.md) | Request payload | 
 
 ### Return type
 
-[**MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse**](MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse.md)
+[**MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse**](MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse.md)
 
 ### Authorization
 
@@ -414,7 +414,7 @@ No authorization required
 
 ## AiTheoryMaterialForTopic
 
-> MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse AiTheoryMaterialForTopic(ctx).Request(request).Execute()
+> MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse AiTheoryMaterialForTopic(ctx).Request(request).Execute()
 
 Generate theory material for training
 
@@ -433,7 +433,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwServerInternalSchemasAIGenerateTheoryMaterialForTrainingPayload([]string{"ExistentPracticeMaterials_example"}, []string{"ExistentTopics_example"}, "Goal_example", "TopicName_example", "TrainingName_example") // MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingPayload | Request payload
+	request := *openapiclient.NewMwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload([]string{"ExistentPracticeMaterials_example"}, []string{"ExistentTheoryMaterials_example"}, "TopicName_example", "TrainingDescription_example", "TrainingName_example") // MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -442,7 +442,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error when calling `GeminiAPI.AiTheoryMaterialForTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `AiTheoryMaterialForTopic`: MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse
+	// response from `AiTheoryMaterialForTopic`: MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse
 	fmt.Fprintf(os.Stdout, "Response from `GeminiAPI.AiTheoryMaterialForTopic`: %v\n", resp)
 }
 ```
@@ -458,11 +458,11 @@ Other parameters are passed through a pointer to a apiAiTheoryMaterialForTopicRe
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request** | [**MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingPayload**](MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingPayload.md) | Request payload | 
+ **request** | [**MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload**](MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload.md) | Request payload | 
 
 ### Return type
 
-[**MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse**](MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse.md)
+[**MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse**](MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse.md)
 
 ### Authorization
 

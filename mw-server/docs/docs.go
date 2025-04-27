@@ -953,7 +953,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialForTrainingPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload"
                         }
                     }
                 ],
@@ -961,7 +961,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse"
                         }
                     }
                 }
@@ -988,7 +988,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload"
                         }
                     }
                 ],
@@ -996,7 +996,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse"
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse"
                         }
                     }
                 }
@@ -2963,14 +2963,14 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-server_internal_schemas.AIGeneratePracticeMaterialForTrainingPayload": {
+        "mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload": {
             "type": "object",
             "required": [
                 "existentPracticeMaterials",
-                "existentTopics",
+                "existentTheoryMaterials",
                 "generateAmount",
-                "goal",
                 "topicName",
+                "trainingDescription",
                 "trainingName"
             ],
             "properties": {
@@ -2980,7 +2980,7 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "existentTopics": {
+                "existentTheoryMaterials": {
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -2989,10 +2989,10 @@ const docTemplate = `{
                 "generateAmount": {
                     "type": "integer"
                 },
-                "goal": {
+                "topicName": {
                     "type": "string"
                 },
-                "topicName": {
+                "trainingDescription": {
                     "type": "string"
                 },
                 "trainingName": {
@@ -3000,7 +3000,7 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-server_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse": {
+        "mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse": {
             "type": "object",
             "required": [
                 "practiceMaterials"
@@ -3014,13 +3014,13 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload": {
+        "mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload": {
             "type": "object",
             "required": [
                 "existentPracticeMaterials",
-                "existentTopics",
-                "goal",
+                "existentTheoryMaterials",
                 "topicName",
+                "trainingDescription",
                 "trainingName"
             ],
             "properties": {
@@ -3030,16 +3030,16 @@ const docTemplate = `{
                         "type": "string"
                     }
                 },
-                "existentTopics": {
+                "existentTheoryMaterials": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "goal": {
+                "topicName": {
                     "type": "string"
                 },
-                "topicName": {
+                "trainingDescription": {
                     "type": "string"
                 },
                 "trainingName": {
@@ -3047,7 +3047,7 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse": {
+        "mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse": {
             "type": "object",
             "required": [
                 "description",

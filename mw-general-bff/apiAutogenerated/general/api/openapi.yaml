@@ -600,7 +600,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePracticeMaterialForTrainingPayload'
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload'
         description: Request payload
         required: true
       responses:
@@ -608,7 +608,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse'
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse'
           description: OK
       summary: Generate practice material for training
       tags:
@@ -622,7 +622,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload'
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload'
         description: Request payload
         required: true
       responses:
@@ -630,7 +630,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse'
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse'
           description: OK
       summary: Generate theory material for training
       tags:
@@ -1921,33 +1921,33 @@ components:
       required:
       - plans
       type: object
-    mw-server_internal_schemas.AIGeneratePracticeMaterialForTrainingPayload:
+    mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload:
       properties:
         existentPracticeMaterials:
           items:
             type: string
           type: array
-        existentTopics:
+        existentTheoryMaterials:
           items:
             type: string
           type: array
         generateAmount:
           type: integer
-        goal:
-          type: string
         topicName:
+          type: string
+        trainingDescription:
           type: string
         trainingName:
           type: string
       required:
       - existentPracticeMaterials
-      - existentTopics
+      - existentTheoryMaterials
       - generateAmount
-      - goal
       - topicName
+      - trainingDescription
       - trainingName
       type: object
-    mw-server_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse:
+    mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse:
       example:
         practiceMaterials:
         - timeToAnswer: 0
@@ -1966,30 +1966,30 @@ components:
       required:
       - practiceMaterials
       type: object
-    mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload:
+    mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload:
       properties:
         existentPracticeMaterials:
           items:
             type: string
           type: array
-        existentTopics:
+        existentTheoryMaterials:
           items:
             type: string
           type: array
-        goal:
-          type: string
         topicName:
+          type: string
+        trainingDescription:
           type: string
         trainingName:
           type: string
       required:
       - existentPracticeMaterials
-      - existentTopics
-      - goal
+      - existentTheoryMaterials
       - topicName
+      - trainingDescription
       - trainingName
       type: object
-    mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse:
+    mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse:
       example:
         name: name
         description: description

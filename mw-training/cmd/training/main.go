@@ -52,6 +52,7 @@ func main() {
 	pb.RegisterTrainingTrainingTagServiceServer(grpcServer, newController.TrainingTrainingTagController)
 	pb.RegisterTrainingServiceServer(grpcServer, newController.TrainingController)
 	pb.RegisterTrainingMentorServiceServer(grpcServer, newController.TrainingMentorController)
+	pb.RegisterTrainingMessageToAIServiceServer(grpcServer, newController.TrainingMessageToAiController)
 	pb.RegisterTrainingStudentServiceServer(grpcServer, newController.TrainingStudentController)
 	pb.RegisterFavoriteUsersTrainingsServiceServer(grpcServer, newController.FavoriteTrainingUserController)
 	pb.RegisterPracticeMaterialServiceServer(grpcServer, newController.PracticeMaterialController)

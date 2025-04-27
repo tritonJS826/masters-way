@@ -105,6 +105,9 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiDecomposeIssue**](docs/GeminiAPI.md#aidecomposeissue) | **Post** /gemini/decompose-issue | Decompose issue
 *GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 *GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
+*GeminiAPI* | [**AiPracticeMaterialForTopic**](docs/GeminiAPI.md#aipracticematerialfortopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+*GeminiAPI* | [**AiTheoryMaterialForTopic**](docs/GeminiAPI.md#aitheorymaterialfortopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
+*GeminiAPI* | [**AiTopicForTraining**](docs/GeminiAPI.md#aitopicfortraining) | **Post** /gemini/trainings/topics | 
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**HealthcheckGet**](docs/HealthAPI.md#healthcheckget) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
@@ -172,6 +175,12 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasAIEstimateIssueResponse](docs/MwGeneralBffInternalSchemasAIEstimateIssueResponse.md)
  - [MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload](docs/MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload.md)
  - [MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse](docs/MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse.md)
+ - [MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload](docs/MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload.md)
+ - [MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse.md)
+ - [MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload](docs/MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload.md)
+ - [MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse.md)
+ - [MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload](docs/MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload.md)
+ - [MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse](docs/MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse.md)
  - [MwGeneralBffInternalSchemasAddWayToCompositeWayPayload](docs/MwGeneralBffInternalSchemasAddWayToCompositeWayPayload.md)
  - [MwGeneralBffInternalSchemasCommentPopulatedResponse](docs/MwGeneralBffInternalSchemasCommentPopulatedResponse.md)
  - [MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse](docs/MwGeneralBffInternalSchemasCompositeDayReportPopulatedResponse.md)
@@ -205,6 +214,8 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasFromUserMentoringRequestResponse](docs/MwGeneralBffInternalSchemasFromUserMentoringRequestResponse.md)
  - [MwGeneralBffInternalSchemasGenerateMetricsPayload](docs/MwGeneralBffInternalSchemasGenerateMetricsPayload.md)
  - [MwGeneralBffInternalSchemasGenerateMetricsResponse](docs/MwGeneralBffInternalSchemasGenerateMetricsResponse.md)
+ - [MwGeneralBffInternalSchemasGeneratedPracticeMaterial](docs/MwGeneralBffInternalSchemasGeneratedPracticeMaterial.md)
+ - [MwGeneralBffInternalSchemasGeneratedTopicPreview](docs/MwGeneralBffInternalSchemasGeneratedTopicPreview.md)
  - [MwGeneralBffInternalSchemasGetAllUsersResponse](docs/MwGeneralBffInternalSchemasGetAllUsersResponse.md)
  - [MwGeneralBffInternalSchemasGetAllWaysResponse](docs/MwGeneralBffInternalSchemasGetAllWaysResponse.md)
  - [MwGeneralBffInternalSchemasJobDonePopulatedResponse](docs/MwGeneralBffInternalSchemasJobDonePopulatedResponse.md)

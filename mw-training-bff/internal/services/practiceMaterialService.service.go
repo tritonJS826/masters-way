@@ -54,7 +54,6 @@ func (pms *PracticeMaterialService) GetPracticeMaterialsByTopicId(ctx context.Co
 type CreatePracticeMaterialParams struct {
 	TopicId      string
 	Name         string
-	Order        int32
 	Description  string
 	Answer       string
 	PracticeType string
@@ -65,7 +64,6 @@ func (pms *PracticeMaterialService) CreatePracticeMaterial(ctx context.Context, 
 	practiceMaterial, err := pms.practiceMaterialGRPC.CreatePracticeMaterial(ctx, &pb.CreatePracticeMaterialRequest{
 		TopicUuid:    params.TopicId,
 		Name:         params.Name,
-		Order:        params.Order,
 		Description:  params.Description,
 		Answer:       params.Answer,
 		PracticeType: params.PracticeType,

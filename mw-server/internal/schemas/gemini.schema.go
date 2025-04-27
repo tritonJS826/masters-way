@@ -64,24 +64,24 @@ type AIGenerateTopicsForTrainingResponse struct {
 	TopicNames []string `json:"topics" validate:"required"`
 }
 
-type AIGenerateTheoryMaterialForTrainingPayload struct {
+type AIGenerateTheoryMaterialForTopicPayload struct {
 	TrainingName          string   `json:"trainingName" validate:"required"`
-	TrainingDescription   string   `json:"goal" validate:"required"`
+	TrainingDescription   string   `json:"trainingDescription" validate:"required"`
 	TopicName             string   `json:"topicName" validate:"required"`
-	TheoryMaterialNames   []string `json:"existentTopics" validate:"required"`
+	TheoryMaterialNames   []string `json:"existentTheoryMaterials" validate:"required"`
 	PracticeMaterialNames []string `json:"existentPracticeMaterials" validate:"required"`
 }
 
-type AIGenerateTheoryMaterialForTrainingResponse struct {
+type AIGenerateTheoryMaterialForTopicResponse struct {
 	Name        string `json:"name" validate:"required"`
 	Description string `json:"description" validate:"required"`
 }
 
-type AIGeneratePracticeMaterialForTrainingPayload struct {
+type AIGeneratePracticeMaterialForTopicPayload struct {
 	TrainingName          string   `json:"trainingName" validate:"required"`
-	TrainingDescription   string   `json:"goal" validate:"required"`
+	TrainingDescription   string   `json:"trainingDescription" validate:"required"`
 	TopicName             string   `json:"topicName" validate:"required"`
-	TheoryMaterialNames   []string `json:"existentTopics" validate:"required"`
+	TheoryMaterialNames   []string `json:"existentTheoryMaterials" validate:"required"`
 	PracticeMaterialNames []string `json:"existentPracticeMaterials" validate:"required"`
 	GenerateAmount        int      `json:"generateAmount" validate:"required"`
 }
@@ -93,6 +93,6 @@ type GeneratedPracticeMaterial struct {
 	TimeToAnswer    int    `json:"timeToAnswer" validate:"required"`
 }
 
-type AIGeneratePracticeMaterialsForTrainingResponse struct {
+type AIGeneratePracticeMaterialsForTopicResponse struct {
 	PracticeMaterials []GeneratedPracticeMaterial `json:"practiceMaterials" validate:"required"`
 }

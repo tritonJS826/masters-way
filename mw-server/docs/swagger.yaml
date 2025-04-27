@@ -96,33 +96,33 @@ definitions:
     required:
     - plans
     type: object
-  mw-server_internal_schemas.AIGeneratePracticeMaterialForTrainingPayload:
+  mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload:
     properties:
       existentPracticeMaterials:
         items:
           type: string
         type: array
-      existentTopics:
+      existentTheoryMaterials:
         items:
           type: string
         type: array
       generateAmount:
         type: integer
-      goal:
-        type: string
       topicName:
+        type: string
+      trainingDescription:
         type: string
       trainingName:
         type: string
     required:
     - existentPracticeMaterials
-    - existentTopics
+    - existentTheoryMaterials
     - generateAmount
-    - goal
     - topicName
+    - trainingDescription
     - trainingName
     type: object
-  mw-server_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse:
+  mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse:
     properties:
       practiceMaterials:
         items:
@@ -131,30 +131,30 @@ definitions:
     required:
     - practiceMaterials
     type: object
-  mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload:
+  mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload:
     properties:
       existentPracticeMaterials:
         items:
           type: string
         type: array
-      existentTopics:
+      existentTheoryMaterials:
         items:
           type: string
         type: array
-      goal:
-        type: string
       topicName:
+        type: string
+      trainingDescription:
         type: string
       trainingName:
         type: string
     required:
     - existentPracticeMaterials
-    - existentTopics
-    - goal
+    - existentTheoryMaterials
     - topicName
+    - trainingDescription
     - trainingName
     type: object
-  mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse:
+  mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse:
     properties:
       description:
         type: string
@@ -2114,14 +2114,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialForTrainingPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse'
       summary: Generate practice material for training
       tags:
       - gemini
@@ -2137,14 +2137,14 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload'
+          $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse'
+            $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse'
       summary: Generate theory material for training
       tags:
       - gemini

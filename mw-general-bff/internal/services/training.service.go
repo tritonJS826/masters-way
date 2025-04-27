@@ -9,14 +9,20 @@ import (
 
 type TrainingService struct {
 	trainingGRPC            pb.TrainingServiceClient
+	topicGRPC               pb.TopicsServiceClient
+	theoryMaterialGRPC      pb.TheoryMaterialServiceClient
+	practiceMaterialGRPC    pb.PracticeMaterialServiceClient
 	trainingMessageToAiGRPC pb.TrainingMessageToAIServiceClient
 }
 
 func newTrainingService(
 	trainingGRPC pb.TrainingServiceClient,
+	topicGRPC pb.TopicsServiceClient,
+	theoryMaterialGRPC pb.TheoryMaterialServiceClient,
+	practiceMaterialGRPC pb.PracticeMaterialServiceClient,
 	trainingMessageToAiGRPC pb.TrainingMessageToAIServiceClient,
 ) *TrainingService {
-	return &TrainingService{trainingGRPC, trainingMessageToAiGRPC}
+	return &TrainingService{trainingGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC}
 }
 
 func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingId string) (*pb.Training, error) {
@@ -25,6 +31,56 @@ func (ts *TrainingService) GetTrainingById(ctx context.Context, trainingId strin
 		return nil, err
 	}
 	return training, nil
+}
+
+func (ts *TrainingService) GetTopicById(ctx context.Context, topicId string) (*pb.Topic, error) {
+	topic, err := ts.topicGRPC.GetTopicById(ctx, &pb.GetTopicByIdRequest{TopicUuid: topicId})
+	if err != nil {
+		return nil, err
+	}
+	return topic, nil
+}
+
+type CreateTheoryMaterialPayload struct {
+	TopicUuid   string `json:"topicUuid" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	Description string `json:"description" validate:"required"`
+}
+
+func (ts *TrainingService) CreateTheoryMaterial(ctx context.Context, params *CreateTheoryMaterialPayload) (*pb.TheoryMaterial, error) {
+	theoryMaterialResponse, err := ts.theoryMaterialGRPC.CreateTheoryMaterial(ctx, &pb.CreateTheoryMaterialRequest{
+		TopicUuid:   params.TopicUuid,
+		Name:        params.Name,
+		Description: params.Description,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return theoryMaterialResponse, nil
+}
+
+type CreatePracticeMaterialParams struct {
+	TopicUuid    string `json:"topicUuid" validate:"required"`
+	Name         string `json:"name" validate:"required"`
+	Description  string `json:"description" validate:"required"`
+	Answer       string `json:"answer" validate:"required"`
+	PracticeType string `json:"practiceType" validate:"required"`
+	TimeToAnswer int32  `json:"timeToAnswer" validate:"required"`
+}
+
+func (ts *TrainingService) CreatePracticeMaterial(ctx context.Context, params CreatePracticeMaterialParams) (*pb.PracticeMaterial, error) {
+	theoryMaterialResponse, err := ts.practiceMaterialGRPC.CreatePracticeMaterial(ctx, &pb.CreatePracticeMaterialRequest{
+		TopicUuid:    params.TopicUuid,
+		Name:         params.Name,
+		Description:  params.Description,
+		Answer:       params.Answer,
+		PracticeType: params.PracticeType,
+		TimeToAnswer: params.TimeToAnswer,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return theoryMaterialResponse, nil
 }
 
 func (ts *TrainingService) GetMessageToAI(ctx context.Context) (*pb.MessageToAI, error) {

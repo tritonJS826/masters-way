@@ -996,16 +996,16 @@ func (a *GeminiAPIService) AiPlansByMetricsStreamExecute(r ApiAiPlansByMetricsRe
 type ApiAiPracticeMaterialForTopicRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *MwServerInternalSchemasAIGeneratePracticeMaterialForTrainingPayload
+	request *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload
 }
 
 // Request payload
-func (r ApiAiPracticeMaterialForTopicRequest) Request(request MwServerInternalSchemasAIGeneratePracticeMaterialForTrainingPayload) ApiAiPracticeMaterialForTopicRequest {
+func (r ApiAiPracticeMaterialForTopicRequest) Request(request MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) ApiAiPracticeMaterialForTopicRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiAiPracticeMaterialForTopicRequest) Execute() (*MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse, *http.Response, error) {
+func (r ApiAiPracticeMaterialForTopicRequest) Execute() (*MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse, *http.Response, error) {
 	return r.ApiService.AiPracticeMaterialForTopicExecute(r)
 }
 
@@ -1025,13 +1025,13 @@ func (a *GeminiAPIService) AiPracticeMaterialForTopic(ctx context.Context) ApiAi
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse
-func (a *GeminiAPIService) AiPracticeMaterialForTopicExecute(r ApiAiPracticeMaterialForTopicRequest) (*MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse
+func (a *GeminiAPIService) AiPracticeMaterialForTopicExecute(r ApiAiPracticeMaterialForTopicRequest) (*MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse
+		localVarReturnValue  *MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiPracticeMaterialForTopic")
@@ -1105,11 +1105,11 @@ func (a *GeminiAPIService) AiPracticeMaterialForTopicExecute(r ApiAiPracticeMate
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseStream
-func (a *GeminiAPIService) AiPracticeMaterialForTopicStreamExecute(r ApiAiPracticeMaterialForTopicRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponseStream
+func (a *GeminiAPIService) AiPracticeMaterialForTopicStreamExecute(r ApiAiPracticeMaterialForTopicRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwServerInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse
+		localVarReturnValue  *MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiPracticeMaterialForTopic")
@@ -1190,16 +1190,16 @@ func (a *GeminiAPIService) AiPracticeMaterialForTopicStreamExecute(r ApiAiPracti
 type ApiAiTheoryMaterialForTopicRequest struct {
 	ctx context.Context
 	ApiService *GeminiAPIService
-	request *MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingPayload
+	request *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload
 }
 
 // Request payload
-func (r ApiAiTheoryMaterialForTopicRequest) Request(request MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) ApiAiTheoryMaterialForTopicRequest {
+func (r ApiAiTheoryMaterialForTopicRequest) Request(request MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) ApiAiTheoryMaterialForTopicRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiAiTheoryMaterialForTopicRequest) Execute() (*MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse, *http.Response, error) {
+func (r ApiAiTheoryMaterialForTopicRequest) Execute() (*MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse, *http.Response, error) {
 	return r.ApiService.AiTheoryMaterialForTopicExecute(r)
 }
 
@@ -1219,13 +1219,13 @@ func (a *GeminiAPIService) AiTheoryMaterialForTopic(ctx context.Context) ApiAiTh
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse
-func (a *GeminiAPIService) AiTheoryMaterialForTopicExecute(r ApiAiTheoryMaterialForTopicRequest) (*MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse
+func (a *GeminiAPIService) AiTheoryMaterialForTopicExecute(r ApiAiTheoryMaterialForTopicRequest) (*MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse
+		localVarReturnValue  *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiTheoryMaterialForTopic")
@@ -1299,11 +1299,11 @@ func (a *GeminiAPIService) AiTheoryMaterialForTopicExecute(r ApiAiTheoryMaterial
 }
 
 // Execute executes the request
-//  @return MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponseStream
-func (a *GeminiAPIService) AiTheoryMaterialForTopicStreamExecute(r ApiAiTheoryMaterialForTopicRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse, *http.Response, error) {
+//  @return MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponseStream
+func (a *GeminiAPIService) AiTheoryMaterialForTopicStreamExecute(r ApiAiTheoryMaterialForTopicRequest, request *http.Request, GoogleAccessToken string) (*MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwServerInternalSchemasAIGenerateTheoryMaterialForTrainingResponse
+		localVarReturnValue  *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "GeminiAPIService.AiTheoryMaterialForTopic")

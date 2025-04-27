@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"mw-server/internal/config"
 	"mw-server/internal/schemas"
+	"strconv"
 	"strings"
 
 	"github.com/google/generative-ai-go/genai"
@@ -255,7 +256,7 @@ func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload 
 
 	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
 
-	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Generate me the list of " + string(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format"
+	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Generate me the list of " + strconv.Itoa(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format"
 	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate content: %w", err)
@@ -283,10 +284,10 @@ func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload 
 	return &schemas.AIGenerateTopicsForTrainingResponse{TopicNames: topicNames}, nil
 }
 
-func (gs *GeminiService) GenerateTheoryMaterialForTraining(ctx context.Context, payload *schemas.AIGenerateTheoryMaterialForTrainingPayload) (*schemas.AIGenerateTheoryMaterialForTrainingResponse, error) {
+func (gs *GeminiService) GenerateTheoryMaterialForTopic(ctx context.Context, payload *schemas.AIGenerateTheoryMaterialForTopicPayload) (*schemas.AIGenerateTheoryMaterialForTopicResponse, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
 	if gs.config.EnvType != "prod" {
-		return &schemas.AIGenerateTheoryMaterialForTrainingResponse{
+		return &schemas.AIGenerateTheoryMaterialForTopicResponse{
 			Name:        "Hi! It's a stub message from AI GenerateTheoryMaterialForTraining for developing",
 			Description: "Hi! It's a stub message from AI GenerateTheoryMaterialForTraining for developing",
 		}, nil
@@ -311,7 +312,7 @@ func (gs *GeminiService) GenerateTheoryMaterialForTraining(ctx context.Context, 
 	}
 
 	jsonString := responseText[jsonStart:jsonEnd]
-	var theoryMaterial schemas.AIGenerateTheoryMaterialForTrainingResponse
+	var theoryMaterial schemas.AIGenerateTheoryMaterialForTopicResponse
 	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
 	// (not all string could be Unmarshalled with json.Unmarshall)
 	err = json.Unmarshal([]byte(jsonString), &theoryMaterial)
@@ -319,13 +320,13 @@ func (gs *GeminiService) GenerateTheoryMaterialForTraining(ctx context.Context, 
 		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
 	}
 
-	return &schemas.AIGenerateTheoryMaterialForTrainingResponse{
+	return &schemas.AIGenerateTheoryMaterialForTopicResponse{
 		Name:        theoryMaterial.Name,
 		Description: theoryMaterial.Description,
 	}, nil
 }
 
-func (gs *GeminiService) GeneratePracticeMaterialForTraining(ctx context.Context, payload *schemas.AIGeneratePracticeMaterialForTrainingPayload) (*schemas.AIGeneratePracticeMaterialsForTrainingResponse, error) {
+func (gs *GeminiService) GeneratePracticeMaterialForTopic(ctx context.Context, payload *schemas.AIGeneratePracticeMaterialForTopicPayload) (*schemas.AIGeneratePracticeMaterialsForTopicResponse, error) {
 	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
 	if gs.config.EnvType != "prod" {
 		practiceMaterials := []schemas.GeneratedPracticeMaterial{
@@ -342,12 +343,12 @@ func (gs *GeminiService) GeneratePracticeMaterialForTraining(ctx context.Context
 				TimeToAnswer:    20,
 			},
 		}
-		return &schemas.AIGeneratePracticeMaterialsForTrainingResponse{PracticeMaterials: practiceMaterials}, nil
+		return &schemas.AIGeneratePracticeMaterialsForTopicResponse{PracticeMaterials: practiceMaterials}, nil
 	}
 
 	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
 
-	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Currently I'm working on topic " + payload.TopicName + ". I already created theory materials  (" + strings.Join(payload.TheoryMaterialNames, ", ") + ") and practice materials (" + strings.Join(payload.PracticeMaterialNames, ", ") + ") for this topic." + " \n Generate " + string(payload.GenerateAmount) + " more practice materials. Give me answer with max 100 symbols for name, 1000 symbols for task description, 100 symbols for answer and time to answer in seconds. Provide me answer in json with fields 'name', 'taskDescription', 'answer', 'time to answer' (for example [{\"name\": \"some name\", taskDescription: \"some description\", \"answer\":\"answer\", \"timeToAnswer\":30}])"
+	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Currently I'm working on topic " + payload.TopicName + ". I already created theory materials  (" + strings.Join(payload.TheoryMaterialNames, ", ") + ") and practice materials (" + strings.Join(payload.PracticeMaterialNames, ", ") + ") for this topic." + " \n Generate " + strconv.Itoa(payload.GenerateAmount) + " more practice materials. Give me answer with max 100 symbols for name, 1000 symbols for task description, 100 symbols for answer and time to answer in seconds. Provide me answer in json with fields 'name', 'taskDescription', 'answer', 'time to answer' (for example [{\"name\": \"some name\", taskDescription: \"some description\", \"answer\":\"answer\", \"timeToAnswer\":30}])"
 	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate content: %w", err)
@@ -372,5 +373,5 @@ func (gs *GeminiService) GeneratePracticeMaterialForTraining(ctx context.Context
 		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
 	}
 
-	return &schemas.AIGeneratePracticeMaterialsForTrainingResponse{PracticeMaterials: practiceMaterials}, nil
+	return &schemas.AIGeneratePracticeMaterialsForTopicResponse{PracticeMaterials: practiceMaterials}, nil
 }

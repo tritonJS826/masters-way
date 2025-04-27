@@ -25,6 +25,12 @@ import type {
   MwGeneralBffInternalSchemasAIEstimateIssueResponse,
   MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload,
   MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse,
+  MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload,
+  MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse,
+  MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload,
+  MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse,
+  MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload,
+  MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse,
   MwGeneralBffInternalSchemasGenerateMetricsPayload,
   MwGeneralBffInternalSchemasGenerateMetricsResponse,
 } from '../models/index';
@@ -49,6 +55,18 @@ import {
     MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayloadToJSON,
     MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponseFromJSON,
     MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponseToJSON,
+    MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayloadFromJSON,
+    MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayloadToJSON,
+    MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseFromJSON,
+    MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseToJSON,
+    MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayloadFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayloadToJSON,
+    MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponseFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponseToJSON,
+    MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadToJSON,
+    MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponseFromJSON,
+    MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponseToJSON,
     MwGeneralBffInternalSchemasGenerateMetricsPayloadFromJSON,
     MwGeneralBffInternalSchemasGenerateMetricsPayloadToJSON,
     MwGeneralBffInternalSchemasGenerateMetricsResponseFromJSON,
@@ -73,6 +91,18 @@ export interface AiEstimateIssueRequest {
 
 export interface AiPlansByMetricsRequest {
     request: MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload;
+}
+
+export interface AiPracticeMaterialForTopicRequest {
+    request: MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload;
+}
+
+export interface AiTheoryMaterialForTopicRequest {
+    request: MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload;
+}
+
+export interface AiTopicForTrainingRequest {
+    request: MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload;
 }
 
 export interface GenerateMetricsRequest {
@@ -256,6 +286,109 @@ export class GeminiApi extends runtime.BaseAPI {
      */
     async aiPlansByMetrics(requestParameters: AiPlansByMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGeneratePlansByMetricResponse> {
         const response = await this.aiPlansByMetricsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Generate practice material for training
+     * Generate practice material for training
+     */
+    async aiPracticeMaterialForTopicRaw(requestParameters: AiPracticeMaterialForTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiPracticeMaterialForTopic.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/trainings/practiceMaterial`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate practice material for training
+     * Generate practice material for training
+     */
+    async aiPracticeMaterialForTopic(requestParameters: AiPracticeMaterialForTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGeneratePracticeMaterialsForTrainingResponse> {
+        const response = await this.aiPracticeMaterialForTopicRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Generate theory material for training
+     * Generate theory material for training
+     */
+    async aiTheoryMaterialForTopicRaw(requestParameters: AiTheoryMaterialForTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiTheoryMaterialForTopic.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/trainings/theoryMaterial`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate theory material for training
+     * Generate theory material for training
+     */
+    async aiTheoryMaterialForTopic(requestParameters: AiTheoryMaterialForTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingResponse> {
+        const response = await this.aiTheoryMaterialForTopicRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Generate topics for training
+     */
+    async aiTopicForTrainingRaw(requestParameters: AiTopicForTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse>> {
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling aiTopicForTraining.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/gemini/trainings/topics`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadToJSON(requestParameters.request),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate topics for training
+     */
+    async aiTopicForTraining(requestParameters: AiTopicForTrainingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingResponse> {
+        const response = await this.aiTopicForTrainingRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -47,7 +47,9 @@ func autoGenerator(
 			ctx := context.WithValue(context.Background(), "messageToAi.Item.ContextKeyAuthorization", "Bearer "+"data.Item.token")
 			messageToAi, err := service.TrainingService.GetMessageToAI(ctx)
 			if err != nil {
-				log.Printf("Error fetching template: %v", err)
+				// Do nothing, just wait for the next tick if there's no available messages
+				// use next line for just debugging
+				// log.Printf("Looks like everything ok! Error fetching template: %v", err)
 				continue
 			}
 

@@ -952,6 +952,110 @@
                 }
             }
         },
+        "/gemini/trainings/practiceMaterial": {
+            "post": {
+                "description": "Generate practice material for training",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate practice material for training",
+                "operationId": "ai-practice-material-for-topic",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGeneratePracticeMaterialForTopicPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/trainings/theoryMaterial": {
+            "post": {
+                "description": "Generate theory material for training",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate theory material for training",
+                "operationId": "ai-theory-material-for-topic",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/trainings/topics": {
+            "post": {
+                "description": "Generate topics for training",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "operationId": "ai-topic-for-training",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/healthcheck": {
             "get": {
                 "description": "Get the health status of the API",
@@ -2838,6 +2942,118 @@
                 }
             }
         },
+        "mw-general-bff_internal_schemas.AIGeneratePracticeMaterialForTopicPayload": {
+            "type": "object",
+            "required": [
+                "generateAmount",
+                "topicId",
+                "trainingId"
+            ],
+            "properties": {
+                "generateAmount": {
+                    "type": "integer"
+                },
+                "topicId": {
+                    "type": "string"
+                },
+                "trainingId": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse": {
+            "type": "object",
+            "required": [
+                "practiceMaterials"
+            ],
+            "properties": {
+                "practiceMaterials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-general-bff_internal_schemas.GeneratedPracticeMaterial"
+                    }
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload": {
+            "type": "object",
+            "required": [
+                "topicId",
+                "trainingName"
+            ],
+            "properties": {
+                "topicId": {
+                    "type": "string"
+                },
+                "trainingName": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse": {
+            "type": "object",
+            "required": [
+                "createdAt",
+                "description",
+                "name",
+                "order",
+                "topicUuid",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "topicUuid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingPayload": {
+            "type": "object",
+            "required": [
+                "topicsAmount",
+                "trainingId"
+            ],
+            "properties": {
+                "topicsAmount": {
+                    "type": "integer"
+                },
+                "trainingId": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingResponse": {
+            "type": "object",
+            "required": [
+                "topics"
+            ],
+            "properties": {
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-general-bff_internal_schemas.GeneratedTopicPreview"
+                    }
+                }
+            }
+        },
         "mw-general-bff_internal_schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
@@ -3493,6 +3709,64 @@
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.GeneratedPracticeMaterial": {
+            "type": "object",
+            "required": [
+                "answer",
+                "createdAt",
+                "name",
+                "order",
+                "practiceType",
+                "taskDescription",
+                "timeToAnswer",
+                "topicUuid",
+                "updatedAt",
+                "uuid"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "practiceType": {
+                    "type": "string"
+                },
+                "taskDescription": {
+                    "type": "string"
+                },
+                "timeToAnswer": {
+                    "type": "integer"
+                },
+                "topicUuid": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.GeneratedTopicPreview": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
                 }
             }
         },

@@ -184,17 +184,17 @@ func (cc *GeminiController) GenerateTopicsForTraining(ctx *gin.Context) {
 // @ID ai-theory-material-for-topic
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.AIGenerateTheoryMaterialForTrainingPayload true "Request payload"
-// @Success 200 {object} schemas.AIGenerateTheoryMaterialForTrainingResponse
+// @Param request body schemas.AIGenerateTheoryMaterialForTopicPayload true "Request payload"
+// @Success 200 {object} schemas.AIGenerateTheoryMaterialForTopicResponse
 // @Router /gemini/trainings/theoryMaterial [post]
-func (cc *GeminiController) GenerateTheoryMaterialForTraining(ctx *gin.Context) {
-	var payload *schemas.AIGenerateTheoryMaterialForTrainingPayload
+func (cc *GeminiController) GenerateTheoryMaterialForTopic(ctx *gin.Context) {
+	var payload *schemas.AIGenerateTheoryMaterialForTopicPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.geminiService.GenerateTheoryMaterialForTraining(ctx, payload)
+	response, err := cc.geminiService.GenerateTheoryMaterialForTopic(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)
@@ -207,17 +207,17 @@ func (cc *GeminiController) GenerateTheoryMaterialForTraining(ctx *gin.Context) 
 // @ID ai-practice-material-for-topic
 // @Accept  json
 // @Produce  json
-// @Param request body schemas.AIGeneratePracticeMaterialForTrainingPayload true "Request payload"
-// @Success 200 {object} schemas.AIGeneratePracticeMaterialsForTrainingResponse
+// @Param request body schemas.AIGeneratePracticeMaterialForTopicPayload true "Request payload"
+// @Success 200 {object} schemas.AIGeneratePracticeMaterialsForTopicResponse
 // @Router /gemini/trainings/practiceMaterial [post]
-func (cc *GeminiController) GeneratePracticeMaterialForTraining(ctx *gin.Context) {
-	var payload *schemas.AIGeneratePracticeMaterialForTrainingPayload
+func (cc *GeminiController) GeneratePracticeMaterialForTopic(ctx *gin.Context) {
+	var payload *schemas.AIGeneratePracticeMaterialForTopicPayload
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	response, err := cc.geminiService.GeneratePracticeMaterialForTraining(ctx, payload)
+	response, err := cc.geminiService.GeneratePracticeMaterialForTopic(ctx, payload)
 	util.HandleErrorGin(ctx, err)
 
 	ctx.JSON(http.StatusOK, response)

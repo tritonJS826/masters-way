@@ -335,6 +335,89 @@ func (gs *GeneralService) EstimateIssue(ctx context.Context, payload *schemas.AI
 	return estimate, nil
 }
 
+type GenerateTopicsForTrainingParams struct {
+	TopicsAmount        int32
+	TrainingName        string
+	TrainingDescription string
+}
+
+func (gs *GeneralService) GenerateTopicsForTraining(ctx context.Context, payload *GenerateTopicsForTrainingParams) (*openapiGeneral.MwServerInternalSchemasAIGenerateTopicsForTrainingResponse, error) {
+	estimateRaw, response, err := gs.generalAPI.GeminiAPI.AiTopicForTraining(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGenerateTopicsForTrainingPayload{
+		TopicsAmount: payload.TopicsAmount,
+		TrainingName: payload.TrainingName,
+		Goal:         payload.TrainingDescription,
+	}).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	return estimateRaw, nil
+}
+
+type GenerateTheoryMaterialForTrainingParams struct {
+	ExistentPracticeMaterials []string
+	ExistentTheoryMaterials   []string
+	TopicName                 string
+	TrainingDescription       string
+	TrainingName              string
+}
+
+func (gs *GeneralService) GenerateTheoryMaterialForTraining(ctx context.Context, payload *GenerateTheoryMaterialForTrainingParams) (*openapiGeneral.MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse, error) {
+	theoryMaterialsRaw, response, err := gs.generalAPI.GeminiAPI.AiTheoryMaterialForTopic(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload{
+		ExistentPracticeMaterials: payload.ExistentPracticeMaterials,
+		ExistentTheoryMaterials:   payload.ExistentTheoryMaterials,
+		TopicName:                 payload.TopicName,
+		TrainingName:              payload.TrainingName,
+		TrainingDescription:       payload.TrainingDescription,
+	}).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	return theoryMaterialsRaw, nil
+}
+
+type GeneratePracticeMaterialForTrainingPayload struct {
+	ExistentPracticeMaterials []string
+	ExistentTheoryMaterials   []string
+	TopicName                 string
+	TrainingDescription       string
+	TrainingName              string
+	GenerateAmount            int32
+}
+
+func (gs *GeneralService) GeneratePracticeMaterialForTraining(ctx context.Context, payload *GeneratePracticeMaterialForTrainingPayload) (*schemas.AIGeneratePracticeMaterialsForTrainingResponse, error) {
+	practiceMaterialsRaw, response, err := gs.generalAPI.GeminiAPI.AiPracticeMaterialForTopic(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload{
+		ExistentPracticeMaterials: payload.ExistentPracticeMaterials,
+		ExistentTheoryMaterials:   payload.ExistentTheoryMaterials,
+		TopicName:                 payload.TopicName,
+		TrainingName:              payload.TrainingName,
+		TrainingDescription:       payload.TrainingDescription,
+		GenerateAmount:            payload.GenerateAmount,
+	}).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	partialGeneratedPracticeMaterials := lo.Map(practiceMaterialsRaw.GetPracticeMaterials(), func(material openapiGeneral.MwServerInternalSchemasGeneratedPracticeMaterial, _ int) schemas.GeneratedPracticeMaterial {
+		return schemas.GeneratedPracticeMaterial{
+			Name:            material.Name,
+			Answer:          material.Answer,
+			TaskDescription: material.TaskDescription,
+			TimeToAnswer:    material.TimeToAnswer,
+		}
+	})
+
+	GeneratedPracticeMaterials := &schemas.AIGeneratePracticeMaterialsForTrainingResponse{
+		PracticeMaterials: partialGeneratedPracticeMaterials,
+	}
+
+	return GeneratedPracticeMaterials, nil
+}
+
 func (gs *GeneralService) CreateJobDone(ctx context.Context, payload *schemas.CreateJobDonePayload) (*openapiGeneral.MwServerInternalSchemasJobDonePopulatedResponse, error) {
 	jobDone, response, err := gs.generalAPI.JobDoneAPI.CreateJobDone(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateJobDonePayload{
 		DayReportUuid: payload.DayReportUuid,
