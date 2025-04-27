@@ -183,7 +183,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
   const generateTheoryMaterial = async (topicUuid: string) => {
     const newTheoryMaterial = await AIDAL.aiCreateTheoryMaterial({
       topicId: topicUuid,
-      trainingName: props.trainingUuid,
+      trainingId: props.trainingUuid,
     });
     topicPageStore.topic.addTheoryMaterial(newTheoryMaterial);
   };
@@ -208,7 +208,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
    */
   const generatePracticeMaterial = async (topicUuid: string) => {
     const newPracticeMaterial = await AIDAL.aiCreatePracticeMaterial({
-      generateAmount: 10,
+      generateAmount: 2,
       topicId: topicUuid,
       trainingId: props.trainingUuid,
     });

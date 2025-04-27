@@ -16,9 +16,14 @@ export interface CreateTopicParams {
   trainingId: string;
 
   /**
-   * Topic's name
+   * Topic's parent Id
    */
   topicParentId?: string;
+
+  /**
+   * Topic's name
+   */
+  topicName?: string;
 }
 
 /**
@@ -47,6 +52,7 @@ export class TopicDAL {
    */
   public static async createTopic(params: CreateTopicParams): Promise<TopicPreview> {
     const topicPreviewDTO = await TopicService.createTopic({
+      request: {name: params.topicName},
       trainingId: params.trainingId,
       topicParentId: params.topicParentId,
     });

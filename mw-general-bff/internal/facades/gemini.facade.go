@@ -124,26 +124,22 @@ func (gs *GeminiFacade) GenerateTheoryMaterialForTraining(ctx context.Context, p
 }
 
 func (gs *GeminiFacade) GeneratePracticeMaterialForTraining(ctx context.Context, payload *schemas.AIGeneratePracticeMaterialForTopicPayload) (*schemas.AIGeneratePracticeMaterialsForTrainingResponse, error) {
-	training, err := gs.trainingService.GetTrainingById(ctx, payload.TopicId)
+	training, err := gs.trainingService.GetTrainingById(ctx, payload.TrainingId)
 	if err != nil {
 		return nil, err
 	}
-
-	topic, err := gs.trainingService.GetTopicById(ctx, payload.TrainingId)
+	topic, err := gs.trainingService.GetTopicById(ctx, payload.TopicId)
 	if err != nil {
 		return nil, err
 	}
-
 	practiceMaterialsList := make([]string, 0)
 	for _, theoryMaterial := range topic.GetTheoryMaterials() {
 		practiceMaterialsList = append(practiceMaterialsList, theoryMaterial.Name)
 	}
-
 	theoryMaterialsList := make([]string, 0)
 	for _, theoryMaterial := range topic.GetTheoryMaterials() {
 		theoryMaterialsList = append(theoryMaterialsList, theoryMaterial.Name)
 	}
-
 	params := &services.GeneratePracticeMaterialForTrainingPayload{
 		TrainingDescription:       training.Description,
 		TrainingName:              training.Name,

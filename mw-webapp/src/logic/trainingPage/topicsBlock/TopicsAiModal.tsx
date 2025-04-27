@@ -119,7 +119,7 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
     const updateTopicsPromises = checkedGeneratedTopicsPreview.map(async (topicPreview) => {
       const newTopic = await TopicDAL.createTopic({
         trainingId: props.trainingId,
-        // TopicTitle: topicPreview.title,
+        topicName: topicPreview.title,
       });
 
       return newTopic;

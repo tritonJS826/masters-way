@@ -114,9 +114,9 @@ interface GenerateTopicParams {
 interface GenerateTheoryMaterialParams {
 
   /**
-   * Training name
+   * Training ID
    */
-  trainingName: string;
+  trainingId: string;
 
   /**
    * Topic ID
@@ -257,7 +257,7 @@ export class AIDAL {
     const theoryMaterialDTO = await AIService.aiCreateTheoryMaterial({
       request: {
         topicId: params.topicId,
-        trainingName: params.trainingName,
+        trainingId: params.trainingId,
       },
     });
 
