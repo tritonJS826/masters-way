@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## CreateTopic
 
-> MwTrainingBffInternalSchemasTopicPreview CreateTopic(ctx, trainingId).TopicParentId(topicParentId).Execute()
+> MwTrainingBffInternalSchemasTopicPreview CreateTopic(ctx, trainingId).Request(request).TopicParentId(topicParentId).Execute()
 
 Create topic
 
@@ -31,11 +31,12 @@ import (
 
 func main() {
 	trainingId := "trainingId_example" // string | training id
+	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateTopicPayload() // MwTrainingBffInternalSchemasCreateTopicPayload | query params
 	topicParentId := "topicParentId_example" // string | Topic parent id (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicAPI.CreateTopic(context.Background(), trainingId).TopicParentId(topicParentId).Execute()
+	resp, r, err := apiClient.TopicAPI.CreateTopic(context.Background(), trainingId).Request(request).TopicParentId(topicParentId).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.CreateTopic``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -61,6 +62,7 @@ Other parameters are passed through a pointer to a apiCreateTopicRequest struct 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **request** | [**MwTrainingBffInternalSchemasCreateTopicPayload**](MwTrainingBffInternalSchemasCreateTopicPayload.md) | query params | 
  **topicParentId** | **string** | Topic parent id | 
 
 ### Return type
@@ -73,7 +75,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

@@ -50,7 +50,7 @@ func (pmc *PracticeMaterialController) GetPracticeMaterialsByTopicId(ctx *gin.Co
 // @Success 200 {object} schemas.PracticeMaterial
 // @Router /practiceMaterials [post]
 func (pmc *PracticeMaterialController) CreatePracticeMaterial(ctx *gin.Context) {
-	var payload *schemas.PracticeMaterial
+	var payload *schemas.CreatePracticeMaterialPayload
 
 	if err := ctx.ShouldBindJSON(&payload); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
@@ -60,7 +60,6 @@ func (pmc *PracticeMaterialController) CreatePracticeMaterial(ctx *gin.Context) 
 	args := &services.CreatePracticeMaterialParams{
 		TopicId:      payload.TopicUuid,
 		Name:         payload.Name,
-		Order:        payload.PracticeMaterialOrder,
 		Description:  payload.TaskDescription,
 		Answer:       payload.Answer,
 		PracticeType: payload.PracticeType,

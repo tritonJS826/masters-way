@@ -19,6 +19,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AIDAL} from "src/dataAccessLogic/AIDAL";
 import {PracticeMaterialDAL} from "src/dataAccessLogic/PracticeMaterialDAL";
 import {TheoryMaterialDAL} from "src/dataAccessLogic/TheoryMaterialDAL";
 import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
@@ -177,6 +178,17 @@ export const TopicPage = observer((props: TopicPageProps) => {
   };
 
   /**
+   * Generate theory material by AI
+   */
+  const generateTheoryMaterial = async (topicUuid: string) => {
+    const newTheoryMaterial = await AIDAL.aiCreateTheoryMaterial({
+      topicId: topicUuid,
+      trainingId: props.trainingUuid,
+    });
+    topicPageStore.topic.addTheoryMaterial(newTheoryMaterial);
+  };
+
+  /**
    * Add practice material
    */
   const addPracticeMaterial = async (topicUuid: string) => {
@@ -189,6 +201,18 @@ export const TopicPage = observer((props: TopicPageProps) => {
       timeToAnswer: 0,
     });
     topicPageStore.topic.addPracticeMaterial(newPracticeMaterial);
+  };
+
+  /**
+   * Generate practice material by AI
+   */
+  const generatePracticeMaterial = async (topicUuid: string) => {
+    const newPracticeMaterial = await AIDAL.aiCreatePracticeMaterial({
+      generateAmount: 2,
+      topicId: topicUuid,
+      trainingId: props.trainingUuid,
+    });
+    newPracticeMaterial.forEach(practiceMaterial => topicPageStore.topic.addPracticeMaterial(practiceMaterial));
   };
 
   /**
@@ -536,16 +560,11 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
                 onClick={() => addTheoryMaterial(topicPageStore.topic.uuid)}
               />
-              <Tooltip
-                position={PositionTooltip.BOTTOM}
-                content={LanguageService.common.comingSoon[language]}
-              >
-                <Button
-                  value={LanguageService.training.aiButtons.generateTrainingWithAIButton[language]}
-                  onClick={() => { }}
-                  buttonType={ButtonType.PRIMARY}
-                />
-              </Tooltip>
+              <Button
+                value={LanguageService.topic.aiButtons.generateTheoryMaterialWithAIButton[language]}
+                onClick={() => generateTheoryMaterial(topicPageStore.topic.uuid)}
+                buttonType={ButtonType.PRIMARY}
+              />
             </HorizontalContainer>
             }
 
@@ -681,17 +700,6 @@ export const TopicPage = observer((props: TopicPageProps) => {
                     : LanguageService.common.emptyMarkdown[language]}
                 />
 
-                {/* <Title
-                  level={HeadingLevel.h3}
-                  isEditable={false}
-                  text={isOwner
-                    ? LanguageService.topic.materialsBlock.timeToAnswerTitle[language]
-                    : `${LanguageService.topic.materialsBlock.timeToAnswerTitle[language]}
-                  ${practiceMaterial.timeToAnswer}`
-                  }
-                  placeholder=""
-                /> */}
-
                 {isOwner ?
                   <VerticalContainer>
                     <Title
@@ -744,16 +752,11 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 onClick={() => addPracticeMaterial(topicPageStore.topic.uuid)}
                 className={styles.addMaterial}
               />
-              <Tooltip
-                position={PositionTooltip.BOTTOM}
-                content={LanguageService.common.comingSoon[language]}
-              >
-                <Button
-                  value={LanguageService.training.aiButtons.generateTrainingWithAIButton[language]}
-                  onClick={() => { }}
-                  buttonType={ButtonType.PRIMARY}
-                />
-              </Tooltip>
+              <Button
+                value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
+                onClick={() => generatePracticeMaterial(topicPageStore.topic.uuid)}
+                buttonType={ButtonType.PRIMARY}
+              />
             </HorizontalContainer>
             }
           </VerticalContainer>

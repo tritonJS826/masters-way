@@ -45,9 +45,16 @@ func (tc *TopicController) GetTopicById(ctx *gin.Context) {
 // @Produce json
 // @Param trainingId path string true "training id"
 // @Param topicParentId query string false "Topic parent id"
+// @Param request body schemas.CreateTopicPayload true "query params"
 // @Success 200 {object} schemas.TopicPreview
 // @Router /topics/{trainingId} [post]
 func (tc *TopicController) CreateTopic(ctx *gin.Context) {
+	var payload *schemas.CreateTopicPayload
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "Failed payload", "error": err.Error()})
+		return
+	}
+
 	topicParentIdRaw := ctx.DefaultQuery("topicParentId", "")
 	trainingId := ctx.Param("trainingId")
 
@@ -58,9 +65,17 @@ func (tc *TopicController) CreateTopic(ctx *gin.Context) {
 		topicParentId = &topicParentIdRaw
 	}
 
+	var topicName string
+	if payload.TopicName != nil {
+		topicName = *payload.TopicName
+	} else {
+		topicName = ""
+	}
+
 	args := &services.CreateTopicParams{
 		TrainingUuid:    trainingId,
 		ParentTopicUuid: topicParentId,
+		Name:            topicName,
 	}
 
 	topic, err := tc.topicService.CreateTopic(ctx, args)

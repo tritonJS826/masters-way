@@ -15,11 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
+  MwTrainingBffInternalSchemasCreateTopicPayload,
   MwTrainingBffInternalSchemasTopic,
   MwTrainingBffInternalSchemasTopicPreview,
   MwTrainingBffInternalSchemasUpdateTopicPayload,
 } from '../models/index';
 import {
+    MwTrainingBffInternalSchemasCreateTopicPayloadFromJSON,
+    MwTrainingBffInternalSchemasCreateTopicPayloadToJSON,
     MwTrainingBffInternalSchemasTopicFromJSON,
     MwTrainingBffInternalSchemasTopicToJSON,
     MwTrainingBffInternalSchemasTopicPreviewFromJSON,
@@ -30,6 +33,7 @@ import {
 
 export interface CreateTopicRequest {
     trainingId: string;
+    request: MwTrainingBffInternalSchemasCreateTopicPayload;
     topicParentId?: string;
 }
 
@@ -59,6 +63,10 @@ export class TopicApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling createTopic.');
         }
 
+        if (requestParameters.request === null || requestParameters.request === undefined) {
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createTopic.');
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters.topicParentId !== undefined) {
@@ -67,11 +75,14 @@ export class TopicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/topics/{trainingId}`.replace(`{${"trainingId"}}`, encodeURIComponent(String(requestParameters.trainingId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: MwTrainingBffInternalSchemasCreateTopicPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicPreviewFromJSON(jsonValue));

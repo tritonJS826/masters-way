@@ -27,6 +27,10 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 	notificationSettingGRPC := pb.NewNotificationSettingServiceClient(notificationConfig)
 
 	trainingGRPC := training.NewTrainingServiceClient(trainingConfig)
+	topicGRPC := training.NewTopicsServiceClient(trainingConfig)
+	theoryMaterialGRPC := training.NewTheoryMaterialServiceClient(trainingConfig)
+	practiceMaterialGRPC := training.NewPracticeMaterialServiceClient(trainingConfig)
+	trainingMessageToAiGRPC := training.NewTrainingMessageToAIServiceClient(trainingConfig)
 
 	return &Service{
 		AuthService:         newAuthService(generalApi),
@@ -34,6 +38,6 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 		MailService:         newMailService(mailApi),
 		StorageService:      newStorageService(storageApi),
 		NotificationService: newNotificationService(notificationGRPC, notificationSettingGRPC),
-		TrainingService:     newTrainingService(trainingGRPC),
+		TrainingService:     newTrainingService(trainingGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC),
 	}
 }

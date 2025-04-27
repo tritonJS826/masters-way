@@ -111,6 +111,7 @@ Class | Method | HTTP request | Description
 
  - [MwTrainingBffInternalSchemasCreatePracticeMaterialPayload](docs/MwTrainingBffInternalSchemasCreatePracticeMaterialPayload.md)
  - [MwTrainingBffInternalSchemasCreateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasCreateTheoryMaterialPayload.md)
+ - [MwTrainingBffInternalSchemasCreateTopicPayload](docs/MwTrainingBffInternalSchemasCreateTopicPayload.md)
  - [MwTrainingBffInternalSchemasCreateTrainingPayload](docs/MwTrainingBffInternalSchemasCreateTrainingPayload.md)
  - [MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload](docs/MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload.md)
  - [MwTrainingBffInternalSchemasPracticeMaterial](docs/MwTrainingBffInternalSchemasPracticeMaterial.md)

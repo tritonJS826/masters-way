@@ -1,5 +1,8 @@
 package schemas
 
+type CreateTopicPayload struct {
+	TopicName *string `json:"name"`
+}
 type UpdateTopicPayload struct {
 	Name string `json:"name" validate:"required"`
 }

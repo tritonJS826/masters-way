@@ -104,6 +104,9 @@ Class | Method | HTTP request | Description
 *GeminiAPI* | [**AiDecomposeIssue**](docs/GeminiAPI.md#aidecomposeissue) | **Post** /gemini/decompose-issue | Decompose issue
 *GeminiAPI* | [**AiEstimateIssue**](docs/GeminiAPI.md#aiestimateissue) | **Post** /gemini/estimate-issue | Estimate issue in minutes
 *GeminiAPI* | [**AiPlansByMetrics**](docs/GeminiAPI.md#aiplansbymetrics) | **Post** /gemini/generate-plans-by-metric | Generate plans by metric
+*GeminiAPI* | [**AiPracticeMaterialForTopic**](docs/GeminiAPI.md#aipracticematerialfortopic) | **Post** /gemini/trainings/practiceMaterial | Generate practice material for training
+*GeminiAPI* | [**AiTheoryMaterialForTopic**](docs/GeminiAPI.md#aitheorymaterialfortopic) | **Post** /gemini/trainings/theoryMaterial | Generate theory material for training
+*GeminiAPI* | [**AiTopicForTraining**](docs/GeminiAPI.md#aitopicfortraining) | **Post** /gemini/trainings/topics | 
 *GeminiAPI* | [**GenerateMetrics**](docs/GeminiAPI.md#generatemetrics) | **Post** /gemini/metrics | Generate metrics using Gemini
 *HealthAPI* | [**GeneralHealthCheck**](docs/HealthAPI.md#generalhealthcheck) | **Get** /healthcheck | Health Check
 *JobDoneAPI* | [**CreateJobDone**](docs/JobDoneAPI.md#createjobdone) | **Post** /jobDones | Create a new jobDone
@@ -170,6 +173,12 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasAIEstimateIssueResponse](docs/MwServerInternalSchemasAIEstimateIssueResponse.md)
  - [MwServerInternalSchemasAIGeneratePlansByMetricPayload](docs/MwServerInternalSchemasAIGeneratePlansByMetricPayload.md)
  - [MwServerInternalSchemasAIGeneratePlansByMetricResponse](docs/MwServerInternalSchemasAIGeneratePlansByMetricResponse.md)
+ - [MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload](docs/MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload.md)
+ - [MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse](docs/MwServerInternalSchemasAIGeneratePracticeMaterialsForTopicResponse.md)
+ - [MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload](docs/MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload.md)
+ - [MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse](docs/MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse.md)
+ - [MwServerInternalSchemasAIGenerateTopicsForTrainingPayload](docs/MwServerInternalSchemasAIGenerateTopicsForTrainingPayload.md)
+ - [MwServerInternalSchemasAIGenerateTopicsForTrainingResponse](docs/MwServerInternalSchemasAIGenerateTopicsForTrainingResponse.md)
  - [MwServerInternalSchemasAddWayToCompositeWayPayload](docs/MwServerInternalSchemasAddWayToCompositeWayPayload.md)
  - [MwServerInternalSchemasBeginAuthResponse](docs/MwServerInternalSchemasBeginAuthResponse.md)
  - [MwServerInternalSchemasCommentPopulatedResponse](docs/MwServerInternalSchemasCommentPopulatedResponse.md)
@@ -202,6 +211,7 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasFromUserMentoringRequestResponse](docs/MwServerInternalSchemasFromUserMentoringRequestResponse.md)
  - [MwServerInternalSchemasGenerateMetricsPayload](docs/MwServerInternalSchemasGenerateMetricsPayload.md)
  - [MwServerInternalSchemasGenerateMetricsResponse](docs/MwServerInternalSchemasGenerateMetricsResponse.md)
+ - [MwServerInternalSchemasGeneratedPracticeMaterial](docs/MwServerInternalSchemasGeneratedPracticeMaterial.md)
  - [MwServerInternalSchemasGetAllUsersResponse](docs/MwServerInternalSchemasGetAllUsersResponse.md)
  - [MwServerInternalSchemasGetAllWaysResponse](docs/MwServerInternalSchemasGetAllWaysResponse.md)
  - [MwServerInternalSchemasGetAuthCallbackFunctionResponse](docs/MwServerInternalSchemasGetAuthCallbackFunctionResponse.md)

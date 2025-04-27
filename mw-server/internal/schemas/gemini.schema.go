@@ -53,3 +53,46 @@ type AIEstimateIssuePayload struct {
 type AIEstimateIssueResponse struct {
 	Estimation string `json:"estimation" validate:"required"`
 }
+
+type AIGenerateTopicsForTrainingPayload struct {
+	TopicsAmount        int    `json:"topicsAmount" validate:"required"`
+	TrainingName        string `json:"trainingName" validate:"required"`
+	TrainingDescription string `json:"goal" validate:"required"`
+}
+
+type AIGenerateTopicsForTrainingResponse struct {
+	TopicNames []string `json:"topics" validate:"required"`
+}
+
+type AIGenerateTheoryMaterialForTopicPayload struct {
+	TrainingName          string   `json:"trainingName" validate:"required"`
+	TrainingDescription   string   `json:"trainingDescription" validate:"required"`
+	TopicName             string   `json:"topicName" validate:"required"`
+	TheoryMaterialNames   []string `json:"existentTheoryMaterials" validate:"required"`
+	PracticeMaterialNames []string `json:"existentPracticeMaterials" validate:"required"`
+}
+
+type AIGenerateTheoryMaterialForTopicResponse struct {
+	Name        string `json:"name" validate:"required"`
+	Description string `json:"description" validate:"required"`
+}
+
+type AIGeneratePracticeMaterialForTopicPayload struct {
+	TrainingName          string   `json:"trainingName" validate:"required"`
+	TrainingDescription   string   `json:"trainingDescription" validate:"required"`
+	TopicName             string   `json:"topicName" validate:"required"`
+	TheoryMaterialNames   []string `json:"existentTheoryMaterials" validate:"required"`
+	PracticeMaterialNames []string `json:"existentPracticeMaterials" validate:"required"`
+	GenerateAmount        int      `json:"generateAmount" validate:"required"`
+}
+
+type GeneratedPracticeMaterial struct {
+	Name            string `json:"name" validate:"required"`
+	TaskDescription string `json:"taskDescription" validate:"required"`
+	Answer          string `json:"answer" validate:"required"`
+	TimeToAnswer    int    `json:"timeToAnswer" validate:"required"`
+}
+
+type AIGeneratePracticeMaterialsForTopicResponse struct {
+	PracticeMaterials []GeneratedPracticeMaterial `json:"practiceMaterials" validate:"required"`
+}

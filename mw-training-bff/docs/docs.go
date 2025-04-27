@@ -463,6 +463,15 @@ const docTemplate = `{
                         "description": "Topic parent id",
                         "name": "topicParentId",
                         "in": "query"
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload"
+                        }
                     }
                 ],
                 "responses": {
@@ -981,6 +990,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "topicUuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateTopicPayload": {
+            "type": "object",
+            "properties": {
+                "name": {
                     "type": "string"
                 }
             }

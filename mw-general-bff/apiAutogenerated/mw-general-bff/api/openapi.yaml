@@ -600,6 +600,71 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /gemini/trainings/practiceMaterial:
+    post:
+      description: Generate practice material for training
+      operationId: ai-practice-material-for-topic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGeneratePracticeMaterialForTopicPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse'
+          description: OK
+      summary: Generate practice material for training
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/trainings/theoryMaterial:
+    post:
+      description: Generate theory material for training
+      operationId: ai-theory-material-for-topic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse'
+          description: OK
+      summary: Generate theory material for training
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/trainings/topics:
+    post:
+      description: Generate topics for training
+      operationId: ai-topic-for-training
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingResponse'
+          description: OK
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /healthcheck:
     get:
       description: Get the health status of the API
@@ -1836,6 +1901,116 @@ components:
       required:
       - plans
       type: object
+    mw-general-bff_internal_schemas.AIGeneratePracticeMaterialForTopicPayload:
+      properties:
+        generateAmount:
+          type: integer
+        topicId:
+          type: string
+        trainingId:
+          type: string
+      required:
+      - generateAmount
+      - topicId
+      - trainingId
+      type: object
+    mw-general-bff_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse:
+      example:
+        practiceMaterials:
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+        - timeToAnswer: 6
+          createdAt: createdAt
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+          practiceType: practiceType
+          topicUuid: topicUuid
+          uuid: uuid
+          order: 0
+          updatedAt: updatedAt
+      properties:
+        practiceMaterials:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.GeneratedPracticeMaterial'
+          type: array
+      required:
+      - practiceMaterials
+      type: object
+    mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload:
+      properties:
+        topicId:
+          type: string
+        trainingId:
+          type: string
+      required:
+      - topicId
+      - trainingId
+      type: object
+    mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse:
+      example:
+        createdAt: createdAt
+        name: name
+        description: description
+        topicUuid: topicUuid
+        uuid: uuid
+        order: 0
+        updatedAt: updatedAt
+      properties:
+        createdAt:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        order:
+          type: integer
+        topicUuid:
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - createdAt
+      - description
+      - name
+      - order
+      - topicUuid
+      - updatedAt
+      - uuid
+      type: object
+    mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingPayload:
+      properties:
+        topicsAmount:
+          type: integer
+        trainingId:
+          type: string
+      required:
+      - topicsAmount
+      - trainingId
+      type: object
+    mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingResponse:
+      example:
+        topics:
+        - name: name
+        - name: name
+      properties:
+        topics:
+          items:
+            $ref: '#/components/schemas/mw-general-bff_internal_schemas.GeneratedTopicPreview'
+          type: array
+      required:
+      - topics
+      type: object
     mw-general-bff_internal_schemas.AddWayToCompositeWayPayload:
       properties:
         childWayUuid:
@@ -2739,6 +2914,60 @@ components:
           type: array
       required:
       - metrics
+      type: object
+    mw-general-bff_internal_schemas.GeneratedPracticeMaterial:
+      example:
+        timeToAnswer: 6
+        createdAt: createdAt
+        answer: answer
+        taskDescription: taskDescription
+        name: name
+        practiceType: practiceType
+        topicUuid: topicUuid
+        uuid: uuid
+        order: 0
+        updatedAt: updatedAt
+      properties:
+        answer:
+          type: string
+        createdAt:
+          type: string
+        name:
+          type: string
+        order:
+          type: integer
+        practiceType:
+          type: string
+        taskDescription:
+          type: string
+        timeToAnswer:
+          type: integer
+        topicUuid:
+          type: string
+        updatedAt:
+          type: string
+        uuid:
+          type: string
+      required:
+      - answer
+      - createdAt
+      - name
+      - order
+      - practiceType
+      - taskDescription
+      - timeToAnswer
+      - topicUuid
+      - updatedAt
+      - uuid
+      type: object
+    mw-general-bff_internal_schemas.GeneratedTopicPreview:
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      required:
+      - name
       type: object
     mw-general-bff_internal_schemas.GetAllUsersResponse:
       example:

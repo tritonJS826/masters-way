@@ -592,6 +592,71 @@ paths:
       tags:
       - gemini
       x-codegen-request-body-name: request
+  /gemini/trainings/practiceMaterial:
+    post:
+      description: Generate practice material for training
+      operationId: ai-practice-material-for-topic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse'
+          description: OK
+      summary: Generate practice material for training
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/trainings/theoryMaterial:
+    post:
+      description: Generate theory material for training
+      operationId: ai-theory-material-for-topic
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse'
+          description: OK
+      summary: Generate theory material for training
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
+  /gemini/trainings/topics:
+    post:
+      description: Generate topics for training
+      operationId: ai-topic-for-training
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload'
+        description: Request payload
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-server_internal_schemas.AIGenerateTopicsForTrainingResponse'
+          description: OK
+      tags:
+      - gemini
+      x-codegen-request-body-name: request
   /healthcheck:
     get:
       description: Get the health status of the API
@@ -1856,6 +1921,113 @@ components:
       required:
       - plans
       type: object
+    mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload:
+      properties:
+        existentPracticeMaterials:
+          items:
+            type: string
+          type: array
+        existentTheoryMaterials:
+          items:
+            type: string
+          type: array
+        generateAmount:
+          type: integer
+        topicName:
+          type: string
+        trainingDescription:
+          type: string
+        trainingName:
+          type: string
+      required:
+      - existentPracticeMaterials
+      - existentTheoryMaterials
+      - generateAmount
+      - topicName
+      - trainingDescription
+      - trainingName
+      type: object
+    mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse:
+      example:
+        practiceMaterials:
+        - timeToAnswer: 0
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+        - timeToAnswer: 0
+          answer: answer
+          taskDescription: taskDescription
+          name: name
+      properties:
+        practiceMaterials:
+          items:
+            $ref: '#/components/schemas/mw-server_internal_schemas.GeneratedPracticeMaterial'
+          type: array
+      required:
+      - practiceMaterials
+      type: object
+    mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload:
+      properties:
+        existentPracticeMaterials:
+          items:
+            type: string
+          type: array
+        existentTheoryMaterials:
+          items:
+            type: string
+          type: array
+        topicName:
+          type: string
+        trainingDescription:
+          type: string
+        trainingName:
+          type: string
+      required:
+      - existentPracticeMaterials
+      - existentTheoryMaterials
+      - topicName
+      - trainingDescription
+      - trainingName
+      type: object
+    mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse:
+      example:
+        name: name
+        description: description
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      required:
+      - description
+      - name
+      type: object
+    mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload:
+      properties:
+        goal:
+          type: string
+        topicsAmount:
+          type: integer
+        trainingName:
+          type: string
+      required:
+      - goal
+      - topicsAmount
+      - trainingName
+      type: object
+    mw-server_internal_schemas.AIGenerateTopicsForTrainingResponse:
+      example:
+        topics:
+        - topics
+        - topics
+      properties:
+        topics:
+          items:
+            type: string
+          type: array
+      required:
+      - topics
+      type: object
     mw-server_internal_schemas.AddWayToCompositeWayPayload:
       properties:
         childWayUuid:
@@ -2752,6 +2924,27 @@ components:
           type: array
       required:
       - metrics
+      type: object
+    mw-server_internal_schemas.GeneratedPracticeMaterial:
+      example:
+        timeToAnswer: 0
+        answer: answer
+        taskDescription: taskDescription
+        name: name
+      properties:
+        answer:
+          type: string
+        name:
+          type: string
+        taskDescription:
+          type: string
+        timeToAnswer:
+          type: integer
+      required:
+      - answer
+      - name
+      - taskDescription
+      - timeToAnswer
       type: object
     mw-server_internal_schemas.GetAllUsersResponse:
       example:

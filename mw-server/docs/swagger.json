@@ -924,6 +924,110 @@
                 }
             }
         },
+        "/gemini/trainings/practiceMaterial": {
+            "post": {
+                "description": "Generate practice material for training",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate practice material for training",
+                "operationId": "ai-practice-material-for-topic",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/trainings/theoryMaterial": {
+            "post": {
+                "description": "Generate theory material for training",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "summary": "Generate theory material for training",
+                "operationId": "ai-theory-material-for-topic",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/gemini/trainings/topics": {
+            "post": {
+                "description": "Generate topics for training",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gemini"
+                ],
+                "operationId": "ai-topic-for-training",
+                "parameters": [
+                    {
+                        "description": "Request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-server_internal_schemas.AIGenerateTopicsForTrainingResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/healthcheck": {
             "get": {
                 "description": "Get the health status of the API",
@@ -2851,6 +2955,138 @@
                 }
             }
         },
+        "mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload": {
+            "type": "object",
+            "required": [
+                "existentPracticeMaterials",
+                "existentTheoryMaterials",
+                "generateAmount",
+                "topicName",
+                "trainingDescription",
+                "trainingName"
+            ],
+            "properties": {
+                "existentPracticeMaterials": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "existentTheoryMaterials": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "generateAmount": {
+                    "type": "integer"
+                },
+                "topicName": {
+                    "type": "string"
+                },
+                "trainingDescription": {
+                    "type": "string"
+                },
+                "trainingName": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse": {
+            "type": "object",
+            "required": [
+                "practiceMaterials"
+            ],
+            "properties": {
+                "practiceMaterials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-server_internal_schemas.GeneratedPracticeMaterial"
+                    }
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload": {
+            "type": "object",
+            "required": [
+                "existentPracticeMaterials",
+                "existentTheoryMaterials",
+                "topicName",
+                "trainingDescription",
+                "trainingName"
+            ],
+            "properties": {
+                "existentPracticeMaterials": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "existentTheoryMaterials": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "topicName": {
+                    "type": "string"
+                },
+                "trainingDescription": {
+                    "type": "string"
+                },
+                "trainingName": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse": {
+            "type": "object",
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload": {
+            "type": "object",
+            "required": [
+                "goal",
+                "topicsAmount",
+                "trainingName"
+            ],
+            "properties": {
+                "goal": {
+                    "type": "string"
+                },
+                "topicsAmount": {
+                    "type": "integer"
+                },
+                "trainingName": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-server_internal_schemas.AIGenerateTopicsForTrainingResponse": {
+            "type": "object",
+            "required": [
+                "topics"
+            ],
+            "properties": {
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "mw-server_internal_schemas.AddWayToCompositeWayPayload": {
             "type": "object",
             "required": [
@@ -3495,6 +3731,29 @@
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "mw-server_internal_schemas.GeneratedPracticeMaterial": {
+            "type": "object",
+            "required": [
+                "answer",
+                "name",
+                "taskDescription",
+                "timeToAnswer"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "taskDescription": {
+                    "type": "string"
+                },
+                "timeToAnswer": {
+                    "type": "integer"
                 }
             }
         },

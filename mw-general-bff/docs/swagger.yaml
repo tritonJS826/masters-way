@@ -105,6 +105,82 @@ definitions:
     required:
     - plans
     type: object
+  mw-general-bff_internal_schemas.AIGeneratePracticeMaterialForTopicPayload:
+    properties:
+      generateAmount:
+        type: integer
+      topicId:
+        type: string
+      trainingId:
+        type: string
+    required:
+    - generateAmount
+    - topicId
+    - trainingId
+    type: object
+  mw-general-bff_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse:
+    properties:
+      practiceMaterials:
+        items:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.GeneratedPracticeMaterial'
+        type: array
+    required:
+    - practiceMaterials
+    type: object
+  mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload:
+    properties:
+      topicId:
+        type: string
+      trainingId:
+        type: string
+    required:
+    - topicId
+    - trainingId
+    type: object
+  mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse:
+    properties:
+      createdAt:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      topicUuid:
+        type: string
+      updatedAt:
+        type: string
+      uuid:
+        type: string
+    required:
+    - createdAt
+    - description
+    - name
+    - order
+    - topicUuid
+    - updatedAt
+    - uuid
+    type: object
+  mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingPayload:
+    properties:
+      topicsAmount:
+        type: integer
+      trainingId:
+        type: string
+    required:
+    - topicsAmount
+    - trainingId
+    type: object
+  mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingResponse:
+    properties:
+      topics:
+        items:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.GeneratedTopicPreview'
+        type: array
+    required:
+    - topics
+    type: object
   mw-general-bff_internal_schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -556,6 +632,47 @@ definitions:
         type: array
     required:
     - metrics
+    type: object
+  mw-general-bff_internal_schemas.GeneratedPracticeMaterial:
+    properties:
+      answer:
+        type: string
+      createdAt:
+        type: string
+      name:
+        type: string
+      order:
+        type: integer
+      practiceType:
+        type: string
+      taskDescription:
+        type: string
+      timeToAnswer:
+        type: integer
+      topicUuid:
+        type: string
+      updatedAt:
+        type: string
+      uuid:
+        type: string
+    required:
+    - answer
+    - createdAt
+    - name
+    - order
+    - practiceType
+    - taskDescription
+    - timeToAnswer
+    - topicUuid
+    - updatedAt
+    - uuid
+    type: object
+  mw-general-bff_internal_schemas.GeneratedTopicPreview:
+    properties:
+      name:
+        type: string
+    required:
+    - name
     type: object
   mw-general-bff_internal_schemas.GetAllUsersResponse:
     properties:
@@ -1983,6 +2100,74 @@ paths:
           schema:
             $ref: '#/definitions/mw-general-bff_internal_schemas.GenerateMetricsResponse'
       summary: Generate metrics using Gemini
+      tags:
+      - gemini
+  /gemini/trainings/practiceMaterial:
+    post:
+      consumes:
+      - application/json
+      description: Generate practice material for training
+      operationId: ai-practice-material-for-topic
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.AIGeneratePracticeMaterialForTopicPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.AIGeneratePracticeMaterialsForTrainingResponse'
+      summary: Generate practice material for training
+      tags:
+      - gemini
+  /gemini/trainings/theoryMaterial:
+    post:
+      consumes:
+      - application/json
+      description: Generate theory material for training
+      operationId: ai-theory-material-for-topic
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse'
+      summary: Generate theory material for training
+      tags:
+      - gemini
+  /gemini/trainings/topics:
+    post:
+      consumes:
+      - application/json
+      description: Generate topics for training
+      operationId: ai-topic-for-training
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingResponse'
       tags:
       - gemini
   /healthcheck:

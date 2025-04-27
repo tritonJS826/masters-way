@@ -96,6 +96,96 @@ definitions:
     required:
     - plans
     type: object
+  mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload:
+    properties:
+      existentPracticeMaterials:
+        items:
+          type: string
+        type: array
+      existentTheoryMaterials:
+        items:
+          type: string
+        type: array
+      generateAmount:
+        type: integer
+      topicName:
+        type: string
+      trainingDescription:
+        type: string
+      trainingName:
+        type: string
+    required:
+    - existentPracticeMaterials
+    - existentTheoryMaterials
+    - generateAmount
+    - topicName
+    - trainingDescription
+    - trainingName
+    type: object
+  mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse:
+    properties:
+      practiceMaterials:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.GeneratedPracticeMaterial'
+        type: array
+    required:
+    - practiceMaterials
+    type: object
+  mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload:
+    properties:
+      existentPracticeMaterials:
+        items:
+          type: string
+        type: array
+      existentTheoryMaterials:
+        items:
+          type: string
+        type: array
+      topicName:
+        type: string
+      trainingDescription:
+        type: string
+      trainingName:
+        type: string
+    required:
+    - existentPracticeMaterials
+    - existentTheoryMaterials
+    - topicName
+    - trainingDescription
+    - trainingName
+    type: object
+  mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    - name
+    type: object
+  mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload:
+    properties:
+      goal:
+        type: string
+      topicsAmount:
+        type: integer
+      trainingName:
+        type: string
+    required:
+    - goal
+    - topicsAmount
+    - trainingName
+    type: object
+  mw-server_internal_schemas.AIGenerateTopicsForTrainingResponse:
+    properties:
+      topics:
+        items:
+          type: string
+        type: array
+    required:
+    - topics
+    type: object
   mw-server_internal_schemas.AddWayToCompositeWayPayload:
     properties:
       childWayUuid:
@@ -540,6 +630,22 @@ definitions:
         type: array
     required:
     - metrics
+    type: object
+  mw-server_internal_schemas.GeneratedPracticeMaterial:
+    properties:
+      answer:
+        type: string
+      name:
+        type: string
+      taskDescription:
+        type: string
+      timeToAnswer:
+        type: integer
+    required:
+    - answer
+    - name
+    - taskDescription
+    - timeToAnswer
     type: object
   mw-server_internal_schemas.GetAllUsersResponse:
     properties:
@@ -1994,6 +2100,74 @@ paths:
           schema:
             $ref: '#/definitions/mw-server_internal_schemas.GenerateMetricsResponse'
       summary: Generate metrics using Gemini
+      tags:
+      - gemini
+  /gemini/trainings/practiceMaterial:
+    post:
+      consumes:
+      - application/json
+      description: Generate practice material for training
+      operationId: ai-practice-material-for-topic
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialForTopicPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.AIGeneratePracticeMaterialsForTopicResponse'
+      summary: Generate practice material for training
+      tags:
+      - gemini
+  /gemini/trainings/theoryMaterial:
+    post:
+      consumes:
+      - application/json
+      description: Generate theory material for training
+      operationId: ai-theory-material-for-topic
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTheoryMaterialForTopicResponse'
+      summary: Generate theory material for training
+      tags:
+      - gemini
+  /gemini/trainings/topics:
+    post:
+      consumes:
+      - application/json
+      description: Generate topics for training
+      operationId: ai-topic-for-training
+      parameters:
+      - description: Request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.AIGenerateTopicsForTrainingResponse'
       tags:
       - gemini
   /healthcheck:
