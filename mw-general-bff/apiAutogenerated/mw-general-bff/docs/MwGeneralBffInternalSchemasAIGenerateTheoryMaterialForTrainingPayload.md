@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TopicId** | **string** |  | 
-**TrainingName** | **string** |  | 
+**TrainingId** | **string** |  | 
 
 ## Methods
 
 ### NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload
 
-`func NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload(topicId string, trainingName string, ) *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload`
+`func NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload(topicId string, trainingId string, ) *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload`
 
 NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload instantiates a new MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload object
 This constructor will assign default values to properties that have it defined,
@@ -46,24 +46,24 @@ and a boolean to check if the value has been set.
 SetTopicId sets TopicId field to given value.
 
 
-### GetTrainingName
+### GetTrainingId
 
-`func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingName() string`
+`func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingId() string`
 
-GetTrainingName returns the TrainingName field if non-nil, zero value otherwise.
+GetTrainingId returns the TrainingId field if non-nil, zero value otherwise.
 
-### GetTrainingNameOk
+### GetTrainingIdOk
 
-`func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingNameOk() (*string, bool)`
+`func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingIdOk() (*string, bool)`
 
-GetTrainingNameOk returns a tuple with the TrainingName field if it's non-nil, zero value otherwise
+GetTrainingIdOk returns a tuple with the TrainingId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTrainingName
+### SetTrainingId
 
-`func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) SetTrainingName(v string)`
+`func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) SetTrainingId(v string)`
 
-SetTrainingName sets TrainingName field to given value.
+SetTrainingId sets TrainingId field to given value.
 
 
 

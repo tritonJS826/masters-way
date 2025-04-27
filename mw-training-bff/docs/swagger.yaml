@@ -35,6 +35,11 @@ definitions:
     - name
     - topicUuid
     type: object
+  mw-training-bff_internal_schemas.CreateTopicPayload:
+    properties:
+      name:
+        type: string
+    type: object
   mw-training-bff_internal_schemas.CreateTrainingPayload:
     properties:
       description:
@@ -696,6 +701,12 @@ paths:
         in: query
         name: topicParentId
         type: string
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload'
       produces:
       - application/json
       responses:

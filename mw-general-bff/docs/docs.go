@@ -2987,13 +2987,13 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "topicId",
-                "trainingName"
+                "trainingId"
             ],
             "properties": {
                 "topicId": {
                     "type": "string"
                 },
-                "trainingName": {
+                "trainingId": {
                     "type": "string"
                 }
             }

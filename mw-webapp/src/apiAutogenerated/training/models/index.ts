@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './MwTrainingBffInternalSchemasCreatePracticeMaterialPayload';
 export * from './MwTrainingBffInternalSchemasCreateTheoryMaterialPayload';
+export * from './MwTrainingBffInternalSchemasCreateTopicPayload';
 export * from './MwTrainingBffInternalSchemasCreateTrainingPayload';
 export * from './MwTrainingBffInternalSchemasCreateTrainingTrainingTagPayload';
 export * from './MwTrainingBffInternalSchemasPracticeMaterial';

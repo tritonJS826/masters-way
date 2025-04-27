@@ -22,7 +22,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTr
 // MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload struct for MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload
 type MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload struct {
 	TopicId string
-	TrainingName string
+	TrainingId string
 }
 
 type _MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload
@@ -31,10 +31,10 @@ type _MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload MwGe
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload(topicId string, trainingName string) *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload {
+func NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload(topicId string, trainingId string) *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload {
 	this := MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload{}
 	this.TopicId = topicId
-	this.TrainingName = trainingName
+	this.TrainingId = trainingId
 	return &this
 }
 
@@ -70,28 +70,28 @@ func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) 
 	o.TopicId = v
 }
 
-// GetTrainingName returns the TrainingName field value
-func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingName() string {
+// GetTrainingId returns the TrainingId field value
+func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.TrainingName
+	return o.TrainingId
 }
 
-// GetTrainingNameOk returns a tuple with the TrainingName field value
+// GetTrainingIdOk returns a tuple with the TrainingId field value
 // and a boolean to check if the value has been set.
-func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingNameOk() (*string, bool) {
+func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) GetTrainingIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.TrainingName, true
+	return &o.TrainingId, true
 }
 
-// SetTrainingName sets field value
-func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) SetTrainingName(v string) {
-	o.TrainingName = v
+// SetTrainingId sets field value
+func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) SetTrainingId(v string) {
+	o.TrainingId = v
 }
 
 func (o MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) MarshalJSON() ([]byte, error) {
@@ -105,7 +105,7 @@ func (o MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) M
 func (o MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["topicId"] = o.TopicId
-	toSerialize["trainingName"] = o.TrainingName
+	toSerialize["trainingId"] = o.TrainingId
 	return toSerialize, nil
 }
 
@@ -115,7 +115,7 @@ func (o *MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload) 
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"topicId",
-		"trainingName",
+		"trainingId",
 	}
 
 	allProperties := make(map[string]interface{})

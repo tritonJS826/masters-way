@@ -287,6 +287,13 @@ paths:
         name: topicParentId
         schema:
           type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTopicPayload'
+        description: query params
+        required: true
       responses:
         "200":
           content:
@@ -297,6 +304,7 @@ paths:
       summary: Create topic
       tags:
       - topic
+      x-codegen-request-body-name: request
   /trainingMentors/{trainingId}/user/{userId}:
     delete:
       operationId: delete-training-mentor
@@ -629,6 +637,11 @@ components:
       - description
       - name
       - topicUuid
+      type: object
+    mw-training-bff_internal_schemas.CreateTopicPayload:
+      properties:
+        name:
+          type: string
       type: object
     mw-training-bff_internal_schemas.CreateTrainingPayload:
       properties:

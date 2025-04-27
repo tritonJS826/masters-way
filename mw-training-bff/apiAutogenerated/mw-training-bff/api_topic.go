@@ -28,7 +28,14 @@ type ApiCreateTopicRequest struct {
 	ctx context.Context
 	ApiService *TopicAPIService
 	trainingId string
+	request *MwTrainingBffInternalSchemasCreateTopicPayload
 	topicParentId *string
+}
+
+// query params
+func (r ApiCreateTopicRequest) Request(request MwTrainingBffInternalSchemasCreateTopicPayload) ApiCreateTopicRequest {
+	r.request = &request
+	return r
 }
 
 // Topic parent id
@@ -77,12 +84,15 @@ func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTraini
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.request == nil {
+		return localVarReturnValue, nil, reportError("request is required and must be specified")
+	}
 
 	if r.topicParentId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "topicParentId", r.topicParentId, "", "")
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -98,6 +108,8 @@ func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTraini
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.request
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -156,12 +168,13 @@ func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, requ
 	fmt.Println(localVarQueryParams)
 
 
+
 	if r.topicParentId != nil {
 		// TODO: It should not render
 			parameterAddToHeaderOrQuery(localVarQueryParams, "topicParentId", r.topicParentId, "", "")
 	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)

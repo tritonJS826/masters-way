@@ -433,7 +433,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload("TopicId_example", "TrainingName_example") // MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload("TopicId_example", "TrainingId_example") // MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

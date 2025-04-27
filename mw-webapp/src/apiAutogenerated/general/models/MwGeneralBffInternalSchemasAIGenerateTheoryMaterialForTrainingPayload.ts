@@ -30,7 +30,7 @@ export interface MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingP
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload
      */
-    trainingName: string;
+    trainingId: string;
 }
 
 /**
@@ -41,7 +41,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIGenerateTheoryMaterialFor
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "topicId" in value;
-    isInstance = isInstance && "trainingName" in value;
+    isInstance = isInstance && "trainingId" in value;
 
     return isInstance;
 }
@@ -60,7 +60,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPa
     return {
         
         'topicId': json['topicId'],
-        'trainingName': json['trainingName'],
+        'trainingId': json['trainingId'],
     };
 }
 
@@ -75,7 +75,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPa
     return {
         
         'topicId': value.topicId,
-        'trainingName': value.trainingName,
+        'trainingId': value.trainingId,
     };
 }
 

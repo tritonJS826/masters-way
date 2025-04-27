@@ -131,11 +131,11 @@ definitions:
     properties:
       topicId:
         type: string
-      trainingName:
+      trainingId:
         type: string
     required:
     - topicId
-    - trainingName
+    - trainingId
     type: object
   mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingResponse:
     properties:

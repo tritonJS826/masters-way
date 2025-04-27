@@ -64,7 +64,7 @@ type AIGenerateTopicsForTrainingResponse struct {
 }
 
 type AIGenerateTheoryMaterialForTrainingPayload struct {
-	TrainingId string `json:"trainingName" validate:"required"`
+	TrainingId string `json:"trainingId" validate:"required"`
 	TopicId    string `json:"topicId" validate:"required"`
 }
 
