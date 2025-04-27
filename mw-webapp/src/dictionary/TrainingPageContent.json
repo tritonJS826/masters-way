@@ -252,6 +252,11 @@
       "ru": "Сгенерировать тренинг с AI",
       "en": "Generate training using AI",
       "ua": "Згенерувати тренінг за допомогою AI"
+    },
+    "generateTopicWithAIButton": {
+      "ru": "Сгенерировать тему с AI",
+      "en": "Generate topic using AI",
+      "ua": "Згенерувати тему за допомогою AI"
     }
   }
 }

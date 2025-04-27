@@ -1,9 +1,12 @@
 import {observer} from "mobx-react-lite";
-import {Button} from "src/component/button/Button";
+import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Modal} from "src/component/modal/Modal";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CreateTopicParams, TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {TopicChildrenList} from "src/logic/trainingPage/topicsBlock/topicList/TopicList";
+import {TopicsAiModal} from "src/logic/trainingPage/topicsBlock/TopicsAiModal";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/trainingPage/topicsBlock/TopicsBlock.module.scss";
@@ -75,12 +78,31 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
         deleteTopic={(topicUuid: string) => deleteTopic(topicUuid)}
       />
       {props.isEditable &&
-      <Button
-        value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
-        onClick={() => addTopic({trainingId: props.trainingUuid})}
-        className={styles.addTopicButton}
-      />
+        <HorizontalContainer className={styles.generateTopicButtons}>
+          <Button
+            value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
+            onClick={() => addTopic({trainingId: props.trainingUuid})}
+          />
+          <Modal
+            trigger={
+              <Button
+                value={LanguageService.training.aiButtons.generateTopicWithAIButton[language]}
+                onClick={() => { }}
+                buttonType={ButtonType.PRIMARY}
+              />
+            }
+            content={
+              <TopicsAiModal
+                addTopic={props.addTopic}
+                topicsAmount={10}
+                trainingId={props.trainingUuid}
+              />
+            }
+            isFitContent={false}
+          />
+        </HorizontalContainer>
       }
+
     </VerticalContainer>
   );
 });
