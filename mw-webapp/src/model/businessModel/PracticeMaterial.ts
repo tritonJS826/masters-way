@@ -51,7 +51,7 @@ interface PracticeMaterialProps {
   practiceType: string;
 
   /**
-   * PracticeMaterial's time to answer
+   * PracticeMaterial's time to answer in seconds
    */
   timeToAnswer: number;
 

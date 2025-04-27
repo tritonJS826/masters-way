@@ -239,3 +239,138 @@ func (gs *GeminiService) EstimateIssue(ctx context.Context, payload *schemas.AIE
 
 	return &schemas.AIEstimateIssueResponse{Estimation: responseText}, nil
 }
+
+func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload *schemas.AIGenerateTopicsForTrainingPayload) (*schemas.AIGenerateTopicsForTrainingResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		topicNames := []string{
+			"Hi! It's a 1 stub message from AI GenerateTopicsForTraining for developing",
+			"Hi! It's a 2 stub message from AI GenerateTopicsForTraining for developing",
+			"Hi! It's a 3 stub message from AI GenerateTopicsForTraining for developing",
+			"Hi! It's a 4 stub message from AI GenerateTopicsForTraining for developing",
+			"Hi! It's a 5 stub message from AI GenerateTopicsForTraining for developing",
+		}
+		return &schemas.AIGenerateTopicsForTrainingResponse{TopicNames: topicNames}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Generate me the list of " + string(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "[")
+	jsonEnd := strings.LastIndex(responseText, "]") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var topicNames []string
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &topicNames)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &schemas.AIGenerateTopicsForTrainingResponse{TopicNames: topicNames}, nil
+}
+
+func (gs *GeminiService) GenerateTheoryMaterialForTraining(ctx context.Context, payload *schemas.AIGenerateTheoryMaterialForTrainingPayload) (*schemas.AIGenerateTheoryMaterialForTrainingResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		return &schemas.AIGenerateTheoryMaterialForTrainingResponse{
+			Name:        "Hi! It's a stub message from AI GenerateTheoryMaterialForTraining for developing",
+			Description: "Hi! It's a stub message from AI GenerateTheoryMaterialForTraining for developing",
+		}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Currently I'm working on topic " + payload.TopicName + ". I already created theory materials  (" + strings.Join(payload.TheoryMaterialNames, ", ") + ") and practice materials for this topic (" + strings.Join(payload.PracticeMaterialNames, ", ") + ")" + " \n Generate me another one theory material. Give me answer with max 100 symbols for name and 1000 symbols for description. Provide me answer in json with fields 'name' and 'description' (for example {\"name\": \"some name\", description: \"some description\"})"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "{")
+	jsonEnd := strings.LastIndex(responseText, "}") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var theoryMaterial schemas.AIGenerateTheoryMaterialForTrainingResponse
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &theoryMaterial)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &schemas.AIGenerateTheoryMaterialForTrainingResponse{
+		Name:        theoryMaterial.Name,
+		Description: theoryMaterial.Description,
+	}, nil
+}
+
+func (gs *GeminiService) GeneratePracticeMaterialForTraining(ctx context.Context, payload *schemas.AIGeneratePracticeMaterialForTrainingPayload) (*schemas.AIGeneratePracticeMaterialsForTrainingResponse, error) {
+	// if the environment is not 'prod', connection to Gemini is not created, and the client remains nil
+	if gs.config.EnvType != "prod" {
+		practiceMaterials := []schemas.GeneratedPracticeMaterial{
+			{
+				Name:            "Hi! It's a 1 stub Name message from AI GeneratePracticeMaterialForTraining for developing",
+				TaskDescription: "Hi! It's a 1 stub TaskDescription message from AI GeneratePracticeMaterialForTraining for developing",
+				Answer:          "Hi! It's a 1 stub Answer message from AI GeneratePracticeMaterialForTraining for developing",
+				TimeToAnswer:    10,
+			},
+			{
+				Name:            "Hi! It's a 2 stub Name message from AI GeneratePracticeMaterialForTraining for developing",
+				TaskDescription: "Hi! It's a 2 stub TaskDescription message from AI GeneratePracticeMaterialForTraining for developing",
+				Answer:          "Hi! It's a 2 stub Answer message from AI GeneratePracticeMaterialForTraining for developing",
+				TimeToAnswer:    20,
+			},
+		}
+		return &schemas.AIGeneratePracticeMaterialsForTrainingResponse{PracticeMaterials: practiceMaterials}, nil
+	}
+
+	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
+
+	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Currently I'm working on topic " + payload.TopicName + ". I already created theory materials  (" + strings.Join(payload.TheoryMaterialNames, ", ") + ") and practice materials (" + strings.Join(payload.PracticeMaterialNames, ", ") + ") for this topic." + " \n Generate " + string(payload.GenerateAmount) + " more practice materials. Give me answer with max 100 symbols for name, 1000 symbols for task description, 100 symbols for answer and time to answer in seconds. Provide me answer in json with fields 'name', 'taskDescription', 'answer', 'time to answer' (for example [{\"name\": \"some name\", taskDescription: \"some description\", \"answer\":\"answer\", \"timeToAnswer\":30}])"
+	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate content: %w", err)
+	}
+
+	// Using Parts[0] to extract the first part of the generated content,
+	// assuming the JSON output is contained in the first part of the response.
+	responseText := fmt.Sprint(response.Candidates[0].Content.Parts[0])
+
+	jsonStart := strings.Index(responseText, "[")
+	jsonEnd := strings.LastIndex(responseText, "]") + 1
+	if jsonStart == -1 || jsonEnd == -1 {
+		return nil, fmt.Errorf("failed to find JSON in the response: %w", err)
+	}
+
+	jsonString := responseText[jsonStart:jsonEnd]
+	var practiceMaterials []schemas.GeneratedPracticeMaterial
+	// TODO: clear unsupported chars from jsonString, otherwise we will face with unpredictable errors
+	// (not all string could be Unmarshalled with json.Unmarshall)
+	err = json.Unmarshal([]byte(jsonString), &practiceMaterials)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal response from gemini: %w", err)
+	}
+
+	return &schemas.AIGeneratePracticeMaterialsForTrainingResponse{PracticeMaterials: practiceMaterials}, nil
+}
