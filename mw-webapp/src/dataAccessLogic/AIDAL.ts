@@ -1,5 +1,10 @@
 import {metricToMetricDTO} from "src/dataAccessLogic/BusinessToDTOConverter/metricToMetricDTO";
+import {practiceMaterialDTOToPracticeMaterial} from
+  "src/dataAccessLogic/DTOToPreviewConverter/practiceMaterialDTOToPracticeMaterial";
+import {theoryMaterialDTOToTheoryMaterial} from "src/dataAccessLogic/DTOToPreviewConverter/theoryMaterialDTOToTheoryMaterial";
 import {Metric} from "src/model/businessModel/Metric";
+import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
+import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
 import {AIService} from "src/service/AIService";
 
 /**
@@ -88,6 +93,61 @@ interface EstimateIssueParams {
 }
 
 /**
+ * Generate topic based on the message by AI params
+ */
+interface GenerateTopicParams {
+
+  /**
+   * Topics amount
+   */
+  topicsAmount: number;
+
+  /**
+   * Training ID
+   */
+  trainingId: string;
+}
+
+/**
+ * Generate theory material based on the topic by AI params
+ */
+interface GenerateTheoryMaterialParams {
+
+  /**
+   * Training name
+   */
+  trainingName: string;
+
+  /**
+   * Topic ID
+   */
+  topicId: string;
+
+}
+
+/**
+ * Generate practice material based on the topic by AI params
+ */
+interface GeneratePracticeMaterialParams {
+
+  /**
+   * Training ID
+   */
+  trainingId: string;
+
+  /**
+   * Topic ID
+   */
+  topicId: string;
+
+  /**
+   * Amount of practice materials
+   */
+  generateAmount: number;
+
+}
+
+/**
  * Provides methods to interact with the comments
  */
 export class AIDAL {
@@ -172,6 +232,55 @@ export class AIDAL {
     const answer = await AIService.aiChat({request: {message}});
 
     return answer.message;
+  }
+
+  /**
+   * Generate topic based on the message by AI
+   */
+  public static async aiTopic(params: GenerateTopicParams): Promise<string[]> {
+    const topicsDTO = await AIService.aiTopic({
+      request: {
+        topicsAmount: params.topicsAmount,
+        trainingId: params.trainingId,
+      },
+    });
+
+    const topicsPreview = topicsDTO.topics.map(topic => topic.name);
+
+    return topicsPreview;
+  }
+
+  /**
+   * Generate theory material based on the topic by AI
+   */
+  public static async aiCreateTheoryMaterial(params: GenerateTheoryMaterialParams): Promise<TheoryMaterial> {
+    const theoryMaterialDTO = await AIService.aiCreateTheoryMaterial({
+      request: {
+        topicId: params.topicId,
+        trainingName: params.trainingName,
+      },
+    });
+
+    const theoryMaterial = theoryMaterialDTOToTheoryMaterial(theoryMaterialDTO);
+
+    return theoryMaterial;
+  }
+
+  /**
+   * Generate practice material based on the topic by AI
+   */
+  public static async aiCreatePracticeMaterial(params: GeneratePracticeMaterialParams): Promise<PracticeMaterial[]> {
+    const practiceMaterialsDTO = await AIService.aiCreatePracticeMaterial({
+      request: {
+        topicId: params.topicId,
+        generateAmount: params.generateAmount,
+        trainingId: params.trainingId,
+      },
+    });
+
+    const practiceMaterials = practiceMaterialsDTO.practiceMaterials.map(practiceMaterialDTOToPracticeMaterial);
+
+    return practiceMaterials;
   }
 
 }
