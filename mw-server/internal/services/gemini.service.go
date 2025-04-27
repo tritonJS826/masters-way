@@ -256,7 +256,7 @@ func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload 
 
 	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
 
-	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Generate me the list of " + strconv.Itoa(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format"
+	var payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Generate me the list of " + strconv.Itoa(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format. For example: [\"some topic 1\", \"some topic 2\"]"
 	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate content: %w", err)
