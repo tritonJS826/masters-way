@@ -94,9 +94,12 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
             content={
               <TopicsAiModal
                 addTopic={props.addTopic}
-                topicsAmount={10}
                 trainingId={props.trainingUuid}
               />
+              // <TopicsAmountAiModal
+              //   addTopic={props.addTopic}
+              //   trainingId={props.trainingUuid}
+              // />
             }
             isFitContent={false}
           />

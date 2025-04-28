@@ -107,6 +107,7 @@ export const DecomposeIssueAiModal = (props: DecomposeIssueAiModalProps) => {
     const plansPreviewRaw = await AIDAL.aiDecomposeIssue({
       goal: props.goalDescription,
       message: props.issueDescription,
+      language,
     });
 
     const plansPreview = plansPreviewRaw.map(planPreview => new PlanPreview({

@@ -30,7 +30,7 @@ export interface MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload
      */
-    parentTopicId: string | null;
+    parentTopicId?: string;
     /**
      * 
      * @type {number}
@@ -53,7 +53,6 @@ export function instanceOfMwGeneralBffInternalSchemasAIGenerateTopicsForTraining
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "language" in value;
-    isInstance = isInstance && "parentTopicId" in value;
     isInstance = isInstance && "topicsAmount" in value;
     isInstance = isInstance && "trainingId" in value;
 
@@ -74,7 +73,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadFro
     return {
         
         'language': json['language'],
-        'parentTopicId': json['parentTopicId'],
+        'parentTopicId': !exists(json, 'parentTopicId') ? undefined : json['parentTopicId'],
         'topicsAmount': json['topicsAmount'],
         'trainingId': json['trainingId'],
     };

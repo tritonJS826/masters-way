@@ -108,6 +108,7 @@ export const MetricsAiModal = (props: MetricsAiModalProps) => {
       goalDescription: props.goalDescription,
       metrics: props.goalMetrics,
       wayName: props.wayName,
+      language,
     });
 
     const metricsPreview = metricsPreviewRaw.map(metricPreview => new GoalMetricPreview({

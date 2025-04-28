@@ -184,6 +184,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
     const newTheoryMaterial = await AIDAL.aiCreateTheoryMaterial({
       topicId: topicUuid,
       trainingId: props.trainingUuid,
+      language,
     });
     topicPageStore.topic.addTheoryMaterial(newTheoryMaterial);
   };
@@ -211,6 +212,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
       generateAmount: 2,
       topicId: topicUuid,
       trainingId: props.trainingUuid,
+      language,
     });
     newPracticeMaterial.forEach(practiceMaterial => topicPageStore.topic.addPracticeMaterial(practiceMaterial));
   };

@@ -350,15 +350,12 @@ type GenerateTopicsForTrainingParams struct {
 }
 
 func (gs *GeneralService) GenerateTopicsForTraining(ctx context.Context, payload *GenerateTopicsForTrainingParams) (*openapiGeneral.MwServerInternalSchemasAIGenerateTopicsForTrainingResponse, error) {
-	var fullParentTopicDescription = openapiGeneral.NullableString{}
-	fullParentTopicDescription.Set(payload.FullParentTopicDescription)
-
 	estimateRaw, response, err := gs.generalAPI.GeminiAPI.AiTopicForTraining(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGenerateTopicsForTrainingPayload{
 		TopicsAmount:               payload.TopicsAmount,
 		TrainingName:               payload.TrainingName,
 		Goal:                       payload.TrainingDescription,
 		Language:                   payload.Language,
-		FullParentTopicDescription: fullParentTopicDescription,
+		FullParentTopicDescription: payload.FullParentTopicDescription,
 	}).Execute()
 
 	if err != nil {

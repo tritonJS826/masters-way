@@ -2,6 +2,7 @@ import {metricToMetricDTO} from "src/dataAccessLogic/BusinessToDTOConverter/metr
 import {practiceMaterialDTOToPracticeMaterial} from
   "src/dataAccessLogic/DTOToPreviewConverter/practiceMaterialDTOToPracticeMaterial";
 import {theoryMaterialDTOToTheoryMaterial} from "src/dataAccessLogic/DTOToPreviewConverter/theoryMaterialDTOToTheoryMaterial";
+import {Language} from "src/globalStore/LanguageStore";
 import {Metric} from "src/model/businessModel/Metric";
 import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
 import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
@@ -26,6 +27,11 @@ interface GenerateMetricsParams {
    * Way's name
    */
   wayName: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
 }
 
 /**
@@ -42,6 +48,11 @@ interface GeneratePlansByMetricParams {
    * Way's metric
    */
   metric: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
 }
 
 /**
@@ -58,6 +69,11 @@ interface CommentIssueParams {
    * Way's issue (problem, plan, etc)
    */
   message: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
 }
 
 /**
@@ -74,6 +90,11 @@ interface DecomposeIssueParams {
    * Way's issue (problem, plan, etc)
    */
   message: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
 }
 
 /**
@@ -90,6 +111,11 @@ interface EstimateIssueParams {
    * Way's issue (problem, plan, etc)
    */
   issue: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
 }
 
 /**
@@ -106,6 +132,16 @@ interface GenerateTopicParams {
    * Training ID
    */
   trainingId: string;
+
+  /**
+   * Topic's parent Id
+   */
+  topicParentId?: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
 }
 
 /**
@@ -122,6 +158,11 @@ interface GenerateTheoryMaterialParams {
    * Topic ID
    */
   topicId: string;
+
+  /**
+   * The app language
+   */
+  language: Language;
 
 }
 
@@ -145,6 +186,11 @@ interface GeneratePracticeMaterialParams {
    */
   generateAmount: number;
 
+  /**
+   * The app language
+   */
+  language: Language;
+
 }
 
 /**
@@ -163,6 +209,7 @@ export class AIDAL {
         goalDescription: params.goalDescription,
         metrics: oldMetricsDTO.map(metric => metric.description),
         wayName: params.wayName,
+        language: params.language,
       },
     });
 
@@ -177,6 +224,7 @@ export class AIDAL {
       request: {
         goal: params.goal,
         metric: params.metric,
+        language: params.language,
       },
     });
 
@@ -191,6 +239,7 @@ export class AIDAL {
       request: {
         goal: params.goal,
         issue: params.issue,
+        language: params.language,
       },
     });
 
@@ -205,6 +254,7 @@ export class AIDAL {
       request: {
         goal: params.goal,
         message: params.message,
+        language: params.language,
       },
     });
 
@@ -219,6 +269,7 @@ export class AIDAL {
       request: {
         goal: params.goal,
         message: params.message,
+        language: params.language,
       },
     });
 
@@ -228,8 +279,13 @@ export class AIDAL {
   /**
    * Generate answer based on the message by AI
    */
-  public static async aiChat(message: string): Promise<string> {
-    const answer = await AIService.aiChat({request: {message}});
+  public static async aiChat(message: string, language: Language): Promise<string> {
+    const answer = await AIService.aiChat({
+      request: {
+        message,
+        language,
+      },
+    });
 
     return answer.message;
   }
@@ -242,6 +298,8 @@ export class AIDAL {
       request: {
         topicsAmount: params.topicsAmount,
         trainingId: params.trainingId,
+        parentTopicId: params.topicParentId,
+        language: params.language,
       },
     });
 
@@ -258,6 +316,7 @@ export class AIDAL {
       request: {
         topicId: params.topicId,
         trainingId: params.trainingId,
+        language: params.language,
       },
     });
 
@@ -275,6 +334,7 @@ export class AIDAL {
         topicId: params.topicId,
         generateAmount: params.generateAmount,
         trainingId: params.trainingId,
+        language: params.language,
       },
     });
 

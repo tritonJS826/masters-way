@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Language** | **string** |  | 
-**ParentTopicId** | **NullableString** |  | 
+**ParentTopicId** | Pointer to **string** |  | [optional] 
 **TopicsAmount** | **int32** |  | 
 **TrainingId** | **string** |  | 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload
 
-`func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(language string, parentTopicId NullableString, topicsAmount int32, trainingId string, ) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload`
+`func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(language string, topicsAmount int32, trainingId string, ) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload`
 
 NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload instantiates a new MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload object
 This constructor will assign default values to properties that have it defined,
@@ -67,17 +67,12 @@ and a boolean to check if the value has been set.
 
 SetParentTopicId sets ParentTopicId field to given value.
 
+### HasParentTopicId
 
-### SetParentTopicIdNil
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) HasParentTopicId() bool`
 
-`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) SetParentTopicIdNil(b bool)`
+HasParentTopicId returns a boolean if a field has been set.
 
- SetParentTopicIdNil sets the value for ParentTopicId to be an explicit nil
-
-### UnsetParentTopicId
-`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) UnsetParentTopicId()`
-
-UnsetParentTopicId ensures that no value is present for ParentTopicId, not even an explicit nil
 ### GetTopicsAmount
 
 `func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetTopicsAmount() int32`

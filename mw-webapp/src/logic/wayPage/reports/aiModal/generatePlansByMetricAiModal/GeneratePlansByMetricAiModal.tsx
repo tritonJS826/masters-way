@@ -110,6 +110,7 @@ export const GeneratePlansByMetricAiModal = (props: DecomposeIssueAiModalProps) 
     const plansPreviewRaw = await AIDAL.aiPlansByMetrics({
       goal: props.goalDescription,
       metric,
+      language,
     });
 
     const plansPreview = plansPreviewRaw.map(planPreview => new PlanPreview({

@@ -47,6 +47,7 @@ export const CommentIssueAiModal = (props: CommentIssueAiModalProps) => {
     const comment = await AIDAL.aiCommentIssue({
       goal: props.goalDescription,
       message: props.problemDescription,
+      language,
     });
 
     setGeneratedComment(comment);
