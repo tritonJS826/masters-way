@@ -16,7 +16,8 @@ func newMessageRouter(messageController *controllers.MessageController) *message
 }
 
 func (mr *messageRouter) setMessageRoutes(rg *gin.RouterGroup) {
-	messages := rg.Group("/messages", auth.AuthMiddleware())
-	messages.POST("", mr.messageController.CreateMessage)
-	messages.PATCH("/:messageId/message-status", mr.messageController.UpdateMessageStatus)
+	messages := rg.Group("/messages")
+	messages.POST("", auth.AuthMiddleware(), mr.messageController.CreateMessage)
+	messages.POST("/greeting", mr.messageController.CreateGreetingMessage)
+	messages.PATCH("/:messageId/message-status", auth.AuthMiddleware(), mr.messageController.UpdateMessageStatus)
 }

@@ -15,6 +15,7 @@ type Service struct {
 	MailService         *MailService
 	StorageService      *StorageService
 	NotificationService *NotificationService
+	ChatService         *ChatService
 	TrainingService     *TrainingService
 }
 
@@ -22,6 +23,7 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 	var generalApi = openapi.MakeGeneralAPIClient(config)
 	var storageApi = openapi.MakeStorageAPIClient(config)
 	var mailApi = openapi.MakeMailAPIClient(config)
+	var chatApi = openapi.MakeChatAPIClient(config)
 
 	notificationGRPC := pb.NewNotificationServiceClient(notificationConfig)
 	notificationSettingGRPC := pb.NewNotificationSettingServiceClient(notificationConfig)
@@ -38,6 +40,7 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 		MailService:         newMailService(mailApi),
 		StorageService:      newStorageService(storageApi),
 		NotificationService: newNotificationService(notificationGRPC, notificationSettingGRPC),
+		ChatService:         newChatService(chatApi, config),
 		TrainingService:     newTrainingService(trainingGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC),
 	}
 }

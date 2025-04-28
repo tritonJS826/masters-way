@@ -23,6 +23,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIEstimateIssuePayload{}
 type MwGeneralBffInternalSchemasAIEstimateIssuePayload struct {
 	Goal string
 	Issue string
+	Language string
 }
 
 type _MwGeneralBffInternalSchemasAIEstimateIssuePayload MwGeneralBffInternalSchemasAIEstimateIssuePayload
@@ -31,10 +32,11 @@ type _MwGeneralBffInternalSchemasAIEstimateIssuePayload MwGeneralBffInternalSche
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasAIEstimateIssuePayload(goal string, issue string) *MwGeneralBffInternalSchemasAIEstimateIssuePayload {
+func NewMwGeneralBffInternalSchemasAIEstimateIssuePayload(goal string, issue string, language string) *MwGeneralBffInternalSchemasAIEstimateIssuePayload {
 	this := MwGeneralBffInternalSchemasAIEstimateIssuePayload{}
 	this.Goal = goal
 	this.Issue = issue
+	this.Language = language
 	return &this
 }
 
@@ -94,6 +96,30 @@ func (o *MwGeneralBffInternalSchemasAIEstimateIssuePayload) SetIssue(v string) {
 	o.Issue = v
 }
 
+// GetLanguage returns the Language field value
+func (o *MwGeneralBffInternalSchemasAIEstimateIssuePayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasAIEstimateIssuePayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwGeneralBffInternalSchemasAIEstimateIssuePayload) SetLanguage(v string) {
+	o.Language = v
+}
+
 func (o MwGeneralBffInternalSchemasAIEstimateIssuePayload) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -106,6 +132,7 @@ func (o MwGeneralBffInternalSchemasAIEstimateIssuePayload) ToMap() (map[string]i
 	toSerialize := map[string]interface{}{}
 	toSerialize["goal"] = o.Goal
 	toSerialize["issue"] = o.Issue
+	toSerialize["language"] = o.Language
 	return toSerialize, nil
 }
 
@@ -116,6 +143,7 @@ func (o *MwGeneralBffInternalSchemasAIEstimateIssuePayload) UnmarshalJSON(data [
 	requiredProperties := []string{
 		"goal",
 		"issue",
+		"language",
 	}
 
 	allProperties := make(map[string]interface{})

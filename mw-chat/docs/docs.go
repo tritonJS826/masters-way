@@ -63,6 +63,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/messages/greeting": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "message"
+                ],
+                "summary": "Create greeting message",
+                "operationId": "create-greeting-message",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-chat_internal_schemas.CreateGreetingMessagePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/messages/{messageId}/message-status": {
             "patch": {
                 "description": "Update message status by message Id",
@@ -332,6 +363,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "mw-chat_internal_schemas.CreateGreetingMessagePayload": {
+            "type": "object",
+            "required": [
+                "roomId"
+            ],
+            "properties": {
+                "roomId": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-chat_internal_schemas.CreateMessagePayload": {
             "type": "object",
             "required": [

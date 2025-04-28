@@ -4,6 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Language** | **string** |  | 
+**ParentTopicId** | **NullableString** |  | 
 **TopicsAmount** | **int32** |  | 
 **TrainingId** | **string** |  | 
 
@@ -11,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload
 
-`func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(topicsAmount int32, trainingId string, ) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload`
+`func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(language string, parentTopicId NullableString, topicsAmount int32, trainingId string, ) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload`
 
 NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload instantiates a new MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload object
 This constructor will assign default values to properties that have it defined,
@@ -26,6 +28,56 @@ NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadWithDefaults ins
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetLanguage
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguage() string`
+
+GetLanguage returns the Language field if non-nil, zero value otherwise.
+
+### GetLanguageOk
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguageOk() (*string, bool)`
+
+GetLanguageOk returns a tuple with the Language field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLanguage
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) SetLanguage(v string)`
+
+SetLanguage sets Language field to given value.
+
+
+### GetParentTopicId
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetParentTopicId() string`
+
+GetParentTopicId returns the ParentTopicId field if non-nil, zero value otherwise.
+
+### GetParentTopicIdOk
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetParentTopicIdOk() (*string, bool)`
+
+GetParentTopicIdOk returns a tuple with the ParentTopicId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetParentTopicId
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) SetParentTopicId(v string)`
+
+SetParentTopicId sets ParentTopicId field to given value.
+
+
+### SetParentTopicIdNil
+
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) SetParentTopicIdNil(b bool)`
+
+ SetParentTopicIdNil sets the value for ParentTopicId to be an explicit nil
+
+### UnsetParentTopicId
+`func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) UnsetParentTopicId()`
+
+UnsetParentTopicId ensures that no value is present for ParentTopicId, not even an explicit nil
 ### GetTopicsAmount
 
 `func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetTopicsAmount() int32`

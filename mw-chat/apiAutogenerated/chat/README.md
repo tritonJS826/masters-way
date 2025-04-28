@@ -79,6 +79,7 @@ All URIs are relative to */chat*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DevAPI* | [**DevResetDbGet**](docs/DevAPI.md#devresetdbget) | **Get** /dev/reset-db | resets db
+*MessageAPI* | [**CreateGreetingMessage**](docs/MessageAPI.md#creategreetingmessage) | **Post** /messages/greeting | Create greeting message
 *MessageAPI* | [**CreateMessage**](docs/MessageAPI.md#createmessage) | **Post** /messages | Create message
 *MessageAPI* | [**UpdateMessageStatus**](docs/MessageAPI.md#updatemessagestatus) | **Patch** /messages/{messageId}/message-status | Update message status
 *RoomAPI* | [**AddUserToRoom**](docs/RoomAPI.md#addusertoroom) | **Post** /rooms/{roomId}/users/{userId} | Add user to room
@@ -92,6 +93,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [MwChatInternalSchemasCreateGreetingMessagePayload](docs/MwChatInternalSchemasCreateGreetingMessagePayload.md)
  - [MwChatInternalSchemasCreateMessagePayload](docs/MwChatInternalSchemasCreateMessagePayload.md)
  - [MwChatInternalSchemasCreateMessageResponse](docs/MwChatInternalSchemasCreateMessageResponse.md)
  - [MwChatInternalSchemasCreateRoomPayload](docs/MwChatInternalSchemasCreateRoomPayload.md)

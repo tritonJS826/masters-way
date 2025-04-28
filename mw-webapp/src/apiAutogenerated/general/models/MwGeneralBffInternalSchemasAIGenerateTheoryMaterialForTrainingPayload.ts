@@ -24,6 +24,12 @@ export interface MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingP
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload
      */
+    language: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload
+     */
     topicId: string;
     /**
      * 
@@ -40,6 +46,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIGenerateTheoryMaterialFor
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "language" in value;
     isInstance = isInstance && "topicId" in value;
     isInstance = isInstance && "trainingId" in value;
 
@@ -59,6 +66,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPa
     }
     return {
         
+        'language': json['language'],
         'topicId': json['topicId'],
         'trainingId': json['trainingId'],
     };
@@ -74,6 +82,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPa
     }
     return {
         
+        'language': value.language,
         'topicId': value.topicId,
         'trainingId': value.trainingId,
     };

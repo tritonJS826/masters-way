@@ -23,6 +23,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateTheoryMaterialForTopicP
 type MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload struct {
 	ExistentPracticeMaterials []string `json:"existentPracticeMaterials"`
 	ExistentTheoryMaterials []string `json:"existentTheoryMaterials"`
+	Language string `json:"language"`
 	TopicName string `json:"topicName"`
 	TrainingDescription string `json:"trainingDescription"`
 	TrainingName string `json:"trainingName"`
@@ -34,10 +35,11 @@ type _MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload MwServerInt
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload(existentPracticeMaterials []string, existentTheoryMaterials []string, topicName string, trainingDescription string, trainingName string) *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload {
+func NewMwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload(existentPracticeMaterials []string, existentTheoryMaterials []string, language string, topicName string, trainingDescription string, trainingName string) *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload {
 	this := MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload{}
 	this.ExistentPracticeMaterials = existentPracticeMaterials
 	this.ExistentTheoryMaterials = existentTheoryMaterials
+	this.Language = language
 	this.TopicName = topicName
 	this.TrainingDescription = trainingDescription
 	this.TrainingName = trainingName
@@ -98,6 +100,30 @@ func (o *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) GetExis
 // SetExistentTheoryMaterials sets field value
 func (o *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) SetExistentTheoryMaterials(v []string) {
 	o.ExistentTheoryMaterials = v
+}
+
+// GetLanguage returns the Language field value
+func (o *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetTopicName returns the TopicName field value
@@ -184,6 +210,7 @@ func (o MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) ToMap() 
 	toSerialize := map[string]interface{}{}
 	toSerialize["existentPracticeMaterials"] = o.ExistentPracticeMaterials
 	toSerialize["existentTheoryMaterials"] = o.ExistentTheoryMaterials
+	toSerialize["language"] = o.Language
 	toSerialize["topicName"] = o.TopicName
 	toSerialize["trainingDescription"] = o.TrainingDescription
 	toSerialize["trainingName"] = o.TrainingName
@@ -197,6 +224,7 @@ func (o *MwServerInternalSchemasAIGenerateTheoryMaterialForTopicPayload) Unmarsh
 	requiredProperties := []string{
 		"existentPracticeMaterials",
 		"existentTheoryMaterials",
+		"language",
 		"topicName",
 		"trainingDescription",
 		"trainingName",

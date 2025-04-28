@@ -239,6 +239,7 @@ func (gs *GeneralService) CreateMetricsPrompt(ctx context.Context, payload *sche
 		GoalDescription: payload.GoalDescription,
 		Metrics:         payload.Metrics,
 		WayName:         payload.WayName,
+		Language:        payload.Language,
 	}).Execute()
 
 	if err != nil {
@@ -254,7 +255,8 @@ func (gs *GeneralService) CreateMetricsPrompt(ctx context.Context, payload *sche
 
 func (gs *GeneralService) AIChat(ctx context.Context, payload *schemas.AIChatPayload) (*schemas.AIChatResponse, error) {
 	aiChatRow, response, err := gs.generalAPI.GeminiAPI.AiChat(ctx).Request(openapiGeneral.MwServerInternalSchemasAIChatPayload{
-		Message: payload.Message,
+		Message:  payload.Message,
+		Language: payload.Language,
 	}).Execute()
 
 	if err != nil {
@@ -269,8 +271,9 @@ func (gs *GeneralService) AIChat(ctx context.Context, payload *schemas.AIChatPay
 
 func (gs *GeneralService) GeneratePlansByMetric(ctx context.Context, payload *schemas.AIGeneratePlansByMetricPayload) (*schemas.AIGeneratePlansByMetricResponse, error) {
 	plansRaw, response, err := gs.generalAPI.GeminiAPI.AiPlansByMetrics(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGeneratePlansByMetricPayload{
-		Goal:   payload.Goal,
-		Metric: payload.Metric,
+		Goal:     payload.Goal,
+		Metric:   payload.Metric,
+		Language: payload.Language,
 	}).Execute()
 
 	if err != nil {
@@ -286,8 +289,9 @@ func (gs *GeneralService) GeneratePlansByMetric(ctx context.Context, payload *sc
 
 func (gs *GeneralService) CommentIssue(ctx context.Context, payload *schemas.AICommentIssuePayload) (*schemas.AICommentIssueResponse, error) {
 	commentRaw, response, err := gs.generalAPI.GeminiAPI.AiCommentIssue(ctx).Request(openapiGeneral.MwServerInternalSchemasAICommentIssuePayload{
-		Goal:    payload.Goal,
-		Message: payload.Message,
+		Goal:     payload.Goal,
+		Message:  payload.Message,
+		Language: payload.Language,
 	}).Execute()
 
 	if err != nil {
@@ -303,8 +307,9 @@ func (gs *GeneralService) CommentIssue(ctx context.Context, payload *schemas.AIC
 
 func (gs *GeneralService) DecomposeIssue(ctx context.Context, payload *schemas.AIDecomposeIssuePayload) (*schemas.AIDecomposeIssueResponse, error) {
 	plansRaw, response, err := gs.generalAPI.GeminiAPI.AiDecomposeIssue(ctx).Request(openapiGeneral.MwServerInternalSchemasAIDecomposeIssuePayload{
-		Goal:    payload.Goal,
-		Message: payload.Message,
+		Goal:     payload.Goal,
+		Message:  payload.Message,
+		Language: payload.Language,
 	}).Execute()
 
 	if err != nil {
@@ -320,8 +325,9 @@ func (gs *GeneralService) DecomposeIssue(ctx context.Context, payload *schemas.A
 
 func (gs *GeneralService) EstimateIssue(ctx context.Context, payload *schemas.AIEstimateIssuePayload) (*schemas.AIEstimateIssueResponse, error) {
 	estimateRaw, response, err := gs.generalAPI.GeminiAPI.AiEstimateIssue(ctx).Request(openapiGeneral.MwServerInternalSchemasAIEstimateIssuePayload{
-		Goal:  payload.Goal,
-		Issue: payload.Issue,
+		Goal:     payload.Goal,
+		Issue:    payload.Issue,
+		Language: payload.Language,
 	}).Execute()
 
 	if err != nil {
@@ -336,16 +342,23 @@ func (gs *GeneralService) EstimateIssue(ctx context.Context, payload *schemas.AI
 }
 
 type GenerateTopicsForTrainingParams struct {
-	TopicsAmount        int32
-	TrainingName        string
-	TrainingDescription string
+	TopicsAmount               int32
+	TrainingName               string
+	TrainingDescription        string
+	Language                   string
+	FullParentTopicDescription *string
 }
 
 func (gs *GeneralService) GenerateTopicsForTraining(ctx context.Context, payload *GenerateTopicsForTrainingParams) (*openapiGeneral.MwServerInternalSchemasAIGenerateTopicsForTrainingResponse, error) {
+	var fullParentTopicDescription = openapiGeneral.NullableString{}
+	fullParentTopicDescription.Set(payload.FullParentTopicDescription)
+
 	estimateRaw, response, err := gs.generalAPI.GeminiAPI.AiTopicForTraining(ctx).Request(openapiGeneral.MwServerInternalSchemasAIGenerateTopicsForTrainingPayload{
-		TopicsAmount: payload.TopicsAmount,
-		TrainingName: payload.TrainingName,
-		Goal:         payload.TrainingDescription,
+		TopicsAmount:               payload.TopicsAmount,
+		TrainingName:               payload.TrainingName,
+		Goal:                       payload.TrainingDescription,
+		Language:                   payload.Language,
+		FullParentTopicDescription: fullParentTopicDescription,
 	}).Execute()
 
 	if err != nil {
@@ -361,6 +374,7 @@ type GenerateTheoryMaterialForTrainingParams struct {
 	TopicName                 string
 	TrainingDescription       string
 	TrainingName              string
+	Language                  string
 }
 
 func (gs *GeneralService) GenerateTheoryMaterialForTraining(ctx context.Context, payload *GenerateTheoryMaterialForTrainingParams) (*openapiGeneral.MwServerInternalSchemasAIGenerateTheoryMaterialForTopicResponse, error) {
@@ -370,6 +384,7 @@ func (gs *GeneralService) GenerateTheoryMaterialForTraining(ctx context.Context,
 		TopicName:                 payload.TopicName,
 		TrainingName:              payload.TrainingName,
 		TrainingDescription:       payload.TrainingDescription,
+		Language:                  payload.Language,
 	}).Execute()
 
 	if err != nil {
@@ -386,6 +401,7 @@ type GeneratePracticeMaterialForTrainingPayload struct {
 	TrainingDescription       string
 	TrainingName              string
 	GenerateAmount            int32
+	Language                  string
 }
 
 func (gs *GeneralService) GeneratePracticeMaterialForTraining(ctx context.Context, payload *GeneratePracticeMaterialForTrainingPayload) (*schemas.AIGeneratePracticeMaterialsForTrainingResponse, error) {
@@ -396,6 +412,7 @@ func (gs *GeneralService) GeneratePracticeMaterialForTraining(ctx context.Contex
 		TrainingName:              payload.TrainingName,
 		TrainingDescription:       payload.TrainingDescription,
 		GenerateAmount:            payload.GenerateAmount,
+		Language:                  payload.Language,
 	}).Execute()
 
 	if err != nil {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"mw-general-bff/internal/schemas"
 	"mw-general-bff/internal/services"
+	"strings"
 
 	"github.com/samber/lo"
 )
@@ -41,16 +42,40 @@ func (gs *GeminiFacade) EstimateIssue(ctx context.Context, payload *schemas.AIEs
 	return gs.generalService.EstimateIssue(ctx, payload)
 }
 
+type shortParentTopicForGeneration struct {
+	Name        string
+	Description string
+}
+
 func (gs *GeminiFacade) GenerateTopicsForTraining(ctx context.Context, payload *schemas.AIGenerateTopicsForTrainingPayload) (*schemas.AIGenerateTopicsForTrainingResponse, error) {
 	training, err := gs.trainingService.GetTrainingById(ctx, payload.TrainingId)
 	if err != nil {
 		return nil, err
 	}
 
+	var fullParentTopicDescription *string
+	if payload.ParentTopicId != nil {
+
+		var parentTopicRaw, err = gs.trainingService.GetTopicById(ctx, *payload.ParentTopicId)
+		if err != nil {
+			return nil, err
+		}
+
+		theoryMaterialsList := make([]string, 0)
+		for i, theoryMaterial := range parentTopicRaw.GetTheoryMaterials() {
+			theoryMaterialsList = append(theoryMaterialsList, string(rune(i))+": "+theoryMaterial.Name+": "+theoryMaterial.Description)
+		}
+		description := parentTopicRaw.GetName() + ": \n" + strings.Join(theoryMaterialsList, "\n")
+		fullParentTopicDescription = &description
+
+	}
+
 	params := &services.GenerateTopicsForTrainingParams{
-		TopicsAmount:        payload.TopicsAmount,
-		TrainingName:        training.Name,
-		TrainingDescription: training.Description,
+		TopicsAmount:               payload.TopicsAmount,
+		TrainingName:               training.Name,
+		TrainingDescription:        training.Description,
+		Language:                   payload.Language,
+		FullParentTopicDescription: fullParentTopicDescription,
 	}
 
 	topicsRaw, err := gs.generalService.GenerateTopicsForTraining(ctx, params)
@@ -172,6 +197,17 @@ func (gs *GeminiFacade) GeneratePracticeMaterialForTraining(ctx context.Context,
 	response := &schemas.AIGeneratePracticeMaterialsForTrainingResponse{
 		PracticeMaterials: practiceMaterials,
 	}
+
+	lo.ForEach(practiceMaterials, func(practiceMaterial schemas.GeneratedPracticeMaterial, i int) {
+		gs.trainingService.CreatePracticeMaterial(ctx, &services.CreatePracticeMaterialParams{
+			TopicUuid:    payload.TopicId,
+			Name:         practiceMaterial.Name,
+			Description:  practiceMaterial.TaskDescription,
+			Answer:       practiceMaterial.Answer,
+			PracticeType: practiceMaterial.PracticeType,
+			TimeToAnswer: practiceMaterial.TimeToAnswer,
+		})
+	})
 
 	return response, nil
 }

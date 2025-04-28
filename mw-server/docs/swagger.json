@@ -2826,9 +2826,14 @@
         "mw-server_internal_schemas.AIChatPayload": {
             "type": "object",
             "required": [
+                "language",
                 "message"
             ],
             "properties": {
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
                 "message": {
                     "type": "string"
                 }
@@ -2849,11 +2854,16 @@
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "message"
             ],
             "properties": {
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "message": {
                     "type": "string"
@@ -2875,11 +2885,16 @@
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "message"
             ],
             "properties": {
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "message": {
                     "type": "string"
@@ -2904,7 +2919,8 @@
             "type": "object",
             "required": [
                 "goal",
-                "issue"
+                "issue",
+                "language"
             ],
             "properties": {
                 "goal": {
@@ -2912,6 +2928,10 @@
                 },
                 "issue": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 }
             }
         },
@@ -2930,11 +2950,16 @@
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "metric"
             ],
             "properties": {
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "metric": {
                     "type": "string"
@@ -2961,6 +2986,7 @@
                 "existentPracticeMaterials",
                 "existentTheoryMaterials",
                 "generateAmount",
+                "language",
                 "topicName",
                 "trainingDescription",
                 "trainingName"
@@ -2980,6 +3006,10 @@
                 },
                 "generateAmount": {
                     "type": "integer"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "topicName": {
                     "type": "string"
@@ -3011,6 +3041,7 @@
             "required": [
                 "existentPracticeMaterials",
                 "existentTheoryMaterials",
+                "language",
                 "topicName",
                 "trainingDescription",
                 "trainingName"
@@ -3027,6 +3058,10 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "topicName": {
                     "type": "string"
@@ -3058,12 +3093,21 @@
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "topicsAmount",
                 "trainingName"
             ],
             "properties": {
+                "fullParentTopicDescription": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "topicsAmount": {
                     "type": "integer"
@@ -3702,12 +3746,17 @@
             "type": "object",
             "required": [
                 "goalDescription",
+                "language",
                 "metrics",
                 "wayName"
             ],
             "properties": {
                 "goalDescription": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "metrics": {
                     "type": "array",

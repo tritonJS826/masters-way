@@ -12,9 +12,13 @@ definitions:
     type: object
   mw-server_internal_schemas.AIChatPayload:
     properties:
+      language:
+        example: ru|en|ua
+        type: string
       message:
         type: string
     required:
+    - language
     - message
     type: object
   mw-server_internal_schemas.AIChatResponse:
@@ -28,10 +32,14 @@ definitions:
     properties:
       goal:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       message:
         type: string
     required:
     - goal
+    - language
     - message
     type: object
   mw-server_internal_schemas.AICommentIssueResponse:
@@ -45,10 +53,14 @@ definitions:
     properties:
       goal:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       message:
         type: string
     required:
     - goal
+    - language
     - message
     type: object
   mw-server_internal_schemas.AIDecomposeIssueResponse:
@@ -66,9 +78,13 @@ definitions:
         type: string
       issue:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
     required:
     - goal
     - issue
+    - language
     type: object
   mw-server_internal_schemas.AIEstimateIssueResponse:
     properties:
@@ -81,10 +97,14 @@ definitions:
     properties:
       goal:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       metric:
         type: string
     required:
     - goal
+    - language
     - metric
     type: object
   mw-server_internal_schemas.AIGeneratePlansByMetricResponse:
@@ -108,6 +128,9 @@ definitions:
         type: array
       generateAmount:
         type: integer
+      language:
+        example: ru|en|ua
+        type: string
       topicName:
         type: string
       trainingDescription:
@@ -118,6 +141,7 @@ definitions:
     - existentPracticeMaterials
     - existentTheoryMaterials
     - generateAmount
+    - language
     - topicName
     - trainingDescription
     - trainingName
@@ -141,6 +165,9 @@ definitions:
         items:
           type: string
         type: array
+      language:
+        example: ru|en|ua
+        type: string
       topicName:
         type: string
       trainingDescription:
@@ -150,6 +177,7 @@ definitions:
     required:
     - existentPracticeMaterials
     - existentTheoryMaterials
+    - language
     - topicName
     - trainingDescription
     - trainingName
@@ -166,7 +194,13 @@ definitions:
     type: object
   mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload:
     properties:
+      fullParentTopicDescription:
+        type: string
+        x-nullable: true
       goal:
+        type: string
+      language:
+        example: ru|en|ua
         type: string
       topicsAmount:
         type: integer
@@ -174,6 +208,7 @@ definitions:
         type: string
     required:
     - goal
+    - language
     - topicsAmount
     - trainingName
     type: object
@@ -611,6 +646,9 @@ definitions:
     properties:
       goalDescription:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       metrics:
         items:
           type: string
@@ -619,6 +657,7 @@ definitions:
         type: string
     required:
     - goalDescription
+    - language
     - metrics
     - wayName
     type: object

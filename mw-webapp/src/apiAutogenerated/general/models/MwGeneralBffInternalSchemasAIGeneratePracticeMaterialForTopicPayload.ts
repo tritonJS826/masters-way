@@ -30,6 +30,12 @@ export interface MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPa
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload
      */
+    language: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload
+     */
     topicId: string;
     /**
      * 
@@ -47,6 +53,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIGeneratePracticeMaterialF
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "generateAmount" in value;
+    isInstance = isInstance && "language" in value;
     isInstance = isInstance && "topicId" in value;
     isInstance = isInstance && "trainingId" in value;
 
@@ -67,6 +74,7 @@ export function MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPay
     return {
         
         'generateAmount': json['generateAmount'],
+        'language': json['language'],
         'topicId': json['topicId'],
         'trainingId': json['trainingId'],
     };
@@ -83,6 +91,7 @@ export function MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPay
     return {
         
         'generateAmount': value.generateAmount,
+        'language': value.language,
         'topicId': value.topicId,
         'trainingId': value.trainingId,
     };

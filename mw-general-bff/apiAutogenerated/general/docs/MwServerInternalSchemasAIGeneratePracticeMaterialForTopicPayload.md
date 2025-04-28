@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **ExistentPracticeMaterials** | **[]string** |  | 
 **ExistentTheoryMaterials** | **[]string** |  | 
 **GenerateAmount** | **int32** |  | 
+**Language** | **string** |  | 
 **TopicName** | **string** |  | 
 **TrainingDescription** | **string** |  | 
 **TrainingName** | **string** |  | 
@@ -15,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload
 
-`func NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload(existentPracticeMaterials []string, existentTheoryMaterials []string, generateAmount int32, topicName string, trainingDescription string, trainingName string, ) *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload`
+`func NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload(existentPracticeMaterials []string, existentTheoryMaterials []string, generateAmount int32, language string, topicName string, trainingDescription string, trainingName string, ) *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload`
 
 NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload instantiates a new MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload object
 This constructor will assign default values to properties that have it defined,
@@ -88,6 +89,26 @@ and a boolean to check if the value has been set.
 `func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) SetGenerateAmount(v int32)`
 
 SetGenerateAmount sets GenerateAmount field to given value.
+
+
+### GetLanguage
+
+`func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) GetLanguage() string`
+
+GetLanguage returns the Language field if non-nil, zero value otherwise.
+
+### GetLanguageOk
+
+`func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) GetLanguageOk() (*string, bool)`
+
+GetLanguageOk returns a tuple with the Language field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLanguage
+
+`func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) SetLanguage(v string)`
+
+SetLanguage sets Language field to given value.
 
 
 ### GetTopicName

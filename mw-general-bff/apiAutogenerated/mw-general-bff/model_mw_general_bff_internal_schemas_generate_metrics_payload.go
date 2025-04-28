@@ -22,6 +22,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasGenerateMetricsPayload{}
 // MwGeneralBffInternalSchemasGenerateMetricsPayload struct for MwGeneralBffInternalSchemasGenerateMetricsPayload
 type MwGeneralBffInternalSchemasGenerateMetricsPayload struct {
 	GoalDescription string
+	Language string
 	Metrics []string
 	WayName string
 }
@@ -32,9 +33,10 @@ type _MwGeneralBffInternalSchemasGenerateMetricsPayload MwGeneralBffInternalSche
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasGenerateMetricsPayload(goalDescription string, metrics []string, wayName string) *MwGeneralBffInternalSchemasGenerateMetricsPayload {
+func NewMwGeneralBffInternalSchemasGenerateMetricsPayload(goalDescription string, language string, metrics []string, wayName string) *MwGeneralBffInternalSchemasGenerateMetricsPayload {
 	this := MwGeneralBffInternalSchemasGenerateMetricsPayload{}
 	this.GoalDescription = goalDescription
+	this.Language = language
 	this.Metrics = metrics
 	this.WayName = wayName
 	return &this
@@ -70,6 +72,30 @@ func (o *MwGeneralBffInternalSchemasGenerateMetricsPayload) GetGoalDescriptionOk
 // SetGoalDescription sets field value
 func (o *MwGeneralBffInternalSchemasGenerateMetricsPayload) SetGoalDescription(v string) {
 	o.GoalDescription = v
+}
+
+// GetLanguage returns the Language field value
+func (o *MwGeneralBffInternalSchemasGenerateMetricsPayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasGenerateMetricsPayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwGeneralBffInternalSchemasGenerateMetricsPayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetMetrics returns the Metrics field value
@@ -131,6 +157,7 @@ func (o MwGeneralBffInternalSchemasGenerateMetricsPayload) MarshalJSON() ([]byte
 func (o MwGeneralBffInternalSchemasGenerateMetricsPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["goalDescription"] = o.GoalDescription
+	toSerialize["language"] = o.Language
 	toSerialize["metrics"] = o.Metrics
 	toSerialize["wayName"] = o.WayName
 	return toSerialize, nil
@@ -142,6 +169,7 @@ func (o *MwGeneralBffInternalSchemasGenerateMetricsPayload) UnmarshalJSON(data [
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"goalDescription",
+		"language",
 		"metrics",
 		"wayName",
 	}

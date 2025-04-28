@@ -4,6 +4,7 @@ type GenerateMetricsPayload struct {
 	WayName         string   `json:"wayName" validate:"required"`
 	GoalDescription string   `json:"goalDescription" validate:"required"`
 	Metrics         []string `json:"metrics" validate:"required"`
+	Language        string   `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type GenerateMetricsResponse struct {
@@ -11,7 +12,8 @@ type GenerateMetricsResponse struct {
 }
 
 type AIChatPayload struct {
-	Message string `json:"message" validate:"required"`
+	Message  string `json:"message" validate:"required"`
+	Language string `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type AIChatResponse struct {
@@ -19,8 +21,9 @@ type AIChatResponse struct {
 }
 
 type AIGeneratePlansByMetricPayload struct {
-	Goal   string `json:"goal" validate:"required"`
-	Metric string `json:"metric" validate:"required"`
+	Goal     string `json:"goal" validate:"required"`
+	Metric   string `json:"metric" validate:"required"`
+	Language string `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type AIGeneratePlansByMetricResponse struct {
@@ -28,8 +31,9 @@ type AIGeneratePlansByMetricResponse struct {
 }
 
 type AICommentIssuePayload struct {
-	Goal    string `json:"goal" validate:"required"`
-	Message string `json:"message" validate:"required"`
+	Goal     string `json:"goal" validate:"required"`
+	Message  string `json:"message" validate:"required"`
+	Language string `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type AICommentIssueResponse struct {
@@ -37,8 +41,9 @@ type AICommentIssueResponse struct {
 }
 
 type AIDecomposeIssuePayload struct {
-	Goal    string `json:"goal" validate:"required"`
-	Message string `json:"message" validate:"required"`
+	Goal     string `json:"goal" validate:"required"`
+	Message  string `json:"message" validate:"required"`
+	Language string `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type AIDecomposeIssueResponse struct {
@@ -46,8 +51,9 @@ type AIDecomposeIssueResponse struct {
 }
 
 type AIEstimateIssuePayload struct {
-	Goal  string `json:"goal" validate:"required"`
-	Issue string `json:"issue" validate:"required"`
+	Goal     string `json:"goal" validate:"required"`
+	Issue    string `json:"issue" validate:"required"`
+	Language string `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type AIEstimateIssueResponse struct {
@@ -55,9 +61,11 @@ type AIEstimateIssueResponse struct {
 }
 
 type AIGenerateTopicsForTrainingPayload struct {
-	TopicsAmount        int    `json:"topicsAmount" validate:"required"`
-	TrainingName        string `json:"trainingName" validate:"required"`
-	TrainingDescription string `json:"goal" validate:"required"`
+	TopicsAmount               int     `json:"topicsAmount" validate:"required"`
+	TrainingName               string  `json:"trainingName" validate:"required"`
+	TrainingDescription        string  `json:"goal" validate:"required"`
+	Language                   string  `json:"language" validate:"required" example:"ru|en|ua"`
+	FullParentTopicDescription *string `json:"fullParentTopicDescription" extensions:"x-nullable"`
 }
 
 type AIGenerateTopicsForTrainingResponse struct {
@@ -70,6 +78,7 @@ type AIGenerateTheoryMaterialForTopicPayload struct {
 	TopicName             string   `json:"topicName" validate:"required"`
 	TheoryMaterialNames   []string `json:"existentTheoryMaterials" validate:"required"`
 	PracticeMaterialNames []string `json:"existentPracticeMaterials" validate:"required"`
+	Language              string   `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type AIGenerateTheoryMaterialForTopicResponse struct {
@@ -84,6 +93,7 @@ type AIGeneratePracticeMaterialForTopicPayload struct {
 	TheoryMaterialNames   []string `json:"existentTheoryMaterials" validate:"required"`
 	PracticeMaterialNames []string `json:"existentPracticeMaterials" validate:"required"`
 	GenerateAmount        int      `json:"generateAmount" validate:"required"`
+	Language              string   `json:"language" validate:"required" example:"ru|en|ua"`
 }
 
 type GeneratedPracticeMaterial struct {

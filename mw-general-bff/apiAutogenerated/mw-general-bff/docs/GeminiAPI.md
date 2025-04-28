@@ -37,7 +37,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIChatPayload("Message_example") // MwGeneralBffInternalSchemasAIChatPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIChatPayload("ru|en|ua", "Message_example") // MwGeneralBffInternalSchemasAIChatPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -103,7 +103,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAICommentIssuePayload("Goal_example", "Message_example") // MwGeneralBffInternalSchemasAICommentIssuePayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAICommentIssuePayload("Goal_example", "ru|en|ua", "Message_example") // MwGeneralBffInternalSchemasAICommentIssuePayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIDecomposeIssuePayload("Goal_example", "Message_example") // MwGeneralBffInternalSchemasAIDecomposeIssuePayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIDecomposeIssuePayload("Goal_example", "ru|en|ua", "Message_example") // MwGeneralBffInternalSchemasAIDecomposeIssuePayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -235,7 +235,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIEstimateIssuePayload("Goal_example", "Issue_example") // MwGeneralBffInternalSchemasAIEstimateIssuePayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIEstimateIssuePayload("Goal_example", "Issue_example", "ru|en|ua") // MwGeneralBffInternalSchemasAIEstimateIssuePayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -301,7 +301,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload("Goal_example", "Metric_example") // MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload("Goal_example", "ru|en|ua", "Metric_example") // MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -367,7 +367,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload(int32(123), "TopicId_example", "TrainingId_example") // MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload(int32(123), "ru|en|ua", "TopicId_example", "TrainingId_example") // MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -433,7 +433,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload("TopicId_example", "TrainingId_example") // MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload("ru|en|ua", "TopicId_example", "TrainingId_example") // MwGeneralBffInternalSchemasAIGenerateTheoryMaterialForTrainingPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -499,7 +499,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(int32(123), "TrainingId_example") // MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload("ru|en|ua", "ParentTopicId_example", int32(123), "TrainingId_example") // MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -565,7 +565,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasGenerateMetricsPayload("GoalDescription_example", []string{"Metrics_example"}, "WayName_example") // MwGeneralBffInternalSchemasGenerateMetricsPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasGenerateMetricsPayload("GoalDescription_example", "ru|en|ua", []string{"Metrics_example"}, "WayName_example") // MwGeneralBffInternalSchemasGenerateMetricsPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

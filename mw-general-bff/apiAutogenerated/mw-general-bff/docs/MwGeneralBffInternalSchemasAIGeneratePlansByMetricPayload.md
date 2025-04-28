@@ -5,13 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Goal** | **string** |  | 
+**Language** | **string** |  | 
 **Metric** | **string** |  | 
 
 ## Methods
 
 ### NewMwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload
 
-`func NewMwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload(goal string, metric string, ) *MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload`
+`func NewMwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload(goal string, language string, metric string, ) *MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload`
 
 NewMwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload instantiates a new MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload object
 This constructor will assign default values to properties that have it defined,
@@ -44,6 +45,26 @@ and a boolean to check if the value has been set.
 `func (o *MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload) SetGoal(v string)`
 
 SetGoal sets Goal field to given value.
+
+
+### GetLanguage
+
+`func (o *MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload) GetLanguage() string`
+
+GetLanguage returns the Language field if non-nil, zero value otherwise.
+
+### GetLanguageOk
+
+`func (o *MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload) GetLanguageOk() (*string, bool)`
+
+GetLanguageOk returns a tuple with the Language field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLanguage
+
+`func (o *MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload) SetLanguage(v string)`
+
+SetLanguage sets Language field to given value.
 
 
 ### GetMetric

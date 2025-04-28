@@ -22,6 +22,7 @@ var _ MappedNullable = &MwServerInternalSchemasAICommentIssuePayload{}
 // MwServerInternalSchemasAICommentIssuePayload struct for MwServerInternalSchemasAICommentIssuePayload
 type MwServerInternalSchemasAICommentIssuePayload struct {
 	Goal string
+	Language string
 	Message string
 }
 
@@ -31,9 +32,10 @@ type _MwServerInternalSchemasAICommentIssuePayload MwServerInternalSchemasAIComm
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasAICommentIssuePayload(goal string, message string) *MwServerInternalSchemasAICommentIssuePayload {
+func NewMwServerInternalSchemasAICommentIssuePayload(goal string, language string, message string) *MwServerInternalSchemasAICommentIssuePayload {
 	this := MwServerInternalSchemasAICommentIssuePayload{}
 	this.Goal = goal
+	this.Language = language
 	this.Message = message
 	return &this
 }
@@ -68,6 +70,30 @@ func (o *MwServerInternalSchemasAICommentIssuePayload) GetGoalOk() (*string, boo
 // SetGoal sets field value
 func (o *MwServerInternalSchemasAICommentIssuePayload) SetGoal(v string) {
 	o.Goal = v
+}
+
+// GetLanguage returns the Language field value
+func (o *MwServerInternalSchemasAICommentIssuePayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasAICommentIssuePayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwServerInternalSchemasAICommentIssuePayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetMessage returns the Message field value
@@ -105,6 +131,7 @@ func (o MwServerInternalSchemasAICommentIssuePayload) MarshalJSON() ([]byte, err
 func (o MwServerInternalSchemasAICommentIssuePayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["goal"] = o.Goal
+	toSerialize["language"] = o.Language
 	toSerialize["message"] = o.Message
 	return toSerialize, nil
 }
@@ -115,6 +142,7 @@ func (o *MwServerInternalSchemasAICommentIssuePayload) UnmarshalJSON(data []byte
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"goal",
+		"language",
 		"message",
 	}
 

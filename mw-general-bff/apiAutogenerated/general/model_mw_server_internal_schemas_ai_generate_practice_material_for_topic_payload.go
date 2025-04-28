@@ -24,6 +24,7 @@ type MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload struct {
 	ExistentPracticeMaterials []string
 	ExistentTheoryMaterials []string
 	GenerateAmount int32
+	Language string
 	TopicName string
 	TrainingDescription string
 	TrainingName string
@@ -35,11 +36,12 @@ type _MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload MwServerI
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload(existentPracticeMaterials []string, existentTheoryMaterials []string, generateAmount int32, topicName string, trainingDescription string, trainingName string) *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload {
+func NewMwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload(existentPracticeMaterials []string, existentTheoryMaterials []string, generateAmount int32, language string, topicName string, trainingDescription string, trainingName string) *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload {
 	this := MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload{}
 	this.ExistentPracticeMaterials = existentPracticeMaterials
 	this.ExistentTheoryMaterials = existentTheoryMaterials
 	this.GenerateAmount = generateAmount
+	this.Language = language
 	this.TopicName = topicName
 	this.TrainingDescription = trainingDescription
 	this.TrainingName = trainingName
@@ -124,6 +126,30 @@ func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) GetGe
 // SetGenerateAmount sets field value
 func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) SetGenerateAmount(v int32) {
 	o.GenerateAmount = v
+}
+
+// GetLanguage returns the Language field value
+func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetTopicName returns the TopicName field value
@@ -211,6 +237,7 @@ func (o MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) ToMap(
 	toSerialize["existentPracticeMaterials"] = o.ExistentPracticeMaterials
 	toSerialize["existentTheoryMaterials"] = o.ExistentTheoryMaterials
 	toSerialize["generateAmount"] = o.GenerateAmount
+	toSerialize["language"] = o.Language
 	toSerialize["topicName"] = o.TopicName
 	toSerialize["trainingDescription"] = o.TrainingDescription
 	toSerialize["trainingName"] = o.TrainingName
@@ -225,6 +252,7 @@ func (o *MwServerInternalSchemasAIGeneratePracticeMaterialForTopicPayload) Unmar
 		"existentPracticeMaterials",
 		"existentTheoryMaterials",
 		"generateAmount",
+		"language",
 		"topicName",
 		"trainingDescription",
 		"trainingName",
