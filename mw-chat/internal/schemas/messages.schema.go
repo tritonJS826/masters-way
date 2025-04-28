@@ -5,6 +5,10 @@ type CreateMessagePayload struct {
 	Message string `json:"message" validate:"required"`
 }
 
+type CreateGreetingMessagePayload struct {
+	RoomID string `json:"roomId" validate:"required"`
+}
+
 type MessageReader struct {
 	UserID   string `json:"userId" validate:"required"`
 	ReadDate string `json:"readDate" validate:"required"`

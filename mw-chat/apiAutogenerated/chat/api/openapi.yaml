@@ -37,6 +37,24 @@ paths:
       tags:
       - message
       x-codegen-request-body-name: request
+  /messages/greeting:
+    post:
+      operationId: create-greeting-message
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-chat_internal_schemas.CreateGreetingMessagePayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create greeting message
+      tags:
+      - message
+      x-codegen-request-body-name: request
   /messages/{messageId}/message-status:
     patch:
       description: Update message status by message Id
@@ -209,6 +227,13 @@ paths:
       - room
 components:
   schemas:
+    mw-chat_internal_schemas.CreateGreetingMessagePayload:
+      properties:
+        roomId:
+          type: string
+      required:
+      - roomId
+      type: object
     mw-chat_internal_schemas.CreateMessagePayload:
       properties:
         message:

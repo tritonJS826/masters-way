@@ -50,6 +50,32 @@ func (messagesController *MessageController) CreateMessage(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, message)
 }
 
+// @Summary Create greeting message
+// @Description
+// @Tags message
+// @ID create-greeting-message
+// @Accept  json
+// @Produce  json
+// @Param request body schemas.CreateGreetingMessagePayload true "query params"
+// @Success 200
+// @Router /messages/greeting [post]
+func (messagesController *MessageController) CreateGreetingMessage(ctx *gin.Context) {
+	var payload *schemas.CreateGreetingMessagePayload
+
+	if err := ctx.ShouldBindJSON(&payload); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	params := &services.CreateGreetingMessageParams{
+		RoomUUID: payload.RoomID,
+	}
+	err := messagesController.messagesService.CreateGreetingMessage(ctx, params)
+	utils.HandleErrorGin(ctx, err)
+
+	ctx.Status(http.StatusOK)
+}
+
 // @Summary Update message status
 // @Description Update message status by message Id
 // @Tags message

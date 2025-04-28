@@ -9,6 +9,7 @@ client.go
 configuration.go
 docs/DevAPI.md
 docs/MessageAPI.md
+docs/MwChatInternalSchemasCreateGreetingMessagePayload.md
 docs/MwChatInternalSchemasCreateMessagePayload.md
 docs/MwChatInternalSchemasCreateMessageResponse.md
 docs/MwChatInternalSchemasCreateRoomPayload.md
@@ -25,6 +26,7 @@ docs/RoomAPI.md
 git_push.sh
 go.mod
 go.sum
+model_mw_chat_internal_schemas_create_greeting_message_payload.go
 model_mw_chat_internal_schemas_create_message_payload.go
 model_mw_chat_internal_schemas_create_message_response.go
 model_mw_chat_internal_schemas_create_room_payload.go

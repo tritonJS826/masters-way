@@ -4,9 +4,72 @@ All URIs are relative to */chat*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CreateGreetingMessage**](MessageAPI.md#CreateGreetingMessage) | **Post** /messages/greeting | Create greeting message
 [**CreateMessage**](MessageAPI.md#CreateMessage) | **Post** /messages | Create message
 [**UpdateMessageStatus**](MessageAPI.md#UpdateMessageStatus) | **Patch** /messages/{messageId}/message-status | Update message status
 
+
+
+## CreateGreetingMessage
+
+> CreateGreetingMessage(ctx).Request(request).Execute()
+
+Create greeting message
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	request := *openapiclient.NewMwChatInternalSchemasCreateGreetingMessagePayload("RoomId_example") // MwChatInternalSchemasCreateGreetingMessagePayload | query params
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.MessageAPI.CreateGreetingMessage(context.Background()).Request(request).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `MessageAPI.CreateGreetingMessage``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateGreetingMessageRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request** | [**MwChatInternalSchemasCreateGreetingMessagePayload**](MwChatInternalSchemasCreateGreetingMessagePayload.md) | query params | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CreateMessage
