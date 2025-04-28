@@ -21,7 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateTopicsForTrainingPayloa
 
 // MwServerInternalSchemasAIGenerateTopicsForTrainingPayload struct for MwServerInternalSchemasAIGenerateTopicsForTrainingPayload
 type MwServerInternalSchemasAIGenerateTopicsForTrainingPayload struct {
-	FullParentTopicDescription NullableString `json:"fullParentTopicDescription,omitempty"`
+	FullParentTopicDescription *string `json:"fullParentTopicDescription,omitempty"`
 	Goal string `json:"goal"`
 	Language string `json:"language"`
 	TopicsAmount int32 `json:"topicsAmount"`
@@ -51,46 +51,36 @@ func NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayloadWithDefaults() 
 	return &this
 }
 
-// GetFullParentTopicDescription returns the FullParentTopicDescription field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetFullParentTopicDescription returns the FullParentTopicDescription field value if set, zero value otherwise.
 func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetFullParentTopicDescription() string {
-	if o == nil || IsNil(o.FullParentTopicDescription.Get()) {
+	if o == nil || IsNil(o.FullParentTopicDescription) {
 		var ret string
 		return ret
 	}
-	return *o.FullParentTopicDescription.Get()
+	return *o.FullParentTopicDescription
 }
 
 // GetFullParentTopicDescriptionOk returns a tuple with the FullParentTopicDescription field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetFullParentTopicDescriptionOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.FullParentTopicDescription) {
 		return nil, false
 	}
-	return o.FullParentTopicDescription.Get(), o.FullParentTopicDescription.IsSet()
+	return o.FullParentTopicDescription, true
 }
 
 // HasFullParentTopicDescription returns a boolean if a field has been set.
 func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) HasFullParentTopicDescription() bool {
-	if o != nil && o.FullParentTopicDescription.IsSet() {
+	if o != nil && !IsNil(o.FullParentTopicDescription) {
 		return true
 	}
 
 	return false
 }
 
-// SetFullParentTopicDescription gets a reference to the given NullableString and assigns it to the FullParentTopicDescription field.
+// SetFullParentTopicDescription gets a reference to the given string and assigns it to the FullParentTopicDescription field.
 func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetFullParentTopicDescription(v string) {
-	o.FullParentTopicDescription.Set(&v)
-}
-// SetFullParentTopicDescriptionNil sets the value for FullParentTopicDescription to be an explicit nil
-func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetFullParentTopicDescriptionNil() {
-	o.FullParentTopicDescription.Set(nil)
-}
-
-// UnsetFullParentTopicDescription ensures that no value is present for FullParentTopicDescription, not even an explicit nil
-func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) UnsetFullParentTopicDescription() {
-	o.FullParentTopicDescription.Unset()
+	o.FullParentTopicDescription = &v
 }
 
 // GetGoal returns the Goal field value
@@ -199,8 +189,8 @@ func (o MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) MarshalJSON()
 
 func (o MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.FullParentTopicDescription.IsSet() {
-		toSerialize["fullParentTopicDescription"] = o.FullParentTopicDescription.Get()
+	if !IsNil(o.FullParentTopicDescription) {
+		toSerialize["fullParentTopicDescription"] = o.FullParentTopicDescription
 	}
 	toSerialize["goal"] = o.Goal
 	toSerialize["language"] = o.Language

@@ -2033,7 +2033,6 @@ components:
     mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload:
       properties:
         fullParentTopicDescription:
-          nullable: true
           type: string
         goal:
           type: string

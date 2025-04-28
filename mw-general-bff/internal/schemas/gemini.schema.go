@@ -64,7 +64,7 @@ type AIGenerateTopicsForTrainingPayload struct {
 	TopicsAmount  int32   `json:"topicsAmount" validate:"required"`
 	TrainingId    string  `json:"trainingId" validate:"required"`
 	Language      string  `json:"language" validate:"required" example:"ru|en|ua"`
-	ParentTopicId *string `json:"parentTopicId" validate:"required" extensions:"x-nullable"`
+	ParentTopicId *string `json:"parentTopicId"`
 }
 
 type AIGenerateTopicsForTrainingResponse struct {

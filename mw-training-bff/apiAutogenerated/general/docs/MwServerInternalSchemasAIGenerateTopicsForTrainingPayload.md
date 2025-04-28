@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**FullParentTopicDescription** | Pointer to **NullableString** |  | [optional] 
+**FullParentTopicDescription** | Pointer to **string** |  | [optional] 
 **Goal** | **string** |  | 
 **Language** | **string** |  | 
 **TopicsAmount** | **int32** |  | 
@@ -54,16 +54,6 @@ SetFullParentTopicDescription sets FullParentTopicDescription field to given val
 
 HasFullParentTopicDescription returns a boolean if a field has been set.
 
-### SetFullParentTopicDescriptionNil
-
-`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetFullParentTopicDescriptionNil(b bool)`
-
- SetFullParentTopicDescriptionNil sets the value for FullParentTopicDescription to be an explicit nil
-
-### UnsetFullParentTopicDescription
-`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) UnsetFullParentTopicDescription()`
-
-UnsetFullParentTopicDescription ensures that no value is present for FullParentTopicDescription, not even an explicit nil
 ### GetGoal
 
 `func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetGoal() string`

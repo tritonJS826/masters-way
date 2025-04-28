@@ -65,7 +65,7 @@ type AIGenerateTopicsForTrainingPayload struct {
 	TrainingName               string  `json:"trainingName" validate:"required"`
 	TrainingDescription        string  `json:"goal" validate:"required"`
 	Language                   string  `json:"language" validate:"required" example:"ru|en|ua"`
-	FullParentTopicDescription *string `json:"fullParentTopicDescription" extensions:"x-nullable"`
+	FullParentTopicDescription *string `json:"fullParentTopicDescription"`
 }
 
 type AIGenerateTopicsForTrainingResponse struct {

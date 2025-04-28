@@ -3107,8 +3107,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "fullParentTopicDescription": {
-                    "type": "string",
-                    "x-nullable": true
+                    "type": "string"
                 },
                 "goal": {
                     "type": "string"

@@ -196,7 +196,6 @@ definitions:
     properties:
       fullParentTopicDescription:
         type: string
-        x-nullable: true
       goal:
         type: string
       language:
