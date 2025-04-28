@@ -422,6 +422,7 @@ func (gs *GeneralService) GeneratePracticeMaterialForTraining(ctx context.Contex
 			Answer:          material.Answer,
 			TaskDescription: material.TaskDescription,
 			TimeToAnswer:    material.TimeToAnswer,
+			PracticeType:    "input_word",
 		}
 	})
 

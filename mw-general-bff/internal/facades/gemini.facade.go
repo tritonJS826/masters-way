@@ -172,6 +172,7 @@ func (gs *GeminiFacade) GeneratePracticeMaterialForTraining(ctx context.Context,
 		ExistentPracticeMaterials: practiceMaterialsList,
 		TopicName:                 topic.Name,
 		GenerateAmount:            payload.GenerateAmount,
+		Language:                  payload.Language,
 	}
 
 	practiceMaterialRaw, err := gs.generalService.GeneratePracticeMaterialForTraining(ctx, params)
