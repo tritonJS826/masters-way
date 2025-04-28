@@ -43,6 +43,7 @@ export const EstimateIssueAiModal = (props: EstimateIssueAiModalProps) => {
     const estimatedMessage = await AIDAL.aiEstimateIssue({
       goal: props.goalDescription,
       issue: props.issueDescription,
+      language,
     });
 
     setGeneratedEstimateMessage(estimatedMessage);

@@ -38,7 +38,7 @@ export const ChatAiModal = (props: ChatAiModalProps) => {
    * Comment issue by AI
    */
   const commentMessageAi = async () => {
-    const comment = await AIDAL.aiChat(props.message);
+    const comment = await AIDAL.aiChat(props.message, language);
 
     setGeneratedComment(comment);
   };
