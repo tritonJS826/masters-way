@@ -51,6 +51,7 @@ func (gs *GeminiFacade) GenerateTopicsForTraining(ctx context.Context, payload *
 		TopicsAmount:        payload.TopicsAmount,
 		TrainingName:        training.Name,
 		TrainingDescription: training.Description,
+		Language:            payload.Language,
 	}
 
 	topicsRaw, err := gs.generalService.GenerateTopicsForTraining(ctx, params)
@@ -172,6 +173,17 @@ func (gs *GeminiFacade) GeneratePracticeMaterialForTraining(ctx context.Context,
 	response := &schemas.AIGeneratePracticeMaterialsForTrainingResponse{
 		PracticeMaterials: practiceMaterials,
 	}
+
+	lo.ForEach(practiceMaterials, func(practiceMaterial schemas.GeneratedPracticeMaterial, i int) {
+		gs.trainingService.CreatePracticeMaterial(ctx, &services.CreatePracticeMaterialParams{
+			TopicUuid:    payload.TopicId,
+			Name:         practiceMaterial.Name,
+			Description:  practiceMaterial.TaskDescription,
+			Answer:       practiceMaterial.Answer,
+			PracticeType: practiceMaterial.PracticeType,
+			TimeToAnswer: practiceMaterial.TimeToAnswer,
+		})
+	})
 
 	return response, nil
 }

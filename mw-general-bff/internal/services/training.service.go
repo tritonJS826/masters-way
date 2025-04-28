@@ -68,7 +68,7 @@ type CreatePracticeMaterialParams struct {
 	TimeToAnswer int32  `json:"timeToAnswer" validate:"required"`
 }
 
-func (ts *TrainingService) CreatePracticeMaterial(ctx context.Context, params CreatePracticeMaterialParams) (*pb.PracticeMaterial, error) {
+func (ts *TrainingService) CreatePracticeMaterial(ctx context.Context, params *CreatePracticeMaterialParams) (*pb.PracticeMaterial, error) {
 	theoryMaterialResponse, err := ts.practiceMaterialGRPC.CreatePracticeMaterial(ctx, &pb.CreatePracticeMaterialRequest{
 		TopicUuid:    params.TopicUuid,
 		Name:         params.Name,

@@ -31,6 +31,12 @@ export interface MwGeneralBffInternalSchemasAIEstimateIssuePayload {
      * @memberof MwGeneralBffInternalSchemasAIEstimateIssuePayload
      */
     issue: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIEstimateIssuePayload
+     */
+    language: string;
 }
 
 /**
@@ -42,6 +48,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIEstimateIssuePayload(
     let isInstance = true;
     isInstance = isInstance && "goal" in value;
     isInstance = isInstance && "issue" in value;
+    isInstance = isInstance && "language" in value;
 
     return isInstance;
 }
@@ -61,6 +68,7 @@ export function MwGeneralBffInternalSchemasAIEstimateIssuePayloadFromJSONTyped(
         
         'goal': json['goal'],
         'issue': json['issue'],
+        'language': json['language'],
     };
 }
 
@@ -76,6 +84,7 @@ export function MwGeneralBffInternalSchemasAIEstimateIssuePayloadToJSON(value?: 
         
         'goal': value.goal,
         'issue': value.issue,
+        'language': value.language,
     };
 }
 

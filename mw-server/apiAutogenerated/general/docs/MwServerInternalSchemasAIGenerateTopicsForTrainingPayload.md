@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Goal** | **string** |  | 
+**Language** | **string** |  | 
 **TopicsAmount** | **int32** |  | 
 **TrainingName** | **string** |  | 
 
@@ -12,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayload
 
-`func NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayload(goal string, topicsAmount int32, trainingName string, ) *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload`
+`func NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayload(goal string, language string, topicsAmount int32, trainingName string, ) *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload`
 
 NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayload instantiates a new MwServerInternalSchemasAIGenerateTopicsForTrainingPayload object
 This constructor will assign default values to properties that have it defined,
@@ -45,6 +46,26 @@ and a boolean to check if the value has been set.
 `func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetGoal(v string)`
 
 SetGoal sets Goal field to given value.
+
+
+### GetLanguage
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguage() string`
+
+GetLanguage returns the Language field if non-nil, zero value otherwise.
+
+### GetLanguageOk
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguageOk() (*string, bool)`
+
+GetLanguageOk returns a tuple with the Language field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLanguage
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetLanguage(v string)`
+
+SetLanguage sets Language field to given value.
 
 
 ### GetTopicsAmount

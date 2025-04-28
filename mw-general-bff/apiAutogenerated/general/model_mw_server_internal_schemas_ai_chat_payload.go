@@ -21,6 +21,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIChatPayload{}
 
 // MwServerInternalSchemasAIChatPayload struct for MwServerInternalSchemasAIChatPayload
 type MwServerInternalSchemasAIChatPayload struct {
+	Language string
 	Message string
 }
 
@@ -30,8 +31,9 @@ type _MwServerInternalSchemasAIChatPayload MwServerInternalSchemasAIChatPayload
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasAIChatPayload(message string) *MwServerInternalSchemasAIChatPayload {
+func NewMwServerInternalSchemasAIChatPayload(language string, message string) *MwServerInternalSchemasAIChatPayload {
 	this := MwServerInternalSchemasAIChatPayload{}
+	this.Language = language
 	this.Message = message
 	return &this
 }
@@ -42,6 +44,30 @@ func NewMwServerInternalSchemasAIChatPayload(message string) *MwServerInternalSc
 func NewMwServerInternalSchemasAIChatPayloadWithDefaults() *MwServerInternalSchemasAIChatPayload {
 	this := MwServerInternalSchemasAIChatPayload{}
 	return &this
+}
+
+// GetLanguage returns the Language field value
+func (o *MwServerInternalSchemasAIChatPayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasAIChatPayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwServerInternalSchemasAIChatPayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetMessage returns the Message field value
@@ -78,6 +104,7 @@ func (o MwServerInternalSchemasAIChatPayload) MarshalJSON() ([]byte, error) {
 
 func (o MwServerInternalSchemasAIChatPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["language"] = o.Language
 	toSerialize["message"] = o.Message
 	return toSerialize, nil
 }
@@ -87,6 +114,7 @@ func (o *MwServerInternalSchemasAIChatPayload) UnmarshalJSON(data []byte) (err e
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"language",
 		"message",
 	}
 

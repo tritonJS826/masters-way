@@ -23,6 +23,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIEstimateIssuePayload{}
 type MwServerInternalSchemasAIEstimateIssuePayload struct {
 	Goal string
 	Issue string
+	Language string
 }
 
 type _MwServerInternalSchemasAIEstimateIssuePayload MwServerInternalSchemasAIEstimateIssuePayload
@@ -31,10 +32,11 @@ type _MwServerInternalSchemasAIEstimateIssuePayload MwServerInternalSchemasAIEst
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasAIEstimateIssuePayload(goal string, issue string) *MwServerInternalSchemasAIEstimateIssuePayload {
+func NewMwServerInternalSchemasAIEstimateIssuePayload(goal string, issue string, language string) *MwServerInternalSchemasAIEstimateIssuePayload {
 	this := MwServerInternalSchemasAIEstimateIssuePayload{}
 	this.Goal = goal
 	this.Issue = issue
+	this.Language = language
 	return &this
 }
 
@@ -94,6 +96,30 @@ func (o *MwServerInternalSchemasAIEstimateIssuePayload) SetIssue(v string) {
 	o.Issue = v
 }
 
+// GetLanguage returns the Language field value
+func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwServerInternalSchemasAIEstimateIssuePayload) SetLanguage(v string) {
+	o.Language = v
+}
+
 func (o MwServerInternalSchemasAIEstimateIssuePayload) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -106,6 +132,7 @@ func (o MwServerInternalSchemasAIEstimateIssuePayload) ToMap() (map[string]inter
 	toSerialize := map[string]interface{}{}
 	toSerialize["goal"] = o.Goal
 	toSerialize["issue"] = o.Issue
+	toSerialize["language"] = o.Language
 	return toSerialize, nil
 }
 
@@ -116,6 +143,7 @@ func (o *MwServerInternalSchemasAIEstimateIssuePayload) UnmarshalJSON(data []byt
 	requiredProperties := []string{
 		"goal",
 		"issue",
+		"language",
 	}
 
 	allProperties := make(map[string]interface{})

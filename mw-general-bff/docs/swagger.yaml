@@ -21,9 +21,13 @@ definitions:
     type: object
   mw-general-bff_internal_schemas.AIChatPayload:
     properties:
+      language:
+        example: ru|en|ua
+        type: string
       message:
         type: string
     required:
+    - language
     - message
     type: object
   mw-general-bff_internal_schemas.AIChatResponse:
@@ -37,10 +41,14 @@ definitions:
     properties:
       goal:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       message:
         type: string
     required:
     - goal
+    - language
     - message
     type: object
   mw-general-bff_internal_schemas.AICommentIssueResponse:
@@ -54,10 +62,14 @@ definitions:
     properties:
       goal:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       message:
         type: string
     required:
     - goal
+    - language
     - message
     type: object
   mw-general-bff_internal_schemas.AIDecomposeIssueResponse:
@@ -75,9 +87,13 @@ definitions:
         type: string
       issue:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
     required:
     - goal
     - issue
+    - language
     type: object
   mw-general-bff_internal_schemas.AIEstimateIssueResponse:
     properties:
@@ -90,10 +106,14 @@ definitions:
     properties:
       goal:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       metric:
         type: string
     required:
     - goal
+    - language
     - metric
     type: object
   mw-general-bff_internal_schemas.AIGeneratePlansByMetricResponse:
@@ -109,12 +129,16 @@ definitions:
     properties:
       generateAmount:
         type: integer
+      language:
+        example: ru|en|ua
+        type: string
       topicId:
         type: string
       trainingId:
         type: string
     required:
     - generateAmount
+    - language
     - topicId
     - trainingId
     type: object
@@ -129,11 +153,15 @@ definitions:
     type: object
   mw-general-bff_internal_schemas.AIGenerateTheoryMaterialForTrainingPayload:
     properties:
+      language:
+        example: ru|en|ua
+        type: string
       topicId:
         type: string
       trainingId:
         type: string
     required:
+    - language
     - topicId
     - trainingId
     type: object
@@ -164,11 +192,15 @@ definitions:
     type: object
   mw-general-bff_internal_schemas.AIGenerateTopicsForTrainingPayload:
     properties:
+      language:
+        example: ru|en|ua
+        type: string
       topicsAmount:
         type: integer
       trainingId:
         type: string
     required:
+    - language
     - topicsAmount
     - trainingId
     type: object
@@ -613,6 +645,9 @@ definitions:
     properties:
       goalDescription:
         type: string
+      language:
+        example: ru|en|ua
+        type: string
       metrics:
         items:
           type: string
@@ -621,6 +656,7 @@ definitions:
         type: string
     required:
     - goalDescription
+    - language
     - metrics
     - wayName
     type: object

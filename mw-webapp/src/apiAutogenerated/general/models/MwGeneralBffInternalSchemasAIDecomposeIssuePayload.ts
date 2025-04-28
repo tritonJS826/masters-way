@@ -30,6 +30,12 @@ export interface MwGeneralBffInternalSchemasAIDecomposeIssuePayload {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIDecomposeIssuePayload
      */
+    language: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIDecomposeIssuePayload
+     */
     message: string;
 }
 
@@ -41,6 +47,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIDecomposeIssuePayload(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "goal" in value;
+    isInstance = isInstance && "language" in value;
     isInstance = isInstance && "message" in value;
 
     return isInstance;
@@ -60,6 +67,7 @@ export function MwGeneralBffInternalSchemasAIDecomposeIssuePayloadFromJSONTyped(
     return {
         
         'goal': json['goal'],
+        'language': json['language'],
         'message': json['message'],
     };
 }
@@ -75,6 +83,7 @@ export function MwGeneralBffInternalSchemasAIDecomposeIssuePayloadToJSON(value?:
     return {
         
         'goal': value.goal,
+        'language': value.language,
         'message': value.message,
     };
 }

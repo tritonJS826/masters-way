@@ -24,6 +24,12 @@ export interface MwGeneralBffInternalSchemasAIChatPayload {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIChatPayload
      */
+    language: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIChatPayload
+     */
     message: string;
 }
 
@@ -34,6 +40,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIChatPayload(
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "language" in value;
     isInstance = isInstance && "message" in value;
 
     return isInstance;
@@ -52,6 +59,7 @@ export function MwGeneralBffInternalSchemasAIChatPayloadFromJSONTyped(
     }
     return {
         
+        'language': json['language'],
         'message': json['message'],
     };
 }
@@ -66,6 +74,7 @@ export function MwGeneralBffInternalSchemasAIChatPayloadToJSON(value?: MwGeneral
     }
     return {
         
+        'language': value.language,
         'message': value.message,
     };
 }

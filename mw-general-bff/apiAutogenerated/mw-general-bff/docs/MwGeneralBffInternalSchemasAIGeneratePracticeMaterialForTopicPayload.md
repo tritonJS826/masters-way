@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **GenerateAmount** | **int32** |  | 
+**Language** | **string** |  | 
 **TopicId** | **string** |  | 
 **TrainingId** | **string** |  | 
 
@@ -12,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload
 
-`func NewMwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload(generateAmount int32, topicId string, trainingId string, ) *MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload`
+`func NewMwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload(generateAmount int32, language string, topicId string, trainingId string, ) *MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload`
 
 NewMwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload instantiates a new MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload object
 This constructor will assign default values to properties that have it defined,
@@ -45,6 +46,26 @@ and a boolean to check if the value has been set.
 `func (o *MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload) SetGenerateAmount(v int32)`
 
 SetGenerateAmount sets GenerateAmount field to given value.
+
+
+### GetLanguage
+
+`func (o *MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload) GetLanguage() string`
+
+GetLanguage returns the Language field if non-nil, zero value otherwise.
+
+### GetLanguageOk
+
+`func (o *MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload) GetLanguageOk() (*string, bool)`
+
+GetLanguageOk returns a tuple with the Language field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLanguage
+
+`func (o *MwGeneralBffInternalSchemasAIGeneratePracticeMaterialForTopicPayload) SetLanguage(v string)`
+
+SetLanguage sets Language field to given value.
 
 
 ### GetTopicId

@@ -6,12 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Goal** | **string** |  | 
 **Issue** | **string** |  | 
+**Language** | **string** |  | 
 
 ## Methods
 
 ### NewMwServerInternalSchemasAIEstimateIssuePayload
 
-`func NewMwServerInternalSchemasAIEstimateIssuePayload(goal string, issue string, ) *MwServerInternalSchemasAIEstimateIssuePayload`
+`func NewMwServerInternalSchemasAIEstimateIssuePayload(goal string, issue string, language string, ) *MwServerInternalSchemasAIEstimateIssuePayload`
 
 NewMwServerInternalSchemasAIEstimateIssuePayload instantiates a new MwServerInternalSchemasAIEstimateIssuePayload object
 This constructor will assign default values to properties that have it defined,
@@ -64,6 +65,26 @@ and a boolean to check if the value has been set.
 `func (o *MwServerInternalSchemasAIEstimateIssuePayload) SetIssue(v string)`
 
 SetIssue sets Issue field to given value.
+
+
+### GetLanguage
+
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetLanguage() string`
+
+GetLanguage returns the Language field if non-nil, zero value otherwise.
+
+### GetLanguageOk
+
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) GetLanguageOk() (*string, bool)`
+
+GetLanguageOk returns a tuple with the Language field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLanguage
+
+`func (o *MwServerInternalSchemasAIEstimateIssuePayload) SetLanguage(v string)`
+
+SetLanguage sets Language field to given value.
 
 
 

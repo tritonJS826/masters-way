@@ -22,6 +22,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIDecomposeIssuePayload{}
 // MwGeneralBffInternalSchemasAIDecomposeIssuePayload struct for MwGeneralBffInternalSchemasAIDecomposeIssuePayload
 type MwGeneralBffInternalSchemasAIDecomposeIssuePayload struct {
 	Goal string
+	Language string
 	Message string
 }
 
@@ -31,9 +32,10 @@ type _MwGeneralBffInternalSchemasAIDecomposeIssuePayload MwGeneralBffInternalSch
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasAIDecomposeIssuePayload(goal string, message string) *MwGeneralBffInternalSchemasAIDecomposeIssuePayload {
+func NewMwGeneralBffInternalSchemasAIDecomposeIssuePayload(goal string, language string, message string) *MwGeneralBffInternalSchemasAIDecomposeIssuePayload {
 	this := MwGeneralBffInternalSchemasAIDecomposeIssuePayload{}
 	this.Goal = goal
+	this.Language = language
 	this.Message = message
 	return &this
 }
@@ -68,6 +70,30 @@ func (o *MwGeneralBffInternalSchemasAIDecomposeIssuePayload) GetGoalOk() (*strin
 // SetGoal sets field value
 func (o *MwGeneralBffInternalSchemasAIDecomposeIssuePayload) SetGoal(v string) {
 	o.Goal = v
+}
+
+// GetLanguage returns the Language field value
+func (o *MwGeneralBffInternalSchemasAIDecomposeIssuePayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasAIDecomposeIssuePayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwGeneralBffInternalSchemasAIDecomposeIssuePayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetMessage returns the Message field value
@@ -105,6 +131,7 @@ func (o MwGeneralBffInternalSchemasAIDecomposeIssuePayload) MarshalJSON() ([]byt
 func (o MwGeneralBffInternalSchemasAIDecomposeIssuePayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["goal"] = o.Goal
+	toSerialize["language"] = o.Language
 	toSerialize["message"] = o.Message
 	return toSerialize, nil
 }
@@ -115,6 +142,7 @@ func (o *MwGeneralBffInternalSchemasAIDecomposeIssuePayload) UnmarshalJSON(data 
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"goal",
+		"language",
 		"message",
 	}
 

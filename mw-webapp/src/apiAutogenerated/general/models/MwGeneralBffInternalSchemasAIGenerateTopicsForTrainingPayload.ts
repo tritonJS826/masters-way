@@ -21,6 +21,12 @@ import { exists, mapValues } from '../runtime';
 export interface MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload {
     /**
      * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload
+     */
+    language: string;
+    /**
+     * 
      * @type {number}
      * @memberof MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload
      */
@@ -40,6 +46,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIGenerateTopicsForTraining
     value: object
 ): boolean {
     let isInstance = true;
+    isInstance = isInstance && "language" in value;
     isInstance = isInstance && "topicsAmount" in value;
     isInstance = isInstance && "trainingId" in value;
 
@@ -59,6 +66,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadFro
     }
     return {
         
+        'language': json['language'],
         'topicsAmount': json['topicsAmount'],
         'trainingId': json['trainingId'],
     };
@@ -74,6 +82,7 @@ export function MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadToJ
     }
     return {
         
+        'language': value.language,
         'topicsAmount': value.topicsAmount,
         'trainingId': value.trainingId,
     };

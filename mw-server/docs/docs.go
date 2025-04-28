@@ -2834,9 +2834,14 @@ const docTemplate = `{
         "mw-server_internal_schemas.AIChatPayload": {
             "type": "object",
             "required": [
+                "language",
                 "message"
             ],
             "properties": {
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
+                },
                 "message": {
                     "type": "string"
                 }
@@ -2857,11 +2862,16 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "message"
             ],
             "properties": {
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "message": {
                     "type": "string"
@@ -2883,11 +2893,16 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "message"
             ],
             "properties": {
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "message": {
                     "type": "string"
@@ -2912,7 +2927,8 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "goal",
-                "issue"
+                "issue",
+                "language"
             ],
             "properties": {
                 "goal": {
@@ -2920,6 +2936,10 @@ const docTemplate = `{
                 },
                 "issue": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 }
             }
         },
@@ -2938,11 +2958,16 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "metric"
             ],
             "properties": {
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "metric": {
                     "type": "string"
@@ -2969,6 +2994,7 @@ const docTemplate = `{
                 "existentPracticeMaterials",
                 "existentTheoryMaterials",
                 "generateAmount",
+                "language",
                 "topicName",
                 "trainingDescription",
                 "trainingName"
@@ -2988,6 +3014,10 @@ const docTemplate = `{
                 },
                 "generateAmount": {
                     "type": "integer"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "topicName": {
                     "type": "string"
@@ -3019,6 +3049,7 @@ const docTemplate = `{
             "required": [
                 "existentPracticeMaterials",
                 "existentTheoryMaterials",
+                "language",
                 "topicName",
                 "trainingDescription",
                 "trainingName"
@@ -3035,6 +3066,10 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "topicName": {
                     "type": "string"
@@ -3066,12 +3101,17 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "goal",
+                "language",
                 "topicsAmount",
                 "trainingName"
             ],
             "properties": {
                 "goal": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "topicsAmount": {
                     "type": "integer"
@@ -3710,12 +3750,17 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "goalDescription",
+                "language",
                 "metrics",
                 "wayName"
             ],
             "properties": {
                 "goalDescription": {
                     "type": "string"
+                },
+                "language": {
+                    "type": "string",
+                    "example": "ru|en|ua"
                 },
                 "metrics": {
                     "type": "array",

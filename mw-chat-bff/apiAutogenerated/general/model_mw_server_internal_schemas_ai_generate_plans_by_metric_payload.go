@@ -22,6 +22,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIGeneratePlansByMetricPayload{}
 // MwServerInternalSchemasAIGeneratePlansByMetricPayload struct for MwServerInternalSchemasAIGeneratePlansByMetricPayload
 type MwServerInternalSchemasAIGeneratePlansByMetricPayload struct {
 	Goal string
+	Language string
 	Metric string
 }
 
@@ -31,9 +32,10 @@ type _MwServerInternalSchemasAIGeneratePlansByMetricPayload MwServerInternalSche
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasAIGeneratePlansByMetricPayload(goal string, metric string) *MwServerInternalSchemasAIGeneratePlansByMetricPayload {
+func NewMwServerInternalSchemasAIGeneratePlansByMetricPayload(goal string, language string, metric string) *MwServerInternalSchemasAIGeneratePlansByMetricPayload {
 	this := MwServerInternalSchemasAIGeneratePlansByMetricPayload{}
 	this.Goal = goal
+	this.Language = language
 	this.Metric = metric
 	return &this
 }
@@ -68,6 +70,30 @@ func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) GetGoalOk() (*st
 // SetGoal sets field value
 func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) SetGoal(v string) {
 	o.Goal = v
+}
+
+// GetLanguage returns the Language field value
+func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetMetric returns the Metric field value
@@ -105,6 +131,7 @@ func (o MwServerInternalSchemasAIGeneratePlansByMetricPayload) MarshalJSON() ([]
 func (o MwServerInternalSchemasAIGeneratePlansByMetricPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["goal"] = o.Goal
+	toSerialize["language"] = o.Language
 	toSerialize["metric"] = o.Metric
 	return toSerialize, nil
 }
@@ -115,6 +142,7 @@ func (o *MwServerInternalSchemasAIGeneratePlansByMetricPayload) UnmarshalJSON(da
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"goal",
+		"language",
 		"metric",
 	}
 

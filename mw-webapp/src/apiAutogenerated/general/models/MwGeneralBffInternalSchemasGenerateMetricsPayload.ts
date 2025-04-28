@@ -27,6 +27,12 @@ export interface MwGeneralBffInternalSchemasGenerateMetricsPayload {
     goalDescription: string;
     /**
      * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasGenerateMetricsPayload
+     */
+    language: string;
+    /**
+     * 
      * @type {Array<string>}
      * @memberof MwGeneralBffInternalSchemasGenerateMetricsPayload
      */
@@ -47,6 +53,7 @@ export function instanceOfMwGeneralBffInternalSchemasGenerateMetricsPayload(
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "goalDescription" in value;
+    isInstance = isInstance && "language" in value;
     isInstance = isInstance && "metrics" in value;
     isInstance = isInstance && "wayName" in value;
 
@@ -67,6 +74,7 @@ export function MwGeneralBffInternalSchemasGenerateMetricsPayloadFromJSONTyped(
     return {
         
         'goalDescription': json['goalDescription'],
+        'language': json['language'],
         'metrics': json['metrics'],
         'wayName': json['wayName'],
     };
@@ -83,6 +91,7 @@ export function MwGeneralBffInternalSchemasGenerateMetricsPayloadToJSON(value?: 
     return {
         
         'goalDescription': value.goalDescription,
+        'language': value.language,
         'metrics': value.metrics,
         'wayName': value.wayName,
     };

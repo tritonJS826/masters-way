@@ -21,6 +21,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPa
 
 // MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload struct for MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload
 type MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload struct {
+	Language string
 	TopicsAmount int32
 	TrainingId string
 }
@@ -31,8 +32,9 @@ type _MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload MwGeneralBff
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(topicsAmount int32, trainingId string) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload {
+func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(language string, topicsAmount int32, trainingId string) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload {
 	this := MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload{}
+	this.Language = language
 	this.TopicsAmount = topicsAmount
 	this.TrainingId = trainingId
 	return &this
@@ -44,6 +46,30 @@ func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(topicsAmou
 func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayloadWithDefaults() *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload {
 	this := MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload{}
 	return &this
+}
+
+// GetLanguage returns the Language field value
+func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetTopicsAmount returns the TopicsAmount field value
@@ -104,6 +130,7 @@ func (o MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) MarshalJS
 
 func (o MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["language"] = o.Language
 	toSerialize["topicsAmount"] = o.TopicsAmount
 	toSerialize["trainingId"] = o.TrainingId
 	return toSerialize, nil
@@ -114,6 +141,7 @@ func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) Unmarsha
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"language",
 		"topicsAmount",
 		"trainingId",
 	}

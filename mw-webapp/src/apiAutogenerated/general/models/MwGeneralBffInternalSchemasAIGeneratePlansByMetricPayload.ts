@@ -30,6 +30,12 @@ export interface MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload {
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload
      */
+    language: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayload
+     */
     metric: string;
 }
 
@@ -41,6 +47,7 @@ export function instanceOfMwGeneralBffInternalSchemasAIGeneratePlansByMetricPayl
 ): boolean {
     let isInstance = true;
     isInstance = isInstance && "goal" in value;
+    isInstance = isInstance && "language" in value;
     isInstance = isInstance && "metric" in value;
 
     return isInstance;
@@ -60,6 +67,7 @@ export function MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayloadFromJSO
     return {
         
         'goal': json['goal'],
+        'language': json['language'],
         'metric': json['metric'],
     };
 }
@@ -75,6 +83,7 @@ export function MwGeneralBffInternalSchemasAIGeneratePlansByMetricPayloadToJSON(
     return {
         
         'goal': value.goal,
+        'language': value.language,
         'metric': value.metric,
     };
 }

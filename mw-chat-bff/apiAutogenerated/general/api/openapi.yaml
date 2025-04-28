@@ -1823,9 +1823,13 @@ components:
       type: object
     mw-server_internal_schemas.AIChatPayload:
       properties:
+        language:
+          example: ru|en|ua
+          type: string
         message:
           type: string
       required:
+      - language
       - message
       type: object
     mw-server_internal_schemas.AIChatResponse:
@@ -1841,10 +1845,14 @@ components:
       properties:
         goal:
           type: string
+        language:
+          example: ru|en|ua
+          type: string
         message:
           type: string
       required:
       - goal
+      - language
       - message
       type: object
     mw-server_internal_schemas.AICommentIssueResponse:
@@ -1860,10 +1868,14 @@ components:
       properties:
         goal:
           type: string
+        language:
+          example: ru|en|ua
+          type: string
         message:
           type: string
       required:
       - goal
+      - language
       - message
       type: object
     mw-server_internal_schemas.AIDecomposeIssueResponse:
@@ -1885,9 +1897,13 @@ components:
           type: string
         issue:
           type: string
+        language:
+          example: ru|en|ua
+          type: string
       required:
       - goal
       - issue
+      - language
       type: object
     mw-server_internal_schemas.AIEstimateIssueResponse:
       example:
@@ -1902,10 +1918,14 @@ components:
       properties:
         goal:
           type: string
+        language:
+          example: ru|en|ua
+          type: string
         metric:
           type: string
       required:
       - goal
+      - language
       - metric
       type: object
     mw-server_internal_schemas.AIGeneratePlansByMetricResponse:
@@ -1933,6 +1953,9 @@ components:
           type: array
         generateAmount:
           type: integer
+        language:
+          example: ru|en|ua
+          type: string
         topicName:
           type: string
         trainingDescription:
@@ -1943,6 +1966,7 @@ components:
       - existentPracticeMaterials
       - existentTheoryMaterials
       - generateAmount
+      - language
       - topicName
       - trainingDescription
       - trainingName
@@ -1976,6 +2000,9 @@ components:
           items:
             type: string
           type: array
+        language:
+          example: ru|en|ua
+          type: string
         topicName:
           type: string
         trainingDescription:
@@ -1985,6 +2012,7 @@ components:
       required:
       - existentPracticeMaterials
       - existentTheoryMaterials
+      - language
       - topicName
       - trainingDescription
       - trainingName
@@ -2006,12 +2034,16 @@ components:
       properties:
         goal:
           type: string
+        language:
+          example: ru|en|ua
+          type: string
         topicsAmount:
           type: integer
         trainingName:
           type: string
       required:
       - goal
+      - language
       - topicsAmount
       - trainingName
       type: object
@@ -2901,6 +2933,9 @@ components:
       properties:
         goalDescription:
           type: string
+        language:
+          example: ru|en|ua
+          type: string
         metrics:
           items:
             type: string
@@ -2909,6 +2944,7 @@ components:
           type: string
       required:
       - goalDescription
+      - language
       - metrics
       - wayName
       type: object

@@ -22,6 +22,7 @@ var _ MappedNullable = &MwServerInternalSchemasAIGenerateTopicsForTrainingPayloa
 // MwServerInternalSchemasAIGenerateTopicsForTrainingPayload struct for MwServerInternalSchemasAIGenerateTopicsForTrainingPayload
 type MwServerInternalSchemasAIGenerateTopicsForTrainingPayload struct {
 	Goal string `json:"goal"`
+	Language string `json:"language"`
 	TopicsAmount int32 `json:"topicsAmount"`
 	TrainingName string `json:"trainingName"`
 }
@@ -32,9 +33,10 @@ type _MwServerInternalSchemasAIGenerateTopicsForTrainingPayload MwServerInternal
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayload(goal string, topicsAmount int32, trainingName string) *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload {
+func NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayload(goal string, language string, topicsAmount int32, trainingName string) *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload {
 	this := MwServerInternalSchemasAIGenerateTopicsForTrainingPayload{}
 	this.Goal = goal
+	this.Language = language
 	this.TopicsAmount = topicsAmount
 	this.TrainingName = trainingName
 	return &this
@@ -70,6 +72,30 @@ func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetGoalOk() 
 // SetGoal sets field value
 func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetGoal(v string) {
 	o.Goal = v
+}
+
+// GetLanguage returns the Language field value
+func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Language
+}
+
+// GetLanguageOk returns a tuple with the Language field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetLanguageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Language, true
+}
+
+// SetLanguage sets field value
+func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetLanguage(v string) {
+	o.Language = v
 }
 
 // GetTopicsAmount returns the TopicsAmount field value
@@ -131,6 +157,7 @@ func (o MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) MarshalJSON()
 func (o MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["goal"] = o.Goal
+	toSerialize["language"] = o.Language
 	toSerialize["topicsAmount"] = o.TopicsAmount
 	toSerialize["trainingName"] = o.TrainingName
 	return toSerialize, nil
@@ -142,6 +169,7 @@ func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) UnmarshalJSO
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"goal",
+		"language",
 		"topicsAmount",
 		"trainingName",
 	}
