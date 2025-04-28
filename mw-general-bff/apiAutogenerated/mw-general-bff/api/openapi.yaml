@@ -2021,12 +2021,16 @@ components:
         language:
           example: ru|en|ua
           type: string
+        parentTopicId:
+          nullable: true
+          type: string
         topicsAmount:
           type: integer
         trainingId:
           type: string
       required:
       - language
+      - parentTopicId
       - topicsAmount
       - trainingId
       type: object

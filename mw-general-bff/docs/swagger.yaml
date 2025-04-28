@@ -195,12 +195,16 @@ definitions:
       language:
         example: ru|en|ua
         type: string
+      parentTopicId:
+        type: string
+        x-nullable: true
       topicsAmount:
         type: integer
       trainingId:
         type: string
     required:
     - language
+    - parentTopicId
     - topicsAmount
     - trainingId
     type: object

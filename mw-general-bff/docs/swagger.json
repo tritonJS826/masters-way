@@ -3064,6 +3064,7 @@
             "type": "object",
             "required": [
                 "language",
+                "parentTopicId",
                 "topicsAmount",
                 "trainingId"
             ],
@@ -3071,6 +3072,10 @@
                 "language": {
                     "type": "string",
                     "example": "ru|en|ua"
+                },
+                "parentTopicId": {
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "topicsAmount": {
                     "type": "integer"

@@ -22,6 +22,7 @@ var _ MappedNullable = &MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPa
 // MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload struct for MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload
 type MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload struct {
 	Language string
+	ParentTopicId NullableString
 	TopicsAmount int32
 	TrainingId string
 }
@@ -32,9 +33,10 @@ type _MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload MwGeneralBff
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(language string, topicsAmount int32, trainingId string) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload {
+func NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload(language string, parentTopicId NullableString, topicsAmount int32, trainingId string) *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload {
 	this := MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload{}
 	this.Language = language
+	this.ParentTopicId = parentTopicId
 	this.TopicsAmount = topicsAmount
 	this.TrainingId = trainingId
 	return &this
@@ -70,6 +72,32 @@ func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetLangu
 // SetLanguage sets field value
 func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) SetLanguage(v string) {
 	o.Language = v
+}
+
+// GetParentTopicId returns the ParentTopicId field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetParentTopicId() string {
+	if o == nil || o.ParentTopicId.Get() == nil {
+		var ret string
+		return ret
+	}
+
+	return *o.ParentTopicId.Get()
+}
+
+// GetParentTopicIdOk returns a tuple with the ParentTopicId field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) GetParentTopicIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentTopicId.Get(), o.ParentTopicId.IsSet()
+}
+
+// SetParentTopicId sets field value
+func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) SetParentTopicId(v string) {
+	o.ParentTopicId.Set(&v)
 }
 
 // GetTopicsAmount returns the TopicsAmount field value
@@ -131,6 +159,7 @@ func (o MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) MarshalJS
 func (o MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["language"] = o.Language
+	toSerialize["parentTopicId"] = o.ParentTopicId.Get()
 	toSerialize["topicsAmount"] = o.TopicsAmount
 	toSerialize["trainingId"] = o.TrainingId
 	return toSerialize, nil
@@ -142,6 +171,7 @@ func (o *MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload) Unmarsha
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"language",
+		"parentTopicId",
 		"topicsAmount",
 		"trainingId",
 	}

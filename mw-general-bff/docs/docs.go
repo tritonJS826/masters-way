@@ -3072,6 +3072,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "language",
+                "parentTopicId",
                 "topicsAmount",
                 "trainingId"
             ],
@@ -3079,6 +3080,10 @@ const docTemplate = `{
                 "language": {
                     "type": "string",
                     "example": "ru|en|ua"
+                },
+                "parentTopicId": {
+                    "type": "string",
+                    "x-nullable": true
                 },
                 "topicsAmount": {
                     "type": "integer"

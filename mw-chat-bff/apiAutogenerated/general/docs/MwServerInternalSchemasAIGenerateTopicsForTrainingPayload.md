@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**FullParentTopicDescription** | Pointer to **NullableString** |  | [optional] 
 **Goal** | **string** |  | 
 **Language** | **string** |  | 
 **TopicsAmount** | **int32** |  | 
@@ -28,6 +29,41 @@ NewMwServerInternalSchemasAIGenerateTopicsForTrainingPayloadWithDefaults instant
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
+### GetFullParentTopicDescription
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetFullParentTopicDescription() string`
+
+GetFullParentTopicDescription returns the FullParentTopicDescription field if non-nil, zero value otherwise.
+
+### GetFullParentTopicDescriptionOk
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetFullParentTopicDescriptionOk() (*string, bool)`
+
+GetFullParentTopicDescriptionOk returns a tuple with the FullParentTopicDescription field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFullParentTopicDescription
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetFullParentTopicDescription(v string)`
+
+SetFullParentTopicDescription sets FullParentTopicDescription field to given value.
+
+### HasFullParentTopicDescription
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) HasFullParentTopicDescription() bool`
+
+HasFullParentTopicDescription returns a boolean if a field has been set.
+
+### SetFullParentTopicDescriptionNil
+
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) SetFullParentTopicDescriptionNil(b bool)`
+
+ SetFullParentTopicDescriptionNil sets the value for FullParentTopicDescription to be an explicit nil
+
+### UnsetFullParentTopicDescription
+`func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) UnsetFullParentTopicDescription()`
+
+UnsetFullParentTopicDescription ensures that no value is present for FullParentTopicDescription, not even an explicit nil
 ### GetGoal
 
 `func (o *MwServerInternalSchemasAIGenerateTopicsForTrainingPayload) GetGoal() string`

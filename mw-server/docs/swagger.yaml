@@ -194,6 +194,9 @@ definitions:
     type: object
   mw-server_internal_schemas.AIGenerateTopicsForTrainingPayload:
     properties:
+      fullParentTopicDescription:
+        type: string
+        x-nullable: true
       goal:
         type: string
       language:

@@ -61,10 +61,11 @@ type AIEstimateIssueResponse struct {
 }
 
 type AIGenerateTopicsForTrainingPayload struct {
-	TopicsAmount        int    `json:"topicsAmount" validate:"required"`
-	TrainingName        string `json:"trainingName" validate:"required"`
-	TrainingDescription string `json:"goal" validate:"required"`
-	Language            string `json:"language" validate:"required" example:"ru|en|ua"`
+	TopicsAmount               int     `json:"topicsAmount" validate:"required"`
+	TrainingName               string  `json:"trainingName" validate:"required"`
+	TrainingDescription        string  `json:"goal" validate:"required"`
+	Language                   string  `json:"language" validate:"required" example:"ru|en|ua"`
+	FullParentTopicDescription *string `json:"fullParentTopicDescription" extensions:"x-nullable"`
 }
 
 type AIGenerateTopicsForTrainingResponse struct {

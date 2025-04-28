@@ -499,7 +499,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload("ru|en|ua", int32(123), "TrainingId_example") // MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload | Request payload
+	request := *openapiclient.NewMwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload("ru|en|ua", "ParentTopicId_example", int32(123), "TrainingId_example") // MwGeneralBffInternalSchemasAIGenerateTopicsForTrainingPayload | Request payload
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

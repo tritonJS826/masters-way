@@ -323,16 +323,33 @@ func (gs *GeminiService) GenerateTopicsForTraining(ctx context.Context, payload 
 
 	model := gs.geminiClient.GenerativeModel(gs.config.GeminiModel)
 
+	// This block required only for topic decomposition
+	var additionForDecomposedTopics string
+	if payload.FullParentTopicDescription == nil {
+		additionForDecomposedTopics = ""
+	} else {
+		switch payload.Language {
+		case "en":
+			additionForDecomposedTopics = "I have a topic that I want to decompose. Here is its description:" + *payload.FullParentTopicDescription
+		case "ru":
+			additionForDecomposedTopics = "У меня есть тема которую я хочу декомпозировать. Вот ее описание:" + *payload.FullParentTopicDescription
+		case "ua":
+			additionForDecomposedTopics = "У мене є тема яку я хочу декомпозувати. Ось її опис:" + *payload.FullParentTopicDescription
+		default:
+			additionForDecomposedTopics = "I have a topic that I want to decompose. Here is its description:" + *payload.FullParentTopicDescription
+		}
+	}
+
 	var payloadMessage string
 	switch payload.Language {
 	case "en":
-		payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Generate me the list of " + strconv.Itoa(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format. For example: [\"some topic 1\", \"some topic 2\"]"
+		payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + "\n" + additionForDecomposedTopics + ". Generate me the list of " + strconv.Itoa(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format. For example: [\"some topic 1\", \"some topic 2\"]"
 	case "ru":
-		payloadMessage = "У меня есть курс " + payload.TrainingName + ". Описание:" + payload.TrainingDescription + ". Сгенерируйте мне список " + strconv.Itoa(payload.TopicsAmount) + " тем для этого курса, каждая тема на 1 урок (1-2 часа). макс 100 символов для каждой темы. Предоставьте мне ответ в формате json массива. Например: [\"some topic 1\", \"some topic 2\"]"
+		payloadMessage = "У меня есть курс " + payload.TrainingName + ". Описание:" + payload.TrainingDescription + "\n" + additionForDecomposedTopics + ". Сгенерируйте мне список " + strconv.Itoa(payload.TopicsAmount) + " тем для этого курса, каждая тема на 1 урок (1-2 часа). макс 100 символов для каждой темы. Предоставьте мне ответ в формате json массива. Например: [\"some topic 1\", \"some topic 2\"]"
 	case "ua":
-		payloadMessage = "У мене є курс " + payload.TrainingName + ". Опис:" + payload.TrainingDescription + ". Згенеруйте мені список " + strconv.Itoa(payload.TopicsAmount) + " тем для цього курсу, кожна тема на 1 урок (1-2 години). макс 100 символів для кожної теми. Надішліть мені відповідь у форматі json масиву. Наприклад: [\"some topic 1\", \"some topic 2\"]"
+		payloadMessage = "У мене є курс " + payload.TrainingName + ". Опис:" + payload.TrainingDescription + "\n" + additionForDecomposedTopics + ". Згенеруйте мені список " + strconv.Itoa(payload.TopicsAmount) + " тем для цього курсу, кожна тема на 1 урок (1-2 години). макс 100 символів для кожної теми. Надішліть мені відповідь у форматі json масиву. Наприклад: [\"some topic 1\", \"some topic 2\"]"
 	default:
-		payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + ". Generate me the list of " + strconv.Itoa(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format. For example: [\"some topic 1\", \"some topic 2\"]"
+		payloadMessage = "I have a course " + payload.TrainingName + ". The descriptions is:" + payload.TrainingDescription + "\n" + additionForDecomposedTopics + ". Generate me the list of " + strconv.Itoa(payload.TopicsAmount) + "topics for this course, each topic for 1 lesson (1-2 hours). max 100 symbols for each topic. Provide me answer in json array format. For example: [\"some topic 1\", \"some topic 2\"]"
 	}
 
 	response, err := model.GenerateContent(ctx, genai.Text(payloadMessage))

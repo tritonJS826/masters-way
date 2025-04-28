@@ -3106,6 +3106,10 @@ const docTemplate = `{
                 "trainingName"
             ],
             "properties": {
+                "fullParentTopicDescription": {
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "goal": {
                     "type": "string"
                 },
