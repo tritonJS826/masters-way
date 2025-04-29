@@ -15,5 +15,10 @@
       "en": "Oops, this page has been deleted, moved or you entered the wrong address.\nContact our team if you need help.\nOr send an email to: victorveretennikov58@gmail.com (with the theme 'Mastersway:error')",
       "ua": "Упс, ця сторінка була видалена, переміщена або ви ввели неправильну адресу.\nЗв'яжіться з нашою командою, якщо вам потрібна допомога.\nАбо надішліть листа: victorveretennikov58@gmail.com (з темою -'Mastersway:error')."
     }
+  },
+  "onClickError": {
+    "ru": "Упс! Что-то пошло не так! Пожалуйста, перезагрузите страницу и повторите действие, или отправьте письмо на адрес: victorveretennikov58@gmail.com (с темой «Mastersway:error»)",
+    "en": "Oops! Something went wrong! Please reload the page and repeat the action, or send an email to: victorveretennikov58@gmail.com (with the theme 'Mastersway:error')",
+    "ua": "Ой! Щось пішло не так! Перезавантажте сторінку та повторіть дію або надішліть електронний лист на адресу: victorveretennikov58@gmail.com (з темою «Mastersway:помилка»)"
   }
 }

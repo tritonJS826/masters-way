@@ -56,6 +56,7 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
     const newTopic = await TopicDAL.createTopic({
       trainingId: params.trainingId,
       topicParentId: params.topicParentId,
+      topicName: params.topicName,
     });
     props.addTopic(newTopic);
   };
@@ -74,13 +75,18 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
         level={0}
         topics={props.topics}
         isEditable={props.isEditable}
-        addTopic={(params: CreateTopicParams) => addTopic({trainingId: params.trainingId, topicParentId: params.topicParentId})}
+        addTopic={(params: CreateTopicParams) => addTopic({
+          trainingId: params.trainingId,
+          topicName: params.topicName,
+          topicParentId: params.topicParentId,
+        })}
         deleteTopic={(topicUuid: string) => deleteTopic(topicUuid)}
       />
       {props.isEditable &&
         <HorizontalContainer className={styles.generateTopicButtons}>
           <Button
             value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
+            errorClickMessage={LanguageService.error.onClickError[language]}
             onClick={() => addTopic({trainingId: props.trainingUuid})}
           />
           <Modal
@@ -96,10 +102,6 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
                 addTopic={props.addTopic}
                 trainingId={props.trainingUuid}
               />
-              // <TopicsAmountAiModal
-              //   addTopic={props.addTopic}
-              //   trainingId={props.trainingUuid}
-              // />
             }
             isFitContent={false}
           />

@@ -560,10 +560,12 @@ export const TopicPage = observer((props: TopicPageProps) => {
             <HorizontalContainer className={styles.generateMaterialButtons}>
               <Button
                 value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
+                errorClickMessage={LanguageService.error.onClickError[language]}
                 onClick={() => addTheoryMaterial(topicPageStore.topic.uuid)}
               />
               <Button
                 value={LanguageService.topic.aiButtons.generateTheoryMaterialWithAIButton[language]}
+                errorClickMessage={LanguageService.error.onClickError[language]}
                 onClick={() => generateTheoryMaterial(topicPageStore.topic.uuid)}
                 buttonType={ButtonType.PRIMARY}
               />
@@ -751,11 +753,13 @@ export const TopicPage = observer((props: TopicPageProps) => {
             <HorizontalContainer className={styles.generateMaterialButtons}>
               <Button
                 value={LanguageService.topic.materialsBlock.addNewPracticalMaterialButton[language]}
+                errorClickMessage={LanguageService.error.onClickError[language]}
                 onClick={() => addPracticeMaterial(topicPageStore.topic.uuid)}
                 className={styles.addMaterial}
               />
               <Button
                 value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
+                errorClickMessage={LanguageService.error.onClickError[language]}
                 onClick={() => generatePracticeMaterial(topicPageStore.topic.uuid)}
                 buttonType={ButtonType.PRIMARY}
               />

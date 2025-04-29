@@ -171,6 +171,7 @@ export const GeneratePlansByMetricAiModal = (props: DecomposeIssueAiModalProps) 
               <DialogClose asChild>
                 <Button
                   value={LanguageService.way.reportsTable.generatePlansByAI[language]}
+                  errorClickMessage={LanguageService.error.onClickError[language]}
                   onClick={() => {
                     chosenMetric && generatePlansByMetricAi(chosenMetric.description);
                   }}

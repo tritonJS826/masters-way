@@ -3,11 +3,14 @@ import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Modal} from "src/component/modal/Modal";
+import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {TopicCard} from "src/component/topicCard/TopicCard";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {CreateTopicParams} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {TopicsAiModal} from "src/logic/trainingPage/topicsBlock/TopicsAiModal";
 import {TopicPreview} from "src/model/businessModelPreview/TopicPreview";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -101,9 +104,32 @@ export const TopicChildrenList = observer((props: TopicChildrenListProps) => {
                   props.addTopic({
                     trainingId: childTopic.trainingUuid,
                     topicParentId: childTopic.uuid,
-                  },
-                  );
+                  });
+                }}
+              />
+              <Modal
+                trigger={
+                  <Tooltip
+                    position={PositionTooltip.TOP}
+                    content={LanguageService.training.aiButtons.generateTopicWithAIButton[language]}
+                  >
+                    <Button
+                      onClick={() => { }}
+                      buttonType={ButtonType.ICON_BUTTON}
+                      value="GE"
+                      className={styles.aiButton}
+                    />
+                  </Tooltip>
                 }
+                content={
+                  <TopicsAiModal
+                    addTopic={(topic: TopicPreview) => props.addTopic({
+                      trainingId: topic.trainingUuid,
+                      topicParentId: childTopic.uuid,
+                      topicName: topic.name,
+                    })}
+                    trainingId={childTopic.trainingUuid}
+                  />
                 }
               />
               <Tooltip content={LanguageService.training.topicsBlock.deleteTopicTooltip[language]}>

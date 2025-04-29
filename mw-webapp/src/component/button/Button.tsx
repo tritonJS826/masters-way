@@ -71,6 +71,11 @@ export interface ButtonProps {
    */
   isDisabled?: boolean;
 
+  /**
+   * Error click alert message
+   */
+  errorClickMessage?: string;
+
 }
 
 /**
@@ -85,7 +90,11 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
    */
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     setHandleClickInProgress(true);
-    await Promise.resolve(props.onClick(event));
+    try {
+      await Promise.resolve(props.onClick(event));
+    } catch (error) {
+      alert(props.errorClickMessage);
+    }
     setHandleClickInProgress(false);
   };
 

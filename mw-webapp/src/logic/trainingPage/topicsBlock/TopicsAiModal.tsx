@@ -38,12 +38,17 @@ interface TopicsAiModalProps {
     /**
      * Training uuid
      */
-    trainingId: string;
+  trainingId: string;
 
-    /**
-     * Callback to add topic
-     */
-    addTopic: (topic: TopicPreview) => void;
+  /**
+   * Parent topic's uuid
+   */
+  topicParentUuid?: string | undefined;
+
+  /**
+   * Callback to add topic
+   */
+  addTopic: (topic: TopicPreview) => void;
 }
 
 /**
@@ -110,6 +115,7 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
     const topicsPreviewRaw = await AIDAL.aiTopic({
       topicsAmount: inputTopicsAmount,
       trainingId: props.trainingId,
+      topicParentId: props.topicParentUuid,
       language,
     });
 
@@ -117,7 +123,6 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
       title: topicPreview,
       isChecked: false,
     }));
-
     setGeneratedTopicsPreview(topicsPreview);
     setIsGEneratingTopics(false);
   };
@@ -132,13 +137,13 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
       const newTopic = await TopicDAL.createTopic({
         trainingId: props.trainingId,
         topicName: topicPreview.title,
+        topicParentId: props.topicParentUuid,
       });
 
       return newTopic;
     });
 
     const topics = await Promise.all(updateTopicsPromises);
-
     topics.forEach(props.addTopic);
   };
 
@@ -163,6 +168,7 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
           />
           <Button
             value={LanguageService.training.aiButtons.generateTopicWithAIButton[language]}
+            errorClickMessage={LanguageService.error.onClickError[language]}
             onClick={() => {
               setIsGEneratingTopics(true);
               generateAITopics();
