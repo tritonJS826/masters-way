@@ -98,7 +98,6 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
         text: props.errorClickMessage,
         type: NotificationType.ERROR,
       });
-      alert(props.errorClickMessage);
     } finally {
       setHandleClickInProgress(false);
     }
