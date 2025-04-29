@@ -43,7 +43,7 @@ interface TopicsAiModalProps {
   /**
    * Parent topic's uuid
    */
-  topicParentUuid?: string | undefined;
+  topicParentUuid?: string;
 
   /**
    * Callback to add topic
