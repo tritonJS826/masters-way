@@ -17,8 +17,8 @@
     }
   },
   "onClickError": {
-    "ru": "Упс! Что-то пошло не так! Пожалуйста, повторите действие, или отправьте письмо на адрес: victorveretennikov58@gmail.com (с темой «Mastersway:error»)",
-    "en": "Oops! Something went wrong! Please repeat the action, or send an email to: victorveretennikov58@gmail.com (with the theme 'Mastersway:error')",
-    "ua": "Ой! Щось пішло не так! Повторіть дію або надішліть електронний лист на адресу: victorveretennikov58@gmail.com (з темою «Mastersway:помилка»)"
+    "ru": "Упс! Что-то пошло не так! Пожалуйста, попробуйте еще раз, или отправьте письмо на адрес: victorveretennikov58@gmail.com (с темой «Mastersway:error»)",
+    "en": "Oops! Something went wrong! Please try again, or send an email to: victorveretennikov58@gmail.com (with the theme 'Mastersway:error')",
+    "ua": "Ой! Щось пішло не так! Будь ласка, cпробуйте ще раз або надішліть електронний лист на адресу: victorveretennikov58@gmail.com (з темою «Mastersway:помилка»)"
   }
 }

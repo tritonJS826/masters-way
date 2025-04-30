@@ -1,6 +1,5 @@
 import {ForwardedRef, forwardRef, useState} from "react";
 import clsx from "clsx";
-import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import styles from "src/component/button/Button.module.scss";
 
 /**
@@ -72,11 +71,6 @@ export interface ButtonProps {
    */
   isDisabled?: boolean;
 
-  /**
-   * Error click alert message
-   */
-  errorClickMessage?: string;
-
 }
 
 /**
@@ -93,11 +87,6 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
     setHandleClickInProgress(true);
     try {
       await Promise.resolve(props.onClick(event));
-    } catch (error) {
-      props.errorClickMessage && displayNotification({
-        text: props.errorClickMessage,
-        type: NotificationType.ERROR,
-      });
     } finally {
       setHandleClickInProgress(false);
     }

@@ -106,25 +106,34 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
   const {language} = languageStore;
 
   const [inputTopicsAmount, setInputTopicsAmount] = useState<number>(DEFAULT_TOPICS_AMOUNT);
-  const [isGeneratingTopics, setIsGEneratingTopics] = useState<boolean>(false);
+  const [isGeneratingTopics, setIsGeneratingTopics] = useState<boolean>(false);
+  const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
 
   /**
    * Generate AI topics
    */
   const generateAITopics = async () => {
-    const topicsPreviewRaw = await AIDAL.aiTopic({
-      topicsAmount: inputTopicsAmount,
-      trainingId: props.trainingId,
-      topicParentId: props.topicParentUuid,
-      language,
-    });
+    try {
+      const topicsPreviewRaw = await AIDAL.aiTopic({
+        topicsAmount: inputTopicsAmount,
+        trainingId: props.trainingId,
+        topicParentId: props.topicParentUuid,
+        language,
+      });
 
-    const topicsPreview = topicsPreviewRaw.map(topicPreview => new GeneratedTopicPreview({
-      title: topicPreview,
-      isChecked: false,
-    }));
-    setGeneratedTopicsPreview(topicsPreview);
-    setIsGEneratingTopics(false);
+      const topicsPreview = topicsPreviewRaw.map(topicPreview => new GeneratedTopicPreview({
+        title: topicPreview,
+        isChecked: false,
+      }));
+      setGeneratedTopicsPreview(topicsPreview);
+    } catch (error) {
+      setIsErrorCatched(true);
+
+      //TODO: need manage error somehow
+      throw error;
+    } finally {
+      setIsGeneratingTopics(false);
+    }
   };
 
   /**
@@ -168,16 +177,23 @@ export const TopicsAiModal = (props: TopicsAiModalProps) => {
           />
           <Button
             value={LanguageService.training.aiButtons.generateTopicWithAIButton[language]}
-            errorClickMessage={LanguageService.error.onClickError[language]}
             onClick={() => {
-              setIsGEneratingTopics(true);
+              setIsErrorCatched(false);
+              setIsGeneratingTopics(true);
               generateAITopics();
             }}
           />
         </>
       }
-      {isGeneratingTopics &&
+      {isGeneratingTopics && !isErrorCatched &&
         <Loader theme={theme} />
+      }
+      {isErrorCatched &&
+        <Title
+          level={HeadingLevel.h2}
+          placeholder=""
+          text={LanguageService.error.onClickError[language]}
+        />
       }
       {generatedTopicsPreview.length > 0 &&
         (

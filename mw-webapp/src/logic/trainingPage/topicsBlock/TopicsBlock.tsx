@@ -86,7 +86,7 @@ export const TopicsBlock = observer((props: TopicsBlockProps) => {
         <HorizontalContainer className={styles.generateTopicButtons}>
           <Button
             value={LanguageService.training.topicsBlock.addNewTopicButton[language]}
-            errorClickMessage={LanguageService.error.onClickError[language]}
+            // ErrorClickMessage={LanguageService.error.onClickError[language]}
             onClick={() => addTopic({trainingId: props.trainingUuid})}
           />
           <Modal
