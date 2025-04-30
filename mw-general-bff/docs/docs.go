@@ -3796,7 +3796,8 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "practiceType": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "input_word"
                 },
                 "taskDescription": {
                     "type": "string"

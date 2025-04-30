@@ -682,6 +682,7 @@ definitions:
       order:
         type: integer
       practiceType:
+        example: input_word
         type: string
       taskDescription:
         type: string
