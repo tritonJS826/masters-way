@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
@@ -7,6 +8,7 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
 import {EditableText} from "src/component/editableText/EditableText";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
+import {ErrorPromiseModal} from "src/component/errorPromiseModal/ErrorPromiseModal";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -143,6 +145,8 @@ export enum PracticeMaterialType {
  */
 export const TopicPage = observer((props: TopicPageProps) => {
   const navigate = useNavigate();
+  const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
+
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user} = userStore;
@@ -181,12 +185,19 @@ export const TopicPage = observer((props: TopicPageProps) => {
    * Generate theory material by AI
    */
   const generateTheoryMaterial = async (topicUuid: string) => {
-    const newTheoryMaterial = await AIDAL.aiCreateTheoryMaterial({
-      topicId: topicUuid,
-      trainingId: props.trainingUuid,
-      language,
-    });
-    topicPageStore.topic.addTheoryMaterial(newTheoryMaterial);
+    try {
+      const newTheoryMaterial = await AIDAL.aiCreateTheoryMaterial({
+        topicId: topicUuid,
+        trainingId: props.trainingUuid,
+        language,
+      });
+      topicPageStore.topic.addTheoryMaterial(newTheoryMaterial);
+    } catch (error) {
+      setIsErrorCatched(true);
+
+      //TODO: need manage error somehow
+      throw error;
+    }
   };
 
   /**
@@ -208,13 +219,20 @@ export const TopicPage = observer((props: TopicPageProps) => {
    * Generate practice material by AI
    */
   const generatePracticeMaterial = async (topicUuid: string) => {
-    const newPracticeMaterial = await AIDAL.aiCreatePracticeMaterial({
-      generateAmount: 2,
-      topicId: topicUuid,
-      trainingId: props.trainingUuid,
-      language,
-    });
-    newPracticeMaterial.forEach(practiceMaterial => topicPageStore.topic.addPracticeMaterial(practiceMaterial));
+    try {
+      const newPracticeMaterial = await AIDAL.aiCreatePracticeMaterial({
+        generateAmount: 2,
+        topicId: topicUuid,
+        trainingId: props.trainingUuid,
+        language,
+      });
+      newPracticeMaterial.forEach(practiceMaterial => topicPageStore.topic.addPracticeMaterial(practiceMaterial));
+    } catch (error) {
+      setIsErrorCatched(true);
+
+      //TODO: need manage error somehow
+      throw error;
+    }
   };
 
   /**
@@ -265,6 +283,13 @@ export const TopicPage = observer((props: TopicPageProps) => {
 
   return (
     <VerticalContainer className={styles.container}>
+      {isErrorCatched &&
+      <ErrorPromiseModal
+        errorMessage={LanguageService.error.onClickError[language]}
+        isErrorCatched={isErrorCatched}
+        okText={LanguageService.modals.confirmModal.okButton[language]}
+      />
+      }
       <HorizontalGridContainer className={styles.topicDashboard}>
         <VerticalContainer className={styles.topicDashBoardLeft}>
           <VerticalContainer className={styles.topicInfo}>
@@ -564,7 +589,10 @@ export const TopicPage = observer((props: TopicPageProps) => {
               />
               <Button
                 value={LanguageService.topic.aiButtons.generateTheoryMaterialWithAIButton[language]}
-                onClick={() => generateTheoryMaterial(topicPageStore.topic.uuid)}
+                onClick={() => {
+                  setIsErrorCatched(false);
+                  generateTheoryMaterial(topicPageStore.topic.uuid);
+                }}
                 buttonType={ButtonType.PRIMARY}
               />
             </HorizontalContainer>
@@ -756,7 +784,10 @@ export const TopicPage = observer((props: TopicPageProps) => {
               />
               <Button
                 value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
-                onClick={() => generatePracticeMaterial(topicPageStore.topic.uuid)}
+                onClick={() => {
+                  setIsErrorCatched(false);
+                  generatePracticeMaterial(topicPageStore.topic.uuid);
+                }}
                 buttonType={ButtonType.PRIMARY}
               />
             </HorizontalContainer>

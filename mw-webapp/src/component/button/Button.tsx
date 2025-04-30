@@ -85,8 +85,11 @@ export const Button = forwardRef((props: ButtonProps, ref?: ForwardedRef<HTMLBut
    */
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     setHandleClickInProgress(true);
-    await Promise.resolve(props.onClick(event));
-    setHandleClickInProgress(false);
+    try {
+      await Promise.resolve(props.onClick(event));
+    } finally {
+      setHandleClickInProgress(false);
+    }
   };
 
   return (
