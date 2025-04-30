@@ -14,14 +14,12 @@
   @include regularContainer;
   min-width: $minWidthBlock;
   gap: $gapSmall;
-
   position: relative;
 }
 
 .image {
   position: absolute;
-  z-index: 1;
-  border-radius: 5%;
+  border-radius: $containerBorderRadius;
   opacity: 0.5;
   top: 0;
   right: 0;
@@ -50,7 +48,6 @@
 
 .userMainInfoBlock {
   gap: $gapBig;
-  z-index: 30;
 
   grid-template-columns: minmax($minWidthBlock, 1fr) minmax(
       $minWidthBlock,
