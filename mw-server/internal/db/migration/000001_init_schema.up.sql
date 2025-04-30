@@ -36,7 +36,7 @@ CREATE TABLE users_projects (
 CREATE TABLE ways(
     "uuid" UUID NOT NULL DEFAULT (uuid_generate_v4()),
     "name" VARCHAR(50) NOT NULL,
-    "goal_description" VARCHAR(500) NOT NULL,
+    "goal_description" VARCHAR(4096) NOT NULL,
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "estimation_time" INTEGER NOT NULL CHECK (estimation_time BETWEEN 0 AND 52560000),

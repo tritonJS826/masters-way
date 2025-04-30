@@ -101,7 +101,7 @@ type GeneratedPracticeMaterial struct {
 	PracticeMaterialOrder int32  `json:"order" validate:"required"`
 	TaskDescription       string `json:"taskDescription" validate:"required"`
 	Answer                string `json:"answer" validate:"required"`
-	PracticeType          string `json:"practiceType" validate:"required"`
+	PracticeType          string `json:"practiceType" validate:"required" example:"input_word"`
 	TimeToAnswer          int32  `json:"timeToAnswer" validate:"required"`
 	CreatedAt             string `json:"createdAt" validate:"required"`
 	UpdatedAt             string `json:"updatedAt" validate:"required"`

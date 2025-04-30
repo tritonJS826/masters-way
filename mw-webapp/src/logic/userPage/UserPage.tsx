@@ -7,7 +7,6 @@ import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAcces
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
 import {TrackUserPage} from "src/analytics/userPageAnalytics";
-import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
 import {CollectionCard} from "src/component/collectionCard/CollectionCard";
@@ -580,111 +579,14 @@ export const UserPage = observer((props: UserPageProps) => {
   return (
     <VerticalContainer className={styles.userPageWrapper}>
       <VerticalContainer className={styles.userInfoBlock}>
+        <img
+          alt="UserImage"
+          src={userPageOwner.imageUrl}
+          className={styles.image}
+        />
+
         <HorizontalGridContainer className={styles.userMainInfoBlock}>
           <HorizontalContainer className={styles.userAboutBlock}>
-            <VerticalContainer className={styles.AvatarWithConnectButton}>
-              <Avatar
-                alt={userPageOwner.name}
-                src={userPageOwner.imageUrl}
-                size={AvatarSize.LARGE}
-              />
-              {!isPageOwner && user &&
-                <Button
-                  onClick={async () => {
-                    const room = await ChatDAL.findOrCreateRoom({
-                      roomType: RoomType.PRIVATE,
-                      userId: userPageOwner.uuid,
-                    });
-                    initiateChatListStore(RoomType.PRIVATE);
-                    initiateActiveRoomStore(room.roomId);
-                    setIsChatOpen(true);
-
-                  }}
-                  buttonType={ButtonType.SECONDARY}
-                  value={LanguageService.user.personalInfo.writeToConnectButton[language]}
-                  dataCy={userPersonalDataAccessIds.connectButton}
-                />
-              }
-
-              {isPageOwner &&
-                <Modal
-                  trigger={
-                    <Button
-                      onClick={() => setIsFindMentorRequestSent(false)}
-                      buttonType={ButtonType.PRIMARY}
-                      value={LanguageService.user.personalInfo.findMentorButton[language]}
-                      icon={
-                        <Icon
-                          size={IconSize.SMALL}
-                          name="ArrowRightIcon"
-                          className={styles.findMentorIcon}
-                        />
-                      }
-                      dataCy={userPersonalDataAccessIds.findMentor.findMentorButton}
-                    />
-                  }
-                  content={
-                    !isFindMentorRequestSent
-                      ? (
-                        <VerticalContainer dataCy={userPersonalDataAccessIds.findMentor.form}>
-                          <Form
-                            onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
-                              await SurveyDAL.surveyFindMentor({
-                                ...formData,
-                                userEmail: user.email,
-                              });
-                              setIsFindMentorRequestSent(true);
-                            }}
-                            submitButtonValue={LanguageService.survey.submitButton[language]}
-                            formTitle={LanguageService.survey.findMentor.title[language]}
-                            formDescription={LanguageService.survey.findMentor.description[language]}
-                            formFields={[
-                              {
-                                id: 0,
-                                label: "skillsToLearn",
-                                name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
-                                value: "",
-                                required: true,
-                                placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
-                                dataCy: userPersonalDataAccessIds.findMentor.skillsToLearnInput,
-                              },
-                              {
-                                id: 1,
-                                label: "currentExperience",
-                                name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
-                                value: "",
-                                required: true,
-                                placeholder:
-                                  `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
-                                dataCy: userPersonalDataAccessIds.findMentor.currentExperienceInput,
-                              },
-                              {
-                                id: 2,
-                                label: "mentorDescription",
-                                name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
-                                value: "",
-                                required: true,
-                                placeholder:
-                                  `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
-                                dataCy: userPersonalDataAccessIds.findMentor.mentorDescriptionInput,
-                              },
-                            ]}
-                            dataCy={userPersonalDataAccessIds.findMentor.submitButton}
-                          />
-                        </VerticalContainer>
-                      )
-                      : (
-                        <VerticalContainer
-                          className={styles.modalContainer}
-                          dataCy={userPersonalDataAccessIds.findMentor.requestSent}
-                        >
-                          {LanguageService.survey.findMentor.requestSent[language]}
-                        </VerticalContainer>
-                      )
-                  }
-                />
-              }
-            </VerticalContainer>
 
             <VerticalContainer className={styles.nameEmailSection}>
               <HorizontalContainer className={styles.userTitleBlock}>
@@ -888,6 +790,104 @@ export const UserPage = observer((props: UserPageProps) => {
                   />
                 </Tooltip>
               </HorizontalContainer>
+
+              {!isPageOwner && user &&
+                <Button
+                  onClick={async () => {
+                    const room = await ChatDAL.findOrCreateRoom({
+                      roomType: RoomType.PRIVATE,
+                      userId: userPageOwner.uuid,
+                    });
+                    initiateChatListStore(RoomType.PRIVATE);
+                    initiateActiveRoomStore(room.roomId);
+                    setIsChatOpen(true);
+
+                  }}
+                  buttonType={ButtonType.SECONDARY}
+                  value={LanguageService.user.personalInfo.writeToConnectButton[language]}
+                  className={styles.connectButton}
+                  dataCy={userPersonalDataAccessIds.connectButton}
+                />
+              }
+
+              {isPageOwner &&
+              <Modal
+                trigger={
+                  <Button
+                    onClick={() => setIsFindMentorRequestSent(false)}
+                    buttonType={ButtonType.PRIMARY}
+                    value={LanguageService.user.personalInfo.findMentorButton[language]}
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="ArrowRightIcon"
+                        className={styles.findMentorIcon}
+                      />
+                    }
+                    dataCy={userPersonalDataAccessIds.findMentor.findMentorButton}
+                  />
+                }
+                content={
+                  !isFindMentorRequestSent
+                    ? (
+                      <VerticalContainer dataCy={userPersonalDataAccessIds.findMentor.form}>
+                        <Form
+                          onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
+                            await SurveyDAL.surveyFindMentor({
+                              ...formData,
+                              userEmail: user.email,
+                            });
+                            setIsFindMentorRequestSent(true);
+                          }}
+                          submitButtonValue={LanguageService.survey.submitButton[language]}
+                          formTitle={LanguageService.survey.findMentor.title[language]}
+                          formDescription={LanguageService.survey.findMentor.description[language]}
+                          formFields={[
+                            {
+                              id: 0,
+                              label: "skillsToLearn",
+                              name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
+                              value: "",
+                              required: true,
+                              placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
+                              dataCy: userPersonalDataAccessIds.findMentor.skillsToLearnInput,
+                            },
+                            {
+                              id: 1,
+                              label: "currentExperience",
+                              name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
+                              value: "",
+                              required: true,
+                              placeholder:
+                                  `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
+                              dataCy: userPersonalDataAccessIds.findMentor.currentExperienceInput,
+                            },
+                            {
+                              id: 2,
+                              label: "mentorDescription",
+                              name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
+                              value: "",
+                              required: true,
+                              placeholder:
+                                  `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
+                              dataCy: userPersonalDataAccessIds.findMentor.mentorDescriptionInput,
+                            },
+                          ]}
+                          dataCy={userPersonalDataAccessIds.findMentor.submitButton}
+                        />
+                      </VerticalContainer>
+                    )
+                    : (
+                      <VerticalContainer
+                        className={styles.modalContainer}
+                        dataCy={userPersonalDataAccessIds.findMentor.requestSent}
+                      >
+                        {LanguageService.survey.findMentor.requestSent[language]}
+                      </VerticalContainer>
+                    )
+                }
+              />
+              }
 
             </VerticalContainer>
           </HorizontalContainer>

@@ -14,10 +14,43 @@
   @include regularContainer;
   min-width: $minWidthBlock;
   gap: $gapSmall;
+
+  position: relative;
+}
+
+.image {
+  position: absolute;
+  z-index: 1;
+  border-radius: 5%;
+  opacity: 0.5;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: 100%;
+  background-size: contain;
+  background-position: right center;
+  object-position: center;
+
+  mask-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%),
+    linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
+  -webkit-mask-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%),
+    linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%);
+  // Это важно для объединения градиентов
+  mask-composite: destination-in;
+  -webkit-mask-composite: destination-in;
+
+  @media only screen and (max-width: $mediaWidthMobileBig) {
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+  }
 }
 
 .userMainInfoBlock {
   gap: $gapBig;
+  z-index: 30;
 
   grid-template-columns: minmax($minWidthBlock, 1fr) minmax(
       $minWidthBlock,
@@ -29,10 +62,8 @@
   }
 }
 
-.AvatarWithConnectButton {
-  align-items: center;
-  justify-content: space-between;
-  gap: $gapMedium;
+.connectButton {
+  width: fit-content;
 }
 
 .userAboutBlock {
