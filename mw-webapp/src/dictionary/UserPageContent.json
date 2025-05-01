@@ -135,6 +135,17 @@
       "ua": "Оновити контакт"
     },
     
+    "deleteContactButton": {
+      "ru": "Удалить контакт",
+      "en": "Delete contact",
+      "ua": "Видалити контакт"
+    },
+
+    "deleteButtonConfirmation": {
+      "ru": "Вы уверены, что хотите удалить контакт",
+      "en": "Are you sure you want to delete contact",
+      "ua": "Ви впевнені, що хочете видалити контакт"
+    },
 
     "upgradeToPremiumButton": {
       "ru": "Обновить до Премиум",

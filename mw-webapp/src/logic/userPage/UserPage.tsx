@@ -23,14 +23,12 @@ import {HorizontalGridContainer} from "src/component/horizontalGridContainer/Hor
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
 import {Loader} from "src/component/loader/Loader";
-import {ContactsModalContent} from "src/component/modal/ContactsModalContent";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
 import {ProjectCard} from "src/component/projectCard/ProjectCard";
 import {Tab, TabItemProps} from "src/component/tab/Tab";
 import {Tag, TagType} from "src/component/tag/Tag";
-import {TagWithAvatar} from "src/component/tagWithAvatar/TagWIthAvatar";
 import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
@@ -52,12 +50,14 @@ import {userStore} from "src/globalStore/UserStore";
 import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
 import {chatStore} from "src/logic/chat/ChatStore";
+import {ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
+import {ContactTag} from "src/logic/userPage/ContactTag/ContactTag";
 import {DefaultTrainingCollection, getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {TrainingTab} from "src/logic/userPage/trainingTab/TrainingTab";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
 import {WayStatus, WayStatusType} from "src/logic/waysTable/wayStatus";
-import {Contact, DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
+import {DefaultWayCollections, User, UserPlain, WayCollection} from "src/model/businessModel/User";
 import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -851,64 +851,40 @@ export const UserPage = observer((props: UserPageProps) => {
                   }
                   content={
                     <ContactsModalContent
-                      cy={
-                        {
-                          dataCyInput: userPersonalDataAccessIds
-                            .userContactsBlock.contactsModalContent.contactLinkInput,
-                          dataCyCreateButton: userPersonalDataAccessIds
-                            .userContactsBlock.contactsModalContent.createContactButton,
-                        }
-                      }
-                      title={LanguageService.user.personalInfo.addContactModalTitle[language]}
-                      placeholderForFirstInput={LanguageService.user.personalInfo.addContactModalLink[language]}
-                      placeholderForSecondInput={LanguageService.user.personalInfo.addContactModalDescription[language]}
+                      userId={user.uuid}
+                      user={user}
+                      userPageOwner={userPageOwner}
                       close={() => setIsAddContactModalOpen(false)}
-                      onOk={async (contactLink: string, contactDescription: string) => {
-                        const contact = await ContactDAL.createContact({
-                          ownerUuid: user.uuid,
-                          contactLink,
-                          description: contactDescription,
-                        });
-                        user.addContact(contact);
-                        userPageOwner.addContact(contact);
+                      cy={{
+                        dataCyCancel: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.cancelButton,
+                        dataCyInput: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.contactLinkInput,
+                        dataCyCreateButton: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.createContactButton,
                       }}
-                      okButtonValue={LanguageService.user.personalInfo.addContactModal[language]}
-                      cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
                     />
                   }
                 />
               )}
             </HorizontalContainer>
             <HorizontalContainer className={styles.skillsContainer}>
+
               {userPageOwner?.contacts.map(contact => (
-                <TagWithAvatar
-                  cy={
-                    {
-                      dataCyTag: userPersonalDataAccessIds.userContactsBlock.contactTag.tag,
-                      dataCyCross: userPersonalDataAccessIds.userContactsBlock.contactTag.removeTagButton,
-                      dataCyUpdate: userPersonalDataAccessIds.userContactsBlock.contactTag.updateTagButton,
-                    }
-                  }
+                <ContactTag
                   key={contact.uuid}
-                  isDeletable={isPageOwner}
                   contactLink={contact.contactLink}
                   description={contact.description}
                   userId={userPageOwner.uuid}
                   contactId={contact.uuid}
+                  isDeletable={isPageOwner}
                   onDelete={async () => {
                     user?.deleteContact(contact.uuid);
                     userPageOwner.deleteContact(contact.uuid);
                     await ContactDAL.deleteContact({contactId: contact.uuid, userId: userPageOwner.uuid});
                   }}
-                  onUpdate={async (request) => {
-                    const updatedContact = new Contact({
-                      uuid: contact.uuid,
-                      contactLink: request.request.contactLink,
-                      description: request.request.description ?? contact.description,
+                  onUpdate={(updatedContactData) => {
+                    contact.updateContact({
+                      contactLink: updatedContactData.contactLink,
+                      description: updatedContactData.description,
                     });
-                    user?.updateContact(contact.uuid, updatedContact);
-                    userPageOwner.updateContact(contact.uuid, updatedContact);
-                    await ContactDAL.updateContact(request);
                   }}
                 />
               ))}

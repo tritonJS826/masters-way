@@ -36,7 +36,9 @@ export const userPersonalDataAccessIds = {
     userContactsBlock: {
         contactsModalContent: {
             contactLinkInput: "contactLinkInput",
-            createContactButton: "createContactButton"
+            createContactButton: "createContactButton",
+            cancelButton: "cancelButton",
+            updateContactButton: "updateContactButton",
         },
         contactTag: {
             tag: "userContactTag",

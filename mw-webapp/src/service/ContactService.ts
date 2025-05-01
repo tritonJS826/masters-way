@@ -13,8 +13,6 @@ export class ContactService {
 
   /**
    * Create contact
-   * @param requestParameters
-   * @returns Created contact
    */
   public static async createContact(requestParameters: CreateUserContactRequest):
     Promise<MwGeneralBffInternalSchemasUserContact> {
@@ -23,8 +21,6 @@ export class ContactService {
 
   /**
    * Update contact
-   * @param requestParameters
-   * @returns Updated contact
    */
   public static async updateContact(requestParameters: UpdateUserContactRequest):
     Promise<MwGeneralBffInternalSchemasUserContact> {
@@ -33,7 +29,6 @@ export class ContactService {
 
   /**
    * Delete contact by UUID
-   * @param requestParameters
    */
   public static async deleteContact(requestParameters: DeleteUserContactRequest): Promise<void> {
     await updateDeleteContactService.deleteUserContact(requestParameters);

@@ -2,49 +2,35 @@ import {useState} from "react";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {Avatar} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
+import {Confirm} from "src/component/confirm/Confirm";
 import {Icon, IconSize} from "src/component/icon/Icon";
-import {ContactsModalContent} from "src/component/modal/ContactsModalContent";
 import {Modal} from "src/component/modal/Modal";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
 import {LanguageService} from "src/service/LanguageService";
-import styles from "src/component/tagWithAvatar/TagWithAvatar.module.scss";
+import styles from "src/logic/userPage/ContactTag/ContactTag.module.scss";
 
 /**
- * Interface for data-cy attributes
+ *Data attribute for cypress testing
  */
 interface Cy {
 
   /**
-   * Data attribute for cross button
+   * Tag itself
    */
-  dataCyCross?: string;
+  dataCyTag: string;
 
   /**
-   * Data attribute for tag
+   * Button to remove tag
    */
-  dataCyTag?: string;
+  dataCyCross: string;
 
   /**
-   * Data attribute for update button
+   * Button to update tag
    */
-  dataCyUpdate?: string;
-}
+  dataCyUpdate: string;
 
-/**
- * Interface for update contact data
- */
-interface UpdateContactData {
-
-  /**
-   * Contact link
-   */
-  contactLink: string;
-
-  /**
-   * Optional contact description
-   */
-  description?: string;
 }
 
 /**
@@ -52,21 +38,16 @@ interface UpdateContactData {
  */
 interface UpdateContactRequest {
 
-  /**
-   * User ID
-   */
-  userId: string;
+    /**
+     * Contact link
+     */
+    contactLink: string;
 
-  /**
-   * Contact ID
-   */
-  contactId: string;
-
-  /**
-   * Update payload
-   */
-  request: UpdateContactData;
-}
+    /**
+     * Optional contact description
+     */
+    description?: string;
+  }
 
 /**
  * Interface for tag props
@@ -111,29 +92,63 @@ interface TagProps {
   /**
    * Callback triggered on update
    */
-  onUpdate: (request: UpdateContactRequest) => void;
+  onUpdate?: (request: UpdateContactRequest) => void;
 }
 
 /**
  * Tag with avatar component
  */
-export const TagWithAvatar = (props: TagProps) => {
+export const ContactTag = (props: TagProps) => {
   const {language} = languageStore;
+
   const processedContactLink = props.contactLink.replace(/^(https?:\/\/)?/, "").split("/")[0];
+
+  /**
+   *I added this function to make sure if user enters a link without http or https,it can be opened
+   */
+  const makeUrlAbsolute = (url: string): string => {
+    if (!/^https?:\/\//i.test(url)) {
+      return `http://${url}`;
+    }
+
+    return url;
+  };
+
+  const absoluteURL = makeUrlAbsolute(props.contactLink);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const removeButton = (
-    <Button
-      className={styles.removeButton}
-      onClick={() => props.onDelete && props.onDelete()}
-      dataCy={props.cy?.dataCyCross}
-      buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-      value={
-        <Icon
-          size={IconSize.SMALL}
-          name="RemoveIcon"
-          className={styles.actionButtonIcon}
-        />}
+    <Confirm
+      trigger={
+        <Button
+          className={styles.removeButton}
+          dataCy={props.cy?.dataCyCross}
+          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+          onClick={() => {}}
+          value={
+            <Icon
+              size={IconSize.SMALL}
+              name="RemoveIcon"
+              className={styles.actionButtonIcon}
+            />
+          }
+        />
+      }
+      content={
+        <div>
+          <p>
+            {LanguageService.user.personalInfo.deleteButtonConfirmation[language]}
+          </p>
+        </div>
+      }
+      onOk={props.onDelete}
+      okText={LanguageService.user.personalInfo.deleteContactButton[language]}
+      cancelText={LanguageService.modals.promptModal.cancelButton[language]}
+      cy={{
+        onOk: "delete-contact-confirm-ok",
+        onCancel: "delete-contact-confirm-cancel",
+        onEnter: "delete-contact-confirm-dialog",
+      }}
     />
   );
 
@@ -155,13 +170,13 @@ export const TagWithAvatar = (props: TagProps) => {
 
   const avatarWithLink = (
     <a
-      href={props.contactLink}
+      href={absoluteURL}
       target="_blank"
       rel="noopener noreferrer"
     >
       <Avatar
         src={`https://img.logo.dev/${processedContactLink}?token=pk_LceEaDNtTWGchSCHHEvxHQ`}
-        alt='logo'
+        alt={`${processedContactLink} logo`}
       />
     </a>
   );
@@ -191,31 +206,26 @@ export const TagWithAvatar = (props: TagProps) => {
             trigger={updateButton}
             content={
               <ContactsModalContent
+                userId={props.userId}
+                initialContact={{
+                  uuid: props.contactId,
+                  contactLink: props.contactLink,
+                  description: props.description,
+                }}
+                close={() => setIsUpdateModalOpen(false)}
+                onUpdate={(updatedContact) => {
+                  if (props.onUpdate) {
+                    props.onUpdate(updatedContact);
+                  }
+                }}
                 cy={{
                   dataCyInput: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.contactLinkInput,
-                  dataCyCreateButton: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.createContactButton,
+                  dataCyUpdateButton: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.updateContactButton,
+                  dataCyCancel: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.cancelButton,
                 }}
-                contactLink={props.contactLink}
-                contactDescription={props.description ?? ""}
-                title={LanguageService.user.personalInfo.addContactModalTitle[language]}
-                close={() => setIsUpdateModalOpen(false)}
-                onOk={(contactLink: string, contactDescription: string) => {
-                  props.onUpdate && props.onUpdate({
-                    userId: props.userId,
-                    contactId: props.contactId,
-                    request: {
-                      contactLink,
-                      description: contactDescription,
-                    },
-                  });
-                  setIsUpdateModalOpen(false);
-                }}
-                okButtonValue={LanguageService.user.personalInfo.addContactModal[language]}
-                cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
               />
             }
             isOpen={isUpdateModalOpen}
-            close={() => setIsUpdateModalOpen(false)}
           />
         </div>
       )}

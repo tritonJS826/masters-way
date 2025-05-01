@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {Contact} from "src/model/businessModel/Contact";
 import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -169,35 +170,6 @@ export class Skill {
     makeAutoObservable(this);
     this.name = skill.name;
     this.uuid = skill.uuid;
-  }
-
-}
-
-/**
- * Contact data
- */
-export class Contact {
-
-  /**
-   * User contact uuid
-   */
-  public uuid: string;
-
-  /**
-   * User contact name
-   */
-  public contactLink: string;
-
-  /**
-   * User contact description
-   */
-  public description: string;
-
-  constructor(contact: Contact) {
-    makeAutoObservable(this);
-    this.contactLink = contact.contactLink;
-    this.uuid = contact.uuid;
-    this.description = contact.description;
   }
 
 }
@@ -505,13 +477,6 @@ export class User {
    */
   public addContact(newContact: Contact): void {
     this.contacts.push(newContact);
-  }
-
-  /**
-   * Update contact
-   */
-  public updateContact(contactUuid: string, updatedContact: Contact): void {
-    this.contacts = this.contacts.map(contact => contact.uuid === contactUuid ? updatedContact : contact);
   }
 
   /**

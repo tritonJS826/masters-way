@@ -1,10 +1,8 @@
 @import "src/styles/variables";
 
-$tagPaddingBlockSmall: 3px;
-
 .tag {
   position: relative;
-  padding: $tagPaddingBlockSmall;
+  $paddingExtraSmall: 4px;
   transition: all 0.2s ease-in-out;
   &:hover {
     transform: scale(1.05);
@@ -19,12 +17,9 @@ $tagPaddingBlockSmall: 3px;
 
 .actionButton {
   position: absolute;
-  z-index: 1;
+  z-index: $modalZIndex;
   left: 50%;
-  padding: $tagPaddingBlockSmall;
-  border-radius: var(--border-radius-small);
-  background: var(--color-background);
-  box-shadow: var(--box-shadow-small);
+  border-radius: $quaternaryBorderRadius;
   cursor: pointer;
   opacity: 0;
   transform: translateX(-50%);
@@ -35,30 +30,29 @@ $tagPaddingBlockSmall: 3px;
   }
 
   &:hover {
-    background: var(--color-background-hover);
     opacity: 1;
   }
 }
 
 .removeButton {
   @extend .actionButton;
-  top: -30px;
+  top: -40px;
 
   .tag:hover & {
-    top: -20px;
+    top: -25px;
   }
 }
 
 .updateButton {
   @extend .actionButton;
-  bottom: -30px;
+  bottom: -40px;
 
   .tag:hover & {
-    bottom: -20px;
+    bottom: -25px;
   }
 }
 
 .actionButtonIcon {
-  width: 16px;
-  height: 16px;
+  width: $iconSizeSmall;
+  height: $iconSizeSmall;
 }
