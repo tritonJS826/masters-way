@@ -10,6 +10,18 @@
   }
 }
 
+.userDashboard {
+  gap: $gapSmall;
+  grid-template-columns: minmax($mediumWidthBlock, 2fr) minmax(
+      $mediumWidthBlock,
+      3fr
+    );
+
+  @media (max-width: $mediaWidthTabletBig) {
+    grid-template-columns: minmax($minWidthBlock, 1fr);
+  }
+}
+
 .userInfoBlock {
   @include regularContainer;
   min-width: $minWidthBlock;
@@ -29,20 +41,27 @@
   }
 }
 
-.AvatarWithConnectButton {
-  align-items: center;
-  justify-content: space-between;
-  gap: $gapMedium;
+.connectButton {
+  width: fit-content;
+}
+
+.image {
+  @include imageOnBackgroundWithGradient;
 }
 
 .userAboutBlock {
+  overflow: hidden;
   flex-wrap: wrap;
-  gap: $gapBig;
+  gap: $gapSmall;
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-direction: column;
+  }
 }
 
 .nameEmailSection {
   flex: 1;
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .userTitleBlock {
@@ -79,16 +98,22 @@
 }
 
 .userSkillsAndSocialBlock {
-  gap: $gapMedium;
+  @include regularContainer;
+  position: relative;
+  overflow: hidden;
+  min-width: $minWidthBlock;
+  gap: $gapSmall;
 }
 
 .skillsTitleBlock,
 .supportTitleBlock {
+  z-index: 2;
   align-items: baseline;
   gap: $gapMedium;
 }
 
 .skillsContainer {
+  z-index: 2;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -138,6 +163,7 @@
 }
 
 .supportBlock {
+  z-index: 2;
   flex-wrap: wrap;
 }
 

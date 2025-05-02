@@ -7,6 +7,8 @@ import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAcces
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
 import {observer} from "mobx-react-lite";
 import {TrackUserPage} from "src/analytics/userPageAnalytics";
+import logo from "src/assets/mastersWayLogo.svg";
+import logoLight from "src/assets/mastersWayLogoLight.svg";
 import {Avatar, AvatarSize} from "src/component/avatar/Avatar";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Checkbox} from "src/component/checkbox/Checkbox";
@@ -15,6 +17,7 @@ import {Dropdown} from "src/component/dropdown/Dropdown";
 import {DropdownMenuItemType} from "src/component/dropdown/dropdownMenuItem/DropdownMenuItem";
 import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {Form} from "src/component/form/Form";
+import {LOGO_TEXT} from "src/component/header/Header";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
@@ -26,6 +29,7 @@ import {displayNotification, NotificationType} from "src/component/notification/
 import {ProjectCard} from "src/component/projectCard/ProjectCard";
 import {Tab, TabItemProps} from "src/component/tab/Tab";
 import {Tag, TagType} from "src/component/tag/Tag";
+import {getMapThemeSources, ThemedImage} from "src/component/themedImage/ThemedImage";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
@@ -40,7 +44,7 @@ import {UserProjectDAL} from "src/dataAccessLogic/UserProjectDAL";
 import {WayCollectionDAL} from "src/dataAccessLogic/WayCollectionDAL";
 import {deviceStore} from "src/globalStore/DeviceStore";
 import {languageStore} from "src/globalStore/LanguageStore";
-import {themeStore} from "src/globalStore/ThemeStore";
+import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
@@ -579,112 +583,14 @@ export const UserPage = observer((props: UserPageProps) => {
 
   return (
     <VerticalContainer className={styles.userPageWrapper}>
-      <VerticalContainer className={styles.userInfoBlock}>
-        <HorizontalGridContainer className={styles.userMainInfoBlock}>
+      <HorizontalGridContainer className={styles.userDashboard}>
+        <VerticalContainer className={styles.userInfoBlock}>
           <HorizontalContainer className={styles.userAboutBlock}>
-            <VerticalContainer className={styles.AvatarWithConnectButton}>
-              <Avatar
-                alt={userPageOwner.name}
-                src={userPageOwner.imageUrl}
-                size={AvatarSize.LARGE}
-              />
-              {!isPageOwner && user &&
-                <Button
-                  onClick={async () => {
-                    const room = await ChatDAL.findOrCreateRoom({
-                      roomType: RoomType.PRIVATE,
-                      userId: userPageOwner.uuid,
-                    });
-                    initiateChatListStore(RoomType.PRIVATE);
-                    initiateActiveRoomStore(room.roomId);
-                    setIsChatOpen(true);
-
-                  }}
-                  buttonType={ButtonType.SECONDARY}
-                  value={LanguageService.user.personalInfo.writeToConnectButton[language]}
-                  dataCy={userPersonalDataAccessIds.connectButton}
-                />
-              }
-
-              {isPageOwner &&
-                <Modal
-                  trigger={
-                    <Button
-                      onClick={() => setIsFindMentorRequestSent(false)}
-                      buttonType={ButtonType.PRIMARY}
-                      value={LanguageService.user.personalInfo.findMentorButton[language]}
-                      icon={
-                        <Icon
-                          size={IconSize.SMALL}
-                          name="ArrowRightIcon"
-                          className={styles.findMentorIcon}
-                        />
-                      }
-                      dataCy={userPersonalDataAccessIds.findMentor.findMentorButton}
-                    />
-                  }
-                  content={
-                    !isFindMentorRequestSent
-                      ? (
-                        <VerticalContainer dataCy={userPersonalDataAccessIds.findMentor.form}>
-                          <Form
-                            onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
-                              await SurveyDAL.surveyFindMentor({
-                                ...formData,
-                                userEmail: user.email,
-                              });
-                              setIsFindMentorRequestSent(true);
-                            }}
-                            submitButtonValue={LanguageService.survey.submitButton[language]}
-                            formTitle={LanguageService.survey.findMentor.title[language]}
-                            formDescription={LanguageService.survey.findMentor.description[language]}
-                            formFields={[
-                              {
-                                id: 0,
-                                label: "skillsToLearn",
-                                name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
-                                value: "",
-                                required: true,
-                                placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
-                                dataCy: userPersonalDataAccessIds.findMentor.skillsToLearnInput,
-                              },
-                              {
-                                id: 1,
-                                label: "currentExperience",
-                                name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
-                                value: "",
-                                required: true,
-                                placeholder:
-                                  `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
-                                dataCy: userPersonalDataAccessIds.findMentor.currentExperienceInput,
-                              },
-                              {
-                                id: 2,
-                                label: "mentorDescription",
-                                name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
-                                value: "",
-                                required: true,
-                                placeholder:
-                                  `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
-                                dataCy: userPersonalDataAccessIds.findMentor.mentorDescriptionInput,
-                              },
-                            ]}
-                            dataCy={userPersonalDataAccessIds.findMentor.submitButton}
-                          />
-                        </VerticalContainer>
-                      )
-                      : (
-                        <VerticalContainer
-                          className={styles.modalContainer}
-                          dataCy={userPersonalDataAccessIds.findMentor.requestSent}
-                        >
-                          {LanguageService.survey.findMentor.requestSent[language]}
-                        </VerticalContainer>
-                      )
-                  }
-                />
-              }
-            </VerticalContainer>
+            <Avatar
+              alt={userPageOwner.name}
+              src={userPageOwner.imageUrl}
+              size={AvatarSize.LARGE}
+            />
 
             <VerticalContainer className={styles.nameEmailSection}>
               <HorizontalContainer className={styles.userTitleBlock}>
@@ -809,56 +715,6 @@ export const UserPage = observer((props: UserPageProps) => {
 
               </HorizontalContainer>
 
-              <VerticalContainer className={styles.userDescriptionSection}>
-                <HorizontalContainer className={styles.userAboutTitleBlock}>
-                  <Infotip content={LanguageService.user.infotip.aboutUser[language]} />
-                  <Title
-                    level={HeadingLevel.h3}
-                    text={LanguageService.user.personalInfo.about[language]}
-                    placeholder=""
-                  />
-                </HorizontalContainer>
-                <EditableTextarea
-                  cy={
-                    {
-                      textArea: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownInput,
-                      trigger: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownDisplay,
-                    }
-                  }
-                  text={userPageOwner.description}
-                  onChangeFinish={(description) => updateUser({
-                    userToUpdate: {
-                      uuid: userPageOwner.uuid,
-                      description,
-                    },
-
-                    /**
-                     * Update user
-                     */
-                    setUser: () => {
-                      user && user.updateDescription(description);
-                      userPageOwner.updateDescription(description);
-                    },
-                  })}
-                  isEditable={isPageOwner}
-                  className={styles.userDescription}
-                  placeholder={isPageOwner
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                />
-
-                <Title
-                  level={HeadingLevel.h3}
-                  text={LanguageService.user.personalInfo.email[language]}
-                  className={styles.ownerEmail}
-                  placeholder=""
-                />
-                <p>
-                  {userPageOwner.email}
-                </p>
-
-              </VerticalContainer>
-
               <HorizontalContainer>
                 <Infotip content={LanguageService.user.infotip.isMentor[language]} />
                 <Checkbox
@@ -889,143 +745,304 @@ export const UserPage = observer((props: UserPageProps) => {
                 </Tooltip>
               </HorizontalContainer>
 
-            </VerticalContainer>
-          </HorizontalContainer>
-
-          <VerticalContainer className={styles.userSkillsAndSocialBlock}>
-            <HorizontalContainer className={styles.skillsTitleBlock}>
-              <Infotip content={LanguageService.user.infotip.skills[language]} />
               <Title
-                level={HeadingLevel.h2}
-                text={LanguageService.user.personalInfo.skills[language]}
+                level={HeadingLevel.h3}
+                text={LanguageService.user.personalInfo.email[language]}
+                className={styles.ownerEmail}
                 placeholder=""
               />
-              {isPageOwner && (
-                <Modal
-                  isOpen={isAddSkillModalOpen}
-                  trigger={
-                    <Tooltip content={LanguageService.user.personalInfo.addSkills[language]}>
-                      <Button
-                        icon={
-                          <Icon
-                            size={IconSize.SMALL}
-                            name="PlusIcon"
-                          />
-                        }
-                        onClick={() => {}}
-                        buttonType={ButtonType.ICON_BUTTON}
-                        dataCy={userPersonalDataAccessIds.descriptionSection.addSkillButton}
-                      />
-                    </Tooltip>
-                  }
-                  content={
-                    <PromptModalContent
-                      cy={
-                        {
-                          dataCyInput: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.skillInput,
-                          dataCyCreateButton: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.createSkillButton,
-                        }
-                      }
-                      defaultValue=""
-                      title={LanguageService.user.personalInfo.addSkillModalTitle[language]}
-                      placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
-                      close={() => setIsAddSkillModalOpen(false)}
-                      onOk={async (skillName: string) => {
-                        const isSkillDuplicate = user.skills.some((skill) => skill.name === skillName);
-                        if (isSkillDuplicate) {
-                          displayNotification({
-                            text: `${LanguageService.user.personalInfo.duplicateSkillModal[language]}`,
-                            type: NotificationType.INFO,
-                          });
-                        } else {
-                          const skill = await SkillDAL.createSkill({name: skillName, ownerUuid: user.uuid});
-                          user.addSkill(skill);
-                          userPageOwner.addSkill(skill);
-                        }
-                      }}
-                      okButtonValue={LanguageService.user.personalInfo.addSkillModalButton[language]}
-                      cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
-                    />
-                  }
-                />
-              )}
+              <p>
+                {userPageOwner.email}
+              </p>
+
+            </VerticalContainer>
+
+          </HorizontalContainer>
+
+          <VerticalContainer className={styles.userDescriptionSection}>
+            <HorizontalContainer className={styles.userAboutTitleBlock}>
+              <Infotip content={LanguageService.user.infotip.aboutUser[language]} />
+              <Title
+                level={HeadingLevel.h3}
+                text={LanguageService.user.personalInfo.about[language]}
+                placeholder=""
+              />
             </HorizontalContainer>
-            <HorizontalContainer className={styles.skillsContainer}>
-              {userPageOwner?.skills.map(tag => (
-                <Tag
-                  cy={
-                    {
-                      dataCyTag: userPersonalDataAccessIds.userSkillsBlock.skillTag.tag,
-                      dataCyCross: userPersonalDataAccessIds.userSkillsBlock.skillTag.removeTagButton,
-                    }
-                  }
-                  tagName={tag.name}
-                  key={tag.uuid}
-                  isDeletable={isPageOwner}
-                  type={TagType.PRIMARY_TAG}
-                  removeTooltipText={LanguageService.common.removeTag[language]}
-                  onDelete={async () => {
-                    user?.deleteSkill(tag.uuid);
-                    userPageOwner.deleteSkill(tag.uuid);
-                    await SkillDAL.deleteSkill({userTagId: tag.uuid, userId: userPageOwner.uuid});
-                  }}
-                />
-              ))}
-              {!userPageOwner?.skills.length && LanguageService.user.personalInfo.noSkills[language]}
-            </HorizontalContainer>
-            {isPageOwner && <>
-              <HorizontalContainer className={styles.supportTitleBlock}>
-                <Infotip content={LanguageService.user.infotip.support[language]} />
-                <Title
-                  level={HeadingLevel.h2}
-                  text={LanguageService.user.personalInfo.support[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
-              <HorizontalContainer className={styles.supportBlock}>
-                <>
-                  <Modal
-                    trigger={
-                      <Button
-                        onClick={TrackUserPage.trackDonateClick}
-                        value={LanguageService.user.personalInfo.donateButton[language]}
-                        icon={
-                          <Icon
-                            size={IconSize.SMALL}
-                            name={"DollarIcon"}
-                          />
-                        }
-                        buttonType={ButtonType.SECONDARY}
-                      />
-                    }
-                    content={
-                      <VerticalContainer>
-                        {renderMarkdown(LanguageService.common.payments.donateModal[language])}
-                      </VerticalContainer>
-                    }
-                  />
-                  <Button
-                    onClick={() => {
-                      TrackUserPage.trackUpgradeToPremiumClick;
-                      navigate(pages.pricing.getPath({}));
-                    }}
-                    value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
-                    icon={
-                      <Icon
-                        size={IconSize.SMALL}
-                        name={"AwardIcon"}
-                      />
-                    }
-                    buttonType={ButtonType.SECONDARY}
-                  />
-                </>
-              </HorizontalContainer>
-            </>
-            }
+            <EditableTextarea
+              cy={
+                {
+                  textArea: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownInput,
+                  trigger: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownDisplay,
+                }
+              }
+              text={userPageOwner.description}
+              onChangeFinish={(description) => updateUser({
+                userToUpdate: {
+                  uuid: userPageOwner.uuid,
+                  description,
+                },
+
+                /**
+                 * Update user
+                 */
+                setUser: () => {
+                  user && user.updateDescription(description);
+                  userPageOwner.updateDescription(description);
+                },
+              })}
+              isEditable={isPageOwner}
+              className={styles.userDescription}
+              placeholder={isPageOwner
+                ? LanguageService.user.infotip.aboutUser[language]
+                : LanguageService.common.emptyMarkdown[language]}
+            />
+
           </VerticalContainer>
 
-        </HorizontalGridContainer>
-      </VerticalContainer>
+          {!isPageOwner && user &&
+          <Button
+            onClick={async () => {
+              const room = await ChatDAL.findOrCreateRoom({
+                roomType: RoomType.PRIVATE,
+                userId: userPageOwner.uuid,
+              });
+              initiateChatListStore(RoomType.PRIVATE);
+              initiateActiveRoomStore(room.roomId);
+              setIsChatOpen(true);
+
+            }}
+            buttonType={ButtonType.SECONDARY}
+            value={LanguageService.user.personalInfo.writeToConnectButton[language]}
+            dataCy={userPersonalDataAccessIds.connectButton}
+            className={styles.connectButton}
+          />
+          }
+
+          {isPageOwner &&
+          <Modal
+            trigger={
+              <Button
+                onClick={() => setIsFindMentorRequestSent(false)}
+                buttonType={ButtonType.PRIMARY}
+                value={LanguageService.user.personalInfo.findMentorButton[language]}
+                icon={
+                  <Icon
+                    size={IconSize.SMALL}
+                    name="ArrowRightIcon"
+                    className={styles.findMentorIcon}
+                  />
+                }
+                dataCy={userPersonalDataAccessIds.findMentor.findMentorButton}
+              />
+            }
+            content={
+              !isFindMentorRequestSent
+                ? (
+                  <VerticalContainer dataCy={userPersonalDataAccessIds.findMentor.form}>
+                    <Form
+                      onSubmit={async (formData: Omit<SurveyFindMentorParams, "userEmail">) => {
+                        await SurveyDAL.surveyFindMentor({
+                          ...formData,
+                          userEmail: user.email,
+                        });
+                        setIsFindMentorRequestSent(true);
+                      }}
+                      submitButtonValue={LanguageService.survey.submitButton[language]}
+                      formTitle={LanguageService.survey.findMentor.title[language]}
+                      formDescription={LanguageService.survey.findMentor.description[language]}
+                      formFields={[
+                        {
+                          id: 0,
+                          label: "skillsToLearn",
+                          name: `${LanguageService.survey.findMentor.fields.skillsToLearn.name[language]}`,
+                          value: "",
+                          required: true,
+                          placeholder: `${LanguageService.survey.findMentor.fields.skillsToLearn.placeholder[language]}`,
+                          dataCy: userPersonalDataAccessIds.findMentor.skillsToLearnInput,
+                        },
+                        {
+                          id: 1,
+                          label: "currentExperience",
+                          name: `${LanguageService.survey.findMentor.fields.currentExperience.name[language]}`,
+                          value: "",
+                          required: true,
+                          placeholder:
+                                  `${LanguageService.survey.findMentor.fields.currentExperience.placeholder[language]}`,
+                          dataCy: userPersonalDataAccessIds.findMentor.currentExperienceInput,
+                        },
+                        {
+                          id: 2,
+                          label: "mentorDescription",
+                          name: `${LanguageService.survey.findMentor.fields.mentorDescription.name[language]}`,
+                          value: "",
+                          required: true,
+                          placeholder:
+                                  `${LanguageService.survey.findMentor.fields.mentorDescription.placeholder[language]}`,
+                          dataCy: userPersonalDataAccessIds.findMentor.mentorDescriptionInput,
+                        },
+                      ]}
+                      dataCy={userPersonalDataAccessIds.findMentor.submitButton}
+                    />
+                  </VerticalContainer>
+                )
+                : (
+                  <VerticalContainer
+                    className={styles.modalContainer}
+                    dataCy={userPersonalDataAccessIds.findMentor.requestSent}
+                  >
+                    {LanguageService.survey.findMentor.requestSent[language]}
+                  </VerticalContainer>
+                )
+            }
+          />
+          }
+
+        </VerticalContainer>
+
+        <VerticalContainer className={styles.userSkillsAndSocialBlock}>
+          <ThemedImage
+            className={styles.image}
+            sources={getMapThemeSources({
+              [Theme.DARK]: logoLight,
+              [Theme.LIGHT]: logo,
+              [Theme.OBSIDIAN]: logoLight,
+            })}
+            theme={theme}
+            name={LOGO_TEXT}
+          />
+
+          <HorizontalContainer className={styles.skillsTitleBlock}>
+            <Infotip content={LanguageService.user.infotip.skills[language]} />
+            <Title
+              level={HeadingLevel.h2}
+              text={LanguageService.user.personalInfo.skills[language]}
+              placeholder=""
+            />
+            {isPageOwner && (
+              <Modal
+                isOpen={isAddSkillModalOpen}
+                trigger={
+                  <Tooltip content={LanguageService.user.personalInfo.addSkills[language]}>
+                    <Button
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="PlusIcon"
+                        />
+                      }
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                      dataCy={userPersonalDataAccessIds.descriptionSection.addSkillButton}
+                    />
+                  </Tooltip>
+                }
+                content={
+                  <PromptModalContent
+                    cy={
+                      {
+                        dataCyInput: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.skillInput,
+                        dataCyCreateButton: userPersonalDataAccessIds.userSkillsBlock.skillsModalContent.createSkillButton,
+                      }
+                    }
+                    defaultValue=""
+                    title={LanguageService.user.personalInfo.addSkillModalTitle[language]}
+                    placeholder={LanguageService.user.personalInfo.addSkillModal[language]}
+                    close={() => setIsAddSkillModalOpen(false)}
+                    onOk={async (skillName: string) => {
+                      const isSkillDuplicate = user.skills.some((skill) => skill.name === skillName);
+                      if (isSkillDuplicate) {
+                        displayNotification({
+                          text: `${LanguageService.user.personalInfo.duplicateSkillModal[language]}`,
+                          type: NotificationType.INFO,
+                        });
+                      } else {
+                        const skill = await SkillDAL.createSkill({name: skillName, ownerUuid: user.uuid});
+                        user.addSkill(skill);
+                        userPageOwner.addSkill(skill);
+                      }
+                    }}
+                    okButtonValue={LanguageService.user.personalInfo.addSkillModalButton[language]}
+                    cancelButtonValue={LanguageService.modals.promptModal.cancelButton[language]}
+                  />
+                }
+              />
+            )}
+          </HorizontalContainer>
+          <HorizontalContainer className={styles.skillsContainer}>
+            {userPageOwner?.skills.map(tag => (
+              <Tag
+                cy={
+                  {
+                    dataCyTag: userPersonalDataAccessIds.userSkillsBlock.skillTag.tag,
+                    dataCyCross: userPersonalDataAccessIds.userSkillsBlock.skillTag.removeTagButton,
+                  }
+                }
+                tagName={tag.name}
+                key={tag.uuid}
+                isDeletable={isPageOwner}
+                type={TagType.PRIMARY_TAG}
+                removeTooltipText={LanguageService.common.removeTag[language]}
+                onDelete={async () => {
+                  user?.deleteSkill(tag.uuid);
+                  userPageOwner.deleteSkill(tag.uuid);
+                  await SkillDAL.deleteSkill({userTagId: tag.uuid, userId: userPageOwner.uuid});
+                }}
+              />
+            ))}
+            {!userPageOwner?.skills.length && LanguageService.user.personalInfo.noSkills[language]}
+          </HorizontalContainer>
+          {isPageOwner && <>
+            <HorizontalContainer className={styles.supportTitleBlock}>
+              <Infotip content={LanguageService.user.infotip.support[language]} />
+              <Title
+                level={HeadingLevel.h2}
+                text={LanguageService.user.personalInfo.support[language]}
+                placeholder=""
+              />
+            </HorizontalContainer>
+            <HorizontalContainer className={styles.supportBlock}>
+              <>
+                <Modal
+                  trigger={
+                    <Button
+                      onClick={TrackUserPage.trackDonateClick}
+                      value={LanguageService.user.personalInfo.donateButton[language]}
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name={"DollarIcon"}
+                        />
+                      }
+                      buttonType={ButtonType.SECONDARY}
+                    />
+                  }
+                  content={
+                    <VerticalContainer>
+                      {renderMarkdown(LanguageService.common.payments.donateModal[language])}
+                    </VerticalContainer>
+                  }
+                />
+                <Button
+                  onClick={() => {
+                    TrackUserPage.trackUpgradeToPremiumClick;
+                    navigate(pages.pricing.getPath({}));
+                  }}
+                  value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
+                  icon={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name={"AwardIcon"}
+                    />
+                  }
+                  buttonType={ButtonType.SECONDARY}
+                />
+              </>
+            </HorizontalContainer>
+          </>
+          }
+        </VerticalContainer>
+
+      </HorizontalGridContainer>
 
       <Tab
         tabList={tabList}
