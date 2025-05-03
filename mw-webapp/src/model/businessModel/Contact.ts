@@ -5,21 +5,21 @@ import {makeAutoObservable} from "mobx";
  */
 export interface ContactProps {
 
-    /**
-     * User contact uuid
-     */
-    uuid: string;
+  /**
+   * User contact uuid
+   */
+  uuid: string;
 
-    /**
-     * User contact link
-     */
-    contactLink: string;
+  /**
+   * User contact link
+   */
+  contactLink: string;
 
-    /**
-     * User contact description
-     */
-    description?: string;
-  }
+  /**
+   * User contact description
+   */
+  description: string;
+}
 
 /**
  * Contact data
@@ -39,13 +39,27 @@ export class Contact {
   /**
    * User contact description
    */
-  public description?: string;
+  public description: string;
 
   constructor(contact: ContactProps) {
     makeAutoObservable(this);
     this.contactLink = contact.contactLink;
     this.uuid = contact.uuid;
     this.description = contact.description;
+  }
+
+  /**
+   * Update contact's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.description = descriptionToUpdate;
+  }
+
+  /**
+   * Update contact's link
+   */
+  public updateLink(linkToUpdate: string): void {
+    this.contactLink = linkToUpdate;
   }
 
   /**

@@ -5,9 +5,5 @@ import {Contact} from "src/model/businessModel/Contact";
  * Convert ContactDTO to Contact domain model
  */
 export const contactDTOToContact = (contactDTO: MwGeneralBffInternalSchemasUserContact): Contact => {
-  return new Contact({
-    uuid: contactDTO.uuid,
-    contactLink: contactDTO.contactLink,
-    description: contactDTO.description,
-  });
+  return new Contact({...contactDTO});
 };

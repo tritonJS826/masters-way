@@ -14,17 +14,23 @@ export class ContactService {
   /**
    * Create contact
    */
-  public static async createContact(requestParameters: CreateUserContactRequest):
-    Promise<MwGeneralBffInternalSchemasUserContact> {
-    return await createContactService.createUserContact(requestParameters);
+  public static async createContact(
+    requestParameters: CreateUserContactRequest,
+  ): Promise<MwGeneralBffInternalSchemasUserContact> {
+    const contact = await createContactService.createUserContact(requestParameters);
+
+    return contact;
   }
 
   /**
    * Update contact
    */
-  public static async updateContact(requestParameters: UpdateUserContactRequest):
-    Promise<MwGeneralBffInternalSchemasUserContact> {
-    return await updateDeleteContactService.updateUserContact(requestParameters);
+  public static async updateContact(
+    requestParameters: UpdateUserContactRequest,
+  ): Promise<MwGeneralBffInternalSchemasUserContact> {
+    const updatedContact = await updateDeleteContactService.updateUserContact(requestParameters);
+
+    return updatedContact;
   }
 
   /**

@@ -106,13 +106,15 @@
 }
 
 .skillsTitleBlock,
+.contactsTitleBlock,
 .supportTitleBlock {
   z-index: 2;
   align-items: baseline;
   gap: $gapMedium;
 }
 
-.skillsContainer {
+.skillsContainer,
+.contactsContainer {
   z-index: 2;
   flex-wrap: wrap;
   align-items: center;

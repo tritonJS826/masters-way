@@ -50,8 +50,8 @@ import {userStore} from "src/globalStore/UserStore";
 import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
 import {chatStore} from "src/logic/chat/ChatStore";
-import {ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
-import {ContactTag} from "src/logic/userPage/ContactTag/ContactTag";
+import {ContactData, ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
+import {ContactTag} from "src/logic/userPage/contactTag/ContactTag";
 import {DefaultTrainingCollection, getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {TrainingTab} from "src/logic/userPage/trainingTab/TrainingTab";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
@@ -183,7 +183,6 @@ export const UserPage = observer((props: UserPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const [isAddSkillModalOpen, setIsAddSkillModalOpen] = useState(false);
-  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
   const [isFindMentorRequestSent, setIsFindMentorRequestSent] = useState(false);
   const {userPageOwner, addUserToFavoriteForUser, deleteUserFromFavoriteForUser} = userPageStore;
 
@@ -585,6 +584,23 @@ export const UserPage = observer((props: UserPageProps) => {
       };
     });
 
+  /**
+   * Create contact
+   */
+  const createContact = async (params: ContactData) => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    const contact = await ContactDAL.createContact({
+      ownerUuid: user.uuid,
+      contactLink: params.contactLink,
+      description: params.description,
+    });
+
+    user.addContact(contact);
+    userPageOwner.addContact(contact);
+  };
+
   return (
     <VerticalContainer className={styles.userPageWrapper}>
       <HorizontalGridContainer className={styles.userDashboard}>
@@ -801,145 +817,6 @@ export const UserPage = observer((props: UserPageProps) => {
                 : LanguageService.common.emptyMarkdown[language]}
             />
 
-            <HorizontalContainer className={styles.skillsContainer}>
-              {userPageOwner?.skills.map(tag => (
-                <Tag
-                  cy={
-                    {
-                      dataCyTag: userPersonalDataAccessIds.userSkillsBlock.skillTag.tag,
-                      dataCyCross: userPersonalDataAccessIds.userSkillsBlock.skillTag.removeTagButton,
-                    }
-                  }
-                  tagName={tag.name}
-                  key={tag.uuid}
-                  isDeletable={isPageOwner}
-                  type={TagType.PRIMARY_TAG}
-                  onDelete={async () => {
-                    user?.deleteSkill(tag.uuid);
-                    userPageOwner.deleteSkill(tag.uuid);
-                    await SkillDAL.deleteSkill({userTagId: tag.uuid, userId: userPageOwner.uuid});
-                  }}
-                />
-              ))}
-              {!userPageOwner?.skills.length && LanguageService.user.personalInfo.noSkills[language]}
-            </HorizontalContainer>
-
-            <HorizontalContainer className={styles.skillsTitleBlock}>
-              <Infotip content={LanguageService.user.personalInfo.contactsInfotip[language]} />
-              <Title
-                level={HeadingLevel.h2}
-                text={LanguageService.user.personalInfo.contacts[language]}
-                placeholder=""
-              />
-              {isPageOwner && (
-                <Modal
-                  isOpen={isAddContactModalOpen}
-                  trigger={
-                    <Tooltip content={LanguageService.user.personalInfo.addContactModal[language]}>
-                      <Button
-                        icon={
-                          <Icon
-                            size={IconSize.SMALL}
-                            name="PlusIcon"
-                          />
-                        }
-                        onClick={() => {}}
-                        buttonType={ButtonType.ICON_BUTTON}
-                        dataCy={userPersonalDataAccessIds.descriptionSection.addContactButton}
-                      />
-                    </Tooltip>
-                  }
-                  content={
-                    <ContactsModalContent
-                      userId={user.uuid}
-                      user={user}
-                      userPageOwner={userPageOwner}
-                      close={() => setIsAddContactModalOpen(false)}
-                      cy={{
-                        dataCyCancel: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.cancelButton,
-                        dataCyInput: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.contactLinkInput,
-                        dataCyCreateButton: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.createContactButton,
-                      }}
-                    />
-                  }
-                />
-              )}
-            </HorizontalContainer>
-            <HorizontalContainer className={styles.skillsContainer}>
-
-              {userPageOwner?.contacts.map(contact => (
-                <ContactTag
-                  key={contact.uuid}
-                  contactLink={contact.contactLink}
-                  description={contact.description}
-                  userId={userPageOwner.uuid}
-                  contactId={contact.uuid}
-                  isDeletable={isPageOwner}
-                  onDelete={async () => {
-                    user?.deleteContact(contact.uuid);
-                    userPageOwner.deleteContact(contact.uuid);
-                    await ContactDAL.deleteContact({contactId: contact.uuid, userId: userPageOwner.uuid});
-                  }}
-                  onUpdate={(updatedContactData) => {
-                    contact.updateContact({
-                      contactLink: updatedContactData.contactLink,
-                      description: updatedContactData.description,
-                    });
-                  }}
-                />
-              ))}
-              {!userPageOwner?.contacts.length && LanguageService.user.personalInfo.noContacts[language]}
-            </HorizontalContainer>
-
-            {isPageOwner && <>
-              <HorizontalContainer className={styles.supportTitleBlock}>
-                <Infotip content={LanguageService.user.infotip.support[language]} />
-                <Title
-                  level={HeadingLevel.h2}
-                  text={LanguageService.user.personalInfo.support[language]}
-                  placeholder=""
-                />
-              </HorizontalContainer>
-              <HorizontalContainer className={styles.supportBlock}>
-                <>
-                  <Modal
-                    trigger={
-                      <Button
-                        onClick={TrackUserPage.trackDonateClick}
-                        value={LanguageService.user.personalInfo.donateButton[language]}
-                        icon={
-                          <Icon
-                            size={IconSize.SMALL}
-                            name={"DollarIcon"}
-                          />
-                        }
-                        buttonType={ButtonType.SECONDARY}
-                      />
-                    }
-                    content={
-                      <VerticalContainer>
-                        {renderMarkdown(LanguageService.common.payments.donateModal[language])}
-                      </VerticalContainer>
-                    }
-                  />
-                  <Button
-                    onClick={() => {
-                      TrackUserPage.trackUpgradeToPremiumClick;
-                      navigate(pages.pricing.getPath({}));
-                    }}
-                    value={LanguageService.user.personalInfo.upgradeToPremiumButton[language]}
-                    icon={
-                      <Icon
-                        size={IconSize.SMALL}
-                        name={"AwardIcon"}
-                      />
-                    }
-                    buttonType={ButtonType.SECONDARY}
-                  />
-                </>
-              </HorizontalContainer>
-            </>
-            }
           </VerticalContainer>
 
           {!isPageOwner && user &&
@@ -1134,6 +1011,65 @@ export const UserPage = observer((props: UserPageProps) => {
             ))}
             {!userPageOwner?.skills.length && LanguageService.user.personalInfo.noSkills[language]}
           </HorizontalContainer>
+
+          <HorizontalContainer className={styles.contactsTitleBlock}>
+            <Infotip content={LanguageService.user.personalInfo.contactsInfotip[language]} />
+            <Title
+              level={HeadingLevel.h2}
+              text={LanguageService.user.personalInfo.contacts[language]}
+              placeholder=""
+            />
+            {isPageOwner && (
+              <Modal
+                // IsOpen={isAddContactModalOpen}
+                trigger={
+                  <Tooltip content={LanguageService.user.personalInfo.addContactModal[language]}>
+                    <Button
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="PlusIcon"
+                        />
+                      }
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                      dataCy={userPersonalDataAccessIds.descriptionSection.addContactButton}
+                    />
+                  </Tooltip>
+                }
+                content={
+                  <ContactsModalContent
+                    close={() => {}}
+                    okButtonText={LanguageService.user.personalInfo.addContactModal[language]}
+                    onOk={createContact}
+                    cy={{
+                      dataCyCancel: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.cancelButton,
+                      dataCyInput: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.contactLinkInput,
+                      dataCyCreateButton: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.createContactButton,
+                    }}
+                  />
+                }
+              />
+            )}
+          </HorizontalContainer>
+
+          <HorizontalContainer className={styles.contactsContainer}>
+            {userPageOwner?.contacts.map(contact => (
+              <ContactTag
+                key={contact.uuid}
+                contact={contact}
+                isPageOwner={isPageOwner}
+                userId={userPageOwner.uuid}
+                onDelete={async () => {
+                  user?.deleteContact(contact.uuid);
+                  userPageOwner.deleteContact(contact.uuid);
+                  await ContactDAL.deleteContact({contactId: contact.uuid, userId: userPageOwner.uuid});
+                }}
+              />
+            ))}
+            {!userPageOwner?.contacts.length && LanguageService.user.personalInfo.noContacts[language]}
+          </HorizontalContainer>
+
           {isPageOwner && <>
             <HorizontalContainer className={styles.supportTitleBlock}>
               <Infotip content={LanguageService.user.infotip.support[language]} />
