@@ -93,7 +93,6 @@ export const ContactsModalContent = (props: ContactsModalContentProps) => {
   const {language} = languageStore;
   const [contactLink, setContactLink] = useState<string>(props.initialContact?.contactLink ?? "");
   const [contactDescription, setContactDescription] = useState<string>(props.initialContact?.description ?? "");
-
   const titleText = LanguageService.user.personalInfo.addContactModalTitle[language];
 
   const onOkRef = useRef<HTMLButtonElement>(null);

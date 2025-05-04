@@ -22,6 +22,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
+import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
@@ -765,15 +766,19 @@ export const UserPage = observer((props: UserPageProps) => {
                 </Tooltip>
               </HorizontalContainer>
 
-              <Title
-                level={HeadingLevel.h3}
-                text={LanguageService.user.personalInfo.email[language]}
-                className={styles.ownerEmail}
-                placeholder=""
-              />
-              <p>
-                {userPageOwner.email}
-              </p>
+              {isPageOwner &&
+                <>
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={LanguageService.user.personalInfo.email[language]}
+                    className={styles.ownerEmail}
+                    placeholder=""
+                  />
+                  <p>
+                    {userPageOwner.email}
+                  </p>
+                </>
+              }
 
             </VerticalContainer>
 
@@ -1019,9 +1024,9 @@ export const UserPage = observer((props: UserPageProps) => {
               text={LanguageService.user.personalInfo.contacts[language]}
               placeholder=""
             />
+
             {isPageOwner && (
               <Modal
-                // IsOpen={isAddContactModalOpen}
                 trigger={
                   <Tooltip content={LanguageService.user.personalInfo.addContactModal[language]}>
                     <Button
@@ -1051,6 +1056,7 @@ export const UserPage = observer((props: UserPageProps) => {
                 }
               />
             )}
+
           </HorizontalContainer>
 
           <HorizontalContainer className={styles.contactsContainer}>
@@ -1241,6 +1247,13 @@ export const UserPage = observer((props: UserPageProps) => {
           }
         />
       }
+      <Link
+        path="https://logo.dev"
+        ariaLabel="Logo API"
+        className={styles.externalLink}
+      >
+        Logos provided by Logo.dev
+      </Link>
     </VerticalContainer>
   );
 });

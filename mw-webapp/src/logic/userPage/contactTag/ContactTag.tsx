@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {Avatar} from "src/component/avatar/Avatar";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
@@ -71,6 +72,9 @@ export const ContactTag = (props: TagProps) => {
 
   const processedContactLink = props.contact.contactLink.replace(/^(https?:\/\/)?/, "").split("/")[0];
 
+  const [isUpdateContactOpen, setIsUpdateContactOpen] = useState<boolean>(false);
+  const [isDeleteContactOpen, setIsDeleteContactOpen] = useState<boolean>(false);
+
   /**
    * Add protocol if user enters a link without http or https
    */
@@ -98,24 +102,27 @@ export const ContactTag = (props: TagProps) => {
 
   const updateContactConfirm = (
     <Modal
-      trigger={<>
-        {LanguageService.user.personalInfo.updateContactModal[language]}
-      </>}
+      close={() => setIsUpdateContactOpen(false)}
+      isOpen={isUpdateContactOpen}
+      trigger={<></>}
       content={
         <ContactsModalContent
-          close={() => {}}
+          close={() => setIsUpdateContactOpen(false)}
           initialContact={props.contact}
           okButtonText={LanguageService.user.personalInfo.updateContactModal[language]}
-          onOk={(contact: ContactData) => updateContact(contact)}
+          onOk={async (contact: ContactData) => {
+            await updateContact(contact);
+            setIsUpdateContactOpen(false);
+          }}
         />}
     />
   );
 
   const deleteContactConfirm = (
     <Confirm
-      trigger={<>
-        {LanguageService.user.personalInfo.deleteContactButton[language]}
-      </>}
+      isOpen={isDeleteContactOpen}
+      onCancel={() => setIsDeleteContactOpen(false)}
+      trigger={<></>}
       content={<p>
         {`${LanguageService.user.personalInfo.deleteButtonConfirmation[language]} "${props.contact.contactLink}" ?`}
       </p>}
@@ -126,60 +133,78 @@ export const ContactTag = (props: TagProps) => {
   );
 
   return (
-    <Dropdown
-      trigger={(
-        <Avatar
-          src={`https://img.logo.dev/${processedContactLink}?token=pk_LceEaDNtTWGchSCHHEvxHQ`}
-          alt={`${processedContactLink} logo`}
-        />
-      )}
-      dropdownMenuItems={[
-        {
-          dropdownSubMenuItems: [
-            {
-              id: "Visit",
-              value: LanguageService.user.personalInfo.visitContact[language],
-              isPreventDefaultUsed: false,
+    <>
+      <Dropdown
+        trigger={(
+          <Avatar
+            src={`https://img.logo.dev/${processedContactLink}?token=pk_LceEaDNtTWGchSCHHEvxHQ`}
+            alt={`${processedContactLink} logo`}
+          />
+        )}
+        dropdownMenuItems={[
+          {
+            dropdownSubMenuItems: [
+              {
+                id: "Visit",
+                value: LanguageService.user.personalInfo.visitContact[language],
+                isPreventDefaultUsed: false,
 
-              /**
-               * Visit link
-               */
-              onClick: () => {
-                window.open(getUrlAbsolute(props.contact.contactLink), "_blank", "noopener,noreferrer");
+                /**
+                 * Visit link
+                 */
+                onClick: () => {
+                  window.open(getUrlAbsolute(props.contact.contactLink), "_blank", "noopener,noreferrer");
+                },
               },
-            },
-            {
-              id: "Copy",
-              value: LanguageService.user.personalInfo.copyContact[language],
-              isPreventDefaultUsed: false,
+              {
+                id: "Copy",
+                value: LanguageService.user.personalInfo.copyContact[language],
+                isPreventDefaultUsed: false,
 
-              /**
-               * Copy url to clipboard
-               */
-              onClick: async () => {
-                await navigator.clipboard.writeText(props.contact.contactLink);
-                displayNotification({
-                  text: LanguageService.training.notifications.urlCopied[language],
-                  type: NotificationType.INFO,
-                });
+                /**
+                 * Copy url to clipboard
+                 */
+                onClick: async () => {
+                  await navigator.clipboard.writeText(props.contact.contactLink);
+                  displayNotification({
+                    text: LanguageService.training.notifications.urlCopied[language],
+                    type: NotificationType.INFO,
+                  });
+                },
               },
-            },
-            {
-              id: "Edit",
-              value: updateContactConfirm,
-              isPreventDefaultUsed: true,
-              isVisible: props.isPageOwner,
-            },
-            {
-              id: "Delete",
-              value: deleteContactConfirm,
-              isPreventDefaultUsed: true,
-              isVisible: props.isPageOwner,
-            },
-          ],
-        },
+              {
+                id: "Edit",
+                value: LanguageService.user.personalInfo.updateContactModal[language],
+                isPreventDefaultUsed: false,
+                isVisible: props.isPageOwner,
 
-      ]}
-    />
+                /**
+                 * Copy url to clipboard
+                 */
+                onClick: () => {
+                  setIsUpdateContactOpen(true);
+                },
+              },
+              {
+                id: "Delete",
+                value: LanguageService.user.personalInfo.deleteContactButton[language],
+                isPreventDefaultUsed: false,
+                isVisible: props.isPageOwner,
+
+                /**
+                 * Copy url to clipboard
+                 */
+                onClick: () => {
+                  setIsDeleteContactOpen(true);
+                },
+              },
+            ],
+          },
+
+        ]}
+      />
+      {isUpdateContactOpen && updateContactConfirm}
+      {isDeleteContactOpen && deleteContactConfirm}
+    </>
   );
 };
