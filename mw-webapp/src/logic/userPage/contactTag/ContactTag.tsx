@@ -4,11 +4,13 @@ import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
 import {Modal} from "src/component/modal/Modal";
 import {displayNotification, NotificationType} from "src/component/notification/displayNotification";
+import {Tooltip} from "src/component/tooltip/Tooltip";
 import {ContactDAL} from "src/dataAccessLogic/ContactDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {ContactData, ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
 import {Contact} from "src/model/businessModel/Contact";
 import {LanguageService} from "src/service/LanguageService";
+import styles from "src/logic/userPage/contactTag/ContactTag.module.scss";
 
 /**
  *Data attribute for cypress testing
@@ -133,12 +135,13 @@ export const ContactTag = (props: TagProps) => {
   );
 
   return (
-    <>
+    <Tooltip content={props.contact.description}>
       <Dropdown
         trigger={(
           <Avatar
             src={`https://img.logo.dev/${processedContactLink}?token=pk_LceEaDNtTWGchSCHHEvxHQ`}
             alt={`${processedContactLink} logo`}
+            className={styles.contactTag}
           />
         )}
         dropdownMenuItems={[
@@ -205,6 +208,6 @@ export const ContactTag = (props: TagProps) => {
       />
       {isUpdateContactOpen && updateContactConfirm}
       {isDeleteContactOpen && deleteContactConfirm}
-    </>
+    </Tooltip>
   );
 };
