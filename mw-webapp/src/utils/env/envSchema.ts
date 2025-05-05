@@ -10,5 +10,6 @@ export const envSchema = {
   API_MW_CHAT_WEBSOCKET_PATH: str(),
   API_NOTIFICATION_BASE_PATH: str(),
   API_TRAINING_BASE_PATH: str(),
+  API_LOGO_DEV_TOKEN: str(),
   // API_MW_NOTIFICATION_WEBSOCKET_PATH: str(),
 };
