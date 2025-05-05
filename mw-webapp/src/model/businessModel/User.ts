@@ -1,4 +1,5 @@
 import {makeAutoObservable} from "mobx";
+import {Contact} from "src/model/businessModel/Contact";
 import {ProjectPreview} from "src/model/businessModelPreview/ProjectPreview";
 import {WayPreview} from "src/model/businessModelPreview/WayPreview";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
@@ -282,6 +283,11 @@ interface UserProps {
   skills: Skill[];
 
   /**
+   * User's contacts {@link Contact}
+   */
+  contacts: Contact[];
+
+  /**
    * User's image path
    */
   imageUrl: string;
@@ -358,6 +364,11 @@ export class User {
   public skills: Skill[];
 
   /**
+   * User's contacts {@link Contact}
+   */
+  public contacts: Contact[];
+
+  /**
    * User's image path
    */
   public imageUrl: string;
@@ -389,6 +400,7 @@ export class User {
     this.favoriteForUserUuids = userData.favoriteForUserUuids;
     this.favoriteUsers = userData.favoriteUsers;
     this.skills = userData.skills.map(skill => new Skill(skill));
+    this.contacts = userData.contacts.map(contact => new Contact(contact));
     this.imageUrl = userData.imageUrl;
     this.isMentor = userData.isMentor;
     this.wayRequests = userData.wayRequests;
@@ -458,6 +470,20 @@ export class User {
    */
   public deleteSkill(skillUuid: string): void {
     this.skills = this.skills.filter(skill => skill.uuid !== skillUuid);
+  }
+
+  /**
+   * Add new contact to user
+   */
+  public addContact(newContact: Contact): void {
+    this.contacts.push(newContact);
+  }
+
+  /**
+   * Delete contact from user
+   */
+  public deleteContact(contactUuid: string): void {
+    this.contacts = this.contacts.filter(contact => contact.uuid !== contactUuid);
   }
 
   /**

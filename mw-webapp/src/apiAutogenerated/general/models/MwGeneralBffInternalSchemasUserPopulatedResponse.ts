@@ -25,6 +25,12 @@ import {
     MwGeneralBffInternalSchemasProjectPlainResponseFromJSONTyped,
     MwGeneralBffInternalSchemasProjectPlainResponseToJSON,
 } from './MwGeneralBffInternalSchemasProjectPlainResponse';
+import type { MwGeneralBffInternalSchemasUserContact } from './MwGeneralBffInternalSchemasUserContact';
+import {
+    MwGeneralBffInternalSchemasUserContactFromJSON,
+    MwGeneralBffInternalSchemasUserContactFromJSONTyped,
+    MwGeneralBffInternalSchemasUserContactToJSON,
+} from './MwGeneralBffInternalSchemasUserContact';
 import type { MwGeneralBffInternalSchemasUserPlainResponse } from './MwGeneralBffInternalSchemasUserPlainResponse';
 import {
     MwGeneralBffInternalSchemasUserPlainResponseFromJSON,
@@ -130,6 +136,12 @@ export interface MwGeneralBffInternalSchemasUserPopulatedResponse {
     tags: Array<MwGeneralBffInternalSchemasUserTagResponse>;
     /**
      * 
+     * @type {Array<MwGeneralBffInternalSchemasUserContact>}
+     * @memberof MwGeneralBffInternalSchemasUserPopulatedResponse
+     */
+    userContacts: Array<MwGeneralBffInternalSchemasUserContact>;
+    /**
+     * 
      * @type {string}
      * @memberof MwGeneralBffInternalSchemasUserPopulatedResponse
      */
@@ -161,6 +173,7 @@ export function instanceOfMwGeneralBffInternalSchemasUserPopulatedResponse(
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "projects" in value;
     isInstance = isInstance && "tags" in value;
+    isInstance = isInstance && "userContacts" in value;
     isInstance = isInstance && "uuid" in value;
     isInstance = isInstance && "wayRequests" in value;
 
@@ -192,6 +205,7 @@ export function MwGeneralBffInternalSchemasUserPopulatedResponseFromJSONTyped(
         'name': json['name'],
         'projects': ((json['projects'] as Array<any>).map(MwGeneralBffInternalSchemasProjectPlainResponseFromJSON)),
         'tags': ((json['tags'] as Array<any>).map(MwGeneralBffInternalSchemasUserTagResponseFromJSON)),
+        'userContacts': ((json['userContacts'] as Array<any>).map(MwGeneralBffInternalSchemasUserContactFromJSON)),
         'uuid': json['uuid'],
         'wayRequests': ((json['wayRequests'] as Array<any>).map(MwGeneralBffInternalSchemasWayPlainResponseFromJSON)),
     };
@@ -219,6 +233,7 @@ export function MwGeneralBffInternalSchemasUserPopulatedResponseToJSON(value?: M
         'name': value.name,
         'projects': ((value.projects as Array<any>).map(MwGeneralBffInternalSchemasProjectPlainResponseToJSON)),
         'tags': ((value.tags as Array<any>).map(MwGeneralBffInternalSchemasUserTagResponseToJSON)),
+        'userContacts': ((value.userContacts as Array<any>).map(MwGeneralBffInternalSchemasUserContactToJSON)),
         'uuid': value.uuid,
         'wayRequests': ((value.wayRequests as Array<any>).map(MwGeneralBffInternalSchemasWayPlainResponseToJSON)),
     };

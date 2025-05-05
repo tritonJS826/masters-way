@@ -140,6 +140,9 @@ Class | Method | HTTP request | Description
 *UserAPI* | [**GetAllUsers**](docs/UserAPI.md#getallusers) | **Get** /users | Get all users
 *UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
 *UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
+*UserContactAPI* | [**DeleteUserContact**](docs/UserContactAPI.md#deleteusercontact) | **Delete** /users/{userId}/contacts/{contactId} | Delete DeleteUserContact by UUID
+*UserContactAPI* | [**UpdateUserContact**](docs/UserContactAPI.md#updateusercontact) | **Patch** /users/{userId}/contacts/{contactId} | Update user contact by UUID
+*UserContactUserAPI* | [**CreateUserContact**](docs/UserContactUserAPI.md#createusercontact) | **Post** /users/{userId}/contacts | Create user contact
 *UserProjectAPI* | [**CreateUserProject**](docs/UserProjectAPI.md#createuserproject) | **Post** /userProjects | Add user to project
 *UserProjectAPI* | [**DeleteUserProject**](docs/UserProjectAPI.md#deleteuserproject) | **Delete** /userProjects/{projectId}/{userId} | Delete userProject by UUID
 *UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
@@ -242,10 +245,12 @@ Class | Method | HTTP request | Description
  - [MwGeneralBffInternalSchemasUpdatePlanPayload](docs/MwGeneralBffInternalSchemasUpdatePlanPayload.md)
  - [MwGeneralBffInternalSchemasUpdateProblemPayload](docs/MwGeneralBffInternalSchemasUpdateProblemPayload.md)
  - [MwGeneralBffInternalSchemasUpdateProjectPayload](docs/MwGeneralBffInternalSchemasUpdateProjectPayload.md)
+ - [MwGeneralBffInternalSchemasUpdateUserContactPayload](docs/MwGeneralBffInternalSchemasUpdateUserContactPayload.md)
  - [MwGeneralBffInternalSchemasUpdateUserPayload](docs/MwGeneralBffInternalSchemasUpdateUserPayload.md)
  - [MwGeneralBffInternalSchemasUpdateWayCollectionPayload](docs/MwGeneralBffInternalSchemasUpdateWayCollectionPayload.md)
  - [MwGeneralBffInternalSchemasUpdateWayPayload](docs/MwGeneralBffInternalSchemasUpdateWayPayload.md)
  - [MwGeneralBffInternalSchemasUploadFileResponse](docs/MwGeneralBffInternalSchemasUploadFileResponse.md)
+ - [MwGeneralBffInternalSchemasUserContact](docs/MwGeneralBffInternalSchemasUserContact.md)
  - [MwGeneralBffInternalSchemasUserPlainResponse](docs/MwGeneralBffInternalSchemasUserPlainResponse.md)
  - [MwGeneralBffInternalSchemasUserPlainResponseWithInfo](docs/MwGeneralBffInternalSchemasUserPlainResponseWithInfo.md)
  - [MwGeneralBffInternalSchemasUserPopulatedResponse](docs/MwGeneralBffInternalSchemasUserPopulatedResponse.md)

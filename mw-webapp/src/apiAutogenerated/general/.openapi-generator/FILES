@@ -19,6 +19,8 @@ apis/ProblemApi.ts
 apis/ProjectApi.ts
 apis/ToUserMentoringRequestApi.ts
 apis/UserApi.ts
+apis/UserContactApi.ts
+apis/UserContactUserApi.ts
 apis/UserProjectApi.ts
 apis/UserTagApi.ts
 apis/WayApi.ts
@@ -107,10 +109,12 @@ models/MwGeneralBffInternalSchemasUpdateMetricPayload.ts
 models/MwGeneralBffInternalSchemasUpdatePlanPayload.ts
 models/MwGeneralBffInternalSchemasUpdateProblemPayload.ts
 models/MwGeneralBffInternalSchemasUpdateProjectPayload.ts
+models/MwGeneralBffInternalSchemasUpdateUserContactPayload.ts
 models/MwGeneralBffInternalSchemasUpdateUserPayload.ts
 models/MwGeneralBffInternalSchemasUpdateWayCollectionPayload.ts
 models/MwGeneralBffInternalSchemasUpdateWayPayload.ts
 models/MwGeneralBffInternalSchemasUploadFileResponse.ts
+models/MwGeneralBffInternalSchemasUserContact.ts
 models/MwGeneralBffInternalSchemasUserPlainResponse.ts
 models/MwGeneralBffInternalSchemasUserPlainResponseWithInfo.ts
 models/MwGeneralBffInternalSchemasUserPopulatedResponse.ts

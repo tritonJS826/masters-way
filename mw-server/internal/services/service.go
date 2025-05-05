@@ -31,6 +31,7 @@ type Service struct {
 	ProblemService                  *ProblemService
 	ProjectService                  *ProjectService
 	UserService                     *UserService
+	UserContactService              *UserContactService
 	WayService                      *WayService
 	WayStatisticsService            *WayStatisticsService
 	WayTagService                   *WayTagService
@@ -67,6 +68,7 @@ func NewService(pool *pgxpool.Pool, geminiClient *genai.Client, config *config.C
 		ProblemService:                  NewProblemService(queries),
 		ProjectService:                  NewProjectService(pool, queries),
 		UserService:                     NewUserService(queries),
+		UserContactService:              NewUserContactService(queries),
 		UserProjectService:              NewUserProjectService(queries),
 		WayService:                      NewWayService(queries),
 		WayStatisticsService:            NewWayStatisticsService(queries),

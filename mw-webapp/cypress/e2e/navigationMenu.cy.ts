@@ -174,7 +174,7 @@ describe('NoAuth Navigation menu scope tests', () => {
 
     beforeEach(() => {
         cy.resetGeneralDb();
-        cy.login(testUserData.testUsers.studentJonh.loginLink); 
+        cy.login(testUserData.testUsers.studentJohn.loginLink); 
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         headerSelectors.getBurgerMenu().click();
     });
@@ -187,7 +187,7 @@ describe('NoAuth Navigation menu scope tests', () => {
         navigationMenuSelectors.menuItemLinks.getPersonalAreaItemLink().click();
         
         cy.url().should('match', new RegExp(`\\/user\\/${testUserData.urlPattern}`));
-        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.studentJonh.name);
+        userPersonalSelectors.descriptionSection.getName().should('have.text', testUserData.testUsers.studentJohn.name);
     }); 
 
     it('IsAuth_NavMenu_Settings', () => {

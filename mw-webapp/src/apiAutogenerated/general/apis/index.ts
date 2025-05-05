@@ -21,6 +21,8 @@ export * from './ProblemApi';
 export * from './ProjectApi';
 export * from './ToUserMentoringRequestApi';
 export * from './UserApi';
+export * from './UserContactApi';
+export * from './UserContactUserApi';
 export * from './UserProjectApi';
 export * from './UserTagApi';
 export * from './WayApi';

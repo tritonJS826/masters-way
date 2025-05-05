@@ -2291,6 +2291,130 @@ const docTemplate = `{
                 }
             }
         },
+        "/users/{userId}/contacts": {
+            "post": {
+                "description": "create user contact",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user-contact user"
+                ],
+                "summary": "Create user contact",
+                "operationId": "create-userContact",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.UpdateUserContactPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.UserContact"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{userId}/contacts/{contactId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userContact"
+                ],
+                "summary": "Delete DeleteUserContact by UUID",
+                "operationId": "delete-userContact",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "contactId ID",
+                        "name": "contactId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "userContact"
+                ],
+                "summary": "Update user contact by UUID",
+                "operationId": "update-userContact",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.UpdateUserContactPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "user ID",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "contactId ID",
+                        "name": "contactId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-general-bff_internal_schemas.UserContact"
+                        }
+                    }
+                }
+            }
+        },
         "/wayCollectionWays": {
             "post": {
                 "consumes": [
@@ -4399,6 +4523,17 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-general-bff_internal_schemas.UpdateUserContactPayload": {
+            "type": "object",
+            "properties": {
+                "contactLink": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-general-bff_internal_schemas.UpdateUserPayload": {
             "type": "object",
             "properties": {
@@ -4467,6 +4602,25 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "srcUrl": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-general-bff_internal_schemas.UserContact": {
+            "type": "object",
+            "required": [
+                "contactLink",
+                "description",
+                "uuid"
+            ],
+            "properties": {
+                "contactLink": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "uuid": {
                     "type": "string"
                 }
             }
@@ -4579,6 +4733,7 @@ const docTemplate = `{
                 "name",
                 "projects",
                 "tags",
+                "userContacts",
                 "uuid",
                 "wayRequests"
             ],
@@ -4632,6 +4787,12 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/mw-general-bff_internal_schemas.UserTagResponse"
+                    }
+                },
+                "userContacts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-general-bff_internal_schemas.UserContact"
                     }
                 },
                 "uuid": {

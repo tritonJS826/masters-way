@@ -5,7 +5,8 @@ export const userPersonalDataAccessIds = {
         aboutMeMarkdownDisplay: 'aboutMeMarkdownDisplay',
         aboutMeMarkdownInput: 'aboutMeMarkdownInput',
         addSkillButton: 'addSkillButton',
-        mentorCheckbox: 'mentorCheckbox'
+        mentorCheckbox: 'mentorCheckbox',
+        addContactButton: 'addContactButton'
     },
 
     findMentor: {
@@ -30,6 +31,21 @@ export const userPersonalDataAccessIds = {
             tag: "userSkillTag",
             removeTagButton: "removeTagButton"
         }
+    },
+
+    userContactsBlock: {
+        contactsModalContent: {
+            contactLinkInput: "contactLinkInput",
+            createContactButton: "createContactButton",
+            cancelButton: "cancelButton",
+            updateContactButton: "updateContactButton",
+        },
+        contactTag: {
+            tag: "userContactTag",
+            removeTagButton: "removeTagButton",
+            updateTagButton: "updateTagButton"
+        },
+
     },
 
     userActionMenu: {

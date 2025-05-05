@@ -34,6 +34,7 @@ type IUserRepository interface {
 	ListUsers(ctx context.Context, arg db.ListUsersParams) ([]db.ListUsersRow, error)
 	GetUsersByIDs(ctx context.Context, userUuids []pgtype.UUID) ([]db.User, error)
 	GetProjectsByUserID(ctx context.Context, userUuid pgtype.UUID) ([]db.GetProjectsByUserIDRow, error)
+	GetUserContactsByUserUuid(ctx context.Context, userUuid pgtype.UUID) ([]db.UserContact, error)
 }
 
 type UserService struct {
@@ -425,6 +426,20 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 		}
 	})
 
+	userContactsRaw, _ := us.IUserRepository.GetUserContactsByUserUuid(ctx, user.Uuid)
+	var userContacts []schemas.UserContact
+	if len(userContactsRaw) == 0 {
+		userContacts = []schemas.UserContact{}
+	} else {
+		userContacts = lo.Map(userContactsRaw, func(contact db.UserContact, i int) schemas.UserContact {
+			return schemas.UserContact{
+				Uuid:        util.ConvertPgUUIDToUUID(contact.Uuid).String(),
+				ContactLink: contact.ContactLink,
+				Description: contact.Description,
+			}
+		})
+	}
+
 	return &schemas.UserPopulatedResponse{
 		Uuid:               util.ConvertPgUUIDToUUID(user.Uuid).String(),
 		Name:               user.Name,
@@ -440,6 +455,7 @@ func (us *UserService) GetPopulatedUserById(ctx context.Context, userUuid uuid.U
 		Tags:               tags,
 		WayRequests:        wayRequests,
 		Projects:           projects,
+		UserContacts:       userContacts,
 	}, nil
 }
 

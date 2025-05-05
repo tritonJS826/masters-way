@@ -1118,6 +1118,13 @@ definitions:
       name:
         type: string
     type: object
+  mw-server_internal_schemas.UpdateUserContactPayload:
+    properties:
+      contactLink:
+        type: string
+      description:
+        type: string
+    type: object
   mw-server_internal_schemas.UpdateUserPayload:
     properties:
       description:
@@ -1146,6 +1153,19 @@ definitions:
         type: boolean
       name:
         type: string
+    type: object
+  mw-server_internal_schemas.UserContact:
+    properties:
+      contactLink:
+        type: string
+      description:
+        type: string
+      uuid:
+        type: string
+    required:
+    - contactLink
+    - description
+    - uuid
     type: object
   mw-server_internal_schemas.UserPlainResponse:
     properties:
@@ -1250,6 +1270,10 @@ definitions:
         items:
           $ref: '#/definitions/mw-server_internal_schemas.UserTagResponse'
         type: array
+      userContacts:
+        items:
+          $ref: '#/definitions/mw-server_internal_schemas.UserContact'
+        type: array
       uuid:
         type: string
       wayRequests:
@@ -1269,6 +1293,7 @@ definitions:
     - name
     - projects
     - tags
+    - userContacts
     - uuid
     - wayRequests
     type: object
@@ -3028,6 +3053,89 @@ paths:
       summary: Update user by UUID
       tags:
       - user
+  /users/{userId}/contacts:
+    post:
+      consumes:
+      - application/json
+      description: create user contact
+      operationId: create-userContact
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateUserContactPayload'
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.UserContact'
+      summary: Create user contact
+      tags:
+      - user-contact user
+  /users/{userId}/contacts/{contactId}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-userContact
+      parameters:
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: contactId ID
+        in: path
+        name: contactId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Delete DeleteUserContact by UUID
+      tags:
+      - userContact
+    patch:
+      consumes:
+      - application/json
+      operationId: update-userContact
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/mw-server_internal_schemas.UpdateUserContactPayload'
+      - description: user ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: contactId ID
+        in: path
+        name: contactId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-server_internal_schemas.UserContact'
+      summary: Update user contact by UUID
+      tags:
+      - userContact
   /users/list-by-ids:
     get:
       consumes:

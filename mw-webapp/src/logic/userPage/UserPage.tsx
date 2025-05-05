@@ -22,6 +22,7 @@ import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalC
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
+import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
 import {Modal} from "src/component/modal/Modal";
 import {PromptModalContent} from "src/component/modal/PromptModalContent";
@@ -35,6 +36,7 @@ import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {ChatDAL, RoomType} from "src/dataAccessLogic/ChatDAL";
+import {ContactDAL} from "src/dataAccessLogic/ContactDAL";
 import {FavoriteUserDAL} from "src/dataAccessLogic/FavoriteUserDAL";
 import {ProjectDAL} from "src/dataAccessLogic/ProjectDAL";
 import {SkillDAL} from "src/dataAccessLogic/SkillDAL";
@@ -49,6 +51,8 @@ import {userStore} from "src/globalStore/UserStore";
 import {usePersistenceState} from "src/hooks/usePersistenceState";
 import {useStore} from "src/hooks/useStore";
 import {chatStore} from "src/logic/chat/ChatStore";
+import {ContactData, ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
+import {ContactTag} from "src/logic/userPage/contactTag/ContactTag";
 import {DefaultTrainingCollection, getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {TrainingTab} from "src/logic/userPage/trainingTab/TrainingTab";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
@@ -581,6 +585,23 @@ export const UserPage = observer((props: UserPageProps) => {
       };
     });
 
+  /**
+   * Create contact
+   */
+  const createContact = async (params: ContactData) => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    const contact = await ContactDAL.createContact({
+      ownerUuid: user.uuid,
+      contactLink: params.contactLink,
+      description: params.description,
+    });
+
+    user.addContact(contact);
+    userPageOwner.addContact(contact);
+  };
+
   return (
     <VerticalContainer className={styles.userPageWrapper}>
       <HorizontalGridContainer className={styles.userDashboard}>
@@ -745,15 +766,19 @@ export const UserPage = observer((props: UserPageProps) => {
                 </Tooltip>
               </HorizontalContainer>
 
-              <Title
-                level={HeadingLevel.h3}
-                text={LanguageService.user.personalInfo.email[language]}
-                className={styles.ownerEmail}
-                placeholder=""
-              />
-              <p>
-                {userPageOwner.email}
-              </p>
+              {isPageOwner &&
+                <>
+                  <Title
+                    level={HeadingLevel.h3}
+                    text={LanguageService.user.personalInfo.email[language]}
+                    className={styles.ownerEmail}
+                    placeholder=""
+                  />
+                  <p>
+                    {userPageOwner.email}
+                  </p>
+                </>
+              }
 
             </VerticalContainer>
 
@@ -991,6 +1016,66 @@ export const UserPage = observer((props: UserPageProps) => {
             ))}
             {!userPageOwner?.skills.length && LanguageService.user.personalInfo.noSkills[language]}
           </HorizontalContainer>
+
+          <HorizontalContainer className={styles.contactsTitleBlock}>
+            <Infotip content={LanguageService.user.personalInfo.contactsInfotip[language]} />
+            <Title
+              level={HeadingLevel.h2}
+              text={LanguageService.user.personalInfo.contacts[language]}
+              placeholder=""
+            />
+
+            {isPageOwner && (
+              <Modal
+                trigger={
+                  <Tooltip content={LanguageService.user.personalInfo.addContactModal[language]}>
+                    <Button
+                      icon={
+                        <Icon
+                          size={IconSize.SMALL}
+                          name="PlusIcon"
+                        />
+                      }
+                      onClick={() => {}}
+                      buttonType={ButtonType.ICON_BUTTON}
+                      dataCy={userPersonalDataAccessIds.descriptionSection.addContactButton}
+                    />
+                  </Tooltip>
+                }
+                content={
+                  <ContactsModalContent
+                    close={() => {}}
+                    okButtonText={LanguageService.user.personalInfo.addContactModal[language]}
+                    onOk={createContact}
+                    cy={{
+                      dataCyCancel: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.cancelButton,
+                      dataCyInput: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.contactLinkInput,
+                      dataCyCreateButton: userPersonalDataAccessIds.userContactsBlock.contactsModalContent.createContactButton,
+                    }}
+                  />
+                }
+              />
+            )}
+
+          </HorizontalContainer>
+
+          <HorizontalContainer className={styles.contactsContainer}>
+            {userPageOwner?.contacts.map(contact => (
+              <ContactTag
+                key={contact.uuid}
+                contact={contact}
+                isPageOwner={isPageOwner}
+                userId={userPageOwner.uuid}
+                onDelete={async () => {
+                  user?.deleteContact(contact.uuid);
+                  userPageOwner.deleteContact(contact.uuid);
+                  await ContactDAL.deleteContact({contactId: contact.uuid, userId: userPageOwner.uuid});
+                }}
+              />
+            ))}
+            {!userPageOwner?.contacts.length && LanguageService.user.personalInfo.noContacts[language]}
+          </HorizontalContainer>
+
           {isPageOwner && <>
             <HorizontalContainer className={styles.supportTitleBlock}>
               <Infotip content={LanguageService.user.infotip.support[language]} />
@@ -1162,6 +1247,13 @@ export const UserPage = observer((props: UserPageProps) => {
           }
         />
       }
+      <Link
+        path="https://logo.dev"
+        ariaLabel="Logo API"
+        className={styles.externalLink}
+      >
+        Logos provided by Logo.dev
+      </Link>
     </VerticalContainer>
   );
 });

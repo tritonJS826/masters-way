@@ -367,7 +367,7 @@ describe('Statistics tests', () => {
         cy.logout();
 
         // Create user-student with a way that includes one day report
-        cy.login(testUserData.testUsers.studentJonh.loginLink);
+        cy.login(testUserData.testUsers.studentJohn.loginLink);
         UserPage.createNewWay();
         WayPage
             .createNewDayReport()
@@ -616,7 +616,7 @@ describe('Statistics tests', () => {
         cy.login(testUserData.testUsers.mentorMax.loginLink);
         Navigation.openPage(Page.AllWays);
         AllWaysPage
-            .openWayByClickingCard(testUserData.testUsers.studentJonh.wayTitle, {minDayReports: MinDayReports.any})
+            .openWayByClickingCard(testUserData.testUsers.studentJohn.wayTitle, {minDayReports: MinDayReports.any})
             .addThisWayToCompositeWay(testUserData.testUsers.mentorMax.wayTitle);
 
         Navigation.openPage(Page.AllWays);

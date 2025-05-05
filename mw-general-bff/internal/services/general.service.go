@@ -1001,6 +1001,36 @@ func (gs *GeneralService) DeleteUserProject(ctx context.Context, projectID, user
 	return nil
 }
 
+func (gs *GeneralService) CreateUserContact(ctx context.Context, userUuid string, payload *openapiGeneral.MwServerInternalSchemasUpdateUserContactPayload) (*openapiGeneral.MwServerInternalSchemasUserContact, error) {
+	userContact, response, err := gs.generalAPI.UserContactUserAPI.CreateUserContact(ctx, userUuid).Request(*payload).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	return userContact, nil
+}
+
+func (gs *GeneralService) UpdateUserContact(ctx context.Context, userId, userContactId string, payload *openapiGeneral.MwServerInternalSchemasUpdateUserContactPayload) (*openapiGeneral.MwServerInternalSchemasUserContact, error) {
+	userContact, response, err := gs.generalAPI.UserContactAPI.UpdateUserContact(ctx, userId, userContactId).Request(*payload).Execute()
+
+	if err != nil {
+		return nil, utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	return userContact, nil
+}
+
+func (gs *GeneralService) DeleteUserContact(ctx context.Context, userUuid string, contactId string) error {
+	response, err := gs.generalAPI.UserContactAPI.DeleteUserContact(ctx, userUuid, contactId).Execute()
+
+	if err != nil {
+		return utils.ExtractErrorMessageFromResponse(response)
+	}
+
+	return nil
+}
+
 func (gs *GeneralService) AddUserTagByName(ctx context.Context, payload *schemas.CreateUserTagPayload) (*openapiGeneral.MwServerInternalSchemasUserTagResponse, error) {
 	userTag, response, err := gs.generalAPI.UserTagAPI.CreateUserTag(ctx).Request(openapiGeneral.MwServerInternalSchemasCreateUserTagPayload{
 		Name:      payload.Name,

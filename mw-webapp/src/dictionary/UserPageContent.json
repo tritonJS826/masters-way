@@ -20,6 +20,11 @@
       "en": "Skills",
       "ua": "Навички"
     },
+    "contacts": {
+      "ru": "Контакты",
+      "en": "Contacts",
+      "ua": "Контакти"
+    },
     "support": {
       "ru": "Поддержка проекта",
       "en": "Project support",
@@ -29,6 +34,11 @@
       "ru": "Нет навыков",
       "en": "No skills",
       "ua": "Без навичок"
+    },
+    "noContacts": {
+      "ru": "Нет контактов",
+      "en": "No contacts",
+      "ua": "Без контактів"
     },
     "favoriteAmountTooltip": {
       "ru": "Количество лайков",
@@ -89,6 +99,56 @@
       "ru": "Добавить новый навык пользователя",
       "en": "Add new user skill",
       "ua": "Додати новий навик користувача"
+    },
+    "contactsInfotip": {
+      "ru": "Добавьте контакты, чтобы другие пользователи могли связаться с вами",
+      "en": "Add contacts so that other users can contact you",
+      "ua": "Додайте контакти, щоб інші користувачі могли зв'язатися з вами"
+    },
+    "addContactModal": {
+      "ru": "Добавить контакт",
+      "en": "Add contact",
+      "ua": "Додати контакт"
+    },
+    "addContactModalTitle": {
+      "ru": "Контакты",
+      "en": "Contacts",
+      "ua": "Контакти"
+    },
+    "addContactModalLink": {
+      "ru": "Ссылка",
+      "en": "Link",
+      "ua": "Посилання"
+    },
+    "addContactModalDescription": {
+      "ru": "Описание",
+      "en": "Description",
+      "ua": "Опис"
+    },
+    "visitContact": {
+      "ru": "Посетить контакт",
+      "en": "Visit contact",
+      "ua": "Відвідати контакт"
+    },
+    "copyContact": {
+      "ru": "Копировать контакт",
+      "en": "Copy contact",
+      "ua": "Копіювати контакт"
+    },
+    "updateContactModal": {
+      "ru": "Обновить контакт",
+      "en": "Update contact",
+      "ua": "Оновити контакт"
+    },
+    "deleteContactButton": {
+      "ru": "Удалить контакт",
+      "en": "Delete contact",
+      "ua": "Видалити контакт"
+    },
+    "deleteButtonConfirmation": {
+      "ru": "Вы уверены, что хотите удалить контакт",
+      "en": "Are you sure you want to delete contact",
+      "ua": "Ви впевнені, що хочете видалити контакт"
     },
     "upgradeToPremiumButton": {
       "ru": "Обновить до Премиум",
@@ -355,7 +415,7 @@
     },
     "aboutUser": {
       "ru": "Добавь информацию о себе по двойному клику. Например, чем занимаешься и чему хочешь научиться.",
-      "en": "*Add info about yourself by double clicking. For example, what do you do and what do you want to learn.*",
+      "en": "Add info about yourself by double clicking. For example, what do you do and what do you want to learn.",
       "ua": "Додай інформацію про себе подвійним клацанням. Наприклад, чим займаєшся і чого хочеш навчитися."
     },
     "isMentor": {
@@ -388,5 +448,8 @@
       "en": "There are 4 collections of trainings. Your trainings will be stored in your own collection. Mentoring includes trainings for which you are a mentor. Student ones contain trainings where you are a student. And the Favorites collection contains all the trainings that you liked.",
       "ua": "Існує 4 колекції тренінгів. У власній колекції зберігатимуться твої тренінги. Наставницькі включають тренінги, для яких ти є ментором. Студенти містять тренінги, де ти є студентом. А в колекцію Улюблені поміщаються всі тренінги, які ти лайкнув."
     }
+  }, 
+  "contactsBlock": {
+    
   }
 }

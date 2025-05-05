@@ -204,6 +204,13 @@ func (uc *UserController) GetUserById(ctx *gin.Context) {
 				UserIDs:   project.UserIds,
 			}
 		}),
+		UserContacts: lo.Map(populatedUserRaw.UserContacts, func(contact openapiGeneral.MwServerInternalSchemasUserContact, _ int) schemas.UserContact {
+			return schemas.UserContact{
+				Uuid:        contact.Uuid,
+				Description: contact.Description,
+				ContactLink: contact.ContactLink,
+			}
+		}),
 	}
 
 	ctx.JSON(http.StatusOK, response)

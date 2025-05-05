@@ -27,6 +27,7 @@ type Controller struct {
 	WayTagController                   *WayTagController
 	ToUserMentoringRequestController   *ToUserMentoringRequestController
 	UserController                     *UserController
+	UserContactController              *UserContactController
 	UserTagController                  *UserTagController
 	UserProjectController              *UserProjectController
 	WayCollectionController            *WayCollectionController
@@ -58,6 +59,7 @@ func NewController(facade *facades.Facade) *Controller {
 		WayTagController:                   NewWayTagController(facade.WayTagFacade),
 		ToUserMentoringRequestController:   NewToUserMentoringRequestController(facade.ToUserMentoringRequestFacade),
 		UserController:                     NewUserController(facade.UserFacade),
+		UserContactController:              NewUserContactController(facade.UserContactFacade),
 		UserTagController:                  NewUserTagController(facade.UserTagFacade),
 		UserProjectController:              NewUserProjectController(facade.UserProjectFacade),
 		WayCollectionController:            NewWayCollectionController(facade.WayCollectionFacade),

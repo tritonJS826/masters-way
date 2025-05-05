@@ -34,7 +34,7 @@ describe('Chat tests', () => {
     it('Scenario_AnyLoggedinUser_ReciveMessageInChat', () => {
         userPersonalSelectors.surveyModal.userInfoSurvey.getOverlay().click({force: true});
         cy.logout();
-        cy.login(testUserData.testUsers.studentJonh.loginLink); 
+        cy.login(testUserData.testUsers.studentJohn.loginLink); 
         Navigation.openPage(Page.AllUsers);
         AllUsersPage.openUserPersonalAreaPageByClickingCard(testUserData.testUsers.mentorMax.name);
 
@@ -53,9 +53,9 @@ describe('Chat tests', () => {
         chatSelectors.getmessagesAmount().should('contain.text', '1');
 
         chatSelectors.getOpenChatButton().click({force: true});
-        chatSelectors.chatContainer.getListChatItem(testUserData.testUsers.studentJonh.name).click();
+        chatSelectors.chatContainer.getListChatItem(testUserData.testUsers.studentJohn.name).click();
 
-        chatSelectors.chatContainer.getChatItemName().should('contain.text', testUserData.testUsers.studentJonh.name);
+        chatSelectors.chatContainer.getChatItemName().should('contain.text', testUserData.testUsers.studentJohn.name);
         chatSelectors.chatContainer.getMessageItem().should('contain.text', chatData.textMessage);
     });
 

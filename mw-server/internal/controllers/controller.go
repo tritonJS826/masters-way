@@ -28,6 +28,7 @@ type Controller struct {
 	WayTagController                   *WayTagController
 	ToUserMentoringRequestController   *ToUserMentoringRequestController
 	UserController                     *UserController
+	UserContactController              *UserContactController
 	UserTagController                  *UserTagController
 	UserProjectController              *UserProjectController
 	WayCollectionController            *WayCollectionController
@@ -59,6 +60,7 @@ func NewController(services *services.Service, config *config.Config) *Controlle
 		WayTagController:                   NewWayTagController(services.WayTagService),
 		ToUserMentoringRequestController:   NewToUserMentoringRequestController(services.ToUserMentoringRequestService),
 		UserController:                     NewUserController(services.UserService),
+		UserContactController:              NewUserContactController(services.UserContactService),
 		UserTagController:                  NewUserTagController(services.LimitService, services.UserTagService),
 		UserProjectController:              NewUserProjectController(services.PermissionService, services.UserProjectService),
 		WayCollectionController:            NewWayCollectionController(services.LimitService, services.WayCollectionService),

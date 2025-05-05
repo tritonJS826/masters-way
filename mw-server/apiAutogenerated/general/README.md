@@ -140,6 +140,9 @@ Class | Method | HTTP request | Description
 *UserAPI* | [**GetUserByUuid**](docs/UserAPI.md#getuserbyuuid) | **Get** /users/{userId} | Get user by UUID
 *UserAPI* | [**GetUsersByIds**](docs/UserAPI.md#getusersbyids) | **Get** /users/list-by-ids | Get users by ids
 *UserAPI* | [**UpdateUser**](docs/UserAPI.md#updateuser) | **Patch** /users/{userId} | Update user by UUID
+*UserContactAPI* | [**DeleteUserContact**](docs/UserContactAPI.md#deleteusercontact) | **Delete** /users/{userId}/contacts/{contactId} | Delete DeleteUserContact by UUID
+*UserContactAPI* | [**UpdateUserContact**](docs/UserContactAPI.md#updateusercontact) | **Patch** /users/{userId}/contacts/{contactId} | Update user contact by UUID
+*UserContactUserAPI* | [**CreateUserContact**](docs/UserContactUserAPI.md#createusercontact) | **Post** /users/{userId}/contacts | Create user contact
 *UserProjectAPI* | [**CreateUserProject**](docs/UserProjectAPI.md#createuserproject) | **Post** /userProjects | Add user to project
 *UserProjectAPI* | [**DeleteUserProject**](docs/UserProjectAPI.md#deleteuserproject) | **Delete** /userProjects/{projectId}/{userId} | Delete userProject by UUID
 *UserTagAPI* | [**CreateUserTag**](docs/UserTagAPI.md#createusertag) | **Post** /userTags | Create a new userTag
@@ -241,9 +244,11 @@ Class | Method | HTTP request | Description
  - [MwServerInternalSchemasUpdatePlanPayload](docs/MwServerInternalSchemasUpdatePlanPayload.md)
  - [MwServerInternalSchemasUpdateProblemPayload](docs/MwServerInternalSchemasUpdateProblemPayload.md)
  - [MwServerInternalSchemasUpdateProjectPayload](docs/MwServerInternalSchemasUpdateProjectPayload.md)
+ - [MwServerInternalSchemasUpdateUserContactPayload](docs/MwServerInternalSchemasUpdateUserContactPayload.md)
  - [MwServerInternalSchemasUpdateUserPayload](docs/MwServerInternalSchemasUpdateUserPayload.md)
  - [MwServerInternalSchemasUpdateWayCollectionPayload](docs/MwServerInternalSchemasUpdateWayCollectionPayload.md)
  - [MwServerInternalSchemasUpdateWayPayload](docs/MwServerInternalSchemasUpdateWayPayload.md)
+ - [MwServerInternalSchemasUserContact](docs/MwServerInternalSchemasUserContact.md)
  - [MwServerInternalSchemasUserPlainResponse](docs/MwServerInternalSchemasUserPlainResponse.md)
  - [MwServerInternalSchemasUserPlainResponseWithInfo](docs/MwServerInternalSchemasUserPlainResponseWithInfo.md)
  - [MwServerInternalSchemasUserPopulatedResponse](docs/MwServerInternalSchemasUserPopulatedResponse.md)

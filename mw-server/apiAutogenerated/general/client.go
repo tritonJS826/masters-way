@@ -91,6 +91,10 @@ type APIClient struct {
 
 	UserAPI *UserAPIService
 
+	UserContactAPI *UserContactAPIService
+
+	UserContactUserAPI *UserContactUserAPIService
+
 	UserProjectAPI *UserProjectAPIService
 
 	UserTagAPI *UserTagAPIService
@@ -141,6 +145,8 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ProjectAPI = (*ProjectAPIService)(&c.common)
 	c.ToUserMentoringRequestAPI = (*ToUserMentoringRequestAPIService)(&c.common)
 	c.UserAPI = (*UserAPIService)(&c.common)
+	c.UserContactAPI = (*UserContactAPIService)(&c.common)
+	c.UserContactUserAPI = (*UserContactUserAPIService)(&c.common)
 	c.UserProjectAPI = (*UserProjectAPIService)(&c.common)
 	c.UserTagAPI = (*UserTagAPIService)(&c.common)
 	c.WayAPI = (*WayAPIService)(&c.common)

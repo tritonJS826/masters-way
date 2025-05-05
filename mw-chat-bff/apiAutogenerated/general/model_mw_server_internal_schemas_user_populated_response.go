@@ -33,6 +33,7 @@ type MwServerInternalSchemasUserPopulatedResponse struct {
 	Name string
 	Projects []MwServerInternalSchemasProjectPlainResponse
 	Tags []MwServerInternalSchemasUserTagResponse
+	UserContacts []MwServerInternalSchemasUserContact
 	Uuid string
 	WayRequests []MwServerInternalSchemasWayPlainResponse
 }
@@ -43,7 +44,7 @@ type _MwServerInternalSchemasUserPopulatedResponse MwServerInternalSchemasUserPo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse) *MwServerInternalSchemasUserPopulatedResponse {
+func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWayCollections []MwServerInternalSchemasWayCollectionPopulatedResponse, defaultWayCollections MwServerInternalSchemasDefaultWayCollections, description string, email string, favoriteForUsers []string, favoriteUsers []MwServerInternalSchemasUserPlainResponse, imageUrl string, isMentor bool, name string, projects []MwServerInternalSchemasProjectPlainResponse, tags []MwServerInternalSchemasUserTagResponse, userContacts []MwServerInternalSchemasUserContact, uuid string, wayRequests []MwServerInternalSchemasWayPlainResponse) *MwServerInternalSchemasUserPopulatedResponse {
 	this := MwServerInternalSchemasUserPopulatedResponse{}
 	this.CreatedAt = createdAt
 	this.CustomWayCollections = customWayCollections
@@ -57,6 +58,7 @@ func NewMwServerInternalSchemasUserPopulatedResponse(createdAt string, customWay
 	this.Name = name
 	this.Projects = projects
 	this.Tags = tags
+	this.UserContacts = userContacts
 	this.Uuid = uuid
 	this.WayRequests = wayRequests
 	return &this
@@ -358,6 +360,30 @@ func (o *MwServerInternalSchemasUserPopulatedResponse) SetTags(v []MwServerInter
 	o.Tags = v
 }
 
+// GetUserContacts returns the UserContacts field value
+func (o *MwServerInternalSchemasUserPopulatedResponse) GetUserContacts() []MwServerInternalSchemasUserContact {
+	if o == nil {
+		var ret []MwServerInternalSchemasUserContact
+		return ret
+	}
+
+	return o.UserContacts
+}
+
+// GetUserContactsOk returns a tuple with the UserContacts field value
+// and a boolean to check if the value has been set.
+func (o *MwServerInternalSchemasUserPopulatedResponse) GetUserContactsOk() ([]MwServerInternalSchemasUserContact, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.UserContacts, true
+}
+
+// SetUserContacts sets field value
+func (o *MwServerInternalSchemasUserPopulatedResponse) SetUserContacts(v []MwServerInternalSchemasUserContact) {
+	o.UserContacts = v
+}
+
 // GetUuid returns the Uuid field value
 func (o *MwServerInternalSchemasUserPopulatedResponse) GetUuid() string {
 	if o == nil {
@@ -428,6 +454,7 @@ func (o MwServerInternalSchemasUserPopulatedResponse) ToMap() (map[string]interf
 	toSerialize["name"] = o.Name
 	toSerialize["projects"] = o.Projects
 	toSerialize["tags"] = o.Tags
+	toSerialize["userContacts"] = o.UserContacts
 	toSerialize["uuid"] = o.Uuid
 	toSerialize["wayRequests"] = o.WayRequests
 	return toSerialize, nil
@@ -450,6 +477,7 @@ func (o *MwServerInternalSchemasUserPopulatedResponse) UnmarshalJSON(data []byte
 		"name",
 		"projects",
 		"tags",
+		"userContacts",
 		"uuid",
 		"wayRequests",
 	}
