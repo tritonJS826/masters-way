@@ -10,6 +10,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {ContactData, ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
 import {Contact} from "src/model/businessModel/Contact";
 import {LanguageService} from "src/service/LanguageService";
+import {env} from "src/utils/env/env";
 import styles from "src/logic/userPage/contactTag/ContactTag.module.scss";
 
 /**
@@ -139,7 +140,7 @@ export const ContactTag = (props: TagProps) => {
       <Dropdown
         trigger={(
           <Avatar
-            src={`https://img.logo.dev/${processedContactLink}?token=pk_LceEaDNtTWGchSCHHEvxHQ`}
+            src={`https://img.logo.dev/${processedContactLink}?token=${env.API_LOGO_DEV_TOKEN}`}
             alt={`${processedContactLink} logo`}
             className={styles.contactTag}
           />
