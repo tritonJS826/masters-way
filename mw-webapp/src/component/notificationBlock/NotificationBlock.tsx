@@ -184,7 +184,7 @@ export const NotificationBlock = observer((props: NotificationBlockProps) => {
       <Separator className={styles.separator} />
       {props.isOpen && props.notificationList?.map((notificationItem) => (
         <NotificationItem
-          key={notificationItem.description}
+          key={notificationItem.uuid}
           title={props.getTitle(notificationItem.nature)}
           nature={notificationItem.nature}
           description={notificationItem.description}
