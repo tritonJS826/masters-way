@@ -72,6 +72,7 @@ import styles from "src/logic/userPage/UserPage.module.scss";
 
 const MAX_LENGTH_USERNAME = 50;
 const MIN_LENGTH_USERNAME = 1;
+const MAX_USER_DESCRIPTION_LENGTH = 300;
 
 /**
  * Update User params
@@ -800,6 +801,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   trigger: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownDisplay,
                 }
               }
+              maxTextLengthValue={MAX_USER_DESCRIPTION_LENGTH}
               text={userPageOwner.description}
               onChangeFinish={(description) => updateUser({
                 userToUpdate: {

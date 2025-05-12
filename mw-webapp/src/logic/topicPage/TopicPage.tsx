@@ -44,6 +44,7 @@ const MAX_LENGTH_TOPIC_NAME = 300;
 const MIN_LENGTH_TOPIC_NAME = 1;
 const MAX_LENGTH_MATERIAL_NAME = 128;
 const MIN_LENGTH_MATERIAL_NAME = 1;
+const MAX_TRAINING_MATERIAL_LENGTH = 10000;
 
 /**
  * Update Topic params
@@ -557,6 +558,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 </HorizontalContainer>
                 <EditableTextarea
                   text={theoryMaterial.description}
+                  maxTextLengthValue={MAX_TRAINING_MATERIAL_LENGTH}
                   onChangeFinish={(description) => {
                     updateTheoryMaterial({
                       theoryMaterialToUpdate: {
@@ -710,6 +712,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 />
                 <EditableTextarea
                   text={practiceMaterial.taskDescription}
+                  maxTextLengthValue={MAX_TRAINING_MATERIAL_LENGTH}
                   onChangeFinish={(taskDescription) => {
                     updatePracticeMaterial({
                       practiceMaterialToUpdate: {
@@ -738,6 +741,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                       placeholder=""
                     />
                     <EditableTextarea
+                      maxTextLengthValue={MAX_TRAINING_MATERIAL_LENGTH}
                       placeholder={isOwner
                         ? LanguageService.common.emptyMarkdownAction[language]
                         : LanguageService.common.emptyMarkdown[language]}

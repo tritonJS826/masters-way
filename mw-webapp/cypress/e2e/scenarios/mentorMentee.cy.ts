@@ -131,7 +131,9 @@ describe('Mentor-mentee tests', () => {
         wayMetricsSelectors.progressBar.getRightLabel().should('have.text', wayMetricsData.progressBar["rightLabel1/1"]);
 
         wayMetricsSelectors.metricButtons.getAddNewGoalMetricButton().click();
-        wayMetricsSelectors.getMetricDescription().eq(1).dblclick().type(wayMetricsData.mentorMetricDescriptions);
+
+        wayMetricsSelectors.getMetricDescription().eq(1).dblclick();
+        wayMetricsSelectors.getMetricDescriptionInput().type(wayMetricsData.mentorMetricDescriptions);
         headerSelectors.getHeader().click();
 
         wayMetricsSelectors.getMetricDescription().should('have.length', wayMetricsData.totalMetrics2);

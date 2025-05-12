@@ -1,5 +1,8 @@
 import {useEffect, useState} from "react";
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Emoji, EmojiPickerPopover} from "src/component/emojiPicker/EmojiPickerPopover";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
 import {KeySymbols} from "src/utils/KeySymbols";
@@ -68,8 +71,13 @@ interface EditableTextareaProps {
   /**
    * Array of validator functions to be applied to the value
    */
-    validators?: ValidatorValue[];
-  }
+  validators?: ValidatorValue[];
+
+  /**
+   * Max text length value
+   */
+  maxTextLengthValue?: number;
+}
 
 /**
  * EditableTextarea component
@@ -112,18 +120,55 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
+   * Prevents blur event when interacting with footer buttons to keep editing mode active
+   */
+  const preventBlurOnFooterInteractionAndHandleChangeFinish = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.relatedTarget?.closest(`.${styles.EditableTextAreaFooter}`)) {
+      return;
+    }
+    handleChangeFinish();
+  };
+
+  /**
    * Render Textarea
    */
   const renderTextarea = () => (
-    <Textarea
-      cy={props.cy?.textArea}
-      defaultValue={text}
-      onChange={onChangeInput}
-      placeholder={props.placeholder}
-      rows={props.rows}
-      isAutofocus
-      onKeyPress={handleCtrlEnter}
-    />
+    <div className={styles.editableTextareaActive}>
+      <Textarea
+        cy={props.cy?.textArea}
+        defaultValue={text}
+        onChange={onChangeInput}
+        placeholder={props.placeholder}
+        rows={props.rows}
+        isAutofocus
+        onKeyPress={handleCtrlEnter}
+      />
+      <div className={styles.textAreaFooter}>
+        <Button
+          icon={
+            <Icon
+              size={IconSize.SMALL}
+              name="CheckIcon"
+            />
+          }
+          onClick={() => {
+            setIsEditing(false);
+          }}
+          buttonType={ButtonType.ICON_BUTTON}
+        />
+        <EmojiPickerPopover onEmojiSelect={(emoji: Emoji) => {
+          const newText = text + emoji.native;
+          setText(newText);
+          props.onChangeFinish(newText);
+        }}
+        />
+        {props.maxTextLengthValue && (
+          <div className={styles.characterCount}>
+            {`${props.maxTextLengthValue - text.length}`}
+          </div>
+        )}
+      </div>
+    </div>
   );
 
   return (
@@ -131,17 +176,36 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       onDoubleClick={() => {
         props.isEditable !== false && setIsEditing(true);
       }}
-      onBlur={handleChangeFinish}
+      onBlur={preventBlurOnFooterInteractionAndHandleChangeFinish}
       onKeyDown={handleCtrlEnter}
       className={clsx(styles.editableTextarea, props.className)}
       role="trigger"
       data-cy={props.cy?.trigger}
     >
-      {
-        isEditing
-          ? renderTextarea()
-          : <Text text={isEmptyText ? props.placeholder : text} />
-      }
+      {isEditing
+        ? renderTextarea()
+        : (
+          <>
+            <Text text={isEmptyText ? props.placeholder : text} />
+            {!isEditing && (
+              <div className={styles.editButton}>
+                <Button
+                  icon={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="PenToolIcon"
+                    />
+                  }
+                  onClick={() => {
+                    setIsEditing(true);
+                  }}
+                  buttonType={ButtonType.ICON_BUTTON}
+                />
+              </div>
+            )}
+          </>
+        )}
     </div>
   );
 };
+

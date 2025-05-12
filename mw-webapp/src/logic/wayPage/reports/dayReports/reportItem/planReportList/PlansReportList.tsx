@@ -45,6 +45,8 @@ import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reports/dayReports/reportItem/planReportList/PlanReportList.module.scss";
 
+const MAX_PLAN_LENGTH = 3000;
+
 /**
  * Plan report list props
  */
@@ -428,6 +430,7 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
               }
             </VerticalContainer>
             <EditableTextarea
+              maxTextLengthValue={MAX_PLAN_LENGTH}
               text={plan.description}
               onChangeFinish={async (description) => {
                 const planToUpdate = {

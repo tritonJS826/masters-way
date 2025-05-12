@@ -8,6 +8,8 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/trainingPage/descriptionBlock/DescriptionBlock.module.scss";
 
+const MAX_TRAINING_DESCRIPTION_LENGTH = 4096;
+
 /**
  * Description block props
  */
@@ -47,6 +49,7 @@ export const DescriptionBlock = observer((props: DescriptionBlockProps) => {
         />
       </HorizontalContainer>
       <EditableTextarea
+        maxTextLengthValue={MAX_TRAINING_DESCRIPTION_LENGTH}
         text={props.description}
         onChangeFinish={async (description) => {
           await props.updateTraining(description);

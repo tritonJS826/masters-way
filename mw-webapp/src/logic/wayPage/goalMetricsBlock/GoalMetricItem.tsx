@@ -15,6 +15,8 @@ import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/goalMetricsBlock/GoalMetricItem.module.scss";
 
+const MAX_GOAL_METRIC_DESCRIPTION_LENGTH = 300;
+
 /**
  * Single Goal Metric Props
  */
@@ -120,6 +122,7 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
             className={styles.tooltip}
           >
             <EditableTextarea
+              maxTextLengthValue={MAX_GOAL_METRIC_DESCRIPTION_LENGTH}
               text={props.metric.description ?? ""}
               onChangeFinish={async (description) => {
                 props.metric.updateDescription(description);

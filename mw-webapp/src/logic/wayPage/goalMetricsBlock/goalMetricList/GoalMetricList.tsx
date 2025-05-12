@@ -17,6 +17,8 @@ import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/goalMetricsBlock/goalMetricList/GoalMetricList.module.scss";
 
+const MAX_GOAL_METRIC_DESCRIPTION_LENGTH = 300;
+
 /**
  * {@link MetricChildrenList} props
  */
@@ -146,6 +148,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
             <div className={styles.metricDescription}>
               <Tooltip content={tooltipContent}>
                 <EditableTextarea
+                  maxTextLengthValue={MAX_GOAL_METRIC_DESCRIPTION_LENGTH}
                   text={childMetric.description ?? ""}
                   onChangeFinish={async (description) => {
                     childMetric.updateDescription(description);

@@ -36,6 +36,8 @@
   "dependencies": {
     "@amplitude/analytics-browser": "2.10.0",
     "@amplitude/plugin-session-replay-browser": "1.6.18",
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@radix-ui/react-accordion": "1.1.2",
     "@radix-ui/react-avatar": "1.1.0",
     "@radix-ui/react-dialog": "1.0.5",
@@ -48,6 +50,8 @@
     "@tanstack/react-table": "8.20.1",
     "chart.js": "4.4.3",
     "clsx": "2.1.0",
+    "emoji-mart": "^5.6.0",
+    "emoji-picker-react": "^4.12.2",
     "mobx": "6.12.5",
     "mobx-react-lite": "4.0.7",
     "pdfmake": "0.2.11",

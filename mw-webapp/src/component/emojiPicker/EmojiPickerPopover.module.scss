@@ -1,0 +1,26 @@
+@import "src/styles/variables";
+
+$modal-animation-time: 150ms;
+
+.container {
+  position: relative;
+}
+
+.popover {
+  position: absolute;
+  z-index: $tooltipZIndex;
+  animation: contentShow $modal-animation-time cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: var(--primaryBgColor);
+  overflow-y: auto;
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
