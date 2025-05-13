@@ -123,7 +123,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
    * Prevents blur event when interacting with footer buttons to keep editing mode active
    */
   const preventBlurOnFooterInteractionAndHandleChangeFinish = (event: React.FocusEvent<HTMLDivElement>) => {
-    if (event.relatedTarget?.closest(`.${styles.EditableTextAreaFooter}`)) {
+    if (event.relatedTarget?.closest(`.${styles.editableTextAreaFooter}`)) {
       return;
     }
     handleChangeFinish();
@@ -143,7 +143,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         isAutofocus
         onKeyPress={handleCtrlEnter}
       />
-      <div className={styles.textAreaFooter}>
+      <div className={styles.editableTextAreaFooter}>
         <Button
           icon={
             <Icon
@@ -200,6 +200,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
                     setIsEditing(true);
                   }}
                   buttonType={ButtonType.ICON_BUTTON}
+
                 />
               </div>
             )}
