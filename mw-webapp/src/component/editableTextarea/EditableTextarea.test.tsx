@@ -65,7 +65,7 @@ describe("EditableTextarea component", () => {
     const trigger = screen.getByRole(EDITABLETEXT_CY.trigger);
     fireEvent.dblClick(trigger);
 
-    const textbox = screen.getByTestId(EDITABLETEXT_CY.textArea);
+    const textbox = screen.getByRole("textbox");
     await act(async () => {
       await user.type(textbox, EDITABLTYPE_VALUE);
     });
