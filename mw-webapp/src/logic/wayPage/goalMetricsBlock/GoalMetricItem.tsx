@@ -122,7 +122,7 @@ export const GoalMetricItem = observer((props: SingleGoalMetricProps) => {
             className={styles.tooltip}
           >
             <EditableTextarea
-              maxTextLengthValue={MAX_GOAL_METRIC_DESCRIPTION_LENGTH}
+              maxCharacterCount={MAX_GOAL_METRIC_DESCRIPTION_LENGTH}
               text={props.metric.description ?? ""}
               onChangeFinish={async (description) => {
                 props.metric.updateDescription(description);

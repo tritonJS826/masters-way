@@ -430,7 +430,7 @@ export const PlanReportList = observer((props: PlanReportListProps) => {
               }
             </VerticalContainer>
             <EditableTextarea
-              maxTextLengthValue={MAX_PLAN_LENGTH}
+              maxCharacterCount={MAX_PLAN_LENGTH}
               text={plan.description}
               onChangeFinish={async (description) => {
                 const planToUpdate = {

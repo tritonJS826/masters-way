@@ -205,7 +205,7 @@ export const CommentReportList = observer((props: CommentReportListProps) => {
                 }
               </HorizontalContainer>
               <EditableTextarea
-                maxTextLengthValue={MAX_WAY_COMMENT_LENGTH}
+                maxCharacterCount={MAX_WAY_COMMENT_LENGTH}
                 text={comment.description}
                 onChangeFinish={async (description) => {
                   const commentToUpdate = new Comment({

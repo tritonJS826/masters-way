@@ -9,13 +9,10 @@ $editableTextarea-width: 100%;
   justify-content: space-between;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  word-break: break-word;
 }
 
 .editableTextareaActive {
-  display: flex;
   width: $editableTextarea-width;
-  flex-direction: column;
 }
 
 .characterCount {
@@ -24,13 +21,10 @@ $editableTextarea-width: 100%;
 }
 
 .editableTextAreaFooter {
-  display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: $gapSmall;
 }
 
 .editButton {
-  display: flex;
   justify-content: flex-end;
 }

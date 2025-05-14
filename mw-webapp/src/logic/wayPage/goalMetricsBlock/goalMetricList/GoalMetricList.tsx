@@ -148,7 +148,7 @@ export const MetricChildrenList = (props: MetricChildrenListProps) => {
             <div className={styles.metricDescription}>
               <Tooltip content={tooltipContent}>
                 <EditableTextarea
-                  maxTextLengthValue={MAX_GOAL_METRIC_DESCRIPTION_LENGTH}
+                  maxCharacterCount={MAX_GOAL_METRIC_DESCRIPTION_LENGTH}
                   text={childMetric.description ?? ""}
                   onChangeFinish={async (description) => {
                     childMetric.updateDescription(description);

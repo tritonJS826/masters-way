@@ -58,7 +58,7 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
         />
       </HorizontalContainer>
       <EditableTextarea
-        maxTextLengthValue={MAX_GOAL_DESCRIPTION_LENGTH}
+        maxCharacterCount={MAX_GOAL_DESCRIPTION_LENGTH}
         text={props.goalDescription}
         onChangeFinish={async (goalDescription) => {
           const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);

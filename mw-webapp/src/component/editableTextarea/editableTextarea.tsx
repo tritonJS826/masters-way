@@ -2,9 +2,11 @@ import {useEffect, useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Emoji, EmojiPickerPopover} from "src/component/emojiPicker/EmojiPickerPopover";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {KeySymbols} from "src/utils/KeySymbols";
 import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
@@ -76,7 +78,7 @@ interface EditableTextareaProps {
   /**
    * Max text length value
    */
-  maxTextLengthValue?: number;
+  maxCharacterCount?: number;
 }
 
 /**
@@ -133,7 +135,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
    * Render Textarea
    */
   const renderTextarea = () => (
-    <div className={styles.editableTextareaActive}>
+    <VerticalContainer className={styles.editableTextareaActive}>
       <Textarea
         cy={props.cy?.textArea}
         defaultValue={text}
@@ -143,7 +145,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         isAutofocus
         onKeyPress={handleCtrlEnter}
       />
-      <div className={styles.editableTextAreaFooter}>
+      <HorizontalContainer className={styles.editableTextAreaFooter}>
         <Button
           icon={
             <Icon
@@ -162,13 +164,13 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
           props.onChangeFinish(newText);
         }}
         />
-        {props.maxTextLengthValue && (
+        {props.maxCharacterCount && (
           <div className={styles.characterCount}>
-            {`${props.maxTextLengthValue - text.length}`}
+            {`${props.maxCharacterCount - text.length}`}
           </div>
         )}
-      </div>
-    </div>
+      </HorizontalContainer>
+    </VerticalContainer>
   );
 
   return (
@@ -182,30 +184,30 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       role="trigger"
       data-cy={props.cy?.trigger}
     >
+
       {isEditing
         ? renderTextarea()
         : (
           <>
             <Text text={isEmptyText ? props.placeholder : text} />
-            {!isEditing && (
-              <div className={styles.editButton}>
-                <Button
-                  icon={
-                    <Icon
-                      size={IconSize.SMALL}
-                      name="PenToolIcon"
-                    />
-                  }
-                  onClick={() => {
-                    setIsEditing(true);
-                  }}
-                  buttonType={ButtonType.ICON_BUTTON}
-
-                />
-              </div>
-            )}
           </>
         )}
+      {!isEditing && (
+        <div className={styles.editButton}>
+          <Button
+            icon={
+              <Icon
+                size={IconSize.SMALL}
+                name="PenToolIcon"
+              />
+            }
+            onClick={() => {
+              setIsEditing(true);
+            }}
+            buttonType={ButtonType.ICON_BUTTON}
+          />
+        </div>
+      )}
     </div>
   );
 };

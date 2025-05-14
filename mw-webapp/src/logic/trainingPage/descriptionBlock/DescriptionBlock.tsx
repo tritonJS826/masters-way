@@ -49,7 +49,7 @@ export const DescriptionBlock = observer((props: DescriptionBlockProps) => {
         />
       </HorizontalContainer>
       <EditableTextarea
-        maxTextLengthValue={MAX_TRAINING_DESCRIPTION_LENGTH}
+        maxCharacterCount={MAX_TRAINING_DESCRIPTION_LENGTH}
         text={props.description}
         onChangeFinish={async (description) => {
           await props.updateTraining(description);

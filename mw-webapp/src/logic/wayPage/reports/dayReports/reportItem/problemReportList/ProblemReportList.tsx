@@ -275,7 +275,7 @@ export const ProblemReportList = observer((props: ProblemReportListProps) => {
               }
             </HorizontalContainer>
             <EditableTextarea
-              maxTextLengthValue={MAX_PROBLEM_LENGTH}
+              maxCharacterCount={MAX_PROBLEM_LENGTH}
               text={problem.description}
               onChangeFinish={async (description) => {
                 const problemToUpdate = {

@@ -337,7 +337,7 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
               }
             </VerticalContainer>
             <EditableTextarea
-              maxTextLengthValue={MAX_JOB_DONE_LENGTH}
+              maxCharacterCount={MAX_JOB_DONE_LENGTH}
               text={jobDone.description}
               onChangeFinish={async (description) => {
                 const jobDoneToUpdate = {

@@ -801,7 +801,7 @@ export const UserPage = observer((props: UserPageProps) => {
                   trigger: userPersonalDataAccessIds.descriptionSection.aboutMeMarkdownDisplay,
                 }
               }
-              maxTextLengthValue={MAX_USER_DESCRIPTION_LENGTH}
+              maxCharacterCount={MAX_USER_DESCRIPTION_LENGTH}
               text={userPageOwner.description}
               onChangeFinish={(description) => updateUser({
                 userToUpdate: {
