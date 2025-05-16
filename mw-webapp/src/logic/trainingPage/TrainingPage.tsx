@@ -192,6 +192,7 @@ export const TrainingPage = observer((props: TrainingPageProps) => {
                   });
                 }}
                 isEditable={isOwner}
+                maxCharacterCount={MAX_LENGTH_TRAINING_NAME}
                 className={styles.trainingName}
                 validators={[
                   minLengthValidator(MIN_LENGTH_TRAINING_NAME, LanguageService.way.notifications.wayNameMinLength[language]),

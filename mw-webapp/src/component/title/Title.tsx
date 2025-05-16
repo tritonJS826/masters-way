@@ -1,6 +1,9 @@
 import {useEffect, useState} from "react";
 import {Heading} from "@radix-ui/themes";
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Input} from "src/component/input/Input";
 import {KeySymbols} from "src/utils/KeySymbols";
 import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
@@ -91,6 +94,11 @@ interface TitleProps {
    * Array of validator functions to be applied to the value
    */
   validators?: ValidatorValue[];
+
+  /**
+   * Max character count
+   */
+  maxCharacterCount?: number;
 }
 
 /**
@@ -122,6 +130,8 @@ export const Title = (props: TitleProps) => {
     iValidatedValue && setIsEditing(false);
   };
 
+  const isEditButtonVisible = props.isEditable && !isEditing;
+
   /**
    * Update cell value after OnKeyDown event
    */
@@ -138,36 +148,83 @@ export const Title = (props: TitleProps) => {
     setText(value);
   };
 
+  /**
+   * Prevents blur event when interacting with footer buttons to keep editing mode active
+   */
+  const preventBlurOnFooterInteractionAndHandleChangeFinish = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.relatedTarget?.closest(`.${styles.editableTextAreaFooter}`)) {
+      return;
+    }
+    handleChangeFinish();
+  };
+
   return (
     <div
       onDoubleClick={() => {
         props.isEditable && setIsEditing(true);
       }}
-      onBlur={handleChangeFinish}
+      onBlur={preventBlurOnFooterInteractionAndHandleChangeFinish}
       onKeyDown={handleEnter}
       className={clsx(props.className)}
       data-cy={props.cy?.dataCyTitleContainer}
     >
-      {isEditing
-        ? (
-          <Input
-            type="text"
-            value={text}
-            autoFocus={true}
-            onChange={onChangeInput}
-            dataCy={props.cy?.dataCyInput}
+      <div className={styles.editButton}>
+        {isEditing
+          ? (
+            <>
+              <Input
+                type="text"
+                value={text}
+                autoFocus={true}
+                onChange={onChangeInput}
+                dataCy={props.cy?.dataCyInput}
+              />
+              <HorizontalContainer className={styles.editableTextAreaFooter}>
+                {props.maxCharacterCount && (
+                  <div className={styles.characterCount}>
+                    {`${props.maxCharacterCount - text.length}`}
+                  </div>
+                )}
+                <Button
+                  icon={
+                    <Icon
+                      size={IconSize.SMALL}
+                      name="CheckIcon"
+                    />
+                  }
+                  onClick={() => {
+                    setIsEditing(false);
+                  }}
+                  buttonType={ButtonType.ICON_BUTTON}
+                />
+              </HorizontalContainer>
+            </>
+          )
+          : (
+            <Heading
+              onClick={props.onClick}
+              as={props.level}
+              className={clsx(styles.heading, props.classNameHeading)}
+            >
+              {text === "" ? props.placeholder : text}
+            </Heading>
+          )
+        }
+        {isEditButtonVisible && (
+          <Button
+            icon={
+              <Icon
+                size={IconSize.SMALL}
+                name="PenToolIcon"
+              />
+            }
+            onClick={() => {
+              setIsEditing(true);
+            }}
+            buttonType={ButtonType.ICON_BUTTON}
           />
-        )
-        : (
-          <Heading
-            onClick={props.onClick}
-            as={props.level}
-            className={clsx(styles.heading, props.classNameHeading)}
-          >
-            {text === "" ? props.placeholder : text}
-          </Heading>
-        )
-      }
+        )}
+      </div>
     </div>
   );
 };

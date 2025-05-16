@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import clsx from "clsx";
 import {Button, ButtonType} from "src/component/button/Button";
-import {Emoji, EmojiPickerPopover} from "src/component/emojiPicker/EmojiPickerPopover";
+import {Emoji, EmojiPickerPopover} from "src/component/emojiPickerPopover/EmojiPickerPopover";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Text} from "src/component/text/Text";
@@ -146,6 +146,18 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         onKeyPress={handleCtrlEnter}
       />
       <HorizontalContainer className={styles.editableTextAreaFooter}>
+        {props.maxCharacterCount && (
+          <div className={styles.characterCount}>
+            {`${props.maxCharacterCount - text.length}`}
+          </div>
+        )}
+
+        <EmojiPickerPopover onEmojiSelect={(emoji: Emoji) => {
+          const newText = text + emoji.native;
+          setText(newText);
+          props.onChangeFinish(newText);
+        }}
+        />
         <Button
           icon={
             <Icon
@@ -158,17 +170,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
           }}
           buttonType={ButtonType.ICON_BUTTON}
         />
-        <EmojiPickerPopover onEmojiSelect={(emoji: Emoji) => {
-          const newText = text + emoji.native;
-          setText(newText);
-          props.onChangeFinish(newText);
-        }}
-        />
-        {props.maxCharacterCount && (
-          <div className={styles.characterCount}>
-            {`${props.maxCharacterCount - text.length}`}
-          </div>
-        )}
       </HorizontalContainer>
     </VerticalContainer>
   );

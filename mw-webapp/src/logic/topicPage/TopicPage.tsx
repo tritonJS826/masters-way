@@ -319,6 +319,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                   minLengthValidator(MIN_LENGTH_TOPIC_NAME, LanguageService.topic.notifications.topicNameMinLength[language]),
                   maxLengthValidator(MAX_LENGTH_TOPIC_NAME, LanguageService.topic.notifications.topicNameMaxLength[language]),
                 ]}
+                maxCharacterCount={MAX_LENGTH_TOPIC_NAME}
               />
 
               <HorizontalContainer className={styles.topicActionButtons}>
@@ -529,6 +530,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                         LanguageService.topic.notifications.materialNameMaxLength[language],
                       ),
                     ]}
+                    maxCharacterCount={MAX_LENGTH_MATERIAL_NAME}
                   />
                   <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
                     <Confirm
@@ -643,6 +645,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                           LanguageService.topic.notifications.materialNameMaxLength[language],
                         ),
                       ]}
+                      maxCharacterCount={MAX_LENGTH_MATERIAL_NAME}
                     />
                     <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
                       <Confirm

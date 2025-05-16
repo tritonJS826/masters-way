@@ -28,3 +28,18 @@ h4 {
     font-size: $fontSizeBig;
   }
 }
+
+.editButton {
+  position: relative;
+  display: flex;
+  gap: 10px;
+}
+
+.editableTextAreaFooter {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  display: flex;
+  align-items: center;
+  color: var(--tertiaryTextColor);
+}

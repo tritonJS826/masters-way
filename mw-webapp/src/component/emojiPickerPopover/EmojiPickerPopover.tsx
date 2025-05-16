@@ -4,7 +4,7 @@ import {Content as DialogContent, Root as DialogRoot, Trigger as DialogTrigger} 
 import {Button, ButtonType} from "src/component/button/Button";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Theme, themeStore} from "src/globalStore/ThemeStore";
-import styles from "src/component/emojiPicker/EmojiPickerPopover.module.scss";
+import styles from "src/component/emojiPickerPopover/EmojiPickerPopover.module.scss";
 
 /**
  * Emoji type from @emoji-mart/react

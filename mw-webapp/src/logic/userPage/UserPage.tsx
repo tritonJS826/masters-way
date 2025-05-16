@@ -647,6 +647,7 @@ export const UserPage = observer((props: UserPageProps) => {
                     minLengthValidator(MIN_LENGTH_USERNAME, LanguageService.user.notifications.userNameMinLength[language]),
                     maxLengthValidator(MAX_LENGTH_USERNAME, LanguageService.user.notifications.userNameMaxLength[language]),
                   ]}
+                  maxCharacterCount={MAX_LENGTH_USERNAME}
                   className={styles.ownerName}
                 />
 
