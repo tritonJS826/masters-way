@@ -9,6 +9,8 @@ import (
 	"mw-general-bff/internal/services"
 	"mw-general-bff/pkg/utils"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type AuthFacade struct {
@@ -22,7 +24,7 @@ func newAuthFacade(authService *services.AuthService, notificationService *servi
 	return &AuthFacade{authService, notificationService, chatService, config}
 }
 
-func (af *AuthFacade) GetAuthCallbackFunction(ctx context.Context, provider, code, state string) (*openapiGeneral.MwServerInternalSchemasGetAuthCallbackFunctionResponse, error) {
+func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, state string) (*openapiGeneral.MwServerInternalSchemasGetAuthCallbackFunctionResponse, error) {
 	authCallbackFunctionResponse, err := af.authService.GetAuthCallbackFunction(ctx, provider, code, state)
 	if err != nil {
 		return nil, err
@@ -42,6 +44,9 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx context.Context, provider, cod
 			return nil, err
 		}
 
+		// For creating greeting chat room and message we need to set auth headers
+		ctx.Set(auth.ContextKeyUserID, claims.UserID)
+		ctx.Set(auth.ContextKeyAuthorization, "Bearer "+token)
 		greetingDeferredTime := 15 * time.Second
 		go func() {
 			time.Sleep(greetingDeferredTime)
