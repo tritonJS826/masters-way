@@ -7,6 +7,23 @@ import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import styles from "src/component/emojiPickerPopover/EmojiPickerPopover.module.scss";
 
 /**
+ * Emoji picker themes
+ */
+enum EmojiPickerTheme {
+  DARK = "dark",
+  LIGHT = "light",
+}
+
+/**
+ * Emoji picker theme map
+ */
+export const EMOJI_PICKER_THEME_MAP: Map<Theme, EmojiPickerTheme> = new Map([
+  [Theme.DARK, EmojiPickerTheme.DARK],
+  [Theme.LIGHT, EmojiPickerTheme.LIGHT],
+  [Theme.OBSIDIAN, EmojiPickerTheme.DARK],
+]);
+
+/**
  * Emoji type from @emoji-mart/react
  */
 export interface Emoji {
@@ -39,11 +56,7 @@ interface EmojiPickerPopoverProps {
 export const EmojiPickerPopover = (props: EmojiPickerPopoverProps): ReactElement => {
   const [isOpen, setIsOpen] = useState(false);
   const {theme} = themeStore;
-
-  /**
-   * Translate app theme to emoji picker theme
-   */
-  const emojiPickerTheme = () => theme === Theme.LIGHT ? "light" : "dark";
+  const emojiTheme = EMOJI_PICKER_THEME_MAP.get(theme);
 
   return (
     <DialogRoot
@@ -69,7 +82,7 @@ export const EmojiPickerPopover = (props: EmojiPickerPopoverProps): ReactElement
       >
         <div className={styles.emojiPicker}>
           <Picker
-            theme={emojiPickerTheme()}
+            theme={emojiTheme}
             previewPosition="none"
             onEmojiSelect={(emoji: Emoji) => {
               props.onEmojiSelect(emoji);
