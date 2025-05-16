@@ -14,14 +14,27 @@ import (
 )
 
 type AuthFacade struct {
-	authService         *services.AuthService
-	notificationService *services.NotificationService
-	chatService         *services.ChatService
-	config              *config.Config
+	authService          *services.AuthService
+	notificationService  *services.NotificationService
+	chatService          *services.ChatService
+	chatWebSocketService *services.ChatWebSocketService
+	config               *config.Config
 }
 
-func newAuthFacade(authService *services.AuthService, notificationService *services.NotificationService, chatService *services.ChatService, config *config.Config) *AuthFacade {
-	return &AuthFacade{authService, notificationService, chatService, config}
+func newAuthFacade(
+	authService *services.AuthService,
+	notificationService *services.NotificationService,
+	chatService *services.ChatService,
+	chatWebSocketService *services.ChatWebSocketService,
+	config *config.Config,
+) *AuthFacade {
+	return &AuthFacade{
+		authService,
+		notificationService,
+		chatService,
+		chatWebSocketService,
+		config,
+	}
 }
 
 func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, state string) (*openapiGeneral.MwServerInternalSchemasGetAuthCallbackFunctionResponse, error) {
@@ -60,12 +73,20 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, 
 				return
 			}
 
-			err = af.chatService.CreateGreetingMessage(ctx, &services.CreateMessageParams{
-				RoomId: roomId,
+			response, err := af.chatService.CreateGreetingMessage(ctx, &services.CreateMessageParams{
+				RoomId:         roomId,
+				ReceiverUserId: claims.UserID,
 			})
 			if err != nil {
 				fmt.Println("Failed to create greeting message !! This issue should not block use authorization flow")
 			}
+
+			// messageResponse.Message.OwnerName = userMap[messageResponse.Message.OwnerID].Name
+			// messageResponse.Message.OwnerImageURL = userMap[messageResponse.Message.OwnerID].ImageURL
+
+			err = af.chatWebSocketService.SendMessage(ctx, roomId, response)
+			utils.HandleErrorGin(ctx, err)
+
 		}()
 	}
 

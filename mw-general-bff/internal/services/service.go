@@ -10,13 +10,14 @@ import (
 )
 
 type Service struct {
-	AuthService         *AuthService
-	GeneralService      *GeneralService
-	MailService         *MailService
-	StorageService      *StorageService
-	NotificationService *NotificationService
-	ChatService         *ChatService
-	TrainingService     *TrainingService
+	AuthService          *AuthService
+	GeneralService       *GeneralService
+	MailService          *MailService
+	StorageService       *StorageService
+	NotificationService  *NotificationService
+	ChatService          *ChatService
+	ChatWebSocketService *ChatWebSocketService
+	TrainingService      *TrainingService
 }
 
 func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.ClientConn) *Service {
