@@ -48,14 +48,16 @@ func ValidateJWT(tokenString string) (*Claims, error) {
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		authHeader := ctx.GetHeader("Authorization")
+		authHeader := ctx.GetHeader(HeaderKeyAuthorization)
 		if authHeader == "" {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
+			fmt.Println("Authorization header is required")
 			return
 		}
 
 		if !strings.HasPrefix(authHeader, "Bearer ") {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Authorization header must start with Bearer"})
+			fmt.Println("Authorization header must start with Bearer")
 			return
 		}
 
@@ -63,6 +65,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		claims, err := ValidateJWT(tokenString)
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			fmt.Println("Invalid token")
 			return
 		}
 

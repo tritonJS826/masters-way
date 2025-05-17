@@ -12,7 +12,7 @@ type ChatWebSocketService struct {
 	chatWebSocketAPI *openapiMWChatWebSocket.APIClient
 }
 
-func NewChatWebSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient) *ChatWebSocketService {
+func newChatWebSocketService(mwChatWebSocketAPI *openapiMWChatWebSocket.APIClient) *ChatWebSocketService {
 	return &ChatWebSocketService{mwChatWebSocketAPI}
 }
 

@@ -25,6 +25,7 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 	var storageApi = openapi.MakeStorageAPIClient(config)
 	var mailApi = openapi.MakeMailAPIClient(config)
 	var chatApi = openapi.MakeChatAPIClient(config)
+	var chatWebSocketApi = openapi.MakeChatWebsocketAPIClient(config)
 
 	notificationGRPC := pb.NewNotificationServiceClient(notificationConfig)
 	notificationSettingGRPC := pb.NewNotificationSettingServiceClient(notificationConfig)
@@ -36,12 +37,13 @@ func NewService(config *config.Config, notificationConfig, trainingConfig *grpc.
 	trainingMessageToAiGRPC := training.NewTrainingMessageToAIServiceClient(trainingConfig)
 
 	return &Service{
-		AuthService:         newAuthService(generalApi),
-		GeneralService:      newGeneralService(generalApi),
-		MailService:         newMailService(mailApi),
-		StorageService:      newStorageService(storageApi),
-		NotificationService: newNotificationService(notificationGRPC, notificationSettingGRPC),
-		ChatService:         newChatService(chatApi, config),
-		TrainingService:     newTrainingService(trainingGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC),
+		AuthService:          newAuthService(generalApi),
+		GeneralService:       newGeneralService(generalApi),
+		MailService:          newMailService(mailApi),
+		StorageService:       newStorageService(storageApi),
+		NotificationService:  newNotificationService(notificationGRPC, notificationSettingGRPC),
+		ChatService:          newChatService(chatApi, config),
+		ChatWebSocketService: newChatWebSocketService(chatWebSocketApi),
+		TrainingService:      newTrainingService(trainingGRPC, topicGRPC, theoryMaterialGRPC, practiceMaterialGRPC, trainingMessageToAiGRPC),
 	}
 }
