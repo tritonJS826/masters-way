@@ -60,10 +60,12 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, 
 		// For creating greeting chat room and message we need to set auth headers
 		ctx.Set(auth.ContextKeyUserID, claims.UserID)
 		ctx.Set(auth.ContextKeyAuthorization, "Bearer "+token)
+		ctx.Request.Header.Set("Authorization", "Bearer "+token)
 		greetingDeferredTime := 15 * time.Second
 		go func() {
 			time.Sleep(greetingDeferredTime)
 			roomId, err := af.chatService.CreateRoom(ctx, &services.CreateRoomParams{
+				// name is nil for private rooms
 				Name:     nil,
 				RoomType: "private",
 				UserId:   &services.GreetingChatUserId,
@@ -79,6 +81,7 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, 
 			})
 			if err != nil {
 				fmt.Println("Failed to create greeting message !! This issue should not block use authorization flow")
+				return
 			}
 
 			// messageResponse.Message.OwnerName = userMap[messageResponse.Message.OwnerID].Name
