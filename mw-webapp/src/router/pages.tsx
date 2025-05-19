@@ -176,6 +176,14 @@ const TrainingWithAILandingPage = () => (<>
   <TrainingWithAILandingPageLazy />
 </>);
 
+const LoremLandingPageLazy = React.lazy(() => import(
+  "src/logic/staticPages/landingPages/landings/loremLandingPage/LoremLandingPage"
+)
+  .then((module) => ({default: module.LoremLandingPage})));
+const LoremLandingPage = () => (<>
+  <LoremLandingPageLazy />
+</>);
+
 const SmallBusinessLandingPageLazy = React.lazy(() => import(
   "src/logic/staticPages/landingPages/landings/businessLandingPage/BusinessLandingPage"
 )
@@ -284,6 +292,12 @@ export const pages = {
     getPath: () => "/land/trainingWithAI",
     // TODO
     getPageComponent: () => suspended(<TrainingWithAILandingPage />),
+    urlParams: {},
+  } as PageParams,
+  landingLorem: {
+    getPath: () => "/land/loremWithAI",
+    // TODO
+    getPageComponent: () => suspended(<LoremLandingPage />),
     urlParams: {},
   } as PageParams,
   landingBusiness: {

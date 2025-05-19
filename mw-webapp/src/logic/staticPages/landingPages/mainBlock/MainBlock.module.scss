@@ -17,16 +17,12 @@
 .image {
   @include imageOnBackgroundWithGradient;
   opacity: 1;
-  mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 60%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0) 60%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 60%,
+      rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: linear-gradient(to right,
+      rgba(0, 0, 0, 0) 60%,
+      rgba(0, 0, 0, 1) 100%);
 
   @media only screen and (max-width: $mediaWidthMobileMedium) {
     object-fit: cover;

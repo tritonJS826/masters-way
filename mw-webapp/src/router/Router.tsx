@@ -120,6 +120,11 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
+          path={pages.landingLorem.getPath({})}
+          element={<WithValidatedParams paramsSchema={pages.landingLorem} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
           path={pages.landingBusiness.getPath({})}
           element={<WithValidatedParams paramsSchema={pages.landingBusiness} />}
           errorElement={pages.errorPage.getPageComponent({})}

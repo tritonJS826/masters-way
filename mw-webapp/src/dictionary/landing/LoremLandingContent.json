@@ -1,0 +1,388 @@
+{
+  "navigation": {
+    "video": {
+      "ru": "С чего начать?",
+      "en": "What to start with?",
+      "ua": "З чого почати?"
+    },
+    "advantages": {
+      "ru": "Преимущества",
+      "en": "Advantages",
+      "ua": "Переваги"
+    },
+    "solutions": {
+      "ru": "Решения",
+      "en": "Solutions",
+      "ua": "Рішення"
+    },
+    "reviews": {
+      "ru": "Отзывы",
+      "en": "Reviews",
+      "ua": "Відгуки"
+    },
+    "pricing": {
+      "ru": "Тарифы",
+      "en": "Pricing",
+      "ua": "Тарифи"
+    },
+    "questions": {
+      "ru": "Вопросы",
+      "en": "Questions",
+      "ua": "Питання"
+    }
+  },
+  "callToActionButton": {
+    "ru": "Lorem ipsum",
+    "en": "Lorem ipsum",
+    "ua": "Lorem ipsum"
+  },
+  "main": {
+    "title": {
+      "ru": "Lorem ipsum dolor sit.",
+      "en": "Lorem ipsum dolor sit.",
+      "ua": "Lorem ipsum dolor sit."
+    },
+    "grow": {
+      "ru": "Create a personal course with AI",
+      "en": "Create a personal course with AI",
+      "ua": "Create a personal course with AI"
+    },
+    "description": {
+      "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    "backgroundImageAlt": {
+      "ru": "Lorem",
+      "en": "Lorem",
+      "ua": "Lorem"
+    }
+  },
+  "videoBlock": {
+    "title": {
+      "ru": "Lorem ipsum?",
+      "en": "Lorem ipsum?",
+      "ua": "Lorem ipsum?"
+    },
+    "description": {
+      "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    },
+    "videoPath": {
+      "ru": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY",
+      "en": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY",
+      "ua": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY"
+    },
+    "callToActionButton": {
+      "ru": "Lorem ipsum",
+      "en": "Lorem ipsum",
+      "ua": "Lorem ipsum"
+    }
+  },
+  "advantages": {
+    "title": {
+      "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+      "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+      "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?"
+    },
+    "structuredPlan": {
+      "title": {
+        "ru": "Lorem ipsum dolor",
+        "en": "Lorem ipsum dolor",
+        "ua": "Lorem ipsum dolor"
+      },
+      "description": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      }
+    },
+    "adaptability": {
+      "title": {
+        "ru": "Lorem ipsum dolor",
+        "en": "Lorem ipsum dolor",
+        "ua": "Lorem ipsum dolor"
+      },
+      "description": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      }
+    },
+    "saveTime": {
+      "title": {
+        "ru": "Lorem ipsum dolor",
+        "en": "Lorem ipsum dolor",
+        "ua": "Lorem ipsum dolor"
+      },
+      "description": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      }
+    }
+  },
+  "amountBlock": {
+    "trainings": {
+      "ru": "Lorem ipsum dolor sit amet.",
+      "en": "Lorem ipsum dolor sit amet.",
+      "ua": "Lorem ipsum dolor sit amet."
+    },
+    "activeStudents": {
+      "ru": "Lorem ipsum dolor sit amet.",
+      "en": "Lorem ipsum dolor sit amet.",
+      "ua": "Lorem ipsum dolor sit amet."
+    },
+    "mentors": {
+      "ru": "Lorem ipsum dolor sit amet.",
+      "en": "Lorem ipsum dolor sit amet.",
+      "ua": "Lorem ipsum dolor sit amet."
+    }
+  },
+  "solutions": {
+    "title": {
+      "ru": "Lorem ipsum dolor sit amet",
+      "en": "Lorem ipsum dolor sit amet",
+      "ua": "Lorem ipsum dolor sit amet"
+    },
+    "description": {
+      "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    "userInterests": {
+      "title": {
+        "ru": "Lorem ipsum dolor sit amet?",
+        "en": "Lorem ipsum dolor sit amet?",
+        "ua": "Lorem ipsum dolor sit amet?"
+      },
+      "description": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "callToActionButton": {
+        "ru": "Lorem ipsum dolor",
+        "en": "Lorem ipsum dolor",
+        "ua": "Lorem ipsum dolor"
+      }
+    },
+    "mentoringSupport": {
+      "title": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?"
+      },
+      "description": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "callToActionButton": {
+        "ru": "Lorem ipsum dolor",
+        "en": "Lorem ipsum dolor",
+        "ua": "Lorem ipsum dolor"
+      }
+    },
+    "progressMonitoring": {
+      "title": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?"
+      },
+      "description": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "callToActionButton": {
+        "ru": "Lorem ipsum dolor",
+        "en": "Lorem ipsum dolor",
+        "ua": "Lorem ipsum dolor"
+      }
+    }
+  },
+  "reviews": {
+    "title": {
+      "ru": "Lorem ipsum dolor",
+      "en": "Lorem ipsum dolor",
+      "ua": "Lorem ipsum dolor"
+    },
+    "kirillReview": {
+      "review": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "mentorName": {
+        "ru": "Lorem",
+        "en": "Lorem",
+        "ua": "Lorem"
+      },
+      "mentorProfession": {
+        "ru": "Lorem ipsum",
+        "en": "Lorem ipsumr",
+        "ua": "Lorem ipsum"
+      }
+    },
+    "viktarReview": {
+      "review": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "mentorName": {
+        "ru": "Lorem",
+        "en": "Lorem",
+        "ua": "Lorem"
+      },
+      "mentorProfession": {
+        "ru": "Lorem ipsum",
+        "en": "Lorem ipsum",
+        "ua": "Lorem ipsum"
+      }
+    },
+    "viktoryiaReview": {
+      "review": {
+        "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      },
+      "mentorName": {
+        "ru": "Lorem",
+        "en": "Lorem",
+        "ua": "Lorem"
+      },
+      "mentorProfession": {
+        "ru": "Lorem ipsum",
+        "en": "Lorem ipsum",
+        "ua": "Lorem ipsum"
+      }
+    }
+  },
+  "pricing": {
+    "title": {
+      "ru": "Lorem ipsum dolor sit",
+      "en": "Lorem ipsum dolor sit",
+      "ua": "Lorem ipsum dolor sit"
+    }
+  },
+  "questions": {
+    "title": {
+      "ru": "Lorem ipsum dolor sit",
+      "en": "Lorem ipsum dolor sit",
+      "ua": "Lorem ipsum dolor sit"
+    },
+    "accordion": [
+      {
+        "id": 0,
+        "question": {
+          "ru": "Lorem ipsum dolor sit?",
+          "en": "Lorem ipsum dolor sit?",
+          "ua": "Lorem ipsum dolor sit?"
+        },
+        "answer": {
+          "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      },
+      {
+        "id": 1,
+        "question": {
+          "ru": "Lorem ipsum dolor sit?",
+          "en": "Lorem ipsum dolor sit?",
+          "ua": "Lorem ipsum dolor sit?"
+        },
+        "answer": {
+          "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      },
+      {
+        "id": 2,
+        "question": {
+          "ru": "Lorem ipsum dolor sit?",
+          "en": "Lorem ipsum dolor sit?",
+          "ua": "Lorem ipsum dolor sit?"
+        },
+        "answer": {
+          "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      },
+      {
+        "id": 3,
+        "question": {
+          "ru": "Lorem ipsum dolor sit?",
+          "en": "Lorem ipsum dolor sit?",
+          "ua": "Lorem ipsum dolor sit?"
+        },
+        "answer": {
+          "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      },
+      {
+        "id": 4,
+        "question": {
+          "ru": "Lorem ipsum dolor sit?",
+          "en": "Lorem ipsum dolor sit?",
+          "ua": "Lorem ipsum dolor sit?"
+        },
+        "answer": {
+          "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      },
+      {
+        "id": 5,
+        "question": {
+          "ru": "Lorem ipsum dolor sit?",
+          "en": "Lorem ipsum dolor sit?",
+          "ua": "Lorem ipsum dolor sit?"
+        },
+        "answer": {
+          "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      },
+      {
+        "id": 6,
+        "question": {
+          "ru": "Lorem ipsum dolor sit?",
+          "en": "Lorem ipsum dolor sit?",
+          "ua": "Lorem ipsum dolor sit?"
+        },
+        "answer": {
+          "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        }
+      }
+    ]
+  },
+  "aboutApp": {
+    "title": {
+      "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+      "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+      "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?"
+    },
+    "tryOurApp": {
+      "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    "ourAppIs": {
+      "ru": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "ua": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    }
+  }
+}
