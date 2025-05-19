@@ -5,6 +5,7 @@ import {PricingBlock} from "src/component/pricingBlock/PricingBlock";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
+import {pricePlansList} from "src/logic/pricePlans";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/staticPages/pricingPage/PricingPage.module.scss";
 
@@ -28,7 +29,7 @@ export const PricingPage = observer(() => {
         <p className={styles.pricingDescription}>
           {LanguageService.pricing.pricingBlock.description[language]}
         </p>
-        <PricingBlock pricePlans={pricePlansTraining} />
+        <PricingBlock pricePlans={pricePlansList} />
 
       </VerticalContainer>
       <Footer language={language} />
