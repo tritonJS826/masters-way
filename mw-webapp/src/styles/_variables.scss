@@ -4,6 +4,7 @@ $primaryFontFamily: "Roboto", sans-serif;
 // Font size
 $fontSizeTitleLarge: 64px;
 $fontSizeTitleBig: 40px;
+$fontSizeTitleExtraMedium: 30px;
 $fontSizeTitleMedium: 24px;
 $fontSizeTitleSmall: 18px;
 $fontSizeTitleExtraSmall: 12px;
@@ -41,6 +42,7 @@ $elementHoverTransition: 650ms;
 $tertiaryTransitionDuration: 500ms;
 
 // z-index
+$titleOnBackgroundImageZIndex: 90;
 $sidebarZIndex: 100;
 $headerLandingZIndex: 100;
 $chatZIndex: 100;
@@ -115,6 +117,7 @@ $scrollbarThickness: 8px;
 // MediaQuery widths
 $mediaWidthMobileSmall: 320px;
 $mediaWidthMobileMedium: 434px;
+$mediaWidthMobileExtraMedium: 480px;
 $mediaWidthMobileBig: 600px;
 $mediaWidthTablet: 768px;
 $mediaWidthTabletBig: 1100px;

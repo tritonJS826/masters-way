@@ -16,7 +16,7 @@ interface CapabilityItemProps {
   /**
    * Pan's capability amount
    */
-  amount: number;
+  amount?: number | null;
 
   /**
    * Is available
@@ -37,7 +37,7 @@ export const CapabilityItem = (props: CapabilityItemProps) => {
       />
       <p>
         {props.value}
-        {props.amount !== 0 && ` (${props.amount})`}
+        {props.amount !== 0 && props.amount !== null && ` (${props.amount})`}
       </p>
     </HorizontalContainer>
   );

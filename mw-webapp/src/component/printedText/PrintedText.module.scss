@@ -1,0 +1,24 @@
+@import "src/styles/variables";
+
+.printedTextContainer {
+  display: flex;
+  width: auto;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.cursor {
+  display: inline-block;
+  height: 1em;
+  vertical-align: bottom;
+  margin-left: 2px;
+  margin-bottom: 2%;
+  animation: cursor 1s infinite;
+  border-right: 5px solid var(--primaryTextColor);
+}
+
+@keyframes cursor {
+  50% {
+    border-color: transparent;
+  }
+}

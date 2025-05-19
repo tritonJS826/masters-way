@@ -5,6 +5,7 @@
 
   @media (max-width: $mediaWidthMobileBig) {
     flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -40,11 +41,19 @@
 
 .problemTitleDescription,
 .problemTitle {
-  width: 50%;
+  width: 60%;
 
   @media (max-width: $mediaWidthTabletBig) {
-    width: 80%;
+    width: 100%;
   }
+}
+
+.button {
+  align-self: flex-start;
+}
+
+.buttonReversed {
+  align-self: flex-end;
 }
 
 .reversed {

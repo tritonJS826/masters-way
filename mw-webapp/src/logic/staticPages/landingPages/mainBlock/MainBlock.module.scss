@@ -1,0 +1,89 @@
+@import "src/styles/variables";
+
+.mainBlock {
+  position: relative;
+  max-width: $maxWidthLandingContainer;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  margin: 0 auto;
+  background-color: var(--secondaryBgColor);
+  gap: $gapBig;
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingMedium;
+  }
+}
+
+.image {
+  @include imageOnBackgroundWithGradient;
+  opacity: 1;
+  mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 1) 100%
+  );
+
+  @media only screen and (max-width: $mediaWidthMobileMedium) {
+    object-fit: cover;
+  }
+}
+
+.titleBlock {
+  gap: $gapBig;
+  z-index: $titleOnBackgroundImageZIndex;
+}
+
+.title {
+  display: inline;
+  text-align: center;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  font-size: $fontSizeTitleLarge;
+
+  @media only screen and (max-width: $mediaWidthTablet) {
+    font-size: $fontSizeTitleBig;
+  }
+
+  @media only screen and (max-width: $mediaWidthMobileBig) {
+    font-size: $fontSizeTitleExtraMedium;
+  }
+}
+
+.titleDescription {
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.icon {
+  stroke: var(--secondaryStrokeColor);
+}
+
+.mainBlockButton {
+  margin-top: $marginBig;
+  z-index: $titleOnBackgroundImageZIndex;
+}
+
+@keyframes cursor {
+  0% {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: var(--primaryTextColor);
+  }
+
+  100% {
+    border-color: transparent;
+  }
+}
+
+@keyframes printedText {
+  from {
+    width: 0;
+  }
+}

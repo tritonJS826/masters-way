@@ -43,6 +43,9 @@ export const LandingsPage = observer(() => {
         <Link path={pages.landingBusiness.getPath({})}>
           Landing page for companies
         </Link>
+        <Link path={pages.landingTrainingWithAI.getPath({})}>
+          Landing page for create training with AI
+        </Link>
       </VerticalContainer>
       <FooterLanding language={language} />
     </>

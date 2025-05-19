@@ -19,42 +19,113 @@ export interface CapabilitiesType {
   /**
    * Own ways
    */
-  ownWays: number;
+  ownWays?: number;
 
   /**
    * Private ways
    */
-  privateWays: number;
+  privateWays?: number;
 
   /**
    * Day reports
    */
-  dayReports: number;
+  dayReports?: number;
 
   /**
    * User skills
    */
-  skills: number;
+  skills?: number;
 
   /**
    * Mentoring ways
    */
-  mentoringWays: number;
+  mentoringWays?: number;
 
   /**
    * Custom collections
    */
-  customCollections: number;
+  customCollections?: number;
 
   /**
    * Composite way deps
    */
-  compositeWayDeps: number;
+  compositeWayDeps?: number;
 
   /**
    * Mentoring support
    */
-  mentorSupport: number;
+  mentorSupport?: number | null;
+
+  /**
+   * Ds
+   */
+  ownTrainings?: null;
+
+  /**
+   * Ds
+   */
+  trackProgress?: null;
+
+  /**
+   * Ds
+   */
+  chat?: null;
+
+  /**
+   * Ds
+   */
+  notifications?: null;
+
+  /**
+   * Ds
+   */
+  aiSupport?: null;
+
+  /**
+   * Sd
+   */
+  mobileSupport?: null;
+
+  /**
+   * Sd
+   */
+  allInStart?: null;
+
+  /**
+   * Df
+   */
+  consultation?: null;
+
+  /**
+   * Df
+   */
+  secondMeeting?: null;
+
+  /**
+   * Sdf
+   */
+  allInGrow?: null;
+
+  /**
+   * Ds
+   */
+  prioritySupport?: null;
+
+  /**
+   * Ds
+   */
+  featureRequest?: null;
+
+  /**
+   * Ds
+   */
+  onboarding?: null;
+
+  // /**
+  //  * Ds
+  //  */
+  // ownTrainings: number;
+
 }
 
 /**
@@ -85,12 +156,22 @@ export interface PricePlanType {
   /**
    * Period price plan
    */
-  period: "month" | "year" | "free";
+  period: "month" | "year" | "free" | "individually";
 
   /**
    * Capabilities
    */
   capabilities: CapabilitiesType;
+
+  /**
+   * CTA button value
+   */
+  buttonValue: "start" | "grow" | "scale";
+
+  /**
+   * Callback triggered on CTA button click
+   */
+  onCLick: () => void;
 }
 
 /**
@@ -102,6 +183,7 @@ interface PricePlanProps {
    * Price plan
    */
   pricePlan: PricePlanType;
+
 }
 
 /**
@@ -134,10 +216,17 @@ export const PricePlan = observer((props: PricePlanProps) => {
       {<p className={styles.priceAmount}>
         {props.pricePlan.period === "free"
           ? LanguageService.pricing.free[language].toUpperCase()
-          : `$${props.pricePlan.price}`}
-        {props.pricePlan.period !== "free" &&
+          : props.pricePlan.period === "individually"
+            ? LanguageService.pricing.individually[language].toUpperCase()
+            : `$${props.pricePlan.price}`}
+        {props.pricePlan.period !== "free" && props.pricePlan.period !== "individually" &&
         <span className={styles.measurement}>
           {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
+        </span>
+        }
+        {props.pricePlan.period === "month" &&
+        <span className={styles.measurement}>
+          {" or 420$/year"}
         </span>
         }
         {props.pricePlan.period === "year" &&
@@ -148,21 +237,33 @@ export const PricePlan = observer((props: PricePlanProps) => {
       </p>
       }
 
-      <Modal
-        trigger={
-          <Button
-            onClick={TrackUserPage.trackUpgradeToPremiumClick}
-            value={LanguageService.pricing.choose[language]}
-            buttonType={ButtonType.PRIMARY}
-            className={styles.buyPlanButton}
+      {props.pricePlan.buttonValue === "start" ?
+
+        <Button
+          onClick={props.pricePlan.onCLick}
+          value={LanguageService.pricing.planCard.callToActionButton[props.pricePlan.buttonValue][language]}
+          buttonType={ButtonType.PRIMARY}
+          className={styles.buyPlanButton}
+        />
+        : (
+          <Modal
+            trigger={
+              <Button
+                onClick={TrackUserPage.trackUpgradeToPremiumClick}
+                value={LanguageService.pricing.planCard.callToActionButton[props.pricePlan.buttonValue][language]}
+                buttonType={ButtonType.PRIMARY}
+                className={styles.buyPlanButton}
+              />
+            }
+            content={
+              <VerticalContainer>
+                {renderMarkdown(LanguageService.common.payments.contactUsModal[language])}
+              </VerticalContainer>
+            }
           />
-        }
-        content={
-          <VerticalContainer>
-            {renderMarkdown(LanguageService.common.payments.donateModal[language])}
-          </VerticalContainer>
-        }
-      />
+        )
+      }
+
     </VerticalContainer>
   );
 });

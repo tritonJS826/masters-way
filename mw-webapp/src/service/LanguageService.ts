@@ -10,6 +10,7 @@ import businessLanding from "src/dictionary/landing/BusinessLandingContent.json"
 import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
+import trainingWithAiLanding from "src/dictionary/landing/TrainingWithAILandingContent.json";
 import modals from "src/dictionary/Modals.json";
 import notificationBlockContent from "src/dictionary/NotificationBLockContent.json";
 import partnershipPageContent from "src/dictionary/PartnershipPageContent.json";
@@ -173,6 +174,13 @@ export class LanguageService {
    */
   public static get studentsWithAiLanding() {
     return studentsWithAiLanding;
+  }
+
+  /**
+   * Training with AI landing content
+   */
+  public static get trainingWithAiLanding() {
+    return trainingWithAiLanding;
   }
 
   /**
