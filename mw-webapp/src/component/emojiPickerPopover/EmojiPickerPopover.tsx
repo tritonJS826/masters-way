@@ -7,6 +7,32 @@ import {Theme, themeStore} from "src/globalStore/ThemeStore";
 import styles from "src/component/emojiPickerPopover/EmojiPickerPopover.module.scss";
 
 /**
+ * Emoji object from emoji-mart, but the library type is not matching the expected type
+ */
+export interface Emoji {
+
+  /**
+   * Emoji identifier
+   */
+  id: string;
+
+  /**
+   * Display name
+   */
+  name: string;
+
+  /**
+   * Unicode emoji character for display
+   */
+  native: string;
+
+  /**
+   * Search keywords
+   */
+  keywords: string[];
+}
+
+/**
  * Emoji picker themes
  */
 enum EmojiPickerTheme {
@@ -22,17 +48,6 @@ export const EMOJI_PICKER_THEME_MAP: Map<Theme, EmojiPickerTheme> = new Map([
   [Theme.LIGHT, EmojiPickerTheme.LIGHT],
   [Theme.OBSIDIAN, EmojiPickerTheme.DARK],
 ]);
-
-/**
- * Emoji type from @emoji-mart/react
- */
-export interface Emoji {
-
-  /**
-   * Emoji native
-   */
-  native: string;
-}
 
 /**
  * EmojiPickerPopover props

@@ -51,7 +51,6 @@
     "chart.js": "4.4.3",
     "clsx": "2.1.0",
     "emoji-mart": "5.6.0",
-    "emoji-picker-react": "4.12.2",
     "mobx": "6.12.5",
     "mobx-react-lite": "4.0.7",
     "pdfmake": "0.2.11",

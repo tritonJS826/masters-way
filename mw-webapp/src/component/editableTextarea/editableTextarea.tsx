@@ -174,6 +174,26 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     </VerticalContainer>
   );
 
+  /**
+   * Render Edit Button
+   */
+  const renderEditButton = () => (
+    <div className={styles.editButton}>
+      <Button
+        icon={
+          <Icon
+            size={IconSize.SMALL}
+            name="PenToolIcon"
+          />
+        }
+        onClick={() => {
+          setIsEditing(true);
+        }}
+        buttonType={ButtonType.ICON_BUTTON}
+      />
+    </div>
+  );
+
   return (
     <div
       onDoubleClick={() => {
@@ -189,25 +209,10 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       {isEditing
         ? renderTextarea()
         : (
-          <>
-            <Text text={isEmptyText ? props.placeholder : text} />
-          </>
+          <Text text={isEmptyText ? props.placeholder : text} />
         )}
       {!isEditing && (
-        <div className={styles.editButton}>
-          <Button
-            icon={
-              <Icon
-                size={IconSize.SMALL}
-                name="PenToolIcon"
-              />
-            }
-            onClick={() => {
-              setIsEditing(true);
-            }}
-            buttonType={ButtonType.ICON_BUTTON}
-          />
-        </div>
+        renderEditButton()
       )}
     </div>
   );
