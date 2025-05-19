@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost/mw-training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateTopic**](TopicAPI.md#CreateTopic) | **Post** /topics/{trainingId} | Create topic
+[**CreateTopics**](TopicAPI.md#CreateTopics) | **Post** /topics/{trainingId} | Create topics (bunch create)
 [**DeleteTopic**](TopicAPI.md#DeleteTopic) | **Delete** /topics/{topicId} | Delete topic by Uuid
 [**GetTopic**](TopicAPI.md#GetTopic) | **Get** /topics/{topicId} | Get topic by id
 [**UpdateTopic**](TopicAPI.md#UpdateTopic) | **Patch** /topics/{topicId} | Update topic
 
 
 
-## CreateTopic
+## CreateTopics
 
-> MwTrainingBffInternalSchemasTopicPreview CreateTopic(ctx, trainingId).Request(request).TopicParentId(topicParentId).Execute()
+> MwTrainingBffInternalSchemasTopicsPreview CreateTopics(ctx, trainingId).Request(request).TopicsParentId(topicsParentId).Execute()
 
-Create topic
+Create topics (bunch create)
 
 ### Example
 
@@ -31,18 +31,18 @@ import (
 
 func main() {
 	trainingId := "trainingId_example" // string | training id
-	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateTopicPayload() // MwTrainingBffInternalSchemasCreateTopicPayload | query params
-	topicParentId := "topicParentId_example" // string | Topic parent id (optional)
+	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateTopicsPayload([]openapiclient.MwTrainingBffInternalSchemasCreateTopicPayload{*openapiclient.NewMwTrainingBffInternalSchemasCreateTopicPayload()}) // MwTrainingBffInternalSchemasCreateTopicsPayload | query params
+	topicsParentId := "topicsParentId_example" // string | Topics parent id (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TopicAPI.CreateTopic(context.Background(), trainingId).Request(request).TopicParentId(topicParentId).Execute()
+	resp, r, err := apiClient.TopicAPI.CreateTopics(context.Background(), trainingId).Request(request).TopicsParentId(topicsParentId).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.CreateTopic``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.CreateTopics``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `CreateTopic`: MwTrainingBffInternalSchemasTopicPreview
-	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.CreateTopic`: %v\n", resp)
+	// response from `CreateTopics`: MwTrainingBffInternalSchemasTopicsPreview
+	fmt.Fprintf(os.Stdout, "Response from `TopicAPI.CreateTopics`: %v\n", resp)
 }
 ```
 
@@ -56,18 +56,18 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCreateTopicRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiCreateTopicsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **request** | [**MwTrainingBffInternalSchemasCreateTopicPayload**](MwTrainingBffInternalSchemasCreateTopicPayload.md) | query params | 
- **topicParentId** | **string** | Topic parent id | 
+ **request** | [**MwTrainingBffInternalSchemasCreateTopicsPayload**](MwTrainingBffInternalSchemasCreateTopicsPayload.md) | query params | 
+ **topicsParentId** | **string** | Topics parent id | 
 
 ### Return type
 
-[**MwTrainingBffInternalSchemasTopicPreview**](MwTrainingBffInternalSchemasTopicPreview.md)
+[**MwTrainingBffInternalSchemasTopicsPreview**](MwTrainingBffInternalSchemasTopicsPreview.md)
 
 ### Authorization
 

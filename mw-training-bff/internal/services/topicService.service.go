@@ -22,8 +22,8 @@ func NewTopicService(
 	return &TopicService{topicGRPC, generalAPI}
 }
 
-type CreateTopicParams struct {
-	Name            string
+type CreateTopicsParams struct {
+	Names           []string
 	TrainingUuid    string
 	TopicOrder      int32
 	ParentTopicUuid *string
@@ -90,26 +90,38 @@ func (ts *TopicService) GetTopicById(ctx context.Context, topicUuid string) (*sc
 	}, nil
 }
 
-func (ts *TopicService) CreateTopic(ctx context.Context, params *CreateTopicParams) (*schemas.TopicPreview, error) {
-	topic, err := ts.topicGRPC.CreateTopic(ctx, &pb.CreateTopicRequest{
-		Name:            params.Name,
-		TrainingUuid:    params.TrainingUuid,
-		TopicOrder:      params.TopicOrder,
-		ParentTopicUuid: params.ParentTopicUuid,
+func (ts *TopicService) CreateTopics(ctx context.Context, params *CreateTopicsParams) (*schemas.TopicsPreview, error) {
+	args := lo.Map(params.Names, func(topicName string, _ int) *pb.CreateTopicRequest {
+		return &pb.CreateTopicRequest{
+			Name:            topicName,
+			TrainingUuid:    params.TrainingUuid,
+			TopicOrder:      params.TopicOrder,
+			ParentTopicUuid: params.ParentTopicUuid,
+		}
+	})
+
+	topicsRaw, err := ts.topicGRPC.CreateTopics(ctx, &pb.CreateTopicsRequest{
+		CreateTopicRequest: args,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	return &schemas.TopicPreview{
-		Uuid:                   topic.Uuid,
-		Name:                   topic.Name,
-		TrainingUuid:           topic.TrainingUuid,
-		TopicOrder:             topic.TopicOrder,
-		ParentUuid:             topic.ParentTopicUuid,
-		TheoryMaterialAmount:   topic.PracticeMaterialsAmount,
-		PracticeMaterialAmount: topic.PracticeMaterialsAmount,
-		CreatedAt:              topic.CreatedAt,
+	topics := lo.Map(topicsRaw.TopicsPreview, func(topic *pb.TopicPreview, _ int) *schemas.TopicPreview {
+		return &schemas.TopicPreview{
+			Uuid:                   topic.Uuid,
+			Name:                   topic.Name,
+			TrainingUuid:           topic.TrainingUuid,
+			TopicOrder:             topic.TopicOrder,
+			ParentUuid:             topic.ParentTopicUuid,
+			TheoryMaterialAmount:   topic.TheoryMaterialsAmount,
+			PracticeMaterialAmount: topic.PracticeMaterialsAmount,
+			CreatedAt:              topic.CreatedAt,
+		}
+	})
+
+	return &schemas.TopicsPreview{
+		Topics: topics,
 	}, nil
 }
 

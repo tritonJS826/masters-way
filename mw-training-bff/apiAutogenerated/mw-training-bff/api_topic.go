@@ -24,39 +24,39 @@ import (
 // TopicAPIService TopicAPI service
 type TopicAPIService service
 
-type ApiCreateTopicRequest struct {
+type ApiCreateTopicsRequest struct {
 	ctx context.Context
 	ApiService *TopicAPIService
 	trainingId string
-	request *MwTrainingBffInternalSchemasCreateTopicPayload
-	topicParentId *string
+	request *MwTrainingBffInternalSchemasCreateTopicsPayload
+	topicsParentId *string
 }
 
 // query params
-func (r ApiCreateTopicRequest) Request(request MwTrainingBffInternalSchemasCreateTopicPayload) ApiCreateTopicRequest {
+func (r ApiCreateTopicsRequest) Request(request MwTrainingBffInternalSchemasCreateTopicsPayload) ApiCreateTopicsRequest {
 	r.request = &request
 	return r
 }
 
-// Topic parent id
-func (r ApiCreateTopicRequest) TopicParentId(topicParentId string) ApiCreateTopicRequest {
-	r.topicParentId = &topicParentId
+// Topics parent id
+func (r ApiCreateTopicsRequest) TopicsParentId(topicsParentId string) ApiCreateTopicsRequest {
+	r.topicsParentId = &topicsParentId
 	return r
 }
 
-func (r ApiCreateTopicRequest) Execute() (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
-	return r.ApiService.CreateTopicExecute(r)
+func (r ApiCreateTopicsRequest) Execute() (*MwTrainingBffInternalSchemasTopicsPreview, *http.Response, error) {
+	return r.ApiService.CreateTopicsExecute(r)
 }
 
 /*
-CreateTopic Create topic
+CreateTopics Create topics (bunch create)
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param trainingId training id
- @return ApiCreateTopicRequest
+ @return ApiCreateTopicsRequest
 */
-func (a *TopicAPIService) CreateTopic(ctx context.Context, trainingId string) ApiCreateTopicRequest {
-	return ApiCreateTopicRequest{
+func (a *TopicAPIService) CreateTopics(ctx context.Context, trainingId string) ApiCreateTopicsRequest {
+	return ApiCreateTopicsRequest{
 		ApiService: a,
 		ctx: ctx,
 		trainingId: trainingId,
@@ -64,16 +64,16 @@ func (a *TopicAPIService) CreateTopic(ctx context.Context, trainingId string) Ap
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopicPreview
-func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicsPreview
+func (a *TopicAPIService) CreateTopicsExecute(r ApiCreateTopicsRequest) (*MwTrainingBffInternalSchemasTopicsPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicsPreview
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopic")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopics")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -88,8 +88,8 @@ func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTraini
 		return localVarReturnValue, nil, reportError("request is required and must be specified")
 	}
 
-	if r.topicParentId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "topicParentId", r.topicParentId, "", "")
+	if r.topicsParentId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "topicsParentId", r.topicsParentId, "", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -148,14 +148,14 @@ func (a *TopicAPIService) CreateTopicExecute(r ApiCreateTopicRequest) (*MwTraini
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasTopicPreviewStream
-func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopicPreview, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTopicsPreviewStream
+func (a *TopicAPIService) CreateTopicsStreamExecute(r ApiCreateTopicsRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTopicsPreview, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwTrainingBffInternalSchemasTopicPreview
+		localVarReturnValue  *MwTrainingBffInternalSchemasTopicsPreview
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopic")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.CreateTopics")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -169,9 +169,9 @@ func (a *TopicAPIService) CreateTopicStreamExecute(r ApiCreateTopicRequest, requ
 
 
 
-	if r.topicParentId != nil {
+	if r.topicsParentId != nil {
 		// TODO: It should not render
-			parameterAddToHeaderOrQuery(localVarQueryParams, "topicParentId", r.topicParentId, "", "")
+			parameterAddToHeaderOrQuery(localVarQueryParams, "topicsParentId", r.topicsParentId, "", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}

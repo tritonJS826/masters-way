@@ -1166,7 +1166,7 @@ var TheoryMaterialService_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TopicsServiceClient interface {
 	GetTopicById(ctx context.Context, in *GetTopicByIdRequest, opts ...grpc.CallOption) (*Topic, error)
-	CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error)
+	CreateTopics(ctx context.Context, in *CreateTopicsRequest, opts ...grpc.CallOption) (*TopicsPreview, error)
 	UpdateTopic(ctx context.Context, in *UpdateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error)
 	DeleteTopic(ctx context.Context, in *DeleteTopicRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -1188,9 +1188,9 @@ func (c *topicsServiceClient) GetTopicById(ctx context.Context, in *GetTopicById
 	return out, nil
 }
 
-func (c *topicsServiceClient) CreateTopic(ctx context.Context, in *CreateTopicRequest, opts ...grpc.CallOption) (*TopicPreview, error) {
-	out := new(TopicPreview)
-	err := c.cc.Invoke(ctx, "/training.TopicsService/CreateTopic", in, out, opts...)
+func (c *topicsServiceClient) CreateTopics(ctx context.Context, in *CreateTopicsRequest, opts ...grpc.CallOption) (*TopicsPreview, error) {
+	out := new(TopicsPreview)
+	err := c.cc.Invoke(ctx, "/training.TopicsService/CreateTopics", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1220,7 +1220,7 @@ func (c *topicsServiceClient) DeleteTopic(ctx context.Context, in *DeleteTopicRe
 // for forward compatibility
 type TopicsServiceServer interface {
 	GetTopicById(context.Context, *GetTopicByIdRequest) (*Topic, error)
-	CreateTopic(context.Context, *CreateTopicRequest) (*TopicPreview, error)
+	CreateTopics(context.Context, *CreateTopicsRequest) (*TopicsPreview, error)
 	UpdateTopic(context.Context, *UpdateTopicRequest) (*TopicPreview, error)
 	DeleteTopic(context.Context, *DeleteTopicRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedTopicsServiceServer()
@@ -1233,8 +1233,8 @@ type UnimplementedTopicsServiceServer struct {
 func (UnimplementedTopicsServiceServer) GetTopicById(context.Context, *GetTopicByIdRequest) (*Topic, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopicById not implemented")
 }
-func (UnimplementedTopicsServiceServer) CreateTopic(context.Context, *CreateTopicRequest) (*TopicPreview, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTopic not implemented")
+func (UnimplementedTopicsServiceServer) CreateTopics(context.Context, *CreateTopicsRequest) (*TopicsPreview, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTopics not implemented")
 }
 func (UnimplementedTopicsServiceServer) UpdateTopic(context.Context, *UpdateTopicRequest) (*TopicPreview, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTopic not implemented")
@@ -1273,20 +1273,20 @@ func _TopicsService_GetTopicById_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TopicsService_CreateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTopicRequest)
+func _TopicsService_CreateTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTopicsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TopicsServiceServer).CreateTopic(ctx, in)
+		return srv.(TopicsServiceServer).CreateTopics(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/training.TopicsService/CreateTopic",
+		FullMethod: "/training.TopicsService/CreateTopics",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TopicsServiceServer).CreateTopic(ctx, req.(*CreateTopicRequest))
+		return srv.(TopicsServiceServer).CreateTopics(ctx, req.(*CreateTopicsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1339,8 +1339,8 @@ var TopicsService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TopicsService_GetTopicById_Handler,
 		},
 		{
-			MethodName: "CreateTopic",
-			Handler:    _TopicsService_CreateTopic_Handler,
+			MethodName: "CreateTopics",
+			Handler:    _TopicsService_CreateTopics_Handler,
 		},
 		{
 			MethodName: "UpdateTopic",

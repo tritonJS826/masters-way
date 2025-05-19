@@ -15,26 +15,29 @@
 
 import * as runtime from '../runtime';
 import type {
-  MwTrainingBffInternalSchemasCreateTopicPayload,
+  MwTrainingBffInternalSchemasCreateTopicsPayload,
   MwTrainingBffInternalSchemasTopic,
   MwTrainingBffInternalSchemasTopicPreview,
+  MwTrainingBffInternalSchemasTopicsPreview,
   MwTrainingBffInternalSchemasUpdateTopicPayload,
 } from '../models/index';
 import {
-    MwTrainingBffInternalSchemasCreateTopicPayloadFromJSON,
-    MwTrainingBffInternalSchemasCreateTopicPayloadToJSON,
+    MwTrainingBffInternalSchemasCreateTopicsPayloadFromJSON,
+    MwTrainingBffInternalSchemasCreateTopicsPayloadToJSON,
     MwTrainingBffInternalSchemasTopicFromJSON,
     MwTrainingBffInternalSchemasTopicToJSON,
     MwTrainingBffInternalSchemasTopicPreviewFromJSON,
     MwTrainingBffInternalSchemasTopicPreviewToJSON,
+    MwTrainingBffInternalSchemasTopicsPreviewFromJSON,
+    MwTrainingBffInternalSchemasTopicsPreviewToJSON,
     MwTrainingBffInternalSchemasUpdateTopicPayloadFromJSON,
     MwTrainingBffInternalSchemasUpdateTopicPayloadToJSON,
 } from '../models/index';
 
-export interface CreateTopicRequest {
+export interface CreateTopicsRequest {
     trainingId: string;
-    request: MwTrainingBffInternalSchemasCreateTopicPayload;
-    topicParentId?: string;
+    request: MwTrainingBffInternalSchemasCreateTopicsPayload;
+    topicsParentId?: string;
 }
 
 export interface DeleteTopicRequest {
@@ -56,21 +59,21 @@ export interface UpdateTopicRequest {
 export class TopicApi extends runtime.BaseAPI {
 
     /**
-     * Create topic
+     * Create topics (bunch create)
      */
-    async createTopicRaw(requestParameters: CreateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTopicPreview>> {
+    async createTopicsRaw(requestParameters: CreateTopicsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTopicsPreview>> {
         if (requestParameters.trainingId === null || requestParameters.trainingId === undefined) {
-            throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling createTopic.');
+            throw new runtime.RequiredError('trainingId','Required parameter requestParameters.trainingId was null or undefined when calling createTopics.');
         }
 
         if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createTopic.');
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createTopics.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.topicParentId !== undefined) {
-            queryParameters['topicParentId'] = requestParameters.topicParentId;
+        if (requestParameters.topicsParentId !== undefined) {
+            queryParameters['topicsParentId'] = requestParameters.topicsParentId;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -82,17 +85,17 @@ export class TopicApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: MwTrainingBffInternalSchemasCreateTopicPayloadToJSON(requestParameters.request),
+            body: MwTrainingBffInternalSchemasCreateTopicsPayloadToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicPreviewFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTopicsPreviewFromJSON(jsonValue));
     }
 
     /**
-     * Create topic
+     * Create topics (bunch create)
      */
-    async createTopic(requestParameters: CreateTopicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTopicPreview> {
-        const response = await this.createTopicRaw(requestParameters, initOverrides);
+    async createTopics(requestParameters: CreateTopicsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTopicsPreview> {
+        const response = await this.createTopicsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

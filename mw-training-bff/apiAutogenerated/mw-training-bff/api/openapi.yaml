@@ -604,7 +604,7 @@ paths:
       x-codegen-request-body-name: request
   /topics/{trainingId}:
     post:
-      operationId: create-topic
+      operationId: create-topics
       parameters:
       - description: training id
         in: path
@@ -612,16 +612,16 @@ paths:
         required: true
         schema:
           type: string
-      - description: Topic parent id
+      - description: Topics parent id
         in: query
-        name: topicParentId
+        name: topicsParentId
         schema:
           type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTopicPayload'
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTopicsPayload'
         description: query params
         required: true
       responses:
@@ -629,9 +629,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicsPreview'
           description: OK
-      summary: Create topic
+      summary: Create topics (bunch create)
       tags:
       - topic
       x-codegen-request-body-name: request
@@ -1071,6 +1071,15 @@ components:
       properties:
         name:
           type: string
+      type: object
+    mw-training-bff_internal_schemas.CreateTopicsPayload:
+      properties:
+        topicsPayload:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTopicPayload'
+          type: array
+      required:
+      - topicsPayload
       type: object
     mw-training-bff_internal_schemas.CreateTrainingPayload:
       properties:
@@ -1636,6 +1645,33 @@ components:
       required:
       - children
       - topic
+      type: object
+    mw-training-bff_internal_schemas.TopicsPreview:
+      example:
+        topics:
+        - createdAt: createdAt
+          trainingUuid: trainingUuid
+          name: name
+          practiceMaterialAmount: 6
+          theoryMaterialAmount: 1
+          uuid: uuid
+          parentUuid: parentUuid
+          order: 0
+        - createdAt: createdAt
+          trainingUuid: trainingUuid
+          name: name
+          practiceMaterialAmount: 6
+          theoryMaterialAmount: 1
+          uuid: uuid
+          parentUuid: parentUuid
+          order: 0
+      properties:
+        topics:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TopicPreview'
+          type: array
+      required:
+      - topics
       type: object
     mw-training-bff_internal_schemas.Training:
       example:

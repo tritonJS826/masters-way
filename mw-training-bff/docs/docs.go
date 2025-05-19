@@ -964,8 +964,8 @@ const docTemplate = `{
                 "tags": [
                     "topic"
                 ],
-                "summary": "Create topic",
-                "operationId": "create-topic",
+                "summary": "Create topics (bunch create)",
+                "operationId": "create-topics",
                 "parameters": [
                     {
                         "type": "string",
@@ -976,8 +976,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Topic parent id",
-                        "name": "topicParentId",
+                        "description": "Topics parent id",
+                        "name": "topicsParentId",
                         "in": "query"
                     },
                     {
@@ -986,7 +986,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTopicsPayload"
                         }
                     }
                 ],
@@ -994,7 +994,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicsPreview"
                         }
                     }
                 }
@@ -1666,6 +1666,20 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-training-bff_internal_schemas.CreateTopicsPayload": {
+            "type": "object",
+            "required": [
+                "topicsPayload"
+            ],
+            "properties": {
+                "topicsPayload": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload"
+                    }
+                }
+            }
+        },
         "mw-training-bff_internal_schemas.CreateTrainingPayload": {
             "type": "object",
             "required": [
@@ -2167,6 +2181,20 @@ const docTemplate = `{
                 },
                 "topic": {
                     "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TopicsPreview": {
+            "type": "object",
+            "required": [
+                "topics"
+            ],
+            "properties": {
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                    }
                 }
             }
         },

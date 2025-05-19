@@ -51,7 +51,6 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, 
 
 	if !authCallbackFunctionResponse.IsAlreadyCreated {
 		token, err := utils.GetTokenParamFromURL(authCallbackFunctionResponse.Url)
-		fmt.Println("token", token)
 		if err != nil {
 			return nil, err
 		}

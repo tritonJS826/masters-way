@@ -122,6 +122,15 @@ definitions:
       name:
         type: string
     type: object
+  mw-training-bff_internal_schemas.CreateTopicsPayload:
+    properties:
+      topicsPayload:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload'
+        type: array
+    required:
+    - topicsPayload
+    type: object
   mw-training-bff_internal_schemas.CreateTrainingPayload:
     properties:
       description:
@@ -475,6 +484,15 @@ definitions:
     required:
     - children
     - topic
+    type: object
+  mw-training-bff_internal_schemas.TopicsPreview:
+    properties:
+      topics:
+        items:
+          $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
+        type: array
+    required:
+    - topics
     type: object
   mw-training-bff_internal_schemas.Training:
     properties:
@@ -1313,31 +1331,31 @@ paths:
     post:
       consumes:
       - application/json
-      operationId: create-topic
+      operationId: create-topics
       parameters:
       - description: training id
         in: path
         name: trainingId
         required: true
         type: string
-      - description: Topic parent id
+      - description: Topics parent id
         in: query
-        name: topicParentId
+        name: topicsParentId
         type: string
       - description: query params
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload'
+          $ref: '#/definitions/mw-training-bff_internal_schemas.CreateTopicsPayload'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.TopicPreview'
-      summary: Create topic
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TopicsPreview'
+      summary: Create topics (bunch create)
       tags:
       - topic
   /trainingMentors/{trainingId}/user/{userId}:

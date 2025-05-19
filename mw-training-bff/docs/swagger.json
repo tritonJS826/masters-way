@@ -956,8 +956,8 @@
                 "tags": [
                     "topic"
                 ],
-                "summary": "Create topic",
-                "operationId": "create-topic",
+                "summary": "Create topics (bunch create)",
+                "operationId": "create-topics",
                 "parameters": [
                     {
                         "type": "string",
@@ -968,8 +968,8 @@
                     },
                     {
                         "type": "string",
-                        "description": "Topic parent id",
-                        "name": "topicParentId",
+                        "description": "Topics parent id",
+                        "name": "topicsParentId",
                         "in": "query"
                     },
                     {
@@ -978,7 +978,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTopicsPayload"
                         }
                     }
                 ],
@@ -986,7 +986,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicsPreview"
                         }
                     }
                 }
@@ -1658,6 +1658,20 @@
                 }
             }
         },
+        "mw-training-bff_internal_schemas.CreateTopicsPayload": {
+            "type": "object",
+            "required": [
+                "topicsPayload"
+            ],
+            "properties": {
+                "topicsPayload": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTopicPayload"
+                    }
+                }
+            }
+        },
         "mw-training-bff_internal_schemas.CreateTrainingPayload": {
             "type": "object",
             "required": [
@@ -2159,6 +2173,20 @@
                 },
                 "topic": {
                     "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TopicsPreview": {
+            "type": "object",
+            "required": [
+                "topics"
+            ],
+            "properties": {
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TopicPreview"
+                    }
                 }
             }
         },
