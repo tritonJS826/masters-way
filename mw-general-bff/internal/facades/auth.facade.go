@@ -15,24 +15,30 @@ import (
 
 type AuthFacade struct {
 	authService          *services.AuthService
+	generalService       *services.GeneralService
 	notificationService  *services.NotificationService
 	chatService          *services.ChatService
 	chatWebSocketService *services.ChatWebSocketService
+	mailService          *services.MailService
 	config               *config.Config
 }
 
 func newAuthFacade(
 	authService *services.AuthService,
+	generalService *services.GeneralService,
 	notificationService *services.NotificationService,
 	chatService *services.ChatService,
 	chatWebSocketService *services.ChatWebSocketService,
+	mailService *services.MailService,
 	config *config.Config,
 ) *AuthFacade {
 	return &AuthFacade{
 		authService,
+		generalService,
 		notificationService,
 		chatService,
 		chatWebSocketService,
+		mailService,
 		config,
 	}
 }
@@ -63,9 +69,46 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, 
 		ctx.Set(auth.ContextKeyAuthorization, "Bearer "+token)
 		ctx.Request.Header.Set(auth.HeaderKeyAuthorization, "Bearer "+token)
 		greetingDeferredTime := 15 * time.Second
+
+		// Copy the necessary context values and headers for use in the goroutine
+		userID := claims.UserID
+		authHeader := "Bearer " + token
+
+		// Create a shallow copy of the request with the correct header
+		req := ctx.Request.Clone(ctx.Request.Context())
+		req.Header.Set(auth.HeaderKeyAuthorization, authHeader)
+
+		// Create a new gin.Context with the copied request and set values
+		newCtx := &gin.Context{
+			Request: req,
+		}
+		newCtx.Set(auth.ContextKeyUserID, userID)
+		newCtx.Set(auth.ContextKeyAuthorization, authHeader)
+
+		// Email greeting message
+		{
+			fmt.Println("Sending greeting email!!!!!!!!!!!!!!")
+			user, err := af.generalService.GetUserByIds(newCtx, []string{claims.UserID})
+			if err != nil {
+				fmt.Println("Failed to get created User " + err.Error())
+			}
+
+			args := &services.SendMailParams{
+				Subject: "Master's way: Nice to see you!",
+				To:      []string{user[0].Email},
+				Cc:      make([]string, 0),
+				Bcc:     services.GreetingChatBcc,
+				ReplyTo: make([]string, 0),
+				Message: services.GreetingChatMessage,
+			}
+			af.mailService.SendMail(newCtx, args)
+		}
+
+		// In-app notification (in the chat primarily) for greeting message
 		go func() {
 			time.Sleep(greetingDeferredTime)
-			roomId, err := af.chatService.CreateRoom(ctx, &services.CreateRoomParams{
+
+			roomId, err := af.chatService.CreateRoom(newCtx, &services.CreateRoomParams{
 				Name:     nil,
 				RoomType: "private",
 				UserId:   &services.GreetingChatUserId,
@@ -75,7 +118,7 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, 
 				return
 			}
 
-			response, err := af.chatService.CreateGreetingMessage(ctx, &services.CreateMessageParams{
+			response, err := af.chatService.CreateGreetingMessage(newCtx, &services.CreateMessageParams{
 				RoomId:         roomId,
 				ReceiverUserId: claims.UserID,
 			})
@@ -87,7 +130,7 @@ func (af *AuthFacade) GetAuthCallbackFunction(ctx *gin.Context, provider, code, 
 			// messageResponse.Message.OwnerName = userMap[messageResponse.Message.OwnerID].Name
 			// messageResponse.Message.OwnerImageURL = userMap[messageResponse.Message.OwnerID].ImageURL
 
-			err = af.chatWebSocketService.SendMessage(ctx, roomId, response)
+			err = af.chatWebSocketService.SendMessage(newCtx, roomId, response)
 			utils.HandleErrorGin(ctx, err)
 
 		}()

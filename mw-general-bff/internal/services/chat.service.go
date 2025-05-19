@@ -27,6 +27,8 @@ type CreateMessageParams struct {
 
 // Viktar's prod user id
 var GreetingChatUserId = "ec3e7405-02d2-fdd4-e0ac-f9b1e2082f76"
+var GreetingChatMessage = "Hello! My name is Viktar, I'm a founder of Master's way. It is automated message, but I will be glad to reply you if you have any questions. Let me share with you one thing - you [can find here](https://youtu.be/WrgBgDZVVMo) short instructions about current app. Here you can find few examples of reports ([way1](https://mastersway.netlify.app/way/7f96584b-106a-4567-83ed-c404cbb828be), [way2](https://mastersway.netlify.app/way/2a32fd6e-55ae-4c3e-ac1f-ad02aec26d13)) and you can generate your own training program for free like here: ([training1](https://mastersway.netlify.app/training/776f8b9a-a146-43b5-be08-9514d8e34efb), [training2](https://mastersway.netlify.app/training/5dfd346c-5115-4526-8266-f2c632451b8b)). Also if you are looking for any kind of support or mentoring - just write me and I will help. Good luck :)"
+var GreetingChatBcc = []string{"victorveretennikov58@gmail.com", "katsiarynaveratsennikava@gmail.com"}
 
 func (ms *ChatService) CreateGreetingMessage(ctx context.Context, params *CreateMessageParams) (*schemas.SendMessagePayload, error) {
 	args := openapiChat.MwChatInternalSchemasCreateGreetingMessagePayload{
@@ -41,7 +43,7 @@ func (ms *ChatService) CreateGreetingMessage(ctx context.Context, params *Create
 	response := &schemas.SendMessagePayload{
 		UserIDs: []string{GreetingChatUserId},
 		Message: schemas.MessageResponse{
-			Message:   "Hey! How can I help you?",
+			Message:   GreetingChatMessage,
 			OwnerID:   GreetingChatUserId,
 			Readers:   []schemas.MessageReader{},
 			OwnerName: "Viktar Veratsennikau",
