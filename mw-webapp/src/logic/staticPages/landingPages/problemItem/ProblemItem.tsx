@@ -36,12 +36,12 @@ export interface ProblemItemProps {
   /**
    * CTA button value
    */
-  buttonValue: string;
+  buttonValue?: string;
 
   /**
    * Callback triggered on CTA button click
    */
-  onCLick: () => void;
+  onClick?: () => void;
 
 }
 
@@ -69,6 +69,7 @@ export const ProblemItem = (props: ProblemItemProps) => {
         <p className={styles.problemTitleDescription}>
           {props.description}
         </p>
+        {props.buttonValue &&
         <Button
           buttonType={ButtonType.PRIMARY}
           value={props.buttonValue}
@@ -79,9 +80,10 @@ export const ProblemItem = (props: ProblemItemProps) => {
               className={styles.icon}
             />
           }
-          onClick={props.onCLick}
+          onClick={props.onClick ?? (() => { })}
           className={clsx(styles.button, props.isReversed && styles.buttonReversed)}
         />
+        }
       </VerticalContainer>
       <div className={styles.problemImageContainer}>
         <Image

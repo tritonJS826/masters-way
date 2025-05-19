@@ -51,7 +51,7 @@ export const ProblemsBlock = (props: ProblemsBlockProps) => {
             imageSrc={problemItem.imageSrc}
             isReversed={problemItem.isReversed}
             buttonValue={problemItem.buttonValue}
-            onCLick={problemItem.onCLick}
+            onClick={problemItem.onClick}
           />
         ))}
       </HorizontalContainer>
