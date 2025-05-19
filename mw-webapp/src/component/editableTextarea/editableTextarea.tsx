@@ -131,6 +131,9 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     handleChangeFinish();
   };
 
+
+  const isEditButtonVisible = props.isEditable && !isEditing;
+  
   /**
    * Render Textarea
    */
@@ -211,7 +214,8 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         : (
           <Text text={isEmptyText ? props.placeholder : text} />
         )}
-      {!isEditing && (
+
+      {isEditButtonVisible && (
         renderEditButton()
       )}
     </div>
