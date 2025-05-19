@@ -7,6 +7,7 @@ import errorContent from "src/dictionary/ErrorContent.json";
 import headerContent from "src/dictionary/Header.json";
 import homePageContent from "src/dictionary/HomePageContent.json";
 import businessLanding from "src/dictionary/landing/BusinessLandingContent.json";
+import loremLanding from "src/dictionary/landing/LoremLandingContent.json";
 import mentorsLanding from "src/dictionary/landing/MentorsLandingContent.json";
 import studentsWithMentorsLanding from "src/dictionary/landing/StudentsWithMentorsLandingContent.json";
 import studentsWithAiLanding from "src/dictionary/landing/StudentWithAILandingContent.json";
@@ -181,6 +182,13 @@ export class LanguageService {
    */
   public static get trainingWithAiLanding() {
     return trainingWithAiLanding;
+  }
+
+  /**
+   * Lorem landing content
+   */
+  public static get loremLanding() {
+    return loremLanding;
   }
 
   /**
