@@ -30,6 +30,8 @@ import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reports/dayReports/reportItem/commentReportList/CommentReportList.module.scss";
 
+const MAX_WAY_COMMENT_LENGTH = 3000;
+
 /**
  * Comment report list props
  */
@@ -203,6 +205,7 @@ export const CommentReportList = observer((props: CommentReportListProps) => {
                 }
               </HorizontalContainer>
               <EditableTextarea
+                maxCharacterCount={MAX_WAY_COMMENT_LENGTH}
                 text={comment.description}
                 onChangeFinish={async (description) => {
                   const commentToUpdate = new Comment({

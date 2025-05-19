@@ -11,6 +11,8 @@ import {getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/wayPage/goalBlock/GoalBlock.module.scss";
 
+const MAX_GOAL_DESCRIPTION_LENGTH = 500;
+
 /**
  * Goal block props
  */
@@ -56,6 +58,7 @@ export const GoalBlock = observer((props: GoalBlockProps) => {
         />
       </HorizontalContainer>
       <EditableTextarea
+        maxCharacterCount={MAX_GOAL_DESCRIPTION_LENGTH}
         text={props.goalDescription}
         onChangeFinish={async (goalDescription) => {
           const allCollections = user && getAllCollections(user.defaultWayCollections, user.customWayCollections);

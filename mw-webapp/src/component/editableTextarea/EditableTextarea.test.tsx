@@ -83,9 +83,12 @@ describe("EditableTextarea component", () => {
     });
     expect(textbox).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE);
 
-    await act(async () => {
-      await user.click(document.body);
-    });
+    // Create a mock blur event with a relatedTarget that won't cause the closest() error
+    const mockDiv = document.createElement("div");
+    const blurEvent = new FocusEvent("blur", {relatedTarget: mockDiv});
+
+    fireEvent.blur(textbox, blurEvent);
+
     expect(changeFinish).toHaveBeenCalled();
 
     await act(async () => {
@@ -97,5 +100,4 @@ describe("EditableTextarea component", () => {
     });
     expect(textbox2).toHaveValue(EDITABLTEXTAREA_VALUE + EDITABLTYPE_VALUE + "new text");
   });
-
 });

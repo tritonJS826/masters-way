@@ -13,6 +13,7 @@ import {ClockIcon} from "src/assets/icons/ClockIcon";
 import {DiscordIcon} from "src/assets/icons/DiscordIcon";
 import {DollarIcon} from "src/assets/icons/DollarIcon";
 import {DownloadIcon} from "src/assets/icons/DownloadIcon";
+import {EmojiIcon} from "src/assets/icons/EmojiIcon";
 import {ExternalLinkIcon} from "src/assets/icons/ExternalLinkIcon";
 import {EyeOpenedIcon} from "src/assets/icons/EyeOpenedIcon";
 import {EyeSlashedIcon} from "src/assets/icons/EyeSlashedIcon";
@@ -311,6 +312,11 @@ export const IconDictionary = {
    * ExternalLink icon
    */
   ExternalLinkIcon: (params: IconProps) => <ExternalLinkIcon {...params} />,
+
+  /**
+   * Emoji icon
+   */
+  EmojiIcon: (params: IconProps) => <EmojiIcon {...params} />,
 };
 
 /**

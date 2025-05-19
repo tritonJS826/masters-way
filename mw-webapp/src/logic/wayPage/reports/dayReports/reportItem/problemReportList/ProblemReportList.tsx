@@ -34,6 +34,8 @@ import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/wayPage/reports/dayReports/reportItem/problemReportList/ProblemReportList.module.scss";
 
+const MAX_PROBLEM_LENGTH = 3000;
+
 /**
  * Problem report list props
  */
@@ -273,6 +275,7 @@ export const ProblemReportList = observer((props: ProblemReportListProps) => {
               }
             </HorizontalContainer>
             <EditableTextarea
+              maxCharacterCount={MAX_PROBLEM_LENGTH}
               text={problem.description}
               onChangeFinish={async (description) => {
                 const problemToUpdate = {

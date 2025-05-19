@@ -38,6 +38,8 @@ import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import {Symbols} from "src/utils/Symbols";
 import styles from "src/logic/wayPage/reports/dayReports/reportItem/jobsReportList/JobsReportList.module.scss";
 
+const MAX_JOB_DONE_LENGTH = 3000;
+
 /**
  * Reports table jobsDone cell props
  */
@@ -335,6 +337,7 @@ export const JobsReportList = observer((props: ReportsTableJobsDoneCellProps) =>
               }
             </VerticalContainer>
             <EditableTextarea
+              maxCharacterCount={MAX_JOB_DONE_LENGTH}
               text={jobDone.description}
               onChangeFinish={async (description) => {
                 const jobDoneToUpdate = {

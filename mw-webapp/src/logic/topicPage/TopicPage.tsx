@@ -44,6 +44,7 @@ const MAX_LENGTH_TOPIC_NAME = 300;
 const MIN_LENGTH_TOPIC_NAME = 1;
 const MAX_LENGTH_MATERIAL_NAME = 128;
 const MIN_LENGTH_MATERIAL_NAME = 1;
+const MAX_TRAINING_MATERIAL_LENGTH = 10000;
 
 /**
  * Update Topic params
@@ -318,6 +319,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                   minLengthValidator(MIN_LENGTH_TOPIC_NAME, LanguageService.topic.notifications.topicNameMinLength[language]),
                   maxLengthValidator(MAX_LENGTH_TOPIC_NAME, LanguageService.topic.notifications.topicNameMaxLength[language]),
                 ]}
+                maxCharacterCount={MAX_LENGTH_TOPIC_NAME}
               />
 
               <HorizontalContainer className={styles.topicActionButtons}>
@@ -528,6 +530,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                         LanguageService.topic.notifications.materialNameMaxLength[language],
                       ),
                     ]}
+                    maxCharacterCount={MAX_LENGTH_MATERIAL_NAME}
                   />
                   <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
                     <Confirm
@@ -557,6 +560,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 </HorizontalContainer>
                 <EditableTextarea
                   text={theoryMaterial.description}
+                  maxCharacterCount={MAX_TRAINING_MATERIAL_LENGTH}
                   onChangeFinish={(description) => {
                     updateTheoryMaterial({
                       theoryMaterialToUpdate: {
@@ -641,6 +645,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                           LanguageService.topic.notifications.materialNameMaxLength[language],
                         ),
                       ]}
+                      maxCharacterCount={MAX_LENGTH_MATERIAL_NAME}
                     />
                     <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
                       <Confirm
@@ -710,6 +715,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                 />
                 <EditableTextarea
                   text={practiceMaterial.taskDescription}
+                  maxCharacterCount={MAX_TRAINING_MATERIAL_LENGTH}
                   onChangeFinish={(taskDescription) => {
                     updatePracticeMaterial({
                       practiceMaterialToUpdate: {
@@ -738,6 +744,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                       placeholder=""
                     />
                     <EditableTextarea
+                      maxCharacterCount={MAX_TRAINING_MATERIAL_LENGTH}
                       placeholder={isOwner
                         ? LanguageService.common.emptyMarkdownAction[language]
                         : LanguageService.common.emptyMarkdown[language]}

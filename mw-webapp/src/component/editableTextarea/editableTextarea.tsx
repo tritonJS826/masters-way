@@ -1,7 +1,12 @@
 import {useEffect, useState} from "react";
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
+import {Emoji, EmojiPickerPopover} from "src/component/emojiPickerPopover/EmojiPickerPopover";
+import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Text} from "src/component/text/Text";
 import {Textarea} from "src/component/textarea/Textarea";
+import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {KeySymbols} from "src/utils/KeySymbols";
 import {updateValueWithValidatorsHandler} from "src/utils/validatorsValue/updateValueWithValidatorsHandler";
 import {ValidatorValue} from "src/utils/validatorsValue/validators";
@@ -68,8 +73,13 @@ interface EditableTextareaProps {
   /**
    * Array of validator functions to be applied to the value
    */
-    validators?: ValidatorValue[];
-  }
+  validators?: ValidatorValue[];
+
+  /**
+   * Max text length value
+   */
+  maxCharacterCount?: number;
+}
 
 /**
  * EditableTextarea component
@@ -112,18 +122,76 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
+   * Prevents blur event when interacting with footer buttons to keep editing mode active
+   */
+  const preventBlurOnFooterInteractionAndHandleChangeFinish = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (event.relatedTarget?.closest(`.${styles.editableTextAreaFooter}`)) {
+      return;
+    }
+    handleChangeFinish();
+  };
+
+  /**
    * Render Textarea
    */
   const renderTextarea = () => (
-    <Textarea
-      cy={props.cy?.textArea}
-      defaultValue={text}
-      onChange={onChangeInput}
-      placeholder={props.placeholder}
-      rows={props.rows}
-      isAutofocus
-      onKeyPress={handleCtrlEnter}
-    />
+    <VerticalContainer className={styles.editableTextareaActive}>
+      <Textarea
+        cy={props.cy?.textArea}
+        defaultValue={text}
+        onChange={onChangeInput}
+        placeholder={props.placeholder}
+        rows={props.rows}
+        isAutofocus
+        onKeyPress={handleCtrlEnter}
+      />
+      <HorizontalContainer className={styles.editableTextAreaFooter}>
+        {props.maxCharacterCount && (
+          <div className={styles.characterCount}>
+            {`${props.maxCharacterCount - text.length}`}
+          </div>
+        )}
+
+        <EmojiPickerPopover onEmojiSelect={(emoji: Emoji) => {
+          const newText = text + emoji.native;
+          setText(newText);
+          props.onChangeFinish(newText);
+        }}
+        />
+        <Button
+          icon={
+            <Icon
+              size={IconSize.SMALL}
+              name="CheckIcon"
+            />
+          }
+          onClick={() => {
+            setIsEditing(false);
+          }}
+          buttonType={ButtonType.ICON_BUTTON}
+        />
+      </HorizontalContainer>
+    </VerticalContainer>
+  );
+
+  /**
+   * Render Edit Button
+   */
+  const renderEditButton = () => (
+    <div className={styles.editButton}>
+      <Button
+        icon={
+          <Icon
+            size={IconSize.SMALL}
+            name="PenToolIcon"
+          />
+        }
+        onClick={() => {
+          setIsEditing(true);
+        }}
+        buttonType={ButtonType.ICON_BUTTON}
+      />
+    </div>
   );
 
   return (
@@ -131,17 +199,22 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
       onDoubleClick={() => {
         props.isEditable !== false && setIsEditing(true);
       }}
-      onBlur={handleChangeFinish}
+      onBlur={preventBlurOnFooterInteractionAndHandleChangeFinish}
       onKeyDown={handleCtrlEnter}
       className={clsx(styles.editableTextarea, props.className)}
       role="trigger"
       data-cy={props.cy?.trigger}
     >
-      {
-        isEditing
-          ? renderTextarea()
-          : <Text text={isEmptyText ? props.placeholder : text} />
-      }
+
+      {isEditing
+        ? renderTextarea()
+        : (
+          <Text text={isEmptyText ? props.placeholder : text} />
+        )}
+      {!isEditing && (
+        renderEditButton()
+      )}
     </div>
   );
 };
+

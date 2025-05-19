@@ -3,11 +3,28 @@
 $editableTextarea-width: 100%;
 
 .editableTextarea {
-  max-width: $editableTextarea-width;
+  display: flex;
+  width: $editableTextarea-width;
   flex-grow: 1;
+  justify-content: space-between;
+  overflow-wrap: break-word;
   white-space: pre-wrap;
+}
 
-  textarea {
-    width: 100%;
-  }
+.editableTextareaActive {
+  width: $editableTextarea-width;
+}
+
+.characterCount {
+  color: var(--tertiaryTextColor);
+  font-size: $fontSizeSmall;
+}
+
+.editableTextAreaFooter {
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.editButton {
+  justify-content: flex-end;
 }

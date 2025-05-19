@@ -430,6 +430,7 @@ export const WayPage = observer((props: WayPageProps) => {
                   minLengthValidator(MIN_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMinLength[language]),
                   maxLengthValidator(MAX_LENGTH_WAYNAME, LanguageService.way.notifications.wayNameMaxLength[language]),
                 ]}
+                maxCharacterCount={MAX_LENGTH_WAYNAME}
               />
 
               <HorizontalContainer className={styles.wayActionButtons}>
