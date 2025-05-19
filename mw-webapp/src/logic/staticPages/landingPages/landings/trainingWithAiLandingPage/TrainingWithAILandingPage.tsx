@@ -1,41 +1,42 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import {observer} from "mobx-react-lite";
-import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
-import {AdvantageItemProps} from "src/component/advantageItem/AdvantageItem";
-import {Button, ButtonType} from "src/component/button/Button";
-import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
-import {Icon, IconSize} from "src/component/icon/Icon";
-import {PricePlanType} from "src/component/pricingBlock/pricePlan/PricePlan";
-import {PricingBlock} from "src/component/pricingBlock/PricingBlock";
-import {ReviewCard} from "src/component/reviewCard/ReviewCard";
-import {SliderItem} from "src/component/slider/Slider";
-import {HeadingLevel, Title} from "src/component/title/Title";
-import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {languageStore} from "src/globalStore/LanguageStore";
-import {themeStore} from "src/globalStore/ThemeStore";
-import {userStore} from "src/globalStore/UserStore";
-import {getStarted} from "src/logic/staticPages/homePage/HomePage";
-import {AdvantagesBlock} from "src/logic/staticPages/landingPages/advantagesBlock/AdvantagesBlock";
-import {AmountBlock, AmountItem} from "src/logic/staticPages/landingPages/amountBlock/AmountBlock";
-import {FooterLanding} from "src/logic/staticPages/landingPages/footerLanding/FooterLanding";
-import {HeaderLanding, NavLink} from "src/logic/staticPages/landingPages/headerLanding/HeaderLanding";
-import {MainBlock} from "src/logic/staticPages/landingPages/mainBlock/MainBlock";
-import {ProblemItemProps} from "src/logic/staticPages/landingPages/problemItem/ProblemItem";
-import {ProblemsBlock} from "src/logic/staticPages/landingPages/problemsBlock/ProblemsBlock";
-import {ReviewsBlock} from "src/logic/staticPages/landingPages/reviewsBlock/ReviewsBlock";
-import {VideoBlock} from "src/logic/staticPages/landingPages/videoBlock/VideoBlock";
-import {LanguageService} from "src/service/LanguageService";
-import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+import { observer } from "mobx-react-lite";
+import { Accordion, accordionTypes } from "src/component/accordion/Accordion";
+import { AdvantageItemProps } from "src/component/advantageItem/AdvantageItem";
+import { Button, ButtonType } from "src/component/button/Button";
+import { HorizontalContainer } from "src/component/horizontalContainer/HorizontalContainer";
+import { Icon, IconSize } from "src/component/icon/Icon";
+import { PricePlanType } from "src/component/pricingBlock/pricePlan/PricePlan";
+import { PricingBlock } from "src/component/pricingBlock/PricingBlock";
+import { ReviewCard } from "src/component/reviewCard/ReviewCard";
+import { SliderItem } from "src/component/slider/Slider";
+import { HeadingLevel, Title } from "src/component/title/Title";
+import { VerticalContainer } from "src/component/verticalContainer/VerticalContainer";
+import { languageStore } from "src/globalStore/LanguageStore";
+import { themeStore } from "src/globalStore/ThemeStore";
+import { userStore } from "src/globalStore/UserStore";
+import { getStarted } from "src/logic/staticPages/homePage/HomePage";
+import { AdvantagesBlock } from "src/logic/staticPages/landingPages/advantagesBlock/AdvantagesBlock";
+import { AmountBlock, AmountItem } from "src/logic/staticPages/landingPages/amountBlock/AmountBlock";
+import { FooterLanding } from "src/logic/staticPages/landingPages/footerLanding/FooterLanding";
+import { HeaderLanding, NavLink } from "src/logic/staticPages/landingPages/headerLanding/HeaderLanding";
+import { MainBlock } from "src/logic/staticPages/landingPages/mainBlock/MainBlock";
+import { ProblemItemProps } from "src/logic/staticPages/landingPages/problemItem/ProblemItem";
+import { ProblemsBlock } from "src/logic/staticPages/landingPages/problemsBlock/ProblemsBlock";
+import { ReviewsBlock } from "src/logic/staticPages/landingPages/reviewsBlock/ReviewsBlock";
+import { VideoBlock } from "src/logic/staticPages/landingPages/videoBlock/VideoBlock";
+import { LanguageService } from "src/service/LanguageService";
+import { renderMarkdown } from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/staticPages/landingPages/landings/trainingWithAiLandingPage/TrainingWithAILandingPage.module.scss";
+import { pricePlansList } from "src/logic/pricePlans";
 
 /**
  * Training with AI landing page
  */
 export const TrainingWithAILandingPage = observer(() => {
-  const {user} = userStore;
-  const {language, setLanguage} = languageStore;
-  const {theme, setTheme} = themeStore;
+  const { user } = userStore;
+  const { language, setLanguage } = languageStore;
+  const { theme, setTheme } = themeStore;
 
   const navigate = useNavigate();
 
@@ -67,8 +68,8 @@ export const TrainingWithAILandingPage = observer(() => {
   ];
 
   const accordionItems = LanguageService.trainingWithAiLanding.questions.accordion.map((data) => ({
-    trigger: {child: data.question[language]},
-    content: {child: renderMarkdown(data.answer[language])},
+    trigger: { child: data.question[language] },
+    content: { child: renderMarkdown(data.answer[language]) },
   }));
 
   const amountItems: AmountItem[] = [
@@ -185,67 +186,67 @@ export const TrainingWithAILandingPage = observer(() => {
     },
   ];
 
-  const pricePlansList: PricePlanType[] = [
-    {
-      id: 0,
-      theme: "light",
-      name: "Start",
-      price: 0,
-      period: "free",
-      capabilities: {
-        ownTrainings: null,
-        aiSupport: null,
-        trackProgress: null,
-        chat: null,
-        notifications: null,
-        mobileSupport: null,
-      },
-      buttonValue: "start",
+  // const pricePlansList: PricePlanType[] = [
+  //   {
+  //     id: 0,
+  //     theme: "light",
+  //     name: "Start",
+  //     price: 0,
+  //     period: "free",
+  //     capabilities: {
+  //       ownTrainings: null,
+  //       aiSupport: null,
+  //       trackProgress: null,
+  //       chat: null,
+  //       notifications: null,
+  //       mobileSupport: null,
+  //     },
+  //     buttonValue: "start",
 
-      /**
-       * Sd
-       */
-      onCLick: () => {},
-    },
-    {
-      id: 1,
-      theme: "dark",
-      name: "Grow",
-      price: 50,
-      period: "month",
-      capabilities: {
-        allInStart: null,
-        consultation: null,
-        mentorSupport: null,
-        secondMeeting: null,
-      },
-      buttonValue: "grow",
+  //     /**
+  //      * Sd
+  //      */
+  //     onCLick: () => {},
+  //   },
+  //   {
+  //     id: 1,
+  //     theme: "dark",
+  //     name: "Grow",
+  //     price: 50,
+  //     period: "month",
+  //     capabilities: {
+  //       allInStart: null,
+  //       consultation: null,
+  //       mentorSupport: null,
+  //       secondMeeting: null,
+  //     },
+  //     buttonValue: "grow",
 
-      /**
-       * Sd
-       */
-      onCLick: () => {},
-    },
-    {
-      id: 2,
-      theme: "light",
-      name: "Scale",
-      price: 0,
-      period: "individually",
-      capabilities: {
-        allInGrow: null,
-        prioritySupport: null,
-        featureRequest: null,
-        onboarding: null,
-      },
-      buttonValue: "scale",
+  //     /**
+  //      * Sd
+  //      */
+  //     onCLick: () => {},
+  //   },
+  //   {
+  //     id: 2,
+  //     theme: "light",
+  //     name: "Scale",
+  //     price: 0,
+  //     period: "individually",
+  //     capabilities: {
+  //       allInGrow: null,
+  //       prioritySupport: null,
+  //       featureRequest: null,
+  //       onboarding: null,
+  //     },
+  //     buttonValue: "scale",
 
-      /**
-       * Sd
-       */
-      onCLick: () => {},
-    },
-  ];
+  //     /**
+  //      * Sd
+  //      */
+  //     onCLick: () => {},
+  //   },
+  // ];
 
   return (
     <>

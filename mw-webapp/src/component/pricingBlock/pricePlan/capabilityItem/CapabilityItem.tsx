@@ -21,7 +21,7 @@ interface CapabilityItemProps {
   /**
    * Is available
    */
-  isAvailable: boolean;
+  isAvailable?: boolean;
 }
 
 /**

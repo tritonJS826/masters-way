@@ -1,11 +1,13 @@
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
+import {TrackHeader} from "src/analytics/headerAnalytics";
 import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Modal} from "src/component/modal/Modal";
 import {CapabilityItem} from "src/component/pricingBlock/pricePlan/capabilityItem/CapabilityItem";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -15,41 +17,6 @@ import styles from "src/component/pricingBlock/pricePlan/PricePlan.module.scss";
  * CapabilitiesType
  */
 export interface CapabilitiesType {
-
-  /**
-   * Own ways
-   */
-  ownWays?: number;
-
-  /**
-   * Private ways
-   */
-  privateWays?: number;
-
-  /**
-   * Day reports
-   */
-  dayReports?: number;
-
-  /**
-   * User skills
-   */
-  skills?: number;
-
-  /**
-   * Mentoring ways
-   */
-  mentoringWays?: number;
-
-  /**
-   * Custom collections
-   */
-  customCollections?: number;
-
-  /**
-   * Composite way deps
-   */
-  compositeWayDeps?: number;
 
   /**
    * Mentoring support
@@ -121,11 +88,6 @@ export interface CapabilitiesType {
    */
   onboarding?: null;
 
-  // /**
-  //  * Ds
-  //  */
-  // ownTrainings: number;
-
 }
 
 /**
@@ -168,10 +130,10 @@ export interface PricePlanType {
    */
   buttonValue: "start" | "grow" | "scale";
 
-  /**
-   * Callback triggered on CTA button click
-   */
-  onCLick: () => void;
+  // /**
+  //  * Callback triggered on CTA button click
+  //  */
+  // onCLick: () => void;
 }
 
 /**
@@ -240,7 +202,10 @@ export const PricePlan = observer((props: PricePlanProps) => {
       {props.pricePlan.buttonValue === "start" ?
 
         <Button
-          onClick={props.pricePlan.onCLick}
+          onClick={() => {
+            TrackHeader.trackLoginWithGoogleClick();
+            AuthDAL.authGoogle();
+          }}
           value={LanguageService.pricing.planCard.callToActionButton[props.pricePlan.buttonValue][language]}
           buttonType={ButtonType.PRIMARY}
           className={styles.buyPlanButton}
