@@ -12,6 +12,7 @@ interface PricingBlockProps {
    * Price plans data
    */
   pricePlans: PricePlanType[];
+
 }
 
 /**

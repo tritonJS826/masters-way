@@ -1,11 +1,13 @@
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
+import {TrackHeader} from "src/analytics/headerAnalytics";
 import {TrackUserPage} from "src/analytics/userPageAnalytics";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Modal} from "src/component/modal/Modal";
 import {CapabilityItem} from "src/component/pricingBlock/pricePlan/capabilityItem/CapabilityItem";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
+import {AuthDAL} from "src/dataAccessLogic/AuthDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -17,44 +19,75 @@ import styles from "src/component/pricingBlock/pricePlan/PricePlan.module.scss";
 export interface CapabilitiesType {
 
   /**
-   * Own ways
-   */
-  ownWays: number;
-
-  /**
-   * Private ways
-   */
-  privateWays: number;
-
-  /**
-   * Day reports
-   */
-  dayReports: number;
-
-  /**
-   * User skills
-   */
-  skills: number;
-
-  /**
-   * Mentoring ways
-   */
-  mentoringWays: number;
-
-  /**
-   * Custom collections
-   */
-  customCollections: number;
-
-  /**
-   * Composite way deps
-   */
-  compositeWayDeps: number;
-
-  /**
    * Mentoring support
    */
-  mentorSupport: number;
+  mentorSupport?: number | null;
+
+  /**
+   * Ds
+   */
+  ownTrainings?: null;
+
+  /**
+   * Ds
+   */
+  trackProgress?: null;
+
+  /**
+   * Ds
+   */
+  chat?: null;
+
+  /**
+   * Ds
+   */
+  notifications?: null;
+
+  /**
+   * Ds
+   */
+  aiSupport?: null;
+
+  /**
+   * Sd
+   */
+  mobileSupport?: null;
+
+  /**
+   * Sd
+   */
+  allInStart?: null;
+
+  /**
+   * Df
+   */
+  consultation?: null;
+
+  /**
+   * Df
+   */
+  secondMeeting?: null;
+
+  /**
+   * Sdf
+   */
+  allInGrow?: null;
+
+  /**
+   * Ds
+   */
+  prioritySupport?: null;
+
+  /**
+   * Ds
+   */
+  featureRequest?: null;
+
+  /**
+   * Ds
+   */
+  onboarding?: null;
+
 }
 
 /**
@@ -85,12 +118,22 @@ export interface PricePlanType {
   /**
    * Period price plan
    */
-  period: "month" | "year" | "free";
+  period: "month" | "year" | "free" | "individually";
 
   /**
    * Capabilities
    */
   capabilities: CapabilitiesType;
+
+  /**
+   * CTA button value
+   */
+  buttonValue: "start" | "grow" | "scale";
+
+  // /**
+  //  * Callback triggered on CTA button click
+  //  */
+  // onCLick: () => void;
 }
 
 /**
@@ -102,6 +145,7 @@ interface PricePlanProps {
    * Price plan
    */
   pricePlan: PricePlanType;
+
 }
 
 /**
@@ -134,10 +178,17 @@ export const PricePlan = observer((props: PricePlanProps) => {
       {<p className={styles.priceAmount}>
         {props.pricePlan.period === "free"
           ? LanguageService.pricing.free[language].toUpperCase()
-          : `$${props.pricePlan.price}`}
-        {props.pricePlan.period !== "free" &&
+          : props.pricePlan.period === "individually"
+            ? LanguageService.pricing.individually[language].toUpperCase()
+            : `$${props.pricePlan.price}`}
+        {props.pricePlan.period !== "free" && props.pricePlan.period !== "individually" &&
         <span className={styles.measurement}>
           {`/${LanguageService.pricing[props.pricePlan.period][language]}`}
+        </span>
+        }
+        {props.pricePlan.period === "month" &&
+        <span className={styles.measurement}>
+          {" or 420$/year"}
         </span>
         }
         {props.pricePlan.period === "year" &&
@@ -148,21 +199,36 @@ export const PricePlan = observer((props: PricePlanProps) => {
       </p>
       }
 
-      <Modal
-        trigger={
-          <Button
-            onClick={TrackUserPage.trackUpgradeToPremiumClick}
-            value={LanguageService.pricing.choose[language]}
-            buttonType={ButtonType.PRIMARY}
-            className={styles.buyPlanButton}
+      {props.pricePlan.buttonValue === "start" ?
+
+        <Button
+          onClick={() => {
+            TrackHeader.trackLoginWithGoogleClick();
+            AuthDAL.authGoogle();
+          }}
+          value={LanguageService.pricing.planCard.callToActionButton[props.pricePlan.buttonValue][language]}
+          buttonType={ButtonType.PRIMARY}
+          className={styles.buyPlanButton}
+        />
+        : (
+          <Modal
+            trigger={
+              <Button
+                onClick={TrackUserPage.trackUpgradeToPremiumClick}
+                value={LanguageService.pricing.planCard.callToActionButton[props.pricePlan.buttonValue][language]}
+                buttonType={ButtonType.PRIMARY}
+                className={styles.buyPlanButton}
+              />
+            }
+            content={
+              <VerticalContainer>
+                {renderMarkdown(LanguageService.common.payments.contactUsModal[language])}
+              </VerticalContainer>
+            }
           />
-        }
-        content={
-          <VerticalContainer>
-            {renderMarkdown(LanguageService.common.payments.donateModal[language])}
-          </VerticalContainer>
-        }
-      />
+        )
+      }
+
     </VerticalContainer>
   );
 });

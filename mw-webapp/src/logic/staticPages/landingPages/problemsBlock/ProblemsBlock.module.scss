@@ -1,0 +1,30 @@
+@import "src/styles/variables";
+
+.problemsBlock {
+  max-width: $maxWidthLandingContainer;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  margin: 0 auto;
+  background-color: var(--secondaryBgColor);
+  gap: $gapBig;
+
+  @media (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingMedium;
+  }
+}
+
+.title {
+  font-size: $fontSizeTitleBig;
+  text-align: center;
+}
+
+.titleDescription {
+  text-align: center;
+}
+
+.advantages {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: $gapLarge;
+  white-space: pre-wrap;
+}

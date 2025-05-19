@@ -21,6 +21,8 @@ type Config struct {
 	NotificationBaseURL      string `mapstructure:"NOTIFICATION_BASE_URL"`
 	ChatAPIHost              string `mapstructure:"CHAT_API_HOST"`
 	ChatBaseURL              string `mapstructure:"CHAT_BASE_URL"`
+	ChatAPIWebsocketHost     string `mapstructure:"MW_CHAT_WEBSOCKET_API_HOST"`
+	ChatWebsocketBaseURL     string `mapstructure:"MW_CHAT_WEBSOCKET_BASE_URL"`
 	TrainingAPIHost          string `mapstructure:"TRAINING_API_HOST"`
 	TrainingBaseURL          string `mapstructure:"TRAINING_BASE_URL"`
 	TestGeneralBffAPIHost    string `mapstructure:"TEST_GENERAL_BFF_API_HOST"`
@@ -28,7 +30,7 @@ type Config struct {
 	SecretSessionKey         string `mapstructure:"SECRET_SESSION_KEY"`
 }
 
-var prodRequiredVariables = [16]string{
+var prodRequiredVariables = [18]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -40,6 +42,8 @@ var prodRequiredVariables = [16]string{
 	"NOTIFICATION_BASE_URL",
 	"CHAT_API_HOST",
 	"CHAT_BASE_URL",
+	"MW_CHAT_WEBSOCKET_API_HOST",
+	"MW_CHAT_WEBSOCKET_BASE_URL",
 	"TRAINING_API_HOST",
 	"TRAINING_BASE_URL",
 	"TEST_GENERAL_BFF_API_HOST",
@@ -47,7 +51,7 @@ var prodRequiredVariables = [16]string{
 	"SECRET_SESSION_KEY",
 }
 
-var devRequiredVariables = [16]string{
+var devRequiredVariables = [18]string{
 	"SERVER_PORT",
 	"WEBAPP_BASE_URL",
 	"ENV_TYPE",
@@ -59,6 +63,8 @@ var devRequiredVariables = [16]string{
 	"NOTIFICATION_BASE_URL",
 	"CHAT_API_HOST",
 	"CHAT_BASE_URL",
+	"MW_CHAT_WEBSOCKET_API_HOST",
+	"MW_CHAT_WEBSOCKET_BASE_URL",
 	"TRAINING_API_HOST",
 	"TRAINING_BASE_URL",
 	"TEST_GENERAL_BFF_API_HOST",
