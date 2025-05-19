@@ -6,7 +6,7 @@ import styles from "src/component/advantageItem/AdvantageItem.module.scss";
 /**
  * Advantage item props
  */
-interface AdvantageItemProps {
+export interface AdvantageItemProps {
 
   /**
    * Title text

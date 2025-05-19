@@ -12,45 +12,127 @@
     }
   },
   "planCard": {
-    "mentorSupport" : {
+    "ownTrainings": {
+      "ru": "Создание персональных тренингов",
+      "en": "Creation of personal trainings",
+      "ua": "Створення персональних тренінгів"
+    },
+    "trackProgress": {
+      "ru": "Статистика и отчеты для отслеживания прогресса",
+      "en": "Statistics and reports to track your progress",
+      "ua": "Статистика та звіти для відстеження прогресу"
+    },
+    "chat": {
+      "ru": "Чат для общения с бадди",
+      "en": "Chat to communicate with a buddy",
+      "ua": "Чат для спілкування з бадді"
+    },
+    "notifications": {
+      "ru": "Push-уведомления и напоминания",
+      "en": "Push notifications and reminders",
+      "ua": "Push-сповіщення та нагадування"
+    },
+    "aiSupport": {
+      "ru": "AI-помощник",
+      "en": "AI assistant",
+      "ua": "AI-помічник"
+    },
+    "mobileSupport": {
+      "ru": "Поддержка мобильной версии (PWA)",
+      "en": "Mobile version support (PWA)",
+      "ua": "Підтримка мобільної версії (PWA)"
+    },
+    "allInStart": {
+      "ru": "Возможности тарифа Start",
+      "en": "Everything in Start",
+      "ua": "Можливості тарифу Start"
+    },
+    "mentorSupport": {
       "ru": "24/7 поддержка ментора",
       "en": "24/7 mentor support",
       "ua": "24/7 підтримка наставників"
     },
-    "ownWays" : {
+    "consultation": {
+      "ru": "Онлайн-консультация с ментором для постановки цели",
+      "en": "Online consultation with a mentor to set a goal",
+      "ua": "Онлайн-консультація з ментором для встановлення мети"
+    },
+    "secondMeeting": {
+      "ru": "Онлайн-разбор прогресса и корректировка плана обучения",
+      "en": "Online progress review and learning plan adjustments",
+      "ua": "Онлайн-розбір прогресу та коригування плану навчання"
+    },
+    "allInGrow": {
+      "ru": "Возможности тарифа Grow",
+      "en": "Everуthing in Grow",
+      "ua": "Можливості тарифу Grow"
+    },
+    "prioritySupport": {
+      "ru": "Приоритетная поддержка и контроль качества",
+      "en": "Priority support & QA",
+      "ua": "Пріоритетна підтримка та контроль якості"
+    },
+    "featureRequest": {
+      "ru": "Прямые запросы на новые фичи",
+      "en": "Direct requests for new features",
+      "ua": "Прямі запити на нові фічі1"
+    },
+    "onboarding": {
+      "ru": "Онбординг и обучение групп работе с платформой",
+      "en": "Onboarding and training groups to work with the platform",
+      "ua": "Онбординг та навчання груп роботі з платформою"
+    },
+    "ownWays": {
       "ru": "Собственные пути",
       "en": "Own ways",
       "ua": "Власні шляхи"
     },
-    "privateWays" : {
+    "privateWays": {
       "ru": "Приватные пути",
       "en": "Private ways",
       "ua": "Приватні шляхи"
     },
-    "dayReports" : {
+    "dayReports": {
       "ru": "Дневные отчеты",
       "en": "Day reports",
       "ua": "Денні звіти"
     },
-    "skills" : {
+    "skills": {
       "ru": "Навыки",
       "en": "Skills",
       "ua": "Навички"
     },
-    "customCollections" : {
+    "customCollections": {
       "ru": "Пользовательские коллекции",
       "en": "Custom collections",
       "ua": "Індивідуальні колекції"
     },
-    "mentoringWays" : {
+    "mentoringWays": {
       "ru": "Пути ментора",
       "en": "Mentoring ways",
       "ua": "Шляхи ментора"
     },
-    "compositeWayDeps" : {
+    "compositeWayDeps": {
       "ru": "Композитный путь deps",
       "en": "Composite way deps",
       "ua": "Композитний шлях deps"
+    },
+    "callToActionButton": {
+      "start": {
+        "ru": "Начать",
+        "en": "Get started",
+        "ua": "Почніть"
+      },
+      "grow": {
+        "ru": "Поехали!",
+        "en": "Let's go!",
+        "ua": "Поїхали!"
+      },
+      "scale": {
+        "ru": "Связаться с нами",
+        "en": "Contact us",
+        "ua": "Зв'язатися з нами"
+      }
     }
   },
   "month": {
@@ -62,6 +144,11 @@
     "ru": "год",
     "en": "year",
     "ua": "рік"
+  },
+  "individually": {
+    "ru": "индивидуально",
+    "en": "individually",
+    "ua": "індивідуально"
   },
   "choose": {
     "ru": "Выбрать план",

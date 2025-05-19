@@ -1,5 +1,7 @@
 import clsx from "clsx";
+import {Button, ButtonType} from "src/component/button/Button";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
+import {Icon, IconSize} from "src/component/icon/Icon";
 import {Image} from "src/component/image/Image";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -8,7 +10,7 @@ import styles from "src/logic/staticPages/landingPages/problemItem/ProblemItem.m
 /**
  * ProblemItem props
  */
-interface ProblemItemProps {
+export interface ProblemItemProps {
 
   /**
    * Title text
@@ -30,6 +32,17 @@ interface ProblemItemProps {
    * @default false
    */
   isReversed?: boolean;
+
+  /**
+   * CTA button value
+   */
+  buttonValue?: string;
+
+  /**
+   * Callback triggered on CTA button click
+   */
+  onClick?: () => void;
+
 }
 
 /**
@@ -56,6 +69,21 @@ export const ProblemItem = (props: ProblemItemProps) => {
         <p className={styles.problemTitleDescription}>
           {props.description}
         </p>
+        {props.buttonValue &&
+        <Button
+          buttonType={ButtonType.PRIMARY}
+          value={props.buttonValue}
+          icon={
+            <Icon
+              size={IconSize.SMALL}
+              name="ArrowRightIcon"
+              className={styles.icon}
+            />
+          }
+          onClick={props.onClick ?? (() => { })}
+          className={clsx(styles.button, props.isReversed && styles.buttonReversed)}
+        />
+        }
       </VerticalContainer>
       <div className={styles.problemImageContainer}>
         <Image

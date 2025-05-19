@@ -134,21 +134,26 @@
   },
   "button": {
     "home": {
-    "ru": "Домашняя страница",
-    "en": "Home",
-    "ua": "Домашня сторінка"
-  },
-  "back": {
-    "ru": "Назад",
-    "en": "Back",
-    "ua": "Назад"
-  }
+      "ru": "Домашняя страница",
+      "en": "Home",
+      "ua": "Домашня сторінка"
+    },
+    "back": {
+      "ru": "Назад",
+      "en": "Back",
+      "ua": "Назад"
+    }
   },
   "payments": {
     "donateModal": {
-      "ru": "Мы благодарим вас за проявленный интерес! \n\nВы можете поддержать проект Master's Way через [**Patreon**](https://www.patreon.com/c/mastersway/posts)! \n\nТак же вы можете отправить небольшое пожертвование на крипто кошельки: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081 (etherium network) \n\n По любым вопросам обращайтесь на почту victorveretennikov58@gmail.com!",
-      "en": "We thank you for your interest!\n\nYou can support the Master's Way project through [**Patreon**](https://www.patreon.com/c/mastersway/posts)! \n\nYou can also send a small donation to crypto wallets: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081 (etherium network) \n\n For any questions, please contact victorveretennikov58@gmail.com!",
-      "ua": "Ми дякуємо вам за виявлений інтерес!\n\nВи можете підтримати проект Master's Way через [**Patreon**](https://www.patreon.com/c/mastersway/posts)!\n\n Також ви можете відправити невелику пожертву на крипто-гаманці: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * tether: 0x24e32141E945D88a703051605f568C489ea89081 (etherium network) \n\n З усіх питань пишіть на victorveretennikov58@gmail.com!"
+      "ru": "Мы благодарим вас за проявленный интерес! \n\nВы можете поддержать проект Master's Way через [**Patreon**](https://www.patreon.com/c/mastersway/posts)! \n\nТак же вы можете отправить небольшое пожертвование на крипто кошельки: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n По любым вопросам обращайтесь на почту victorveretennikov58@gmail.com!",
+      "en": "We thank you for your interest!\n\nYou can support the Master's Way project through [**Patreon**](https://www.patreon.com/c/mastersway/posts)! \n\nYou can also send a small donation to crypto wallets: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n For any questions, please contact victorveretennikov58@gmail.com!",
+      "ua": "Ми дякуємо вам за виявлений інтерес!\n\nВи можете підтримати проект Master's Way через [**Patreon**](https://www.patreon.com/c/mastersway/posts)!\n\n Також ви можете відправити невелику пожертву на крипто-гаманці: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n З усіх питань пишіть на victorveretennikov58@gmail.com!"
+    },
+    "contactUsModal": {
+      "ru": "Мы благодарим вас за проявленный интерес! Сейчас приложение доступно полностью бесплатно. Если вы ищете ментора или у вас есть особый запрос, напишите на почту: victorveretennikov58@gmail.com. Мы обязательно свяжемся с вами! \n\nВы можете поддержать проект Master's Way через [**Patreon**](https://www.patreon.com/c/mastersway/posts)! \n\nТак же вы можете отправить небольшое пожертвование на крипто кошельки: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n По любым вопросам обращайтесь на почту victorveretennikov58@gmail.com!",
+      "en": "We thank you for your interest!\n\nYou can support the Master's Way project through [**Patreon**](https://www.patreon.com/c/mastersway/posts)! \n\nYou can also send a small donation to crypto wallets: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n For any questions, please contact victorveretennikov58@gmail.com!",
+      "ua": "Ми дякуємо вам за виявлений інтерес!\n\nВи можете підтримати проект Master's Way через [**Patreon**](https://www.patreon.com/c/mastersway/posts)!\n\n Також ви можете відправити невелику пожертву на крипто-гаманці: \n\n * Bitcoin: bc1qwemlhwklwsfl3xejkdg7w6s02x7s99eyy8vgwj \n\n * Ethereum: 0x24e32141E945D88a703051605f568C489ea89081 (ETH network) \n\n * Tether: 0x24e32141E945D88a703051605f568C489ea89081 (Etherium network) \n\n З усіх питань пишіть на victorveretennikov58@gmail.com!"
     }
   }
 }

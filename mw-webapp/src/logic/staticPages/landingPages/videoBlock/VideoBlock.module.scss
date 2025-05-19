@@ -1,0 +1,51 @@
+@import "src/styles/variables";
+
+.videoBlock {
+  max-width: $maxWidthLandingContainer;
+  align-items: center;
+  padding: $paddingVerticalBlockBig $paddingMedium;
+  margin: 0 auto;
+  background-color: var(--tertiaryBgColor);
+  gap: $gapBig;
+
+  @media (max-width: $mediaWidthMobileMedium) {
+    padding: $paddingMedium;
+  }
+}
+
+.title {
+  font-size: $fontSizeTitleBig;
+  text-align: center;
+}
+
+.titleDescription {
+  text-align: center;
+}
+
+.videoContainer {
+  width: 65%;
+  margin: 0 auto;
+  max-width: 100%;
+
+  @media (max-width: $mediaWidthTablet) {
+    width: 100%;
+  }
+}
+
+.videoResponsiveContainer {
+  position: relative;
+  width: 100%;
+  // For the responsive video responsive 16:9 (9 / 16 * 100)
+  padding-bottom: 56.25%;
+  overflow: hidden;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: $primaryBorderRadius;
+  border: $primaryBorder solid var(--generalPrimaryColor);
+}

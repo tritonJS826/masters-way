@@ -15,7 +15,7 @@ import {VerticalContainer} from "src/component/verticalContainer/VerticalContain
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
-import {pricePlans} from "src/logic/pricePlans";
+import {pricePlansList} from "src/logic/pricePlans";
 import {getStarted} from "src/logic/staticPages/homePage/HomePage";
 import {AmountBlock, AmountItem} from "src/logic/staticPages/landingPages/amountBlock/AmountBlock";
 import {FooterLanding} from "src/logic/staticPages/landingPages/footerLanding/FooterLanding";
@@ -277,7 +277,7 @@ export const StudentsWithMentorsLandingPage = observer(() => {
             text={LanguageService.studentsWithMentorsLanding.pricing.title[language]}
             placeholder=""
           />
-          <PricingBlock pricePlans={pricePlans} />
+          <PricingBlock pricePlans={pricePlansList} />
         </div>
 
         <div
