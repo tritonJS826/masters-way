@@ -131,9 +131,8 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     handleChangeFinish();
   };
 
-
   const isEditButtonVisible = props.isEditable && !isEditing;
-  
+
   /**
    * Render Textarea
    */
@@ -168,9 +167,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
               name="CheckIcon"
             />
           }
-          onClick={() => {
-            setIsEditing(false);
-          }}
+          onClick={handleChangeFinish}
           buttonType={ButtonType.ICON_BUTTON}
         />
       </HorizontalContainer>

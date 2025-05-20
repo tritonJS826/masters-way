@@ -168,7 +168,7 @@ export const Title = (props: TitleProps) => {
       className={clsx(props.className)}
       data-cy={props.cy?.dataCyTitleContainer}
     >
-      <div className={styles.editButton}>
+      <div className={styles.textContainer}>
         {isEditing
           ? (
             <>
@@ -192,38 +192,39 @@ export const Title = (props: TitleProps) => {
                       name="CheckIcon"
                     />
                   }
-                  onClick={() => {
-                    setIsEditing(false);
-                  }}
+                  onClick={handleChangeFinish}
                   buttonType={ButtonType.ICON_BUTTON}
                 />
               </HorizontalContainer>
             </>
           )
           : (
-            <Heading
-              onClick={props.onClick}
-              as={props.level}
-              className={clsx(styles.heading, props.classNameHeading)}
-            >
-              {text === "" ? props.placeholder : text}
-            </Heading>
-          )
-        }
-        {isEditButtonVisible && (
-          <Button
-            icon={
-              <Icon
-                size={IconSize.SMALL}
-                name="PenToolIcon"
-              />
-            }
-            onClick={() => {
-              setIsEditing(true);
-            }}
-            buttonType={ButtonType.ICON_BUTTON}
-          />
-        )}
+            <>
+              <Heading
+                onClick={props.onClick}
+                as={props.level}
+                className={clsx(styles.heading, props.classNameHeading)}
+              >
+                {text === "" ? props.placeholder : text}
+              </Heading>
+              {isEditButtonVisible && (
+                <div className={styles.editButton}>
+                  <Button
+                    icon={
+                      <Icon
+                        size={IconSize.SMALL}
+                        name="PenToolIcon"
+                      />
+                    }
+                    onClick={() => {
+                      setIsEditing(true);
+                    }}
+                    buttonType={ButtonType.ICON_BUTTON}
+                  />
+                </div>
+              )}
+            </>
+          )}
       </div>
     </div>
   );
