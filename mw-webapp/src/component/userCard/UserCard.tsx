@@ -16,6 +16,7 @@ import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
+import {Symbols} from "src/utils/Symbols";
 import styles from "src/component/userCard/UserCard.module.scss";
 
 /**
@@ -128,13 +129,15 @@ export const UserCard = observer((props: UserCardProps) => {
           </HorizontalContainer>
           <HorizontalContainer className={styles.ways}>
             <span>
-              {`${LanguageService.allUsers.userCard.ownWays[language]} (${props.userPreview.ownWays})`}
+              {`${LanguageService.allUsers.userCard.ownWays[language]}${Symbols.NO_BREAK_SPACE}(${props.userPreview.ownWays})`}
             </span>
             <span>
-              {`${LanguageService.allUsers.userCard.favoriteWays[language]} (${props.userPreview.favoriteWays})`}
+              {`${LanguageService.allUsers.userCard.favoriteWays[language]}${Symbols.NO_BREAK_SPACE}` +
+                `(${props.userPreview.favoriteWays})`}
             </span>
             <span>
-              {`${LanguageService.allUsers.userCard.mentoringWays[language]} (${props.userPreview.mentoringWays})`}
+              {`${LanguageService.allUsers.userCard.mentoringWays[language]}${Symbols.NO_BREAK_SPACE}` +
+                `(${props.userPreview.mentoringWays})`}
             </span>
           </HorizontalContainer>
         </VerticalContainer>
