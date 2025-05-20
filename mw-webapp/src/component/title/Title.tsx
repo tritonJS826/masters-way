@@ -192,9 +192,7 @@ export const Title = (props: TitleProps) => {
                       name="CheckIcon"
                     />
                   }
-                  onClick={() => {
-                    handleChangeFinish();
-                  }}
+                  onClick={handleChangeFinish}
                   buttonType={ButtonType.ICON_BUTTON}
                 />
               </HorizontalContainer>

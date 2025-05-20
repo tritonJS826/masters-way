@@ -167,9 +167,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
               name="CheckIcon"
             />
           }
-          onClick={() => {
-            handleChangeFinish();
-          }}
+          onClick={handleChangeFinish}
           buttonType={ButtonType.ICON_BUTTON}
         />
       </HorizontalContainer>
