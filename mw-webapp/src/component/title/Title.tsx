@@ -193,7 +193,6 @@ export const Title = (props: TitleProps) => {
                     />
                   }
                   onClick={() => {
-                    setIsEditing(false);
                     handleChangeFinish();
                   }}
                   buttonType={ButtonType.ICON_BUTTON}

@@ -131,9 +131,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     handleChangeFinish();
   };
 
-  /**
-   * Is edit button visible
-   */
   const isEditButtonVisible = props.isEditable && !isEditing;
 
   /**
@@ -172,7 +169,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
           }
           onClick={() => {
             handleChangeFinish();
-            setIsEditing(false);
           }}
           buttonType={ButtonType.ICON_BUTTON}
         />
