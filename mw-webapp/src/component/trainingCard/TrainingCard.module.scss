@@ -17,9 +17,9 @@ $wayCardAdditionalHeight: 118px;
 
 .mainInfo {
   height: $wayCardMainHeight;
-  padding: $paddingBig $paddingMedium $paddingMedium;
+  padding: $paddingMedium;
   background-color: var(--mainInfoCardColor);
-  gap: $gapMedium;
+  gap: $gapSmall;
 }
 
 .title {
@@ -62,6 +62,7 @@ $wayCardAdditionalHeight: 118px;
   -webkit-box-orient: vertical;
   gap: $gapSmall;
   -webkit-line-clamp: 1;
+  margin-top: auto;
 }
 
 .nameLikes {
