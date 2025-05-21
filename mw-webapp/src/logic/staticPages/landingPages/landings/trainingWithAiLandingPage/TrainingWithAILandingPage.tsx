@@ -29,6 +29,13 @@ import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/logic/staticPages/landingPages/landings/trainingWithAiLandingPage/TrainingWithAILandingPage.module.scss";
 
+const VIDEO_BLOCK_ID = "abd4z738-01d2-444d-b83d-0ee97c02329a";
+const ADVANTAGES_BLOCK_ID = "8bh273ef-6477-450c-89fc-e3a763e69899";
+const PROBLEMS_BLOCK_ID = "3c716293-1460-4037-af44-85bc3148fe93";
+const REVIEWS_BLOCK_ID = "2e482b1a-9b98-4c46-a276-dc0d7bf02275";
+const PRICING_BLOCK_ID = "f3ad75b9-dda3-4bff-8f54-6e012d833b68";
+const QUESTIONS_BLOCK_ID = "08b1650b-6e42-4361-87b8-e029a36e8f1a";
+
 /**
  * Training with AI landing page
  */
@@ -41,27 +48,27 @@ export const TrainingWithAILandingPage = observer(() => {
 
   const navList: NavLink[] = [
     {
-      path: "video",
+      path: VIDEO_BLOCK_ID,
       value: LanguageService.trainingWithAiLanding.navigation.video[language],
     },
     {
-      path: "advantages",
+      path: ADVANTAGES_BLOCK_ID,
       value: LanguageService.trainingWithAiLanding.navigation.advantages[language],
     },
     {
-      path: "problems",
+      path: PROBLEMS_BLOCK_ID,
       value: LanguageService.trainingWithAiLanding.navigation.solutions[language],
     },
     {
-      path: "reviews",
+      path: REVIEWS_BLOCK_ID,
       value: LanguageService.trainingWithAiLanding.navigation.reviews[language],
     },
     {
-      path: "pricing",
+      path: PRICING_BLOCK_ID,
       value: LanguageService.trainingWithAiLanding.navigation.pricing[language],
     },
     {
-      path: "questions",
+      path: QUESTIONS_BLOCK_ID,
       value: LanguageService.trainingWithAiLanding.navigation.questions[language],
     },
   ];
@@ -153,7 +160,7 @@ export const TrainingWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.trainingWithAiLanding.reviews.kirillReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1T4XtkEjC7KKgqnox7yE9JttbWdxfzlr4&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1Y7dC3TG5cuNaWza9Xf0-07cGAJEtUYQ2"
           reviewerName={LanguageService.trainingWithAiLanding.reviews.kirillReview.mentorName[language]}
           reviewerProfession={LanguageService.trainingWithAiLanding.reviews.kirillReview.mentorProfession[language]}
         />
@@ -165,7 +172,7 @@ export const TrainingWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.trainingWithAiLanding.reviews.viktarReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=18oHI9KoiaYvd_UowHyqsJbDLLhmuxPxr&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=18PdMfcNQs8Cy_u3VzDhwSM3V18nTIXQh"
           reviewerName={LanguageService.trainingWithAiLanding.reviews.viktarReview.mentorName[language]}
           reviewerProfession={LanguageService.trainingWithAiLanding.reviews.viktarReview.mentorProfession[language]}
         />
@@ -177,7 +184,7 @@ export const TrainingWithAILandingPage = observer(() => {
         <ReviewCard
           gradeAmount={5}
           review={LanguageService.trainingWithAiLanding.reviews.viktoryiaReview.review[language]}
-          reviewerImageUrl="https://drive.google.com/thumbnail?id=1uEyBTZIon2OFQOOG7pCtkigXYD4YXwc8&sz=w1000"
+          reviewerImageUrl="https://drive.google.com/thumbnail?id=1-6Vtr_t5td4RSjXLnoj5fZxJ1nPrf7KE"
           reviewerName={LanguageService.trainingWithAiLanding.reviews.viktoryiaReview.mentorName[language]}
           reviewerProfession={LanguageService.trainingWithAiLanding.reviews.viktoryiaReview.mentorProfession[language]}
         />
@@ -210,7 +217,7 @@ export const TrainingWithAILandingPage = observer(() => {
         {/* Can't use VerticalContainer because anchor links don't works */}
         <div
           className={styles.videoBlock}
-          id="video"
+          id={VIDEO_BLOCK_ID}
         >
           <VideoBlock
             title={LanguageService.trainingWithAiLanding.videoBlock.title[language]}
@@ -224,7 +231,7 @@ export const TrainingWithAILandingPage = observer(() => {
         {/* Can't use VerticalContainer because anchor links don't works */}
         <div
           className={styles.advantagesBlock}
-          id="advantages"
+          id={ADVANTAGES_BLOCK_ID}
         >
           <AdvantagesBlock
             title={LanguageService.trainingWithAiLanding.advantages.title[language]}
@@ -237,7 +244,7 @@ export const TrainingWithAILandingPage = observer(() => {
         {/* Can't use VerticalContainer because anchor links don't works */}
         <div
           className={styles.problemsBlock}
-          id="problems"
+          id={PROBLEMS_BLOCK_ID}
         >
           <ProblemsBlock
             title={LanguageService.trainingWithAiLanding.solutions.title[language]}
@@ -248,7 +255,7 @@ export const TrainingWithAILandingPage = observer(() => {
 
         <div
           className={styles.reviewBlock}
-          id="reviews"
+          id={REVIEWS_BLOCK_ID}
         >
           <ReviewsBlock
             title={LanguageService.trainingWithAiLanding.reviews.title[language]}
@@ -260,7 +267,7 @@ export const TrainingWithAILandingPage = observer(() => {
 
         <div
           className={styles.pricingBlock}
-          id="pricing"
+          id={PRICING_BLOCK_ID}
         >
           <Title
             className={styles.title}
@@ -273,7 +280,7 @@ export const TrainingWithAILandingPage = observer(() => {
 
         <div
           className={styles.questionsBlock}
-          id="questions"
+          id={QUESTIONS_BLOCK_ID}
         >
           <VerticalContainer className={styles.titleBlock}>
             <Title

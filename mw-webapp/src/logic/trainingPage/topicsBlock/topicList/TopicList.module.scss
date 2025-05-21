@@ -9,6 +9,11 @@
   &:hover {
     background-color: var(--tertiaryBgColor);
   }
+
+  @media (max-width: $mediaWidthMobileBig) {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
 }
 
 .tabContainer {

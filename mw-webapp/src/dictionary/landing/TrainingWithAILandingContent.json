@@ -216,14 +216,14 @@
         "ua": "Я довго не могла знайти підходящий курс — все було або надто загальним. На платформі Master's Way всього за пару хвилин я змогла створити план, який ідеально відповідає моїм цілям та досвіду. Це справжня магія! Вчитися одразу стало набагато простіше та цікавіше."
       },
       "mentorName": {
-        "ru": "Kirill",
-        "en": "Kirill",
-        "ua": "Kirill"
+        "ru": "Anna",
+        "en": "Anna",
+        "ua": "Anna"
       },
       "mentorProfession": {
-        "ru": "ментор по Golang",
-        "en": "Golang mentor",
-        "ua": "ментор по Golang"
+        "ru": "учу back-end, Golang",
+        "en": "learning back-end, Golang",
+        "ua": "навчаю back-end, Golang"
       }
     },
     "viktarReview": {
@@ -233,14 +233,14 @@
         "ua": "Головна проблема онлайн-навчання для мене – це відсутність чіткої структури. З Master's Way я отримав покроковий план і тепер я знаю, куди рухатися. Я бачу свій прогрес і це дуже мотивує. Вперше відчуваю, що справді йду до своєї мети, а не просто читаю розрізнені матеріали."
       },
       "mentorName": {
-        "ru": "Victar",
-        "en": "Victar",
-        "ua": "Victar"
+        "ru": "Pavel",
+        "en": "Pavel",
+        "ua": "Pavel"
       },
       "mentorProfession": {
-        "ru": "ментор по React, TS",
-        "en": "React, TS mentor",
-        "ua": "ментор з React, TS"
+        "ru": "учу React, TS",
+        "en": "learning React, TS",
+        "ua": "навчаю React, TS"
       }
     },
     "viktoryiaReview": {
@@ -250,14 +250,14 @@
         "ua": "Створення курсу зайняло мінімум часу, але дало максимум користі. Інформація є актуальною, є і теорія, і практичні завдання. А коли виникають питання, знаю, що будь-коли можу звернутися до ментора. Це зовсім інший рівень підтримки, порівняно зі звичайними курсами."
       },
       "mentorName": {
-        "ru": "Viktoryia",
-        "en": "Viktoryia",
-        "ua": "Viktoryia"
+        "ru": "Elithabeth",
+        "en": "Elithabeth",
+        "ua": "Elithabeth"
       },
       "mentorProfession": {
-        "ru": "ментор по UX/UI",
-        "en": "UX/UI mentor",
-        "ua": "ментор по UX/UI"
+        "ru": "учу QA",
+        "en": "learning QA",
+        "ua": "навчаю QA"
       }
     }
   },
