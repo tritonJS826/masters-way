@@ -49,6 +49,11 @@ export const SupportModalContent = () => {
       title: LanguageService.modals.supportModal.students.howToLeadWay.title[language],
       url: LanguageService.modals.supportModal.students.howToLeadWay.videoUrl[language],
     },
+    {
+      id: "3",
+      title: LanguageService.modals.supportModal.students.howToCreatePersonalizedTraining.title[language],
+      url: LanguageService.modals.supportModal.students.howToCreatePersonalizedTraining.videoUrl[language],
+    },
   ];
 
   const mentorsTabList: SupportTabItem[] = [
@@ -59,13 +64,8 @@ export const SupportModalContent = () => {
     },
     {
       id: "1",
-      title: LanguageService.modals.supportModal.mentors.howToManageTeam.title[language],
-      url: LanguageService.modals.supportModal.mentors.howToManageTeam.videoUrl[language],
-    },
-    {
-      id: "2",
-      title: LanguageService.modals.supportModal.mentors.projectsManagement.title[language],
-      url: LanguageService.modals.supportModal.mentors.projectsManagement.videoUrl[language],
+      title: LanguageService.modals.supportModal.mentors.howToCreatePersonalizedTraining.title[language],
+      url: LanguageService.modals.supportModal.mentors.howToCreatePersonalizedTraining.videoUrl[language],
     },
   ];
 
@@ -77,8 +77,8 @@ export const SupportModalContent = () => {
     },
     {
       id: "1",
-      title: LanguageService.modals.supportModal.business.projectsManagement.title[language],
-      url: LanguageService.modals.supportModal.business.projectsManagement.videoUrl[language],
+      title: LanguageService.modals.supportModal.business.howToCreatePersonalizedTraining.title[language],
+      url: LanguageService.modals.supportModal.business.howToCreatePersonalizedTraining.videoUrl[language],
     },
   ];
 

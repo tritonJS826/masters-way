@@ -121,6 +121,18 @@
           "en": "https://www.youtube.com/embed/EXpr-cSqmZ4",
           "ua": "https://www.youtube.com/embed/EXpr-cSqmZ4"
         }
+      },
+      "howToCreatePersonalizedTraining": {
+        "title": {
+          "ru": "Создание персонализированного курса",
+          "en": "Creating a personalized course",
+          "ua": "Створення персоналізованого курсу"
+        },
+        "videoUrl": {
+          "ru": "https://www.youtube.com/embed/qLTdhz-_ZPM?si=IIzx_XaYGeJkMo30",
+          "en": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY",
+          "ua": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY"
+        }
       }
     }, 
     "mentors": {
@@ -141,28 +153,16 @@
           "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
         }
       },
-      "howToManageTeam": {
+      "howToCreatePersonalizedTraining": {
         "title": {
-          "ru": "Как управлять командой",
-          "en": "How to manage a team",
-          "ua": "Як керувати командою"
+          "ru": "Создание персонализированного курса",
+          "en": "Creating a personalized course",
+          "ua": "Створення персоналізованого курсу"
         },
         "videoUrl": {
-          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
-          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
-          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
-        }
-      },
-      "projectsManagement": {
-        "title": {
-          "ru": "Управление проектами",
-          "en": "Projects management",
-          "ua": "Управління проектами"
-        },
-        "videoUrl": {
-          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
-          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
-          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
+          "ru": "https://www.youtube.com/embed/qLTdhz-_ZPM?si=IIzx_XaYGeJkMo30",
+          "en": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY",
+          "ua": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY"
         }
       }
     },
@@ -184,16 +184,16 @@
           "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
         }
       },
-      "projectsManagement": {
+      "howToCreatePersonalizedTraining": {
         "title": {
-          "ru": "Управление проектами",
-          "en": "Projects management",
-          "ua": "Управління проектами"
+          "ru": "Создание персонализированного курса",
+          "en": "Creating a personalized course",
+          "ua": "Створення персоналізованого курсу"
         },
         "videoUrl": {
-          "ru": "https://www.youtube.com/embed/XcksHad5bq0",
-          "en": "https://www.youtube.com/embed/HMwgXFa4w3M",
-          "ua": "https://www.youtube.com/embed/HMwgXFa4w3M"
+          "ru": "https://www.youtube.com/embed/qLTdhz-_ZPM?si=IIzx_XaYGeJkMo30",
+          "en": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY",
+          "ua": "https://www.youtube.com/embed/bMmbB3wGvKQ?si=o31mmF44NbiY-NdY"
         }
       }
     }
