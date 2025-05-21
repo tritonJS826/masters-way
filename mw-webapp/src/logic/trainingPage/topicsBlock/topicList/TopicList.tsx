@@ -128,6 +128,7 @@ export const TopicChildrenList = observer((props: TopicChildrenListProps) => {
                       topicParentId: childTopic.uuid,
                       topicName: topic.name,
                     })}
+                    topicParentUuid={childTopic.uuid}
                     trainingId={childTopic.trainingUuid}
                   />
                 }
