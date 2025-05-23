@@ -70,6 +70,15 @@ interface TextareaProps {
    */
   isDisabled?: boolean;
 
+  /**
+   * Handle paste event
+   */
+  onPaste?: (event: React.ClipboardEvent<HTMLTextAreaElement>) => void;
+
+  /**
+   * Max text length value
+   */
+  maxCharacterCount?: number;
 }
 
 /**
@@ -90,10 +99,14 @@ export const Textarea = (props: TextareaProps) => {
    * Handle textarea event
    */
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    if (props.onChange) {
-      props.onChange(event.target.value);
+    const newValue = event.target.value;
+    if (props.maxCharacterCount && newValue.length > props.maxCharacterCount) {
+      return;
     }
-    setValue(event.target.value);
+    if (props.onChange) {
+      props.onChange(newValue);
+    }
+    setValue(newValue);
   };
 
   useEffect(() => {
@@ -123,11 +136,13 @@ export const Textarea = (props: TextareaProps) => {
       placeholder={props.placeholder}
       value={value}
       onChange={handleTextChange}
+      onPaste={props.onPaste}
       rows={props.rows ?? DEFAULT_ROWS_AMOUNT}
       autoFocus={props.isAutofocus}
       onKeyDown={props.onKeyPress}
       ref={textareaRef}
       disabled={props.isDisabled}
+      maxLength={props.maxCharacterCount}
     />
   );
 };

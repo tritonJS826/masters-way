@@ -89,6 +89,9 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   const [text, setText] = useState(props.text);
   const isEmptyText = text.toString().trim() === "";
 
+  const isEditButtonVisible = props.isEditable && !isEditing;
+  const isCharacterCountExceeded = props.maxCharacterCount ? text.length >= props.maxCharacterCount : false;
+
   useEffect(() => {
     setText(props.text);
   }, [props.text]);
@@ -114,11 +117,33 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
    * OnChangeInput
    */
   const onChangeInput = (value: string) => {
+    setText(value);
     updateValueWithValidatorsHandler({
       updatedValue: value,
       validators: props.validators,
       setValue: setText,
     });
+  };
+
+  /**
+   * Handle paste event
+   */
+  const handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    if (props.maxCharacterCount) {
+      const pastedText = event.clipboardData.getData("text");
+      const newLength = text.length + pastedText.length;
+      if (newLength > props.maxCharacterCount) {
+        event.preventDefault();
+        const truncatedText = pastedText.slice(0, props.maxCharacterCount - text.length);
+        const newValue = text + truncatedText;
+        setText(newValue);
+        updateValueWithValidatorsHandler({
+          updatedValue: newValue,
+          validators: props.validators,
+          setValue: setText,
+        });
+      }
+    }
   };
 
   /**
@@ -131,8 +156,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     handleChangeFinish();
   };
 
-  const isEditButtonVisible = props.isEditable && !isEditing;
-
   /**
    * Render Textarea
    */
@@ -142,19 +165,24 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         cy={props.cy?.textArea}
         defaultValue={text}
         onChange={onChangeInput}
+        onPaste={handlePaste}
         placeholder={props.placeholder}
         rows={props.rows}
         isAutofocus
         onKeyPress={handleCtrlEnter}
+        maxCharacterCount={props.maxCharacterCount}
       />
       <HorizontalContainer className={styles.editableTextAreaFooter}>
         {props.maxCharacterCount && (
-          <div className={styles.characterCount}>
+          <div className={clsx(styles.characterCount, {[styles.characterCountExceeded]: isCharacterCountExceeded})}>
             {`${props.maxCharacterCount - text.length}`}
           </div>
         )}
 
         <EmojiPickerPopover onEmojiSelect={(emoji: Emoji) => {
+          if (props.maxCharacterCount && (text.length + emoji.native.length) > props.maxCharacterCount) {
+            return;
+          }
           const newText = text + emoji.native;
           setText(newText);
           props.onChangeFinish(newText);

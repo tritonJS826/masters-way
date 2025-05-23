@@ -17,7 +17,10 @@ $editableTextarea-width: 100%;
 
 .characterCount {
   color: var(--tertiaryTextColor);
-  font-size: $fontSizeSmall;
+}
+
+.characterCountExceeded {
+  color: var(--dangerColor);
 }
 
 .editableTextAreaFooter {
