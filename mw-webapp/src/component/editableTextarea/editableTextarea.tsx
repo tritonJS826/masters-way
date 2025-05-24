@@ -125,27 +125,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   };
 
   /**
-   * Handle paste event
-   */
-  const handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
-    if (props.maxCharacterCount) {
-      const pastedText = event.clipboardData.getData("text");
-      const newLength = text.length + pastedText.length;
-      if (newLength > props.maxCharacterCount) {
-        event.preventDefault();
-        const truncatedText = pastedText.slice(0, props.maxCharacterCount - text.length);
-        const newValue = text + truncatedText;
-        setText(newValue);
-        updateValueWithValidatorsHandler({
-          updatedValue: newValue,
-          validators: props.validators,
-          setValue: setText,
-        });
-      }
-    }
-  };
-
-  /**
    * Prevents blur event when interacting with footer buttons to keep editing mode active
    */
   const preventBlurOnFooterInteractionAndHandleChangeFinish = (event: React.FocusEvent<HTMLDivElement>) => {
@@ -164,7 +143,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         cy={props.cy?.textArea}
         defaultValue={text}
         onChange={onChangeInput}
-        onPaste={handlePaste}
         placeholder={props.placeholder}
         rows={props.rows}
         isAutofocus
