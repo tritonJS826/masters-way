@@ -744,6 +744,7 @@ export const TopicPage = observer((props: TopicPageProps) => {
                       placeholder=""
                     />
                     <EditableTextarea
+                      isEditable={isOwner}
                       maxCharacterCount={MAX_TRAINING_MATERIAL_LENGTH}
                       placeholder={isOwner
                         ? LanguageService.common.emptyMarkdownAction[language]

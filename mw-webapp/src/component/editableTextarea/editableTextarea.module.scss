@@ -26,8 +26,10 @@ $editableTextarea-width: 100%;
 .editableTextAreaFooter {
   align-items: center;
   justify-content: flex-end;
+  margin: $marginSmall;
 }
 
 .editButton {
   justify-content: flex-end;
+  margin: $marginSmall;
 }
