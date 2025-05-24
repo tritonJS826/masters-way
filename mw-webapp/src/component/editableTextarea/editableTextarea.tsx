@@ -117,7 +117,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
    * OnChangeInput
    */
   const onChangeInput = (value: string) => {
-    setText(value);
     updateValueWithValidatorsHandler({
       updatedValue: value,
       validators: props.validators,

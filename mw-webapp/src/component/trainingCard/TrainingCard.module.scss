@@ -22,16 +22,6 @@ $trainingCardAdditionalHeight: 82px;
   gap: $gapSmall;
 }
 
-.title {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  color: var(--secondaryTextColor);
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
-  white-space: initial;
-}
-
 .trainingDescription {
   display: -webkit-box;
   overflow: hidden;
@@ -59,10 +49,10 @@ $trainingCardAdditionalHeight: 82px;
   flex-wrap: nowrap;
   align-items: center;
   margin-top: auto;
+  margin-top: auto;
   -webkit-box-orient: vertical;
   gap: $gapSmall;
   -webkit-line-clamp: 1;
-  margin-top: auto;
 }
 
 .nameLikes {

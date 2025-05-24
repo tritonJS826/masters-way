@@ -99,14 +99,10 @@ export const Textarea = (props: TextareaProps) => {
    * Handle textarea event
    */
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = event.target.value;
-    if (props.maxCharacterCount && newValue.length > props.maxCharacterCount) {
-      return;
-    }
     if (props.onChange) {
-      props.onChange(newValue);
+      props.onChange(event.target.value);
     }
-    setValue(newValue);
+    setValue(event.target.value);
   };
 
   useEffect(() => {

@@ -71,6 +71,11 @@ interface InputProps<T extends string | number> {
   max?: number;
 
   /**
+   * Maximum length of text input
+   */
+  maxLength?: number;
+
+  /**
    * Minimum value for input type "number"
    */
   min?: number;
@@ -146,6 +151,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         break;
       }
     }
+
     setText(parsedValue);
     props.onChange(parsedValue);
   };
@@ -166,6 +172,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         type={props.type ?? "text"}
         max={props.max}
         min={props.min}
+        maxLength={props.maxLength}
         placeholder={props.placeholder}
         className={clsx(styles.input, props.className)}
         inputMode={props.inputMode}
@@ -176,6 +183,7 @@ export const Input = <T extends string | number>(props: InputProps<T>) => {
         data-cy={props.dataCy}
         onKeyDown={props.onKeyDown}
         multiple={props.type === "file" && true}
+
       />
     </HorizontalContainer>
   );

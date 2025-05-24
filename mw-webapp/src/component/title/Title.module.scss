@@ -31,7 +31,9 @@ h4 {
 
 .textContainer {
   position: relative;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .editableTextAreaFooter {
@@ -43,9 +45,15 @@ h4 {
   color: var(--tertiaryTextColor);
 }
 
-.editButton {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
+.characterCountExceeded {
+  color: var(--dangerColor);
+}
+
+.clampedText {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  white-space: initial;
 }
