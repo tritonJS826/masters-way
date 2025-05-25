@@ -121,6 +121,59 @@ type PracticeMaterial struct {
 	UpdatedAt             pgtype.Timestamp `json:"updated_at"`
 }
 
+type Question struct {
+	Uuid          pgtype.UUID      `json:"uuid"`
+	TestUuid      pgtype.UUID      `json:"test_uuid"`
+	QuestionText  string           `json:"question_text"`
+	QuestionOrder int32            `json:"question_order"`
+	TimeToAnswer  int32            `json:"time_to_answer"`
+	Answer        string           `json:"answer"`
+	IsActive      bool             `json:"is_active"`
+	IsPrivate     bool             `json:"is_private"`
+	CreatedAt     pgtype.Timestamp `json:"created_at"`
+	UpdatedAt     pgtype.Timestamp `json:"updated_at"`
+}
+
+type QuestionResult struct {
+	Uuid              pgtype.UUID      `json:"uuid"`
+	QuestionUuid      pgtype.UUID      `json:"question_uuid"`
+	UserUuid          pgtype.UUID      `json:"user_uuid"`
+	TestUuid          pgtype.UUID      `json:"test_uuid"`
+	TestSessionUuid   pgtype.UUID      `json:"test_session_uuid"`
+	IsOk              bool             `json:"is_ok"`
+	ResultDescription string           `json:"result_description"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+}
+
+type Test struct {
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	IsPrivate   bool             `json:"is_private"`
+	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+}
+
+type TestSession struct {
+	Uuid pgtype.UUID `json:"uuid"`
+}
+
+type TestSessionResult struct {
+	Uuid              pgtype.UUID      `json:"uuid"`
+	TestUuid          pgtype.UUID      `json:"test_uuid"`
+	SessionUuid       pgtype.UUID      `json:"session_uuid"`
+	UserUuid          pgtype.UUID      `json:"user_uuid"`
+	ResultDescription string           `json:"result_description"`
+	CreatedAt         pgtype.Timestamp `json:"created_at"`
+}
+
+type TestsQuestion struct {
+	TestUuid     pgtype.UUID      `json:"test_uuid"`
+	QuestionUuid pgtype.UUID      `json:"question_uuid"`
+	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
 type TheoryMaterial struct {
 	Uuid                pgtype.UUID      `json:"uuid"`
 	TopicUuid           pgtype.UUID      `json:"topic_uuid"`
@@ -165,6 +218,11 @@ type TrainingsStudent struct {
 	TrainingUuid pgtype.UUID      `json:"training_uuid"`
 	StudentUuid  pgtype.UUID      `json:"student_uuid"`
 	CreatedAt    pgtype.Timestamp `json:"created_at"`
+}
+
+type TrainingsTest struct {
+	TrainingUuid pgtype.UUID `json:"training_uuid"`
+	TestUuid     pgtype.UUID `json:"test_uuid"`
 }
 
 type TrainingsTrainingTag struct {

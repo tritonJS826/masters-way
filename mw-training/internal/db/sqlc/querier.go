@@ -11,9 +11,20 @@ import (
 )
 
 type Querier interface {
+	AddQuestionToTest(ctx context.Context, arg AddQuestionToTestParams) (TestsQuestion, error)
+	CheckQuestionInTest(ctx context.Context, arg CheckQuestionInTestParams) (bool, error)
+	CountPublicTests(ctx context.Context, testName string) (int64, error)
+	CountQuestionsByTestId(ctx context.Context, arg CountQuestionsByTestIdParams) (int64, error)
+	CountQuestionsInTest(ctx context.Context, testUuid pgtype.UUID) (int64, error)
+	CountTestAttempts(ctx context.Context, testUuid pgtype.UUID) (CountTestAttemptsRow, error)
+	CountTestsWithQuestion(ctx context.Context, questionUuid pgtype.UUID) (int64, error)
 	CountTrainings(ctx context.Context, trainingName string) (int64, error)
 	CreateFavoriteTrainingForUser(ctx context.Context, arg CreateFavoriteTrainingForUserParams) (FavoriteUsersTraining, error)
 	CreatePracticeMaterialInTopic(ctx context.Context, arg CreatePracticeMaterialInTopicParams) (PracticeMaterial, error)
+	CreateQuestion(ctx context.Context, arg CreateQuestionParams) (Question, error)
+	CreateQuestionResult(ctx context.Context, arg CreateQuestionResultParams) (QuestionResult, error)
+	CreateTest(ctx context.Context, arg CreateTestParams) (Test, error)
+	CreateTestResult(ctx context.Context, arg CreateTestResultParams) (TestSessionResult, error)
 	CreateTheoryMaterialInTopic(ctx context.Context, arg CreateTheoryMaterialInTopicParams) (TheoryMaterial, error)
 	CreateTopicInTraining(ctx context.Context, arg CreateTopicInTrainingParams) (Topic, error)
 	CreateTraining(ctx context.Context, arg CreateTrainingParams) (Training, error)
@@ -21,15 +32,27 @@ type Querier interface {
 	CreateTrainingStudent(ctx context.Context, arg CreateTrainingStudentParams) (TrainingsStudent, error)
 	CreateTrainingTag(ctx context.Context, name string) (TrainingTag, error)
 	CreateTrainingTrainingTag(ctx context.Context, arg CreateTrainingTrainingTagParams) (TrainingsTrainingTag, error)
+	CreateTrainingsTests(ctx context.Context, arg CreateTrainingsTestsParams) (TrainingsTest, error)
+	DeactivateQuestion(ctx context.Context, questionUuid pgtype.UUID) (Question, error)
 	DeleteFavoriteTrainingUserByIds(ctx context.Context, arg DeleteFavoriteTrainingUserByIdsParams) error
 	DeleteMessageToAI(ctx context.Context, messageToGenerateWithAiUuid pgtype.UUID) error
 	DeletePracticeMaterial(ctx context.Context, practiceMaterialUuid pgtype.UUID) (PracticeMaterial, error)
+	DeleteQuestion(ctx context.Context, questionUuid pgtype.UUID) error
+	DeleteQuestionResult(ctx context.Context, resultUuid pgtype.UUID) error
+	DeleteQuestionResultsByQuestion(ctx context.Context, questionUuid pgtype.UUID) error
+	DeleteQuestionResultsByTest(ctx context.Context, testUuid pgtype.UUID) error
+	DeleteTest(ctx context.Context, testUuid pgtype.UUID) error
+	DeleteTestResult(ctx context.Context, resultUuid pgtype.UUID) error
+	DeleteTestResultsByTest(ctx context.Context, testUuid pgtype.UUID) error
+	DeleteTestResultsByUser(ctx context.Context, userUuid pgtype.UUID) error
 	DeleteTheoryMaterial(ctx context.Context, theoryMaterialUuid pgtype.UUID) (TheoryMaterial, error)
 	DeleteTopic(ctx context.Context, topicUuid pgtype.UUID) (Topic, error)
 	DeleteTraining(ctx context.Context, trainingUuid pgtype.UUID) error
 	DeleteTrainingMentorByIds(ctx context.Context, arg DeleteTrainingMentorByIdsParams) error
 	DeleteTrainingStudentByIds(ctx context.Context, arg DeleteTrainingStudentByIdsParams) error
+	DeleteTrainingsTests(ctx context.Context, arg DeleteTrainingsTestsParams) error
 	DeleteTrainingsTrainingTag(ctx context.Context, arg DeleteTrainingsTrainingTagParams) error
+	GetActiveQuestionsByTestId(ctx context.Context, arg GetActiveQuestionsByTestIdParams) ([]GetActiveQuestionsByTestIdRow, error)
 	// lets add likes to response
 	GetFavoriteTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetFavoriteTrainingListRow, error)
 	GetListTrainingTagsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]TrainingTag, error)
@@ -40,8 +63,29 @@ type Querier interface {
 	GetNextMessageToAI(ctx context.Context) (MessagesToGenerateWithAi, error)
 	GetOwnTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetOwnTrainingListRow, error)
 	GetPracticeMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]PracticeMaterial, error)
+	GetPublicTests(ctx context.Context, arg GetPublicTestsParams) ([]GetPublicTestsRow, error)
+	GetQuestionById(ctx context.Context, questionUuid pgtype.UUID) (Question, error)
+	GetQuestionForTaking(ctx context.Context, questionUuid pgtype.UUID) (GetQuestionForTakingRow, error)
+	GetQuestionResultById(ctx context.Context, resultUuid pgtype.UUID) (GetQuestionResultByIdRow, error)
+	GetQuestionResultsByQuestion(ctx context.Context, questionUuid pgtype.UUID) ([]GetQuestionResultsByQuestionRow, error)
+	GetQuestionResultsByTest(ctx context.Context, testUuid pgtype.UUID) ([]GetQuestionResultsByTestRow, error)
+	GetQuestionResultsByUser(ctx context.Context, userUuid pgtype.UUID) ([]GetQuestionResultsByUserRow, error)
+	GetQuestionResultsByUserAndTest(ctx context.Context, arg GetQuestionResultsByUserAndTestParams) ([]GetQuestionResultsByUserAndTestRow, error)
+	GetQuestionStats(ctx context.Context, questionUuid pgtype.UUID) (GetQuestionStatsRow, error)
+	GetQuestionTestRelations(ctx context.Context, questionUuid pgtype.UUID) ([]TestsQuestion, error)
+	GetQuestionsByTestId(ctx context.Context, arg GetQuestionsByTestIdParams) ([]Question, error)
 	// lets add likes to response
 	GetStudentTrainingList(ctx context.Context, userUuid pgtype.UUID) ([]GetStudentTrainingListRow, error)
+	GetTestAverageScore(ctx context.Context, testUuid pgtype.UUID) (pgtype.Numeric, error)
+	GetTestById(ctx context.Context, testUuid pgtype.UUID) (GetTestByIdRow, error)
+	GetTestLeaderboard(ctx context.Context, arg GetTestLeaderboardParams) ([]GetTestLeaderboardRow, error)
+	GetTestQuestionRelations(ctx context.Context, testUuid pgtype.UUID) ([]TestsQuestion, error)
+	GetTestQuestionStats(ctx context.Context, testUuid pgtype.UUID) ([]GetTestQuestionStatsRow, error)
+	GetTestResultById(ctx context.Context, resultUuid pgtype.UUID) (GetTestResultByIdRow, error)
+	GetTestResultsByTest(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsByTestRow, error)
+	GetTestResultsByUser(ctx context.Context, userUuid pgtype.UUID) ([]GetTestResultsByUserRow, error)
+	GetTestResultsWithStats(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsWithStatsRow, error)
+	GetTestsByOwner(ctx context.Context, arg GetTestsByOwnerParams) ([]GetTestsByOwnerRow, error)
 	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error)
 	GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (GetTopicByUuidRow, error)
 	GetTopicsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]GetTopicsByTrainingIdRow, error)
@@ -50,9 +94,22 @@ type Querier interface {
 	GetTrainingList(ctx context.Context, arg GetTrainingListParams) ([]GetTrainingListRow, error)
 	GetTrainingTagByName(ctx context.Context, trainingTagName string) (TrainingTag, error)
 	GetTrainingsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTrainingsAmountByUserIdRow, error)
+	GetTrainingsTestsByTestId(ctx context.Context, testUuid pgtype.UUID) ([]GetTrainingsTestsByTestIdRow, error)
+	GetTrainingsTestsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]GetTrainingsTestsByTrainingIdRow, error)
+	GetUserQuestionResult(ctx context.Context, arg GetUserQuestionResultParams) (GetUserQuestionResultRow, error)
+	GetUserTestProgress(ctx context.Context, arg GetUserTestProgressParams) (GetUserTestProgressRow, error)
+	GetUserTestResult(ctx context.Context, arg GetUserTestResultParams) (GetUserTestResultRow, error)
+	GetUserTestResultsWithStats(ctx context.Context, userUuid pgtype.UUID) ([]GetUserTestResultsWithStatsRow, error)
 	RegenerateDbData(ctx context.Context) error
+	RemoveAllQuestionsFromTest(ctx context.Context, testUuid pgtype.UUID) error
 	RemoveEverything(ctx context.Context) error
+	RemoveQuestionFromAllTests(ctx context.Context, questionUuid pgtype.UUID) error
+	RemoveQuestionFromTest(ctx context.Context, arg RemoveQuestionFromTestParams) error
+	ReorderQuestions(ctx context.Context, arg ReorderQuestionsParams) error
 	UpdatePracticeMaterial(ctx context.Context, arg UpdatePracticeMaterialParams) (PracticeMaterial, error)
+	UpdateQuestion(ctx context.Context, arg UpdateQuestionParams) (Question, error)
+	UpdateTest(ctx context.Context, arg UpdateTestParams) (Test, error)
+	UpdateTestResult(ctx context.Context, arg UpdateTestResultParams) (TestSessionResult, error)
 	UpdateTheoryMaterial(ctx context.Context, arg UpdateTheoryMaterialParams) (TheoryMaterial, error)
 	UpdateTopic(ctx context.Context, arg UpdateTopicParams) (Topic, error)
 	UpdateTraining(ctx context.Context, arg UpdateTrainingParams) (Training, error)

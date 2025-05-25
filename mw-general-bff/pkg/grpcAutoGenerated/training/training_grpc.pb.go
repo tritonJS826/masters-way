@@ -1563,3 +1563,809 @@ var TrainingMessageToAIService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "training.proto",
 }
+
+// TestServiceClient is the client API for TestService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TestServiceClient interface {
+	GetTestList(ctx context.Context, in *GetTestListRequest, opts ...grpc.CallOption) (*TestPreviewList, error)
+	GetTestsByUserId(ctx context.Context, in *GetTestsByUserIdRequest, opts ...grpc.CallOption) (*TestPreviewList, error)
+	CreateTest(ctx context.Context, in *CreateTestRequest, opts ...grpc.CallOption) (*Test, error)
+	GetTestById(ctx context.Context, in *GetTestByIdRequest, opts ...grpc.CallOption) (*Test, error)
+	UpdateTest(ctx context.Context, in *UpdateTestRequest, opts ...grpc.CallOption) (*Test, error)
+	DeleteTest(ctx context.Context, in *DeleteTestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+}
+
+type testServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTestServiceClient(cc grpc.ClientConnInterface) TestServiceClient {
+	return &testServiceClient{cc}
+}
+
+func (c *testServiceClient) GetTestList(ctx context.Context, in *GetTestListRequest, opts ...grpc.CallOption) (*TestPreviewList, error) {
+	out := new(TestPreviewList)
+	err := c.cc.Invoke(ctx, "/training.TestService/GetTestList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testServiceClient) GetTestsByUserId(ctx context.Context, in *GetTestsByUserIdRequest, opts ...grpc.CallOption) (*TestPreviewList, error) {
+	out := new(TestPreviewList)
+	err := c.cc.Invoke(ctx, "/training.TestService/GetTestsByUserId", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testServiceClient) CreateTest(ctx context.Context, in *CreateTestRequest, opts ...grpc.CallOption) (*Test, error) {
+	out := new(Test)
+	err := c.cc.Invoke(ctx, "/training.TestService/CreateTest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testServiceClient) GetTestById(ctx context.Context, in *GetTestByIdRequest, opts ...grpc.CallOption) (*Test, error) {
+	out := new(Test)
+	err := c.cc.Invoke(ctx, "/training.TestService/GetTestById", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testServiceClient) UpdateTest(ctx context.Context, in *UpdateTestRequest, opts ...grpc.CallOption) (*Test, error) {
+	out := new(Test)
+	err := c.cc.Invoke(ctx, "/training.TestService/UpdateTest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testServiceClient) DeleteTest(ctx context.Context, in *DeleteTestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/training.TestService/DeleteTest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TestServiceServer is the server API for TestService service.
+// All implementations must embed UnimplementedTestServiceServer
+// for forward compatibility
+type TestServiceServer interface {
+	GetTestList(context.Context, *GetTestListRequest) (*TestPreviewList, error)
+	GetTestsByUserId(context.Context, *GetTestsByUserIdRequest) (*TestPreviewList, error)
+	CreateTest(context.Context, *CreateTestRequest) (*Test, error)
+	GetTestById(context.Context, *GetTestByIdRequest) (*Test, error)
+	UpdateTest(context.Context, *UpdateTestRequest) (*Test, error)
+	DeleteTest(context.Context, *DeleteTestRequest) (*emptypb.Empty, error)
+	mustEmbedUnimplementedTestServiceServer()
+}
+
+// UnimplementedTestServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTestServiceServer struct {
+}
+
+func (UnimplementedTestServiceServer) GetTestList(context.Context, *GetTestListRequest) (*TestPreviewList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTestList not implemented")
+}
+func (UnimplementedTestServiceServer) GetTestsByUserId(context.Context, *GetTestsByUserIdRequest) (*TestPreviewList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTestsByUserId not implemented")
+}
+func (UnimplementedTestServiceServer) CreateTest(context.Context, *CreateTestRequest) (*Test, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTest not implemented")
+}
+func (UnimplementedTestServiceServer) GetTestById(context.Context, *GetTestByIdRequest) (*Test, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTestById not implemented")
+}
+func (UnimplementedTestServiceServer) UpdateTest(context.Context, *UpdateTestRequest) (*Test, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTest not implemented")
+}
+func (UnimplementedTestServiceServer) DeleteTest(context.Context, *DeleteTestRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTest not implemented")
+}
+func (UnimplementedTestServiceServer) mustEmbedUnimplementedTestServiceServer() {}
+
+// UnsafeTestServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TestServiceServer will
+// result in compilation errors.
+type UnsafeTestServiceServer interface {
+	mustEmbedUnimplementedTestServiceServer()
+}
+
+func RegisterTestServiceServer(s grpc.ServiceRegistrar, srv TestServiceServer) {
+	s.RegisterService(&TestService_ServiceDesc, srv)
+}
+
+func _TestService_GetTestList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTestListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).GetTestList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestService/GetTestList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).GetTestList(ctx, req.(*GetTestListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestService_GetTestsByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTestsByUserIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).GetTestsByUserId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestService/GetTestsByUserId",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).GetTestsByUserId(ctx, req.(*GetTestsByUserIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestService_CreateTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).CreateTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestService/CreateTest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).CreateTest(ctx, req.(*CreateTestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestService_GetTestById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTestByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).GetTestById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestService/GetTestById",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).GetTestById(ctx, req.(*GetTestByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestService_UpdateTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).UpdateTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestService/UpdateTest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).UpdateTest(ctx, req.(*UpdateTestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestService_DeleteTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).DeleteTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestService/DeleteTest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).DeleteTest(ctx, req.(*DeleteTestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TestService_ServiceDesc is the grpc.ServiceDesc for TestService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TestService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.TestService",
+	HandlerType: (*TestServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTestList",
+			Handler:    _TestService_GetTestList_Handler,
+		},
+		{
+			MethodName: "GetTestsByUserId",
+			Handler:    _TestService_GetTestsByUserId_Handler,
+		},
+		{
+			MethodName: "CreateTest",
+			Handler:    _TestService_CreateTest_Handler,
+		},
+		{
+			MethodName: "GetTestById",
+			Handler:    _TestService_GetTestById_Handler,
+		},
+		{
+			MethodName: "UpdateTest",
+			Handler:    _TestService_UpdateTest_Handler,
+		},
+		{
+			MethodName: "DeleteTest",
+			Handler:    _TestService_DeleteTest_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "training.proto",
+}
+
+// TrainingTestsServiceClient is the client API for TrainingTestsService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TrainingTestsServiceClient interface {
+	CreateTrainingTest(ctx context.Context, in *CreateTrainingTestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+}
+
+type trainingTestsServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTrainingTestsServiceClient(cc grpc.ClientConnInterface) TrainingTestsServiceClient {
+	return &trainingTestsServiceClient{cc}
+}
+
+func (c *trainingTestsServiceClient) CreateTrainingTest(ctx context.Context, in *CreateTrainingTestRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/training.TrainingTestsService/CreateTrainingTest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TrainingTestsServiceServer is the server API for TrainingTestsService service.
+// All implementations must embed UnimplementedTrainingTestsServiceServer
+// for forward compatibility
+type TrainingTestsServiceServer interface {
+	CreateTrainingTest(context.Context, *CreateTrainingTestRequest) (*emptypb.Empty, error)
+	mustEmbedUnimplementedTrainingTestsServiceServer()
+}
+
+// UnimplementedTrainingTestsServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTrainingTestsServiceServer struct {
+}
+
+func (UnimplementedTrainingTestsServiceServer) CreateTrainingTest(context.Context, *CreateTrainingTestRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTrainingTest not implemented")
+}
+func (UnimplementedTrainingTestsServiceServer) mustEmbedUnimplementedTrainingTestsServiceServer() {}
+
+// UnsafeTrainingTestsServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TrainingTestsServiceServer will
+// result in compilation errors.
+type UnsafeTrainingTestsServiceServer interface {
+	mustEmbedUnimplementedTrainingTestsServiceServer()
+}
+
+func RegisterTrainingTestsServiceServer(s grpc.ServiceRegistrar, srv TrainingTestsServiceServer) {
+	s.RegisterService(&TrainingTestsService_ServiceDesc, srv)
+}
+
+func _TrainingTestsService_CreateTrainingTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTrainingTestRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TrainingTestsServiceServer).CreateTrainingTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TrainingTestsService/CreateTrainingTest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TrainingTestsServiceServer).CreateTrainingTest(ctx, req.(*CreateTrainingTestRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TrainingTestsService_ServiceDesc is the grpc.ServiceDesc for TrainingTestsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TrainingTestsService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.TrainingTestsService",
+	HandlerType: (*TrainingTestsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateTrainingTest",
+			Handler:    _TrainingTestsService_CreateTrainingTest_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "training.proto",
+}
+
+// SessionServiceClient is the client API for SessionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type SessionServiceClient interface {
+	CreateSession(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CreateSessionResult, error)
+}
+
+type sessionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewSessionServiceClient(cc grpc.ClientConnInterface) SessionServiceClient {
+	return &sessionServiceClient{cc}
+}
+
+func (c *sessionServiceClient) CreateSession(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CreateSessionResult, error) {
+	out := new(CreateSessionResult)
+	err := c.cc.Invoke(ctx, "/training.SessionService/CreateSession", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// SessionServiceServer is the server API for SessionService service.
+// All implementations must embed UnimplementedSessionServiceServer
+// for forward compatibility
+type SessionServiceServer interface {
+	CreateSession(context.Context, *emptypb.Empty) (*CreateSessionResult, error)
+	mustEmbedUnimplementedSessionServiceServer()
+}
+
+// UnimplementedSessionServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedSessionServiceServer struct {
+}
+
+func (UnimplementedSessionServiceServer) CreateSession(context.Context, *emptypb.Empty) (*CreateSessionResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSession not implemented")
+}
+func (UnimplementedSessionServiceServer) mustEmbedUnimplementedSessionServiceServer() {}
+
+// UnsafeSessionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SessionServiceServer will
+// result in compilation errors.
+type UnsafeSessionServiceServer interface {
+	mustEmbedUnimplementedSessionServiceServer()
+}
+
+func RegisterSessionServiceServer(s grpc.ServiceRegistrar, srv SessionServiceServer) {
+	s.RegisterService(&SessionService_ServiceDesc, srv)
+}
+
+func _SessionService_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SessionServiceServer).CreateSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.SessionService/CreateSession",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SessionServiceServer).CreateSession(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// SessionService_ServiceDesc is the grpc.ServiceDesc for SessionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var SessionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.SessionService",
+	HandlerType: (*SessionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateSession",
+			Handler:    _SessionService_CreateSession_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "training.proto",
+}
+
+// QuestionServiceClient is the client API for QuestionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type QuestionServiceClient interface {
+	CreateQuestion(ctx context.Context, in *CreateQuestionRequest, opts ...grpc.CallOption) (*Question, error)
+	UpdateQuestion(ctx context.Context, in *UpdateQuestionRequest, opts ...grpc.CallOption) (*Question, error)
+	DeleteQuestion(ctx context.Context, in *DeleteQuestionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+}
+
+type questionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewQuestionServiceClient(cc grpc.ClientConnInterface) QuestionServiceClient {
+	return &questionServiceClient{cc}
+}
+
+func (c *questionServiceClient) CreateQuestion(ctx context.Context, in *CreateQuestionRequest, opts ...grpc.CallOption) (*Question, error) {
+	out := new(Question)
+	err := c.cc.Invoke(ctx, "/training.QuestionService/CreateQuestion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *questionServiceClient) UpdateQuestion(ctx context.Context, in *UpdateQuestionRequest, opts ...grpc.CallOption) (*Question, error) {
+	out := new(Question)
+	err := c.cc.Invoke(ctx, "/training.QuestionService/UpdateQuestion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *questionServiceClient) DeleteQuestion(ctx context.Context, in *DeleteQuestionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/training.QuestionService/DeleteQuestion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// QuestionServiceServer is the server API for QuestionService service.
+// All implementations must embed UnimplementedQuestionServiceServer
+// for forward compatibility
+type QuestionServiceServer interface {
+	CreateQuestion(context.Context, *CreateQuestionRequest) (*Question, error)
+	UpdateQuestion(context.Context, *UpdateQuestionRequest) (*Question, error)
+	DeleteQuestion(context.Context, *DeleteQuestionRequest) (*emptypb.Empty, error)
+	mustEmbedUnimplementedQuestionServiceServer()
+}
+
+// UnimplementedQuestionServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedQuestionServiceServer struct {
+}
+
+func (UnimplementedQuestionServiceServer) CreateQuestion(context.Context, *CreateQuestionRequest) (*Question, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateQuestion not implemented")
+}
+func (UnimplementedQuestionServiceServer) UpdateQuestion(context.Context, *UpdateQuestionRequest) (*Question, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateQuestion not implemented")
+}
+func (UnimplementedQuestionServiceServer) DeleteQuestion(context.Context, *DeleteQuestionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteQuestion not implemented")
+}
+func (UnimplementedQuestionServiceServer) mustEmbedUnimplementedQuestionServiceServer() {}
+
+// UnsafeQuestionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to QuestionServiceServer will
+// result in compilation errors.
+type UnsafeQuestionServiceServer interface {
+	mustEmbedUnimplementedQuestionServiceServer()
+}
+
+func RegisterQuestionServiceServer(s grpc.ServiceRegistrar, srv QuestionServiceServer) {
+	s.RegisterService(&QuestionService_ServiceDesc, srv)
+}
+
+func _QuestionService_CreateQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateQuestionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuestionServiceServer).CreateQuestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.QuestionService/CreateQuestion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuestionServiceServer).CreateQuestion(ctx, req.(*CreateQuestionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _QuestionService_UpdateQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateQuestionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuestionServiceServer).UpdateQuestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.QuestionService/UpdateQuestion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuestionServiceServer).UpdateQuestion(ctx, req.(*UpdateQuestionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _QuestionService_DeleteQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteQuestionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuestionServiceServer).DeleteQuestion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.QuestionService/DeleteQuestion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuestionServiceServer).DeleteQuestion(ctx, req.(*DeleteQuestionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// QuestionService_ServiceDesc is the grpc.ServiceDesc for QuestionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var QuestionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.QuestionService",
+	HandlerType: (*QuestionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateQuestion",
+			Handler:    _QuestionService_CreateQuestion_Handler,
+		},
+		{
+			MethodName: "UpdateQuestion",
+			Handler:    _QuestionService_UpdateQuestion_Handler,
+		},
+		{
+			MethodName: "DeleteQuestion",
+			Handler:    _QuestionService_DeleteQuestion_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "training.proto",
+}
+
+// QuestionResultsServiceClient is the client API for QuestionResultsService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type QuestionResultsServiceClient interface {
+	CreateQuestionResult(ctx context.Context, in *CreateQuestionResultRequest, opts ...grpc.CallOption) (*QuestionResult, error)
+	GetQuestionResultsBySessionUuid(ctx context.Context, in *GetQuestionResultsBySessionUuidRequest, opts ...grpc.CallOption) (*GetQuestionResultsBySessionUuidResponse, error)
+}
+
+type questionResultsServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewQuestionResultsServiceClient(cc grpc.ClientConnInterface) QuestionResultsServiceClient {
+	return &questionResultsServiceClient{cc}
+}
+
+func (c *questionResultsServiceClient) CreateQuestionResult(ctx context.Context, in *CreateQuestionResultRequest, opts ...grpc.CallOption) (*QuestionResult, error) {
+	out := new(QuestionResult)
+	err := c.cc.Invoke(ctx, "/training.QuestionResultsService/CreateQuestionResult", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *questionResultsServiceClient) GetQuestionResultsBySessionUuid(ctx context.Context, in *GetQuestionResultsBySessionUuidRequest, opts ...grpc.CallOption) (*GetQuestionResultsBySessionUuidResponse, error) {
+	out := new(GetQuestionResultsBySessionUuidResponse)
+	err := c.cc.Invoke(ctx, "/training.QuestionResultsService/GetQuestionResultsBySessionUuid", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// QuestionResultsServiceServer is the server API for QuestionResultsService service.
+// All implementations must embed UnimplementedQuestionResultsServiceServer
+// for forward compatibility
+type QuestionResultsServiceServer interface {
+	CreateQuestionResult(context.Context, *CreateQuestionResultRequest) (*QuestionResult, error)
+	GetQuestionResultsBySessionUuid(context.Context, *GetQuestionResultsBySessionUuidRequest) (*GetQuestionResultsBySessionUuidResponse, error)
+	mustEmbedUnimplementedQuestionResultsServiceServer()
+}
+
+// UnimplementedQuestionResultsServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedQuestionResultsServiceServer struct {
+}
+
+func (UnimplementedQuestionResultsServiceServer) CreateQuestionResult(context.Context, *CreateQuestionResultRequest) (*QuestionResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateQuestionResult not implemented")
+}
+func (UnimplementedQuestionResultsServiceServer) GetQuestionResultsBySessionUuid(context.Context, *GetQuestionResultsBySessionUuidRequest) (*GetQuestionResultsBySessionUuidResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetQuestionResultsBySessionUuid not implemented")
+}
+func (UnimplementedQuestionResultsServiceServer) mustEmbedUnimplementedQuestionResultsServiceServer() {
+}
+
+// UnsafeQuestionResultsServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to QuestionResultsServiceServer will
+// result in compilation errors.
+type UnsafeQuestionResultsServiceServer interface {
+	mustEmbedUnimplementedQuestionResultsServiceServer()
+}
+
+func RegisterQuestionResultsServiceServer(s grpc.ServiceRegistrar, srv QuestionResultsServiceServer) {
+	s.RegisterService(&QuestionResultsService_ServiceDesc, srv)
+}
+
+func _QuestionResultsService_CreateQuestionResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateQuestionResultRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuestionResultsServiceServer).CreateQuestionResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.QuestionResultsService/CreateQuestionResult",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuestionResultsServiceServer).CreateQuestionResult(ctx, req.(*CreateQuestionResultRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _QuestionResultsService_GetQuestionResultsBySessionUuid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetQuestionResultsBySessionUuidRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuestionResultsServiceServer).GetQuestionResultsBySessionUuid(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.QuestionResultsService/GetQuestionResultsBySessionUuid",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuestionResultsServiceServer).GetQuestionResultsBySessionUuid(ctx, req.(*GetQuestionResultsBySessionUuidRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// QuestionResultsService_ServiceDesc is the grpc.ServiceDesc for QuestionResultsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var QuestionResultsService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.QuestionResultsService",
+	HandlerType: (*QuestionResultsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateQuestionResult",
+			Handler:    _QuestionResultsService_CreateQuestionResult_Handler,
+		},
+		{
+			MethodName: "GetQuestionResultsBySessionUuid",
+			Handler:    _QuestionResultsService_GetQuestionResultsBySessionUuid_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "training.proto",
+}
+
+// TestSessionResultsServiceClient is the client API for TestSessionResultsService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TestSessionResultsServiceClient interface {
+	GetTestSessionResult(ctx context.Context, in *GetTestSessionResultRequest, opts ...grpc.CallOption) (*GetTestSessionResultResponse, error)
+}
+
+type testSessionResultsServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTestSessionResultsServiceClient(cc grpc.ClientConnInterface) TestSessionResultsServiceClient {
+	return &testSessionResultsServiceClient{cc}
+}
+
+func (c *testSessionResultsServiceClient) GetTestSessionResult(ctx context.Context, in *GetTestSessionResultRequest, opts ...grpc.CallOption) (*GetTestSessionResultResponse, error) {
+	out := new(GetTestSessionResultResponse)
+	err := c.cc.Invoke(ctx, "/training.TestSessionResultsService/GetTestSessionResult", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TestSessionResultsServiceServer is the server API for TestSessionResultsService service.
+// All implementations must embed UnimplementedTestSessionResultsServiceServer
+// for forward compatibility
+type TestSessionResultsServiceServer interface {
+	GetTestSessionResult(context.Context, *GetTestSessionResultRequest) (*GetTestSessionResultResponse, error)
+	mustEmbedUnimplementedTestSessionResultsServiceServer()
+}
+
+// UnimplementedTestSessionResultsServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTestSessionResultsServiceServer struct {
+}
+
+func (UnimplementedTestSessionResultsServiceServer) GetTestSessionResult(context.Context, *GetTestSessionResultRequest) (*GetTestSessionResultResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTestSessionResult not implemented")
+}
+func (UnimplementedTestSessionResultsServiceServer) mustEmbedUnimplementedTestSessionResultsServiceServer() {
+}
+
+// UnsafeTestSessionResultsServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TestSessionResultsServiceServer will
+// result in compilation errors.
+type UnsafeTestSessionResultsServiceServer interface {
+	mustEmbedUnimplementedTestSessionResultsServiceServer()
+}
+
+func RegisterTestSessionResultsServiceServer(s grpc.ServiceRegistrar, srv TestSessionResultsServiceServer) {
+	s.RegisterService(&TestSessionResultsService_ServiceDesc, srv)
+}
+
+func _TestSessionResultsService_GetTestSessionResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTestSessionResultRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestSessionResultsServiceServer).GetTestSessionResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestSessionResultsService/GetTestSessionResult",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestSessionResultsServiceServer).GetTestSessionResult(ctx, req.(*GetTestSessionResultRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TestSessionResultsService_ServiceDesc is the grpc.ServiceDesc for TestSessionResultsService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TestSessionResultsService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.TestSessionResultsService",
+	HandlerType: (*TestSessionResultsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTestSessionResult",
+			Handler:    _TestSessionResultsService_GetTestSessionResult_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "training.proto",
+}
