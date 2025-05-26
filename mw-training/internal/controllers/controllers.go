@@ -12,6 +12,12 @@ type Controller struct {
 	PracticeMaterialController     *PracticeMaterialController
 	TheoryMaterialController       *TheoryMaterialController
 	TopicController                *TopicController
+	TestController                 *TestController
+	TrainingTestController         *TrainingTestsController
+	SessionController              *SessionController
+	TestSessionResultController    *TestSessionResultController
+	QuestionController             *QuestionController
+	QuestionResultController       *QuestionResultController
 	DevController                  *DevController
 }
 
@@ -26,6 +32,13 @@ func NewController(services *services.Service) *Controller {
 		PracticeMaterialController:     NewPracticeMaterialController(services.PracticeMaterialService),
 		TheoryMaterialController:       NewTheoryMaterialController(services.TheoryMaterialService),
 		TopicController:                NewTopicController(services.TopicService),
-		DevController:                  NewDevController(services.DevService),
+		TestController:                 NewTestController(services.TestService),
+		TrainingTestController:         NewTrainingTestController(services.TrainingTestService),
+		SessionController:              NewSessionController(services.SessionService),
+		TestSessionResultController:    NewTestSessionResultController(services.TestSessionResultService),
+		QuestionController:             NewQuestionController(services.QuestionService),
+		QuestionResultController:       NewQuestionResultController(services.QuestionResultService),
+
+		DevController: NewDevController(services.DevService),
 	}
 }

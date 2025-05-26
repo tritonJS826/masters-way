@@ -1920,7 +1920,7 @@ var TrainingTestsService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SessionServiceClient interface {
-	CreateSession(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CreateSessionResult, error)
+	CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResult, error)
 }
 
 type sessionServiceClient struct {
@@ -1931,7 +1931,7 @@ func NewSessionServiceClient(cc grpc.ClientConnInterface) SessionServiceClient {
 	return &sessionServiceClient{cc}
 }
 
-func (c *sessionServiceClient) CreateSession(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CreateSessionResult, error) {
+func (c *sessionServiceClient) CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResult, error) {
 	out := new(CreateSessionResult)
 	err := c.cc.Invoke(ctx, "/training.SessionService/CreateSession", in, out, opts...)
 	if err != nil {
@@ -1944,7 +1944,7 @@ func (c *sessionServiceClient) CreateSession(ctx context.Context, in *emptypb.Em
 // All implementations must embed UnimplementedSessionServiceServer
 // for forward compatibility
 type SessionServiceServer interface {
-	CreateSession(context.Context, *emptypb.Empty) (*CreateSessionResult, error)
+	CreateSession(context.Context, *CreateSessionRequest) (*CreateSessionResult, error)
 	mustEmbedUnimplementedSessionServiceServer()
 }
 
@@ -1952,7 +1952,7 @@ type SessionServiceServer interface {
 type UnimplementedSessionServiceServer struct {
 }
 
-func (UnimplementedSessionServiceServer) CreateSession(context.Context, *emptypb.Empty) (*CreateSessionResult, error) {
+func (UnimplementedSessionServiceServer) CreateSession(context.Context, *CreateSessionRequest) (*CreateSessionResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSession not implemented")
 }
 func (UnimplementedSessionServiceServer) mustEmbedUnimplementedSessionServiceServer() {}
@@ -1969,7 +1969,7 @@ func RegisterSessionServiceServer(s grpc.ServiceRegistrar, srv SessionServiceSer
 }
 
 func _SessionService_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(CreateSessionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1981,7 +1981,7 @@ func _SessionService_CreateSession_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/training.SessionService/CreateSession",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SessionServiceServer).CreateSession(ctx, req.(*emptypb.Empty))
+		return srv.(SessionServiceServer).CreateSession(ctx, req.(*CreateSessionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

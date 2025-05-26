@@ -80,7 +80,7 @@ service TrainingTestsService {
 }
 
 service SessionService {
-  rpc CreateSession(google.protobuf.Empty) returns (CreateSessionResult);
+  rpc CreateSession(CreateSessionRequest) returns (CreateSessionResult);
 }
 
 service QuestionService {
@@ -473,6 +473,10 @@ message GetQuestionResultsBySessionUuidRequest {
 
 message GetQuestionResultsBySessionUuidResponse {
   repeated QuestionResult results = 1;
+}
+
+message CreateSessionRequest {
+  string user_uuid = 1;
 }
 
 message CreateSessionResult {
