@@ -81,6 +81,8 @@ interface EditableTextareaProps {
   maxCharacterCount?: number;
 }
 
+const MAX_EMOJI_LENGTH = 6;
+
 /**
  * EditableTextarea component
  */
@@ -91,6 +93,7 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
 
   const isEditButtonVisible = props.isEditable && !isEditing;
   const isCharacterCountExceeded = props.maxCharacterCount ? text.length >= props.maxCharacterCount : false;
+  const isEmojiPickerDisabled = props.maxCharacterCount ? text.length >= props.maxCharacterCount - MAX_EMOJI_LENGTH : false;
 
   useEffect(() => {
     setText(props.text);
@@ -156,15 +159,15 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
           </div>
         )}
 
-        <EmojiPickerPopover onEmojiSelect={(emoji: Emoji) => {
-          if (props.maxCharacterCount && (text.length + emoji.native.length) > props.maxCharacterCount) {
-            return;
-          }
-          const newText = text + emoji.native;
-          setText(newText);
-          props.onChangeFinish(newText);
-        }}
+        <EmojiPickerPopover
+          onEmojiSelect={(emoji: Emoji) => {
+            const newText = text + emoji.native;
+            setText(newText);
+            props.onChangeFinish(newText);
+          }}
+          disabled={isEmojiPickerDisabled}
         />
+
         <Button
           icon={
             <Icon
