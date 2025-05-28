@@ -81,6 +81,8 @@ interface EditableTextareaProps {
   maxCharacterCount?: number;
 }
 
+const MAX_EMOJI_LENGTH = 6;
+
 /**
  * EditableTextarea component
  */
@@ -88,6 +90,10 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(props.text);
   const isEmptyText = text.toString().trim() === "";
+
+  const isEditButtonVisible = props.isEditable && !isEditing;
+  const isCharacterCountExceeded = props.maxCharacterCount ? text.length >= props.maxCharacterCount : false;
+  const isEmojiPickerDisabled = props.maxCharacterCount ? text.length >= props.maxCharacterCount - MAX_EMOJI_LENGTH : false;
 
   useEffect(() => {
     setText(props.text);
@@ -131,8 +137,6 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
     handleChangeFinish();
   };
 
-  const isEditButtonVisible = props.isEditable && !isEditing;
-
   /**
    * Render Textarea
    */
@@ -146,20 +150,24 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
         rows={props.rows}
         isAutofocus
         onKeyPress={handleCtrlEnter}
+        maxCharacterCount={props.maxCharacterCount}
       />
       <HorizontalContainer className={styles.editableTextAreaFooter}>
         {props.maxCharacterCount && (
-          <div className={styles.characterCount}>
+          <div className={clsx(styles.characterCount, {[styles.characterCountExceeded]: isCharacterCountExceeded})}>
             {`${props.maxCharacterCount - text.length}`}
           </div>
         )}
 
-        <EmojiPickerPopover onEmojiSelect={(emoji: Emoji) => {
-          const newText = text + emoji.native;
-          setText(newText);
-          props.onChangeFinish(newText);
-        }}
+        <EmojiPickerPopover
+          onEmojiSelect={(emoji: Emoji) => {
+            const newText = text + emoji.native;
+            setText(newText);
+            props.onChangeFinish(newText);
+          }}
+          disabled={isEmojiPickerDisabled}
         />
+
         <Button
           icon={
             <Icon

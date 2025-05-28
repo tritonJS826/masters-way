@@ -63,6 +63,11 @@ interface EmojiPickerPopoverProps {
    * Data attribute for cypress testing
    */
   dataCy?: string;
+
+  /**
+   * If true, the emoji picker is disabled
+   */
+  disabled?: boolean;
 }
 
 /**
@@ -89,6 +94,7 @@ export const EmojiPickerPopover = (props: EmojiPickerPopoverProps): ReactElement
           onClick={() => {}}
           buttonType={ButtonType.ICON_BUTTON}
           dataCy={props.dataCy}
+          isDisabled={props.disabled}
         />
       </DialogTrigger>
       <DialogContent

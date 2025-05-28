@@ -131,6 +131,7 @@ export const Title = (props: TitleProps) => {
   };
 
   const isEditButtonVisible = props.isEditable && !isEditing;
+  const isCharacterCountExceeded = props.maxCharacterCount ? text.length >= props.maxCharacterCount : false;
 
   /**
    * Update cell value after OnKeyDown event
@@ -178,10 +179,11 @@ export const Title = (props: TitleProps) => {
                 autoFocus={true}
                 onChange={onChangeInput}
                 dataCy={props.cy?.dataCyInput}
+                maxLength={props.maxCharacterCount}
               />
               <HorizontalContainer className={styles.editableTextAreaFooter}>
                 {props.maxCharacterCount && (
-                  <div className={styles.characterCount}>
+                  <div className={clsx(styles.characterCount, {[styles.characterCountExceeded]: isCharacterCountExceeded})}>
                     {`${props.maxCharacterCount - text.length}`}
                   </div>
                 )}
@@ -200,13 +202,15 @@ export const Title = (props: TitleProps) => {
           )
           : (
             <>
-              <Heading
-                onClick={props.onClick}
-                as={props.level}
-                className={clsx(styles.heading, props.classNameHeading)}
-              >
-                {text === "" ? props.placeholder : text}
-              </Heading>
+              <div className={styles.clampedText}>
+                <Heading
+                  onClick={props.onClick}
+                  as={props.level}
+                  className={clsx(styles.heading, props.classNameHeading)}
+                >
+                  {text === "" ? props.placeholder : text}
+                </Heading>
+              </div>
               {isEditButtonVisible && (
                 <div className={styles.editButton}>
                   <Button
