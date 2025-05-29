@@ -68,7 +68,8 @@ service TrainingMessageToAIService {
 
 service TestService {
   rpc GetTestList(GetTestListRequest) returns (TestPreviewList);
-  rpc GetTestsByUserId(GetTestsByUserIdRequest) returns (TestPreviewList); 
+  rpc GetTestsByUserId(GetTestsByUserIdRequest) returns (TestPreviewList);
+  rpc GetTestAmountByUserId(GetTestsAmountByUserIdRequest) returns (GetTestAmountByUserIdResponse);
   rpc CreateTest(CreateTestRequest) returns (Test);
   rpc GetTestById(GetTestByIdRequest) returns (Test);
   rpc UpdateTest(UpdateTestRequest) returns (Test);
@@ -366,6 +367,15 @@ message TestPreviewList {
   repeated TestPreview tests_list = 2;
 }
 
+message GetTestsAmountByUserIdRequest {
+  string user_uuid = 1;
+}
+
+message GetTestAmountByUserIdResponse {
+  int32 own = 1;
+  int32 completed = 2;
+}
+
 message CreateTestRequest {
   string name = 1;
   string description = 2;
@@ -374,9 +384,11 @@ message CreateTestRequest {
 }
 
 message UpdateTestRequest {
-  optional string name = 1;
-  optional string description = 2;
-  optional bool is_private = 3;
+  string test_uuid = 1;
+  string user_uuid = 2;
+  optional string name = 3;
+  optional string description = 4;
+  optional bool is_private = 5;
 }
 
 message Test {
@@ -419,26 +431,29 @@ message GetTestsByUserIdRequest {
 message CreateTrainingTestRequest {
   string training_uuid = 1;
   string test_uuid = 2;
-  string test_owner = 3; 
+  string test_owner_uuid = 3; 
 }
 
 message CreateQuestionRequest {
   string test_uuid = 1;
-  string name = 2;
-  optional string question_text = 3;
-  optional int32 time_to_answer = 4;
-  optional string answer = 5;
-  string practice_type = 6;
-  // string topic_uuid = 7; good to provide a link to appropriate answer
+  string user_uuid = 2;
+  string name = 3;
+  optional string question_text = 4;
+  optional int32 time_to_answer = 5;
+  optional string answer = 6;
+  string practice_type = 7;
+  // string topic_uuid = 8; good to provide a link to appropriate answer
 }
 
 message UpdateQuestionRequest {
-  optional string name = 1;
-  optional string question_text = 2;
-  optional int32 time_to_answer = 3;
-  optional string answer = 4;
-  optional string practice_type = 5;
-  optional int32 order = 6;
+  string question_uuid = 1;
+  string user_uuid = 2;
+  optional string name = 3;
+  optional string question_text = 4;
+  optional int32 time_to_answer = 5;
+  optional string answer = 6;
+  optional string practice_type = 7;
+  optional int32 order = 8;
 }
 
 message DeleteQuestionRequest {

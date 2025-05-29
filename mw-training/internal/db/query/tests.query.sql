@@ -21,6 +21,11 @@ SET
 WHERE tests.uuid = @test_uuid
 RETURNING *;
 
+-- name: GetTestsAmountByUserId :one
+SELECT    
+    (SELECT COUNT(*) FROM tests WHERE tests.owner_uuid = @user_uuid) AS owner,
+    (SELECT COUNT(*) FROM test_session_results WHERE test_session_results.user_uuid = @user_uuid) AS completed;
+
 -- name: GetTestById :one
 SELECT
     tests.uuid,

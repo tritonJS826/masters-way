@@ -18,6 +18,12 @@ type Service struct {
 	TheoryMaterialService       *TheoryMaterialService
 	PracticeMaterialService     *PracticeMaterialService
 	FavoriteUserTrainingService *FavoriteUserTrainingService
+	TestService                 *TestService
+	TrainingTestService         *TrainingTestService
+	SessionService              *SessionService
+	QuestionService             *QuestionService
+	QuestionResultsService      *QuestionResultService
+	TestSessionResultsService   *TestSessionResultsService
 }
 
 func NewService(
@@ -34,6 +40,12 @@ func NewService(
 	theoryMaterialGRPC := pb.NewTheoryMaterialServiceClient(conn)
 	practiceMaterialGRPC := pb.NewPracticeMaterialServiceClient(conn)
 	favoriteUserTrainingGRPC := pb.NewFavoriteUsersTrainingsServiceClient(conn)
+	testGRPC := pb.NewTestServiceClient(conn)
+	trainingTestGRPC := pb.NewTrainingTestsServiceClient(conn)
+	sessionGRPC := pb.NewSessionServiceClient(conn)
+	questionGRPC := pb.NewQuestionServiceClient(conn)
+	questionResultsGRPC := pb.NewQuestionResultsServiceClient(conn)
+	testSessionResultsGRPC := pb.NewTestSessionResultsServiceClient(conn)
 
 	return &Service{
 		GeneralService:              NewGeneralService(generalApi),
@@ -45,6 +57,12 @@ func NewService(
 		TheoryMaterialService:       NewTheoryMaterialService(theoryMaterialGRPC),
 		PracticeMaterialService:     NewPracticeMaterialService(practiceMaterialGRPC),
 		FavoriteUserTrainingService: NewFavoriteUserTrainingService(favoriteUserTrainingGRPC),
+		TestService:                 NewTestService(testGRPC),
+		TrainingTestService:         NewTrainingTestService(trainingTestGRPC),
+		SessionService:              NewSessionService(sessionGRPC),
+		QuestionService:             NewQuestionService(questionGRPC, generalApi),
+		QuestionResultsService:      NewQuestionResultService(questionResultsGRPC, generalApi),
+		TestSessionResultsService:   NewTestSessionResultsService(testSessionResultsGRPC),
 	}
 }
 

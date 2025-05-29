@@ -124,6 +124,288 @@ paths:
       summary: Get practice material by topic id
       tags:
       - practice-material
+  /question:
+    post:
+      operationId: create-question
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateQuestionPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Question'
+          description: OK
+      summary: Create question
+      tags:
+      - question
+      x-codegen-request-body-name: request
+  /question/{questionId}:
+    delete:
+      operationId: delete-question
+      parameters:
+      - description: question id
+        in: path
+        name: questionId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete question by Uuid
+      tags:
+      - question
+    patch:
+      operationId: update-question
+      parameters:
+      - description: topic id
+        in: path
+        name: questionId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateQuestionPayload'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Question'
+          description: OK
+      summary: Update question by uuid
+      tags:
+      - question
+      x-codegen-request-body-name: request
+  /questionResult:
+    post:
+      operationId: create-question-result
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateQuestionResultRequest'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.QuestionResult'
+          description: OK
+      summary: Create question result
+      tags:
+      - questionResult
+      x-codegen-request-body-name: request
+  /questionResult/session/{sessionId}:
+    get:
+      operationId: get-question-results-by-session-uuid
+      parameters:
+      - description: session id
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/mw-training-bff_internal_schemas.QuestionResult'
+                type: array
+          description: OK
+      summary: Get question results by session UUID
+      tags:
+      - questionResult
+  /session:
+    post:
+      description: Create Session
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateSessionRequest'
+        description: body
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateSessionResult'
+          description: OK
+      summary: Create Session
+      tags:
+      - Sessions
+      x-codegen-request-body-name: request
+  /test:
+    get:
+      operationId: get-test-list
+      parameters:
+      - description: name
+        in: query
+        name: name
+        schema:
+          type: string
+      - description: page
+        in: query
+        name: page
+        schema:
+          type: integer
+      - description: limit
+        in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TestPreviewList'
+          description: OK
+      summary: Get test list
+      tags:
+      - test
+    post:
+      operationId: create-test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTestRequest'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Test'
+          description: OK
+      summary: Create test
+      tags:
+      - test
+      x-codegen-request-body-name: request
+  /test/user/{userId}:
+    get:
+      operationId: get-tests-by-user-id
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TestPreviewList'
+          description: OK
+      summary: Get tests by user id
+      tags:
+      - test
+  /test/{testId}:
+    delete:
+      operationId: delete-test
+      parameters:
+      - description: test id
+        in: path
+        name: testId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Delete test by Uuid
+      tags:
+      - test
+    get:
+      operationId: get-test-by-id
+      parameters:
+      - description: test id
+        in: path
+        name: testId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Test'
+          description: OK
+      summary: Get test by id
+      tags:
+      - test
+    patch:
+      operationId: update-test
+      parameters:
+      - description: test id
+        in: path
+        name: testId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.UpdateTestRequest'
+        description: query params
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.Test'
+          description: OK
+      summary: Update test by uuid
+      tags:
+      - test
+      x-codegen-request-body-name: request
+  /testSessionResult:
+    get:
+      description: Get TestSessionResult
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.GetTestSessionResultRequest'
+        description: body
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
+          description: OK
+      summary: Get TestSessionResult
+      tags:
+      - test-session-result
+      x-codegen-request-body-name: request
   /theoryMaterials:
     post:
       operationId: create-theory-material
@@ -395,6 +677,24 @@ paths:
       summary: Create student
       tags:
       - training-student
+  /trainingTest:
+    post:
+      description: Create TrainingTest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateTrainingTestRequest'
+        description: body
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: OK
+      summary: Create TrainingTest
+      tags:
+      - TrainingTests
+      x-codegen-request-body-name: request
   /trainingTrainingTags/{trainingId}:
     post:
       operationId: create-training-training-tag
@@ -625,6 +925,82 @@ components:
       - timeToAnswer
       - topicUuid
       type: object
+    mw-training-bff_internal_schemas.CreateQuestionPayload:
+      properties:
+        answer:
+          type: string
+        name:
+          type: string
+        practice_type:
+          type: string
+        question_text:
+          type: string
+        test_uuid:
+          type: string
+        time_to_answer:
+          type: integer
+      required:
+      - answer
+      - name
+      - practice_type
+      - question_text
+      - test_uuid
+      - time_to_answer
+      type: object
+    mw-training-bff_internal_schemas.CreateQuestionResultRequest:
+      properties:
+        is_ok:
+          type: boolean
+        question_uuid:
+          type: string
+        result_description:
+          type: string
+        test_session_uuid:
+          type: string
+        test_uuid:
+          type: string
+        user_uuid:
+          type: string
+      required:
+      - is_ok
+      - question_uuid
+      - result_description
+      - test_session_uuid
+      - test_uuid
+      - user_uuid
+      type: object
+    mw-training-bff_internal_schemas.CreateSessionRequest:
+      properties:
+        user_uuid:
+          type: string
+      required:
+      - user_uuid
+      type: object
+    mw-training-bff_internal_schemas.CreateSessionResult:
+      example:
+        session_uuid: session_uuid
+      properties:
+        session_uuid:
+          type: string
+      required:
+      - session_uuid
+      type: object
+    mw-training-bff_internal_schemas.CreateTestRequest:
+      properties:
+        description:
+          type: string
+        is_private:
+          type: boolean
+        name:
+          type: string
+        owner_uuid:
+          type: string
+      required:
+      - description
+      - is_private
+      - name
+      - owner_uuid
+      type: object
     mw-training-bff_internal_schemas.CreateTheoryMaterialPayload:
       properties:
         description:
@@ -656,12 +1032,50 @@ components:
       - isPrivate
       - name
       type: object
+    mw-training-bff_internal_schemas.CreateTrainingTestRequest:
+      properties:
+        test_uuid:
+          type: string
+        training_uuid:
+          type: string
+      required:
+      - test_uuid
+      - training_uuid
+      type: object
     mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload:
       properties:
         name:
           type: string
       required:
       - name
+      type: object
+    mw-training-bff_internal_schemas.GetTestSessionResultRequest:
+      properties:
+        session_uuid:
+          type: string
+      required:
+      - session_uuid
+      type: object
+    mw-training-bff_internal_schemas.GetTestSessionResultResponse:
+      example:
+        result_description: result_description
+        test_uuid: test_uuid
+        created_at: created_at
+        session_uuid: session_uuid
+      properties:
+        created_at:
+          type: string
+        result_description:
+          type: string
+        session_uuid:
+          type: string
+        test_uuid:
+          type: string
+      required:
+      - created_at
+      - result_description
+      - session_uuid
+      - test_uuid
       type: object
     mw-training-bff_internal_schemas.PracticeMaterial:
       example:
@@ -742,6 +1156,193 @@ components:
       required:
       - practiceMaterials
       - size
+      type: object
+    mw-training-bff_internal_schemas.Question:
+      example:
+        question_text: question_text
+        test_uuid: test_uuid
+        is_active: true
+        answer: answer
+        updated_at: updated_at
+        created_at: created_at
+        time_to_answer: 6
+        uuid: uuid
+        order: 0
+      properties:
+        answer:
+          type: string
+        created_at:
+          type: string
+        is_active:
+          type: boolean
+        order:
+          type: integer
+        question_text:
+          type: string
+        test_uuid:
+          type: string
+        time_to_answer:
+          type: integer
+        updated_at:
+          type: string
+        uuid:
+          type: string
+      required:
+      - answer
+      - created_at
+      - is_active
+      - order
+      - question_text
+      - test_uuid
+      - time_to_answer
+      - updated_at
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.QuestionResult:
+      example:
+        result_description: result_description
+        test_uuid: test_uuid
+        question_uuid: question_uuid
+        user_uuid: user_uuid
+        created_at: created_at
+        is_ok: true
+        test_session_uuid: test_session_uuid
+        uuid: uuid
+      properties:
+        created_at:
+          type: string
+        is_ok:
+          type: boolean
+        question_uuid:
+          type: string
+        result_description:
+          type: string
+        test_session_uuid:
+          type: string
+        test_uuid:
+          type: string
+        user_uuid:
+          type: string
+        uuid:
+          type: string
+      required:
+      - created_at
+      - is_ok
+      - question_uuid
+      - result_description
+      - test_session_uuid
+      - test_uuid
+      - user_uuid
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.Test:
+      example:
+        updated_at: updated_at
+        name: name
+        questions:
+        - question_text: question_text
+          test_uuid: test_uuid
+          is_active: true
+          answer: answer
+          updated_at: updated_at
+          created_at: created_at
+          time_to_answer: 6
+          uuid: uuid
+          order: 0
+        - question_text: question_text
+          test_uuid: test_uuid
+          is_active: true
+          answer: answer
+          updated_at: updated_at
+          created_at: created_at
+          time_to_answer: 6
+          uuid: uuid
+          order: 0
+        created_at: created_at
+        description: description
+        uuid: uuid
+        owner_uuid: owner_uuid
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        owner_uuid:
+          type: string
+        questions:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.Question'
+          type: array
+        updated_at:
+          type: string
+        uuid:
+          type: string
+      required:
+      - created_at
+      - description
+      - name
+      - owner_uuid
+      - questions
+      - updated_at
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.TestPreview:
+      example:
+        updated_at: updated_at
+        name: name
+        created_at: created_at
+        description: description
+        uuid: uuid
+        owner_uuid: owner_uuid
+      properties:
+        created_at:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        owner_uuid:
+          type: string
+        updated_at:
+          type: string
+        uuid:
+          type: string
+      required:
+      - created_at
+      - description
+      - name
+      - owner_uuid
+      - updated_at
+      - uuid
+      type: object
+    mw-training-bff_internal_schemas.TestPreviewList:
+      example:
+        size: 0
+        tests_list:
+        - updated_at: updated_at
+          name: name
+          created_at: created_at
+          description: description
+          uuid: uuid
+          owner_uuid: owner_uuid
+        - updated_at: updated_at
+          name: name
+          created_at: created_at
+          description: description
+          uuid: uuid
+          owner_uuid: owner_uuid
+      properties:
+        size:
+          type: integer
+        tests_list:
+          items:
+            $ref: '#/components/schemas/mw-training-bff_internal_schemas.TestPreview'
+          type: array
+      required:
+      - size
+      - tests_list
       type: object
     mw-training-bff_internal_schemas.TheoryMaterial:
       example:
@@ -1230,6 +1831,30 @@ components:
           type: string
         timeToAnswer:
           type: integer
+      type: object
+    mw-training-bff_internal_schemas.UpdateQuestionPayload:
+      properties:
+        answer:
+          type: string
+        name:
+          type: string
+        order:
+          type: integer
+        practice_type:
+          type: string
+        question_text:
+          type: string
+        time_to_answer:
+          type: integer
+      type: object
+    mw-training-bff_internal_schemas.UpdateTestRequest:
+      properties:
+        description:
+          type: string
+        is_private:
+          type: boolean
+        name:
+          type: string
       type: object
     mw-training-bff_internal_schemas.UpdateTheoryMaterialPayload:
       properties:

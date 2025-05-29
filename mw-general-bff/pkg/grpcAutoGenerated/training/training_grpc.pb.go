@@ -1570,6 +1570,7 @@ var TrainingMessageToAIService_ServiceDesc = grpc.ServiceDesc{
 type TestServiceClient interface {
 	GetTestList(ctx context.Context, in *GetTestListRequest, opts ...grpc.CallOption) (*TestPreviewList, error)
 	GetTestsByUserId(ctx context.Context, in *GetTestsByUserIdRequest, opts ...grpc.CallOption) (*TestPreviewList, error)
+	GetTestAmountByUserId(ctx context.Context, in *GetTestsAmountByUserIdRequest, opts ...grpc.CallOption) (*GetTestAmountByUserIdResponse, error)
 	CreateTest(ctx context.Context, in *CreateTestRequest, opts ...grpc.CallOption) (*Test, error)
 	GetTestById(ctx context.Context, in *GetTestByIdRequest, opts ...grpc.CallOption) (*Test, error)
 	UpdateTest(ctx context.Context, in *UpdateTestRequest, opts ...grpc.CallOption) (*Test, error)
@@ -1596,6 +1597,15 @@ func (c *testServiceClient) GetTestList(ctx context.Context, in *GetTestListRequ
 func (c *testServiceClient) GetTestsByUserId(ctx context.Context, in *GetTestsByUserIdRequest, opts ...grpc.CallOption) (*TestPreviewList, error) {
 	out := new(TestPreviewList)
 	err := c.cc.Invoke(ctx, "/training.TestService/GetTestsByUserId", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *testServiceClient) GetTestAmountByUserId(ctx context.Context, in *GetTestsAmountByUserIdRequest, opts ...grpc.CallOption) (*GetTestAmountByUserIdResponse, error) {
+	out := new(GetTestAmountByUserIdResponse)
+	err := c.cc.Invoke(ctx, "/training.TestService/GetTestAmountByUserId", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1644,6 +1654,7 @@ func (c *testServiceClient) DeleteTest(ctx context.Context, in *DeleteTestReques
 type TestServiceServer interface {
 	GetTestList(context.Context, *GetTestListRequest) (*TestPreviewList, error)
 	GetTestsByUserId(context.Context, *GetTestsByUserIdRequest) (*TestPreviewList, error)
+	GetTestAmountByUserId(context.Context, *GetTestsAmountByUserIdRequest) (*GetTestAmountByUserIdResponse, error)
 	CreateTest(context.Context, *CreateTestRequest) (*Test, error)
 	GetTestById(context.Context, *GetTestByIdRequest) (*Test, error)
 	UpdateTest(context.Context, *UpdateTestRequest) (*Test, error)
@@ -1660,6 +1671,9 @@ func (UnimplementedTestServiceServer) GetTestList(context.Context, *GetTestListR
 }
 func (UnimplementedTestServiceServer) GetTestsByUserId(context.Context, *GetTestsByUserIdRequest) (*TestPreviewList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTestsByUserId not implemented")
+}
+func (UnimplementedTestServiceServer) GetTestAmountByUserId(context.Context, *GetTestsAmountByUserIdRequest) (*GetTestAmountByUserIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTestAmountByUserId not implemented")
 }
 func (UnimplementedTestServiceServer) CreateTest(context.Context, *CreateTestRequest) (*Test, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTest not implemented")
@@ -1718,6 +1732,24 @@ func _TestService_GetTestsByUserId_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TestServiceServer).GetTestsByUserId(ctx, req.(*GetTestsByUserIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TestService_GetTestAmountByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTestsAmountByUserIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TestServiceServer).GetTestAmountByUserId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/training.TestService/GetTestAmountByUserId",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TestServiceServer).GetTestAmountByUserId(ctx, req.(*GetTestsAmountByUserIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1808,6 +1840,10 @@ var TestService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTestsByUserId",
 			Handler:    _TestService_GetTestsByUserId_Handler,
+		},
+		{
+			MethodName: "GetTestAmountByUserId",
+			Handler:    _TestService_GetTestAmountByUserId_Handler,
 		},
 		{
 			MethodName: "CreateTest",
@@ -1920,7 +1956,7 @@ var TrainingTestsService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SessionServiceClient interface {
-	CreateSession(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CreateSessionResult, error)
+	CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResult, error)
 }
 
 type sessionServiceClient struct {
@@ -1931,7 +1967,7 @@ func NewSessionServiceClient(cc grpc.ClientConnInterface) SessionServiceClient {
 	return &sessionServiceClient{cc}
 }
 
-func (c *sessionServiceClient) CreateSession(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*CreateSessionResult, error) {
+func (c *sessionServiceClient) CreateSession(ctx context.Context, in *CreateSessionRequest, opts ...grpc.CallOption) (*CreateSessionResult, error) {
 	out := new(CreateSessionResult)
 	err := c.cc.Invoke(ctx, "/training.SessionService/CreateSession", in, out, opts...)
 	if err != nil {
@@ -1944,7 +1980,7 @@ func (c *sessionServiceClient) CreateSession(ctx context.Context, in *emptypb.Em
 // All implementations must embed UnimplementedSessionServiceServer
 // for forward compatibility
 type SessionServiceServer interface {
-	CreateSession(context.Context, *emptypb.Empty) (*CreateSessionResult, error)
+	CreateSession(context.Context, *CreateSessionRequest) (*CreateSessionResult, error)
 	mustEmbedUnimplementedSessionServiceServer()
 }
 
@@ -1952,7 +1988,7 @@ type SessionServiceServer interface {
 type UnimplementedSessionServiceServer struct {
 }
 
-func (UnimplementedSessionServiceServer) CreateSession(context.Context, *emptypb.Empty) (*CreateSessionResult, error) {
+func (UnimplementedSessionServiceServer) CreateSession(context.Context, *CreateSessionRequest) (*CreateSessionResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSession not implemented")
 }
 func (UnimplementedSessionServiceServer) mustEmbedUnimplementedSessionServiceServer() {}
@@ -1969,7 +2005,7 @@ func RegisterSessionServiceServer(s grpc.ServiceRegistrar, srv SessionServiceSer
 }
 
 func _SessionService_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(CreateSessionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1981,7 +2017,7 @@ func _SessionService_CreateSession_Handler(srv interface{}, ctx context.Context,
 		FullMethod: "/training.SessionService/CreateSession",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SessionServiceServer).CreateSession(ctx, req.(*emptypb.Empty))
+		return srv.(SessionServiceServer).CreateSession(ctx, req.(*CreateSessionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

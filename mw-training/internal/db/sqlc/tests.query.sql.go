@@ -197,6 +197,24 @@ func (q *Queries) GetTestById(ctx context.Context, testUuid pgtype.UUID) (GetTes
 	return i, err
 }
 
+const getTestsAmountByUserId = `-- name: GetTestsAmountByUserId :one
+SELECT    
+    (SELECT COUNT(*) FROM tests WHERE tests.owner_uuid = $1) AS owner,
+    (SELECT COUNT(*) FROM test_session_results WHERE test_session_results.user_uuid = $1) AS completed
+`
+
+type GetTestsAmountByUserIdRow struct {
+	Owner     int64 `json:"owner"`
+	Completed int64 `json:"completed"`
+}
+
+func (q *Queries) GetTestsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTestsAmountByUserIdRow, error) {
+	row := q.db.QueryRow(ctx, getTestsAmountByUserId, userUuid)
+	var i GetTestsAmountByUserIdRow
+	err := row.Scan(&i.Owner, &i.Completed)
+	return i, err
+}
+
 const getTestsByOwner = `-- name: GetTestsByOwner :many
 SELECT
     tests.uuid,

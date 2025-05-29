@@ -25,6 +25,12 @@ type Router struct {
 	theoryMaterialRouter       *theoryMaterialRouter
 	practiceMaterialRouter     *practiceMaterialRouter
 	favoriteUserTrainingRouter *favoriteUserTrainingRouter
+	testRouter                 *testRouter
+	questionRouter             *questionRouter
+	questionResultRouter       *questionResultRouter
+	trainingTestRouter         *trainingTestRouter
+	testSessionResultsRouter   *testSessionResultRouter
+	sessionRouter              *sessionRouter
 }
 
 func NewRouter(config *config.Config, controller *controllers.Controller) *Router {
@@ -54,6 +60,12 @@ func NewRouter(config *config.Config, controller *controllers.Controller) *Route
 		theoryMaterialRouter:       newTheoryMaterialRouter(controller.TheoryMaterialController),
 		practiceMaterialRouter:     newPracticeMaterialRouter(controller.PracticeMaterialController),
 		favoriteUserTrainingRouter: newFavoriteUserTrainingRouter(controller.FavoriteUserTrainingController, config),
+		questionRouter:             newQuestionRouter(controller.QuestionController, config),
+		questionResultRouter:       newQuestionResultRouter(controller.QuestionResultsController, config),
+		trainingTestRouter:         newTrainingTestRouter(controller.TrainingTestsController, config),
+		testSessionResultsRouter:   newTestSessionResultRouter(controller.TestSessionResultsController, config),
+		testRouter:                 newTestRouter(controller.TestController, config),
+		sessionRouter:              newSessionRouter(controller.SessionController, config),
 	}
 }
 
@@ -68,6 +80,12 @@ func (r *Router) SetRoutes() {
 	r.theoryMaterialRouter.setTheoryMaterialRoutes(training)
 	r.practiceMaterialRouter.setPracticeMaterialRoutes(training)
 	r.favoriteUserTrainingRouter.setFavoriteUserTrainingRoutes(training)
+	r.testRouter.setTestRoutes(training)
+	r.questionRouter.setQuestionRoutes(training)
+	r.questionResultRouter.setQuestionResultRoutes(training)
+	r.trainingTestRouter.setTrainingTestRoutes(training)
+	r.testSessionResultsRouter.setTestSessionResultRoutes(training)
+	r.sessionRouter.setSessionRoutes(training)
 
 	if r.config.EnvType != "prod" {
 		r.Gin.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

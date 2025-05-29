@@ -205,6 +205,450 @@ const docTemplate = `{
                 }
             }
         },
+        "/question": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "question"
+                ],
+                "summary": "Create question",
+                "operationId": "create-question",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateQuestionPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Question"
+                        }
+                    }
+                }
+            }
+        },
+        "/question/{questionId}": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "question"
+                ],
+                "summary": "Delete question by Uuid",
+                "operationId": "delete-question",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "question id",
+                        "name": "questionId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "question"
+                ],
+                "summary": "Update question by uuid",
+                "operationId": "update-question",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdateQuestionPayload"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "topic id",
+                        "name": "questionId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Question"
+                        }
+                    }
+                }
+            }
+        },
+        "/questionResult": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "questionResult"
+                ],
+                "summary": "Create question result",
+                "operationId": "create-question-result",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateQuestionResultRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.QuestionResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/questionResult/session/{sessionId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "questionResult"
+                ],
+                "summary": "Get question results by session UUID",
+                "operationId": "get-question-results-by-session-uuid",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "session id",
+                        "name": "sessionId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mw-training-bff_internal_schemas.QuestionResult"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/session": {
+            "post": {
+                "description": "Create Session",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Sessions"
+                ],
+                "summary": "Create Session",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateSessionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateSessionResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/test": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "Get test list",
+                "operationId": "get-test-list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TestPreviewList"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "Create test",
+                "operationId": "create-test",
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTestRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Test"
+                        }
+                    }
+                }
+            }
+        },
+        "/test/user/{userId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "Get tests by user id",
+                "operationId": "get-tests-by-user-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TestPreviewList"
+                        }
+                    }
+                }
+            }
+        },
+        "/test/{testId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "Get test by id",
+                "operationId": "get-test-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "test id",
+                        "name": "testId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Test"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "Delete test by Uuid",
+                "operationId": "delete-test",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "test id",
+                        "name": "testId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "Update test by uuid",
+                "operationId": "update-test",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "test id",
+                        "name": "testId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.UpdateTestRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.Test"
+                        }
+                    }
+                }
+            }
+        },
+        "/testSessionResult": {
+            "get": {
+                "description": "Get TestSessionResult",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test-session-result"
+                ],
+                "summary": "Get TestSessionResult",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.GetTestSessionResultResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/theoryMaterials": {
             "post": {
                 "consumes": [
@@ -624,6 +1068,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/trainingTest": {
+            "post": {
+                "description": "Create TrainingTest",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "TrainingTests"
+                ],
+                "summary": "Create TrainingTest",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateTrainingTestRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/trainingTrainingTags/{trainingId}": {
             "post": {
                 "consumes": [
@@ -975,6 +1450,113 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-training-bff_internal_schemas.CreateQuestionPayload": {
+            "type": "object",
+            "required": [
+                "answer",
+                "name",
+                "practice_type",
+                "question_text",
+                "test_uuid",
+                "time_to_answer"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "practice_type": {
+                    "type": "string"
+                },
+                "question_text": {
+                    "type": "string"
+                },
+                "test_uuid": {
+                    "type": "string"
+                },
+                "time_to_answer": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateQuestionResultRequest": {
+            "type": "object",
+            "required": [
+                "is_ok",
+                "question_uuid",
+                "result_description",
+                "test_session_uuid",
+                "test_uuid",
+                "user_uuid"
+            ],
+            "properties": {
+                "is_ok": {
+                    "type": "boolean"
+                },
+                "question_uuid": {
+                    "type": "string"
+                },
+                "result_description": {
+                    "type": "string"
+                },
+                "test_session_uuid": {
+                    "type": "string"
+                },
+                "test_uuid": {
+                    "type": "string"
+                },
+                "user_uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateSessionRequest": {
+            "type": "object",
+            "required": [
+                "user_uuid"
+            ],
+            "properties": {
+                "user_uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateSessionResult": {
+            "type": "object",
+            "required": [
+                "session_uuid"
+            ],
+            "properties": {
+                "session_uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.CreateTestRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "is_private",
+                "name",
+                "owner_uuid"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "is_private": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_uuid": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-training-bff_internal_schemas.CreateTheoryMaterialPayload": {
             "type": "object",
             "required": [
@@ -1021,6 +1603,21 @@ const docTemplate = `{
                 }
             }
         },
+        "mw-training-bff_internal_schemas.CreateTrainingTestRequest": {
+            "type": "object",
+            "required": [
+                "test_uuid",
+                "training_uuid"
+            ],
+            "properties": {
+                "test_uuid": {
+                    "type": "string"
+                },
+                "training_uuid": {
+                    "type": "string"
+                }
+            }
+        },
         "mw-training-bff_internal_schemas.CreateTrainingTrainingTagPayload": {
             "type": "object",
             "required": [
@@ -1028,6 +1625,40 @@ const docTemplate = `{
             ],
             "properties": {
                 "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.GetTestSessionResultRequest": {
+            "type": "object",
+            "required": [
+                "session_uuid"
+            ],
+            "properties": {
+                "session_uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.GetTestSessionResultResponse": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "result_description",
+                "session_uuid",
+                "test_uuid"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "result_description": {
+                    "type": "string"
+                },
+                "session_uuid": {
+                    "type": "string"
+                },
+                "test_uuid": {
                     "type": "string"
                 }
             }
@@ -1094,6 +1725,175 @@ const docTemplate = `{
                 },
                 "size": {
                     "type": "integer"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.Question": {
+            "type": "object",
+            "required": [
+                "answer",
+                "created_at",
+                "is_active",
+                "order",
+                "question_text",
+                "test_uuid",
+                "time_to_answer",
+                "updated_at",
+                "uuid"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "question_text": {
+                    "type": "string"
+                },
+                "test_uuid": {
+                    "type": "string"
+                },
+                "time_to_answer": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.QuestionResult": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "is_ok",
+                "question_uuid",
+                "result_description",
+                "test_session_uuid",
+                "test_uuid",
+                "user_uuid",
+                "uuid"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "is_ok": {
+                    "type": "boolean"
+                },
+                "question_uuid": {
+                    "type": "string"
+                },
+                "result_description": {
+                    "type": "string"
+                },
+                "test_session_uuid": {
+                    "type": "string"
+                },
+                "test_uuid": {
+                    "type": "string"
+                },
+                "user_uuid": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.Test": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "description",
+                "name",
+                "owner_uuid",
+                "questions",
+                "updated_at",
+                "uuid"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_uuid": {
+                    "type": "string"
+                },
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.Question"
+                    }
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TestPreview": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "description",
+                "name",
+                "owner_uuid",
+                "updated_at",
+                "uuid"
+            ],
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "owner_uuid": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TestPreviewList": {
+            "type": "object",
+            "required": [
+                "size",
+                "tests_list"
+            ],
+            "properties": {
+                "size": {
+                    "type": "integer"
+                },
+                "tests_list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mw-training-bff_internal_schemas.TestPreview"
+                    }
                 }
             }
         },
@@ -1461,6 +2261,43 @@ const docTemplate = `{
                 },
                 "timeToAnswer": {
                     "type": "integer"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.UpdateQuestionPayload": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "type": "integer"
+                },
+                "practice_type": {
+                    "type": "string"
+                },
+                "question_text": {
+                    "type": "string"
+                },
+                "time_to_answer": {
+                    "type": "integer"
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.UpdateTestRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "is_private": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },

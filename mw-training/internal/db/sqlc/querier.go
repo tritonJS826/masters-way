@@ -85,6 +85,7 @@ type Querier interface {
 	GetTestResultsByTest(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsByTestRow, error)
 	GetTestResultsByUser(ctx context.Context, userUuid pgtype.UUID) ([]GetTestResultsByUserRow, error)
 	GetTestResultsWithStats(ctx context.Context, testUuid pgtype.UUID) ([]GetTestResultsWithStatsRow, error)
+	GetTestsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTestsAmountByUserIdRow, error)
 	GetTestsByOwner(ctx context.Context, arg GetTestsByOwnerParams) ([]GetTestsByOwnerRow, error)
 	GetTheoryMaterialsByTopicId(ctx context.Context, topicUuid pgtype.UUID) ([]TheoryMaterial, error)
 	GetTopicByUuid(ctx context.Context, topicUuid pgtype.UUID) (GetTopicByUuidRow, error)

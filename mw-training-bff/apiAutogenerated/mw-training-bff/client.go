@@ -53,6 +53,16 @@ type APIClient struct {
 
 	PracticeMaterialAPI *PracticeMaterialAPIService
 
+	QuestionAPI *QuestionAPIService
+
+	QuestionResultAPI *QuestionResultAPIService
+
+	SessionsAPI *SessionsAPIService
+
+	TestAPI *TestAPIService
+
+	TestSessionResultAPI *TestSessionResultAPIService
+
 	TheoryMaterialAPI *TheoryMaterialAPIService
 
 	TopicAPI *TopicAPIService
@@ -62,6 +72,8 @@ type APIClient struct {
 	TrainingMentorAPI *TrainingMentorAPIService
 
 	TrainingStudentAPI *TrainingStudentAPIService
+
+	TrainingTestsAPI *TrainingTestsAPIService
 
 	TrainingTrainingTagAPI *TrainingTrainingTagAPIService
 }
@@ -84,11 +96,17 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	// API Services
 	c.FavoriteUserTrainingAPI = (*FavoriteUserTrainingAPIService)(&c.common)
 	c.PracticeMaterialAPI = (*PracticeMaterialAPIService)(&c.common)
+	c.QuestionAPI = (*QuestionAPIService)(&c.common)
+	c.QuestionResultAPI = (*QuestionResultAPIService)(&c.common)
+	c.SessionsAPI = (*SessionsAPIService)(&c.common)
+	c.TestAPI = (*TestAPIService)(&c.common)
+	c.TestSessionResultAPI = (*TestSessionResultAPIService)(&c.common)
 	c.TheoryMaterialAPI = (*TheoryMaterialAPIService)(&c.common)
 	c.TopicAPI = (*TopicAPIService)(&c.common)
 	c.TrainingAPI = (*TrainingAPIService)(&c.common)
 	c.TrainingMentorAPI = (*TrainingMentorAPIService)(&c.common)
 	c.TrainingStudentAPI = (*TrainingStudentAPIService)(&c.common)
+	c.TrainingTestsAPI = (*TrainingTestsAPIService)(&c.common)
 	c.TrainingTrainingTagAPI = (*TrainingTrainingTagAPIService)(&c.common)
 
 	return c

@@ -20,6 +20,11 @@ func (c *TestController) GetTestList(ctx context.Context, req *pb.GetTestListReq
 	return nil, nil
 }
 
+func (c *TestController) GetTestsAmountByUserId(ctx context.Context, req *pb.GetTestsAmountByUserIdRequest) (*pb.TestPreviewList, error) {
+	// TODO: implement
+	return nil, nil
+}
+
 func (c *TestController) GetTestsByUserId(ctx context.Context, req *pb.GetTestsByUserIdRequest) (*pb.TestPreviewList, error) {
 	// TODO: implement
 	return nil, nil
