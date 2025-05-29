@@ -117,6 +117,7 @@ export const TrainingCard = observer((props: TrainingCardProps) => {
               content={props.trainingPreview.name}
             >
               <Title
+                isClamped={true}
                 text={props.trainingPreview.name}
                 level={HeadingLevel.h3}
                 className={styles.title}

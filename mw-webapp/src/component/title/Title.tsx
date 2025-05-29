@@ -99,6 +99,11 @@ interface TitleProps {
    * Max character count
    */
   maxCharacterCount?: number;
+
+  /**
+   * If true, the text will be clamped to the max character count
+   */
+  isClamped?: boolean;
 }
 
 /**
@@ -202,15 +207,27 @@ export const Title = (props: TitleProps) => {
           )
           : (
             <>
-              <div className={styles.clampedText}>
-                <Heading
-                  onClick={props.onClick}
-                  as={props.level}
-                  className={clsx(styles.heading, props.classNameHeading)}
-                >
-                  {text === "" ? props.placeholder : text}
-                </Heading>
-              </div>
+              {props.isClamped
+                ? (
+                  <div className={clsx({[styles.clampedText]: props.isClamped})}>
+                    <Heading
+                      onClick={props.onClick}
+                      as={props.level}
+                      className={clsx(styles.heading, props.classNameHeading)}
+                    >
+                      {text === "" ? props.placeholder : text}
+                    </Heading>
+                  </div>
+                )
+                : (
+                  <Heading
+                    onClick={props.onClick}
+                    as={props.level}
+                    className={clsx(styles.heading, props.classNameHeading)}
+                  >
+                    {text === "" ? props.placeholder : text}
+                  </Heading>
+                )}
               {isEditButtonVisible && (
                 <div className={styles.editButton}>
                   <Button

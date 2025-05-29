@@ -22,6 +22,10 @@ $wayCardAdditionalHeight: 118px;
   gap: $gapSmall;
 }
 
+.title {
+  color: var(--secondaryTextColor);
+}
+
 .wayGoal {
   display: -webkit-box;
   overflow: hidden;
@@ -32,6 +36,10 @@ $wayCardAdditionalHeight: 118px;
   overflow-wrap: anywhere;
   text-overflow: ellipsis;
   white-space: initial;
+
+  a {
+    color: var(--secondaryTextColor);
+  }
 }
 
 .additionalInfo {
