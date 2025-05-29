@@ -92,8 +92,12 @@ export const EditableTextarea = (props: EditableTextareaProps) => {
   const isEmptyText = text.toString().trim() === "";
 
   const isEditButtonVisible = props.isEditable && !isEditing;
-  const isCharacterCountExceeded = props.maxCharacterCount ? text.length >= props.maxCharacterCount : false;
-  const isEmojiPickerDisabled = props.maxCharacterCount ? text.length >= props.maxCharacterCount - MAX_EMOJI_LENGTH : false;
+  const isCharacterCountExceeded = props.maxCharacterCount 
+    ? text.length >= props.maxCharacterCount
+    : false;
+  const isEmojiPickerDisabled = props.maxCharacterCount 
+    ? text.length >= props.maxCharacterCount - MAX_EMOJI_LENGTH 
+    : false;
 
   useEffect(() => {
     setText(props.text);
