@@ -17,14 +17,19 @@ $editableTextarea-width: 100%;
 
 .characterCount {
   color: var(--tertiaryTextColor);
-  font-size: $fontSizeSmall;
+}
+
+.characterCountExceeded {
+  color: var(--dangerColor);
 }
 
 .editableTextAreaFooter {
   align-items: center;
   justify-content: flex-end;
+  margin: $marginSmall;
 }
 
 .editButton {
   justify-content: flex-end;
+  margin: $marginSmall;
 }

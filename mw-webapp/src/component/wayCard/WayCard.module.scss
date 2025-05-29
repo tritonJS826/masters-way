@@ -23,13 +23,7 @@ $wayCardAdditionalHeight: 118px;
 }
 
 .title {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
   color: var(--secondaryTextColor);
-  -webkit-line-clamp: 1;
-  text-overflow: ellipsis;
-  white-space: initial;
 }
 
 .wayGoal {
@@ -42,6 +36,10 @@ $wayCardAdditionalHeight: 118px;
   overflow-wrap: anywhere;
   text-overflow: ellipsis;
   white-space: initial;
+
+  a {
+    color: var(--secondaryTextColor);
+  }
 }
 
 .additionalInfo {
@@ -58,10 +56,10 @@ $wayCardAdditionalHeight: 118px;
   overflow: hidden;
   flex-wrap: nowrap;
   align-items: center;
+  margin-top: auto;
   -webkit-box-orient: vertical;
   gap: $gapSmall;
   -webkit-line-clamp: 1;
-  margin-top: auto;
 }
 
 .nameLikes {

@@ -70,6 +70,10 @@ interface TextareaProps {
    */
   isDisabled?: boolean;
 
+  /**
+   * Max text length value
+   */
+  maxCharacterCount?: number;
 }
 
 /**
@@ -128,6 +132,7 @@ export const Textarea = (props: TextareaProps) => {
       onKeyDown={props.onKeyPress}
       ref={textareaRef}
       disabled={props.isDisabled}
+      maxLength={props.maxCharacterCount}
     />
   );
 };

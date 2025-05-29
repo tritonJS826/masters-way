@@ -1,8 +1,11 @@
+import MarkdownLib, {Components} from "react-markdown";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
+import remarkGfm from "remark-gfm";
 import {Avatar} from "src/component/avatar/Avatar";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
+import {Image} from "src/component/image/Image";
 import {Link} from "src/component/link/Link";
 import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {Tag, TagType} from "src/component/tag/Tag";
@@ -19,8 +22,51 @@ import {WayTag} from "src/model/businessModelPreview/WayTag";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {DateUtils} from "src/utils/DateUtils";
-import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
 import styles from "src/component/wayCard/WayCard.module.scss";
+
+/**
+ * Custom markdown renderer for wayGoal that doesn't apply link styling
+ * This allows links to inherit the wayGoal's secondaryTextColor
+ */
+const renderWayGoalMarkdown = (text: string | number) => {
+  const customComponents: Components = {
+
+    /**
+     * Custom anchor element without styling
+     */
+    a: ({children, ...params}) => (
+      <a
+        {...params}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children ?? LanguageService.common.emptyLinkTitle[languageStore.language]}
+      </a>
+    ),
+
+    /**
+     * Custom image element
+     */
+    img: (params) => (
+      <span>
+        <Image
+          src={params.src ?? ""}
+          alt={params.alt ?? ""}
+          isZoomable
+        />
+      </span>
+    ),
+  };
+
+  return (
+    <MarkdownLib
+      remarkPlugins={[remarkGfm]}
+      components={customComponents}
+    >
+      {typeof text === "number" ? text.toString() : text}
+    </MarkdownLib>
+  );
+};
 
 /**
  * Way card props
@@ -113,6 +159,7 @@ export const WayCard = observer((props: WayCardProps) => {
                 text={props.wayPreview.name}
                 level={HeadingLevel.h3}
                 className={styles.title}
+                isClamped={true}
                 placeholder={LanguageService.common.emptyMarkdown[language]}
               />
             </Tooltip>
@@ -143,10 +190,10 @@ export const WayCard = observer((props: WayCardProps) => {
           </HorizontalContainer>
           <Tooltip
             position={PositionTooltip.BOTTOM}
-            content={renderMarkdown(props.wayPreview.goalDescription)}
+            content={renderWayGoalMarkdown(props.wayPreview.goalDescription)}
           >
             <div className={styles.wayGoal}>
-              {renderMarkdown(props.wayPreview.goalDescription)}
+              {renderWayGoalMarkdown(props.wayPreview.goalDescription)}
             </div>
           </Tooltip>
           {renderWayTags(props.wayPreview.wayTags)}
