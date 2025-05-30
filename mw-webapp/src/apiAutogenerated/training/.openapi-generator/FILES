@@ -34,6 +34,7 @@ models/MwTrainingBffInternalSchemasQuestionResult.ts
 models/MwTrainingBffInternalSchemasTest.ts
 models/MwTrainingBffInternalSchemasTestPreview.ts
 models/MwTrainingBffInternalSchemasTestPreviewList.ts
+models/MwTrainingBffInternalSchemasTestsAmount.ts
 models/MwTrainingBffInternalSchemasTheoryMaterial.ts
 models/MwTrainingBffInternalSchemasTheoryMaterials.ts
 models/MwTrainingBffInternalSchemasTopic.ts

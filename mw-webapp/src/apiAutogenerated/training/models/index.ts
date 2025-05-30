@@ -20,6 +20,7 @@ export * from './MwTrainingBffInternalSchemasQuestionResult';
 export * from './MwTrainingBffInternalSchemasTest';
 export * from './MwTrainingBffInternalSchemasTestPreview';
 export * from './MwTrainingBffInternalSchemasTestPreviewList';
+export * from './MwTrainingBffInternalSchemasTestsAmount';
 export * from './MwTrainingBffInternalSchemasTheoryMaterial';
 export * from './MwTrainingBffInternalSchemasTheoryMaterials';
 export * from './MwTrainingBffInternalSchemasTopic';

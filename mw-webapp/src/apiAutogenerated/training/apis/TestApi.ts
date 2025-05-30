@@ -18,6 +18,7 @@ import type {
   MwTrainingBffInternalSchemasCreateTestRequest,
   MwTrainingBffInternalSchemasTest,
   MwTrainingBffInternalSchemasTestPreviewList,
+  MwTrainingBffInternalSchemasTestsAmount,
   MwTrainingBffInternalSchemasUpdateTestRequest,
 } from '../models/index';
 import {
@@ -27,6 +28,8 @@ import {
     MwTrainingBffInternalSchemasTestToJSON,
     MwTrainingBffInternalSchemasTestPreviewListFromJSON,
     MwTrainingBffInternalSchemasTestPreviewListToJSON,
+    MwTrainingBffInternalSchemasTestsAmountFromJSON,
+    MwTrainingBffInternalSchemasTestsAmountToJSON,
     MwTrainingBffInternalSchemasUpdateTestRequestFromJSON,
     MwTrainingBffInternalSchemasUpdateTestRequestToJSON,
 } from '../models/index';
@@ -47,6 +50,10 @@ export interface GetTestListRequest {
     name?: string;
     page?: number;
     limit?: number;
+}
+
+export interface GetTestsAmountByUserIdRequest {
+    userId: string;
 }
 
 export interface GetTestsByUserIdRequest {
@@ -190,6 +197,36 @@ export class TestApi extends runtime.BaseAPI {
      */
     async getTestList(requestParameters: GetTestListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTestPreviewList> {
         const response = await this.getTestListRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get tests amount by user id
+     */
+    async getTestsAmountByUserIdRaw(requestParameters: GetTestsAmountByUserIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTestsAmount>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getTestsAmountByUserId.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/test/amount/user/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTestsAmountFromJSON(jsonValue));
+    }
+
+    /**
+     * Get tests amount by user id
+     */
+    async getTestsAmountByUserId(requestParameters: GetTestsAmountByUserIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTestsAmount> {
+        const response = await this.getTestsAmountByUserIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

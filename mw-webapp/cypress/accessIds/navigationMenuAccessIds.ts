@@ -1,12 +1,13 @@
 export const navigationMenuIds = {
-    navigationMenu: 'navigationMenu', 
-    
+    navigationMenu: 'navigationMenu',
+
     menuItemLinks: {
         logo: 'menuLogo',
         home: 'home',
         personalArea: 'personalArea',
         allWays: 'allWays',
         allTrainings: 'allTrainings',
+        allTests: 'allTests',
         allUsers: 'allUsers',
         aboutProject: 'aboutProject',
         pricing: 'pricing',

@@ -1,4 +1,5 @@
 import aboutProjectPageContent from "src/dictionary/AboutProjectPageContent.json";
+import allTestsPageContent from "src/dictionary/AllTestsPageContent.json";
 import allTrainingsPageContent from "src/dictionary/AllTrainingsPageContent.json";
 import allUsersPageContent from "src/dictionary/AllUsersPageContent.json";
 import allWaysPageContent from "src/dictionary/AllWaysPageContent.json";
@@ -20,6 +21,7 @@ import project from "src/dictionary/ProjectPageContent.json";
 import settings from "src/dictionary/SettingsPageContent.json";
 import sidebar from "src/dictionary/Sidebar.json";
 import survey from "src/dictionary/SurveyModalsContent.json";
+import testPageContent from "src/dictionary/TestPageContent.json";
 import topicPageContent from "src/dictionary/TopicPageContent.json";
 import trainingPageContent from "src/dictionary/TrainingPageContent.json";
 import userPageContent from "src/dictionary/UserPageContent.json";
@@ -66,6 +68,13 @@ export class LanguageService {
   }
 
   /**
+   * All tests page content
+   */
+  public static get allTests() {
+    return allTestsPageContent;
+  }
+
+  /**
    * All users page content
    */
   public static get allUsers() {
@@ -98,6 +107,13 @@ export class LanguageService {
    */
   public static get training() {
     return trainingPageContent;
+  }
+
+  /**
+   * Test page content
+   */
+  public static get test() {
+    return testPageContent;
   }
 
   /**

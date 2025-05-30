@@ -2,6 +2,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {projectsAccessIds} from "cypress/accessIds/projectsAccessIds";
+import {testsAccessIds} from "cypress/accessIds/testsAccessIds";
 import {trainingAccessIds} from "cypress/accessIds/trainingsAccessIds";
 import {userPersonalDataAccessIds} from "cypress/accessIds/userPersonalDataAccessIds";
 import {userWaysAccessIds} from "cypress/accessIds/userWaysAccessIds";
@@ -53,7 +54,8 @@ import {useStore} from "src/hooks/useStore";
 import {chatStore} from "src/logic/chat/ChatStore";
 import {ContactData, ContactsModalContent} from "src/logic/userPage/ContactsModalContent";
 import {ContactTag} from "src/logic/userPage/contactTag/ContactTag";
-import {DefaultTrainingCollection, getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
+import {DefaultTestCollection, DefaultTrainingCollection, getAllCollections} from "src/logic/userPage/DefaultTrainingCollection";
+import {TestTab} from "src/logic/userPage/testTab/TestTab";
 import {TrainingTab} from "src/logic/userPage/trainingTab/TrainingTab";
 import {UserPageStore} from "src/logic/userPage/UserPageStore";
 import {BaseWaysTable, FILTER_STATUS_ALL_VALUE} from "src/logic/waysTable/BaseWaysTable";
@@ -123,6 +125,7 @@ const DEFAULT_USER_PAGE_SETTINGS: UserPageSettings = {
   view: View.Card,
   tab: TabType.Ways,
   trainingCollection: DefaultTrainingCollection.OWN,
+  testCollection: DefaultTestCollection.OWN,
 };
 
 /**
@@ -219,12 +222,15 @@ export const UserPage = observer((props: UserPageProps) => {
       const isTrainingCollectionValid = Object.values(DefaultTrainingCollection).some(
         collection => (collection === settings.trainingCollection),
       );
+      const isTestCollectionValid = Object.values(DefaultTestCollection).some(
+        collection => (collection === settings.testCollection),
+      );
       const isViewValid = !!settings.view && Object.values(View).includes(settings.view);
       const isTabValid = !!settings.tab && Object.values(TabType).includes(settings.tab);
       const isFilterStatusValid = settings.filterStatus === FILTER_STATUS_ALL_VALUE ||
         Object.values(WayStatus).includes(settings.filterStatus);
 
-      return isTrainingCollectionValid && isViewValid && isTabValid && isFilterStatusValid;
+      return isTrainingCollectionValid && isTestCollectionValid && isViewValid && isTabValid && isFilterStatusValid;
     },
   });
 
@@ -530,6 +536,38 @@ export const UserPage = observer((props: UserPageProps) => {
         ),
       },
       value: TabType.Trainings,
+
+      /**
+       * Save trainings tab as opened
+       */
+      onClick: () => {
+        updateUserPageSettings({tab: TabType.Trainings});
+      },
+    },
+    {
+      id: TabType.Tests,
+      tabTrigger: {
+        id: TabType.Tests,
+        value: LanguageService.user.tabs.tests[language],
+        dataCy: testsAccessIds.testsTab,
+      },
+      tabContent: {
+        id: TabType.Tests,
+        value: (
+          <TestTab
+            isPageOwner={isPageOwner}
+            userPageOwnerUuid={userPageOwner.uuid}
+            onClick={(testCollection: DefaultTestCollection) => {
+
+              updateUserPageSettings({testCollection});
+            }}
+            activeTestCollection={userPageSettings.testCollection}
+            view={userPageSettings.view}
+            setView={(view: View) => updateUserPageSettings({view})}
+          />
+        ),
+      },
+      value: TabType.Tests,
 
       /**
        * Save trainings tab as opened

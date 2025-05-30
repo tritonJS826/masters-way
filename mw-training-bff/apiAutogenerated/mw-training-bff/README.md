@@ -94,6 +94,7 @@ Class | Method | HTTP request | Description
 *TestAPI* | [**DeleteTest**](docs/TestAPI.md#deletetest) | **Delete** /test/{testId} | Delete test by Uuid
 *TestAPI* | [**GetTestById**](docs/TestAPI.md#gettestbyid) | **Get** /test/{testId} | Get test by id
 *TestAPI* | [**GetTestList**](docs/TestAPI.md#gettestlist) | **Get** /test | Get test list
+*TestAPI* | [**GetTestsAmountByUserId**](docs/TestAPI.md#gettestsamountbyuserid) | **Get** /test/amount/user/{userId} | Get tests amount by user id
 *TestAPI* | [**GetTestsByUserId**](docs/TestAPI.md#gettestsbyuserid) | **Get** /test/user/{userId} | Get tests by user id
 *TestAPI* | [**UpdateTest**](docs/TestAPI.md#updatetest) | **Patch** /test/{testId} | Update test by uuid
 *TestSessionResultAPI* | [**TestSessionResultGet**](docs/TestSessionResultAPI.md#testsessionresultget) | **Get** /testSessionResult | Get TestSessionResult
@@ -143,6 +144,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasTest](docs/MwTrainingBffInternalSchemasTest.md)
  - [MwTrainingBffInternalSchemasTestPreview](docs/MwTrainingBffInternalSchemasTestPreview.md)
  - [MwTrainingBffInternalSchemasTestPreviewList](docs/MwTrainingBffInternalSchemasTestPreviewList.md)
+ - [MwTrainingBffInternalSchemasTestsAmount](docs/MwTrainingBffInternalSchemasTestsAmount.md)
  - [MwTrainingBffInternalSchemasTheoryMaterial](docs/MwTrainingBffInternalSchemasTheoryMaterial.md)
  - [MwTrainingBffInternalSchemasTheoryMaterials](docs/MwTrainingBffInternalSchemasTheoryMaterials.md)
  - [MwTrainingBffInternalSchemasTopic](docs/MwTrainingBffInternalSchemasTopic.md)

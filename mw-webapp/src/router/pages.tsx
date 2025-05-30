@@ -50,6 +50,11 @@ const getPathForTopicPage = (params: { trainingUuid: string; topicUuid: string }
  */
 const getPathForProjectPage = (params: {uuid: string}): string => `/project/${params.uuid}`;
 
+/**
+ * Create url with appropriate params for @TestPage
+ */
+const getPathForTestPage = (params: {uuid: string}): string => `/test/${params.uuid}`;
+
 const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null}>
   {lazyNode}
 </React.Suspense>);
@@ -78,6 +83,12 @@ const AllTrainingsPage = () => (<>
   <AllTrainingsPageLazy />
 </>);
 
+const AllTestsPageLazy = React.lazy(() => import("src/logic/allTestsPage/AllTestsPage")
+  .then((module) => ({default: module.AllTestsPage})));
+const AllTestsPage = () => (<>
+  <AllTestsPageLazy />
+</>);
+
 const UserPageLazy = React.lazy(() => import("src/logic/userPage/UserPage")
   .then((module) => ({default: module.UserPage})));
 const UserPage = (params: {uuid: string}) => (<>
@@ -100,6 +111,12 @@ const ProjectPageLazy = React.lazy(() => import("src/logic/projectPage/ProjectPa
   .then((module) => ({default: module.ProjectPage})));
 const ProjectPage = (params: {uuid: string}) => (<>
   <ProjectPageLazy {...params} />
+</>);
+
+const TestPageLazy = React.lazy(() => import("src/logic/testPage/TestPage")
+  .then((module) => ({default: module.TestPage})));
+const TestPage = (params: {uuid: string}) => (<>
+  <TestPageLazy {...params} />
 </>);
 
 const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
@@ -221,6 +238,11 @@ export const pages = {
     getPageComponent: () => suspended(<AllTrainingsPage />),
     urlParams: {},
   } as PageParams,
+  allTests: {
+    getPath: () => "/tests",
+    getPageComponent: () => suspended(<AllTestsPage />),
+    urlParams: {},
+  } as PageParams,
   user: {
     getPath: (params): string => getPathForUserPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<UserPage {...params} />),
@@ -244,6 +266,11 @@ export const pages = {
   project: {
     getPath: (params): string => getPathForProjectPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<ProjectPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{uuid: string}>,
+  test: {
+    getPath: (params): string => getPathForTestPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<TestPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   allUsers: {

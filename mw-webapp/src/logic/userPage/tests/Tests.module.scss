@@ -1,0 +1,42 @@
+@import "src/styles/variables";
+
+.loaderWrapper {
+  margin-top: $gapBig;
+}
+
+.wayCollectionActions {
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.createWayButtonWrap {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.trainingCards {
+  gap: $gapSmall;
+  grid-template-columns: repeat(auto-fill, minmax($mediumWidthBlock, 1fr));
+
+  @media (max-width: $mediaWidthTablet) {
+    grid-template-columns: repeat(auto-fill, minmax($minWidthBlock, 1fr));
+  }
+}
+
+.filterView {
+  width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  @include regularContainer;
+}
+
+.testsContent {
+  @include regularContainer;
+  display: grid;
+}
+
+.testsContainer {
+  width: 100%;
+  gap: $gapSmall;
+}

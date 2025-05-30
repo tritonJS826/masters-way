@@ -1,0 +1,272 @@
+{
+    "privateInfo": {
+        "title": {
+            "ru": "Тренинг недоступен",
+            "en": "Training not available",
+            "ua": "Тренінг недоступний"
+        },
+        "description": {
+            "ru": "Этот тренинг приватный, он доступен только владельцу и ментору",
+            "en": "This training is private, it is available only to the owner and mentor",
+            "ua": "Цей тренінг приватний, він доступний лише власнику та ментору"
+        }
+    },
+    "infotip": {
+        "trainingName": {
+            "ru": "Изменить название тренинга можно по двойному клику. Рекомендуем формулировать название кратко, но информативно. Это важно, чтобы другие пользователи могли понять, к чему относится тренинг.",
+            "en": "You can change the name of the training by double clicking. We recommend that you keep the title brief but informative. This is important so that other users can understand what the training covers.",
+            "ua": "Змінити назву тренінгу можна за подвійним кліком. Рекомендуємо формулювати назву коротко, але інформативно. Це важливо, щоб інші користувачі могли зрозуміти, до чого належить тренінг."
+        },
+        "privacyStatus": {
+            "ru": "Твой тренинг может быть 'Публичным', то есть доступным для просмотра другими пользователями, или 'Приватным', то есть быть скрыт от всех, кроме менторов и студентов, уже имеющих доступ к твоему тренингу. Изменить статус приватности можно в 'Доступных действиях'. На данный момент функционал не реализован.",
+            "en": "Your training can be 'Public', that is, available for viewing by other users, or 'Private', that is, hidden from everyone except mentors and students who already have access to your training. You can change your privacy status in 'Available Actions'. At the moment the functionality is not implemented.",
+            "ua": "Твій тренінг може бути 'Публічним', тобто доступним для перегляду іншими користувачами, або 'Приватним', тобто бути прихованим від усіх, крім менторів і учнів, які вже мають доступ до твого тренінгу. Змінити статус приватності можна в 'Доступних діях'. На даний момент функціонал не реалізований."
+        },
+        "trainingOwner": {
+            "ru": "Ссылка на пользователя, который создал данный тренинг.",
+            "en": "Link to the user who created this training.",
+            "ua": "Посилання на користувача, який створив цей шлях."
+        },
+        "trainingMentors": {
+            "ru": "Ссылки на пользователей, которые являются менторами данного тренинга.",
+            "en": "Links to users who are mentors on this training.",
+            "ua": "Посилання на користувачів, які є менторами цього тренінгу."
+        },
+        "description": {
+            "ru": "Опиши тренинг максимально подробно, чтобы пользователи могли понять, чему они смогут научиться во время его прохождения.",
+            "en": "Describe the training in as much detail as possible so that users can understand what they can learn while completing it.",
+            "ua": "Опишіть тренінг якомога детальніше, щоб користувачі могли зрозуміти, чого вони можуть навчитися під час його проходження."
+        }
+    },
+    "notifications": {
+        "trainingRemovedFromFavorites": {
+            "ru": "Тренинг удален из избранных",
+            "en": "Training removed from favorites",
+            "ua": "Тренінг видалено з обраних"
+        },
+        "trainingAddedToFavorites": {
+            "ru": "Тренинг добавлен в избранные",
+            "en": "Training added to favorites",
+            "ua": "Тренінг додано до обраних"
+        },
+        "urlCopied": {
+            "ru": "Url скопирован",
+            "en": "Url copied",
+            "ua": "URL скопійовано"
+        },
+        "trainingNameMaxLength": {
+            "ru": "Имя не должно превышать 50 символов",
+            "en": "Name should not exceed 50 characters",
+            "ua": "Ім'я не повинно перевищувати 50 символів"
+        },
+        "trainingNameMinLength": {
+            "ru": "Имя должно содержать хотя бы один символ",
+            "en": "Name should include at least one character",
+            "ua": "Ім'я повинно містити принаймні один символ"
+        }
+    },
+    "trainingInfo": {
+        "description": {
+            "ru": "Описание",
+            "en": "Description",
+            "ua": "Опис"
+        },
+        "noTags": {
+            "ru": "Нет тегов",
+            "en": "No tags",
+            "ua": "Немає тегів"
+        },
+        "duplicateTagModal": {
+            "ru": "Тег тренинга с таким именем уже существует",
+            "en": "A Training tag with the same name already exists",
+            "ua": "Тег тренінгу з такою назвою вже існує"
+        },
+        "addTrainingTagButton": {
+            "ru": "Добавить новый тег",
+            "en": "Add new training tag",
+            "ua": "Додати новий тег"
+        },
+        "addTrainingTagModal": {
+            "ru": "Новый тег",
+            "en": "New tag",
+            "ua": "Новий тег"
+        },
+        "addTrainingTagModalTitle": {
+            "ru": "Теги",
+            "en": "Tags",
+            "ua": "Теги"
+        },
+        "addTrainingTagModalButton": {
+            "ru": "Создать тег",
+            "en": "Create tag",
+            "ua": "Створити тег"
+        },
+        "favoriteAmountTooltip": {
+            "ru": "Количество лайков",
+            "en": "Likes count",
+            "ua": "Лайки враховуються"
+        },
+        "trainingActionsTooltip": {
+            "ru": "Доступные действия",
+            "en": "Training actions",
+            "ua": "Доступні дії"
+        },
+        "deleteFromFavoritesTooltip": {
+            "ru": "Удалить из избранных",
+            "en": "Delete from favorites",
+            "ua": "Видалити з вибраного"
+        },
+        "addToFavoritesTooltip": {
+            "ru": "Добавить в избранные",
+            "en": "Add to favorites",
+            "ua": "Додати до обраних"
+        }
+    },
+    "peopleBlock": {
+        "trainingPrivacy": {
+            "title": {
+                "ru": "Статус приватности:",
+                "en": "Privacy status:",
+                "ua": "Статус приватності:"
+            },
+            "private": {
+                "ru": "Приватный",
+                "en": "Private",
+                "ua": "Приватний"
+            },
+            "public": {
+                "ru": "Публичный",
+                "en": "Public",
+                "ua": "Публічний"
+            }
+        },
+        "makePrivateButton": {
+            "ru": "Сделать тренинг приватным",
+            "en": "Make the training private",
+            "ua": "Зробити шлтренінгях приватним"
+        },
+        "makePublicButton": {
+            "ru": "Сделать тренинг публичным",
+            "en": "Make the training public",
+            "ua": "Зробити тренінг публічним"
+        },
+        "trainingOwner": {
+            "ru": "Владелец тренинга:",
+            "en": "Training's owner:",
+            "ua": "Власник тренінгу:"
+        },
+        "mentors": {
+            "ru": "Менторы тренинга:",
+            "en": "Mentors of this training:",
+            "ua": "Наставники цього тренінгу:"
+        },
+        "deleteFromMentors": {
+            "ru": "Удалить из менторов",
+            "en": "Delete from mentors",
+            "ua": "Видалити з наставників"
+        },
+        "deleteMentorModalContent": {
+            "ru": "Вы уверены, что хотите удалить $mentor из менторов?",
+            "en": "Are you sure you want to remove $mentor from mentors?",
+            "ua": "Ви впевнені, що хочете видалити $mentor з наставників?"
+        },
+        "applyAsMentor": {
+            "ru": "Подать заявку в качестве ментора",
+            "en": "Apply as Mentor",
+            "ua": "Подати заявку як ментор"
+        },
+        "mentorPendingRequest": {
+            "ru": "Запрос на наставничество отправлен. Пожалуйста, дождитесь ответа",
+            "en": "Mentorship request has been sent. Please wait for a response",
+            "ua": "Запит на наставництво надіслано. Будь ласка, зачекайте на відповідь"
+        }
+    },
+    "trainingActions": {
+        "createWayOnTraining": {
+            "ru": "Создать путь на основе тренинга",
+            "en": "Create way based on training",
+            "ua": "Створити шлях на основі тренінгу"
+        },
+        "copyUrlToClipboard": {
+            "ru": "Скопировать url",
+            "en": "Copy url to clipboard",
+            "ua": "Копіювати url"
+        },
+        "deleteTheTraining": {
+            "ru": "Удалить тренинг",
+            "en": "Delete the training",
+            "ua": "Видалити тренінг"
+        },
+        "deleteTrainingQuestion": {
+            "ru": "Вы уверены, что хотите удалить тренинг",
+            "en": "Are you sure you want to delete the training",
+            "ua": "Ви впевнені, що хочете видалити тренінг"
+        }
+    },
+    "topicsBlock": {
+        "topics": {
+            "ru": "Темы",
+            "en": "Topics",
+            "ua": "Теми"
+        },
+        "createdAt": {
+            "ru": "Создан",
+            "en": "Created at",
+            "ua": "Створено"
+        },
+        "addNewTopicButton": {
+            "ru": "Добавить тему",
+            "en": "Add topic",
+            "ua": "Додати тему"
+        },
+        "deleteTopicQuestion": {
+            "ru": "Вы уверены, что хотите удалить тему",
+            "en": "Are you sure you want to delete the topic",
+            "ua": "Ви впевнені, що хочете видалити тему"
+        },
+        "deleteTopicTooltip": {
+            "ru": "Удалить тему",
+            "en": "Delete topic",
+            "ua": "Видалити тему"
+        },
+        "tooltips": {
+            "theoryMaterialAmount": {
+                "ru": "Количество теоретических материалов",
+                "en": "Number of theoretical materials",
+                "ua": "Кількість теоретичних матеріалів"
+            },
+            "practiceMaterialAmount": {
+                "ru": "Количество практических материалов",
+                "en": "Number of practical materials",
+                "ua": "Кількість практичних матеріалів"
+            },
+            "externalLink": {
+                "ru": "Ссылка для перехода на страницу Темы и возможности ее редактировать",
+                "en": "The link to go to the Topic's page and the ability to edit it",
+                "ua": "Посилання для переходу на сторінку тем і можливість її редагування"
+            }
+        }
+    },
+    "aiButtons": {
+        "generateTrainingWithAIButton": {
+            "ru": "Сгенерировать тренинг с AI",
+            "en": "Generate training using AI",
+            "ua": "Згенерувати тренінг за допомогою AI"
+        },
+        "generateTopicWithAIButton": {
+            "ru": "Сгенерировать темы с AI",
+            "en": "Generate topics using AI",
+            "ua": "Згенерувати теми за допомогою AI"
+        },
+        "chooseTopicsAmountToGenerate": {
+            "ru": "Выберите, сколько тем хотите создать с помощью AI",
+            "en": "Select how many topics you want to generate using AI",
+            "ua": "Виберіть, скільки тем ви хочете створити за допомогою ШІ AI"
+        },
+        "saveTopicWithAIButton": {
+            "ru": "Сохранить выбранные темы",
+            "en": "Save selected topics",
+            "ua": "Зберегти вибрані теми"
+        }
+    }
+}

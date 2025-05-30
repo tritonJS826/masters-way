@@ -14,6 +14,11 @@
     "en": "All trainings",
     "ua": "Усі тренінги"
   },
+  "allTests": {
+    "ru": "Все тесты",
+    "en": "All tests",
+    "ua": "Усі тести"
+  },
   "allUsers": {
     "ru": "Пользователи",
     "en": "All users",

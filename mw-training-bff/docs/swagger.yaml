@@ -333,6 +333,16 @@ definitions:
     - size
     - tests_list
     type: object
+  mw-training-bff_internal_schemas.TestsAmount:
+    properties:
+      completed:
+        type: integer
+      own:
+        type: integer
+    required:
+    - completed
+    - own
+    type: object
   mw-training-bff_internal_schemas.TheoryMaterial:
     properties:
       createdAt:
@@ -1030,6 +1040,27 @@ paths:
           schema:
             $ref: '#/definitions/mw-training-bff_internal_schemas.Test'
       summary: Update test by uuid
+      tags:
+      - test
+  /test/amount/user/{userId}:
+    get:
+      consumes:
+      - application/json
+      operationId: get-tests-amount-by-user-id
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TestsAmount'
+      summary: Get tests amount by user id
       tags:
       - test
   /test/user/{userId}:

@@ -127,6 +127,17 @@ export class Topic {
     this.theoryMaterials = topic.theoryMaterials;
     this.trainingUuid = topic.trainingUuid;
     this.owner = topic.owner;
+
+    // This.name = topicData.name;
+    // this.uuid = topicData.uuid;
+    // this.order = topicData.order;
+    // this.parentUuid = topicData.parentUuid;
+    // this.children = topicData.children.map(child => new Topic(child));
+    // this.createdAt = topicData.createdAt;
+    // this.practiceMaterials = topicData.practiceMaterials.map(practiceMaterial => new PracticeMaterial(practiceMaterial));
+    // this.theoryMaterials = topicData.theoryMaterials.map(theoryMaterial => new TheoryMaterial(theoryMaterial));
+    // this.trainingUuid = topicData.trainingUuid;
+    // this.owner = topicData.owner;
   }
 
   /**

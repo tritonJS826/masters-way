@@ -302,6 +302,26 @@ paths:
       tags:
       - test
       x-codegen-request-body-name: request
+  /test/amount/user/{userId}:
+    get:
+      operationId: get-tests-amount-by-user-id
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TestsAmount'
+          description: OK
+      summary: Get tests amount by user id
+      tags:
+      - test
   /test/user/{userId}:
     get:
       operationId: get-tests-by-user-id
@@ -1343,6 +1363,19 @@ components:
       required:
       - size
       - tests_list
+      type: object
+    mw-training-bff_internal_schemas.TestsAmount:
+      example:
+        own: 6
+        completed: 0
+      properties:
+        completed:
+          type: integer
+        own:
+          type: integer
+      required:
+      - completed
+      - own
       type: object
     mw-training-bff_internal_schemas.TheoryMaterial:
       example:

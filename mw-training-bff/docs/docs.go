@@ -485,6 +485,38 @@ const docTemplate = `{
                 }
             }
         },
+        "/test/amount/user/{userId}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "Get tests amount by user id",
+                "operationId": "get-tests-amount-by-user-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "userId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TestsAmount"
+                        }
+                    }
+                }
+            }
+        },
         "/test/user/{userId}": {
             "get": {
                 "consumes": [
@@ -1894,6 +1926,21 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-training-bff_internal_schemas.TestPreview"
                     }
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TestsAmount": {
+            "type": "object",
+            "required": [
+                "completed",
+                "own"
+            ],
+            "properties": {
+                "completed": {
+                    "type": "integer"
+                },
+                "own": {
+                    "type": "integer"
                 }
             }
         },
