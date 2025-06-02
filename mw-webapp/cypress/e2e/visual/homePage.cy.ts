@@ -13,7 +13,7 @@ describe('Visual Tests', () => {
     it(`Homepage comparison (${viewport.name})`, () => {
       cy.viewport(viewport.width, viewport.height);
       cy.visit("/");
-      cy.wait(1000);
+      cy.wait(2000);
 
     // const scale = 1;
     // cy.document().then((doc) => {

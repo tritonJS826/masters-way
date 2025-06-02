@@ -11,7 +11,7 @@ describe('Visual Tests', () => {
     it(`About our project comparison (${viewport.name})`, () => {
       cy.viewport(viewport.width, viewport.height);
       cy.visit(aboutProjectPageData.endpoint);
-      cy.wait(1000);
+      cy.wait(2000);
       cy.matchImageSnapshot({
         customSnapshotsDir: 'cypress/snapshots/base/aboutPage',
         customDiffDir: 'cypress/snapshots/diff',
