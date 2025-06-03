@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
 import {load} from "src/hooks/useLoad";
-import {Test} from "src/model/businessModel/Test";
+import {Question, Test} from "src/model/businessModel/Test";
 
 /**
  * EditTestPageStore related methods
@@ -54,9 +54,42 @@ export class EditTestPageStore {
    * Load data
    */
   private loadData = async (testUuid: string): Promise<Test> => {
-    const test = await TestDAL.getTest(testUuid);
+    // Const test = await TestDAL.getTest(testUuid);
 
-    return test;
+    const question = new Question({
+      answer: "asda",
+      createdAt: new Date(),
+      isActive: false,
+      order: 1,
+      questionText: "sdfsfewfewfwe",
+      testUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e90",
+      timeToAnswer: 60,
+      updatedAt: new Date(),
+      uuid: "7cdb041b-4574-4f7b-a500-c53e74c72e88",
+    });
+    const question2 = new Question({
+      answer: "asda",
+      createdAt: new Date(),
+      isActive: false,
+      order: 1,
+      questionText: "sdfsfewfewfwe",
+      testUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e90",
+      timeToAnswer: 60,
+      updatedAt: new Date(),
+      uuid: "7cdb041b-4574-4f7b-a500-c53e74c72e88",
+    });
+
+    const test1 = new Test({
+      createdAt: new Date(),
+      description: "lololo",
+      name: "lalala",
+      ownerUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e94",
+      questions: [question, question2],
+      updatedAt: new Date(),
+      uuid: "7cdb041b-4574-4f7b-a500-c53e74c72e90",
+    });
+
+    return test1;
   };
 
   /**

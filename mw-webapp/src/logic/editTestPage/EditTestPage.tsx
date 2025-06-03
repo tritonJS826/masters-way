@@ -1,40 +1,31 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-import {Accordion, accordionTypes} from "src/component/accordion/Accordion";
+import {AnchorLink} from "src/component/anchorLink/AnchorLink";
 import {Button, ButtonType} from "src/component/button/Button";
 import {Confirm} from "src/component/confirm/Confirm";
 import {Dropdown} from "src/component/dropdown/Dropdown";
-import {EditableText} from "src/component/editableText/EditableText";
-import {EditableTextarea} from "src/component/editableTextarea/editableTextarea";
 import {ErrorPromiseModal} from "src/component/errorPromiseModal/ErrorPromiseModal";
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Icon, IconSize} from "src/component/icon/Icon";
 import {Infotip} from "src/component/infotip/Infotip";
-import {Link} from "src/component/link/Link";
 import {Loader} from "src/component/loader/Loader";
-import {Separator} from "src/component/separator/Separator";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {PositionTooltip} from "src/component/tooltip/PositionTooltip";
 import {Tooltip} from "src/component/tooltip/Tooltip";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
-import {AIDAL} from "src/dataAccessLogic/AIDAL";
-import {PracticeMaterialDAL} from "src/dataAccessLogic/PracticeMaterialDAL";
+import {CreateQuestionParams, QuestionDAL} from "src/dataAccessLogic/QuestionDAL";
 import {TestDAL} from "src/dataAccessLogic/TestDAL";
-import {TheoryMaterialDAL} from "src/dataAccessLogic/TheoryMaterialDAL";
-import {TopicDAL} from "src/dataAccessLogic/TopicDAL";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
 import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {DescriptionBlock} from "src/logic/editTestPage/descriptionBlock/DescriptionBlock";
 import {EditTestPageStore} from "src/logic/editTestPage/EditTestPageStore";
-import {TopicPageStore} from "src/logic/topicPage/TopicPageStore";
-import {PracticeMaterial} from "src/model/businessModel/PracticeMaterial";
-import {Test} from "src/model/businessModel/Test";
-import {TheoryMaterial} from "src/model/businessModel/TheoryMaterial";
+import {QuestionItem} from "src/logic/editTestPage/questionItem/QuestionItem";
+import {Question, Test} from "src/model/businessModel/Test";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {renderMarkdown} from "src/utils/markdown/renderMarkdown";
@@ -42,11 +33,32 @@ import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import {maxLengthValidator, minLengthValidator} from "src/utils/validatorsValue/validators";
 import styles from "src/logic/editTestPage/EditTestPage.module.scss";
 
-const MAX_LENGTH_TOPIC_NAME = 300;
-const MIN_LENGTH_TOPIC_NAME = 1;
-const MAX_LENGTH_MATERIAL_NAME = 128;
-const MIN_LENGTH_MATERIAL_NAME = 1;
-const MAX_TRAINING_MATERIAL_LENGTH = 10000;
+const MAX_LENGTH_TEST_NAME = 300;
+const MIN_LENGTH_TEST_NAME = 1;
+
+/**
+ * Update Question params
+ */
+interface UpdateQuestionParams {
+
+  /**
+   * Question to update
+   */
+  questionToUpdate: PartialWithUuid<Question>;
+
+  /**
+   * Callback to update question
+   */
+  setQuestion: (question: PartialWithUuid<Question>) => void;
+}
+
+/**
+ * Update Question
+ */
+export const updateQuestion = async (params: UpdateQuestionParams) => {
+  params.setQuestion(params.questionToUpdate);
+  await QuestionDAL.updateQuestion(params.questionToUpdate);
+};
 
 /**
  * Update Test params
@@ -89,6 +101,7 @@ interface EditTestPageProps {
  */
 export const EditTestPage = observer((props: EditTestPageProps) => {
   const navigate = useNavigate();
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isErrorCatched, setIsErrorCatched] = useState<boolean>(false);
 
   const {language} = languageStore;
@@ -180,25 +193,51 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
   // };
 
   /**
-   * Delete topic
+   * Add question
    */
-  const deleteTopic = async () => {
+  const addQuestion = async (params?: CreateQuestionParams) => {
+    const newQuestion = await QuestionDAL.createQuestion({
+      answer: params?.answer ?? "",
+      name: params?.name ?? "New queston",
+      practiceType: params?.practiceType ?? "",
+      questionText: params?.questionText ?? "",
+      testUuid: editTestPageStore.test.uuid,
+      timeToAnswer: params?.timeToAnswer ?? 0,
+    });
+    editTestPageStore.test.addQuestion(newQuestion);
+  };
+
+  /**
+   * Delete question
+   */
+  const deleteQuestion = async (uuid: string) => {
     if (!user) {
       throw new Error("User is not defined");
     }
-    isOwner && await TopicDAL.deleteTopic(editTestPageStore.topic.uuid);
-    navigate(pages.training.getPath({uuid: editTestPageStore.topic.trainingUuid}));
+    isOwner && await QuestionDAL.deleteQuestion(uuid);
+    editTestPageStore.test.deleteQuestion(uuid);
   };
 
-  const renderDeleteTopicDropdownItem = (
+  /**
+   * Delete test
+   */
+  const deleteTest = async () => {
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+    isOwner && await TestDAL.deleteTest(editTestPageStore.test.uuid);
+    navigate(pages.user.getPath({uuid: editTestPageStore.test.ownerUuid}));
+  };
+
+  const renderDeleteTestDropdownItem = (
     <Confirm
       trigger={<>
-        {LanguageService.topic.topicActions.deleteTopic[language]}
+        {LanguageService.test.testActions.deleteTest[language]}
       </>}
       content={<p>
-        {`${LanguageService.topic.topicActions.deleteTopicQuestion[language]} "${editTestPageStore.topic.name}"?`}
+        {`${LanguageService.test.testActions.deleteTestQuestion[language]} "${editTestPageStore.test.name}"?`}
       </p>}
-      onOk={deleteTopic}
+      onOk={deleteTest}
       okText={LanguageService.modals.confirmModal.deleteButton[language]}
       cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
     />);
@@ -216,38 +255,38 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
         <VerticalContainer className={styles.testDashBoardLeft}>
           <VerticalContainer className={styles.testInfo}>
             <HorizontalContainer className={styles.testTitleBlock}>
-              <Infotip content={LanguageService.topic.infotip.topicName[language]} />
+              <Infotip content={LanguageService.test.infotip.testName[language]} />
               <Title
                 level={HeadingLevel.h2}
-                text={editTestPageStore.topic.name}
+                text={editTestPageStore.test.name}
                 placeholder={LanguageService.common.emptyMarkdown[language]}
                 onChangeFinish={(name) => {
-                  updateTopic({
-                    topicToUpdate: {
-                      uuid: editTestPageStore.topic.uuid,
+                  updateTest({
+                    testToUpdate: {
+                      uuid: editTestPageStore.test.uuid,
                       name,
                     },
 
                     /**
-                     * Update topic's name
+                     * Update test's name
                      */
-                    setTopic: () => editTestPageStore.topic.updateName(name),
+                    setTest: () => editTestPageStore.test.updateName(name),
                   });
                 }}
                 isEditable={isOwner}
                 className={styles.testName}
                 validators={[
-                  minLengthValidator(MIN_LENGTH_TOPIC_NAME, LanguageService.topic.notifications.topicNameMinLength[language]),
-                  maxLengthValidator(MAX_LENGTH_TOPIC_NAME, LanguageService.topic.notifications.topicNameMaxLength[language]),
+                  minLengthValidator(MIN_LENGTH_TEST_NAME, LanguageService.test.notifications.testNameMinLength[language]),
+                  maxLengthValidator(MAX_LENGTH_TEST_NAME, LanguageService.test.notifications.testNameMaxLength[language]),
                 ]}
-                maxCharacterCount={MAX_LENGTH_TOPIC_NAME}
+                maxCharacterCount={MAX_LENGTH_TEST_NAME}
               />
 
               <HorizontalContainer className={styles.testActionButtons}>
                 <Dropdown
                   trigger={(
                     <Tooltip
-                      content={LanguageService.topic.topicInfo.topicActionsTooltip[language]}
+                      content={LanguageService.test.testInfo.testActionsTooltip[language]}
                       position={PositionTooltip.LEFT}
                     >
                       <Button
@@ -270,7 +309,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
                         {
                           id: "Delete the test",
                           isPreventDefaultUsed: true,
-                          value: renderDeleteTopicDropdownItem,
+                          value: renderDeleteTestDropdownItem,
                           isVisible: isOwner,
                         },
                       ],
@@ -297,350 +336,92 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
               isEditable={isOwner}
             />
 
-          </VerticalContainer>
-          <VerticalContainer className={styles.peopleBlock}>
-            <HorizontalContainer className={styles.ownerBlock}>
-              <Infotip content={LanguageService.topic.infotip.topicOwner[language]} />
-              <Title
-                level={HeadingLevel.h3}
-                text={LanguageService.topic.peopleBlock.topicOwner[language]}
-                placeholder=""
-              />
-              <Link
-                path={pages.user.getPath({uuid: editTestPageStore.topic.owner.uuid})}
-                className={styles.mentors}
+            <Title
+              level={HeadingLevel.h3}
+              text={LanguageService.test.questionsBlock.questions[language]}
+              placeholder=""
+            />
+
+            {editTestPageStore.test.questions.map((question) => (
+              <HorizontalContainer
+                key={question.questionText}
+                className={styles.materialShortBlock}
               >
-                {editTestPageStore.topic.owner.name}
-              </Link>
-            </HorizontalContainer>
-            <HorizontalContainer className={styles.ownerBlock}>
-              <Infotip content={LanguageService.topic.infotip.topicOwner[language]} />
-              <Title
-                level={HeadingLevel.h3}
-                text={LanguageService.topic.peopleBlock.parentTraining[language]}
-                placeholder=""
-              />
-              <Link
-                path={pages.training.getPath({uuid: editTestPageStore.topic.trainingUuid})}
-                className={styles.mentors}
-              >
-                {LanguageService.topic.backToTrainingButton[language]}
-              </Link>
-            </HorizontalContainer>
+                <AnchorLink path={question.questionText}>
+                  {question.questionText.trim() === ""
+                    ? LanguageService.common.emptyMarkdown[language]
+                    : <Text text={question.questionText} />
+                  }
+                </AnchorLink>
+
+                <Tooltip content={LanguageService.test.questionsBlock.deleteQuestionTooltip[language]}>
+                  <Confirm
+                    trigger={
+                      <Button
+                        icon={
+                          <Icon
+                            size={IconSize.SMALL}
+                            name="TrashIcon"
+                          />
+                        }
+                        buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
+                        onClick={() => {}}
+                      />
+                    }
+                    content={<p>
+                      {renderMarkdown(
+                        `${LanguageService.test.questionsBlock.deleteQuestionQuestion[language]}
+                          "${question.questionText}"?`,
+                      )}
+                    </p>}
+                    onOk={() => deleteQuestion(question.uuid)}
+                    okText={LanguageService.modals.confirmModal.deleteButton[language]}
+                    cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
+                  />
+                </Tooltip>
+              </HorizontalContainer>
+            ),
+            )}
+
           </VerticalContainer>
 
         </VerticalContainer>
 
-        <VerticalContainer className={styles.materials}>
-          <VerticalContainer className={styles.theoryMaterials}>
-            {editTestPageStore.topic.theoryMaterials.map((theoryMaterial: TheoryMaterial) => (
-              <div
-                key={theoryMaterial.uuid}
-                className={styles.materialContainer}
-                id={theoryMaterial.name}
-              >
-                <HorizontalContainer className={styles.materialTitleAndActionsBlock}>
-                  <Title
-                    level={HeadingLevel.h2}
-                    text={theoryMaterial.name}
-                    isEditable={isOwner}
-                    placeholder={isOwner
-                      ? LanguageService.common.emptyMarkdownAction[language]
-                      : LanguageService.common.emptyMarkdown[language]}
-                    onChangeFinish={(name) => {
-                      updateTheoryMaterial({
-                        theoryMaterialToUpdate: {
-                          uuid: theoryMaterial.uuid,
-                          name,
-                        },
+        <VerticalContainer className={styles.questions}>
+          {editTestPageStore.test.questions.map((question: Question) => (
+            <div
+              key={question.uuid}
+              className={styles.theoryMaterials}
+              id={question.questionText}
+            >
+              <QuestionItem
+                key={question.uuid}
+                question={question}
+                deleteQuestion={(uuid: string) => deleteQuestion(uuid)}
+                isEditable={isOwner}
+              />
+            </div>
 
-                        /**
-                         * Update theoryMaterial's name
-                         */
-                        setTheoryMaterial: () => theoryMaterial.updateName(name),
-                      });
-                    }}
-                    className={styles.title}
-                    validators={[
-                      minLengthValidator(
-                        MIN_LENGTH_MATERIAL_NAME,
-                        LanguageService.topic.notifications.materialNameMinLength[language],
-                      ),
-                      maxLengthValidator(
-                        MAX_LENGTH_MATERIAL_NAME,
-                        LanguageService.topic.notifications.materialNameMaxLength[language],
-                      ),
-                    ]}
-                    maxCharacterCount={MAX_LENGTH_MATERIAL_NAME}
-                  />
-                  <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
-                    <Confirm
-                      trigger={
-                        <Button
-                          icon={
-                            <Icon
-                              size={IconSize.SMALL}
-                              name="TrashIcon"
-                            />
-                          }
-                          buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                          onClick={() => {}}
-                        />
-                      }
-                      content={<p>
-                        {renderMarkdown(
-                          `${LanguageService.topic.materialsBlock.deleteTheoryMaterialQuestion[language]}
-                          "${theoryMaterial.name}"?`,
-                        )}
-                      </p>}
-                      onOk={() => deleteTheoryMaterial(theoryMaterial.uuid)}
-                      okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                      cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                    />
-                  </Tooltip>
-                </HorizontalContainer>
-                <EditableTextarea
-                  text={theoryMaterial.description}
-                  maxCharacterCount={MAX_TRAINING_MATERIAL_LENGTH}
-                  onChangeFinish={(description) => {
-                    updateTheoryMaterial({
-                      theoryMaterialToUpdate: {
-                        uuid: theoryMaterial.uuid,
-                        description,
-                      },
+          ),
+          )}
 
-                      /**
-                       * Update theoryMaterial's description
-                       */
-                      setTheoryMaterial: () => theoryMaterial.updateDescription(description),
-                    });
-                  }}
-                  isEditable={isOwner}
-                  className={styles.editableTextarea}
-                  placeholder={isOwner
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                />
-                <Separator className={styles.separator} />
-              </div>
-            ),
-            )}
-
-            {isOwner &&
+          {isOwner &&
             <HorizontalContainer className={styles.generateMaterialButtons}>
               <Button
-                value={LanguageService.topic.materialsBlock.addNewTheoryMaterialButton[language]}
-                onClick={() => addTheoryMaterial(editTestPageStore.topic.uuid)}
-              />
-              <Button
-                value={LanguageService.topic.aiButtons.generateTheoryMaterialWithAIButton[language]}
-                onClick={() => {
-                  setIsErrorCatched(false);
-                  generateTheoryMaterial(editTestPageStore.topic.uuid);
-                }}
-                buttonType={ButtonType.PRIMARY}
-              />
-            </HorizontalContainer>
-            }
-
-          </VerticalContainer>
-
-          <VerticalContainer className={styles.practiceMaterials}>
-            {editTestPageStore.topic.practiceMaterials.map((practiceMaterial: PracticeMaterial) => (
-
-              <div
-                key={practiceMaterial.uuid}
-                className={styles.materialContainer}
-                id={practiceMaterial.name}
-              >
-                <VerticalContainer>
-                  <HorizontalContainer className={styles.materialTitleAndActionsBlock}>
-                    <Title
-                      level={HeadingLevel.h2}
-                      text={practiceMaterial.name}
-                      isEditable={isOwner}
-                      placeholder={isOwner
-                        ? LanguageService.common.emptyMarkdownAction[language]
-                        : LanguageService.common.emptyMarkdown[language]}
-                      onChangeFinish={(name) => {
-                        updatePracticeMaterial({
-                          practiceMaterialToUpdate: {
-                            uuid: practiceMaterial.uuid,
-                            name,
-                          },
-
-                          /**
-                           * Update practiceMaterial's name
-                           */
-                          setPracticeMaterial: () => practiceMaterial.updateName(name),
-                        });
-                      }}
-                      className={styles.title}
-                      validators={[
-                        minLengthValidator(
-                          MIN_LENGTH_MATERIAL_NAME,
-                          LanguageService.topic.notifications.materialNameMinLength[language],
-                        ),
-                        maxLengthValidator(
-                          MAX_LENGTH_MATERIAL_NAME,
-                          LanguageService.topic.notifications.materialNameMaxLength[language],
-                        ),
-                      ]}
-                      maxCharacterCount={MAX_LENGTH_MATERIAL_NAME}
-                    />
-                    <Tooltip content={LanguageService.topic.materialsBlock.deleteMaterialTooltip[language]}>
-                      <Confirm
-                        trigger={
-                          <Button
-                            icon={
-                              <Icon
-                                size={IconSize.SMALL}
-                                name="TrashIcon"
-                              />
-                            }
-                            buttonType={ButtonType.ICON_BUTTON_WITHOUT_BORDER}
-                            onClick={() => {}}
-                          />
-                        }
-                        content={<p>
-                          {renderMarkdown(
-                            `${LanguageService.topic.materialsBlock.deletePracticalMaterialQuestion[language]}
-                          "${practiceMaterial.name}"?`,
-                          )}
-                        </p>}
-                        onOk={() => deletePracticeMaterial(practiceMaterial.uuid)}
-                        okText={LanguageService.modals.confirmModal.deleteButton[language]}
-                        cancelText={LanguageService.modals.confirmModal.cancelButton[language]}
-                      />
-                    </Tooltip>
-                  </HorizontalContainer>
-
-                  <HorizontalContainer className={styles.timeToAnswerBlock}>
-                    <Text
-                      className={styles.timeToAnswerTitle}
-                      text={isOwner
-                        ? LanguageService.topic.materialsBlock.timeToAnswerTitle[language]
-                        : `${LanguageService.topic.materialsBlock.timeToAnswerTitle[language]} ${practiceMaterial.timeToAnswer}`}
-                    />
-
-                    {isOwner &&
-                      <EditableText
-                        value={practiceMaterial.timeToAnswer}
-                        type="number"
-                        min={0}
-                        onChangeFinish={(timeToAnswer) => {
-                          updatePracticeMaterial({
-                            practiceMaterialToUpdate: {
-                              uuid: practiceMaterial.uuid,
-                              timeToAnswer,
-                            },
-
-                            /**
-                             * Update practiceMaterial's time to answer
-                             */
-                            setPracticeMaterial: () => practiceMaterial.updateTimeToAnswer(timeToAnswer),
-                          });
-                        }}
-                        className={styles.timeToAnswerInput}
-                        isEditable={isOwner}
-                        placeholder=""
-                      />
-                    }
-                  </HorizontalContainer>
-                </VerticalContainer>
-
-                <Title
-                  level={HeadingLevel.h3}
-                  text={LanguageService.topic.materialsBlock.practiceDescriptionTitle[language]}
-                  placeholder=""
-                />
-                <EditableTextarea
-                  text={practiceMaterial.taskDescription}
-                  maxCharacterCount={MAX_TRAINING_MATERIAL_LENGTH}
-                  onChangeFinish={(taskDescription) => {
-                    updatePracticeMaterial({
-                      practiceMaterialToUpdate: {
-                        uuid: practiceMaterial.uuid,
-                        taskDescription,
-                      },
-
-                      /**
-                       * Update practiceMaterial's description
-                       */
-                      setPracticeMaterial: () => practiceMaterial.updateDescription(taskDescription),
-                    });
-                  }}
-                  isEditable={isOwner}
-                  className={styles.editableTextarea}
-                  placeholder={isOwner
-                    ? LanguageService.common.emptyMarkdownAction[language]
-                    : LanguageService.common.emptyMarkdown[language]}
-                />
-
-                {isOwner ?
-                  <VerticalContainer>
-                    <Title
-                      level={HeadingLevel.h3}
-                      text={LanguageService.topic.materialsBlock.answerPlaceholder[language]}
-                      placeholder=""
-                    />
-                    <EditableTextarea
-                      maxCharacterCount={MAX_TRAINING_MATERIAL_LENGTH}
-                      placeholder={isOwner
-                        ? LanguageService.common.emptyMarkdownAction[language]
-                        : LanguageService.common.emptyMarkdown[language]}
-                      text={practiceMaterial.answer}
-                      className={styles.practiceMaterialInput}
-                      onChangeFinish={(answer) => {
-                        updatePracticeMaterial({
-                          practiceMaterialToUpdate: {
-                            uuid: practiceMaterial.uuid,
-                            answer,
-                          },
-
-                          /**
-                           * Update practiceMaterial's name
-                           */
-                          setPracticeMaterial: () => practiceMaterial.updateAnswer(answer),
-                        });
-                      }}
-                    />
-                  </VerticalContainer>
-                  : (
-                    <Accordion
-                      items={[
-                        {
-                          trigger: {child: LanguageService.topic.materialsBlock.answerTitle[language]},
-                          content: {child: renderMarkdown(practiceMaterial.answer)},
-                        },
-                      ]}
-                      type={accordionTypes.MULTIPLE}
-                    />
-                  )
-                }
-                <Separator className={styles.separator} />
-              </div>
-            ),
-            )}
-
-            {isOwner &&
-            <HorizontalContainer className={styles.generateMaterialButtons}>
-              <Button
-                value={LanguageService.topic.materialsBlock.addNewPracticalMaterialButton[language]}
-                onClick={() => addPracticeMaterial(editTestPageStore.topic.uuid)}
+                value={LanguageService.test.questionsBlock.addNewQuestionButton[language]}
+                onClick={() => addQuestion()}
                 className={styles.addMaterial}
               />
-              <Button
+              {/* <Button
                 value={LanguageService.topic.aiButtons.generatePracticeMaterialWithAIButton[language]}
                 onClick={() => {
                   setIsErrorCatched(false);
                   generatePracticeMaterial(editTestPageStore.topic.uuid);
                 }}
                 buttonType={ButtonType.PRIMARY}
-              />
+              /> */}
             </HorizontalContainer>
-            }
-          </VerticalContainer>
+          }
         </VerticalContainer>
 
       </HorizontalGridContainer>

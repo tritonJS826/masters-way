@@ -79,7 +79,7 @@ $labelMaxWidthBlock: 650px;
   flex-wrap: wrap;
 }
 
-.materials {
+.questions {
   gap: $gapSmall;
 }
 
@@ -101,7 +101,7 @@ $labelMaxWidthBlock: 650px;
   font-style: italic;
 }
 
-.materialContainer {
+.questionContainer {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -126,7 +126,7 @@ $labelMaxWidthBlock: 650px;
   }
 }
 
-.materialTitleAndActionsBlock {
+.questionTitleAndActionsBlock {
   align-items: center;
   justify-content: space-between;
 }

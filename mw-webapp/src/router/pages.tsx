@@ -113,10 +113,10 @@ const ProjectPage = (params: {uuid: string}) => (<>
   <ProjectPageLazy {...params} />
 </>);
 
-const TestPageLazy = React.lazy(() => import("src/logic/testPage/TestPage")
-  .then((module) => ({default: module.TestPage})));
-const TestPage = (params: {uuid: string}) => (<>
-  <TestPageLazy {...params} />
+const EditTestPageLazy = React.lazy(() => import("src/logic/editTestPage/EditTestPage")
+  .then((module) => ({default: module.EditTestPage})));
+const EditTestPage = (params: {uuid: string}) => (<>
+  <EditTestPageLazy {...params} />
 </>);
 
 const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
@@ -268,9 +268,9 @@ export const pages = {
     getPageComponent: (params) => suspended(<ProjectPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
-  test: {
+  editTest: {
     getPath: (params): string => getPathForTestPage({uuid: params.uuid}),
-    getPageComponent: (params) => suspended(<TestPage {...params} />),
+    getPageComponent: (params) => suspended(<EditTestPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   allUsers: {

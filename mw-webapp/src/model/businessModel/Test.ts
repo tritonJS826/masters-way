@@ -115,6 +115,27 @@ export class Question {
     this.timeToAnswer = questionData.timeToAnswer;
   }
 
+  /**
+   * Update test's name
+   */
+  public updateName(nameToUpdate: string): void {
+    this.questionText = nameToUpdate;
+  }
+
+  /**
+   * Update test's answer
+   */
+  public updateAnswer(answerToUpdate: string): void {
+    this.answer = answerToUpdate;
+  }
+
+  /**
+   * Update test's time to answer
+   */
+  public updateTimeToAnswer(timeToUpdate: number): void {
+    this.timeToAnswer = timeToUpdate;
+  }
+
 }
 
 /**
@@ -234,7 +255,7 @@ export class Test {
   /**
    * Delete question from test
    */
-  public deleteTopic(questionUuid: string): void {
+  public deleteQuestion(questionUuid: string): void {
     this.questions = this.questions.filter(question => question.uuid !== questionUuid);
   }
 
