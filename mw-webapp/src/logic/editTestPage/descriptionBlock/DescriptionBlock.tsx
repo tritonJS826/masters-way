@@ -8,7 +8,7 @@ import {languageStore} from "src/globalStore/LanguageStore";
 import {LanguageService} from "src/service/LanguageService";
 import styles from "src/logic/trainingPage/descriptionBlock/DescriptionBlock.module.scss";
 
-const MAX_TRAINING_DESCRIPTION_LENGTH = 4096;
+const MAX_TEST_DESCRIPTION_LENGTH = 4096;
 
 /**
  * Description block props
@@ -16,14 +16,14 @@ const MAX_TRAINING_DESCRIPTION_LENGTH = 4096;
 interface DescriptionBlockProps {
 
   /**
-   * Training's description
+   * Test's description
    */
   description: string;
 
   /**
    * Callback to update description
    */
-  updateTraining: (description: string) => Promise<void>;
+  updateTest: (description: string) => Promise<void>;
 
   /**
    * Is editable
@@ -41,18 +41,18 @@ export const DescriptionBlock = observer((props: DescriptionBlockProps) => {
   return (
     <VerticalContainer className={styles.descriptionSection}>
       <HorizontalContainer>
-        <Infotip content={LanguageService.training.infotip.description[language]} />
+        <Infotip content={LanguageService.test.infotip.description[language]} />
         <Title
           level={HeadingLevel.h3}
-          text={LanguageService.training.trainingInfo.description[language]}
+          text={LanguageService.test.testInfo.description[language]}
           placeholder={LanguageService.common.emptyMarkdownAction[language]}
         />
       </HorizontalContainer>
       <EditableTextarea
-        maxCharacterCount={MAX_TRAINING_DESCRIPTION_LENGTH}
+        maxCharacterCount={MAX_TEST_DESCRIPTION_LENGTH}
         text={props.description}
         onChangeFinish={async (description) => {
-          await props.updateTraining(description);
+          await props.updateTest(description);
         }}
         rows={10}
         isEditable={props.isEditable}

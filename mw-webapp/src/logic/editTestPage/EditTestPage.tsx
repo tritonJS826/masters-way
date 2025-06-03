@@ -322,7 +322,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
 
             <DescriptionBlock
               description={editTestPageStore.test.description}
-              updateTraining={(description) => updateTest({
+              updateTest={(description) => updateTest({
                 testToUpdate: {
                   uuid: editTestPageStore.test.uuid,
                   description,

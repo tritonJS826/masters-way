@@ -6,9 +6,9 @@ import {sessionService} from "src/service/services";
 export interface CreateTestSessionParams {
 
   /**
-   * Session uuid
+   * User uuid
    */
-  sessionUuid: string;
+  userUuid: string;
 
 }
 
@@ -22,10 +22,10 @@ export class SessionDAL {
    */
   public static async createSession(
     params: CreateTestSessionParams,
-  ): Promise<void> {
-    await sessionService.sessionPost({request: {userUuid: params.sessionUuid}});
+  ): Promise<string> {
+    const sessionUuid = await sessionService.sessionPost({request: {userUuid: params.userUuid}});
 
-    // Return session;
+    return sessionUuid.sessionUuid;
   }
 
 }

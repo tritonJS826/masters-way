@@ -51,9 +51,14 @@ const getPathForTopicPage = (params: { trainingUuid: string; topicUuid: string }
 const getPathForProjectPage = (params: {uuid: string}): string => `/project/${params.uuid}`;
 
 /**
- * Create url with appropriate params for @TestPage
+ * Create url with appropriate params for @EditTestPage
  */
-const getPathForTestPage = (params: {uuid: string}): string => `/test/${params.uuid}`;
+const getPathForEditTestPage = (params: {uuid: string}): string => `/test/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @RunningTestPage
+ */
+const getPathForRunningTestPage = (params: {uuid: string}): string => `/runningTest/${params.uuid}`;
 
 const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null}>
   {lazyNode}
@@ -117,6 +122,12 @@ const EditTestPageLazy = React.lazy(() => import("src/logic/editTestPage/EditTes
   .then((module) => ({default: module.EditTestPage})));
 const EditTestPage = (params: {uuid: string}) => (<>
   <EditTestPageLazy {...params} />
+</>);
+
+const RunningTestPageLazy = React.lazy(() => import("src/logic/runningTestPage/RunningTestPage")
+  .then((module) => ({default: module.RunningTestPage})));
+const RunningTestPage = (params: {uuid: string}) => (<>
+  <RunningTestPageLazy {...params} />
 </>);
 
 const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
@@ -269,8 +280,13 @@ export const pages = {
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   editTest: {
-    getPath: (params): string => getPathForTestPage({uuid: params.uuid}),
+    getPath: (params): string => getPathForEditTestPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<EditTestPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{uuid: string}>,
+  runningTest: {
+    getPath: (params): string => getPathForRunningTestPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<RunningTestPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   allUsers: {
