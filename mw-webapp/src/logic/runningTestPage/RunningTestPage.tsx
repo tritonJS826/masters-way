@@ -103,8 +103,8 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
   new (testUuid: string, userUuid: string) => RunningTestPageStore,
   [string, string], RunningTestPageStore>({
       storeForInitialize: RunningTestPageStore,
-      dataForInitialization: [props.uuid, "001"],
-      dependency: [props.uuid, "001"],
+      dataForInitialization: [props.uuid, user.uuid],
+      dependency: [props.uuid, user.uuid],
     });
 
   if (!runningTestPageStore.isInitialized) {
