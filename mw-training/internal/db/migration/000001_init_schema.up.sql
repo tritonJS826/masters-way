@@ -125,6 +125,8 @@ CREATE TABLE tests_questions (
 
 CREATE TABLE questions (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
+    "name" VARCHAR(128),
+    "practice_type" practice_type NOT NULL,
     "test_uuid" UUID NOT NULL REFERENCES tests("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
     "question_text" VARCHAR(4096) NOT NULL,
     "question_order" INTEGER NOT NULL CHECK (question_order BETWEEN 0 AND 10000) DEFAULT 0,

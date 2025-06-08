@@ -62,7 +62,7 @@ func (ts *TrainingMessageToAiService) HandleResponseFromAiForItem(ctx context.Co
 	}
 
 	// just for example
-	fmt.Printf(messageToAiRaw.CreatedAt.Time.String())
+	fmt.Print(messageToAiRaw.CreatedAt.Time.String())
 
 	// TODO
 	// handle response

@@ -396,21 +396,23 @@ message Test {
   string name = 2;
   string description = 3;
   string owner_uuid = 4;
-  string updated_at = 5;
-  string created_at = 6;
-  repeated Question questions = 7;
+  bool is_private = 5;
+  string updated_at = 6;
+  string created_at = 7;
+  repeated Question questions = 8;
 }
 
 message Question {
   string uuid = 1;
-  string test_uuid = 2;
-  string question_text = 3;
-  int32 order = 4;
-  int32 time_to_answer = 5;
-  string answer = 6;
-  bool is_active = 7;
-  string created_at = 8;
-  string updated_at = 9;
+  string name = 2;
+  string test_uuid = 3;
+  string question_text = 4;
+  int32 order = 5;
+  int32 time_to_answer = 6;
+  string answer = 7;
+  bool is_active = 8;
+  string created_at = 9;
+  string updated_at = 10;
 }
 
 message GetTestByIdRequest {

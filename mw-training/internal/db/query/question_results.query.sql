@@ -1,12 +1,14 @@
 -- name: CreateQuestionResult :one
 INSERT INTO question_results (
     question_uuid,
+    test_session_uuid,
     user_uuid,
     test_uuid,
     is_ok,
     result_description
 ) VALUES (
     @question_uuid,
+    @test_session_uuid,
     @user_uuid,
     @test_uuid,
     @is_ok,
@@ -17,6 +19,7 @@ INSERT INTO question_results (
 SELECT
     question_results.uuid,
     question_results.question_uuid,
+    question_results.test_session_uuid,
     question_results.user_uuid,
     question_results.test_uuid,
     question_results.is_ok,
@@ -27,10 +30,11 @@ FROM
 WHERE
     question_results.uuid = @result_uuid;
 
--- name: GetQuestionResultsByUser :many
+-- name: GetQuestionResultsBySessionUser :many
 SELECT
     question_results.uuid,
     question_results.question_uuid,
+    question_results.test_session_uuid,
     question_results.user_uuid,
     question_results.test_uuid,
     question_results.is_ok,
@@ -47,6 +51,7 @@ ORDER BY
 SELECT
     question_results.uuid,
     question_results.question_uuid,
+    question_results.test_session_uuid,
     question_results.user_uuid,
     question_results.test_uuid,
     question_results.is_ok,
@@ -59,10 +64,11 @@ WHERE
 ORDER BY
     question_results.created_at DESC;
 
--- name: GetQuestionResultsByUserAndTest :many
+-- name: GetQuestionResultsBySessionUuid :many
 SELECT
     question_results.uuid,
     question_results.question_uuid,
+    question_results.test_session_uuid,
     question_results.user_uuid,
     question_results.test_uuid,
     question_results.is_ok,
@@ -71,8 +77,7 @@ SELECT
 FROM
     question_results
 WHERE
-    question_results.user_uuid = @user_uuid
-    AND question_results.test_uuid = @test_uuid
+    question_results.test_session_uuid = @test_session_uuid
 ORDER BY
     question_results.created_at DESC;
 
@@ -80,6 +85,7 @@ ORDER BY
 SELECT
     question_results.uuid,
     question_results.question_uuid,
+    question_results.test_session_uuid,
     question_results.user_uuid,
     question_results.test_uuid,
     question_results.is_ok,
@@ -96,6 +102,7 @@ ORDER BY
 SELECT
     question_results.uuid,
     question_results.question_uuid,
+    question_results.test_session_uuid,
     question_results.user_uuid,
     question_results.test_uuid,
     question_results.is_ok,

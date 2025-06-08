@@ -16,7 +16,7 @@ SET
 WHERE test_session_results.uuid = @result_uuid
 RETURNING *;
 
--- name: GetTestResultById :one
+-- name: GetTestResultBySessionId :one
 SELECT
     test_session_results.uuid,
     test_session_results.test_uuid,
@@ -26,7 +26,7 @@ SELECT
 FROM
     test_session_results
 WHERE
-    test_session_results.uuid = @result_uuid;
+    test_session_results.uuid = @session_result_uuid;
 
 -- name: GetTestResultsByUser :many
 SELECT

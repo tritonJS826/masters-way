@@ -26,9 +26,9 @@ func NewSessionController(
 }
 
 // CreateSession
-// @Summary Create Session
-// @Description Create Session
-// @Tags Sessions
+// @Summary Create session
+// @Description
+// @Tags sessions
 // @Accept json
 // @Produce json
 // @Param request body schemas.CreateSessionRequest true "body"

@@ -201,7 +201,7 @@ func (q *Queries) GetTestLeaderboard(ctx context.Context, arg GetTestLeaderboard
 	return items, nil
 }
 
-const getTestResultById = `-- name: GetTestResultById :one
+const getTestResultBySessionId = `-- name: GetTestResultBySessionId :one
 SELECT
     test_session_results.uuid,
     test_session_results.test_uuid,
@@ -214,7 +214,7 @@ WHERE
     test_session_results.uuid = $1
 `
 
-type GetTestResultByIdRow struct {
+type GetTestResultBySessionIdRow struct {
 	Uuid              pgtype.UUID      `json:"uuid"`
 	TestUuid          pgtype.UUID      `json:"test_uuid"`
 	UserUuid          pgtype.UUID      `json:"user_uuid"`
@@ -222,9 +222,9 @@ type GetTestResultByIdRow struct {
 	CreatedAt         pgtype.Timestamp `json:"created_at"`
 }
 
-func (q *Queries) GetTestResultById(ctx context.Context, resultUuid pgtype.UUID) (GetTestResultByIdRow, error) {
-	row := q.db.QueryRow(ctx, getTestResultById, resultUuid)
-	var i GetTestResultByIdRow
+func (q *Queries) GetTestResultBySessionId(ctx context.Context, sessionResultUuid pgtype.UUID) (GetTestResultBySessionIdRow, error) {
+	row := q.db.QueryRow(ctx, getTestResultBySessionId, sessionResultUuid)
+	var i GetTestResultBySessionIdRow
 	err := row.Scan(
 		&i.Uuid,
 		&i.TestUuid,

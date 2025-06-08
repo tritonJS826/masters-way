@@ -118,7 +118,7 @@ func (q *Queries) GetQuestionTestRelations(ctx context.Context, questionUuid pgt
 	return items, nil
 }
 
-const getTestQuestionRelations = `-- name: GetTestQuestionRelations :many
+const getTestQuestionsByTestUuid = `-- name: GetTestQuestionsByTestUuid :many
 SELECT
     tests_questions.test_uuid,
     tests_questions.question_uuid,
@@ -131,8 +131,8 @@ ORDER BY
     tests_questions.created_at ASC
 `
 
-func (q *Queries) GetTestQuestionRelations(ctx context.Context, testUuid pgtype.UUID) ([]TestsQuestion, error) {
-	rows, err := q.db.Query(ctx, getTestQuestionRelations, testUuid)
+func (q *Queries) GetTestQuestionsByTestUuid(ctx context.Context, testUuid pgtype.UUID) ([]TestsQuestion, error) {
+	rows, err := q.db.Query(ctx, getTestQuestionsByTestUuid, testUuid)
 	if err != nil {
 		return nil, err
 	}

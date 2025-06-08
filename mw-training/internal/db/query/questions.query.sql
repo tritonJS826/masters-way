@@ -1,6 +1,8 @@
 -- name: CreateQuestion :one
 INSERT INTO questions (
     test_uuid,
+    name,
+    practice_type,
     question_text,
     question_order,
     time_to_answer,
@@ -9,6 +11,8 @@ INSERT INTO questions (
     is_private
 ) VALUES (
     @test_uuid,
+    @name,
+    @practice_type,
     @question_text,
     @question_order,
     @time_to_answer,
@@ -20,6 +24,8 @@ INSERT INTO questions (
 -- name: UpdateQuestion :one
 UPDATE questions
 SET 
+    name = coalesce(sqlc.narg('name'), name),
+    practice_type = coalesce(sqlc.narg('practice_type'), practice_type),
     question_text = coalesce(sqlc.narg('question_text'), question_text),
     question_order = coalesce(sqlc.narg('question_order'), question_order),
     time_to_answer = coalesce(sqlc.narg('time_to_answer'), time_to_answer),
@@ -33,6 +39,8 @@ RETURNING *;
 -- name: GetQuestionById :one
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,
@@ -50,6 +58,8 @@ WHERE
 -- name: GetQuestionsByTestId :many
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,
@@ -72,6 +82,8 @@ ORDER BY
 -- name: GetActiveQuestionsByTestId :many
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,
@@ -93,6 +105,8 @@ ORDER BY
 -- name: GetQuestionForTaking :one
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,

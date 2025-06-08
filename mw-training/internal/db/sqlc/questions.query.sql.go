@@ -36,6 +36,8 @@ func (q *Queries) CountQuestionsByTestId(ctx context.Context, arg CountQuestions
 const createQuestion = `-- name: CreateQuestion :one
 INSERT INTO questions (
     test_uuid,
+    name,
+    practice_type,
     question_text,
     question_order,
     time_to_answer,
@@ -49,23 +51,29 @@ INSERT INTO questions (
     $4,
     $5,
     $6,
-    $7
-) RETURNING uuid, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
+    $7,
+    $8,
+    $9
+) RETURNING uuid, name, practice_type, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
 `
 
 type CreateQuestionParams struct {
-	TestUuid      pgtype.UUID `json:"test_uuid"`
-	QuestionText  string      `json:"question_text"`
-	QuestionOrder int32       `json:"question_order"`
-	TimeToAnswer  int32       `json:"time_to_answer"`
-	Answer        string      `json:"answer"`
-	IsActive      bool        `json:"is_active"`
-	IsPrivate     bool        `json:"is_private"`
+	TestUuid      pgtype.UUID  `json:"test_uuid"`
+	Name          pgtype.Text  `json:"name"`
+	PracticeType  PracticeType `json:"practice_type"`
+	QuestionText  string       `json:"question_text"`
+	QuestionOrder int32        `json:"question_order"`
+	TimeToAnswer  int32        `json:"time_to_answer"`
+	Answer        string       `json:"answer"`
+	IsActive      bool         `json:"is_active"`
+	IsPrivate     bool         `json:"is_private"`
 }
 
 func (q *Queries) CreateQuestion(ctx context.Context, arg CreateQuestionParams) (Question, error) {
 	row := q.db.QueryRow(ctx, createQuestion,
 		arg.TestUuid,
+		arg.Name,
+		arg.PracticeType,
 		arg.QuestionText,
 		arg.QuestionOrder,
 		arg.TimeToAnswer,
@@ -76,6 +84,8 @@ func (q *Queries) CreateQuestion(ctx context.Context, arg CreateQuestionParams) 
 	var i Question
 	err := row.Scan(
 		&i.Uuid,
+		&i.Name,
+		&i.PracticeType,
 		&i.TestUuid,
 		&i.QuestionText,
 		&i.QuestionOrder,
@@ -95,7 +105,7 @@ SET
     is_active = false,
     updated_at = CURRENT_TIMESTAMP
 WHERE questions.uuid = $1
-RETURNING uuid, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
+RETURNING uuid, name, practice_type, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
 `
 
 func (q *Queries) DeactivateQuestion(ctx context.Context, questionUuid pgtype.UUID) (Question, error) {
@@ -103,6 +113,8 @@ func (q *Queries) DeactivateQuestion(ctx context.Context, questionUuid pgtype.UU
 	var i Question
 	err := row.Scan(
 		&i.Uuid,
+		&i.Name,
+		&i.PracticeType,
 		&i.TestUuid,
 		&i.QuestionText,
 		&i.QuestionOrder,
@@ -129,6 +141,8 @@ func (q *Queries) DeleteQuestion(ctx context.Context, questionUuid pgtype.UUID) 
 const getActiveQuestionsByTestId = `-- name: GetActiveQuestionsByTestId :many
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,
@@ -155,6 +169,8 @@ type GetActiveQuestionsByTestIdParams struct {
 
 type GetActiveQuestionsByTestIdRow struct {
 	Uuid          pgtype.UUID      `json:"uuid"`
+	Name          pgtype.Text      `json:"name"`
+	PracticeType  PracticeType     `json:"practice_type"`
 	TestUuid      pgtype.UUID      `json:"test_uuid"`
 	QuestionText  string           `json:"question_text"`
 	QuestionOrder int32            `json:"question_order"`
@@ -176,6 +192,8 @@ func (q *Queries) GetActiveQuestionsByTestId(ctx context.Context, arg GetActiveQ
 		var i GetActiveQuestionsByTestIdRow
 		if err := rows.Scan(
 			&i.Uuid,
+			&i.Name,
+			&i.PracticeType,
 			&i.TestUuid,
 			&i.QuestionText,
 			&i.QuestionOrder,
@@ -198,6 +216,8 @@ func (q *Queries) GetActiveQuestionsByTestId(ctx context.Context, arg GetActiveQ
 const getQuestionById = `-- name: GetQuestionById :one
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,
@@ -218,6 +238,8 @@ func (q *Queries) GetQuestionById(ctx context.Context, questionUuid pgtype.UUID)
 	var i Question
 	err := row.Scan(
 		&i.Uuid,
+		&i.Name,
+		&i.PracticeType,
 		&i.TestUuid,
 		&i.QuestionText,
 		&i.QuestionOrder,
@@ -234,6 +256,8 @@ func (q *Queries) GetQuestionById(ctx context.Context, questionUuid pgtype.UUID)
 const getQuestionForTaking = `-- name: GetQuestionForTaking :one
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,
@@ -251,6 +275,8 @@ WHERE
 
 type GetQuestionForTakingRow struct {
 	Uuid          pgtype.UUID      `json:"uuid"`
+	Name          pgtype.Text      `json:"name"`
+	PracticeType  PracticeType     `json:"practice_type"`
 	TestUuid      pgtype.UUID      `json:"test_uuid"`
 	QuestionText  string           `json:"question_text"`
 	QuestionOrder int32            `json:"question_order"`
@@ -266,6 +292,8 @@ func (q *Queries) GetQuestionForTaking(ctx context.Context, questionUuid pgtype.
 	var i GetQuestionForTakingRow
 	err := row.Scan(
 		&i.Uuid,
+		&i.Name,
+		&i.PracticeType,
 		&i.TestUuid,
 		&i.QuestionText,
 		&i.QuestionOrder,
@@ -281,6 +309,8 @@ func (q *Queries) GetQuestionForTaking(ctx context.Context, questionUuid pgtype.
 const getQuestionsByTestId = `-- name: GetQuestionsByTestId :many
 SELECT
     questions.uuid,
+    questions.name,
+    practice_type,
     questions.test_uuid,
     questions.question_text,
     questions.question_order,
@@ -318,6 +348,8 @@ func (q *Queries) GetQuestionsByTestId(ctx context.Context, arg GetQuestionsByTe
 		var i Question
 		if err := rows.Scan(
 			&i.Uuid,
+			&i.Name,
+			&i.PracticeType,
 			&i.TestUuid,
 			&i.QuestionText,
 			&i.QuestionOrder,
@@ -358,29 +390,35 @@ func (q *Queries) ReorderQuestions(ctx context.Context, arg ReorderQuestionsPara
 const updateQuestion = `-- name: UpdateQuestion :one
 UPDATE questions
 SET 
-    question_text = coalesce($1, question_text),
-    question_order = coalesce($2, question_order),
-    time_to_answer = coalesce($3, time_to_answer),
-    answer = coalesce($4, answer),
-    is_active = coalesce($5, is_active),
-    is_private = coalesce($6, is_private),
+    name = coalesce($1, name),
+    practice_type = coalesce($2, practice_type),
+    question_text = coalesce($3, question_text),
+    question_order = coalesce($4, question_order),
+    time_to_answer = coalesce($5, time_to_answer),
+    answer = coalesce($6, answer),
+    is_active = coalesce($7, is_active),
+    is_private = coalesce($8, is_private),
     updated_at = CURRENT_TIMESTAMP
-WHERE questions.uuid = $7
-RETURNING uuid, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
+WHERE questions.uuid = $9
+RETURNING uuid, name, practice_type, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
 `
 
 type UpdateQuestionParams struct {
-	QuestionText  pgtype.Text `json:"question_text"`
-	QuestionOrder pgtype.Int4 `json:"question_order"`
-	TimeToAnswer  pgtype.Int4 `json:"time_to_answer"`
-	Answer        pgtype.Text `json:"answer"`
-	IsActive      pgtype.Bool `json:"is_active"`
-	IsPrivate     pgtype.Bool `json:"is_private"`
-	QuestionUuid  pgtype.UUID `json:"question_uuid"`
+	Name          pgtype.Text      `json:"name"`
+	PracticeType  NullPracticeType `json:"practice_type"`
+	QuestionText  pgtype.Text      `json:"question_text"`
+	QuestionOrder pgtype.Int4      `json:"question_order"`
+	TimeToAnswer  pgtype.Int4      `json:"time_to_answer"`
+	Answer        pgtype.Text      `json:"answer"`
+	IsActive      pgtype.Bool      `json:"is_active"`
+	IsPrivate     pgtype.Bool      `json:"is_private"`
+	QuestionUuid  pgtype.UUID      `json:"question_uuid"`
 }
 
 func (q *Queries) UpdateQuestion(ctx context.Context, arg UpdateQuestionParams) (Question, error) {
 	row := q.db.QueryRow(ctx, updateQuestion,
+		arg.Name,
+		arg.PracticeType,
 		arg.QuestionText,
 		arg.QuestionOrder,
 		arg.TimeToAnswer,
@@ -392,6 +430,8 @@ func (q *Queries) UpdateQuestion(ctx context.Context, arg UpdateQuestionParams) 
 	var i Question
 	err := row.Scan(
 		&i.Uuid,
+		&i.Name,
+		&i.PracticeType,
 		&i.TestUuid,
 		&i.QuestionText,
 		&i.QuestionOrder,

@@ -43,6 +43,7 @@ type Test struct {
 	Name        string      `json:"name" validate:"required"`
 	Description string      `json:"description" validate:"required"`
 	OwnerUUID   string      `json:"owner_uuid" validate:"required"`
+	IsPrivate   bool        `json:"is_private" validate:"required"`
 	UpdatedAt   string      `json:"updated_at" validate:"required"`
 	CreatedAt   string      `json:"created_at" validate:"required"`
 	Questions   []*Question `json:"questions" validate:"required"`

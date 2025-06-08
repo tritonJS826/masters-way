@@ -123,6 +123,8 @@ type PracticeMaterial struct {
 
 type Question struct {
 	Uuid          pgtype.UUID      `json:"uuid"`
+	Name          pgtype.Text      `json:"name"`
+	PracticeType  PracticeType     `json:"practice_type"`
 	TestUuid      pgtype.UUID      `json:"test_uuid"`
 	QuestionText  string           `json:"question_text"`
 	QuestionOrder int32            `json:"question_order"`

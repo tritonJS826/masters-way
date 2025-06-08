@@ -11,7 +11,7 @@ INSERT INTO tests_questions (
 DELETE FROM tests_questions
 WHERE test_uuid = @test_uuid AND question_uuid = @question_uuid;
 
--- name: GetTestQuestionRelations :many
+-- name: GetTestQuestionsByTestUuid :many
 SELECT
     tests_questions.test_uuid,
     tests_questions.question_uuid,

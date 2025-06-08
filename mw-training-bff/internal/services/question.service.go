@@ -52,6 +52,7 @@ func (ts *QuestionService) CreateQuestion(ctx context.Context, params *CreateQue
 
 	return &schemas.Question{
 		UUID:         question.Uuid,
+		Name:         &question.Name,
 		TestUUID:     question.TestUuid,
 		QuestionText: question.QuestionText,
 		Order:        question.Order,
@@ -91,6 +92,7 @@ func (ts *QuestionService) UpdateQuestion(ctx context.Context, params *UpdateQue
 
 	return &schemas.Question{
 		UUID:         question.Uuid,
+		Name:         &question.Name,
 		TestUUID:     question.TestUuid,
 		QuestionText: question.QuestionText,
 		Order:        question.Order,

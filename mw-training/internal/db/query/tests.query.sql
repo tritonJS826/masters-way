@@ -45,7 +45,7 @@ WHERE
 GROUP BY
     tests.uuid, tests.name, tests.description, tests.owner_uuid, tests.created_at, tests.updated_at, tests.is_private;
 
--- name: GetTestsByOwner :many
+-- name: GetTestsByOwnerId :many
 SELECT
     tests.uuid,
     tests.name,
@@ -75,8 +75,7 @@ SELECT
     tests.owner_uuid,
     tests.created_at,
     tests.updated_at,
-    tests.is_private,
-    COUNT(DISTINCT questions.uuid) FILTER (WHERE questions.uuid IS NOT NULL) AS questions_count
+    tests.is_private
 FROM
     tests
 LEFT JOIN

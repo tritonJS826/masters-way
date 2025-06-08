@@ -27,9 +27,10 @@ func NewTestSessionResultsController(
 }
 
 // GetTestSessionResult
-// @Summary Get TestSessionResult
-// @Description Get TestSessionResult
+// @Summary Get test session result by session uuid
+// @Description
 // @Tags test-session-result
+// @ID get-test-session-result-by-session-uuid
 // @Accept json
 // @Produce json
 // @Param request body schemas.GetTestSessionResultRequest true "body"

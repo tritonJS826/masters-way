@@ -87,8 +87,7 @@ SELECT
     tests.owner_uuid,
     tests.created_at,
     tests.updated_at,
-    tests.is_private,
-    COUNT(DISTINCT questions.uuid) FILTER (WHERE questions.uuid IS NOT NULL) AS questions_count
+    tests.is_private
 FROM
     tests
 LEFT JOIN
@@ -111,14 +110,13 @@ type GetPublicTestsParams struct {
 }
 
 type GetPublicTestsRow struct {
-	Uuid           pgtype.UUID      `json:"uuid"`
-	Name           string           `json:"name"`
-	Description    string           `json:"description"`
-	OwnerUuid      pgtype.UUID      `json:"owner_uuid"`
-	CreatedAt      pgtype.Timestamp `json:"created_at"`
-	UpdatedAt      pgtype.Timestamp `json:"updated_at"`
-	IsPrivate      bool             `json:"is_private"`
-	QuestionsCount int64            `json:"questions_count"`
+	Uuid        pgtype.UUID      `json:"uuid"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	OwnerUuid   pgtype.UUID      `json:"owner_uuid"`
+	CreatedAt   pgtype.Timestamp `json:"created_at"`
+	UpdatedAt   pgtype.Timestamp `json:"updated_at"`
+	IsPrivate   bool             `json:"is_private"`
 }
 
 func (q *Queries) GetPublicTests(ctx context.Context, arg GetPublicTestsParams) ([]GetPublicTestsRow, error) {
@@ -138,7 +136,6 @@ func (q *Queries) GetPublicTests(ctx context.Context, arg GetPublicTestsParams) 
 			&i.CreatedAt,
 			&i.UpdatedAt,
 			&i.IsPrivate,
-			&i.QuestionsCount,
 		); err != nil {
 			return nil, err
 		}
@@ -215,7 +212,7 @@ func (q *Queries) GetTestsAmountByUserId(ctx context.Context, userUuid pgtype.UU
 	return i, err
 }
 
-const getTestsByOwner = `-- name: GetTestsByOwner :many
+const getTestsByOwnerId = `-- name: GetTestsByOwnerId :many
 SELECT
     tests.uuid,
     tests.name,
@@ -238,12 +235,12 @@ ORDER BY
     tests.updated_at DESC
 `
 
-type GetTestsByOwnerParams struct {
+type GetTestsByOwnerIdParams struct {
 	OwnerUuid      pgtype.UUID `json:"owner_uuid"`
 	IncludePrivate bool        `json:"include_private"`
 }
 
-type GetTestsByOwnerRow struct {
+type GetTestsByOwnerIdRow struct {
 	Uuid           pgtype.UUID      `json:"uuid"`
 	Name           string           `json:"name"`
 	Description    string           `json:"description"`
@@ -254,15 +251,15 @@ type GetTestsByOwnerRow struct {
 	QuestionsCount int64            `json:"questions_count"`
 }
 
-func (q *Queries) GetTestsByOwner(ctx context.Context, arg GetTestsByOwnerParams) ([]GetTestsByOwnerRow, error) {
-	rows, err := q.db.Query(ctx, getTestsByOwner, arg.OwnerUuid, arg.IncludePrivate)
+func (q *Queries) GetTestsByOwnerId(ctx context.Context, arg GetTestsByOwnerIdParams) ([]GetTestsByOwnerIdRow, error) {
+	rows, err := q.db.Query(ctx, getTestsByOwnerId, arg.OwnerUuid, arg.IncludePrivate)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	items := []GetTestsByOwnerRow{}
+	items := []GetTestsByOwnerIdRow{}
 	for rows.Next() {
-		var i GetTestsByOwnerRow
+		var i GetTestsByOwnerIdRow
 		if err := rows.Scan(
 			&i.Uuid,
 			&i.Name,

@@ -169,6 +169,7 @@ func (tc *TestController) GetTestsAmountByUserId(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param userId path string true "user id"
+// @Param type path string true "user id"
 // @Success 200 {object} schemas.TestPreviewList
 // @Router /test/user/{userId} [get]
 func (tc *TestController) GetTestsByUserId(ctx *gin.Context) {

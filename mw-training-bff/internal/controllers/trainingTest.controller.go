@@ -28,8 +28,8 @@ func NewTrainingTestsController(
 
 // CreateTrainingTest
 // @Summary Create TrainingTest
-// @Description Create TrainingTest
-// @Tags TrainingTests
+// @Description
+// @Tags training-tests
 // @Accept json
 // @Produce json
 // @Param request body schemas.CreateTrainingTestRequest true "body"

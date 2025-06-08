@@ -50,6 +50,7 @@ func (s *TestService) CreateTest(ctx context.Context, params *CreateTestParams) 
 		CreatedAt:   test.CreatedAt,
 		UpdatedAt:   test.UpdatedAt,
 		OwnerUUID:   test.OwnerUuid,
+		IsPrivate:   test.IsPrivate,
 		Questions:   make([]*schemas.Question, 0),
 	}, nil
 }
@@ -202,6 +203,7 @@ func (s *TestService) GetTestById(ctx context.Context, params *GetTestByIdParams
 	for i, question := range test.Questions {
 		questions[i] = &schemas.Question{
 			UUID:         question.Uuid,
+			Name:         &question.Name,
 			TestUUID:     question.TestUuid,
 			QuestionText: question.QuestionText,
 			Order:        question.Order,
@@ -218,6 +220,7 @@ func (s *TestService) GetTestById(ctx context.Context, params *GetTestByIdParams
 		Name:        test.Name,
 		Description: test.Description,
 		OwnerUUID:   test.OwnerUuid,
+		IsPrivate:   test.IsPrivate,
 		UpdatedAt:   test.UpdatedAt,
 		CreatedAt:   test.CreatedAt,
 		Questions:   questions,

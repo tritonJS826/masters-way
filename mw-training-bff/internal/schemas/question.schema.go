@@ -1,15 +1,16 @@
 package schemas
 
 type Question struct {
-	UUID         string `json:"uuid" validate:"required"`
-	TestUUID     string `json:"test_uuid" validate:"required"`
-	QuestionText string `json:"question_text" validate:"required"`
-	Order        int32  `json:"order" validate:"required"`
-	TimeToAnswer int32  `json:"time_to_answer" validate:"required"`
-	Answer       string `json:"answer" validate:"required"`
-	IsActive     bool   `json:"is_active" validate:"required"`
-	CreatedAt    string `json:"created_at" validate:"required"`
-	UpdatedAt    string `json:"updated_at" validate:"required"`
+	UUID         string  `json:"uuid" validate:"required"`
+	Name         *string `json:"name,omitempty"`
+	TestUUID     string  `json:"test_uuid" validate:"required"`
+	QuestionText string  `json:"question_text" validate:"required"`
+	Order        int32   `json:"order" validate:"required"`
+	TimeToAnswer int32   `json:"time_to_answer" validate:"required"`
+	Answer       string  `json:"answer" validate:"required"`
+	IsActive     bool    `json:"is_active" validate:"required"`
+	CreatedAt    string  `json:"created_at" validate:"required"`
+	UpdatedAt    string  `json:"updated_at" validate:"required"`
 }
 
 type CreateQuestionPayload struct {
