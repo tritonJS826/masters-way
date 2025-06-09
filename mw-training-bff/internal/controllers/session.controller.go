@@ -33,7 +33,7 @@ func NewSessionController(
 // @Accept json
 // @Produce json
 // @Param request body schemas.CreateSessionRequest true "body"
-// @Success 200 {object} schemas.CreateSessionResult
+// @Success 200 {object} schemas.TestSession
 // @Router /session [post]
 func (c *SessionController) CreateSession(ctx *gin.Context) {
 	var payload schemas.CreateSessionRequest

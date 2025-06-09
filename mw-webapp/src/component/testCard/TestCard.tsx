@@ -46,7 +46,7 @@ export const TestCard = observer((props: TestCardProps) => {
 
   return (
     <Link
-      path={pages.test.getPath({uuid: props.testPreview.uuid})}
+      path={pages.runningTest.getPath({uuid: props.testPreview.uuid})}
       className={styles.cardLink}
       dataCy={props.dataCy}
     >
@@ -92,15 +92,15 @@ export const TestCard = observer((props: TestCardProps) => {
           <HorizontalContainer className={styles.people}>
             <Tooltip
               position={PositionTooltip.BOTTOM}
-              content={props.testPreview.owner.name}
+              content={props.testPreview.ownerUuid}
             >
               <HorizontalContainer className={styles.owner}>
-                <Avatar
+                {/* <Avatar
                   alt={props.testPreview.owner.name}
                   src={props.testPreview.owner.imageUrl}
                   className={styles.avatar}
-                />
-                <Text text={props.testPreview.owner.name} />
+                /> */}
+                <Text text={props.testPreview.ownerUuid} />
               </HorizontalContainer>
             </Tooltip>
           </HorizontalContainer>

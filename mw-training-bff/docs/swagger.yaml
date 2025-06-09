@@ -73,13 +73,6 @@ definitions:
     required:
     - user_uuid
     type: object
-  mw-training-bff_internal_schemas.CreateSessionResult:
-    properties:
-      session_uuid:
-        type: string
-    required:
-    - session_uuid
-    type: object
   mw-training-bff_internal_schemas.CreateTestRequest:
     properties:
       description:
@@ -337,6 +330,13 @@ definitions:
     required:
     - size
     - tests_list
+    type: object
+  mw-training-bff_internal_schemas.TestSession:
+    properties:
+      session_uuid:
+        type: string
+    required:
+    - session_uuid
     type: object
   mw-training-bff_internal_schemas.TestsAmount:
     properties:
@@ -915,6 +915,7 @@ paths:
     post:
       consumes:
       - application/json
+      operationId: create-session
       parameters:
       - description: body
         in: body
@@ -928,7 +929,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/mw-training-bff_internal_schemas.CreateSessionResult'
+            $ref: '#/definitions/mw-training-bff_internal_schemas.TestSession'
       summary: Create session
       tags:
       - sessions

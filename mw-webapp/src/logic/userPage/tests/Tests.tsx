@@ -48,6 +48,11 @@ interface TestsProps {
   isPageOwner: boolean;
 
   /**
+   * Owner uuid
+   */
+  ownerUuid: string;
+
+  /**
    * Callback to change view
    */
   setView: (view: View) => void;
@@ -81,9 +86,10 @@ export const Tests = observer((props: TestsProps) => {
       name: "New test name",
       description: "",
       isPrivate: false,
+      ownerUuid: props.ownerUuid,
     });
 
-    navigate(pages.test.getPath({uuid: newTest.uuid}));
+    navigate(pages.editTest.getPath({uuid: newTest.uuid}));
   };
 
   return (

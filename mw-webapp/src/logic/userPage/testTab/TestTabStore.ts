@@ -112,12 +112,31 @@ export class TestTabStore {
    * Load data
    */
   private loadData = async (params: GetTestsByUserIdParams): Promise<AllTestsByUserParams> => {
-    const fetchedTests = await TestDAL.getTestsByUserId({
-      testsType: params.testsType,
-      userId: params.userId,
+    // Const fetchedTests = await TestDAL.getTestsByUserId({
+    //   testsType: params.testsType,
+    //   userId: params.userId,
+    // });
+
+    const test = new TestPreview({
+      createdAt: new Date(),
+      description: "lalala",
+      name: "sdfes",
+      ownerUuid: "7cdb041b-4574-4f7b-a500-c53e74c72e94",
+      updatedAt: new Date(),
+      uuid: "001",
     });
 
-    return fetchedTests;
+    const fetchedTests = [test];
+
+    // Return fetchedTests;
+    return {
+      size: 1,
+      testsAmount: {
+        completed: 0,
+        own: 1,
+      },
+      testsPreview: fetchedTests,
+    };
   };
 
   /**

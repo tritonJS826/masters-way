@@ -570,10 +570,10 @@ export const UserPage = observer((props: UserPageProps) => {
       value: TabType.Tests,
 
       /**
-       * Save trainings tab as opened
+       * Save tests tab as opened
        */
       onClick: () => {
-        updateUserPageSettings({tab: TabType.Trainings});
+        updateUserPageSettings({tab: TabType.Tests});
       },
     },
   ];

@@ -23,46 +23,46 @@ import (
 // SessionsAPIService SessionsAPI service
 type SessionsAPIService service
 
-type ApiSessionPostRequest struct {
+type ApiCreateSessionRequest struct {
 	ctx context.Context
 	ApiService *SessionsAPIService
 	request *MwTrainingBffInternalSchemasCreateSessionRequest
 }
 
 // body
-func (r ApiSessionPostRequest) Request(request MwTrainingBffInternalSchemasCreateSessionRequest) ApiSessionPostRequest {
+func (r ApiCreateSessionRequest) Request(request MwTrainingBffInternalSchemasCreateSessionRequest) ApiCreateSessionRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiSessionPostRequest) Execute() (*MwTrainingBffInternalSchemasCreateSessionResult, *http.Response, error) {
-	return r.ApiService.SessionPostExecute(r)
+func (r ApiCreateSessionRequest) Execute() (*MwTrainingBffInternalSchemasTestSession, *http.Response, error) {
+	return r.ApiService.CreateSessionExecute(r)
 }
 
 /*
-SessionPost Create session
+CreateSession Create session
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSessionPostRequest
+ @return ApiCreateSessionRequest
 */
-func (a *SessionsAPIService) SessionPost(ctx context.Context) ApiSessionPostRequest {
-	return ApiSessionPostRequest{
+func (a *SessionsAPIService) CreateSession(ctx context.Context) ApiCreateSessionRequest {
+	return ApiCreateSessionRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasCreateSessionResult
-func (a *SessionsAPIService) SessionPostExecute(r ApiSessionPostRequest) (*MwTrainingBffInternalSchemasCreateSessionResult, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTestSession
+func (a *SessionsAPIService) CreateSessionExecute(r ApiCreateSessionRequest) (*MwTrainingBffInternalSchemasTestSession, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *MwTrainingBffInternalSchemasCreateSessionResult
+		localVarReturnValue  *MwTrainingBffInternalSchemasTestSession
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SessionsAPIService.SessionPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SessionsAPIService.CreateSession")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -133,14 +133,14 @@ func (a *SessionsAPIService) SessionPostExecute(r ApiSessionPostRequest) (*MwTra
 }
 
 // Execute executes the request
-//  @return MwTrainingBffInternalSchemasCreateSessionResultStream
-func (a *SessionsAPIService) SessionPostStreamExecute(r ApiSessionPostRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasCreateSessionResult, *http.Response, error) {
+//  @return MwTrainingBffInternalSchemasTestSessionStream
+func (a *SessionsAPIService) CreateSessionStreamExecute(r ApiCreateSessionRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasTestSession, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
-		localVarReturnValue  *MwTrainingBffInternalSchemasCreateSessionResult
+		localVarReturnValue  *MwTrainingBffInternalSchemasTestSession
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SessionsAPIService.SessionPost")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SessionsAPIService.CreateSession")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

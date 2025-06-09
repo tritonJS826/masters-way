@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost/mw-training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SessionPost**](SessionsAPI.md#SessionPost) | **Post** /session | Create session
+[**CreateSession**](SessionsAPI.md#CreateSession) | **Post** /session | Create session
 
 
 
-## SessionPost
+## CreateSession
 
-> MwTrainingBffInternalSchemasCreateSessionResult SessionPost(ctx).Request(request).Execute()
+> MwTrainingBffInternalSchemasTestSession CreateSession(ctx).Request(request).Execute()
 
 Create session
 
@@ -31,13 +31,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.SessionsAPI.SessionPost(context.Background()).Request(request).Execute()
+	resp, r, err := apiClient.SessionsAPI.CreateSession(context.Background()).Request(request).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `SessionsAPI.SessionPost``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `SessionsAPI.CreateSession``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `SessionPost`: MwTrainingBffInternalSchemasCreateSessionResult
-	fmt.Fprintf(os.Stdout, "Response from `SessionsAPI.SessionPost`: %v\n", resp)
+	// response from `CreateSession`: MwTrainingBffInternalSchemasTestSession
+	fmt.Fprintf(os.Stdout, "Response from `SessionsAPI.CreateSession`: %v\n", resp)
 }
 ```
 
@@ -47,7 +47,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiSessionPostRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiCreateSessionRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -56,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MwTrainingBffInternalSchemasCreateSessionResult**](MwTrainingBffInternalSchemasCreateSessionResult.md)
+[**MwTrainingBffInternalSchemasTestSession**](MwTrainingBffInternalSchemasTestSession.md)
 
 ### Authorization
 

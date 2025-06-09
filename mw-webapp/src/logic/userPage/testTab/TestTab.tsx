@@ -8,6 +8,7 @@ import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
 import {languageStore} from "src/globalStore/LanguageStore";
 import {themeStore} from "src/globalStore/ThemeStore";
+import {userStore} from "src/globalStore/UserStore";
 import {useStore} from "src/hooks/useStore";
 import {DefaultTestCollection} from "src/logic/userPage/DefaultTrainingCollection";
 import {Tests} from "src/logic/userPage/tests/Tests";
@@ -59,6 +60,7 @@ interface TestTabProps {
 export const TestTab = observer((props: TestTabProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
+  const {user} = userStore;
 
   const testTabStore = useStore<
   new (params: GetTestsByUserIdParams) => TestTabStore,
@@ -109,14 +111,14 @@ export const TestTab = observer((props: TestTabProps) => {
           />
 
           <CollectionCard
-            isActive={props.activeTestCollection === DefaultTestCollection.PASSED}
+            isActive={props.activeTestCollection === DefaultTestCollection.COMPLETED}
             collectionTitle={LanguageService.user.tests.passed[language]}
-            collectionsAmount={testTabStore.testCollectionsAmount.passed}
+            collectionsAmount={testTabStore.testCollectionsAmount.completed}
             collectionAmountTitle={LanguageService.user.tabs.tests[language]}
             onClick={() => {
-              props.onClick(DefaultTestCollection.PASSED);
+              props.onClick(DefaultTestCollection.COMPLETED);
               testTabStore.loadTestsPreview({
-                testsType: DefaultTestCollection.PASSED,
+                testsType: DefaultTestCollection.COMPLETED,
                 userId: props.userPageOwnerUuid,
               });
             }}
@@ -125,17 +127,20 @@ export const TestTab = observer((props: TestTabProps) => {
         </HorizontalGridContainer>
 
       </VerticalContainer>
-      <Tests
+      {user &&
+        <Tests
         // This check need to translate default trainings collection and don't translate custom collections
-        title={LanguageService.user.tests[
+          title={LanguageService.user.tests[
             props.activeTestCollection.toLowerCase() as keyof typeof LanguageService.user.tests
-        ][language]
-        }
-        tests={testTabStore.testsPreview}
-        view={props.view}
-        setView={(view: View) => props.setView(view)}
-        isPageOwner={props.isPageOwner}
-      />
+          ][language]
+          }
+          tests={testTabStore.testsPreview}
+          view={props.view}
+          setView={(view: View) => props.setView(view)}
+          isPageOwner={props.isPageOwner}
+          ownerUuid={user.uuid}
+        />
+      }
     </HorizontalContainer>
   );
 });

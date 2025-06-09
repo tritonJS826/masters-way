@@ -234,6 +234,7 @@ paths:
       - questionResult
   /session:
     post:
+      operationId: create-session
       requestBody:
         content:
           application/json:
@@ -246,7 +247,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateSessionResult'
+                $ref: '#/components/schemas/mw-training-bff_internal_schemas.TestSession'
           description: OK
       summary: Create session
       tags:
@@ -1000,15 +1001,6 @@ components:
       required:
       - user_uuid
       type: object
-    mw-training-bff_internal_schemas.CreateSessionResult:
-      example:
-        session_uuid: session_uuid
-      properties:
-        session_uuid:
-          type: string
-      required:
-      - session_uuid
-      type: object
     mw-training-bff_internal_schemas.CreateTestRequest:
       properties:
         description:
@@ -1376,6 +1368,15 @@ components:
       required:
       - size
       - tests_list
+      type: object
+    mw-training-bff_internal_schemas.TestSession:
+      example:
+        session_uuid: session_uuid
+      properties:
+        session_uuid:
+          type: string
+      required:
+      - session_uuid
       type: object
     mw-training-bff_internal_schemas.TestsAmount:
       example:

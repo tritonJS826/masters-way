@@ -89,7 +89,7 @@ Class | Method | HTTP request | Description
 *QuestionAPI* | [**UpdateQuestion**](docs/QuestionAPI.md#updatequestion) | **Patch** /question/{questionId} | Update question by uuid
 *QuestionResultAPI* | [**CreateQuestionResult**](docs/QuestionResultAPI.md#createquestionresult) | **Post** /questionResult | Create question result
 *QuestionResultAPI* | [**GetQuestionResultsBySessionUuid**](docs/QuestionResultAPI.md#getquestionresultsbysessionuuid) | **Get** /questionResult/session/{sessionId} | Get question results by session UUID
-*SessionsAPI* | [**SessionPost**](docs/SessionsAPI.md#sessionpost) | **Post** /session | Create session
+*SessionsAPI* | [**CreateSession**](docs/SessionsAPI.md#createsession) | **Post** /session | Create session
 *TestAPI* | [**CreateTest**](docs/TestAPI.md#createtest) | **Post** /test | Create test
 *TestAPI* | [**DeleteTest**](docs/TestAPI.md#deletetest) | **Delete** /test/{testId} | Delete test by Uuid
 *TestAPI* | [**GetTestById**](docs/TestAPI.md#gettestbyid) | **Get** /test/{testId} | Get test by id
@@ -128,7 +128,6 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasCreateQuestionPayload](docs/MwTrainingBffInternalSchemasCreateQuestionPayload.md)
  - [MwTrainingBffInternalSchemasCreateQuestionResultRequest](docs/MwTrainingBffInternalSchemasCreateQuestionResultRequest.md)
  - [MwTrainingBffInternalSchemasCreateSessionRequest](docs/MwTrainingBffInternalSchemasCreateSessionRequest.md)
- - [MwTrainingBffInternalSchemasCreateSessionResult](docs/MwTrainingBffInternalSchemasCreateSessionResult.md)
  - [MwTrainingBffInternalSchemasCreateTestRequest](docs/MwTrainingBffInternalSchemasCreateTestRequest.md)
  - [MwTrainingBffInternalSchemasCreateTheoryMaterialPayload](docs/MwTrainingBffInternalSchemasCreateTheoryMaterialPayload.md)
  - [MwTrainingBffInternalSchemasCreateTopicPayload](docs/MwTrainingBffInternalSchemasCreateTopicPayload.md)
@@ -144,6 +143,7 @@ Class | Method | HTTP request | Description
  - [MwTrainingBffInternalSchemasTest](docs/MwTrainingBffInternalSchemasTest.md)
  - [MwTrainingBffInternalSchemasTestPreview](docs/MwTrainingBffInternalSchemasTestPreview.md)
  - [MwTrainingBffInternalSchemasTestPreviewList](docs/MwTrainingBffInternalSchemasTestPreviewList.md)
+ - [MwTrainingBffInternalSchemasTestSession](docs/MwTrainingBffInternalSchemasTestSession.md)
  - [MwTrainingBffInternalSchemasTestsAmount](docs/MwTrainingBffInternalSchemasTestsAmount.md)
  - [MwTrainingBffInternalSchemasTheoryMaterial](docs/MwTrainingBffInternalSchemasTheoryMaterial.md)
  - [MwTrainingBffInternalSchemasTheoryMaterials](docs/MwTrainingBffInternalSchemasTheoryMaterials.md)

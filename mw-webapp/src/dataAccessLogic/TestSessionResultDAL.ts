@@ -25,7 +25,7 @@ export class TestSessionResultDAL {
    */
   public static async getTestSessionResult(params: GetTestSessionResultParams): Promise<TestSessionResult> {
     const testSessionResultDTO = await testSessionResultService
-      .testSessionResultGet({request: {sessionUuid: params.sessionUuid}});
+      .getTestSessionResultBySessionUuid({request: {sessionUuid: params.sessionUuid}});
 
     const testSessionResult = testSessionResultDTOToTestSessionResult(testSessionResultDTO);
 

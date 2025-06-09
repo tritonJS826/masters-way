@@ -388,6 +388,7 @@ const docTemplate = `{
                     "sessions"
                 ],
                 "summary": "Create session",
+                "operationId": "create-session",
                 "parameters": [
                     {
                         "description": "body",
@@ -403,7 +404,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/mw-training-bff_internal_schemas.CreateSessionResult"
+                            "$ref": "#/definitions/mw-training-bff_internal_schemas.TestSession"
                         }
                     }
                 }
@@ -1560,17 +1561,6 @@ const docTemplate = `{
                 }
             }
         },
-        "mw-training-bff_internal_schemas.CreateSessionResult": {
-            "type": "object",
-            "required": [
-                "session_uuid"
-            ],
-            "properties": {
-                "session_uuid": {
-                    "type": "string"
-                }
-            }
-        },
         "mw-training-bff_internal_schemas.CreateTestRequest": {
             "type": "object",
             "required": [
@@ -1938,6 +1928,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/mw-training-bff_internal_schemas.TestPreview"
                     }
+                }
+            }
+        },
+        "mw-training-bff_internal_schemas.TestSession": {
+            "type": "object",
+            "required": [
+                "session_uuid"
+            ],
+            "properties": {
+                "session_uuid": {
+                    "type": "string"
                 }
             }
         },

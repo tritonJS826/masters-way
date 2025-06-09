@@ -155,8 +155,8 @@ export class TestDAL {
    */
   public static async getTestsByUserId(params: GetTestsByUserIdParams): Promise<AllTestsByUserParams> {
     const testsPreviewDTO = await TestService.getTestsByUserUuid({
-      // TrainingsType: params.trainingsType,
       userId: params.userId,
+      type: params.testsType,
     });
     const testsPreview = testsPreviewDTO.testsList.map(testPreviewDTOToTestPreview);
 

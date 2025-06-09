@@ -16,16 +16,16 @@
 import * as runtime from '../runtime';
 import type {
   MwTrainingBffInternalSchemasCreateSessionRequest,
-  MwTrainingBffInternalSchemasCreateSessionResult,
+  MwTrainingBffInternalSchemasTestSession,
 } from '../models/index';
 import {
     MwTrainingBffInternalSchemasCreateSessionRequestFromJSON,
     MwTrainingBffInternalSchemasCreateSessionRequestToJSON,
-    MwTrainingBffInternalSchemasCreateSessionResultFromJSON,
-    MwTrainingBffInternalSchemasCreateSessionResultToJSON,
+    MwTrainingBffInternalSchemasTestSessionFromJSON,
+    MwTrainingBffInternalSchemasTestSessionToJSON,
 } from '../models/index';
 
-export interface SessionPostRequest {
+export interface CreateSessionRequest {
     request: MwTrainingBffInternalSchemasCreateSessionRequest;
 }
 
@@ -37,9 +37,9 @@ export class SessionsApi extends runtime.BaseAPI {
     /**
      * Create session
      */
-    async sessionPostRaw(requestParameters: SessionPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasCreateSessionResult>> {
+    async createSessionRaw(requestParameters: CreateSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasTestSession>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling sessionPost.');
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling createSession.');
         }
 
         const queryParameters: any = {};
@@ -56,14 +56,14 @@ export class SessionsApi extends runtime.BaseAPI {
             body: MwTrainingBffInternalSchemasCreateSessionRequestToJSON(requestParameters.request),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasCreateSessionResultFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MwTrainingBffInternalSchemasTestSessionFromJSON(jsonValue));
     }
 
     /**
      * Create session
      */
-    async sessionPost(requestParameters: SessionPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasCreateSessionResult> {
-        const response = await this.sessionPostRaw(requestParameters, initOverrides);
+    async createSession(requestParameters: CreateSessionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasTestSession> {
+        const response = await this.createSessionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
