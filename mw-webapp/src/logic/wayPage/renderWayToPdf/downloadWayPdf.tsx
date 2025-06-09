@@ -8,6 +8,16 @@ import {DateUtils, DAY_MILLISECONDS, SMALL_CORRECTION_MILLISECONDS} from "src/ut
 
 const MARGIN_SMALL = 5;
 const MARGIN_MEDIUM = 10;
+const MARGIN_LARGE = 15;
+const UNCHECKED_CHECKBOX_SVG =
+  "<svg width=\"12\" height=\"12\">" +
+  "<rect x=\"1\" y=\"1\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"black\"/>" +
+  "</svg>";
+const CHECKED_SVG =
+  "<svg width=\"12\" height=\"12\">" +
+  "<rect x=\"1\" y=\"1\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"black\"/>" +
+  "<polyline points=\"3,7 6,10 9,3\" style=\"fill:none;stroke:black;stroke-width:2\"/>" +
+  "</svg>";
 
 // TODO: there is a problem with pdfMake types, hope next version will fix it
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -24,7 +34,23 @@ pdfMake.fonts = {
 /**
  * Render header
  */
-const getHeader = (wayName: string) => ({
+const getHeader = (way: Way) => {
+  return [
+    {
+      text: `Way link: https://mastersway.netlify.app/way/${way.uuid}`,
+      margin: [MARGIN_SMALL, MARGIN_SMALL, 0, 0],
+    },
+    {
+      text: `PDF Downloaded at: ${DateUtils.getShortISODateValue(new Date())}`,
+      margin: [MARGIN_SMALL, 0, 0, 0],
+    },
+  ];
+};
+
+/**
+ * Render title
+ */
+const getTitle = (wayName: string) => ({
   alignment: "center",
   text: wayName,
   style: "header",
@@ -39,7 +65,6 @@ const getHeader = (wayName: string) => ({
 const getOwner = (wayOwner: string) => ({
   alignment: "center",
   text: wayOwner,
-  style: "header",
   fontSize: 18,
   bold: false,
   margin: [0, MARGIN_MEDIUM],
@@ -56,17 +81,13 @@ const getDates = (createdAt: Date, lastUpdate: Date) => {
 };
 
 /**
- * Render amount of favorites
- */
-const getFavorites = (favoriteAmount: number) => {
-  return `Amount of favorites: ${favoriteAmount}`;
-};
-
-/**
  * Render mentor's names
  */
 const getMentors = (wayMentors: Map<string, UserPlain>) => {
   const mentorsArray = Array.from(wayMentors.values());
+  if (mentorsArray.length === 0) {
+    return [];
+  }
 
   return [
     {
@@ -83,6 +104,9 @@ const getMentors = (wayMentors: Map<string, UserPlain>) => {
  */
 const getFormerMentors = (formerMentors: Map<string, UserPlain>) => {
   const formerMentorsArray = Array.from(formerMentors.values());
+  if (formerMentorsArray.length === 0) {
+    return [];
+  }
 
   return [
     {
@@ -92,6 +116,82 @@ const getFormerMentors = (formerMentors: Map<string, UserPlain>) => {
     },
     ...formerMentorsArray.map(wayFormerMentor => wayFormerMentor.name),
   ];
+};
+
+/**
+ * PdfMakeColumn
+ */
+interface PdfMakeColumn {
+
+  /**
+   * SVG
+   */
+  svg?: string;
+
+  /**
+   * Width
+   */
+  width?: number;
+}
+
+/**
+ * PdfMakeListItem
+ */
+interface PdfMakeListItem {
+
+  /**
+   * Columns fro corrected rendering SVG
+   */
+  columns?: PdfMakeColumn[];
+
+  /**
+   * Column gap
+   */
+  columnGap?: number;
+
+  /**
+   * List
+   */
+  ul?: PdfMakeListItem[];
+
+  /**
+   * Stack
+   */
+  stack?: PdfMakeListItem[];
+
+  /**
+   * Text
+   */
+  text?: string;
+}
+
+/**
+ * Render metric list
+ */
+const renderMetricList = (metrics: Metric[]): PdfMakeListItem[] => {
+  return metrics.map(metric => {
+    const item = {
+      columns: [
+        {svg: metric.isDone && metric.doneDate ? CHECKED_SVG : UNCHECKED_CHECKBOX_SVG, width: 16},
+        {text: metric.description},
+      ],
+      columnGap: 15,
+    };
+
+    if (metric.children && metric.children.length > 0) {
+      return {
+        stack: [
+          item,
+          {
+            ul: renderMetricList(metric.children),
+            listType: "none",
+          },
+        ],
+      };
+    }
+
+    return item;
+  });
 };
 
 /**
@@ -127,21 +227,20 @@ const getGoal = (params: GoalParams) => {
     },
     params.goalDescription,
     {
-      text: "Estimation time:",
+      text: `Estimation time: ${params.estimationTime}`,
       bold: true,
       margin: [0, MARGIN_SMALL, 0, 0],
     },
-    params.estimationTime,
     {
       text: "Goal metrics:",
       bold: true,
-      margin: [0, MARGIN_SMALL, 0, 0],
+      margin: [0, MARGIN_SMALL, 0, MARGIN_SMALL],
     },
-    ...params.metrics
-      .map((metric) =>
-        `${metric.isDone && metric.doneDate
-          ? DateUtils.getShortISODateValue(metric.doneDate)
-          : "Not finished"}: ${metric.description}`),
+    {
+      ul: renderMetricList(params.metrics),
+      listType: "none",
+      margin: [MARGIN_SMALL, 0, 0, 0],
+    },
   ];
 };
 
@@ -206,6 +305,57 @@ const getStatistics = (dayReports: DayReport[], wayStatistics: WayStatisticsTrip
 };
 
 /**
+ * Render reports
+ */
+const getReports = (dayReports: DayReport[]) => {
+  return [
+    {
+      alignment: "center",
+      text: "Reports",
+      style: "header",
+      bold: true,
+      margin: [0, MARGIN_MEDIUM],
+    },
+    ...dayReports.map(dayReport => [
+      {
+        text: DateUtils.getShortISODateValue(dayReport.createdAt),
+        style: "header",
+        bold: true,
+        margin: [0, MARGIN_LARGE, 0, 0],
+      },
+      {
+        text: "Jobs Done",
+        style: "header",
+        bold: true,
+        margin: [0, MARGIN_SMALL, 0, 0],
+      },
+      {ul: dayReport.jobsDone.map(job => job.description)},
+      {
+        text: "Plans",
+        style: "header",
+        bold: true,
+        margin: [0, MARGIN_SMALL, 0, 0],
+      },
+      {ul: dayReport.plans.map(plan => plan.description)},
+      {
+        text: "Problems",
+        style: "header",
+        bold: true,
+        margin: [0, MARGIN_SMALL, 0, 0],
+      },
+      {ul: dayReport.problems.map(problem => problem.description)},
+      {
+        text: "Comments",
+        style: "header",
+        bold: true,
+        margin: [0, MARGIN_SMALL, 0, 0],
+      },
+      {ul: dayReport.comments.map(comment => comment.description)},
+    ]),
+  ];
+};
+
+/**
  *
  * Examples:
  * https://codepen.io/diguifi/pen/YdBbyz
@@ -213,10 +363,10 @@ const getStatistics = (dayReports: DayReport[], wayStatistics: WayStatisticsTrip
  * client-side-pdf-generation-if-you-struggled-with-dynamic-content-positioning-in-jspdf-459aef48dc30
  */
 export const downloadWayPdf = (way: Way, statisticsTriple: WayStatisticsTriple) => {
-  const headerDefinition = getHeader(way.name);
+  const headerDefinition = getHeader(way);
+  const titleDefinition = getTitle(way.name);
   const ownerDefinition = getOwner(way.owner.name);
   const datesDefinition = getDates(way.createdAt, way.lastUpdate);
-  const favoritesDefinition = getFavorites(way.favoriteForUsersAmount);
   const mentorsDefinition = getMentors(way.mentors);
   const formerMentorsDefinition = getFormerMentors(way.formerMentors);
   const goalDefinition = getGoal({
@@ -225,17 +375,19 @@ export const downloadWayPdf = (way: Way, statisticsTriple: WayStatisticsTriple) 
     metrics: way.metrics,
   });
   const statisticsDefinition = getStatistics(way.dayReports, statisticsTriple);
+  const reportsDefinition = getReports(way.dayReports);
 
   const docDefinition = {
+    header: headerDefinition,
     content: [
-      headerDefinition,
-      ownerDefinition,
+      titleDefinition,
       datesDefinition,
-      favoritesDefinition,
+      ownerDefinition,
       mentorsDefinition,
       formerMentorsDefinition,
       goalDefinition,
       statisticsDefinition,
+      reportsDefinition,
     ],
   };
 
