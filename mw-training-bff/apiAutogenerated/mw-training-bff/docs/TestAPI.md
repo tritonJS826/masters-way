@@ -350,7 +350,7 @@ No authorization required
 
 ## GetTestsByUserId
 
-> MwTrainingBffInternalSchemasTestPreviewList GetTestsByUserId(ctx, userId).Execute()
+> MwTrainingBffInternalSchemasTestPreviewList GetTestsByUserId(ctx, userId, type_).Execute()
 
 Get tests by user id
 
@@ -368,10 +368,11 @@ import (
 
 func main() {
 	userId := "userId_example" // string | user id
+	type_ := "type__example" // string | user id
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TestAPI.GetTestsByUserId(context.Background(), userId).Execute()
+	resp, r, err := apiClient.TestAPI.GetTestsByUserId(context.Background(), userId, type_).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TestAPI.GetTestsByUserId``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -388,6 +389,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
 **userId** | **string** | user id | 
+**type_** | **string** | user id | 
 
 ### Other Parameters
 
@@ -396,6 +398,7 @@ Other parameters are passed through a pointer to a apiGetTestsByUserIdRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+
 
 
 ### Return type

@@ -9,6 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type TrainingTestsController struct {
@@ -20,7 +21,7 @@ func NewTrainingTestController(trainingTestService *services.TrainingTestService
 	return &TrainingTestsController{trainingTestService: trainingTestService}
 }
 
-func (c *TrainingTestsController) CreateTrainingTest(ctx context.Context, in *pb.CreateTrainingTestRequest) error {
+func (c *TrainingTestsController) CreateTrainingTest(ctx context.Context, in *pb.CreateTrainingTestRequest) (*emptypb.Empty, error) {
 
 	trainingUuid := in.GetTrainingUuid()
 	testUuid := in.GetTestUuid()
@@ -34,8 +35,8 @@ func (c *TrainingTestsController) CreateTrainingTest(ctx context.Context, in *pb
 	}
 	err := c.trainingTestService.CreateTrainingTest(ctx, args)
 	if err != nil {
-		return err
+		return &emptypb.Empty{}, err
 	}
 
-	return nil
+	return &emptypb.Empty{}, nil
 }

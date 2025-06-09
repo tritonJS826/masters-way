@@ -19,7 +19,7 @@ type CreateSessionParams struct {
 	UserUuid string
 }
 
-func (s *SessionService) CreateSession(ctx context.Context, params *CreateSessionParams) (*schemas.CreateSessionResult, error) {
+func (s *SessionService) CreateSession(ctx context.Context, params *CreateSessionParams) (*schemas.TestSession, error) {
 	session, err := s.sessionGRPC.CreateSession(ctx, &pb.CreateSessionRequest{
 		UserUuid: params.UserUuid,
 	})
@@ -27,7 +27,7 @@ func (s *SessionService) CreateSession(ctx context.Context, params *CreateSessio
 		return nil, err
 	}
 
-	return &schemas.CreateSessionResult{
+	return &schemas.TestSession{
 		SessionUUID: session.SessionUuid,
 	}, nil
 }

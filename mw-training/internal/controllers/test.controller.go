@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgtype"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type TestController struct {
@@ -132,7 +133,7 @@ func (c *TestController) UpdateTest(ctx context.Context, in *pb.UpdateTestReques
 	return test, nil
 }
 
-func (c *TestController) DeleteTest(ctx context.Context, in *pb.DeleteTestRequest) error {
+func (c *TestController) DeleteTest(ctx context.Context, in *pb.DeleteTestRequest) (*emptypb.Empty, error) {
 	testUuid := in.GetTestUuid()
 
 	// TODO use userUuid for security (check relations)
@@ -141,8 +142,8 @@ func (c *TestController) DeleteTest(ctx context.Context, in *pb.DeleteTestReques
 	args := pgtype.UUID{Bytes: uuid.MustParse(testUuid), Valid: true}
 	err := c.testService.DeleteTest(ctx, args)
 	if err != nil {
-		return err
+		return &emptypb.Empty{}, err
 	}
 
-	return nil
+	return &emptypb.Empty{}, nil
 }

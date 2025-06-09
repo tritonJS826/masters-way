@@ -370,7 +370,6 @@
         },
         "/session": {
             "post": {
-                "description": "Create Session",
                 "consumes": [
                     "application/json"
                 ],
@@ -378,9 +377,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Sessions"
+                    "sessions"
                 ],
-                "summary": "Create Session",
+                "summary": "Create session",
                 "parameters": [
                     {
                         "description": "body",
@@ -529,6 +528,13 @@
                         "name": "userId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "type",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -641,7 +647,6 @@
         },
         "/testSessionResult": {
             "get": {
-                "description": "Get TestSessionResult",
                 "consumes": [
                     "application/json"
                 ],
@@ -651,7 +656,8 @@
                 "tags": [
                     "test-session-result"
                 ],
-                "summary": "Get TestSessionResult",
+                "summary": "Get test session result by session uuid",
+                "operationId": "get-test-session-result-by-session-uuid",
                 "parameters": [
                     {
                         "description": "body",
@@ -1094,7 +1100,6 @@
         },
         "/trainingTest": {
             "post": {
-                "description": "Create TrainingTest",
                 "consumes": [
                     "application/json"
                 ],
@@ -1102,7 +1107,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "TrainingTests"
+                    "training-tests"
                 ],
                 "summary": "Create TrainingTest",
                 "parameters": [
@@ -1775,6 +1780,9 @@
                 "is_active": {
                     "type": "boolean"
                 },
+                "name": {
+                    "type": "string"
+                },
                 "order": {
                     "type": "integer"
                 },
@@ -1839,6 +1847,7 @@
             "required": [
                 "created_at",
                 "description",
+                "is_private",
                 "name",
                 "owner_uuid",
                 "questions",
@@ -1851,6 +1860,9 @@
                 },
                 "description": {
                     "type": "string"
+                },
+                "is_private": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"

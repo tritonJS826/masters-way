@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CreatedAt** | **string** |  | 
 **Description** | **string** |  | 
+**IsPrivate** | **bool** |  | 
 **Name** | **string** |  | 
 **OwnerUuid** | **string** |  | 
 **Questions** | [**[]MwTrainingBffInternalSchemasQuestion**](MwTrainingBffInternalSchemasQuestion.md) |  | 
@@ -16,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasTest
 
-`func NewMwTrainingBffInternalSchemasTest(createdAt string, description string, name string, ownerUuid string, questions []MwTrainingBffInternalSchemasQuestion, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTest`
+`func NewMwTrainingBffInternalSchemasTest(createdAt string, description string, isPrivate bool, name string, ownerUuid string, questions []MwTrainingBffInternalSchemasQuestion, updatedAt string, uuid string, ) *MwTrainingBffInternalSchemasTest`
 
 NewMwTrainingBffInternalSchemasTest instantiates a new MwTrainingBffInternalSchemasTest object
 This constructor will assign default values to properties that have it defined,
@@ -69,6 +70,26 @@ and a boolean to check if the value has been set.
 `func (o *MwTrainingBffInternalSchemasTest) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
+
+
+### GetIsPrivate
+
+`func (o *MwTrainingBffInternalSchemasTest) GetIsPrivate() bool`
+
+GetIsPrivate returns the IsPrivate field if non-nil, zero value otherwise.
+
+### GetIsPrivateOk
+
+`func (o *MwTrainingBffInternalSchemasTest) GetIsPrivateOk() (*bool, bool)`
+
+GetIsPrivateOk returns a tuple with the IsPrivate field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIsPrivate
+
+`func (o *MwTrainingBffInternalSchemasTest) SetIsPrivate(v bool)`
+
+SetIsPrivate sets IsPrivate field to given value.
 
 
 ### GetName

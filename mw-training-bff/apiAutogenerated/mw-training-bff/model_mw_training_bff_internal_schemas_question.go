@@ -24,6 +24,7 @@ type MwTrainingBffInternalSchemasQuestion struct {
 	Answer string
 	CreatedAt string
 	IsActive bool
+	Name *string
 	Order int32
 	QuestionText string
 	TestUuid string
@@ -130,6 +131,38 @@ func (o *MwTrainingBffInternalSchemasQuestion) GetIsActiveOk() (*bool, bool) {
 // SetIsActive sets field value
 func (o *MwTrainingBffInternalSchemasQuestion) SetIsActive(v bool) {
 	o.IsActive = v
+}
+
+// GetName returns the Name field value if set, zero value otherwise.
+func (o *MwTrainingBffInternalSchemasQuestion) GetName() string {
+	if o == nil || IsNil(o.Name) {
+		var ret string
+		return ret
+	}
+	return *o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasQuestion) GetNameOk() (*string, bool) {
+	if o == nil || IsNil(o.Name) {
+		return nil, false
+	}
+	return o.Name, true
+}
+
+// HasName returns a boolean if a field has been set.
+func (o *MwTrainingBffInternalSchemasQuestion) HasName() bool {
+	if o != nil && !IsNil(o.Name) {
+		return true
+	}
+
+	return false
+}
+
+// SetName gets a reference to the given string and assigns it to the Name field.
+func (o *MwTrainingBffInternalSchemasQuestion) SetName(v string) {
+	o.Name = &v
 }
 
 // GetOrder returns the Order field value
@@ -289,6 +322,9 @@ func (o MwTrainingBffInternalSchemasQuestion) ToMap() (map[string]interface{}, e
 	toSerialize["answer"] = o.Answer
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["is_active"] = o.IsActive
+	if !IsNil(o.Name) {
+		toSerialize["name"] = o.Name
+	}
 	toSerialize["order"] = o.Order
 	toSerialize["question_text"] = o.QuestionText
 	toSerialize["test_uuid"] = o.TestUuid

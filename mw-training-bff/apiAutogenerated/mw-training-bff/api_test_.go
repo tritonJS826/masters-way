@@ -974,6 +974,7 @@ type ApiGetTestsByUserIdRequest struct {
 	ctx context.Context
 	ApiService *TestAPIService
 	userId string
+	type_ string
 }
 
 func (r ApiGetTestsByUserIdRequest) Execute() (*MwTrainingBffInternalSchemasTestPreviewList, *http.Response, error) {
@@ -985,13 +986,15 @@ GetTestsByUserId Get tests by user id
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param userId user id
+ @param type_ user id
  @return ApiGetTestsByUserIdRequest
 */
-func (a *TestAPIService) GetTestsByUserId(ctx context.Context, userId string) ApiGetTestsByUserIdRequest {
+func (a *TestAPIService) GetTestsByUserId(ctx context.Context, userId string, type_ string) ApiGetTestsByUserIdRequest {
 	return ApiGetTestsByUserIdRequest{
 		ApiService: a,
 		ctx: ctx,
 		userId: userId,
+		type_: type_,
 	}
 }
 
@@ -1012,6 +1015,7 @@ func (a *TestAPIService) GetTestsByUserIdExecute(r ApiGetTestsByUserIdRequest) (
 
 	localVarPath := localBasePath + "/test/user/{userId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"type"+"}", url.PathEscape(parameterValueToString(r.type_, "type_")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1086,10 +1090,12 @@ func (a *TestAPIService) GetTestsByUserIdStreamExecute(r ApiGetTestsByUserIdRequ
 
 	localVarPath := localBasePath + "/test/user/{userId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"userId"+"}", url.PathEscape(parameterValueToString(r.userId, "userId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"type"+"}", url.PathEscape(parameterValueToString(r.type_, "type_")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	fmt.Println(localVarQueryParams)
+
 
 
 	// to determine the Content-Type header

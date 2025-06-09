@@ -58,6 +58,7 @@ export interface GetTestsAmountByUserIdRequest {
 
 export interface GetTestsByUserIdRequest {
     userId: string;
+    type: string;
 }
 
 export interface UpdateTestRequest {
@@ -238,12 +239,16 @@ export class TestApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling getTestsByUserId.');
         }
 
+        if (requestParameters.type === null || requestParameters.type === undefined) {
+            throw new runtime.RequiredError('type','Required parameter requestParameters.type was null or undefined when calling getTestsByUserId.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/test/user/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            path: `/test/user/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))).replace(`{${"type"}}`, encodeURIComponent(String(requestParameters.type))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

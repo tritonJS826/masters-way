@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost/mw-training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SessionPost**](SessionsAPI.md#SessionPost) | **Post** /session | Create Session
+[**SessionPost**](SessionsAPI.md#SessionPost) | **Post** /session | Create session
 
 
 
@@ -12,9 +12,7 @@ Method | HTTP request | Description
 
 > MwTrainingBffInternalSchemasCreateSessionResult SessionPost(ctx).Request(request).Execute()
 
-Create Session
-
-
+Create session
 
 ### Example
 

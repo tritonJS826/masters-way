@@ -40,6 +40,12 @@ export interface MwTrainingBffInternalSchemasTest {
     description: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof MwTrainingBffInternalSchemasTest
+     */
+    isPrivate: boolean;
+    /**
+     * 
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasTest
      */
@@ -79,6 +85,7 @@ export function instanceOfMwTrainingBffInternalSchemasTest(
     let isInstance = true;
     isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "isPrivate" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "ownerUuid" in value;
     isInstance = isInstance && "questions" in value;
@@ -103,6 +110,7 @@ export function MwTrainingBffInternalSchemasTestFromJSONTyped(
         
         'createdAt': json['created_at'],
         'description': json['description'],
+        'isPrivate': json['is_private'],
         'name': json['name'],
         'ownerUuid': json['owner_uuid'],
         'questions': ((json['questions'] as Array<any>).map(MwTrainingBffInternalSchemasQuestionFromJSON)),
@@ -123,6 +131,7 @@ export function MwTrainingBffInternalSchemasTestToJSON(value?: MwTrainingBffInte
         
         'created_at': value.createdAt,
         'description': value.description,
+        'is_private': value.isPrivate,
         'name': value.name,
         'owner_uuid': value.ownerUuid,
         'questions': ((value.questions as Array<any>).map(MwTrainingBffInternalSchemasQuestionToJSON)),

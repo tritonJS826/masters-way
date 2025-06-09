@@ -28,6 +28,7 @@ func NewSessionController(
 // CreateSession
 // @Summary Create session
 // @Description
+// @ID create-session
 // @Tags sessions
 // @Accept json
 // @Produce json

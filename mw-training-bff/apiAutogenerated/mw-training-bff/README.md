@@ -89,7 +89,7 @@ Class | Method | HTTP request | Description
 *QuestionAPI* | [**UpdateQuestion**](docs/QuestionAPI.md#updatequestion) | **Patch** /question/{questionId} | Update question by uuid
 *QuestionResultAPI* | [**CreateQuestionResult**](docs/QuestionResultAPI.md#createquestionresult) | **Post** /questionResult | Create question result
 *QuestionResultAPI* | [**GetQuestionResultsBySessionUuid**](docs/QuestionResultAPI.md#getquestionresultsbysessionuuid) | **Get** /questionResult/session/{sessionId} | Get question results by session UUID
-*SessionsAPI* | [**SessionPost**](docs/SessionsAPI.md#sessionpost) | **Post** /session | Create Session
+*SessionsAPI* | [**SessionPost**](docs/SessionsAPI.md#sessionpost) | **Post** /session | Create session
 *TestAPI* | [**CreateTest**](docs/TestAPI.md#createtest) | **Post** /test | Create test
 *TestAPI* | [**DeleteTest**](docs/TestAPI.md#deletetest) | **Delete** /test/{testId} | Delete test by Uuid
 *TestAPI* | [**GetTestById**](docs/TestAPI.md#gettestbyid) | **Get** /test/{testId} | Get test by id
@@ -97,7 +97,7 @@ Class | Method | HTTP request | Description
 *TestAPI* | [**GetTestsAmountByUserId**](docs/TestAPI.md#gettestsamountbyuserid) | **Get** /test/amount/user/{userId} | Get tests amount by user id
 *TestAPI* | [**GetTestsByUserId**](docs/TestAPI.md#gettestsbyuserid) | **Get** /test/user/{userId} | Get tests by user id
 *TestAPI* | [**UpdateTest**](docs/TestAPI.md#updatetest) | **Patch** /test/{testId} | Update test by uuid
-*TestSessionResultAPI* | [**TestSessionResultGet**](docs/TestSessionResultAPI.md#testsessionresultget) | **Get** /testSessionResult | Get TestSessionResult
+*TestSessionResultAPI* | [**GetTestSessionResultBySessionUuid**](docs/TestSessionResultAPI.md#gettestsessionresultbysessionuuid) | **Get** /testSessionResult | Get test session result by session uuid
 *TheoryMaterialAPI* | [**CreateTheoryMaterial**](docs/TheoryMaterialAPI.md#createtheorymaterial) | **Post** /theoryMaterials | Create theory material
 *TheoryMaterialAPI* | [**DeleteTheoryMaterial**](docs/TheoryMaterialAPI.md#deletetheorymaterial) | **Delete** /theoryMaterials/{theoryMaterialId} | Delete theory material
 *TheoryMaterialAPI* | [**GetTheoryMaterialsByTopicId**](docs/TheoryMaterialAPI.md#gettheorymaterialsbytopicid) | **Get** /theoryMaterials/{topicId} | Get theory material by topic id

@@ -60,6 +60,13 @@ func main() {
 	pb.RegisterTopicsServiceServer(grpcServer, newController.TopicController)
 	pb.RegisterDevServer(grpcServer, newController.DevController)
 
+	pb.RegisterTestServiceServer(grpcServer, newController.TestController)
+	pb.RegisterQuestionServiceServer(grpcServer, newController.QuestionController)
+	pb.RegisterQuestionResultsServiceServer(grpcServer, newController.QuestionResultController)
+	pb.RegisterSessionServiceServer(grpcServer, newController.SessionController)
+	pb.RegisterTestSessionResultsServiceServer(grpcServer, newController.TestSessionResultController)
+	pb.RegisterTrainingTestsServiceServer(grpcServer, newController.TrainingTestController)
+
 	go func() {
 		log.Printf("gRPC server listening at %v", lis.Addr())
 		if err := grpcServer.Serve(lis); err != nil {

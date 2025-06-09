@@ -42,8 +42,6 @@ func (r ApiTrainingTestPostRequest) Execute() (*http.Response, error) {
 /*
 TrainingTestPost Create TrainingTest
 
-Create TrainingTest
-
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiTrainingTestPostRequest
 */

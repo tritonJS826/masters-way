@@ -94,12 +94,6 @@ CREATE TABLE messages_to_generate_with_ai (
     CONSTRAINT "messages_to_generate_with_ai_pkey" PRIMARY KEY (uuid)
 );
 
-CREATE TABLE "trainings_tests"(
-    "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "test_uuid" UUID NOT NULL REFERENCES tests("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT trainings_tests_pkey PRIMARY KEY("training_uuid", "test_uuid")
-);
-
 CREATE TABLE tests (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     "name" VARCHAR(50) NOT NULL,
@@ -111,16 +105,16 @@ CREATE TABLE tests (
     CONSTRAINT "tests_pkey" PRIMARY KEY (uuid)
 );
 
+CREATE TABLE "trainings_tests"(
+    "training_uuid" UUID NOT NULL REFERENCES trainings("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "test_uuid" UUID NOT NULL REFERENCES tests("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT trainings_tests_pkey PRIMARY KEY("training_uuid", "test_uuid")
+);
+
+
 CREATE TABLE test_sessions (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),
     CONSTRAINT "test_sessions_pkey" PRIMARY KEY (uuid)
-);
-
-CREATE TABLE tests_questions (
-    "test_uuid" UUID NOT NULL REFERENCES tests("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "question_uuid" UUID NOT NULL REFERENCES questions("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
-    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT "tests_questions_pkey" PRIMARY KEY (test_uuid, question_uuid)
 );
 
 CREATE TABLE questions (
@@ -138,6 +132,14 @@ CREATE TABLE questions (
     "updated_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "questions_pkey" PRIMARY KEY (uuid)
 );
+
+CREATE TABLE tests_questions (
+    "test_uuid" UUID NOT NULL REFERENCES tests("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "question_uuid" UUID NOT NULL REFERENCES questions("uuid") ON UPDATE CASCADE ON DELETE CASCADE,
+    "created_at" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "tests_questions_pkey" PRIMARY KEY (test_uuid, question_uuid)
+);
+
 
 CREATE TABLE question_results (
     "uuid" UUID NOT NULL DEFAULT uuid_generate_v4(),

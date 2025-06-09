@@ -33,7 +33,6 @@ export class TrainingTestsApi extends runtime.BaseAPI {
 
     /**
      * Create TrainingTest
-     * Create TrainingTest
      */
     async trainingTestPostRaw(requestParameters: TrainingTestPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
@@ -58,7 +57,6 @@ export class TrainingTestsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create TrainingTest
      * Create TrainingTest
      */
     async trainingTestPost(requestParameters: TrainingTestPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {

@@ -25,7 +25,7 @@ import {
     MwTrainingBffInternalSchemasGetTestSessionResultResponseToJSON,
 } from '../models/index';
 
-export interface TestSessionResultGetRequest {
+export interface GetTestSessionResultBySessionUuidRequest {
     request: MwTrainingBffInternalSchemasGetTestSessionResultRequest;
 }
 
@@ -35,12 +35,11 @@ export interface TestSessionResultGetRequest {
 export class TestSessionResultApi extends runtime.BaseAPI {
 
     /**
-     * Get TestSessionResult
-     * Get TestSessionResult
+     * Get test session result by session uuid
      */
-    async testSessionResultGetRaw(requestParameters: TestSessionResultGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasGetTestSessionResultResponse>> {
+    async getTestSessionResultBySessionUuidRaw(requestParameters: GetTestSessionResultBySessionUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasGetTestSessionResultResponse>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
-            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling testSessionResultGet.');
+            throw new runtime.RequiredError('request','Required parameter requestParameters.request was null or undefined when calling getTestSessionResultBySessionUuid.');
         }
 
         const queryParameters: any = {};
@@ -61,11 +60,10 @@ export class TestSessionResultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get TestSessionResult
-     * Get TestSessionResult
+     * Get test session result by session uuid
      */
-    async testSessionResultGet(requestParameters: TestSessionResultGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasGetTestSessionResultResponse> {
-        const response = await this.testSessionResultGetRaw(requestParameters, initOverrides);
+    async getTestSessionResultBySessionUuid(requestParameters: GetTestSessionResultBySessionUuidRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasGetTestSessionResultResponse> {
+        const response = await this.getTestSessionResultBySessionUuidRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Answer** | **string** |  | 
 **CreatedAt** | **string** |  | 
 **IsActive** | **bool** |  | 
+**Name** | Pointer to **string** |  | [optional] 
 **Order** | **int32** |  | 
 **QuestionText** | **string** |  | 
 **TestUuid** | **string** |  | 
@@ -92,6 +93,31 @@ and a boolean to check if the value has been set.
 
 SetIsActive sets IsActive field to given value.
 
+
+### GetName
+
+`func (o *MwTrainingBffInternalSchemasQuestion) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *MwTrainingBffInternalSchemasQuestion) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *MwTrainingBffInternalSchemasQuestion) SetName(v string)`
+
+SetName sets Name field to given value.
+
+### HasName
+
+`func (o *MwTrainingBffInternalSchemasQuestion) HasName() bool`
+
+HasName returns a boolean if a field has been set.
 
 ### GetOrder
 

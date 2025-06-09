@@ -35,8 +35,7 @@ export interface SessionPostRequest {
 export class SessionsApi extends runtime.BaseAPI {
 
     /**
-     * Create Session
-     * Create Session
+     * Create session
      */
     async sessionPostRaw(requestParameters: SessionPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MwTrainingBffInternalSchemasCreateSessionResult>> {
         if (requestParameters.request === null || requestParameters.request === undefined) {
@@ -61,8 +60,7 @@ export class SessionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create Session
-     * Create Session
+     * Create session
      */
     async sessionPost(requestParameters: SessionPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<MwTrainingBffInternalSchemasCreateSessionResult> {
         const response = await this.sessionPostRaw(requestParameters, initOverrides);

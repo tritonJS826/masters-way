@@ -39,6 +39,12 @@ export interface MwTrainingBffInternalSchemasQuestion {
     isActive: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof MwTrainingBffInternalSchemasQuestion
+     */
+    name?: string;
+    /**
+     * 
      * @type {number}
      * @memberof MwTrainingBffInternalSchemasQuestion
      */
@@ -111,6 +117,7 @@ export function MwTrainingBffInternalSchemasQuestionFromJSONTyped(
         'answer': json['answer'],
         'createdAt': json['created_at'],
         'isActive': json['is_active'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
         'order': json['order'],
         'questionText': json['question_text'],
         'testUuid': json['test_uuid'],
@@ -133,6 +140,7 @@ export function MwTrainingBffInternalSchemasQuestionToJSON(value?: MwTrainingBff
         'answer': value.answer,
         'created_at': value.createdAt,
         'is_active': value.isActive,
+        'name': value.name,
         'order': value.order,
         'question_text': value.questionText,
         'test_uuid': value.testUuid,

@@ -234,7 +234,6 @@ paths:
       - questionResult
   /session:
     post:
-      description: Create Session
       requestBody:
         content:
           application/json:
@@ -249,9 +248,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/mw-training-bff_internal_schemas.CreateSessionResult'
           description: OK
-      summary: Create Session
+      summary: Create session
       tags:
-      - Sessions
+      - sessions
       x-codegen-request-body-name: request
   /test:
     get:
@@ -332,6 +331,12 @@ paths:
         required: true
         schema:
           type: string
+      - description: user id
+        in: path
+        name: type
+        required: true
+        schema:
+          type: string
       responses:
         "200":
           content:
@@ -407,7 +412,7 @@ paths:
       x-codegen-request-body-name: request
   /testSessionResult:
     get:
-      description: Get TestSessionResult
+      operationId: get-test-session-result-by-session-uuid
       requestBody:
         content:
           application/json:
@@ -422,7 +427,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/mw-training-bff_internal_schemas.GetTestSessionResultResponse'
           description: OK
-      summary: Get TestSessionResult
+      summary: Get test session result by session uuid
       tags:
       - test-session-result
       x-codegen-request-body-name: request
@@ -699,7 +704,6 @@ paths:
       - training-student
   /trainingTest:
     post:
-      description: Create TrainingTest
       requestBody:
         content:
           application/json:
@@ -713,7 +717,7 @@ paths:
           description: OK
       summary: Create TrainingTest
       tags:
-      - TrainingTests
+      - training-tests
       x-codegen-request-body-name: request
   /trainingTrainingTags/{trainingId}:
     post:
@@ -1184,6 +1188,7 @@ components:
         is_active: true
         answer: answer
         updated_at: updated_at
+        name: name
         created_at: created_at
         time_to_answer: 6
         uuid: uuid
@@ -1195,6 +1200,8 @@ components:
           type: string
         is_active:
           type: boolean
+        name:
+          type: string
         order:
           type: integer
         question_text:
@@ -1257,6 +1264,7 @@ components:
       type: object
     mw-training-bff_internal_schemas.Test:
       example:
+        is_private: true
         updated_at: updated_at
         name: name
         questions:
@@ -1265,6 +1273,7 @@ components:
           is_active: true
           answer: answer
           updated_at: updated_at
+          name: name
           created_at: created_at
           time_to_answer: 6
           uuid: uuid
@@ -1274,6 +1283,7 @@ components:
           is_active: true
           answer: answer
           updated_at: updated_at
+          name: name
           created_at: created_at
           time_to_answer: 6
           uuid: uuid
@@ -1287,6 +1297,8 @@ components:
           type: string
         description:
           type: string
+        is_private:
+          type: boolean
         name:
           type: string
         owner_uuid:
@@ -1302,6 +1314,7 @@ components:
       required:
       - created_at
       - description
+      - is_private
       - name
       - owner_uuid
       - questions

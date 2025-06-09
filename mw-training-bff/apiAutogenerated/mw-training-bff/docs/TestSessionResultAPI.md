@@ -4,17 +4,15 @@ All URIs are relative to *http://localhost/mw-training*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TestSessionResultGet**](TestSessionResultAPI.md#TestSessionResultGet) | **Get** /testSessionResult | Get TestSessionResult
+[**GetTestSessionResultBySessionUuid**](TestSessionResultAPI.md#GetTestSessionResultBySessionUuid) | **Get** /testSessionResult | Get test session result by session uuid
 
 
 
-## TestSessionResultGet
+## GetTestSessionResultBySessionUuid
 
-> MwTrainingBffInternalSchemasGetTestSessionResultResponse TestSessionResultGet(ctx).Request(request).Execute()
+> MwTrainingBffInternalSchemasGetTestSessionResultResponse GetTestSessionResultBySessionUuid(ctx).Request(request).Execute()
 
-Get TestSessionResult
-
-
+Get test session result by session uuid
 
 ### Example
 
@@ -33,13 +31,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TestSessionResultAPI.TestSessionResultGet(context.Background()).Request(request).Execute()
+	resp, r, err := apiClient.TestSessionResultAPI.GetTestSessionResultBySessionUuid(context.Background()).Request(request).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `TestSessionResultAPI.TestSessionResultGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `TestSessionResultAPI.GetTestSessionResultBySessionUuid``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `TestSessionResultGet`: MwTrainingBffInternalSchemasGetTestSessionResultResponse
-	fmt.Fprintf(os.Stdout, "Response from `TestSessionResultAPI.TestSessionResultGet`: %v\n", resp)
+	// response from `GetTestSessionResultBySessionUuid`: MwTrainingBffInternalSchemasGetTestSessionResultResponse
+	fmt.Fprintf(os.Stdout, "Response from `TestSessionResultAPI.GetTestSessionResultBySessionUuid`: %v\n", resp)
 }
 ```
 
@@ -49,7 +47,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiTestSessionResultGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetTestSessionResultBySessionUuidRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

@@ -23,32 +23,30 @@ import (
 // TestSessionResultAPIService TestSessionResultAPI service
 type TestSessionResultAPIService service
 
-type ApiTestSessionResultGetRequest struct {
+type ApiGetTestSessionResultBySessionUuidRequest struct {
 	ctx context.Context
 	ApiService *TestSessionResultAPIService
 	request *MwTrainingBffInternalSchemasGetTestSessionResultRequest
 }
 
 // body
-func (r ApiTestSessionResultGetRequest) Request(request MwTrainingBffInternalSchemasGetTestSessionResultRequest) ApiTestSessionResultGetRequest {
+func (r ApiGetTestSessionResultBySessionUuidRequest) Request(request MwTrainingBffInternalSchemasGetTestSessionResultRequest) ApiGetTestSessionResultBySessionUuidRequest {
 	r.request = &request
 	return r
 }
 
-func (r ApiTestSessionResultGetRequest) Execute() (*MwTrainingBffInternalSchemasGetTestSessionResultResponse, *http.Response, error) {
-	return r.ApiService.TestSessionResultGetExecute(r)
+func (r ApiGetTestSessionResultBySessionUuidRequest) Execute() (*MwTrainingBffInternalSchemasGetTestSessionResultResponse, *http.Response, error) {
+	return r.ApiService.GetTestSessionResultBySessionUuidExecute(r)
 }
 
 /*
-TestSessionResultGet Get TestSessionResult
-
-Get TestSessionResult
+GetTestSessionResultBySessionUuid Get test session result by session uuid
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiTestSessionResultGetRequest
+ @return ApiGetTestSessionResultBySessionUuidRequest
 */
-func (a *TestSessionResultAPIService) TestSessionResultGet(ctx context.Context) ApiTestSessionResultGetRequest {
-	return ApiTestSessionResultGetRequest{
+func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuid(ctx context.Context) ApiGetTestSessionResultBySessionUuidRequest {
+	return ApiGetTestSessionResultBySessionUuidRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -56,7 +54,7 @@ func (a *TestSessionResultAPIService) TestSessionResultGet(ctx context.Context) 
 
 // Execute executes the request
 //  @return MwTrainingBffInternalSchemasGetTestSessionResultResponse
-func (a *TestSessionResultAPIService) TestSessionResultGetExecute(r ApiTestSessionResultGetRequest) (*MwTrainingBffInternalSchemasGetTestSessionResultResponse, *http.Response, error) {
+func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuidExecute(r ApiGetTestSessionResultBySessionUuidRequest) (*MwTrainingBffInternalSchemasGetTestSessionResultResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -64,7 +62,7 @@ func (a *TestSessionResultAPIService) TestSessionResultGetExecute(r ApiTestSessi
 		localVarReturnValue  *MwTrainingBffInternalSchemasGetTestSessionResultResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TestSessionResultAPIService.TestSessionResultGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TestSessionResultAPIService.GetTestSessionResultBySessionUuid")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -136,13 +134,13 @@ func (a *TestSessionResultAPIService) TestSessionResultGetExecute(r ApiTestSessi
 
 // Execute executes the request
 //  @return MwTrainingBffInternalSchemasGetTestSessionResultResponseStream
-func (a *TestSessionResultAPIService) TestSessionResultGetStreamExecute(r ApiTestSessionResultGetRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasGetTestSessionResultResponse, *http.Response, error) {
+func (a *TestSessionResultAPIService) GetTestSessionResultBySessionUuidStreamExecute(r ApiGetTestSessionResultBySessionUuidRequest, request *http.Request, GoogleAccessToken string) (*MwTrainingBffInternalSchemasGetTestSessionResultResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarReturnValue  *MwTrainingBffInternalSchemasGetTestSessionResultResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TestSessionResultAPIService.TestSessionResultGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TestSessionResultAPIService.GetTestSessionResultBySessionUuid")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}

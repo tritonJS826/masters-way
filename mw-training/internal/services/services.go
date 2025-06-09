@@ -38,7 +38,7 @@ func NewService(pool *pgxpool.Pool) *Service {
 		TopicService:                NewTopicService(pool, queries),
 		TrainingService:             NewTrainingService(pool, queries),
 		TrainingTrainingTagService:  NewTrainingTrainingTagService(pool, queries),
-		TestService:                 NewTestService(pool, queries),
+		TestService:                 NewTestService(pool, queries, queries),
 		TrainingTestService:         NewTrainingTestService(pool, queries),
 		SessionService:              NewSessionService(pool, queries),
 		TestSessionResultService:    NewTestSessionResultService(pool, queries),

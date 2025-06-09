@@ -18,6 +18,6 @@ func newTestSessionResultRouter(testSessionResultController *controllers.TestSes
 }
 
 func (qR *testSessionResultRouter) setTestSessionResultRoutes(rg *gin.RouterGroup) {
-	questions := rg.Group("/session", auth.HandleHeaders())
+	questions := rg.Group("/testSessionResult", auth.HandleHeaders())
 	questions.POST("", auth.HandleHeaders(), qR.testSessionResultController.GetTestSessionResult)
 }

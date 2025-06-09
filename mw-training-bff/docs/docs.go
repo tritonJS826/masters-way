@@ -378,7 +378,6 @@ const docTemplate = `{
         },
         "/session": {
             "post": {
-                "description": "Create Session",
                 "consumes": [
                     "application/json"
                 ],
@@ -386,9 +385,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Sessions"
+                    "sessions"
                 ],
-                "summary": "Create Session",
+                "summary": "Create session",
                 "parameters": [
                     {
                         "description": "body",
@@ -537,6 +536,13 @@ const docTemplate = `{
                         "name": "userId",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "user id",
+                        "name": "type",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -649,7 +655,6 @@ const docTemplate = `{
         },
         "/testSessionResult": {
             "get": {
-                "description": "Get TestSessionResult",
                 "consumes": [
                     "application/json"
                 ],
@@ -659,7 +664,8 @@ const docTemplate = `{
                 "tags": [
                     "test-session-result"
                 ],
-                "summary": "Get TestSessionResult",
+                "summary": "Get test session result by session uuid",
+                "operationId": "get-test-session-result-by-session-uuid",
                 "parameters": [
                     {
                         "description": "body",
@@ -1102,7 +1108,6 @@ const docTemplate = `{
         },
         "/trainingTest": {
             "post": {
-                "description": "Create TrainingTest",
                 "consumes": [
                     "application/json"
                 ],
@@ -1110,7 +1115,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "TrainingTests"
+                    "training-tests"
                 ],
                 "summary": "Create TrainingTest",
                 "parameters": [
@@ -1783,6 +1788,9 @@ const docTemplate = `{
                 "is_active": {
                     "type": "boolean"
                 },
+                "name": {
+                    "type": "string"
+                },
                 "order": {
                     "type": "integer"
                 },
@@ -1847,6 +1855,7 @@ const docTemplate = `{
             "required": [
                 "created_at",
                 "description",
+                "is_private",
                 "name",
                 "owner_uuid",
                 "questions",
@@ -1859,6 +1868,9 @@ const docTemplate = `{
                 },
                 "description": {
                     "type": "string"
+                },
+                "is_private": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"

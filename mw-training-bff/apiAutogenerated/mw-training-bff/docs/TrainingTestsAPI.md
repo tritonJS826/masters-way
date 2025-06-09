@@ -14,8 +14,6 @@ Method | HTTP request | Description
 
 Create TrainingTest
 
-
-
 ### Example
 
 ```go
