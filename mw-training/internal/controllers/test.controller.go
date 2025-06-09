@@ -54,11 +54,11 @@ func (c *TestController) GetTestsAmountByUserId(ctx context.Context, in *pb.GetT
 
 func (c *TestController) GetTestsByUserId(ctx context.Context, in *pb.GetTestsByUserIdRequest) (*pb.TestPreviewList, error) {
 	ownerUuid := in.GetOwnerUuid()
-	userUuid := in.GetUserUuid()
+	userUuid := in.UserUuid
 
 	args := &db.GetTestsByOwnerIdParams{
 		OwnerUuid:      pgtype.UUID{Bytes: uuid.MustParse(ownerUuid), Valid: true},
-		IncludePrivate: ownerUuid == userUuid,
+		IncludePrivate: ownerUuid == *userUuid,
 	}
 
 	testPreviewList, err := c.testService.GetTestsByUserId(ctx, args)

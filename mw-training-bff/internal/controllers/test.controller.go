@@ -173,12 +173,18 @@ func (tc *TestController) GetTestsAmountByUserId(ctx *gin.Context) {
 // @Success 200 {object} schemas.TestPreviewList
 // @Router /test/user/{userId} [get]
 func (tc *TestController) GetTestsByUserId(ctx *gin.Context) {
-	requestUserUuid := ctx.Value(auth.ContextKeyUserID).(string)
-	userUuid := ctx.Param("userId")
+	userIDRaw, isExist := ctx.Get(auth.ContextKeyUserID)
+	var userID *string
+	if isExist {
+		userID = userIDRaw.(*string)
+	} else {
+		userID = nil
+	}
+	ownerUserUuid := ctx.Param("userId")
 
 	args := &services.GetTestsByUserIdParams{
-		OwnerUuid: requestUserUuid,
-		UserUuid:  userUuid,
+		OwnerUuid: ownerUserUuid,
+		UserUuid:  userID,
 	}
 
 	tests, err := tc.testService.GetTestsByUserId(ctx, args)

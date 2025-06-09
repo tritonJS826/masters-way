@@ -155,7 +155,7 @@ func (s *TestService) GetTestsAmountByUserId(ctx context.Context, params *GetTes
 
 type GetTestsByUserIdParams struct {
 	OwnerUuid string
-	UserUuid  string
+	UserUuid  *string
 }
 
 func (s *TestService) GetTestsByUserId(ctx context.Context, params *GetTestsByUserIdParams) (*schemas.TestPreviewList, error) {

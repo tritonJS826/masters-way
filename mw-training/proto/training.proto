@@ -427,7 +427,7 @@ message DeleteTestRequest {
 
 message GetTestsByUserIdRequest {
   string owner_uuid = 1;
-  string user_uuid = 2;
+  optional string user_uuid = 2;
 }
 
 message CreateTrainingTestRequest {

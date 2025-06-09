@@ -24,6 +24,6 @@ func (qR *testRouter) setTestRoutes(rg *gin.RouterGroup) {
 	tests.DELETE(":testId", auth.HandleHeaders(), qR.testController.DeleteTest)
 	tests.GET("", qR.testController.GetTestList)
 	tests.GET("amount/user/:userId", qR.testController.GetTestsAmountByUserId)
-	tests.GET("user/:userId", qR.testController.GetTestsByUserId)
+	tests.GET("user/:userId", auth.HandleOptionalHeaders(), qR.testController.GetTestsByUserId)
 	tests.GET(":testId", auth.HandleHeaders(), qR.testController.GetTestById)
 }
