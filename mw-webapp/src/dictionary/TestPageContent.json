@@ -53,6 +53,11 @@
             "ru": "Доступные действия",
             "en": "Test actions",
             "ua": "Доступні дії"
+        },
+        "questionsAmount": {
+            "ru": "Количество вопросов:",
+            "en": "Number of questions:",
+            "ua": "Кількість питань:"
         }
     },
     "peopleBlock": {
@@ -162,6 +167,11 @@
             "en": "Recommended time to answer:",
             "ua": "Рекомендований час для відповіді:"
         },
+        "description": {
+            "ru": "Описание вопроса:",
+            "en": "Description of the question:",
+            "ua": "Опис питання:"
+        },
         "answerTitle": {
             "ru": "Правильный ответ:",
             "en": "Correct answer:",
@@ -178,6 +188,31 @@
             "ru": "Сохранить ответ",
             "en": "Save answer",
             "ua": "Зберегти відповідь"
+        },
+        "editTest": {
+            "ru": "Редактировать тест",
+            "en": "Edit test",
+            "ua": "Редагувати тест"
+        },
+        "startTest": {
+            "ru": "Начать тест",
+            "en": "Start test",
+            "ua": "Почати тест"
+        },
+        "prevQuestion": {
+            "ru": "Предыдущий вопрос",
+            "en": "Previous question",
+            "ua": "Попереднє запитання"
+        },
+        "nextQuestion": {
+            "ru": "Следующий вопрос",
+            "en": "Next question",
+            "ua": "Наступне питання"
+        },
+        "seeResults": {
+            "ru": "Посмотреть результаты",
+            "en": "See results",
+            "ua": "Перегляньте результати"
         }
     },
     "aiButtons": {

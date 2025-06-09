@@ -4,9 +4,9 @@ import {load} from "src/hooks/useLoad";
 import {Test} from "src/model/businessModel/Test";
 
 /**
- * EditTestPageStore related methods
+ * LobbyTestPageStore related methods
  */
-export class EditTestPageStore {
+export class LobbyTestPageStore {
 
   /**
    * Test value
@@ -45,7 +45,6 @@ export class EditTestPageStore {
       onError: this.onError,
       onSuccess: this.setLoadedData,
     });
-
     this.isInitialized = true;
 
   }

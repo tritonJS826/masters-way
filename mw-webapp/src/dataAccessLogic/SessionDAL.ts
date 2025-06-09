@@ -20,10 +20,8 @@ export class SessionDAL {
   /**
    * Create session
    */
-  public static async createSession(
-    params: CreateTestSessionParams,
-  ): Promise<string> {
-    const sessionUuid = await sessionService.sessionPost({request: {userUuid: params.userUuid}});
+  public static async createSession(params: CreateTestSessionParams): Promise<string> {
+    const sessionUuid = await sessionService.createSession({request: {userUuid: params.userUuid}});
 
     return sessionUuid.sessionUuid;
   }

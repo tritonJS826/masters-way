@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import clsx from "clsx";
 import {observer} from "mobx-react-lite";
 import {Button, ButtonType} from "src/component/button/Button";
@@ -6,6 +7,7 @@ import {ErrorPromiseModal} from "src/component/errorPromiseModal/ErrorPromiseMod
 import {HorizontalContainer} from "src/component/horizontalContainer/HorizontalContainer";
 import {HorizontalGridContainer} from "src/component/horizontalGridContainer/HorizontalGridContainer";
 import {Loader} from "src/component/loader/Loader";
+import {ProgressBar} from "src/component/progressBar/ProgressBar";
 import {Text} from "src/component/text/Text";
 import {HeadingLevel, Title} from "src/component/title/Title";
 import {VerticalContainer} from "src/component/verticalContainer/VerticalContainer";
@@ -18,6 +20,7 @@ import {useStore} from "src/hooks/useStore";
 import {QuestionItem} from "src/logic/runningTestPage/questionItem/QuestionItem";
 import {RunningTestPageStore} from "src/logic/runningTestPage/RunningTestPageStore";
 import {Question, Test} from "src/model/businessModel/Test";
+import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
 import {PartialWithUuid} from "src/utils/PartialWithUuid";
 import styles from "src/logic/runningTestPage/RunningTestPage.module.scss";
@@ -94,6 +97,7 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
   const {language} = languageStore;
   const {theme} = themeStore;
   const {user} = userStore;
+  const navigate = useNavigate();
 
   if (!user) {
     throw new Error("User is not defined");
@@ -183,6 +187,10 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
         </VerticalContainer>
 
         <VerticalContainer className={styles.questions}>
+          <ProgressBar
+            value={runningTestPageStore.activeOrder + DEFAULT_QUESTION_VALUE}
+            max={runningTestPageStore.test.questions.length}
+          />
           <VerticalContainer className={styles.theoryMaterials}>
             <QuestionItem
               question={runningTestPageStore.activeQuestion}
@@ -194,17 +202,22 @@ export const RunningTestPage = observer((props: RunningTestPageProps) => {
           <HorizontalContainer className={styles.questionButtons}>
 
             <Button
-              value={"Prev"}
+              value={LanguageService.test.buttons.prevQuestion[language]}
               onClick={() => runningTestPageStore.prevQuestion()}
               buttonType={ButtonType.SECONDARY}
               isDisabled={isPrevButtonDisabled}
             />
 
             <Button
-              value={"Next"}
+              value={LanguageService.test.buttons.nextQuestion[language]}
               onClick={() => runningTestPageStore.nextQuestion()}
-              buttonType={ButtonType.PRIMARY}
+              buttonType={ButtonType.SECONDARY}
               isDisabled={isNextButtonDisabled}
+            />
+            <Button
+              value={LanguageService.test.buttons.seeResults[language]}
+              onClick={() => navigate(pages.resultTest.getPath({uuid: runningTestPageStore.test.uuid}))}
+              buttonType={ButtonType.PRIMARY}
             />
           </HorizontalContainer>
         </VerticalContainer>

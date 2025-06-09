@@ -25,6 +25,7 @@ import {useStore} from "src/hooks/useStore";
 import {DescriptionBlock} from "src/logic/editTestPage/descriptionBlock/DescriptionBlock";
 import {EditTestPageStore} from "src/logic/editTestPage/EditTestPageStore";
 import {QuestionItem} from "src/logic/editTestPage/questionItem/QuestionItem";
+import {PracticeMaterialType} from "src/logic/topicPage/TopicPage";
 import {Question, Test} from "src/model/businessModel/Test";
 import {pages} from "src/router/pages";
 import {LanguageService} from "src/service/LanguageService";
@@ -199,7 +200,7 @@ export const EditTestPage = observer((props: EditTestPageProps) => {
     const newQuestion = await QuestionDAL.createQuestion({
       answer: params?.answer ?? "",
       name: params?.name ?? "New queston",
-      practiceType: params?.practiceType ?? "",
+      practiceType: params?.practiceType ?? PracticeMaterialType.INPUT_WORD,
       questionText: params?.questionText ?? "",
       testUuid: editTestPageStore.test.uuid,
       timeToAnswer: params?.timeToAnswer ?? 0,

@@ -66,6 +66,11 @@ export const router = createBrowserRouter(
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route
+          path={pages.lobbyTest.getPath({uuid: ":uuid"})}
+          element={<WithValidatedParams paramsSchema={pages.lobbyTest} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
           path={pages.runningTest.getPath({uuid: ":uuid"})}
           element={<WithValidatedParams paramsSchema={pages.runningTest} />}
           errorElement={pages.errorPage.getPageComponent({})}
@@ -73,6 +78,11 @@ export const router = createBrowserRouter(
         <Route
           path={pages.editTest.getPath({uuid: ":uuid"})}
           element={<WithValidatedParams paramsSchema={pages.editTest} />}
+          errorElement={pages.errorPage.getPageComponent({})}
+        />
+        <Route
+          path={pages.resultTest.getPath({uuid: ":uuid"})}
+          element={<WithValidatedParams paramsSchema={pages.resultTest} />}
           errorElement={pages.errorPage.getPageComponent({})}
         />
         <Route

@@ -96,17 +96,17 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
             placeholder={props.isEditable
               ? LanguageService.common.emptyMarkdownAction[language]
               : LanguageService.common.emptyMarkdown[language]}
-            onChangeFinish={(questionText) => {
+            onChangeFinish={(name) => {
               updateQuestion({
                 questionToUpdate: {
                   uuid: props.question.uuid,
-                  questionText,
+                  name,
                 },
 
                 /**
                  * Update question's name
                  */
-                setQuestion: () => props.question.updateName(questionText),
+                setQuestion: () => props.question.updateName(name),
               });
             }}
             className={styles.title}
@@ -150,6 +150,35 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
         </HorizontalContainer>
 
       </VerticalContainer>
+
+      <Title
+        level={HeadingLevel.h3}
+        text={LanguageService.test.questionsBlock.description[language]}
+        placeholder=""
+      />
+
+      <EditableTextarea
+        text={props.question.questionText}
+        onChangeFinish={(questionText) => {
+          updateQuestion({
+            questionToUpdate: {
+              uuid: props.question.uuid,
+              questionText,
+            },
+
+            /**
+             * Update question's name
+             */
+            setQuestion: () => props.question.updateDescription(questionText),
+          });
+        }}
+        rows={10}
+        isEditable={props.isEditable}
+        className={styles.description}
+        placeholder={props.isEditable
+          ? LanguageService.common.emptyMarkdownAction[language]
+          : LanguageService.common.emptyMarkdown[language]}
+      />
 
       <Title
         level={HeadingLevel.h3}

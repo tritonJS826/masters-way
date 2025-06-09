@@ -40,7 +40,7 @@ func (c *TestController) GetTestList(ctx context.Context, in *pb.GetTestListRequ
 	return testPreviewList, nil
 }
 
-func (c *TestController) GetTestsAmountByUserId(ctx context.Context, in *pb.GetTestsAmountByUserIdRequest) (*pb.GetTestAmountByUserIdResponse, error) {
+func (c *TestController) GetTestAmountByUserId(ctx context.Context, in *pb.GetTestsAmountByUserIdRequest) (*pb.GetTestAmountByUserIdResponse, error) {
 	userUuid := in.GetUserUuid()
 
 	args := pgtype.UUID{Bytes: uuid.MustParse(userUuid), Valid: true}
@@ -56,9 +56,16 @@ func (c *TestController) GetTestsByUserId(ctx context.Context, in *pb.GetTestsBy
 	ownerUuid := in.GetOwnerUuid()
 	userUuid := in.UserUuid
 
+	var isIncludePrivate bool
+	if userUuid != nil {
+		isIncludePrivate = ownerUuid == *userUuid
+	} else {
+		isIncludePrivate = false
+	}
+
 	args := &db.GetTestsByOwnerIdParams{
 		OwnerUuid:      pgtype.UUID{Bytes: uuid.MustParse(ownerUuid), Valid: true},
-		IncludePrivate: ownerUuid == *userUuid,
+		IncludePrivate: isIncludePrivate,
 	}
 
 	testPreviewList, err := c.testService.GetTestsByUserId(ctx, args)

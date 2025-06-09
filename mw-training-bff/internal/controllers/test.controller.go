@@ -176,7 +176,8 @@ func (tc *TestController) GetTestsByUserId(ctx *gin.Context) {
 	userIDRaw, isExist := ctx.Get(auth.ContextKeyUserID)
 	var userID *string
 	if isExist {
-		userID = userIDRaw.(*string)
+		userIDa := userIDRaw.(string)
+		userID = &userIDa
 	} else {
 		userID = nil
 	}

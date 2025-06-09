@@ -46,7 +46,7 @@ export const TestCard = observer((props: TestCardProps) => {
 
   return (
     <Link
-      path={pages.runningTest.getPath({uuid: props.testPreview.uuid})}
+      path={pages.lobbyTest.getPath({uuid: props.testPreview.uuid})}
       className={styles.cardLink}
       dataCy={props.dataCy}
     >

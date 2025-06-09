@@ -11,6 +11,11 @@ interface QuestionProps {
   uuid: string;
 
   /**
+   * Question's name
+   */
+  name: string;
+
+  /**
    * Question's answer
    */
   answer: string;
@@ -63,6 +68,11 @@ export class Question {
   public uuid: string;
 
   /**
+   * Question's name
+   */
+  public name: string;
+
+  /**
    * Question's answer
    */
   public answer: string;
@@ -105,6 +115,7 @@ export class Question {
   constructor(questionData: QuestionProps) {
     makeAutoObservable(this);
     this.uuid = questionData.uuid;
+    this.name = questionData.name;
     this.answer = questionData.answer;
     this.createdAt = questionData.createdAt;
     this.updatedAt = questionData.updatedAt;
@@ -116,10 +127,17 @@ export class Question {
   }
 
   /**
-   * Update test's name
+   * Update question's name
    */
   public updateName(nameToUpdate: string): void {
-    this.questionText = nameToUpdate;
+    this.name = nameToUpdate;
+  }
+
+  /**
+   * Update question's description
+   */
+  public updateDescription(descriptionToUpdate: string): void {
+    this.questionText = descriptionToUpdate;
   }
 
   /**

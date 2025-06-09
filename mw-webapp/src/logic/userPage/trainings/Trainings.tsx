@@ -100,6 +100,7 @@ export const Trainings = observer((props: TrainingsProps) => {
         }
         <ViewSwitcher
           view={props.view}
+          className={styles.viewSwitcher}
           setView={props.setView}
           options={[
             renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),

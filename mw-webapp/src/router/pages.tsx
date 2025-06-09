@@ -51,14 +51,24 @@ const getPathForTopicPage = (params: { trainingUuid: string; topicUuid: string }
 const getPathForProjectPage = (params: {uuid: string}): string => `/project/${params.uuid}`;
 
 /**
+ * Create url with appropriate params for @LobbyTestPage
+ */
+const getPathForLobbyTestPage = (params: {uuid: string}): string => `/lobbyTest/${params.uuid}`;
+
+/**
  * Create url with appropriate params for @EditTestPage
  */
-const getPathForEditTestPage = (params: {uuid: string}): string => `/test/${params.uuid}`;
+const getPathForEditTestPage = (params: {uuid: string}): string => `/editTest/${params.uuid}`;
 
 /**
  * Create url with appropriate params for @RunningTestPage
  */
 const getPathForRunningTestPage = (params: {uuid: string}): string => `/runningTest/${params.uuid}`;
+
+/**
+ * Create url with appropriate params for @ResultTestPage
+ */
+const getPathForResultTestPage = (params: {uuid: string}): string => `/resultTest/${params.uuid}`;
 
 const suspended = (lazyNode: React.ReactNode) => (<React.Suspense fallback={null}>
   {lazyNode}
@@ -118,6 +128,12 @@ const ProjectPage = (params: {uuid: string}) => (<>
   <ProjectPageLazy {...params} />
 </>);
 
+const LobbyTestPageLazy = React.lazy(() => import("src/logic/lobbyTestPage/LobbyTestPage")
+  .then((module) => ({default: module.LobbyTestPage})));
+const LobbyTestPage = (params: {uuid: string}) => (<>
+  <LobbyTestPageLazy {...params} />
+</>);
+
 const EditTestPageLazy = React.lazy(() => import("src/logic/editTestPage/EditTestPage")
   .then((module) => ({default: module.EditTestPage})));
 const EditTestPage = (params: {uuid: string}) => (<>
@@ -128,6 +144,12 @@ const RunningTestPageLazy = React.lazy(() => import("src/logic/runningTestPage/R
   .then((module) => ({default: module.RunningTestPage})));
 const RunningTestPage = (params: {uuid: string}) => (<>
   <RunningTestPageLazy {...params} />
+</>);
+
+const ResultTestPageLazy = React.lazy(() => import("src/logic/resultTestPage/ResultTestPage")
+  .then((module) => ({default: module.ResultTestPage})));
+const ResultTestPage = (params: {uuid: string}) => (<>
+  <ResultTestPageLazy {...params} />
 </>);
 
 const AllUsersPageLazy = React.lazy(() => import("src/logic/allUsersPage/AllUsersPage")
@@ -279,6 +301,11 @@ export const pages = {
     getPageComponent: (params) => suspended(<ProjectPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
+  lobbyTest: {
+    getPath: (params): string => getPathForLobbyTestPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<LobbyTestPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{uuid: string}>,
   editTest: {
     getPath: (params): string => getPathForEditTestPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<EditTestPage {...params} />),
@@ -287,6 +314,11 @@ export const pages = {
   runningTest: {
     getPath: (params): string => getPathForRunningTestPage({uuid: params.uuid}),
     getPageComponent: (params) => suspended(<RunningTestPage {...params} />),
+    urlParams: {uuid: UrlParamsType.UUID} as const,
+  } as PageParams<{uuid: string}>,
+  resultTest: {
+    getPath: (params): string => getPathForResultTestPage({uuid: params.uuid}),
+    getPageComponent: (params) => suspended(<ResultTestPage {...params} />),
     urlParams: {uuid: UrlParamsType.UUID} as const,
   } as PageParams<{uuid: string}>,
   allUsers: {

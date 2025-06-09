@@ -127,20 +127,20 @@ export const TestTab = observer((props: TestTabProps) => {
         </HorizontalGridContainer>
 
       </VerticalContainer>
-      {user &&
-        <Tests
+      {/* {user && */}
+      <Tests
         // This check need to translate default trainings collection and don't translate custom collections
-          title={LanguageService.user.tests[
+        title={LanguageService.user.tests[
             props.activeTestCollection.toLowerCase() as keyof typeof LanguageService.user.tests
-          ][language]
-          }
-          tests={testTabStore.testsPreview}
-          view={props.view}
-          setView={(view: View) => props.setView(view)}
-          isPageOwner={props.isPageOwner}
-          ownerUuid={user.uuid}
-        />
-      }
+        ][language]
+        }
+        tests={testTabStore.testsPreview}
+        view={props.view}
+        setView={(view: View) => props.setView(view)}
+        isPageOwner={props.isPageOwner}
+        ownerUuid={user?.uuid}
+      />
+      {/* } */}
     </HorizontalContainer>
   );
 });

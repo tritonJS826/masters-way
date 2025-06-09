@@ -50,7 +50,7 @@ interface TestsProps {
   /**
    * Owner uuid
    */
-  ownerUuid: string;
+  ownerUuid?: string;
 
   /**
    * Callback to change view
@@ -82,6 +82,11 @@ export const Tests = observer((props: TestsProps) => {
    * Create test
    */
   const createTest = async () => {
+
+    if (!props.ownerUuid) {
+      throw new Error("User is not defined");
+    }
+
     const newTest = await TestDAL.createTest({
       name: "New test name",
       description: "",
@@ -105,6 +110,7 @@ export const Tests = observer((props: TestsProps) => {
         }
         <ViewSwitcher
           view={props.view}
+          className={styles.viewSwitcher}
           setView={props.setView}
           options={[
             renderViewCardOption(LanguageService.common.view.cardViewTooltip[language]),
