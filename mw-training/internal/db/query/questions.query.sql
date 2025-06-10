@@ -14,7 +14,7 @@ INSERT INTO questions (
     @name,
     @practice_type,
     @question_text,
-    @question_order,
+    (SELECT COALESCE(MAX(question_order), 0) + 1 FROM questions WHERE test_uuid = @test_uuid),
     @time_to_answer,
     @answer,
     @is_active,
@@ -131,8 +131,16 @@ WHERE
     AND (@include_inactive::boolean = true OR questions.is_active = true);
 
 -- name: DeleteQuestion :exec
-DELETE FROM questions
-WHERE questions.uuid = @question_uuid;
+WITH deleted_question AS (
+    DELETE FROM questions
+    WHERE questions.uuid = @question_uuid
+    RETURNING test_uuid, question_order
+)
+UPDATE questions
+SET question_order = questions.question_order - 1
+FROM deleted_question
+WHERE questions.test_uuid = deleted_question.test_uuid
+  AND questions.question_order > deleted_question.question_order;
 
 -- name: DeactivateQuestion :one
 UPDATE questions

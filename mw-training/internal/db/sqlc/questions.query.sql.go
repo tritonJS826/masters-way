@@ -49,24 +49,23 @@ INSERT INTO questions (
     $2,
     $3,
     $4,
+    (SELECT COALESCE(MAX(question_order), 0) + 1 FROM questions WHERE test_uuid = $1),
     $5,
     $6,
     $7,
-    $8,
-    $9
+    $8
 ) RETURNING uuid, name, practice_type, test_uuid, question_text, question_order, time_to_answer, answer, is_active, is_private, created_at, updated_at
 `
 
 type CreateQuestionParams struct {
-	TestUuid      pgtype.UUID  `json:"test_uuid"`
-	Name          pgtype.Text  `json:"name"`
-	PracticeType  PracticeType `json:"practice_type"`
-	QuestionText  string       `json:"question_text"`
-	QuestionOrder int32        `json:"question_order"`
-	TimeToAnswer  int32        `json:"time_to_answer"`
-	Answer        string       `json:"answer"`
-	IsActive      bool         `json:"is_active"`
-	IsPrivate     bool         `json:"is_private"`
+	TestUuid     pgtype.UUID  `json:"test_uuid"`
+	Name         pgtype.Text  `json:"name"`
+	PracticeType PracticeType `json:"practice_type"`
+	QuestionText string       `json:"question_text"`
+	TimeToAnswer int32        `json:"time_to_answer"`
+	Answer       string       `json:"answer"`
+	IsActive     bool         `json:"is_active"`
+	IsPrivate    bool         `json:"is_private"`
 }
 
 func (q *Queries) CreateQuestion(ctx context.Context, arg CreateQuestionParams) (Question, error) {
@@ -75,7 +74,6 @@ func (q *Queries) CreateQuestion(ctx context.Context, arg CreateQuestionParams) 
 		arg.Name,
 		arg.PracticeType,
 		arg.QuestionText,
-		arg.QuestionOrder,
 		arg.TimeToAnswer,
 		arg.Answer,
 		arg.IsActive,
@@ -129,8 +127,16 @@ func (q *Queries) DeactivateQuestion(ctx context.Context, questionUuid pgtype.UU
 }
 
 const deleteQuestion = `-- name: DeleteQuestion :exec
-DELETE FROM questions
-WHERE questions.uuid = $1
+WITH deleted_question AS (
+    DELETE FROM questions
+    WHERE questions.uuid = $1
+    RETURNING test_uuid, question_order
+)
+UPDATE questions
+SET question_order = questions.question_order - 1
+FROM deleted_question
+WHERE questions.test_uuid = deleted_question.test_uuid
+  AND questions.question_order > deleted_question.question_order
 `
 
 func (q *Queries) DeleteQuestion(ctx context.Context, questionUuid pgtype.UUID) error {
