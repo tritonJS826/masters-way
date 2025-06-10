@@ -25,6 +25,7 @@ func (c *QuestionResultController) CreateQuestionResult(ctx context.Context, in 
 	questionUuid := in.GetQuestionUuid()
 	userUuid := in.GetUserUuid()
 	testUuid := in.GetTestUuid()
+	userAnswer := in.GetTestUuid()
 	testSessionUuid := in.GetTestSessionUuid()
 	isOk := in.GetIsOk()
 	resultDescription := in.GetResultDescription()
@@ -36,6 +37,7 @@ func (c *QuestionResultController) CreateQuestionResult(ctx context.Context, in 
 		IsOk:              isOk,
 		ResultDescription: resultDescription,
 		TestSessionUuid:   pgtype.UUID{Bytes: uuid.MustParse(testSessionUuid), Valid: true},
+		UserAnswer:        userAnswer,
 	}
 
 	questionResult, err := c.questionResultService.CreateQuestionResult(ctx, args)

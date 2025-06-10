@@ -40,8 +40,6 @@ type Querier interface {
 	DeletePracticeMaterial(ctx context.Context, practiceMaterialUuid pgtype.UUID) (PracticeMaterial, error)
 	DeleteQuestion(ctx context.Context, questionUuid pgtype.UUID) error
 	DeleteQuestionResult(ctx context.Context, resultUuid pgtype.UUID) error
-	DeleteQuestionResultsByQuestion(ctx context.Context, questionUuid pgtype.UUID) error
-	DeleteQuestionResultsByTest(ctx context.Context, testUuid pgtype.UUID) error
 	DeleteTest(ctx context.Context, testUuid pgtype.UUID) error
 	DeleteTestResult(ctx context.Context, resultUuid pgtype.UUID) error
 	DeleteTestResultsByTest(ctx context.Context, testUuid pgtype.UUID) error
@@ -68,11 +66,7 @@ type Querier interface {
 	GetQuestionById(ctx context.Context, questionUuid pgtype.UUID) (Question, error)
 	GetQuestionForTaking(ctx context.Context, questionUuid pgtype.UUID) (GetQuestionForTakingRow, error)
 	GetQuestionResultById(ctx context.Context, resultUuid pgtype.UUID) (GetQuestionResultByIdRow, error)
-	GetQuestionResultsByQuestion(ctx context.Context, questionUuid pgtype.UUID) ([]GetQuestionResultsByQuestionRow, error)
-	GetQuestionResultsBySessionUser(ctx context.Context, userUuid pgtype.UUID) ([]GetQuestionResultsBySessionUserRow, error)
 	GetQuestionResultsBySessionUuid(ctx context.Context, testSessionUuid pgtype.UUID) ([]GetQuestionResultsBySessionUuidRow, error)
-	GetQuestionResultsByTest(ctx context.Context, testUuid pgtype.UUID) ([]GetQuestionResultsByTestRow, error)
-	GetQuestionStats(ctx context.Context, questionUuid pgtype.UUID) (GetQuestionStatsRow, error)
 	GetQuestionTestRelations(ctx context.Context, questionUuid pgtype.UUID) ([]TestsQuestion, error)
 	GetQuestionsByTestId(ctx context.Context, arg GetQuestionsByTestIdParams) ([]Question, error)
 	// lets add likes to response
@@ -98,8 +92,6 @@ type Querier interface {
 	GetTrainingsAmountByUserId(ctx context.Context, userUuid pgtype.UUID) (GetTrainingsAmountByUserIdRow, error)
 	GetTrainingsTestsByTestId(ctx context.Context, testUuid pgtype.UUID) ([]GetTrainingsTestsByTestIdRow, error)
 	GetTrainingsTestsByTrainingId(ctx context.Context, trainingUuid pgtype.UUID) ([]GetTrainingsTestsByTrainingIdRow, error)
-	GetUserQuestionResult(ctx context.Context, arg GetUserQuestionResultParams) (GetUserQuestionResultRow, error)
-	GetUserTestProgress(ctx context.Context, arg GetUserTestProgressParams) (GetUserTestProgressRow, error)
 	GetUserTestResult(ctx context.Context, arg GetUserTestResultParams) (GetUserTestResultRow, error)
 	GetUserTestResultsWithStats(ctx context.Context, userUuid pgtype.UUID) ([]GetUserTestResultsWithStatsRow, error)
 	RegenerateDbData(ctx context.Context) error

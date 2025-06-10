@@ -14,6 +14,7 @@ import (
 const createQuestionResult = `-- name: CreateQuestionResult :one
 INSERT INTO question_results (
     question_uuid,
+    user_answer,
     test_session_uuid,
     user_uuid,
     test_uuid,
@@ -25,12 +26,14 @@ INSERT INTO question_results (
     $3,
     $4,
     $5,
-    $6
-) RETURNING uuid, question_uuid, user_uuid, test_uuid, test_session_uuid, is_ok, result_description, created_at
+    $6,
+    $7
+) RETURNING uuid, question_uuid, user_uuid, test_uuid, test_session_uuid, is_ok, user_answer, result_description, created_at
 `
 
 type CreateQuestionResultParams struct {
 	QuestionUuid      pgtype.UUID `json:"question_uuid"`
+	UserAnswer        string      `json:"user_answer"`
 	TestSessionUuid   pgtype.UUID `json:"test_session_uuid"`
 	UserUuid          pgtype.UUID `json:"user_uuid"`
 	TestUuid          pgtype.UUID `json:"test_uuid"`
@@ -41,6 +44,7 @@ type CreateQuestionResultParams struct {
 func (q *Queries) CreateQuestionResult(ctx context.Context, arg CreateQuestionResultParams) (QuestionResult, error) {
 	row := q.db.QueryRow(ctx, createQuestionResult,
 		arg.QuestionUuid,
+		arg.UserAnswer,
 		arg.TestSessionUuid,
 		arg.UserUuid,
 		arg.TestUuid,
@@ -55,6 +59,7 @@ func (q *Queries) CreateQuestionResult(ctx context.Context, arg CreateQuestionRe
 		&i.TestUuid,
 		&i.TestSessionUuid,
 		&i.IsOk,
+		&i.UserAnswer,
 		&i.ResultDescription,
 		&i.CreatedAt,
 	)
@@ -71,26 +76,6 @@ func (q *Queries) DeleteQuestionResult(ctx context.Context, resultUuid pgtype.UU
 	return err
 }
 
-const deleteQuestionResultsByQuestion = `-- name: DeleteQuestionResultsByQuestion :exec
-DELETE FROM question_results
-WHERE question_results.question_uuid = $1
-`
-
-func (q *Queries) DeleteQuestionResultsByQuestion(ctx context.Context, questionUuid pgtype.UUID) error {
-	_, err := q.db.Exec(ctx, deleteQuestionResultsByQuestion, questionUuid)
-	return err
-}
-
-const deleteQuestionResultsByTest = `-- name: DeleteQuestionResultsByTest :exec
-DELETE FROM question_results
-WHERE question_results.test_uuid = $1
-`
-
-func (q *Queries) DeleteQuestionResultsByTest(ctx context.Context, testUuid pgtype.UUID) error {
-	_, err := q.db.Exec(ctx, deleteQuestionResultsByTest, testUuid)
-	return err
-}
-
 const getQuestionResultById = `-- name: GetQuestionResultById :one
 SELECT
     question_results.uuid,
@@ -100,9 +85,15 @@ SELECT
     question_results.test_uuid,
     question_results.is_ok,
     question_results.result_description,
-    question_results.created_at
+    question_results.created_at,
+    questions.uuid AS question_uuid,
+    questions.name AS question_name,
+    questions.question_text AS question_text,
+    questions.question_order AS question_order,
+    questions.answer AS question_answer
 FROM
     question_results
+JOIN questions ON questions.uuid = question_results.question_uuid
 WHERE
     question_results.uuid = $1
 `
@@ -116,6 +107,11 @@ type GetQuestionResultByIdRow struct {
 	IsOk              bool             `json:"is_ok"`
 	ResultDescription string           `json:"result_description"`
 	CreatedAt         pgtype.Timestamp `json:"created_at"`
+	QuestionUuid_2    pgtype.UUID      `json:"question_uuid_2"`
+	QuestionName      pgtype.Text      `json:"question_name"`
+	QuestionText      string           `json:"question_text"`
+	QuestionOrder     int32            `json:"question_order"`
+	QuestionAnswer    string           `json:"question_answer"`
 }
 
 func (q *Queries) GetQuestionResultById(ctx context.Context, resultUuid pgtype.UUID) (GetQuestionResultByIdRow, error) {
@@ -130,124 +126,13 @@ func (q *Queries) GetQuestionResultById(ctx context.Context, resultUuid pgtype.U
 		&i.IsOk,
 		&i.ResultDescription,
 		&i.CreatedAt,
+		&i.QuestionUuid_2,
+		&i.QuestionName,
+		&i.QuestionText,
+		&i.QuestionOrder,
+		&i.QuestionAnswer,
 	)
 	return i, err
-}
-
-const getQuestionResultsByQuestion = `-- name: GetQuestionResultsByQuestion :many
-SELECT
-    question_results.uuid,
-    question_results.question_uuid,
-    question_results.test_session_uuid,
-    question_results.user_uuid,
-    question_results.test_uuid,
-    question_results.is_ok,
-    question_results.result_description,
-    question_results.created_at
-FROM
-    question_results
-WHERE
-    question_results.question_uuid = $1
-ORDER BY
-    question_results.created_at DESC
-`
-
-type GetQuestionResultsByQuestionRow struct {
-	Uuid              pgtype.UUID      `json:"uuid"`
-	QuestionUuid      pgtype.UUID      `json:"question_uuid"`
-	TestSessionUuid   pgtype.UUID      `json:"test_session_uuid"`
-	UserUuid          pgtype.UUID      `json:"user_uuid"`
-	TestUuid          pgtype.UUID      `json:"test_uuid"`
-	IsOk              bool             `json:"is_ok"`
-	ResultDescription string           `json:"result_description"`
-	CreatedAt         pgtype.Timestamp `json:"created_at"`
-}
-
-func (q *Queries) GetQuestionResultsByQuestion(ctx context.Context, questionUuid pgtype.UUID) ([]GetQuestionResultsByQuestionRow, error) {
-	rows, err := q.db.Query(ctx, getQuestionResultsByQuestion, questionUuid)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []GetQuestionResultsByQuestionRow{}
-	for rows.Next() {
-		var i GetQuestionResultsByQuestionRow
-		if err := rows.Scan(
-			&i.Uuid,
-			&i.QuestionUuid,
-			&i.TestSessionUuid,
-			&i.UserUuid,
-			&i.TestUuid,
-			&i.IsOk,
-			&i.ResultDescription,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getQuestionResultsBySessionUser = `-- name: GetQuestionResultsBySessionUser :many
-SELECT
-    question_results.uuid,
-    question_results.question_uuid,
-    question_results.test_session_uuid,
-    question_results.user_uuid,
-    question_results.test_uuid,
-    question_results.is_ok,
-    question_results.result_description,
-    question_results.created_at
-FROM
-    question_results
-WHERE
-    question_results.user_uuid = $1
-ORDER BY
-    question_results.created_at DESC
-`
-
-type GetQuestionResultsBySessionUserRow struct {
-	Uuid              pgtype.UUID      `json:"uuid"`
-	QuestionUuid      pgtype.UUID      `json:"question_uuid"`
-	TestSessionUuid   pgtype.UUID      `json:"test_session_uuid"`
-	UserUuid          pgtype.UUID      `json:"user_uuid"`
-	TestUuid          pgtype.UUID      `json:"test_uuid"`
-	IsOk              bool             `json:"is_ok"`
-	ResultDescription string           `json:"result_description"`
-	CreatedAt         pgtype.Timestamp `json:"created_at"`
-}
-
-func (q *Queries) GetQuestionResultsBySessionUser(ctx context.Context, userUuid pgtype.UUID) ([]GetQuestionResultsBySessionUserRow, error) {
-	rows, err := q.db.Query(ctx, getQuestionResultsBySessionUser, userUuid)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []GetQuestionResultsBySessionUserRow{}
-	for rows.Next() {
-		var i GetQuestionResultsBySessionUserRow
-		if err := rows.Scan(
-			&i.Uuid,
-			&i.QuestionUuid,
-			&i.TestSessionUuid,
-			&i.UserUuid,
-			&i.TestUuid,
-			&i.IsOk,
-			&i.ResultDescription,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
 }
 
 const getQuestionResultsBySessionUuid = `-- name: GetQuestionResultsBySessionUuid :many
@@ -259,9 +144,16 @@ SELECT
     question_results.test_uuid,
     question_results.is_ok,
     question_results.result_description,
-    question_results.created_at
+    question_results.user_answer,
+    question_results.created_at,
+    questions.uuid AS question_uuid,
+    questions.name AS question_name,
+    questions.question_text AS question_text,
+    questions.question_order AS question_order,
+    questions.answer AS question_answer
 FROM
     question_results
+JOIN questions ON questions.uuid = question_results.question_uuid
 WHERE
     question_results.test_session_uuid = $1
 ORDER BY
@@ -276,7 +168,13 @@ type GetQuestionResultsBySessionUuidRow struct {
 	TestUuid          pgtype.UUID      `json:"test_uuid"`
 	IsOk              bool             `json:"is_ok"`
 	ResultDescription string           `json:"result_description"`
+	UserAnswer        string           `json:"user_answer"`
 	CreatedAt         pgtype.Timestamp `json:"created_at"`
+	QuestionUuid_2    pgtype.UUID      `json:"question_uuid_2"`
+	QuestionName      pgtype.Text      `json:"question_name"`
+	QuestionText      string           `json:"question_text"`
+	QuestionOrder     int32            `json:"question_order"`
+	QuestionAnswer    string           `json:"question_answer"`
 }
 
 func (q *Queries) GetQuestionResultsBySessionUuid(ctx context.Context, testSessionUuid pgtype.UUID) ([]GetQuestionResultsBySessionUuidRow, error) {
@@ -296,7 +194,13 @@ func (q *Queries) GetQuestionResultsBySessionUuid(ctx context.Context, testSessi
 			&i.TestUuid,
 			&i.IsOk,
 			&i.ResultDescription,
+			&i.UserAnswer,
 			&i.CreatedAt,
+			&i.QuestionUuid_2,
+			&i.QuestionName,
+			&i.QuestionText,
+			&i.QuestionOrder,
+			&i.QuestionAnswer,
 		); err != nil {
 			return nil, err
 		}
@@ -306,97 +210,6 @@ func (q *Queries) GetQuestionResultsBySessionUuid(ctx context.Context, testSessi
 		return nil, err
 	}
 	return items, nil
-}
-
-const getQuestionResultsByTest = `-- name: GetQuestionResultsByTest :many
-SELECT
-    question_results.uuid,
-    question_results.question_uuid,
-    question_results.test_session_uuid,
-    question_results.user_uuid,
-    question_results.test_uuid,
-    question_results.is_ok,
-    question_results.result_description,
-    question_results.created_at
-FROM
-    question_results
-WHERE
-    question_results.test_uuid = $1
-ORDER BY
-    question_results.created_at DESC
-`
-
-type GetQuestionResultsByTestRow struct {
-	Uuid              pgtype.UUID      `json:"uuid"`
-	QuestionUuid      pgtype.UUID      `json:"question_uuid"`
-	TestSessionUuid   pgtype.UUID      `json:"test_session_uuid"`
-	UserUuid          pgtype.UUID      `json:"user_uuid"`
-	TestUuid          pgtype.UUID      `json:"test_uuid"`
-	IsOk              bool             `json:"is_ok"`
-	ResultDescription string           `json:"result_description"`
-	CreatedAt         pgtype.Timestamp `json:"created_at"`
-}
-
-func (q *Queries) GetQuestionResultsByTest(ctx context.Context, testUuid pgtype.UUID) ([]GetQuestionResultsByTestRow, error) {
-	rows, err := q.db.Query(ctx, getQuestionResultsByTest, testUuid)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []GetQuestionResultsByTestRow{}
-	for rows.Next() {
-		var i GetQuestionResultsByTestRow
-		if err := rows.Scan(
-			&i.Uuid,
-			&i.QuestionUuid,
-			&i.TestSessionUuid,
-			&i.UserUuid,
-			&i.TestUuid,
-			&i.IsOk,
-			&i.ResultDescription,
-			&i.CreatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const getQuestionStats = `-- name: GetQuestionStats :one
-SELECT
-    COUNT(*) AS total_attempts,
-    COUNT(*) FILTER (WHERE is_ok = true) AS correct_answers,
-    COUNT(*) FILTER (WHERE is_ok = false) AS incorrect_answers,
-    ROUND(
-        (COUNT(*) FILTER (WHERE is_ok = true)::float / COUNT(*)::float) * 100, 2
-    ) AS success_rate
-FROM
-    question_results
-WHERE
-    question_results.question_uuid = $1
-`
-
-type GetQuestionStatsRow struct {
-	TotalAttempts    int64          `json:"total_attempts"`
-	CorrectAnswers   int64          `json:"correct_answers"`
-	IncorrectAnswers int64          `json:"incorrect_answers"`
-	SuccessRate      pgtype.Numeric `json:"success_rate"`
-}
-
-func (q *Queries) GetQuestionStats(ctx context.Context, questionUuid pgtype.UUID) (GetQuestionStatsRow, error) {
-	row := q.db.QueryRow(ctx, getQuestionStats, questionUuid)
-	var i GetQuestionStatsRow
-	err := row.Scan(
-		&i.TotalAttempts,
-		&i.CorrectAnswers,
-		&i.IncorrectAnswers,
-		&i.SuccessRate,
-	)
-	return i, err
 }
 
 const getTestQuestionStats = `-- name: GetTestQuestionStats :many
@@ -448,88 +261,4 @@ func (q *Queries) GetTestQuestionStats(ctx context.Context, testUuid pgtype.UUID
 		return nil, err
 	}
 	return items, nil
-}
-
-const getUserQuestionResult = `-- name: GetUserQuestionResult :one
-SELECT
-    question_results.uuid,
-    question_results.question_uuid,
-    question_results.test_session_uuid,
-    question_results.user_uuid,
-    question_results.test_uuid,
-    question_results.is_ok,
-    question_results.result_description,
-    question_results.created_at
-FROM
-    question_results
-WHERE
-    question_results.user_uuid = $1
-    AND question_results.question_uuid = $2
-    AND question_results.test_uuid = $3
-ORDER BY
-    question_results.created_at DESC
-LIMIT 1
-`
-
-type GetUserQuestionResultParams struct {
-	UserUuid     pgtype.UUID `json:"user_uuid"`
-	QuestionUuid pgtype.UUID `json:"question_uuid"`
-	TestUuid     pgtype.UUID `json:"test_uuid"`
-}
-
-type GetUserQuestionResultRow struct {
-	Uuid              pgtype.UUID      `json:"uuid"`
-	QuestionUuid      pgtype.UUID      `json:"question_uuid"`
-	TestSessionUuid   pgtype.UUID      `json:"test_session_uuid"`
-	UserUuid          pgtype.UUID      `json:"user_uuid"`
-	TestUuid          pgtype.UUID      `json:"test_uuid"`
-	IsOk              bool             `json:"is_ok"`
-	ResultDescription string           `json:"result_description"`
-	CreatedAt         pgtype.Timestamp `json:"created_at"`
-}
-
-func (q *Queries) GetUserQuestionResult(ctx context.Context, arg GetUserQuestionResultParams) (GetUserQuestionResultRow, error) {
-	row := q.db.QueryRow(ctx, getUserQuestionResult, arg.UserUuid, arg.QuestionUuid, arg.TestUuid)
-	var i GetUserQuestionResultRow
-	err := row.Scan(
-		&i.Uuid,
-		&i.QuestionUuid,
-		&i.TestSessionUuid,
-		&i.UserUuid,
-		&i.TestUuid,
-		&i.IsOk,
-		&i.ResultDescription,
-		&i.CreatedAt,
-	)
-	return i, err
-}
-
-const getUserTestProgress = `-- name: GetUserTestProgress :one
-SELECT
-    COUNT(DISTINCT question_results.question_uuid) AS answered_questions,
-    COUNT(*) FILTER (WHERE is_ok = true) AS correct_answers,
-    COUNT(*) FILTER (WHERE is_ok = false) AS incorrect_answers
-FROM
-    question_results
-WHERE
-    question_results.user_uuid = $1
-    AND question_results.test_uuid = $2
-`
-
-type GetUserTestProgressParams struct {
-	UserUuid pgtype.UUID `json:"user_uuid"`
-	TestUuid pgtype.UUID `json:"test_uuid"`
-}
-
-type GetUserTestProgressRow struct {
-	AnsweredQuestions int64 `json:"answered_questions"`
-	CorrectAnswers    int64 `json:"correct_answers"`
-	IncorrectAnswers  int64 `json:"incorrect_answers"`
-}
-
-func (q *Queries) GetUserTestProgress(ctx context.Context, arg GetUserTestProgressParams) (GetUserTestProgressRow, error) {
-	row := q.db.QueryRow(ctx, getUserTestProgress, arg.UserUuid, arg.TestUuid)
-	var i GetUserTestProgressRow
-	err := row.Scan(&i.AnsweredQuestions, &i.CorrectAnswers, &i.IncorrectAnswers)
-	return i, err
 }

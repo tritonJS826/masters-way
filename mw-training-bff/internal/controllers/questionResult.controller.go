@@ -44,6 +44,7 @@ func (tc *QuestionResultController) CreateQuestionResult(ctx *gin.Context) {
 		ResultDescription: payload.ResultDescription,
 		IsCorrect:         payload.IsOk,
 		TestUuid:          payload.TestUUID,
+		UserAnswer:        payload.UserAnswer,
 	}
 
 	questionResult, err := tc.questionResultService.CreateQuestionResult(ctx, args)

@@ -19,7 +19,7 @@ func newQuestionRouter(questionController *controllers.QuestionController, confi
 
 func (qR *questionRouter) setQuestionRoutes(rg *gin.RouterGroup) {
 	questions := rg.Group("/question", auth.HandleHeaders())
-	questions.POST("", auth.HandleHeaders(), qR.questionController.CreateQuestion)
+	questions.POST("", qR.questionController.CreateQuestion)
 	questions.PATCH(":questionId", qR.questionController.UpdateQuestion)
-	questions.DELETE(":questionId", auth.HandleHeaders(), qR.questionController.DeleteQuestion)
+	questions.DELETE(":questionId", qR.questionController.DeleteQuestion)
 }

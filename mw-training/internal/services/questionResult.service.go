@@ -15,6 +15,7 @@ import (
 type QuestionResultRepository interface {
 	CreateQuestionResult(ctx context.Context, params db.CreateQuestionResultParams) (db.QuestionResult, error)
 	GetQuestionResultsBySessionUuid(ctx context.Context, testSessionUuid pgtype.UUID) ([]db.GetQuestionResultsBySessionUuidRow, error)
+	GetQuestionResultById(ctx context.Context, result_uuid pgtype.UUID) (db.GetQuestionResultByIdRow, error)
 	WithTx(tx pgx.Tx) *db.Queries
 }
 
@@ -31,20 +32,26 @@ func NewQuestionResultService(pgxPool *pgxpool.Pool, questionResultRepository Qu
 }
 
 func (ts *QuestionResultService) CreateQuestionResult(ctx context.Context, params db.CreateQuestionResultParams) (*pb.QuestionResult, error) {
-	questionResultDb, err := ts.questionResultRepository.CreateQuestionResult(ctx, params)
+	questionResultDbRaw, err := ts.questionResultRepository.CreateQuestionResult(ctx, params)
+	if err != nil {
+		return &pb.QuestionResult{}, err
+	}
+
+	questionResultDb, err := ts.questionResultRepository.GetQuestionResultById(ctx, questionResultDbRaw.Uuid)
 	if err != nil {
 		return &pb.QuestionResult{}, err
 	}
 
 	return &pb.QuestionResult{
-		Uuid:              *utils.MarshalPgUUID(questionResultDb.Uuid),
-		QuestionUuid:      *utils.MarshalPgUUID(questionResultDb.Uuid),
-		UserUuid:          *utils.MarshalPgUUID(questionResultDb.UserUuid),
-		TestUuid:          *utils.MarshalPgUUID(questionResultDb.TestUuid),
-		TestSessionUuid:   *utils.MarshalPgUUID(questionResultDb.TestSessionUuid),
-		IsOk:              questionResultDb.IsOk,
-		ResultDescription: questionResultDb.ResultDescription,
-		CreatedAt:         questionResultDb.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
+		Uuid:                *utils.MarshalPgUUID(questionResultDb.Uuid),
+		QuestionUuid:        *utils.MarshalPgUUID(questionResultDb.QuestionUuid),
+		UserUuid:            *utils.MarshalPgUUID(questionResultDb.UserUuid),
+		QuestionName:        questionResultDb.QuestionName.String,
+		QuestionDescription: questionResultDb.QuestionText,
+		QuestionAnswer:      questionResultDb.QuestionAnswer,
+		UserAnswer:          questionResultDb.QuestionAnswer,
+		IsOk:                questionResultDb.IsOk,
+		ResultDescription:   questionResultDb.ResultDescription,
 	}, nil
 }
 
@@ -56,14 +63,15 @@ func (ts *QuestionResultService) GetQuestionResultsBySessionUuid(ctx context.Con
 
 	questionResults := lo.Map(questionResultsDb, func(questionResultDb db.GetQuestionResultsBySessionUuidRow, _ int) *pb.QuestionResult {
 		return &pb.QuestionResult{
-			Uuid:              *utils.MarshalPgUUID(questionResultDb.Uuid),
-			QuestionUuid:      *utils.MarshalPgUUID(questionResultDb.QuestionUuid),
-			UserUuid:          *utils.MarshalPgUUID(questionResultDb.UserUuid),
-			TestUuid:          *utils.MarshalPgUUID(questionResultDb.TestUuid),
-			TestSessionUuid:   *utils.MarshalPgUUID(questionResultDb.TestSessionUuid),
-			IsOk:              questionResultDb.IsOk,
-			ResultDescription: questionResultDb.ResultDescription,
-			CreatedAt:         questionResultDb.CreatedAt.Time.Format(utils.DEFAULT_STRING_LAYOUT),
+			Uuid:                *utils.MarshalPgUUID(questionResultDb.Uuid),
+			QuestionUuid:        *utils.MarshalPgUUID(questionResultDb.QuestionUuid),
+			UserUuid:            *utils.MarshalPgUUID(questionResultDb.UserUuid),
+			QuestionName:        questionResultDb.QuestionName.String,
+			QuestionDescription: questionResultDb.QuestionText,
+			QuestionAnswer:      questionResultDb.QuestionAnswer,
+			UserAnswer:          questionResultDb.UserAnswer,
+			IsOk:                questionResultDb.IsOk,
+			ResultDescription:   questionResultDb.ResultDescription,
 		}
 	})
 

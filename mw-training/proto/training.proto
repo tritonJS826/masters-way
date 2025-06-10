@@ -465,13 +465,14 @@ message DeleteQuestionRequest {
 
 message QuestionResult {
   string uuid = 1;
-  string question_uuid = 2;
-  string user_uuid = 3;
-  string test_uuid = 4;
-  string test_session_uuid = 5;
-  bool is_ok = 6;
-  string result_description = 7;
-  string created_at = 8;
+  string user_uuid = 2;
+  bool is_ok = 3;
+  string question_uuid = 4;
+  string question_name = 5;
+  string question_description = 6;
+  string question_answer = 7;
+  string result_description = 8;
+  string user_answer = 9;
 }
 
 message CreateQuestionResultRequest {
@@ -481,6 +482,7 @@ message CreateQuestionResultRequest {
   string test_session_uuid = 4;
   bool is_ok = 5;
   string result_description = 6;
+  string user_answer = 7;
 }
 
 message GetQuestionResultsBySessionUuidRequest {

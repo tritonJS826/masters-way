@@ -143,6 +143,7 @@ type QuestionResult struct {
 	TestUuid          pgtype.UUID      `json:"test_uuid"`
 	TestSessionUuid   pgtype.UUID      `json:"test_session_uuid"`
 	IsOk              bool             `json:"is_ok"`
+	UserAnswer        string           `json:"user_answer"`
 	ResultDescription string           `json:"result_description"`
 	CreatedAt         pgtype.Timestamp `json:"created_at"`
 }
