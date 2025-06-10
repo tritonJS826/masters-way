@@ -28,9 +28,9 @@ type CreateTestRequest struct {
 }
 
 type UpdateTestRequest struct {
-	Name        *string `json:"name,omitempty"`
-	Description *string `json:"description,omitempty"`
-	IsPrivate   *bool   `json:"isPrivate,omitempty"`
+	Name        *string `json:"name" extensions:"x-nullable"`
+	Description *string `json:"description" extensions:"x-nullable"`
+	IsPrivate   *bool   `json:"isPrivate" extensions:"x-nullable"`
 }
 
 type TestsAmount struct {

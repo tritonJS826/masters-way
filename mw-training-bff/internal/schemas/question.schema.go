@@ -2,7 +2,7 @@ package schemas
 
 type Question struct {
 	UUID         string  `json:"uuid" validate:"required"`
-	Name         *string `json:"name,omitempty"`
+	Name         *string `json:"name"`
 	TestUUID     string  `json:"test_uuid" validate:"required"`
 	QuestionText string  `json:"questionText" validate:"required"`
 	Order        int32   `json:"order" validate:"required"`
@@ -16,19 +16,19 @@ type Question struct {
 type CreateQuestionPayload struct {
 	TestUUID     string  `json:"test_uuid" validate:"required"`
 	Name         string  `json:"name" validate:"required"`
-	QuestionText *string `json:"questionText,omitempty" validate:"required"`
-	TimeToAnswer *int32  `json:"timeToAnswer,omitempty" validate:"required"`
-	Answer       *string `json:"answer,omitempty" validate:"required"`
+	QuestionText *string `json:"questionText" validate:"required"`
+	TimeToAnswer *int32  `json:"timeToAnswer" validate:"required"`
+	Answer       *string `json:"answer" validate:"required"`
 	PracticeType string  `json:"practice_type" validate:"required"`
 }
 
 type UpdateQuestionPayload struct {
-	Name         *string `json:"name,omitempty"`
-	QuestionText *string `json:"questionText,omitempty"`
-	TimeToAnswer *int32  `json:"timeToAnswer,omitempty"`
-	Answer       *string `json:"answer,omitempty"`
-	PracticeType *string `json:"practice_type,omitempty"`
-	Order        *int32  `json:"order,omitempty"`
+	Name         *string `json:"name"`
+	QuestionText *string `json:"questionText"`
+	TimeToAnswer *int32  `json:"timeToAnswer"`
+	Answer       *string `json:"answer"`
+	PracticeType *string `json:"practice_type"`
+	Order        *int32  `json:"order"`
 }
 
 type DeleteQuestionRequest struct {
