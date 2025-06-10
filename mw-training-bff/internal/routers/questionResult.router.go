@@ -20,5 +20,5 @@ func newQuestionResultRouter(questionResultController *controllers.QuestionResul
 func (qR *questionResultRouter) setQuestionResultRoutes(rg *gin.RouterGroup) {
 	questionResults := rg.Group("/questionResult", auth.HandleHeaders())
 	questionResults.POST("", qR.questionResultController.CreateQuestionResult)
-	questionResults.PATCH("/session/:sessionId", qR.questionResultController.GetQuestionResultsBySessionUuid)
+	questionResults.GET("/session/:sessionId", qR.questionResultController.GetQuestionResultsBySessionUuid)
 }
