@@ -1,9 +1,9 @@
 package schemas
 
 type CreateSessionRequest struct {
-	UserUUID string `json:"user_uuid" validate:"required"`
+	UserUUID string `json:"userUuid" validate:"required"`
 }
 
 type TestSession struct {
-	SessionUUID string `json:"session_uuid" validate:"required"`
+	SessionUUID string `json:"sessionUuid" validate:"required"`
 }

@@ -1,6 +1,6 @@
 package schemas
 
 type CreateTrainingTestRequest struct {
-	TrainingUUID string `json:"training_uuid" validate:"required"`
-	TestUUID     string `json:"test_uuid" validate:"required"`
+	TrainingUUID string `json:"trainingUuid" validate:"required"`
+	TestUUID     string `json:"testUuid" validate:"required"`
 }

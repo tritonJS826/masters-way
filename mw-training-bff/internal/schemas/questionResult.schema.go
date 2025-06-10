@@ -2,27 +2,27 @@ package schemas
 
 type QuestionResult struct {
 	UUID            string `json:"uuid" validate:"required"`
-	QuestionUUID    string `json:"question_uuid" validate:"required"`
-	UserUUID        string `json:"user_uuid" validate:"required"`
-	TestUUID        string `json:"test_uuid" validate:"required"`
-	TestSessionUUID string `json:"test_session_uuid" validate:"required"`
-	IsOk            bool   `json:"is_ok" validate:"required"`
-	ResultDesc      string `json:"result_description" validate:"required"`
-	CreatedAt       string `json:"created_at" validate:"required"`
+	QuestionUUID    string `json:"questionUuid" validate:"required"`
+	UserUUID        string `json:"userUuid" validate:"required"`
+	TestUUID        string `json:"testUuid" validate:"required"`
+	TestSessionUUID string `json:"testSessionUuid" validate:"required"`
+	IsOk            bool   `json:"isOk" validate:"required"`
+	ResultDesc      string `json:"resultDescription" validate:"required"`
+	CreatedAt       string `json:"createdAt" validate:"required"`
 }
 
 type CreateQuestionResultRequest struct {
-	QuestionUUID      string `json:"question_uuid" validate:"required"`
-	UserUUID          string `json:"user_uuid" validate:"required"`
-	TestUUID          string `json:"test_uuid" validate:"required"`
-	TestSessionUUID   string `json:"test_session_uuid" validate:"required"`
-	IsOk              bool   `json:"is_ok" validate:"required"`
-	ResultDescription string `json:"result_description" validate:"required"`
+	QuestionUUID      string `json:"questionUuid" validate:"required"`
+	UserUUID          string `json:"userUuid" validate:"required"`
+	TestUUID          string `json:"testUuid" validate:"required"`
+	TestSessionUUID   string `json:"testSessionUuid" validate:"required"`
+	IsOk              bool   `json:"isOk" validate:"required"`
+	ResultDescription string `json:"resultDescription" validate:"required"`
 }
 
 type GetQuestionResultsBySessionUuidRequest struct {
-	SessionUUID string `json:"session_uuid" validate:"required"`
-	UserUUID    string `json:"user_uuid" validate:"required"`
+	SessionUUID string `json:"sessionUuid" validate:"required"`
+	UserUUID    string `json:"userUuid" validate:"required"`
 }
 
 type GetQuestionResultsBySessionUuidResponse struct {
