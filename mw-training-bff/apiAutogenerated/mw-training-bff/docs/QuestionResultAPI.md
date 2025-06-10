@@ -28,7 +28,7 @@ import (
 )
 
 func main() {
-	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateQuestionResultRequest(false, "QuestionUuid_example", "ResultDescription_example", "TestSessionUuid_example", "TestUuid_example", "UserUuid_example") // MwTrainingBffInternalSchemasCreateQuestionResultRequest | query params
+	request := *openapiclient.NewMwTrainingBffInternalSchemasCreateQuestionResultRequest(false, "QuestionUuid_example", "ResultDescription_example", "TestSessionUuid_example", "TestUuid_example", "UserAnswer_example", "UserUuid_example") // MwTrainingBffInternalSchemasCreateQuestionResultRequest | query params
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

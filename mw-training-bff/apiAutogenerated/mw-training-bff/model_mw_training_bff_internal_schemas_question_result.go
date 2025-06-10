@@ -21,12 +21,13 @@ var _ MappedNullable = &MwTrainingBffInternalSchemasQuestionResult{}
 
 // MwTrainingBffInternalSchemasQuestionResult struct for MwTrainingBffInternalSchemasQuestionResult
 type MwTrainingBffInternalSchemasQuestionResult struct {
-	CreatedAt string
 	IsOk bool
+	QuestionAnswer string
+	QuestionDescription string
+	QuestionName string
 	QuestionUuid string
 	ResultDescription string
-	TestSessionUuid string
-	TestUuid string
+	UserAnswer string
 	UserUuid string
 	Uuid string
 }
@@ -37,14 +38,15 @@ type _MwTrainingBffInternalSchemasQuestionResult MwTrainingBffInternalSchemasQue
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasQuestionResult(createdAt string, isOk bool, questionUuid string, resultDescription string, testSessionUuid string, testUuid string, userUuid string, uuid string) *MwTrainingBffInternalSchemasQuestionResult {
+func NewMwTrainingBffInternalSchemasQuestionResult(isOk bool, questionAnswer string, questionDescription string, questionName string, questionUuid string, resultDescription string, userAnswer string, userUuid string, uuid string) *MwTrainingBffInternalSchemasQuestionResult {
 	this := MwTrainingBffInternalSchemasQuestionResult{}
-	this.CreatedAt = createdAt
 	this.IsOk = isOk
+	this.QuestionAnswer = questionAnswer
+	this.QuestionDescription = questionDescription
+	this.QuestionName = questionName
 	this.QuestionUuid = questionUuid
 	this.ResultDescription = resultDescription
-	this.TestSessionUuid = testSessionUuid
-	this.TestUuid = testUuid
+	this.UserAnswer = userAnswer
 	this.UserUuid = userUuid
 	this.Uuid = uuid
 	return &this
@@ -56,30 +58,6 @@ func NewMwTrainingBffInternalSchemasQuestionResult(createdAt string, isOk bool, 
 func NewMwTrainingBffInternalSchemasQuestionResultWithDefaults() *MwTrainingBffInternalSchemasQuestionResult {
 	this := MwTrainingBffInternalSchemasQuestionResult{}
 	return &this
-}
-
-// GetCreatedAt returns the CreatedAt field value
-func (o *MwTrainingBffInternalSchemasQuestionResult) GetCreatedAt() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.CreatedAt
-}
-
-// GetCreatedAtOk returns a tuple with the CreatedAt field value
-// and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasQuestionResult) GetCreatedAtOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.CreatedAt, true
-}
-
-// SetCreatedAt sets field value
-func (o *MwTrainingBffInternalSchemasQuestionResult) SetCreatedAt(v string) {
-	o.CreatedAt = v
 }
 
 // GetIsOk returns the IsOk field value
@@ -104,6 +82,78 @@ func (o *MwTrainingBffInternalSchemasQuestionResult) GetIsOkOk() (*bool, bool) {
 // SetIsOk sets field value
 func (o *MwTrainingBffInternalSchemasQuestionResult) SetIsOk(v bool) {
 	o.IsOk = v
+}
+
+// GetQuestionAnswer returns the QuestionAnswer field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionAnswer() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.QuestionAnswer
+}
+
+// GetQuestionAnswerOk returns a tuple with the QuestionAnswer field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionAnswerOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.QuestionAnswer, true
+}
+
+// SetQuestionAnswer sets field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) SetQuestionAnswer(v string) {
+	o.QuestionAnswer = v
+}
+
+// GetQuestionDescription returns the QuestionDescription field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionDescription() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.QuestionDescription
+}
+
+// GetQuestionDescriptionOk returns a tuple with the QuestionDescription field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionDescriptionOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.QuestionDescription, true
+}
+
+// SetQuestionDescription sets field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) SetQuestionDescription(v string) {
+	o.QuestionDescription = v
+}
+
+// GetQuestionName returns the QuestionName field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.QuestionName
+}
+
+// GetQuestionNameOk returns a tuple with the QuestionName field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.QuestionName, true
+}
+
+// SetQuestionName sets field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) SetQuestionName(v string) {
+	o.QuestionName = v
 }
 
 // GetQuestionUuid returns the QuestionUuid field value
@@ -154,52 +204,28 @@ func (o *MwTrainingBffInternalSchemasQuestionResult) SetResultDescription(v stri
 	o.ResultDescription = v
 }
 
-// GetTestSessionUuid returns the TestSessionUuid field value
-func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestSessionUuid() string {
+// GetUserAnswer returns the UserAnswer field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserAnswer() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.TestSessionUuid
+	return o.UserAnswer
 }
 
-// GetTestSessionUuidOk returns a tuple with the TestSessionUuid field value
+// GetUserAnswerOk returns a tuple with the UserAnswer field value
 // and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestSessionUuidOk() (*string, bool) {
+func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserAnswerOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.TestSessionUuid, true
+	return &o.UserAnswer, true
 }
 
-// SetTestSessionUuid sets field value
-func (o *MwTrainingBffInternalSchemasQuestionResult) SetTestSessionUuid(v string) {
-	o.TestSessionUuid = v
-}
-
-// GetTestUuid returns the TestUuid field value
-func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestUuid() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.TestUuid
-}
-
-// GetTestUuidOk returns a tuple with the TestUuid field value
-// and a boolean to check if the value has been set.
-func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestUuidOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.TestUuid, true
-}
-
-// SetTestUuid sets field value
-func (o *MwTrainingBffInternalSchemasQuestionResult) SetTestUuid(v string) {
-	o.TestUuid = v
+// SetUserAnswer sets field value
+func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserAnswer(v string) {
+	o.UserAnswer = v
 }
 
 // GetUserUuid returns the UserUuid field value
@@ -260,12 +286,13 @@ func (o MwTrainingBffInternalSchemasQuestionResult) MarshalJSON() ([]byte, error
 
 func (o MwTrainingBffInternalSchemasQuestionResult) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["isOk"] = o.IsOk
+	toSerialize["questionAnswer"] = o.QuestionAnswer
+	toSerialize["questionDescription"] = o.QuestionDescription
+	toSerialize["questionName"] = o.QuestionName
 	toSerialize["questionUuid"] = o.QuestionUuid
 	toSerialize["resultDescription"] = o.ResultDescription
-	toSerialize["testSessionUuid"] = o.TestSessionUuid
-	toSerialize["testUuid"] = o.TestUuid
+	toSerialize["userAnswer"] = o.UserAnswer
 	toSerialize["userUuid"] = o.UserUuid
 	toSerialize["uuid"] = o.Uuid
 	return toSerialize, nil
@@ -276,12 +303,13 @@ func (o *MwTrainingBffInternalSchemasQuestionResult) UnmarshalJSON(data []byte) 
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"createdAt",
 		"isOk",
+		"questionAnswer",
+		"questionDescription",
+		"questionName",
 		"questionUuid",
 		"resultDescription",
-		"testSessionUuid",
-		"testUuid",
+		"userAnswer",
 		"userUuid",
 		"uuid",
 	}

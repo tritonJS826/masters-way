@@ -21,16 +21,28 @@ import { exists, mapValues } from '../runtime';
 export interface MwTrainingBffInternalSchemasQuestionResult {
     /**
      * 
-     * @type {string}
-     * @memberof MwTrainingBffInternalSchemasQuestionResult
-     */
-    createdAt: string;
-    /**
-     * 
      * @type {boolean}
      * @memberof MwTrainingBffInternalSchemasQuestionResult
      */
     isOk: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTrainingBffInternalSchemasQuestionResult
+     */
+    questionAnswer: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTrainingBffInternalSchemasQuestionResult
+     */
+    questionDescription: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTrainingBffInternalSchemasQuestionResult
+     */
+    questionName: string;
     /**
      * 
      * @type {string}
@@ -48,13 +60,7 @@ export interface MwTrainingBffInternalSchemasQuestionResult {
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasQuestionResult
      */
-    testSessionUuid: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof MwTrainingBffInternalSchemasQuestionResult
-     */
-    testUuid: string;
+    userAnswer: string;
     /**
      * 
      * @type {string}
@@ -76,12 +82,13 @@ export function instanceOfMwTrainingBffInternalSchemasQuestionResult(
     value: object
 ): boolean {
     let isInstance = true;
-    isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "isOk" in value;
+    isInstance = isInstance && "questionAnswer" in value;
+    isInstance = isInstance && "questionDescription" in value;
+    isInstance = isInstance && "questionName" in value;
     isInstance = isInstance && "questionUuid" in value;
     isInstance = isInstance && "resultDescription" in value;
-    isInstance = isInstance && "testSessionUuid" in value;
-    isInstance = isInstance && "testUuid" in value;
+    isInstance = isInstance && "userAnswer" in value;
     isInstance = isInstance && "userUuid" in value;
     isInstance = isInstance && "uuid" in value;
 
@@ -101,12 +108,13 @@ export function MwTrainingBffInternalSchemasQuestionResultFromJSONTyped(
     }
     return {
         
-        'createdAt': json['createdAt'],
         'isOk': json['isOk'],
+        'questionAnswer': json['questionAnswer'],
+        'questionDescription': json['questionDescription'],
+        'questionName': json['questionName'],
         'questionUuid': json['questionUuid'],
         'resultDescription': json['resultDescription'],
-        'testSessionUuid': json['testSessionUuid'],
-        'testUuid': json['testUuid'],
+        'userAnswer': json['userAnswer'],
         'userUuid': json['userUuid'],
         'uuid': json['uuid'],
     };
@@ -122,12 +130,13 @@ export function MwTrainingBffInternalSchemasQuestionResultToJSON(value?: MwTrain
     }
     return {
         
-        'createdAt': value.createdAt,
         'isOk': value.isOk,
+        'questionAnswer': value.questionAnswer,
+        'questionDescription': value.questionDescription,
+        'questionName': value.questionName,
         'questionUuid': value.questionUuid,
         'resultDescription': value.resultDescription,
-        'testSessionUuid': value.testSessionUuid,
-        'testUuid': value.testUuid,
+        'userAnswer': value.userAnswer,
         'userUuid': value.userUuid,
         'uuid': value.uuid,
     };

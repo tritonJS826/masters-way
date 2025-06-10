@@ -26,6 +26,11 @@
                 "en": "Correct answer",
                 "ua": "Правильна відповідь"
             },
+            "resultDescription": {
+                "ru": "Описание результата",
+                "en": "Description of the result",
+                "ua": "Опис результату"
+            },
             "isOk": {
                 "ru": "Правильный ответ?",
                 "en": "Is right answer?",

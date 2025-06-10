@@ -4,12 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CreatedAt** | **string** |  | 
 **IsOk** | **bool** |  | 
+**QuestionAnswer** | **string** |  | 
+**QuestionDescription** | **string** |  | 
+**QuestionName** | **string** |  | 
 **QuestionUuid** | **string** |  | 
 **ResultDescription** | **string** |  | 
-**TestSessionUuid** | **string** |  | 
-**TestUuid** | **string** |  | 
+**UserAnswer** | **string** |  | 
 **UserUuid** | **string** |  | 
 **Uuid** | **string** |  | 
 
@@ -17,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewMwTrainingBffInternalSchemasQuestionResult
 
-`func NewMwTrainingBffInternalSchemasQuestionResult(createdAt string, isOk bool, questionUuid string, resultDescription string, testSessionUuid string, testUuid string, userUuid string, uuid string, ) *MwTrainingBffInternalSchemasQuestionResult`
+`func NewMwTrainingBffInternalSchemasQuestionResult(isOk bool, questionAnswer string, questionDescription string, questionName string, questionUuid string, resultDescription string, userAnswer string, userUuid string, uuid string, ) *MwTrainingBffInternalSchemasQuestionResult`
 
 NewMwTrainingBffInternalSchemasQuestionResult instantiates a new MwTrainingBffInternalSchemasQuestionResult object
 This constructor will assign default values to properties that have it defined,
@@ -31,26 +32,6 @@ will change when the set of required properties is changed
 NewMwTrainingBffInternalSchemasQuestionResultWithDefaults instantiates a new MwTrainingBffInternalSchemasQuestionResult object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetCreatedAt
-
-`func (o *MwTrainingBffInternalSchemasQuestionResult) GetCreatedAt() string`
-
-GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
-
-### GetCreatedAtOk
-
-`func (o *MwTrainingBffInternalSchemasQuestionResult) GetCreatedAtOk() (*string, bool)`
-
-GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCreatedAt
-
-`func (o *MwTrainingBffInternalSchemasQuestionResult) SetCreatedAt(v string)`
-
-SetCreatedAt sets CreatedAt field to given value.
-
 
 ### GetIsOk
 
@@ -70,6 +51,66 @@ and a boolean to check if the value has been set.
 `func (o *MwTrainingBffInternalSchemasQuestionResult) SetIsOk(v bool)`
 
 SetIsOk sets IsOk field to given value.
+
+
+### GetQuestionAnswer
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionAnswer() string`
+
+GetQuestionAnswer returns the QuestionAnswer field if non-nil, zero value otherwise.
+
+### GetQuestionAnswerOk
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionAnswerOk() (*string, bool)`
+
+GetQuestionAnswerOk returns a tuple with the QuestionAnswer field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetQuestionAnswer
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) SetQuestionAnswer(v string)`
+
+SetQuestionAnswer sets QuestionAnswer field to given value.
+
+
+### GetQuestionDescription
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionDescription() string`
+
+GetQuestionDescription returns the QuestionDescription field if non-nil, zero value otherwise.
+
+### GetQuestionDescriptionOk
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionDescriptionOk() (*string, bool)`
+
+GetQuestionDescriptionOk returns a tuple with the QuestionDescription field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetQuestionDescription
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) SetQuestionDescription(v string)`
+
+SetQuestionDescription sets QuestionDescription field to given value.
+
+
+### GetQuestionName
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionName() string`
+
+GetQuestionName returns the QuestionName field if non-nil, zero value otherwise.
+
+### GetQuestionNameOk
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetQuestionNameOk() (*string, bool)`
+
+GetQuestionNameOk returns a tuple with the QuestionName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetQuestionName
+
+`func (o *MwTrainingBffInternalSchemasQuestionResult) SetQuestionName(v string)`
+
+SetQuestionName sets QuestionName field to given value.
 
 
 ### GetQuestionUuid
@@ -112,44 +153,24 @@ and a boolean to check if the value has been set.
 SetResultDescription sets ResultDescription field to given value.
 
 
-### GetTestSessionUuid
+### GetUserAnswer
 
-`func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestSessionUuid() string`
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserAnswer() string`
 
-GetTestSessionUuid returns the TestSessionUuid field if non-nil, zero value otherwise.
+GetUserAnswer returns the UserAnswer field if non-nil, zero value otherwise.
 
-### GetTestSessionUuidOk
+### GetUserAnswerOk
 
-`func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestSessionUuidOk() (*string, bool)`
+`func (o *MwTrainingBffInternalSchemasQuestionResult) GetUserAnswerOk() (*string, bool)`
 
-GetTestSessionUuidOk returns a tuple with the TestSessionUuid field if it's non-nil, zero value otherwise
+GetUserAnswerOk returns a tuple with the UserAnswer field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTestSessionUuid
+### SetUserAnswer
 
-`func (o *MwTrainingBffInternalSchemasQuestionResult) SetTestSessionUuid(v string)`
+`func (o *MwTrainingBffInternalSchemasQuestionResult) SetUserAnswer(v string)`
 
-SetTestSessionUuid sets TestSessionUuid field to given value.
-
-
-### GetTestUuid
-
-`func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestUuid() string`
-
-GetTestUuid returns the TestUuid field if non-nil, zero value otherwise.
-
-### GetTestUuidOk
-
-`func (o *MwTrainingBffInternalSchemasQuestionResult) GetTestUuidOk() (*string, bool)`
-
-GetTestUuidOk returns a tuple with the TestUuid field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTestUuid
-
-`func (o *MwTrainingBffInternalSchemasQuestionResult) SetTestUuid(v string)`
-
-SetTestUuid sets TestUuid field to given value.
+SetUserAnswer sets UserAnswer field to given value.
 
 
 ### GetUserUuid

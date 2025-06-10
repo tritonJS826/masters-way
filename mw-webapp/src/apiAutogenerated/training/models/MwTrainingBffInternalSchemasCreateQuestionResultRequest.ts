@@ -54,6 +54,12 @@ export interface MwTrainingBffInternalSchemasCreateQuestionResultRequest {
      * @type {string}
      * @memberof MwTrainingBffInternalSchemasCreateQuestionResultRequest
      */
+    userAnswer: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MwTrainingBffInternalSchemasCreateQuestionResultRequest
+     */
     userUuid: string;
 }
 
@@ -69,6 +75,7 @@ export function instanceOfMwTrainingBffInternalSchemasCreateQuestionResultReques
     isInstance = isInstance && "resultDescription" in value;
     isInstance = isInstance && "testSessionUuid" in value;
     isInstance = isInstance && "testUuid" in value;
+    isInstance = isInstance && "userAnswer" in value;
     isInstance = isInstance && "userUuid" in value;
 
     return isInstance;
@@ -92,6 +99,7 @@ export function MwTrainingBffInternalSchemasCreateQuestionResultRequestFromJSONT
         'resultDescription': json['resultDescription'],
         'testSessionUuid': json['testSessionUuid'],
         'testUuid': json['testUuid'],
+        'userAnswer': json['userAnswer'],
         'userUuid': json['userUuid'],
     };
 }
@@ -111,6 +119,7 @@ export function MwTrainingBffInternalSchemasCreateQuestionResultRequestToJSON(va
         'resultDescription': value.resultDescription,
         'testSessionUuid': value.testSessionUuid,
         'testUuid': value.testUuid,
+        'userAnswer': value.userAnswer,
         'userUuid': value.userUuid,
     };
 }

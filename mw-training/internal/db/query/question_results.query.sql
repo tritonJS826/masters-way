@@ -61,7 +61,7 @@ JOIN questions ON questions.uuid = question_results.question_uuid
 WHERE
     question_results.test_session_uuid = @test_session_uuid
 ORDER BY
-    question_results.created_at DESC;
+    questions.question_order DESC;
 
 -- name: GetTestQuestionStats :many
 SELECT

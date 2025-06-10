@@ -11,9 +11,9 @@ interface QuestionResultProps {
   uuid: string;
 
   /**
-   * Test's UUID
+   * If true the answer on the question is right
    */
-  testUuid: string;
+  isOk: boolean;
 
   /**
    * User's UUID
@@ -21,9 +21,9 @@ interface QuestionResultProps {
   userUuid: string;
 
   /**
-   * TestSession's UUID
+   * User's answer
    */
-  testSessionUuid: string;
+  userAnswer: string;
 
   /**
    * Question's UUID
@@ -31,19 +31,24 @@ interface QuestionResultProps {
   questionUuid: string;
 
   /**
+   * Question's right answer
+   */
+  questionAnswer: string;
+
+  /**
+   * Question's name
+   */
+  questionName: string;
+
+  /**
+   * Question's description
+   */
+  questionDescription: string;
+
+  /**
    * Question result description
    */
   resultDescription: string;
-
-  /**
-   * Date when question result was created
-   */
-  createdAt: Date;
-
-  /**
-   * If true the answer on the question is right
-   */
-  isOk: boolean;
 
 }
 
@@ -58,9 +63,9 @@ export class QuestionResult {
   public uuid: string;
 
   /**
-   * Test's UUID
+   * If true the answer on the question is right
    */
-  public testUuid: string;
+  public isOk: boolean;
 
   /**
    * User's UUID
@@ -68,9 +73,9 @@ export class QuestionResult {
   public userUuid: string;
 
   /**
-   * TestSession's UUID
+   * User's answer
    */
-  public testSessionUuid: string;
+  public userAnswer: string;
 
   /**
    * Question's UUID
@@ -78,30 +83,36 @@ export class QuestionResult {
   public questionUuid: string;
 
   /**
+   * Question's right answer
+   */
+  public questionAnswer: string;
+
+  /**
+   * Question's name
+   */
+  public questionName: string;
+
+  /**
+   * Question's description
+   */
+  public questionDescription: string;
+
+  /**
    * Question result description
    */
   public resultDescription: string;
 
-  /**
-   * Date when question result was created
-   */
-  public createdAt: Date;
-
-  /**
-   * If true the answer on the question is right
-   */
-  public isOk: boolean;
-
   constructor(questionResultData: QuestionResultProps) {
     makeAutoObservable(this);
     this.uuid = questionResultData.uuid;
-    this.testUuid = questionResultData.testUuid;
+    this.userAnswer = questionResultData.userAnswer;
     this.userUuid = questionResultData.userUuid;
-    this.testSessionUuid = questionResultData.testSessionUuid;
+    this.questionAnswer = questionResultData.questionAnswer;
     this.questionUuid = questionResultData.questionUuid;
     this.resultDescription = questionResultData.resultDescription;
-    this.createdAt = questionResultData.createdAt;
+    this.questionName = questionResultData.questionName;
     this.isOk = questionResultData.isOk;
+    this.questionDescription = questionResultData.questionDescription;
   }
 
 }

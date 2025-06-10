@@ -54,7 +54,6 @@ export class ResultTestPageStore {
    */
   private loadData = async (sessionId: string): Promise<QuestionResult[]> => {
     const questionResults = await QuestionResultDAL.getQuestionResultsBySessionUuid({sessionId});
-    console.log(questionResults);
 
     return questionResults;
   };

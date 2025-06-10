@@ -1527,6 +1527,7 @@ const docTemplate = `{
                 "resultDescription",
                 "testSessionUuid",
                 "testUuid",
+                "userAnswer",
                 "userUuid"
             ],
             "properties": {
@@ -1543,6 +1544,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "testUuid": {
+                    "type": "string"
+                },
+                "userAnswer": {
                     "type": "string"
                 },
                 "userUuid": {
@@ -1804,21 +1808,28 @@ const docTemplate = `{
         "mw-training-bff_internal_schemas.QuestionResult": {
             "type": "object",
             "required": [
-                "createdAt",
                 "isOk",
+                "questionAnswer",
+                "questionDescription",
+                "questionName",
                 "questionUuid",
                 "resultDescription",
-                "testSessionUuid",
-                "testUuid",
+                "userAnswer",
                 "userUuid",
                 "uuid"
             ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
                 "isOk": {
                     "type": "boolean"
+                },
+                "questionAnswer": {
+                    "type": "string"
+                },
+                "questionDescription": {
+                    "type": "string"
+                },
+                "questionName": {
+                    "type": "string"
                 },
                 "questionUuid": {
                     "type": "string"
@@ -1826,10 +1837,7 @@ const docTemplate = `{
                 "resultDescription": {
                     "type": "string"
                 },
-                "testSessionUuid": {
-                    "type": "string"
-                },
-                "testUuid": {
+                "userAnswer": {
                     "type": "string"
                 },
                 "userUuid": {

@@ -137,11 +137,16 @@ export const Tests = observer((props: TestsProps) => {
           :
           <HorizontalGridContainer className={styles.trainingCards}>
             {props.tests.map((test) => {
+              console.log("1", JSON.stringify(test));
+              console.log(JSON.stringify(test.createdAt));
+              // Console.log("123", LanguageService.allTests.testCard.createdAt[language]);
+
               return (
                 <TestCard
                   key={test.uuid}
                   testPreview={test}
-                  createdAtTooltip={LanguageService.allTests.testCard.createdAt[language]}
+                  createdAtTooltip="esfsefes"
+                  // CreatedAtTooltip={LanguageService.allTests.testCard.createdAt[language]}
                   updatedAtTooltip={LanguageService.allTests.testCard.updatedAt[language]}
                 />
               );

@@ -9,13 +9,14 @@ Name | Type | Description | Notes
 **ResultDescription** | **string** |  | 
 **TestSessionUuid** | **string** |  | 
 **TestUuid** | **string** |  | 
+**UserAnswer** | **string** |  | 
 **UserUuid** | **string** |  | 
 
 ## Methods
 
 ### NewMwTrainingBffInternalSchemasCreateQuestionResultRequest
 
-`func NewMwTrainingBffInternalSchemasCreateQuestionResultRequest(isOk bool, questionUuid string, resultDescription string, testSessionUuid string, testUuid string, userUuid string, ) *MwTrainingBffInternalSchemasCreateQuestionResultRequest`
+`func NewMwTrainingBffInternalSchemasCreateQuestionResultRequest(isOk bool, questionUuid string, resultDescription string, testSessionUuid string, testUuid string, userAnswer string, userUuid string, ) *MwTrainingBffInternalSchemasCreateQuestionResultRequest`
 
 NewMwTrainingBffInternalSchemasCreateQuestionResultRequest instantiates a new MwTrainingBffInternalSchemasCreateQuestionResultRequest object
 This constructor will assign default values to properties that have it defined,
@@ -128,6 +129,26 @@ and a boolean to check if the value has been set.
 `func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) SetTestUuid(v string)`
 
 SetTestUuid sets TestUuid field to given value.
+
+
+### GetUserAnswer
+
+`func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) GetUserAnswer() string`
+
+GetUserAnswer returns the UserAnswer field if non-nil, zero value otherwise.
+
+### GetUserAnswerOk
+
+`func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) GetUserAnswerOk() (*string, bool)`
+
+GetUserAnswerOk returns a tuple with the UserAnswer field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUserAnswer
+
+`func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) SetUserAnswer(v string)`
+
+SetUserAnswer sets UserAnswer field to given value.
 
 
 ### GetUserUuid

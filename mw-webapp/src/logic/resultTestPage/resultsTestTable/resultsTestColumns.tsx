@@ -14,7 +14,7 @@ export const columnHelper = createColumnHelper<QuestionResult>();
  */
 export const getResultsTestColumns = (language: Language) => [
 
-  columnHelper.accessor("questionUuid", {
+  columnHelper.accessor("questionName", {
 
     /**
      * Header
@@ -32,11 +32,11 @@ export const getResultsTestColumns = (language: Language) => [
         row.original.isOk ? styles.compositeWay : styles.abandonedWay,
       )}
       >
-        {row.original.questionUuid}
+        {row.original.questionName}
       </VerticalContainer>
     ),
   }),
-  columnHelper.accessor("questionUuid", {
+  columnHelper.accessor("questionDescription", {
 
     /**
      * Header
@@ -56,12 +56,12 @@ export const getResultsTestColumns = (language: Language) => [
           row.original.isOk ? styles.compositeWay : styles.abandonedWay,
         )}
         >
-          {row.original.questionUuid}
+          {row.original.questionDescription}
         </VerticalContainer>
       );
     },
   }),
-  columnHelper.accessor("isOk", {
+  columnHelper.accessor("questionAnswer", {
 
     /**
      * Header
@@ -81,11 +81,11 @@ export const getResultsTestColumns = (language: Language) => [
       )}
       >
 
-        {row.original.isOk}
+        {row.original.questionAnswer}
       </VerticalContainer>
     ),
   }),
-  columnHelper.accessor("resultDescription", {
+  columnHelper.accessor("userAnswer", {
 
     /**
      * Header
@@ -105,7 +105,31 @@ export const getResultsTestColumns = (language: Language) => [
       )}
       >
 
-        {row.original.isOk}
+        {row.original.userAnswer}
+      </VerticalContainer>
+    ),
+  }),
+  columnHelper.accessor("resultDescription", {
+
+    /**
+     * Header
+     */
+    header: () => (<>
+      {LanguageService.resultTest.resultTable.column.resultDescription[language]}
+    </>
+    ),
+
+    /**
+     * Cell with user's answer
+     */
+    cell: ({row}) => (
+      <VerticalContainer className={clsx(
+        styles.cellWrapper,
+        row.original.isOk ? styles.compositeWay : styles.abandonedWay,
+      )}
+      >
+
+        {row.original.userAnswer}
       </VerticalContainer>
     ),
   }),

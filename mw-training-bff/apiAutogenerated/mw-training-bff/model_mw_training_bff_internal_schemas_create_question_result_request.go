@@ -26,6 +26,7 @@ type MwTrainingBffInternalSchemasCreateQuestionResultRequest struct {
 	ResultDescription string
 	TestSessionUuid string
 	TestUuid string
+	UserAnswer string
 	UserUuid string
 }
 
@@ -35,13 +36,14 @@ type _MwTrainingBffInternalSchemasCreateQuestionResultRequest MwTrainingBffInter
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMwTrainingBffInternalSchemasCreateQuestionResultRequest(isOk bool, questionUuid string, resultDescription string, testSessionUuid string, testUuid string, userUuid string) *MwTrainingBffInternalSchemasCreateQuestionResultRequest {
+func NewMwTrainingBffInternalSchemasCreateQuestionResultRequest(isOk bool, questionUuid string, resultDescription string, testSessionUuid string, testUuid string, userAnswer string, userUuid string) *MwTrainingBffInternalSchemasCreateQuestionResultRequest {
 	this := MwTrainingBffInternalSchemasCreateQuestionResultRequest{}
 	this.IsOk = isOk
 	this.QuestionUuid = questionUuid
 	this.ResultDescription = resultDescription
 	this.TestSessionUuid = testSessionUuid
 	this.TestUuid = testUuid
+	this.UserAnswer = userAnswer
 	this.UserUuid = userUuid
 	return &this
 }
@@ -174,6 +176,30 @@ func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) SetTestUuid(v 
 	o.TestUuid = v
 }
 
+// GetUserAnswer returns the UserAnswer field value
+func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) GetUserAnswer() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.UserAnswer
+}
+
+// GetUserAnswerOk returns a tuple with the UserAnswer field value
+// and a boolean to check if the value has been set.
+func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) GetUserAnswerOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.UserAnswer, true
+}
+
+// SetUserAnswer sets field value
+func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) SetUserAnswer(v string) {
+	o.UserAnswer = v
+}
+
 // GetUserUuid returns the UserUuid field value
 func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) GetUserUuid() string {
 	if o == nil {
@@ -213,6 +239,7 @@ func (o MwTrainingBffInternalSchemasCreateQuestionResultRequest) ToMap() (map[st
 	toSerialize["resultDescription"] = o.ResultDescription
 	toSerialize["testSessionUuid"] = o.TestSessionUuid
 	toSerialize["testUuid"] = o.TestUuid
+	toSerialize["userAnswer"] = o.UserAnswer
 	toSerialize["userUuid"] = o.UserUuid
 	return toSerialize, nil
 }
@@ -227,6 +254,7 @@ func (o *MwTrainingBffInternalSchemasCreateQuestionResultRequest) UnmarshalJSON(
 		"resultDescription",
 		"testSessionUuid",
 		"testUuid",
+		"userAnswer",
 		"userUuid",
 	}
 

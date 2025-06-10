@@ -92,7 +92,7 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
       <Input
         value={inputValue}
         placeholder="Write answer"
-        onChange={(value: string) => setInputValue(value)}
+        onChange={setInputValue}
         autoFocus={true}
         typeInput={InputType.Line}
       />
@@ -100,11 +100,11 @@ export const QuestionItem = observer((props: QuestionBlockProps) => {
       <Button
         value={LanguageService.test.buttons.saveAnswer[language]}
         onClick={async () => {
-          props.question.updateAnswer(inputValue);
           await QuestionResultDAL.createQuestionResult({
             isOk: props.question.answer === inputValue,
             questionUuid: props.question.uuid,
-            resultDescription: inputValue,
+            userAnswer: inputValue,
+            resultDescription: "",
             testSessionUuid: props.testSessionUuid,
             testUuid: props.question.testUuid,
             userUuid: props.userUuid,

@@ -1519,6 +1519,7 @@
                 "resultDescription",
                 "testSessionUuid",
                 "testUuid",
+                "userAnswer",
                 "userUuid"
             ],
             "properties": {
@@ -1535,6 +1536,9 @@
                     "type": "string"
                 },
                 "testUuid": {
+                    "type": "string"
+                },
+                "userAnswer": {
                     "type": "string"
                 },
                 "userUuid": {
@@ -1796,21 +1800,28 @@
         "mw-training-bff_internal_schemas.QuestionResult": {
             "type": "object",
             "required": [
-                "createdAt",
                 "isOk",
+                "questionAnswer",
+                "questionDescription",
+                "questionName",
                 "questionUuid",
                 "resultDescription",
-                "testSessionUuid",
-                "testUuid",
+                "userAnswer",
                 "userUuid",
                 "uuid"
             ],
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
                 "isOk": {
                     "type": "boolean"
+                },
+                "questionAnswer": {
+                    "type": "string"
+                },
+                "questionDescription": {
+                    "type": "string"
+                },
+                "questionName": {
+                    "type": "string"
                 },
                 "questionUuid": {
                     "type": "string"
@@ -1818,10 +1829,7 @@
                 "resultDescription": {
                     "type": "string"
                 },
-                "testSessionUuid": {
-                    "type": "string"
-                },
-                "testUuid": {
+                "userAnswer": {
                     "type": "string"
                 },
                 "userUuid": {

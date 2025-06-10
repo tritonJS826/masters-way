@@ -25,7 +25,7 @@ func (c *QuestionResultController) CreateQuestionResult(ctx context.Context, in 
 	questionUuid := in.GetQuestionUuid()
 	userUuid := in.GetUserUuid()
 	testUuid := in.GetTestUuid()
-	userAnswer := in.GetTestUuid()
+	userAnswer := in.GetUserAnswer()
 	testSessionUuid := in.GetTestSessionUuid()
 	isOk := in.GetIsOk()
 	resultDescription := in.GetResultDescription()

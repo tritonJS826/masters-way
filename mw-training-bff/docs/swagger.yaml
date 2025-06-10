@@ -56,6 +56,8 @@ definitions:
         type: string
       testUuid:
         type: string
+      userAnswer:
+        type: string
       userUuid:
         type: string
     required:
@@ -64,6 +66,7 @@ definitions:
     - resultDescription
     - testSessionUuid
     - testUuid
+    - userAnswer
     - userUuid
     type: object
   mw-training-bff_internal_schemas.CreateSessionRequest:
@@ -241,29 +244,32 @@ definitions:
     type: object
   mw-training-bff_internal_schemas.QuestionResult:
     properties:
-      createdAt:
-        type: string
       isOk:
         type: boolean
+      questionAnswer:
+        type: string
+      questionDescription:
+        type: string
+      questionName:
+        type: string
       questionUuid:
         type: string
       resultDescription:
         type: string
-      testSessionUuid:
-        type: string
-      testUuid:
+      userAnswer:
         type: string
       userUuid:
         type: string
       uuid:
         type: string
     required:
-    - createdAt
     - isOk
+    - questionAnswer
+    - questionDescription
+    - questionName
     - questionUuid
     - resultDescription
-    - testSessionUuid
-    - testUuid
+    - userAnswer
     - userUuid
     - uuid
     type: object
